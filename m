@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1555074107040438405=="
+Content-Type: multipart/mixed; boundary="===============0045785051332025878=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [rppt:pg_table/v0.0 12/18] mm/init-mm.c:37:3: error: implicit declaration of function 'INIT_PT_CONTEXT'; did you mean 'INIT_MM_CONTEXT'?
-Date: Sun, 02 Feb 2020 17:22:13 +0800
-Message-ID: <202002021709.cPZF1Ltr%lkp@intel.com>
+Subject: [rppt:pg_table/v0.0 13/18] mm/init-mm.c:37:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute
+Date: Sun, 02 Feb 2020 18:52:13 +0800
+Message-ID: <202002021812.12V3IEEq%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1555074107040438405==
+--===============0045785051332025878==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,15 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git pg_t=
 able/v0.0
 head:   fd150c5a9ef6e3e43818825c69a46de2b427dedf
-commit: a661e3799be71e741ee4d31e1386e9f6f0932b38 [12/18] x86/mm: split pt_c=
-ontext_t out of mm_context_t
+commit: da7c45f8a8af997141e829ae8a9b776b7cb50bf9 [13/18] mm: move cpu_bitma=
+sk from mm_struct to pg_table
 config: nds32-defconfig (attached as .config)
 compiler: nds32le-linux-gcc (GCC) 9.2.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git checkout a661e3799be71e741ee4d31e1386e9f6f0932b38
+        git checkout da7c45f8a8af997141e829ae8a9b776b7cb50bf9
         # save the attached .config to linux build tree
         GCC_VERSION=3D9.2.0 make.cross ARCH=3Dnds32 =
 
@@ -31,18 +31,22 @@ make.cross -O ~/bin/make.cross
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/init-mm.c:37:3: error: implicit declaration of function 'INIT_PT_CONT=
+   mm/init-mm.c:37:3: error: implicit declaration of function 'INIT_PT_CONT=
 EXT'; did you mean 'INIT_MM_CONTEXT'? [-Werror=3Dimplicit-function-declarat=
 ion]
       37 |   INIT_PT_CONTEXT(init_mm.pgt)
          |   ^~~~~~~~~~~~~~~
          |   INIT_MM_CONTEXT
->> mm/init-mm.c:37:3: warning: excess elements in struct initializer
-   mm/init-mm.c:37:3: note: (near initialization for 'init_mm.<anonymous>.p=
-gt.context')
->> mm/init-mm.c:29:28: warning: missing braces around initializer [-Wmissin=
+>> mm/init-mm.c:37:3: error: positional initialization of field in 'struct'=
+ declared with 'designated_init' attribute [-Werror=3Ddesignated-init]
+   mm/init-mm.c:37:3: note: (near initialization for 'init_mm.pgt.<anonymou=
+s>')
+   mm/init-mm.c:37:3: warning: excess elements in struct initializer
+   mm/init-mm.c:37:3: note: (near initialization for 'init_mm.pgt.<anonymou=
+s>.context')
+   mm/init-mm.c:29:28: warning: missing braces around initializer [-Wmissin=
 g-braces]
       29 | struct mm_struct init_mm =3D {
          |                            ^
@@ -54,42 +58,60 @@ g-braces]
          |                            }
       33 |  .mmap_sem =3D __RWSEM_INITIALIZER(init_mm.mmap_sem),
          |                                                   }
-   ......
+      34 |  .pgt   =3D {
+      35 |   .page_table_lock =3D __SPIN_LOCK_UNLOCKED(init_mm.pgt.page_tab=
+le_lock),
+         |                                                                 =
+      }
+      36 |   .pgd  =3D swapper_pg_dir,
       37 |   INIT_PT_CONTEXT(init_mm.pgt)
          |   {
       38 |  },
-         |  }
+         |  }}
    cc1: some warnings being treated as errors
 
 vim +37 mm/init-mm.c
 
-    18	=
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  18  =
 
-    19	/*
-    20	 * For dynamically allocated mm_structs, there is a dynamically size=
-d cpumask
-    21	 * at the end of the structure, the size of which depends on the max=
-imum CPU
-    22	 * number the system can see. That way we allocate only as much memo=
-ry for
-    23	 * mm_cpumask() as needed for the hundreds, or thousands of processe=
-s that
-    24	 * a system typically runs.
-    25	 *
-    26	 * Since there is only one init_mm in the entire system, keep it sim=
-ple
-    27	 * and size this cpu_bitmask to NR_CPUS.
-    28	 */
-  > 29	struct mm_struct init_mm =3D {
-    30		.mm_rb		=3D RB_ROOT,
-    31		.mm_users	=3D ATOMIC_INIT(2),
-    32		.mm_count	=3D ATOMIC_INIT(1),
-    33		.mmap_sem	=3D __RWSEM_INITIALIZER(init_mm.mmap_sem),
-    34		.pgt			=3D {
-    35			.page_table_lock =3D __SPIN_LOCK_UNLOCKED(init_mm.pgt.page_table_l=
-ock),
-    36			.pgd		=3D swapper_pg_dir,
-  > 37			INIT_PT_CONTEXT(init_mm.pgt)
+c1a2f7f0c06454 Rik van Riel    2018-07-16  19  /*
+c1a2f7f0c06454 Rik van Riel    2018-07-16  20   * For dynamically allocated=
+ mm_structs, there is a dynamically sized cpumask
+c1a2f7f0c06454 Rik van Riel    2018-07-16  21   * at the end of the structu=
+re, the size of which depends on the maximum CPU
+c1a2f7f0c06454 Rik van Riel    2018-07-16  22   * number the system can see=
+. That way we allocate only as much memory for
+c1a2f7f0c06454 Rik van Riel    2018-07-16  23   * mm_cpumask() as needed fo=
+r the hundreds, or thousands of processes that
+c1a2f7f0c06454 Rik van Riel    2018-07-16  24   * a system typically runs.
+c1a2f7f0c06454 Rik van Riel    2018-07-16  25   *
+c1a2f7f0c06454 Rik van Riel    2018-07-16  26   * Since there is only one i=
+nit_mm in the entire system, keep it simple
+c1a2f7f0c06454 Rik van Riel    2018-07-16  27   * and size this cpu_bitmask=
+ to NR_CPUS.
+c1a2f7f0c06454 Rik van Riel    2018-07-16  28   */
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  29  struct mm_struct init_mm =3D=
+ {
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  30  	.mm_rb		=3D RB_ROOT,
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  31  	.mm_users	=3D ATOMIC_INIT(2=
+),
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  32  	.mm_count	=3D ATOMIC_INIT(1=
+),
+bb1f17b0372de9 Alexey Dobriyan 2009-06-16  33  	.mmap_sem	=3D __RWSEM_INITI=
+ALIZER(init_mm.mmap_sem),
+f91cb6062ff32b Mike Rapoport   2019-08-06  34  	.pgt			=3D {
+f91cb6062ff32b Mike Rapoport   2019-08-06  35  		.page_table_lock =3D __SPI=
+N_LOCK_UNLOCKED(init_mm.pgt.page_table_lock),
+e5db6ff88e6ef1 Mike Rapoport   2019-11-18  36  		.pgd		=3D swapper_pg_dir,
+a661e3799be71e Mike Rapoport   2019-11-19 @37  		INIT_PT_CONTEXT(init_mm.pg=
+t)
+
+:::::: The code at line 37 was first introduced by commit
+:::::: a661e3799be71e741ee4d31e1386e9f6f0932b38 x86/mm: split pt_context_t =
+out of mm_context_t
+
+:::::: TO: Mike Rapoport <rppt@linux.ibm.com>
+:::::: CC: Mike Rapoport <rppt@linux.ibm.com>
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
@@ -97,13 +119,13 @@ ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
 
---===============1555074107040438405==
+--===============0045785051332025878==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDGTNl4AAy5jb25maWcAnFxZk9s4kn7vX8HojpiwY8KeOmx3eTfqAQRBCi2SoAFQR70wZBVt
+H4sICIuiNl4AAy5jb25maWcAnFxZk9s4kn7vX8HojpiwY8KeOmx3eTfqAQRBCi2SoAFQR70wZBVt
 K7pcqpVU3e1/v5kgKYIUoPLuxMzYQiauRB5fJkD/9stvAXk+bL+vDpv16uHhR/C1fqx3q0N9H3zZ
 PNT/HUQiyIUOWMT1W2BON4/P//zn8X5/fRW8f/vu7cWb3fommNa7x/ohoNvHL5uvz9B9s3385bdf
 4L+/QeP3Jxhp91+B6fVQv3nAMd58Xa+DVwmlr4OPb6/eXgAvFXnMk4rSiqsKKLc/uib4Uc2YVFzk
@@ -290,5 +312,5 @@ FiMBHrxp1TPiSu3ixCVLZWK/IkXT2E7dOrpENR2Pg2NilOT0NQdSlHBDg4lKHAPOXeIgKgL6Vk7N
 4xkTsh/Aecof2FTnK8wG7fpEk8I1/HDdEufIyGjzmkhIGVh+hSNrG2vr81s7JhS6+zn6Q2hozAmJ
 dpOs1aialGnumBHy8OZL1u5cHXgzxFwz9JWwBBJjl6c6+raBV3tw51M2Bbv5qwTtjLfXpPIo7yMs
 l3xfTLNUqW7HRpJKzfc/mHcdUbukAAA=
---===============1555074107040438405==--
+--===============0045785051332025878==--
 
