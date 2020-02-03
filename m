@@ -1,81 +1,126 @@
-Content-Type: multipart/mixed; boundary="===============5044473529731431556=="
+Content-Type: multipart/mixed; boundary="===============8870712904775146822=="
 MIME-Version: 1.0
-From: Nick Desaulniers <ndesaulniers@google.com>
+From: Guenter Roeck <linux@roeck-us.net>
 To: kbuild-all@lists.01.org
-Subject: Re: [zen-kernel-zen-kernel:5.5/muqss 22/22] kernel/sched/wait.c:14:9: warning: 'WF_MIGRATED' macro redefined
-Date: Mon, 03 Feb 2020 15:07:10 +0000
-Message-ID: <CAKwvOdmWZoT8jui_BiVn1H+hLD3cPco2P601M+jkd+7=niUL-A@mail.gmail.com>
-In-Reply-To: <202002021939.yaHm7qPy%lkp@intel.com>
+Subject: Re: [hwmon:hwmon-playground 3/12] drivers/hwmon/pmbus/pmbus_core.c:174:18: warning: address of array 'data->info->phases' will always evaluate to 'true'
+Date: Mon, 03 Feb 2020 07:09:05 -0800
+Message-ID: <b1994377-e1ea-2c4f-5de6-a882f7875875@roeck-us.net>
+In-Reply-To: <CAKwvOdmXXSQ9UmO0oNkPRv-ZPcnFG9RAH5fUkh_eMyoV=UjVHQ@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5044473529731431556==
+--===============8870712904775146822==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-+ Steven, can you please take a look at the below report, it looks legit?
+On 2/3/20 7:00 AM, Nick Desaulniers wrote:
+> https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/=
+commit/?h=3Dhwmon-playground&id=3Dec31c1832ca6505f46d068e87a0524cd21e468b4
+> =
 
-On Sun, Feb 2, 2020 at 11:58 AM kbuild test robot <lkp@intel.com> wrote:
->
-> CC: kbuild-all(a)lists.01.org
-> TO: Steven Barrett <steven@liquorix.net>
->
-> tree:   https://github.com/zen-kernel/zen-kernel 5.5/muqss
-> head:   bf569053d0fe08b3615793a0105afff3d28f3676
-> commit: bf569053d0fe08b3615793a0105afff3d28f3676 [22/22] muqss: Re-define=
- WF_* wake flags in wait.c
-> config: arm64-defconfig (attached as .config)
-> compiler: clang version 11.0.0 (git://gitmirror/llvm_project ba8110161dfb=
-096bbc63039afd87ff6417328f91)
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git checkout bf569053d0fe08b3615793a0105afff3d28f3676
->         # save the attached .config to linux build tree
->         make.cross ARCH=3Darm64
->
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
-> >> kernel/sched/wait.c:14:9: warning: 'WF_MIGRATED' macro redefined [-Wma=
-cro-redefined]
->    #define WF_MIGRATED     0x04            /* internal use, task got migr=
-ated */
->            ^
->    kernel/sched/sched.h:1659:9: note: previous definition is here
->    #define WF_MIGRATED             0x4             /* Internal use, task =
-got migrated */
->            ^
->    1 warning generated.
->
-> vim +/WF_MIGRATED +14 kernel/sched/wait.c
->
->      8
->      9  /*
->     10   * wake flags
->     11   */
->     12  #define WF_SYNC         0x01            /* waker goes to sleep af=
-ter wakeup */
->     13  #define WF_FORK         0x02            /* child wakeup after for=
-k */
->   > 14  #define WF_MIGRATED     0x04            /* internal use, task got=
- migrated */
->     15
->
-> ---
-> 0-DAY kernel test infrastructure                 Open Source Technology C=
-enter
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corp=
-oration
+> + Guenter, looks legit, can you please take a look?  phases is an
+> array member of a struct, so it can never be NULL.
+> =
 
 
+Hi Nick,
 
--- =
+Thanks for the note; already reported twice or so ;-), and fixed.
 
-Thanks,
-~Nick Desaulniers
---===============5044473529731431556==--
+Guenter
+
+> On Mon, Feb 3, 2020 at 2:55 AM kbuild test robot <lkp@intel.com> wrote:
+>>
+>> CC: kbuild-all(a)lists.01.org
+>> CC: linux-hwmon(a)vger.kernel.org
+>> TO: Guenter Roeck <linux@roeck-us.net>
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-sta=
+ging.git hwmon-playground
+>> head:   4e5fc259a7d202d7e13818052a6cdaff0f602b35
+>> commit: 4e87220ea3c48bcb3aeadc4000acf9bcc7aa7522 [3/12] hwmon: (pmbus) I=
+mplement multi-phase support
+>> config: x86_64-allyesconfig (attached as .config)
+>> compiler: clang version 11.0.0 (git://gitmirror/llvm_project ba8110161df=
+b096bbc63039afd87ff6417328f91)
+>> reproduce:
+>>          git checkout 4e87220ea3c48bcb3aeadc4000acf9bcc7aa7522
+>>          # save the attached .config to linux build tree
+>>          make ARCH=3Dx86_64
+>>
+>> If you fix the issue, kindly add following tag
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> drivers/hwmon/pmbus/pmbus_core.c:174:18: warning: address of array 'da=
+ta->info->phases' will always evaluate to 'true' [-Wpointer-bool-conversion]
+>>             if (data->info->phases && data->currphase !=3D phase &&
+>>                 ~~~~~~~~~~~~^~~~~~ ~~
+>>     1 warning generated.
+>>
+>> vim +174 drivers/hwmon/pmbus/pmbus_core.c
+>>
+>>     150
+>>     151  int pmbus_set_page(struct i2c_client *client, int page, int pha=
+se)
+>>     152  {
+>>     153          struct pmbus_data *data =3D i2c_get_clientdata(client);
+>>     154          int rv;
+>>     155
+>>     156          if (page < 0)
+>>     157                  return 0;
+>>     158
+>>     159          if (!(data->info->func[page] & PMBUS_PAGE_VIRTUAL) &&
+>>     160              data->info->pages > 1 && page !=3D data->currpage) {
+>>     161                  rv =3D i2c_smbus_write_byte_data(client, PMBUS_=
+PAGE, page);
+>>     162                  if (rv < 0)
+>>     163                          return rv;
+>>     164
+>>     165                  rv =3D i2c_smbus_read_byte_data(client, PMBUS_P=
+AGE);
+>>     166                  if (rv < 0)
+>>     167                          return rv;
+>>     168
+>>     169                  if (rv !=3D page)
+>>     170                          return -EIO;
+>>     171          }
+>>     172          data->currpage =3D page;
+>>     173
+>>   > 174          if (data->info->phases && data->currphase !=3D phase &&
+>>     175              !(data->info->pfunc[phase] & PMBUS_PHASE_VIRTUAL)) {
+>>     176                  rv =3D i2c_smbus_write_byte_data(client, PMBUS_=
+PHASE,
+>>     177                                                 phase);
+>>     178                  if (rv)
+>>     179                          return rv;
+>>     180          }
+>>     181          data->currphase =3D phase;
+>>     182
+>>     183          return 0;
+>>     184  }
+>>     185  EXPORT_SYMBOL_GPL(pmbus_set_page);
+>>     186
+>>
+>> ---
+>> 0-DAY kernel test infrastructure                 Open Source Technology =
+Center
+>> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Cor=
+poration
+>>
+>> --
+>> You received this message because you are subscribed to the Google Group=
+s "Clang Built Linux" group.
+>> To unsubscribe from this group and stop receiving emails from it, send a=
+n email to clang-built-linux+unsubscribe(a)googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msg=
+id/clang-built-linux/202002031044.RnwQP6Bt%25lkp%40intel.com.
+> =
+
+> =
+
+>=20
+
+--===============8870712904775146822==--
 
