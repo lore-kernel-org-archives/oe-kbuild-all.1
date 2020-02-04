@@ -1,48 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============4090238176961485034=="
+Content-Type: multipart/mixed; boundary="===============7986302072961307267=="
 MIME-Version: 1.0
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-rt-devel:linux-5.4.y-rt-rebase 113/253] mm/swap.c:348:9: sparse: sparse: context imbalance in 'rotate_reclaimable_page' - different lock contexts for basic block
-Date: Tue, 04 Feb 2020 12:29:35 +0100
-Message-ID: <20200204112935.rq4yn7eh55paqwyw@linutronix.de>
-In-Reply-To: <202001281808.IYdufgjo%lkp@intel.com>
+Subject: Re: [linux-rt-devel:linux-5.4.y-rt 206/261] drivers/gpu/drm/i915/display/intel_sprite.c:84:30: warning: unused variable 'pipe_update_lock'
+Date: Tue, 04 Feb 2020 12:39:20 +0100
+Message-ID: <20200204113920.tnzqn4nce2qtaqzm@linutronix.de>
+In-Reply-To: <CAKwvOdnMeLaA2n3yVgP+RPO6dBOQPPUtmo99JhbseDYMekWbOg@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4090238176961485034==
+--===============7986302072961307267==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 2020-01-28 18:26:57 [+0800], kbuild test robot wrote:
-=E2=80=A6
-> sparse warnings: (new ones prefixed by >>)
-> =
+On 2020-01-13 09:13:11 [-0800], Nick Desaulniers wrote:
+> Hi Mike,
+> Below is a report from a 0day bot build w/ Clang. Can you please take
+> a look? Apologies if this has already been reported.
 
->    include/linux/spinlock.h:393:9: sparse: sparse: context imbalance in '=
-pagevec_lru_move_fn' - unexpected unlock
+this hasn't been reported so far. The problem is that for !RT the
+variable isn't touched. I have no idea why the variable itself is an
+int, it does not look required. It might have been part of a debugging
+API to spot wrong usage for !RT.
 
-This looks okay and is the same as upstream. The unlock only happens if
-`pgdat' if set and this happens only in the for-loop.
-
-> >> mm/swap.c:348:9: sparse: sparse: context imbalance in 'rotate_reclaima=
-ble_page' - different lock contexts for basic block
-> >> mm/swap.c:440:13: sparse: sparse: context imbalance in '__lru_cache_ac=
-tivate_page' - different lock contexts for basic block
-> >> mm/swap.c:505:13: sparse: sparse: context imbalance in '__lru_cache_ad=
-d' - different lock contexts for basic block
-> >> mm/swap.c:695:6: sparse: sparse: context imbalance in 'lru_add_drain_c=
-pu' - different lock contexts for basic block
-> >> mm/swap.c:743:6: sparse: sparse: context imbalance in 'deactivate_file=
-_page' - different lock contexts for basic block
-> >> mm/swap.c:775:9: sparse: sparse: context imbalance in 'deactivate_page=
-' - different lock contexts for basic block
-> >> mm/swap.c:801:9: sparse: sparse: context imbalance in 'mark_page_lazyf=
-ree' - different lock contexts for basic block
-
-those look okay, took. The lock part deferences a per-CPU variable and
-the local pointer is returned. The unlock part uses the local pointer.
-This and the `if' (locked vs preempt-disable mode) might confuse sparse.
+So either we trick the compiler into using it and check the type or
+remove it=E2=80=A6
 
 Sebastian
---===============4090238176961485034==--
+--===============7986302072961307267==--
 
