@@ -1,53 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============5198418687964740134=="
+Content-Type: multipart/mixed; boundary="===============0584158968488438554=="
 MIME-Version: 1.0
-From: Ulf Hansson <ulf.hansson@linaro.org>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [RFC PATCH linux-stable-rc] mmc: sdhci-pci: amd_sdhci_reset() can be static
-Date: Wed, 05 Feb 2020 09:14:49 +0100
-Message-ID: <CAPDyKFpr5nBPGxf4JeX=6h2kne9XH6zgC4ZhrHs1AmOsHvqcaw@mail.gmail.com>
-In-Reply-To: <20200204231852.7454ydh6bdxie72h@f53c9c00458a>
+Subject: [chrome-os:chromeos-4.19 3/3] drivers/gpu/drm/drm_trace.c:239:11-34: WARNING opportunity for simple_open, see also structure on line 287
+Date: Wed, 05 Feb 2020 03:57:02 +0800
+Message-ID: <202002050358.o4FjzItX%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5198418687964740134==
+--===============0584158968488438554==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 5 Feb 2020 at 00:19, kbuild test robot <lkp@intel.com> wrote:
->
->
-> Fixes: ac342e0a1f18 ("mmc: sdhci-pci: Quirk for AMD SDHC Device 0x7906")
-> Signed-off-by: kbuild test robot <lkp@intel.com>
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-4.19
+head:   2ef86936fa7b9f135fa6f7a08db0427701107c47
+commit: 2ef86936fa7b9f135fa6f7a08db0427701107c47 [3/3] CHROMIUM: drm: Make =
+the drm_trace size configurable
 
-There is already an upstream commit for this. I forgot to tag that one
-for stable. Greg, would you mind picking it up?
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
-commit 38413ce39a4bd908c02257cd2f9e0c92b27886f4
-Author: zhengbin <zhengbin13@huawei.com>
-Date:   Fri Oct 4 17:44:20 2019 +0800
-mmc: sdhci-pci: Make function amd_sdhci_reset static
 
-Kind regards
-Uffe
+coccinelle warnings: (new ones prefixed by >>)
 
-> ---
->  sdhci-pci-core.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/sdhci-pci-core.c b/drivers/mmc/host/sdhci-p=
-ci-core.c
-> index 96a163f36a395..8c064348ea106 100644
-> --- a/drivers/mmc/host/sdhci-pci-core.c
-> +++ b/drivers/mmc/host/sdhci-pci-core.c
-> @@ -1604,7 +1604,7 @@ static u32 sdhci_read_present_state(struct sdhci_ho=
-st *host)
->         return sdhci_readl(host, SDHCI_PRESENT_STATE);
->  }
->
-> -void amd_sdhci_reset(struct sdhci_host *host, u8 mask)
-> +static void amd_sdhci_reset(struct sdhci_host *host, u8 mask)
->  {
->         struct sdhci_pci_slot *slot =3D sdhci_priv(host);
->         struct pci_dev *pdev =3D slot->chip->pdev;
---===============5198418687964740134==--
+>> drivers/gpu/drm/drm_trace.c:239:11-34: WARNING opportunity for simple_op=
+en, see also structure on line 287
+
+Please review and possibly fold the followup patch.
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============0584158968488438554==--
 
