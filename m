@@ -1,31 +1,37 @@
-Content-Type: multipart/mixed; boundary="===============7986302072961307267=="
+Content-Type: multipart/mixed; boundary="===============1080518701239863902=="
 MIME-Version: 1.0
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-rt-devel:linux-5.4.y-rt 206/261] drivers/gpu/drm/i915/display/intel_sprite.c:84:30: warning: unused variable 'pipe_update_lock'
-Date: Tue, 04 Feb 2020 12:39:20 +0100
-Message-ID: <20200204113920.tnzqn4nce2qtaqzm@linutronix.de>
-In-Reply-To: <CAKwvOdnMeLaA2n3yVgP+RPO6dBOQPPUtmo99JhbseDYMekWbOg@mail.gmail.com>
+Subject: [omap-audio:peter/linux-next-wip 86/97] sound/soc/ti/omap-mcasp.c:691:3-8: No need to set .owner here. The core will do it.
+Date: Tue, 04 Feb 2020 22:03:10 +0800
+Message-ID: <202002042204.xtxoqBqR%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7986302072961307267==
+--===============1080518701239863902==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 2020-01-13 09:13:11 [-0800], Nick Desaulniers wrote:
-> Hi Mike,
-> Below is a report from a 0day bot build w/ Clang. Can you please take
-> a look? Apologies if this has already been reported.
+tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
+head:   ae02767e557d4b75a99b7a5ea70c26594c54b5fb
+commit: d9878b7a84c892731f887558e9d0fbe6965d5b0f [86/97] omap: mcasp: add o=
+map-mcasp.* and add to Kconfig, Makefile
 
-this hasn't been reported so far. The problem is that for !RT the
-variable isn't touched. I have no idea why the variable itself is an
-int, it does not look required. It might have been part of a debugging
-API to spot wrong usage for !RT.
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
-So either we trick the compiler into using it and check the type or
-remove it=E2=80=A6
 
-Sebastian
---===============7986302072961307267==--
+coccinelle warnings: (new ones prefixed by >>)
+
+>> sound/soc/ti/omap-mcasp.c:691:3-8: No need to set .owner here. The core =
+will do it.
+
+Please review and possibly fold the followup patch.
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============1080518701239863902==--
 
