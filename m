@@ -1,122 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============8643624822946598169=="
+Content-Type: multipart/mixed; boundary="===============5519260190478336178=="
 MIME-Version: 1.0
-From: kbuild test robot <lkp@intel.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-arm:cex7 93/97] drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:349:14: sparse: sparse: incorrect type in assignment (different address spaces)
-Date: Fri, 07 Feb 2020 00:45:55 +0800
-Message-ID: <202002070052.tJgPLKlF%lkp@intel.com>
+Subject: Re: sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to `snd_hda_codec_build_controls'
+Date: Thu, 06 Feb 2020 10:55:46 -0600
+Message-ID: <e82ceb12-2d0e-ccec-8d8d-eef556918c53@linux.intel.com>
+In-Reply-To: <s5hwo909mm9.wl-tiwai@suse.de>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8643624822946598169==
+--===============5519260190478336178==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm cex7
-head:   2f8726526ed0fd189f8a945c06f8b9850777a5ca
-commit: 1dad35c917e281c4d38067dac6107f0b03907bb4 [93/97] dpaa2-mac: add PCS=
- support                     [*work in progress*]
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-154-g1dc00f87-dirty
-        git checkout 1dad35c917e281c4d38067dac6107f0b03907bb4
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
+On 2/6/20 1:54 AM, Takashi Iwai wrote:
+> On Thu, 06 Feb 2020 06:29:52 +0100,
+> kbuild test robot wrote:
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it master
+>> head:   4c7d00ccf40db99bfb7bd1857bcbf007275704d8
+>> commit: 7de9a47c8971bdec07cc9a62e948382003c5908f ASoC: Intel: skl-hda-ds=
+p-generic: use snd-hda-codec-hdmi
+>> date:   3 months ago
+>> config: i386-randconfig-e003-20200206 (attached as .config)
+>> compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
+>> reproduce:
+>>          git checkout 7de9a47c8971bdec07cc9a62e948382003c5908f
+>>          # save the attached .config to linux build tree
+>>          make ARCH=3Di386
+>>
+>> If you fix the issue, kindly add following tag
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     ld: sound/soc/intel/boards/hda_dsp_common.o: in function `hda_dsp_hd=
+mi_build_controls':
+>>>> sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to `sn=
+d_hda_codec_build_controls'
+> =
 
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:349:14: sparse: sparse:=
- incorrect type in assignment (different address spaces)
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:349:14: sparse:    expe=
-cted void *base
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:349:14: sparse:    got =
-void [noderef] <asn:2> *
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:386:17: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:386:17: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c:386:17: sparse:    got =
-void *base
+> Looks like the revert select enforcing the built-in of SOF while the
+> legacy HDA is a module.  It doesn't look so trivial to fix...
 
-vim +349 drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
+SOF in this case is build as a module, but the machine driver isn't.
 
-   334	=
+It seems like the SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH option is =
 
-   335	struct mii_bus *xgmac_mdio_bus_create(struct device *parent,
-   336					      unsigned long long id,
-   337					      void *base, bool is_little_endian);
-   338	=
+different from others machine drivers. All others can only be either M =
 
-   339	static int dpaa2_pcs_create(struct dpaa2_mac *mac, int id)
-   340	{
-   341		struct mdio_device *mdiodev;
-   342		struct mii_bus *bus;
-   343		phys_addr_t phys;
-   344		void *base;
-   345		int err;
-   346	=
+or not selected, but here we have a case where the selection can be M or y.
 
-   347		phys =3D 0x08c03000 + id * 0x4000;
-   348	=
+The following diff seems to make the problem go away by preventing this =
 
- > 349		base =3D ioremap(phys, SZ_4K);
-   350		if (!base)
-   351			return -ENOMEM;
-   352	=
+case, it seems we didn't propagate the constraints from the higher level.
 
-   353		bus =3D xgmac_mdio_bus_create(NULL, phys, base, true);
-   354		if (!bus) {
-   355			err =3D -ENOMEM;
-   356			goto unmap;
-   357		}
-   358	=
+More testing needed, this is just a first result.
 
-   359		bus->phy_mask =3D ~0;
-   360	=
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 9ca2567d0059..db08b3af07c2 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -426,6 +426,7 @@ config SND_SOC_INTEL_GLK_RT5682_MAX98357A_MACH
 
-   361		err =3D mdiobus_register(bus);
-   362		if (err)
-   363			goto bus_free;
-   364	=
+  endif ## SND_SOC_SOF_GEMINILAKE  && SND_SOC_SOF_HDA_LINK
 
-   365		mdiodev =3D mdio_device_create(bus, 0);
-   366		if (IS_ERR(mdiodev)) {
-   367			err =3D PTR_ERR(mdiodev);
-   368			goto bus_unregister;
-   369		}
-   370	=
++if SND_SOC_SOF_HDA
+  if SND_SOC_INTEL_SKYLAKE_HDAUDIO_CODEC || SND_SOC_SOF_HDA_AUDIO_CODEC
 
-   371		err =3D mdio_device_register(mdiodev);
-   372		if (err)
-   373			goto dev_free;
-   374	=
+  config SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH
+@@ -441,6 +442,7 @@ config SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH
+           If unsure select "N".
 
-   375		mac->pcs =3D mdiodev;
-   376		mac->phylink_config.pcs_poll =3D true;
-   377	=
+  endif ## SND_SOC_INTEL_SKYLAKE_HDAUDIO_CODEC || =
 
-   378		return 0;
-   379	dev_free:
-   380		mdio_device_free(mdiodev);
-   381	bus_unregister:
-   382		mdiobus_unregister(bus);
-   383	bus_free:
-   384		mdiobus_free(bus);
-   385	unmap:
- > 386		iounmap(base);
-   387		return err;
-   388	}
-   389	=
+SND_SOC_SOF_HDA_AUDIO_CODEC
++endif
 
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Cen=
-ter
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
-ation
---===============8643624822946598169==--
+  if SND_SOC_SOF_HDA_LINK || SND_SOC_SOF_BAYTRAIL
+  config SND_SOC_INTEL_SOF_RT5682_MACH
+--===============5519260190478336178==--
 
