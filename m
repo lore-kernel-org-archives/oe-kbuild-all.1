@@ -1,34 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============0795019031969660282=="
+Content-Type: multipart/mixed; boundary="===============4371603159653858319=="
 MIME-Version: 1.0
-From: Takashi Iwai <tiwai@suse.de>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: kbuild-all@lists.01.org
-Subject: Re: sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to `snd_hda_codec_build_controls'
-Date: Thu, 06 Feb 2020 08:54:38 +0100
-Message-ID: <s5hwo909mm9.wl-tiwai@suse.de>
-In-Reply-To: <202002061349.zDVX3Qdu%lkp@intel.com>
+Subject: Re: [PATCH V13] mm/debug: Add tests validating architecture page table helpers
+Date: Thu, 06 Feb 2020 13:49:35 +0530
+Message-ID: <78d3ce6b-e100-2561-6b09-124c29731d1a@arm.com>
+In-Reply-To: <202002060619.wEOdAZU1%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0795019031969660282==
+--===============4371603159653858319==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 06 Feb 2020 06:29:52 +0100,
-kbuild test robot wrote:
+
+On 02/06/2020 04:40 AM, kbuild test robot wrote:
+> Hi Anshuman,
 > =
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   4c7d00ccf40db99bfb7bd1857bcbf007275704d8
-> commit: 7de9a47c8971bdec07cc9a62e948382003c5908f ASoC: Intel: skl-hda-dsp=
--generic: use snd-hda-codec-hdmi
-> date:   3 months ago
-> config: i386-randconfig-e003-20200206 (attached as .config)
-> compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
+> Thank you for the patch! Yet something to improve:
+> =
+
+> [auto build test ERROR on powerpc/next]
+> [also build test ERROR on s390/features linus/master arc/for-next v5.5]
+> [cannot apply to mmotm/master tip/x86/core arm64/for-next/core next-20200=
+205]
+> [if your patch is applied to the wrong git tree, please drop us a note to=
+ help
+> improve the system. BTW, we also suggest to use '--base' option to specif=
+y the
+> base tree in git format-patch, please see https://stackoverflow.com/a/374=
+06982]
+> =
+
+> url:    https://github.com/0day-ci/linux/commits/Anshuman-Khandual/mm-deb=
+ug-Add-tests-validating-architecture-page-table-helpers/20200205-215507
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git=
+ next
+> config: ia64-allmodconfig (attached as .config)
+> compiler: ia64-linux-gcc (GCC) 7.5.0
 > reproduce:
->         git checkout 7de9a47c8971bdec07cc9a62e948382003c5908f
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
 >         # save the attached .config to linux build tree
->         make ARCH=3Di386 =
+>         GCC_VERSION=3D7.5.0 make.cross ARCH=3Dia64 =
 
 > =
 
@@ -36,18 +52,42 @@ t master
 > Reported-by: kbuild test robot <lkp@intel.com>
 > =
 
-> All errors (new ones prefixed by >>):
+> All error/warnings (new ones prefixed by >>):
 > =
 
->    ld: sound/soc/intel/boards/hda_dsp_common.o: in function `hda_dsp_hdmi=
-_build_controls':
-> >> sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to `sn=
-d_hda_codec_build_controls'
+>    In file included from include/asm-generic/pgtable-nopud.h:8:0,
+>                     from arch/ia64/include/asm/pgtable.h:586,
+>                     from include/linux/mm.h:99,
+>                     from include/linux/highmem.h:8,
+>                     from mm/debug_vm_pgtable.c:14:
+>    mm/debug_vm_pgtable.c: In function 'pud_clear_tests':
+>>> include/asm-generic/pgtable-nop4d-hack.h:47:32: error: implicit declara=
+tion of function '__pgd'; did you mean '__p4d'? [-Werror=3Dimplicit-functio=
+n-declaration]
+>     #define __pud(x)    ((pud_t) { __pgd(x) })
+>                                    ^
+>>> mm/debug_vm_pgtable.c:141:8: note: in expansion of macro '__pud'
+>      pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
+>            ^~~~~
+>>> include/asm-generic/pgtable-nop4d-hack.h:47:22: warning: missing braces=
+ around initializer [-Wmissing-braces]
+>     #define __pud(x)    ((pud_t) { __pgd(x) })
+>                          ^
+>>> mm/debug_vm_pgtable.c:141:8: note: in expansion of macro '__pud'
+>      pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
+>            ^~~~~
+>    cc1: some warnings being treated as errors
 
-Looks like the revert select enforcing the built-in of SOF while the
-legacy HDA is a module.  It doesn't look so trivial to fix...
+This build failure is expected now given that we have allowed DEBUG_VM_PGTA=
+BLE
+with EXPERT without platform requiring ARCH_HAS_DEBUG_VM_PGTABLE. This prob=
+lem
+i.e build failure caused without a platform __pgd(), is known to exist both=
+ on
+ia64 and arm (32bit) platforms. Please refer https://lkml.org/lkml/2019/9/2=
+4/314
+for details where this was discussed earlier.
 
-
-Takashi
---===============0795019031969660282==--
+- Anshuman
+--===============4371603159653858319==--
 
