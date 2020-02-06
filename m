@@ -1,107 +1,160 @@
-Content-Type: multipart/mixed; boundary="===============3312913805968074200=="
+Content-Type: multipart/mixed; boundary="===============4573891893851766875=="
 MIME-Version: 1.0
-From: Guenter Roeck <linux@roeck-us.net>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 11029/12352] drivers/watchdog/da9062_wdt.c:155:8: error: implicit declaration of function 'i2c_smbus_write_byte_data'; did you mean 'i2c_set_clientdata'?
-Date: Thu, 06 Feb 2020 06:39:59 -0800
-Message-ID: <e09d882f-b755-62e8-f63f-58f61eb3b636@roeck-us.net>
-In-Reply-To: <20200206090933.tono54lnq6piqhzs@pengutronix.de>
+Subject: [linux-arm:cex7 92/97] drivers/net/ethernet/freescale/xgmac_mdio.c:262:25: sparse: sparse: incorrect type in assignment (different address spaces)
+Date: Thu, 06 Feb 2020 22:50:46 +0800
+Message-ID: <202002062243.RIyz5ZCS%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3312913805968074200==
+--===============4573891893851766875==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 2/6/20 1:09 AM, Marco Felsch wrote:
-> Hi,
-> =
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm cex7
+head:   2f8726526ed0fd189f8a945c06f8b9850777a5ca
+commit: 3c4c60c5729d166b5d864902e3f225713beb3b5d [92/97] net: xgmac_mdio: a=
+llow ethernet drivers to create mdio buses
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-154-g1dc00f87-dirty
+        git checkout 3c4c60c5729d166b5d864902e3f225713beb3b5d
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-> On 20-02-06 06:08, kbuild test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.=
-git master
->> head:   14b549456391a8b8f812529896b2690c16349734
->> commit: 057b52b4b3d58f4ee5944171da50f77b00a1bb0d [11029/12352] watchdog:=
- da9062: make restart handler atomic safe
->> config: x86_64-randconfig-d002-20200206 (attached as .config)
->> compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
->> reproduce:
->>          git checkout 057b52b4b3d58f4ee5944171da50f77b00a1bb0d
->>          # save the attached .config to linux build tree
->>          make ARCH=3Dx86_64
->>
->> If you fix the issue, kindly add following tag
->> Reported-by: kbuild test robot <lkp@intel.com>
->>
->> All errors (new ones prefixed by >>):
->>
->>     drivers/watchdog/da9062_wdt.c: In function 'da9062_wdt_restart':
->>>> drivers/watchdog/da9062_wdt.c:155:8: error: implicit declaration of fu=
-nction 'i2c_smbus_write_byte_data'; did you mean 'i2c_set_clientdata'? [-We=
-rror=3Dimplicit-function-declaration]
->>       ret =3D i2c_smbus_write_byte_data(client, DA9062AA_CONTROL_F,
->>             ^~~~~~~~~~~~~~~~~~~~~~~~~
->>             i2c_set_clientdata
->>     cc1: some warnings being treated as errors
-> =
-
-> this is a false positive due to the COMPILE_TEST ability.
-> =
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
-It depends - COMPILE_TEST means that the file can be compiled even without
-MFD_DA9062 enabled, so the hard dependency on I2C should be specified
-explicitly (to avoid building the file on an architecture which does not
-support I2C). But it does appear that this configuration explicitly enables
-COMPILE_TEST and disables I2C, which isn't exactly what COMPILE_TEST is
-supposed to be used for.
+sparse warnings: (new ones prefixed by >>)
 
-Guenter
+>> drivers/net/ethernet/freescale/xgmac_mdio.c:262:25: sparse: sparse: inco=
+rrect type in assignment (different address spaces)
+>> drivers/net/ethernet/freescale/xgmac_mdio.c:262:25: sparse:    expected =
+struct tgec_mdio_controller [noderef] <asn:2> *mdio_base
+>> drivers/net/ethernet/freescale/xgmac_mdio.c:262:25: sparse:    got void =
+*base
+   drivers/net/ethernet/freescale/xgmac_mdio.c:287:14: sparse: sparse: inco=
+rrect type in assignment (different address spaces)
+>> drivers/net/ethernet/freescale/xgmac_mdio.c:287:14: sparse:    expected =
+void *base
+>> drivers/net/ethernet/freescale/xgmac_mdio.c:287:14: sparse:    got void =
+[noderef] <asn:2> *
+   drivers/net/ethernet/freescale/xgmac_mdio.c:315:17: sparse: sparse: inco=
+rrect type in argument 1 (different address spaces)
+   drivers/net/ethernet/freescale/xgmac_mdio.c:315:17: sparse:    expected =
+void volatile [noderef] <asn:2> *addr
+   drivers/net/ethernet/freescale/xgmac_mdio.c:315:17: sparse:    got void =
+*base
+   drivers/net/ethernet/freescale/xgmac_mdio.c:325:20: sparse: sparse: inco=
+rrect type in argument 1 (different address spaces)
+   drivers/net/ethernet/freescale/xgmac_mdio.c:325:20: sparse:    expected =
+void volatile [noderef] <asn:2> *addr
+   drivers/net/ethernet/freescale/xgmac_mdio.c:325:20: sparse:    got void =
+*priv
 
-> Regards,
->    Marco
-> =
+vim +262 drivers/net/ethernet/freescale/xgmac_mdio.c
 
->> vim +155 drivers/watchdog/da9062_wdt.c
->>
->>     146	=
+   243	=
 
->>     147	static int da9062_wdt_restart(struct watchdog_device *wdd, unsig=
-ned long action,
->>     148				      void *data)
->>     149	{
->>     150		struct da9062_watchdog *wdt =3D watchdog_get_drvdata(wdd);
->>     151		struct i2c_client *client =3D to_i2c_client(wdt->hw->dev);
->>     152		int ret;
->>     153	=
+   244	struct mii_bus *xgmac_mdio_bus_create(struct device *parent,
+   245					      unsigned long long id,
+   246					      void *base, bool is_little_endian)
+   247	{
+   248		struct mdio_fsl_priv *priv;
+   249		struct mii_bus *bus;
+   250	=
 
->>     154		/* Don't use regmap because it is not atomic safe */
->>   > 155		ret =3D i2c_smbus_write_byte_data(client, DA9062AA_CONTROL_F,
->>     156						DA9062AA_SHUTDOWN_MASK);
->>     157		if (ret < 0)
->>     158			dev_alert(wdt->hw->dev, "Failed to shutdown (err =3D %d)\n",
->>     159				  ret);
->>     160	=
+   251		bus =3D mdiobus_alloc_size(sizeof(struct mdio_fsl_priv));
+   252		if (!bus)
+   253			return NULL;
+   254	=
 
->>     161		/* wait for reset to assert... */
->>     162		mdelay(500);
->>     163	=
+   255		bus->name =3D "Freescale XGMAC MDIO Bus";
+   256		bus->read =3D xgmac_mdio_read;
+   257		bus->write =3D xgmac_mdio_write;
+   258		bus->parent =3D parent;
+   259		snprintf(bus->id, MII_BUS_ID_SIZE, "%llx", id);
+   260	=
 
->>     164		return ret;
->>     165	}
->>     166	=
+   261		priv =3D bus->priv;
+ > 262		priv->mdio_base =3D base;
+   263		priv->is_little_endian =3D is_little_endian;
+   264	=
 
->>
->> ---
->> 0-DAY kernel test infrastructure                 Open Source Technology =
-Center
->> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Cor=
-poration
-> =
+   265		return bus;
+   266	}
+   267	EXPORT_SYMBOL_GPL(xgmac_mdio_bus_create);
+   268	=
 
-> =
+   269	static int xgmac_mdio_probe(struct platform_device *pdev)
+   270	{
+   271		struct device_node *np =3D pdev->dev.of_node;
+   272		struct mdio_fsl_priv *priv;
+   273		bool is_little_endian;
+   274		struct mii_bus *bus;
+   275		struct resource res;
+   276		void *base;
+   277		int ret;
+   278	=
 
->=20
+   279		ret =3D of_address_to_resource(np, 0, &res);
+   280		if (ret) {
+   281			dev_err(&pdev->dev, "could not obtain address\n");
+   282			return ret;
+   283		}
+   284	=
 
---===============3312913805968074200==--
+   285		is_little_endian =3D of_property_read_bool(np, "little-endian");
+   286	=
+
+ > 287		base =3D of_iomap(np, 0);
+   288		if (!base)
+   289			return -ENOMEM;
+   290	=
+
+   291		bus =3D xgmac_mdio_bus_create(&pdev->dev, res.start, base,
+   292					    is_little_endian);
+   293		if (!bus) {
+   294			ret =3D -ENOMEM;
+   295			goto err_create;
+   296		}
+   297	=
+
+   298		priv =3D bus->priv;
+   299		priv->has_a011043 =3D of_property_read_bool(pdev->dev.of_node,
+   300							  "fsl,erratum-a011043");
+   301	=
+
+   302		ret =3D of_mdiobus_register(bus, np);
+   303		if (ret) {
+   304			dev_err(&pdev->dev, "cannot register MDIO bus\n");
+   305			goto err_registration;
+   306		}
+   307	=
+
+   308		platform_set_drvdata(pdev, bus);
+   309	=
+
+   310		return 0;
+   311	=
+
+   312	err_registration:
+   313		mdiobus_free(bus);
+   314	err_create:
+   315		iounmap(base);
+   316	=
+
+   317		return ret;
+   318	}
+   319	=
+
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============4573891893851766875==--
 
