@@ -1,101 +1,100 @@
-Content-Type: multipart/mixed; boundary="===============8687678324037423116=="
+Content-Type: multipart/mixed; boundary="===============5317118617141519415=="
 MIME-Version: 1.0
-From: Marco Felsch <m.felsch@pengutronix.de>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 11029/12352] drivers/watchdog/da9062_wdt.c:155:8: error: implicit declaration of function 'i2c_smbus_write_byte_data'; did you mean 'i2c_set_clientdata'?
-Date: Thu, 06 Feb 2020 10:09:33 +0100
-Message-ID: <20200206090933.tono54lnq6piqhzs@pengutronix.de>
-In-Reply-To: <202002060630.3H9bbrzB%lkp@intel.com>
+Subject: [linux-arm:clearfog 12/13] drivers/pci/pci-bridge-emul.c:278:33: sparse: sparse: incorrect type in assignment (different base types)
+Date: Thu, 06 Feb 2020 17:14:57 +0800
+Message-ID: <202002061755.4TqSNDvU%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8687678324037423116==
+--===============5317118617141519415==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm clearfog
+head:   3450ae5b57e5f917cafd07c2ed4e5d3c57ffe313
+commit: c7d78c5524e871aeb0179f48a120bfb8fe88897a [12/13] mvebu/clearfog pci=
+e updates
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-154-g1dc00f87-dirty
+        git checkout c7d78c5524e871aeb0179f48a120bfb8fe88897a
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-On 20-02-06 06:08, kbuild test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   14b549456391a8b8f812529896b2690c16349734
-> commit: 057b52b4b3d58f4ee5944171da50f77b00a1bb0d [11029/12352] watchdog: =
-da9062: make restart handler atomic safe
-> config: x86_64-randconfig-d002-20200206 (attached as .config)
-> compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
-> reproduce:
->         git checkout 057b52b4b3d58f4ee5944171da50f77b00a1bb0d
->         # save the attached .config to linux build tree
->         make ARCH=3Dx86_64 =
-
-> =
-
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> =
-
-> All errors (new ones prefixed by >>):
-> =
-
->    drivers/watchdog/da9062_wdt.c: In function 'da9062_wdt_restart':
-> >> drivers/watchdog/da9062_wdt.c:155:8: error: implicit declaration of fu=
-nction 'i2c_smbus_write_byte_data'; did you mean 'i2c_set_clientdata'? [-We=
-rror=3Dimplicit-function-declaration]
->      ret =3D i2c_smbus_write_byte_data(client, DA9062AA_CONTROL_F,
->            ^~~~~~~~~~~~~~~~~~~~~~~~~
->            i2c_set_clientdata
->    cc1: some warnings being treated as errors
-
-this is a false positive due to the COMPILE_TEST ability.
-
-Regards,
-  Marco
-
-> vim +155 drivers/watchdog/da9062_wdt.c
-> =
-
->    146	=
-
->    147	static int da9062_wdt_restart(struct watchdog_device *wdd, unsigne=
-d long action,
->    148				      void *data)
->    149	{
->    150		struct da9062_watchdog *wdt =3D watchdog_get_drvdata(wdd);
->    151		struct i2c_client *client =3D to_i2c_client(wdt->hw->dev);
->    152		int ret;
->    153	=
-
->    154		/* Don't use regmap because it is not atomic safe */
->  > 155		ret =3D i2c_smbus_write_byte_data(client, DA9062AA_CONTROL_F,
->    156						DA9062AA_SHUTDOWN_MASK);
->    157		if (ret < 0)
->    158			dev_alert(wdt->hw->dev, "Failed to shutdown (err =3D %d)\n",
->    159				  ret);
->    160	=
-
->    161		/* wait for reset to assert... */
->    162		mdelay(500);
->    163	=
-
->    164		return ret;
->    165	}
->    166	=
-
-> =
-
-> ---
-> 0-DAY kernel test infrastructure                 Open Source Technology C=
-enter
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corp=
-oration
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
 
--- =
+>> drivers/pci/pci-bridge-emul.c:278:33: sparse: sparse: incorrect type in =
+assignment (different base types)
+>> drivers/pci/pci-bridge-emul.c:278:33: sparse:    expected restricted __l=
+e16 [usertype] bridgectrl
+>> drivers/pci/pci-bridge-emul.c:278:33: sparse:    got int
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
---===============8687678324037423116==--
+vim +278 drivers/pci/pci-bridge-emul.c
+
+   263	=
+
+   264	/*
+   265	 * Initialize a pci_bridge_emul structure to represent a fake PCI
+   266	 * bridge configuration space. The caller needs to have initialized
+   267	 * the PCI configuration space with whatever values make sense
+   268	 * (typically at least vendor, device, revision), the ->ops pointer,
+   269	 * and optionally ->data and ->has_pcie.
+   270	 */
+   271	int pci_bridge_emul_init(struct pci_bridge_emul *bridge,
+   272				 unsigned int flags)
+   273	{
+   274		bridge->conf.class_revision |=3D cpu_to_le32(PCI_CLASS_BRIDGE_PCI <=
+< 16);
+   275		bridge->conf.header_type =3D PCI_HEADER_TYPE_BRIDGE;
+   276		bridge->conf.cache_line_size =3D 0x10;
+   277		bridge->conf.status =3D cpu_to_le16(PCI_STATUS_CAP_LIST);
+ > 278		bridge->conf.bridgectrl =3D PCI_BRIDGE_CTL_SERR;
+   279		bridge->pci_regs_behavior =3D kmemdup(pci_regs_behavior,
+   280						    sizeof(pci_regs_behavior),
+   281						    GFP_KERNEL);
+   282		if (!bridge->pci_regs_behavior)
+   283			return -ENOMEM;
+   284	=
+
+   285		if (bridge->has_pcie) {
+   286			bridge->conf.capabilities_pointer =3D PCI_CAP_PCIE_START;
+   287			bridge->pcie_conf.cap_id =3D PCI_CAP_ID_EXP;
+   288			/* Set PCIe v2, root port, slot support */
+   289			bridge->pcie_conf.cap =3D
+   290				cpu_to_le16(PCI_EXP_TYPE_ROOT_PORT << 4 | 2 |
+   291					    PCI_EXP_FLAGS_SLOT);
+   292			bridge->pcie_cap_regs_behavior =3D
+   293				kmemdup(pcie_cap_regs_behavior,
+   294					sizeof(pcie_cap_regs_behavior),
+   295					GFP_KERNEL);
+   296			if (!bridge->pcie_cap_regs_behavior) {
+   297				kfree(bridge->pci_regs_behavior);
+   298				return -ENOMEM;
+   299			}
+   300		}
+   301	=
+
+   302		if (flags & PCI_BRIDGE_EMUL_NO_PREFETCHABLE_BAR) {
+   303			bridge->pci_regs_behavior[PCI_PREF_MEMORY_BASE / 4].ro =3D ~0;
+   304			bridge->pci_regs_behavior[PCI_PREF_MEMORY_BASE / 4].rw =3D 0;
+   305		}
+   306	=
+
+   307		return 0;
+   308	}
+   309	=
+
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============5317118617141519415==--
 
