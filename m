@@ -1,55 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============2322990709741511010=="
+Content-Type: multipart/mixed; boundary="===============7601844739018104230=="
 MIME-Version: 1.0
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: sound/pci/hda/patch_hdmi.c:1086: undefined reference to `snd_hda_get_num_devices'
-Date: Thu, 06 Feb 2020 11:05:28 -0600
-Message-ID: <02d655fe-dd21-3fcb-6f5d-4ecde51f3240@linux.intel.com>
-In-Reply-To: <s5hr1z7q12m.wl-tiwai@suse.de>
+Subject: Re: sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to `snd_hda_codec_build_controls'
+Date: Thu, 06 Feb 2020 12:01:24 -0600
+Message-ID: <9d8d130f-47d5-03a5-484e-b0865c6de6f8@linux.intel.com>
+In-Reply-To: <e82ceb12-2d0e-ccec-8d8d-eef556918c53@linux.intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2322990709741511010==
+--===============7601844739018104230==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 
+>>> =C2=A0=C2=A0=C2=A0 ld: sound/soc/intel/boards/hda_dsp_common.o: in func=
+tion =
 
-On 2/6/20 7:48 AM, Takashi Iwai wrote:
-> On Thu, 06 Feb 2020 14:40:17 +0100,
-> Kai Vehmanen wrote:
+>>> `hda_dsp_hdmi_build_controls':
+>>>>> sound/soc/intel/boards/hda_dsp_common.c:76: undefined reference to =
+
+>>>>> `snd_hda_codec_build_controls'
 >>
->> Hey,
->>
->> On Thu, 6 Feb 2020, kbuild test robot wrote:
->>
->>>     ld: sound/pci/hda/patch_hdmi.o: in function `intel_not_share_assign=
-ed_cvt':
->>>>> sound/pci/hda/patch_hdmi.c:1086: undefined reference to `snd_hda_get_=
-num_devices'
->>>>> ld: sound/pci/hda/patch_hdmi.c:1098: undefined reference to `snd_hda_=
-get_dev_select'
->>>>> ld: sound/pci/hda/patch_hdmi.c:1099: undefined reference to `snd_hda_=
-set_dev_select'
->>
->> hmm, this seems similar case as the previous one today w.r.t
->> hda_dsp_common.c:76. Patch_hdmi.c is built-in while snd-hda is a module.
->> Maybe we need to just drop the dependency from the ASoC board files to
->> SND_HDA_CODEC_HDMI. We don't have one for SND_HDA_CODEC either.
+>> Looks like the revert select enforcing the built-in of SOF while the
+>> legacy HDA is a module.=C2=A0 It doesn't look so trivial to fix...
 > =
 
-> The problem is that SOF tries to do reverse-select the legacy HD-audio
-> codec, but it doesn't work in general.  Or it must be done very
-> carefully.
+> SOF in this case is build as a module, but the machine driver isn't.
 > =
 
-> If something gets selected, all dependencies have to be
-> reverse-selected, too.  But the legacy HDA is built up in a way of
-> standard top-down selection (i.e. SND_HDA_CODEC_* depends on SND_HDA,
-> not other way round).
+> It seems like the SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH option is =
 
-It's the same issue as the other one reported earlier, and adding the =
+> different from others machine drivers. All others can only be either M =
 
-dependency on SOF_HDA makes the unmet dependency go away.
---===============2322990709741511010==--
+> or not selected, but here we have a case where the selection can be M or =
+y.
+
+Suggested fix is here, running it through our CI tests for now:
+
+https://github.com/thesofproject/linux/pull/1768
+
+This should be caught by kbuild tests as well.
+--===============7601844739018104230==--
 
