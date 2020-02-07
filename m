@@ -1,81 +1,78 @@
-Content-Type: multipart/mixed; boundary="===============2799819780438188701=="
+Content-Type: multipart/mixed; boundary="===============8829485059698341954=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: [iio:testing 16/16] drivers/iio/light/vcnl4000.c:153 vcnl4200_set_power_state() warn: ignoring unreachable code.
-Date: Fri, 07 Feb 2020 06:35:21 +0300
-Message-ID: <20200207033521.GN24804@kadam>
+Subject: Re: [Intel-wired-lan] [PATCH v2 1/2] igb: Use device_lock() insead of rtnl_lock()
+Date: Fri, 07 Feb 2020 07:11:23 +0300
+Message-ID: <20200207041123.GO24804@kadam>
+In-Reply-To: <20200205081616.18378-1-kai.heng.feng@canonical.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2799819780438188701==
+--===============8829485059698341954==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testi=
-ng
-head:   ce08fb79f9c866d1fe6dba977a32954cdc444059
-commit: ce08fb79f9c866d1fe6dba977a32954cdc444059 [16/16] iio: vcnl4000: Ena=
-ble runtime pm for vcnl4200/4040
+Hi Kai-Heng,
+
+url:    https://github.com/0day-ci/linux/commits/Kai-Heng-Feng/igb-Use-devi=
+ce_lock-insead-of-rtnl_lock/20200205-174208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-queue=
+.git dev-queue
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/light/vcnl4000.c:153 vcnl4200_set_power_state() warn: ignoring =
-unreachable code.
+New smatch warnings:
+drivers/net/ethernet/intel/igb/igb_main.c:4036 igb_close() warn: inconsiste=
+nt returns 'dev->mutex'.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=
-=3Dce08fb79f9c866d1fe6dba977a32954cdc444059
-git remote add iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/ii=
-o.git
-git remote update iio
-git checkout ce08fb79f9c866d1fe6dba977a32954cdc444059
-vim +153 drivers/iio/light/vcnl4000.c
+# https://github.com/0day-ci/linux/commit/905877ae7d44efc1d9c5c1ae9f4489f56=
+bcb13a6
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 905877ae7d44efc1d9c5c1ae9f4489f56bcb13a6
+vim +4036 drivers/net/ethernet/intel/igb/igb_main.c
 
-be38866fbb97f0e Tomas Novotny 2018-07-25  142  =
+9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok       200=
+8-01-24  4026  =
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  143  static int vcnl4200_set=
-_power_state(struct vcnl4000_data *data, bool on)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  144  {
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  145  	u16 val =3D on ? 0 /* =
-power on */ : 1 /* shut down */;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  146  	int ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  147  =
+46eafa59e18d03 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann 201=
+6-02-03  4027  int igb_close(struct net_device *netdev)
+749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
+2-01-04  4028  {
+905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
+0-02-05  4029  	struct igb_adapter *adapter =3D netdev_priv(netdev);
+905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
+0-02-05  4030  	struct device *dev =3D &adapter->pdev->dev;
+905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
+0-02-05  4031  =
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  148  	ret =3D i2c_smbus_writ=
-e_word_data(data->client, VCNL4200_AL_CONF, val);
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  149  	if (ret < 0)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  150  		return ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  151  =
+905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
+0-02-05  4032  	device_lock(dev);
+888f22931478a0 drivers/net/ethernet/intel/igb/igb_main.c Lyude Paul     201=
+7-12-12  4033  	if (netif_device_present(netdev) || netdev->dismantle)
+749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
+2-01-04  4034  		return __igb_close(netdev, false);
+                                                                           =
+                             ^^^^^^
+Lock held for this return.
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  152  	return i2c_smbus_write=
-_word_data(data->client, VCNL4200_PS_CONF1, val);
-                                                ^^^^^^^^^^^^^^^
-ret =3D
-
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03 @153  	if (ret < 0)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  154  		return ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  155  =
-
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  156  	if (on) {
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  157  		/* Wait@least one =
-integration cycle before fetching data */
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  158  		data->vcnl4200_al.las=
-t_measurement =3D ktime_get();
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  159  		data->vcnl4200_ps.las=
-t_measurement =3D ktime_get();
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  160  	}
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  161  =
-
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  162  	return 0;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  163  }
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  164  =
+905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
+0-02-05  4035  	device_unlock(dev);
+9474933caf21a4 drivers/net/ethernet/intel/igb/igb_main.c Todd Fujinaka  201=
+6-11-15 @4036  	return 0;
+749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
+2-01-04  4037  }
+749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
+2-01-04  4038  =
 
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2799819780438188701==--
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============8829485059698341954==--
 
