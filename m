@@ -1,138 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============1546257232483698594=="
+Content-Type: multipart/mixed; boundary="===============3473908192747010529=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [RFC PATCH jkirsher-next-queue] gwdpa: gswip: mac_get_speed() can be static
-Date: Sat, 08 Feb 2020 01:58:27 +0800
-Message-ID: <20200207175827.vnfqd6flcsdymvoi@f53c9c00458a>
-In-Reply-To: <202002080142.jXgA7Lza%lkp@intel.com>
+Subject: [jkirsher-next-queue:dev-queue 75/75] drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:32:30: sparse: sparse: incorrect type in initializer (different address spaces)
+Date: Sat, 08 Feb 2020 01:58:25 +0800
+Message-ID: <202002080142.jXgA7Lza%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1546257232483698594==
+--===============3473908192747010529==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-queue=
+.git dev-queue
+head:   efd2087941d2bc08b6c0a559aab0d8cdcfa38e0f
+commit: efd2087941d2bc08b6c0a559aab0d8cdcfa38e0f [75/75] gwdpa: gswip: Intr=
+oduce Gigabit Ethernet Switch (GSWIP) device driver
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-159-g100509c0-dirty
+        git checkout efd2087941d2bc08b6c0a559aab0d8cdcfa38e0f
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Fixes: efd2087941d2 ("gwdpa: gswip: Introduce Gigabit Ethernet Switch (GSWI=
-P) device driver")
-Signed-off-by: kbuild test robot <lkp@intel.com>
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:32:30: sparse: sparse=
+: incorrect type in initializer (different address spaces)
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:32:30: sparse:    exp=
+ected void [noderef] <asn:2> *base
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:32:30: sparse:    got=
+ void *context
+   drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:41:30: sparse: sparse=
+: incorrect type in initializer (different address spaces)
+   drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:41:30: sparse:    exp=
+ected void [noderef] <asn:2> *base
+   drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:41:30: sparse:    got=
+ void *context
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:77:30: sparse: sparse=
+: incorrect type in argument 3 (different address spaces)
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:77:30: sparse:    exp=
+ected void *bus_context
+>> drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c:77:30: sparse:    got=
+ void [noderef] <asn:2> *[assigned] core
+--
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:38:5: sparse: sparse: s=
+ymbol 'mac_get_speed' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:50:5: sparse: sparse: s=
+ymbol 'mac_set_physpeed' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:119:5: sparse: sparse: =
+symbol 'mac_set_duplex' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:144:5: sparse: sparse: =
+symbol 'mac_get_duplex' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:156:5: sparse: sparse: =
+symbol 'mac_get_linksts' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:168:5: sparse: sparse: =
+symbol 'mac_set_linksts' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c:193:5: sparse: sparse: =
+symbol 'mac_set_flowctrl' was not declared. Should it be static?
+--
+>> drivers/net/ethernet/intel/gwdpa/gswip/xgmac.c:478:5: sparse: sparse: sy=
+mbol 'xgmac_mdio_single_wr' was not declared. Should it be static?
+>> drivers/net/ethernet/intel/gwdpa/gswip/xgmac.c:529:5: sparse: sparse: sy=
+mbol 'xgmac_mdio_single_rd' was not declared. Should it be static?
+
+Please review and possibly fold the followup patch.
+
+vim +32 drivers/net/ethernet/intel/gwdpa/gswip/gswip_dev.c
+
+    29	=
+
+    30	static int regmap_reg_write(void *context, unsigned int reg, unsigne=
+d int val)
+    31	{
+  > 32		void __iomem *base =3D context;
+    33	=
+
+    34		writew(val, base + reg);
+    35	=
+
+    36		return 0;
+    37	}
+    38	=
+
+    39	static int regmap_reg_read(void *context, unsigned int reg, unsigned=
+ int *val)
+    40	{
+    41		void __iomem *base =3D context;
+    42	=
+
+    43		*val =3D readw(base + reg);
+    44	=
+
+    45		return 0;
+    46	}
+    47	=
+
+    48	static const struct regmap_config gswip_core_regmap_config =3D {
+    49		.reg_bits =3D 16,
+    50		.val_bits =3D 16,
+    51		.reg_stride =3D 4,
+    52		.reg_write =3D regmap_reg_write,
+    53		.reg_read =3D regmap_reg_read,
+    54		.fast_io =3D true,
+    55	};
+    56	=
+
+    57	static int np_gswip_parse_dt(struct platform_device *pdev,
+    58				     struct gswip_priv *priv)
+    59	{
+    60		struct device *dev =3D &pdev->dev;
+    61		struct device_node *node =3D dev->of_node;
+    62		struct gswip_pdata *pdata =3D &priv->pdata;
+    63		struct device_node *np;
+    64		void __iomem *core;
+    65	=
+
+    66		pdata->sw =3D devm_platform_ioremap_resource_byname(pdev, "switch");
+    67		if (IS_ERR(pdata->sw))
+    68			return PTR_ERR(pdata->sw);
+    69	=
+
+    70		pdata->lmac =3D devm_platform_ioremap_resource_byname(pdev, "lmac");
+    71		if (IS_ERR(pdata->lmac))
+    72			return PTR_ERR(pdata->lmac);
+    73	=
+
+    74		core =3D devm_platform_ioremap_resource_byname(pdev, "core");
+    75		if (IS_ERR(core))
+    76			return PTR_ERR(core);
+  > 77		pdata->core_regmap =3D devm_regmap_init(dev, NULL, core,
+    78						      &gswip_core_regmap_config);
+    79		if (IS_ERR(pdata->core_regmap))
+    80			return PTR_ERR(pdata->core_regmap);
+    81	=
+
+    82		pdata->sw_irq =3D platform_get_irq_byname(pdev, "switch");
+    83		if (pdata->sw_irq < 0) {
+    84			dev_err(dev, "switch irq not found\n");
+    85			return -ENODEV;
+    86		}
+    87	=
+
+    88		pdata->core_irq =3D platform_get_irq_byname(pdev, "core");
+    89		if (pdata->core_irq < 0) {
+    90			dev_err(dev, "core irq not found\n");
+    91			return -ENODEV;
+    92		}
+    93	=
+
+    94		pdata->ptp_clk =3D devm_clk_get(dev, "ptp");
+    95		if (IS_ERR(pdata->ptp_clk))
+    96			return PTR_ERR(pdata->ptp_clk);
+    97	=
+
+    98		pdata->sw_clk =3D devm_clk_get(dev, "switch");
+    99		if (IS_ERR(pdata->sw_clk))
+   100			return PTR_ERR(priv->pdata.sw_clk);
+   101	=
+
+   102		for_each_node_by_name(node, GSWIP_MAC_DEV_NAME) {
+   103			priv->num_subdev_mac++;
+   104			if (priv->num_subdev_mac > GSWIP_SUBDEV_MAC_MAX) {
+   105				dev_err(dev, "too many GSWIP mac subdevices\n");
+   106				return -EINVAL;
+   107			}
+   108		}
+   109	=
+
+   110		if (!priv->num_subdev_mac) {
+   111			dev_err(dev, "GSWIP mac subdevice not found\n");
+   112			return -EINVAL;
+   113		}
+   114	=
+
+   115		np =3D of_find_node_by_name(node, GSWIP_CORE_DEV_NAME);
+   116		if (np) {
+   117			priv->num_subdev_core++;
+   118			of_node_put(np);
+   119		} else {
+   120			dev_err(dev, "GSWIP core subdevice not found\n");
+   121			return -EINVAL;
+   122		}
+   123	=
+
+   124		return 0;
+   125	}
+   126	=
+
+
 ---
- mac_cfg.c |   14 +++++++-------
- xgmac.c   |    8 ++++----
- 2 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c b/drivers/net=
-/ethernet/intel/gwdpa/gswip/mac_cfg.c
-index 0e57404f00156..75776f402b608 100644
---- a/drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c
-+++ b/drivers/net/ethernet/intel/gwdpa/gswip/mac_cfg.c
-@@ -35,7 +35,7 @@ static int mac_speed_to_val(u32 speed)
- 	return val;
- }
- =
-
--int mac_get_speed(struct device *dev)
-+static int mac_get_speed(struct device *dev)
- {
- 	struct gswip_mac *priv =3D dev_get_drvdata(dev);
- 	u32 mac_speed;
-@@ -47,7 +47,7 @@ int mac_get_speed(struct device *dev)
- 	return mac_speed_to_val(mac_speed);
- }
- =
-
--int mac_set_physpeed(struct gswip_mac *priv, u32 phy_speed)
-+static int mac_set_physpeed(struct gswip_mac *priv, u32 phy_speed)
- {
- 	spin_lock_bh(&priv->mac_lock);
- 	xgmac_set_extcfg(priv, 1);
-@@ -116,7 +116,7 @@ int mac_set_physpeed(struct gswip_mac *priv, u32 phy_sp=
-eed)
- 	return 0;
- }
- =
-
--int mac_set_duplex(struct gswip_mac *priv, u32 mode)
-+static int mac_set_duplex(struct gswip_mac *priv, u32 mode)
- {
- 	u32 val;
- =
-
-@@ -141,7 +141,7 @@ int mac_set_duplex(struct gswip_mac *priv, u32 mode)
- 	return 0;
- }
- =
-
--int mac_get_duplex(struct device *dev)
-+static int mac_get_duplex(struct device *dev)
- {
- 	struct gswip_mac *priv =3D dev_get_drvdata(dev);
- 	int val;
-@@ -153,7 +153,7 @@ int mac_get_duplex(struct device *dev)
- 	return val;
- }
- =
-
--int mac_get_linksts(struct device *dev)
-+static int mac_get_linksts(struct device *dev)
- {
- 	struct gswip_mac *priv =3D dev_get_drvdata(dev);
- 	int linksts;
-@@ -165,7 +165,7 @@ int mac_get_linksts(struct device *dev)
- 	return linksts;
- }
- =
-
--int mac_set_linksts(struct gswip_mac *priv, u32 mode)
-+static int mac_set_linksts(struct gswip_mac *priv, u32 mode)
- {
- 	u8 val;
- =
-
-@@ -190,7 +190,7 @@ int mac_set_linksts(struct gswip_mac *priv, u32 mode)
- 	return 0;
- }
- =
-
--int mac_set_flowctrl(struct device *dev, u32 val)
-+static int mac_set_flowctrl(struct device *dev, u32 val)
- {
- 	struct gswip_mac *priv =3D dev_get_drvdata(dev);
- =
-
-diff --git a/drivers/net/ethernet/intel/gwdpa/gswip/xgmac.c b/drivers/net/e=
-thernet/intel/gwdpa/gswip/xgmac.c
-index 959b0e0e04ed8..618a63a32cb0e 100644
---- a/drivers/net/ethernet/intel/gwdpa/gswip/xgmac.c
-+++ b/drivers/net/ethernet/intel/gwdpa/gswip/xgmac.c
-@@ -475,8 +475,8 @@ int xgmac_mdio_set_clause(struct gswip_mac *priv, u32 c=
-lause, u32 phy_id)
- 	return 0;
- }
- =
-
--int xgmac_mdio_single_wr(struct gswip_mac *priv, u32 dev_adr, u32 phy_id,
--			 u32 phy_reg, u32 phy_reg_data)
-+static int xgmac_mdio_single_wr(struct gswip_mac *priv, u32 dev_adr, u32 p=
-hy_id,
-+				u32 phy_reg, u32 phy_reg_data)
- {
- 	u32 mdio_sccdr, mdio_scar;
- 	u32 retries =3D 100;
-@@ -526,8 +526,8 @@ int xgmac_mdio_single_wr(struct gswip_mac *priv, u32 de=
-v_adr, u32 phy_id,
- 	return 0;
- }
- =
-
--int xgmac_mdio_single_rd(struct gswip_mac *priv, u32 dev_adr, u32 phy_id,
--			 u32 phy_reg)
-+static int xgmac_mdio_single_rd(struct gswip_mac *priv, u32 dev_adr, u32 p=
-hy_id,
-+				u32 phy_reg)
- {
- 	u32 mdio_sccdr, mdio_scar;
- 	u32 retries =3D 100;
---===============1546257232483698594==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3473908192747010529==--
 
