@@ -1,55 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============3328532633711683772=="
+Content-Type: multipart/mixed; boundary="===============3716744041107949026=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [joro:sev-es-client-v5.6-rc1 63/63] arch/x86/kernel/sev-es.c:39:1: sparse: sparse: symbol '__pcpu_scope_sev_es_in_nmi' was not declared. Should it be static?
-Date: Fri, 14 Feb 2020 08:03:44 +0800
-Message-ID: <202002140844.zh7IfsiN%lkp@intel.com>
+Subject: [RFC PATCH joro] x86/sev-es: __pcpu_scope_sev_es_in_nmi can be static
+Date: Fri, 14 Feb 2020 08:03:49 +0800
+Message-ID: <20200214000348.GA37167@9560152b1213>
+In-Reply-To: <202002140844.zh7IfsiN%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3328532633711683772==
+--===============3716744041107949026==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git sev-=
-es-client-v5.6-rc1
-head:   c4e912b6ad8a3783c5913ea783cb63a8dbb7cba3
-commit: c4e912b6ad8a3783c5913ea783cb63a8dbb7cba3 [63/63] x86/sev-es: Add NM=
-I state tracking
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-166-g7e4a5b6f-dirty
-        git checkout c4e912b6ad8a3783c5913ea783cb63a8dbb7cba3
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-
->> arch/x86/kernel/sev-es.c:39:1: sparse: sparse: symbol '__pcpu_scope_sev_=
-es_in_nmi' was not declared. Should it be static?
-   arch/x86/kernel/sev-es.c:272:20: sparse: sparse: incorrect type in assig=
-nment (different address spaces)
-   arch/x86/kernel/sev-es.c:272:20: sparse:    expected unsigned short [use=
-rtype] *jump_table
-   arch/x86/kernel/sev-es.c:272:20: sparse:    got void [noderef] <asn:2> *
-   arch/x86/kernel/sev-es.c:279:17: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces)
-   arch/x86/kernel/sev-es.c:279:17: sparse:    expected void volatile [node=
-ref] <asn:2> *addr
-   arch/x86/kernel/sev-es.c:279:17: sparse:    got unsigned short [usertype=
-] *jump_table
-   arch/x86/kernel/sev-es.c:360:6: sparse: sparse: symbol 'sev_es_play_dead=
-' was not declared. Should it be static?
-
-Please review and possibly fold the followup patch.
-
+Fixes: c4e912b6ad8a ("x86/sev-es: Add NMI state tracking")
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3328532633711683772==--
+ sev-es.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/x86/kernel/sev-es.c b/arch/x86/kernel/sev-es.c
+index fa65e60ebc0813..b9fd28db1c5f71 100644
+--- a/arch/x86/kernel/sev-es.c
++++ b/arch/x86/kernel/sev-es.c
+@@ -36,7 +36,7 @@ struct ghcb boot_ghcb_page __bss_decrypted __aligned(PAGE=
+_SIZE);
+  */
+ struct ghcb __initdata *boot_ghcb;
+ static DEFINE_PER_CPU(unsigned long, cached_dr7) =3D DR7_RESET_VALUE;
+-DEFINE_PER_CPU(bool, sev_es_in_nmi) =3D false;
++static DEFINE_PER_CPU(bool, sev_es_in_nmi) =3D false;
+ /* Needed before per-cpu access is set up */
+ static unsigned long early_dr7 =3D DR7_RESET_VALUE;
+=20
+--===============3716744041107949026==--
 
