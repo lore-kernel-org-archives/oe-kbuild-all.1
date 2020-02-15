@@ -1,130 +1,157 @@
-Content-Type: multipart/mixed; boundary="===============4026424257429745889=="
+Content-Type: multipart/mixed; boundary="===============7676682492730440604=="
 MIME-Version: 1.0
-From: Paul E. McKenney <paulmck@kernel.org>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [rcu:dev.2020.02.12a 109/124] kernel/torture.c:239:3: error: implicit declaration of function 'rcutorture_sched_setaffinity'; did you mean '__NR_ia32_sched_setaffinity'?
-Date: Sat, 15 Feb 2020 05:15:00 -0800
-Message-ID: <20200215131500.GA2935@paulmck-ThinkPad-P72>
-In-Reply-To: <202002151524.4UGF8vEo%lkp@intel.com>
+Subject: [drm-drm-intel:topic/core-for-CI 18/19] arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency detected!
+Date: Sat, 15 Feb 2020 21:20:18 +0800
+Message-ID: <202002152113.0AuUlDoZ%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4026424257429745889==
+--===============7676682492730440604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 15, 2020 at 03:55:27PM +0800, kbuild test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu=
-.git dev.2020.02.12a
-> head:   35a305226917a71de1c060db96fed0520cf644d9
-> commit: bc3db9afb8492662a1108616342f288de66baa8f [109/124] EXP: rcutortur=
-e hack to force CPU hotplug onto CPU 0
-> config: x86_64-randconfig-s0-20200215 (attached as .config)
-> compiler: gcc-7 (Debian 7.5.0-4) 7.5.0
-> reproduce:
->         git checkout bc3db9afb8492662a1108616342f288de66baa8f
->         # save the attached .config to linux build tree
->         make ARCH=3Dx86_64 =
-
-> =
-
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> =
-
-> All errors (new ones prefixed by >>):
-> =
-
->    kernel/torture.c: In function 'torture_onoff':
-> >> kernel/torture.c:239:3: error: implicit declaration of function 'rcuto=
-rture_sched_setaffinity'; did you mean '__NR_ia32_sched_setaffinity'? [-Wer=
-ror=3Dimplicit-function-declaration]
->       rcutorture_sched_setaffinity(current->pid, cpumask_of(0));
->       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       __NR_ia32_sched_setaffinity
->    cc1: some warnings being treated as errors
-
-And this experimental commit is now gone from current -rcu, though you
-might well have a few more branches containing it in your queue.
-
-							Thanx, Paul
-
-> vim +239 kernel/torture.c
-> =
-
->    195	=
-
->    196	/*
->    197	 * Execute random CPU-hotplug operations at the interval specified
->    198	 * by the onoff_interval.
->    199	 */
->    200	static int
->    201	torture_onoff(void *arg)
->    202	{
->    203		int cpu;
->    204		int maxcpu =3D -1;
->    205		DEFINE_TORTURE_RANDOM(rand);
->    206		int ret;
->    207	=
-
->    208		VERBOSE_TOROUT_STRING("torture_onoff task started");
->    209		for_each_online_cpu(cpu)
->    210			maxcpu =3D cpu;
->    211		WARN_ON(maxcpu < 0);
->    212		if (!IS_MODULE(CONFIG_TORTURE_TEST))
->    213			for_each_possible_cpu(cpu) {
->    214				if (cpu_online(cpu))
->    215					continue;
->    216				ret =3D cpu_up(cpu);
->    217				if (ret && verbose) {
->    218					pr_alert("%s" TORTURE_FLAG
->    219						 "%s: Initial online %d: errno %d\n",
->    220						 __func__, torture_type, cpu, ret);
->    221				}
->    222			}
->    223	=
-
->    224		if (maxcpu =3D=3D 0) {
->    225			VERBOSE_TOROUT_STRING("Only one CPU, so CPU-hotplug testing is d=
-isabled");
->    226			goto stop;
->    227		}
->    228	=
-
->    229		if (onoff_holdoff > 0) {
->    230			VERBOSE_TOROUT_STRING("torture_onoff begin holdoff");
->    231			schedule_timeout_interruptible(onoff_holdoff);
->    232			VERBOSE_TOROUT_STRING("torture_onoff end holdoff");
->    233		}
->    234		while (!torture_must_stop()) {
->    235			if (disable_onoff_at_boot && !rcu_inkernel_boot_has_ended()) {
->    236				schedule_timeout_interruptible(HZ / 10);
->    237				continue;
->    238			}
->  > 239			rcutorture_sched_setaffinity(current->pid, cpumask_of(0));
->    240			cpu =3D (torture_random(&rand) >> 4) % (maxcpu + 1);
->    241			if (!torture_offline(cpu,
->    242					     &n_offline_attempts, &n_offline_successes,
->    243					     &sum_offline, &min_offline, &max_offline))
->    244				torture_online(cpu,
->    245					       &n_online_attempts, &n_online_successes,
->    246					       &sum_online, &min_online, &max_online);
->    247			schedule_timeout_interruptible(onoff_interval);
->    248		}
->    249	=
-
->    250	stop:
->    251		torture_kthread_stopping("torture_onoff");
->    252		return 0;
->    253	}
->    254	=
-
-> =
-
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+tree:   git://anongit.freedesktop.org/drm/drm-intel topic/core-for-CI
+head:   2208da3a71d7913f187f195ddfa9be48133aa751
+commit: b31a3373cca21172327d1124cefa70e19a861f76 [18/19] Revert "drm/i915: =
+Don't select BROKEN"
+config: powerpc-skiroot_defconfig
+compiler: powerpc-linux-gcc (GCC) 7.5.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout b31a3373cca21172327d1124cefa70e19a861f76
+        GCC_VERSION=3D7.5.0 make.cross ARCH=3Dpowerpc  skiroot_defconfig
+        GCC_VERSION=3D7.5.0 make.cross ARCH=3Dpowerpc =
 
 
---===============4026424257429745889==--
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency=
+ detected!
+>> arch/powerpc/platforms/embedded6xx/Kconfig:2: symbol EMBEDDED6xx depends=
+ on BROKEN_ON_SMP
+>> init/Kconfig:80: symbol BROKEN_ON_SMP depends on BROKEN
+   init/Kconfig:77: symbol BROKEN is selected by DRM_I915_DEBUG
+   drivers/gpu/drm/i915/Kconfig.debug:19: symbol DRM_I915_DEBUG depends on =
+DRM_I915
+   drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on DRM
+   drivers/gpu/drm/Kconfig:8: symbol DRM depends on AGP
+   drivers/char/agp/Kconfig:2: symbol AGP depends on PCI
+   drivers/pci/Kconfig:16: symbol PCI depends on HAVE_PCI
+   drivers/pci/Kconfig:7: symbol HAVE_PCI is selected by FORCE_PCI
+>> drivers/pci/Kconfig:11: symbol FORCE_PCI is selected by MVME5100
+>> arch/powerpc/platforms/embedded6xx/Kconfig:51: symbol MVME5100 depends o=
+n EMBEDDED6xx
+   For a resolution refer to Documentation/kbuild/kconfig-language.rst
+   subsection "Kconfig recursive dependency limitations"
+
+vim +2 arch/powerpc/platforms/embedded6xx/Kconfig
+
+a35e370cfd2ddf Arnd Bergmann         2007-08-30  @2  config EMBEDDED6xx
+a35e370cfd2ddf Arnd Bergmann         2007-08-30   3  	bool "Embedded 6xx/7x=
+x/7xxx-based boards"
+be34fff07c3755 Christophe Leroy      2018-11-17   4  	depends on PPC_BOOK3S=
+_32 && BROKEN_ON_SMP
+14cf11af6cf608 Paul Mackerras        2005-09-26   5  =
+
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   6  config LINKSTATION
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   7  	bool "Linkstation / K=
+urobox(HG) from Buffalo"
+a35e370cfd2ddf Arnd Bergmann         2007-08-30   8  	depends on EMBEDDED6xx
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   9  	select MPIC
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  10  	select FSL_SOC
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  11  	select PPC_UDBG_16550=
+ if SERIAL_8250
+44d7631bdb1621 Segher Boessenkool    2007-02-22  12  	select DEFAULT_UIMAGE
+3490cba56f7f8a Jon Loeliger          2008-01-23  13  	select MPC10X_BRIDGE
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  14  	help
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  15  	  Select LINKSTATION =
+if configuring for one of PPC- (MPC8241)
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  16  	  based NAS systems f=
+rom Buffalo Technology. So far only
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  17  	  KuroboxHG has been =
+tested. In the future classical Kurobox,
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  18  	  Linkstation-I HD-HL=
+AN and HD-HGLAN versions, and PPC-based
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  19  	  Terastation systems=
+ should be supported too.
+04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  20  =
+
+3490cba56f7f8a Jon Loeliger          2008-01-23  21  config STORCENTER
+3490cba56f7f8a Jon Loeliger          2008-01-23  22  	bool "IOMEGA StorCent=
+er"
+3490cba56f7f8a Jon Loeliger          2008-01-23  23  	depends on EMBEDDED6xx
+3490cba56f7f8a Jon Loeliger          2008-01-23  24  	select MPIC
+3490cba56f7f8a Jon Loeliger          2008-01-23  25  	select FSL_SOC
+3490cba56f7f8a Jon Loeliger          2008-01-23  26  	select PPC_UDBG_16550=
+ if SERIAL_8250
+3490cba56f7f8a Jon Loeliger          2008-01-23  27  	select MPC10X_BRIDGE
+3490cba56f7f8a Jon Loeliger          2008-01-23  28  	help
+3490cba56f7f8a Jon Loeliger          2008-01-23  29  	  Select STORCENTER i=
+f configuring for the iomega StorCenter
+3490cba56f7f8a Jon Loeliger          2008-01-23  30  	  with an 8241 CPU in=
+ it.
+3490cba56f7f8a Jon Loeliger          2008-01-23  31  =
+
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  32  config MPC7448HPC2
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  33  	bool "Freescale MPC74=
+48HPC2(Taiga)"
+a35e370cfd2ddf Arnd Bergmann         2007-08-30  34  	depends on EMBEDDED6xx
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  35  	select TSI108_BRIDGE
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  36  	select DEFAULT_UIMAGE
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  37  	select PPC_UDBG_16550
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  38  	help
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  39  	  Select MPC7448HPC2 =
+if configuring for Freescale MPC7448HPC2 (Taiga)
+c5d56332fd6c2f Zang Roy-r61911       2006-06-13  40  	  platform
+cb9e4d10c448a3 Josh Boyer            2007-05-08  41  =
+
+cb9e4d10c448a3 Josh Boyer            2007-05-08  42  config PPC_HOLLY
+cb9e4d10c448a3 Josh Boyer            2007-05-08  43  	bool "PPC750GX/CL wit=
+h TSI10x bridge (Hickory/Holly)"
+a35e370cfd2ddf Arnd Bergmann         2007-08-30  44  	depends on EMBEDDED6xx
+cb9e4d10c448a3 Josh Boyer            2007-05-08  45  	select TSI108_BRIDGE
+cb9e4d10c448a3 Josh Boyer            2007-05-08  46  	select PPC_UDBG_16550
+cb9e4d10c448a3 Josh Boyer            2007-05-08  47  	help
+cb9e4d10c448a3 Josh Boyer            2007-05-08  48  	  Select PPC_HOLLY if=
+ configuring for an IBM 750GX/CL Eval
+cb9e4d10c448a3 Josh Boyer            2007-05-08  49  	  Board with TSI108/9=
+ bridge (Hickory/Holly)
+fd4ba7e2b7ce9a Dale Farnsworth       2007-05-12  50  =
+
+be2019816e4dcd Stephen Chivers       2014-01-09 @51  config MVME5100
+be2019816e4dcd Stephen Chivers       2014-01-09  52  	bool "Motorola/Emerso=
+n MVME5100"
+be2019816e4dcd Stephen Chivers       2014-01-09  53  	depends on EMBEDDED6xx
+be2019816e4dcd Stephen Chivers       2014-01-09  54  	select MPIC
+eb01d42a77785f Christoph Hellwig     2018-11-15  55  	select FORCE_PCI
+be2019816e4dcd Stephen Chivers       2014-01-09  56  	select PPC_INDIRECT_P=
+CI
+be2019816e4dcd Stephen Chivers       2014-01-09  57  	select PPC_I8259
+be2019816e4dcd Stephen Chivers       2014-01-09  58  	select PPC_NATIVE
+13ae40370f62cd Stephen Chivers       2014-04-20  59  	select PPC_UDBG_16550
+be2019816e4dcd Stephen Chivers       2014-01-09  60  	help
+be2019816e4dcd Stephen Chivers       2014-01-09  61  	  This option enables=
+ support for the Motorola (now Emerson) MVME5100
+be2019816e4dcd Stephen Chivers       2014-01-09  62  	  board.
+be2019816e4dcd Stephen Chivers       2014-01-09  63  =
+
+
+:::::: The code at line 2 was first introduced by commit
+:::::: a35e370cfd2ddfb5d2f0ceae376ffeda273b357c [POWERPC] Move embedded6xx =
+into multiplatform
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Paul Mackerras <paulus@samba.org>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============7676682492730440604==--
 
