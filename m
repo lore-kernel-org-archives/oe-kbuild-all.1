@@ -1,120 +1,143 @@
-Content-Type: multipart/mixed; boundary="===============3440435289718265189=="
+Content-Type: multipart/mixed; boundary="===============4615666097282764873=="
 MIME-Version: 1.0
-From: Paul E. McKenney <paulmck@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: kbuild-all@lists.01.org
-Subject: Re: [rcu:dev.2020.02.15b 33/33] kernel/rcu/tree_plugin.h:396:2: error: expected identifier or '(' before 'if'
-Date: Tue, 18 Feb 2020 05:44:57 -0800
-Message-ID: <20200218134457.GC2935@paulmck-ThinkPad-P72>
-In-Reply-To: <202002181731.hrgvGnlt%lkp@intel.com>
+Subject: "imply" and modular target dependencies (was: Re: [asoc:for-5.7 21/76] wcd9335.c:undefined reference to `slim_stream_prepare')
+Date: Tue, 18 Feb 2020 15:13:33 +0100
+Message-ID: <CAMuHMdW8SvDgQJyenTtEm4Xn2Ma6PK9pfwKR2_gn60t2AqNWXg@mail.gmail.com>
+In-Reply-To: <202002180512.4RU8Rxge%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3440435289718265189==
+--===============4615666097282764873==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 18, 2020 at 05:06:32PM +0800, kbuild test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu=
-.git dev.2020.02.15b
-> head:   163cebf16e83ee2e6494976e396ab1a8f8aa9b17
-> commit: 163cebf16e83ee2e6494976e396ab1a8f8aa9b17 [33/33] rcu: Don't use n=
-egative nesting depth in __rcu_read_unlock()
-> config: nds32-defconfig (attached as .config)
-> compiler: nds32le-linux-gcc (GCC) 9.2.0
+On Mon, Feb 17, 2020 at 10:55 PM kbuild test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git=
+ for-5.7
+> head:   3cd23f021e2e5f3350125abcb39f12430df87d06
+> commit: ea00d95200d02ece71f5814d41b14f2eb16d598b [21/76] ASoC: Use imply =
+for SND_SOC_ALL_CODECS
+> config: x86_64-randconfig-s2-20200217 (attached as .config)
+> compiler: gcc-7 (Debian 7.5.0-5) 7.5.0
 > reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git checkout 163cebf16e83ee2e6494976e396ab1a8f8aa9b17
+>         git checkout ea00d95200d02ece71f5814d41b14f2eb16d598b
 >         # save the attached .config to linux build tree
->         GCC_VERSION=3D9.2.0 make.cross ARCH=3Dnds32 =
-
-> =
-
+>         make ARCH=3Dx86_64
+>
 > If you fix the issue, kindly add following tag
 > Reported-by: kbuild test robot <lkp@intel.com>
-> =
+
+Thanks for your report!
 
 > All errors (new ones prefixed by >>):
-> =
+>
+>    ld: sound/soc/codecs/ab8500-codec.o: in function `ab8500_codec_read_re=
+g':
+>    ab8500-codec.c:(.text+0x479): undefined reference to `abx500_get_regis=
+ter_interruptible'
+>    ld: sound/soc/codecs/ab8500-codec.o: in function `ab8500_codec_probe':
+>    ab8500-codec.c:(.text+0xdf1): undefined reference to `abx500_get_regis=
+ter_interruptible'
+>    ld: ab8500-codec.c:(.text+0xe18): undefined reference to `abx500_set_r=
+egister_interruptible'
+>    ld: sound/soc/codecs/ab8500-codec.o: in function `ab8500_codec_write_r=
+eg':
+>    ab8500-codec.c:(.text+0x4b1): undefined reference to `abx500_set_regis=
+ter_interruptible'
 
->    In file included from kernel/rcu/tree.c:4030:
-> >> kernel/rcu/tree_plugin.h:396:2: error: expected identifier or '(' befo=
-re 'if'
->      396 |  if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
->          |  ^~
-> >> kernel/rcu/tree_plugin.h:401:1: error: expected identifier or '(' befo=
-re '}' token
->      401 | }
->          | ^
+The above are fixed in next-20200218.
 
-This has since been fixed by a new version 756b5aea6df6 ("rcu: Don't use
-negative nesting depth in __rcu_read_unlock()") in -rcu.
+>    ld: sound/soc/codecs/mc13783.o: in function `mc13783_probe':
+>    mc13783.c:(.text+0x24c): undefined reference to `mc13xxx_reg_write'
+>    ld: mc13783.c:(.text+0x25e): undefined reference to `mc13xxx_reg_write'
+>    ld: mc13783.c:(.text+0x270): undefined reference to `mc13xxx_reg_write'
+>    ld: mc13783.c:(.text+0x282): undefined reference to `mc13xxx_reg_write'
+>    ld: mc13783.c:(.text+0x294): undefined reference to `mc13xxx_reg_write'
+>    ld: sound/soc/codecs/mc13783.o:mc13783.c:(.text+0x2a6): more undefined=
+ references to `mc13xxx_reg_write' follow
+>    ld: sound/soc/codecs/mc13783.o: in function `mc13783_probe':
+>    mc13783.c:(.text+0x2c5): undefined reference to `mc13xxx_reg_rmw'
+>    ld: mc13783.c:(.text+0x2e4): undefined reference to `mc13xxx_reg_rmw'
+>    ld: sound/soc/codecs/mc13783.o: in function `mc13783_remove':
+>    mc13783.c:(.text+0x212): undefined reference to `mc13xxx_reg_rmw'
 
-							Thanx, Paul
+CONFIG_SND_SOC_MC13783=3Dy
+CONFIG_MFD_MC13XXX=3Dm
 
-> vim +396 kernel/rcu/tree_plugin.h
-> =
+>    ld: sound/soc/codecs/wcd9335.o: in function `wcd9335_trigger':
+> >> wcd9335.c:(.text+0x323): undefined reference to `slim_stream_prepare'
+> >> ld: wcd9335.c:(.text+0x32f): undefined reference to `slim_stream_enabl=
+e'
+> >> ld: wcd9335.c:(.text+0x345): undefined reference to `slim_stream_unpre=
+pare'
+> >> ld: wcd9335.c:(.text+0x351): undefined reference to `slim_stream_disab=
+le'
+>    ld: sound/soc/codecs/wcd9335.o: in function `wcd9335_slim_status':
+> >> wcd9335.c:(.text+0x1970): undefined reference to `of_slim_get_device'
+> >> ld: wcd9335.c:(.text+0x1995): undefined reference to `slim_get_logical=
+_addr'
+> >> ld: wcd9335.c:(.text+0x19b2): undefined reference to `__regmap_init_sl=
+imbus'
+>    ld: wcd9335.c:(.text+0x19f3): undefined reference to `__regmap_init_sl=
+imbus'
+>    ld: sound/soc/codecs/wcd9335.o: in function `wcd9335_hw_params':
+> >> wcd9335.c:(.text+0x348f): undefined reference to `slim_stream_allocate'
+>    ld: sound/soc/codecs/wcd9335.o: in function `wcd9335_slim_driver_init':
+> >> wcd9335.c:(.init.text+0x3c): undefined reference to `__slim_driver_reg=
+ister'
+>    ld: sound/soc/codecs/wcd9335.o: in function `wcd9335_slim_driver_exit':
+> >> wcd9335.c:(.exit.text+0x8): undefined reference to `slim_driver_unregi=
+ster'
 
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  379  =
+CONFIG_SND_SOC_WCD9335=3Dy
+CONFIG_SLIMBUS=3Dm
 
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  380  /*
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  381   * Preemptible RCU imple=
-mentation for rcu_read_unlock().
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  382   * Decrement ->rcu_read_=
-lock_nesting.  If the result is zero (outermost
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  383   * rcu_read_unlock()) an=
-d ->rcu_read_unlock_special is non-zero, then
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  384   * invoke rcu_read_unloc=
-k_special() to clean up after a context switch
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  385   * in an RCU read-side c=
-ritical section and other special cases.
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  386   */
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  387  void __rcu_read_unlock(v=
-oid)
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  388  {
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  389  	struct task_struct *t =
-=3D current;
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  390  =
+>    ld: sound/soc/codecs/wcd934x.o: in function `wcd934x_trigger':
+> >> wcd934x.c:(.text+0x30d): undefined reference to `slim_stream_prepare'
+> >> ld: wcd934x.c:(.text+0x319): undefined reference to `slim_stream_enabl=
+e'
+> >> ld: wcd934x.c:(.text+0x32f): undefined reference to `slim_stream_unpre=
+pare'
+> >> ld: wcd934x.c:(.text+0x33b): undefined reference to `slim_stream_disab=
+le'
+>    ld: sound/soc/codecs/wcd934x.o: in function `wcd934x_hw_params':
+> >> wcd934x.c:(.text+0x2620): undefined reference to `slim_stream_allocate'
+>    ld: sound/soc/codecs/wcd934x.o: in function `wcd934x_codec_probe':
+> >> wcd934x.c:(.text+0x27ee): undefined reference to `of_slim_get_device'
+> >> ld: wcd934x.c:(.text+0x2818): undefined reference to `slim_get_logical=
+_addr'
+> >> ld: wcd934x.c:(.text+0x2836): undefined reference to `__regmap_init_sl=
+imbus'
 
-> 163cebf16e83ee Lai Jiangshan    2020-02-15  391  	if (rcu_preempt_read_ex=
-it() =3D=3D 0)
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  392  		barrier();  /* critica=
-l section before exit code. */
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  393  		if (unlikely(READ_ONCE=
-(t->rcu_read_unlock_special.s)))
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  394  			rcu_read_unlock_speci=
-al(t);
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  395  	}
-> 5f1a6ef3746f53 Paul E. McKenney 2018-10-29 @396  	if (IS_ENABLED(CONFIG_P=
-ROVE_LOCKING)) {
-> 77339e61aa3093 Lai Jiangshan    2019-11-15  397  		int rrln =3D rcu_preem=
-pt_depth();
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  398  =
+CONFIG_SND_SOC_WCD934X=3Dy
+CONFIG_SLIMBUS=3Dm
 
-> 5f1a6ef3746f53 Paul E. McKenney 2018-10-29  399  		WARN_ON_ONCE(rrln < 0 =
-&& rrln > RCU_NEST_NMAX);
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  400  	}
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19 @401  }
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  402  EXPORT_SYMBOL_GPL(__rcu_=
-read_unlock);
-> 0e5da22e3f809a Paul E. McKenney 2018-03-19  403  =
+All CONFIG_SND_SOC_* symbols above are tristate and have dependencies
+on the modular symbols.
 
-> =
+However, the "imply" statements in SND_SOC_ALL_CODECS force all of them
+builtin, despite their dependencies being modular.
 
-> :::::: The code at line 396 was first introduced by commit
-> :::::: 5f1a6ef3746f536157922197d98676fa21154549 rcu: Avoid signed integer=
- overflow in rcu_preempt_deferred_qs()
-> =
+So while "imply" is meant to be a softer form of "select", obeying target
+dependencies, it does not seem to obey modular tristate dependencies?
 
-> :::::: TO: Paul E. McKenney <paulmck@linux.ibm.com>
-> :::::: CC: Paul E. McKenney <paulmck@linux.ibm.com>
-> =
+Or am I missing something?
+Thanks!
 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+Gr{oetje,eeting}s,
 
+                        Geert
 
---===============3440435289718265189==--
+-- =
+
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert(a)linux-m6=
+8k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
+--===============4615666097282764873==--
 
