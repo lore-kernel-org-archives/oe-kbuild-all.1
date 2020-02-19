@@ -1,128 +1,102 @@
-Content-Type: multipart/mixed; boundary="===============2099894280654197018=="
+Content-Type: multipart/mixed; boundary="===============9177427176037485125=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH] proc: faster open/read/close with "permanent" files
-Date: Wed, 19 Feb 2020 08:29:21 +0300
-Message-ID: <20200219052921.GF19641@kadam>
-In-Reply-To: <20200216152649.GA2693@avx2>
+Subject: [mlankhorst:locking-rework 20/21] drivers/gpu/drm/i915/gt/intel_context.c:463 intel_context_create_request() error: uninitialized symbol 'rq'.
+Date: Wed, 19 Feb 2020 08:36:29 +0300
+Message-ID: <20200219053629.GH19641@kadam>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2099894280654197018==
+--===============9177427176037485125==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alexey,
-
-
-url:    https://github.com/0day-ci/linux/commits/Alexey-Dobriyan/proc-faste=
-r-open-read-close-with-permanent-files/20200218-231203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jeyu/linux.git modu=
-les-next
+tree:   git://people.freedesktop.org/~mlankhorst/linux locking-rework
+head:   815e39f70354544bbdf2e396c3ed5c0375c2dd3b
+commit: 9372cceb3c597ab5b169b0eb96063962ec340fc2 [20/21] drm/i915: Use ww p=
+inning for intel_context_create_request()
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/proc/generic.c:752 remove_proc_subtree() warn: inconsistent returns 'pro=
-c_subdir_lock'.
+New smatch warnings:
+drivers/gpu/drm/i915/gt/intel_context.c:463 intel_context_create_request() =
+error: uninitialized symbol 'rq'.
 
-# https://github.com/0day-ci/linux/commit/3cd4ad42ca7c52d1513e7ba9f08a06197=
-a7380c8
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 3cd4ad42ca7c52d1513e7ba9f08a06197a7380c8
-vim +/proc_subdir_lock +752 fs/proc/generic.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:132 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 124)
 
-8ce584c7416d8a Al Viro         2013-03-30  699  =
+git remote add mlankhorst git://people.freedesktop.org/~mlankhorst/linux
+git remote update mlankhorst
+git checkout 9372cceb3c597ab5b169b0eb96063962ec340fc2
+vim +/rq +463 drivers/gpu/drm/i915/gt/intel_context.c
 
-8ce584c7416d8a Al Viro         2013-03-30  700  int remove_proc_subtree(con=
-st char *name, struct proc_dir_entry *parent)
-8ce584c7416d8a Al Viro         2013-03-30  701  {
-8ce584c7416d8a Al Viro         2013-03-30  702  	struct proc_dir_entry *roo=
-t =3D NULL, *de, *next;
-8ce584c7416d8a Al Viro         2013-03-30  703  	const char *fn =3D name;
-8ce584c7416d8a Al Viro         2013-03-30  704  	unsigned int len;
-8ce584c7416d8a Al Viro         2013-03-30  705  =
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  441  struct i915_request *inte=
+l_context_create_request(struct intel_context *ce)
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  442  {
+9372cceb3c597a Maarten Lankhorst 2020-02-14  443  	struct i915_gem_ww_ctx w=
+w;
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  444  	struct i915_request *rq;
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  445  	int err;
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  446  =
 
-ecf1a3dfff22bd Waiman Long     2015-09-09  706  	write_lock(&proc_subdir_lo=
-ck);
-8ce584c7416d8a Al Viro         2013-03-30  707  	if (__xlate_proc_name(name=
-, &parent, &fn) !=3D 0) {
-ecf1a3dfff22bd Waiman Long     2015-09-09  708  		write_unlock(&proc_subdir=
-_lock);
-8ce584c7416d8a Al Viro         2013-03-30  709  		return -ENOENT;
-8ce584c7416d8a Al Viro         2013-03-30  710  	}
-8ce584c7416d8a Al Viro         2013-03-30  711  	len =3D strlen(fn);
-8ce584c7416d8a Al Viro         2013-03-30  712  =
+9372cceb3c597a Maarten Lankhorst 2020-02-14  447  	i915_gem_ww_ctx_init(&ww=
+, true);
+9372cceb3c597a Maarten Lankhorst 2020-02-14  448  retry:
+9372cceb3c597a Maarten Lankhorst 2020-02-14  449  	err =3D intel_context_pi=
+n_ww(ce, &ww);
+9372cceb3c597a Maarten Lankhorst 2020-02-14  450  	if (!err) {
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  451  		rq =3D i915_request_cre=
+ate(ce);
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  452  		intel_context_unpin(ce);
+9372cceb3c597a Maarten Lankhorst 2020-02-14  453  	} else if (err =3D=3D -E=
+DEADLK) {
+9372cceb3c597a Maarten Lankhorst 2020-02-14  454  		err =3D i915_gem_ww_ctx=
+_backoff(&ww);
+9372cceb3c597a Maarten Lankhorst 2020-02-14  455  		if (!err)
+9372cceb3c597a Maarten Lankhorst 2020-02-14  456  			goto retry;
 
-710585d4922fd3 Nicolas Dichtel 2014-12-10  713  	root =3D pde_subdir_find(p=
-arent, fn, len);
-8ce584c7416d8a Al Viro         2013-03-30  714  	if (!root) {
-ecf1a3dfff22bd Waiman Long     2015-09-09  715  		write_unlock(&proc_subdir=
-_lock);
-8ce584c7416d8a Al Viro         2013-03-30  716  		return -ENOENT;
-8ce584c7416d8a Al Viro         2013-03-30  717  	}
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  718  	if (unlikely(pde_is_perman=
-ent(root))) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  719  		WARN(1, "removing permane=
-nt /proc entry '%s/%s'",
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  720  			root->parent->name, root=
-->name);
+"rq" not set on this path.
 
-unlock?
+9372cceb3c597a Maarten Lankhorst 2020-02-14  457  	} else {
+9372cceb3c597a Maarten Lankhorst 2020-02-14  458  		rq =3D ERR_PTR(err);
+9372cceb3c597a Maarten Lankhorst 2020-02-14  459  	}
+9372cceb3c597a Maarten Lankhorst 2020-02-14  460  =
 
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  721  		return -EINVAL;
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  722  	}
-4f1134370a29a5 Alexey Dobriyan 2018-04-10  723  	rb_erase(&root->subdir_nod=
-e, &parent->subdir);
-710585d4922fd3 Nicolas Dichtel 2014-12-10  724  =
+9372cceb3c597a Maarten Lankhorst 2020-02-14  461  	i915_gem_ww_ctx_fini(&ww=
+);
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  462  =
 
-8ce584c7416d8a Al Viro         2013-03-30  725  	de =3D root;
-8ce584c7416d8a Al Viro         2013-03-30  726  	while (1) {
-710585d4922fd3 Nicolas Dichtel 2014-12-10  727  		next =3D pde_subdir_first=
-(de);
-8ce584c7416d8a Al Viro         2013-03-30  728  		if (next) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  729  			if (unlikely(pde_is_perm=
-anent(root))) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  730  				WARN(1, "removing perma=
-nent /proc entry '%s/%s'",
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  731  					next->parent->name, ne=
-xt->name);
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  732  				return -EINVAL;
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  733  			}
-4f1134370a29a5 Alexey Dobriyan 2018-04-10  734  			rb_erase(&next->subdir_n=
-ode, &de->subdir);
-8ce584c7416d8a Al Viro         2013-03-30  735  			de =3D next;
-8ce584c7416d8a Al Viro         2013-03-30  736  			continue;
-8ce584c7416d8a Al Viro         2013-03-30  737  		}
-8ce584c7416d8a Al Viro         2013-03-30  738  		next =3D de->parent;
-8ce584c7416d8a Al Viro         2013-03-30  739  		if (S_ISDIR(de->mode))
-8ce584c7416d8a Al Viro         2013-03-30  740  			next->nlink--;
-e06689bf57017a Alexey Dobriyan 2019-12-04  741  		write_unlock(&proc_subdir=
-_lock);
-e06689bf57017a Alexey Dobriyan 2019-12-04  742  =
+d3717eb59c723a Maarten Lankhorst 2020-01-28 @463  	if (IS_ERR(rq))
+                                                                   ^^
 
-e06689bf57017a Alexey Dobriyan 2019-12-04  743  		proc_entry_rundown(de);
-8ce584c7416d8a Al Viro         2013-03-30  744  		if (de =3D=3D root)
-8ce584c7416d8a Al Viro         2013-03-30  745  			break;
-8ce584c7416d8a Al Viro         2013-03-30  746  		pde_put(de);
-8ce584c7416d8a Al Viro         2013-03-30  747  =
+d3717eb59c723a Maarten Lankhorst 2020-01-28  464  		return rq;
+d3717eb59c723a Maarten Lankhorst 2020-01-28  465  =
 
-ecf1a3dfff22bd Waiman Long     2015-09-09  748  		write_lock(&proc_subdir_l=
-ock);
-8ce584c7416d8a Al Viro         2013-03-30  749  		de =3D next;
-8ce584c7416d8a Al Viro         2013-03-30  750  	}
-8ce584c7416d8a Al Viro         2013-03-30  751  	pde_put(root);
-8ce584c7416d8a Al Viro         2013-03-30 @752  	return 0;
-8ce584c7416d8a Al Viro         2013-03-30  753  }
-8ce584c7416d8a Al Viro         2013-03-30  754  EXPORT_SYMBOL(remove_proc_s=
-ubtree);
+d3717eb59c723a Maarten Lankhorst 2020-01-28  466  	/*
+d3717eb59c723a Maarten Lankhorst 2020-01-28  467  	 * timeline->mutex shoul=
+d be the inner lock, but is used as outer lock.
+d3717eb59c723a Maarten Lankhorst 2020-01-28  468  	 * Hack around this to s=
+hut up lockdep in selftests..
+d3717eb59c723a Maarten Lankhorst 2020-01-28  469  	 */
+d3717eb59c723a Maarten Lankhorst 2020-01-28  470  	lockdep_unpin_lock(&ce->=
+timeline->mutex, rq->cookie);
+d3717eb59c723a Maarten Lankhorst 2020-01-28  471  	mutex_release(&ce->timel=
+ine->mutex.dep_map, _RET_IP_);
+d3717eb59c723a Maarten Lankhorst 2020-01-28  472  	mutex_acquire(&ce->timel=
+ine->mutex.dep_map, SINGLE_DEPTH_NESTING, 0, _RET_IP_);
+d3717eb59c723a Maarten Lankhorst 2020-01-28  473  	rq->cookie =3D lockdep_p=
+in_lock(&ce->timeline->mutex);
+d3717eb59c723a Maarten Lankhorst 2020-01-28  474  =
+
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  475  	return rq;
+5e2a0419ef7cb2 Chris Wilson      2019-04-26  476  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2099894280654197018==--
+--===============9177427176037485125==--
 
