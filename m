@@ -1,102 +1,180 @@
-Content-Type: multipart/mixed; boundary="===============9177427176037485125=="
+Content-Type: multipart/mixed; boundary="===============4909398927402300857=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Julia Lawall <julia.lawall@inria.fr>
 To: kbuild-all@lists.01.org
-Subject: [mlankhorst:locking-rework 20/21] drivers/gpu/drm/i915/gt/intel_context.c:463 intel_context_create_request() error: uninitialized symbol 'rq'.
-Date: Wed, 19 Feb 2020 08:36:29 +0300
-Message-ID: <20200219053629.GH19641@kadam>
+Subject: drivers/net/dsa/mv88e6xxx/chip.c:3801:48-49: phylink_validate: first occurrence line 3850, second occurrence line 3852 (fwd)
+Date: Wed, 19 Feb 2020 07:46:33 +0100
+Message-ID: <alpine.DEB.2.21.2002190744550.2792@hadrien>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============9177427176037485125==
+--===============4909398927402300857==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   git://people.freedesktop.org/~mlankhorst/linux locking-rework
-head:   815e39f70354544bbdf2e396c3ed5c0375c2dd3b
-commit: 9372cceb3c597ab5b169b0eb96063962ec340fc2 [20/21] drm/i915: Use ww p=
-inning for intel_context_create_request()
+The phylink_validate field occurs twice, near the end of the structure.
+This seems to occur in two structures of which only the first is shown.
+
+julia
+
+---------- Forwarded message ----------
+Date: Wed, 19 Feb 2020 07:37:20 +0800
+From: kbuild test robot <lkp@intel.com>
+To: kbuild(a)lists.01.org
+Cc: Julia Lawall <julia.lawall@lip6.fr>
+Subject: drivers/net/dsa/mv88e6xxx/chip.c:3801:48-49: phylink_validate: fir=
+st
+    occurrence line 3850, second occurrence line 3852
+
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b1da3acc781ce445445d959b41064d209a27bc2d
+commit: 4262c38dc42e092987f41cb1695240ac7dab86a9 net: dsa: mv88e6xxx: Add S=
+ERDES stats counters to all 6390 family members
+date:   4 weeks ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 weeks ago
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/intel_context.c:463 intel_context_create_request() =
-error: uninitialized symbol 'rq'.
+>> drivers/net/dsa/mv88e6xxx/chip.c:3801:48-49: phylink_validate: first occ=
+urrence line 3850, second occurrence line 3852
+   drivers/net/dsa/mv88e6xxx/chip.c:3855:49-50: phylink_validate: first occ=
+urrence line 3904, second occurrence line 3906
+   drivers/net/dsa/mv88e6xxx/chip.c:3909:48-49: phylink_validate: first occ=
+urrence line 3957, second occurrence line 3960
+   drivers/net/dsa/mv88e6xxx/chip.c:4057:48-49: phylink_validate: first occ=
+urrence line 4106, second occurrence line 4110
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:132 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 124)
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D4262c38dc42e092987f41cb1695240ac7dab86a9
+git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
+ds/linux.git
+git remote update linus
+git checkout 4262c38dc42e092987f41cb1695240ac7dab86a9
+vim +3801 drivers/net/dsa/mv88e6xxx/chip.c
 
-git remote add mlankhorst git://people.freedesktop.org/~mlankhorst/linux
-git remote update mlankhorst
-git checkout 9372cceb3c597ab5b169b0eb96063962ec340fc2
-vim +/rq +463 drivers/gpu/drm/i915/gt/intel_context.c
+b3469dd8adade11 Vivien Didelot   2016-09-29  3800
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21 @3801  static const struct mv88=
+e6xxx_ops mv88e6190_ops =3D {
+4b325d8c84a8dda Andrew Lunn      2016-11-21  3802  	/* MV88E6XXX_FAMILY_639=
+0 */
+ea89098ef9a574b Andrew Lunn      2019-01-09  3803  	.setup_errata =3D mv88e=
+6390_setup_errata,
+cd8da8bb0ec199d Vivien Didelot   2017-06-19  3804  	.irl_init_all =3D mv88e=
+6390_g2_irl_init_all,
+98fc3c6fa5cfda7 Vivien Didelot   2017-01-12  3805  	.get_eeprom =3D mv88e6x=
+xx_g2_get_eeprom8,
+98fc3c6fa5cfda7 Vivien Didelot   2017-01-12  3806  	.set_eeprom =3D mv88e6x=
+xx_g2_set_eeprom8,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3807  	.set_switch_mac =3D mv8=
+8e6xxx_g2_set_switch_mac,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3808  	.phy_read =3D mv88e6xxx=
+_g2_smi_phy_read,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3809  	.phy_write =3D mv88e6xx=
+x_g2_smi_phy_write,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3810  	.port_set_link =3D mv88=
+e6xxx_port_set_link,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3811  	.port_set_duplex =3D mv=
+88e6xxx_port_set_duplex,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3812  	.port_set_rgmii_delay =
+=3D mv88e6390_port_set_rgmii_delay,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3813  	.port_set_speed =3D mv8=
+8e6390_port_set_speed,
+7cbbee050c959f4 Andrew Lunn      2019-03-08  3814  	.port_max_speed_mode =
+=3D mv88e6390_port_max_speed_mode,
+ef0a731882a2bf1 Andrew Lunn      2016-12-03  3815  	.port_tag_remap =3D mv8=
+8e6390_port_tag_remap,
+f3a2cd326e448f5 Vivien Didelot   2019-09-07  3816  	.port_set_policy =3D mv=
+88e6352_port_set_policy,
+56995cbc3540797 Andrew Lunn      2016-12-03  3817  	.port_set_frame_mode =
+=3D mv88e6351_port_set_frame_mode,
+601aeed371a36e6 Vivien Didelot   2017-03-11  3818  	.port_set_egress_floods=
+ =3D mv88e6352_port_set_egress_floods,
+56995cbc3540797 Andrew Lunn      2016-12-03  3819  	.port_set_ether_type =
+=3D mv88e6351_port_set_ether_type,
+0898432cc296cc2 Vivien Didelot   2017-06-08  3820  	.port_pause_limit =3D m=
+v88e6390_port_pause_limit,
+c8c94891527a9e6 Vivien Didelot   2017-03-11  3821  	.port_disable_learn_lim=
+it =3D mv88e6xxx_port_disable_learn_limit,
+9dbfb4e1ca45c06 Vivien Didelot   2017-03-11  3822  	.port_disable_pri_overr=
+ide =3D mv88e6xxx_port_disable_pri_override,
+6c422e34b1b6533 Russell King     2018-08-09  3823  	.port_link_state =3D mv=
+88e6352_port_link_state,
+2d2e1dd29962ce0 Andrew Lunn      2018-08-09  3824  	.port_get_cmode =3D mv8=
+8e6352_port_get_cmode,
+fdc71eea8c0aefa Andrew Lunn      2018-11-11  3825  	.port_set_cmode =3D mv8=
+8e6390_port_set_cmode,
+121b8fe2fdc931a Hubert Feurstein 2019-07-31  3826  	.port_setup_message_por=
+t =3D mv88e6xxx_setup_message_port,
+795234739105381 Andrew Lunn      2016-11-21  3827  	.stats_snapshot =3D mv8=
+8e6390_g1_stats_snapshot,
+de2273876e3fb5a Andrew Lunn      2016-11-21  3828  	.stats_set_histogram =
+=3D mv88e6390_g1_stats_set_histogram,
+dfafe449bbc91df Andrew Lunn      2016-11-21  3829  	.stats_get_sset_count =
+=3D mv88e6320_stats_get_sset_count,
+dfafe449bbc91df Andrew Lunn      2016-11-21  3830  	.stats_get_strings =3D =
+mv88e6320_stats_get_strings,
+e0d8b61556b672e Andrew Lunn      2016-11-21  3831  	.stats_get_stats =3D mv=
+88e6390_stats_get_stats,
+fa8d11796080987 Vivien Didelot   2017-06-08  3832  	.set_cpu_port =3D mv88e=
+6390_g1_set_cpu_port,
+fa8d11796080987 Vivien Didelot   2017-06-08  3833  	.set_egress_port =3D mv=
+88e6390_g1_set_egress_port,
+61303736638aa92 Andrew Lunn      2017-02-09  3834  	.watchdog_ops =3D &mv88=
+e6390_watchdog_ops,
+6e55f69846f0b11 Andrew Lunn      2016-12-03  3835  	.mgmt_rsvd2cpu =3D mv88=
+e6390_g1_mgmt_rsvd2cpu,
+9e907d739cc3caf Vivien Didelot   2017-07-17  3836  	.pot_clear =3D mv88e6xx=
+x_g2_pot_clear,
+17e708baf7f2419 Vivien Didelot   2016-12-05  3837  	.reset =3D mv88e6352_g1=
+_reset,
+9e5baf9b363673a Vivien Didelot   2018-05-09  3838  	.rmu_disable =3D mv88e6=
+390_g1_rmu_disable,
+23e8b470c7788da Andrew Lunn      2019-10-25  3839  	.atu_get_hash =3D mv88e=
+6165_g1_atu_get_hash,
+23e8b470c7788da Andrew Lunn      2019-10-25  3840  	.atu_set_hash =3D mv88e=
+6165_g1_atu_set_hash,
+931d18223998c53 Vivien Didelot   2017-05-01  3841  	.vtu_getnext =3D mv88e6=
+390_g1_vtu_getnext,
+931d18223998c53 Vivien Didelot   2017-05-01  3842  	.vtu_loadpurge =3D mv88=
+e6390_g1_vtu_loadpurge,
+6335e9f2446b441 Andrew Lunn      2017-05-26  3843  	.serdes_power =3D mv88e=
+6390_serdes_power,
+17deaf5cb37a365 Marek Beh=C3=BAn      2019-08-26  3844  	.serdes_get_lane =
+=3D mv88e6390_serdes_get_lane,
+4241ef52372ebee Vivien Didelot   2019-08-31  3845  	.serdes_irq_mapping =3D=
+ mv88e6390_serdes_irq_mapping,
+61a46b4147b2767 Vivien Didelot   2019-08-31  3846  	.serdes_irq_enable =3D =
+mv88e6390_serdes_irq_enable,
+907b9b9fcaef7fb Vivien Didelot   2019-08-31  3847  	.serdes_irq_status =3D =
+mv88e6390_serdes_irq_status,
+4262c38dc42e092 Andrew Lunn      2020-01-18  3848  	.serdes_get_strings =3D=
+ mv88e6390_serdes_get_strings,
+4262c38dc42e092 Andrew Lunn      2020-01-18  3849  	.serdes_get_stats =3D m=
+v88e6390_serdes_get_stats,
+4262c38dc42e092 Andrew Lunn      2020-01-18 @3850  	.phylink_validate =3D m=
+v88e6390_phylink_validate,
+a73ccd610690505 Brandon Streiff  2018-02-14  3851  	.gpio_ops =3D &mv88e635=
+2_gpio_ops,
+6c422e34b1b6533 Russell King     2018-08-09 @3852  	.phylink_validate =3D m=
+v88e6390_phylink_validate,
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3853  };
+1a3b39ecfe32bf9 Andrew Lunn      2016-11-21  3854
 
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  441  struct i915_request *inte=
-l_context_create_request(struct intel_context *ce)
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  442  {
-9372cceb3c597a Maarten Lankhorst 2020-02-14  443  	struct i915_gem_ww_ctx w=
-w;
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  444  	struct i915_request *rq;
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  445  	int err;
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  446  =
+:::::: The code at line 3801 was first introduced by commit
+:::::: 1a3b39ecfe32bf9a13df44b4fadf91d4e4d3d5ff net: dsa: mv88e6xxx: Add th=
+e mv88e6390 family
 
-9372cceb3c597a Maarten Lankhorst 2020-02-14  447  	i915_gem_ww_ctx_init(&ww=
-, true);
-9372cceb3c597a Maarten Lankhorst 2020-02-14  448  retry:
-9372cceb3c597a Maarten Lankhorst 2020-02-14  449  	err =3D intel_context_pi=
-n_ww(ce, &ww);
-9372cceb3c597a Maarten Lankhorst 2020-02-14  450  	if (!err) {
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  451  		rq =3D i915_request_cre=
-ate(ce);
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  452  		intel_context_unpin(ce);
-9372cceb3c597a Maarten Lankhorst 2020-02-14  453  	} else if (err =3D=3D -E=
-DEADLK) {
-9372cceb3c597a Maarten Lankhorst 2020-02-14  454  		err =3D i915_gem_ww_ctx=
-_backoff(&ww);
-9372cceb3c597a Maarten Lankhorst 2020-02-14  455  		if (!err)
-9372cceb3c597a Maarten Lankhorst 2020-02-14  456  			goto retry;
-
-"rq" not set on this path.
-
-9372cceb3c597a Maarten Lankhorst 2020-02-14  457  	} else {
-9372cceb3c597a Maarten Lankhorst 2020-02-14  458  		rq =3D ERR_PTR(err);
-9372cceb3c597a Maarten Lankhorst 2020-02-14  459  	}
-9372cceb3c597a Maarten Lankhorst 2020-02-14  460  =
-
-9372cceb3c597a Maarten Lankhorst 2020-02-14  461  	i915_gem_ww_ctx_fini(&ww=
-);
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  462  =
-
-d3717eb59c723a Maarten Lankhorst 2020-01-28 @463  	if (IS_ERR(rq))
-                                                                   ^^
-
-d3717eb59c723a Maarten Lankhorst 2020-01-28  464  		return rq;
-d3717eb59c723a Maarten Lankhorst 2020-01-28  465  =
-
-d3717eb59c723a Maarten Lankhorst 2020-01-28  466  	/*
-d3717eb59c723a Maarten Lankhorst 2020-01-28  467  	 * timeline->mutex shoul=
-d be the inner lock, but is used as outer lock.
-d3717eb59c723a Maarten Lankhorst 2020-01-28  468  	 * Hack around this to s=
-hut up lockdep in selftests..
-d3717eb59c723a Maarten Lankhorst 2020-01-28  469  	 */
-d3717eb59c723a Maarten Lankhorst 2020-01-28  470  	lockdep_unpin_lock(&ce->=
-timeline->mutex, rq->cookie);
-d3717eb59c723a Maarten Lankhorst 2020-01-28  471  	mutex_release(&ce->timel=
-ine->mutex.dep_map, _RET_IP_);
-d3717eb59c723a Maarten Lankhorst 2020-01-28  472  	mutex_acquire(&ce->timel=
-ine->mutex.dep_map, SINGLE_DEPTH_NESTING, 0, _RET_IP_);
-d3717eb59c723a Maarten Lankhorst 2020-01-28  473  	rq->cookie =3D lockdep_p=
-in_lock(&ce->timeline->mutex);
-d3717eb59c723a Maarten Lankhorst 2020-01-28  474  =
-
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  475  	return rq;
-5e2a0419ef7cb2 Chris Wilson      2019-04-26  476  }
+:::::: TO: Andrew Lunn <andrew@lunn.ch>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9177427176037485125==--
+
+--===============4909398927402300857==--
 
