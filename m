@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4509119314904449100=="
+Content-Type: multipart/mixed; boundary="===============1161182391750380489=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [lkp] [+1515 bytes kernel size regression] [i386-tinyconfig] [86165686e9] vfs: syscalls: Add create_automount() and remove_automount()
-Date: Fri, 21 Feb 2020 11:08:52 +0800
-Message-ID: <20200221030852.GA28494@e50d7db646c3>
+Subject: [lkp] [+1515 bytes kernel size regression] [i386-tinyconfig] [b8b6f49af5] vfs: syscalls: Add create_automount() and remove_automount()
+Date: Fri, 21 Feb 2020 11:09:08 +0800
+Message-ID: <20200221030855.GA131417@e50d7db646c3>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4509119314904449100==
+--===============1161182391750380489==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,18 +15,18 @@ Content-Transfer-Encoding: quoted-printable
 
 FYI, we noticed a +1515 bytes kernel size regression due to commit:
 
-commit: 86165686e94b9ad3657badf6d9a4686abe76125f (vfs: syscalls: Add create=
+commit: b8b6f49af56bdc39d8ad5a21f8a933b779edd9b3 (vfs: syscalls: Add create=
 _automount() and remove_automount())
 url: https://github.com/0day-ci/linux/commits/David-Howells/vfs-syscalls-Ad=
-d-create_automount-and-remove_automount/20200221-104950
+d-create_automount-and-remove_automount/20200221-103921
 
 Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
 dff527e7: m68k: Switch to asm-generic/hardirq.h
-86165686: vfs: syscalls: Add create_automount() and remove_automount()
+b8b6f49a: vfs: syscalls: Add create_automount() and remove_automount()
 
 +---------------------------------+----------+----------+-------+
-|             symbol              | dff527e7 | 86165686 | delta |
+|             symbol              | dff527e7 | b8b6f49a | delta |
 +---------------------------------+----------+----------+-------+
 | nm.T.__se_sys_remove_mountpoint | 0        | 358      | 358   |
 | nm.T.sys_remove_mountpoint      | 0        | 358      | 358   |
@@ -53,5 +53,5 @@ Thanks,
 Kbuild test robot
 
 
---===============4509119314904449100==--
+--===============1161182391750380489==--
 
