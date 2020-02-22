@@ -1,129 +1,70 @@
-Content-Type: multipart/mixed; boundary="===============2484538060510155216=="
+Content-Type: multipart/mixed; boundary="===============4254468511505674032=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v2 6/7] misc: bcm-vk: add Broadcom VK driver
-Date: Sun, 23 Feb 2020 00:44:49 +0800
-Message-ID: <202002230019.zc13SqPI%lkp@intel.com>
+Subject: [RFC PATCH] misc: bcm-vk: image_tab[] can be static
+Date: Sun, 23 Feb 2020 00:44:50 +0800
+Message-ID: <20200222164450.GA660@e50d7db646c3>
 In-Reply-To: <20200220004825.23372-7-scott.branden@broadcom.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2484538060510155216==
+--===============4254468511505674032==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Scott,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on kselftest/next linus/master v5.6-rc2]
-[cannot apply to driver-core/driver-core-testing next-20200221]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Scott-Branden/firmware-add=
--partial-read-support-in-request_firmware_into_buf/20200222-032851
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
-t 06e33595e96f212811066df192ae8bf802174296
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-173-ge0787745-dirty
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-
->> drivers/misc/bcm-vk/bcm_vk_dev.c:34:29: sparse: sparse: symbol 'image_ta=
-b' was not declared. Should it be static?
->> drivers/misc/bcm-vk/bcm_vk_dev.c:185:15: sparse: sparse: incorrect type =
-in assignment (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:185:15: sparse:    expected struct bcm_=
-vk_peer_log *p_ctl
->> drivers/misc/bcm-vk/bcm_vk_dev.c:185:15: sparse:    got void [noderef] <=
-asn:2> *
-   drivers/misc/bcm-vk/bcm_vk_dev.c:415:22: sparse: sparse: incorrect type =
-in assignment (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:415:22: sparse:    expected void *bufp
-   drivers/misc/bcm-vk/bcm_vk_dev.c:415:22: sparse:    got void [noderef] <=
-asn:2> *
->> drivers/misc/bcm-vk/bcm_vk_dev.c:654:36: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:654:36: sparse:    expected void const =
-[noderef] <asn:1> *from
->> drivers/misc/bcm-vk/bcm_vk_dev.c:654:36: sparse:    got struct vk_image =
-*arg
-   drivers/misc/bcm-vk/bcm_vk_dev.c:694:37: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
-   drivers/misc/bcm-vk/bcm_vk_dev.c:694:37: sparse:    expected void const =
-[noderef] <asn:1> *from
->> drivers/misc/bcm-vk/bcm_vk_dev.c:694:37: sparse:    got struct vk_access=
- *arg
-   drivers/misc/bcm-vk/bcm_vk_dev.c:717:31: sparse: sparse: incorrect type =
-in argument 1 (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:717:31: sparse:    expected void const =
-volatile [noderef] <asn:1> *
->> drivers/misc/bcm-vk/bcm_vk_dev.c:717:31: sparse:    got unsigned int [us=
-ertype] *
-   drivers/misc/bcm-vk/bcm_vk_dev.c:728:31: sparse: sparse: incorrect type =
-in argument 1 (different address spaces)
-   drivers/misc/bcm-vk/bcm_vk_dev.c:728:31: sparse:    expected void const =
-volatile [noderef] <asn:1> *
-   drivers/misc/bcm-vk/bcm_vk_dev.c:728:31: sparse:    got unsigned int [us=
-ertype] *
-   drivers/misc/bcm-vk/bcm_vk_dev.c:793:36: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
-   drivers/misc/bcm-vk/bcm_vk_dev.c:793:36: sparse:    expected void const =
-[noderef] <asn:1> *from
->> drivers/misc/bcm-vk/bcm_vk_dev.c:793:36: sparse:    got struct vk_reset =
-*arg
-   drivers/misc/bcm-vk/bcm_vk_dev.c:873:45: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:873:45: sparse:    expected struct vk_i=
-mage *arg
->> drivers/misc/bcm-vk/bcm_vk_dev.c:873:45: sparse:    got void [noderef] <=
-asn:1> *argp
-   drivers/misc/bcm-vk/bcm_vk_dev.c:877:45: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:877:45: sparse:    expected struct vk_a=
-ccess *arg
-   drivers/misc/bcm-vk/bcm_vk_dev.c:877:45: sparse:    got void [noderef] <=
-asn:1> *argp
-   drivers/misc/bcm-vk/bcm_vk_dev.c:881:40: sparse: sparse: incorrect type =
-in argument 2 (different address spaces)
->> drivers/misc/bcm-vk/bcm_vk_dev.c:881:40: sparse:    expected struct vk_r=
-eset *arg
-   drivers/misc/bcm-vk/bcm_vk_dev.c:881:40: sparse:    got void [noderef] <=
-asn:1> *argp
---
->> drivers/misc/bcm-vk/bcm_vk_msg.c:102:6: sparse: sparse: symbol 'bcm_vk_u=
-pdate_qstats' was not declared. Should it be static?
->> drivers/misc/bcm-vk/bcm_vk_msg.c:455:17: sparse: sparse: cast removes ad=
-dress space '<asn:2>' of expression
-   drivers/misc/bcm-vk/bcm_vk_msg.c:656:15: sparse: sparse: cast removes ad=
-dress space '<asn:2>' of expression
-   drivers/misc/bcm-vk/bcm_vk_msg.c:664:23: sparse: sparse: cast removes ad=
-dress space '<asn:2>' of expression
->> drivers/misc/bcm-vk/bcm_vk_msg.c:734:5: sparse: sparse: symbol 'bcm_vk_h=
-andle_last_sess' was not declared. Should it be static?
-   drivers/misc/bcm-vk/bcm_vk_msg.c:823:31: sparse: sparse: cast removes ad=
-dress space '<asn:2>' of expression
-   drivers/misc/bcm-vk/bcm_vk_msg.c:851:47: sparse: sparse: cast removes ad=
-dress space '<asn:2>' of expression
-
-Please review and possibly fold the followup patch.
-
+Fixes: b6354450d21b ("misc: bcm-vk: add Broadcom VK driver")
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2484538060510155216==--
+ bcm_vk_dev.c |    2 +-
+ bcm_vk_msg.c |    6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/misc/bcm-vk/bcm_vk_dev.c b/drivers/misc/bcm-vk/bcm_vk_=
+dev.c
+index d8f59e898ca8a..24cdab04c8703 100644
+--- a/drivers/misc/bcm-vk/bcm_vk_dev.c
++++ b/drivers/misc/bcm-vk/bcm_vk_dev.c
+@@ -31,7 +31,7 @@ enum soc_idx {
+ };
+ =
+
+ #define NUM_BOOT_STAGES 2
+-const struct load_image_tab image_tab[][NUM_BOOT_STAGES] =3D {
++static const struct load_image_tab image_tab[][NUM_BOOT_STAGES] =3D {
+ 	[VALKYRIE] =3D {
+ 		{VK_IMAGE_TYPE_BOOT1, VK_BOOT1_DEF_VALKYRIE_FILENAME},
+ 		{VK_IMAGE_TYPE_BOOT2, VK_BOOT2_DEF_VALKYRIE_FILENAME}
+diff --git a/drivers/misc/bcm-vk/bcm_vk_msg.c b/drivers/misc/bcm-vk/bcm_vk_=
+msg.c
+index 651fba2149e28..9247d4bc50288 100644
+--- a/drivers/misc/bcm-vk/bcm_vk_msg.c
++++ b/drivers/misc/bcm-vk/bcm_vk_msg.c
+@@ -99,8 +99,8 @@ static void bcm_vk_h2vk_verify_blk
+ #define BCM_VK_QSTATS_ACC_CNT 20000
+ #endif
+ =
+
+-void bcm_vk_update_qstats(struct bcm_vk *vk, const char *tag,
+-			  struct bcm_vk_qstats *qstats, uint32_t occupancy)
++static void bcm_vk_update_qstats(struct bcm_vk *vk, const char *tag,
++				 struct bcm_vk_qstats *qstats, uint32_t occupancy)
+ {
+ 	struct bcm_vk_qs_cnts *qcnts =3D &qstats->qcnts;
+ =
+
+@@ -731,7 +731,7 @@ int bcm_vk_send_shutdown_msg(struct bcm_vk *vk, uint32_=
+t shut_type,
+ 	return rc;
+ }
+ =
+
+-int bcm_vk_handle_last_sess(struct bcm_vk *vk, struct task_struct *ppid)
++static int bcm_vk_handle_last_sess(struct bcm_vk *vk, struct task_struct *=
+ppid)
+ {
+ 	int rc =3D 0;
+ 	pid_t pid =3D task_pid_nr(ppid);
+--===============4254468511505674032==--
 
