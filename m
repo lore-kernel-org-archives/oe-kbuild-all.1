@@ -1,41 +1,41 @@
-Content-Type: multipart/mixed; boundary="===============3626907539335612539=="
+Content-Type: multipart/mixed; boundary="===============2300196323471054799=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [plbossart-sound:sdw/master_device-rebase 45/152] drivers/soundwire/intel.c:1221:26: sparse: sparse: symbol 'intel_sdw_driver' was not declared. Should it be static?
-Date: Wed, 26 Feb 2020 05:41:54 +0800
-Message-ID: <202002260556.YBOqNfNq%lkp@intel.com>
+Subject: [RFC PATCH plbossart-sound] soundwire: intel: intel_sdw_driver can be static
+Date: Wed, 26 Feb 2020 05:41:55 +0800
+Message-ID: <20200225214155.GA125296@e50d7db646c3>
+In-Reply-To: <202002260556.YBOqNfNq%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3626907539335612539==
+--===============2300196323471054799==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/plbossart/sound sdw/master_device-rebase
-head:   427a51426536fa3594fc8c0b0ad2b0f847625de5
-commit: ecf498d451234e318421c55e1174538d2b6e1f3f [45/152] soundwire: intel:=
- transition to sdw_master_device/driver support
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-173-ge0787745-dirty
-        git checkout ecf498d451234e318421c55e1174538d2b6e1f3f
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-
->> drivers/soundwire/intel.c:1221:26: sparse: sparse: symbol 'intel_sdw_dri=
-ver' was not declared. Should it be static?
-
-Please review and possibly fold the followup patch.
-
+Fixes: ecf498d45123 ("soundwire: intel: transition to sdw_master_device/dri=
+ver support")
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3626907539335612539==--
+ intel.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/soundwire/intel.c b/drivers/soundwire/intel.c
+index 678a15d6d0a24..5a583382cec4a 100644
+--- a/drivers/soundwire/intel.c
++++ b/drivers/soundwire/intel.c
+@@ -1218,7 +1218,7 @@ static int intel_master_remove(struct sdw_master_devi=
+ce *md)
+ }
+ =
+
+ =
+
+-struct sdw_master_driver intel_sdw_driver =3D {
++static struct sdw_master_driver intel_sdw_driver =3D {
+ 	.driver =3D {
+ 		.name =3D "intel-master",
+ 		.owner =3D THIS_MODULE,
+--===============2300196323471054799==--
 
