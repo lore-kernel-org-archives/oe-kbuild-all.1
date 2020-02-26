@@ -1,1406 +1,252 @@
-Content-Type: multipart/mixed; boundary="===============4898203090654696223=="
+Content-Type: multipart/mixed; boundary="===============4837672535328257135=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH RFC v4 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-Date: Thu, 27 Feb 2020 05:17:00 +0800
-Message-ID: <202002270510.FTzVw2TZ%lkp@intel.com>
-In-Reply-To: <1582710377-15489-7-git-send-email-kevin3.tang@gmail.com>
+Subject: [broonie-misc:arm64-bti 5/11] include/linux/elf.h:79:19: error: redefinition of 'arch_parse_elf_property'
+Date: Thu, 27 Feb 2020 05:33:57 +0800
+Message-ID: <202002270546.RCpZSxP0%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4898203090654696223==
+--===============4837672535328257135==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Kevin,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v5.6-rc3]
-[cannot apply to next-20200226]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Kevin-Tang/Add-Unisoc-s-dr=
-m-kms-module/20200226-202320
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git ar=
+m64-bti
+head:   d6897bb309fc4ef374e1de8242eb94d1fb97c13b
+commit: 763c26f800f938383277a1289758bf995ad9df1e [5/11] arm64: elf: Enable =
+BTI at exec based on ELF program properties
+config: arm64-allnoconfig (attached as .config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
 reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-173-ge0787745-dirty
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout 763c26f800f938383277a1289758bf995ad9df1e
+        # save the attached .config to linux build tree
+        GCC_VERSION=3D7.5.0 make.cross ARCH=3Darm64 =
+
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-sparse warnings: (new ones prefixed by >>)
+   In file included from include/linux/module.h:18:0,
+                    from include/linux/kallsyms.h:13,
+                    from include/linux/ftrace.h:11,
+                    from include/linux/perf_event.h:49,
+                    from include/kvm/arm_pmu.h:10,
+                    from arch/arm64/include/asm/kvm_host.h:36,
+                    from include/linux/kvm_host.h:36,
+                    from arch/arm64/kernel/asm-offsets.c:14:
+>> include/linux/elf.h:79:19: error: redefinition of 'arch_parse_elf_proper=
+ty'
+    static inline int arch_parse_elf_property(u32 type, const void *data,
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/elf.h:6:0,
+                    from include/linux/module.h:18,
+                    from include/linux/kallsyms.h:13,
+                    from include/linux/ftrace.h:11,
+                    from include/linux/perf_event.h:49,
+                    from include/kvm/arm_pmu.h:10,
+                    from arch/arm64/include/asm/kvm_host.h:36,
+                    from include/linux/kvm_host.h:36,
+                    from arch/arm64/kernel/asm-offsets.c:14:
+   arch/arm64/include/asm/elf.h:241:19: note: previous definition of 'arch_=
+parse_elf_property' was here
+    static inline int arch_parse_elf_property(u32 type, const void *data,
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   make[2]: *** [scripts/Makefile.build:101: arch/arm64/kernel/asm-offsets.=
+s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1112: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:179: sub-make] Error 2
+   18 real  4 user  5 sys  56.23% cpu 	make prepare
 
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:22:30: sparse: sparse: inc=
-orrect type in argument 1 (different address spaces)
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:22:30: sparse:    expected=
- void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:22:30: sparse:    got unio=
-n _0x00 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:42:25: sparse: sparse: inc=
-orrect type in argument 2 (different address spaces)
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:42:25: sparse:    expected=
- void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:42:25: sparse:    got unio=
-n _0x04 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:53:20: sparse: sparse: inc=
-orrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:53:20: sparse:    expected=
- void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:53:20: sparse:    got unio=
-n _0x18 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:64:20: sparse: sparse: inc=
-orrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:64:20: sparse:    expected=
- void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:64:20: sparse:    got unio=
-n _0x18 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:71:23: sparse: sparse: inc=
-orrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:71:23: sparse:    expected=
- void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:71:23: sparse:    got unio=
-n _0x18 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:83:41: sparse: sparse: inc=
-orrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:83:41: sparse:    expected=
- void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:83:41: sparse:    got unio=
-n _0x1C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:86:41: sparse: sparse: inc=
-orrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:86:41: sparse:    expected=
- void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:86:41: sparse:    got unio=
-n _0x1C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:98:41: sparse: sparse: inc=
-orrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:98:41: sparse:    expected=
- void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:98:41: sparse:    got unio=
-n _0x1C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:101:41: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:101:41: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:101:41: sparse:    got uni=
-on _0x1C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:114:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:114:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:114:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:117:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:117:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:117:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:130:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:130:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:130:39: sparse:    got uni=
-on _0x20 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:133:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:133:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:133:39: sparse:    got uni=
-on _0x20 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:145:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:145:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:145:39: sparse:    got uni=
-on _0x20 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:148:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:148:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:148:39: sparse:    got uni=
-on _0x20 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:160:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:160:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:160:38: sparse:    got uni=
-on _0x2C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:163:38: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:163:38: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:163:38: sparse:    got uni=
-on _0x2C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:175:43: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:175:43: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:175:43: sparse:    got uni=
-on _0x28 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:178:43: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:178:43: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:178:43: sparse:    got uni=
-on _0x28 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:190:43: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:190:43: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:190:43: sparse:    got uni=
-on _0x28 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:193:43: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:193:43: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:193:43: sparse:    got uni=
-on _0x28 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:205:41: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:205:41: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:205:41: sparse:    got uni=
-on _0x34 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:208:41: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:208:41: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:208:41: sparse:    got uni=
-on _0x34 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:220:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:220:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:220:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:223:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:223:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:223:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:235:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:235:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:235:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:238:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:238:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:238:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:250:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:250:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:250:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:253:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:253:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:253:39: sparse:    got uni=
-on _0x30 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:266:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:266:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:266:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:271:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:271:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:271:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:284:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:284:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:284:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:291:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:291:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:291:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:303:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:303:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:303:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:306:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:306:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:306:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:319:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:319:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:319:39: sparse:    got uni=
-on _0x24 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:322:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:322:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:322:39: sparse:    got uni=
-on _0x24 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:336:41: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:336:41: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:336:41: sparse:    got uni=
-on _0xC0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:339:41: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:339:41: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:339:41: sparse:    got uni=
-on _0xC0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:352:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:352:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:352:39: sparse:    got uni=
-on _0x24 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:355:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:355:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:355:39: sparse:    got uni=
-on _0x24 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:368:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:368:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:368:38: sparse:    got uni=
-on _0xC4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:371:38: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:371:38: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:371:38: sparse:    got uni=
-on _0xC4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:383:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:383:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:383:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:386:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:386:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:386:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:398:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:398:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:398:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:401:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:401:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:401:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:415:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:415:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:415:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:431:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:431:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:431:35: sparse:    got uni=
-on _0x68 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:445:35: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:445:35: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:445:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:448:35: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:448:35: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:448:35: sparse:    got uni=
-on _0x38 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:475:30: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:475:30: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:475:30: sparse:    got uni=
-on _0x6C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:487:26: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:487:26: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:487:26: sparse:    got uni=
-on _0x70 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:499:23: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:499:23: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:499:23: sparse:    got uni=
-on _0x70 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:511:25: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:511:25: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:511:25: sparse:    got uni=
-on _0xB8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:523:30: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:523:30: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:523:30: sparse:    got uni=
-on _0xBC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:526:30: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:526:30: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:526:30: sparse:    got uni=
-on _0xBC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:538:30: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:538:30: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:538:30: sparse:    got uni=
-on _0xBC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:541:30: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:541:30: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:541:30: sparse:    got uni=
-on _0xBC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:553:42: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:553:42: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:553:42: sparse:    got uni=
-on _0xB4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:556:42: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:556:42: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:556:42: sparse:    got uni=
-on _0xB4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:568:42: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:568:42: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:568:42: sparse:    got uni=
-on _0xB4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:571:42: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:571:42: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:571:42: sparse:    got uni=
-on _0xB4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:585:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:585:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:585:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:599:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:599:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:599:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:613:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:613:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:613:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:627:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:627:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:627:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:641:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:641:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:641:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:655:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:655:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:655:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:669:38: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:669:38: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:669:38: sparse:    got uni=
-on _0x98 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:686:45: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:686:45: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:686:45: sparse:    got uni=
-on _0xD0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:689:45: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:689:45: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:689:45: sparse:    got uni=
-on _0xD0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:703:47: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:703:47: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:703:47: sparse:    got uni=
-on _0xAC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:706:47: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:706:47: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:706:47: sparse:    got uni=
-on _0xAC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:720:47: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:720:47: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:720:47: sparse:    got uni=
-on _0xAC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:723:47: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:723:47: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:723:47: sparse:    got uni=
-on _0xAC *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:737:46: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:737:46: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:737:46: sparse:    got uni=
-on _0xA8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:740:46: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:740:46: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:740:46: sparse:    got uni=
-on _0xA8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:754:46: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:754:46: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:754:46: sparse:    got uni=
-on _0xA8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:757:46: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:757:46: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:757:46: sparse:    got uni=
-on _0xA8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:770:29: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:770:29: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:770:29: sparse:    got uni=
-on _0xB0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:784:43: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:784:43: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:784:43: sparse:    got uni=
-on _0x74 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:787:43: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:787:43: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:787:43: sparse:    got uni=
-on _0x74 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:800:22: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:800:22: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:800:22: sparse:    got uni=
-on _0x5C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:813:22: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:813:22: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:813:22: sparse:    got uni=
-on _0x40 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:824:29: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:824:29: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:824:29: sparse:    got uni=
-on _0x48 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:835:29: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:835:29: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:835:29: sparse:    got uni=
-on _0x44 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:848:29: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:848:29: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:848:29: sparse:    got uni=
-on _0x58 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:862:29: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:862:29: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:862:29: sparse:    got uni=
-on _0x54 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:877:41: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:877:41: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:877:41: sparse:    got uni=
-on _0x4C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:880:41: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:880:41: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:880:41: sparse:    got uni=
-on _0x4C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:895:43: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:895:43: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:895:43: sparse:    got uni=
-on _0x50 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:898:43: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:898:43: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:898:43: sparse:    got uni=
-on _0x50 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:912:41: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:912:41: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:912:41: sparse:    got uni=
-on _0x4C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:915:41: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:915:41: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:915:41: sparse:    got uni=
-on _0x4C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:928:39: sparse: sparse: in=
-correct type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:928:39: sparse:    expecte=
-d void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:928:39: sparse:    got uni=
-on _0x08 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:929:39: sparse: sparse: in=
-correct type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:929:39: sparse:    expecte=
-d void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:929:39: sparse:    got uni=
-on _0xC8 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1008:39: sparse: sparse: i=
-ncorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1008:39: sparse:    expect=
-ed void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1008:39: sparse:    got un=
-ion _0x10 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1009:39: sparse: sparse: i=
-ncorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1009:39: sparse:    expect=
-ed void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1009:39: sparse:    got un=
-ion _0xCC *
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c:1064:20: sparse: sparse: t=
-oo many warnings
---
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:24:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:24:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:24:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:27:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:27:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:27:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:41:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:41:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:41:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:44:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:44:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:44:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:59:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:59:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:59:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:62:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:62:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:62:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:70:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:70:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:70:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:73:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:73:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:73:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:81:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:81:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:81:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:84:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:84:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:84:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:92:41: sparse: sparse:=
- incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:92:41: sparse:    expe=
-cted void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:92:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:95:41: sparse: sparse:=
- incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:95:41: sparse:    expe=
-cted void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:95:41: sparse:    got =
-union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:103:41: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:103:41: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:103:41: sparse:    got=
- union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:106:41: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:106:41: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:106:41: sparse:    got=
- union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:119:29: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:119:29: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:119:29: sparse:    got=
- union _0xA0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:132:33: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:132:33: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:132:33: sparse:    got=
- union _0xA4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:146:41: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:146:41: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:146:41: sparse:    got=
- union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:149:41: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:149:41: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:149:41: sparse:    got=
- union _0x78 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:167:43: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:167:43: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:167:43: sparse:    got=
- union _0x74 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:171:43: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:171:43: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:171:43: sparse:    got=
- union _0x74 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:186:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:186:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:186:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:196:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:196:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:196:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:206:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:206:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:206:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:217:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:217:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:217:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:236:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:236:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:236:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:247:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:247:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:247:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:266:33: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:266:33: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:266:33: sparse:    got=
- union _0x9C *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:281:36: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:281:36: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:281:36: sparse:    got=
- union _0xF0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:284:36: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:284:36: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:284:36: sparse:    got=
- union _0xF0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:297:36: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:297:36: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:297:36: sparse:    got=
- union _0xF0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:300:36: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:300:36: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:300:36: sparse:    got=
- union _0xF0 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:313:36: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:313:36: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
->> drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:313:36: sparse:    got=
- union _0xF4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:316:36: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:316:36: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:316:36: sparse:    got=
- union _0xF4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:328:36: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:328:36: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:328:36: sparse:    got=
- union _0xF4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:343:36: sparse: sparse=
-: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:343:36: sparse:    exp=
-ected void const volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:343:36: sparse:    got=
- union _0xF4 *
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:346:36: sparse: sparse=
-: incorrect type in argument 2 (different address spaces)
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:346:36: sparse:    exp=
-ected void volatile [noderef] <asn:2> *addr
-   drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c:346:36: sparse:    got=
- union _0xF4 *
+vim +/arch_parse_elf_property +79 include/linux/elf.h
 
-vim +22 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c
+a1f926d8f77ce5 Dave Martin 2019-10-18  77  =
 
-    13	=
+a1f926d8f77ce5 Dave Martin 2019-10-18  78  #ifndef CONFIG_ARCH_USE_GNU_PROP=
+ERTY
+a1f926d8f77ce5 Dave Martin 2019-10-18 @79  static inline int arch_parse_elf=
+_property(u32 type, const void *data,
+a1f926d8f77ce5 Dave Martin 2019-10-18  80  					  size_t datasz, bool compa=
+t,
+a1f926d8f77ce5 Dave Martin 2019-10-18  81  					  struct arch_elf_state *ar=
+ch)
+a1f926d8f77ce5 Dave Martin 2019-10-18  82  {
+a1f926d8f77ce5 Dave Martin 2019-10-18  83  	return 0;
+a1f926d8f77ce5 Dave Martin 2019-10-18  84  }
+a1f926d8f77ce5 Dave Martin 2019-10-18  85  #else
+a1f926d8f77ce5 Dave Martin 2019-10-18  86  extern int arch_parse_elf_proper=
+ty(u32 type, const void *data, size_t datasz,
+a1f926d8f77ce5 Dave Martin 2019-10-18  87  				   bool compat, struct arch_=
+elf_state *arch);
+a1f926d8f77ce5 Dave Martin 2019-10-18  88  #endif
+a1f926d8f77ce5 Dave Martin 2019-10-18  89  =
 
-    14	/*
-    15	 * Get DSI Host core version
-    16	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    17	 * @return ascii number of the version
-    18	 */
-    19	static bool dsi_check_version(struct dsi_context *ctx)
-    20	{
-    21		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-  > 22		u32 version =3D readl(&reg->DSI_VERSION);
-    23	=
 
-    24		if (version =3D=3D 0x100)
-    25			return true;
-    26		else if (version =3D=3D 0x200)
-    27			return true;
-    28		else if (version =3D=3D 0x300)
-    29			return true;
-    30		else
-    31			return false;
-    32	}
-    33	/*
-    34	 * Modify power status of DSI Host core
-    35	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    36	 * @param on (1) or off (0)
-    37	 */
-    38	static void dsi_power_enable(struct dsi_context *ctx, int enable)
-    39	{
-    40		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    41	=
+:::::: The code at line 79 was first introduced by commit
+:::::: a1f926d8f77ce54c403ba91d81d986635e81ff84 ELF: Add ELF program proper=
+ty parsing support
 
-  > 42		writel(enable, &reg->SOFT_RESET);
-    43	}
-    44	/*
-    45	 * Enable/disable DPI video mode
-    46	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    47	 * @param enable (1) - disable (0)
-    48	 */
-    49	static void dsi_video_mode(struct dsi_context *ctx)
-    50	{
-    51		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    52	=
-
-  > 53		writel(0, &reg->DSI_MODE_CFG);
-    54	}
-    55	/*
-    56	 * Enable command mode (Generic interface)
-    57	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    58	 * @param enable
-    59	 */
-    60	static void dsi_cmd_mode(struct dsi_context *ctx)
-    61	{
-    62		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    63	=
-
-    64		writel(1, &reg->DSI_MODE_CFG);
-    65	}
-    66	=
-
-    67	static bool dsi_is_cmd_mode(struct dsi_context *ctx)
-    68	{
-    69		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    70	=
-
-    71		return readl(&reg->DSI_MODE_CFG);
-    72	}
-    73	/*
-    74	 * Configure the read back virtual channel for the generic interface
-    75	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    76	 * @param vc to listen to on the line
-    77	 */
-    78	static void dsi_rx_vcid(struct dsi_context *ctx, u8 vc)
-    79	{
-    80		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    81		union _0x1C virtual_channel_id;
-    82	=
-
-  > 83		virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
-    84		virtual_channel_id.bits.gen_rx_vcid =3D vc;
-    85	=
-
-    86		writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
-    87	}
-    88	/*
-    89	 * Write the DPI video virtual channel destination
-    90	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-    91	 * @param vc virtual channel
-    92	 */
-    93	static void dsi_video_vcid(struct dsi_context *ctx, u8 vc)
-    94	{
-    95		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-    96		union _0x1C virtual_channel_id;
-    97	=
-
-    98		virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
-    99		virtual_channel_id.bits.video_pkt_vcid =3D vc;
-   100	=
-
-   101		writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
-   102	}
-   103	/*
-   104	 * Set DPI video mode type (burst/non-burst - with sync pulses or ev=
-ents)
-   105	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   106	 * @param type
-   107	 * @return error code
-   108	 */
-   109	static void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mo=
-de)
-   110	{
-   111		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   112		union _0x38 vid_mode_cfg;
-   113	=
-
-   114		vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-   115		vid_mode_cfg.bits.vid_mode_type =3D mode;
-   116	=
-
-   117		writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-   118	}
-   119	/*
-   120	 * Set DPI video color coding
-   121	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   122	 * @param color_coding enum (configuration and color depth)
-   123	 * @return error code
-   124	 */
-   125	static void dsi_dpi_color_coding(struct dsi_context *ctx, int coding)
-   126	{
-   127		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   128		union _0x20 dpi_video_format;
-   129	=
-
-   130		dpi_video_format.val =3D readl(&reg->DPI_VIDEO_FORMAT);
-   131		dpi_video_format.bits.dpi_video_mode_format =3D coding;
-   132	=
-
-   133		writel(dpi_video_format.val, &reg->DPI_VIDEO_FORMAT);
-   134	}
-   135	/*
-   136	 * Set DPI loosely packetisation video (used only when color depth =
-=3D 18
-   137	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   138	 * @param enable
-   139	 */
-   140	static void dsi_dpi_18_loosely_packet_en(struct dsi_context *ctx, in=
-t enable)
-   141	{
-   142		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   143		union _0x20 dpi_video_format;
-   144	=
-
-   145		dpi_video_format.val =3D readl(&reg->DPI_VIDEO_FORMAT);
-   146		dpi_video_format.bits.loosely18_en =3D enable;
-   147	=
-
-   148		writel(dpi_video_format.val, &reg->DPI_VIDEO_FORMAT);
-   149	}
-   150	/*
-   151	 * Configure the Horizontal Line time
-   152	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   153	 * @param byte_cycle taken to transmit the total of the horizontal l=
-ine
-   154	 */
-   155	static void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cyc=
-le)
-   156	{
-   157		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   158		union _0x2C video_line_time;
-   159	=
-
-   160		video_line_time.val =3D readl(&reg->VIDEO_LINE_TIME);
-   161		video_line_time.bits.video_line_time =3D byte_cycle;
-   162	=
-
-   163		writel(video_line_time.val, &reg->VIDEO_LINE_TIME);
-   164	}
-   165	/*
-   166	 * Configure the Horizontal back porch time
-   167	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   168	 * @param byte_cycle taken to transmit the horizontal back porch
-   169	 */
-   170	static void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle)
-   171	{
-   172		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   173		union _0x28 video_line_hblk_time;
-   174	=
-
-   175		video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
-   176		video_line_hblk_time.bits.video_line_hbp_time =3D byte_cycle;
-   177	=
-
-   178		writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
-   179	}
-   180	/*
-   181	 * Configure the Horizontal sync time
-   182	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   183	 * @param byte_cycle taken to transmit the horizontal sync
-   184	 */
-   185	static void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cyc=
-le)
-   186	{
-   187		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   188		union _0x28 video_line_hblk_time;
-   189	=
-
-   190		video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
-   191		video_line_hblk_time.bits.video_line_hsa_time =3D byte_cycle;
-   192	=
-
-   193		writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
-   194	}
-   195	/*
-   196	 * Configure the vertical active lines of the video stream
-   197	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   198	 * @param lines
-   199	 */
-   200	static void dsi_dpi_vact(struct dsi_context *ctx, u16 lines)
-   201	{
-   202		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   203		union _0x34 video_active_lines;
-   204	=
-
-   205		video_active_lines.val =3D readl(&reg->VIDEO_VACTIVE_LINES);
-   206		video_active_lines.bits.vactive_lines =3D lines;
-   207	=
-
-   208		writel(video_active_lines.val, &reg->VIDEO_VACTIVE_LINES);
-   209	}
-   210	/*
-   211	 * Configure the vertical front porch lines of the video stream
-   212	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   213	 * @param lines
-   214	 */
-   215	static void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines)
-   216	{
-   217		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   218		union _0x30 video_vblk_lines;
-   219	=
-
-   220		video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-   221		video_vblk_lines.bits.vfp_lines =3D lines;
-   222	=
-
-   223		writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-   224	}
-   225	/*
-   226	 * Configure the vertical back porch lines of the video stream
-   227	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   228	 * @param lines
-   229	 */
-   230	static void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines)
-   231	{
-   232		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   233		union _0x30 video_vblk_lines;
-   234	=
-
-   235		video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-   236		video_vblk_lines.bits.vbp_lines =3D lines;
-   237	=
-
-   238		writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-   239	}
-   240	/*
-   241	 * Configure the vertical sync lines of the video stream
-   242	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   243	 * @param lines
-   244	 */
-   245	static void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines)
-   246	{
-   247		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   248		union _0x30 video_vblk_lines;
-   249	=
-
-   250		video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-   251		video_vblk_lines.bits.vsa_lines =3D lines;
-   252	=
-
-   253		writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-   254	}
-   255	/*
-   256	 * Enable return to low power mode inside horizontal front porch per=
-iods when
-   257	 *  timing allows
-   258	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   259	 * @param enable (1) - disable (0)
-   260	 */
-   261	static void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable)
-   262	{
-   263		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   264		union _0x38 vid_mode_cfg;
-   265	=
-
-   266		vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-   267	=
-
-   268		vid_mode_cfg.bits.lp_hfp_en =3D enable;
-   269		vid_mode_cfg.bits.lp_hbp_en =3D enable;
-   270	=
-
-   271		writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-   272	}
-   273	/*
-   274	 * Enable return to low power mode inside vertical active lines peri=
-ods when
-   275	 *  timing allows
-   276	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   277	 * @param enable (1) - disable (0)
-   278	 */
-   279	static void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable)
-   280	{
-   281		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   282		union _0x38 vid_mode_cfg;
-   283	=
-
-   284		vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-   285	=
-
-   286		vid_mode_cfg.bits.lp_vact_en =3D enable;
-   287		vid_mode_cfg.bits.lp_vfp_en =3D enable;
-   288		vid_mode_cfg.bits.lp_vbp_en =3D enable;
-   289		vid_mode_cfg.bits.lp_vsa_en =3D enable;
-   290	=
-
-   291		writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-   292	}
-   293	/*
-   294	 * Enable FRAME BTA ACK
-   295	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   296	 * @param enable (1) - disable (0)
-   297	 */
-   298	static void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable)
-   299	{
-   300		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   301		union _0x38 vid_mode_cfg;
-   302	=
-
-   303		vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-   304		vid_mode_cfg.bits.frame_bta_ack_en =3D enable;
-   305	=
-
-   306		writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-   307	}
-   308	/*
-   309	 * Write no of chunks to core - taken into consideration only when m=
-ulti packet
-   310	 * is enabled
-   311	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   312	 * @param no of chunks
-   313	 */
-   314	static void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 num)
-   315	{
-   316		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   317		union _0x24 video_pkt_config;
-   318	=
-
-   319		video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
-   320		video_pkt_config.bits.video_line_chunk_num =3D num;
-   321	=
-
-   322		writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
-   323	}
-   324	/*
-   325	 * Write the null packet size - will only be taken into account when=
- null
-   326	 * packets are enabled.
-   327	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   328	 * @param size of null packet
-   329	 * @return error code
-   330	 */
-   331	static void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 si=
-ze)
-   332	{
-   333		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   334		union _0xC0 video_nullpkt_size;
-   335	=
-
-   336		video_nullpkt_size.val =3D readl(&reg->VIDEO_NULLPKT_SIZE);
-   337		video_nullpkt_size.bits.video_nullpkt_size =3D size;
-   338	=
-
-   339		writel(video_nullpkt_size.val, &reg->VIDEO_NULLPKT_SIZE);
-   340	}
-   341	/*
-   342	 * Write video packet size. obligatory for sending video
-   343	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   344	 * @param size of video packet - containing information
-   345	 * @return error code
-   346	 */
-   347	static void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 s=
-ize)
-   348	{
-   349		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   350		union _0x24 video_pkt_config;
-   351	=
-
-   352		video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
-   353		video_pkt_config.bits.video_pkt_size =3D size;
-   354	=
-
-   355		writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
-   356	}
-   357	/*
-   358	 * Specifiy the size of the packet memory write start/continue
-   359	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   360	 * @ size of the packet
-   361	 * @note when different than zero (0) eDPI is enabled
-   362	 */
-   363	static void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size)
-   364	{
-   365		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   366		union _0xC4 dcs_wm_pkt_size;
-   367	=
-
-   368		dcs_wm_pkt_size.val =3D readl(&reg->DCS_WM_PKT_SIZE);
-   369		dcs_wm_pkt_size.bits.dcs_wm_pkt_size =3D size;
-   370	=
-
-   371		writel(dcs_wm_pkt_size.val, &reg->DCS_WM_PKT_SIZE);
-   372	}
-   373	/*
-   374	 * Enable tear effect acknowledge
-   375	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   376	 * @param enable (1) - disable (0)
-   377	 */
-   378	static void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enab=
-le)
-   379	{
-   380		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   381		union _0x68 cmd_mode_cfg;
-   382	=
-
-   383		cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
-   384		cmd_mode_cfg.bits.tear_fx_en =3D enable;
-   385	=
-
-   386		writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
-   387	}
-   388	/*
-   389	 * Enable packets acknowledge request after each packet transmission
-   390	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   391	 * @param enable (1) - disable (0)
-   392	 */
-   393	static void dsi_cmd_ack_request_en(struct dsi_context *ctx, int enab=
-le)
-   394	{
-   395		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   396		union _0x68 cmd_mode_cfg;
-   397	=
-
-   398		cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
-   399		cmd_mode_cfg.bits.ack_rqst_en =3D enable;
-   400	=
-
-   401		writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
-   402	}
-   403	/*
-   404	 * Set DCS command packet transmission to transmission type
-   405	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   406	 * @param no_of_param of command
-   407	 * @param lp transmit in low power
-   408	 * @return error code
-   409	 */
-   410	static void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enab=
-le)
-   411	{
-   412		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   413		union _0x68 cmd_mode_cfg;
-   414	=
-
-   415		cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
-   416	=
-
-   417		cmd_mode_cfg.bits.gen_sw_0p_tx =3D enable;
-   418		cmd_mode_cfg.bits.gen_sw_1p_tx =3D enable;
-   419		cmd_mode_cfg.bits.gen_sw_2p_tx =3D enable;
-   420		cmd_mode_cfg.bits.gen_lw_tx =3D enable;
-   421		cmd_mode_cfg.bits.dcs_sw_0p_tx =3D enable;
-   422		cmd_mode_cfg.bits.dcs_sw_1p_tx =3D enable;
-   423		cmd_mode_cfg.bits.dcs_lw_tx =3D enable;
-   424		cmd_mode_cfg.bits.max_rd_pkt_size =3D enable;
-   425	=
-
-   426		cmd_mode_cfg.bits.gen_sr_0p_tx =3D enable;
-   427		cmd_mode_cfg.bits.gen_sr_1p_tx =3D enable;
-   428		cmd_mode_cfg.bits.gen_sr_2p_tx =3D enable;
-   429		cmd_mode_cfg.bits.dcs_sr_0p_tx =3D enable;
-   430	=
-
-   431		writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
-   432	}
-   433	/*
-   434	 * Set DCS read command packet transmission to transmission type
-   435	 * @param instance pointer to structure holding the DSI Host core in=
-formation
-   436	 * @param no_of_param of command
-   437	 * @param lp transmit in low power
-   438	 * @return error code
-   439	 */
-   440	static void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int en=
-able)
-   441	{
-   442		struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-   443		union _0x38 vid_mode_cfg;
-   444	=
-
-   445		vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-   446		vid_mode_cfg.bits.lp_cmd_en =3D enable;
-   447	=
-
-   448		writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-   449	}
-   450	=
-
+:::::: TO: Dave Martin <Dave.Martin@arm.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4898203090654696223==--
+
+--===============4837672535328257135==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+--===============4837672535328257135==--
 
