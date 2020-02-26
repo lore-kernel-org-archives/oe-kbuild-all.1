@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2432289105805368799=="
+Content-Type: multipart/mixed; boundary="===============5677454962750970917=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [RFC PATCH v3 7/7] mm/asi: Implement PTI with ASI
-Date: Thu, 27 Feb 2020 04:32:58 +0800
-Message-ID: <202002270450.iqNesJNN%lkp@intel.com>
-In-Reply-To: <1582734120-26757-8-git-send-email-alexandre.chartre@oracle.com>
+Subject: Re: [RFC PATCH v3 2/7] mm/asi: ASI entry/exit interface
+Date: Thu, 27 Feb 2020 04:38:22 +0800
+Message-ID: <202002270451.ulSwY2k6%lkp@intel.com>
+In-Reply-To: <1582734120-26757-3-git-send-email-alexandre.chartre@oracle.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2432289105805368799==
+--===============5677454962750970917==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,8 +17,7 @@ Hi Alexandre,
 
 [FYI, it's a private test report for your RFC patch.]
 [auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/x86/asm]
-[cannot apply to tip/x86/mm v5.6-rc3 next-20200226]
+[also build test ERROR on tip/x86/asm tip/x86/mm v5.6-rc3 next-20200226]
 [if your patch is applied to the wrong git tree, please drop us a note to h=
 elp
 improve the system. BTW, we also suggest to use '--base' option to specify =
@@ -44,211 +43,129 @@ All error/warnings (new ones prefixed by >>):
 
    In file included from include/asm-generic/percpu.h:7:0,
                     from arch/x86/include/asm/percpu.h:556,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from include/linux/crypto.h:19,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/tlbflush.h: In function 'invalidate_user_asid':
->> arch/x86/include/asm/tlbflush.h:410:27: error: 'asi_type_user' undeclare=
-d (first use in this function)
-      tlb_state =3D get_cpu_ptr(asi_type_user.tlb_state);
-                              ^
-   include/linux/percpu-defs.h:220:47: note: in definition of macro '__veri=
-fy_pcpu_ptr'
-     const void __percpu *__vpp_verify =3D (typeof((ptr) + 0))NULL; \
-                                                  ^~~
->> include/linux/percpu-defs.h:264:47: note: in expansion of macro 'VERIFY_=
-PERCPU_PTR'
-    #define per_cpu_ptr(ptr, cpu) ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-                                                  ^~~~~~~~~~~~~~~~~
->> include/linux/percpu-defs.h:265:26: note: in expansion of macro 'per_cpu=
-_ptr'
-    #define raw_cpu_ptr(ptr) per_cpu_ptr(ptr, 0)
-                             ^~~~~~~~~~~
->> include/linux/percpu-defs.h:266:27: note: in expansion of macro 'raw_cpu=
-_ptr'
-    #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                              ^~~~~~~~~~~
->> include/linux/percpu-defs.h:295:2: note: in expansion of macro 'this_cpu=
-_ptr'
-     this_cpu_ptr(var);      \
-     ^~~~~~~~~~~~
->> arch/x86/include/asm/tlbflush.h:410:15: note: in expansion of macro 'get=
-_cpu_ptr'
-      tlb_state =3D get_cpu_ptr(asi_type_user.tlb_state);
-                  ^~~~~~~~~~~
-   arch/x86/include/asm/tlbflush.h:410:27: note: each undeclared identifier=
- is reported only once for each function it appears in
-      tlb_state =3D get_cpu_ptr(asi_type_user.tlb_state);
-                              ^
-   include/linux/percpu-defs.h:220:47: note: in definition of macro '__veri=
-fy_pcpu_ptr'
-     const void __percpu *__vpp_verify =3D (typeof((ptr) + 0))NULL; \
-                                                  ^~~
->> include/linux/percpu-defs.h:264:47: note: in expansion of macro 'VERIFY_=
-PERCPU_PTR'
-    #define per_cpu_ptr(ptr, cpu) ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-                                                  ^~~~~~~~~~~~~~~~~
->> include/linux/percpu-defs.h:265:26: note: in expansion of macro 'per_cpu=
-_ptr'
-    #define raw_cpu_ptr(ptr) per_cpu_ptr(ptr, 0)
-                             ^~~~~~~~~~~
->> include/linux/percpu-defs.h:266:27: note: in expansion of macro 'raw_cpu=
-_ptr'
-    #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                              ^~~~~~~~~~~
->> include/linux/percpu-defs.h:295:2: note: in expansion of macro 'this_cpu=
-_ptr'
-     this_cpu_ptr(var);      \
-     ^~~~~~~~~~~~
->> arch/x86/include/asm/tlbflush.h:410:15: note: in expansion of macro 'get=
-_cpu_ptr'
-      tlb_state =3D get_cpu_ptr(asi_type_user.tlb_state);
-                  ^~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:20:0:
->> arch/x86/include/asm/tlbflush.h:411:12: error: dereferencing pointer to =
-incomplete type 'struct asi_tlb_state'
-      tlb_state->tlb_pgtables[asid].id =3D 0;
-               ^~
-   In file included from arch/x86/kernel/asm-offsets.c:14:0:
-   arch/x86/kernel/asm-offsets.c: In function 'common':
-   include/linux/compiler_types.h:129:35: error: 'struct tlb_state' has no =
-member named 'asi_session'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_of=
-fsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:11:14: note: in expansion of macro 'offsetof'
-     DEFINE(sym, offsetof(struct str, mem))
-                 ^~~~~~~~
-   arch/x86/kernel/asm-offsets.c:98:2: note: in expansion of macro 'OFFSET'
-     OFFSET(TLB_STATE_asi, tlb_state, asi_session.asi);
-     ^~~~~~
-   include/linux/compiler_types.h:129:35: error: 'struct tlb_state' has no =
-member named 'asi_session'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_of=
-fsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:11:14: note: in expansion of macro 'offsetof'
-     DEFINE(sym, offsetof(struct str, mem))
-                 ^~~~~~~~
-   arch/x86/kernel/asm-offsets.c:99:2: note: in expansion of macro 'OFFSET'
-     OFFSET(TLB_STATE_asi_isolation_cr3, tlb_state,
-     ^~~~~~
-   include/linux/compiler_types.h:129:35: error: 'struct tlb_state' has no =
-member named 'asi_session'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_of=
-fsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:11:14: note: in expansion of macro 'offsetof'
-     DEFINE(sym, offsetof(struct str, mem))
-                 ^~~~~~~~
-   arch/x86/kernel/asm-offsets.c:101:2: note: in expansion of macro 'OFFSET'
-     OFFSET(TLB_STATE_asi_original_cr3, tlb_state, asi_session.original_cr3=
-);
-     ^~~~~~
-   include/linux/compiler_types.h:129:35: error: 'struct tlb_state' has no =
-member named 'asi_session'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_of=
-fsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:11:14: note: in expansion of macro 'offsetof'
-     DEFINE(sym, offsetof(struct str, mem))
-                 ^~~~~~~~
-   arch/x86/kernel/asm-offsets.c:102:2: note: in expansion of macro 'OFFSET'
-     OFFSET(TLB_STATE_asi_idepth, tlb_state, asi_session.idepth);
-     ^~~~~~
-   make[2]: *** [scripts/Makefile.build:99: arch/x86/kernel/asm-offsets.s] =
-Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1113: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:179: sub-make] Error 2
-   55 real  6 user  6 sys  24.45% cpu 	make prepare
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from include/linux/ptrace.h:6,
+                    from include/uapi/asm-generic/bpf_perf_event.h:4,
+                    from ./arch/x86/include/generated/uapi/asm/bpf_perf_eve=
+nt.h:1,
+                    from include/uapi/linux/bpf_perf_event.h:11,
+                    from include/linux/perf_event.h:18,
+                    from arch/x86/events/core.c:15:
+   arch/x86/include/asm/mmu_context.h: In function '__get_current_cr3_fast':
+>> arch/x86/include/asm/mmu_context.h:361:20: error: 'cpu_asi_session' unde=
+clared (first use in this function); did you mean 'task_session'?
+         this_cpu_read(cpu_asi_session.asi)) {
+                       ^
+   include/linux/percpu-defs.h:319:9: note: in definition of macro '__pcpu_=
+size_call_return'
+     typeof(variable) pscr_ret__;     \
+            ^~~~~~~~
+>> arch/x86/include/asm/mmu_context.h:361:6: note: in expansion of macro 't=
+his_cpu_read'
+         this_cpu_read(cpu_asi_session.asi)) {
+         ^~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:361:20: note: each undeclared identif=
+ier is reported only once for each function it appears in
+         this_cpu_read(cpu_asi_session.asi)) {
+                       ^
+   include/linux/percpu-defs.h:319:9: note: in definition of macro '__pcpu_=
+size_call_return'
+     typeof(variable) pscr_ret__;     \
+            ^~~~~~~~
+>> arch/x86/include/asm/mmu_context.h:361:6: note: in expansion of macro 't=
+his_cpu_read'
+         this_cpu_read(cpu_asi_session.asi)) {
+         ^~~~~~~~~~~~~
+--
+   In file included from include/asm-generic/percpu.h:7:0,
+                    from arch/x86/include/asm/percpu.h:556,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/mutex.h:14,
+                    from include/linux/notifier.h:14,
+                    from include/linux/reboot.h:6,
+                    from arch/x86/kernel/reboot.c:5:
+   arch/x86/include/asm/mmu_context.h: In function '__get_current_cr3_fast':
+>> arch/x86/include/asm/mmu_context.h:361:20: error: 'cpu_asi_session' unde=
+clared (first use in this function); did you mean 'cpumask_size'?
+         this_cpu_read(cpu_asi_session.asi)) {
+                       ^
+   include/linux/percpu-defs.h:319:9: note: in definition of macro '__pcpu_=
+size_call_return'
+     typeof(variable) pscr_ret__;     \
+            ^~~~~~~~
+>> arch/x86/include/asm/mmu_context.h:361:6: note: in expansion of macro 't=
+his_cpu_read'
+         this_cpu_read(cpu_asi_session.asi)) {
+         ^~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:361:20: note: each undeclared identif=
+ier is reported only once for each function it appears in
+         this_cpu_read(cpu_asi_session.asi)) {
+                       ^
+   include/linux/percpu-defs.h:319:9: note: in definition of macro '__pcpu_=
+size_call_return'
+     typeof(variable) pscr_ret__;     \
+            ^~~~~~~~
+>> arch/x86/include/asm/mmu_context.h:361:6: note: in expansion of macro 't=
+his_cpu_read'
+         this_cpu_read(cpu_asi_session.asi)) {
+         ^~~~~~~~~~~~~
 
-vim +/asi_type_user +410 arch/x86/include/asm/tlbflush.h
+vim +361 arch/x86/include/asm/mmu_context.h
 
-   384	=
+   343	=
 
-   385	/*
-   386	 * Given an ASID, flush the corresponding user ASID.  We can delay t=
-his
-   387	 * until the next time we switch to it.
-   388	 *
-   389	 * See SWITCH_TO_USER_CR3.
-   390	 */
-   391	static inline void invalidate_user_asid(u16 asid)
-   392	{
-   393		struct asi_tlb_state *tlb_state;
-   394	=
+   344	/*
+   345	 * This can be used from process context to figure out what the valu=
+e of
+   346	 * CR3 is without needing to do a (slow) __read_cr3().
+   347	 *
+   348	 * It's intended to be used for code like KVM that sneakily changes =
+CR3
+   349	 * and needs to restore it.  It needs to be used very carefully.
+   350	 */
+   351	static inline unsigned long __get_current_cr3_fast(void)
+   352	{
+   353		unsigned long cr3;
+   354	=
 
-   395		/* There is no user ASID if address space separation is off */
-   396		if (!IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION))
-   397			return;
-   398	=
+   355		/*
+   356		 * If isolation is active then we need to return the CR3 for the
+   357		 * currently active ASI. This value is stored in the isolation_cr3
+   358		 * field of the ASI session.
+   359		 */
+   360		if (IS_ENABLED(CONFIG_ADDRESS_SPACE_ISOLATION) &&
+ > 361		    this_cpu_read(cpu_asi_session.asi)) {
+   362			cr3 =3D this_cpu_read(cpu_asi_session.isolation_cr3);
+   363			/* CR3 read never returns with the NOFLUSH bit */
+   364			cr3 &=3D ~X86_CR3_PCID_NOFLUSH;
+   365		} else {
+   366			cr3 =3D build_cr3(this_cpu_read(cpu_tlbstate.loaded_mm)->pgd,
+   367					this_cpu_read(cpu_tlbstate.loaded_mm_asid));
+   368		}
+   369	=
 
-   399		/*
-   400		 * We only have a single ASID if PCID is off and the CR3
-   401		 * write will have flushed it.
-   402		 */
-   403		if (!cpu_feature_enabled(X86_FEATURE_PCID))
-   404			return;
-   405	=
+   370		/* For now, be very restrictive about when this can be called. */
+   371		VM_WARN_ON(in_nmi() || preemptible());
+   372	=
 
-   406		if (!static_cpu_has(X86_FEATURE_PTI))
-   407			return;
-   408	=
-
-   409		if (IS_ENABLED(CONFIG_ADDRESS_SPACE_ISOLATION)) {
- > 410			tlb_state =3D get_cpu_ptr(asi_type_user.tlb_state);
- > 411			tlb_state->tlb_pgtables[asid].id =3D 0;
-   412		} else {
-   413			__set_bit(kern_pcid(asid),
-   414			    (unsigned long *)this_cpu_ptr(&cpu_tlbstate.user_pcid_flush_ma=
-sk));
-   415		}
-   416	}
-   417	=
+   373		VM_BUG_ON(cr3 !=3D __read_cr3());
+   374		return cr3;
+   375	}
+   376	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2432289105805368799==
+--===============5677454962750970917==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLrRVl4AAy5jb25maWcAlDxZc9tGk+/5Faikasuur2zLuqLslh6GgyExES5jAIrUC4qhIJkV
+H4sICI/QVl4AAy5jb25maWcAlDxZc9tGk+/5Faikasuur2zLuqLslh6GgyExES5jAIrUC4qhIJkV
 idTySOx/v90zADEAemhvKomt6WOunr6h3375zWOH/eZ1sV8tFy8v373nal1tF/vq0XtavVT/4/mJ
 Fye5J3yZfwTkcLU+fPu0uri59q4+Xn08+7BdXnp31XZdvXh8s35aPR+AerVZ//LbL/DvbzD4+gaM
 tv/tPS+XH3733vnVX6vF2vtdU1+9N38BVJ7EYzkpOS+lKiec335vhuCHcioyJZP49vezq7OzI27I
@@ -376,5 +293,5 @@ l6dJMFPc+wCdoPORcaZIyaYU5MYNvWhA5ZpQDuU7bJGKP4Ix7HJZntdGzWRMGuxSArZYxJk/TJ3X
 s+q6rDuudyIyo/66uvrtiyNl1CmIeLRiY7GciNLsjU0q0X7CPBjYKDENAV4sX3+j4beaCvDkZVrF
 KRpBlO70DSHb6bBo3KHW3f8otyf8hgBlTOHL39vjeudI9syXXv7cHg5Y1+7rdQiHRNiTZW3cNFpn
 y2BIm0GROz8wUYDAvzCuFzPVhwq1K+BoIYbuwc/u7QKbvaF/AXy4toAzaQAA
---===============2432289105805368799==--
+--===============5677454962750970917==--
 
