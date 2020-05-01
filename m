@@ -1,111 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============6412291804528242449=="
+Content-Type: multipart/mixed; boundary="===============3177908843383459834=="
 MIME-Version: 1.0
-From: Eric Dumazet <edumazet@google.com>
+From: Chen, Rong A <rong.a.chen@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH net-next] net_sched: sch_fq: add horizon attribute
-Date: Fri, 01 May 2020 06:57:14 -0700
-Message-ID: <CANn89i+5Qe1qC-YaxLFRWpYuHnL7ehaaig0WWmWuxGOUOOe0Aw@mail.gmail.com>
-In-Reply-To: <202005011815.an8L9pEE%lkp@intel.com>
+Subject: Re: [PATCH v13 23/25] block/rnbd: include client and server modules into kernel compilation
+Date: Fri, 01 May 2020 22:24:37 +0800
+Message-ID: <7faf09fa-f38d-f54f-bd28-b4c26c936846@intel.com>
+In-Reply-To: <CAHg0HuzGwonGEbRyN03RZ7TiD4NdFWmr+YR7u9EG4VHyTT7V4w@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6412291804528242449==
+--===============3177908843383459834==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 1, 2020 at 3:43 AM kbuild test robot <lkp@intel.com> wrote:
->
-> Hi Eric,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on net-next/master]
-> [also build test WARNING on net/master linus/master v5.7-rc3 next-2020043=
-0]
-> [if your patch is applied to the wrong git tree, please drop us a note to=
- help
-> improve the system. BTW, we also suggest to use '--base' option to specif=
-y the
-> base tree in git format-patch, please see https://stackoverflow.com/a/374=
-06982]
->
-> url:    https://github.com/0day-ci/linux/commits/Eric-Dumazet/net_sched-s=
-ch_fq-add-horizon-attribute/20200501-135537
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.gi=
-t 37ecb5b8b8cd3156e739fd1c56a8e3842b72ebad
-> config: i386-allmodconfig (attached as .config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce:
->         # save the attached .config to linux build tree
->         make ARCH=3Di386
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->    net/sched/sch_fq.c: In function 'fq_init':
-> >> net/sched/sch_fq.c:938:18: warning: integer overflow in expression [-W=
-overflow]
->      q->horizon =3D 10 * NSEC_PER_SEC; /* 10 seconds */
-
-Thanks, I will use 10ULL in v2
 
 
+On 4/30/2020 4:48 PM, Danil Kipnis wrote:
+> On Wed, Apr 29, 2020 at 5:01 PM kbuild test robot <lkp@intel.com> wrote:
+>> Hi Danil,
+>>
+>> I love your patch! Yet something to improve:
+>>
+>> [auto build test ERROR on block/for-next]
+>> [also build test ERROR on driver-core/driver-core-testing rdma/for-next =
+linus/master v5.7-rc3 next-20200428]
+>> [if your patch is applied to the wrong git tree, please drop us a note t=
+o help
+>> improve the system. BTW, we also suggest to use '--base' option to speci=
+fy the
+>> base tree in git format-patch, please see https://stackoverflow.com/a/37=
+406982]
+>>
+>> url:    https://github.com/0day-ci/linux/commits/Danil-Kipnis/RTRS-forme=
+r-IBTRS-RDMA-Transport-Library-and-RNBD-former-IBNBD-RDMA-Network-Block-Dev=
+ice/20200428-080733
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-bloc=
+k.git for-next
+>> config: i386-allyesconfig (attached as .config)
+>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+>> reproduce:
+>>          # save the attached .config to linux build tree
+>>          make ARCH=3Di386
+>>
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     In file included from drivers/block/rnbd/rnbd-clt.c:19:0:
+>>>> drivers/block/rnbd/rnbd-clt.h:19:10: fatal error: rtrs.h: No such file=
+ or directory
+>>      #include "rtrs.h"
+>>               ^~~~~~~~
+>>     compilation terminated.
+>> --
+>>     In file included from drivers/block/rnbd/rnbd-srv.c:15:0:
+>>>> drivers/block/rnbd/rnbd-srv.h:16:10: fatal error: rtrs.h: No such file=
+ or directory
+>>      #include "rtrs.h"
+>>               ^~~~~~~~
+>>     compilation terminated.
+>>
+>> vim +19 drivers/block/rnbd/rnbd-clt.h
+>>
+>> 9e3ecd2f9c364e6 Jack Wang 2020-04-27  18
+>> 9e3ecd2f9c364e6 Jack Wang 2020-04-27 @19  #include "rtrs.h"
+>> 9e3ecd2f9c364e6 Jack Wang 2020-04-27  20  #include "rnbd-proto.h"
+>> 9e3ecd2f9c364e6 Jack Wang 2020-04-27  21  #include "rnbd-log.h"
+>> 9e3ecd2f9c364e6 Jack Wang 2020-04-27  22
+>>
+>> :::::: The code at line 19 was first introduced by commit
+>> :::::: 9e3ecd2f9c364e67eaa3ad19424b0d7ad6daacaa block/rnbd: client: priv=
+ate header with client structs and functions
+>>
+>> :::::: TO: Jack Wang <jinpu.wang@cloud.ionos.com>
+>> :::::: CC: 0day robot <lkp@intel.com>
+>>
+>> ---
+>> 0-DAY CI Kernel Test Service, Intel Corporation
+>> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+>
+> Dear kbuild test robot, dear All,
+>
+> the mentioned branch with the attached config compiles without errors
+> on my machine. Does anybody knows how to reproduce this include file
+> not found error or why does it come up in the kbuild test compilation?
 
->                      ^
->
-> vim +938 net/sched/sch_fq.c
->
->    913
->    914  static int fq_init(struct Qdisc *sch, struct nlattr *opt,
->    915                     struct netlink_ext_ack *extack)
->    916  {
->    917          struct fq_sched_data *q =3D qdisc_priv(sch);
->    918          int err;
->    919
->    920          sch->limit              =3D 10000;
->    921          q->flow_plimit          =3D 100;
->    922          q->quantum              =3D 2 * psched_mtu(qdisc_dev(sch)=
-);
->    923          q->initial_quantum      =3D 10 * psched_mtu(qdisc_dev(sch=
-));
->    924          q->flow_refill_delay    =3D msecs_to_jiffies(40);
->    925          q->flow_max_rate        =3D ~0UL;
->    926          q->time_next_delayed_flow =3D ~0ULL;
->    927          q->rate_enable          =3D 1;
->    928          q->new_flows.first      =3D NULL;
->    929          q->old_flows.first      =3D NULL;
->    930          q->delayed              =3D RB_ROOT;
->    931          q->fq_root              =3D NULL;
->    932          q->fq_trees_log         =3D ilog2(1024);
->    933          q->orphan_mask          =3D 1024 - 1;
->    934          q->low_rate_threshold   =3D 550000 / 8;
->    935
->    936          q->timer_slack =3D 10 * NSEC_PER_USEC; /* 10 usec of hrti=
-mer slack */
->    937
->  > 938          q->horizon =3D 10 * NSEC_PER_SEC; /* 10 seconds */
->    939          q->horizon_drop =3D 1; /* by default, drop packets beyond=
- horizon */
->    940
->    941          /* Default ce_threshold of 4294 seconds */
->    942          q->ce_threshold         =3D (u64)NSEC_PER_USEC * ~0U;
->    943
->    944          qdisc_watchdog_init_clockid(&q->watchdog, sch, CLOCK_MONO=
-TONIC);
->    945
->    946          if (opt)
->    947                  err =3D fq_change(sch, opt, extack);
->    948          else
->    949                  err =3D fq_resize(sch, q->fq_trees_log);
->    950
->    951          return err;
->    952  }
->    953
->
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6412291804528242449==--
+Hi Danil,
+
+The branch was generated by the bot, it may applied to a wrong base =
+
+tree, could you take a look?
+
+url:    https://github.com/0day-ci/linux/commits/Danil-Kipnis/RTRS-former-I=
+BTRS-RDMA-Transport-Library-and-RNBD-former-IBNBD-RDMA-Network-Block-Device=
+/20200428-080733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-next
+
+
+Best Regards,
+Rong Chen
+--===============3177908843383459834==--
 
