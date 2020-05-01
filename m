@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6104531951669806639=="
+Content-Type: multipart/mixed; boundary="===============9013999363790340704=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [hare-scsi-devel:reserved-tags.v3 39/41] drivers/scsi/hisi_sas/hisi_sas_main.c:1972:1: warning: unused label 'err_out'
-Date: Fri, 01 May 2020 13:12:09 +0800
-Message-ID: <202005011359.soyks2Fz%lkp@intel.com>
+Subject: [hare-scsi-devel:reserved-tags.v3 41/41] drivers/scsi/pm8001/pm8001_sas.c:1202:40: warning: variable 'tag' is uninitialized when used here
+Date: Fri, 01 May 2020 14:34:45 +0800
+Message-ID: <202005011435.SKHkGNEH%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6104531951669806639==
+--===============9013999363790340704==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git=
  reserved-tags.v3
 head:   7e846b812c89291eaaf342f3a37944fefc17473b
-commit: 0b5ae3c0eabfefb5573b84647788cc5d9af89135 [39/41] hisi_sas: use task=
- tag to reference the slot
+commit: 7e846b812c89291eaaf342f3a37944fefc17473b [41/41] pm8001: use block-=
+layer tags for ccb allocation
 config: x86_64-allyesconfig (attached as .config)
 compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 1ccde5=
 33425a4ba9d379510206ad680ff9702129)
@@ -26,7 +26,7 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install x86_64 cross compiling tool for clang build
         # apt-get install binutils-x86-64-linux-gnu
-        git checkout 0b5ae3c0eabfefb5573b84647788cc5d9af89135
+        git checkout 7e846b812c89291eaaf342f3a37944fefc17473b
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 =
@@ -37,196 +37,297 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/hisi_sas/hisi_sas_main.c:1147:18: error: variable has incom=
-plete type 'struct scsilun'
-                   struct scsilun lun;
-                                  ^
-   drivers/scsi/hisi_sas/hisi_sas_main.c:1147:10: note: forward declaration=
- of 'struct scsilun'
-                   struct scsilun lun;
-                          ^
-   drivers/scsi/hisi_sas/hisi_sas_main.c:1150:8: warning: address of functi=
-on 'dev_is_sata' will always evaluate to 'true' [-Wpointer-bool-conversion]
-                   if (!dev_is_sata) {
-                       ~^~~~~~~~~~~
-   drivers/scsi/hisi_sas/hisi_sas_main.c:1150:8: note: prefix with the addr=
-ess-of operator to silence this warning
-                   if (!dev_is_sata) {
-                        ^
-                        &
-   drivers/scsi/hisi_sas/hisi_sas_main.c:1151:24: error: initializing 'stru=
-ct sas_ssp_task' with an expression of incompatible type 'void *'
-                           struct sas_ssp_task ssp_task =3D parameter;
-                                               ^          ~~~~~~~~~
->> drivers/scsi/hisi_sas/hisi_sas_main.c:1972:1: warning: unused label 'err=
-_out' [-Wunused-label]
-   err_out:
-   ^~~~~~~~
-   drivers/scsi/hisi_sas/hisi_sas_main.c:2549:41: warning: shift count >=3D=
- width of type [-Wshift-count-overflow]
-           error =3D dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:139:54: note: expanded from macro 'DMA_BIT_M=
-ASK'
-   #define DMA_BIT_MASK(n) (((n) =3D=3D 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^ ~~~
-   3 warnings and 2 errors generated.
+>> drivers/scsi/pm8001/pm8001_sas.c:1202:40: warning: variable 'tag' is uni=
+nitialized when used here [-Wuninitialized]
+                   tmf_task.tag_of_task_to_be_managed =3D tag;
+                                                        ^~~
+   drivers/scsi/pm8001/pm8001_sas.c:1168:9: note: initialize the variable '=
+tag' to silence this warning
+           u32 tag;
+                  ^
+                   =3D 0
+   1 warning generated.
 
-vim +/err_out +1972 drivers/scsi/hisi_sas/hisi_sas_main.c
+vim +/tag +1202 drivers/scsi/pm8001/pm8001_sas.c
 
-0efff300c72df7 John Garry      2015-11-18  1899  =
+dbf9bfe615717d jack wang       2009-10-14  1163  =
 
-441c27401470c4 John Garry      2016-08-24  1900  static int
-ad6048325c7807 John Garry      2017-06-14  1901  hisi_sas_internal_abort_ta=
-sk_exec(struct hisi_hba *hisi_hba, int device_id,
-441c27401470c4 John Garry      2016-08-24  1902  				  struct sas_task *tas=
-k, int abort_flag,
-795f25a31b542d John Garry      2019-02-06  1903  				  int task_tag, struct=
- hisi_sas_dq *dq)
-441c27401470c4 John Garry      2016-08-24  1904  {
-441c27401470c4 John Garry      2016-08-24  1905  	struct domain_device *dev=
-ice =3D task->dev;
-441c27401470c4 John Garry      2016-08-24  1906  	struct hisi_sas_device *s=
-as_dev =3D device->lldd_dev;
-11b752490a051b John Garry      2017-06-14  1907  	struct device *dev =3D hi=
-si_hba->dev;
-441c27401470c4 John Garry      2016-08-24  1908  	struct hisi_sas_port *por=
-t;
-441c27401470c4 John Garry      2016-08-24  1909  	struct hisi_sas_slot *slo=
-t;
-2e244f0f5bcaa9 John Garry      2017-03-23  1910  	struct asd_sas_port *sas_=
-port =3D device->port;
-441c27401470c4 John Garry      2016-08-24  1911  	struct hisi_sas_cmd_hdr *=
-cmd_hdr_base;
-441c27401470c4 John Garry      2016-08-24  1912  	int dlvry_queue_slot, dlv=
-ry_queue, n_elem =3D 0, rc, slot_idx;
-897cc769bcc092 John Garry      2019-08-05  1913  	unsigned long flags;
-fa222db0b03689 Xiang Chen      2018-05-09  1914  	int wr_q_index;
-441c27401470c4 John Garry      2016-08-24  1915  =
-
-917d3bdaf8f2ab Xiaofei Tan     2017-08-11  1916  	if (unlikely(test_bit(HIS=
-I_SAS_REJECT_CMD_BIT, &hisi_hba->flags)))
-06ec0fb97c0281 Xiang Chen      2017-03-23  1917  		return -EINVAL;
-06ec0fb97c0281 Xiang Chen      2017-03-23  1918  =
-
-441c27401470c4 John Garry      2016-08-24  1919  	if (!device->port)
-441c27401470c4 John Garry      2016-08-24  1920  		return -1;
-441c27401470c4 John Garry      2016-08-24  1921  =
-
-2e244f0f5bcaa9 John Garry      2017-03-23  1922  	port =3D to_hisi_sas_port=
-(sas_port);
-441c27401470c4 John Garry      2016-08-24  1923  =
-
-0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1924  	slot_idx =3D task->tag;
-0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1925  	if (task->tag =3D=3D -1)
-0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1926  		return -EAGAIN;
-b1a49412f0aed7 Xiang Chen      2017-06-14  1927  =
-
-3de0026dad6b8e Xiang Chen      2018-05-09  1928  	slot =3D &hisi_hba->slot_=
-info[slot_idx];
-fa222db0b03689 Xiang Chen      2018-05-09  1929  =
-
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1930  	spin_lock(&dq->lock);
-897cc769bcc092 John Garry      2019-08-05  1931  	wr_q_index =3D dq->wr_poi=
-nt;
-897cc769bcc092 John Garry      2019-08-05  1932  	dq->wr_point =3D (dq->wr_=
-point + 1) % HISI_SAS_QUEUE_SLOTS;
-fa222db0b03689 Xiang Chen      2018-05-09  1933  	list_add_tail(&slot->deli=
-very, &dq->list);
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1934  	spin_unlock(&dq->lock);
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1935  	spin_lock(&sas_dev->lock);
-4fefe5bbf599d6 Xiang Chen      2019-02-06  1936  	list_add_tail(&slot->entr=
-y, &sas_dev->list);
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1937  	spin_unlock(&sas_dev->loc=
-k);
-441c27401470c4 John Garry      2016-08-24  1938  =
-
-b1a49412f0aed7 Xiang Chen      2017-06-14  1939  	dlvry_queue =3D dq->id;
-fa222db0b03689 Xiang Chen      2018-05-09  1940  	dlvry_queue_slot =3D wr_q=
-_index;
-b1a49412f0aed7 Xiang Chen      2017-06-14  1941  =
-
-4fefe5bbf599d6 Xiang Chen      2019-02-06  1942  	slot->device_id =3D sas_d=
-ev->device_id;
-441c27401470c4 John Garry      2016-08-24  1943  	slot->n_elem =3D n_elem;
-441c27401470c4 John Garry      2016-08-24  1944  	slot->dlvry_queue =3D dlv=
-ry_queue;
-441c27401470c4 John Garry      2016-08-24  1945  	slot->dlvry_queue_slot =
-=3D dlvry_queue_slot;
-441c27401470c4 John Garry      2016-08-24  1946  	cmd_hdr_base =3D hisi_hba=
-->cmd_hdr[dlvry_queue];
-441c27401470c4 John Garry      2016-08-24  1947  	slot->cmd_hdr =3D &cmd_hd=
-r_base[dlvry_queue_slot];
-441c27401470c4 John Garry      2016-08-24  1948  	slot->task =3D task;
-441c27401470c4 John Garry      2016-08-24  1949  	slot->port =3D port;
-cd938e535e909b Xiang Chen      2018-05-02  1950  	slot->is_internal =3D tru=
-e;
-441c27401470c4 John Garry      2016-08-24  1951  	task->lldd_task =3D slot;
-441c27401470c4 John Garry      2016-08-24  1952  =
-
-441c27401470c4 John Garry      2016-08-24  1953  	memset(slot->cmd_hdr, 0, =
-sizeof(struct hisi_sas_cmd_hdr));
-031da09c110106 Xiang Chen      2017-08-11  1954  	memset(hisi_sas_cmd_hdr_a=
-ddr_mem(slot), 0, HISI_SAS_COMMAND_TABLE_SZ);
-d380f55503ed28 Xiang Chen      2019-08-05  1955  	memset(hisi_sas_status_bu=
-f_addr_mem(slot), 0,
-d380f55503ed28 Xiang Chen      2019-08-05  1956  	       sizeof(struct hisi=
-_sas_err_record));
-441c27401470c4 John Garry      2016-08-24  1957  =
-
-a2b3820bddfbff Xiang Chen      2018-05-09  1958  	hisi_sas_task_prep_abort(=
-hisi_hba, slot, device_id,
-441c27401470c4 John Garry      2016-08-24  1959  				      abort_flag, task=
-_tag);
-441c27401470c4 John Garry      2016-08-24  1960  =
-
-54c9dd2d26d095 John Garry      2017-03-23  1961  	spin_lock_irqsave(&task->=
+32877947b7a806 Weitao Hou      2019-05-20  1164  /*  mandatory SAM-3, still=
+ need free task/ccb info, abort the specified task */
+dbf9bfe615717d jack wang       2009-10-14  1165  int pm8001_abort_task(stru=
+ct sas_task *task)
+dbf9bfe615717d jack wang       2009-10-14  1166  {
+dbf9bfe615717d jack wang       2009-10-14  1167  	unsigned long flags;
+1db49906d8fa87 Viswas G        2017-10-18  1168  	u32 tag;
+dbf9bfe615717d jack wang       2009-10-14  1169  	struct domain_device *dev=
+ ;
+1db49906d8fa87 Viswas G        2017-10-18  1170  	struct pm8001_hba_info *p=
+m8001_ha;
+dbf9bfe615717d jack wang       2009-10-14  1171  	struct scsi_lun lun;
+dbf9bfe615717d jack wang       2009-10-14  1172  	struct pm8001_device *pm8=
+001_dev;
+dbf9bfe615717d jack wang       2009-10-14  1173  	struct pm8001_tmf_task tm=
+f_task;
+869ddbdcae3b4f Viswas G        2017-10-18  1174  	int rc =3D TMF_RESP_FUNC_=
+FAILED, ret;
+869ddbdcae3b4f Viswas G        2017-10-18  1175  	u32 phy_id;
+869ddbdcae3b4f Viswas G        2017-10-18  1176  	struct sas_task_slow slow=
+_task;
+dbf9bfe615717d jack wang       2009-10-14  1177  	if (unlikely(!task || !ta=
+sk->lldd_task || !task->dev))
+1db49906d8fa87 Viswas G        2017-10-18  1178  		return TMF_RESP_FUNC_FAI=
+LED;
+1db49906d8fa87 Viswas G        2017-10-18  1179  	dev =3D task->dev;
+1db49906d8fa87 Viswas G        2017-10-18  1180  	pm8001_dev =3D dev->lldd_=
+dev;
+1db49906d8fa87 Viswas G        2017-10-18  1181  	pm8001_ha =3D pm8001_find=
+_ha_by_dev(dev);
+869ddbdcae3b4f Viswas G        2017-10-18  1182  	phy_id =3D pm8001_dev->at=
+tached_phy;
+7e846b812c8929 Hannes Reinecke 2020-04-14  1183  	if (task->tag =3D=3D -1) {
+1db49906d8fa87 Viswas G        2017-10-18  1184  		pm8001_printk("no tag fo=
+r task:%p\n", task);
+1db49906d8fa87 Viswas G        2017-10-18  1185  		return TMF_RESP_FUNC_FAI=
+LED;
+1db49906d8fa87 Viswas G        2017-10-18  1186  	}
+dbf9bfe615717d jack wang       2009-10-14  1187  	spin_lock_irqsave(&task->=
 task_state_lock, flags);
-441c27401470c4 John Garry      2016-08-24  1962  	task->task_state_flags |=
-=3D SAS_TASK_AT_INITIATOR;
-54c9dd2d26d095 John Garry      2017-03-23  1963  	spin_unlock_irqrestore(&t=
+dbf9bfe615717d jack wang       2009-10-14  1188  	if (task->task_state_flag=
+s & SAS_TASK_STATE_DONE) {
+dbf9bfe615717d jack wang       2009-10-14  1189  		spin_unlock_irqrestore(&=
+task->task_state_lock, flags);
+1db49906d8fa87 Viswas G        2017-10-18  1190  		return TMF_RESP_FUNC_COM=
+PLETE;
+dbf9bfe615717d jack wang       2009-10-14  1191  	}
+869ddbdcae3b4f Viswas G        2017-10-18  1192  	task->task_state_flags |=
+=3D SAS_TASK_STATE_ABORTED;
+869ddbdcae3b4f Viswas G        2017-10-18  1193  	if (task->slow_task =3D=
+=3D NULL) {
+869ddbdcae3b4f Viswas G        2017-10-18  1194  		init_completion(&slow_ta=
+sk.completion);
+869ddbdcae3b4f Viswas G        2017-10-18  1195  		task->slow_task =3D &slo=
+w_task;
+dbf9bfe615717d jack wang       2009-10-14  1196  	}
+dbf9bfe615717d jack wang       2009-10-14  1197  	spin_unlock_irqrestore(&t=
 ask->task_state_lock, flags);
-1c09b663168bb5 Xiaofei Tan     2018-07-18  1964  	WRITE_ONCE(slot->ready, 1=
-);
-b1a49412f0aed7 Xiang Chen      2017-06-14  1965  	/* send abort command to =
-the chip */
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1966  	spin_lock(&dq->lock);
-b1a49412f0aed7 Xiang Chen      2017-06-14  1967  	hisi_hba->hw->start_deliv=
-ery(dq);
-e9dc5e11c97ee9 Xiang Chen      2020-01-20  1968  	spin_unlock(&dq->lock);
-441c27401470c4 John Garry      2016-08-24  1969  =
+dbf9bfe615717d jack wang       2009-10-14  1198  	if (task->task_proto & SA=
+S_PROTOCOL_SSP) {
+dbf9bfe615717d jack wang       2009-10-14  1199  		struct scsi_cmnd *cmnd =
+=3D task->uldd_task;
+dbf9bfe615717d jack wang       2009-10-14  1200  		int_to_scsilun(cmnd->dev=
+ice->lun, &lun);
+dbf9bfe615717d jack wang       2009-10-14  1201  		tmf_task.tmf =3D TMF_ABO=
+RT_TASK;
+dbf9bfe615717d jack wang       2009-10-14 @1202  		tmf_task.tag_of_task_to_=
+be_managed =3D tag;
+8f1d49faadc4e1 Hannes Reinecke 2020-04-29  1203  		rc =3D pm8001_exec_inter=
+nal_tmf_task(dev, lun.scsi_lun,
+8f1d49faadc4e1 Hannes Reinecke 2020-04-29  1204  						   &tmf_task);
+8f1d49faadc4e1 Hannes Reinecke 2020-04-29  1205  		if (rc =3D=3D TMF_RESP_F=
+UNC_SUCC)
+97ee20886cfd25 jack_wang       2009-11-05  1206  			pm8001_exec_internal_ta=
+sk_abort(pm8001_ha, pm8001_dev,
+7f3f003ba62f8d John Garry      2020-03-11  1207  				lun.scsi_lun, 0, tag);
+dbf9bfe615717d jack wang       2009-10-14  1208  	} else if (task->task_pro=
+to & SAS_PROTOCOL_SATA ||
+dbf9bfe615717d jack wang       2009-10-14  1209  		task->task_proto & SAS_P=
+ROTOCOL_STP) {
+7f3f003ba62f8d John Garry      2020-03-11  1210  		memset(lun.scsi_lun, 0, =
+sizeof(lun.scsi_lun));
+869ddbdcae3b4f Viswas G        2017-10-18  1211  		if (pm8001_ha->chip_id =
+=3D=3D chip_8006) {
+869ddbdcae3b4f Viswas G        2017-10-18  1212  			DECLARE_COMPLETION_ONST=
+ACK(completion_reset);
+869ddbdcae3b4f Viswas G        2017-10-18  1213  			DECLARE_COMPLETION_ONST=
+ACK(completion);
+869ddbdcae3b4f Viswas G        2017-10-18  1214  			struct pm8001_phy *phy =
+=3D pm8001_ha->phy + phy_id;
+869ddbdcae3b4f Viswas G        2017-10-18  1215  =
 
-441c27401470c4 John Garry      2016-08-24  1970  	return 0;
-441c27401470c4 John Garry      2016-08-24  1971  =
+869ddbdcae3b4f Viswas G        2017-10-18  1216  			/* 1. Set Device state =
+as Recovery */
+869ddbdcae3b4f Viswas G        2017-10-18  1217  			pm8001_dev->setds_compl=
+etion =3D &completion;
+869ddbdcae3b4f Viswas G        2017-10-18  1218  			PM8001_CHIP_DISP->set_d=
+ev_state_req(pm8001_ha,
+869ddbdcae3b4f Viswas G        2017-10-18  1219  				pm8001_dev, 0x03);
+869ddbdcae3b4f Viswas G        2017-10-18  1220  			wait_for_completion(&co=
+mpletion);
+869ddbdcae3b4f Viswas G        2017-10-18  1221  =
 
-441c27401470c4 John Garry      2016-08-24 @1972  err_out:
-441c27401470c4 John Garry      2016-08-24  1973  	dev_err(dev, "internal ab=
-ort task prep: failed[%d]!\n", rc);
-441c27401470c4 John Garry      2016-08-24  1974  =
+869ddbdcae3b4f Viswas G        2017-10-18  1222  			/* 2. Send Phy Control =
+Hard Reset */
+869ddbdcae3b4f Viswas G        2017-10-18  1223  			reinit_completion(&comp=
+letion);
+51c1c5f6ed64c2 peter chang     2019-11-14  1224  			phy->port_reset_status =
+=3D PORT_RESET_TMO;
+869ddbdcae3b4f Viswas G        2017-10-18  1225  			phy->reset_success =3D =
+false;
+869ddbdcae3b4f Viswas G        2017-10-18  1226  			phy->enable_completion =
+=3D &completion;
+869ddbdcae3b4f Viswas G        2017-10-18  1227  			phy->reset_completion =
+=3D &completion_reset;
+869ddbdcae3b4f Viswas G        2017-10-18  1228  			ret =3D PM8001_CHIP_DIS=
+P->phy_ctl_req(pm8001_ha, phy_id,
+869ddbdcae3b4f Viswas G        2017-10-18  1229  				PHY_HARD_RESET);
+51c1c5f6ed64c2 peter chang     2019-11-14  1230  			if (ret) {
+51c1c5f6ed64c2 peter chang     2019-11-14  1231  				phy->enable_completion=
+ =3D NULL;
+51c1c5f6ed64c2 peter chang     2019-11-14  1232  				phy->reset_completion =
+=3D NULL;
+869ddbdcae3b4f Viswas G        2017-10-18  1233  				goto out;
+51c1c5f6ed64c2 peter chang     2019-11-14  1234  			}
+51c1c5f6ed64c2 peter chang     2019-11-14  1235  =
 
-441c27401470c4 John Garry      2016-08-24  1975  	return rc;
-441c27401470c4 John Garry      2016-08-24  1976  }
-441c27401470c4 John Garry      2016-08-24  1977  =
+51c1c5f6ed64c2 peter chang     2019-11-14  1236  			/* In the case of the r=
+eset timeout/fail we still
+51c1c5f6ed64c2 peter chang     2019-11-14  1237  			 * abort the command at=
+ the firmware. The assumption
+51c1c5f6ed64c2 peter chang     2019-11-14  1238  			 * here is that the dri=
+ve is off doing something so
+51c1c5f6ed64c2 peter chang     2019-11-14  1239  			 * that it's not proces=
+sing requests, and we want to
+51c1c5f6ed64c2 peter chang     2019-11-14  1240  			 * avoid getting a comp=
+letion for this and either
+51c1c5f6ed64c2 peter chang     2019-11-14  1241  			 * leaking the task in =
+libsas or losing the race and
+51c1c5f6ed64c2 peter chang     2019-11-14  1242  			 * getting a double fre=
+e.
+51c1c5f6ed64c2 peter chang     2019-11-14  1243  			 */
+869ddbdcae3b4f Viswas G        2017-10-18  1244  			PM8001_MSG_DBG(pm8001_h=
+a,
+869ddbdcae3b4f Viswas G        2017-10-18  1245  				pm8001_printk("Waiting=
+ for local phy ctl\n"));
+51c1c5f6ed64c2 peter chang     2019-11-14  1246  			ret =3D wait_for_comple=
+tion_timeout(&completion,
+51c1c5f6ed64c2 peter chang     2019-11-14  1247  					PM8001_TASK_TIMEOUT *=
+ HZ);
+51c1c5f6ed64c2 peter chang     2019-11-14  1248  			if (!ret || !phy->reset=
+_success) {
+51c1c5f6ed64c2 peter chang     2019-11-14  1249  				phy->enable_completion=
+ =3D NULL;
+51c1c5f6ed64c2 peter chang     2019-11-14  1250  				phy->reset_completion =
+=3D NULL;
+51c1c5f6ed64c2 peter chang     2019-11-14  1251  			} else {
+51c1c5f6ed64c2 peter chang     2019-11-14  1252  				/* 3. Wait for Port Re=
+set complete or
+51c1c5f6ed64c2 peter chang     2019-11-14  1253  				 * Port reset TMO
+51c1c5f6ed64c2 peter chang     2019-11-14  1254  				 */
+869ddbdcae3b4f Viswas G        2017-10-18  1255  				PM8001_MSG_DBG(pm8001_=
+ha,
+869ddbdcae3b4f Viswas G        2017-10-18  1256  				pm8001_printk("Waiting=
+ for Port reset\n"));
+51c1c5f6ed64c2 peter chang     2019-11-14  1257  				ret =3D wait_for_compl=
+etion_timeout(
+51c1c5f6ed64c2 peter chang     2019-11-14  1258  					&completion_reset,
+51c1c5f6ed64c2 peter chang     2019-11-14  1259  					PM8001_TASK_TIMEOUT *=
+ HZ);
+51c1c5f6ed64c2 peter chang     2019-11-14  1260  				if (!ret)
+51c1c5f6ed64c2 peter chang     2019-11-14  1261  					phy->reset_completion=
+ =3D NULL;
+51c1c5f6ed64c2 peter chang     2019-11-14  1262  				WARN_ON(phy->port_rese=
+t_status =3D=3D
+51c1c5f6ed64c2 peter chang     2019-11-14  1263  						PORT_RESET_TMO);
+51c1c5f6ed64c2 peter chang     2019-11-14  1264  				if (phy->port_reset_st=
+atus =3D=3D PORT_RESET_TMO) {
+196ba6629cf95e Deepak Ukey     2019-07-09  1265  					pm8001_dev_gone_notif=
+y(dev);
+869ddbdcae3b4f Viswas G        2017-10-18  1266  					goto out;
+196ba6629cf95e Deepak Ukey     2019-07-09  1267  				}
+51c1c5f6ed64c2 peter chang     2019-11-14  1268  			}
+869ddbdcae3b4f Viswas G        2017-10-18  1269  =
+
+869ddbdcae3b4f Viswas G        2017-10-18  1270  			/*
+869ddbdcae3b4f Viswas G        2017-10-18  1271  			 * 4. SATA Abort ALL
+869ddbdcae3b4f Viswas G        2017-10-18  1272  			 * we wait for the task=
+ to be aborted so that the task
+869ddbdcae3b4f Viswas G        2017-10-18  1273  			 * is removed from the =
+ccb. on success the caller is
+869ddbdcae3b4f Viswas G        2017-10-18  1274  			 * going to free the ta=
+sk.
+869ddbdcae3b4f Viswas G        2017-10-18  1275  			 */
+869ddbdcae3b4f Viswas G        2017-10-18  1276  			ret =3D pm8001_exec_int=
+ernal_task_abort(pm8001_ha,
+7f3f003ba62f8d John Garry      2020-03-11  1277  				pm8001_dev, lun.scsi_l=
+un, 1, tag);
+869ddbdcae3b4f Viswas G        2017-10-18  1278  			if (ret)
+869ddbdcae3b4f Viswas G        2017-10-18  1279  				goto out;
+869ddbdcae3b4f Viswas G        2017-10-18  1280  			ret =3D wait_for_comple=
+tion_timeout(
+869ddbdcae3b4f Viswas G        2017-10-18  1281  				&task->slow_task->comp=
+letion,
+869ddbdcae3b4f Viswas G        2017-10-18  1282  				PM8001_TASK_TIMEOUT * =
+HZ);
+869ddbdcae3b4f Viswas G        2017-10-18  1283  			if (!ret)
+869ddbdcae3b4f Viswas G        2017-10-18  1284  				goto out;
+869ddbdcae3b4f Viswas G        2017-10-18  1285  =
+
+869ddbdcae3b4f Viswas G        2017-10-18  1286  			/* 5. Set Device State =
+as Operational */
+869ddbdcae3b4f Viswas G        2017-10-18  1287  			reinit_completion(&comp=
+letion);
+869ddbdcae3b4f Viswas G        2017-10-18  1288  			pm8001_dev->setds_compl=
+etion =3D &completion;
+869ddbdcae3b4f Viswas G        2017-10-18  1289  			PM8001_CHIP_DISP->set_d=
+ev_state_req(pm8001_ha,
+869ddbdcae3b4f Viswas G        2017-10-18  1290  				pm8001_dev, 0x01);
+869ddbdcae3b4f Viswas G        2017-10-18  1291  			wait_for_completion(&co=
+mpletion);
+869ddbdcae3b4f Viswas G        2017-10-18  1292  		} else {
+869ddbdcae3b4f Viswas G        2017-10-18  1293  			rc =3D pm8001_exec_inte=
+rnal_task_abort(pm8001_ha,
+7f3f003ba62f8d John Garry      2020-03-11  1294  				pm8001_dev, lun.scsi_l=
+un, 0, tag);
+dbf9bfe615717d jack wang       2009-10-14  1295  		}
+869ddbdcae3b4f Viswas G        2017-10-18  1296  		rc =3D TMF_RESP_FUNC_COM=
+PLETE;
+dbf9bfe615717d jack wang       2009-10-14  1297  	} else if (task->task_pro=
+to & SAS_PROTOCOL_SMP) {
+dbf9bfe615717d jack wang       2009-10-14  1298  		/* SMP */
+7f3f003ba62f8d John Garry      2020-03-11  1299  =
+
+7f3f003ba62f8d John Garry      2020-03-11  1300  		int_to_scsilun(0, &lun);
+dbf9bfe615717d jack wang       2009-10-14  1301  		rc =3D pm8001_exec_inter=
+nal_task_abort(pm8001_ha, pm8001_dev,
+7f3f003ba62f8d John Garry      2020-03-11  1302  			lun.scsi_lun, 0, tag);
+dbf9bfe615717d jack wang       2009-10-14  1303  =
+
+dbf9bfe615717d jack wang       2009-10-14  1304  	}
+dbf9bfe615717d jack wang       2009-10-14  1305  out:
+869ddbdcae3b4f Viswas G        2017-10-18  1306  	spin_lock_irqsave(&task->=
+task_state_lock, flags);
+869ddbdcae3b4f Viswas G        2017-10-18  1307  	if (task->slow_task =3D=
+=3D &slow_task)
+869ddbdcae3b4f Viswas G        2017-10-18  1308  		task->slow_task =3D NULL;
+869ddbdcae3b4f Viswas G        2017-10-18  1309  	spin_unlock_irqrestore(&t=
+ask->task_state_lock, flags);
+dbf9bfe615717d jack wang       2009-10-14  1310  	if (rc !=3D TMF_RESP_FUNC=
+_COMPLETE)
+dbf9bfe615717d jack wang       2009-10-14  1311  		pm8001_printk("rc=3D %d\=
+n", rc);
+dbf9bfe615717d jack wang       2009-10-14  1312  	return rc;
+dbf9bfe615717d jack wang       2009-10-14  1313  }
+dbf9bfe615717d jack wang       2009-10-14  1314  =
 
 
-:::::: The code at line 1972 was first introduced by commit
-:::::: 441c27401470c417cf4a33ab9c17bcefdf1ecca3 scsi: hisi_sas: add interna=
-l abort main code
+:::::: The code at line 1202 was first introduced by commit
+:::::: dbf9bfe615717d1145f263c0049fe2328e6ed395 [SCSI] pm8001: add SAS/SATA=
+ HBA driver
 
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: jack wang <jack_wang@usish.com>
+:::::: CC: James Bottomley <James.Bottomley@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6104531951669806639==
+--===============9013999363790340704==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEymq14AAy5jb25maWcAlDzbdtw2ku/zFX2Sl+QhTkuWZe/s8QNIgt1wkwQDgK1uv+AoUtvR
+H4sICDi8q14AAy5jb25maWcAlDzbdtw2ku/zFX2Sl+QhTkuWZe/s8QNIgt1wkwQDgK1uv+AoUtvR
 rix5dMnYf79VAC8FEK3x+uTEZhWuhULd0T//4+cFe366/3L5dHN1eXv7ffH5cHd4uHw6XC8+3dwe
 /ntRyEUjzYIXwryCxtXN3fO337+9O7fnZ4s3r96+Wv72cHWy2Bwe7g63i/z+7tPN52fof3N/94+f
 /wH//QzAL19hqId/Lq5uL+8+L/4+PDwCenFy8mr5arn45fPN0z9//x3+/+Xm4eH+4ffb27+/2K8P
@@ -1514,5 +1615,5 @@ axhPvQFClbkswRS5M2CnYGdKwrMCGCZ97F4t9E1oHZ2gaqPEfjoqpkvQJPo5CrQ9Vj68T7QnsPRT
 o8DrJ2qTmb6mijeJuhOgmLk/6EuiziKUe+4H3sD5UiL4NmGdqZu6Lf2MMsGHlj8qxX0fa91sis6U
 sVv1b+dCo19PUILoXksR4CNQef5Wj0F45TZJFghI3m3xD6EHPNgnuo5RjXTahrkyQuG5Shuntlx4
 rkoX3/Yj1u0Zb4/1Ncy4bStCP5HjrpMrvuUwkD8dUeelKr44+o3LfCW8Uaz/H4fVOvd9sQQA
---===============6104531951669806639==--
+--===============9013999363790340704==--
 
