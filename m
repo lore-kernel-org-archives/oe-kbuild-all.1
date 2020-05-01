@@ -1,60 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============7616919872330870904=="
+Content-Type: multipart/mixed; boundary="===============3156857464899325974=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [lkp] [+3086 bytes kernel size regression] [i386-tinyconfig] [3a4ac121c2] x86/perf: Add hardware performance events support for Zhaoxin CPU.
-Date: Sat, 02 May 2020 01:43:46 +0800
-Message-ID: <5eac5fd2.4a/ZewL0k6WQIF1L%lkp@intel.com>
+Subject: Re: [RFC 02/20] ext4: Introduce percpu seq counter for freeing blocks(PA) to avoid ENOSPC err
+Date: Sat, 02 May 2020 02:07:23 +0800
+Message-ID: <202005020212.ystene6Q%lkp@intel.com>
+In-Reply-To: <65959db57fa53e5d3d63099b0d5c039ab1154253.1588313626.git.riteshh@linux.ibm.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7616919872330870904==
+--===============3156857464899325974==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+Hi Ritesh,
 
-FYI, we noticed a +3086 bytes kernel size regression due to commit:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on ext4/dev]
+[also build test WARNING on tip/perf/core ext3/for_next v5.7-rc3 next-20200=
+501]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
 
-commit: 3a4ac121c2cacbf97d493fa3bc42ead88657abe4 (x86/perf: Add hardware pe=
-rformance events support for Zhaoxin CPU.)
-https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
+url:    https://github.com/0day-ci/linux/commits/Ritesh-Harjani/ext4-Fix-EN=
+OSPC-error-improve-mballoc-dbg-other-cleanups/20200501-155110
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-87cfeb19: Merge tag 'perf-core-for-mingo-5.8-20200420' of git://git.kernel.=
-org/pub/scm/linux/kernel/git/acme/linux into perf/core
-3a4ac121: x86/perf: Add hardware performance events support for Zhaoxin CPU.
-
-+------------------------------------+----------+----------+-------+
-|               symbol               | 87cfeb19 | 3a4ac121 | delta |
-+------------------------------------+----------+----------+-------+
-| bzImage                            | 439232   | 440192   | 960   |
-| nm.T.zhaoxin_pmu_init              | 0        | 877      | 877   |
-| nm.t.zhaoxin_pmu_handle_irq        | 0        | 480      | 480   |
-| nm.t.zxd_hw_cache_event_ids        | 0        | 336      | 336   |
-| nm.t.zxe_hw_cache_event_ids        | 0        | 336      | 336   |
-| nm.t.zhaoxin_pmu_enable_event      | 0        | 292      | 292   |
-| nm.d.zxd_event_constraints         | 0        | 160      | 160   |
-| nm.t.zhaoxin_pmu_disable_event     | 0        | 143      | 143   |
-| nm.d.zx_pmon_event_map             | 0        | 80       | 80    |
-| nm.d.zxc_event_constraints         | 0        | 80       | 80    |
-| nm.t.zhaoxin_arch_events_quirk     | 0        | 70       | 70    |
-| nm.t.zhaoxin_get_event_constraints | 0        | 66       | 66    |
-| nm.t.zx_arch_events_map            | 0        | 56       | 56    |
-| nm.d.zx_arch_formats_attr          | 0        | 24       | 24    |
-| nm.t.zhaoxin_pmu_enable_all        | 0        | 22       | 22    |
-| nm.t.zhaoxin_pmu_event_map         | 0        | 21       | 21    |
-| nm.t.zhaoxin_event_sysfs_show      | 0        | 19       | 19    |
-| nm.t.init_hw_perf_events           | 726      | 739      | 13    |
-| nm.t.zhaoxin_pmu_disable_all       | 0        | 11       | 11    |
-| nm.T.intel_pmu_init                | 4196     | 4197     | 1     |
-| nm.R.linux_banner                  | 164      | 163      | -1    |
-+------------------------------------+----------+----------+-------+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
 
-Thanks,
-Kbuild test robot
+>> fs/ext4/mballoc.c:378:1: sparse: sparse: symbol '__pcpu_scope_discard_pa=
+_seq' was not declared. Should it be static?
 
---===============7616919872330870904==--
+Please review and possibly fold the followup patch.
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3156857464899325974==--
 
