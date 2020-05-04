@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0625290157970944443=="
+Content-Type: multipart/mixed; boundary="===============0160123568961388210=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v3 1/2] timer: make deferrable cpu unbound timers really not bound to a cpu
-Date: Tue, 05 May 2020 02:11:10 +0800
-Message-ID: <202005050240.43QyO4uy%lkp@intel.com>
-In-Reply-To: <1588444137-18651-2-git-send-email-psodagud@codeaurora.org>
+Subject: Re: [PATCH v3 2/2] sched: Add a check for cpu unbound deferrable timers
+Date: Tue, 05 May 2020 03:11:58 +0800
+Message-ID: <202005050350.JrZ92nSI%lkp@intel.com>
+In-Reply-To: <1588444137-18651-3-git-send-email-psodagud@codeaurora.org>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0625290157970944443==
+--===============0160123568961388210==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -48,64 +48,65 @@ Reported-by: kbuild test robot <lkp@intel.com>
 All errors (new ones prefixed by >>):
 
    kernel/time/timer.c: In function 'get_timer_cpu_base':
->> kernel/time/timer.c:847:11: error: 'timer_base_deferrable' undeclared (f=
+   kernel/time/timer.c:848:11: error: 'timer_base_deferrable' undeclared (f=
 irst use in this function)
-     847 |   base =3D &timer_base_deferrable;
+     848 |   base =3D &timer_base_deferrable;
          |           ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/timer.c:847:11: note: each undeclared identifier is reported=
+   kernel/time/timer.c:848:11: note: each undeclared identifier is reported=
  only once for each function it appears in
    kernel/time/timer.c: In function 'get_timer_this_cpu_base':
-   kernel/time/timer.c:866:11: error: 'timer_base_deferrable' undeclared (f=
+   kernel/time/timer.c:867:11: error: 'timer_base_deferrable' undeclared (f=
 irst use in this function)
-     866 |   base =3D &timer_base_deferrable;
+     867 |   base =3D &timer_base_deferrable;
          |           ^~~~~~~~~~~~~~~~~~~~~
    kernel/time/timer.c: In function 'run_timer_softirq':
-   kernel/time/timer.c:1805:18: error: 'timer_base_deferrable' undeclared (=
+>> kernel/time/timer.c:1829:24: error: 'deferrable_pending' undeclared (fir=
+st use in this function)
+    1829 |   if ((atomic_cmpxchg(&deferrable_pending, 1, 0) &&
+         |                        ^~~~~~~~~~~~~~~~~~
+   kernel/time/timer.c:1832:18: error: 'timer_base_deferrable' undeclared (=
 first use in this function)
-    1805 |    __run_timers(&timer_base_deferrable);
+    1832 |    __run_timers(&timer_base_deferrable);
          |                  ^~~~~~~~~~~~~~~~~~~~~
 
-vim +/timer_base_deferrable +847 kernel/time/timer.c
+vim +/deferrable_pending +1829 kernel/time/timer.c
 
-   836	=
+  1817	=
 
-   837	static inline struct timer_base *get_timer_cpu_base(u32 tflags, u32 =
-cpu)
-   838	{
-   839		struct timer_base *base =3D per_cpu_ptr(&timer_bases[BASE_STD], cpu=
-);
-   840	=
+  1818	/*
+  1819	 * This function runs timers and the timer-tq in bottom half context.
+  1820	 */
+  1821	static __latent_entropy void run_timer_softirq(struct softirq_action=
+ *h)
+  1822	{
+  1823		struct timer_base *base =3D this_cpu_ptr(&timer_bases[BASE_STD]);
+  1824	=
 
-   841		/*
-   842		 * If the timer is deferrable and NO_HZ_COMMON is set then we need
-   843		 * to use the deferrable base.
-   844		 */
-   845		if (IS_ENABLED(CONFIG_NO_HZ_COMMON) && (tflags & TIMER_DEFERRABLE))=
- {
-   846	#ifdef CONFIG_SMP
- > 847			base =3D &timer_base_deferrable;
-   848	#endif
-   849			if (tflags & TIMER_PINNED)
-   850				base =3D per_cpu_ptr(&timer_bases[BASE_DEF], cpu);
-   851		}
-   852	=
-
-   853		return base;
-   854	}
-   855	=
+  1825		__run_timers(base);
+  1826		if (IS_ENABLED(CONFIG_NO_HZ_COMMON)) {
+  1827			__run_timers(this_cpu_ptr(&timer_bases[BASE_DEF]));
+  1828	#ifdef CONFIG_SMP
+> 1829			if ((atomic_cmpxchg(&deferrable_pending, 1, 0) &&
+  1830					tick_do_timer_cpu =3D=3D TICK_DO_TIMER_NONE) ||
+  1831					tick_do_timer_cpu =3D=3D smp_processor_id())
+  1832				__run_timers(&timer_base_deferrable);
+  1833	#endif
+  1834		}
+  1835	}
+  1836	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0625290157970944443==
+--===============0160123568961388210==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICIpVsF4AAy5jb25maWcAnFxtc9s4kv6+v4KVqdqaqZ0ktpz4nLvyBwgEJYxIgiFAveTqiqWR
+H4sICOJgsF4AAy5jb25maWcAnFxtc9s4kv6+v4KVqdqaqZ0ktpz4nLvyBwgEJYxIgiFAveTqiqWR
 6EQ1tuTVSya+X3/dICmCJCCnbmo3idGNJl4a3U83Gv7lH7945HTcPS2Pm9Xy8fHF+1psi/3yWKy9
 h81j8V+eL7xYKI/5XL0D5nCzPf14v98cVt+9j+9u31293a8G3qTYb4tHj+62D5uvJ+i+2W3/8cs/
 4H+/QOPTM0ja/6ene91+ePuIMt5+Xa28X0eU/uZ9enfz7gp4qYgDPsopzbnMgXL/UjfBD/mUpZKL
@@ -225,5 +226,5 @@ wL8xmtIeHGXDZzIIwAPEDPebDOSA6fi+sPmxdc5GSpnpuJEP1cM//tpIB9lMaMNcmoTOMCB64oaE
 08SoTfLvCUS2oCUWUs7VvYA0lac5D5Js4bl6xDrx7eXRzsGK3Qn1likgjF9/7d42e0srbl5KMb0y
 A8xllIbYf8u4WthRx/0mbxs7+kOQR4kmnsHMUuKuiC+4THF68DKS92GARkQ31/vanR0uzk//AmyT
 OIuhXwAA
---===============0625290157970944443==--
+--===============0160123568961388210==--
 
