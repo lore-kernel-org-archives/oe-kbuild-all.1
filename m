@@ -1,80 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============8217285584740667862=="
+Content-Type: multipart/mixed; boundary="===============2847668065367306989=="
 MIME-Version: 1.0
-From: David Hildenbrand <david@redhat.com>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [vhost:vhost 8/22] drivers/virtio/virtio_mem.c:1375:20: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'?
-Date: Tue, 05 May 2020 17:46:44 +0200
-Message-ID: <3eaebd8d-750a-d046-15f5-706fb00a196e@redhat.com>
-In-Reply-To: <20200505114433-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v2 15/34] staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+Date: Wed, 06 May 2020 00:07:37 +0800
+Message-ID: <202005060033.fVqn7hFL%lkp@intel.com>
+In-Reply-To: <20200504092611.9798-16-laurent.pinchart@ideasonboard.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8217285584740667862==
+--===============2847668065367306989==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 05.05.20 17:44, Michael S. Tsirkin wrote:
-> On Tue, May 05, 2020 at 04:50:13PM +0200, David Hildenbrand wrote:
->> On 05.05.20 16:15, kbuild test robot wrote:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git v=
-host
->>> head:   da1742791d8c0c0a8e5471f181549c4726a5c5f9
->>> commit: 7527631e900d464ed2d533f799cb0da2b29cc6f0 [8/22] virtio-mem: Par=
-avirtualized memory hotplug
->>> config: x86_64-randconfig-b002-20200505 (attached as .config)
->>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
->>> reproduce:
->>>         git checkout 7527631e900d464ed2d533f799cb0da2b29cc6f0
->>>         # save the attached .config to linux build tree
->>>         make ARCH=3Dx86_64 =
+Hi Laurent,
 
->>>
->>> If you fix the issue, kindly add following tag as appropriate
->>> Reported-by: kbuild test robot <lkp@intel.com>
->>>
->>> All error/warnings (new ones prefixed by >>):
->>>
->>>    drivers/virtio/virtio_mem.c: In function 'virtio_mem_probe':
->>>>> drivers/virtio/virtio_mem.c:1375:20: error: implicit declaration of f=
-unction 'kzalloc'; did you mean 'vzalloc'? [-Werror=3Dimplicit-function-dec=
-laration]
->>>      vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
->>>                        ^~~~~~~
->>>                        vzalloc
->>>>> drivers/virtio/virtio_mem.c:1375:18: warning: assignment makes pointe=
-r from integer without a cast [-Wint-conversion]
->>>      vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
->>>                      ^
->>>>> drivers/virtio/virtio_mem.c:1419:2: error: implicit declaration of fu=
-nction 'kfree'; did you mean 'vfree'? [-Werror=3Dimplicit-function-declarat=
-ion]
->>>      kfree(vm);
->>>      ^~~~~
->>>      vfree
->>>    cc1: some warnings being treated as errors
->>>
->>> vim +1375 drivers/virtio/virtio_mem.c
->>
->> Guess we simply need
->>
->>  #include <linux/slab.h>
->>
->> to make it work for that config.
-> =
+I love your patch! Perhaps something to improve:
 
-> =
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.7-rc4]
+[cannot apply to linuxtv-media/master anholt/for-next next-20200505]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
 
-> OK I added that in the 1st commit that introduced virtio-mem.
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/Drivers-f=
+or-the-BCM283x-CSI-2-CCP2-receiver-and-ISP/20200505-054310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+9851a0dee7c28514f149f7e4f60ec1b06286cc1b
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Thanks. I have some addon-patches ready, what's the best way to continue
-with these?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
--- =
+sparse warnings: (new ones prefixed by >>)
 
-Thanks,
+>> drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:1796:36: sparse: s=
+parse: Using plain integer as NULL pointer
+   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:472:48: sparse: sp=
+arse: non size-preserving integer to pointer cast
 
-David / dhildenb
+vim +1796 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
 
---===============8217285584740667862==--
+  1779	=
+
+  1780	int mmal_vchi_buffer_cleanup(struct mmal_buffer *buf)
+  1781	{
+  1782		struct mmal_msg_context *msg_context =3D buf->msg_context;
+  1783	=
+
+  1784		if (msg_context)
+  1785			release_msg_context(msg_context);
+  1786		buf->msg_context =3D NULL;
+  1787	=
+
+  1788		if (buf->vcsm_handle) {
+  1789			int ret;
+  1790	=
+
+  1791			pr_debug("%s: vc_sm_cma_free on handle %p\n", __func__,
+  1792				 buf->vcsm_handle);
+  1793			ret =3D vc_sm_cma_free(buf->vcsm_handle);
+  1794			if (ret)
+  1795				pr_err("%s: vcsm_free failed, ret %d\n", __func__, ret);
+> 1796			buf->vcsm_handle =3D 0;
+  1797		}
+  1798		return 0;
+  1799	}
+  1800	EXPORT_SYMBOL_GPL(mmal_vchi_buffer_cleanup);
+  1801	=
+
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2847668065367306989==--
 
