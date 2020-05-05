@@ -1,23 +1,23 @@
-Content-Type: multipart/mixed; boundary="===============8851139791017083629=="
+Content-Type: multipart/mixed; boundary="===============0379507347114505604=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [RFC][PATCH 1/2] Add a layer of abstraction to use the memory reserved by device tree for ima buffer pass.
-Date: Tue, 05 May 2020 22:44:17 +0800
-Message-ID: <202005052224.sdlTIk7L%lkp@intel.com>
-In-Reply-To: <20200504203829.6330-2-prsriva@linux.microsoft.com>
+Subject: Re: [RFC][PATCH 1/5] thermal: Add support for /dev/thermal_notify
+Date: Tue, 05 May 2020 22:45:39 +0800
+Message-ID: <202005052217.A8hjHoj6%lkp@intel.com>
+In-Reply-To: <20200504181616.175477-2-srinivas.pandruvada@linux.intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8851139791017083629==
+--===============0379507347114505604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prakhar,
+Hi Srinivas,
 
 [FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on robh/for-next powerpc/next v5.7-rc4 next-20200505]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.7-rc4 next-20200505]
 [if your patch is applied to the wrong git tree, please drop us a note to h=
 elp
 improve the system. BTW, we also suggest to use '--base' option to specify =
@@ -25,503 +25,262 @@ the
 base tree in git format-patch, please see https://stackoverflow.com/a/37406=
 982]
 
-url:    https://github.com/0day-ci/linux/commits/Prakhar-Srivastava/Add-sup=
-port-for-using-reserved-memory-for-ima-buffer-pass/20200505-184302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for=
--next/core
-config: h8300-h8s-sim_defconfig (attached as .config)
-compiler: h8300-linux-gcc (GCC) 9.3.0
+url:    https://github.com/0day-ci/linux/commits/Srinivas-Pandruvada/therma=
+l-Add-new-mechanism-to-get-thermal-notification/20200505-135412
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+47cf1b422e6093aee2a3e55d5e162112a2c69870
+config: powerpc-adder875_defconfig (attached as .config)
+compiler: powerpc-linux-gcc (GCC) 9.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cross A=
-RCH=3Dh8300 =
+RCH=3Dpowerpc =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
-   drivers/of/of_ima.c: In function 'of_ima_write_buffer':
->> drivers/of/of_ima.c:47:2: warning: cast from pointer to integer of diffe=
-rent size [-Wpointer-to-int-cast]
-      47 |  (u64)vaddr, mem_res.start, resource_size(&mem_res));
-         |  ^
-   include/linux/printk.h:305:34: note: in definition of macro 'pr_info'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
->> include/linux/kern_levels.h:5:18: warning: format '%llX' expects argumen=
-t of type 'long long unsigned int', but argument 3 has type 'resource_size_=
-t' {aka 'unsigned int'} [-Wformat=3D]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO KERN_SOH "6" /* informational */
-         |                   ^~~~~~~~
-   include/linux/printk.h:305:9: note: in expansion of macro 'KERN_INFO'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
->> drivers/of/of_ima.c:46:2: note: in expansion of macro 'pr_info'
-      46 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-\n , size : %lld",
-         |  ^~~~~~~
-   drivers/of/of_ima.c:46:64: note: format string is defined here
-      46 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-\n , size : %lld",
-         |                                                            ~~~~^
-         |                                                                |
-         |                                                                l=
-ong long unsigned int
-         |                                                            %0X
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
->> include/linux/kern_levels.h:5:18: warning: format '%lld' expects argumen=
-t of type 'long long int', but argument 4 has type 'resource_size_t' {aka '=
-unsigned int'} [-Wformat=3D]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO KERN_SOH "6" /* informational */
-         |                   ^~~~~~~~
-   include/linux/printk.h:305:9: note: in expansion of macro 'KERN_INFO'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
->> drivers/of/of_ima.c:46:2: note: in expansion of macro 'pr_info'
-      46 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-\n , size : %lld",
-         |  ^~~~~~~
-   drivers/of/of_ima.c:46:80: note: format string is defined here
-      46 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-\n , size : %lld",
-         |                                                                 =
-            ~~~^
-         |                                                                 =
-               |
-         |                                                                 =
-               long long int
-         |                                                                 =
-            %d
-   In file included from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
-   drivers/of/of_ima.c: In function 'of_get_ima_buffer':
-   drivers/of/of_ima.c:114:2: warning: cast from pointer to integer of diff=
-erent size [-Wpointer-to-int-cast]
-     114 |  (u64)vaddr, mem_res.start, resource_size(&mem_res), *(size_t *)=
-vaddr);
-         |  ^
-   include/linux/printk.h:305:34: note: in definition of macro 'pr_info'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
->> include/linux/kern_levels.h:5:18: warning: format '%llX' expects argumen=
-t of type 'long long unsigned int', but argument 3 has type 'resource_size_=
-t' {aka 'unsigned int'} [-Wformat=3D]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO KERN_SOH "6" /* informational */
-         |                   ^~~~~~~~
-   include/linux/printk.h:305:9: note: in expansion of macro 'KERN_INFO'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   drivers/of/of_ima.c:113:2: note: in expansion of macro 'pr_info'
-     113 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-,\n allocated size : %lld, ima_buffer_size: %ld ",
-         |  ^~~~~~~
-   drivers/of/of_ima.c:113:64: note: format string is defined here
-     113 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-,\n allocated size : %lld, ima_buffer_size: %ld ",
-         |                                                            ~~~~^
-         |                                                                |
-         |                                                                l=
-ong long unsigned int
-         |                                                            %0X
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/of/of_ima.c:6:
->> include/linux/kern_levels.h:5:18: warning: format '%lld' expects argumen=
-t of type 'long long int', but argument 4 has type 'resource_size_t' {aka '=
-unsigned int'} [-Wformat=3D]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO KERN_SOH "6" /* informational */
-         |                   ^~~~~~~~
-   include/linux/printk.h:305:9: note: in expansion of macro 'KERN_INFO'
-     305 |  printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   drivers/of/of_ima.c:113:2: note: in expansion of macro 'pr_info'
-     113 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-,\n allocated size : %lld, ima_buffer_size: %ld ",
-         |  ^~~~~~~
-   drivers/of/of_ima.c:113:89: note: format string is defined here
-     113 |  pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX=
-,\n allocated size : %lld, ima_buffer_size: %ld ",
-         |                                                                 =
-                     ~~~^
-         |                                                                 =
-                        |
-         |                                                                 =
-                        long long int
-         |                                                                 =
-                     %d
-   drivers/of/of_ima.c: At top level:
->> drivers/of/of_ima.c:133:1: warning: data definition has no type or stora=
-ge class
-     133 | MODULE_DEVICE_TABLE(of, ima_buffer_pass_match);
-         | ^~~~~~~~~~~~~~~~~~~
->> drivers/of/of_ima.c:133:1: error: type defaults to 'int' in declaration =
-of 'MODULE_DEVICE_TABLE' [-Werror=3Dimplicit-int]
->> drivers/of/of_ima.c:133:1: warning: parameter names (without types) in f=
-unction declaration
-   drivers/of/of_ima.c:164:1: warning: data definition has no type or stora=
-ge class
-     164 | module_init(ima_buffer_pass_init);
-         | ^~~~~~~~~~~
->> drivers/of/of_ima.c:164:1: error: type defaults to 'int' in declaration =
-of 'module_init' [-Werror=3Dimplicit-int]
-   drivers/of/of_ima.c:164:1: warning: parameter names (without types) in f=
-unction declaration
-   drivers/of/of_ima.c:165:1: warning: data definition has no type or stora=
-ge class
-     165 | module_exit(ima_buffer_pass_exit);
-         | ^~~~~~~~~~~
->> drivers/of/of_ima.c:165:1: error: type defaults to 'int' in declaration =
-of 'module_exit' [-Werror=3Dimplicit-int]
-   drivers/of/of_ima.c:165:1: warning: parameter names (without types) in f=
-unction declaration
-   drivers/of/of_ima.c:135:19: warning: 'ima_buffer_pass_init' defined but =
-not used [-Wunused-function]
-     135 | static int __init ima_buffer_pass_init(void)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-vim +133 drivers/of/of_ima.c
-
-    29	=
-
-    30	/**
-    31	 * of_ima_write_buffer - Write the ima buffer into the reserved memo=
-ry.
-    32	 *
-    33	 * ima_buffer - buffer starting address.
-    34	 * ima_buffer_size - size of segment.
-    35	 *
-    36	 * Return: 0 on success, negative errno on error.
-    37	 */
-    38	int of_ima_write_buffer(void *ima_buffer, size_t ima_buffer_size)
-    39	{
-    40		void *addr;
-    41	=
-
-    42		if (!dtb_status_enabled)
-    43			return -EOPNOTSUPP;
-    44	=
-
-    45		vaddr =3D memremap(mem_res.start, resource_size(&mem_res), MEMREMAP=
-_WB);
-  > 46		pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX\n ,=
- size : %lld",
-  > 47		(u64)vaddr, mem_res.start, resource_size(&mem_res));
-    48	=
-
-    49		if (vaddr) {
-    50			memcpy(vaddr, &ima_buffer_size, sizeof(size_t));
-    51			addr =3D  vaddr + sizeof(size_t);
-    52			memcpy(addr, ima_buffer, ima_buffer_size);
-    53			memunmap(vaddr);
-    54			vaddr =3D NULL;
-    55		}
-    56	=
-
-    57		return 0;
-    58	}
-    59	=
-
-    60	/**
-    61	 * of_remove_ima_buffer - Write 0(Zero length buffer to read)to the
-    62	 *                        size location of the buffer.
-    63	 *
-    64	 * Return: 0 on success, negative errno on error.
-    65	 */
-    66	int of_remove_ima_buffer(void)
-    67	{
-    68		size_t empty_buffer_size =3D 0;
-    69	=
-
-    70		if (!dtb_status_enabled)
-    71			return -ENOTSUPP;
-    72	=
-
-    73		if (vaddr) {
-    74			memcpy(vaddr, &empty_buffer_size, sizeof(size_t));
-    75			memunmap(vaddr);
-    76			vaddr =3D NULL;
-    77		}
-    78	=
-
-    79		return 0;
-    80	}
-    81	=
-
-    82	/**
-    83	 * of_ima_get_size_allocated - Get the usable buffer size thats allo=
-cated in
-    84	 *                             the device-tree.
-    85	 *
-    86	 * Return: 0 on unavailable node, size of the memory block - (size_t)
-    87	 */
-    88	size_t of_ima_get_size_allocated(void)
-    89	{
-    90		size_t size =3D 0;
-    91	=
-
-    92		if (!dtb_status_enabled)
-    93			return size;
-    94	=
-
-    95		size =3D resource_size(&mem_res) - sizeof(size_t);
-    96		return size;
-    97	}
-    98	=
-
-    99	/**
-   100	 * of_get_ima_buffer - Get IMA buffer address.
-   101	 *
-   102	 * @addr:       On successful return, set to point to the buffer con=
-tents.
-   103	 * @size:       On successful return, set to the buffer size.
-   104	 *
-   105	 * Return: 0 on success, negative errno on error.
-   106	 */
-   107	int of_get_ima_buffer(void **addr, size_t *size)
-   108	{
-   109		if (!dtb_status_enabled)
-   110			return -ENOTSUPP;
-   111	=
-
-   112		vaddr =3D memremap(mem_res.start, resource_size(&mem_res), MEMREMAP=
-_WB);
-   113		pr_info("Mapped reserved memory, vaddr: 0x%0llX, paddr: 0x%0llX,\n =
-allocated size : %lld, ima_buffer_size: %ld ",
-   114		(u64)vaddr, mem_res.start, resource_size(&mem_res), *(size_t *)vadd=
-r);
-   115	=
-
-   116		*size =3D *(size_t *)vaddr;
-   117		*addr =3D vaddr + sizeof(size_t);
-   118		return 0;
-   119	}
-   120	=
-
-   121	static const struct of_device_id ima_buffer_pass_ids[] =3D {
-   122		{
-   123			.compatible =3D "linux,ima_buffer_pass",
-   124		},
-   125		{}
-   126	};
-   127	=
-
-   128	static const struct of_device_id ima_buffer_pass_match[] =3D {
-   129		{
-   130			.name =3D "ima_buffer_pass",
-   131		},
-   132	};
- > 133	MODULE_DEVICE_TABLE(of, ima_buffer_pass_match);
-   134	=
-
-   135	static int __init ima_buffer_pass_init(void)
-   136	{
-   137		int ret =3D 0;
-   138		struct device_node *memnp;
-   139		struct device_node *ima_buffer_pass_node;
-   140	=
-
-   141		ima_buffer_pass_node =3D of_find_matching_node(NULL, ima_buffer_pas=
-s_ids);
-   142		if (!ima_buffer_pass_node)
-   143			return -ENOENT;
-   144	=
-
-   145		memnp =3D of_parse_phandle(ima_buffer_pass_node, "memory-region", 0=
-);
-   146		if (!memnp)
-   147			return -ENXIO;
-   148	=
-
-   149		ret =3D of_address_to_resource(memnp, 0, &mem_res);
-   150		if (ret < 0)
-   151			return -ENOENT;
-   152	=
-
-   153		of_node_put(memnp);
-   154		dtb_status_enabled =3D true;
-   155	=
-
-   156		return ret;
-   157	}
-   158	=
-
-   159	static void __exit ima_buffer_pass_exit(void)
-   160	{
-   161		pr_info("trying to exit the ima driver\n");
-   162	}
-   163	=
-
- > 164	module_init(ima_buffer_pass_init);
- > 165	module_exit(ima_buffer_pass_exit);
+   powerpc-linux-ld: drivers/thermal/thermal_sysfs.o: in function `thermal_=
+dev_send_event':
+>> thermal_sysfs.c:(.text+0x1424): multiple definition of `thermal_dev_send=
+_event'; drivers/thermal/thermal_core.o:thermal_core.c:(.text+0x7f8): first=
+ defined here
+   powerpc-linux-ld: drivers/thermal/thermal_helpers.o: in function `therma=
+l_dev_send_event':
+   thermal_helpers.c:(.text+0x0): multiple definition of `thermal_dev_send_=
+event'; drivers/thermal/thermal_core.o:thermal_core.c:(.text+0x7f8): first =
+defined here
+   powerpc-linux-ld: drivers/thermal/of-thermal.o: in function `thermal_dev=
+_send_event':
+   of-thermal.c:(.text+0x71c): multiple definition of `thermal_dev_send_eve=
+nt'; drivers/thermal/thermal_core.o:thermal_core.c:(.text+0x7f8): first def=
+ined here
+   powerpc-linux-ld: drivers/thermal/step_wise.o: in function `thermal_dev_=
+send_event':
+   step_wise.c:(.text+0x430): multiple definition of `thermal_dev_send_even=
+t'; drivers/thermal/thermal_core.o:thermal_core.c:(.text+0x7f8): first defi=
+ned here
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8851139791017083629==
+--===============0379507347114505604==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
-IE4GoDkd4lkTM0jA6YD+fwEONH8B50oAAA==
---===============8851139791017083629==--
+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
+--===============0379507347114505604==--
 
