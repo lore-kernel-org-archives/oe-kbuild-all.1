@@ -1,26 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============4927265969238283004=="
+Content-Type: multipart/mixed; boundary="===============1621446070496279491=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [tglx-devel:x86/entry 131/140] arch/x86/kernel/cpu/acrn.o: warning: objtool: irqst_sysvec_acrn_hv_callback()+0x1e: undefined stack state
-Date: Wed, 06 May 2020 02:36:57 +0800
-Message-ID: <202005060254.PqJmng1l%lkp@intel.com>
+Subject: [tglx-devel:x86/entry 114/140] arch/x86/entry/common.o: warning: objtool: run_on_irqstack()+0x4e: undefined stack state
+Date: Wed, 06 May 2020 03:31:47 +0800
+Message-ID: <202005060344.Xuwt6GYd%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4927265969238283004==
+--===============1621446070496279491==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/=
 entry
-head:   c52f46f16c0d414c7a2653042aacaa8a6f459c84
-commit: d31cbeef2229d1b172be7b53e8805e095e77fbfb [131/140] x86/entry: Conve=
-rt various hypervisor vectors to IDTENTRY_SYSVEC
+head:   e6d36eed49b863bbe393e3c07cae737cd9c475e3
+commit: 3adf470fa081e84802e0796e5a1098d9167867d2 [114/140] x86/entry: Switc=
+h XEN/PV hypercall entry to IDTENTRY
 config: x86_64-randconfig-e003-20200503 (attached as .config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 reproduce:
-        git checkout d31cbeef2229d1b172be7b53e8805e095e77fbfb
+        git checkout 3adf470fa081e84802e0796e5a1098d9167867d2
         # save the attached .config to linux build tree
         make ARCH=3Dx86_64 =
 
@@ -30,20 +30,20 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/cpu/acrn.o: warning: objtool: irqst_sysvec_acrn_hv_callb=
-ack()+0x1e: undefined stack state
+>> arch/x86/entry/common.o: warning: objtool: run_on_irqstack()+0x4e: undef=
+ined stack state
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4927265969238283004==
+--===============1621446070496279491==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOulsV4AAy5jb25maWcAlFxbc9w2sn7Pr5hKXpIHZyVZVrznlB5AEpxBhiRoAJyLXlCKPPaq
+H4sICGyzsV4AAy5jb25maWcAlFxbc9w2sn7Pr5hKXpIHZyVZVrznlB5AEpxBhiRoAJyLXlCKPPaq
 1pK8o9HG/venGyBIAASVHFcq9qBxbTS6v240+NMPPy3Iy+np4fZ0f3f75cv3xefD4+F4ezp8XHy6
 /3L430XBFw1XC1ow9StUru4fX77949v7K311uXj362+/nr053r1drA/Hx8OXRf70+On+8wu0v396
 /OGnH+C/n6Dw4St0dfyfxee7uze/LX7u/nh5PL0sfvv1HbS+ejG/Ln6xv6FFzpuSLXWeayb1Ms+v
@@ -644,5 +644,5 @@ vHx86cU3eudTZG9ljGnfeI1IN+OA1ajKqQJC7WcAaEvJpZvA1kX1zmm07gV+V9AM2zuTCSphdF26
 AN2RD1QYjumtV3A9hzFqdC6k/DAL6xkKvyFomkhVjcw2Psu9dRi0+m4rieSUS8ZbtWq2juhSvCnJ
 0nPhJPlGz1lYTplF5F2s0jrfRrX2erbpnt2ckNDCyKaswCQP6GUc85Kza9HdbJSxhry43Ymd5WUy
 2ziOfWaBSOhcgYy0eBTI9znAOw6d+AgDz6tzv3bQ4n01Sw9jHGT+DzzUWmZ3FAIA
---===============4927265969238283004==--
+--===============1621446070496279491==--
 
