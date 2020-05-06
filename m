@@ -1,26 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============4631729960055401123=="
+Content-Type: multipart/mixed; boundary="===============0208213426507584856=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-review:UPDATE-20200506-024659/Stanislav-Lisovskiy/SAGV-support-for-Gen12/20200426-123652 8/9] drivers/gpu/drm/i915/display/intel_bw.c:127:5: error: 'ICL_PCODE_POINTS_RESTRICTED_MASK' undeclared; did you mean 'GEN11_PCODE_POINTS_RESTRICTED_MASK'?
-Date: Wed, 06 May 2020 16:34:41 +0800
-Message-ID: <202005061638.3xqIvZiw%lkp@intel.com>
+Subject: [linux-review:UPDATE-20200506-024627/Stanislav-Lisovskiy/SAGV-support-for-Gen12/20200426-123652 8/9] drivers/gpu/drm/i915/display/intel_bw.c:127:5: error: 'GEN11_PCODE_POINTS_RESTRICTED_MASK' undeclared; did you mean 'ICL_PCODE_POINTS_RESTRICTED_MASK'?
+Date: Wed, 06 May 2020 16:39:34 +0800
+Message-ID: <202005061632.tMjwjk4N%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4631729960055401123==
+--===============0208213426507584856==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/0day-ci/linux/commits/UPDATE-20200506-024659/Sta=
+tree:   https://github.com/0day-ci/linux/commits/UPDATE-20200506-024627/Sta=
 nislav-Lisovskiy/SAGV-support-for-Gen12/20200426-123652
-head:   0f02013442b54e5cb6e07f7a94f662a31ac048df
-commit: 96788e1b7f6518646b71149640b432cb0b2950aa [8/9] drm/i915: Restrict q=
+head:   75c96fe049c698f9f5b6f61a10bb87fe2e23b1b7
+commit: b7f98738e6f43bb00b9bcf888f00e7457d37e668 [8/9] drm/i915: Restrict q=
 gv points which don't have enough bandwidth.
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 reproduce:
-        git checkout 96788e1b7f6518646b71149640b432cb0b2950aa
+        git checkout b7f98738e6f43bb00b9bcf888f00e7457d37e668
         # save the attached .config to linux build tree
         make ARCH=3Di386 =
 
@@ -32,20 +32,20 @@ All errors (new ones prefixed by >>):
 
    drivers/gpu/drm/i915/display/intel_bw.c: In function 'icl_pcode_restrict=
 _qgv_points':
->> drivers/gpu/drm/i915/display/intel_bw.c:127:5: error: 'ICL_PCODE_POINTS_=
-RESTRICTED_MASK' undeclared (first use in this function); did you mean 'GEN=
-11_PCODE_POINTS_RESTRICTED_MASK'?
-        ICL_PCODE_POINTS_RESTRICTED_MASK,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        GEN11_PCODE_POINTS_RESTRICTED_MASK
+>> drivers/gpu/drm/i915/display/intel_bw.c:127:5: error: 'GEN11_PCODE_POINT=
+S_RESTRICTED_MASK' undeclared (first use in this function); did you mean 'I=
+CL_PCODE_POINTS_RESTRICTED_MASK'?
+        GEN11_PCODE_POINTS_RESTRICTED_MASK,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ICL_PCODE_POINTS_RESTRICTED_MASK
    drivers/gpu/drm/i915/display/intel_bw.c:127:5: note: each undeclared ide=
 ntifier is reported only once for each function it appears in
->> drivers/gpu/drm/i915/display/intel_bw.c:128:5: error: 'ICL_PCODE_POINTS_=
-RESTRICTED' undeclared (first use in this function); did you mean 'ICL_PCOD=
-E_POINTS_RESTRICTED_MASK'?
-        ICL_PCODE_POINTS_RESTRICTED,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ICL_PCODE_POINTS_RESTRICTED_MASK
+>> drivers/gpu/drm/i915/display/intel_bw.c:128:5: error: 'GEN11_PCODE_POINT=
+S_RESTRICTED' undeclared (first use in this function); did you mean 'GEN11_=
+PCODE_POINTS_RESTRICTED_MASK'?
+        GEN11_PCODE_POINTS_RESTRICTED,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        GEN11_PCODE_POINTS_RESTRICTED_MASK
 
 vim +127 drivers/gpu/drm/i915/display/intel_bw.c
 
@@ -60,8 +60,8 @@ vim +127 drivers/gpu/drm/i915/display/intel_bw.c
    124		/* bspec says to keep retrying for at least 1 ms */
    125		ret =3D skl_pcode_request(dev_priv, ICL_PCODE_SAGV_DE_MEM_SS_CONFIG,
    126					points_mask,
- > 127					ICL_PCODE_POINTS_RESTRICTED_MASK,
- > 128					ICL_PCODE_POINTS_RESTRICTED,
+ > 127					GEN11_PCODE_POINTS_RESTRICTED_MASK,
+ > 128					GEN11_PCODE_POINTS_RESTRICTED,
    129					1);
    130	=
 
@@ -80,13 +80,13 @@ vim +127 drivers/gpu/drm/i915/display/intel_bw.c
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============4631729960055401123==
+--===============0208213426507584856==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICNhwsl4AAy5jb25maWcAlDzbcty2ku/5iqnkJXlIjm6WXbulBwwJcpAhCAYARzN+YSny2FGt
+H4sICEtxsl4AAy5jb25maWcAlDzbcty2ku/5iqnkJXlIjm6WXbulBwwJcpAhCAYARzN+YSny2FGt
 LXl1OSf+++0GeGmAoJxNpWyzG9dG39GYn374acVenh++3Dzf3d58/vxt9el4f3y8eT5+WH28+3z8
 71WuVrWyK54L+xs0ru7uX/7+1935u8vVm9/e/nby6+Pt6Wp7fLw/fl5lD/cf7z69QO+7h/sffvoB
 /v8JgF++wkCP/7X6dHv769vVz+2fL/fPL6u3v72B3pcv7uvsF/8NPTJVF6LssqwTpiuz7OrbAIKP
@@ -1355,5 +1355,5 @@ VZCWzZar1LFN+NMbIFSZ5J6jyJ0PMAU7/wJeFMAweWNZ9utTwDo6QtUuXsP0dmd9mKNAB08VefNI
 ewLLMDUKvGGi9qMYaqp4k6gDToptEyVchh5RGwYqVOYDb+B8aSPo3r3O1CnVlr5GeTFDy/ea69DL
 2vhcVmfamdD0b3HB0A7olGB1r7Os8xGoonAqf3r+cZskC5ymYyc7w32CIXvArpP2RfWgsXxd2qrg
 hihdN9vCOAoAb4L1NUyybSs16fp9dLF2Ihlxh3u10akybWJAm8yvE2NC/R9VTYVAyJ8EAA==
---===============4631729960055401123==--
+--===============0208213426507584856==--
 
