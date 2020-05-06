@@ -1,99 +1,107 @@
-Content-Type: multipart/mixed; boundary="===============1880088688971038151=="
+Content-Type: multipart/mixed; boundary="===============9205273263717646142=="
 MIME-Version: 1.0
-From: Michael S. Tsirkin <mst@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 To: kbuild-all@lists.01.org
 Subject: Re: [vhost:vhost 8/22] drivers/virtio/virtio_mem.c:1375:20: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'?
-Date: Wed, 06 May 2020 16:28:48 -0400
-Message-ID: <20200506162751-mutt-send-email-mst@kernel.org>
-In-Reply-To: <e607a850-ba5c-6033-93fc-144639b125b8@redhat.com>
+Date: Wed, 06 May 2020 22:32:31 +0200
+Message-ID: <37C99432-6290-4130-B0AF-953DDE09D5DC@redhat.com>
+In-Reply-To: <20200506162751-mutt-send-email-mst@kernel.org>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1880088688971038151==
+--===============9205273263717646142==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 05, 2020 at 06:22:51PM +0200, David Hildenbrand wrote:
-> On 05.05.20 18:20, Michael S. Tsirkin wrote:
-> > On Tue, May 05, 2020 at 05:46:44PM +0200, David Hildenbrand wrote:
-> >> On 05.05.20 17:44, Michael S. Tsirkin wrote:
-> >>> On Tue, May 05, 2020 at 04:50:13PM +0200, David Hildenbrand wrote:
-> >>>> On 05.05.20 16:15, kbuild test robot wrote:
-> >>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.g=
-it vhost
-> >>>>> head:   da1742791d8c0c0a8e5471f181549c4726a5c5f9
-> >>>>> commit: 7527631e900d464ed2d533f799cb0da2b29cc6f0 [8/22] virtio-mem:=
- Paravirtualized memory hotplug
-> >>>>> config: x86_64-randconfig-b002-20200505 (attached as .config)
-> >>>>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> >>>>> reproduce:
-> >>>>>         git checkout 7527631e900d464ed2d533f799cb0da2b29cc6f0
-> >>>>>         # save the attached .config to linux build tree
-> >>>>>         make ARCH=3Dx86_64 =
 
-> >>>>>
-> >>>>> If you fix the issue, kindly add following tag as appropriate
-> >>>>> Reported-by: kbuild test robot <lkp@intel.com>
-> >>>>>
-> >>>>> All error/warnings (new ones prefixed by >>):
-> >>>>>
-> >>>>>    drivers/virtio/virtio_mem.c: In function 'virtio_mem_probe':
-> >>>>>>> drivers/virtio/virtio_mem.c:1375:20: error: implicit declaration =
+
+> Am 06.05.2020 um 22:28 schrieb Michael S. Tsirkin <mst@redhat.com>:
+> =
+
+> =EF=BB=BFOn Tue, May 05, 2020 at 06:22:51PM +0200, David Hildenbrand wrot=
+e:
+>>> On 05.05.20 18:20, Michael S. Tsirkin wrote:
+>>> On Tue, May 05, 2020 at 05:46:44PM +0200, David Hildenbrand wrote:
+>>>> On 05.05.20 17:44, Michael S. Tsirkin wrote:
+>>>>> On Tue, May 05, 2020 at 04:50:13PM +0200, David Hildenbrand wrote:
+>>>>>> On 05.05.20 16:15, kbuild test robot wrote:
+>>>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.g=
+it vhost
+>>>>>>> head:   da1742791d8c0c0a8e5471f181549c4726a5c5f9
+>>>>>>> commit: 7527631e900d464ed2d533f799cb0da2b29cc6f0 [8/22] virtio-mem:=
+ Paravirtualized memory hotplug
+>>>>>>> config: x86_64-randconfig-b002-20200505 (attached as .config)
+>>>>>>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+>>>>>>> reproduce:
+>>>>>>>        git checkout 7527631e900d464ed2d533f799cb0da2b29cc6f0
+>>>>>>>        # save the attached .config to linux build tree
+>>>>>>>        make ARCH=3Dx86_64 =
+
+>>>>>>> =
+
+>>>>>>> If you fix the issue, kindly add following tag as appropriate
+>>>>>>> Reported-by: kbuild test robot <lkp@intel.com>
+>>>>>>> =
+
+>>>>>>> All error/warnings (new ones prefixed by >>):
+>>>>>>> =
+
+>>>>>>>   drivers/virtio/virtio_mem.c: In function 'virtio_mem_probe':
+>>>>>>>>> drivers/virtio/virtio_mem.c:1375:20: error: implicit declaration =
 of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=3Dimplicit-function=
 -declaration]
-> >>>>>      vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
-> >>>>>                        ^~~~~~~
-> >>>>>                        vzalloc
-> >>>>>>> drivers/virtio/virtio_mem.c:1375:18: warning: assignment makes po=
+>>>>>>>     vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
+>>>>>>>                       ^~~~~~~
+>>>>>>>                       vzalloc
+>>>>>>>>> drivers/virtio/virtio_mem.c:1375:18: warning: assignment makes po=
 inter from integer without a cast [-Wint-conversion]
-> >>>>>      vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
-> >>>>>                      ^
-> >>>>>>> drivers/virtio/virtio_mem.c:1419:2: error: implicit declaration o=
+>>>>>>>     vdev->priv =3D vm =3D kzalloc(sizeof(*vm), GFP_KERNEL);
+>>>>>>>                     ^
+>>>>>>>>> drivers/virtio/virtio_mem.c:1419:2: error: implicit declaration o=
 f function 'kfree'; did you mean 'vfree'? [-Werror=3Dimplicit-function-decl=
 aration]
-> >>>>>      kfree(vm);
-> >>>>>      ^~~~~
-> >>>>>      vfree
-> >>>>>    cc1: some warnings being treated as errors
-> >>>>>
-> >>>>> vim +1375 drivers/virtio/virtio_mem.c
-> >>>>
-> >>>> Guess we simply need
-> >>>>
-> >>>>  #include <linux/slab.h>
-> >>>>
-> >>>> to make it work for that config.
-> >>>
-> >>>
-> >>> OK I added that in the 1st commit that introduced virtio-mem.
-> >>
-> >> Thanks. I have some addon-patches ready, what's the best way to contin=
+>>>>>>>     kfree(vm);
+>>>>>>>     ^~~~~
+>>>>>>>     vfree
+>>>>>>>   cc1: some warnings being treated as errors
+>>>>>>> =
+
+>>>>>>> vim +1375 drivers/virtio/virtio_mem.c
+>>>>>> =
+
+>>>>>> Guess we simply need
+>>>>>> =
+
+>>>>>> #include <linux/slab.h>
+>>>>>> =
+
+>>>>>> to make it work for that config.
+>>>>> =
+
+>>>>> =
+
+>>>>> OK I added that in the 1st commit that introduced virtio-mem.
+>>>> =
+
+>>>> Thanks. I have some addon-patches ready, what's the best way to contin=
 ue
-> >> with these?
-> > =
+>>>> with these?
+>>> =
 
-> > If these are bugfixes, just respin the series (including this fix).
+>>> If these are bugfixes, just respin the series (including this fix).
+>> =
+
+>> There are two really minor bugfixes for corner-case error handling and
+>> one simplification. I can squash them and resend, makes things easier.
 > =
 
-> There are two really minor bugfixes for corner-case error handling and
-> one simplification. I can squash them and resend, makes things easier.
-
-OK try to do it ASAP, we don't want to repeat the drama we had with vdpa.
-
-> The other stuff I have are extensions, I will send as add-on.
+> OK try to do it ASAP, we don't want to repeat the drama we had with vdpa.
 > =
 
-> Thanks!
-> =
 
-> =
+Yeah, did some more testing today. Will send v3 out tomorrow.
 
-> -- =
+Cheers!
 
-> Thanks,
-> =
-
-> David / dhildenb
-
---===============1880088688971038151==--
+--===============9205273263717646142==--
 
