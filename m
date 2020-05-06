@@ -1,147 +1,194 @@
-Content-Type: multipart/mixed; boundary="===============5860068287142335661=="
+Content-Type: multipart/mixed; boundary="===============1628507240392336858=="
 MIME-Version: 1.0
-From: Scott Branden <scott.branden@broadcom.com>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v3 6/7] misc: bcm-vk: add Broadcom VK driver
-Date: Tue, 05 May 2020 16:58:03 -0700
-Message-ID: <b3e0c534-9e6a-f270-b6af-3658dca1bd42@broadcom.com>
-In-Reply-To: <202004221945.LY6x0DQD%lkp@intel.com>
+Subject: Re: [net-next PATCH v3 1/5] net: phy: Introduce phy related fwnode functions
+Date: Wed, 06 May 2020 08:07:24 +0800
+Message-ID: <202005060846.UiuOBLdA%lkp@intel.com>
+In-Reply-To: <20200505132905.10276-2-calvin.johnson@oss.nxp.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5860068287142335661==
+--===============1628507240392336858==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-All the kbuild and sparse issues should be resolved in PATCH v4.
+Hi Calvin,
 
-On 2020-04-22 4:17 a.m., kbuild test robot wrote:
-> Hi Scott,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on driver-core/driver-core-testing]
-> [also build test WARNING on next-20200421]
-> [cannot apply to char-misc/char-misc-testing kselftest/next linus/master =
-v5.7-rc2]
-> [if your patch is applied to the wrong git tree, please drop us a note to=
- help
-> improve the system. BTW, we also suggest to use '--base' option to specif=
-y the
-> base tree in git format-patch, please see https://stackoverflow.com/a/374=
-06982]
->
-> url:    https://github.com/0day-ci/linux/commits/Scott-Branden/firmware-a=
-dd-partial-read-support-in-request_firmware_into_buf/20200422-114528
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-cor=
-e.git 55623260bb33e2ab849af76edf2253bc04cb241f
-> reproduce:
->          # apt-get install sparse
->          # sparse version: v0.6.1-191-gc51a0382-dirty
->          make ARCH=3Dx86_64 allmodconfig
->          make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
->
->
-> sparse warnings: (new ones prefixed by >>)
->
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:189:15: sparse: sparse: incorrect type=
- in assignment (different address spaces) @@    expected struct bcm_vk_peer=
-_log *p_ctl @@    got struct bcm_vk_peer_log *p_ctl @@
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:189:15: sparse:    expected struct bcm=
-_vk_peer_log *p_ctl
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:189:15: sparse:    got void [noderef] =
-<asn:2> *
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:685:36: sparse: sparse: incorrect type=
- in argument 2 (different address spaces) @@    expected void const [nodere=
-f] <asn:1> *from @@    got oderef] <asn:1> *from @@
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:685:36: sparse:    expected void const=
- [noderef] <asn:1> *from
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:685:36: sparse:    got struct vk_image=
- *arg
->     drivers/misc/bcm-vk/bcm_vk_dev.c:780:36: sparse: sparse: incorrect ty=
-pe in argument 2 (different address spaces) @@    expected void const [node=
-ref] <asn:1> *from @@    got oderef] <asn:1> *from @@
->     drivers/misc/bcm-vk/bcm_vk_dev.c:780:36: sparse:    expected void con=
-st [noderef] <asn:1> *from
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:780:36: sparse:    got struct vk_reset=
- *arg
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:858:45: sparse: sparse: incorrect type=
- in argument 2 (different address spaces) @@    expected struct vk_image *a=
-rg @@    got void [nstruct vk_image *arg @@
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:858:45: sparse:    expected struct vk_=
-image *arg
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:858:45: sparse:    got void [noderef] =
-<asn:1> *argp
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:862:40: sparse: sparse: incorrect type=
- in argument 2 (different address spaces) @@    expected struct vk_reset *a=
-rg @@    got void [nstruct vk_reset *arg @@
->>> drivers/misc/bcm-vk/bcm_vk_dev.c:862:40: sparse:    expected struct vk_=
-reset *arg
->     drivers/misc/bcm-vk/bcm_vk_dev.c:862:40: sparse:    got void [noderef=
-] <asn:1> *argp
-> --
->>> drivers/misc/bcm-vk/bcm_vk_msg.c:507:17: sparse: sparse: cast removes a=
-ddress space '<asn:2>' of expression
->     drivers/misc/bcm-vk/bcm_vk_msg.c:707:15: sparse: sparse: cast removes=
- address space '<asn:2>' of expression
->     drivers/misc/bcm-vk/bcm_vk_msg.c:715:23: sparse: sparse: cast removes=
- address space '<asn:2>' of expression
->     drivers/misc/bcm-vk/bcm_vk_msg.c:871:31: sparse: sparse: cast removes=
- address space '<asn:2>' of expression
->     drivers/misc/bcm-vk/bcm_vk_msg.c:899:47: sparse: sparse: cast removes=
- address space '<asn:2>' of expression
->
-> vim +189 drivers/misc/bcm-vk/bcm_vk_dev.c
->
->     180	=
+Thank you for the patch! Yet something to improve:
 
->     181	static void bcm_vk_dump_peer_log(struct bcm_vk *vk)
->     182	{
->     183		struct bcm_vk_peer_log log, *p_ctl;
->     184		char loc_buf[BCM_VK_PEER_LOG_LINE_MAX];
->     185		int cnt;
->     186		struct device *dev =3D &vk->pdev->dev;
->     187		uint data_offset;
->     188	=
+[auto build test ERROR on net-next/master]
+[also build test ERROR on linus/master v5.7-rc4 next-20200505]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
 
->   > 189		p_ctl =3D vk->bar[BAR_2] + vk->peerlog_off;
->     190		log =3D *p_ctl;
->     191		/* do a rmb() to make sure log is updated */
->     192		rmb();
->     193	=
+url:    https://github.com/0day-ci/linux/commits/Calvin-Johnson/Introduce-n=
+ew-fwnode-based-APIs-to-support-phylink-and-phy-layers/20200506-051400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+3e1853e4e1137ba0a4d314521d153852dbf4aff5
+config: m68k-m5475evb_defconfig (attached as .config)
+compiler: m68k-linux-gcc (GCC) 9.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cross A=
+RCH=3Dm68k =
 
->     194		dev_dbg(dev, "Peer PANIC: Size 0x%x(0x%x), [Rd Wr] =3D [%d %d]\n=
-",
->     195			log.buf_size, log.mask, log.rd_idx, log.wr_idx);
->     196	=
 
->     197		cnt =3D 0;
->     198		data_offset =3D vk->peerlog_off + sizeof(struct bcm_vk_peer_log);
->     199		while (log.rd_idx !=3D log.wr_idx) {
->     200			loc_buf[cnt] =3D vkread8(vk, BAR_2, data_offset + log.rd_idx);
->     201	=
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
 
->     202			if ((loc_buf[cnt] =3D=3D '\0') ||
->     203			    (cnt =3D=3D (BCM_VK_PEER_LOG_LINE_MAX - 1))) {
->     204				dev_err(dev, "%s", loc_buf);
->     205				cnt =3D 0;
->     206			} else {
->     207				cnt++;
->     208			}
->     209			log.rd_idx =3D (log.rd_idx + 1) & log.mask;
->     210		}
->     211		/* update rd idx at the end */
->     212		vkwrite32(vk, log.rd_idx, BAR_2, vk->peerlog_off);
->     213	}
->     214	=
+All errors (new ones prefixed by >>):
 
->
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+   m68k-linux-ld: drivers/base/property.o: in function `fwnode_get_phy_node=
+':
+>> property.c:(.text+0xd4e): multiple definition of `fwnode_get_phy_node'; =
+arch/m68k/coldfire/device.o:device.c:(.text+0x0): first defined here
 
---===============5860068287142335661==--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+--===============1628507240392336858==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+kQFootvRqyg7+VnOzvwHA/orAaBqAAA=
+--===============1628507240392336858==--
 
