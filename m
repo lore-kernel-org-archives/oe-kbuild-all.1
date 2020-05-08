@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2550421699185396736=="
+Content-Type: multipart/mixed; boundary="===============3199324953746931358=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v2 2/9] vfio/fsl-mc: Scan DPRC objects on vfio-fsl-mc driver bind
-Date: Sat, 09 May 2020 06:49:46 +0800
-Message-ID: <202005090639.Beb8gVYc%lkp@intel.com>
-In-Reply-To: <20200508072039.18146-3-diana.craciun@oss.nxp.com>
+Subject: Re: [PATCH v2 8/9] vfio/fsl-mc: trigger an interrupt via eventfd
+Date: Sat, 09 May 2020 07:50:41 +0800
+Message-ID: <202005090706.01kG3QUB%lkp@intel.com>
+In-Reply-To: <20200508072039.18146-9-diana.craciun@oss.nxp.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2550421699185396736==
+--===============3199324953746931358==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -41,26 +41,45 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_release':
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:164:9: error: implicit declaration of =
+function 'dprc_reset_container'; did you mean 'resource_contains'? [-Werror=
+=3Dimplicit-function-declaration]
+      ret =3D dprc_reset_container(mc_cont->mc_io, 0,
+            ^~~~~~~~~~~~~~~~~~~~
+            resource_contains
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:167:6: error: 'DPRC_RESET_OPTION_NON_R=
+ECURSIVE' undeclared (first use in this function)
+         DPRC_RESET_OPTION_NON_RECURSIVE);
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:167:6: note: each undeclared identifie=
+r is reported only once for each function it appears in
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:171:3: error: implicit declaration of =
+function 'fsl_mc_cleanup_irq_pool'; did you mean 'fsl_mc_free_irqs'? [-Werr=
+or=3Dimplicit-function-declaration]
+      fsl_mc_cleanup_irq_pool(mc_cont);
+      ^~~~~~~~~~~~~~~~~~~~~~~
+      fsl_mc_free_irqs
    drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_bus_notifier=
 ':
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:100:9: error: 'struct fsl_mc_device' h=
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:399:9: error: 'struct fsl_mc_device' h=
 as no member named 'driver_override'
       mc_dev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
             ^~
    drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_init_device':
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:135:8: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:437:8: error: implicit declaration of =
 function 'dprc_setup'; did you mean 'x2apic_setup'? [-Werror=3Dimplicit-fun=
 ction-declaration]
      ret =3D dprc_setup(mc_dev);
            ^~~~~~~~~~
            x2apic_setup
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:142:8: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:444:8: error: implicit declaration of =
 function 'dprc_scan_container'; did you mean 'init_section_contains'? [-Wer=
 ror=3Dimplicit-function-declaration]
      ret =3D dprc_scan_container(mc_dev, false);
            ^~~~~~~~~~~~~~~~~~~
            init_section_contains
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:146:3: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:448:3: error: implicit declaration of =
 function 'dprc_cleanup'; did you mean 'pud_clear'? [-Werror=3Dimplicit-func=
 tion-declaration]
       dprc_cleanup(mc_dev);
@@ -68,110 +87,89 @@ tion-declaration]
       pud_clear
    drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_device_remov=
 e':
-   drivers/vfio/fsl-mc/vfio_fsl_mc.c:198:14: error: 'struct fsl_mc_device' =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:507:14: error: 'struct fsl_mc_device' =
 has no member named 'driver_override'
      kfree(mc_dev->driver_override);
                  ^~
-   drivers/vfio/fsl-mc/vfio_fsl_mc.c:199:8: error: 'struct fsl_mc_device' h=
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:508:8: error: 'struct fsl_mc_device' h=
 as no member named 'driver_override'
      mc_dev->driver_override =3D NULL;
            ^~
    cc1: some warnings being treated as errors
+--
+   drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c: In function 'vfio_fsl_mc_set_irq=
+_trigger':
+>> drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c:137:8: error: implicit declaratio=
+n of function 'fsl_mc_populate_irq_pool'; did you mean 'fsl_mc_allocate_irq=
+s'? [-Werror=3Dimplicit-function-declaration]
+     ret =3D fsl_mc_populate_irq_pool(mc_cont,
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+           fsl_mc_allocate_irqs
+>> drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c:138:4: error: 'FSL_MC_IRQ_POOL_MA=
+X_TOTAL_IRQS' undeclared (first use in this function); did you mean 'FSL_MC=
+_NUM_POOL_TYPES'?
+       FSL_MC_IRQ_POOL_MAX_TOTAL_IRQS);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       FSL_MC_NUM_POOL_TYPES
+   drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c:138:4: note: each undeclared iden=
+tifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
-vim +100 drivers/vfio/fsl-mc/vfio_fsl_mc.c
+vim +164 drivers/vfio/fsl-mc/vfio_fsl_mc.c
 
-    88	=
-
-    89	static int vfio_fsl_mc_bus_notifier(struct notifier_block *nb,
-    90					    unsigned long action, void *data)
-    91	{
-    92		struct vfio_fsl_mc_device *vdev =3D container_of(nb,
-    93						struct vfio_fsl_mc_device, nb);
-    94		struct device *dev =3D data;
-    95		struct fsl_mc_device *mc_dev =3D to_fsl_mc_device(dev);
-    96		struct fsl_mc_device *mc_cont =3D to_fsl_mc_device(mc_dev->dev.pare=
-nt);
-    97	=
-
-    98		if (action =3D=3D BUS_NOTIFY_ADD_DEVICE &&
-    99		    vdev->mc_dev =3D=3D mc_cont) {
- > 100			mc_dev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
-   101							    vfio_fsl_mc_ops.name);
-   102			dev_info(dev, "Setting driver override for device in dprc %s\n",
-   103				 dev_name(&mc_cont->dev));
-   104		} else if (action =3D=3D BUS_NOTIFY_BOUND_DRIVER &&
-   105			vdev->mc_dev =3D=3D mc_cont) {
-   106			struct fsl_mc_driver *mc_drv =3D to_fsl_mc_driver(dev->driver);
-   107	=
-
-   108			if (mc_drv && mc_drv !=3D &vfio_fsl_mc_driver)
-   109				dev_warn(dev, "Object %s bound to driver %s while DPRC bound to v=
-fio-fsl-mc\n",
-   110					 dev_name(dev), mc_drv->driver.name);
-   111			}
-   112	=
-
-   113		return 0;
-   114	}
-   115	=
-
-   116	static int vfio_fsl_mc_init_device(struct vfio_fsl_mc_device *vdev)
-   117	{
-   118		struct fsl_mc_device *mc_dev =3D vdev->mc_dev;
-   119		int ret =3D 0;
-   120	=
-
-   121		/* Non-dprc devices share mc_io from parent */
-   122		if (!is_fsl_mc_bus_dprc(mc_dev)) {
-   123			struct fsl_mc_device *mc_cont =3D to_fsl_mc_device(mc_dev->dev.par=
-ent);
-   124	=
-
-   125			mc_dev->mc_io =3D mc_cont->mc_io;
-   126			return 0;
-   127		}
-   128	=
-
-   129		vdev->nb.notifier_call =3D vfio_fsl_mc_bus_notifier;
-   130		ret =3D bus_register_notifier(&fsl_mc_bus_type, &vdev->nb);
-   131		if (ret)
-   132			return ret;
-   133	=
-
-   134		/* open DPRC, allocate a MC portal */
- > 135		ret =3D dprc_setup(mc_dev);
-   136		if (ret < 0) {
-   137			dev_err(&mc_dev->dev, "Failed to setup DPRC (error =3D %d)\n", ret=
-);
-   138			bus_unregister_notifier(&fsl_mc_bus_type, &vdev->nb);
-   139			return ret;
-   140		}
-   141	=
-
- > 142		ret =3D dprc_scan_container(mc_dev, false);
-   143		if (ret < 0) {
-   144			dev_err(&mc_dev->dev, "Container scanning failed: %d\n", ret);
-   145			bus_unregister_notifier(&fsl_mc_bus_type, &vdev->nb);
- > 146			dprc_cleanup(mc_dev);
-   147		}
    148	=
 
-   149		return 0;
-   150	}
-   151	=
+   149	static void vfio_fsl_mc_release(void *device_data)
+   150	{
+   151		struct vfio_fsl_mc_device *vdev =3D device_data;
+   152		int ret;
+   153	=
+
+   154		mutex_lock(&vdev->reflck->lock);
+   155	=
+
+   156		if (!(--vdev->refcnt)) {
+   157			struct fsl_mc_device *mc_dev =3D vdev->mc_dev;
+   158			struct device *cont_dev =3D fsl_mc_cont_dev(&mc_dev->dev);
+   159			struct fsl_mc_device *mc_cont =3D to_fsl_mc_device(cont_dev);
+   160	=
+
+   161			vfio_fsl_mc_regions_cleanup(vdev);
+   162	=
+
+   163			/* reset the device before cleaning up the interrupts */
+ > 164			ret =3D dprc_reset_container(mc_cont->mc_io, 0,
+   165			      mc_cont->mc_handle,
+   166				  mc_cont->obj_desc.id,
+ > 167				  DPRC_RESET_OPTION_NON_RECURSIVE);
+   168	=
+
+   169			vfio_fsl_mc_irqs_cleanup(vdev);
+   170	=
+
+ > 171			fsl_mc_cleanup_irq_pool(mc_cont);
+   172		}
+   173	=
+
+   174		mutex_unlock(&vdev->reflck->lock);
+   175	=
+
+   176		module_put(THIS_MODULE);
+   177	}
+   178	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2550421699185396736==
+--===============3199324953746931358==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICHHbtV4AAy5jb25maWcAlDzbcty2ku/nK6acl+QhiS627NotPWBIkIMMQdAAOJrxC0uRx45q
+H4sICMzotV4AAy5jb25maWcAlDzbcty2ku/nK6acl+QhiS627NotPWBIkIMMQdAAOJrxC0uRx45q
 bcmryznx3283wEsDBOVsKmWb3bg2+o7G/PSvn1bs+en+6/XT7c31ly/fV5+Pd8eH66fjx9Wn2y/H
 /17lalUru+K5sL9B4+r27vnv32/P312s3vx28dvJrw83b1fb48Pd8csqu7/7dPv5GXrf3t/966d/
 wf8/AfDrNxjo4b9Wn29ufn27+rn98/nu6Xn19rc30Pvi2X2d/eK/oUem6kKUXZZ1wnRlll1+H0Dw
@@ -1423,5 +1421,5 @@ qrGVGqd3Z93jHAVaSmq3l0faE1jGqZGvxonGIGGsqeJNoq8cKbZNtBQZS6KPALSfygfewHloI2gn
 vc70vdGWfkabA0PLD7ro2Mc651hWZ9phyMxvcWUwltyUYHWvs1DzEahdYGrDdF65TZL5TtOxu5bx
 PkHfNLBTk046zaCxjEa6ouARJ10Ju8w4CgBvgvU1TLJtJx7pinx0+XVc9nDLdX10qUNUoueWzKuT
 dlP0/zlT6evEjAQA
---===============2550421699185396736==--
+--===============3199324953746931358==--
 
