@@ -1,41 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============1078646473720645444=="
+Content-Type: multipart/mixed; boundary="===============3082011121197606871=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [RFC PATCH omap] gnss: motmdm: motmdm_gnss_send_command() can be static
-Date: Sun, 10 May 2020 23:36:58 +0800
-Message-ID: <20200510153658.GA87187@7c31f038ab56>
-In-Reply-To: <202005102338.fOZzLJuj%lkp@intel.com>
+Subject: [omap:serdev-ngsm-pending-v5.7 20/29] drivers/gnss/motmdm.c:71:5: sparse: sparse: symbol 'motmdm_gnss_send_command' was not declared. Should it be static?
+Date: Sun, 10 May 2020 23:36:57 +0800
+Message-ID: <202005102338.fOZzLJuj%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1078646473720645444==
+--===============3082011121197606871==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap.g=
+it serdev-ngsm-pending-v5.7
+head:   4eda51fea6be98ca5a4023a988b102bf3629b295
+commit: ae348e86a0abccb615c8875a95d63f10268f1c4f [20/29] gnss: motmdm: Add =
+support for Motorola Mapphone MDM6600 modem
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        git checkout ae348e86a0abccb615c8875a95d63f10268f1c4f
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Fixes: ae348e86a0ab ("gnss: motmdm: Add support for Motorola Mapphone MDM66=
-00 modem")
-Signed-off-by: kbuild test robot <lkp@intel.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/gnss/motmdm.c:71:5: sparse: sparse: symbol 'motmdm_gnss_send_com=
+mand' was not declared. Should it be static?
+
+Please review and possibly fold the followup patch.
+
 ---
- motmdm.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gnss/motmdm.c b/drivers/gnss/motmdm.c
-index da1d44bed899d..49d4580ae3eae 100644
---- a/drivers/gnss/motmdm.c
-+++ b/drivers/gnss/motmdm.c
-@@ -68,8 +68,8 @@ MODULE_PARM_DESC(rate_ms, "GNSS refresh rate between 1000=
- and 16000 ms (default
-  * sort out the ID conflicts with the modem's unsolicited message ID
-  * numbering.
-  */
--int motmdm_gnss_send_command(struct motmdm_gnss_data *ddata,
--			     const u8 *buf, int len)
-+static int motmdm_gnss_send_command(struct motmdm_gnss_data *ddata,
-+				    const u8 *buf, int len)
- {
- 	struct gnss_device *gdev =3D ddata->gdev;
- 	const int timeout_ms =3D 1000;
---===============1078646473720645444==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3082011121197606871==--
 
