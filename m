@@ -1,254 +1,224 @@
-Content-Type: multipart/mixed; boundary="===============2227480498020261264=="
+Content-Type: multipart/mixed; boundary="===============2963569901985055632=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [android-common:android-mainline 1/1] fs/incfs/data_mgmt.c:428 validate_hash_tree() warn: unsigned 'read_res' is never less than zero.
-Date: Wed, 13 May 2020 21:41:03 +0800
-Message-ID: <202005132100.iKnYfj3u%lkp@intel.com>
+Subject: [hch-block:block-fs.h-cleanup 5/8] include/linux/blkdev.h:1931:2: error: expected identifier or '(' before ':' token
+Date: Wed, 13 May 2020 23:49:57 +0800
+Message-ID: <202005132355.xRKu9Vt6%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2227480498020261264==
+--===============2963569901985055632==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   ab185e45f637ba0b0239268f1130890c8837981d
-commit: ab185e45f637ba0b0239268f1130890c8837981d [1/1] ANDROID: Incremental=
- fs: Avoid continually recalculating hashes
+tree:   git://git.infradead.org/users/hch/block.git block-fs.h-cleanup
+head:   48ca5ac96538719d7dd6557513b98d6c505a423e
+commit: 853dbdee39f151c64a01e921b49f651251adcf69 [5/8] fs: move block-relat=
+ed definitions out of fs.h
+config: i386-tinyconfig (attached as .config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce:
+        git checkout 853dbdee39f151c64a01e921b49f651251adcf69
+        # save the attached .config to linux build tree
+        make ARCH=3Di386 =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
-New smatch warnings:
-fs/incfs/data_mgmt.c:428 validate_hash_tree() warn: unsigned 'read_res' is =
-never less than zero.
+Note: the hch-block/block-fs.h-cleanup HEAD 48ca5ac96538719d7dd6557513b98d6=
+c505a423e builds fine.
+      It only hurts bisectibility.
 
-Old smatch warnings:
-fs/incfs/data_mgmt.c:172 incfs_open_data_file() error: we previously assume=
-d 'df' could be null (see line 141)
-fs/incfs/data_mgmt.h:315 get_incfs_node() warn: always true condition '(ino=
-de->i_sb->s_magic !=3D (357661101641)) =3D> (0-u32max !=3D 357661101641)'
-fs/incfs/data_mgmt.c:1101 incfs_process_new_hash_block() error: double unlo=
-cked 'bfc->bc_mutex' (orig line 1096)
+All errors (new ones prefixed by >>):
 
-vim +/read_res +428 fs/incfs/data_mgmt.c
+In file included from include/linux/blk-cgroup.h:23:0,
+from include/linux/writeback.h:14,
+from include/linux/memcontrol.h:22,
+from include/linux/swap.h:9,
+from include/linux/suspend.h:5,
+from arch/x86/kernel/asm-offsets.c:13:
+include/linux/blkdev.h: In function 'blk_io_schedule':
+include/linux/blkdev.h:1857:26: error: 'sysctl_hung_task_timeout_secs' unde=
+clared (first use in this function)
+unsigned long timeout =3D sysctl_hung_task_timeout_secs * HZ / 2;
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/blkdev.h:1857:26: note: each undeclared identifier is reporte=
+d only once for each function it appears in
+include/linux/blkdev.h: At top level:
+>> include/linux/blkdev.h:1931:2: error: expected identifier or '(' before =
+':' token
+}:
+^
+make[2]: *** [scripts/Makefile.build:100: arch/x86/kernel/asm-offsets.s] Er=
+ror 1
+make[2]: Target '__build' not remade because of errors.
+make[1]: *** [Makefile:1141: prepare0] Error 2
+make[1]: Target 'prepare' not remade because of errors.
+make: *** [Makefile:180: sub-make] Error 2
 
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  368  =
+vim +1931 include/linux/blkdev.h
 
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  369  static int validate_hash_tre=
-e(struct file *bf, struct data_file *df,
-ab185e45f637ba Paul Lawrence  2020-05-07  370  			      int block_index, st=
-ruct mem_range data,
-ab185e45f637ba Paul Lawrence  2020-05-07  371  			      u8 *tmp_buf)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  372  {
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  373  	u8 digest[INCFS_MAX_HASH_SI=
-ZE] =3D {};
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  374  	struct mtree *tree =3D NULL;
-bc6a70e849cccf Paul Lawrence  2020-03-13  375  	struct incfs_df_signature *=
-sig =3D NULL;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  376  	struct mem_range calc_diges=
-t_rng;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  377  	struct mem_range saved_dige=
-st_rng;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  378  	struct mem_range root_hash_=
-rng;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  379  	int digest_size;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  380  	int hash_block_index =3D bl=
-ock_index;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  381  	int hash_per_block;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  382  	int lvl =3D 0;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  383  	int res;
-ab185e45f637ba Paul Lawrence  2020-05-07  384  	struct page *saved_page =3D=
- NULL;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  385  =
+  1922	=
 
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  386  	tree =3D df->df_hash_tree;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  387  	sig =3D df->df_signature;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  388  	if (!tree || !sig)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  389  		return 0;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  390  =
+  1923	extern struct super_block *blockdev_superblock;
+  1924	static inline bool sb_is_blkdev_sb(struct super_block *sb)
+  1925	{
+  1926		return sb =3D=3D blockdev_superblock;
+  1927	}
+  1928	#else
+  1929	void invalidate_bdev(struct block_device *bdev)
+  1930	{
+> 1931	}:
+  1932	static inline void bd_forget(struct inode *inode)
+  1933	{
+  1934	}
+  1935	static inline bool sb_is_blkdev_sb(struct super_block *sb)
+  1936	{
+  1937		return false;
+  1938	}
+  1939	#endif /* CONFIG_BLOCK */
+  1940	=
 
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  391  	digest_size =3D tree->alg->=
-digest_size;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  392  	hash_per_block =3D INCFS_DA=
-TA_FILE_BLOCK_SIZE / digest_size;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  393  	calc_digest_rng =3D range(d=
-igest, digest_size);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  394  	res =3D incfs_calc_digest(t=
-ree->alg, data, calc_digest_rng);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  395  	if (res)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  396  		return res;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  397  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  398  	for (lvl =3D 0; lvl < tree-=
->depth; lvl++) {
-bc6a70e849cccf Paul Lawrence  2020-03-13  399  		loff_t lvl_off =3D
-bc6a70e849cccf Paul Lawrence  2020-03-13  400  			tree->hash_level_suboffse=
-t[lvl] + sig->hash_offset;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  401  		loff_t hash_block_off =3D =
-lvl_off +
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  402  			round_down(hash_block_ind=
-ex * digest_size,
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  403  				INCFS_DATA_FILE_BLOCK_SI=
-ZE);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  404  		size_t hash_off_in_block =
-=3D hash_block_index * digest_size
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  405  			% INCFS_DATA_FILE_BLOCK_S=
-IZE;
-ab185e45f637ba Paul Lawrence  2020-05-07  406  		struct mem_range buf_range;
-ab185e45f637ba Paul Lawrence  2020-05-07  407  		struct page *page =3D NULL;
-ab185e45f637ba Paul Lawrence  2020-05-07  408  		bool aligned =3D (hash_blo=
-ck_off &
-ab185e45f637ba Paul Lawrence  2020-05-07  409  				(INCFS_DATA_FILE_BLOCK_S=
-IZE - 1)) =3D=3D 0;
-ab185e45f637ba Paul Lawrence  2020-05-07  410  		u8 *actual_buf;
-ab185e45f637ba Paul Lawrence  2020-05-07  411  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  412  		if (aligned) {
-ab185e45f637ba Paul Lawrence  2020-05-07  413  			page =3D read_mapping_pag=
-e(
-ab185e45f637ba Paul Lawrence  2020-05-07  414  				bf->f_inode->i_mapping,
-ab185e45f637ba Paul Lawrence  2020-05-07  415  				hash_block_off / INCFS_D=
-ATA_FILE_BLOCK_SIZE,
-ab185e45f637ba Paul Lawrence  2020-05-07  416  				NULL);
-ab185e45f637ba Paul Lawrence  2020-05-07  417  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  418  			if (IS_ERR(page))
-ab185e45f637ba Paul Lawrence  2020-05-07  419  				return PTR_ERR(page);
-ab185e45f637ba Paul Lawrence  2020-05-07  420  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  421  			actual_buf =3D page_addre=
-ss(page);
-ab185e45f637ba Paul Lawrence  2020-05-07  422  		} else {
-ab185e45f637ba Paul Lawrence  2020-05-07  423  			size_t read_res =3D
-ab185e45f637ba Paul Lawrence  2020-05-07  424  				incfs_kread(bf, tmp_buf,
-ab185e45f637ba Paul Lawrence  2020-05-07  425  					    INCFS_DATA_FILE_BLO=
-CK_SIZE,
-ab185e45f637ba Paul Lawrence  2020-05-07  426  					    hash_block_off);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  427  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18 @428  			if (read_res < 0)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  429  				return read_res;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  430  			if (read_res !=3D INCFS_D=
-ATA_FILE_BLOCK_SIZE)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  431  				return -EIO;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  432  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  433  			actual_buf =3D tmp_buf;
-ab185e45f637ba Paul Lawrence  2020-05-07  434  		}
-ab185e45f637ba Paul Lawrence  2020-05-07  435  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  436  		buf_range =3D range(actual=
-_buf, INCFS_DATA_FILE_BLOCK_SIZE);
-ab185e45f637ba Paul Lawrence  2020-05-07  437  		saved_digest_rng =3D
-ab185e45f637ba Paul Lawrence  2020-05-07  438  			range(actual_buf + hash_o=
-ff_in_block, digest_size);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  439  		if (!incfs_equal_ranges(ca=
-lc_digest_rng, saved_digest_rng)) {
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  440  			int i;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  441  			bool zero =3D true;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  442  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  443  			pr_debug("incfs: Hash mis=
-match lvl:%d blk:%d\n",
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  444  				lvl, block_index);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  445  			for (i =3D 0; i < saved_d=
-igest_rng.len; ++i)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  446  				if (saved_digest_rng.dat=
-a[i]) {
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  447  					zero =3D false;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  448  					break;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  449  				}
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  450  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  451  			if (zero)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  452  				pr_debug("incfs: Note sa=
-ved_digest all zero - did you forget to load the hashes?\n");
-ab185e45f637ba Paul Lawrence  2020-05-07  453  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  454  			if (saved_page)
-ab185e45f637ba Paul Lawrence  2020-05-07  455  				put_page(saved_page);
-ab185e45f637ba Paul Lawrence  2020-05-07  456  			if (page)
-ab185e45f637ba Paul Lawrence  2020-05-07  457  				put_page(page);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  458  			return -EBADMSG;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  459  		}
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  460  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  461  		if (saved_page) {
-ab185e45f637ba Paul Lawrence  2020-05-07  462  			/*
-ab185e45f637ba Paul Lawrence  2020-05-07  463  			 * This is something of a=
- kludge. The PageChecked flag
-ab185e45f637ba Paul Lawrence  2020-05-07  464  			 * is reserved for the fi=
-le system, but we are setting
-ab185e45f637ba Paul Lawrence  2020-05-07  465  			 * this on the pages belo=
-nging to the underlying file
-ab185e45f637ba Paul Lawrence  2020-05-07  466  			 * system. incfs is only =
-going to be used on f2fs and
-ab185e45f637ba Paul Lawrence  2020-05-07  467  			 * ext4 which only use th=
-is flag when fs-verity is being
-ab185e45f637ba Paul Lawrence  2020-05-07  468  			 * used, so this is safe =
-for now, however a better
-ab185e45f637ba Paul Lawrence  2020-05-07  469  			 * mechanism needs to be =
-found.
-ab185e45f637ba Paul Lawrence  2020-05-07  470  			 */
-ab185e45f637ba Paul Lawrence  2020-05-07  471  			SetPageChecked(saved_page=
-);
-ab185e45f637ba Paul Lawrence  2020-05-07  472  			put_page(saved_page);
-ab185e45f637ba Paul Lawrence  2020-05-07  473  			saved_page =3D NULL;
-ab185e45f637ba Paul Lawrence  2020-05-07  474  		}
-ab185e45f637ba Paul Lawrence  2020-05-07  475  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  476  		if (page && PageChecked(pa=
-ge)) {
-ab185e45f637ba Paul Lawrence  2020-05-07  477  			put_page(page);
-ab185e45f637ba Paul Lawrence  2020-05-07  478  			return 0;
-ab185e45f637ba Paul Lawrence  2020-05-07  479  		}
-ab185e45f637ba Paul Lawrence  2020-05-07  480  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  481  		saved_page =3D page;
-ab185e45f637ba Paul Lawrence  2020-05-07  482  		page =3D NULL;
-ab185e45f637ba Paul Lawrence  2020-05-07  483  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  484  		res =3D incfs_calc_digest(=
-tree->alg, buf_range, calc_digest_rng);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  485  		if (res)
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  486  			return res;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  487  		hash_block_index /=3D hash=
-_per_block;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  488  	}
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  489  =
-
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  490  	root_hash_rng =3D range(tre=
-e->root_hash, digest_size);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  491  	if (!incfs_equal_ranges(cal=
-c_digest_rng, root_hash_rng)) {
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  492  		pr_debug("incfs: Root hash=
- mismatch blk:%d\n", block_index);
-ab185e45f637ba Paul Lawrence  2020-05-07  493  		if (saved_page)
-ab185e45f637ba Paul Lawrence  2020-05-07  494  			put_page(saved_page);
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  495  		return -EBADMSG;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  496  	}
-ab185e45f637ba Paul Lawrence  2020-05-07  497  =
-
-ab185e45f637ba Paul Lawrence  2020-05-07  498  	if (saved_page) {
-ab185e45f637ba Paul Lawrence  2020-05-07  499  		SetPageChecked(saved_page);
-ab185e45f637ba Paul Lawrence  2020-05-07  500  		put_page(saved_page);
-ab185e45f637ba Paul Lawrence  2020-05-07  501  	}
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  502  	return 0;
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  503  }
-c6819dd77861f2 Eugene Zemtsov 2019-11-18  504  =
-
-
-:::::: The code at line 428 was first introduced by commit
-:::::: c6819dd77861f22858a4371f755c7d5422920eeb ANDROID: Initial commit of =
-Incremental FS
-
-:::::: TO: Eugene Zemtsov <ezemtsov@google.com>
-:::::: CC: Alistair Delva <adelva@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2227480498020261264==--
+
+--===============2963569901985055632==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+KGRoAAA=
+--===============2963569901985055632==--
 
