@@ -1,72 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============2624085113800886264=="
+Content-Type: multipart/mixed; boundary="===============2898188497598203282=="
 MIME-Version: 1.0
-From: Felipe Balbi <balbi@kernel.org>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [balbi-usb:testing/next 78/89] drivers/usb/dwc3/gadget.c:2842:7: error: implicit declaration of function 'DWC3_VER_IS_WITHIN'
-Date: Thu, 14 May 2020 15:08:00 +0300
-Message-ID: <871rnm4t3z.fsf@kernel.org>
-In-Reply-To: <202005141935.h1fCzDvE%lkp@intel.com>
+Subject: [lkp] [+668 bytes kernel size regression] [i386-tinyconfig] [65c908b7bd] dma-mapping: add a dma_ops_bypass flag to struct device
+Date: Thu, 14 May 2020 20:51:04 +0800
+Message-ID: <5ebd3eb8.71OxYACs5U9Z+zn7%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2624085113800886264==
+--===============2898188497598203282==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-kbuild test robot <lkp@intel.com> writes:
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tes=
-ting/next
-> head:   405a813dbc9e261f9a025386c04f0d133996995e
-> commit: 1a31a103ce6e5a49c4c04e0709a0da431bcbadd4 [78/89] usb: dwc3: gadge=
-t: Use SET_EP_PRIME for NoStream
-> config: parisc-allyesconfig (attached as .config)
-> compiler: hppa-linux-gcc (GCC) 9.3.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git checkout 1a31a103ce6e5a49c4c04e0709a0da431bcbadd4
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cross=
- ARCH=3Dparisc =
+FYI, we noticed a +668 bytes kernel size regression due to commit:
 
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
->
-> Note: the balbi-usb/testing/next HEAD 405a813dbc9e261f9a025386c04f0d13399=
-6995e builds fine.
->       It only hurts bisectibility.
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+commit: 65c908b7bd08144e5298258920f61255aa7628ee (dma-mapping: add a dma_op=
+s_bypass flag to struct device)
+git://git.infradead.org/users/hch/misc.git dma-bypass.4
 
-Thanks, I've reordered the commits to avoid this problem.
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
--- =
+4861c37e: dma-mapping: inline the fast path dma-direct calls
+65c908b7: dma-mapping: add a dma_ops_bypass flag to struct device
 
-balbi
++---------------------------------+----------+----------+-------+
+|             symbol              | 4861c37e | 65c908b7 | delta |
++---------------------------------+----------+----------+-------+
+| bzImage                         | 439680   | 439840   | 160   |
+| nm.t.dma_alloc_direct           | 0        | 103      | 103   |
+| nm.t.dma_map_direct             | 0        | 102      | 102   |
+| nm.T.dma_get_sgtable_attrs      | 84       | 135      | 51    |
+| nm.T.dma_mmap_attrs             | 84       | 135      | 51    |
+| nm.T.dma_free_attrs             | 73       | 113      | 40    |
+| nm.T.dma_alloc_attrs            | 76       | 113      | 37    |
+| nm.T.dma_map_resource           | 100      | 132      | 32    |
+| nm.T.dma_max_mapping_size       | 38       | 65       | 27    |
+| nm.T.dma_map_sg_attrs           | 69       | 95       | 26    |
+| nm.T.dma_get_required_mask      | 50       | 73       | 23    |
+| nm.T.dma_can_mmap               | 33       | 52       | 19    |
+| nm.T.dma_cache_sync             | 56       | 75       | 19    |
+| nm.T.dma_sync_sg_for_cpu        | 56       | 75       | 19    |
+| nm.T.dma_sync_sg_for_device     | 56       | 75       | 19    |
+| nm.T.dma_sync_single_for_cpu    | 56       | 75       | 19    |
+| nm.T.dma_sync_single_for_device | 56       | 75       | 19    |
+| nm.T.dma_unmap_page_attrs       | 61       | 80       | 19    |
+| nm.T.dma_unmap_resource         | 61       | 80       | 19    |
+| nm.T.dma_unmap_sg_attrs         | 61       | 80       | 19    |
+| nm.T.dma_map_page_attrs         | 226      | 231      | 5     |
++---------------------------------+----------+----------+-------+
 
---===============2624085113800886264==
-Content-Type: application/pgp-signature
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="signature.asc"
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KCmlRSXpCQUVCQ0FBZEZpRUVsTHpoN3duOTZD
-WHdqaDJJekw2NG1lRWFtUVlGQWw2OU5LQUFDZ2tRekw2NG1lRWEKbVFibVdoQUF0UWoyQkdxcys5
-T0Evb2krWUkzYXJIakpmVmpuYkFpUDdRQW5sd3ZTVmJESFJGa1JqWGdPV09aTApHY2dRaEZXbDFB
-dlZ1MnNzbEZQMm5SZ3pFOGwrcGhIbUFTci95emNsQzY5WHU3Z0RFZVRQVVovbnZ1SUI0NkNMCkZp
-bk1DT0xtSTFQZVpwYVpSaE82M3lua3pPM1BDakdhNXo0eFd5dGM4MVBJWnBlK2tXZUtMd3BuYWRB
-K2swWXEKcDVBSUtGc1ltZFJCK094aDNicVY3NXhuMmFlS0pPUXByaHBvcDVkb3FzeFFDeXA0TEg3
-NDhHbitzdjF1M2lQcApNLzYvcDdzTTFJV2R6S3l2SFpTUVJ4LzF2ZU5oaW9ZMjQxOG1SYXQva2Jt
-dTMxYWxFb2MxNnRvRG0zSzZkSm1FCmhVTi9aZXBlU2J5ck1sa1NiaXhVc1AzdDk3dmRNazlxVnVR
-SnFtNDdzOEVnWGNleE1qM1NJVHJyWVN5Z3RsL2wKVEFOTVREMmxLaWVkRnpPZHNCSm41eXhIM2t6
-OHc3MXlkTHVJUjRhYjU1VFRHczFrQ3Mwc2JvZEpYVStycWJFSApmVSsxNWt4bEJHQVlkeWpWTGUy
-T0laYkNZNzJlSXRyY05QdXdJUlNWS0lkN0pDTm5ia1FhT2lrbFR2UTVUbEt3CnpZVkhqQ01TUW9w
-cVNKbERicWFscjF2bjh2a2hzR1VmTTV0MkgxMCtIV3VKd1NGOGZ6Y0RkalA3QkpwQXhPekcKa2JE
-WFdYZi9paHc5L3RwWndpb0h4VmJvUGJPNFlSVVVGRFNuUm1nTjM3S2tyM1NtVE5PVzRDek5QR1F2
-dG0xNwpRV3A4M1NJcFh1VXhWSVVWZVpnTFdDVEJtWFlxOTBJbE5RbnluVFYwYnI1MnZrOU9lZDA9
-Cj1xTTVXCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQ==
---===============2624085113800886264==--
+
+Thanks,
+Kbuild test robot
+
+--===============2898188497598203282==--
 
