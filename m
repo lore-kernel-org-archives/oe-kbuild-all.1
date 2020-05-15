@@ -1,144 +1,284 @@
-Content-Type: multipart/mixed; boundary="===============2200327424611093099=="
+Content-Type: multipart/mixed; boundary="===============4710024797196683161=="
 MIME-Version: 1.0
-From: Hannes Reinecke <hare@suse.de>
+From: Lu, Baolu <baolu.lu@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [dm:for-next 53/58] drivers/md/dm-zoned-metadata.c:779:3: error: implicit declaration of function 'export_uuid'
-Date: Fri, 15 May 2020 09:25:35 +0200
-Message-ID: <a1e65e5a-4b23-6c6e-d52f-7bf6eb69e7c8@suse.de>
-In-Reply-To: <202005151432.U61i8wOc%lkp@intel.com>
+Subject: Re: [baolu:iommu/next/20200514 4/16] drivers/iommu/intel-svm.c:367:22-26: ERROR: svm is NULL but dereferenced. (fwd)
+Date: Fri, 15 May 2020 00:23:07 +0000
+Message-ID: <BFD63B69A55F23428FB1774089DEC6C9511944BF@shsmsx102.ccr.corp.intel.com>
+In-Reply-To: <alpine.DEB.2.21.2005141639520.2561@hadrien>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2200327424611093099==
+--===============4710024797196683161==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mike,
+Yes! Thanks a lot for catching it.
 
-On 5/15/20 8:32 AM, kbuild test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/lin=
-ux-dm.git for-next
-> head:   6c871f63986b34c7768080259ddf5991c55ee385
-> commit: 70978208ec91d798066f4c291bc98ff914bea222 [53/58] dm zoned: metada=
-ta version 2
-> config: nios2-allyesconfig (attached as .config)
-> compiler: nios2-linux-gcc (GCC) 9.3.0
-> reproduce:
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
-in/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          git checkout 70978208ec91d798066f4c291bc98ff914bea222
->          # save the attached .config to linux build tree
->          COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cros=
-s ARCH=3Dnios2
-> =
+-----Original Message-----
+From: Julia Lawall [mailto:julia.lawall(a)inria.fr] =
 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
-> =
+Sent: Thursday, May 14, 2020 10:42 PM
+To: Lu, Baolu <baolu.lu@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>; kbuild-all(a)lists.01.org
+Subject: [baolu:iommu/next/20200514 4/16] drivers/iommu/intel-svm.c:367:22-=
+26: ERROR: svm is NULL but dereferenced. (fwd)
 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> =
+Hello,
 
-> drivers/md/dm-zoned-metadata.c: In function 'dmz_write_sb':
->>> drivers/md/dm-zoned-metadata.c:779:3: error: implicit declaration of fu=
-nction 'export_uuid' [-Werror=3Dimplicit-function-declaration]
-> 779 |   export_uuid(sb->dmz_uuid, &zmd->uuid);
-> |   ^~~~~~~~~~~
-> drivers/md/dm-zoned-metadata.c: In function 'dmz_check_sb':
->>> drivers/md/dm-zoned-metadata.c:1015:3: error: implicit declaration of f=
-unction 'import_uuid' [-Werror=3Dimplicit-function-declaration]
-> 1015 |   import_uuid(&sb_uuid, sb->dmz_uuid);
-> |   ^~~~~~~~~~~
-> cc1: some warnings being treated as errors
-> =
+Line 367 requires svm to be a valid pointer.  This will cause problems with=
+ at least the gotos on lines 266 and 300.
 
-> vim +/export_uuid +779 drivers/md/dm-zoned-metadata.c
-> =
+julia
 
->     761	=
+---------- Forwarded message ----------
+Date: Thu, 14 May 2020 18:31:21 +0800
+From: kbuild test robot <lkp@intel.com>
+To: kbuild(a)lists.01.org
+Cc: lkp(a)intel.com, Julia Lawall <julia.lawall@lip6.fr>
+Subject: [baolu:iommu/next/20200514 4/16] drivers/iommu/intel-svm.c:367:22-=
+26:
+    ERROR: svm is NULL but dereferenced.
 
->     762	/*
->     763	 * Write super block of the specified metadata set.
->     764	 */
->     765	static int dmz_write_sb(struct dmz_metadata *zmd, unsigned int se=
-t)
->     766	{
->     767		struct dmz_mblock *mblk =3D zmd->sb[set].mblk;
->     768		struct dmz_super *sb =3D zmd->sb[set].sb;
->     769		struct dmz_dev *dev =3D zmd->sb[set].dev;
->     770		sector_t sb_block;
->     771		u64 sb_gen =3D zmd->sb_gen + 1;
->     772		int ret;
->     773	=
+CC: kbuild-all(a)lists.01.org
+CC: Baolu Lu <baolu.lu@intel.com>
+TO: Lu Baolu <baolu.lu@linux.intel.com>
 
->     774		sb->magic =3D cpu_to_le32(DMZ_MAGIC);
->     775	=
+tree:   baolu/iommu/next/20200514
+head:   28c528ddc9501f8caba71dba375bd1d35403dd4b
+commit: 64e95c1afbadc5601bc100f6424b1848888613f7 [4/16] iommu/vt-d: Add bin=
+d guest PASID support
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
 
->     776		sb->version =3D cpu_to_le32(zmd->sb_version);
->     777		if (zmd->sb_version > 1) {
->     778			BUILD_BUG_ON(UUID_SIZE !=3D 16);
->   > 779			export_uuid(sb->dmz_uuid, &zmd->uuid);
->     780			memcpy(sb->dmz_label, zmd->label, BDEVNAME_SIZE);
->     781			export_uuid(sb->dev_uuid, &dev->uuid);
->     782		}
->     783	=
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
->     784		sb->gen =3D cpu_to_le64(sb_gen);
->     785	=
 
->     786		/*
->     787		 * The metadata always references the absolute block address,
->     788		 * ie relative to the entire block range, not the per-device
->     789		 * block address.
->     790		 */
->     791		sb_block =3D zmd->sb[set].zone->id << zmd->zone_nr_blocks_shift;
->     792		sb->sb_block =3D cpu_to_le64(sb_block);
->     793		sb->nr_meta_blocks =3D cpu_to_le32(zmd->nr_meta_blocks);
->     794		sb->nr_reserved_seq =3D cpu_to_le32(zmd->nr_reserved_seq);
->     795		sb->nr_chunks =3D cpu_to_le32(zmd->nr_chunks);
->     796	=
+coccinelle warnings: (new ones prefixed by >>)
 
->     797		sb->nr_map_blocks =3D cpu_to_le32(zmd->nr_map_blocks);
->     798		sb->nr_bitmap_blocks =3D cpu_to_le32(zmd->nr_bitmap_blocks);
->     799	=
+>> drivers/iommu/intel-svm.c:367:22-26: ERROR: svm is NULL but dereferenced.
 
->     800		sb->crc =3D 0;
->     801		sb->crc =3D cpu_to_le32(crc32_le(sb_gen, (unsigned char *)sb, DM=
-Z_BLOCK_SIZE));
->     802	=
+git remote add baolu git://bee.sh.intel.com/git/blu2/usb.git
+git remote update baolu
+git checkout 64e95c1afbadc5601bc100f6424b1848888613f7
+vim +367 drivers/iommu/intel-svm.c
 
->     803		ret =3D dmz_rdwr_block(dev, REQ_OP_WRITE, zmd->sb[set].block,
->     804				     mblk->page);
->     805		if (ret =3D=3D 0)
->     806			ret =3D blkdev_issue_flush(dev->bdev, GFP_NOIO, NULL);
->     807	=
+2f26e0a9c9860d David Woodhouse 2015-09-09  224
+034d473109e907 Jacob Pan       2020-01-02  225  #define for_each_svm_dev(sd=
+ev, svm, d)			\
+034d473109e907 Jacob Pan       2020-01-02  226  	list_for_each_entry((sdev)=
+, &(svm)->devs, list)	\
+034d473109e907 Jacob Pan       2020-01-02  227  		if ((d) !=3D (sdev)->dev)=
+ {} else
+034d473109e907 Jacob Pan       2020-01-02  228
+64e95c1afbadc5 Jacob Pan       2020-05-14  229  int intel_svm_bind_gpasid(s=
+truct iommu_domain *domain, struct device *dev,
+64e95c1afbadc5 Jacob Pan       2020-05-14  230  			  struct iommu_gpasid_bi=
+nd_data *data)
+64e95c1afbadc5 Jacob Pan       2020-05-14  231  {
+64e95c1afbadc5 Jacob Pan       2020-05-14  232  	struct intel_iommu *iommu =
+=3D intel_svm_device_to_iommu(dev);
+64e95c1afbadc5 Jacob Pan       2020-05-14  233  	struct dmar_domain *dmar_d=
+omain;
+64e95c1afbadc5 Jacob Pan       2020-05-14  234  	struct intel_svm_dev *sdev;
+64e95c1afbadc5 Jacob Pan       2020-05-14  235  	struct intel_svm *svm;
+64e95c1afbadc5 Jacob Pan       2020-05-14  236  	int ret =3D 0;
+64e95c1afbadc5 Jacob Pan       2020-05-14  237
+64e95c1afbadc5 Jacob Pan       2020-05-14  238  	if (WARN_ON(!iommu) || !da=
+ta)
+64e95c1afbadc5 Jacob Pan       2020-05-14  239  		return -EINVAL;
+64e95c1afbadc5 Jacob Pan       2020-05-14  240
+64e95c1afbadc5 Jacob Pan       2020-05-14  241  	if (data->version !=3D IOM=
+MU_GPASID_BIND_VERSION_1 ||
+64e95c1afbadc5 Jacob Pan       2020-05-14  242  	    data->format !=3D IOMM=
+U_PASID_FORMAT_INTEL_VTD)
+64e95c1afbadc5 Jacob Pan       2020-05-14  243  		return -EINVAL;
+64e95c1afbadc5 Jacob Pan       2020-05-14  244
+64e95c1afbadc5 Jacob Pan       2020-05-14  245  	if (dev_is_pci(dev)) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  246  		/* VT-d supports devices =
+with full 20 bit PASIDs only */
+64e95c1afbadc5 Jacob Pan       2020-05-14  247  		if (pci_max_pasids(to_pci=
+_dev(dev)) !=3D PASID_MAX)
+64e95c1afbadc5 Jacob Pan       2020-05-14  248  			return -EINVAL;
+64e95c1afbadc5 Jacob Pan       2020-05-14  249  	} else {
+64e95c1afbadc5 Jacob Pan       2020-05-14  250  		return -ENOTSUPP;
+64e95c1afbadc5 Jacob Pan       2020-05-14  251  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  252
+64e95c1afbadc5 Jacob Pan       2020-05-14  253  	/*
+64e95c1afbadc5 Jacob Pan       2020-05-14  254  	 * We only check host PASI=
+D range, we have no knowledge to check
+64e95c1afbadc5 Jacob Pan       2020-05-14  255  	 * guest PASID range.
+64e95c1afbadc5 Jacob Pan       2020-05-14  256  	 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  257  	if (data->hpasid <=3D 0 ||=
+ data->hpasid >=3D PASID_MAX)
+64e95c1afbadc5 Jacob Pan       2020-05-14  258  		return -EINVAL;
+64e95c1afbadc5 Jacob Pan       2020-05-14  259
+64e95c1afbadc5 Jacob Pan       2020-05-14  260  	dmar_domain =3D to_dmar_do=
+main(domain);
+64e95c1afbadc5 Jacob Pan       2020-05-14  261
+64e95c1afbadc5 Jacob Pan       2020-05-14  262  	mutex_lock(&pasid_mutex);
+64e95c1afbadc5 Jacob Pan       2020-05-14  263  	svm =3D ioasid_find(NULL, =
+data->hpasid, NULL);
+64e95c1afbadc5 Jacob Pan       2020-05-14  264  	if (IS_ERR(svm)) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  265  		ret =3D PTR_ERR(svm);
+64e95c1afbadc5 Jacob Pan       2020-05-14  266  		goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  267  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  268
+64e95c1afbadc5 Jacob Pan       2020-05-14  269  	if (svm) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  270  		/*
+64e95c1afbadc5 Jacob Pan       2020-05-14  271  		 * If we found svm for th=
+e PASID, there must be at
+64e95c1afbadc5 Jacob Pan       2020-05-14  272  		 * least one device bond,=
+ otherwise svm should be freed.
+64e95c1afbadc5 Jacob Pan       2020-05-14  273  		 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  274  		if (WARN_ON(list_empty(&s=
+vm->devs))) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  275  			ret =3D -EINVAL;
+64e95c1afbadc5 Jacob Pan       2020-05-14  276  			goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  277  		}
+64e95c1afbadc5 Jacob Pan       2020-05-14  278
+64e95c1afbadc5 Jacob Pan       2020-05-14  279  		for_each_svm_dev(sdev, sv=
+m, dev) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  280  			/*
+64e95c1afbadc5 Jacob Pan       2020-05-14  281  			 * For devices with aux =
+domains, we should allow
+64e95c1afbadc5 Jacob Pan       2020-05-14  282  			 * multiple bind calls w=
+ith the same PASID and pdev.
+64e95c1afbadc5 Jacob Pan       2020-05-14  283  			 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  284  			if (iommu_dev_feature_en=
+abled(dev,
+64e95c1afbadc5 Jacob Pan       2020-05-14  285  						      IOMMU_DEV_FEAT_=
+AUX)) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  286  				sdev->users++;
+64e95c1afbadc5 Jacob Pan       2020-05-14  287  			} else {
+64e95c1afbadc5 Jacob Pan       2020-05-14  288  				dev_warn_ratelimited(de=
+v,
+64e95c1afbadc5 Jacob Pan       2020-05-14  289  						     "Already bound w=
+ith PASID %u\n",
+64e95c1afbadc5 Jacob Pan       2020-05-14  290  						     svm->pasid);
+64e95c1afbadc5 Jacob Pan       2020-05-14  291  				ret =3D -EBUSY;
+64e95c1afbadc5 Jacob Pan       2020-05-14  292  			}
+64e95c1afbadc5 Jacob Pan       2020-05-14  293  			goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  294  		}
+64e95c1afbadc5 Jacob Pan       2020-05-14  295  	} else {
+64e95c1afbadc5 Jacob Pan       2020-05-14  296  		/* We come here when PASI=
+D has never been bond to a device. */
+64e95c1afbadc5 Jacob Pan       2020-05-14  297  		svm =3D kzalloc(sizeof(*s=
+vm), GFP_KERNEL);
+64e95c1afbadc5 Jacob Pan       2020-05-14  298  		if (!svm) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  299  			ret =3D -ENOMEM;
+64e95c1afbadc5 Jacob Pan       2020-05-14  300  			goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  301  		}
+64e95c1afbadc5 Jacob Pan       2020-05-14  302  		/* REVISIT: upper layer/V=
+FIO can track host process that bind
+64e95c1afbadc5 Jacob Pan       2020-05-14  303  		 * the PASID. ioasid_set =
+=3D mm might be sufficient for vfio to
+64e95c1afbadc5 Jacob Pan       2020-05-14  304  		 * check pasid VMM owners=
+hip. We can drop the following line
+64e95c1afbadc5 Jacob Pan       2020-05-14  305  		 * once VFIO and IOASID s=
+et check is in place.
+64e95c1afbadc5 Jacob Pan       2020-05-14  306  		 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  307  		svm->mm =3D get_task_mm(c=
+urrent);
+64e95c1afbadc5 Jacob Pan       2020-05-14  308  		svm->pasid =3D data->hpas=
+id;
+64e95c1afbadc5 Jacob Pan       2020-05-14  309  		if (data->flags & IOMMU_S=
+VA_GPASID_VAL) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  310  			svm->gpasid =3D data->gp=
+asid;
+64e95c1afbadc5 Jacob Pan       2020-05-14  311  			svm->flags |=3D SVM_FLAG=
+_GUEST_PASID;
+64e95c1afbadc5 Jacob Pan       2020-05-14  312  		}
+64e95c1afbadc5 Jacob Pan       2020-05-14  313  		ioasid_set_data(data->hpa=
+sid, svm);
+64e95c1afbadc5 Jacob Pan       2020-05-14  314  		INIT_LIST_HEAD_RCU(&svm->=
+devs);
+64e95c1afbadc5 Jacob Pan       2020-05-14  315  		mmput(svm->mm);
+64e95c1afbadc5 Jacob Pan       2020-05-14  316  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  317  	sdev =3D kzalloc(sizeof(*s=
+dev), GFP_KERNEL);
+64e95c1afbadc5 Jacob Pan       2020-05-14  318  	if (!sdev) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  319  		ret =3D -ENOMEM;
+64e95c1afbadc5 Jacob Pan       2020-05-14  320  		goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  321  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  322  	sdev->dev =3D dev;
+64e95c1afbadc5 Jacob Pan       2020-05-14  323
+64e95c1afbadc5 Jacob Pan       2020-05-14  324  	/* Only count users if dev=
+ice has aux domains */
+64e95c1afbadc5 Jacob Pan       2020-05-14  325  	if (iommu_dev_feature_enab=
+led(dev, IOMMU_DEV_FEAT_AUX))
+64e95c1afbadc5 Jacob Pan       2020-05-14  326  		sdev->users =3D 1;
+64e95c1afbadc5 Jacob Pan       2020-05-14  327
+64e95c1afbadc5 Jacob Pan       2020-05-14  328  	/* Set up device context e=
+ntry for PASID if not enabled already */
+64e95c1afbadc5 Jacob Pan       2020-05-14  329  	ret =3D intel_iommu_enable=
+_pasid(iommu, sdev->dev);
+64e95c1afbadc5 Jacob Pan       2020-05-14  330  	if (ret) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  331  		dev_err_ratelimited(dev, =
+"Failed to enable PASID capability\n");
+64e95c1afbadc5 Jacob Pan       2020-05-14  332  		kfree(sdev);
+64e95c1afbadc5 Jacob Pan       2020-05-14  333  		goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  334  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  335
+64e95c1afbadc5 Jacob Pan       2020-05-14  336  	/*
+64e95c1afbadc5 Jacob Pan       2020-05-14  337  	 * PASID table is per devi=
+ce for better security. Therefore, for
+64e95c1afbadc5 Jacob Pan       2020-05-14  338  	 * each bind of a new devi=
+ce even with an existing PASID, we need to
+64e95c1afbadc5 Jacob Pan       2020-05-14  339  	 * call the nested mode se=
+tup function here.
+64e95c1afbadc5 Jacob Pan       2020-05-14  340  	 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  341  	spin_lock(&iommu->lock);
+64e95c1afbadc5 Jacob Pan       2020-05-14  342  	ret =3D intel_pasid_setup_=
+nested(iommu,
+64e95c1afbadc5 Jacob Pan       2020-05-14  343  				       dev,
+64e95c1afbadc5 Jacob Pan       2020-05-14  344  				       (pgd_t *)data->g=
+pgd,
+64e95c1afbadc5 Jacob Pan       2020-05-14  345  				       data->hpasid,
+64e95c1afbadc5 Jacob Pan       2020-05-14  346  				       &data->vtd,
+64e95c1afbadc5 Jacob Pan       2020-05-14  347  				       dmar_domain,
+64e95c1afbadc5 Jacob Pan       2020-05-14  348  				       data->addr_width=
+);
+64e95c1afbadc5 Jacob Pan       2020-05-14  349  	spin_unlock(&iommu->lock);
+64e95c1afbadc5 Jacob Pan       2020-05-14  350  	if (ret) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  351  		dev_err_ratelimited(dev, =
+"Failed to set up PASID %llu in nested mode, Err %d\n",
+64e95c1afbadc5 Jacob Pan       2020-05-14  352  				    data->hpasid, ret);
+64e95c1afbadc5 Jacob Pan       2020-05-14  353  		/*
+64e95c1afbadc5 Jacob Pan       2020-05-14  354  		 * PASID entry should be =
+in cleared state if nested mode
+64e95c1afbadc5 Jacob Pan       2020-05-14  355  		 * set up failed. So we o=
+nly need to clear IOASID tracking
+64e95c1afbadc5 Jacob Pan       2020-05-14  356  		 * data such that free ca=
+ll will succeed.
+64e95c1afbadc5 Jacob Pan       2020-05-14  357  		 */
+64e95c1afbadc5 Jacob Pan       2020-05-14  358  		kfree(sdev);
+64e95c1afbadc5 Jacob Pan       2020-05-14  359  		goto out;
+64e95c1afbadc5 Jacob Pan       2020-05-14  360  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  361
+64e95c1afbadc5 Jacob Pan       2020-05-14  362  	svm->flags |=3D SVM_FLAG_G=
+UEST_MODE;
+64e95c1afbadc5 Jacob Pan       2020-05-14  363
+64e95c1afbadc5 Jacob Pan       2020-05-14  364  	init_rcu_head(&sdev->rcu);
+64e95c1afbadc5 Jacob Pan       2020-05-14  365  	list_add_rcu(&sdev->list, =
+&svm->devs);
+64e95c1afbadc5 Jacob Pan       2020-05-14  366   out:
+64e95c1afbadc5 Jacob Pan       2020-05-14 @367  	if (list_empty(&svm->devs)=
+) {
+64e95c1afbadc5 Jacob Pan       2020-05-14  368  		ioasid_set_data(data->hpa=
+sid, NULL);
+64e95c1afbadc5 Jacob Pan       2020-05-14  369  		kfree(svm);
+64e95c1afbadc5 Jacob Pan       2020-05-14  370  	}
+64e95c1afbadc5 Jacob Pan       2020-05-14  371
+64e95c1afbadc5 Jacob Pan       2020-05-14  372  	mutex_unlock(&pasid_mutex);
+64e95c1afbadc5 Jacob Pan       2020-05-14  373  	return ret;
+64e95c1afbadc5 Jacob Pan       2020-05-14  374  }
+64e95c1afbadc5 Jacob Pan       2020-05-14  375
 
->     808		return ret;
->     809	}
->     810	=
-
-> =
-
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-> =
-
-This is cause by missing commit d01cd62400b3 ("uuid: Add inline helpers =
-
-to import / export UUIDs"), which went into 5.7.
-Mind to update your tree?
-
-Cheers,
-
-Hannes
--- =
-
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare(a)suse.de                               +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg
-HRB 36809 (AG N=C3=BCrnberg), Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6r=
-ffer
---===============2200327424611093099==--
+---
+0-DAY CI Kernel Test Service, Intel Corporation https://lists.01.org/hyperk=
+itty/list/kbuild-all(a)lists.01.org
+--===============4710024797196683161==--
 
