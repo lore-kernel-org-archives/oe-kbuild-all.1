@@ -1,477 +1,81 @@
-Content-Type: multipart/mixed; boundary="===============7439302858930763345=="
+Content-Type: multipart/mixed; boundary="===============0671917847901871668=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [lkp] [+5291 bytes kernel size regression] [i386-tinyconfig] [cdd28ad2d8] READ_ONCE: Use data_race() to avoid KCSAN instrumentation
-Date: Fri, 15 May 2020 17:54:32 +0800
-Message-ID: <5ebe66d8.PpQBsadOcbummeO4%lkp@intel.com>
+Subject: [peterz-queue:locking/kcsan 12/21] net/netfilter/core.c:585:26: sparse: sparse: incorrect type in initializer (different address spaces)
+Date: Fri, 15 May 2020 18:29:37 +0800
+Message-ID: <202005151825.baqb0FFR%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7439302858930763345==
+--===============0671917847901871668==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git lo=
+cking/kcsan
+head:   ffed638b6a2180da8fd002a46632d746af72b299
+commit: bbfa112b46bdbbdfc2f5bfb9c2dcbef780ff6417 [12/21] READ_ONCE: Simplif=
+y implementations of {READ,WRITE}_ONCE()
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-193-gb8fad4bc-dirty
+        git checkout bbfa112b46bdbbdfc2f5bfb9c2dcbef780ff6417
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-FYI, we noticed a +5291 bytes kernel size regression due to commit:
-
-commit: cdd28ad2d8110099e43527e96d059c5639809680 (READ_ONCE: Use data_race(=
-) to avoid KCSAN instrumentation)
-https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/kc=
-san
-
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-88f1be32: kcsan: Rework data_race() so that it can be used by READ_ONCE()
-cdd28ad2: READ_ONCE: Use data_race() to avoid KCSAN instrumentation
-
-+-----------------------------------------+----------+----------+-------+
-|                 symbol                  | 88f1be32 | cdd28ad2 | delta |
-+-----------------------------------------+----------+----------+-------+
-| bzImage                                 | 439264   | 440960   | 1696  |
-| nm.t.__wakeup_flusher_threads_bdi       | 0        | 98       | 98    |
-| nm.T.show_workqueue_state               | 188      | 250      | 62    |
-| nm.T.__ia32_sys_getpriority             | 315      | 373      | 58    |
-| nm.T.__ia32_sys_setpriority             | 334      | 392      | 58    |
-| nm.T.rhashtable_insert_slow             | 697      | 749      | 52    |
-| nm.t.cdev_purge                         | 0        | 50       | 50    |
-| nm.T.show_free_areas                    | 465      | 514      | 49    |
-| nm.t.delete_node                        | 265      | 313      | 48    |
-| nm.t.perf_iterate_sb                    | 132      | 177      | 45    |
-| nm.t.gup_pgd_range                      | 542      | 585      | 43    |
-| nm.t.list_splice_init                   | 0        | 40       | 40    |
-| nm.T.send_sigurg                        | 131      | 171      | 40    |
-| nm.T.flush_workqueue                    | 476      | 516      | 40    |
-| nm.t.__queue_delayed_work               | 68       | 107      | 39    |
-| nm.t.__queue_work                       | 322      | 360      | 38    |
-| nm.t.need_more_worker                   | 0        | 37       | 37    |
-| nm.T.propagate_mount_busy               | 160      | 197      | 37    |
-| nm.t.wakeup_dirtytime_writeback         | 113      | 149      | 36    |
-| nm.T.destroy_workqueue                  | 280      | 316      | 36    |
-| nm.T.___perf_sw_event                   | 327      | 363      | 36    |
-| nm.t.wait_consider_task                 | 1319     | 1352     | 33    |
-| nm.t.will_become_orphaned_pgrp          | 123      | 155      | 32    |
-| nm.T.current_is_single_threaded         | 146      | 178      | 32    |
-| nm.T.xas_find_marked                    | 407      | 439      | 32    |
-| nm.t.perf_mmap_close                    | 463      | 495      | 32    |
-| nm.T.perf_event_release_kernel          | 466      | 498      | 32    |
-| nm.t.prepare_signal                     | 504      | 536      | 32    |
-| nm.t.complete_signal                    | 281      | 312      | 31    |
-| nm.T.rht_bucket_nested_insert           | 101      | 131      | 30    |
-| nm.T.swake_up_all                       | 101      | 131      | 30    |
-| nm.T.__lookup_mnt                       | 64       | 93       | 29    |
-| nm.T.plist_add                          | 113      | 142      | 29    |
-| nm.T.rhashtable_walk_start_check        | 212      | 241      | 29    |
-| nm.t.__ww_mutex_lock                    | 645      | 674      | 29    |
-| nm.T.process_shares_mm                  | 62       | 90       | 28    |
-| nm.T.__rht_bucket_nested                | 73       | 101      | 28    |
-| nm.t.xas_start                          | 106      | 134      | 28    |
-| nm.T.perf_event_wakeup                  | 124      | 152      | 28    |
-| nm.T.idr_destroy                        | 125      | 153      | 28    |
-| nm.t.dump_header                        | 181      | 209      | 28    |
-| nm.t.rwsem_down_write_slowpath          | 520      | 548      | 28    |
-| nm.t.get_page_from_free_area            | 0        | 26       | 26    |
-| nm.t.rht_ptr_rcu                        | 0        | 26       | 26    |
-| nm.T.__xas_next                         | 150      | 176      | 26    |
-| nm.T.__xas_prev                         | 150      | 176      | 26    |
-| nm.T.do_exit                            | 1511     | 1537     | 26    |
-| nm.T.rhashtable_walk_next               | 79       | 104      | 25    |
-| nm.T.radix_tree_next_chunk              | 491      | 516      | 25    |
-| nm.T.perf_event_mmap                    | 697      | 722      | 25    |
-| nm.T.drain_workqueue                    | 120      | 144      | 24    |
-| nm.T.__d_lookup_rcu                     | 214      | 238      | 24    |
-| nm.t.prepend_path                       | 392      | 416      | 24    |
-| nm.T.do_notify_parent                   | 449      | 473      | 24    |
-| nm.T.idr_get_free                       | 528      | 552      | 24    |
-| nm.t.kill_orphaned_pgrp                 | 133      | 156      | 23    |
-| nm.t.is_mergeable_anon_vma              | 51       | 73       | 22    |
-| nm.T.show_state_filter                  | 121      | 143      | 22    |
-| nm.t.purge_fragmented_blocks            | 200      | 222      | 22    |
-| nm.T.seq_hlist_next_rcu                 | 18       | 39       | 21    |
-| nm.t.xas_reload                         | 25       | 46       | 21    |
-| nm.t.__fcheck_files                     | 27       | 48       | 21    |
-| nm.t.slab_caches_to_rcu_destroy_workfn  | 143      | 164      | 21    |
-| nm.t.rwsem_down_read_slowpath           | 293      | 314      | 21    |
-| nm.T.release_task                       | 661      | 682      | 21    |
-| nm.t.timer_pending                      | 0        | 20       | 20    |
-| nm.T.llist_del_first                    | 28       | 48       | 20    |
-| nm.T.seq_hlist_start_rcu                | 29       | 49       | 20    |
-| nm.T.__lock_task_sighand                | 39       | 59       | 20    |
-| nm.t.find_alive_thread                  | 49       | 69       | 20    |
-| nm.T.hrtimer_active                     | 49       | 69       | 20    |
-| nm.T.__fd_install                       | 51       | 71       | 20    |
-| nm.T.find_lock_task_mm                  | 58       | 78       | 20    |
-| nm.T.iterate_fd                         | 67       | 87       | 20    |
-| nm.T.kill_fasync                        | 67       | 87       | 20    |
-| nm.t.notifier_call_chain                | 67       | 87       | 20    |
-| nm.t.perf_iterate_ctx                   | 67       | 87       | 20    |
-| nm.T.clocksource_mark_unstable          | 71       | 91       | 20    |
-| nm.t.perf_lock_task_context             | 73       | 93       | 20    |
-| nm.T.unregister_nmi_handler             | 75       | 95       | 20    |
-| nm.T.__d_lookup                         | 94       | 114      | 20    |
-| nm.T.workqueue_set_max_active           | 98       | 118      | 20    |
-| nm.T.__kill_pgrp_info                   | 100      | 120      | 20    |
-| nm.T.workingset_update_node             | 100      | 120      | 20    |
-| nm.t.flush_workqueue_prep_pwqs          | 104      | 124      | 20    |
-| nm.T.__register_nmi_handler             | 106      | 126      | 20    |
-| nm.t._vm_unmap_aliases                  | 124      | 144      | 20    |
-| nm.T.page_lock_anon_vma_read            | 156      | 176      | 20    |
-| nm.T.read_cache_pages                   | 162      | 182      | 20    |
-| nm.T.pm_qos_update_flags                | 165      | 185      | 20    |
-| nm.t.__rhashtable_walk_find_next        | 194      | 214      | 20    |
-| nm.T.xas_find                           | 223      | 243      | 20    |
-| nm.T.dma_pool_destroy                   | 238      | 258      | 20    |
-| nm.T.do_sigaction                       | 279      | 299      | 20    |
-| nm.t.oom_kill_process                   | 310      | 330      | 20    |
-| nm.T.alloc_workqueue                    | 630      | 650      | 20    |
-| nm.t.list_empty                         | 0        | 19       | 19    |
-| nm.T.irq_work_needs_cpu                 | 23       | 42       | 19    |
-| nm.t.redirty_tail                       | 34       | 53       | 19    |
-| nm.T.kthread_queue_delayed_work         | 39       | 58       | 19    |
-| nm.t.cap_safe_nice                      | 54       | 73       | 19    |
-| nm.t.dentry_name                        | 195      | 214      | 19    |
-| nm.T.tag_pages_for_writeback            | 204      | 223      | 19    |
-| nm.t.mntput_no_expire                   | 312      | 331      | 19    |
-| nm.t.expand_files                       | 322      | 341      | 19    |
-| nm.t.do_wait                            | 343      | 362      | 19    |
-| nm.T.dup_fd                             | 352      | 371      | 19    |
-| nm.T.srcu_drive_gp                      | 209      | 227      | 18    |
-| nm.T.wait_for_random_bytes              | 293      | 311      | 18    |
-| nm.t.kthread_insert_work                | 40       | 57       | 17    |
-| nm.t.__kthread_queue_delayed_work       | 51       | 67       | 16    |
-| nm.T.plist_del                          | 84       | 100      | 16    |
-| nm.t.nmi_handle                         | 125      | 141      | 16    |
-| nm.T.send_sigio                         | 128      | 144      | 16    |
-| nm.T.walk_process_tree                  | 161      | 177      | 16    |
-| nm.T.__alloc_fd                         | 213      | 229      | 16    |
-| nm.t.bucket_table_alloc                 | 213      | 229      | 16    |
-| nm.T.chroot_fs_refs                     | 230      | 246      | 16    |
-| nm.T.thread_group_cputime               | 272      | 288      | 16    |
-| nm.T.__genradix_ptr_alloc               | 273      | 289      | 16    |
-| nm.t.do_notify_parent_cldstop           | 275      | 291      | 16    |
-| nm.T.radix_tree_insert                  | 325      | 341      | 16    |
-| nm.T.perf_event_task_tick               | 396      | 412      | 16    |
-| nm.t.try_to_unmap_one                   | 510      | 526      | 16    |
-| nm.t.follow_pmd_mask                    | 531      | 547      | 16    |
-| nm.t.rht_deferred_worker                | 674      | 690      | 16    |
-| nm.T.__perf_event_task_sched_out        | 762      | 778      | 16    |
-| nm.t.__do_execve_file                   | 1272     | 1288     | 16    |
-| nm.t.reusable_anon_vma                  | 80       | 95       | 15    |
-| nm.T.find_suitable_fallback             | 123      | 138      | 15    |
-| nm.t.free_pcppages_bulk                 | 294      | 309      | 15    |
-| nm.t.release_nodes                      | 316      | 331      | 15    |
-| nm.T.vm_map_ram                         | 1511     | 1526     | 15    |
-| nm.t.perf_event_alloc                   | 1623     | 1638     | 15    |
-| nm.t.pool_mayday_timeout                | 121      | 135      | 14    |
-| nm.T.put_files_struct                   | 130      | 144      | 14    |
-| nm.t.__ptrace_may_access                | 150      | 164      | 14    |
-| nm.t.namespace_unlock                   | 190      | 204      | 14    |
-| nm.t.send_signal                        | 203      | 217      | 14    |
-| nm.T.change_mnt_propagation             | 304      | 318      | 14    |
-| nm.T.xa_extract                         | 488      | 502      | 14    |
-| nm.T.copy_page_range                    | 570      | 584      | 14    |
-| nm.t.step_into                          | 950      | 964      | 14    |
-| nm.T.plist_requeue                      | 98       | 111      | 13    |
-| nm.t.__mutex_unlock_slowpath            | 125      | 138      | 13    |
-| nm.t.bucket_table_free                  | 71       | 83       | 12    |
-| nm.t.detach_if_pending                  | 95       | 107      | 12    |
-| nm.t.retarget_shared_pending            | 123      | 135      | 12    |
-| nm.T.__detach_mounts                    | 129      | 141      | 12    |
-| nm.t.commit_tree                        | 130      | 142      | 12    |
-| nm.t.list_del_event                     | 130      | 142      | 12    |
-| nm.T.radix_tree_gang_lookup             | 132      | 144      | 12    |
-| nm.T.__cpuhp_remove_state_cpuslocked    | 135      | 147      | 12    |
-| nm.T.pm_qos_update_target               | 143      | 155      | 12    |
-| nm.t.__perf_event_overflow              | 156      | 168      | 12    |
-| nm.t.__sigqueue_alloc                   | 174      | 186      | 12    |
-| nm.T.radix_tree_gang_lookup_tag         | 178      | 190      | 12    |
-| nm.T.dcache_readdir                     | 192      | 204      | 12    |
-| nm.T.unlink_anon_vmas                   | 231      | 243      | 12    |
-| nm.t.radix_tree_extend                  | 248      | 260      | 12    |
-| nm.t.event_sched_in                     | 285      | 297      | 12    |
-| nm.T.ksys_unshare                       | 408      | 420      | 12    |
-| nm.t.__send_signal                      | 411      | 423      | 12    |
-| nm.t.really_probe                       | 486      | 498      | 12    |
-| nm.T.perf_output_begin_backward         | 498      | 510      | 12    |
-| nm.T.perf_output_begin_forward          | 499      | 511      | 12    |
-| nm.T.__do_munmap                        | 511      | 523      | 12    |
-| nm.T.wb_workfn                          | 544      | 556      | 12    |
-| nm.T.out_of_memory                      | 550      | 562      | 12    |
-| nm.T.perf_output_begin                  | 611      | 623      | 12    |
-| nm.T.kthread_queue_work                 | 42       | 53       | 11    |
-| nm.T.__wake_up_bit                      | 45       | 56       | 11    |
-| nm.T.__close_fd                         | 51       | 62       | 11    |
-| nm.t.clocksource_stop_watchdog          | 51       | 62       | 11    |
-| nm.t.wb_io_lists_depopulated            | 54       | 65       | 11    |
-| nm.t.event_function_call                | 118      | 129      | 11    |
-| nm.T.xa_get_mark                        | 122      | 133      | 11    |
-| nm.T.exit_signals                       | 139      | 150      | 11    |
-| nm.T.vfs_readlink                       | 142      | 153      | 11    |
-| nm.T.idr_get_next_ul                    | 147      | 158      | 11    |
-| nm.T.reclaim_pages                      | 170      | 181      | 11    |
-| nm.T.unmap_mapping_pages                | 176      | 187      | 11    |
-| nm.T.ida_destroy                        | 248      | 259      | 11    |
-| nm.T.workqueue_congested                | 35       | 45       | 10    |
-| nm.t.pm_qos_get_value                   | 38       | 48       | 10    |
-| nm.t._warn_unseeded_randomness          | 49       | 59       | 10    |
-| nm.t.xas_next                           | 49       | 59       | 10    |
-| nm.t.__clocksource_unstable             | 51       | 61       | 10    |
-| nm.t.find_group                         | 87       | 97       | 10    |
-| nm.t.next_group                         | 106      | 116      | 10    |
-| nm.t.ptrace_event_pid                   | 112      | 122      | 10    |
-| nm.t.driver_deferred_probe_trigger      | 122      | 132      | 10    |
-| nm.t.perf_addr_filters_splice           | 145      | 155      | 10    |
-| nm.T.bdi_unregister                     | 229      | 239      | 10    |
-| nm.t.d_walk                             | 266      | 276      | 10    |
-| nm.t.__mod_timer                        | 332      | 342      | 10    |
-| nm.t.isolate_lru_pages                  | 391      | 401      | 10    |
-| nm.T.set_mm_exe_file                    | 31       | 40       | 9     |
-| nm.T.list_lru_add                       | 33       | 42       | 9     |
-| nm.T.sigqueue_free                      | 41       | 50       | 9     |
-| nm.t.nested_table_free                  | 63       | 72       | 9     |
-| nm.t.__mmput                            | 67       | 76       | 9     |
-| nm.t.__perf_event_output_stop           | 69       | 78       | 9     |
-| nm.T.d_find_alias                       | 77       | 86       | 9     |
-| nm.T.call_srcu                          | 85       | 94       | 9     |
-| nm.T.kthread_flush_work                 | 96       | 105      | 9     |
-| nm.T.misc_deregister                    | 101      | 110      | 9     |
-| nm.t.xas_next_entry                     | 102      | 111      | 9     |
-| nm.t.__set_task_blocked                 | 105      | 114      | 9     |
-| nm.T.sched_show_task                    | 120      | 129      | 9     |
-| nm.t.worker_enter_idle                  | 125      | 134      | 9     |
-| nm.T.__radix_tree_replace               | 128      | 137      | 9     |
-| nm.T.page_cache_prev_miss               | 132      | 141      | 9     |
-| nm.t.percpu_rwsem_wait                  | 149      | 158      | 9     |
-| nm.t.perf_install_in_context            | 157      | 166      | 9     |
-| nm.t.show_pwq                           | 196      | 205      | 9     |
-| nm.t.run_timer_softirq                  | 242      | 251      | 9     |
-| nm.T.cap_ptrace_access_check            | 9        | 17       | 8     |
-| nm.T.cap_ptrace_traceme                 | 9        | 17       | 8     |
-| nm.T.rcuwait_wake_up                    | 12       | 20       | 8     |
-| nm.t.tk_clock_read                      | 12       | 20       | 8     |
-| nm.T.async_unregister_domain            | 15       | 23       | 8     |
-| nm.T.swake_up_all_locked                | 20       | 28       | 8     |
-| nm.T.group_pin_kill                     | 21       | 29       | 8     |
-| nm.T.add_timer                          | 22       | 30       | 8     |
-| nm.T.devres_free                        | 22       | 30       | 8     |
-| nm.t.__do_sys_getppid                   | 24       | 32       | 8     |
-| nm.T.__ia32_sys_getppid                 | 24       | 32       | 8     |
-| nm.T.get_close_on_exec                  | 24       | 32       | 8     |
-| nm.T.llist_add_batch                    | 25       | 33       | 8     |
-| nm.T.mnt_pin_kill                       | 25       | 33       | 8     |
-| nm.t.list_splice                        | 27       | 35       | 8     |
-| nm.T.ring_buffer_get                    | 28       | 36       | 8     |
-| nm.T.irq_work_tick                      | 29       | 37       | 8     |
-| nm.T.pid_task                           | 29       | 37       | 8     |
-| nm.t.add_dr                             | 30       | 38       | 8     |
-| nm.t.__put_unused_fd                    | 31       | 39       | 8     |
-| nm.T.dev_driver_string                  | 32       | 40       | 8     |
-| nm.T.del_random_ready_callback          | 33       | 41       | 8     |
-| nm.T.get_mm_exe_file                    | 33       | 41       | 8     |
-| nm.T.ptracer_capable                    | 33       | 41       | 8     |
-| nm.t.__d_find_any_alias                 | 34       | 42       | 8     |
-| nm.T.__prepare_to_swait                 | 35       | 43       | 8     |
-| nm.T.set_close_on_exec                  | 36       | 44       | 8     |
-| nm.T.up                                 | 36       | 44       | 8     |
-| nm.T.list_lru_del                       | 38       | 46       | 8     |
-| nm.T.get_task_pid                       | 39       | 47       | 8     |
-| nm.T.get_task_cred                      | 40       | 48       | 8     |
-| nm.T.__finish_swait                     | 42       | 50       | 8     |
-| nm.T.timerqueue_del                     | 42       | 50       | 8     |
-| nm.T.put_pages_list                     | 43       | 51       | 8     |
-| nm.T.seq_hlist_next_percpu              | 45       | 53       | 8     |
-| nm.t.ctx_event_to_rotate                | 46       | 54       | 8     |
-| nm.t.__device_links_supplier_defer_sync | 49       | 57       | 8     |
-| nm.T.flush_sigqueue                     | 49       | 57       | 8     |
-| nm.T.cap_capget                         | 50       | 58       | 8     |
-| nm.T.srcu_init                          | 50       | 58       | 8     |
-| nm.t.wakeup_pipe_readers                | 50       | 58       | 8     |
-| nm.t.wakeup_pipe_writers                | 50       | 58       | 8     |
-| nm.T.prepare_to_wait                    | 51       | 59       | 8     |
-| nm.T.rhashtable_walk_stop               | 51       | 59       | 8     |
-| nm.T.prepare_to_wait_exclusive          | 52       | 60       | 8     |
-| nm.t.radix_tree_load_root               | 52       | 60       | 8     |
-| nm.T.task_work_add                      | 53       | 61       | 8     |
-| nm.t.__put_mountpoint                   | 54       | 62       | 8     |
-| nm.T.driver_deferred_probe_del          | 54       | 62       | 8     |
-| nm.t.__put_super                        | 55       | 63       | 8     |
-| nm.t.d_same_name                        | 55       | 63       | 8     |
-| nm.T.do_wait_intr                       | 58       | 66       | 8     |
-| nm.T.kthread_delayed_work_timer_fn      | 58       | 66       | 8     |
-| nm.t.prepend_name                       | 59       | 67       | 8     |
-| nm.T.shrink_dcache_for_umount           | 59       | 67       | 8     |
-| nm.T.task_work_cancel                   | 59       | 67       | 8     |
-| nm.T.clear_wb_congested                 | 60       | 68       | 8     |
-| nm.T.do_wait_intr_irq                   | 60       | 68       | 8     |
-| nm.T.driver_deferred_probe_add          | 61       | 69       | 8     |
-| nm.T.devres_release_group               | 63       | 71       | 8     |
-| nm.t.rotate_ctx                         | 64       | 72       | 8     |
-| nm.T.xas_load                           | 64       | 72       | 8     |
-| nm.t.perf_event_ctx_lock_nested         | 65       | 73       | 8     |
-| nm.T.__task_pid_nr_ns                   | 67       | 75       | 8     |
-| nm.T.driver_detach                      | 68       | 76       | 8     |
-| nm.T.attribute_container_unregister     | 69       | 77       | 8     |
-| nm.T.page_get_anon_vma                  | 70       | 78       | 8     |
-| nm.T.__blocking_notifier_call_chain     | 71       | 79       | 8     |
-| nm.T.dget_parent                        | 71       | 79       | 8     |
-| nm.t.nested_table_alloc                 | 73       | 81       | 8     |
-| nm.T.task_work_run                      | 73       | 81       | 8     |
-| nm.T.__close_fd_get_file                | 74       | 82       | 8     |
-| nm.T.__genradix_ptr                     | 75       | 83       | 8     |
-| nm.t.irq_work_run_list                  | 78       | 86       | 8     |
-| nm.T.__ptrace_link                      | 81       | 89       | 8     |
-| nm.T.xas_pause                          | 81       | 89       | 8     |
-| nm.t.set_one_prio                       | 82       | 90       | 8     |
-| nm.t.software_node_get_named_child_node | 84       | 92       | 8     |
-| nm.T.perf_event_disable_local           | 86       | 94       | 8     |
-| nm.T.zap_other_threads                  | 92       | 100      | 8     |
-| nm.T.__platform_driver_probe            | 94       | 102      | 8     |
-| nm.T.copy_namespaces                    | 95       | 103      | 8     |
-| nm.t.apply_wqattrs_commit               | 101      | 109      | 8     |
-| nm.T.radix_tree_tag_clear               | 102      | 110      | 8     |
-| nm.t.__device_links_queue_sync_state    | 103      | 111      | 8     |
-| nm.T.__ia32_sys_pidfd_open              | 106      | 114      | 8     |
-| nm.t.deferred_probe_work_func           | 107      | 115      | 8     |
-| nm.T.sched_setaffinity                  | 108      | 116      | 8     |
-| nm.t.perf_mmap_fault                    | 113      | 121      | 8     |
-| nm.t.__ptrace_detach                    | 115      | 123      | 8     |
-| nm.T.do_close_on_exec                   | 118      | 126      | 8     |
-| nm.T.idr_for_each                       | 120      | 128      | 8     |
-| nm.T.radix_tree_tag_get                 | 121      | 129      | 8     |
-| nm.t.task_will_free_mem                 | 121      | 129      | 8     |
-| nm.T.__radix_tree_lookup                | 122      | 130      | 8     |
-| nm.T.prepare_to_wait_event              | 134      | 142      | 8     |
-| nm.T.clockevents_register_device        | 136      | 144      | 8     |
-| nm.T.radix_tree_tag_set                 | 141      | 149      | 8     |
-| nm.T.generic_shutdown_super             | 147      | 155      | 8     |
-| nm.T.__genradix_iter_peek               | 148      | 156      | 8     |
-| nm.T.kill_pid_usb_asyncio               | 148      | 156      | 8     |
-| nm.t.ptrace_resume                      | 151      | 159      | 8     |
-| nm.t.do_dup2                            | 154      | 162      | 8     |
-| nm.t.dequeue_rt_stack                   | 162      | 170      | 8     |
-| nm.T.device_links_check_suppliers       | 165      | 173      | 8     |
-| nm.t.__clocksource_select               | 174      | 182      | 8     |
-| nm.T.send_sigqueue                      | 175      | 183      | 8     |
-| nm.T.device_shutdown                    | 177      | 185      | 8     |
-| nm.t.__radix_tree_delete                | 180      | 188      | 8     |
-| nm.t.event_sched_out                    | 181      | 189      | 8     |
-| nm.T.__perf_event_task_sched_in         | 182      | 190      | 8     |
-| nm.T.clocksource_unregister             | 191      | 199      | 8     |
-| nm.T.xas_find_conflict                  | 214      | 222      | 8     |
-| nm.T.__ia32_sys_kill                    | 226      | 234      | 8     |
-| nm.T.bus_sort_breadthfirst              | 230      | 238      | 8     |
-| nm.T.page_vma_mapped_walk               | 244      | 252      | 8     |
-| nm.t.clocksource_select_watchdog        | 246      | 254      | 8     |
-| nm.t.__mutex_lock                       | 251      | 259      | 8     |
-| nm.T.__do_page_cache_readahead          | 271      | 279      | 8     |
-| nm.t.do_signal_stop                     | 283      | 291      | 8     |
-| nm.t.perf_event_addr_filters_apply      | 297      | 305      | 8     |
-| nm.t.wait_on_page_bit_common            | 324      | 332      | 8     |
-| nm.T.dma_pool_create                    | 359      | 367      | 8     |
-| nm.t.rwsem_mark_wake                    | 359      | 367      | 8     |
-| nm.T.core_sys_select                    | 384      | 392      | 8     |
-| nm.T.get_perf_callchain                 | 392      | 400      | 8     |
-| nm.T.__ia32_sys_prlimit64               | 442      | 450      | 8     |
-| nm.t.attach_recursive_mnt               | 458      | 466      | 8     |
-| nm.t.xas_create                         | 545      | 553      | 8     |
-| nm.t.clocksource_watchdog               | 634      | 642      | 8     |
-| nm.T.getrusage                          | 640      | 648      | 8     |
-| nm.t.pcpu_alloc                         | 725      | 733      | 8     |
-| nm.t.perf_mmap                          | 939      | 947      | 8     |
-| nm.T.get_signal                         | 1037     | 1045     | 8     |
-| nm.T.flush_old_exec                     | 1048     | 1056     | 8     |
-| nm.t.do_select                          | 1088     | 1096     | 8     |
-| nm.t._perf_ioctl                        | 1421     | 1429     | 8     |
-| nm.t.__do_sys_perf_event_open           | 1895     | 1903     | 8     |
-| nm.t.wake_up_worker                     | 26       | 33       | 7     |
-| nm.T.swake_up_locked                    | 35       | 42       | 7     |
-| nm.t.__kthread_cancel_work              | 62       | 69       | 7     |
-| nm.T.sb_mark_inode_writeback            | 69       | 76       | 7     |
-| nm.t.software_node_get_next_child       | 80       | 87       | 7     |
-| nm.T.pin_kill                           | 126      | 133      | 7     |
-| nm.t.pwq_unbound_release_workfn         | 131      | 138      | 7     |
-| nm.t.wake_up_page_bit                   | 161      | 168      | 7     |
-| nm.t.send_sigio_to_task                 | 172      | 179      | 7     |
-| nm.T.poke_int3_handler                  | 209      | 216      | 7     |
-| nm.T.perf_event_update_userpage         | 217      | 224      | 7     |
-| nm.t.unreserve_highatomic_pageblock     | 243      | 250      | 7     |
-| nm.t.wb_writeback                       | 251      | 258      | 7     |
-| nm.t.destroy_worker                     | 55       | 61       | 6     |
-| nm.T.wq_worker_sleeping                 | 76       | 82       | 6     |
-| nm.t.lock_mnt_tree                      | 96       | 102      | 6     |
-| nm.t.prepare_kswapd_sleep               | 96       | 102      | 6     |
-| nm.T.wakeup_kswapd                      | 169      | 175      | 6     |
-| nm.T.shrink_dcache_parent               | 173      | 179      | 6     |
-| nm.T.__zone_watermark_ok                | 189      | 195      | 6     |
-| nm.T.reconfigure_super                  | 272      | 278      | 6     |
-| nm.t.move_expired_inodes                | 301      | 307      | 6     |
-| nm.T.find_get_pages_range_tag           | 327      | 333      | 6     |
-| nm.t.umount_check                       | 6        | 11       | 5     |
-| nm.T.ring_buffer_put                    | 31       | 36       | 5     |
-| nm.T.kthread_destroy_worker             | 38       | 43       | 5     |
-| nm.t.dispose_list                       | 48       | 53       | 5     |
-| nm.T.sb_clear_inode_writeback           | 66       | 71       | 5     |
-| nm.t.propagation_next                   | 68       | 73       | 5     |
-| nm.T.shrink_dentry_list                 | 153      | 158      | 5     |
-| nm.T.kthreadd                           | 174      | 179      | 5     |
-| nm.t.worker_thread                      | 447      | 452      | 5     |
-| nm.t.link_pwq                           | 48       | 52       | 4     |
-| nm.t.pwq_activate_delayed_work          | 56       | 60       | 4     |
-| nm.t.check_kill_permission              | 64       | 68       | 4     |
-| nm.T.add_timer_on                       | 93       | 97       | 4     |
-| nm.t.select_collect                     | 108      | 112      | 4     |
-| nm.T.finish_automount                   | 238      | 242      | 4     |
-| nm.t.clone_mnt                          | 435      | 439      | 4     |
-| nm.t.lowest_in_progress                 | 83       | 86       | 3     |
-| nm.T.apply_workqueue_attrs              | 112      | 115      | 3     |
-| nm.t.allow_direct_reclaim               | 141      | 144      | 3     |
-| nm.t.put_unbound_pool                   | 277      | 280      | 3     |
-| nm.t.process_scheduled_works            | 30       | 32       | 2     |
-| nm.t.rwsem_wake                         | 59       | 61       | 2     |
-| nm.T.downgrade_write                    | 78       | 80       | 2     |
-| nm.t.pwq_adjust_max_active              | 81       | 83       | 2     |
-| nm.t.pidfd_poll                         | 82       | 84       | 2     |
-| nm.T.do_group_exit                      | 98       | 100      | 2     |
-| nm.t.select_collect2                    | 122      | 124      | 2     |
-| nm.T.kthread_worker_fn                  | 123      | 125      | 2     |
-| nm.t.__writeback_inodes_wb              | 127      | 129      | 2     |
-| nm.t.__dentry_kill                      | 188      | 190      | 2     |
-| nm.t.__cancel_work_timer                | 241      | 243      | 2     |
-| nm.t.move_pages_to_lru                  | 461      | 463      | 2     |
-| nm.t.shrink_slab                        | 538      | 540      | 2     |
-| nm.t.writeback_sb_inodes                | 600      | 602      | 2     |
-| nm.T.propagate_umount                   | 715      | 717      | 2     |
-| nm.T.del_timer                          | 42       | 43       | 1     |
-| nm.t.destroy_inode                      | 80       | 81       | 1     |
-| nm.t.pwq_dec_nr_in_flight               | 98       | 99       | 1     |
-| nm.t.perf_poll                          | 133      | 134      | 1     |
-| nm.t.evict                              | 258      | 259      | 1     |
-| nm.t.kswapd                             | 1049     | 1050     | 1     |
-| nm.t.shrink_node                        | 1408     | 1409     | 1     |
-| nm.t.shrink_page_list                   | 1993     | 1994     | 1     |
-| nm.t.worker_detach_from_pool            | 109      | 108      | -1    |
-| nm.T.iput                               | 190      | 189      | -1    |
-| nm.t.umount_tree                        | 477      | 475      | -2    |
-| nm.T.ksys_umount                        | 710      | 707      | -3    |
-| nm.T.mark_mounts_for_expiry             | 186      | 178      | -8    |
-| nm.t.process_one_work                   | 302      | 293      | -9    |
-| nm.t.rescuer_thread                     | 400      | 390      | -10   |
-| nm.t.need_to_create_worker              | 40       | 29       | -11   |
-| nm.T.vm_unmapped_area                   | 565      | 548      | -17   |
-| nm.T.wakeup_flusher_threads             | 83       | 64       | -19   |
-| nm.t.queue_io                           | 98       | 74       | -24   |
-| nm.t.wb_start_writeback                 | 29       | 0        | -29   |
-| nm.t.cdev_dynamic_release               | 58       | 28       | -30   |
-| nm.t.cdev_default_release               | 53       | 17       | -36   |
-| nm.T.sync_inodes_sb                     | 326      | 282      | -44   |
-| nm.T.wakeup_flusher_threads_bdi         | 63       | 13       | -50   |
-| nm.t.get_page_from_freelist             | 1567     | 1489     | -78   |
-+-----------------------------------------+----------+----------+-------+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
 
-Thanks,
-Kbuild test robot
+>> net/netfilter/core.c:585:26: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@    expected void ( **__xp )( ... ) @@    g=
+ot void ( *[noderef] void ( **__xp )( ... ) @@
+>> net/netfilter/core.c:585:26: sparse:    expected void ( **__xp )( ... )
+   net/netfilter/core.c:585:26: sparse:    got void ( *[noderef] <asn:4> * =
+)( ... )
+   net/netfilter/core.c:585:26: sparse: sparse: incompatible types in compa=
+rison expression (different address spaces):
+   net/netfilter/core.c:585:26: sparse:    void ( [noderef] <asn:4> * )( ..=
+. )
+   net/netfilter/core.c:585:26: sparse:    void ( * )( ... )
 
---===============7439302858930763345==--
+vim +585 net/netfilter/core.c
+
+2c205dd3981f79c Pablo Neira Ayuso 2018-05-23  578  =
+
+312a0c16c1fa9dd Patrick McHardy   2013-07-28  579  void nf_ct_attach(struct=
+ sk_buff *new, const struct sk_buff *skb)
+f6ebe77f955d77a Harald Welte      2005-08-09  580  {
+312a0c16c1fa9dd Patrick McHardy   2013-07-28  581  	void (*attach)(struct s=
+k_buff *, const struct sk_buff *);
+f6ebe77f955d77a Harald Welte      2005-08-09  582  =
+
+a9e419dc7be6997 Florian Westphal  2017-01-23  583  	if (skb->_nfct) {
+c3a47ab3e5ad626 Patrick McHardy   2007-02-12  584  		rcu_read_lock();
+c3a47ab3e5ad626 Patrick McHardy   2007-02-12 @585  		attach =3D rcu_derefer=
+ence(ip_ct_attach);
+c3a47ab3e5ad626 Patrick McHardy   2007-02-12  586  		if (attach)
+f6ebe77f955d77a Harald Welte      2005-08-09  587  			attach(new, skb);
+c3a47ab3e5ad626 Patrick McHardy   2007-02-12  588  		rcu_read_unlock();
+f6ebe77f955d77a Harald Welte      2005-08-09  589  	}
+f6ebe77f955d77a Harald Welte      2005-08-09  590  }
+f6ebe77f955d77a Harald Welte      2005-08-09  591  EXPORT_SYMBOL(nf_ct_atta=
+ch);
+de6e05c49f8b4ed Yasuyuki Kozakai  2007-03-23  592  =
+
+
+:::::: The code at line 585 was first introduced by commit
+:::::: c3a47ab3e5ad62601449e4e5401352271b777e28 [NETFILTER]: Properly use R=
+CU in nf_ct_attach
+
+:::::: TO: Patrick McHardy <kaber@trash.net>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0671917847901871668==--
 
