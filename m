@@ -1,22 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============2418441723095596324=="
+Content-Type: multipart/mixed; boundary="===============6454434989471499016=="
 MIME-Version: 1.0
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
 To: kbuild-all@lists.01.org
 Subject: Re: [PATCH v7 2/2] mtd: rawnand: Add NAND controller support on Intel LGM SoC
-Date: Fri, 15 May 2020 17:27:19 +0300
-Message-ID: <CAHp75VdUWaEAuStEQZD4yOWcxBT0EkxiX90u1_9vppFb5JniGQ@mail.gmail.com>
+Date: Fri, 15 May 2020 16:30:24 +0200
+Message-ID: <CAK8P3a3RKJo-C5=19oAppx212s7T8NdnKJVmkj+h=34a8aKMNA@mail.gmail.com>
 In-Reply-To: <CAHp75Ven9q-6dDYtP_uXigeS_r2uvpUZVR5Mh0RdEd36MbTG+Q@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2418441723095596324==
+--===============6454434989471499016==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2020 at 5:25 PM Andy Shevchenko
+On Fri, May 15, 2020 at 4:25 PM Andy Shevchenko
 <andy.shevchenko@gmail.com> wrote:
+>
 > On Fri, May 15, 2020 at 4:48 PM kbuild test robot <lkp@intel.com> wrote:
-
+>
+> > sparse warnings: (new ones prefixed by >>)
+> >
+> > >> drivers/mtd/nand/raw/intel-nand-controller.c:441:24: sparse: sparse:=
+ incorrect type in argument 1 (different base types) @@    expected unsigne=
+d int val @@    got restricted __be32 [assignedunsigned int val @@
+> > >> drivers/mtd/nand/raw/intel-nand-controller.c:441:24: sparse:    expe=
+cted unsigned int val
+> > >> drivers/mtd/nand/raw/intel-nand-controller.c:441:24: sparse:    got =
+restricted __be32 [assigned] [usertype] reg
+> >    drivers/mtd/nand/raw/intel-nand-controller.c:444:24: sparse: sparse:=
+ incorrect type in argument 1 (different base types) @@    expected unsigne=
+d int val @@    got restricted __be32 [assignedunsigned int val @@
+> >    drivers/mtd/nand/raw/intel-nand-controller.c:444:24: sparse:    expe=
+cted unsigned int val
+> >    drivers/mtd/nand/raw/intel-nand-controller.c:444:24: sparse:    got =
+restricted __be32 [assigned] [usertype] reg
+> >
 > >    440                  reg =3D cpu_to_be32(*pdata++);
 > >  > 441                  writel(reg, ebu_host->hsnand + HSNAND_CMSG_0);
 > >    442
@@ -35,11 +53,10 @@ On Fri, May 15, 2020 at 5:25 PM Andy Shevchenko
 > But something tells me that above is broken (or my understanding is wrong=
 ).
 
-And perhaps it should use lo_hi_writeq() or something like that.
+iowrite_be32() is the correct way to store word into a big-endian mmio regi=
+ster,
+if that is the intention here.
 
--- =
-
-With Best Regards,
-Andy Shevchenko
---===============2418441723095596324==--
+      Arnd
+--===============6454434989471499016==--
 
