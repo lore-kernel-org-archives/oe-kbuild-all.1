@@ -1,26 +1,39 @@
-Content-Type: multipart/mixed; boundary="===============1386872247613761193=="
+Content-Type: multipart/mixed; boundary="===============6873772906985446302=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-next:master 812/9662] net/bluetooth/l2cap_sock.c:676:21: sparse: sparse: incorrect type in initializer (different address spaces)
-Date: Sat, 16 May 2020 06:59:14 +0800
-Message-ID: <202005160611.4ao7oDgR%lkp@intel.com>
+Subject: Re: [PATCH v2 net-next 3/7] dpaa2-eth: Distribute ingress frames based on VLAN prio
+Date: Sat, 16 May 2020 07:07:34 +0800
+Message-ID: <202005160725.cW5HQjVY%lkp@intel.com>
+In-Reply-To: <20200515184753.15080-4-ioana.ciornei@nxp.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1386872247613761193==
+--===============6873772906985446302==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   bdecf38f228bcca73b31ada98b5b7ba1215eb9c9
-commit: 3ee7b7cd83900bb711efadbf16fa096a615a1566 [812/9662] Bluetooth: Add =
-BT_MODE socket option
+Hi Ioana,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+[also build test WARNING on sparc-next/master linus/master v5.7-rc5 next-20=
+200515]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Ioana-Ciornei/dpaa2-eth-ad=
+d-support-for-Rx-traffic-classes/20200516-024950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+d00f26b623333f2419f4c3b95ff11c8b1bb96f56
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.1-193-gb8fad4bc-dirty
-        git checkout 3ee7b7cd83900bb711efadbf16fa096a615a1566
         make ARCH=3Dx86_64 allmodconfig
         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
@@ -30,423 +43,163 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
-   ./arch/xtensa/include/generated/uapi/asm/unistd_32.h:393:41: sparse: spa=
-rse: no newline at end of file
-   net/bluetooth/l2cap_sock.c:428:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected int const *__gu_addr @@ =
-   got int [noderefint const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:428:13: sparse:    expected int const *__gu_a=
-ddr
-   net/bluetooth/l2cap_sock.c:428:13: sparse:    got int [noderef] <asn:1> =
-*optlen
-   net/bluetooth/l2cap_sock.c:428:13: sparse: sparse: incorrect type in arg=
-ument 2 (different address spaces) @@    expected void const [noderef] <asn=
-:1> *from @@    got ] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:428:13: sparse:    expected void const [noder=
-ef] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:428:13: sparse:    got int const *__gu_addr
-   net/bluetooth/l2cap_sock.c:503:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int *__pu_addr =
-@@    got unsigned int [noderef] [usertunsigned int *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:503:21: sparse:    expected unsigned int *__p=
-u_addr
-   net/bluetooth/l2cap_sock.c:503:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:503:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got ref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:503:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:503:21: sparse:    got unsigned int *__pu_addr
-   net/bluetooth/l2cap_sock.c:553:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected int const *__gu_addr @@ =
-   got int [noderefint const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:553:13: sparse:    expected int const *__gu_a=
-ddr
-   net/bluetooth/l2cap_sock.c:553:13: sparse:    got int [noderef] <asn:1> =
-*optlen
-   net/bluetooth/l2cap_sock.c:553:13: sparse: sparse: incorrect type in arg=
-ument 2 (different address spaces) @@    expected void const [noderef] <asn=
-:1> *from @@    got ] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:553:13: sparse:    expected void const [noder=
-ef] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:553:13: sparse:    got int const *__gu_addr
-   net/bluetooth/l2cap_sock.c:589:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int *__pu_addr =
-@@    got unsigned int [noderef] [usertunsigned int *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:589:21: sparse:    expected unsigned int *__p=
-u_addr
-   net/bluetooth/l2cap_sock.c:589:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:589:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got ref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:589:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:589:21: sparse:    got unsigned int *__pu_addr
-   net/bluetooth/l2cap_sock.c:596:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int *__pu_addr =
-@@    got unsigned int [noderef] [usertunsigned int *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:596:21: sparse:    expected unsigned int *__p=
-u_addr
-   net/bluetooth/l2cap_sock.c:596:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:596:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got ref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:596:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:596:21: sparse:    got unsigned int *__pu_addr
-   net/bluetooth/l2cap_sock.c:618:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int *__pu_addr =
-@@    got unsigned int [noderef] [usertunsigned int *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:618:21: sparse:    expected unsigned int *__p=
-u_addr
-   net/bluetooth/l2cap_sock.c:618:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:618:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got ref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:618:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:618:21: sparse:    got unsigned int *__pu_addr
-   net/bluetooth/l2cap_sock.c:633:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned short *__pu_add=
-r @@    got unsigned short [noderef] [useunsigned short *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:633:21: sparse:    expected unsigned short *_=
-_pu_addr
-   net/bluetooth/l2cap_sock.c:633:21: sparse:    got unsigned short [nodere=
-f] [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:633:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got deref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:633:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:633:21: sparse:    got unsigned short *__pu_a=
-ddr
-   net/bluetooth/l2cap_sock.c:643:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned short *__pu_add=
-r @@    got unsigned short [noderef] [useunsigned short *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:643:21: sparse:    expected unsigned short *_=
-_pu_addr
-   net/bluetooth/l2cap_sock.c:643:21: sparse:    got unsigned short [nodere=
-f] [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:643:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got deref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:643:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:643:21: sparse:    got unsigned short *__pu_a=
-ddr
-   net/bluetooth/l2cap_sock.c:655:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int *__pu_addr =
-@@    got unsigned int [noderef] [usertunsigned int *__pu_addr @@
-   net/bluetooth/l2cap_sock.c:655:21: sparse:    expected unsigned int *__p=
-u_addr
-   net/bluetooth/l2cap_sock.c:655:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:655:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got ref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:655:21: sparse:    expected void [noderef] <a=
-sn:1> *to
-   net/bluetooth/l2cap_sock.c:655:21: sparse:    got unsigned int *__pu_addr
->> net/bluetooth/l2cap_sock.c:676:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned char *__pu_addr=
- @@    got unsigned char [noderef] [userunsigned char *__pu_addr @@
->> net/bluetooth/l2cap_sock.c:676:21: sparse:    expected unsigned char *__=
-pu_addr
-   net/bluetooth/l2cap_sock.c:676:21: sparse:    got unsigned char [noderef=
-] [usertype] <asn:1> *
->> net/bluetooth/l2cap_sock.c:676:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@    expected void [noderef] <asn:1> *t=
-o @@    got eref] <asn:1> *to @@
-   net/bluetooth/l2cap_sock.c:676:21: sparse:    expected void [noderef] <a=
-sn:1> *to
->> net/bluetooth/l2cap_sock.c:676:21: sparse:    got unsigned char *__pu_ad=
-dr
-   net/bluetooth/l2cap_sock.c:785:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int const *__gu=
-_addr @@    got unsigned int [noderef] unsigned int const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:785:21: sparse:    expected unsigned int cons=
-t *__gu_addr
-   net/bluetooth/l2cap_sock.c:785:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:785:21: sparse: sparse: incorrect type in arg=
-ument 2 (different address spaces) @@    expected void const [noderef] <asn=
-:1> *from @@    got  [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:785:21: sparse:    expected void const [noder=
-ef] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:785:21: sparse:    got unsigned int const *__=
-gu_addr
-   net/bluetooth/l2cap_sock.c:942:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int const *__gu=
-_addr @@    got unsigned int [noderef] unsigned int const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:942:21: sparse:    expected unsigned int cons=
-t *__gu_addr
-   net/bluetooth/l2cap_sock.c:942:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:942:21: sparse: sparse: incorrect type in arg=
-ument 2 (different address spaces) @@    expected void const [noderef] <asn=
-:1> *from @@    got  [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:942:21: sparse:    expected void const [noder=
-ef] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:942:21: sparse:    got unsigned int const *__=
-gu_addr
-   net/bluetooth/l2cap_sock.c:957:21: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@    expected unsigned int const *__gu=
-_addr @@    got unsigned int [noderef] unsigned int const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:957:21: sparse:    expected unsigned int cons=
-t *__gu_addr
-   net/bluetooth/l2cap_sock.c:957:21: sparse:    got unsigned int [noderef]=
- [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:957:21: sparse: sparse: incorrect type in arg=
-ument 2 (different address spaces) @@    expected void const [noderef] <asn=
-:1> *from @@    got  [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:957:21: sparse:    expected void const [noder=
-ef] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:957:21: sparse:    got unsigned int const *__=
-gu_addr
-   net/bluetooth/l2cap_sock.c:1005:21: sparse: sparse: incorrect type in in=
-itializer (different address spaces) @@    expected unsigned int const *__g=
-u_addr @@    got unsigned int [noderef] unsigned int const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:1005:21: sparse:    expected unsigned int con=
-st *__gu_addr
-   net/bluetooth/l2cap_sock.c:1005:21: sparse:    got unsigned int [noderef=
-] [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:1005:21: sparse: sparse: incorrect type in ar=
-gument 2 (different address spaces) @@    expected void const [noderef] <as=
-n:1> *from @@    got  [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:1005:21: sparse:    expected void const [node=
-ref] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:1005:21: sparse:    got unsigned int const *_=
-_gu_addr
-   net/bluetooth/l2cap_sock.c:1053:21: sparse: sparse: incorrect type in in=
-itializer (different address spaces) @@    expected unsigned short const *_=
-_gu_addr @@    got unsigned short [noderefunsigned short const *__gu_addr @@
-   net/bluetooth/l2cap_sock.c:1053:21: sparse:    expected unsigned short c=
-onst *__gu_addr
-   net/bluetooth/l2cap_sock.c:1053:21: sparse:    got unsigned short [noder=
-ef] [usertype] <asn:1> *
-   net/bluetooth/l2cap_sock.c:1053:21: sparse: sparse: incorrect type in ar=
-gument 2 (different address spaces) @@    expected void const [noderef] <as=
-n:1> *from @@    got st [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:1053:21: sparse:    expected void const [node=
-ref] <asn:1> *from
-   net/bluetooth/l2cap_sock.c:1053:21: sparse:    got unsigned short const =
-*__gu_addr
->> net/bluetooth/l2cap_sock.c:1084:21: sparse: sparse: incorrect type in in=
-itializer (different address spaces) @@    expected unsigned char const *__=
-gu_addr @@    got unsigned char [noderef]unsigned char const *__gu_addr @@
->> net/bluetooth/l2cap_sock.c:1084:21: sparse:    expected unsigned char co=
-nst *__gu_addr
-   net/bluetooth/l2cap_sock.c:1084:21: sparse:    got unsigned char [nodere=
-f] [usertype] <asn:1> *
->> net/bluetooth/l2cap_sock.c:1084:21: sparse: sparse: incorrect type in ar=
-gument 2 (different address spaces) @@    expected void const [noderef] <as=
-n:1> *from @@    got t [noderef] <asn:1> *from @@
-   net/bluetooth/l2cap_sock.c:1084:21: sparse:    expected void const [node=
-ref] <asn:1> *from
->> net/bluetooth/l2cap_sock.c:1084:21: sparse:    got unsigned char const *=
-__gu_addr
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2728:15: sparse: sparse=
+: incorrect type in assignment (different base types) @@    expected unsign=
+ed short [usertype] @@    got resunsigned short [usertype] @@
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2728:15: sparse:    exp=
+ected unsigned short [usertype]
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2728:15: sparse:    got=
+ restricted __be16 [usertype]
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2747:29: sparse: sparse=
+: incorrect type in assignment (different base types) @@    expected unsign=
+ed short [usertype] @@    got resunsigned short [usertype] @@
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2747:29: sparse:    exp=
+ected unsigned short [usertype]
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:2747:29: sparse:    got=
+ restricted __be16 [usertype]
 
-vim +676 net/bluetooth/l2cap_sock.c
+vim +2728 drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
 
-   534	=
+  2664	=
 
-   535	static int l2cap_sock_getsockopt(struct socket *sock, int level, int=
- optname,
-   536					 char __user *optval, int __user *optlen)
-   537	{
-   538		struct sock *sk =3D sock->sk;
-   539		struct l2cap_chan *chan =3D l2cap_pi(sk)->chan;
-   540		struct bt_security sec;
-   541		struct bt_power pwr;
-   542		u32 phys;
-   543		int len, mode, err =3D 0;
-   544	=
+  2665	/* Configure ingress classification based on VLAN PCP */
+  2666	static int set_vlan_qos(struct dpaa2_eth_priv *priv)
+  2667	{
+  2668		struct device *dev =3D priv->net_dev->dev.parent;
+  2669		struct dpkg_profile_cfg kg_cfg =3D {0};
+  2670		struct dpni_qos_tbl_cfg qos_cfg =3D {0};
+  2671		struct dpni_rule_cfg key_params;
+  2672		void *dma_mem, *key;
+  2673		u8 key_size =3D 2;	/* VLAN TCI field */
+  2674		int i, pcp, err;
+  2675		u16 *mask;
+  2676	=
 
-   545		BT_DBG("sk %p", sk);
-   546	=
+  2677		/* VLAN-based classification only makes sense if we have multiple
+  2678		 * traffic classes.
+  2679		 * Also, we need to extract just the 3-bit PCP field from the VLAN
+  2680		 * header and we can only do that by using a mask
+  2681		 */
+  2682		if (dpaa2_eth_tc_count(priv) =3D=3D 1 || !dpaa2_eth_fs_mask_enabled=
+(priv)) {
+  2683			dev_dbg(dev, "VLAN-based QoS classification not supported\n");
+  2684			return -EOPNOTSUPP;
+  2685		}
+  2686	=
 
-   547		if (level =3D=3D SOL_L2CAP)
-   548			return l2cap_sock_getsockopt_old(sock, optname, optval, optlen);
-   549	=
+  2687		dma_mem =3D kzalloc(DPAA2_CLASSIFIER_DMA_SIZE, GFP_KERNEL);
+  2688		if (!dma_mem)
+  2689			return -ENOMEM;
+  2690	=
 
-   550		if (level !=3D SOL_BLUETOOTH)
-   551			return -ENOPROTOOPT;
-   552	=
+  2691		kg_cfg.num_extracts =3D 1;
+  2692		kg_cfg.extracts[0].type =3D DPKG_EXTRACT_FROM_HDR;
+  2693		kg_cfg.extracts[0].extract.from_hdr.prot =3D NET_PROT_VLAN;
+  2694		kg_cfg.extracts[0].extract.from_hdr.type =3D DPKG_FULL_FIELD;
+  2695		kg_cfg.extracts[0].extract.from_hdr.field =3D NH_FLD_VLAN_TCI;
+  2696	=
 
-   553		if (get_user(len, optlen))
-   554			return -EFAULT;
-   555	=
+  2697		err =3D  dpni_prepare_key_cfg(&kg_cfg, dma_mem);
+  2698		if (err) {
+  2699			dev_err(dev, "dpni_prepare_key_cfg failed\n");
+  2700			goto out_free_tbl;
+  2701		}
+  2702	=
 
-   556		lock_sock(sk);
-   557	=
+  2703		/* set QoS table */
+  2704		qos_cfg.default_tc =3D 0;
+  2705		qos_cfg.discard_on_miss =3D 0;
+  2706		qos_cfg.key_cfg_iova =3D dma_map_single(dev, dma_mem,
+  2707						      DPAA2_CLASSIFIER_DMA_SIZE,
+  2708						      DMA_TO_DEVICE);
+  2709		if (dma_mapping_error(dev, qos_cfg.key_cfg_iova)) {
+  2710			dev_err(dev, "QoS table DMA mapping failed\n");
+  2711			err =3D -ENOMEM;
+  2712			goto out_free_tbl;
+  2713		}
+  2714	=
 
-   558		switch (optname) {
-   559		case BT_SECURITY:
-   560			if (chan->chan_type !=3D L2CAP_CHAN_CONN_ORIENTED &&
-   561			    chan->chan_type !=3D L2CAP_CHAN_FIXED &&
-   562			    chan->chan_type !=3D L2CAP_CHAN_RAW) {
-   563				err =3D -EINVAL;
-   564				break;
-   565			}
-   566	=
+  2715		err =3D dpni_set_qos_table(priv->mc_io, 0, priv->mc_token, &qos_cfg=
+);
+  2716		if (err) {
+  2717			dev_err(dev, "dpni_set_qos_table failed\n");
+  2718			goto out_unmap_tbl;
+  2719		}
+  2720	=
 
-   567			memset(&sec, 0, sizeof(sec));
-   568			if (chan->conn) {
-   569				sec.level =3D chan->conn->hcon->sec_level;
-   570	=
+  2721		/* Add QoS table entries */
+  2722		key =3D kzalloc(key_size * 2, GFP_KERNEL);
+  2723		if (!key) {
+  2724			err =3D -ENOMEM;
+  2725			goto out_unmap_tbl;
+  2726		}
+  2727		mask =3D key + key_size;
+> 2728		*mask =3D cpu_to_be16(VLAN_PRIO_MASK);
+  2729	=
 
-   571				if (sk->sk_state =3D=3D BT_CONNECTED)
-   572					sec.key_size =3D chan->conn->hcon->enc_key_size;
-   573			} else {
-   574				sec.level =3D chan->sec_level;
-   575			}
-   576	=
+  2730		key_params.key_iova =3D dma_map_single(dev, key, key_size * 2,
+  2731						     DMA_TO_DEVICE);
+  2732		if (dma_mapping_error(dev, key_params.key_iova)) {
+  2733			dev_err(dev, "Qos table entry DMA mapping failed\n");
+  2734			err =3D -ENOMEM;
+  2735			goto out_free_key;
+  2736		}
+  2737	=
 
-   577			len =3D min_t(unsigned int, len, sizeof(sec));
-   578			if (copy_to_user(optval, (char *) &sec, len))
-   579				err =3D -EFAULT;
-   580	=
+  2738		key_params.mask_iova =3D key_params.key_iova + key_size;
+  2739		key_params.key_size =3D key_size;
+  2740	=
 
-   581			break;
-   582	=
+  2741		/* We add rules for PCP-based distribution starting with highest
+  2742		 * priority (VLAN PCP =3D 7). If this DPNI doesn't have enough traf=
+fic
+  2743		 * classes to accommodate all priority levels, the lowest ones end =
+up
+  2744		 * on TC 0 which was configured as default
+  2745		 */
+  2746		for (i =3D dpaa2_eth_tc_count(priv) - 1, pcp =3D 7; i >=3D 0; i--, =
+pcp--) {
+  2747			*(u16 *)key =3D cpu_to_be16(pcp << VLAN_PRIO_SHIFT);
+  2748			dma_sync_single_for_device(dev, key_params.key_iova,
+  2749						   key_size * 2, DMA_TO_DEVICE);
+  2750	=
 
-   583		case BT_DEFER_SETUP:
-   584			if (sk->sk_state !=3D BT_BOUND && sk->sk_state !=3D BT_LISTEN) {
-   585				err =3D -EINVAL;
-   586				break;
-   587			}
-   588	=
+  2751			err =3D dpni_add_qos_entry(priv->mc_io, 0, priv->mc_token,
+  2752						 &key_params, i, i);
+  2753			if (err) {
+  2754				dev_err(dev, "dpni_add_qos_entry failed\n");
+  2755				dpni_clear_qos_table(priv->mc_io, 0, priv->mc_token);
+  2756				goto out_unmap_key;
+  2757			}
+  2758		}
+  2759	=
 
-   589			if (put_user(test_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags),
-   590				     (u32 __user *) optval))
-   591				err =3D -EFAULT;
-   592	=
+  2760		priv->vlan_cls_enabled =3D true;
+  2761	=
 
-   593			break;
-   594	=
+  2762		/* Table and key memory is not persistent, clean everything up after
+  2763		 * configuration is finished
+  2764		 */
+  2765	out_unmap_key:
+  2766		dma_unmap_single(dev, key_params.key_iova, key_size * 2, DMA_TO_DEV=
+ICE);
+  2767	out_free_key:
+  2768		kfree(key);
+  2769	out_unmap_tbl:
+  2770		dma_unmap_single(dev, qos_cfg.key_cfg_iova, DPAA2_CLASSIFIER_DMA_SI=
+ZE,
+  2771				 DMA_TO_DEVICE);
+  2772	out_free_tbl:
+  2773		kfree(dma_mem);
+  2774	=
 
-   595		case BT_FLUSHABLE:
-   596			if (put_user(test_bit(FLAG_FLUSHABLE, &chan->flags),
-   597				     (u32 __user *) optval))
-   598				err =3D -EFAULT;
-   599	=
-
-   600			break;
-   601	=
-
-   602		case BT_POWER:
-   603			if (sk->sk_type !=3D SOCK_SEQPACKET && sk->sk_type !=3D SOCK_STREAM
-   604			    && sk->sk_type !=3D SOCK_RAW) {
-   605				err =3D -EINVAL;
-   606				break;
-   607			}
-   608	=
-
-   609			pwr.force_active =3D test_bit(FLAG_FORCE_ACTIVE, &chan->flags);
-   610	=
-
-   611			len =3D min_t(unsigned int, len, sizeof(pwr));
-   612			if (copy_to_user(optval, (char *) &pwr, len))
-   613				err =3D -EFAULT;
-   614	=
-
-   615			break;
-   616	=
-
-   617		case BT_CHANNEL_POLICY:
-   618			if (put_user(chan->chan_policy, (u32 __user *) optval))
-   619				err =3D -EFAULT;
-   620			break;
-   621	=
-
-   622		case BT_SNDMTU:
-   623			if (!bdaddr_type_is_le(chan->src_type)) {
-   624				err =3D -EINVAL;
-   625				break;
-   626			}
-   627	=
-
-   628			if (sk->sk_state !=3D BT_CONNECTED) {
-   629				err =3D -ENOTCONN;
-   630				break;
-   631			}
-   632	=
-
-   633			if (put_user(chan->omtu, (u16 __user *) optval))
-   634				err =3D -EFAULT;
-   635			break;
-   636	=
-
-   637		case BT_RCVMTU:
-   638			if (!bdaddr_type_is_le(chan->src_type)) {
-   639				err =3D -EINVAL;
-   640				break;
-   641			}
-   642	=
-
-   643			if (put_user(chan->imtu, (u16 __user *) optval))
-   644				err =3D -EFAULT;
-   645			break;
-   646	=
-
-   647		case BT_PHY:
-   648			if (sk->sk_state !=3D BT_CONNECTED) {
-   649				err =3D -ENOTCONN;
-   650				break;
-   651			}
-   652	=
-
-   653			phys =3D hci_conn_get_phy(chan->conn->hcon);
-   654	=
-
-   655			if (put_user(phys, (u32 __user *) optval))
-   656				err =3D -EFAULT;
-   657			break;
-   658	=
-
-   659		case BT_MODE:
-   660			if (!enable_ecred) {
-   661				err =3D -ENOPROTOOPT;
-   662				break;
-   663			}
-   664	=
-
-   665			if (chan->chan_type !=3D L2CAP_CHAN_CONN_ORIENTED) {
-   666				err =3D -EINVAL;
-   667				break;
-   668			}
-   669	=
-
-   670			mode =3D l2cap_get_mode(chan);
-   671			if (mode < 0) {
-   672				err =3D mode;
-   673				break;
-   674			}
-   675	=
-
- > 676			if (put_user(mode, (u8 __user *) optval))
-   677				err =3D -EFAULT;
-   678			break;
-   679	=
-
-   680		default:
-   681			err =3D -ENOPROTOOPT;
-   682			break;
-   683		}
-   684	=
-
-   685		release_sock(sk);
-   686		return err;
-   687	}
-   688	=
+  2775		return err;
+  2776	}
+  2777	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1386872247613761193==--
+--===============6873772906985446302==--
 
