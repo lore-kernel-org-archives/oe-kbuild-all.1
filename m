@@ -1,22 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============6022471739859886750=="
+Content-Type: multipart/mixed; boundary="===============1908567878380260141=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [sashal-linux-stable:queue-4.14 70/79] Warning: ffffffff819d7582: 0f ff 48 8d ud0 -0x73(%rax), %ecx
-Date: Mon, 18 May 2020 21:50:31 +0800
-Message-ID: <202005182129.xclMYRyy%lkp@intel.com>
+Subject: [sashal-linux-stable:queue-4.14 21/69] Warning: ffffffff819d7416: 0f ff 49 8d ud0 -0x73(%rcx), %ecx
+Date: Sun, 17 May 2020 17:51:19 +0800
+Message-ID: <202005171717.pWPHAxp6%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6022471739859886750==
+--===============1908567878380260141==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable=
 .git queue-4.14
-head:   7a7ddea1b419e20931152e388252c661b6fca95c
-commit: cd2ac280c3cfcb76e71439deb9928a10e029f1dc [70/79] pnp: Use list_for_=
-each_entry() instead of open coding
+head:   1226096af87404eec35f35026b835e9272c1b5b3
+commit: 12b5ee34a1c8f374e94a013148500ac35a353c0e [21/69] tracing: Add a vma=
+lloc_sync_mappings() for safe measure
 config: x86_64-randconfig-a013-20200517 (attached as .config)
 compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 135b87=
 7874fae96b4372c8a3fbfaa8ff44ff86e3)
@@ -26,7 +26,7 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install x86_64 cross compiling tool for clang build
         # apt-get install binutils-x86-64-linux-gnu
-        git checkout cd2ac280c3cfcb76e71439deb9928a10e029f1dc
+        git checkout 12b5ee34a1c8f374e94a013148500ac35a353c0e
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 =
@@ -37,37 +37,62 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: ffffffff819d7582: 0f ff 48 8d ud0 -0x73(%rax),%ecx
+>> Warning: ffffffff819d7416: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
 Warning: objdump says 4 bytes, but insn_get_length() says 2
 Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
-cache>:ffffffff819d6b20
+cache>:ffffffff819d6b80
 --
->> Warning: ffffffff819d79ab: 0f ff 48 8d ud0 -0x73(%rax),%ecx
+>> Warning: ffffffff819d779d: 0f ff 48 8d ud0 -0x73(%rax),%ecx
 Warning: objdump says 4 bytes, but insn_get_length() says 2
 Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
-cache>:ffffffff819d6b20
+cache>:ffffffff819d6b80
 --
->> Warning: ffffffff819d85ac: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
+>> Warning: ffffffff819d7810: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
 Warning: objdump says 4 bytes, but insn_get_length() says 2
 Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
-cache>:ffffffff819d6b20
+cache>:ffffffff819d6b80
 --
->> Warning: ffffffff819d7111: 0f ff 48 8d ud0 -0x73(%rax),%ecx
+>> Warning: ffffffff819d7cce: 0f ff 48 8d ud0 -0x73(%rax),%ecx
 Warning: objdump says 4 bytes, but insn_get_length() says 2
 Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
-cache>:ffffffff819d6b20
+cache>:ffffffff819d6b80
+--
+>> Warning: ffffffff819d837e: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
+Warning: objdump says 4 bytes, but insn_get_length() says 2
+Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
+cache>:ffffffff819d6b80
+--
+>> Warning: ffffffff819d8d76: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
+Warning: objdump says 4 bytes, but insn_get_length() says 2
+Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
+cache>:ffffffff819d6b80
+--
+>> Warning: ffffffff819d71a2: 0f ff 48 8d ud0 -0x73(%rax),%ecx
+Warning: objdump says 4 bytes, but insn_get_length() says 2
+Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
+cache>:ffffffff819d6b80
+--
+>> Warning: ffffffff819d71e5: 0f ff 49 8d ud0 -0x73(%rcx),%ecx
+Warning: objdump says 4 bytes, but insn_get_length() says 2
+Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
+cache>:ffffffff819d6b80
+--
+>> Warning: ffffffff819d72a3: 0f ff 48 8d ud0 -0x73(%rax),%ecx
+Warning: objdump says 4 bytes, but insn_get_length() says 2
+Warning: arch/x86/tools/test_get_len found difference at <memcpy_page_flush=
+cache>:ffffffff819d6b80
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6022471739859886750==
+--===============1908567878380260141==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKeMwl4AAy5jb25maWcAlDxNc9w2svf8iinnHXYPiWXF0XPqlQ4gCc4gQxI0AY40urBkaeyo
+H4sICE4EwV4AAy5jb25maWcAlDxNc9w2svf8iinnHXYPiWXF0XPqlQ4gCc4gQxI0AY40urBkaeyo
 IkteabRJ/v3rbvADAJvK7tbWrgfdABpAf3dT33/3/Uq8HB+/Xh/vbq7v7/9afTk8HJ6uj4fb1ee7
 +8P/rTK9qrRdyUzZHwG5uHt4+fPtnx/OurP3q/c/voP/fjhZbQ9PD4f7Vfr48PnuywtMv3t8+O77
 71Jd5WoNmImy538NPy9pcvB7+qEqY5s2tUpXXSZTnclmAurW1q3tct2Uwp6/Odx/Pnv/A9Dyw9n7
@@ -569,5 +594,5 @@ sXSUPkwWPghdk174DzpyCyeRX7vO1bBEg2jKqqr3XoC8Q0Avb/MR9Om5fdzk1dL9xfhIyxwv9Vtb
 Z36NDhcLUDWpew0zTSNhcWhUseov6gw2AWvhZstValWNSS4xeWSLXsJh5PukXegAlpF0VaFaEAT3
 IfTsn/mpB8LUTtBTvO7ijPzEdcAW85RWXIaM4UBTb8xlliw/oGp01Tt+gDFmQGexIs+3d3+o1bE0
 I0DF7Viz9H8OTADwn8sBAA==
---===============6022471739859886750==--
+--===============1908567878380260141==--
 
