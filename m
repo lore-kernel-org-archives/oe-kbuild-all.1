@@ -1,39 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============8544334123921893674=="
+Content-Type: multipart/mixed; boundary="===============7312219390435553589=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [xfs-linux:xfs-5.8-merge 57/94] WARNING: __func__ should be used instead of gcc specific __FUNCTION__
-Date: Mon, 18 May 2020 12:06:47 +0800
-Message-ID: <20200518040647.GD24805@intel.com>
+Subject: [RFC PATCH linus] RISC-V: gp_in_global can be static
+Date: Mon, 18 May 2020 13:02:27 +0800
+Message-ID: <20200518050227.GA13086@f1dbffaf4744>
+In-Reply-To: <202005181328.2fITyRLh%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8544334123921893674==
+--===============7312219390435553589==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git xfs-5.8-merge
-head:   dc6a7f69e533f64cae2d01d7acf82075e65f543d
-commit: 3ec6efa703cf65887e681d1f97d38a63261d907e [57/94] xfs: refactor log =
-recovery icreate item dispatch for pass2 commit functions
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
-
-scripts/checkpatch.pl 0001-xfs-refactor-log-recovery-icreate-item-dispatch-=
-for-.patch
-# many are suggestions rather than must-fix
-
-WARNING: __func__ should be used instead of gcc specific __FUNCTION__
-#119: fs/xfs/xfs_icreate_item.c:204:
-+			 "%s: unsupported chunk length", __FUNCTION__);
-
-WARNING: __func__ should be used instead of gcc specific __FUNCTION__
-#127: fs/xfs/xfs_icreate_item.c:212:
-+			 __FUNCTION__);
-
+Fixes: 52e7c52d2ded ("RISC-V: Stop relying on GCC's register allocator's hu=
+eristics")
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8544334123921893674==--
+ process.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+index 610c11e916068..3b2933839d492 100644
+--- a/arch/riscv/kernel/process.c
++++ b/arch/riscv/kernel/process.c
+@@ -22,7 +22,7 @@
+ #include <asm/switch_to.h>
+ #include <asm/thread_info.h>
+ =
+
+-unsigned long gp_in_global __asm__("gp");
++static unsigned long gp_in_global __asm__("gp");
+ =
+
+ extern asmlinkage void ret_from_fork(void);
+ extern asmlinkage void ret_from_kernel_thread(void);
+--===============7312219390435553589==--
 
