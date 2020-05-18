@@ -1,70 +1,107 @@
-Content-Type: multipart/mixed; boundary="===============5273133765304703984=="
+Content-Type: multipart/mixed; boundary="===============2351459882963772197=="
 MIME-Version: 1.0
-From: Arnd Bergmann <arnd@arndb.de>
+From: Jesper Dangaard Brouer <brouer@redhat.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 6172/9662] drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect type in argument 1 (different address spaces)
-Date: Mon, 18 May 2020 09:51:43 +0200
-Message-ID: <CAK8P3a3JsqShYvB_0tc6j5QtrXRcgrgTtWnT8fbsO5x0tJZBsg@mail.gmail.com>
-In-Reply-To: <202005181437.mPf3HD00%lkp@intel.com>
+Subject: Re: [jkirsher-next-queue:dev-queue 7/115] drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2271:15: error: redefinition of 'truesize'
+Date: Mon, 18 May 2020 10:05:02 +0200
+Message-ID: <20200518100502.71f0a692@carbon>
+In-Reply-To: <202005160901.jprqRj3x%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5273133765304703984==
+--===============2351459882963772197==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 18, 2020 at 8:56 AM kbuild test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   bdecf38f228bcca73b31ada98b5b7ba1215eb9c9
-> commit: bbd7ffdbef6888459f301c5889f3b14ada38b913 [6172/9662] clk: Allow t=
-he common clk framework to be selectable
-> config: ia64-randconfig-s001-20200518 (attached as .config)
+Hi Jeff,
+
+This bug is not in net-next.  I do remember the issue, but I think it
+was fixed up before the patch got applied.  Maybe you applied an old
+version of the patch to your tree?
+
+--Jesper
+
+
+On Sat, 16 May 2020 09:52:03 +0800
+kbuild test robot <lkp@intel.com> wrote:
+
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-que=
+ue.git dev-queue
+> head:   1ae51690bc317eb011c6fcc8f5549b151b347167
+> commit: cc703d543a3b97138318bfe7d3c86cbf78136395 [7/115] ixgbe: fix XDP r=
+edirect on archs with PAGE_SIZE above 4K
+> config: powerpc-defconfig (attached as .config)
+> compiler: powerpc64-linux-gcc (GCC) 9.3.0
 > reproduce:
->         # apt-get install sparse
->         # sparse version: v0.6.1-193-gb8fad4bc-dirty
->         git checkout bbd7ffdbef6888459f301c5889f3b14ada38b913
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         git checkout cc703d543a3b97138318bfe7d3c86cbf78136395
 >         # save the attached .config to linux build tree
->         make C=3D1 ARCH=3Dia64 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN=
-__'
->
+>         COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cross=
+ ARCH=3Dpowerpc =
+
+> =
+
 > If you fix the issue, kindly add following tag as appropriate
 > Reported-by: kbuild test robot <lkp@intel.com>
->
->
-> sparse warnings: (new ones prefixed by >>)
->
->    drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse: sparse: incorrect ty=
-pe in assignment (different address spaces) @@    expected char [noderef] <=
-asn:2> *screen_base @@    got n:2> *screen_base @@
->    drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:    expected char [no=
-deref] <asn:2> *screen_base
->    drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:    got void *
-> >> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect ty=
-pe in argument 1 (different address spaces) @@    expected void * @@    got=
- char [noderef] <asvoid * @@
-> >> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:    expected void *
->    drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:    got char [noderef=
-] <asn:2> *screen_base
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect ty=
-pe in argument 3 (different address spaces) @@    expected void *cpu_addr @=
-@    got char [noderef] <asvoid *cpu_addr @@
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:    expected void *cp=
-u_addr
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:    got char [noderef=
-] <asn:2> *screen_base
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect ty=
-pe in argument 3 (different address spaces) @@    expected void *cpu_addr @=
-@    got char [noderef] <asvoid *cpu_addr @@
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:    expected void *cp=
-u_addr
->    drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:    got char [noderef=
-] <asn:2> *screen_base
+> =
 
-This is an old bug, valid but harmless. The same thing happens in a number
-of fbdev drivers, but it may be hard to motivate someone to fix them all.
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> =
 
-       Arnd
---===============5273133765304703984==--
+> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c: In function 'ixgbe_rx_buff=
+er_flip':
+> >> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2271:15: error: redefini=
+tion of 'truesize'  =
+
+> 2271 |  unsigned int truesize =3D ring_uses_build_skb(rx_ring) ?
+> |               ^~~~~~~~
+> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2267:15: note: previous def=
+inition of 'truesize' was here
+> 2267 |  unsigned int truesize =3D ixgbe_rx_frame_truesize(rx_ring, size);
+> |               ^~~~~~~~
+> =
+
+> vim +/truesize +2271 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+> =
+
+>   2262	=
+
+>   2263	static void ixgbe_rx_buffer_flip(struct ixgbe_ring *rx_ring,
+>   2264					 struct ixgbe_rx_buffer *rx_buffer,
+>   2265					 unsigned int size)
+>   2266	{
+>   2267		unsigned int truesize =3D ixgbe_rx_frame_truesize(rx_ring, size);
+>   2268	#if (PAGE_SIZE < 8192)
+>   2269		rx_buffer->page_offset ^=3D truesize;
+>   2270	#else
+> > 2271		unsigned int truesize =3D ring_uses_build_skb(rx_ring) ?  =
+
+>   2272					SKB_DATA_ALIGN(IXGBE_SKB_PAD + size) +
+>   2273					SKB_DATA_ALIGN(sizeof(struct skb_shared_info)) :
+>   2274					SKB_DATA_ALIGN(size);
+>   2275	=
+
+>   2276		rx_buffer->page_offset +=3D truesize;
+>   2277	#endif
+>   2278	}
+>   2279	=
+
+> =
+
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+
+
+-- =
+
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
+
+--===============2351459882963772197==--
 
