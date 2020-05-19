@@ -1,19 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============6061275630290820944=="
+Content-Type: multipart/mixed; boundary="===============1994938369228932080=="
 MIME-Version: 1.0
 From: Daniel Axtens <dja@axtens.net>
 To: kbuild-all@lists.01.org
 Subject: Re: [hnaz-linux-mm:master 156/523] include/linux/string.h:307:9: note: in expansion of macro '__underlying_strncpy'
-Date: Wed, 20 May 2020 00:42:17 +1000
-Message-ID: <87blmkhtpy.fsf@dja-thinkpad.axtens.net>
+Date: Wed, 20 May 2020 00:42:40 +1000
+Message-ID: <87a724htpb.fsf@dja-thinkpad.axtens.net>
 In-Reply-To: <202005191736.t1JQZSrV%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6061275630290820944==
+--===============1994938369228932080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-This looks like a SCSI issue that this has just happened to expose?
+This looks like an underlying SCSI issue that this patch has just
+happened to expose?
 + scsi list
 
 kbuild test robot <lkp@intel.com> writes:
@@ -357,5 +358,5 @@ ze_t size)
 > ---
 > 0-DAY CI Kernel Test Service, Intel Corporation
 > https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6061275630290820944==--
+--===============1994938369228932080==--
 
