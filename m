@@ -1,106 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============2919183893435406625=="
+Content-Type: multipart/mixed; boundary="===============6453897077816905185=="
 MIME-Version: 1.0
-From: Giovanni Gherdovich <ggherdovich@suse.cz>
+From: Jakub Kicinski <kuba@kernel.org>
 To: kbuild-all@lists.01.org
-Subject: Re: [peterz-queue:sched/core 4/9] arch/x86/kernel/smpboot.c:2083: undefined reference to `__udivdi3'
-Date: Tue, 19 May 2020 18:50:00 +0200
-Message-ID: <1589907000.13984.25.camel@suse.cz>
-In-Reply-To: <20200518130001.GA279878@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH bpf-next v3 07/15] i40e: separate kernel allocated rx_bi rings from AF_XDP rings
+Date: Tue, 19 May 2020 09:55:39 -0700
+Message-ID: <20200519095539.570323c8@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <c81b36a0-11dd-4b7f-fad8-85f31dced58c@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2919183893435406625==
+--===============6453897077816905185==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2020-05-18 at 15:00 +0200, Peter Zijlstra wrote:
-> On Mon, May 18, 2020 at 12:56:18PM +0200, Giovanni Gherdovich wrote:
-> > On Mon, 2020-05-18 at 11:35 +0200, Peter Zijlstra wrote:
-> > > On Sat, May 16, 2020 at 06:11:20AM +0800, kbuild test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queu=
-e.git sched/core
-> > > > head:   073d35d51f30267ccb43479be42d382f9b03fd9a
-> > > > commit: df24fd8a5838c3e24dc7a41b37c5812cce80dd43 [4/9] x86, sched: =
-Prevent divisions by zero in frequency invariant accounting
-> > > > config: i386-randconfig-a011-20200515 (attached as .config)
-> > > > compiler: gcc-4.9 (Ubuntu 4.9.3-13ubuntu2) 4.9.3
-> > > > reproduce:
-> > > >         git checkout df24fd8a5838c3e24dc7a41b37c5812cce80dd43
-> > > >         # save the attached .config to linux build tree
-> > > >         make ARCH=3Di386 =
-
-> > > > =
-
-> > > > If you fix the issue, kindly add following tag as appropriate
-> > > > Reported-by: kbuild test robot <lkp@intel.com>
-> > > > =
-
-> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > > > =
-
-> > > > ld: arch/x86/kernel/smpboot.o: in function `arch_scale_freq_tick':
-> > > > > > arch/x86/kernel/smpboot.c:2083: undefined reference to `__udivd=
-i3'
-> > > > =
-
-> > > > vim +2083 arch/x86/kernel/smpboot.c
-> > > > =
-
-> > > >   2061	=
-
-> > > >   2062	void arch_scale_freq_tick(void)
-> > > >   2063	{
-> > > >   2064		u64 freq_scale =3D SCHED_CAPACITY_SCALE;
-> > > >   2065		u64 aperf, mperf;
-> > > >   2066		u64 acnt, mcnt;
-> > > >   2067	=
-
-> > > >   2068		if (!arch_scale_freq_invariant())
-> > > >   2069			return;
-> > > >   2070	=
-
-> > > >   2071		rdmsrl(MSR_IA32_APERF, aperf);
-> > > >   2072		rdmsrl(MSR_IA32_MPERF, mperf);
-> > > >   2073	=
-
-> > > >   2074		acnt =3D aperf - this_cpu_read(arch_prev_aperf);
-> > > >   2075		mcnt =3D mperf - this_cpu_read(arch_prev_mperf);
-> > > >   2076	=
-
-> > > >   2077		this_cpu_write(arch_prev_aperf, aperf);
-> > > >   2078		this_cpu_write(arch_prev_mperf, mperf);
-> > > >   2079	=
-
-> > > >   2080		if (check_shl_overflow(acnt, 2*SCHED_CAPACITY_SHIFT, &acnt))
-> > > >   2081			goto error;
-> > > >   2082	=
-
-> > > > > 2083		if (check_mul_overflow(mcnt, arch_max_freq_ratio, &mcnt) ||=
- !mcnt)
-> > > =
-
-> > > *sigh*,.. I hate computers. I'll try and have a look later, but if if
-> > > you have a nice solution Giovanni, don't hessitate to tell me ;-)
+On Tue, 19 May 2020 18:20:09 +0200 Bj=C3=B6rn T=C3=B6pel wrote:
+> On 2020-05-19 17:18, kbuild test robot wrote:
+> > Hi "Bj=C3=B6rn,
 > > =
 
-> > Hello Peter,
+> > I love your patch! Perhaps something to improve:
 > > =
 
-> > today I'm speaking at OSPM but tomorrow I'll see how to fix this.
+> > [auto build test WARNING on bpf-next/master]
+> > [also build test WARNING on jkirsher-next-queue/dev-queue next-20200518]
+> > [cannot apply to bpf/master linus/master v5.7-rc6]
+> > [if your patch is applied to the wrong git tree, please drop us a note =
+to help
+> > improve the system. BTW, we also suggest to use '--base' option to spec=
+ify the
+> > base tree in git format-patch, please see https://stackoverflow.com/a/3=
+7406982]
+> > =
+
+> > url:    https://github.com/0day-ci/linux/commits/Bj-rn-T-pel/Introduce-=
+AF_XDP-buffer-allocation-API/20200519-203122
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.gi=
+t master
+> > config: riscv-allyesconfig (attached as .config)
+> > compiler: riscv64-linux-gcc (GCC) 9.3.0
+> > reproduce:
+> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/=
+sbin/make.cross -O ~/bin/make.cross
+> >          chmod +x ~/bin/make.cross
+> >          # save the attached .config to linux build tree
+> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.c=
+ross ARCH=3Driscv
+> > =
+
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > =
+
+> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> >   =
+
+> >>> drivers/net/ethernet/intel/i40e/i40e_txrx.c:531:6: warning: no previo=
+us prototype for 'i40e_fd_handle_status' [-Wmissing-prototypes]  =
+
+> > 531 | void i40e_fd_handle_status(struct i40e_ring *rx_ring, u64 qword0_=
+raw,
+> > |      ^~~~~~~~~~~~~~~~~~~~~
+> >  =
+
 > =
 
-> Ha!, yes, I'll be there, listening.. :-)
+> Yes, this could indeed be made static. Hmm, I wonder why I didn't get
+> that warning on my x86-64 build!? I'll spin a v4 (or do a follow-up?).
 > =
 
-> So far the easiest fix I've come up with is simply limiting all this to
-> 64bit.. like who cares about 32bit anyway :-))))
+> =
 
-Agreed. I don't think APERFMPERF is supported on i386 anyways, and that wou=
-ld
-be a requirement for frequency invariance. In any case, support for i386 is
-"let's not break it".
+> Bj=C3=B6rn
 
+While at it I also get this on patch 11 (gcc-10, W=3D1):
 
-Giovanni
---===============2919183893435406625==--
+drivers/net/ethernet/mellanox/mlx5/core/en_main.c: In function mlx5e_alloc_=
+rq:
+drivers/net/ethernet/mellanox/mlx5/core/en_main.c:376:6: warning: variable =
+num_xsk_frames set but not used [-Wunused-but-set-variable]
+   376 |  u32 num_xsk_frames =3D 0;
+       |      ^~~~~~~~~~~~~~
+--===============6453897077816905185==--
 
