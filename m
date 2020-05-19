@@ -1,36 +1,68 @@
-Content-Type: multipart/mixed; boundary="===============8657947321477710736=="
+Content-Type: multipart/mixed; boundary="===============0799689081890501965=="
 MIME-Version: 1.0
-From: Peter Zijlstra <peterz@infradead.org>
+From: Dan Murphy <dmurphy@ti.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [peterz-queue:sched/core 4/9] arch/x86/kernel/smpboot.c:2083: undefined reference to `__udivdi3'
-Date: Tue, 19 May 2020 19:36:32 +0200
-Message-ID: <20200519173632.GB317395@hirez.programming.kicks-ass.net>
-In-Reply-To: <1589907000.13984.25.camel@suse.cz>
+Subject: Re: [PATCH net-next 2/4] net: phy: dp83869: Set opmode from straps
+Date: Tue, 19 May 2020 12:40:37 -0500
+Message-ID: <ac286fd2-b77f-9103-d9f2-aa95ad792476@ti.com>
+In-Reply-To: <202005200117.iOd1QuA3%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8657947321477710736==
+--===============0799689081890501965==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2020 at 06:50:00PM +0200, Giovanni Gherdovich wrote:
-> On Mon, 2020-05-18 at 15:00 +0200, Peter Zijlstra wrote:
+kbuild
 
-> > So far the easiest fix I've come up with is simply limiting all this to
-> > 64bit.. like who cares about 32bit anyway :-))))
-> =
+On 5/19/20 12:19 PM, kbuild test robot wrote:
+> Hi Dan,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on net-next/master]
+> [also build test WARNING on robh/for-next sparc-next/master net/master li=
+nus/master v5.7-rc6 next-20200518]
+> [if your patch is applied to the wrong git tree, please drop us a note to=
+ help
+> improve the system. BTW, we also suggest to use '--base' option to specif=
+y the
+> base tree in git format-patch, please see https://stackoverflow.com/a/374=
+06982]
+>
+> url:    https://github.com/0day-ci/linux/commits/Dan-Murphy/DP83869-Enhan=
+cements/20200519-222047
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.gi=
+t 5cdfe8306631b2224e3f81fc5a1e2721c7a1948b
+> config: sh-allmodconfig (attached as .config)
+> compiler: sh4-linux-gcc (GCC) 9.3.0
+> reproduce:
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
+in/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # save the attached .config to linux build tree
+>          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cro=
+ss ARCH=3Dsh
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kbuild test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+>
+> drivers/net/phy/dp83869.c: In function 'dp83869_set_strapped_mode':
+>>> drivers/net/phy/dp83869.c:171:10: warning: comparison is always false d=
+ue to limited range of data type [-Wtype-limits]
+> 171 |  if (val < 0)
 
-> Agreed. I don't think APERFMPERF is supported on i386 anyways, and that w=
-ould
-> be a requirement for frequency invariance. In any case, support for i386 =
-is
-> "let's not break it".
+This looks to be a false positive.
 
-Well, i386 is mostly a case of people running 32bit kernels on 64bit
-capable hardware for $REASON. Which is stupid anyway. There is very few
-actual 32bit chips left I think.
+phy_read_mmd will return an errno or a value from 0->15
 
-But I do think the very last 32bit CPUs did in fact support APERF/MPERF,
-but meh.
---===============8657947321477710736==--
+So if errno is returned then this will be true.
+
+Unless I have to do IS_ERR.
+
+Dan
+
+--===============0799689081890501965==--
 
