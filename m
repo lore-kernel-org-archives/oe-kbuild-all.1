@@ -1,84 +1,106 @@
-Content-Type: multipart/mixed; boundary="===============4263293357291304094=="
+Content-Type: multipart/mixed; boundary="===============2919183893435406625=="
 MIME-Version: 1.0
-From: Doug Anderson <dianders@chromium.org>
+From: Giovanni Gherdovich <ggherdovich@suse.cz>
 To: kbuild-all@lists.01.org
-Subject: Re: [danielt-linux:kgdb/for-next 9/14] drivers/tty/serial/kgdboc.c:410:13: error: expected parameter declarator
-Date: Tue, 19 May 2020 09:39:03 -0700
-Message-ID: <CAD=FV=WHr6=jMStO8bgTzO0z15CSc=wpFmjqA7jr-hQZ_qCm2Q@mail.gmail.com>
-In-Reply-To: <202005200021.2bVBUTxG%lkp@intel.com>
+Subject: Re: [peterz-queue:sched/core 4/9] arch/x86/kernel/smpboot.c:2083: undefined reference to `__udivdi3'
+Date: Tue, 19 May 2020 18:50:00 +0200
+Message-ID: <1589907000.13984.25.camel@suse.cz>
+In-Reply-To: <20200518130001.GA279878@hirez.programming.kicks-ass.net>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4263293357291304094==
+--===============2919183893435406625==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, 2020-05-18 at 15:00 +0200, Peter Zijlstra wrote:
+> On Mon, May 18, 2020 at 12:56:18PM +0200, Giovanni Gherdovich wrote:
+> > On Mon, 2020-05-18 at 11:35 +0200, Peter Zijlstra wrote:
+> > > On Sat, May 16, 2020 at 06:11:20AM +0800, kbuild test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queu=
+e.git sched/core
+> > > > head:   073d35d51f30267ccb43479be42d382f9b03fd9a
+> > > > commit: df24fd8a5838c3e24dc7a41b37c5812cce80dd43 [4/9] x86, sched: =
+Prevent divisions by zero in frequency invariant accounting
+> > > > config: i386-randconfig-a011-20200515 (attached as .config)
+> > > > compiler: gcc-4.9 (Ubuntu 4.9.3-13ubuntu2) 4.9.3
+> > > > reproduce:
+> > > >         git checkout df24fd8a5838c3e24dc7a41b37c5812cce80dd43
+> > > >         # save the attached .config to linux build tree
+> > > >         make ARCH=3Di386 =
 
-On Tue, May 19, 2020 at 9:07 AM kbuild test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/danielt/linux.git=
- kgdb/for-next
-> head:   3dc6a1ac3f70f1e4530132bd231599e0a91d5b5d
-> commit: eae3e19ca930a56c726fbf4dc3adc198b8f5d61d [9/14] kgdboc: Remove us=
-eless #ifdef CONFIG_KGDB_SERIAL_CONSOLE in kgdboc
-> config: x86_64-allmodconfig (attached as .config)
-> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 135b=
-877874fae96b4372c8a3fbfaa8ff44ff86e3)
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install x86_64 cross compiling tool for clang build
->         # apt-get install binutils-x86-64-linux-gnu
->         git checkout eae3e19ca930a56c726fbf4dc3adc198b8f5d61d
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross AR=
-CH=3Dx86_64
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
->
-> All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> drivers/tty/serial/kgdboc.c:410:13: error: expected parameter declarat=
-or
-> early_param("ekgdboc", kgdboc_early_init);
-> ^
-> >> drivers/tty/serial/kgdboc.c:410:13: error: expected ')'
-> drivers/tty/serial/kgdboc.c:410:12: note: to match this '('
-> early_param("ekgdboc", kgdboc_early_init);
-> ^
-> >> drivers/tty/serial/kgdboc.c:410:1: warning: declaration specifier miss=
-ing, defaulting to 'int'
-> early_param("ekgdboc", kgdboc_early_init);
-> ^
-> int
-> >> drivers/tty/serial/kgdboc.c:410:12: error: this function declaration i=
-s not a prototype [-Werror,-Wstrict-prototypes]
-> early_param("ekgdboc", kgdboc_early_init);
-> ^
-> void
-> 1 warning and 3 errors generated.
->
-> vim +410 drivers/tty/serial/kgdboc.c
->
-> 9731191f75a54c4 drivers/serial/kgdboc.c Jason Wessel 2010-05-20  409
-> 9731191f75a54c4 drivers/serial/kgdboc.c Jason Wessel 2010-05-20 @410  ear=
-ly_param("ekgdboc", kgdboc_early_init);
-> 9731191f75a54c4 drivers/serial/kgdboc.c Jason Wessel 2010-05-20  411
->
-> :::::: The code at line 410 was first introduced by commit
-> :::::: 9731191f75a54c4fa17e9b9b88f3144cf4b47836 kgdboc: Add ekgdboc for e=
-arly use of the kernel debugger
->
-> :::::: TO: Jason Wessel <jason.wessel@windriver.com>
-> :::::: CC: Jason Wessel <jason.wessel@windriver.com>
+> > > > =
 
-I already got yelled at and posted a fix.  See the thread at:
+> > > > If you fix the issue, kindly add following tag as appropriate
+> > > > Reported-by: kbuild test robot <lkp@intel.com>
+> > > > =
 
-https://lore.kernel.org/r/20200520000524.69af8a86(a)canb.auug.org.au
+> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > > > =
 
--Doug
---===============4263293357291304094==--
+> > > > ld: arch/x86/kernel/smpboot.o: in function `arch_scale_freq_tick':
+> > > > > > arch/x86/kernel/smpboot.c:2083: undefined reference to `__udivd=
+i3'
+> > > > =
+
+> > > > vim +2083 arch/x86/kernel/smpboot.c
+> > > > =
+
+> > > >   2061	=
+
+> > > >   2062	void arch_scale_freq_tick(void)
+> > > >   2063	{
+> > > >   2064		u64 freq_scale =3D SCHED_CAPACITY_SCALE;
+> > > >   2065		u64 aperf, mperf;
+> > > >   2066		u64 acnt, mcnt;
+> > > >   2067	=
+
+> > > >   2068		if (!arch_scale_freq_invariant())
+> > > >   2069			return;
+> > > >   2070	=
+
+> > > >   2071		rdmsrl(MSR_IA32_APERF, aperf);
+> > > >   2072		rdmsrl(MSR_IA32_MPERF, mperf);
+> > > >   2073	=
+
+> > > >   2074		acnt =3D aperf - this_cpu_read(arch_prev_aperf);
+> > > >   2075		mcnt =3D mperf - this_cpu_read(arch_prev_mperf);
+> > > >   2076	=
+
+> > > >   2077		this_cpu_write(arch_prev_aperf, aperf);
+> > > >   2078		this_cpu_write(arch_prev_mperf, mperf);
+> > > >   2079	=
+
+> > > >   2080		if (check_shl_overflow(acnt, 2*SCHED_CAPACITY_SHIFT, &acnt))
+> > > >   2081			goto error;
+> > > >   2082	=
+
+> > > > > 2083		if (check_mul_overflow(mcnt, arch_max_freq_ratio, &mcnt) ||=
+ !mcnt)
+> > > =
+
+> > > *sigh*,.. I hate computers. I'll try and have a look later, but if if
+> > > you have a nice solution Giovanni, don't hessitate to tell me ;-)
+> > =
+
+> > Hello Peter,
+> > =
+
+> > today I'm speaking at OSPM but tomorrow I'll see how to fix this.
+> =
+
+> Ha!, yes, I'll be there, listening.. :-)
+> =
+
+> So far the easiest fix I've come up with is simply limiting all this to
+> 64bit.. like who cares about 32bit anyway :-))))
+
+Agreed. I don't think APERFMPERF is supported on i386 anyways, and that wou=
+ld
+be a requirement for frequency invariance. In any case, support for i386 is
+"let's not break it".
+
+
+Giovanni
+--===============2919183893435406625==--
 
