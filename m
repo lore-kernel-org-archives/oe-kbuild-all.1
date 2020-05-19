@@ -1,70 +1,180 @@
-Content-Type: multipart/mixed; boundary="===============5236253332959957444=="
+Content-Type: multipart/mixed; boundary="===============4874284173793797189=="
 MIME-Version: 1.0
-From: Tony Chuang <yhchuang@realtek.com>
+From: Rong Chen <rong.a.chen@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 2957/8703] drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning: missing braces around initializer
-Date: Tue, 19 May 2020 09:16:48 +0000
-Message-ID: <08fd8d04c2d84d58ac751371cd1c4c1f@realtek.com>
-In-Reply-To: <87blmljuqz.fsf@kamboji.qca.qualcomm.com>
+Subject: Re: [linux-next:master 7243/9662] sh4-linux-ar: net/netlink/genetlink.o: No such file or directory
+Date: Tue, 19 May 2020 17:18:56 +0800
+Message-ID: <dddc4431-54b9-3176-2f72-da6b9bcaef67@intel.com>
+In-Reply-To: <21a5d49b-c5ad-31f8-281a-29f678524f8d@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5236253332959957444==
+--===============4874284173793797189==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Kalle Valo <kvalo@codeaurora.org> writes:
-
-> =
-
-> + linux-wireless
-> =
-
-> kbuild test robot <lkp@intel.com> writes:
-> =
-
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git
-> master
-> > head:   e098d7762d602be640c53565ceca342f81e55ad2
-> > commit: 5ad4d8957b69f3ebf95ac02212c388bda75aeb30 [2957/8703]
-> rtw88:
-> > set power trim according to efuse PG values
-> > config: i386-randconfig-a002-20200514 (attached as .config)
-> > compiler: gcc-4.9 (Ubuntu 4.9.3-13ubuntu2) 4.9.3
-> > reproduce:
-> >         git checkout 5ad4d8957b69f3ebf95ac02212c388bda75aeb30
-> >         # save the attached .config to linux build tree
-> >         make ARCH=3Di386
-> >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> >
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> > drivers/net/wireless/realtek/rtw88/rtw8822c.c: In function
-> 'rtw8822c_power_trim':
-> >>> drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning:
-> >> missing braces around initializer [-Wmissing-braces]
-> > s8 bb_gain[2][8] =3D {0};
-> > ^
-> > drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning: (near
-> > initialization for 'bb_gain[0]') [-Wmissing-braces]
-> =
-
-> Tony, please check this and fix it. If it's a false warning please let
-> us know.
-> =
 
 
-I tried to re-pro by:
-         git checkout 5ad4d8957b69f3ebf95ac02212c388bda75aeb30
-         # save the attached .config to linux build tree
-         make ARCH=3Di386
+On 5/19/20 3:17 PM, Rong Chen wrote:
+>
+>
+> On 5/19/20 2:57 PM, Yonghong Song wrote:
+>>
+>>
+>> On 5/17/20 10:26 PM, kbuild test robot wrote:
+>>> tree: =
 
-But cannot see it. And I checked the code, looks fine to me.
-It seems to be a false warning.
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git =
 
-Yen-Hsuan
---===============5236253332959957444==--
+>>> master
+>>> head:=C2=A0=C2=A0 bdecf38f228bcca73b31ada98b5b7ba1215eb9c9
+>>> commit: 138d0be35b141e09f6b267c6ae4094318d4e4491 [7243/9662] net: =
+
+>>> bpf: Add netlink and ipv6_route bpf_iter targets
+>>> config: sh-randconfig-r011-20200518 (attached as .config)
+>>> compiler: sh4-linux-gcc (GCC) 9.3.0
+>>> reproduce:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wget =
+
+>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__raw.githubuserco=
+ntent.com_intel_lkp-2Dtests_master_sbin_make.cross&d=3DDwIBAg&c=3D5VD0RTtNl=
+Th3ycd41b3MUw&r=3DDA8e1B5r073vIqRrFz7MRA&m=3DZEUE_FuLqzKIPDfHr2LDcyw45w-bQu=
+3XyWM9eWH70_I&s=3DVH-IY80daIafAHNJ3oi0dmt1gariGhYp2iE6aztEOug&e=3D =
+
+>>> -O ~/bin/make.cross
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 chmod +x ~/bin/make.cr=
+oss
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git checkout 138d0be35=
+b141e09f6b267c6ae4094318d4e4491
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # save the attached .c=
+onfig to linux build tree
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 COMPILER_INSTALL_PATH=
+=3D$HOME/0day GCC_VERSION=3D9.3.0 =
+
+>>> make.cross ARCH=3Dsh
+>>>
+>>> If you fix the issue, kindly add following tag as appropriate
+>>> Reported-by: kbuild test robot <lkp@intel.com>
+>>>
+>>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>>
+>>>>> sh4-linux-ar: net/netlink/genetlink.o: No such file or directory
+>>
+>> Somehow I cannot make it work.
+>>
+>> scripts/kconfig/conf=C2=A0 --syncconfig Kconfig
+>> /home/yhs/0day/gcc-9.3.0-nolibc/sh4-linux/bin/../libexec/gcc/sh4-linux/9=
+.3.0/cc1: =
+
+>> error while loading shared libraries: libmpfr.so.6: cannot open =
+
+>> shared object file: No such file or directory
+>> /home/yhs/0day/gcc-9.3.0-nolibc/sh4-linux/bin/../libexec/gcc/sh4-linux/9=
+.3.0/cc1: =
+
+>> error while loading shared libraries: libmpfr.so.6: cannot open =
+
+>> shared object file: No such file or directory
+>>
+>> -bash-4.4$ ldd =
+
+>> /home/yhs/0day/gcc-9.3.0-nolibc/sh4-linux/bin/../libexec/gcc/sh4-linux/9=
+.3.0/cc1
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 linux-vdso.so.1 =3D>=C2=A0 (0=
+x00007ffdef5ba000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libisl.so.22 =3D> not found
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libmpc.so.3 =3D> /lib64/libmp=
+c.so.3 (0x00007f4b7ffa1000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libmpfr.so.6 =3D> not found
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libgmp.so.10 =3D> /lib64/libg=
+mp.so.10 (0x00007f4b7fd29000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libdl.so.2 =3D> /lib64/libdl.=
+so.2 (0x00007f4b7fb25000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libm.so.6 =3D> /lib64/libm.so=
+.6 (0x00007f4b7f823000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libc.so.6 =3D> /lib64/libc.so=
+.6 (0x00007f4b7f455000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /lib64/ld-linux-x86-64.so.2 (=
+0x00007f4b801b9000)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libmpfr.so.4 =3D> /lib64/libm=
+pfr.so.4 (0x00007f4b7f1fa000)
+>> -bash-4.4$
+>>
+>> I do have libmpfr.so.4, but no libmpfr.so.6.
+>
+> Hi Yonghong,
+>
+> You might need to install libmpfr6 and libisl22.
+>
+> Best Regards,
+> Rong Chen
+>
+>>
+>> Also, the error is
+>> >>> sh4-linux-ar: net/netlink/genetlink.o: No such file or directory
+>>
+>> I double checked the commit. It is not clearly to me why my commit
+>> affect the net/netlink/genetliink.c compilation. Could you send
+>> me the genetlink.c compilation error message? This may make it
+>> easier to debug.
+
+Sorry for the inconvenience, it should be a false positive, this commit =
+
+influenced the build errors:
+
+parent commit:
+build-error/18143-21532-20517-1978:sh4-linux-ld: cannot find =
+
+net/netlink/.tmp_gl_genetlink.o: No such file or directory
+build-error/18143-21532-20517-1978:sh4-linux-objcopy: =
+
+'net/netlink/.tmp_mx_genetlink.o': No such file
+build-error/18143-21532-20517-1978:rm: cannot remove =
+
+'net/netlink/.tmp_gl_genetlink.o': No such file or directory
+build-error/18143-21532-20517-1978:rm: cannot remove =
+
+'net/netlink/.tmp_mx_genetlink.o': No such file or directory
+
+this commit:
+build-error/64149-65650-29918-1978:sh4-linux-ld: cannot find =
+
+net/netlink/.tmp_gl_genetlink.o: No such file or directory
+build-error/64149-65650-29918-1978:sh4-linux-objcopy: =
+
+'net/netlink/.tmp_mx_genetlink.o': No such file
+build-error/64149-65650-29918-1978:rm: cannot remove =
+
+'net/netlink/.tmp_gl_genetlink.o': No such file or directory
+build-error/64149-65650-29918-1978:rm: cannot remove =
+
+'net/netlink/.tmp_mx_genetlink.o': No such file or directory
+build-error/64149-67444-8214-450:sh4-linux-ar: net/netlink/genetlink.o: =
+
+No such file or directory
+
+Best Regards,
+Rong Chen
+
+>>
+>> Thanks!
+>>
+>>>
+>>> ---
+>>> 0-DAY CI Kernel Test Service, Intel Corporation
+>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.01.org_hyp=
+erkitty_list_kbuild-2Dall-40lists.01.org&d=3DDwIBAg&c=3D5VD0RTtNlTh3ycd41b3=
+MUw&r=3DDA8e1B5r073vIqRrFz7MRA&m=3DZEUE_FuLqzKIPDfHr2LDcyw45w-bQu3XyWM9eWH7=
+0_I&s=3DFqtN4wRMFzzOSQyiBkpM1TppJhvHUjlgyAU2gtU6wkg&e=3D =
+
+>>>
+>>>
+>> _______________________________________________
+>> kbuild-all mailing list -- kbuild-all(a)lists.01.org
+>> To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
+> _______________________________________________
+> kbuild-all mailing list -- kbuild-all(a)lists.01.org
+> To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
+
+--===============4874284173793797189==--
 
