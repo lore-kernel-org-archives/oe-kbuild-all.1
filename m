@@ -1,32 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============9139317393855905769=="
+Content-Type: multipart/mixed; boundary="===============3558588528175326729=="
 MIME-Version: 1.0
-From: Martin K. Petersen <martin.petersen@oracle.com>
+From: Andrew Morton <akpm@linux-foundation.org>
 To: kbuild-all@lists.01.org
-Subject: Re: [hnaz-linux-mm:master 156/523] include/linux/string.h:307:9: note: in expansion of macro '__underlying_strncpy'
-Date: Tue, 19 May 2020 22:08:53 -0400
-Message-ID: <yq17dx7wej4.fsf@ca-mkp.ca.oracle.com>
-In-Reply-To: <20200519184847.5affb9238b7358ac0d18c98e@linux-foundation.org>
+Subject: Re: [hnaz-linux-mm:master 177/523] arch/arc/mm/init.c:80:6: warning: no previous prototype for 'arch_has_descending_max_zone_pfns'
+Date: Tue, 19 May 2020 19:09:24 -0700
+Message-ID: <20200519190924.c1563453508f8929667f1529@linux-foundation.org>
+In-Reply-To: <20200519174501.GE1118872@kernel.org>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============9139317393855905769==
+--===============3558588528175326729==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, 19 May 2020 20:45:01 +0300 Mike Rapoport <rppt@kernel.org> wrote:
 
-Andrew,
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2351,6 +2351,7 @@ static inline unsigned long get_num_physpages(void)
+>   * sparse_memory_present_with_active_regions() calls memory_present() for
+>   * each range when SPARSEMEM is enabled.
+>   */
+> +bool arch_has_descending_max_zone_pfns(void);
+>  void free_area_init(unsigned long *max_zone_pfn);
+>  unsigned long node_map_pfn_alignment(void);
+>  unsigned long __absent_pages_in_range(int nid, unsigned long start_pfn,
 
-> 		/* Vendor Identification */
->>>>		strncpy(&inqdata[16], "RAID controller ", 16);
+I kinda preferred my patch ;) There's a section of mm.h just for
+page_alloc.c.
 
-> That strncpy() will indeed fail to copy the trailing null, but it looks
-> like that null isn't appropriate in the inquiry data.
 
-Correct. These protocol strings are fixed-length / space-padded.
-I.e. not null-terminated.
-
--- =
-
-Martin K. Petersen	Oracle Linux Engineering
---===============9139317393855905769==--
+--===============3558588528175326729==--
 
