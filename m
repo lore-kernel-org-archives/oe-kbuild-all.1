@@ -1,63 +1,89 @@
-Content-Type: multipart/mixed; boundary="===============0484084667867035370=="
+Content-Type: multipart/mixed; boundary="===============1024145054048219783=="
 MIME-Version: 1.0
-From: Tony Chuang <yhchuang@realtek.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 10024/10701] drivers/net/wireless/realtek/rtw88/pci.c:1477:5: warning: no previous prototype for function 'rtw_pci_probe'
-Date: Wed, 20 May 2020 08:30:20 +0000
-Message-ID: <cd6a53995365404ca33f325e9cc5ba03@realtek.com>
-In-Reply-To: <202005201637.yF4tG9Py%lkp@intel.com>
+Subject: Re: [linux-next:master 8243/10701] ld: drivers/usb/typec/tps6598x.c:208: undefined reference to `usb_role_switch_set_role'
+Date: Wed, 20 May 2020 14:06:48 +0100
+Message-ID: <2babb0ef-980a-b18f-e073-14bae6b09b87@linaro.org>
+In-Reply-To: <4460a74b-498f-5feb-bfb4-067228aea316@linaro.org>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0484084667867035370==
+--===============1024145054048219783==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it
-> master
-> head:   fb57b1fabcb28f358901b2df90abd2b48abc1ca8
-> commit: 72f256c2b948622cc45ff8bc0456dd6039d8fe36 [10024/10701]
-> rtw88: extract: export symbols about pci interface
-> config: x86_64-allyesconfig (attached as .config)
-> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project
-> e6658079aca6d971b4e9d7137a3a2ecbc9c34aec)
-> reproduce:
->         wget
-> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross =
--O
-> ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install x86_64 cross compiling tool for clang build
->         # apt-get install binutils-x86-64-linux-gnu
->         git checkout 72f256c2b948622cc45ff8bc0456dd6039d8fe36
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross
-> ARCH=3Dx86_64
+On 20/05/2020 11:09, Bryan O'Donoghue wrote:
+> On 20/05/2020 10:21, kbuild test robot wrote:
+>> tree:   =
+
+>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git =
+
+>> master
+>> head:=C2=A0=C2=A0 fb57b1fabcb28f358901b2df90abd2b48abc1ca8
+>> commit: 18a6c866bb191f360a16db6a79e005247dd3fd70 [8243/10701] usb: =
+
+>> typec: tps6598x: Add USB role switching logic
+>> config: x86_64-randconfig-a005-20200519 (attached as .config)
+>> compiler: gcc-5 (Ubuntu 5.5.0-12ubuntu1) 5.5.0 20171010
+>> reproduce:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git checkout 18a6c866bb=
+191f360a16db6a79e005247dd3fd70
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # save the attached .co=
+nfig to linux build tree
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 make ARCH=3Dx86_64
+>>
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>> ld: drivers/usb/typec/tps6598x.o: in function `tps6598x_set_data_role':
+>> drivers/usb/typec/tps6598x.c:208: undefined reference to =
+
+>> `usb_role_switch_set_role'
+>>>> ld: drivers/usb/typec/tps6598x.c:208: undefined reference to =
+
+>>>> `usb_role_switch_set_role'
+>> ld: drivers/usb/typec/tps6598x.o: in function `tps6598x_remove':
+>> drivers/usb/typec/tps6598x.c:604: undefined reference to =
+
+>> `usb_role_switch_put'
+>> ld: drivers/usb/typec/tps6598x.o: in function `tps6598x_set_data_role':
+>> drivers/usb/typec/tps6598x.c:208: undefined reference to =
+
+>> `usb_role_switch_set_role'
+>> ld: drivers/usb/typec/tps6598x.o: in function `tps6598x_probe':
+>> drivers/usb/typec/tps6598x.c:522: undefined reference to =
+
+>> `fwnode_usb_role_switch_get'
+>> ld: drivers/usb/typec/tps6598x.c:591: undefined reference to =
+
+>> `usb_role_switch_put'
+>>
+>> ---
+>> 0-DAY CI Kernel Test Service, Intel Corporation
+>> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+>>
 > =
 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
+> Fixed here.
 > =
 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> https://lore.kernel.org/linux-usb/20200520100526.2729-1-bryan.odonoghue(a=
+)linaro.org/T/#u =
+
 > =
 
-> >> drivers/net/wireless/realtek/rtw88/pci.c:1477:5: warning: no previous
-> >> prototype for function 'rtw_pci_probe' [-Wmissing-prototypes]
-> int rtw_pci_probe(struct pci_dev *pdev,
-> ^
-> drivers/net/wireless/realtek/rtw88/pci.c:1477:1: note: declare 'static' i=
-f the
-> function is not intended to be used outside of this translation unit int
-> rtw_pci_probe(struct pci_dev *pdev, ^ static
+> =
 
-These exported symbols are used outside in rtw88 driver's
-new entry points such as rtw8822be.ko/rtw8822ce.ko.
-But for easier to review the patch is split and the patch that
-contains the entry point is applied after this.
-So it can be treated as false alarms.
+> Since this is still stuff in the usb-next tree I don't think I need a =
 
-Yen-Hsuan
---===============0484084667867035370==--
+> fixes tag ... ?
+
+Better fix here
+
+https://lore.kernel.org/linux-usb/20200520123312.320281-1-bryan.odonoghue(a=
+)linaro.org/T/#t
+--===============1024145054048219783==--
 
