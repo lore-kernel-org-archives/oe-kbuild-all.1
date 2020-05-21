@@ -1,45 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============2882583897198350925=="
+Content-Type: multipart/mixed; boundary="===============7178265235246702918=="
 MIME-Version: 1.0
-From: Palmer Dabbelt <palmerdabbelt@google.com>
+From: David Howells <dhowells@redhat.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [RFC PATCH linus] RISC-V: gp_in_global can be static
-Date: Thu, 21 May 2020 13:51:41 -0700
-Message-ID: <mhng-7dafbf2e-2bf8-447f-bb31-c3c640d0e898@palmerdabbelt-glaptop1>
-In-Reply-To: <20200518050227.GA13086@f1dbffaf4744>
+Subject: Re: [dhowells-fs:fscache-iter 21/61] fs/fscache/obj.c:278:27: warning: comparison is always false due to limited range of data type
+Date: Thu, 21 May 2020 23:41:20 +0100
+Message-ID: <508924.1590100880@warthog.procyon.org.uk>
+In-Reply-To: <202005220246.emIuqDjI%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2882583897198350925==
+--===============7178265235246702918==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 17 May 2020 22:02:27 PDT (-0700), lkp(a)intel.com wrote:
->
-> Fixes: 52e7c52d2ded ("RISC-V: Stop relying on GCC's register allocator's =
-hueristics")
-> Signed-off-by: kbuild test robot <lkp@intel.com>
-> ---
->  process.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index 610c11e916068..3b2933839d492 100644
-> --- a/arch/riscv/kernel/process.c
-> +++ b/arch/riscv/kernel/process.c
-> @@ -22,7 +22,7 @@
->  #include <asm/switch_to.h>
->  #include <asm/thread_info.h>
->
-> -unsigned long gp_in_global __asm__("gp");
-> +static unsigned long gp_in_global __asm__("gp");
->
->  extern asmlinkage void ret_from_fork(void);
->  extern asmlinkage void ret_from_kernel_thread(void);
+kbuild test robot <lkp@intel.com> wrote:
 
-Thanks.  Looks like this is actually a real bug: gp_in_global was supposed =
-to
-have the "register" keyword, and missing that appears to cause the __asm__ =
-to
-be ignored.
---===============2882583897198350925==--
+> In file included from include/linux/export.h:43:0,
+> from include/linux/linkage.h:7,
+> from include/linux/kernel.h:8,
+> from include/linux/list.h:9,
+> from include/linux/module.h:12,
+> from fs/fscache/obj.c:12:
+> fs/fscache/obj.c: In function 'fscache_drop_object':
+> >> fs/fscache/obj.c:278:27: warning: comparison is always false due to li=
+mited range of data type [-Wtype-limits]
+> ASSERTCMP(cookie->stage, =3D=3D, FSCACHE_COOKIE_STAGE_DEAD);
+> ^
+> include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+> # define unlikely(x) __builtin_expect(!!(x), 0)
+> ^
+> >> fs/fscache/obj.c:278:2: note: in expansion of macro 'ASSERTCMP'
+> ASSERTCMP(cookie->stage, =3D=3D, FSCACHE_COOKIE_STAGE_DEAD);
+> ^
+
+This looks like a false error.  It doesn't seem to happen with more recent
+gccs.
+
+David
+
+--===============7178265235246702918==--
 
