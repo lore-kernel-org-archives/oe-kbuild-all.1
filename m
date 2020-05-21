@@ -1,28 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============0684805400826874097=="
+Content-Type: multipart/mixed; boundary="===============2542577049475758475=="
 MIME-Version: 1.0
-From: Nick Desaulniers <ndesaulniers@google.com>
+From: Christoph Hellwig <hch@lst.de>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v2 6/7] ASoC: soc-link: add snd_soc_link_compr_shutdown()
-Date: Thu, 21 May 2020 11:57:57 -0700
-Message-ID: <CAKwvOdmbk4MdJMSj7rvfSG7bUiajUentH+L61F7jzKFdmKyyAw@mail.gmail.com>
-In-Reply-To: <202005212027.Y3d1auqU%lkp@intel.com>
+Subject: Re: [linux-nvme:nvme-5.8 26/33] drivers/nvme/target/io-cmd-bdev.c:56: undefined reference to `t10_pi_type1_crc'
+Date: Thu, 21 May 2020 10:27:38 +0200
+Message-ID: <20200521082738.GB7587@lst.de>
+In-Reply-To: <202005210855.RUq1UaNv%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0684805400826874097==
+--===============2542577049475758475==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 21, 2020 at 5:33 AM kbuild test robot <lkp@intel.com> wrote:
->
-> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 3393=
-cc4cebf9969db94dc424b7a2b6195589c33b)
-> reproduce (this is a W=3D1 build):
-
-^ ah, nice, thanks Philip and team!
--- =
-
-Thanks,
-~Nick Desaulniers
---===============0684805400826874097==--
+I've switched the IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) to the correct
+CONFIG_BLK_DEV_INTEGRITY_T10 instead.
+--===============2542577049475758475==--
 
