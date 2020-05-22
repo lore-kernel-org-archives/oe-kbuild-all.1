@@ -1,95 +1,70 @@
-Content-Type: multipart/mixed; boundary="===============2516005483554697245=="
+Content-Type: multipart/mixed; boundary="===============1636399823185340856=="
 MIME-Version: 1.0
-From: Tony Chuang <yhchuang@realtek.com>
+From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:master 2957/8703] drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning: missing braces around initializer
-Date: Fri, 22 May 2020 03:49:06 +0000
-Message-ID: <06f65d3990b94913a087a215e188cf1a@realtek.com>
-In-Reply-To: <F09C421E5D2EBE40AFD7EEA977444DDC4D77F535@SHSMSX103.ccr.corp.intel.com>
+Subject: [lkp] [+2050 bytes kernel size regression] [i386-tinyconfig] [18bb639402] vfs: introduce new file extent swap ioctl
+Date: Fri, 22 May 2020 15:48:07 +0800
+Message-ID: <5ec783b7.HSktgxAR+QF+ajG7%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2516005483554697245==
+--===============1636399823185340856==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-> =
 
-> > Kalle Valo <kvalo@codeaurora.org> writes:
-> >
-> > >
-> > > + linux-wireless
-> > >
-> > > kbuild test robot <lkp@intel.com> writes:
-> > >
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-=
-next.git
-> > > master
-> > > > head:   e098d7762d602be640c53565ceca342f81e55ad2
-> > > > commit: 5ad4d8957b69f3ebf95ac02212c388bda75aeb30 [2957/8703]
-> > > rtw88:
-> > > > set power trim according to efuse PG values
-> > > > config: i386-randconfig-a002-20200514 (attached as .config)
-> > > > compiler: gcc-4.9 (Ubuntu 4.9.3-13ubuntu2) 4.9.3
-> > > > reproduce:
-> > > >         git checkout 5ad4d8957b69f3ebf95ac02212c388bda75aeb30
-> > > >         # save the attached .config to linux build tree
-> > > >         make ARCH=3Di386
-> > > >
-> > > > If you fix the issue, kindly add following tag as appropriate
-> > > > Reported-by: kbuild test robot <lkp@intel.com>
-> > > >
-> > > > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> > > >
-> > > > drivers/net/wireless/realtek/rtw88/rtw8822c.c: In function
-> > > 'rtw8822c_power_trim':
-> > > >>> drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning:
-> > > >> missing braces around initializer [-Wmissing-braces]
-> > > > s8 bb_gain[2][8] =3D {0};
-> > > > ^
-> > > > drivers/net/wireless/realtek/rtw88/rtw8822c.c:1039:2: warning: (near
-> > > > initialization for 'bb_gain[0]') [-Wmissing-braces]
-> > >
-> > > Tony, please check this and fix it. If it's a false warning please let
-> > > us know.
-> > >
-> >
-> > I tried to re-pro by:
-> >          git checkout 5ad4d8957b69f3ebf95ac02212c388bda75aeb30
-> >          # save the attached .config to linux build tree
-> >          make ARCH=3Di386
-> >
-> > But cannot see it. And I checked the code, looks fine to me.
-> > It seems to be a false warning.
-> =
+FYI, we noticed a +2050 bytes kernel size regression due to commit:
 
-> Hi, what's your compiler? we can reproduce by gcc-4.9 and follow above st=
-eps.
-> =
+commit: 18bb63940208c2ea3fe3646c7b9cf928ea9825ac (vfs: introduce new file e=
+xtent swap ioctl)
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git repair=
+-metadata-atomically
 
-> From https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D53119 , the warning
-> should be only on old compilers.
-> If made below change, the warning will disappear.
-> @@ -1036,7 +1036,7 @@ static void rtw8822c_set_power_trim(struct
-> rtw_dev *rtwdev, s8 bb_gain[2][8])
->  static void rtw8822c_power_trim(struct rtw_dev *rtwdev)
->  {
->         u8 pg_pwr =3D 0xff, i, path, idx;
-> -       s8 bb_gain[2][8] =3D {0};
-> +       s8 bb_gain[2][8] =3D {};
->         u16 rf_efuse_2g[3] =3D {PPG_2GL_TXAB, PPG_2GM_TXAB,
-> PPG_2GH_TXAB};
-> =
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
-> Similar fix could be seen, as an example, on
-> https://lkml.org/lkml/2017/9/12/159
-> =
+43be1df6: xfs: fix xfs_reflink_remap_prep calling conventions
+18bb6394: vfs: introduce new file extent swap ioctl
+
++------------------------------------------+----------+----------+-------+
+|                  symbol                  | 43be1df6 | 18bb6394 | delta |
++------------------------------------------+----------+----------+-------+
+| bzImage                                  | 439616   | 440736   | 1120  |
+| nm.T.generic_swap_file_range_checks      | 0        | 739      | 739   |
+| nm.T.generic_swap_file_range_prep        | 0        | 572      | 572   |
+| nm.T.do_swap_file_range                  | 0        | 190      | 190   |
+| nm.T.generic_swap_file_range_check_fresh | 0        | 156      | 156   |
+| nm.t.ioctl_file_swap_range               | 0        | 139      | 139   |
+| nm.t.swap_range_verify_area              | 0        | 93       | 93    |
+| nm.T.vfs_swap_file_range                 | 0        | 44       | 44    |
+| nm.T.ksys_ioctl                          | 1427     | 1457     | 30    |
+| nm.r.bad_file_ops                        | 128      | 132      | 4     |
+| nm.R.def_blk_fops                        | 128      | 132      | 4     |
+| nm.R.def_chr_fops                        | 128      | 132      | 4     |
+| nm.r.empty_dir_operations                | 128      | 132      | 4     |
+| nm.r.empty_fops                          | 128      | 132      | 4     |
+| nm.R.fscontext_fops                      | 128      | 132      | 4     |
+| nm.r.full_fops                           | 128      | 132      | 4     |
+| nm.R.generic_ro_fops                     | 128      | 132      | 4     |
+| nm.r.memory_fops                         | 128      | 132      | 4     |
+| nm.r.misc_fops                           | 128      | 132      | 4     |
+| nm.r.no_open_fops                        | 128      | 132      | 4     |
+| nm.r.ns_file_operations                  | 128      | 132      | 4     |
+| nm.r.null_fops                           | 128      | 132      | 4     |
+| nm.r.perf_fops                           | 128      | 132      | 4     |
+| nm.R.pidfd_fops                          | 128      | 132      | 4     |
+| nm.R.pipefifo_fops                       | 128      | 132      | 4     |
+| nm.R.ramfs_file_operations               | 128      | 132      | 4     |
+| nm.R.random_fops                         | 128      | 132      | 4     |
+| nm.R.simple_dir_operations               | 128      | 132      | 4     |
+| nm.R.urandom_fops                        | 128      | 132      | 4     |
+| nm.r.zero_fops                           | 128      | 132      | 4     |
+| nm.T.vfs_fadvise                         | 48       | 51       | 3     |
++------------------------------------------+----------+----------+-------+
 
 
-Oh, my gcc version is 5.5.0 20171010.
-OK, then I know it should be fixed for old gcc versions.
-Thanks!
 
-Yen-Hsuan
---===============2516005483554697245==--
+Thanks,
+Kbuild test robot
+
+--===============1636399823185340856==--
 
