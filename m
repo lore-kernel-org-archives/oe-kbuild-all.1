@@ -1,98 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============5217029307281702330=="
+Content-Type: multipart/mixed; boundary="===============2840203063759244967=="
 MIME-Version: 1.0
-From: Peter Xu <peterx@redhat.com>
+From: Ahmed S. Darwish <a.darwish@linutronix.de>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v9 05/14] KVM: X86: Implement ring-based dirty memory tracking
-Date: Mon, 25 May 2020 11:33:47 -0400
-Message-ID: <20200525153347.GG1058657@xz-x1>
-In-Reply-To: <202005252245.ZeOB8qNJ%lkp@intel.com>
+Subject: Re: [PATCH v1 01/25] net: core: device_rename: Use rwsem instead of a seqcount
+Date: Mon, 25 May 2020 18:22:07 +0200
+Message-ID: <20200525162206.GB375786@debian-buster-darwi.lab.linutronix.de>
+In-Reply-To: <20200520143706.GB30374@kadam>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5217029307281702330==
+--===============2840203063759244967==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 25, 2020 at 10:54:58PM +0800, kbuild test robot wrote:
-> Hi Peter,
-> =
+On Wed, May 20, 2020 at 05:37:07PM +0300, Dan Carpenter wrote:
+...
+>
+> smatch warnings:
+> net/core/dev.c:953 netdev_get_name() warn: inconsistent returns 'devnet_r=
+ename_sem'.
+>
+...
+>
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  935  int netdev_get_name(str=
+uct net *net, char *name, int ifindex)
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  936  {
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  937  	struct net_device *dev;
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  938
+> 2354e271ada778b Ahmed S. Darwish 2020-05-19  939  	down_read(&devnet_rena=
+me_sem);
+>                                                       ^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^
+>
+> 2354e271ada778b Ahmed S. Darwish 2020-05-19  940
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  941  	rcu_read_lock();
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  942  	dev =3D dev_get_by_ind=
+ex_rcu(net, ifindex);
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  943  	if (!dev) {
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  944  		rcu_read_unlock();
+> 5dbe7c178d3f0a4 Nicolas Schichan 2013-06-26  945  		return -ENODEV;
+>                                                               ^^^^^^^^^^^=
+^^^
 
-> Thank you for the patch! Perhaps something to improve:
-> =
+Oh, shouldn't have missed that. Will fix in v2.
 
-> [auto build test WARNING on vhost/linux-next]
-> [also build test WARNING on linus/master v5.7-rc7]
-> [cannot apply to kvm/linux-next tip/auto-latest linux/master next-2020052=
-2]
-> [if your patch is applied to the wrong git tree, please drop us a note to=
- help
-> improve the system. BTW, we also suggest to use '--base' option to specif=
-y the
-> base tree in git format-patch, please see https://stackoverflow.com/a/374=
-06982]
-> =
-
-> url:    https://github.com/0day-ci/linux/commits/Peter-Xu/KVM-Dirty-ring-=
-interface/20200524-070926
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git lin=
-ux-next
-> config: x86_64-allyesconfig (attached as .config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=3D1 build):
->         # save the attached .config to linux build tree
->         make W=3D1 ARCH=3Dx86_64 =
-
-> =
-
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
-> =
-
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> =
-
-> >> arch/x86/kvm/../../../virt/kvm/dirty_ring.c:33:6: warning: no previous=
- prototype for 'kvm_dirty_ring_full' [-Wmissing-prototypes]
-> bool kvm_dirty_ring_full(struct kvm_dirty_ring *ring)
-> ^~~~~~~~~~~~~~~~~~~
-
-I'll add a "static" to quiesce this..
-
-> --
-> arch/x86/kvm/vmx/vmx.c: In function 'init_rmode_identity_map':
-> >> arch/x86/kvm/vmx/vmx.c:3472:12: warning: variable 'identity_map_pfn' s=
-et but not used [-Wunused-but-set-variable]
-> kvm_pfn_t identity_map_pfn;
-> ^~~~~~~~~~~~~~~~
-
-Hmm, this seems to be true but not related to this series afaict...  but su=
-re I
-can add another patch to remove it.
-
-> =
-
-> vim +/kvm_dirty_ring_full +33 arch/x86/kvm/../../../virt/kvm/dirty_ring.c
-> =
-
->     32	=
-
->   > 33	bool kvm_dirty_ring_full(struct kvm_dirty_ring *ring)
->     34	{
->     35		return kvm_dirty_ring_used(ring) >=3D ring->size;
->     36	}
->     37	=
-
-> =
-
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-
-
-
--- =
-
-Peter Xu
-
---===============5217029307281702330==--
+Thanks,
+--===============2840203063759244967==--
 
