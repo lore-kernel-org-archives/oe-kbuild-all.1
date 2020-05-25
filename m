@@ -1,19 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============3764523484289315817=="
+Content-Type: multipart/mixed; boundary="===============5217029307281702330=="
 MIME-Version: 1.0
 From: Peter Xu <peterx@redhat.com>
 To: kbuild-all@lists.01.org
 Subject: Re: [PATCH v9 05/14] KVM: X86: Implement ring-based dirty memory tracking
-Date: Mon, 25 May 2020 11:26:49 -0400
-Message-ID: <20200525152649.GF1058657@xz-x1>
-In-Reply-To: <202005251058.wRNkniwm%lkp@intel.com>
+Date: Mon, 25 May 2020 11:33:47 -0400
+Message-ID: <20200525153347.GG1058657@xz-x1>
+In-Reply-To: <202005252245.ZeOB8qNJ%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3764523484289315817==
+--===============5217029307281702330==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 25, 2020 at 10:48:08AM +0800, kbuild test robot wrote:
+On Mon, May 25, 2020 at 10:54:58PM +0800, kbuild test robot wrote:
 > Hi Peter,
 > =
 
@@ -36,14 +36,12 @@ y the
 interface/20200524-070926
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git lin=
 ux-next
-> config: s390-randconfig-s002-20200524 (attached as .config)
-> compiler: s390-linux-gcc (GCC) 9.3.0
-> reproduce:
->         # apt-get install sparse
->         # sparse version: v0.6.1-240-gf0fe1cd9-dirty
+> config: x86_64-allyesconfig (attached as .config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=3D1 build):
 >         # save the attached .config to linux build tree
->         make W=3D1 C=3D1 ARCH=3Ds390 CF=3D'-fdiagnostic-prefix -D__CHECK_=
-ENDIAN__'
+>         make W=3D1 ARCH=3Dx86_64 =
+
 > =
 
 > If you fix the issue, kindly add following tag as appropriate
@@ -53,51 +51,42 @@ ENDIAN__'
 > All warnings (new ones prefixed by >>, old ones prefixed by <<):
 > =
 
-> arch/s390/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_page_in_dirt=
-y_ring':
-> >> arch/s390/kvm/../../../virt/kvm/kvm_main.c:2932:16: warning: compariso=
-n of unsigned expression >=3D 0 is always true [-Wtype-limits]
-> 2932 |  return (pgoff >=3D KVM_DIRTY_LOG_PAGE_OFFSET) &&
-> |                ^~
+> >> arch/x86/kvm/../../../virt/kvm/dirty_ring.c:33:6: warning: no previous=
+ prototype for 'kvm_dirty_ring_full' [-Wmissing-prototypes]
+> bool kvm_dirty_ring_full(struct kvm_dirty_ring *ring)
+> ^~~~~~~~~~~~~~~~~~~
 
-Should be a false positive, since when KVM_DIRTY_LOG_PAGE_OFFSET=3D=3D0 (tr=
-ue for
-s390) then the code won't reach here at all due to the previous check [1].
+I'll add a "static" to quiesce this..
 
-I thought gcc should be able to directly remove the below code when it sees=
- "if
-(1) return false;", but it seems not...
+> --
+> arch/x86/kvm/vmx/vmx.c: In function 'init_rmode_identity_map':
+> >> arch/x86/kvm/vmx/vmx.c:3472:12: warning: variable 'identity_map_pfn' s=
+et but not used [-Wunused-but-set-variable]
+> kvm_pfn_t identity_map_pfn;
+> ^~~~~~~~~~~~~~~~
 
-I wanted to avoid using "#if" macros because I think it always makes the co=
-de
-harder to read (especially when nested).  Maybe it's still ok to use one mo=
-re
-time here.
-
-Thanks,
+Hmm, this seems to be true but not related to this series afaict...  but su=
+re I
+can add another patch to remove it.
 
 > =
 
-> vim +2932 arch/s390/kvm/../../../virt/kvm/kvm_main.c
+> vim +/kvm_dirty_ring_full +33 arch/x86/kvm/../../../virt/kvm/dirty_ring.c
 > =
 
->   2926	=
+>     32	=
 
->   2927	static bool kvm_page_in_dirty_ring(struct kvm *kvm, unsigned long =
-pgoff)
->   2928	{
->   2929		if (!KVM_DIRTY_LOG_PAGE_OFFSET)
->   2930			return false;
+>   > 33	bool kvm_dirty_ring_full(struct kvm_dirty_ring *ring)
+>     34	{
+>     35		return kvm_dirty_ring_used(ring) >=3D ring->size;
+>     36	}
+>     37	=
 
-[1]
+> =
 
->   2931	=
-
-> > 2932		return (pgoff >=3D KVM_DIRTY_LOG_PAGE_OFFSET) &&
->   2933		    (pgoff < KVM_DIRTY_LOG_PAGE_OFFSET +
->   2934		     kvm->dirty_ring_size / PAGE_SIZE);
->   2935	}
->   2936	=
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
 
 
@@ -105,5 +94,5 @@ pgoff)
 
 Peter Xu
 
---===============3764523484289315817==--
+--===============5217029307281702330==--
 
