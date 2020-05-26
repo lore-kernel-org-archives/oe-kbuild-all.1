@@ -1,63 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============1282375453479155675=="
+Content-Type: multipart/mixed; boundary="===============1692718280716631254=="
 MIME-Version: 1.0
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
+From: Dave Chinner <david@fromorbit.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [EXT] [linux-next:master 6663/12912] drivers/net/dsa/sja1105/sja1105_static_config.c:463:8: warning: no previous prototype for function 'sja1105_vl_lookup_entry_packing'
-Date: Tue, 26 May 2020 21:54:13 +0000
-Message-ID: <
- <VI1PR04MB5696D5102C398E4858713CA1E0B00@VI1PR04MB5696.eurprd04.prod.outlook.com>>
-In-Reply-To: <CAKwvOdnvfQXvSiBQjYdL3ASeB1WEoj-zJGURV1N+DNDZTAnh3Q@mail.gmail.com>
+Subject: Re: [dgc-xfs:xfs-async-inode-reclaim 28/30] fs/xfs/xfs_inode.c:3432:1: warning: no previous prototype for 'xfs_iflush'
+Date: Wed, 27 May 2020 08:16:43 +1000
+Message-ID: <20200526221643.GZ2040@dread.disaster.area>
+In-Reply-To: <202005261941.GNNi105g%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1282375453479155675==
+--===============1692718280716631254==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 5/27/20 12:50 AM, Nick Desaulniers wrote:
-> Caution: EXT Email
+On Tue, May 26, 2020 at 07:46:45PM +0800, kbuild test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git=
+ xfs-async-inode-reclaim
+
+Hiya kbuild robot!
+
+Can you drop all the list cc's from build failures for this repo?
+Nobody but me really needs to see all the breakage in this tree...
+
+> :::::: The code at line 3432 was first introduced by commit
+> :::::: 30ebf34422da6206608b0c6fba84b424f174b8c5 xfs: rename xfs_iflush_in=
+t()
 > =
 
-> On Tue, May 26, 2020 at 2:48 PM Vladimir Oltean <vladimir.oltean@nxp.co=
-m> wrote:
->>
->> Hi Nick,
->>
->> On 5/27/20 12:07 AM, Nick Desaulniers wrote:
->>> Caution: EXT Email
->>>
->>> On Tue, May 26, 2020 at 12:40 PM Vladimir Oltean
->>> <vladimir.oltean@nxp.com> wrote:
->>>>
->>>> What's wrong with a function that has no previous prototype?
->>>
->>> It's possible that functions definitions don't match their
->>> declarations, which would be an ABI mismatch.
->>>
->>>> What 'fix' would be recommended?
->>>
->>> Including the correct header that declares the function.
->>>
->>
->> Thanks for the reply. I have no intention whatsoever in making any
->> changes to the code structure. There's a big difference between the
->> possibility of being an ABI mismatch and actually being one.
-> =
+> :::::: TO: Dave Chinner <dchinner@redhat.com>
+> :::::: CC: Dave Chinner <david@fromorbit.com>
 
-> May all your warnings be free of bugs.  Note: this warning was from a
-> `make W=3D1` build.
-> --
-> Thanks,
-> ~Nick Desaulniers
-> =
-
-
-That's not the wish I was hoping for, but rather 'may all your warnings =
-
-be relevant'.
+Also, I don't think this is doing what you expect, either, because
+this build error was only sent to david(a)fromorbit.com and was not
+CC'd to the author of the commit which is dchinner(a)redhat.com....
 
 Cheers,
--Vladimir
 
---===============1282375453479155675==--
+Dave.
+-- =
+
+Dave Chinner
+david(a)fromorbit.com
+--===============1692718280716631254==--
 
