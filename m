@@ -1,772 +1,4961 @@
-Content-Type: multipart/mixed; boundary="===============7648220884771607840=="
+Content-Type: multipart/mixed; boundary="===============2516603246806668886=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [rdma:wip/jgg-for-next 165/171] drivers/infiniband/core/uverbs_std_types_wq.o: warning: objtool: __llvm_gcov_writeout()+0x7: call without frame pointer save/setup
-Date: Sun, 24 May 2020 22:57:34 +0800
-Message-ID: <202005242231.0R2HLm1Q%lkp@intel.com>
+Subject: [ragnatech:media-tree 418/504] checkpatch: ERROR: that open brace { should be on the previous line
+Date: Wed, 27 May 2020 08:03:44 +0800
+Message-ID: <20200527000344.GA7184@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7648220884771607840==
+--===============2516603246806668886==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: Doug Ledford <dledford@redhat.com>
-CC: Jason Gunthorpe <jgg+lists@ziepe.ca>
-CC: linux-rdma(a)vger.kernel.org
-TO: Yishai Hadas <yishaih@mellanox.com>
-CC: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Leon Romanovsky <leonro@mellanox.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/j=
-gg-for-next
-head:   a94dae867c5663f36c950b82832e146a6c2f0e42
-commit: ef3bc084a8ed461e3d1f82481f47dacb96596f8f [165/171] IB/uverbs: Intro=
-duce create/destroy WQ commands over ioctl
-config: x86_64-randconfig-a015-20200521 (attached as .config)
-compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 3393cc=
-4cebf9969db94dc424b7a2b6195589c33b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install x86_64 cross compiling tool for clang build
-        # apt-get install binutils-x86-64-linux-gnu
-        git checkout ef3bc084a8ed461e3d1f82481f47dacb96596f8f
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 =
-
+tree:   git://git.ragnatech.se/linux media-tree
+head:   938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+commit: 406ae76079036fa9f335b70037cb971c14305cad [418/504] media: atomisp: =
+sh_css: detect ISP version at runtime
+reproduce:
+        scripts/checkpatch.pl 0001-media-atomisp-sh_css-detect-ISP-version-=
+at-runtime.patch
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+# many are suggestions rather than must-fix
 
->> drivers/infiniband/core/uverbs_std_types_wq.o: warning: objtool: __llvm_=
-gcov_writeout()+0x7: call without frame pointer save/setup
->> drivers/infiniband/core/uverbs_std_types_wq.o: warning: objtool: __llvm_=
-gcov_reset()+0x0: call without frame pointer save/setup
->> drivers/infiniband/core/uverbs_std_types_wq.o: warning: objtool: __llvm_=
-gcov_flush()+0x0: call without frame pointer save/setup
->> drivers/infiniband/core/uverbs_std_types_wq.o: warning: objtool: __llvm_=
-gcov_init()+0x0: call without frame pointer save/setup
+WARNING: Prefer using '"%s...", __func__' to using 'load_preview_binaries',=
+ this function's name, in a string
+#87: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:3060:
++				    "load_preview_binaries() num_invalid_frames=3D%d dvs_frame_delay=
+=3D%d\n",
+
+ERROR: that open brace { should be on the previous line
+#279: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5225:
++	if (!stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#292: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5234:
++	if (!main_pipe)
++	{
+
+ERROR: that open brace { should be on the previous line
+#311: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5248:
++	for (i =3D 0; i < stream->num_pipes; i++)
++	{
+
+CHECK: Alignment should match open parenthesis
+#315: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5252:
++		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=3D%d",
++			stream->pipes[i]->pipeline.pipe_id);
+
+WARNING: braces {} are not necessary for single statement blocks
+#333: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5270:
++	if (err !=3D IA_CSS_SUCCESS) {
++		goto ERR;
++	}
+
+ERROR: that open brace { should be on the previous line
+#347: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5284:
++	if (main_pipe->stream->config.continuous)
++	{
+
+CHECK: Alignment should match open parenthesis
+#367: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5304:
++		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=3D%d",
++			copy_pipe->pipeline.pipe_id);
+
+WARNING: Block comments should align the * on each line
+#486: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5844:
++			/* Select resolution for TNR. If
++			* output_system_in_resolution(GDC_out_resolution) is
+
+WARNING: line over 80 characters
+#487: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5845:
++			* being used, then select that as it will also be in resolution for
+
+WARNING: Block comments use a trailing */ on a separate line
+#488: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5846:
++			* TNR. At present, it only make sense for Skycam */
+
+WARNING: line over 80 characters
+#491: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5849:
++				tnr_width =3D pipe->config.output_system_in_res.width;
+
+WARNING: line over 80 characters
+#492: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5850:
++				tnr_height =3D pipe->config.output_system_in_res.height;
+
+WARNING: line over 80 characters
+#498: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5856:
++			/* Make tnr reference buffers output block width(in pix) align */
+
+WARNING: line over 80 characters
+#500: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5858:
++						       (mycs->video_binary.info->sp.block.block_width * ISP_NWAY));
+
+WARNING: line over 80 characters
+#525: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:5866:
++					       mycs->video_binary.info->sp.block.output_block_height);
+
+WARNING: line over 80 characters
+#641: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6366:
++							&capture_pp_descr, capt_pp_in_info,
+
+CHECK: Alignment should match open parenthesis
+#641: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6366:
++		ia_css_pipe_get_capturepp_binarydesc(pipe,
++							&capture_pp_descr, capt_pp_in_info,
+
+WARNING: line over 80 characters
+#642: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6367:
++							&capt_pp_out_info, &vf_info);
+
+CHECK: Alignment should match open parenthesis
+#644: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6369:
++		err =3D ia_css_binary_find(&capture_pp_descr,
++					    &mycs->capture_pp_binary);
+
+WARNING: line over 80 characters
+#654: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6379:
++							&capt_ldc_descr, &prim_out_info,
+
+CHECK: Alignment should match open parenthesis
+#654: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6379:
++			ia_css_pipe_get_ldc_binarydesc(pipe,
++							&capt_ldc_descr, &prim_out_info,
+
+CHECK: Alignment should match open parenthesis
+#658: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6383:
++			err =3D ia_css_binary_find(&capt_ldc_descr,
++						    &mycs->capture_ldc_binary);
+
+WARNING: line over 80 characters
+#707: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6396:
++			if (pipe->enable_viewfinder[IA_CSS_PIPE_OUTPUT_STAGE_0] &&
+
+WARNING: line over 80 characters
+#710: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6399:
++			ia_css_pipe_get_primary_binarydesc(pipe, &prim_descr[i], &prim_in_info,
+
+WARNING: line over 80 characters
+#711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6400:
++							    &prim_out_info, local_vf_info, i);
+
+CHECK: Alignment should match open parenthesis
+#711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6400:
++			ia_css_pipe_get_primary_binarydesc(pipe, &prim_descr[i], &prim_in_info,
++							    &prim_out_info, local_vf_info, i);
+
+WARNING: line over 80 characters
+#712: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6401:
++			err =3D ia_css_binary_find(&prim_descr[i], &mycs->primary_binary[i]);
+
+WARNING: line over 80 characters
+#730: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6412:
++			vf_pp_in_info =3D &mycs->primary_binary[mycs->num_primary_stage - 1].vf=
+_frame_info;
+
+ERROR: open brace '{' following function definitions go on the next line
+#754: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6464:
++static enum ia_css_err
++allocate_delay_frames(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#772: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6475:
++	if (!pipe)
++	{
+
+ERROR: that open brace { should be on the previous line
+#835: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6487:
++	switch (mode)
++	{
+
+WARNING: line over 80 characters
+#838: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6490:
++		struct ia_css_capture_settings *mycs_capture =3D &pipe->pipe_settings.ca=
+pture;
+
+WARNING: line over 80 characters
+#844: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6496:
++		struct ia_css_video_settings *mycs_video =3D &pipe->pipe_settings.video;
+
+WARNING: Block comments should align the * on each line
+#848: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6500:
++		/*The ref frame expects
++		    *	1. Y plane
+
+WARNING: line over 80 characters
+#856: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6508:
++		    *	TODO: make this ref_frame format as a separate frame format
+
+WARNING: line over 80 characters
+#863: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6515:
++		struct ia_css_preview_settings *mycs_preview =3D &pipe->pipe_settings.pr=
+eview;
+
+WARNING: Block comments should align the * on each line
+#867: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6519:
++		/*The ref frame expects
++		    *	1. Y plane
+
+WARNING: line over 80 characters
+#875: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6527:
++		    *	TODO: make this ref_frame format as a separate frame format
+
+ERROR: that open brace { should be on the previous line
+#898: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6540:
++	for (i =3D 0; i < num_delay_frames; i++)
++	{
+
+WARNING: line over 80 characters
+#900: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6542:
++		err =3D ia_css_frame_allocate_from_info(&delay_frames[i],	&ref_info);
+
+CHECK: Lines should not end with a '('
+#908: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6550:
++static enum ia_css_err load_advanced_binaries(
+
+ERROR: open brace '{' following function definitions go on the next line
+#908: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6550:
++static enum ia_css_err load_advanced_binaries(
++    struct ia_css_pipe *pipe) {
+
+WARNING: please, no spaces@the start of a line
+#909: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6551:
++    struct ia_css_pipe *pipe) {$
+
+CHECK: Alignment should match open parenthesis
+#932: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6564:
++	assert(pipe->mode =3D=3D IA_CSS_PIPE_ID_CAPTURE ||
++		pipe->mode =3D=3D IA_CSS_PIPE_ID_COPY);
+
+CHECK: Alignment should match open parenthesis
+#954: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6577:
++	ia_css_frame_info_set_format(&vf_info,
++					IA_CSS_FRAME_FORMAT_YUV_LINE);
+
+WARNING: line over 80 characters
+#962: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6585:
++							&capture_pp_descr, &post_out_info, pipe_out_info, &vf_info);
+
+CHECK: Alignment should match open parenthesis
+#962: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6585:
++		ia_css_pipe_get_capturepp_binarydesc(pipe,
++							&capture_pp_descr, &post_out_info, pipe_out_info, &vf_info);
+
+WARNING: line over 80 characters
+#964: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6587:
++					    &pipe->pipe_settings.capture.capture_pp_binary);
+
+CHECK: Alignment should match open parenthesis
+#964: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6587:
++		err =3D ia_css_binary_find(&capture_pp_descr,
++					    &pipe->pipe_settings.capture.capture_pp_binary);
+
+WARNING: line over 80 characters
+#983: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6599:
++						    &post_gdc_descr, &post_in_info, &post_out_info, &vf_info);
+
+WARNING: line over 80 characters
+#985: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6601:
++					    &pipe->pipe_settings.capture.post_isp_binary);
+
+CHECK: Alignment should match open parenthesis
+#985: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6601:
++		err =3D ia_css_binary_find(&post_gdc_descr,
++					    &pipe->pipe_settings.capture.post_isp_binary);
+
+WARNING: line over 80 characters
+#1007: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6611:
++						&pipe->pipe_settings.capture.post_isp_binary.in_frame_info);
+
+CHECK: Alignment should match open parenthesis
+#1007: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6611:
++		ia_css_pipe_get_gdc_binarydesc(pipe, &gdc_descr, &gdc_in_info,
++						&pipe->pipe_settings.capture.post_isp_binary.in_frame_info);
+
+WARNING: line over 80 characters
+#1009: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6613:
++					    &pipe->pipe_settings.capture.anr_gdc_binary);
+
+CHECK: Alignment should match open parenthesis
+#1009: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6613:
++		err =3D ia_css_binary_find(&gdc_descr,
++					    &pipe->pipe_settings.capture.anr_gdc_binary);
+
+WARNING: line over 80 characters
+#1030: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6624:
++		ia_css_pipe_get_pre_gdc_binarydesc(pipe, &pre_gdc_descr, &pre_in_info,
+
+WARNING: line over 80 characters
+#1031: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6625:
++						    &pipe->pipe_settings.capture.anr_gdc_binary.in_frame_info);
+
+CHECK: Alignment should match open parenthesis
+#1031: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6625:
++		ia_css_pipe_get_pre_gdc_binarydesc(pipe, &pre_gdc_descr, &pre_in_info,
++						    &pipe->pipe_settings.capture.anr_gdc_binary.in_frame_info);
+
+WARNING: line over 80 characters
+#1033: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6627:
++					    &pipe->pipe_settings.capture.pre_isp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1033: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6627:
++		err =3D ia_css_binary_find(&pre_gdc_descr,
++					    &pipe->pipe_settings.capture.pre_isp_binary);
+
+WARNING: line over 80 characters
+#1052: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6637:
++		    &pipe->pipe_settings.capture.capture_pp_binary.vf_frame_info;
+
+WARNING: line over 80 characters
+#1074: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6647:
++						&vf_pp_descr, vf_pp_in_info, pipe_vf_out_info);
+
+WARNING: line over 80 characters
+#1076: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6649:
++					    &pipe->pipe_settings.capture.vf_pp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1076: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6649:
++		err =3D ia_css_binary_find(&vf_pp_descr,
++					    &pipe->pipe_settings.capture.vf_pp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1096: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6661:
++		load_copy_binary(pipe,
++				    &pipe->pipe_settings.capture.copy_binary,
+
+WARNING: line over 80 characters
+#1097: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6662:
++				    &pipe->pipe_settings.capture.pre_isp_binary);
+
+CHECK: Lines should not end with a '('
+#1111: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6667:
++static enum ia_css_err load_bayer_isp_binaries(
+
+ERROR: open brace '{' following function definitions go on the next line
+#1111: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6667:
++static enum ia_css_err load_bayer_isp_binaries(
++    struct ia_css_pipe *pipe) {
+
+WARNING: please, no spaces at the start of a line
+#1112: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6668:
++    struct ia_css_pipe *pipe) {$
+
+CHECK: Alignment should match open parenthesis
+#1129: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6676:
++	assert(pipe->mode =3D=3D IA_CSS_PIPE_ID_CAPTURE ||
++		pipe->mode =3D=3D IA_CSS_PIPE_ID_COPY);
+
+CHECK: Alignment should match open parenthesis
+#1146: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6687:
++	ia_css_pipe_get_pre_de_binarydesc(pipe, &pre_de_descr,
++					    &pre_isp_in_info,
+
+WARNING: line over 80 characters
+#1155: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6691:
++				    &pipe->pipe_settings.capture.pre_isp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1155: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6691:
++	err =3D ia_css_binary_find(&pre_de_descr,
++				    &pipe->pipe_settings.capture.pre_isp_binary);
+
+CHECK: Lines should not end with a '('
+#1165: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6696:
++static enum ia_css_err load_low_light_binaries(
+
+ERROR: open brace '{' following function definitions go on the next line
+#1165: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6696:
++static enum ia_css_err load_low_light_binaries(
++    struct ia_css_pipe *pipe) {
+
+WARNING: please, no spaces at the start of a line
+#1166: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6697:
++    struct ia_css_pipe *pipe) {$
+
+CHECK: Alignment should match open parenthesis
+#1181: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6709:
++	assert(pipe->mode =3D=3D IA_CSS_PIPE_ID_CAPTURE ||
++		pipe->mode =3D=3D IA_CSS_PIPE_ID_COPY);
+
+CHECK: Alignment should match open parenthesis
+#1218: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6724:
++	ia_css_frame_info_set_format(&vf_info,
++					IA_CSS_FRAME_FORMAT_YUV_LINE);
+
+WARNING: line over 80 characters
+#1229: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6732:
++							&capture_pp_descr, &post_out_info, pipe_out_info, &vf_info);
+
+CHECK: Alignment should match open parenthesis
+#1229: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6732:
++		ia_css_pipe_get_capturepp_binarydesc(pipe,
++							&capture_pp_descr, &post_out_info, pipe_out_info, &vf_info);
+
+WARNING: line over 80 characters
+#1231: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6734:
++					    &pipe->pipe_settings.capture.capture_pp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1231: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6734:
++		err =3D ia_css_binary_find(&capture_pp_descr,
++					    &pipe->pipe_settings.capture.capture_pp_binary);
+
+WARNING: line over 80 characters
+#1272: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6746:
++						    &post_anr_descr, &post_in_info, &post_out_info, &vf_info);
+
+WARNING: line over 80 characters
+#1274: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6748:
++					    &pipe->pipe_settings.capture.post_isp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1274: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6748:
++		err =3D ia_css_binary_find(&post_anr_descr,
++					    &pipe->pipe_settings.capture.post_isp_binary);
+
+WARNING: line over 80 characters
+#1296: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6758:
++						&pipe->pipe_settings.capture.post_isp_binary.in_frame_info);
+
+CHECK: Alignment should match open parenthesis
+#1296: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6758:
++		ia_css_pipe_get_anr_binarydesc(pipe, &anr_descr, &anr_in_info,
++						&pipe->pipe_settings.capture.post_isp_binary.in_frame_info);
+
+WARNING: line over 80 characters
+#1298: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6760:
++					    &pipe->pipe_settings.capture.anr_gdc_binary);
+
+CHECK: Alignment should match open parenthesis
+#1298: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6760:
++		err =3D ia_css_binary_find(&anr_descr,
++					    &pipe->pipe_settings.capture.anr_gdc_binary);
+
+WARNING: line over 80 characters
+#1321: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6771:
++		ia_css_pipe_get_pre_anr_binarydesc(pipe, &pre_anr_descr, &pre_in_info,
+
+WARNING: line over 80 characters
+#1322: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6772:
++						    &pipe->pipe_settings.capture.anr_gdc_binary.in_frame_info);
+
+CHECK: Alignment should match open parenthesis
+#1322: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6772:
++		ia_css_pipe_get_pre_anr_binarydesc(pipe, &pre_anr_descr, &pre_in_info,
++						    &pipe->pipe_settings.capture.anr_gdc_binary.in_frame_info);
+
+WARNING: line over 80 characters
+#1324: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6774:
++					    &pipe->pipe_settings.capture.pre_isp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1324: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6774:
++		err =3D ia_css_binary_find(&pre_anr_descr,
++					    &pipe->pipe_settings.capture.pre_isp_binary);
+
+WARNING: line over 80 characters
+#1342: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6784:
++		    &pipe->pipe_settings.capture.capture_pp_binary.vf_frame_info;
+
+WARNING: line over 80 characters
+#1361: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6794:
++						&vf_pp_descr, vf_pp_in_info, pipe_vf_out_info);
+
+WARNING: line over 80 characters
+#1363: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6796:
++					    &pipe->pipe_settings.capture.vf_pp_binary);
+
+CHECK: Alignment should match open parenthesis
+#1363: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6796:
++		err =3D ia_css_binary_find(&vf_pp_descr,
++					    &pipe->pipe_settings.capture.vf_pp_binary);
+
+WARNING: line over 80 characters
+#1382: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6808:
++					&pipe->pipe_settings.capture.copy_binary,
+
+CHECK: Alignment should match open parenthesis
+#1382: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6808:
++		err =3D load_copy_binary(pipe,
++					&pipe->pipe_settings.capture.copy_binary,
+
+WARNING: line over 80 characters
+#1383: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6809:
++					&pipe->pipe_settings.capture.pre_isp_binary);
+
+ERROR: open brace '{' following function definitions go on the next line
+#1392: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6814:
++static bool copy_on_sp(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#1398: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6818:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "copy_on_sp() enter:\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'copy_on_sp', this funct=
+ion's name, in a string
+#1398: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6818:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "copy_on_sp() enter:\n");
+
+WARNING: line over 80 characters
+#1407: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6824:
++	rval &=3D (pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE=
+_MODE_RAW);
+
+CHECK: Lines should not end with a '('
+#1425: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6833:
++static enum ia_css_err load_capture_binaries(
+
+ERROR: open brace '{' following function definitions go on the next line
+#1425: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6833:
++static enum ia_css_err load_capture_binaries(
++    struct ia_css_pipe *pipe) {
+
+WARNING: please, no spaces at the start of a line
+#1426: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6834:
++    struct ia_css_pipe *pipe) {$
+
+CHECK: Alignment should match open parenthesis
+#1437: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6841:
++	assert(pipe->mode =3D=3D IA_CSS_PIPE_ID_CAPTURE ||
++		pipe->mode =3D=3D IA_CSS_PIPE_ID_COPY);
+
+WARNING: Block comments use * on subsequent lines
+#1471: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6849:
++	/* in primary, advanced,low light or bayer,
++						the input format must be raw */
+
+WARNING: Block comments use a trailing */ on a separate line
+#1471: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6849:
++						the input format must be raw */
+
+WARNING: line over 80 characters
+#1473: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6851:
++	    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_A=
+DVANCED ||
+
+WARNING: line over 80 characters
+#1474: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6852:
++	    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_B=
+AYER ||
+
+WARNING: line over 80 characters
+#1475: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6853:
++	    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_L=
+OW_LIGHT;
+
+WARNING: line over 80 characters
+#1476: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6854:
++	err =3D ia_css_util_check_input(&pipe->stream->config, must_be_raw, false=
+);
+
+WARNING: line over 80 characters
+#1482: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6860:
++	    pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT_=
+BINARY_8) {
+
+CHECK: Lines should not end with a '('
+#1483: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6861:
++		ia_css_frame_info_init(
+
+WARNING: line over 80 characters
+#1503: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6876:
++			pipe->pipe_settings.capture.copy_binary.online =3D pipe->stream->config=
+.online;
+
+ERROR: open brace '{' following function definitions go on the next line
+#1551: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6901:
++static enum ia_css_err
++unload_capture_binaries(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#1573: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6907:
++	if ((!pipe) || ((pipe->mode !=3D IA_CSS_PIPE_ID_CAPTURE) && (pipe->mode !=
+=3D IA_CSS_PIPE_ID_COPY)))
+
+ERROR: that open brace { should be on the previous line
+#1573: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6907:
++	if ((!pipe) || ((pipe->mode !=3D IA_CSS_PIPE_ID_CAPTURE) && (pipe->mode !=
+=3D IA_CSS_PIPE_ID_COPY)))
++	{
+
+WARNING: line over 80 characters
+#1580: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6914:
++		ia_css_binary_unload(&pipe->pipe_settings.capture.primary_binary[i]);
+
+WARNING: line over 80 characters
+#1593: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6923:
++		ia_css_binary_unload(&pipe->pipe_settings.capture.yuv_scaler_binary[i]);
+
+ERROR: open brace '{' following function definitions go on the next line
+#1614: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6934:
++static bool
++need_downscaling(const struct ia_css_resolution in_res,
++		    const struct ia_css_resolution out_res) {
+
+CHECK: Alignment should match open parenthesis
+#1616: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6936:
++need_downscaling(const struct ia_css_resolution in_res,
++		    const struct ia_css_resolution out_res) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#1628: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6943:
++static bool
++need_yuv_scaler_stage(const struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#1652: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6958:
++		(pipe->output_info[0].format !=3D IA_CSS_FRAME_FORMAT_CSI_MIPI_LEGACY_YU=
+V420_8));
+
+CHECK: Lines should not end with a '('
+#1700: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6982:
++static enum ia_css_err ia_css_pipe_create_cas_scaler_desc_single_output(
+
+ERROR: open brace '{' following function definitions go on the next line
+#1700: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6982:
++static enum ia_css_err ia_css_pipe_create_cas_scaler_desc_single_output(
++    struct ia_css_frame_info *cas_scaler_in_info,
++    struct ia_css_frame_info *cas_scaler_out_info,
++    struct ia_css_frame_info *cas_scaler_vf_info,
++    struct ia_css_cas_binary_descr *descr) {
+
+WARNING: please, no spaces at the start of a line
+#1701: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6983:
++    struct ia_css_frame_info *cas_scaler_in_info,$
+
+WARNING: please, no spaces at the start of a line
+#1702: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6984:
++    struct ia_css_frame_info *cas_scaler_out_info,$
+
+WARNING: please, no spaces at the start of a line
+#1703: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6985:
++    struct ia_css_frame_info *cas_scaler_vf_info,$
+
+WARNING: please, no spaces at the start of a line
+#1704: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:6986:
++    struct ia_css_cas_binary_descr *descr) {$
+
+WARNING: line over 80 characters
+#1730: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7000:
++	/* We assume that this function is used only for single output port case.=
+ */
+
+CHECK: Alignment should match open parenthesis
+#1739: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7004:
++	hor_ds_factor =3D CEIL_DIV(cas_scaler_in_info->res.width,
++				    cas_scaler_out_info->res.width);
+
+CHECK: Alignment should match open parenthesis
+#1741: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7006:
++	ver_ds_factor =3D CEIL_DIV(cas_scaler_in_info->res.height,
++				    cas_scaler_out_info->res.height);
+
+WARNING: line over 80 characters
+#1742: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7007:
++	/* use the same horizontal and vertical downscaling factor for simplicity=
+ */
+
+WARNING: line over 80 characters
+#1816: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7016:
++	descr->in_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
+
+CHECK: Alignment should match open parenthesis
+#1817: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7017:
++	descr->in_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
++				    GFP_KERNEL);
+
+CHECK: Lines should not end with a '('
+#1822: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7022:
++	descr->internal_out_info =3D kmalloc(descr->num_stage * sizeof(
+
+WARNING: line over 80 characters
+#1823: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7023:
++						struct ia_css_frame_info), GFP_KERNEL);
+
+WARNING: line over 80 characters
+#1828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7028:
++	descr->out_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame=
+_info),
+
+CHECK: Alignment should match open parenthesis
+#1829: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7029:
++	descr->out_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame=
+_info),
++				    GFP_KERNEL);
+
+WARNING: line over 80 characters
+#1834: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7034:
++	descr->vf_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
+
+CHECK: Alignment should match open parenthesis
+#1835: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7035:
++	descr->vf_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
++				    GFP_KERNEL);
+
+WARNING: line over 80 characters
+#1840: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7040:
++	descr->is_output_stage =3D kmalloc(descr->num_stage * sizeof(bool), GFP_K=
+ERNEL);
+
+WARNING: line over 80 characters
+#1852: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7052:
++			if ((descr->num_output_stage > 1) && (i !=3D (descr->num_stage - 1))) {
+
+WARNING: line over 80 characters
+#1853: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7053:
++				descr->internal_out_info[i].res.width =3D cas_scaler_out_info->res.wid=
+th;
+
+WARNING: line over 80 characters
+#1854: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7054:
++				descr->internal_out_info[i].res.height =3D cas_scaler_out_info->res.he=
+ight;
+
+WARNING: line over 80 characters
+#1855: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7055:
++				descr->internal_out_info[i].padded_width =3D cas_scaler_out_info->padd=
+ed_width;
+
+WARNING: line over 80 characters
+#1868: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7062:
++			descr->out_info[i].res.width =3D cas_scaler_out_info->res.width;
+
+WARNING: line over 80 characters
+#1869: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7063:
++			descr->out_info[i].res.height =3D cas_scaler_out_info->res.height;
+
+WARNING: line over 80 characters
+#1870: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7064:
++			descr->out_info[i].padded_width =3D cas_scaler_out_info->padded_width;
+
+WARNING: line over 80 characters
+#1873: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7067:
++				descr->vf_info[i].res.width =3D cas_scaler_vf_info->res.width;
+
+WARNING: line over 80 characters
+#1874: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7068:
++				descr->vf_info[i].res.height =3D cas_scaler_vf_info->res.height;
+
+WARNING: line over 80 characters
+#1875: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7069:
++				descr->vf_info[i].padded_width =3D cas_scaler_vf_info->padded_width;
+
+WARNING: line over 80 characters
+#1876: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7070:
++				ia_css_frame_info_set_format(&descr->vf_info[i], IA_CSS_FRAME_FORMAT_Y=
+UV_LINE);
+
+WARNING: line over 80 characters
+#1891: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7078:
++			descr->internal_out_info[i].res.width =3D tmp_in_info.res.width /
+
+WARNING: line over 80 characters
+#1892: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7079:
++								max_scale_factor_per_stage;
+
+WARNING: line over 80 characters
+#1893: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7080:
++			descr->internal_out_info[i].res.height =3D tmp_in_info.res.height /
+
+WARNING: line over 80 characters
+#1895: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7082:
++			descr->internal_out_info[i].format =3D IA_CSS_FRAME_FORMAT_YUV420;
+
+WARNING: line over 80 characters
+#1897: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7084:
++						tmp_in_info.res.width / max_scale_factor_per_stage,
+
+CHECK: Alignment should match open parenthesis
+#1897: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7084:
++			ia_css_frame_info_init(&descr->internal_out_info[i],
++						tmp_in_info.res.width / max_scale_factor_per_stage,
+
+WARNING: line over 80 characters
+#1898: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7085:
++						tmp_in_info.res.height / max_scale_factor_per_stage,
+
+CHECK: Lines should not end with a '('
+#1929: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7102:
++static enum ia_css_err ia_css_pipe_create_cas_scaler_desc(
+
+ERROR: open brace '{' following function definitions go on the next line
+#1929: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7102:
++static enum ia_css_err ia_css_pipe_create_cas_scaler_desc(
++    struct ia_css_pipe *pipe,
++    struct ia_css_cas_binary_descr *descr) {
+
+WARNING: please, no spaces at the start of a line
+#1930: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7103:
++    struct ia_css_pipe *pipe,$
+
+WARNING: please, no spaces at the start of a line
+#1931: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7104:
++    struct ia_css_cas_binary_descr *descr) {$
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_create_cas_=
+scaler_desc', this function's name, in a string
+#1949: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7119:
++			    "ia_css_pipe_create_cas_scaler_desc() enter:\n");
+
+WARNING: line over 80 characters
+#1987: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7141:
++			hor_scale_factor[i] =3D CEIL_DIV(in_info.res.width, out_info[i]->res.wi=
+dth);
+
+WARNING: line over 80 characters
+#1988: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7142:
++			ver_scale_factor[i] =3D CEIL_DIV(in_info.res.height, out_info[i]->res.h=
+eight);
+
+WARNING: line over 80 characters
+#1989: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7143:
++			/* use the same horizontal and vertical scaling factor for simplicity */
+
+WARNING: line over 80 characters
+#2052: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7161:
++					sizeof(struct ia_css_frame_info), GFP_KERNEL);
+
+CHECK: Alignment should match open parenthesis
+#2052: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7161:
++	descr->in_info =3D kmalloc_array(descr->num_stage,
++					sizeof(struct ia_css_frame_info), GFP_KERNEL);
+
+CHECK: Lines should not end with a '('
+#2057: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7166:
++	descr->internal_out_info =3D kmalloc(descr->num_stage * sizeof(
+
+WARNING: line over 80 characters
+#2058: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7167:
++						struct ia_css_frame_info), GFP_KERNEL);
+
+WARNING: line over 80 characters
+#2063: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7172:
++	descr->out_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame=
+_info),
+
+CHECK: Alignment should match open parenthesis
+#2064: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7173:
++	descr->out_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame=
+_info),
++				    GFP_KERNEL);
+
+WARNING: line over 80 characters
+#2069: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7178:
++	descr->vf_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
+
+CHECK: Alignment should match open parenthesis
+#2070: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7179:
++	descr->vf_info =3D kmalloc(descr->num_stage * sizeof(struct ia_css_frame_=
+info),
++				    GFP_KERNEL);
+
+WARNING: line over 80 characters
+#2075: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7184:
++	descr->is_output_stage =3D kmalloc(descr->num_stage * sizeof(bool), GFP_K=
+ERNEL);
+
+WARNING: line over 80 characters
+#2090: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7193:
++				assert((out_info[i - 1]->res.width >=3D out_info[i]->res.width) &&
+
+WARNING: line over 80 characters
+#2091: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7194:
++					(out_info[i - 1]->res.height >=3D out_info[i]->res.height));
+
+CHECK: Alignment should match open parenthesis
+#2091: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7194:
++				assert((out_info[i - 1]->res.width >=3D out_info[i]->res.width) &&
++					(out_info[i - 1]->res.height >=3D out_info[i]->res.height));
+
+WARNING: line over 80 characters
+#2147: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7209:
++			if ((descr->num_output_stage > 1) && (i !=3D (descr->num_stage - 1))) {
+
+WARNING: line over 80 characters
+#2148: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7210:
++				descr->internal_out_info[i].res.width =3D out_info[j]->res.width;
+
+WARNING: line over 80 characters
+#2149: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7211:
++				descr->internal_out_info[i].res.height =3D out_info[j]->res.height;
+
+WARNING: line over 80 characters
+#2150: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7212:
++				descr->internal_out_info[i].padded_width =3D out_info[j]->padded_width;
+
+WARNING: line over 80 characters
+#2165: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7221:
++			descr->out_info[i].padded_width =3D out_info[j]->padded_width;
+
+WARNING: line over 80 characters
+#2168: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7224:
++				descr->vf_info[i].res.width =3D vf_out_info[j]->res.width;
+
+WARNING: line over 80 characters
+#2169: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7225:
++				descr->vf_info[i].res.height =3D vf_out_info[j]->res.height;
+
+WARNING: line over 80 characters
+#2170: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7226:
++				descr->vf_info[i].padded_width =3D vf_out_info[j]->padded_width;
+
+WARNING: line over 80 characters
+#2171: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7227:
++				ia_css_frame_info_set_format(&descr->vf_info[i], IA_CSS_FRAME_FORMAT_Y=
+UV_LINE);
+
+WARNING: line over 80 characters
+#2205: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7236:
++			descr->internal_out_info[i].res.width =3D tmp_in_info.res.width /
+
+WARNING: line over 80 characters
+#2206: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7237:
++								max_scale_factor_per_stage;
+
+WARNING: line over 80 characters
+#2207: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7238:
++			descr->internal_out_info[i].res.height =3D tmp_in_info.res.height /
+
+WARNING: line over 80 characters
+#2209: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7240:
++			descr->internal_out_info[i].format =3D IA_CSS_FRAME_FORMAT_YUV420;
+
+WARNING: line over 80 characters
+#2211: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7242:
++						tmp_in_info.res.width / max_scale_factor_per_stage,
+
+CHECK: Alignment should match open parenthesis
+#2211: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7242:
++			ia_css_frame_info_init(&descr->internal_out_info[i],
++						tmp_in_info.res.width / max_scale_factor_per_stage,
+
+WARNING: line over 80 characters
+#2212: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7243:
++						tmp_in_info.res.height / max_scale_factor_per_stage,
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_create_cas_=
+scaler_desc', this function's name, in a string
+#2223: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7254:
++			    "ia_css_pipe_create_cas_scaler_desc() leave, err=3D%d\n",
+
+ERROR: open brace '{' following function definitions go on the next line
+#2246: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7259:
++static void ia_css_pipe_destroy_cas_scaler_desc(struct ia_css_cas_binary_d=
+escr
++	*descr) {
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_destroy_cas=
+_scaler_desc', this function's name, in a string
+#2249: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7262:
++			    "ia_css_pipe_destroy_cas_scaler_desc() enter:\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_destroy_cas=
+_scaler_desc', this function's name, in a string
+#2261: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7274:
++			    "ia_css_pipe_destroy_cas_scaler_desc() leave\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#2268: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7277:
++static enum ia_css_err
++load_yuvpp_binaries(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#2299: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7296:
++	/* Set both must_be_raw and must_be_yuv to false then yuvpp can take rgb =
+inputs */
+
+ERROR: that open brace { should be on the previous line
+#2313: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7303:
++	for (i =3D 0; i < IA_CSS_PIPE_MAX_OUTPUT_STAGE; i++)
++	{
+
+WARNING: line over 80 characters
+#2316: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7306:
++			err =3D ia_css_util_check_vf_out_info(&pipe->output_info[i],
+
+WARNING: line over 80 characters
+#2317: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7307:
++							    &pipe->vf_output_info[i]);
+
+ERROR: that open brace { should be on the previous line
+#2388: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7318:
++	if (need_scaler)
++	{
+
+CHECK: Alignment should match open parenthesis
+#2443: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7323:
++		err =3D ia_css_pipe_create_cas_scaler_desc(pipe,
++			&cas_scaler_descr);
+
+WARNING: Prefer kcalloc over kzalloc with multiply
+#2448: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7328:
++		mycs->yuv_scaler_binary =3D kzalloc(cas_scaler_descr.num_stage *
++						    sizeof(struct ia_css_binary), GFP_KERNEL);
+
+WARNING: line over 80 characters
+#2449: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7329:
++						    sizeof(struct ia_css_binary), GFP_KERNEL);
+
+WARNING: line over 80 characters
+#2465: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7341:
++			mycs->is_output_stage[i] =3D cas_scaler_descr.is_output_stage[i];
+
+WARNING: line over 80 characters
+#2467: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7343:
++								&yuv_scaler_descr, &cas_scaler_descr.in_info[i],
+
+CHECK: Alignment should match open parenthesis
+#2467: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7343:
++			ia_css_pipe_get_yuvscaler_binarydesc(pipe,
++								&yuv_scaler_descr, &cas_scaler_descr.in_info[i],
+
+WARNING: line over 80 characters
+#2468: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7344:
++								&cas_scaler_descr.out_info[i],
+
+WARNING: line over 80 characters
+#2469: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7345:
++								&cas_scaler_descr.internal_out_info[i],
+
+WARNING: line over 80 characters
+#2470: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7346:
++								&cas_scaler_descr.vf_info[i]);
+
+WARNING: line over 80 characters
+#2472: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7348:
++						    &mycs->yuv_scaler_binary[i]);
+
+CHECK: Alignment should match open parenthesis
+#2472: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7348:
++			err =3D ia_css_binary_find(&yuv_scaler_descr,
++						    &mycs->yuv_scaler_binary[i]);
+
+ERROR: that open brace { should be on the previous line
+#2477: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7353:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#2477: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7353:
++	} else
+
+ERROR: that open brace { should be on the previous line
+#2484: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7358:
++	if (need_scaler)
++	{
+
+ERROR: that open brace { should be on the previous line
+#2487: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7361:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#2487: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7361:
++	} else
+
+WARNING: Block comments should align the * on each line
+#2505: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7368:
++	/*
++	    * NOTES
+
+WARNING: line over 80 characters
+#2506: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7369:
++	    * - Why does the "yuvpp" pipe needs "isp_copy_binary" (i.e. ISP Copy)=
+ when
+
+WARNING: line over 80 characters
+#2509: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7372:
++	    *   In most use cases, the first stage in the "yuvpp" pipe is the "yu=
+v_scale_
+
+WARNING: line over 80 characters
+#2510: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7373:
++	    *   binary". However, the "yuv_scale_binary" does NOT support the inp=
+ut-frame
+
+WARNING: line over 80 characters
+#2513: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7376:
++	    *   Hence, the "isp_copy_binary" is required to be present in front o=
+f the "yuv
+
+WARNING: line over 80 characters
+#2514: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7377:
++	    *   _scale_binary". It would translate the input-frame to the frame f=
+ormats that
+
+WARNING: line over 80 characters
+#2517: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7380:
++	    *   Please refer to "FrameWork/css/isp/pipes/capture_pp/capture_pp_1.=
+0/capture_
+
+WARNING: line over 80 characters
+#2518: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7381:
++	    *   pp_defs.h" for the list of input-frame formats that are supported=
+ by the
+
+WARNING: line over 80 characters
+#2522: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7385:
++	    (pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT=
+_YUV422_8);
+
+ERROR: that open brace { should be on the previous line
+#2527: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7390:
++	if (need_isp_copy_binary)
++	{
+
+CHECK: Alignment should match open parenthesis
+#2530: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7393:
++		err =3D load_copy_binary(pipe,
++					&mycs->copy_binary,
+
+WARNING: Block comments should align the * on each line
+#2541: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7400:
++		/*
++		    * NOTES
+
+WARNING: line over 80 characters
+#2542: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7401:
++		    * - Why is "pipe->pipe_settings.capture.copy_binary.online" specifie=
+d?
+
+WARNING: line over 80 characters
+#2544: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7403:
++		    *   In some use cases, the first stage in the "yuvpp" pipe is the
+
+WARNING: line over 80 characters
+#2545: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7404:
++		    *   "isp_copy_binary". The "isp_copy_binary" is designed to process
+
+WARNING: line over 80 characters
+#2546: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7405:
++		    *   the input from either the system DDR or from the IPU internal VM=
+EM.
+
+WARNING: line over 80 characters
+#2547: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7406:
++		    *   So it provides the flag "online" to specify where its input is f=
+rom,
+
+WARNING: line over 80 characters
+#2550: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7409:
++		    *      (1) "online <=3D true", the input is from the IPU internal VM=
+EM.
+
+WARNING: line over 80 characters
+#2551: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7410:
++		    *      (2) "online <=3D false", the input is from the system DDR.
+
+WARNING: line over 80 characters
+#2553: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7412:
++		    *   In other use cases, the first stage in the "yuvpp" pipe is the
+
+WARNING: line over 80 characters
+#2554: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7413:
++		    *   "yuv_scale_binary". "The "yuv_scale_binary" is designed to proce=
+ss the
+
+WARNING: line over 80 characters
+#2555: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7414:
++		    *   input ONLY from the system DDR. So it does not provide the flag =
+"online"
+
+WARNING: line over 80 characters
+#2558: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7417:
++		pipe->pipe_settings.capture.copy_binary.online =3D pipe->stream->config.=
+online;
+
+ERROR: that open brace { should be on the previous line
+#2562: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7421:
++	if (need_scaler)
++	{
+
+ERROR: that open brace { should be on the previous line
+#2576: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7432:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#2576: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7432:
++	} else
+
+WARNING: braces {} are not necessary for single statement blocks
+#2580: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7436:
++		for (i =3D 1; i < IA_CSS_PIPE_MAX_OUTPUT_STAGE; i++) {
++			vf_pp_in_info[i] =3D NULL;
++		}
+
+WARNING: line over 80 characters
+#2585: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7441:
++	mycs->vf_pp_binary =3D kzalloc(mycs->num_vf_pp * sizeof(struct ia_css_bin=
+ary),
+
+CHECK: Alignment should match open parenthesis
+#2586: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7442:
++	mycs->vf_pp_binary =3D kzalloc(mycs->num_vf_pp * sizeof(struct ia_css_bin=
+ary),
++					GFP_KERNEL);
+
+ERROR: that open brace { should be on the previous line
+#2587: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7443:
++	if (!mycs->vf_pp_binary)
++	{
+
+WARNING: line over 80 characters
+#2617: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7456:
++								&vf_pp_descr, vf_pp_in_info[i], &pipe->vf_output_info[i]);
+
+WARNING: line over 80 characters
+#2618: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7457:
++				err =3D ia_css_binary_find(&vf_pp_descr, &mycs->vf_pp_binary[i]);
+
+ERROR: that open brace { should be on the previous line
+#2637: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7468:
++	if (need_scaler)
++	{
+
+WARNING: line over 80 characters
+#2641: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7472:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "load_yuvpp_binaries() le=
+ave, err=3D%d\n",
+
+WARNING: Prefer using '"%s...", __func__' to using 'load_yuvpp_binaries', t=
+his function's name, in a string
+#2641: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7472:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "load_yuvpp_binaries() le=
+ave, err=3D%d\n",
+
+ERROR: open brace '{' following function definitions go on the next line
+#2651: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7477:
++static enum ia_css_err
++unload_yuvpp_binaries(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#2663: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7483:
++	if ((!pipe) || (pipe->mode !=3D IA_CSS_PIPE_ID_YUVPP))
++	{
+
+ERROR: that open brace { should be on the previous line
+#2669: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7489:
++	for (i =3D 0; i < pipe->pipe_settings.yuvpp.num_yuv_scaler; i++)
++	{
+
+WARNING: line over 80 characters
+#2671: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7491:
++		ia_css_binary_unload(&pipe->pipe_settings.yuvpp.yuv_scaler_binary[i]);
+
+ERROR: that open brace { should be on the previous line
+#2673: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7493:
++	for (i =3D 0; i < pipe->pipe_settings.yuvpp.num_vf_pp; i++)
++	{
+
+WARNING: line over 80 characters
+#2675: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7495:
++		ia_css_binary_unload(&pipe->pipe_settings.yuvpp.vf_pp_binary[i]);
+
+ERROR: open brace '{' following function definitions go on the next line
+#2690: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7508:
++static enum ia_css_err yuvpp_start(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#2724: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7528:
++#if !defined(HAS_NO_INPUT_SYSTEM) && (defined(USE_INPUT_SYSTEM_VERSION_2) =
+|| defined(USE_INPUT_SYSTEM_VERSION_2401))
+
+WARNING: line over 80 characters
+#2739: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7539:
++		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread=
+_id);
+
+ERROR: open brace '{' following function definitions go on the next line
+#2779: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7549:
++static enum ia_css_err
++sh_css_pipe_unload_binaries(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#2785: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7555:
++	if (!pipe)
++	{
+
+ERROR: that open brace { should be on the previous line
+#2791: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7561:
++	if (pipe->config.mode =3D=3D IA_CSS_PIPE_MODE_COPY)
++	{
+
+ERROR: that open brace { should be on the previous line
+#2797: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7567:
++	switch (pipe->mode)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#2821: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7588:
++static enum ia_css_err
++sh_css_pipe_load_binaries(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#2828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7593:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "sh_css_pipe_load_binarie=
+s() enter:\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_pipe_load_binari=
+es', this function's name, in a string
+#2828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7593:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "sh_css_pipe_load_binarie=
+s() enter:\n");
+
+ERROR: that open brace { should be on the previous line
+#2854: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7599:
++	switch (pipe->mode)
++	{
+
+ERROR: that open brace { should be on the previous line
+#2874: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7619:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+WARNING: line over 80 characters
+#2877: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7622:
++			/* currently css does not support multiple error returns in a single fu=
+nction,
+
+WARNING: Block comments use a trailing */ on a separate line
+#2878: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7623:
++			    * using IA_CSS_ERR_INTERNAL_ERROR in this case */
+
+WARNING: Block comments should align the * on each line
+#2878: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7623:
++			/* currently css does not support multiple error returns in a single fu=
+nction,
++			    * using IA_CSS_ERR_INTERNAL_ERROR in this case */
+
+ERROR: open brace '{' following function definitions go on the next line
+#2915: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7630:
++static enum ia_css_err
++create_host_yuvpp_pipeline(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#2964: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7658:
++	if ((!pipe) || (!pipe->stream) || (pipe->mode !=3D IA_CSS_PIPE_ID_YUVPP))
++	{
+
+ERROR: that open brace { should be on the previous line
+#2971: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7665:
++	for (i =3D 0; i < IA_CSS_PIPE_MAX_OUTPUT_STAGE; i++)
++	{
+
+WARNING: Block comments should align the * on each line
+#2995: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7677:
++	/* When the input system is 2401, always enable 'in_frameinfo_memory'
++	    * except for the following:
+
+WARNING: line over 80 characters
+#3001: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7683:
++	buffered_sensor =3D pipe->stream->config.mode =3D=3D IA_CSS_INPUT_MODE_BU=
+FFERED_SENSOR;
+
+WARNING: line over 80 characters
+#3005: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7687:
++	!((sensor && (online || continuous)) || (buffered_sensor && continuous));
+
+WARNING: line over 80 characters
+#3010: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7690:
++	need_in_frameinfo_memory =3D pipe->stream->config.mode =3D=3D IA_CSS_INPU=
+T_MODE_MEMORY;
+
+WARNING: Block comments should align the * on each line
+#3019: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7693:
++	/* the input frame can come from:
++	    *  a) memory: connect yuvscaler to me->in_frame
+
+WARNING: line over 80 characters
+#3020: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7694:
++	    *  b) sensor, via copy binary: connect yuvscaler to copy binary later=
+ on */
+
+WARNING: Block comments use a trailing */ on a separate line
+#3020: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7694:
++	    *  b) sensor, via copy binary: connect yuvscaler to copy binary later=
+ on */
+
+ERROR: that open brace { should be on the previous line
+#3021: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7695:
++	if (need_in_frameinfo_memory)
++	{
+
+WARNING: line over 80 characters
+#3026: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7700:
++		    * "pipe->stream->config.input_config.format" represents the sensor o=
+utput
+
+WARNING: Block comments should align the * on each line
+#3026: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7700:
++		/*
++		    * "pipe->stream->config.input_config.format" represents the sensor o=
+utput
+
+WARNING: line over 80 characters
+#3029: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7703:
++		    * "in_frame_format" represents the imaging pipe's input frame format=
+, e.g.
+
+WARNING: line over 80 characters
+#3036: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7710:
++			in_frame_format =3D IA_CSS_FRAME_FORMAT_CSI_MIPI_LEGACY_YUV420_8;
+
+WARNING: line over 80 characters
+#3074: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7714:
++			    * When the sensor output frame format is "ATOMISP_INPUT_FORMAT_YUV4=
+22_8",
+
+WARNING: line over 80 characters
+#3075: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7715:
++			    * the "isp_copy_var" binary is selected as the first stage in the y=
+uvpp
+
+WARNING: line over 80 characters
+#3078: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7718:
++			    * For the "isp_copy_var" binary, it reads the YUV422-8 pixels from
+
+WARNING: line over 80 characters
+#3079: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7719:
++			    * the frame buffer (at DDR) to the frame-line buffer (at VMEM).
+
+WARNING: line over 80 characters
+#3081: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7721:
++			    * By now, the "isp_copy_var" binary does NOT provide a separated
+
+WARNING: line over 80 characters
+#3082: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7722:
++			    * frame-line buffer to store the YUV422-8 pixels. Instead, it stores
+
+WARNING: line over 80 characters
+#3083: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7723:
++			    * the YUV422-8 pixels in the frame-line buffer which is designed to
+
+WARNING: line over 80 characters
+#3086: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7726:
++			    * To direct the "isp_copy_var" binary reading from the RAW frame-li=
+ne
+
+WARNING: line over 80 characters
+#3087: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7727:
++			    * buffer, its input frame format must be specified as "IA_CSS_FRAME_
+
+ERROR: that open brace { should be on the previous line
+#3108: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7745:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#3108: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7745:
++	} else
+
+ERROR: that open brace { should be on the previous line
+#3113: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7750:
++	for (i =3D 0; i < num_output_stage; i++)
++	{
+
+WARNING: line over 80 characters
+#3117: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7754:
++			err =3D init_out_frameinfo_defaults(pipe, &me->out_frame[i], i);
+
+WARNING: line over 80 characters
+#3152: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7764:
++			err =3D init_vf_frameinfo_defaults(pipe, &me->vf_frame[i], i);
+
+ERROR: that open brace { should be on the previous line
+#3173: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7778:
++	if (pipe->pipe_settings.yuvpp.copy_binary.info)
++	{
+
+WARNING: line over 80 characters
+#3191: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7789:
++			ia_css_pipe_util_set_output_frames(bin_out_frame, 0, NULL);
+
+WARNING: line over 80 characters
+#3192: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7790:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
+
+WARNING: line over 80 characters
+#3193: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7791:
++							    bin_out_frame, in_frame_local, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3193: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7791:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
++							    bin_out_frame, in_frame_local, NULL);
+
+WARNING: line over 80 characters
+#3195: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7793:
++			ia_css_pipe_util_set_output_frames(bin_out_frame, 0, out_frame[0]);
+
+WARNING: line over 80 characters
+#3196: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7794:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
+
+WARNING: line over 80 characters
+#3197: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7795:
++							    bin_out_frame, in_frame_local, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3197: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7795:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
++							    bin_out_frame, in_frame_local, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3201: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7799:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc,
+
+WARNING: line over 80 characters
+#3210: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7808:
++			/* if we use yuv scaler binary, vf output should be from there */
+
+WARNING: line over 80 characters
+#3214: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7812:
++			/* connect output of copy binary to input of yuv scaler */
+
+ERROR: that open brace { should be on the previous line
+#3219: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7817:
++	if (need_scaler)
++	{
+
+WARNING: line over 80 characters
+#3241: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7833:
++			err =3D add_yuv_scaler_stage(pipe, me, tmp_in_frame, tmp_out_frame,
+
+CHECK: Alignment should match open parenthesis
+#3242: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7834:
++			err =3D add_yuv_scaler_stage(pipe, me, tmp_in_frame, tmp_out_frame,
++						    NULL,
+
+WARNING: line over 80 characters
+#3261: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7845:
++				if (tmp_vf_frame && (tmp_vf_frame->info.res.width !=3D 0)) {
+
+WARNING: line over 80 characters
+#3262: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7846:
++					in_frame =3D yuv_scaler_stage->args.out_vf_frame;
+
+WARNING: line over 80 characters
+#3263: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7847:
++					err =3D add_vf_pp_stage(pipe, in_frame, tmp_vf_frame, &vf_pp_binary[j=
+],
+
+CHECK: Alignment should match open parenthesis
+#3264: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7848:
++					err =3D add_vf_pp_stage(pipe, in_frame, tmp_vf_frame, &vf_pp_binary[j=
+],
++								&vf_pp_stage);
+
+ERROR: that open brace { should be on the previous line
+#3274: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7858:
++	} else if (copy_stage)
++	{
+
+WARNING: line over 80 characters
+#3278: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7862:
++			err =3D add_vf_pp_stage(pipe, in_frame, vf_frame[0], &vf_pp_binary[0],
+
+CHECK: Alignment should match open parenthesis
+#3279: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7863:
++			err =3D add_vf_pp_stage(pipe, in_frame, vf_frame[0], &vf_pp_binary[0],
++						&vf_pp_stage);
+
+WARNING: line over 80 characters
+#3302: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7871:
++	ia_css_pipeline_finalize_stages(&pipe->pipeline, pipe->stream->config.con=
+tinuous);
+
+ERROR: open brace '{' following function definitions go on the next line
+#3346: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7878:
++static enum ia_css_err
++create_host_copy_pipeline(struct ia_css_pipe *pipe,
++			    unsigned int max_input_width,
++			    struct ia_css_frame *out_frame) {
+
+CHECK: Alignment should match open parenthesis
+#3348: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7880:
++create_host_copy_pipeline(struct ia_css_pipe *pipe,
++			    unsigned int max_input_width,
+
+WARNING: Prefer using '"%s...", __func__' to using 'create_host_copy_pipeli=
+ne', this function's name, in a string
+#3356: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7887:
++			    "create_host_copy_pipeline() enter:\n");
+
+ERROR: that open brace { should be on the previous line
+#3377: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7897:
++	if (copy_on_sp(pipe) &&
++	    pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT_=
+BINARY_8)
++	{
+
+WARNING: line over 80 characters
+#3378: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7898:
++	    pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT_=
+BINARY_8)
+
+CHECK: Lines should not end with a '('
+#3380: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7900:
++		ia_css_frame_info_init(
+
+ERROR: that open brace { should be on the previous line
+#3386: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7906:
++	} else if (out_frame->info.format =3D=3D IA_CSS_FRAME_FORMAT_RAW)
++	{
+
+WARNING: line over 80 characters
+#3403: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7917:
++					    IA_CSS_PIPELINE_RAW_COPY, max_input_width);
+
+CHECK: Alignment should match open parenthesis
+#3403: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7917:
++	ia_css_pipe_get_sp_func_stage_desc(&stage_desc, out_frame,
++					    IA_CSS_PIPELINE_RAW_COPY, max_input_width);
+
+CHECK: Alignment should match open parenthesis
+#3405: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7919:
++	err =3D ia_css_pipeline_create_and_add_stage(me,
++		&stage_desc,
+
+WARNING: line over 80 characters
+#3422: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7922:
++	ia_css_pipeline_finalize_stages(&pipe->pipeline, pipe->stream->config.con=
+tinuous);
+
+WARNING: Prefer using '"%s...", __func__' to using 'create_host_copy_pipeli=
+ne', this function's name, in a string
+#3428: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7925:
++			    "create_host_copy_pipeline() leave:\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#3439: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7930:
++static enum ia_css_err
++create_host_isyscopy_capture_pipeline(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#3448: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7939:
++	unsigned int max_input_width =3D MAX_VECTORS_PER_INPUT_LINE_CONT * ISP_VE=
+C_NELEMS;
+
+WARNING: Prefer using '"%s...", __func__' to using 'create_host_isyscopy_ca=
+pture_pipeline', this function's name, in a string
+#3453: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7942:
++			    "create_host_isyscopy_capture_pipeline() enter:\n");
+
+WARNING: line over 80 characters
+#3474: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7951:
++	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_=
+id);
+
+WARNING: line over 80 characters
+#3475: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7952:
++	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, thread_id=
+, &queue_id);
+
+WARNING: line over 80 characters
+#3486: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7960:
++					    IA_CSS_PIPELINE_ISYS_COPY, max_input_width);
+
+CHECK: Alignment should match open parenthesis
+#3486: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7960:
++	ia_css_pipe_get_sp_func_stage_desc(&stage_desc, out_frame,
++					    IA_CSS_PIPELINE_ISYS_COPY, max_input_width);
+
+CHECK: Alignment should match open parenthesis
+#3488: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7962:
++	err =3D ia_css_pipeline_create_and_add_stage(me,
++		&stage_desc, &out_stage);
+
+WARNING: Prefer using '"%s...", __func__' to using 'create_host_isyscopy_ca=
+pture_pipeline', this function's name, in a string
+#3516: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7969:
++			    "create_host_isyscopy_capture_pipeline() leave:\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#3525: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:7974:
++static enum ia_css_err
++create_host_regular_capture_pipeline(struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#3601: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8013:
++	assert(pipe->mode =3D=3D IA_CSS_PIPE_ID_CAPTURE || pipe->mode =3D=3D IA_C=
+SS_PIPE_ID_COPY);
+
+WARNING: Block comments should align the * on each line
+#3629: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8023:
++	/* When the input system is 2401, always enable 'in_frameinfo_memory'
++	    * except for the following:
+
+WARNING: line over 80 characters
+#3636: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8030:
++	buffered_sensor =3D (pipe->stream->config.mode =3D=3D IA_CSS_INPUT_MODE_B=
+UFFERED_SENSOR);
+
+WARNING: line over 80 characters
+#3640: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8034:
++	!((sensor && (online || continuous)) || (buffered_sensor && (online || co=
+ntinuous)));
+
+WARNING: line over 80 characters
+#3645: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8037:
++	need_in_frameinfo_memory =3D pipe->stream->config.mode =3D=3D IA_CSS_INPU=
+T_MODE_MEMORY;
+
+ERROR: that open brace { should be on the previous line
+#3665: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8039:
++	if (need_in_frameinfo_memory)
++	{
+
+WARNING: line over 80 characters
+#3668: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8042:
++							IA_CSS_FRAME_FORMAT_RAW);
+
+ERROR: that open brace { should be on the previous line
+#3688: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8049:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#3688: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8049:
++	} else
+
+ERROR: that open brace { should be on the previous line
+#3694: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8055:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#3702: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8063:
++	if (pipe->enable_viewfinder[IA_CSS_PIPE_OUTPUT_STAGE_0])
++	{
+
+WARNING: line over 80 characters
+#3704: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8065:
++		if (mode =3D=3D IA_CSS_CAPTURE_MODE_RAW || mode =3D=3D IA_CSS_CAPTURE_MO=
+DE_BAYER) {
+
+ERROR: that open brace { should be on the previous line
+#3711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8072:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#3711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8072:
++	} else
+
+ERROR: that open brace { should be on the previous line
+#3749: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8079:
++	if ((num_primary_stage =3D=3D 0) && (mode =3D=3D IA_CSS_CAPTURE_MODE_PRIM=
+ARY))
++	{
+
+ERROR: that open brace { should be on the previous line
+#3754: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8084:
++	for (i =3D 0; i < num_primary_stage; i++)
++	{
+
+WARNING: line over 80 characters
+#3756: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8086:
++		primary_binary[i] =3D &pipe->pipe_settings.capture.primary_binary[i];
+
+ERROR: that open brace { should be on the previous line
+#3774: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8104:
++	if (pipe->pipe_settings.capture.copy_binary.info)
++	{
+
+WARNING: line over 80 characters
+#3777: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8107:
++			ia_css_pipe_util_set_output_frames(out_frames, 0, out_frame);
+
+WARNING: line over 80 characters
+#3804: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8111:
++								    out_frames, in_frame, NULL);
+
+WARNING: line over 80 characters
+#3806: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8113:
++				in_frame =3D pipe->stream->last_pipe->continuous_frames[0];
+
+WARNING: line over 80 characters
+#3807: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8114:
++				ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
+
+WARNING: line over 80 characters
+#3808: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8115:
++								    out_frames, in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3808: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8115:
++				ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
++								    out_frames, in_frame, NULL);
+
+WARNING: line over 80 characters
+#3814: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8118:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
+
+WARNING: line over 80 characters
+#3815: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8119:
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3815: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8119:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
++							    out_frames, NULL, NULL);
+
+WARNING: line over 80 characters
+#3818: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8122:
++			ia_css_pipe_util_set_output_frames(out_frames, 0, in_frame);
+
+WARNING: line over 80 characters
+#3819: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8123:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
+
+WARNING: line over 80 characters
+#3820: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8124:
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3820: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8124:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, copy_binary,
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8128:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc,
+
+ERROR: that open brace { should be on the previous line
+#3834: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8134:
++	} else if (pipe->stream->config.continuous)
++	{
+
+ERROR: that open brace { should be on the previous line
+#3844: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8139:
++	if (mode =3D=3D IA_CSS_CAPTURE_MODE_PRIMARY)
++	{
+
+WARNING: line over 80 characters
+#3859: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8152:
++			if (!need_pp && (i =3D=3D num_primary_stage - 1) && !need_ldc)
+
+WARNING: line over 80 characters
+#3909: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8157:
++			ia_css_pipe_util_set_output_frames(out_frames, 0, local_out_frame);
+
+WARNING: line over 80 characters
+#3911: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8159:
++			    * WARNING: The #if def flag has been added below as a
+
+WARNING: Block comments should align the * on each line
+#3911: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8159:
++			/*
++			    * WARNING: The #if def flag has been added below as a
+
+WARNING: line over 80 characters
+#3912: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8160:
++			    * temporary solution to solve the problem of enabling the
+
+WARNING: line over 80 characters
+#3913: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8161:
++			    * view finder in a single binary in a capture flow. The
+
+WARNING: line over 80 characters
+#3914: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8162:
++			    * vf-pp stage has been removed from Skycam in the solution
+
+WARNING: line over 80 characters
+#3915: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8163:
++			    * provided. The vf-pp stage should be re-introduced when
+
+WARNING: line over 80 characters
+#3916: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8164:
++			    * required. This  * should not be considered as a clean solution.
+
+WARNING: line over 80 characters
+#3917: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8165:
++			    * Proper investigation should be done to come up with the clean
+
+WARNING: Block comments use a trailing */ on a separate line
+#3919: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8167:
++			    * */
+
+WARNING: line over 80 characters
+#3920: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8168:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, primary_binary[i],
+
+WARNING: line over 80 characters
+#3921: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8169:
++							    out_frames, local_in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3921: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8169:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, primary_binary[i],
++							    out_frames, local_in_frame, NULL);
+
+WARNING: Block comments use * on subsequent lines
+#3932: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8179:
++		/* If we use copy iso primary,
++		    the input must be yuv iso raw */
+
+WARNING: Block comments use a trailing */ on a separate line
+#3932: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8179:
++		    the input must be yuv iso raw */
+
+ERROR: that open brace { should be on the previous line
+#3937: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8184:
++	} else if (mode =3D=3D IA_CSS_CAPTURE_MODE_ADVANCED ||
++		    mode =3D=3D IA_CSS_CAPTURE_MODE_LOW_LIGHT)
++	{
+
+CHECK: Alignment should match open parenthesis
+#3942: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8189:
++		ia_css_pipe_get_generic_stage_desc(&stage_desc, pre_isp_binary,
++						    out_frames, in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3944: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8191:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3951: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8198:
++		ia_css_pipe_get_generic_stage_desc(&stage_desc, anr_gdc_binary,
++						    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3953: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8200:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc, NULL);
+
+WARNING: line over 80 characters
+#3979: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8208:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, post_isp_binary,
+
+WARNING: line over 80 characters
+#3980: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8209:
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3980: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8209:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, post_isp_binary,
++							    out_frames, NULL, NULL);
+
+WARNING: line over 80 characters
+#3992: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8212:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, post_isp_binary,
+
+WARNING: line over 80 characters
+#3993: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8213:
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3993: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8213:
++			ia_css_pipe_get_generic_stage_desc(&stage_desc, post_isp_binary,
++							    out_frames, NULL, NULL);
+
+CHECK: Alignment should match open parenthesis
+#3997: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8217:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc, &current_stage);
+
+ERROR: that open brace { should be on the previous line
+#4002: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8222:
++	} else if (mode =3D=3D IA_CSS_CAPTURE_MODE_BAYER)
++	{
+
+CHECK: Alignment should match open parenthesis
+#4006: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8226:
++		ia_css_pipe_get_generic_stage_desc(&stage_desc, pre_isp_binary,
++						    out_frames, in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#4008: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8228:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc,
+
+ERROR: that open brace { should be on the previous line
+#4020: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8237:
++	if (need_pp && current_stage)
++	{
+
+WARNING: line over 80 characters
+#4048: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8246:
++							    out_frames, local_in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#4060: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8253:
++		err =3D add_capture_pp_stage(pipe, me, local_in_frame,
++					    need_yuv_pp ? NULL : out_frame,
+
+ERROR: that open brace { should be on the previous line
+#4063: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8256:
++	if (need_ldc && current_stage)
++	{
+
+WARNING: line over 80 characters
+#4067: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8260:
++		ia_css_pipe_get_generic_stage_desc(&stage_desc, capture_ldc_binary,
+
+CHECK: Alignment should match open parenthesis
+#4068: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8261:
++		ia_css_pipe_get_generic_stage_desc(&stage_desc, capture_ldc_binary,
++						    out_frames, in_frame, NULL);
+
+CHECK: Alignment should match open parenthesis
+#4070: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8263:
++		err =3D ia_css_pipeline_create_and_add_stage(me,
++			&stage_desc,
+
+ERROR: that open brace { should be on the previous line
+#4072: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8265:
++	} else if (need_pp && current_stage)
++	{
+
+WARNING: line over 80 characters
+#4075: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8268:
++		err =3D add_capture_pp_stage(pipe, me, in_frame, need_yuv_pp ? NULL : ou=
+t_frame,
+
+CHECK: Alignment should match open parenthesis
+#4076: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8269:
++		err =3D add_capture_pp_stage(pipe, me, in_frame, need_yuv_pp ? NULL : ou=
+t_frame,
+ #endif
+
+ERROR: that open brace { should be on the previous line
+#4101: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8278:
++	if (need_yuv_pp && current_stage)
++	{
+
+WARNING: line over 80 characters
+#4103: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8280:
++		struct ia_css_frame *tmp_in_frame =3D current_stage->args.out_frame[0];
+
+CHECK: Using comparison to true is error prone
+#4119: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8284:
++			if (is_output_stage[i] =3D=3D true)
+
+WARNING: line over 80 characters
+#4138: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8289:
++			err =3D add_yuv_scaler_stage(pipe, me, tmp_in_frame, tmp_out_frame,
+
+CHECK: Alignment should match open parenthesis
+#4139: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8290:
++			err =3D add_yuv_scaler_stage(pipe, me, tmp_in_frame, tmp_out_frame,
++						    NULL,
+
+WARNING: Block comments should align the * on each line
+#4170: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8303:
++	/*
++	    * WARNING: The #if def flag has been added below as a
+
+WARNING: Block comments use a trailing */ on a separate line
+#4177: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8310:
++	    * */
+
+WARNING: line over 80 characters
+#4178: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8311:
++	if (mode !=3D IA_CSS_CAPTURE_MODE_RAW && mode !=3D IA_CSS_CAPTURE_MODE_BA=
+YER && current_stage && vf_frame)
+
+ERROR: that open brace { should be on the previous line
+#4178: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8311:
++	if (mode !=3D IA_CSS_CAPTURE_MODE_RAW && mode !=3D IA_CSS_CAPTURE_MODE_BA=
+YER && current_stage && vf_frame)
++	{
+
+CHECK: Alignment should match open parenthesis
+#4182: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8315:
++		err =3D add_vf_pp_stage(pipe, in_frame, vf_frame, vf_pp_binary,
++					&current_stage);
+
+WARNING: line over 80 characters
+#4188: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8321:
++	ia_css_pipeline_finalize_stages(&pipe->pipeline, pipe->stream->config.con=
+tinuous);
+
+WARNING: Prefer using '"%s...", __func__' to using 'create_host_regular_cap=
+ture_pipeline', this function's name, in a string
+#4192: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8324:
++			    "create_host_regular_capture_pipeline() leave:\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#4197: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8329:
++static enum ia_css_err
++create_host_capture_pipeline(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#4207: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8339:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+CHECK: Lines should not end with a '('
+#4223: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8350:
++static enum ia_css_err capture_start(
+
+ERROR: open brace '{' following function definitions go on the next line
+#4223: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8350:
++static enum ia_css_err capture_start(
++    struct ia_css_pipe *pipe) {
+
+WARNING: please, no spaces at the start of a line
+#4224: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8351:
++    struct ia_css_pipe *pipe) {$
+
+WARNING: line over 80 characters
+#4252: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8365:
++	if ((pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_=
+RAW   ||
+
+WARNING: line over 80 characters
+#4253: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8366:
++		pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_BAYE=
+R) &&
+
+CHECK: Alignment should match open parenthesis
+#4253: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8366:
++	if ((pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_=
+RAW   ||
++		pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_BAYE=
+R) &&
+
+WARNING: line over 80 characters
+#4298: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8396:
++		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread=
+_id);
+
+WARNING: line over 80 characters
+#4320: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8403:
++	    * old isys: for IA_CSS_PIPE_MODE_COPY pipe, isys rx has to be configu=
+red,
+
+WARNING: Block comments should align the * on each line
+#4320: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8403:
++	/*
++	    * old isys: for IA_CSS_PIPE_MODE_COPY pipe, isys rx has to be configu=
+red,
+
+WARNING: line over 80 characters
+#4321: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8404:
++	    * which is currently done in start_binary(); but COPY pipe contains n=
+o binary,
+
+WARNING: line over 80 characters
+#4322: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8405:
++	    * and does not call start_binary(); so we need to configure the rx he=
+re.
+
+CHECK: Alignment should match open parenthesis
+#4327: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8410:
++		ia_css_isys_rx_configure(&pipe->stream->csi_rx_config,
++					    pipe->stream->config.mode);
+
+ERROR: open brace '{' following function definitions go on the next line
+#4344: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8419:
++static enum ia_css_err
++sh_css_pipe_get_output_frame_info(struct ia_css_pipe *pipe,
++				    struct ia_css_frame_info *info,
++				    unsigned int idx) {
+
+CHECK: Alignment should match open parenthesis
+#4346: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8421:
++sh_css_pipe_get_output_frame_info(struct ia_css_pipe *pipe,
++				    struct ia_css_frame_info *info,
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_pipe_get_output_=
+frame_info', this function's name, in a string
+#4368: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8427:
++			    "sh_css_pipe_get_output_frame_info() enter:\n");
+
+ERROR: that open brace { should be on the previous line
+#4374: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8430:
++	if (copy_on_sp(pipe) &&
++	    pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT_=
+BINARY_8)
++	{
+
+WARNING: line over 80 characters
+#4375: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8431:
++	    pipe->stream->config.input_config.format =3D=3D ATOMISP_INPUT_FORMAT_=
+BINARY_8)
+
+CHECK: Lines should not end with a '('
+#4377: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8433:
++		ia_css_frame_info_init(
+
+ERROR: that open brace { should be on the previous line
+#4383: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8439:
++	} else if (info->format =3D=3D IA_CSS_FRAME_FORMAT_RAW ||
++		    info->format =3D=3D IA_CSS_FRAME_FORMAT_RAW_PACKED)
++	{
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_pipe_get_output_=
+frame_info', this function's name, in a string
+#4391: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8447:
++			    "sh_css_pipe_get_output_frame_info() leave:\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#4402: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8452:
++void
++ia_css_stream_send_input_frame(const struct ia_css_stream *stream,
++				const unsigned short *data,
++				unsigned int width,
++				unsigned int height) {
+
+CHECK: Alignment should match open parenthesis
+#4404: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8454:
++ia_css_stream_send_input_frame(const struct ia_css_stream *stream,
++				const unsigned short *data,
+
+CHECK: Lines should not end with a '('
+#4415: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8459:
++	ia_css_inputfifo_send_input_frame(
+
+ERROR: open brace '{' following function definitions go on the next line
+#4425: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8466:
++void
++ia_css_stream_start_input_frame(const struct ia_css_stream *stream) {
+
+CHECK: Lines should not end with a '('
+#4434: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8470:
++	ia_css_inputfifo_start_frame(
+
+ERROR: open brace '{' following function definitions go on the next line
+#4447: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8476:
++void
++ia_css_stream_send_input_line(const struct ia_css_stream *stream,
++				const unsigned short *data,
++				unsigned int width,
++				const unsigned short *data2,
++				unsigned int width2) {
+
+CHECK: Alignment should match open parenthesis
+#4449: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8478:
++ia_css_stream_send_input_line(const struct ia_css_stream *stream,
++				const unsigned short *data,
+
+CHECK: Alignment should match open parenthesis
+#4459: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8485:
++	ia_css_inputfifo_send_line(stream->config.channel_id,
++				    data, width, data2, width2);
+
+ERROR: open brace '{' following function definitions go on the next line
+#4473: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8488:
++void
++ia_css_stream_send_input_embedded_line(const struct ia_css_stream *stream,
++					enum atomisp_input_format format,
++					const unsigned short *data,
++					unsigned int width) {
+
+CHECK: Alignment should match open parenthesis
+#4475: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8490:
++ia_css_stream_send_input_embedded_line(const struct ia_css_stream *stream,
++					enum atomisp_input_format format,
+
+ERROR: open brace '{' following function definitions go on the next line
+#4488: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8500:
++void
++ia_css_stream_end_input_frame(const struct ia_css_stream *stream) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#4510: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8508:
++static void
++append_firmware(struct ia_css_fw_info **l, struct ia_css_fw_info *firmware=
+) {
+
+WARNING: line over 80 characters
+#4521: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8519:
++	/*firmware->next =3D NULL;*/ /* when multiple acc extensions are loaded, =
+'next' can be not NULL */
+
+ERROR: open brace '{' following function definitions go on the next line
+#4525: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8523:
++static void
++remove_firmware(struct ia_css_fw_info **l, struct ia_css_fw_info *firmware=
+) {
+
+WARNING: line over 80 characters
+#4531: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8529:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "remove_firmware() enter:=
+\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'remove_firmware', this =
+function's name, in a string
+#4531: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8529:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "remove_firmware() enter:=
+\n");
+
+WARNING: line over 80 characters
+#4533: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8531:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "remove_firmware() leave:=
+\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'remove_firmware', this =
+function's name, in a string
+#4533: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8531:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "remove_firmware() leave:=
+\n");
+
+WARNING: line over 80 characters
+#4534: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8532:
++	return; /* removing single and multiple firmware is handled in acc_unload=
+_extension() */
+
+ERROR: open brace '{' following function definitions go on the next line
+#4544: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8535:
++static enum ia_css_err upload_isp_code(struct ia_css_fw_info *firmware) {
+
+CHECK: Lines should not end with a '('
+#4568: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8550:
++		    (const unsigned char *)(IA_CSS_EXT_ISP_PROG_NAME(
+
+ERROR: open brace '{' following function definitions go on the next line
+#4595: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8564:
++static enum ia_css_err
++acc_load_extension(struct ia_css_fw_info *firmware) {
+
+ERROR: that open brace { should be on the previous line
+#4603: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8569:
++	while (hd)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#4628: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8583:
++static void
++acc_unload_extension(struct ia_css_fw_info *firmware) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#4675: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8606:
++static enum ia_css_err
++ia_css_pipe_load_extension(struct ia_css_pipe *pipe,
++			    struct ia_css_fw_info *firmware) {
+
+CHECK: Alignment should match open parenthesis
+#4677: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8608:
++ia_css_pipe_load_extension(struct ia_css_pipe *pipe,
++			    struct ia_css_fw_info *firmware) {
+
+ERROR: that open brace { should be on the previous line
+#4688: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8613:
++	if ((!firmware) || (!pipe))
++	{
+
+ERROR: that open brace { should be on the previous line
+#4698: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8619:
++	if (firmware->info.isp.type =3D=3D IA_CSS_ACC_OUTPUT)
++	{
+
+CHECK: braces {} should be used on all arms of this statement
+#4700: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8621:
++		if (&pipe->output_stage)
+[...]
++		else {
+[...]
+
+CHECK: Unbalanced braces around else statement
+#4702: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8623:
++		else {
+
+ERROR: that open brace { should be on the previous line
+#4723: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8627:
++	} else if (firmware->info.isp.type =3D=3D IA_CSS_ACC_VIEWFINDER)
++	{
+
+CHECK: braces {} should be used on all arms of this statement
+#4725: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8629:
++		if (&pipe->vf_stage)
+[...]
++		else {
+[...]
+
+CHECK: Unbalanced braces around else statement
+#4727: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8631:
++		else {
+
+ERROR: open brace '{' following function definitions go on the next line
+#4759: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8643:
++static void
++ia_css_pipe_unload_extension(struct ia_css_pipe *pipe,
++				struct ia_css_fw_info *firmware) {
+
+CHECK: Alignment should match open parenthesis
+#4761: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8645:
++ia_css_pipe_unload_extension(struct ia_css_pipe *pipe,
++				struct ia_css_fw_info *firmware) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#4796: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8663:
++bool
++ia_css_pipeline_uses_params(struct ia_css_pipeline *me) {
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipeline_uses_pa=
+rams', this function's name, in a string
+#4811: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8670:
++			    "ia_css_pipeline_uses_params() enter: me=3D%p\n", me);
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipeline_uses_pa=
+rams', this function's name, in a string
+#4819: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8675:
++					    "ia_css_pipeline_uses_params() leave: return_bool=3Dtrue\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipeline_uses_pa=
+rams', this function's name, in a string
+#4823: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8679:
++			    "ia_css_pipeline_uses_params() leave: return_bool=3Dfalse\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#4830: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8683:
++static enum ia_css_err
++sh_css_pipeline_add_acc_stage(struct ia_css_pipeline *pipeline,
++				const void *acc_fw) {
+
+CHECK: Alignment should match open parenthesis
+#4832: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8685:
++sh_css_pipeline_add_acc_stage(struct ia_css_pipeline *pipeline,
++				const void *acc_fw) {
+
+CHECK: Using comparison to false is error prone
+#4842: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8690:
++	if (fw->loaded =3D=3D false)
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_pipeline_add_acc=
+_stage', this function's name, in a string
+#4850: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8694:
++			    "sh_css_pipeline_add_acc_stage() enter: pipeline=3D%p, acc_fw=3D%p\=
+n",
+
+ERROR: that open brace { should be on the previous line
+#4862: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8697:
++	if (err =3D=3D IA_CSS_SUCCESS)
++	{
+
+CHECK: Alignment should match open parenthesis
+#4870: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8703:
++		err =3D ia_css_pipeline_create_and_add_stage(pipeline,
++			&stage_desc,
+
+WARNING: line over 80 characters
+#4880: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8708:
++			    "sh_css_pipeline_add_acc_stage() leave: return_err=3D%d\n", err);
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_pipeline_add_acc=
+_stage', this function's name, in a string
+#4880: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8708:
++			    "sh_css_pipeline_add_acc_stage() leave: return_err=3D%d\n", err);
+
+WARNING: Block comments should align the * on each line
+#4890: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8713:
++/*
++    * @brief Tag a specific frame in continuous capture.
+
+ERROR: open brace '{' following function definitions go on the next line
+#4893: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8716:
++enum ia_css_err ia_css_stream_capture_frame(struct ia_css_stream *stream,
++	unsigned int exp_id) {
+
+CHECK: Alignment should match open parenthesis
+#4894: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8717:
++enum ia_css_err ia_css_stream_capture_frame(struct ia_css_stream *stream,
++	unsigned int exp_id) {
+
+WARNING: Block comments should align the * on each line
+#4956: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8742:
++	/* Enqueue the encoded tag to the host2sp queue.
++	    * Note: The pipe and stage IDs for tag_cmd queue are hard-coded to 0
+
+WARNING: line over 80 characters
+#4958: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8744:
++	    * It is mainly because it is enough to have only one tag_cmd queue */
+
+WARNING: Block comments use a trailing */ on a separate line
+#4958: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8744:
++	    * It is mainly because it is enough to have only one tag_cmd queue */
+
+WARNING: Block comments should align the * on each line
+#4970: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8752:
++/*
++    * @brief Configure the continuous capture.
+
+CHECK: Lines should not end with a '('
+#4973: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8755:
++enum ia_css_err ia_css_stream_capture(
+
+ERROR: open brace '{' following function definitions go on the next line
+#4973: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8755:
++enum ia_css_err ia_css_stream_capture(
++    struct ia_css_stream *stream,
++    int num_captures,
++    unsigned int skip,
++    int offset) {
+
+WARNING: please, no spaces at the start of a line
+#4974: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8756:
++    struct ia_css_stream *stream,$
+
+WARNING: please, no spaces at the start of a line
+#4975: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8757:
++    int num_captures,$
+
+WARNING: please, no spaces at the start of a line
+#4976: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8758:
++    unsigned int skip,$
+
+WARNING: please, no spaces at the start of a line
+#4977: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8759:
++    int offset) {$
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_capture',=
+ this function's name, in a string
+#4997: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8768:
++			    "ia_css_stream_capture() enter: num_captures=3D%d, skip=3D%d, offse=
+t=3D%d\n",
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_capture',=
+ this function's name, in a string
+#5024: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8788:
++				    "ia_css_stream_capture() leaving:queues unavailable\n");
+
+WARNING: Block comments should align the * on each line
+#5029: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8793:
++	/* Enqueue the encoded tag to the host2sp queue.
++	    * Note: The pipe and stage IDs for tag_cmd queue are hard-coded to 0
+
+WARNING: line over 80 characters
+#5031: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8795:
++	    * It is mainly because it is enough to have only one tag_cmd queue */
+
+WARNING: Block comments use a trailing */ on a separate line
+#5031: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8795:
++	    * It is mainly because it is enough to have only one tag_cmd queue */
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_capture',=
+ this function's name, in a string
+#5035: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8799:
++			    "ia_css_stream_capture() leave: return_err=3D%d\n",
+
+ERROR: open brace '{' following function definitions go on the next line
+#5041: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8805:
++void ia_css_stream_request_flash(struct ia_css_stream *stream) {
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_request_f=
+lash', this function's name, in a string
+#5046: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8810:
++			    "ia_css_stream_request_flash() enter: void\n");
+
+CHECK: braces {} should be used on all arms of this statement
+#5060: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8815:
++	if (sh_css_sp_is_running()) {
+[...]
++	} else
+[...]
+
+WARNING: line over 80 characters
+#5062: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8817:
++			IA_CSS_ERROR("Call to 'sh-css_write_host2sp_command()' failed");
+
+CHECK: Unbalanced braces around else statement
+#5066: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8821:
++	} else
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_request_f=
+lash', this function's name, in a string
+#5074: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8826:
++			    "ia_css_stream_request_flash() leave: return_void\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#5081: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8829:
++static void
++sh_css_init_host_sp_control_vars(void) {
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_init_host_sp_con=
+trol_vars', this function's name, in a string
+#5111: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8849:
++			    "sh_css_init_host_sp_control_vars() enter: void\n");
+
+WARNING: line over 80 characters
+#5125: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8857:
++	HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb =3D fw->info.sp.invalidate_tl=
+b;
+
+WARNING: line over 80 characters
+#5134: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8863:
++	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppres warnings in CRU=
+N */
+
+WARNING: line over 80 characters
+#5163: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8873:
++				(unsigned int)sp_address_of(ia_css_ispctrl_sp_isp_started),
+
+CHECK: Alignment should match open parenthesis
+#5163: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8873:
++	sp_dmem_store_uint32(SP0_ID,
++				(unsigned int)sp_address_of(ia_css_ispctrl_sp_isp_started),
+
+WARNING: line over 80 characters
+#5167: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8877:
++				(unsigned int)sp_address_of(host_sp_queues_initialized),
+
+CHECK: Alignment should match open parenthesis
+#5167: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8877:
++	sp_dmem_store_uint32(SP0_ID,
++				(unsigned int)sp_address_of(host_sp_queues_initialized),
+
+CHECK: Alignment should match open parenthesis
+#5170: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8880:
++	sp_dmem_store_uint32(SP0_ID,
++				(unsigned int)sp_address_of(sp_sleep_mode),
+
+WARNING: line over 80 characters
+#5173: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8883:
++				(unsigned int)sp_address_of(ia_css_dmaproxy_sp_invalidate_tlb),
+
+CHECK: Alignment should match open parenthesis
+#5173: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8883:
++	sp_dmem_store_uint32(SP0_ID,
++				(unsigned int)sp_address_of(ia_css_dmaproxy_sp_invalidate_tlb),
+
+WARNING: line over 80 characters
+#5180: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8887:
++				(unsigned int)sp_address_of(sp_stop_copy_preview),
+
+CHECK: Alignment should match open parenthesis
+#5180: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8887:
++	sp_dmem_store_uint32(SP0_ID,
++				(unsigned int)sp_address_of(sp_stop_copy_preview),
+
+WARNING: line over 80 characters
+#5181: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8888:
++				my_css.stop_copy_preview ? (uint32_t)(1) : (uint32_t)(0));
+
+WARNING: Prefer using '"%s...", __func__' to using 'sh_css_init_host_sp_con=
+trol_vars', this function's name, in a string
+#5200: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8900:
++			    "sh_css_init_host_sp_control_vars() leave: return_void\n");
+
+WARNING: Block comments should align the * on each line
+#5204: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8904:
++/*
++    * create the internal structures and fill in the configuration data
+
+ERROR: open brace '{' following function definitions go on the next line
+#5206: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8906:
++void ia_css_pipe_config_defaults(struct ia_css_pipe_config *pipe_config) {
+
+WARNING: line over 80 characters
+#5207: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8907:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_pipe_config_defaults()\n"=
+);
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_config_defa=
+ults', this function's name, in a string
+#5207: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8907:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_pipe_config_defaults()\n"=
+);
+
+ERROR: open brace '{' following function definitions go on the next line
+#5211: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8911:
++void
++ia_css_pipe_extra_config_defaults(struct ia_css_pipe_extra_config
++				    *extra_config) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#5278: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8928:
++void ia_css_stream_config_defaults(struct ia_css_stream_config *stream_con=
+fig) {
+
+WARNING: line over 80 characters
+#5279: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8929:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_config_defaults()\=
+n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_config_de=
+faults', this function's name, in a string
+#5279: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8929:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_config_defaults()\=
+n");
+
+WARNING: Block comments should align the * on each line
+#5286: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8936:
++	/* temporary default value for backwards compatibility.
++	    * This field used to be hardcoded within CSS but this has now
+
+WARNING: Block comments use a trailing */ on a separate line
+#5287: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8937:
++	    * been moved to the stream_config struct. */
+
+ERROR: open brace '{' following function definitions go on the next line
+#5291: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8941:
++static enum ia_css_err
++ia_css_acc_pipe_create(struct ia_css_pipe *pipe) {
+
+ERROR: that open brace { should be on the previous line
+#5295: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8945:
++	if (!pipe)
++	{
+
+WARNING: line over 80 characters
+#5305: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8951:
++	/* There is not meaning for num_execs =3D 0 semantically. Run atleast onc=
+e. */
+
+ERROR: that open brace { should be on the previous line
+#5310: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8955:
++	if (pipe->config.acc_extension)
++	{
+
+WARNING: line over 80 characters
+#5312: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8957:
++		err =3D ia_css_pipe_load_extension(pipe, pipe->config.acc_extension);
+
+ERROR: open brace '{' following function definitions go on the next line
+#5321: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8963:
++enum ia_css_err
++ia_css_pipe_create(const struct ia_css_pipe_config *config,
++		    struct ia_css_pipe **pipe) {
+
+CHECK: Alignment should match open parenthesis
+#5323: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8965:
++ia_css_pipe_create(const struct ia_css_pipe_config *config,
++		    struct ia_css_pipe **pipe) {
+
+ERROR: that open brace { should be on the previous line
+#5337: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8973:
++	if (!config)
++	{
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#5352: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8982:
++}
++if (!pipe)
+
+ERROR: that open brace { should be on the previous line
+#5352: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8982:
++if (!pipe)
++{
+
+ERROR: that open brace { should be on the previous line
+#5372: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:8994:
++if (err =3D=3D IA_CSS_SUCCESS)
++{
+
+ERROR: open brace '{' following function definitions go on the next line
+#5393: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9005:
++enum ia_css_err
++ia_css_pipe_create_extra(const struct ia_css_pipe_config *config,
++			    const struct ia_css_pipe_extra_config *extra_config,
++			    struct ia_css_pipe **pipe) {
+
+CHECK: Alignment should match open parenthesis
+#5395: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9007:
++ia_css_pipe_create_extra(const struct ia_css_pipe_config *config,
++			    const struct ia_css_pipe_extra_config *extra_config,
+
+WARNING: line over 80 characters
+#5402: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9013:
++	IA_CSS_ENTER_PRIVATE("config =3D %p, extra_config =3D %p and pipe =3D %p"=
+, config, extra_config, pipe);
+
+ERROR: that open brace { should be on the previous line
+#5411: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9016:
++	if (my_css.pipe_counter >=3D IA_CSS_PIPELINE_NUM_MAX)
++	{
+
+ERROR: that open brace { should be on the previous line
+#5422: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9022:
++	if ((!pipe) || (!config))
++	{
+
+ERROR: that open brace { should be on the previous line
+#5440: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9032:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#5473: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9045:
++	if (config->mode =3D=3D IA_CSS_PIPE_MODE_ACC)
++	{
+
+WARNING: Block comments should align the * on each line
+#5476: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9048:
++		/* Temporary hack to migrate acceleration to CSS 2.0.
++		    * In the future the code for all pipe types should be
+
+WARNING: Block comments use a trailing */ on a separate line
+#5477: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9049:
++		    * unified. */
+
+WARNING: line over 80 characters
+#5505: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9061:
++	/* Use config value when dvs_frame_delay setting equal to 2, otherwise al=
+ways 1 by default */
+
+WARNING: line over 80 characters
+#5537: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9067:
++	/* we still keep enable_raw_binning for backward compatibility, for any n=
+ew
+
+WARNING: line over 80 characters
+#5538: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9068:
++	    fractional bayer downscaling, we should use bayer_ds_out_res. if both=
+ are
+
+WARNING: Block comments use * on subsequent lines
+#5538: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9068:
++	/* we still keep enable_raw_binning for backward compatibility, for any n=
+ew
++	    fractional bayer downscaling, we should use bayer_ds_out_res. if both=
+ are
+
+WARNING: line over 80 characters
+#5539: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9069:
++	    specified, bayer_ds_out_res will take precedence.if none is specified=
+, we
+
+WARNING: line over 80 characters
+#5540: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9070:
++	    set bayer_ds_out_res equal to IF output resolution(IF may do cropping=
+ on
+
+WARNING: Block comments use a trailing */ on a separate line
+#5541: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9071:
++	    sensor output) or use default decimation factor 1. */
+
+ERROR: that open brace { should be on the previous line
+#5542: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9072:
++	if (internal_pipe->extra_config.enable_raw_binning &&
++	    internal_pipe->config.bayer_ds_out_res.width)
++	{
+
+WARNING: line over 80 characters
+#5545: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9075:
++		/* fill some code here, if no code is needed, please remove it during in=
+tegration */
+
+ERROR: that open brace { should be on the previous line
+#5549: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9079:
++	if ((internal_pipe->config.vf_pp_in_res.width ||
++		internal_pipe->config.capt_pp_in_res.width))
++	{
+
+CHECK: Alignment should match open parenthesis
+#5550: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9080:
++	if ((internal_pipe->config.vf_pp_in_res.width ||
++		internal_pipe->config.capt_pp_in_res.width))
+
+ERROR: that open brace { should be on the previous line
+#5616: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9101:
++	if (internal_pipe->config.vf_pp_in_res.width &&
++	    internal_pipe->config.mode =3D=3D IA_CSS_PIPE_MODE_PREVIEW)
++	{
+
+CHECK: Lines should not end with a '('
+#5619: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9104:
++		ia_css_frame_info_init(
+
+ERROR: that open brace { should be on the previous line
+#5626: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9111:
++	if (internal_pipe->config.bayer_ds_out_res.width)
++	{
+
+CHECK: Lines should not end with a '('
+#5628: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9113:
++		ia_css_frame_info_init(
+
+ERROR: that open brace { should be on the previous line
+#5636: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9121:
++	for (i =3D 0; i < IA_CSS_PIPE_MAX_OUTPUT_STAGE; i++)
++	{
+
+CHECK: Lines should not end with a '('
+#5639: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9124:
++			err =3D sh_css_pipe_configure_output(
+
+WARNING: line over 80 characters
+#5641: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9126:
++				    internal_pipe->config.output_info[i].res.width,
+
+WARNING: line over 80 characters
+#5642: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9127:
++				    internal_pipe->config.output_info[i].res.height,
+
+WARNING: line over 80 characters
+#5643: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9128:
++				    internal_pipe->config.output_info[i].padded_width,
+
+CHECK: Lines should not end with a '('
+#5662: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9143:
++			err =3D sh_css_pipe_configure_viewfinder(
+
+WARNING: line over 80 characters
+#5664: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9145:
++				    internal_pipe->config.vf_output_info[i].res.width,
+
+WARNING: line over 80 characters
+#5665: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9146:
++				    internal_pipe->config.vf_output_info[i].res.height,
+
+WARNING: line over 80 characters
+#5666: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9147:
++				    internal_pipe->config.vf_output_info[i].padded_width,
+
+WARNING: line over 80 characters
+#5667: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9148:
++				    internal_pipe->config.vf_output_info[i].format,
+
+ERROR: that open brace { should be on the previous line
+#5702: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9158:
++	if (internal_pipe->config.acc_extension)
++	{
+
+WARNING: line over 80 characters
+#5705: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9161:
++						    internal_pipe->config.acc_extension);
+
+CHECK: Alignment should match open parenthesis
+#5705: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9161:
++		err =3D ia_css_pipe_load_extension(internal_pipe,
++						    internal_pipe->config.acc_extension);
+
+ERROR: open brace '{' following function definitions go on the next line
+#5733: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9177:
++enum ia_css_err
++ia_css_pipe_get_info(const struct ia_css_pipe *pipe,
++			struct ia_css_pipe_info *pipe_info) {
+
+CHECK: Alignment should match open parenthesis
+#5735: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9179:
++ia_css_pipe_get_info(const struct ia_css_pipe *pipe,
++			struct ia_css_pipe_info *pipe_info) {
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_get_info', =
+this function's name, in a string
+#5737: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9181:
++			    "ia_css_pipe_get_info()\n");
+
+ERROR: that open brace { should be on the previous line
+#5739: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9183:
++	if (!pipe_info)
++	{
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_get_info', =
+this function's name, in a string
+#5742: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9186:
++				    "ia_css_pipe_get_info: pipe_info cannot be NULL\n");
+
+ERROR: that open brace { should be on the previous line
+#5745: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9189:
++	if (!pipe || !pipe->stream)
++	{
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_get_info', =
+this function's name, in a string
+#5748: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9192:
++				    "ia_css_pipe_get_info: ia_css_stream_create needs to be called bef=
+ore ia_css_[stream/pipe]_get_info\n");
+
+WARNING: line over 80 characters
+#5753: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9197:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_pipe_get_info() leave\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_pipe_get_info', =
+this function's name, in a string
+#5753: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9197:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_pipe_get_info() leave\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#5758: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9201:
++bool ia_css_pipe_has_dvs_stats(struct ia_css_pipe_info *pipe_info) {
+
+WARNING: line over 80 characters
+#5763: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9206:
++			if (pipe_info->grid_info.dvs_grid.dvs_stat_grid_info.grd_cfg[i].grd_sta=
+rt.enable)
+
+ERROR: open brace '{' following function definitions go on the next line
+#5778: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9214:
++enum ia_css_err
++ia_css_pipe_override_frame_format(struct ia_css_pipe *pipe,
++				    int pin_index,
++				    enum ia_css_frame_format new_format) {
+
+CHECK: Alignment should match open parenthesis
+#5780: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9216:
++ia_css_pipe_override_frame_format(struct ia_css_pipe *pipe,
++				    int pin_index,
+
+WARNING: line over 80 characters
+#5815: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9220:
++	IA_CSS_ENTER_PRIVATE("pipe =3D %p, pin_index =3D %d, new_formats =3D %d",=
+ pipe, pin_index, new_format);
+
+ERROR: that open brace { should be on the previous line
+#5817: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9222:
++	if (!pipe)
++	{
+
+ERROR: that open brace { should be on the previous line
+#5824: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9229:
++	if (0 !=3D pin_index && 1 !=3D pin_index)
++	{
+
+ERROR: that open brace { should be on the previous line
+#5831: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9236:
++	if (new_format !=3D IA_CSS_FRAME_FORMAT_NV12_TILEY)
++	{
+
+WARNING: else is not generally useful after a break or return
+#5837: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9242:
++		return err;
++	} else
+
+ERROR: that open brace { should be on the previous line
+#5837: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9242:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#5837: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9242:
++	} else
+
+WARNING: braces {} are not necessary for any arm of this statement
+#5841: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9246:
++			if (pin_index =3D=3D 0) {
+[...]
++			} else {
+[...]
+
+ERROR: open brace '{' following function definitions go on the next line
+#5859: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9259:
++static enum ia_css_err
++ia_css_stream_configure_rx(struct ia_css_stream *stream) {
+
+ERROR: that open brace { should be on the previous line
+#5920: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9288:
++	else
++	{
+
+WARNING: Block comments use a trailing */ on a separate line
+#5923: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9291:
++		    * struct */
+
+WARNING: Block comments should align the * on each line
+#5923: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9291:
++		/* not implemented yet, requires extension of the rx_cfg_t
++		    * struct */
+
+WARNING: line over 80 characters
+#5926: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9294:
++	stream->csi_rx_config.is_two_ppc =3D (stream->config.pixels_per_clock =3D=
+=3D 2);
+
+ERROR: open brace '{' following function definitions go on the next line
+#5938: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9300:
++static struct ia_css_pipe *
++find_pipe(struct ia_css_pipe *pipes[],
++	    unsigned int num_pipes,
++	    enum ia_css_pipe_mode mode,
++	    bool copy_pipe) {
+
+CHECK: Alignment should match open parenthesis
+#5940: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9302:
++find_pipe(struct ia_css_pipe *pipes[],
++	    unsigned int num_pipes,
+
+ERROR: open brace '{' following function definitions go on the next line
+#5971: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9319:
++static enum ia_css_err
++ia_css_acc_stream_create(struct ia_css_stream *stream) {
+
+ERROR: that open brace { should be on the previous line
+#5983: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9327:
++	if (!stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#5989: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9333:
++	for (i =3D 0;  i < stream->num_pipes; i++)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6023: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9348:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6032: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9354:
++	for (i =3D 0;  i < stream->num_pipes; i++)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6050: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9363:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#6073: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9376:
++static enum ia_css_err
++metadata_info_init(const struct ia_css_metadata_config *mdc,
++		    struct ia_css_metadata_info *md) {
+
+CHECK: Alignment should match open parenthesis
+#6075: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9378:
++metadata_info_init(const struct ia_css_metadata_config *mdc,
++		    struct ia_css_metadata_info *md) {
+
+WARNING: Block comments use a trailing */ on a separate line
+#6089: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9385:
++	    * of the port going to DDR, this is a HW requirements (DMA). */
+
+WARNING: Block comments should align the * on each line
+#6089: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9385:
++	/* We round up the stride to a multiple of the width
++	    * of the port going to DDR, this is a HW requirements (DMA). */
+
+ERROR: open brace '{' following function definitions go on the next line
+#6099: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9392:
++static enum ia_css_err check_pipe_resolutions(const struct ia_css_pipe *pi=
+pe) {
+
+WARNING: line over 80 characters
+#6139: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9404:
++				    pipe->config.input_effective_res.height) !=3D IA_CSS_SUCCESS) {
+
+CHECK: Alignment should match open parenthesis
+#6139: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9404:
++	if (ia_css_util_check_res(pipe->config.input_effective_res.width,
++				    pipe->config.input_effective_res.height) !=3D IA_CSS_SUCCESS) {
+
+CHECK: Lines should not end with a '('
+#6144: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9409:
++	if (!ia_css_util_resolution_is_zero(
+
+WARNING: line over 80 characters
+#6147: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9412:
++					    pipe->stream->config.input_config.input_res)) {
+
+CHECK: Alignment should match open parenthesis
+#6147: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9412:
++		if (!ia_css_util_res_leq(pipe->config.input_effective_res,
++					    pipe->stream->config.input_config.input_res)) {
+
+WARNING: line over 80 characters
+#6148: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9413:
++			IA_CSS_ERROR("effective resolution is larger than input resolution");
+
+WARNING: line over 80 characters
+#6161: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9423:
++	if (!ia_css_util_resolution_is_even(pipe->config.vf_output_info[0].res)) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#6185: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9433:
++enum ia_css_err
++ia_css_stream_create(const struct ia_css_stream_config *stream_config,
++			int num_pipes,
++			struct ia_css_pipe *pipes[],
++			struct ia_css_stream **stream) {
+
+CHECK: Alignment should match open parenthesis
+#6187: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9435:
++ia_css_stream_create(const struct ia_css_stream_config *stream_config,
++			int num_pipes,
+
+ERROR: that open brace { should be on the previous line
+#6222: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9457:
++	if (num_pipes =3D=3D 0 ||
++	    !stream ||
++	    !pipes)
++	{
+
+WARNING: line over 80 characters
+#6240: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9467:
++	/* We don't support metadata for JPEG stream, since they both use str2mem=
+ */
+
+WARNING: line over 80 characters
+#6241: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9468:
++	if (stream_config->input_config.format =3D=3D ATOMISP_INPUT_FORMAT_BINARY=
+_8 &&
+
+ERROR: that open brace { should be on the previous line
+#6241: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9468:
++	if (stream_config->input_config.format =3D=3D ATOMISP_INPUT_FORMAT_BINARY=
+_8 &&
++	    stream_config->metadata_config.resolution.height > 0)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6258: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9478:
++	if (stream_config->online && stream_config->pack_raw_pixels)
++	{
+
+WARNING: line over 80 characters
+#6260: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9480:
++		IA_CSS_LOG("online and pack raw is invalid on input system 2401");
+
+WARNING: line over 80 characters
+#6282: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9496:
++			unsigned int port =3D (unsigned int)stream_config->source.port.port;
+
+WARNING: line over 80 characters
+#6308: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9505:
++				my_css.mipi_frame_size[port] =3D my_css.size_mem_words;
+
+WARNING: line over 80 characters
+#6309: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9506:
++			} else if (stream_config->mipi_buffer_config.size_mem_words !=3D 0) {
+
+WARNING: line over 80 characters
+#6310: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9507:
++				my_css.mipi_frame_size[port] =3D stream_config->mipi_buffer_config.siz=
+e_mem_words;
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_create', =
+this function's name, in a string
+#6313: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9510:
++						    "ia_css_stream_create() exit: error, need to set mipi frame size=
+.\n");
+
+WARNING: line over 80 characters
+#6314: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9511:
++				assert(stream_config->mipi_buffer_config.size_mem_words !=3D 0);
+
+WARNING: line over 80 characters
+#6336: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9519:
++				    2; /* Temp change: Default for backwards compatibility. */
+
+WARNING: line over 80 characters
+#6337: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9520:
++			} else if (stream_config->mipi_buffer_config.nof_mipi_buffers !=3D 0) {
+
+WARNING: line over 80 characters
+#6339: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9522:
++				    stream_config->mipi_buffer_config.nof_mipi_buffers;
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_create', =
+this function's name, in a string
+#6342: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9525:
++						    "ia_css_stream_create() exit: error, need to set number of mipi =
+frames.\n");
+
+WARNING: line over 80 characters
+#6343: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9526:
++				assert(stream_config->mipi_buffer_config.nof_mipi_buffers !=3D 0);
+
+ERROR: that open brace { should be on the previous line
+#6360: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9536:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+CHECK: Prefer kmalloc(sizeof(*curr_stream)...) over kmalloc(sizeof(struct i=
+a_css_stream)...)
+#6378: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9543:
++	curr_stream =3D kmalloc(sizeof(struct ia_css_stream), GFP_KERNEL);
+
+ERROR: that open brace { should be on the previous line
+#6379: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9544:
++	if (!curr_stream)
++	{
+
+WARNING: line over 80 characters
+#6410: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9556:
++	curr_stream->pipes =3D kcalloc(num_pipes, sizeof(struct ia_css_pipe *), G=
+FP_KERNEL);
+
+ERROR: that open brace { should be on the previous line
+#6411: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9557:
++	if (!curr_stream->pipes)
++	{
+
+WARNING: line over 80 characters
+#6421: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9567:
++	spcopyonly =3D (num_pipes =3D=3D 1) && (pipes[0]->config.mode =3D=3D IA_C=
+SS_PIPE_MODE_COPY);
+
+ERROR: that open brace { should be on the previous line
+#6444: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9581:
++	if (curr_stream->config.online)
++	{
+
+WARNING: line over 80 characters
+#6456: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9588:
++	/* in case driver doesn't configure init number of raw buffers, configure=
+ it here */
+
+WARNING: line over 80 characters
+#6458: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9590:
++		curr_stream->config.target_num_cont_raw_buf =3D NUM_CONTINUOUS_FRAMES;
+
+WARNING: line over 80 characters
+#6460: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9592:
++		curr_stream->config.init_num_cont_raw_buf =3D curr_stream->config.target=
+_num_cont_raw_buf;
+
+CHECK: Lines should not end with a '('
+#6468: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9596:
++		sh_css_sp_configure_enable_raw_pool_locking(
+
+ERROR: that open brace { should be on the previous line
+#6477: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9600:
++	switch (curr_stream->config.mode)
++	{
+
+WARNING: line over 80 characters
+#6498: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9610:
++		IA_CSS_LOG("tpg_configuration: x_mask=3D%d, y_mask=3D%d, x_delta=3D%d, y=
+_delta=3D%d, xy_mask=3D%d",
+
+CHECK: Alignment should match open parenthesis
+#6499: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9611:
++		IA_CSS_LOG("tpg_configuration: x_mask=3D%d, y_mask=3D%d, x_delta=3D%d, y=
+_delta=3D%d, xy_mask=3D%d",
+ 			    curr_stream->config.source.tpg.x_mask,
+
+CHECK: Lines should not end with a '('
+#6505: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9617:
++		sh_css_sp_configure_tpg(
+
+CHECK: Alignment should match open parenthesis
+#6550: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9641:
++	err =3D aspect_ratio_crop_init(curr_stream,
++					pipes,
+
+ERROR: that open brace { should be on the previous line
+#6552: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9643:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6558: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9649:
++	for (i =3D 0; i < num_pipes; i++)
++	{
+
+WARNING: line over 80 characters
+#6583: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9660:
++			effective_res =3D curr_pipe->stream->config.input_config.effective_res;
+
+WARNING: Block comments use a trailing */ on a separate line
+#6600: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9664:
++			    * supported on the new input system. */
+
+WARNING: Block comments should align the * on each line
+#6600: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9664:
++			/* The aspect ratio cropping is currently only
++			    * supported on the new input system. */
+
+WARNING: line over 80 characters
+#6601: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9665:
++			if (aspect_ratio_crop_check(aspect_ratio_crop_enabled, curr_pipe)) {
+
+WARNING: line over 80 characters
+#6609: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9673:
++					    * effective resolution from driver. */
+
+WARNING: Block comments use a trailing */ on a separate line
+#6609: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9673:
++					    * effective resolution from driver. */
+
+WARNING: Block comments should align the * on each line
+#6609: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9673:
++					/* in case of error fallback to default
++					    * effective resolution from driver. */
+
+WARNING: line over 80 characters
+#6610: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9674:
++					IA_CSS_LOG("aspect_ratio_crop() failed with err(%d)", err);
+
+CHECK: Alignment should match open parenthesis
+#6623: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9681:
++		IA_CSS_LOG("effective_res=3D%dx%d",
++			    effective_res.width,
+
+ERROR: that open brace { should be on the previous line
+#6667: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9702:
++	if (num_pipes =3D=3D 1 && pipes[0]->config.mode =3D=3D IA_CSS_PIPE_MODE_A=
+CC)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6674: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9709:
++	if (!spcopyonly)
++	{
+
+WARNING: line over 80 characters
+#6678: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9713:
++							curr_stream->config.sensor_binning_factor);
+
+CHECK: Alignment should match open parenthesis
+#6678: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9713:
++		    sh_css_params_set_binning_factor(curr_stream,
++							curr_stream->config.sensor_binning_factor);
+
+ERROR: that open brace { should be on the previous line
+#6679: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9714:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#6679: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9714:
++	} else
+
+WARNING: line over 80 characters
+#6705: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9720:
++		    curr_stream->config.sensor_binning_factor, sensor_binning_changed);
+
+CHECK: Alignment should match open parenthesis
+#6705: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9720:
++	IA_CSS_LOG("sensor_binning=3D%d, changed=3D%d",
++		    curr_stream->config.sensor_binning_factor, sensor_binning_changed);
+
+WARNING: Block comments use a trailing */ on a separate line
+#6710: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9725:
++	    * pipe in continuous capture mode. */
+
+WARNING: Block comments should align the * on each line
+#6710: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9725:
++	/* Temporary hack: we give the preview pipe a reference to the capture
++	    * pipe in continuous capture mode. */
+
+ERROR: that open brace { should be on the previous line
+#6711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9726:
++	if (curr_stream->config.continuous)
++	{
+
+WARNING: line over 80 characters
+#6722: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9737:
++			curr_stream->disable_cont_vf =3D curr_stream->config.disable_cont_viewf=
+inder;
+
+WARNING: line over 80 characters
+#6751: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9743:
++		/* Create copy pipe here, since it may not be exposed to the driver */
+
+CHECK: Alignment should match open parenthesis
+#6753: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9745:
++		preview_pipe =3D find_pipe(pipes, num_pipes,
++					    IA_CSS_PIPE_MODE_PREVIEW, false);
+
+CHECK: Alignment should match open parenthesis
+#6755: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9747:
++		video_pipe =3D find_pipe(pipes, num_pipes,
++					IA_CSS_PIPE_MODE_VIDEO, false);
+
+CHECK: Alignment should match open parenthesis
+#6757: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9749:
++		acc_pipe =3D find_pipe(pipes, num_pipes,
++					IA_CSS_PIPE_MODE_ACC, false);
+
+WARNING: line over 80 characters
+#6758: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9750:
++		if (acc_pipe && num_pipes =3D=3D 2 && curr_stream->cont_capt =3D=3D true)
+
+CHECK: Using comparison to true is error prone
+#6758: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9750:
++		if (acc_pipe && num_pipes =3D=3D 2 && curr_stream->cont_capt =3D=3D true)
+
+WARNING: line over 80 characters
+#6760: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9752:
++			    false; /* preview + QoS case will not need cont_capt switch */
+
+CHECK: Using comparison to true is error prone
+#6761: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9753:
++		if (curr_stream->cont_capt =3D=3D true) {
+
+WARNING: line over 80 characters
+#6763: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9755:
++						    IA_CSS_PIPE_MODE_CAPTURE, false);
+
+CHECK: Alignment should match open parenthesis
+#6763: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9755:
++			capture_pipe =3D find_pipe(pipes, num_pipes,
++						    IA_CSS_PIPE_MODE_CAPTURE, false);
+
+WARNING: line over 80 characters
+#6800: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9767:
++		if (preview_pipe && !preview_pipe->pipe_settings.preview.copy_pipe) {
+
+WARNING: line over 80 characters
+#6801: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9768:
++			err =3D create_pipe(IA_CSS_PIPE_MODE_CAPTURE, &copy_pipe, true);
+
+WARNING: line over 80 characters
+#6805: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9772:
++			preview_pipe->pipe_settings.preview.copy_pipe =3D copy_pipe;
+
+WARNING: braces {} are not necessary for single statement blocks
+#6814: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9775:
++		if (preview_pipe && (curr_stream->cont_capt =3D=3D true)) {
++			preview_pipe->pipe_settings.preview.capture_pipe =3D capture_pipe;
++		}
+
+CHECK: Using comparison to true is error prone
+#6814: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9775:
++		if (preview_pipe && (curr_stream->cont_capt =3D=3D true)) {
+
+WARNING: line over 80 characters
+#6815: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9776:
++			preview_pipe->pipe_settings.preview.capture_pipe =3D capture_pipe;
+
+WARNING: line over 80 characters
+#6818: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9779:
++			err =3D create_pipe(IA_CSS_PIPE_MODE_CAPTURE, &copy_pipe, true);
+
+WARNING: braces {} are not necessary for single statement blocks
+#6825: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9786:
++		if (video_pipe && (curr_stream->cont_capt =3D=3D true)) {
++			video_pipe->pipe_settings.video.capture_pipe =3D capture_pipe;
++		}
+
+CHECK: Using comparison to true is error prone
+#6825: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9786:
++		if (video_pipe && (curr_stream->cont_capt =3D=3D true)) {
+
+WARNING: line over 80 characters
+#6826: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9787:
++			video_pipe->pipe_settings.video.capture_pipe =3D capture_pipe;
+
+WARNING: braces {} are not necessary for single statement blocks
+#6828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9789:
++		if (preview_pipe && acc_pipe) {
++			preview_pipe->pipe_settings.preview.acc_pipe =3D acc_pipe;
++		}
+
+ERROR: that open brace { should be on the previous line
+#6832: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9793:
++	for (i =3D 0; i < num_pipes; i++)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6864: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9815:
++	for (i =3D 0; i < num_pipes; i++)
++	{
+
+WARNING: line over 80 characters
+#6880: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9829:
++								&pipe_info->output_info[j], j);
+
+WARNING: line over 80 characters
+#6897: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9835:
++			pipe_info->output_system_in_res_info =3D curr_pipe->config.output_syste=
+m_in_res;
+
+WARNING: line over 80 characters
+#6909: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9840:
++								    &pipe_info->shading_info, NULL);
+
+CHECK: Alignment should match open parenthesis
+#6909: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9840:
++				err =3D sh_css_pipe_get_shading_info(curr_pipe,
++								    &pipe_info->shading_info, NULL);
+
+WARNING: line over 80 characters
+#6912: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9843:
++								    &pipe_info->shading_info, &curr_pipe->config);
+
+CHECK: Alignment should match open parenthesis
+#6912: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9843:
++				err =3D sh_css_pipe_get_shading_info(curr_pipe,
++								    &pipe_info->shading_info, &curr_pipe->config);
+
+WARNING: line over 80 characters
+#6922: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9853:
++									&pipe_info->vf_output_info[j], j);
+
+CHECK: Alignment should match open parenthesis
+#6922: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9853:
++				sh_css_pipe_get_viewfinder_frame_info(curr_pipe,
++									&pipe_info->vf_output_info[j], j);
+
+WARNING: line over 80 characters
+#6941: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9859:
++		my_css.active_pipes[ia_css_pipe_get_pipe_num(curr_pipe)] =3D curr_pipe;
+
+ERROR: that open brace { should be on the previous line
+#6960: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9866:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6973: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9872:
++	for (i =3D 0; i < num_pipes; i++)
++	{
+
+ERROR: that open brace { should be on the previous line
+#6983: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9880:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+WARNING: line over 80 characters
+#6985: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9882:
++		IA_CSS_LOG("create_host_pipeline_structure: return_err=3D%d", err);
+
+WARNING: line over 80 characters
+#7016: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9895:
++					IA_CSS_LOG("entered stream into loc=3D%d", i);
+
+WARNING: line over 80 characters
+#7017: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9896:
++					my_css_save.stream_seeds[i].orig_stream =3D stream;
+
+WARNING: line over 80 characters
+#7018: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9897:
++					my_css_save.stream_seeds[i].stream =3D curr_stream;
+
+WARNING: line over 80 characters
+#7019: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9898:
++					my_css_save.stream_seeds[i].num_pipes =3D num_pipes;
+
+WARNING: line over 80 characters
+#7020: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9899:
++					my_css_save.stream_seeds[i].stream_config =3D *stream_config;
+
+WARNING: line over 80 characters
+#7022: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9901:
++						my_css_save.stream_seeds[i].pipe_config[j] =3D pipes[j]->config;
+
+WARNING: line over 80 characters
+#7023: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9902:
++						my_css_save.stream_seeds[i].pipes[j] =3D pipes[j];
+
+WARNING: line over 80 characters
+#7024: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9903:
++						my_css_save.stream_seeds[i].orig_pipes[j] =3D &pipes[j];
+
+ERROR: open brace '{' following function definitions go on the next line
+#7060: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9918:
++enum ia_css_err
++ia_css_stream_destroy(struct ia_css_stream *stream) {
+
+ERROR: that open brace { should be on the previous line
+#7073: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9924:
++	if (!stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#7086: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9933:
++	if ((stream->last_pipe) &&
++	    ia_css_pipeline_is_mapped(stream->last_pipe->pipe_num))
++	{
+
+WARNING: line over 80 characters
+#7114: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9940:
++			struct sh_css_sp_pipeline_terminal *sp_pipeline_input_terminal;
+
+CHECK: Lines should not end with a '('
+#7119: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9945:
++				if (ia_css_pipeline_get_sp_thread_id(
+
+WARNING: line over 80 characters
+#7120: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9946:
++					ia_css_pipe_get_pipe_num(entry), &sp_thread_id) !=3D true)
+
+WARNING: line over 80 characters
+#7126: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9952:
++				for (i =3D 0; i < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; i++) {
+
+WARNING: line over 80 characters
+#7128: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9954:
++					&sp_pipeline_input_terminal->context.virtual_input_system_stream[i];
+
+WARNING: line over 80 characters
+#7129: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9955:
++					if (stream->config.isys_config[i].valid && isys_stream->valid)
+
+WARNING: line over 80 characters
+#7130: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9956:
++						ia_css_isys_stream_destroy(isys_stream);
+
+WARNING: line over 80 characters
+#7150: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9960:
++		free_mpi =3D stream->config.mode =3D=3D IA_CSS_INPUT_MODE_BUFFERED_SENSO=
+R;
+
+WARNING: line over 80 characters
+#7152: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9962:
++			free_mpi |=3D stream->config.mode =3D=3D IA_CSS_INPUT_MODE_TPG;
+
+WARNING: line over 80 characters
+#7153: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9963:
++			free_mpi |=3D stream->config.mode =3D=3D IA_CSS_INPUT_MODE_PRBS;
+
+WARNING: line over 80 characters
+#7160: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9970:
++				    * some test stream create-destroy cycles do not generate output fr=
+ames
+
+WARNING: Block comments should align the * on each line
+#7160: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9970:
++				/* free any mipi frames that are remaining:
++				    * some test stream create-destroy cycles do not generate output fr=
+ames
+
+WARNING: line over 80 characters
+#7161: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9971:
++				    * and the mipi buffer is not freed in the deque function
+
+ERROR: that open brace { should be on the previous line
+#7200: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:9995:
++	for (i =3D 0; i < stream->num_pipes; i++)
++	{
+
+WARNING: line over 80 characters
+#7227: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10006:
++				IA_CSS_LOG("clearing stream on internal preview copy pipe");
+
+WARNING: line over 80 characters
+#7228: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10007:
++				entry->pipe_settings.preview.copy_pipe->stream =3D NULL;
+
+WARNING: line over 80 characters
+#7232: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10011:
++				IA_CSS_LOG("clearing stream on internal video copy pipe");
+
+WARNING: line over 80 characters
+#7233: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10012:
++				entry->pipe_settings.video.copy_pipe->stream =3D NULL;
+
+ERROR: that open brace { should be on the previous line
+#7276: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10025:
++			if (my_css_save.stream_seeds[i].stream =3D=3D stream)
++			{
+
+ERROR: open brace '{' following function definitions go on the next line
+#7309: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10040:
++enum ia_css_err
++ia_css_stream_get_info(const struct ia_css_stream *stream,
++			struct ia_css_stream_info *stream_info) {
+
+CHECK: Alignment should match open parenthesis
+#7311: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10042:
++ia_css_stream_get_info(const struct ia_css_stream *stream,
++			struct ia_css_stream_info *stream_info) {
+
+WARNING: line over 80 characters
+#7312: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10043:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_get_info: enter/ex=
+it\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_get_info'=
+, this function's name, in a string
+#7312: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10043:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_get_info: enter/ex=
+it\n");
+
+WARNING: Block comments should align the * on each line
+#7321: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10052:
++/*
++    * Rebuild a stream, including allocating structs, setting configuratio=
+n and
+
+WARNING: line over 80 characters
+#7324: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10055:
++    * The stream handle is used to identify the correct entry in the css_s=
+ave struct
+
+ERROR: open brace '{' following function definitions go on the next line
+#7326: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10057:
++enum ia_css_err
++ia_css_stream_load(struct ia_css_stream *stream) {
+
+CHECK: Blank lines aren't necessary after an open brace '{'
+#7328: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10059:
++ia_css_stream_load(struct ia_css_stream *stream) {
++
+
+WARNING: line over 80 characters
+#7338: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10073:
++								    &my_css_save.stream_seeds[i].pipes[j])) !=3D IA_CSS_SUCCESS) {
+
+WARNING: line over 80 characters
+#7349: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10084:
++							my_css_save.stream_seeds[i].num_pipes,
+
+WARNING: line over 80 characters
+#7350: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10085:
++							my_css_save.stream_seeds[i].pipes,
+
+WARNING: line over 80 characters
+#7351: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10086:
++							&my_css_save.stream_seeds[i].stream);
+
+ERROR: open brace '{' following function definitions go on the next line
+#7371: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10105:
++enum ia_css_err
++ia_css_stream_start(struct ia_css_stream *stream) {
+
+ERROR: that open brace { should be on the previous line
+#7383: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10110:
++	if ((!stream) || (!stream->last_pipe))
++	{
+
+ERROR: that open brace { should be on the previous line
+#7402: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10121:
++	if (err !=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#7426: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10137:
++	if (stream->config.mode =3D=3D IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
++	{
+
+WARNING: line over 80 characters
+#7429: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10140:
++		unsigned int port =3D (unsigned int)(stream->config.source.port.port);
+
+WARNING: line over 80 characters
+#7435: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10142:
++		for (idx =3D 0; idx < IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT; i=
+dx++) {
+
+ERROR: that open brace { should be on the previous line
+#7449: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10150:
++	if (stream->config.mode !=3D IA_CSS_INPUT_MODE_MEMORY)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#7469: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10163:
++enum ia_css_err
++ia_css_stream_stop(struct ia_css_stream *stream) {
+
+WARNING: line over 80 characters
+#7478: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10167:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_stop() enter/exit\=
+n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_stop', th=
+is function's name, in a string
+#7478: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10167:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_stop() enter/exit\=
+n");
+
+WARNING: line over 80 characters
+#7481: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10170:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_stop: stopping %d\=
+n",
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_stop', th=
+is function's name, in a string
+#7481: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10170:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_stream_stop: stopping %d\=
+n",
+
+ERROR: that open brace { should be on the previous line
+#7491: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10175:
++	if (stream->config.mode =3D=3D IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
++	{
+
+WARNING: line over 80 characters
+#7494: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10178:
++		unsigned int port =3D (unsigned int)(stream->config.source.port.port);
+
+WARNING: line over 80 characters
+#7499: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10180:
++		for (idx =3D 0; idx < IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT; i=
+dx++) {
+
+WARNING: braces {} are not necessary for single statement blocks
+#7499: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10180:
++		for (idx =3D 0; idx < IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT; i=
+dx++) {
++			sh_css_sp_group.config.mipi_sizes_for_check[port][idx] =3D 0;
+ 		}
+
+WARNING: line over 80 characters
+#7500: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10181:
++			sh_css_sp_group.config.mipi_sizes_for_check[port][idx] =3D 0;
+
+WARNING: braces {} are not necessary for any arm of this statement
+#7508: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10186:
++	if (!atomisp_hw_is_isp2401) {
+[...]
++	} else {
+[...]
+
+WARNING: line over 80 characters
+#7509: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10187:
++		err =3D ia_css_pipeline_request_stop(&stream->last_pipe->pipeline);
+
+WARNING: Block comments use a trailing */ on a separate line
+#7537: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10196:
++	    * semantics do not allow that. */
+
+WARNING: Block comments should align the * on each line
+#7537: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10196:
++	/* Ideally, unmapping should happen after pipeline_stop, but current
++	    * semantics do not allow that. */
+
+ERROR: open brace '{' following function definitions go on the next line
+#7553: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10202:
++bool
++ia_css_stream_has_stopped(struct ia_css_stream *stream) {
+
+WARNING: braces {} are not necessary for any arm of this statement
+#7580: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10208:
++	if (!atomisp_hw_is_isp2401) {
+[...]
++	} else {
+[...]
+
+WARNING: line over 80 characters
+#7581: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10209:
++		stopped =3D ia_css_pipeline_has_stopped(&stream->last_pipe->pipeline);
+
+WARNING: Block comments should align the * on each line
+#7602: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10219:
++/*
++    * Destroy the stream and all the pipes related to it.
+
+WARNING: line over 80 characters
+#7603: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10220:
++    * The stream handle is used to identify the correct entry in the css_s=
+ave struct
+
+ERROR: open brace '{' following function definitions go on the next line
+#7605: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10222:
++enum ia_css_err
++ia_css_stream_unload(struct ia_css_stream *stream) {
+
+WARNING: line over 80 characters
+#7614: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10227:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_unload() enter,\n"=
+);
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_unload', =
+this function's name, in a string
+#7614: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10227:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_unload() enter,\n"=
+);
+
+ERROR: that open brace { should be on the previous line
+#7618: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10231:
++		if (my_css_save.stream_seeds[i].stream =3D=3D stream)
++		{
+
+WARNING: line over 80 characters
+#7627: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10236:
++					    "ia_css_stream_unload(): unloading %d (%p)\n", i,
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_unload', =
+this function's name, in a string
+#7627: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10236:
++					    "ia_css_stream_unload(): unloading %d (%p)\n", i,
+
+WARNING: line over 80 characters
+#7630: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10239:
++			for (j =3D 0; j < my_css_save.stream_seeds[i].num_pipes; j++)
+
+WARNING: line over 80 characters
+#7631: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10240:
++				ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
+
+WARNING: line over 80 characters
+#7633: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10242:
++					    "ia_css_stream_unload(): after unloading %d (%p)\n", i,
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_unload', =
+this function's name, in a string
+#7633: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10242:
++					    "ia_css_stream_unload(): after unloading %d (%p)\n", i,
+
+WARNING: line over 80 characters
+#7637: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10246:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_unload() exit,\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_stream_unload', =
+this function's name, in a string
+#7637: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10246:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_unload() exit,\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#7645: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10250:
++enum ia_css_err
++ia_css_temp_pipe_to_pipe_id(const struct ia_css_pipe *pipe,
++			    enum ia_css_pipe_id *pipe_id) {
+
+WARNING: line over 80 characters
+#7648: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10253:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_temp_pipe_to_pipe_id() en=
+ter/exit\n");
+
+WARNING: Prefer using '"%s...", __func__' to using 'ia_css_temp_pipe_to_pip=
+e_id', this function's name, in a string
+#7648: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10253:
++	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_temp_pipe_to_pipe_id() en=
+ter/exit\n");
+
+ERROR: open brace '{' following function definitions go on the next line
+#7659: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10262:
++enum atomisp_input_format
++ia_css_stream_get_format(const struct ia_css_stream *stream) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#7670: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10267:
++bool
++ia_css_stream_get_two_pixels_per_clock(const struct ia_css_stream *stream)=
+ {
+
+ERROR: open brace '{' following function definitions go on the next line
+#7677: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10272:
++struct ia_css_binary *
++ia_css_stream_get_shading_correction_binary(const struct ia_css_stream
++	*stream) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#7716: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10291:
++struct ia_css_binary *
++ia_css_stream_get_dvs_binary(const struct ia_css_stream *stream) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#7741: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10310:
++struct ia_css_binary *
++ia_css_stream_get_3a_binary(const struct ia_css_stream *stream) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#7770: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10331:
++enum ia_css_err
++ia_css_stream_set_output_padded_width(struct ia_css_stream *stream,
++					unsigned int output_padded_width) {
+
+CHECK: Alignment should match open parenthesis
+#7772: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10333:
++ia_css_stream_set_output_padded_width(struct ia_css_stream *stream,
++					unsigned int output_padded_width) {
+
+WARNING: line over 80 characters
+#7790: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10342:
++	/* set the config also just in case (redundant info? why do we save confi=
+g in pipe?) */
+
+WARNING: line over 80 characters
+#7791: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10343:
++	pipe->config.output_info[IA_CSS_PIPE_OUTPUT_STAGE_0].padded_width =3D out=
+put_padded_width;
+
+WARNING: line over 80 characters
+#7792: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10344:
++	pipe->output_info[IA_CSS_PIPE_OUTPUT_STAGE_0].padded_width =3D output_pad=
+ded_width;
+
+ERROR: open brace '{' following function definitions go on the next line
+#7814: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10349:
++static struct ia_css_binary *
++ia_css_pipe_get_shading_correction_binary(const struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#7822: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10357:
++		binary =3D (struct ia_css_binary *)&pipe->pipe_settings.preview.preview_=
+binary;
+
+WARNING: line over 80 characters
+#7825: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10360:
++		binary =3D (struct ia_css_binary *)&pipe->pipe_settings.video.video_bina=
+ry;
+
+WARNING: line over 80 characters
+#7828: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10363:
++		if (pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_=
+PRIMARY) {
+
+WARNING: line over 80 characters
+#7831: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10366:
++			for (i =3D 0; i < pipe->pipe_settings.capture.num_primary_stage; i++) {
+
+WARNING: line over 80 characters
+#7832: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10367:
++				if (pipe->pipe_settings.capture.primary_binary[i].info->sp.enable.sc) {
+
+WARNING: line over 80 characters
+#7833: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10368:
++					binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.prima=
+ry_binary[i];
+
+WARNING: line over 80 characters
+#7852: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10374:
++			binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.pre_isp=
+_binary;
+
+WARNING: line over 80 characters
+#7855: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10377:
++			    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE=
+_LOW_LIGHT) {
+
+WARNING: line over 80 characters
+#7856: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10378:
++			if (pipe->config.isp_pipe_version =3D=3D IA_CSS_PIPE_VERSION_1)
+
+WARNING: line over 80 characters
+#7857: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10379:
++				binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.pre_is=
+p_binary;
+
+WARNING: line over 80 characters
+#7858: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10380:
++			else if (pipe->config.isp_pipe_version =3D=3D IA_CSS_PIPE_VERSION_2_2)
+
+WARNING: line over 80 characters
+#7859: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10381:
++				binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.post_i=
+sp_binary;
+
+ERROR: open brace '{' following function definitions go on the next line
+#7879: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10394:
++static struct ia_css_binary *
++ia_css_pipe_get_s3a_binary(const struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#7904: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10402:
++		binary =3D (struct ia_css_binary *)&pipe->pipe_settings.preview.preview_=
+binary;
+
+WARNING: line over 80 characters
+#7907: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10405:
++		binary =3D (struct ia_css_binary *)&pipe->pipe_settings.video.video_bina=
+ry;
+
+WARNING: line over 80 characters
+#7910: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10408:
++		if (pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_=
+PRIMARY) {
+
+WARNING: line over 80 characters
+#7913: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10411:
++			for (i =3D 0; i < pipe->pipe_settings.capture.num_primary_stage; i++) {
+
+WARNING: line over 80 characters
+#7914: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10412:
++				if (pipe->pipe_settings.capture.primary_binary[i].info->sp.enable.s3a)=
+ {
+
+WARNING: line over 80 characters
+#7915: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10413:
++					binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.prima=
+ry_binary[i];
+
+WARNING: line over 80 characters
+#7936: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10419:
++			binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.pre_isp=
+_binary;
+
+WARNING: line over 80 characters
+#7939: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10422:
++			    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE=
+_LOW_LIGHT) {
+
+WARNING: line over 80 characters
+#7940: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10423:
++			if (pipe->config.isp_pipe_version =3D=3D IA_CSS_PIPE_VERSION_1)
+
+WARNING: line over 80 characters
+#7941: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10424:
++				binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.pre_is=
+p_binary;
+
+WARNING: line over 80 characters
+#7942: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10425:
++			else if (pipe->config.isp_pipe_version =3D=3D IA_CSS_PIPE_VERSION_2_2)
+
+WARNING: line over 80 characters
+#7943: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10426:
++				binary =3D (struct ia_css_binary *)&pipe->pipe_settings.capture.post_i=
+sp_binary;
+
+ERROR: open brace '{' following function definitions go on the next line
+#7974: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10441:
++static struct ia_css_binary *
++ia_css_pipe_get_sdis_binary(const struct ia_css_pipe *pipe) {
+
+WARNING: line over 80 characters
+#7985: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10449:
++		binary =3D (struct ia_css_binary *)&pipe->pipe_settings.video.video_bina=
+ry;
+
+ERROR: open brace '{' following function definitions go on the next line
+#8005: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10461:
++struct ia_css_pipeline *
++ia_css_pipe_get_pipeline(const struct ia_css_pipe *pipe) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#8020: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10468:
++unsigned int
++ia_css_pipe_get_pipe_num(const struct ia_css_pipe *pipe) {
+
+WARNING: Block comments use * on subsequent lines
+#8027: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10473:
++	/* KW was not sure this function was not returning a value
++	    that was out of range; so added an assert, and, for the
+
+ERROR: open brace '{' following function definitions go on the next line
+#8044: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10485:
++unsigned int
++ia_css_pipe_get_isp_pipe_version(const struct ia_css_pipe *pipe) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#8057: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10494:
++enum ia_css_err
++ia_css_start_sp(void) {
+
+WARNING: line over 80 characters
+#8081: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10504:
++	while ((ia_css_spctrl_get_state(SP0_ID) !=3D IA_CSS_SP_SW_INITIALIZED) &&=
+ timeout)
+
+ERROR: that open brace { should be on the previous line
+#8081: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10504:
++	while ((ia_css_spctrl_get_state(SP0_ID) !=3D IA_CSS_SP_SW_INITIALIZED) &&=
+ timeout)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8086: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10509:
++	if (timeout =3D=3D 0)
++	{
+
+WARNING: line over 80 characters
+#8103: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10521:
++	/* AM: At the moment it will be done only when there is no stream active.=
+ */
+
+WARNING: Block comments should align the * on each line
+#8123: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10531:
++/*
++    *	Time to wait SP for termincate. Only condition when this can happen
+
+ERROR: open brace '{' following function definitions go on the next line
+#8133: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10537:
++enum ia_css_err
++ia_css_stop_sp(void) {
+
+ERROR: that open brace { should be on the previous line
+#8145: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10544:
++	if (!sh_css_sp_is_running())
++	{
+
+WARNING: line over 80 characters
+#8153: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10549:
++		/* Return an error - stop SP should not have been called by driver */
+
+ERROR: that open brace { should be on the previous line
+#8206: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10568:
++	while (!ia_css_spctrl_is_idle(SP0_ID) && timeout)
++	{
+
+WARNING: Unnecessary parentheses
+#8211: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10573:
++	if ((ia_css_spctrl_get_state(SP0_ID) !=3D IA_CSS_SP_SW_TERMINATED))
+
+ERROR: that open brace { should be on the previous line
+#8216: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10576:
++	if (timeout =3D=3D 0)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8222: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10582:
++	while (!isp_ctrl_getbit(ISP0_ID, ISP_SC_REG, ISP_IDLE_BIT) && timeout)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8227: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10587:
++	if (timeout =3D=3D 0)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#8257: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10602:
++enum ia_css_err
++ia_css_update_continuous_frames(struct ia_css_stream *stream) {
+
+CHECK: Lines should not end with a '('
+#8270: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10607:
++	ia_css_debug_dtrace(
+
+ERROR: that open brace { should be on the previous line
+#8274: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10611:
++	if (!stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8286: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10621:
++	for (i =3D stream->config.init_num_cont_raw_buf;
++		i < stream->config.target_num_cont_raw_buf; i++)
++	{
+
+WARNING: line over 80 characters
+#8290: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10625:
++						    pipe->continuous_frames[i], pipe->cont_md_buffers[i]);
+
+CHECK: Lines should not end with a '('
+#8294: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10629:
++	ia_css_debug_dtrace(
+
+ERROR: open brace '{' following function definitions go on the next line
+#8308: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10636:
++void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map) {
+
+WARNING: line over 80 characters
+#8330: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10653:
++	need_input_queue =3D pipe->stream->config.mode =3D=3D IA_CSS_INPUT_MODE_M=
+EMORY;
+
+WARNING: line over 80 characters
+#8345: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10660:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8346: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10661:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8347: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10662:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+
+WARNING: line over 80 characters
+#8348: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10663:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, =
+map);
+
+WARNING: line over 80 characters
+#8359: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10668:
++		    pipe->pipe_settings.preview.preview_binary.info->sp.enable.s3a)
+
+WARNING: line over 80 characters
+#8360: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10669:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
+
+WARNING: line over 80 characters
+#8371: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10674:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8372: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10675:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8373: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10676:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8374: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10677:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+
+WARNING: line over 80 characters
+#8375: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10678:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, =
+map);
+
+WARNING: line over 80 characters
+#8395: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10682:
++		if (pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE_=
+PRIMARY) {
+
+WARNING: line over 80 characters
+#8396: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10683:
++			for (i =3D 0; i < pipe->pipe_settings.capture.num_primary_stage; i++) {
+
+WARNING: line over 80 characters
+#8397: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10684:
++				if (pipe->pipe_settings.capture.primary_binary[i].info &&
+
+WARNING: line over 80 characters
+#8398: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10685:
++				    pipe->pipe_settings.capture.primary_binary[i].info->sp.enable.s3a)=
+ {
+
+WARNING: line over 80 characters
+#8418: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10692:
++			    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE=
+_LOW_LIGHT ||
+
+WARNING: line over 80 characters
+#8419: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10693:
++			    pipe->config.default_capture_config.mode =3D=3D IA_CSS_CAPTURE_MODE=
+_BAYER) {
+
+WARNING: line over 80 characters
+#8421: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10695:
++			    pipe->pipe_settings.capture.pre_isp_binary.info->sp.enable.s3a)
+
+WARNING: line over 80 characters
+#8435: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10700:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8436: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10701:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8438: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10703:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8439: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10704:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+
+WARNING: line over 80 characters
+#8440: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10705:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, =
+map);
+
+WARNING: line over 80 characters
+#8451: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10711:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
+
+WARNING: line over 80 characters
+#8455: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10715:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_DIS_STATISTICS, map);
+
+WARNING: line over 80 characters
+#8458: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10718:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8469: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10726:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8470: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10727:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8471: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10728:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+
+WARNING: line over 80 characters
+#8472: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10729:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, =
+map);
+
+WARNING: line over 80 characters
+#8490: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10737:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME + idx, map);
+
+WARNING: line over 80 characters
+#8492: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10739:
++				ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME + idx, =
+map);
+
+WARNING: line over 80 characters
+#8495: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10742:
++			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+
+WARNING: line over 80 characters
+#8496: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10743:
++		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+
+ERROR: open brace '{' following function definitions go on the next line
+#8526: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10752:
++static enum ia_css_err set_config_on_frame_enqueue(struct ia_css_frame_info
++	*info, struct frame_data_wrapper *frame) {
+
+WARNING: line over 80 characters
+#8530: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10756:
++	/* currently we support configuration on frame enqueue only on YUV format=
+s */
+
+WARNING: line over 80 characters
+#8531: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10757:
++	/* on other formats the padded_width is zeroed for no configuration overr=
+ide */
+
+WARNING: braces {} are not necessary for any arm of this statement
+#8535: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10761:
++		if (info->padded_width > info->res.width) {
+[...]
++		} else if ((info->padded_width < info->res.width) && (info->padded_width=
+ > 0)) {
+[...]
+
+WARNING: line over 80 characters
+#8536: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10762:
++			frame->config_on_frame_enqueue.padded_width =3D info->padded_width;
+
+WARNING: line over 80 characters
+#8537: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10763:
++		} else if ((info->padded_width < info->res.width) && (info->padded_width=
+ > 0)) {
+
+WARNING: line over 80 characters
+#8542: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10766:
++		/* nothing to do if width =3D=3D padded width or padded width is zeroed =
+(the same) */
+
+ERROR: open brace '{' following function definitions go on the next line
+#8555: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10776:
++enum ia_css_err
++ia_css_unlock_raw_frame(struct ia_css_stream *stream, uint32_t exp_id) {
+
+WARNING: Block comments use a trailing */ on a separate line
+#8570: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10783:
++	    * unlock message. */
+
+WARNING: Block comments should align the * on each line
+#8570: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10783:
++	/* Only continuous streams have a tagger to which we can send the
++	    * unlock message. */
+
+ERROR: that open brace { should be on the previous line
+#8571: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10784:
++	if (!stream || !stream->config.continuous)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8583: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10790:
++	if (exp_id > IA_CSS_ISYS_MAX_EXPOSURE_ID ||
++	    exp_id < IA_CSS_ISYS_MIN_EXPOSURE_ID)
++	{
+
+WARNING: Block comments use a trailing */ on a separate line
+#8595: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10798:
++	    * we can safely assign it to an 8-bit argument here. */
+
+WARNING: Block comments should align the * on each line
+#8595: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10798:
++	/* Send the event. Since we verified that the exp_id is valid,
++	    * we can safely assign it to an 8-bit argument here. */
+
+CHECK: Lines should not end with a '('
+#8596: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10799:
++	ret =3D ia_css_bufq_enqueue_psys_event(
+
+WARNING: Block comments should align the * on each line
+#8616: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10807:
++/* @brief	Set the state (Enable or Disable) of the Extension stage in the
++    *		given pipe.
+
+ERROR: open brace '{' following function definitions go on the next line
+#8618: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10809:
++enum ia_css_err
++ia_css_pipe_set_qos_ext_state(struct ia_css_pipe *pipe, uint32_t fw_handle,
++				bool enable) {
+
+CHECK: Alignment should match open parenthesis
+#8620: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10811:
++ia_css_pipe_set_qos_ext_state(struct ia_css_pipe *pipe, uint32_t fw_handle,
++				bool enable) {
+
+ERROR: that open brace { should be on the previous line
+#8647: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10819:
++	if (!pipe || !pipe->stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8651: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10823:
++	} else if (!(pipe->config.acc_extension))
++	{
+
+ERROR: that open brace { should be on the previous line
+#8655: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10827:
++	} else if (!sh_css_sp_is_running())
++	{
+
+ERROR: that open brace { should be on the previous line
+#8659: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10831:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#8659: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10831:
++	} else
+
+WARNING: line over 80 characters
+#8662: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10834:
++		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread=
+_id);
+
+WARNING: line over 80 characters
+#8663: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10835:
++		err =3D ia_css_pipeline_get_stage_from_fw(&pipe->pipeline, fw_handle, &s=
+tage);
+
+WARNING: line over 80 characters
+#8665: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10837:
++			/* Set the Extension State;. TODO: Add check for stage firmware.type (Q=
+OS)*/
+
+CHECK: Lines should not end with a '('
+#8666: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10838:
++			err =3D ia_css_bufq_enqueue_psys_event(
+
+WARNING: line over 80 characters
+#8685: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10845:
++					SH_CSS_QOS_STAGE_ENABLE(&sh_css_sp_group.pipe[thread_id], stage->stag=
+e_num);
+
+WARNING: line over 80 characters
+#8687: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10847:
++					SH_CSS_QOS_STAGE_DISABLE(&sh_css_sp_group.pipe[thread_id], stage->sta=
+ge_num);
+
+WARNING: Block comments should align the * on each line
+#8707: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10856:
++/*	@brief	Get the state (Enable or Disable) of the Extension stage in the
++    *	given pipe.
+
+ERROR: open brace '{' following function definitions go on the next line
+#8709: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10858:
++enum ia_css_err
++ia_css_pipe_get_qos_ext_state(struct ia_css_pipe *pipe, uint32_t fw_handle,
++				bool *enable) {
+
+CHECK: Alignment should match open parenthesis
+#8711: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10860:
++ia_css_pipe_get_qos_ext_state(struct ia_css_pipe *pipe, uint32_t fw_handle,
++				bool *enable) {
+
+ERROR: that open brace { should be on the previous line
+#8738: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10868:
++	if (!pipe || !pipe->stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8742: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10872:
++	} else if (!(pipe->config.acc_extension))
++	{
+
+ERROR: that open brace { should be on the previous line
+#8746: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10876:
++	} else if (!sh_css_sp_is_running())
++	{
+
+ERROR: that open brace { should be on the previous line
+#8750: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10880:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#8750: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10880:
++	} else
+
+WARNING: line over 80 characters
+#8752: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10882:
++		/* Query the threadid and stage_num corresponding to the Extension firmw=
+are*/
+
+WARNING: line over 80 characters
+#8753: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10883:
++		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread=
+_id);
+
+WARNING: line over 80 characters
+#8754: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10884:
++		err =3D ia_css_pipeline_get_stage_from_fw(&pipe->pipeline, fw_handle, &s=
+tage);
+
+WARNING: line over 80 characters
+#8763: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10888:
++			*enable =3D (SH_CSS_QOS_STAGE_IS_ENABLED(&sh_css_sp_group.pipe[thread_i=
+d],
+
+WARNING: line over 80 characters
+#8764: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10889:
++								stage->stage_num)) ? true : false;
+
+ERROR: open brace '{' following function definitions go on the next line
+#8793: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10897:
++enum ia_css_err
++ia_css_pipe_update_qos_ext_mapped_arg(struct ia_css_pipe *pipe,
++					uint32_t fw_handle,
++					struct ia_css_isp_param_css_segments *css_seg,
++					struct ia_css_isp_param_isp_segments *isp_seg) {
+
+CHECK: Alignment should match open parenthesis
+#8795: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10899:
++ia_css_pipe_update_qos_ext_mapped_arg(struct ia_css_pipe *pipe,
++					uint32_t fw_handle,
+
+CHECK: Prefer kernel type 'u32' over 'uint32_t'
+#8795: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10899:
++					uint32_t fw_handle,
+
+WARNING: line over 80 characters
+#8796: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10900:
++					struct ia_css_isp_param_css_segments *css_seg,
+
+WARNING: line over 80 characters
+#8797: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10901:
++					struct ia_css_isp_param_isp_segments *isp_seg) {
+
+ERROR: that open brace { should be on the previous line
+#8869: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10919:
++	if (!pipe || !pipe->stream)
++	{
+
+ERROR: that open brace { should be on the previous line
+#8873: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10923:
++	} else if (!(pipe->config.acc_extension))
++	{
+
+ERROR: that open brace { should be on the previous line
+#8877: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10927:
++	} else if (!sh_css_sp_is_running())
++	{
+
+ERROR: that open brace { should be on the previous line
+#8881: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10931:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#8881: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10931:
++	} else
+
+WARNING: line over 80 characters
+#8883: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10933:
++		/* Query the thread_id and stage_num corresponding to the Extension firm=
+ware */
+
+WARNING: line over 80 characters
+#8884: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10934:
++		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread=
+_id);
+
+WARNING: line over 80 characters
+#8885: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10935:
++		err =3D ia_css_pipeline_get_stage_from_fw(&pipe->pipeline, fw_handle, &s=
+tage);
+
+WARNING: line over 80 characters
+#8888: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10938:
++			enabled =3D (SH_CSS_QOS_STAGE_IS_ENABLED(&sh_css_sp_group.pipe[thread_i=
+d],
+
+WARNING: line over 80 characters
+#8889: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10939:
++								stage->stage_num)) ? true : false;
+
+WARNING: line over 80 characters
+#8890: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10940:
++			/* Update mapped arg only when extension stage is not enabled */
+
+WARNING: line over 80 characters
+#8892: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10942:
++				IA_CSS_ERROR("Leaving: cannot update when stage is enabled.");
+
+WARNING: line over 80 characters
+#8899: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10949:
++						(unsigned int)sp_address_of(sp_group),
+
+CHECK: Alignment should match open parenthesis
+#8899: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10949:
++				sp_dmem_load(SP0_ID,
++						(unsigned int)sp_address_of(sp_group),
+
+WARNING: line over 80 characters
+#8900: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10950:
++						&sp_group, sizeof(struct sh_css_sp_group));
+
+WARNING: line over 80 characters
+#8901: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10951:
++				mmgr_load(sp_group.pipe[thread_id].sp_stage_addr[stage_num],
+
+WARNING: line over 80 characters
+#8902: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10952:
++					    &sp_stage, sizeof(struct sh_css_sp_stage));
+
+CHECK: Alignment should match open parenthesis
+#8902: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10952:
++				mmgr_load(sp_group.pipe[thread_id].sp_stage_addr[stage_num],
++					    &sp_stage, sizeof(struct sh_css_sp_stage));
+
+WARNING: line over 80 characters
+#8905: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10955:
++					    &isp_stage, sizeof(struct sh_css_isp_stage));
+
+CHECK: Alignment should match open parenthesis
+#8905: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10955:
++				mmgr_load(sp_stage.isp_stage_addr,
++					    &isp_stage, sizeof(struct sh_css_isp_stage));
+
+WARNING: line over 80 characters
+#8907: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10957:
++				for (mem =3D 0; mem < N_IA_CSS_ISP_MEMORIES; mem++) {
+
+WARNING: line over 80 characters
+#8908: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10958:
++					isp_stage.mem_initializers.params[IA_CSS_PARAM_CLASS_PARAM][mem].addr=
+ess =3D
+
+WARNING: line over 80 characters
+#8909: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10959:
++					    css_seg->params[IA_CSS_PARAM_CLASS_PARAM][mem].address;
+
+WARNING: line over 80 characters
+#8910: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10960:
++					isp_stage.mem_initializers.params[IA_CSS_PARAM_CLASS_PARAM][mem].size=
+ =3D
+
+WARNING: line over 80 characters
+#8911: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10961:
++					    css_seg->params[IA_CSS_PARAM_CLASS_PARAM][mem].size;
+
+WARNING: line over 80 characters
+#8912: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10962:
++					isp_stage.binary_info.mem_initializers.params[IA_CSS_PARAM_CLASS_PARA=
+M][mem].address
+
+WARNING: line over 80 characters
+#8914: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10964:
++						isp_seg->params[IA_CSS_PARAM_CLASS_PARAM][mem].address;
+
+WARNING: line over 80 characters
+#8915: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10965:
++					isp_stage.binary_info.mem_initializers.params[IA_CSS_PARAM_CLASS_PARA=
+M][mem].size
+
+WARNING: line over 80 characters
+#8917: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10967:
++						isp_seg->params[IA_CSS_PARAM_CLASS_PARAM][mem].size;
+
+WARNING: line over 80 characters
+#8921: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10971:
++					    &isp_stage, sizeof(struct sh_css_isp_stage));
+
+CHECK: Alignment should match open parenthesis
+#8921: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10971:
++				mmgr_store(sp_stage.isp_stage_addr,
++					    &isp_stage, sizeof(struct sh_css_isp_stage));
+
+ERROR: open brace '{' following function definitions go on the next line
+#8950: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10980:
++static enum ia_css_err
++aspect_ratio_crop_init(struct ia_css_stream *curr_stream,
++			struct ia_css_pipe *pipes[],
++			bool *do_crop_status) {
+
+CHECK: Alignment should match open parenthesis
+#8952: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10982:
++aspect_ratio_crop_init(struct ia_css_stream *curr_stream,
++			struct ia_css_pipe *pipes[],
+
+ERROR: that open brace { should be on the previous line
+#8964: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10989:
++	if ((!curr_stream) ||
++	    (curr_stream->num_pipes =3D=3D 0) ||
++	    (!pipes) ||
++	    (!do_crop_status))
++	{
+
+ERROR: that open brace { should be on the previous line
+#8980: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:10999:
++	for (i =3D 0; i < curr_stream->num_pipes; i++)
++	{
+
+ERROR: open brace '{' following function definitions go on the next line
+#9003: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11013:
++static bool
++aspect_ratio_crop_check(bool enabled, struct ia_css_pipe *curr_pipe) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#9035: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11027:
++static enum ia_css_err
++aspect_ratio_crop(struct ia_css_pipe *curr_pipe,
++		    struct ia_css_resolution *effective_res) {
+
+CHECK: Alignment should match open parenthesis
+#9037: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11029:
++aspect_ratio_crop(struct ia_css_pipe *curr_pipe,
++		    struct ia_css_resolution *effective_res) {
+
+ERROR: that open brace { should be on the previous line
+#9054: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11038:
++	if ((!curr_pipe) ||
++	    (!effective_res))
++	{
+
+ERROR: that open brace { should be on the previous line
+#9065: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11046:
++	if ((curr_pipe->config.mode !=3D IA_CSS_PIPE_MODE_PREVIEW) &&
++	    (curr_pipe->config.mode !=3D IA_CSS_PIPE_MODE_VIDEO) &&
++	    (curr_pipe->config.mode !=3D IA_CSS_PIPE_MODE_CAPTURE))
++	{
+
+ERROR: that open brace { should be on the previous line
+#9133: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11070:
++	switch (curr_pipe->config.mode)
++	{
+
+CHECK: Alignment should match open parenthesis
+#9154: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11091:
++		IA_CSS_ERROR("aspect ratio cropping invalid args: mode[%d]\n",
++				curr_pipe->config.mode);
+
+ERROR: that open brace { should be on the previous line
+#9161: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11097:
++	if (err =3D=3D IA_CSS_SUCCESS)
++	{
+
+ERROR: that open brace { should be on the previous line
+#9164: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11100:
++	} else
++	{
+
+CHECK: Unbalanced braces around else statement
+#9164: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11100:
++	} else
+
+WARNING: Block comments use a trailing */ on a separate line
+#9167: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11103:
++		    * effective resolution from driver. */
+
+WARNING: Block comments should align the * on each line
+#9167: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11103:
++		/* in case of error fallback to default
++		    * effective resolution from driver. */
+
+WARNING: line over 80 characters
+#9168: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11104:
++		IA_CSS_LOG("ia_css_frame_find_crop_resolution() failed with err(%d)", er=
+r);
+
+ERROR: open brace '{' following function definitions go on the next line
+#9180: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11110:
++static void
++sh_css_hmm_buffer_record_init(void) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#9201: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11118:
++static void
++sh_css_hmm_buffer_record_uninit(void) {
+
+WARNING: line over 80 characters
+#9210: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11127:
++				ia_css_rmgr_rel_vbuf(hmm_buffer_pool, &buffer_record->h_vbuf);
+
+ERROR: open brace '{' following function definitions go on the next line
+#9225: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11134:
++static void
++sh_css_hmm_buffer_record_reset(struct sh_css_hmm_buffer_record *buffer_rec=
+ord) {
+
+ERROR: open brace '{' following function definitions go on the next line
+#9259: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11143:
++static struct sh_css_hmm_buffer_record
++*sh_css_hmm_buffer_record_acquire(struct ia_css_rmgr_vbuf_handle *h_vbuf,
++				    enum ia_css_buffer_type type,
++				    hrt_address kernel_ptr) {
+
+CHECK: Alignment should match open parenthesis
+#9270: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11153:
++	assert((type > IA_CSS_BUFFER_TYPE_INVALID) &&
++		(type < IA_CSS_NUM_DYNAMIC_BUFFER_TYPE));
+
+ERROR: open brace '{' following function definitions go on the next line
+#9311: drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css.c:11172:
++static struct sh_css_hmm_buffer_record
++*sh_css_hmm_buffer_record_validate(hrt_vaddress ddr_buffer_addr,
++				    enum ia_css_buffer_type type) {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-
---===============7648220884771607840==
-Content-Type: application/gzip
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="config.gz"
-
-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
-hwIA
---===============7648220884771607840==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2516603246806668886==--
 
