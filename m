@@ -1,20 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============1867092698284959197=="
+Content-Type: multipart/mixed; boundary="===============0117539332214543466=="
 MIME-Version: 1.0
 From: Malcolm Priestley <tvboxspy@gmail.com>
 To: kbuild-all@lists.01.org
-Subject: [PATCH] staging: vt6656: Fix warning: unused variable vnt_frame_time
-Date: Wed, 27 May 2020 10:28:36 +0100
-Message-ID: <41690fb4-fa4d-ffc3-0eb0-2879de2cee1a@gmail.com>
+Subject: [PATCH v2] staging: vt6656: Fix warning: unused variable vnt_frame_time
+Date: Wed, 27 May 2020 10:35:46 +0100
+Message-ID: <5096f399-03e7-77e1-b334-947aabc44d14@gmail.com>
 In-Reply-To: <202005241918.IseLzHqZ%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1867092698284959197==
+--===============0117539332214543466==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-In commit 3436accadc3f
-("staging: vt6656: Move vnt_get_frame_time and vnt_get_phy_field to rxtx")
+In commit 61bb798767e4
+("staging: vt6656: vnt_get_rtscts_rsvtime_le replace with rts/cts duration.=
+")
 not quite all of the code was removed.
 
 Remove unused vnt_frame_time variable.
@@ -22,6 +23,9 @@ Remove unused vnt_frame_time variable.
 Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Malcolm Priestley <tvboxspy@gmail.com>
 ---
+v2 corrected the commit =
+
+
  drivers/staging/vt6656/rxtx.c | 4 ----
  1 file changed, 4 deletions(-)
 
@@ -44,5 +48,5 @@ index 5530c06ffd40..5dd6b4d2bf20 100644
 -- =
 
 2.27.0.rc0
---===============1867092698284959197==--
+--===============0117539332214543466==--
 
