@@ -1,42 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============2768082234782858086=="
+Content-Type: multipart/mixed; boundary="===============8493665910842522076=="
 MIME-Version: 1.0
-From: kbuild test robot <lkp@intel.com>
+From: Stephen Boyd <sboyd@kernel.org>
 To: kbuild-all@lists.01.org
-Subject: [RFC PATCH linux-next] Revert "net: bcmgenet: bcmgenet_hfb_add_filter() can be static
-Date: Sat, 30 May 2020 01:54:05 +0800
-Message-ID: <20200529175405.GA69129@d90f8b999b53>
-In-Reply-To: <202005300154.63FdkmJb%lkp@intel.com>
+Subject: Re: [linux-next:master 6122/12912] drivers/clk/ingenic/tcu.c:326:34: warning: unused variable 'ingenic_tcu_of_match'
+Date: Thu, 28 May 2020 16:32:52 -0700
+Message-ID: <159070877291.69627.13269208631006456530@swboyd.mtv.corp.google.com>
+In-Reply-To: <202005270146.iZ16Zb9Q%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2768082234782858086==
+--===============8493665910842522076==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+Quoting kbuild test robot (2020-05-26 10:54:49)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   b0523c7b1c9d0edcd6c0fe6d2cb558a9ad5c60a8
+> commit: bbd7ffdbef6888459f301c5889f3b14ada38b913 [6122/12912] clk: Allow =
+the common clk framework to be selectable
+> config: mips-randconfig-r012-20200526 (attached as .config)
+> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 3393=
+cc4cebf9969db94dc424b7a2b6195589c33b)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install mips cross compiling tool for clang build
+>         # apt-get install binutils-mips-linux-gnu
+>         git checkout bbd7ffdbef6888459f301c5889f3b14ada38b913
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross AR=
+CH=3Dmips =
 
-Fixes: 14da1510fedc ("Revert "net: bcmgenet: remove unused function in bcmg=
-enet.c"")
-Signed-off-by: kbuild test robot <lkp@intel.com>
----
- bcmgenet.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> =
 
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/e=
-thernet/broadcom/genet/bcmgenet.c
-index b37ef05c5083a..98e492e066dcb 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-@@ -2855,8 +2855,8 @@ static int bcmgenet_hfb_find_unused_filter(struct bcm=
-genet_priv *priv)
-  * bcmgenet_hfb_add_filter(priv, hfb_filter_ipv4_udp,
-  *                         ARRAY_SIZE(hfb_filter_ipv4_udp), 0);
-  */
--int bcmgenet_hfb_add_filter(struct bcmgenet_priv *priv, u32 *f_data,
--			    u32 f_length, u32 rx_queue)
-+static int bcmgenet_hfb_add_filter(struct bcmgenet_priv *priv, u32 *f_data,
-+				   u32 f_length, u32 rx_queue)
- {
- 	int f_index;
- 	u32 i;
---===============2768082234782858086==--
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kbuild test robot <lkp@intel.com>
+> =
+
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> =
+
+> >> drivers/clk/ingenic/tcu.c:326:34: warning: unused variable 'ingenic_tc=
+u_of_match' [-Wunused-const-variable]
+> static const struct of_device_id ingenic_tcu_of_match[] __initconst =3D {
+
+Looks like we need to add a __maybe_unused marking here. I'll do that
+now.
+--===============8493665910842522076==--
 
