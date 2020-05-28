@@ -1,19 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============1943827157092222125=="
+Content-Type: multipart/mixed; boundary="===============5613720007060285072=="
 MIME-Version: 1.0
-From: Peter Zijlstra <peterz@infradead.org>
+From: Marco Elver <elver@google.com>
 To: kbuild-all@lists.01.org
 Subject: Re: [tip:locking/kcsan 12/12] /bin/bash: line 1: 61526 Segmentation fault sparse ...
-Date: Thu, 28 May 2020 09:55:53 +0200
-Message-ID: <20200528075553.GC706478@hirez.programming.kicks-ass.net>
+Date: Thu, 28 May 2020 09:59:00 +0200
+Message-ID: <20200528075900.GA236442@google.com>
 In-Reply-To: <20200527235442.GC1805@zn.tnic>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1943827157092222125==
+--===============5613720007060285072==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 28, 2020 at 01:54:42AM +0200, Borislav Petkov wrote:
+On Thu, 28 May 2020, Borislav Petkov wrote:
+
 > On Thu, May 28, 2020 at 07:39:31AM +0800, kbuild test robot wrote:
 > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git loc=
 king/kcsan
@@ -50,7 +51,46 @@ K_ENDIAN__'
 > Looks like we need __CHECKER__ ifdeffery somewhere but it is too late
 > for me to think straight so tomorrow...
 
-I think the problem is that sparse can't parse the C11 _Generic thing.
-Someone needs to teach it new tricks.
---===============1943827157092222125==--
+Ouch. The below should be all we need, assuming it's the best we can do
+for sparse right now.
+
+Thanks,
+-- Marco
+
+------ >8 ------
+
+From: Marco Elver <elver@google.com>
+Date: Thu, 28 May 2020 09:43:13 +0200
+Subject: [PATCH] compiler_types.h: Use unoptimized __unqual_scalar_typeof f=
+or
+ sparse
+
+If the file is being checked with sparse, use the unoptimized version of
+__unqual_scalar_typeof(), since sparse does not support _Generic.
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ include/linux/compiler_types.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index a529fa263906..c1ee20812a8c 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -246,7 +246,7 @@ struct ftrace_likely_data {
+  * __unqual_scalar_typeof(x) - Declare an unqualified scalar type, leaving
+  *			       non-scalar types unchanged.
+  */
+-#if defined(CONFIG_CC_IS_GCC) && CONFIG_GCC_VERSION < 40900
++#if (defined(CONFIG_CC_IS_GCC) && CONFIG_GCC_VERSION < 40900) || defined(_=
+_CHECKER__)
+ /*
+  * We build this out of a couple of helper macros in a vain attempt to
+  * help you keep your lunch down while reading it.
+-- =
+
+2.27.0.rc0.183.gde8f92d652-goog
+
+--===============5613720007060285072==--
 
