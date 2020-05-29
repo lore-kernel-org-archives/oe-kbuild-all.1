@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6248556215703240106=="
+Content-Type: multipart/mixed; boundary="===============1061229588927511228=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [palmer:intc 7/18] arch/riscv/kernel/kgdb.c:110:6: warning: no previous prototype for 'kgdb_arch_handle_qxfer_pkt'
-Date: Fri, 29 May 2020 22:41:25 +0800
-Message-ID: <202005292221.HaVpAUFv%lkp@intel.com>
+Subject: [palmer:intc 8/18] arch/riscv/kernel/kgdb.c:47:5: warning: no previous prototype for 'decode_register_index'
+Date: Fri, 29 May 2020 23:22:35 +0800
+Message-ID: <202005292332.UkOWwc2s%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6248556215703240106==
+--===============1061229588927511228==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,15 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git in=
 tc
 head:   2bd957e2b0b66894613a189939378cd1c000188d
-commit: d96575709cc7056f34fdd5cdc16bcffe5bdb573d [7/18] riscv: Use the XML =
-target descriptions to report 3 system registers
+commit: edde5584c7ab5d18b87f092fe6fe8a72590e7100 [8/18] riscv: Add SW singl=
+e-step support for KDB
 config: riscv-allyesconfig (attached as .config)
 compiler: riscv64-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git checkout d96575709cc7056f34fdd5cdc16bcffe5bdb573d
+        git checkout edde5584c7ab5d18b87f092fe6fe8a72590e7100
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 ARCH=3Driscv =
@@ -34,13 +34,32 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/riscv/kernel/kgdb.c:110:6: warning: no previous prototype for 'kgdb=
-_arch_handle_qxfer_pkt' [-Wmissing-prototypes]
-110 | void kgdb_arch_handle_qxfer_pkt(char *remcom_in_buffer,
+<<                  from arch/riscv/kernel/kgdb.c:9:
+>> arch/riscv/kernel/kgdb.c:47:5: warning: no previous prototype for 'decod=
+e_register_index' [-Wmissing-prototypes]
+47 | int decode_register_index(unsigned long opcode, int offset)
+|     ^~~~~~~~~~~~~~~~~~~~~
+<<                  from arch/riscv/kernel/kgdb.c:9:
+>> arch/riscv/kernel/kgdb.c:52:5: warning: no previous prototype for 'decod=
+e_register_index_short' [-Wmissing-prototypes]
+52 | int decode_register_index_short(unsigned long opcode, int offset)
+|     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+<<                  from arch/riscv/kernel/kgdb.c:9:
+>> arch/riscv/kernel/kgdb.c:58:5: warning: no previous prototype for 'get_s=
+tep_address' [-Wmissing-prototypes]
+58 | int get_step_address(struct pt_regs *regs, unsigned long *next_addr)
+|     ^~~~~~~~~~~~~~~~
+arch/riscv/kernel/kgdb.c:139:5: warning: no previous prototype for 'do_sing=
+le_step' [-Wmissing-prototypes]
+139 | int do_single_step(struct pt_regs *regs)
+|     ^~~~~~~~~~~~~~
+arch/riscv/kernel/kgdb.c:276:6: warning: no previous prototype for 'kgdb_ar=
+ch_handle_qxfer_pkt' [-Wmissing-prototypes]
+276 | void kgdb_arch_handle_qxfer_pkt(char *remcom_in_buffer,
 |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-arch/riscv/kernel/kgdb.c:152:5: warning: no previous prototype for 'kgdb_ri=
+arch/riscv/kernel/kgdb.c:323:5: warning: no previous prototype for 'kgdb_ri=
 scv_kgdbbreak' [-Wmissing-prototypes]
-152 | int kgdb_riscv_kgdbbreak(unsigned long addr)
+323 | int kgdb_riscv_kgdbbreak(unsigned long addr)
 |     ^~~~~~~~~~~~~~~~~~~~
 In file included from arch/riscv/include/asm/kgdb.h:109,
 from include/linux/kgdb.h:20,
@@ -50,34 +69,120 @@ fined but not used [-Wunused-const-variable=3D]
 7 | static const char riscv_gdb_stub_feature[64] =3D
 |                   ^~~~~~~~~~~~~~~~~~~~~~
 
-vim +/kgdb_arch_handle_qxfer_pkt +110 arch/riscv/kernel/kgdb.c
+vim +/decode_register_index +47 arch/riscv/kernel/kgdb.c
 
-   109	=
+    46	=
 
- > 110	void kgdb_arch_handle_qxfer_pkt(char *remcom_in_buffer,
-   111					char *remcom_out_buffer)
-   112	{
-   113		if (!strncmp(remcom_in_buffer, gdb_xfer_read_target,
-   114			     sizeof(gdb_xfer_read_target)))
-   115			strcpy(remcom_out_buffer, riscv_gdb_stub_target_desc);
-   116		else if (!strncmp(remcom_in_buffer, gdb_xfer_read_cpuxml,
-   117				  sizeof(gdb_xfer_read_cpuxml)))
-   118			strcpy(remcom_out_buffer, riscv_gdb_stub_cpuxml);
-   119	}
-   120	=
+  > 47	int decode_register_index(unsigned long opcode, int offset)
+    48	{
+    49		return (opcode >> offset) & 0x1F;
+    50	}
+    51	=
+
+  > 52	int decode_register_index_short(unsigned long opcode, int offset)
+    53	{
+    54		return ((opcode >> offset) & 0x7) + 8;
+    55	}
+    56	=
+
+    57	/* Calculate the new address for after a step */
+  > 58	int get_step_address(struct pt_regs *regs, unsigned long *next_addr)
+    59	{
+    60		unsigned long pc =3D regs->epc;
+    61		unsigned long *regs_ptr =3D (unsigned long *)regs;
+    62		unsigned int rs1_num, rs2_num;
+    63		int op_code;
+    64	=
+
+    65		if (probe_kernel_address((void *)pc, op_code))
+    66			return -EINVAL;
+    67		if ((op_code & __INSN_LENGTH_MASK) !=3D __INSN_LENGTH_GE_32) {
+    68			if (is_c_jalr_insn(op_code) || is_c_jr_insn(op_code)) {
+    69				rs1_num =3D decode_register_index(op_code, RVC_C2_RS1_OPOFF);
+    70				*next_addr =3D regs_ptr[rs1_num];
+    71			} else if (is_c_j_insn(op_code) || is_c_jal_insn(op_code)) {
+    72				*next_addr =3D EXTRACT_RVC_J_IMM(op_code) + pc;
+    73			} else if (is_c_beqz_insn(op_code)) {
+    74				rs1_num =3D decode_register_index_short(op_code,
+    75								      RVC_C1_RS1_OPOFF);
+    76				if (!rs1_num || regs_ptr[rs1_num] =3D=3D 0)
+    77					*next_addr =3D EXTRACT_RVC_B_IMM(op_code) + pc;
+    78				else
+    79					*next_addr =3D pc + 2;
+    80			} else if (is_c_bnez_insn(op_code)) {
+    81				rs1_num =3D
+    82				    decode_register_index_short(op_code, RVC_C1_RS1_OPOFF);
+    83				if (rs1_num && regs_ptr[rs1_num] !=3D 0)
+    84					*next_addr =3D EXTRACT_RVC_B_IMM(op_code) + pc;
+    85				else
+    86					*next_addr =3D pc + 2;
+    87			} else {
+    88				*next_addr =3D pc + 2;
+    89			}
+    90		} else {
+    91			if ((op_code & __INSN_OPCODE_MASK) =3D=3D __INSN_BRANCH_OPCODE) {
+    92				bool result =3D false;
+    93				long imm =3D EXTRACT_BTYPE_IMM(op_code);
+    94				unsigned long rs1_val =3D 0, rs2_val =3D 0;
+    95	=
+
+    96				rs1_num =3D decode_register_index(op_code, RVG_RS1_OPOFF);
+    97				rs2_num =3D decode_register_index(op_code, RVG_RS2_OPOFF);
+    98				if (rs1_num)
+    99					rs1_val =3D regs_ptr[rs1_num];
+   100				if (rs2_num)
+   101					rs2_val =3D regs_ptr[rs2_num];
+   102	=
+
+   103				if (is_beq_insn(op_code))
+   104					result =3D (rs1_val =3D=3D rs2_val) ? true : false;
+   105				else if (is_bne_insn(op_code))
+   106					result =3D (rs1_val !=3D rs2_val) ? true : false;
+   107				else if (is_blt_insn(op_code))
+   108					result =3D
+   109					    ((long)rs1_val <
+   110					     (long)rs2_val) ? true : false;
+   111				else if (is_bge_insn(op_code))
+   112					result =3D
+   113					    ((long)rs1_val >=3D
+   114					     (long)rs2_val) ? true : false;
+   115				else if (is_bltu_insn(op_code))
+   116					result =3D (rs1_val < rs2_val) ? true : false;
+   117				else if (is_bgeu_insn(op_code))
+   118					result =3D (rs1_val >=3D rs2_val) ? true : false;
+   119				if (result)
+   120					*next_addr =3D imm + pc;
+   121				else
+   122					*next_addr =3D pc + 4;
+   123			} else if (is_jal_insn(op_code)) {
+   124				*next_addr =3D EXTRACT_JTYPE_IMM(op_code) + pc;
+   125			} else if (is_jalr_insn(op_code)) {
+   126				rs1_num =3D decode_register_index(op_code, RVG_RS1_OPOFF);
+   127				if (rs1_num)
+   128					*next_addr =3D ((unsigned long *)regs)[rs1_num];
+   129				*next_addr +=3D EXTRACT_ITYPE_IMM(op_code);
+   130			} else if (is_sret_insn(op_code)) {
+   131				*next_addr =3D pc;
+   132			} else {
+   133				*next_addr =3D pc + 4;
+   134			}
+   135		}
+   136		return 0;
+   137	}
+   138	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6248556215703240106==
+--===============1061229588927511228==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEMc0V4AAy5jb25maWcAlDxLk9s20vf8CpVz2T0kOy8rzn41B5AEJUQkQROgNJoLSx7LzlTG
+H4sICEok0V4AAy5jb25maWcAlDxLk9s20vf8CpVz2T0kOy8rzn41B5AEJUQkQROgNJoLSx7LzlTG
 M64ZOZvsr/+6wRcaADleVyo2uxsNoNHoFwD9+MOPC/bt9PTlcLq/Ozw8/L34fHw8Ph9Ox4+LT/cP
 x/9bJHJRSL3gidA/A3F2//jtr38937/c/bl4+/MvP5/99Hy3XGyOz4/Hh0X89Pjp/vM3aH7/9PjD
 jz/Afz8C8MtX4PT874Vptbz66QF5/PT57m7xj1Uc/3Px68+XP58BbSyLVKyaOG6EagBz/XcPgo9m
@@ -1191,5 +1296,5 @@ wyUQTwpgmHGJ7mHanWc28R7q1t6FT9Mx5MoS9KFpjhINX6yTqT3tCSzT1DgKponusmuqqZJNSkW4
 xS5TKzOmPrFvE6yjqAfewMVSImidts7tedslzWYZY3DjmCyuU5n1DiJEZ8qwHe63KuWd/RwliO61
 i9n0CLS+qaw5IK/cJs0jAckzNiFITBqCLlZMZSVvIfv8cTMf++WG5BBXUgOK3LvvXUm95/LcLtDu
 y22YJ3w1nYdN2imk/we2XyF28BQEAA==
---===============6248556215703240106==--
+--===============1061229588927511228==--
 
