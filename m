@@ -1,502 +1,976 @@
-Content-Type: multipart/mixed; boundary="===============8164051694738593071=="
+Content-Type: multipart/mixed; boundary="===============2572857222738449674=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [morimoto-linux:fw-cleanup-2020-05-28-v1 117/181] drivers/sh/clk/cpg.c:49:30: sparse: sparse: incorrect type in assignment (incompatible argument 1 (different modifiers))
-Date: Sat, 30 May 2020 23:15:29 +0800
-Message-ID: <202005302326.OkJT4m56%lkp@intel.com>
+Subject: [lee:android-3.18-preview 7/74] drivers/net/phy/micrel.c:392:11: warning: Variable 'of_node' is reassigned a value before the old one has been used. [redundantAssignment]
+Date: Sat, 30 May 2020 23:23:13 +0800
+Message-ID: <202005302308.08asYfKV%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8164051694738593071==
+--===============2572857222738449674==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/morimoto/linux fw-cleanup-2020-05-28-v1
-head:   009438df3f3df543e5ba26a9aed30bb019da68ac
-commit: d59a9b29503f8584228715caba39c8004a7e23c3 [117/181] sh: clkfwk: remo=
-ve r8/r16/r32
-config: sh-randconfig-s031-20200529 (attached as .config)
-compiler: sh4-linux-gcc (GCC) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-243-gc100a7ab-dirty
-        git checkout d59a9b29503f8584228715caba39c8004a7e23c3
-        # save the attached .config to linux build tree
-        make W=3D1 C=3D1 ARCH=3Dsh CF=3D'-fdiagnostic-prefix -D__CHECK_ENDI=
-AN__'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/linux.git andro=
+id-3.18-preview
+head:   5f0d8dab651699c96d18a23329aadc25bc2394f7
+commit: da7c917adca3840de9a5372c6ab36ec417ee551a [7/74] phy: micrel: Fix fi=
+nding PHY properties in MAC node for KSZ9031.
+compiler: gcc-5 (Ubuntu 5.5.0-12ubuntu1) 5.5.0 20171010
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
+cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/sh/clk/cpg.c:49:30: sparse: sparse: incorrect type in assignment=
- (incompatible argument 1 (different modifiers)) @@     expected unsigned i=
-nt ( *read )( ... ) @@     got unsigned int ( * )( ... ) @@
->> drivers/sh/clk/cpg.c:49:30: sparse:     expected unsigned int ( *read )(=
- ... )
->> drivers/sh/clk/cpg.c:49:30: sparse:     got unsigned int ( * )( ... )
-   drivers/sh/clk/cpg.c:51:30: sparse: sparse: incorrect type in assignment=
- (incompatible argument 1 (different modifiers)) @@     expected unsigned i=
-nt ( *read )( ... ) @@     got unsigned int ( * )( ... ) @@
-   drivers/sh/clk/cpg.c:51:30: sparse:     expected unsigned int ( *read )(=
- ... )
-   drivers/sh/clk/cpg.c:51:30: sparse:     got unsigned int ( * )( ... )
-   drivers/sh/clk/cpg.c:53:30: sparse: sparse: incorrect type in assignment=
- (incompatible argument 1 (different modifiers)) @@     expected unsigned i=
-nt ( *read )( ... ) @@     got unsigned int ( * )( ... ) @@
-   drivers/sh/clk/cpg.c:53:30: sparse:     expected unsigned int ( *read )(=
- ... )
-   drivers/sh/clk/cpg.c:53:30: sparse:     got unsigned int ( * )( ... )
-   drivers/sh/clk/cpg.c:469:43: sparse: sparse: Using plain integer as NULL=
- pointer
+>> net/ipv4/udp.c:1076:6: warning: Variable 'err' is reassigned a value bef=
+ore the old one has been used. [redundantAssignment]
+    err =3D ip_append_data(sk, fl4, getfrag, msg->msg_iov, ulen,
+        ^
+   net/ipv4/udp.c:1027:7: note: Variable 'err' is reassigned a value before=
+ the old one has been used.
+     err =3D -EACCES;
+         ^
+   net/ipv4/udp.c:1076:6: note: Variable 'err' is reassigned a value before=
+ the old one has been used.
+    err =3D ip_append_data(sk, fl4, getfrag, msg->msg_iov, ulen,
+        ^
+>> net/ipv4/devinet.c:997:26: warning: Either the condition '!ifa' is redun=
+dant or there is possible null pointer dereference: ifa. [nullPointerRedund=
+antCheck]
+     sin->sin_addr.s_addr =3D ifa->ifa_local;
+                            ^
+   net/ipv4/devinet.c:1015:8: note: Assuming that condition '!ifa' is not r=
+edundant
+      if (!ifa)
+          ^
+   net/ipv4/devinet.c:997:26: note: Null pointer dereference
+     sin->sin_addr.s_addr =3D ifa->ifa_local;
+                            ^
+   net/ipv4/devinet.c:1001:26: warning: Either the condition '!ifa' is redu=
+ndant or there is possible null pointer dereference: ifa. [nullPointerRedun=
+dantCheck]
+     sin->sin_addr.s_addr =3D ifa->ifa_broadcast;
+                            ^
+   net/ipv4/devinet.c:1015:8: note: Assuming that condition '!ifa' is not r=
+edundant
+      if (!ifa)
+          ^
+   net/ipv4/devinet.c:1001:26: note: Null pointer dereference
+     sin->sin_addr.s_addr =3D ifa->ifa_broadcast;
+                            ^
+   net/ipv4/devinet.c:1005:26: warning: Either the condition '!ifa' is redu=
+ndant or there is possible null pointer dereference: ifa. [nullPointerRedun=
+dantCheck]
+     sin->sin_addr.s_addr =3D ifa->ifa_address;
+                            ^
+   net/ipv4/devinet.c:1015:8: note: Assuming that condition '!ifa' is not r=
+edundant
+      if (!ifa)
+          ^
+   net/ipv4/devinet.c:1005:26: note: Null pointer dereference
+     sin->sin_addr.s_addr =3D ifa->ifa_address;
+                            ^
+   net/ipv4/devinet.c:1009:26: warning: Either the condition '!ifa' is redu=
+ndant or there is possible null pointer dereference: ifa. [nullPointerRedun=
+dantCheck]
+     sin->sin_addr.s_addr =3D ifa->ifa_mask;
+                            ^
+   net/ipv4/devinet.c:1015:8: note: Assuming that condition '!ifa' is not r=
+edundant
+      if (!ifa)
+          ^
+   net/ipv4/devinet.c:1009:26: note: Null pointer dereference
+     sin->sin_addr.s_addr =3D ifa->ifa_mask;
+                            ^
+>> net/ipv4/devinet.c:257:6: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    err =3D devinet_sysctl_register(in_dev);
+        ^
+   net/ipv4/devinet.c:236:0: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    int err =3D -ENOMEM;
+   ^
+   net/ipv4/devinet.c:257:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D devinet_sysctl_register(in_dev);
+        ^
+   net/ipv4/devinet.c:566:6: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    err =3D nlmsg_parse(nlh, sizeof(*ifm), tb, IFA_MAX, ifa_ipv4_policy);
+        ^
+   net/ipv4/devinet.c:562:0: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    int err =3D -EINVAL;
+   ^
+   net/ipv4/devinet.c:566:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D nlmsg_parse(nlh, sizeof(*ifm), tb, IFA_MAX, ifa_ipv4_policy);
+        ^
+   net/ipv4/devinet.c:744:6: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    err =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:739:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D -EINVAL;
+        ^
+   net/ipv4/devinet.c:744:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:749:6: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    err =3D -ENOBUFS;
+        ^
+   net/ipv4/devinet.c:744:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:749:6: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+>> net/ipv4/devinet.c:955:6: warning: Variable 'ret' is reassigned a value =
+before the old one has been used. 'break;' missing? [redundantAssignInSwitc=
+h]
+    ret =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:898:0: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used. 'break;' missing?
+    int ret =3D -EFAULT;
+   ^
+   net/ipv4/devinet.c:955:6: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used. 'break;' missing?
+    ret =3D -ENODEV;
+        ^
+>> net/ipv4/devinet.c:955:6: warning: Variable 'ret' is reassigned a value =
+before the old one has been used. 'break;' missing? [redundantAssignInSwitc=
+h]
+    ret =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:933:7: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used. 'break;' missing?
+     ret =3D -EPERM;
+         ^
+   net/ipv4/devinet.c:955:6: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used. 'break;' missing?
+    ret =3D -ENODEV;
+        ^
+>> net/ipv4/devinet.c:944:7: warning: Variable 'ret' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:941:7: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+     ret =3D -EPERM;
+         ^
+   net/ipv4/devinet.c:944:7: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:955:6: warning: Variable 'ret' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    ret =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:944:7: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:955:6: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+    ret =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:991:6: warning: Variable 'ret' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+    ret =3D -EADDRNOTAVAIL;
+        ^
+   net/ipv4/devinet.c:955:6: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+    ret =3D -ENODEV;
+        ^
+   net/ipv4/devinet.c:991:6: note: Variable 'ret' is reassigned a value bef=
+ore the old one has been used.
+    ret =3D -EADDRNOTAVAIL;
+        ^
+   net/ipv4/devinet.c:1017:8: warning: Variable 'ret' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+      ret =3D 0;
+          ^
+   net/ipv4/devinet.c:1014:8: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+      ret =3D -EADDRNOTAVAIL;
+          ^
+   net/ipv4/devinet.c:1017:8: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+      ret =3D 0;
+          ^
+   net/ipv4/devinet.c:1031:8: warning: Variable 'ret' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+      ret =3D -ENOBUFS;
+          ^
+   net/ipv4/devinet.c:1026:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:1031:8: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+      ret =3D -ENOBUFS;
+          ^
+   net/ipv4/devinet.c:1063:7: warning: Variable 'ret' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+     ret =3D inet_set_ifa(dev, ifa);
+         ^
+   net/ipv4/devinet.c:1031:8: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+      ret =3D -ENOBUFS;
+          ^
+   net/ipv4/devinet.c:1063:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D inet_set_ifa(dev, ifa);
+         ^
+   net/ipv4/devinet.c:1082:7: warning: Variable 'ret' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+     ret =3D 0;
+         ^
+   net/ipv4/devinet.c:1079:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:1082:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D 0;
+         ^
+   net/ipv4/devinet.c:1096:7: warning: Variable 'ret' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+     ret =3D 0;
+         ^
+   net/ipv4/devinet.c:1093:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D -EINVAL;
+         ^
+   net/ipv4/devinet.c:1096:7: note: Variable 'ret' is reassigned a value be=
+fore the old one has been used.
+     ret =3D 0;
+         ^
+>> net/ipv4/devinet.c:1546:51: warning: Variable 's_idx' is reassigned a va=
+lue before the old one has been used. [redundantAssignment]
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv4/devinet.c:1543:8: note: Variable 's_idx' is reassigned a value =
+before the old one has been used.
+    s_idx =3D idx =3D cb->args[1];
+          ^
+   net/ipv4/devinet.c:1546:51: note: Variable 's_idx' is reassigned a value=
+ before the old one has been used.
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv4/devinet.c:1601:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D inet_fill_ifaddr(skb, ifa, portid, seq, event, 0);
+        ^
+   net/ipv4/devinet.c:1593:0: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv4/devinet.c:1601:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D inet_fill_ifaddr(skb, ifa, portid, seq, event, 0);
+        ^
+   net/ipv4/devinet.c:1768:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D inet_netconf_fill_devconf(skb, ifindex, devconf, 0, 0,
+        ^
+   net/ipv4/devinet.c:1762:0: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv4/devinet.c:1768:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D inet_netconf_fill_devconf(skb, ifindex, devconf, 0, 0,
+        ^
+>> net/ipv4/devinet.c:1831:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. 'break;' missing? [redundantAssignInSwit=
+ch]
+    err =3D -ENOBUFS;
+        ^
+   net/ipv4/devinet.c:1808:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used. 'break;' missing?
+    err =3D -EINVAL;
+        ^
+   net/ipv4/devinet.c:1831:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used. 'break;' missing?
+    err =3D -ENOBUFS;
+        ^
+   net/ipv4/devinet.c:1836:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D inet_netconf_fill_devconf(skb, ifindex, devconf,
+        ^
+   net/ipv4/devinet.c:1831:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/ipv4/devinet.c:1836:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D inet_netconf_fill_devconf(skb, ifindex, devconf,
+        ^
+   net/ipv4/devinet.c:1864:51: warning: Variable 's_idx' is reassigned a va=
+lue before the old one has been used. [redundantAssignment]
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv4/devinet.c:1862:8: note: Variable 's_idx' is reassigned a value =
+before the old one has been used.
+    s_idx =3D idx =3D cb->args[1];
+          ^
+   net/ipv4/devinet.c:1864:51: note: Variable 's_idx' is reassigned a value=
+ before the old one has been used.
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv4/devinet.c:2264:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D __devinet_sysctl_register(net, "all", all);
+        ^
+   net/ipv4/devinet.c:2239:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D -ENOMEM;
+        ^
+   net/ipv4/devinet.c:2264:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D __devinet_sysctl_register(net, "all", all);
+        ^
+>> net/ipv6/addrconf.c:424:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D addrconf_sysctl_register(ndev);
+        ^
+   net/ipv6/addrconf.c:343:0: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    int err =3D -ENOMEM;
+   ^
+   net/ipv6/addrconf.c:424:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D addrconf_sysctl_register(ndev);
+        ^
+   net/ipv6/addrconf.c:539:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D inet6_netconf_fill_devconf(skb, ifindex, devconf, 0, 0,
+        ^
+   net/ipv6/addrconf.c:533:0: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv6/addrconf.c:539:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D inet6_netconf_fill_devconf(skb, ifindex, devconf, 0, 0,
+        ^
+>> net/ipv6/addrconf.c:600:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. 'break;' missing? [redundantAssignInSwit=
+ch]
+    err =3D -ENOBUFS;
+        ^
+   net/ipv6/addrconf.c:577:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used. 'break;' missing?
+    err =3D -EINVAL;
+        ^
+   net/ipv6/addrconf.c:600:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used. 'break;' missing?
+    err =3D -ENOBUFS;
+        ^
+   net/ipv6/addrconf.c:605:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D inet6_netconf_fill_devconf(skb, ifindex, devconf,
+        ^
+   net/ipv6/addrconf.c:600:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/ipv6/addrconf.c:605:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D inet6_netconf_fill_devconf(skb, ifindex, devconf,
+        ^
+>> net/ipv6/addrconf.c:633:51: warning: Variable 's_idx' is reassigned a va=
+lue before the old one has been used. [redundantAssignment]
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:631:8: note: Variable 's_idx' is reassigned a value =
+before the old one has been used.
+    s_idx =3D idx =3D cb->args[1];
+          ^
+   net/ipv6/addrconf.c:633:51: note: Variable 's_idx' is reassigned a value=
+ before the old one has been used.
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:2498:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D -EFAULT;
+        ^
+   net/ipv6/addrconf.c:2494:0: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    int err =3D -EINVAL;
+   ^
+   net/ipv6/addrconf.c:2498:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D -EFAULT;
+        ^
+   net/ipv6/addrconf.c:2504:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D -ENODEV;
+        ^
+   net/ipv6/addrconf.c:2498:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D -EFAULT;
+        ^
+   net/ipv6/addrconf.c:2504:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D -ENODEV;
+        ^
+   net/ipv6/addrconf.c:4305:51: warning: Variable 's_idx' is reassigned a v=
+alue before the old one has been used. [redundantAssignment]
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:4300:8: note: Variable 's_idx' is reassigned a value=
+ before the old one has been used.
+    s_idx =3D idx =3D cb->args[1];
+          ^
+   net/ipv6/addrconf.c:4305:51: note: Variable 's_idx' is reassigned a valu=
+e before the old one has been used.
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:4418:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D inet6_fill_ifaddr(skb, ifa, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:4412:0: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv6/addrconf.c:4418:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D inet6_fill_ifaddr(skb, ifa, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:4791:51: warning: Variable 's_idx' is reassigned a v=
+alue before the old one has been used. [redundantAssignment]
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:4788:8: note: Variable 's_idx' is reassigned a value=
+ before the old one has been used.
+    s_idx =3D cb->args[1];
+          ^
+   net/ipv6/addrconf.c:4791:51: note: Variable 's_idx' is reassigned a valu=
+e before the old one has been used.
+    for (h =3D s_h; h < NETDEV_HASHENTRIES; h++, s_idx =3D 0) {
+                                                     ^
+   net/ipv6/addrconf.c:4827:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D inet6_fill_ifinfo(skb, idev, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:4821:0: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv6/addrconf.c:4827:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D inet6_fill_ifinfo(skb, idev, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:4898:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D inet6_fill_prefix(skb, idev, pinfo, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:4892:0: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv6/addrconf.c:4898:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D inet6_fill_prefix(skb, idev, pinfo, 0, 0, event, 0);
+        ^
+   net/ipv6/addrconf.c:1341:75: warning: Clarify calculation precedence for=
+ '&' and '?'. [clarifyCalculation]
+     int preftmp =3D dst->prefs & (IPV6_PREFER_SRC_PUBLIC|IPV6_PREFER_SRC_T=
+MP) ?
+                                                                           =
+  ^
+   net/ipv6/addrconf.c:1321:50: warning: Boolean result is used in bitwise =
+operation. Clarify expression with parentheses. [clarifyCondition]
+     ret =3D !(score->ifa->flags & IFA_F_HOMEADDRESS) ^ prefhome;
+                                                    ^
+   net/ipv6/addrconf.c:5529:6: warning: Variable 'err' is reassigned a valu=
+e before the old one has been used. [redundantAssignment]
+    err =3D __addrconf_sysctl_register(net, "all", NULL, all);
+        ^
+   net/ipv6/addrconf.c:5510:0: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    int err =3D -ENOMEM;
+   ^
+   net/ipv6/addrconf.c:5529:6: note: Variable 'err' is reassigned a value b=
+efore the old one has been used.
+    err =3D __addrconf_sysctl_register(net, "all", NULL, all);
+        ^
+>> net/ipv6/ip6mr.c:2440:6: warning: Variable 'err' is reassigned a value b=
+efore the old one has been used. [redundantAssignment]
+    err =3D ip6mr_fill_mroute(mrt, skb, 0, 0, mfc, cmd, 0);
+        ^
+   net/ipv6/ip6mr.c:2433:0: note: Variable 'err' is reassigned a value befo=
+re the old one has been used.
+    int err =3D -ENOBUFS;
+   ^
+   net/ipv6/ip6mr.c:2440:6: note: Variable 'err' is reassigned a value befo=
+re the old one has been used.
+    err =3D ip6mr_fill_mroute(mrt, skb, 0, 0, mfc, cmd, 0);
+        ^
+   net/ipv6/ip6mr.c:2485:6: warning: Variable 'e' is reassigned a value bef=
+ore the old one has been used. [redundantAssignment]
+      e =3D s_e =3D 0;
+        ^
+   net/ipv6/ip6mr.c:2483:6: note: Variable 'e' is reassigned a value before=
+ the old one has been used.
+       e++;
+        ^
+   net/ipv6/ip6mr.c:2485:6: note: Variable 'e' is reassigned a value before=
+ the old one has been used.
+      e =3D s_e =3D 0;
+        ^
+   net/ipv6/ip6mr.c:2503:5: warning: Variable 'e' is reassigned a value bef=
+ore the old one has been used. [redundantAssignment]
+     e =3D s_e =3D 0;
+       ^
+   net/ipv6/ip6mr.c:2500:5: note: Variable 'e' is reassigned a value before=
+ the old one has been used.
+      e++;
+       ^
+   net/ipv6/ip6mr.c:2503:5: note: Variable 'e' is reassigned a value before=
+ the old one has been used.
+     e =3D s_e =3D 0;
+       ^
+>> net/ipv6/ip6mr.c:2222:8: warning: Local variable err shadows outer varia=
+ble [shadowVar]
+      int err =3D ip6mr_cache_unresolved(mrt, vif, skb);
+          ^
+   net/ipv6/ip6mr.c:2194:6: note: Shadowed declaration
+    int err;
+        ^
+   net/ipv6/ip6mr.c:2222:8: note: Shadow variable
+      int err =3D ip6mr_cache_unresolved(mrt, vif, skb);
+          ^
+   net/ipv6/ip6mr.c:82:20: warning: struct member 'ip6mr_result::mrt' is ne=
+ver used. [unusedStructMember]
+    struct mr6_table *mrt;
+                      ^
+   net/ipv6/ip6_vti.c:747:7: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+     err =3D -EFAULT;
+         ^
+   net/ipv6/ip6_vti.c:744:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EPERM;
+         ^
+   net/ipv6/ip6_vti.c:747:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EFAULT;
+         ^
+   net/ipv6/ip6_vti.c:750:7: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+     err =3D -EINVAL;
+         ^
+   net/ipv6/ip6_vti.c:747:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EFAULT;
+         ^
+   net/ipv6/ip6_vti.c:750:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EINVAL;
+         ^
+   net/ipv6/ip6_vti.c:767:8: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+      err =3D 0;
+          ^
+   net/ipv6/ip6_vti.c:750:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EINVAL;
+         ^
+   net/ipv6/ip6_vti.c:767:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D 0;
+          ^
+   net/ipv6/ip6_vti.c:767:8: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+      err =3D 0;
+          ^
+   net/ipv6/ip6_vti.c:764:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D vti6_update(t, &p1);
+          ^
+   net/ipv6/ip6_vti.c:767:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D 0;
+          ^
+   net/ipv6/ip6_vti.c:794:7: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+     err =3D 0;
+         ^
+   net/ipv6/ip6_vti.c:776:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D -EPERM;
+         ^
+   net/ipv6/ip6_vti.c:794:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D 0;
+         ^
+   net/ipv6/ip6_vti.c:784:8: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+      err =3D -ENOENT;
+          ^
+   net/ipv6/ip6_vti.c:781:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D -EFAULT;
+          ^
+   net/ipv6/ip6_vti.c:784:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D -ENOENT;
+          ^
+   net/ipv6/ip6_vti.c:789:8: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+      err =3D -EPERM;
+          ^
+   net/ipv6/ip6_vti.c:784:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D -ENOENT;
+          ^
+   net/ipv6/ip6_vti.c:789:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D -EPERM;
+          ^
+   net/ipv6/ip6_vti.c:794:7: warning: Variable 'err' is reassigned a value =
+before the old one has been used. [redundantAssignment]
+     err =3D 0;
+         ^
+   net/ipv6/ip6_vti.c:789:8: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+      err =3D -EPERM;
+          ^
+   net/ipv6/ip6_vti.c:794:7: note: Variable 'err' is reassigned a value bef=
+ore the old one has been used.
+     err =3D 0;
+         ^
+   net/ipv6/ip6_vti.c:1075:6: warning: Variable 'err' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    err =3D vti6_fb_tnl_dev_init(ip6n->fb_tnl_dev);
+        ^
+   net/ipv6/ip6_vti.c:1066:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D -ENOMEM;
+        ^
+   net/ipv6/ip6_vti.c:1075:6: note: Variable 'err' is reassigned a value be=
+fore the old one has been used.
+    err =3D vti6_fb_tnl_dev_init(ip6n->fb_tnl_dev);
+        ^
+>> net/ipv6/ip6_vti.c:1146:6: warning: Variable 'msg' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    msg =3D "tunnel protocols";
+        ^
+   net/ipv6/ip6_vti.c:1141:6: note: Variable 'msg' is reassigned a value be=
+fore the old one has been used.
+    msg =3D "tunnel device";
+        ^
+   net/ipv6/ip6_vti.c:1146:6: note: Variable 'msg' is reassigned a value be=
+fore the old one has been used.
+    msg =3D "tunnel protocols";
+        ^
+   net/ipv6/ip6_vti.c:1157:6: warning: Variable 'msg' is reassigned a value=
+ before the old one has been used. [redundantAssignment]
+    msg =3D "netlink interface";
+        ^
+   net/ipv6/ip6_vti.c:1146:6: note: Variable 'msg' is reassigned a value be=
+fore the old one has been used.
+    msg =3D "tunnel protocols";
+        ^
+   net/ipv6/ip6_vti.c:1157:6: note: Variable 'msg' is reassigned a value be=
+fore the old one has been used.
+    msg =3D "netlink interface";
+        ^
+--
+>> net/netfilter/nf_tables_api.c:451:6: warning: Variable 'err' is reassign=
+ed a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_table_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:446:6: note: Variable 'err' is reassigned =
+a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:451:6: note: Variable 'err' is reassigned =
+a value before the old one has been used.
+    err =3D nf_tables_fill_table_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:995:6: warning: Variable 'err' is reassign=
+ed a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_chain_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:990:6: note: Variable 'err' is reassigned =
+a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:995:6: note: Variable 'err' is reassigned =
+a value before the old one has been used.
+    err =3D nf_tables_fill_chain_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:1736:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_rule_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:1731:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:1736:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nf_tables_fill_rule_info(skb, ctx->net, ctx->portid, ctx->seq,
+        ^
+   net/netfilter/nf_tables_api.c:1958:8: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+      err =3D nf_tables_expr_parse(&ctx, tmp, &info[n]);
+          ^
+   net/netfilter/nf_tables_api.c:1953:8: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+      err =3D -EINVAL;
+          ^
+   net/netfilter/nf_tables_api.c:1958:8: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+      err =3D nf_tables_expr_parse(&ctx, tmp, &info[n]);
+          ^
+   net/netfilter/nf_tables_api.c:2391:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_set(skb, ctx, set, event, 0);
+        ^
+   net/netfilter/nf_tables_api.c:2386:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:2391:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nf_tables_fill_set(skb, ctx, set, event, 0);
+        ^
+   net/netfilter/nf_tables_api.c:2672:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_set_alloc_name(&ctx, set, name);
+        ^
+   net/netfilter/nf_tables_api.c:2666:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -ENOMEM;
+        ^
+   net/netfilter/nf_tables_api.c:2672:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nf_tables_set_alloc_name(&ctx, set, name);
+        ^
+   net/netfilter/nf_tables_api.c:3066:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_setelem_info(skb, ctx, 0, portid, event, flags,
+        ^
+   net/netfilter/nf_tables_api.c:3061:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:3066:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nf_tables_fill_setelem_info(skb, ctx, 0, portid, event, flags,
+        ^
+   net/netfilter/nf_tables_api.c:3143:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D -EEXIST;
+        ^
+   net/netfilter/nf_tables_api.c:3139:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -EINVAL;
+        ^
+   net/netfilter/nf_tables_api.c:3143:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -EEXIST;
+        ^
+   net/netfilter/nf_tables_api.c:3175:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D set->ops->insert(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3143:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -EEXIST;
+        ^
+   net/netfilter/nf_tables_api.c:3175:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D set->ops->insert(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3175:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D set->ops->insert(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3152:7: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+     err =3D -EINVAL;
+         ^
+   net/netfilter/nf_tables_api.c:3175:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D set->ops->insert(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3252:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nft_data_init(ctx, &elem.key, &desc, nla[NFTA_SET_ELEM_KEY]);
+        ^
+   net/netfilter/nf_tables_api.c:3248:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -EINVAL;
+        ^
+   net/netfilter/nf_tables_api.c:3252:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nft_data_init(ctx, &elem.key, &desc, nla[NFTA_SET_ELEM_KEY]);
+        ^
+   net/netfilter/nf_tables_api.c:3260:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D set->ops->get(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3256:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -EINVAL;
+        ^
+   net/netfilter/nf_tables_api.c:3260:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D set->ops->get(set, &elem);
+        ^
+   net/netfilter/nf_tables_api.c:3352:6: warning: Variable 'err' is reassig=
+ned a value before the old one has been used. [redundantAssignment]
+    err =3D nf_tables_fill_gen_info(skb2, net, NETLINK_CB(skb).portid,
+        ^
+   net/netfilter/nf_tables_api.c:3347:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D -ENOBUFS;
+        ^
+   net/netfilter/nf_tables_api.c:3352:6: note: Variable 'err' is reassigned=
+ a value before the old one has been used.
+    err =3D nf_tables_fill_gen_info(skb2, net, NETLINK_CB(skb).portid,
+        ^
+   net/netfilter/nf_tables_api.c:1195:43: warning: Clarify calculation prec=
+edence for '&' and '?'. [clarifyCalculation]
+    create =3D nlh->nlmsg_flags & NLM_F_CREATE ? true : false;
+                                             ^
+   net/netfilter/nf_tables_api.c:1902:43: warning: Clarify calculation prec=
+edence for '&' and '?'. [clarifyCalculation]
+    create =3D nlh->nlmsg_flags & NLM_F_CREATE ? true : false;
+                                             ^
+   net/netfilter/nf_tables_api.c:2628:43: warning: Clarify calculation prec=
+edence for '&' and '?'. [clarifyCalculation]
+    create =3D nlh->nlmsg_flags & NLM_F_CREATE ? true : false;
+                                             ^
+>> net/netfilter/nf_tables_api.c:2623:35: warning: Uninitialized variable: =
+ctx [uninitvar]
+     err =3D nf_tables_set_desc_parse(&ctx, &desc, nla[NFTA_SET_DESC]);
+                                     ^
+--
+>> drivers/net/phy/micrel.c:392:11: warning: Variable 'of_node' is reassign=
+ed a value before the old one has been used. [redundantAssignment]
+     of_node =3D dev_walker->of_node;
+             ^
+   drivers/net/phy/micrel.c:373:0: note: Variable 'of_node' is reassigned a=
+ value before the old one has been used.
+    struct device_node *of_node =3D dev->of_node;
+   ^
+   drivers/net/phy/micrel.c:392:11: note: Variable 'of_node' is reassigned =
+a value before the old one has been used.
+     of_node =3D dev_walker->of_node;
+             ^
+   drivers/net/phy/micrel.c:426:9: warning: Variable 'regval' is reassigned=
+ a value before the old one has been used. [redundantAssignment]
+    regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^
+   drivers/net/phy/micrel.c:424:9: note: Variable 'regval' is reassigned a =
+value before the old one has been used.
+    regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^
+   drivers/net/phy/micrel.c:426:9: note: Variable 'regval' is reassigned a =
+value before the old one has been used.
+    regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^
+>> drivers/net/wimax/i2400m/usb-fw.c:207:9: warning: Variable 'result' is r=
+eassigned a value before the old one has been used. [redundantAssignment]
+    result =3D i2400mu_tx_bulk_out(i2400mu, i2400m->bm_cmd_buf, cmd_size);
+           ^
+   drivers/net/wimax/i2400m/usb-fw.c:194:9: note: Variable 'result' is reas=
+signed a value before the old one has been used.
+    result =3D -E2BIG;
+           ^
+   drivers/net/wimax/i2400m/usb-fw.c:207:9: note: Variable 'result' is reas=
+signed a value before the old one has been used.
+    result =3D i2400mu_tx_bulk_out(i2400mu, i2400m->bm_cmd_buf, cmd_size);
+           ^
+   drivers/net/wimax/i2400m/usb-fw.c:293:9: warning: Variable 'result' is r=
+eassigned a value before the old one has been used. [redundantAssignment]
+    result =3D usb_autopm_get_interface(i2400mu->usb_iface);
+           ^
+   drivers/net/wimax/i2400m/usb-fw.c:280:0: note: Variable 'result' is reas=
+signed a value before the old one has been used.
+    ssize_t result =3D -ENOMEM;
+   ^
+   drivers/net/wimax/i2400m/usb-fw.c:293:9: note: Variable 'result' is reas=
+signed a value before the old one has been used.
+    result =3D usb_autopm_get_interface(i2400mu->usb_iface);
+           ^
 
-vim +49 drivers/sh/clk/cpg.c
+vim +/of_node +392 drivers/net/phy/micrel.c
 
-    38	=
+   369	=
 
-    39	static int sh_clk_mstp_enable(struct clk *clk)
-    40	{
-    41		sh_clk_write(sh_clk_read(clk) & ~(1 << clk->enable_bit), clk);
-    42		if (clk->status_reg) {
-    43			unsigned int (*read)(const void __iomem *addr);
-    44			int i;
-    45			void __iomem *mapped_status =3D (phys_addr_t)clk->status_reg -
-    46				(phys_addr_t)clk->enable_reg + clk->mapped_reg;
-    47	=
+   370	static int ksz9031_config_init(struct phy_device *phydev)
+   371	{
+   372		struct device *dev =3D &phydev->dev;
+   373		struct device_node *of_node =3D dev->of_node;
+   374		char *clk_skews[2] =3D {"rxc-skew-ps", "txc-skew-ps"};
+   375		char *rx_data_skews[4] =3D {
+   376			"rxd0-skew-ps", "rxd1-skew-ps",
+   377			"rxd2-skew-ps", "rxd3-skew-ps"
+   378		};
+   379		char *tx_data_skews[4] =3D {
+   380			"txd0-skew-ps", "txd1-skew-ps",
+   381			"txd2-skew-ps", "txd3-skew-ps"
+   382		};
+   383		char *control_skews[2] =3D {"txen-skew-ps", "rxdv-skew-ps"};
+   384		const struct device *dev_walker;
+   385	=
 
-    48			if (clk->flags & CLK_ENABLE_REG_8BIT)
-  > 49				read =3D ioread8;
-    50			else if (clk->flags & CLK_ENABLE_REG_16BIT)
-    51				read =3D ioread16;
-    52			else
-    53				read =3D ioread32;
-    54	=
+   386		/* The Micrel driver has a deprecated option to place phy OF
+   387		 * properties in the MAC node. Walk up the tree of devices to
+   388		 * find a device with an OF node.
+   389		 */
+   390		dev_walker =3D &phydev->dev;
+   391		do {
+ > 392			of_node =3D dev_walker->of_node;
+   393			dev_walker =3D dev_walker->parent;
+   394		} while (!of_node && dev_walker);
+   395	=
 
-    55			for (i =3D 1000;
-    56			     (read(mapped_status) & (1 << clk->enable_bit)) && i;
-    57			     i--)
-    58				cpu_relax();
-    59			if (!i) {
-    60				pr_err("cpg: failed to enable %p[%d]\n",
-    61				       clk->enable_reg, clk->enable_bit);
-    62				return -ETIMEDOUT;
-    63			}
-    64		}
-    65		return 0;
-    66	}
-    67	=
+   396		if (of_node) {
+   397			ksz9031_of_load_skew_values(phydev, of_node,
+   398					MII_KSZ9031RN_CLK_PAD_SKEW, 5,
+   399					clk_skews, 2);
+   400	=
+
+   401			ksz9031_of_load_skew_values(phydev, of_node,
+   402					MII_KSZ9031RN_CONTROL_PAD_SKEW, 4,
+   403					control_skews, 2);
+   404	=
+
+   405			ksz9031_of_load_skew_values(phydev, of_node,
+   406					MII_KSZ9031RN_RX_DATA_PAD_SKEW, 4,
+   407					rx_data_skews, 4);
+   408	=
+
+   409			ksz9031_of_load_skew_values(phydev, of_node,
+   410					MII_KSZ9031RN_TX_DATA_PAD_SKEW, 4,
+   411					tx_data_skews, 4);
+   412		}
+   413		return 0;
+   414	}
+   415	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-
---===============8164051694738593071==
-Content-Type: application/gzip
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="config.gz"
-
-H4sICPdz0l4AAy5jb25maWcAlDxbc9u20u/9FZr2pX1o60uiJOcbP4AkKKIiCZoA5csLx3GUxFPb
-ypHlnubff7vgDQABisl0ptbu4rbYGxYL/vLTLwvyetg93R0e7u8eH78vvmyft/u7w/bT4vPD4/b/
-FhFf5FwuaMTkH0CcPjy//vvny9fF2z/e/XHy+/7+dLHe7p+3j4tw9/z54csrtH3YPf/0y0/w3y8A
-fPoG3ez/s3j5+ub3R2z8+5f7+8WvqzD8bfHhj/M/ToAu5HnMVnUY1kzUgLn43oHgR72hpWA8v/hw
-cn5y0iHSqIefnb85Uf/6flKSr3r0idZ9QkRNRFavuOTDIBqC5SnL6Qh1Rcq8zshNQOsqZzmTjKTs
-lkYGYcQECVI6g5iVl/UVL9cAUVxaKZ4/Ll62h9dvAz+Ckq9pXvO8FlmhtYYua5pvalICH1jG5MX5
-GfK6nQnPCgbTkFTIxcPL4nl3wI57xvGQpB1vfv7ZBa5JpbMnqBhwW5BUavQJ2dB6TcucpvXqlmnT
-0zEBYM7cqPQ2I27M9a2vBU6qX6c2uL5MG6+m4OCDOQ271fXtVJ8wE0ePEY1Jlco64ULmJKMXP//6
-vHve/tbzTNyIDSs06W4B+P9QpgO84IJd19llRSvqhg5N+rlVgqYscE6bVKC9jhkr7pIyTBoK7JOk
-aSeVIKWLl9ePL99fDtunQSpBspuGoiCloCjMmr7SnJYsVBIuEn7lxoSJLjAIiXhGWG7CBMtMQMzL
-kEa1TEpKIpavNEbqU+mXrQ8Z0aBaxcJkz/b502L32VqoPeEQVGNNNzSXouOMfHja7l9czJEsXIPC
-Uli7HKaX8zq5RcXMeK5PEIAFjMEjFjp2p2nFopTqbRTUucsJWyV1SQVMIgNFdi51NPOheVFSmhUS
-Bsips/+OYMPTKpekvHHMuaXRhLZtFHJoMwIzxY/GUxTVn/Lu5e/FAaa4uIPpvhzuDi+Lu/v73evz
-4eH5i8VlaFCTUPXbyEI/0UBEMAAPqRBIIZ2rkUSshSRSuNcqmJN/M2apVlOG1UI4xAOWXQNuzB8D
-CD9qeg2ioXFMGBSqIwuECxr3A2tM00H2NExOQZkEXYVByoQ0cTHJeaX8yghYp5TEF6dLHRNwbveg
-QKB2Kbm5eAu+uWetGpqHAW6gk8cm73oDsG7+0EzCuuchD/X9Z+sEDISlAr2fQ4cWg3Fisbw4Oxn2
-geVyDV4uphbN6bltEUSYAOeUXeikV9x/3X56hUBn8Xl7d3jdb18UuF2RA9vHDauSV4XQBIKsaKMt
-tBygGc1CU8bTddvWscgG0cxz6CMmrKydmDAWdUDy6IpFMtG2UVrkQ4zRwAsWudWnxZdRRqbwMUjx
-LS2nSCK6YSH1rxGECFVcW0s7NVrGI2BQxI5VKNfgGEHwcN3TEGmECejfwemAiXFNLaHhuuAgUGiO
-JS81J97IDgZYqmO9T3C/sA8RBZMQEkkjR8+lUqchMgMhAAapiLDU40v8TTLoTfAKfKYWt5WRFa4B
-wIrSAGIGZwDQYzKF59bvN4Zwco4WH/92721YczD+GUTF6NTVZvEyI7l7py1qAX8YMZQRO6nQpGLR
-6VLjU6HJgm1YLdoMQjgGsZSmfGJFZQbWtR4CJGPLRuA4AWVKR6Fb45d12482x/5d5xnTg29D7Wka
-A2NLF5sCAhFQXBnzqCS9tn6C0lrMasBhVlyHiWZeacGNpbJVTtJYkzK1HB2ggiQdQJgRsTNeV7BE
-t0yQaMME7XjpUiuwgQEpS6ZvzRppbzIxhtTGjvRQxSVUI8k21JCQ8TbCeDSKdEOp+IXSWvcBYbd3
-CASxqTcZ9MG1IL8IT0/edH6iPSsX2/3n3f7p7vl+u6D/bJ8hgiDgKkKMISA+GwIGc6yeWcpkjcZ0
-etOZI3YDbrJmuM4FaUvEgyWRcCpdG1YrJe5Dh0irwGVVUx5oUgWtYWNL8Hnt8cnoO6niGI6yyieq
-JRKwpi7RyEihCK58R26IEWKWGocGMJEhVWa64W3LMPMw3k+0Am5rvrH5fa6ZzS46aDTWAiZXFKJz
-PZyTJFyrGWBXBdctEgYW4AbGCIj9GUcQHMI0Ew5eFqP2kCe0pEaUvZIqI5HClqbi4qyNVVRgtTh8
-/7bVci8QTYtEW04LMLyeglWBvClg1sm75ekHt3nXyP46O0oCPZ2dnLoMv010PjGZs5PlrJGW5/PI
-3swjO86B7NrjBM2u3p28nUc2a5nvTt7NI3s/j+z4MpHs9GQe2SyZgB2dR3Y6i+ztrN5OPsztzRO1
-jug8AbJNN3PY03nDLucs9k19djJzJ2bpzLuzWTrz7nwe2dt5EjxPn0GEZ5G9n0k2T1ffz9HV61kL
-OH8zcw9m7ej50piZcgvZ9mm3/76AEOHuy/YJIoTF7hum8vVoBP0wj2NB5cXJvycnZtpdpefAM13X
-tzynvIQT+MUHLXjj5Q26vVK1fW+27dAY2gPWSuifnwVMc2sqYxlDCAetapqji7OQTT5wBnoIOgw8
-TWkou0llPKJaVFjlIVGHOPDBhZV5UgzCRdRv1u6oaKB4v3aFRwP+dLkO3H0vR523oYt/C5sU2939
-1+3i3rqnGWQEl1VflUzSAIITl0MeKGQCx9dVYjhkhQXxcGfOHIOr0Yv97n778rKzUiea4KZMSohi
-aB4xknvihADjdUVgBpB1bGaZDARE+JUZ8eBlDyD0eNAxPzXBYHe3/7R4ef32bbc/6FOGvkuxdjLB
-bDPkklUm8f5xd//3aHuGTosQjvtxSS8vztt/GhJxYaGnxHsYhH8rEt7oa5oetMvHLuL99r+v2+f7
-74uX+7vHJgU7idQ4qSb63YbUK76piZRwiqfSg7ZzlT0S07V2BKgQ3c0LtvbkEo404ldw1IHD3fwm
-mCJQGSCPQI4a8DyiMK3o6AoAB31v1Al1qnNrtR5u9kvz4Pt1ePDatN2bNUxWS+UvPtvSsfi0f/in
-OdvqmtJ15su2u8RsGq0GwMSjrpptCx3c30/fPYPQL8KvD9+MpK2NUjjy6dMD6gicD8Xrt+0+WUTb
-fx7gTB2NV5dQ8HUBJa6bt6KCtYsrJsNE18vj3fcpZe0Qp2cWXDY0ua1PT9yBDaDOPJExoM7NVkZ3
-J1pW5PYCAZpYlwSWF1WZKzldJDeChST1xgKChphq0A7RlSB9or1hy58Lkfye7T4+PHa8WXA7WoEp
-wNk+7K8zMdGxf/12QGt32O8eMR8/CnGwRefZmzSLvj8zRrfyLrbP2DnCqltackds9Ubjicqopixf
-6yTvDbbByR+ClXEPmvPZWQFB8PqizWYg1MCNi979D5Y4DisWv6pkKstgbJL+pgWK2s1tkfV8HCAk
-2qDNijQWd8kMwF4R0IuIu5LygAW3pje4umxsXE3jmIUMc1etNR2FuGgw2KdHK+3BjFRtB1HWLSVR
-pKcbDSSsurKNeY+UlHtNWjOFPr6YyVyjUuRuf//14bC9R9n6/dP2G/TljNh5k/fS1qdSmGPwGiAB
-1fOoJZU2rKnGcEN95EY2eyg4UKmvhHMt/d1fr2VFw8fmon9MoJCYncYgotIMhepZHRZQD2ppDVzS
-lajBlTXJN7waVjfEo4R4I2A6JLmqA5hLc6lj4TJ2DXI8oIUax5rUFQGxxFKPplChq78xe1LTAiZK
-OHxwXeqaIiQTre7pjVjXQPuqPeAw052BaMhAYbSbDx5VKRUqo4z3DJglH7Aca4DYSlTQUI8GWjgJ
-28t8ow6JyHY78K7AE8vkXNNcsF56H5gJ1fPRYqTSq5Bvfv9497L9tPi7sbjf9rvPD208OpSCAFlb
-veOYhmIIsliRtbrRXiAMeeGpkezk8RH97K/O4JCJty+61qgbCoEZ/aF0rd0anTUNqD10p5y4rgtb
-mipHvLdxg3bGAEDXiqo7jdX2I8qwLx1L00lKz41gi0aZKUEpp2iaNH/GhEAX3V/E1izDzLi7aZWD
-UIOc3mQBT90kEixtR7fGqyIvP0VTfZGC8dKNT9DWA/Q/17UIBQM1uqyoXh3R3doGYnSj34J9dVzD
-fa+kKziF30xSYRbGva2qeCCLsNSxMUjurCKSXQWu8LUZAu+gTH1ViwYG8oKkI1Ut7vYHFd0uJESt
-RoQKk5BMKvlpAwMX90XExUCq3dPFzAAPrtUaUZ9+dllvGLTh5saoyKWJF/lQt6F5VGjHeHOLH4F3
-MstFNeT6JlCRg3b72SCC2H3YMcfrTZPIT/XcU1OgCtab5UpxhxIU+u/2/vVw9xFiUqzcXajrvoM2
-84DlcSaVaY+jQrf8AAqNKoWWVIQlK+zkGNrJFo85uFEjLxBdxQhx25IPItQOnZASmIVYl/w1RGAE
-tFXgEvDMoUuAjyl6xjObyHi6M4H9ZLskJByQK+LyLEOmsSHR8jMdxg4nmqHQDBp3eUNPmAbRd69r
-pgwQuNOImteDokjBAxdSocHjiosP6p+VWiwp2k/rer4lyHmWVXV7sdqYSnqN0dPFaU+C1WQQryqf
-vtZWFaaUNCnTAXZbcK7x4jaoDPd0ex6DrDjmEZdg7iF6auOjYQG0VBluu56vP0AWdUDzMMlIuXaI
-cyFpEw8Rw+P75WNYtH47SyHEy1fov0wgdcBAVFlJ9cIlsQ6AqZLmyt12Wp1vD//b7f/GBIojHR+u
-9Qk0v+uIkZVhMq7NX6DWmc48BcNGDs7JVFw8aU4yFY6KLAMtuSvQu45LY0z8rVJPzn4UFp1cGRPP
-UIpEVAGeA1jodoSKJmOrksipTlCdBGiUOy7AzVpTV63rdVSoGjFq1mZoYB9XWSM3g2somrKjkDhL
-9gHdn5dLXknLrxR1zAJUSupVgG6AAk9VeCEirB5Uty0NkYmTEz0ZxHoBF65tBpIi10u71e86SsLC
-GhDBmNRw1+63BCUpXRkkpWiFXsTWQEDNQDqz6tpG1LLKc/0Op6c3DlA3OfgQvmbOor6myUYys5cq
-cvce82oEGGZish/RxMNzZT+Eh0vNnDBo9gjZaGoKaBqIhi4sOrDZPa7PlmKToiRXRygQCxsjZMnd
-ioqjw5+rqeivpwmrQPd+Xea8w1/8fP/68eH+Z7P3LHprHT16SdssTdHcLFslQx8ce8QTiJqaRDQc
-deQ5PuHql1Nbu5zc26Vjc805ZKxwXzErLEuJRy6WY8HABoZ0K4hgUrf/Haxelq49Uug8gqhMhSF4
-22z15xx2VdpkhvZ0EHfjSbuGs60CPK65jXvTg9pu33IEXS3r9Kof2+odsRBWuN5vDARW3XEjY0Xa
-d+tzPCkJnPmKrJChZv3Uz5EkN1Cc2+gpmD4GvkPDlDuGRh6zV8gC39TBgTu+MYyaalskNyq9A74n
-K4wCO6CIWWrUsfegXtWN2L9kEUSiPdE4gbvbbzEkglj+sN2PnhyOBnGFYy0K2cvytS7dI6T/9ciY
-VD3Lmkmbcre1HFNyEbs2BYuA8xxzqOYCYvV2ARpDkHakXW3GwgYKMwfCg8PHFuah30A3taru1el0
-KDGgdvMIlWgdW49SFmvWEqcreR2Fur7oGBFKDwY8H5ybqHelBG9F3c8bDLrYE+MYRMm5p8bKoGJl
-eJwIdj9gXNSelJ1BK3KPdzG3vJizBEE878ZMKs9rTXPPLZ4ZuzMo7gDOibR/O05YLSIjApS1JBE1
-UK3/eBqBunB9BG/0zBQQmF+VrWjuWaSsQ1eEj4gY05o8jlWu9slq1BRj+zsF1qmXwF4Kr8lBnN1S
-wyGzdJ60fDVBDfuNPseOTUPy4C8IrewmlxWXPn3CYf+iPmOsOIC3DV40nPLdURgi8RjoRTZHOS/a
-MtAmD8CQXLsjXtXzTT5FUEdV4TDlRhczSOKraNIhKLFrysSVnD85cRq491HXvcYo33yt0mwvi/vd
-08eH5+2nxdMOc5lGnldvXNsRh5sKRdumNMY73O2/bA/+YSQpVxDEdAHM8RG7Bo6BJxskP0SNl5jq
-Bc3sFqknm++kPRphDLT+yG8gtTXc0U2Oj6Q8xt1FHv/IHPN4Tnw10GPKZyLoHdO3zuIHmNY5kdlN
-YEbzacMiE+Pbzk7mn+4O918nVUvio/4oKvEMdnzUhh6OKXNJx09PJ6nTSnjdl4OcZ1j0MJ88z4Mb
-6TnieRqMjlZHG/jdq7vBPGsw0KvQZ3YD++20nxRj39m0dPNDGxuJ+X3T0BMUOUg9SREHKTr2H9qa
-hKbFfFFMZsvIRKrGSV2SfDVbM9MzXwTuoKX5ypPBdVH/CO+sPMc06Xzpb1I4vJw9jzyecTDvqb0h
-moP0Kp8vGxM3Dy7qtfwRWzwRDI+JZ3u7lpyS1BPwuojDH7DFeJyeTTsRWTuope8Wx0OsUrPzG3gf
-Jjuox955ktqqfZqirc6t9zt9MfJE4kvPLGJJnO9KZTMOKFjxnxn5tBiz7CVRmcs3VsKp2UWF8R1k
-mnPQiGR8zsberdM0nnAm+pbq7mty8KZvz02Sef4Zr+7I8CrdZnVto6eaN4daH2dgy4CGFf05S99M
-wLRRnve2rifxuV6dRkq3q2toxvlYi6CNW11nWoPOOkgYjY/E1AbtxGnDoJsM7Lv156t0asiSXE1g
-BQ0rby1WQwIS0uyhU7endLBV0n+WU2rqVkf3xZChjstj6rj0qKOv714dPT2byrZ0K5t34oO2eEla
-hXMNz4qlX52WM/RJo6EV8zwQN8jQZh6n4oUnYW5QeSJRgwZX3nz66DhtNmOZnojMoBHlZEeThmN5
-xHKMR5zQ1OW0qi59umpSjOzT8kcMlE6cF9Kj7lPa7PS5yy7HFtHweXuYZQuANFeJk3pVkqBK7S9n
-DG+ijvTp8qbNRZ1PCfvT7BRdd9cX1zRwGceOrJh2Pd7TLYZCvmC09Hy2Ck4hrotcIo3aJfhZhylz
-xROISolZl4+wrODuYB6RQXm2fO+2Jva5rwUL/c5qBd5FK6tUbLV/12yVAT9yzu0Xyy1+A7NuddVd
-Adi85cBiDmF+CKsBOVqoLt+fnJ1qz0AHWL3alEZNkIbKNs5grZFovU0r4025hqNFmmqFIvBD+7wJ
-kcR8RoQV06QoUooIR1/XZ2+Nlwmk8DzwTnjuCcGX4P0K5wtmRinFtb99o1U39LA6T9s/9BdBRkXB
-QDs+VbU0cHi3h0Dmdd92U7bj8nX7un14/vJnW4lsvaJo6eswuHTrfotPpJs3PT4W3pOZIgC1cGek
-FbYoGbey0Qqu8gjTMyv9OXSFF/H0zIVdvG3hJb30ZowagsCbjGhZ6ys+QywcGF0LlwRZMtnv6tjK
-IzFRAYIE8H+a2aqvWpbelEmzLZdHZyfWwVGaMOFr7zlaUVwe2ZwQy7cnKeLLGUQhWbuqhYY+XFuU
-JNP7XrCpPoc6lnHD1PnxwkFihGs63heSj3cvLw+fH+7HJTXg80YTABC+V/LnWRSFDFke0etJGmXD
-nemBliC+Mu4gFaw6PxuALcD+8mMLbatdxuOKjTdh1RN4jhvdzMCsTxJ4v9PZs7CIx4vDbmlpbx5i
-VOBtPbTSSKjCWyXofV4sXGtfddVQYVaYc2jh6mrFiTG4r8EzcKFOhKTX0okISc4iJwafn4w4Q0Kr
-6p5g0Q5mY62JIhxfJg7QFWnqe4JxBxkrwUaOOxAkK1JHx6OpIdAsROmmhh/Pd3TMbJYr6Dpwk4ei
-ysZQmJsYQzGYGkNHYqa6ba+qHBjJ8pg7Z5hxB6NY7OBSUweCFfSuAUwYdKA6H82mRbR+f4xoDYyt
-KzLsHlVMmWsWa0/AolCTjCjHt7yC43fx9feZEs6hWL9oxNE9tPvTVW+hU+mPazV4ZLyeGuB56ARn
-+GbAMxHnN889ZNOTVd85dY6P5zzrSMELmm+ab1u4jgXDkwkLMipA7xEpnFs8nyRq3vC5ejURo6/K
-5G2FpVkMr9TJMA0IqVdCEzwFQX+F6zahYBOaOmFLEnPhYkUiypFHV2zzFOtgXcc5JiHwysCuPMNR
-Qvur5Z0TbD5ijDR2mDWmaAplIpML5XUdVOKmNr8JG1zqP/6fsyfZbltH9le0eqd7kReRmqhFFhAH
-iTFBMgQpUdnwKLZux6edOMd2+t779w8FgCQAFuQ+b5FBVYXCQAyFQg0QQrWuYkKVT6nlwjR7u76+
-IReK8q627OU0ZFQVZce/W9o7fCmlxYSnhdD9pcbqDoRWJMIHQN8w+Q/QJJmAXUhNwN4i+OxtF9te
-U8MB09AwGvFxUuGxlaDxq3Egy0I85BXHwQwwOIQkC7tdWoNfgm6HLXAdwl0AuQRJaggi5KgmDDeb
-uVURgLqUEQzcszNxaZLCv0lkgul04KnRKBPHPhMResYAxpR1ZUjDlKDE03b2CEcdRWKubA3ID2F7
-DKUbtHSKw/X7yFQY1oy+10No3TiqDEiVwL5l7O89sKtd/t+cUR5j8ibHHNKoNGo4MIt7hgaXFuZn
-zCjJ4iypY+v0qbFTRwabefp9fXt+fvs+e5CDgQSEgvaEaUMq7MSWyKjOPLMDYbqrF+EEljVxSKrI
-ah3HHPkfnD2tjpnBh9Z30Bh953F2Q1PqJXy/rEr8UsSRdyG21uy9U4HhQaVSwR8U6JRWcWZdB8Nk
-D9odb3qj6xE/r9eH19nb8+zblfcF7MgewB16pvRCnp7hRULguiAMbERQRxmbcWwDh+lNAhK5FkS0
-4U9Bj6qSu1Q/NORvazopYJqXTT2B7kvdSx+OhW1p/x6d+Y3DZesO7x+S1MwGwH9PiU107jKkFdiG
-GQEbw7gE+xosymOeaPOV/+BSyD61dHoAztGZChg+h21idoiycPL98+vlZZY8Xp8g2PePH79/qrv9
-7B+8zD/VJH7VH/tDM/MOAMp8tVjY9Qlgl/po7hqF9zt7/fyX7ekZler6Zbpu6jcNzTfLgphx/yNW
-d5YbOhd6+FfKbJFPJH6gzPRkgi1e+B2MK5OkWXE0nXHj+lAXRdZLl5Ov4RIJylDtVcNvcZ5Zv0Wc
-ly5MB+/wMvxwDxElv708PvxLfMUxStTjvTMyWiND6khTuLESA9yBH7CWOIJ3v6al6fnTw7iE1uS4
-zptvIXlEshs5hUSdSVrRE6limWxsMmzJ48uPPy8v19nT8+Xh+jL2JDmJMTE2zB4kwhpEkMllRPK7
-YEWG2rTujaXAK30yNCiaz4Asg3uJPiYjJR7MRi0Du0fDRkpE/LKjHs2iPzlE4BscZ0G1LySkkyo9
-og8kg/BSxWxaDA53VZbfg2mBhqMsafelYN1dA1npbHFAcCDsnIc9HxEjDGEjy/dEcc+pPwjivRHS
-Qv6GvWcCY1lK+VVlAj95ExCl+rnS89TTmUFkfRWJhE+jxFzrgEziPIxlMDP0MztW4hB9b9x+B7b0
-kMJdC2WnF9EOmoLvdo6gX/tcd3+EX1xuq1I9EokAUkh+hCFYWiU4ptm1EwStzThTdSS+5FQaHEPz
-/Lq8vJoRdmoIUbYRIX2YwVoPWmSj+DcSQRJvoKQlEERXkbGaPnhmSw0WXZOrjBOOh5NpCYhWV+TZ
-Gf100w6LcWj4f2dUesqIjBz1y+Xn65M8ErPL35aADJWKxjubJKPAVPhbSuIw8spdiNSJqZLIyY6x
-JMKlX0btQlrTi6Jk9uwZ4jqJgNu2F4HMtUbox6qgH5Ony+v32f33x1/a1UKfPElqzovPcRSHYkMy
-4fs47xAwLy9UXoXIWzdpKaDzgp0cVmk9yY6fcWeIN2MRWmSZRjZtxj4uaFxXZxMD29eO5HedyOPV
-eTex/k3s0u6dhcfTRmCNwN9OEErb8tXqcoplCBmQ/nSM0iUCC+x+uSKQDCXymt+1UA3yMCcoFy0n
-2x5guPCDWUb06KZOM2unItTmw2e2s4Fkxya22X0SPfeikLGvLr9+aVGZxU1QUF3uIdq5tXIKkMHb
-Pi7udJEezow6p/Mgy5plpERL8iI/c/HREfKPEzYh3/Ib/PVQMMoIJDtDR+G9XsqQwtenPz5ATOCL
-cFvkPKcaCq0+liFfqTxYTdDneR3JEiOM/+7qooYgyHCrXs63awsbVyIMJGA9P0C2eB/aOblePL7+
-+0Px8wNErHbeNYBFVIT7habqkD5IXFijn7zlFFp/Wo6D+v546TXlEHDVjC4n1l0e50ZUcQ0IAYbS
-5CwTDeAUKhQsjizqcrLMFcpvYWffuz+WoIpDfgc+gbqYWm8bDhJ+rmG3YLmkT11uhX23uezMlxJ5
-ql3+/MglhcvT0/VpBsSzP+RSHoJXW59UMIS8BpmRD29A0dYeLzmShnJlAA+6UXXTpI+v90h98JfU
-Fkw7F6Xsrsgh1++kc1kZRdXsf+S/Pr/G0tkPGWwNXXKCzGzkF3ibHE7pYW6+z1hn0uwsiYADulMm
-Ag+zA4QrtFamINjFO5V2e0wf2uMSLqJQ+8QGxD5r4l1qj5Ngd1OcO5z5RXNyHVAEBRYcRES1o5Bt
-TKWrE0GHzURiI2C8iUtQh1pA9kjSBsFmu8bK8V0KM9/o0TlIybqSVgYpNbSzKm5p3mQZ/MCV24oI
-ngRvEkTVzh38VFTzDn5ypvS3rYifq/BqFUZHnAOpSQeKIdAGoQTqbfK9Plo9kOq8I40hDL2ddATg
-XeKwwwGctEpGT0mD57Dap6pBLmywomJ88rNFdpz7eqbHaOWv2i4qC2NSaWBbUTheoxtKz3Dtxuwi
-Q7Zd+Gw512RZfuPOCtZUMVw+xauL1owyYttg7hNdpZeyzN/OzeRxEmZmGLN6WXOS1UpLc9AjdgcP
-XsT0yHEKI6rfzluE64GG68XKN/QHzFsHWGp6ZogLLaQt5DftKIn1YKe+WsAy9mtcgpyIJKORGD4l
-fWx1KuyQIMYEU9Kug41h9qow20XYYj4WCs3l+S7YHsqYtROmcezN50t9z7YaL7PiXP+6vM7Sn69v
-L79/iGyVr98vL1zaeIPrMdDNnrj0MXvgE/XxF/xX73QNojc61f8ffLHZrzRP4zwHw2kC8n45jXsM
-iSeeZjQN+bn0cuVX+6ueNqjfEoqyM9RWHKAP0i0mwwiHh0IvY6xiKeqChYAS1iZNENGqwbJH61hF
-0kjk68EPIDaxOOhlRKSiYSmIUwk2SU3I0DdP/DDE99ohWAeaE1e+15h7RK7IjaOnyCPc7l3sTjop
-PL7tG1LhzYm/NCLzKKaKSxPjeUhYKMWOQ4aSEGy4cJ1MaaP6KdNmRLNwARn5aHaTVHET4efmHvU0
-4O1gcWg1G+4EBfpMXDeGjQH/2R3FeFcFY/jL8jGujSxi6mx02dDnGS1cxiLHynjQE6Y/FvU4zaow
-R83kwSNDqqGZOS2pnAuOE5+CU7D74VBxxC5sby+P337DcmZ/Pr7df58RLXWA8Ube++v8l0WGXaE+
-QN4Dy2TyGOdRUXULfrU3pDl5K1+Eqw3ukTISBFvXZ5CsSUZCuMCFB2SnrNHwsXppSr5a5lojKkKa
-nNMQXxV6Sb4681p/V9ORVYjDm6qoDPWFhHABMgjQBEla4V1VkMga490SH9pdCIHDHPOenVkdUztI
-wrTCkESxkQzMwB3ThuIoEfrb6GWErw+tUPwVLncov6T5nNasQb5TQo+fvQATkbTi+6LY24++CnVo
-yClOUVQacGGzxVGgxkMxlFTHODNe3umR4kZiejFehuRFa5TLWn6Zt48iHZ2c3uGahpUZZfSOBcES
-14wCauVxti5DcI1p4fxSAstiig9pTmo3Lq6rIi8o/p1y0z4h7do9xKXPyT4G/6XOnulTDsFiO0cm
-EGlda0TdTm/tW6W962sP1XmKX1D4BlqgNg5jU0suGxL+P3QkQCSwrbi+hCAKu+KpVPTdwan4+DFi
-HFHsYF84kWJgDVuhzWSEssbUdrF2v4vfZ8piPdWjjigyUiUZqfApwigzRAtGw62HK3rV5xMU4RZf
-DwLpKA9V2UisvSG8NLX4WclqsVaMFtcU4uu+P0LnvCj5Fm7sr6ewa7M9HjtYK3t0nFen9GtuukNK
-SHdaubL9DQR4Yj+Nubx06szVNZS0qXveKpos44Ltu/1q0woXPgDhl44HAb4x38pAUB7OruQ5ZeYI
-PVqWOJxliOby8Pz69uH18eE6a9iuv9oIquv1QVnUAaY3UCYPl1/gUz25bZ0yM1Vtb9TXnSLMAxDI
-B4kkonWsGSIZOFOa5j+dBnBmMaqfjzpKE2EQbJiysMBR1plroyqWGifdoYDr8zvtHE9rDBlHKXGO
-TEVM8y0DF4Nc6kKyFEfoFio6vHbQfz1HhOEoIZjGuSmBqfVQkXM4vTmcHilp+d8v16fr6+ts9/J8
-efgGGX1HtZ1UDQlTT2O2vj1zNlfFARDILeNd9trMfcelGbtOadiE3MUZvmQ1qsOJpQ6fYL4dwBOE
-5XLRW+fhjFmEXhWOpoPrkXalpaRVGp1fv9+cepTeiFUzouAAYfCKjZNAJglk8MmMWOUSAx4XUlFu
-gGU6oDvjrUFiKKmrtFWYwcbkCb7dI6RA/eNiKHVVoQISn5n6eBMDlpgNdn5aZIxLsHHetZ+8ub+8
-TXP+tFkHJsnn4oy2Ij66Ytz2eGuP076T6x1UlryLz7vCsL3sIXyfLVcrf+7CBIETs8Uw9d0Oq+VL
-7c1XWCWA2OAI31tjiEh5NFXrwNDaDgTZ3d0OS9wwEJivgQZYzMQY60EdkvXSW+OYYOlh4yRnKd5I
-GljR0DEK0x5Z49tuFitMNTGShAxrUFl5vofyzONTjSqdBgpweYN7H8YYkavHcS2yKElBcJ+EzZ+w
-qYsTOZEzVkOT41Mr/cLWfot9F+p3ddGEB/DLnKJbNVWxrcC5A/ClCxH3DGPYHtbxe58r3O9Is8Cm
-5oiOtGN1gIbFzlTODJh94mMOgyO+0m/EBrijKKZJ+QKgRY3ghEAj/ZKnLWFpFJ/AQxU/jAa6mkaY
-zDxWIvJ1YrXLRJ7+wkeQJ1JVqZ5OdsBQfhfPDJXx2GRIqVlUO7w/gNzhDugjEfhLmQazY0dPafS5
-wKIwDSRfD3F+aAjStGi3xb83oXGILtOx3qbagfFH0iJ8CVvNPQ9BwJlkmVUPuLZ0pP4ZKMq2uvlR
-E5aSteZ0LBeTiIhkmlILCPiYdHz0Q0e1OlVacpH2PaoDybn8hq9MjewOYjS9R1TGe8IabBdTRNJa
-mM9Ifp1YTvcXsSNJ2eDGUQ9JH5EqKpouLTsjAbJe6gSMUbwvApnMsbNHoPxIvQJadST6vFEQf1Jr
-ssAu3Qq1tBmsppBVL9AdLi8Pwnkg/VjMQPg0Hukr/QgXP+Fv295DIrgUiUsEEs3v0iXzp8WsMGsG
-Tmn4ZTmzMuZDiB4bTKoQo5Yyhw5vrL7Bire71cO6nHE5DH/p6kkySw+vrj7Y6I7PsIjkL5+ev19e
-Lvdw1Z/YTdS18YJ4xFR7kIRxG3RlfdZkCPku7wTKtCCf/NVgopSJ3FukqQuV8VkZOL48Xp6mplVq
-Ocakys6h/tiiEIFvmj8MwC6KyyoWpvGYNbRO6a1XqznpjoSDXImBdPoETlLs3NaJQvkA6WgbJa7G
-OFI86iSU30toiPns6VR5Jfza2Kclhq34V0lpPJCgFYlUn5HDt8DoDx5cxqiw9gPzSUXaCj3//AB4
-DhETQFz+ERsRxQqaCxmPblXHIMQz5pOo8OYGrAG1bzbhGYZ561DB9RTeOmWb1qHblURq3/lck73t
-QOwgfZfMkW5JoROWdVn5HhNBleZJFrfvkcLc++otVrhFhbmIrSGmYV0NjrI23xxseMENz2G0MNxC
-XB7lebdnjoDhYKvnKibcorj0m99YzyLjuW73osFFnyBqurXHcxDEschrjK9AmHJnVvazz6H/dekW
-lC0CUriXSEqagggVZXZOVgopyfM0lDc7V1GpyR5T3U54OAJ6SBxLXekpOfYE8ZOiAs95Ca2D6FJF
-ovlGcvAOa5FCH0782M8jU2U/AEWUc3460xjT0o1kg5u28l8FDefsHjk7tZfvPBR6jRCTLMFtFmLR
-LCEsxN9T6FI/wcLKX7bmGPdqd3TNOZunveLER7zLHHFHzYB5IlOqyxWzDvmfkiLjbYIFXcpArrW1
-9jqK7zhpHhfGE4OOz5tjgSs1gOrIq+xEON4pd1YvFl9Lf+nGDDJ3HwDjxvj1XawaVouEwNJ5dqrK
-80NE06r7f0KvhPpCRK3SPzJH3EgPJtAHXg517AeszCgsDWN/P709/nq6/sU7A00SjhZYu6DQZD/u
-4VkdLhdzR+ZWRVOGZLtaYk5PJsVfWAVV7Ig7rfA0a8Myi9BJf7OLJivlBg3ypqOdTPniDt+QPP3r
-+eXx7fuPV3O4SLYvdmltfk4AlmGCAYk+wSzGQ2WDJA9+s+NXGifU369v1x+zb+BVqzyE/vHj+fXt
-6e/Z9ce36wM86H1UVB+4MAWuQ/802x3y/llaUwBHMUv3ufBoN0UiC6lZQOIELCOmDR/gYxofMcNh
-wE3bIi5SMklymn8WHrA2w7uYTqaDhi6EbtOJ5l/jVhAhMQ9SWsfWYh3emOU71V98g/jJJRyO+sin
-Df8mF/V2Orm4iEqnLgwArknB+JlLJxtI8fZdTmjFXPvo+ruXc9qY1bC6we4IAqW+mA1SBtB2g6Wr
-vdNoaCSBef8OicttXN88h3bpIXNCCHXHIcrFVm9jdNIQuPRaoheCUjcbOjDzh7FTS50GF3VM36YR
-/PQIptrj9wcGsGWPLEvTc5j/nD57S4mjZD2/6b4NxbisAeZJd0KesXkqpLhmO2TJgUhN0PfIYHWi
-rfwXhA64vD2/TLYuSMd6//R8/2+kB3XZeasg4NwLoYrX34CVcQS8BOaO5M392zBfLHz5PQiHdb4m
-RW2v/+uqBwz+A780n2SmJCHupDntzlBLmsMdQPvMaS4PY42A/09TCUm/QA2hSWqwRBRL7OIgMRPz
-UgWOyHa+xg2PehIalv6CzXGtU0/EWm+FeogMBIeu1MMDmXBrf9eQSZO7sKWIDrTx55rLp3ATE6b4
-IRe9uAgmjgktbCz85tNlAhA+bhAcRjnBrTzfpkirL6a9oRx7WxwSNYrQkshwCOTEzVNAxRvffJTJ
-pIPfj8uvX/y8FutpcmKIctGJlFZ/xgmDuCLIynbBmm2wDybRcf7V8zcWV5YWrQUaTjsdyOdalygD
-6V78cvdmkFsE9PrXL76SrfgQkqt8nXY2WQzfHBtU326ggppRUaRmFqTPRTsZLwV3OHQpkiRYbeyq
-6jIN/cCb24Kd1Vn5yZNoOgiTIfDtPpIq/VrkxILCyha6dR0oJSILmJWL7XIx7TLJ+PGIq1Zkz9h6
-NQ8wh6kRv/Xs1tZfaBusJ7WdaLBADRkH7MoYQ2SszE/Md+dGW6siUI4YZe/Dn49KCqIXLgPro3zy
-hkCkzF8Gvl5+xHgnY0GNKPvUmxCwfap3AmmK3kT2dPnP1WydlLnA98FugsQw/No+4KFb85XRLQ0R
-OBEiCowKCoVReAtX0bUD4S/QDnBUMF+914XF3MF14bkQzuo4qgsdOlGTDtt7dIrVvMVr3wSO9m4C
-R3uDeL50YbwNMofUXBnOSNCDdeSoqSCFcXZYmtKfIOO3INQwW2JZU5bZeVpKwm/EFiwjIkkR1nwH
-Drb+SuK1jopdoIOJ1hhP0wrhYif3h4HbqBuCSF2TQgN6R2q+Ks9dEJQ0WM9xRTyI5HsYTL75zteY
-6qJnAx9Ut2DS4YELbhjnGBhcLOtJ2A7fm/vmuvDSWWGCt7jvvvibVvc6sRCmkspGHqIvWK96dFR3
-DZ8c/OOAMeKtASVbbzXHWPH5423mS9wg3CLCdAoGie9pHe3Hjx/n/HMvFlOMmLum43WPyspg428w
-ha4iMCXZoVi9WK88tKbNZr1F2sCHcumtWqwNArXFHuV1Cn+1wbluFisH11Wwxcd7mHJ0t1hubn6S
-PWn2MWgK/a2pBZxSquebGx+vqldz7ANV9Xa5MnpxOLk8JsVRSvCAXzceGxgYhhSMpTvjwZbtjB8d
-U7oRvZTQvoNZOM5AIzDhKoqgOYN2ISU6n3EYOWJyARdK0D9+/7wXcdic4YCSaOJKDDDCFhsP2/9K
-yq8ao2xqFiK1H2zmLldmIOFNXW3nbWsX3UXb1cajJ/wVSzBvS3/eOmMwAAkFvTvuey2aDWLywhGG
-iRcXUrTvCAc7EGgCVQ9b+whsMYF5ui2CaG/oLYyNVwOam+6hBnUhS0NjJwIoJ7P0nhov23oSYPa1
-AGDiTJxPvqcEYwLagF3PJ58SttnlaoPtjApt7XMDNDBvJgrOd6IbvECyQAtt8c1pxDsCwAG+Xi+2
-zjrjPPG9HQ3NDlRx3ZiQ6aHyf5w92ZbbuI6/4qc5yZl7J5Zk2fLDfZAl2VaXtoiyS5UXH3fFSXy6
-qlynlplkvn4AUgsX0Ok7D50uAyAJcQFAEgR6CKwfxaNrgFv2FLz+Xv4pnNaR3/gB5e2FWJZE5OJm
-6Wwxb68tU5b7U8cohsBrPLKbuwCGXlsN+hu5cNX606tCgt2xSL33Q2iDceo8z28PDYtC0s8UyYYd
-rgILFkFAVJjlO0s1Ykes2Jewx3WmPi0/xAbZoXWmQJInMJyPbnNt8MfhFj3cfwB82RWRxqsI5ldb
-XjrGwu/g12QhkIDE8JRJ0txms6lnDq1MMAdD7trY32aOu/DIaZvlnu/Z5vpw1CCrDP2wRAKq8pWr
-QTZbZPKlMGcn952pq3OCUIeyugQShY9ZRBc5KnI2neot4y6IgpmsD0cmBkx3Hh1YoWLpcGQUL72Z
-1G7NjxqqcUTkS1abfSHdjicbM3Nrj+vE06MEwEc/Y2D0VI5oUOMlESa3q+UnRviKe0CMRQEOwtEC
-n5PwP/ZyPePlFL6qLe56FH2BhY+Pi7uSIpJIwGatyKbzKDncrGIS1+Z0mRTMXMv35bmJ4L3XB5IZ
-hwddMFIeG9viNte1dA1nz1nMvwzf51mwmC0kbDxrn/KEEl9sWdKh9U1ZY/rAK02kmx3sgm3YpoGi
-qWVy9kmblN7t4kWbIHQWK1ieNtr1IxKk9LSBNtpVCZvkPWnB4WNQfvQixcniy+7x9PV8nNxfXk6U
-M6QoF4U5D+gkilurF89aDs1eakgh6PI6XKHgCYkkpMYIi2uKC51dWMS/4xV+NDU+4ap1FkYM9KW0
-L9uncVLqUfoEcD/LXGhxJbLmUve/I51eIS+rSVaBuZaNTFCs0xYDQacFf9BbbOQXV7ze9W0BK3cE
-wgcZ6hBhOR2vFlFKrBxOG7bAWljhm+V/OXMZFd8VIW6OOEdMLRYn6GoDZiQ6SMNywAhI5Ual2WWJ
-+OJhhvLJaew0kba/opLe0wr3bjGJMRRrHn1iGLqk85yQKhDTbPiKXyocbVp1LyKcNhBKr72hmEO+
-luDoJgn9xXymN9aBD20jR47vagzDxWI6V96w96XW82BOnVAJvDB9+j4x47whPvg5Wedd504+sGby
-5/H19PWj7P/x7xVUJudqt3Y1b58RTiwEDs9Bd1SMLJHz+PPqxDg+3Z8fHo5jPNPJh7f3J/j/P6BH
-nl4v+MfZvYdfz+d/TL69XJ7e4MNeP5oSDhdvvee+WyzJYJLahVzThNHWXK2oHlwz4QzCkqf7y1fO
-1ddT/1fHH3c/uHBnnB+nh+eTCMg8+HuE71/PF6nU88sFIzX3BR/PP5VpLThp9uEulg97OnAcLmae
-IX8AvAxmU/ODYGLOZ45PGe0SgXyrKMA5qzzFAhXgiHmefFHUQ31v5puNIzzzXDKTumg823vuNEwj
-1zNk9C4OHW9mfCnYqouFT0G9pSGVK3fB8qo1OeP226pZHwBrjHYds2G09GGBxTwXr6Q56f789XSR
-iU3pv3AC2pwRFKsmcJbX8T7tVTng59QtrMDesKm4yddK5Vkw3y/mc+pMY/jQheMYE0CAW2P+7Svf
-mdFgn5qW+2oxndJ3HB3FrRtM6aBiPcFyST5rk9BzgyGAOgQ/+6r1XDV0qjS+uEqPyiImpsXCWRjf
-H7WuL5alVNvp6UodstuFBA6MGc9n1sIYHwEmqT31ME1CLO3dGN4EATHcWxa40+G7ouPj6eXYSUM9
-WEcGUEn5i9xHPOy3Rih65/wI4vG/T6inBimqyoUqns+mnhOaHyNQ6nIbJfAn0cD9BVoA8YubVLIB
-XOIL392OxkhcT7hGUsU6hiI9geJ6Ol3eX3XBr0/WLVt402tyIPfdBXlv0ykm1f38/6mQxOeAbWtw
-27/I0XGq2mx2xZgDNXp/fbs8nv/3NGn2on/ka4SRnieFlu85ZBwoLqd7k6cp8wEfuGS/GFTy8jOb
-WDhW7DIIFhYkN+tsJTnSUjJv3GlrYQhx8k2xgfNsvQFYd27JPqKSOR6ZW0QiwlAcjoWLNnKnbmDD
-+cq7FBXXvVmh2WozKOpTN88m2cLYVXbYaDZjgez1p2DD1nXm/pXZBFPBIU/dJLJ1NFWezRs49wrO
-wlnXtGtjLcGe+y1foE5sEycIajaHOogNd8fBLlwCf7+dPSx1Hd9yVyKRpc3SsR00S2Q1KAq7HT6M
-uDd16jX9ZZ9zJ3agZ2eWXuf41VSLwE1JJ1lsvZ4msAGdrPvtxCDV8Tjl9Q0EKCYh/PB6fAMZf347
-fRx3HuoWljWrabCUbM8OOHfkVSKA++ly+pMAOiblHIwvkxSgjgrE1SILGg4Lgph5znTYOmofdc9d
-p/9zAttp0IRv+AjT+nlx3d6otffyNHLjWGMw7RafzEsRBLOFSwEH9gD0T/Z3+hrsqZmjdxYHup7W
-QuM5WqNfMhgRb04B9dHzt46yJ+oHypXjI/XjPKXG2V0qET2kQbWc0IjJMTW6OgB7Rq8JR2CqOV/q
-BIFLeishdp8wp12atXbLOnZoSTTSiGHwTF7duTYTQeaY60AUn1PABTW0evfCLNNnfMNAYWl0sASM
-oUHP59CZ0x26MDMN48xsJh/+zkJhFZgROqsIa41vcheqkhzB9I5omJOWfGLdOqWOjBGVzWeKq+H4
-xTONt6JtzOkMS0lL8tCtG8+n9g2cmXSFfZ+v9GI9gjqP6PALxBPlEG473gT0cmr2afeRlLpHdLhe
-TvVZnESk2PbmxsyMXdBsNQGdOYkGrpvMDTyDPQG+MuQoTm3Mf4kd0Jl4IFsOQTFwtkadeLfOU1z9
-gb5WRE+pscIkuG2chaRb9O2HDYPmi8vL249J+IhJQo9Pn24uL6fj06QZl9CniOufuNlbmYSJCPvL
-VmenrH3HJb2QeqzjaVJ/FeWer6uMbBM3njdtSahPQuehDu4C1pmrdEqFauMTbhf4rsafgB2gM0j4
-fpb9y9RNzuDPnrL4uoRS2Vu6ts6DJRQQS4gLTHdqxurkDatK+z/+TW6aCN2r7POfWwkzzzygi8/f
-z2/HB9l+mVyeHn51dt6nKsv0tqqM9vIblRp0AKiA64qP0yyHcw+WRP37vv4wgwfL5faMzgEIaG/Z
-3v1hE9LFaqs6Lg1Q23QCZOVqcp3DtCmWMtAA+rTmQL20AGoiETfgnj75WbDJTG4R3FK+JbyeZgWG
-qSkGQcbM5/5PS6m0df2pry0OvtlxDU2FAt0z7JptWe+YR1/48lIsKhuXcj/hpZMsKZLhzOPy+Hh5
-4plreNDRyYek8Keu63yUHnoqb3A17TBd2kaTVW7fSnO5PLzis0WYVKeHy/Pk6fQ/Vvucp5paK54Y
-ti0Or3zzcnz+cb4nnorG6rOSGK/lKhBELRVLQCXjb+FyMmbEgGZJtuYpsB9l3E3OjMzkPXy9GlFE
-e8Bcjokcy6rMys3doU7IV3dYYM1vdZMcPU9SOSzUiMTAuuJ2CjSe2pwgyJKQPy5lxjsbhZjns4ft
-aTykZLd3W4W33ORtU3dIPLkYV0pKDSLQA5hGlr1AR8LSzJnTh+k9SdFW/CxsGdB7eoPO19zQpJNJ
-G/PCSKhzJSRKV04Gy4Oz3yTGrNzD5LAMdBUWPHxIpydenx+OvybV8en0oCeckTFyDas6jTeJOkN4
-rSNGqXyUBauX89fvJ2OMhENF2sIf7SLQAz5pDJm1yXwkLQ/ytsaA3JiCnOKyrPENNp/mh8+7tL7R
-qPAx6xD0RpzGvxwfT5M/3799g5GK9UhvsAi7FOVjPQAryiZd38kgeZT6qc8XAjFUWCn8t06zDPOX
-KzUjIiqrOygeGogUA3yuslQtwmBRknUhgqwLEXJdI+cr7N4k3RSHpIhTMg5436Jyy71G74h1UtdJ
-fJDvbQGOLkMZZq9UoGC4J518YxoHTZpxxhotgZc5XD/6uA6GewVUQ4TwRdadWPMyR+AW+FlBs4cs
-Un2REYl+vnQ/pKv8sGmbmS/rYoD3Dzi0mjBU0i6knqpjh5jJV7Dx/vZgWCvkfOVdszre//Vw/v7j
-DdOlRrE1nDngDlEWMtZ5wMlcIu5K5I9hLK0VjBTdQ2xSno5Unc/61bb4871bEaqaqMJ8P0sQdW80
-fk8VBHPKDNZo1HSRI5J6TmcQma7wIy7Lvbm3pCvvHcp/8xEWl3SpjT30xCKrqPZX8dyZLihMWEdt
-VBQUqnOKlafpbyZjX8c2loOKgKYo1V8HniocVmehBBqQUPtN6FAuABJJlO0aV3Zl5ji2A9mz7asm
-MLxmo9UO2dVJqjPDyByrYOWuMHPAbkFNGMsUgCNf8GN8/tjUSbFR04IAng7hujOqGUMwiG3c8+ke
-t5DIA2G6Y4lwhknfiMo5MqrlAB4D6CBHouPQqlLfaXEgHV6Yo3aYxEMvsEqym5RSS4iMtqCB7tRm
-o20Kv+70eqJytwkpR1dE5mEExrBeEb920WB3VS1SPCiVw1hsyqJOyeDqSJCgfb/Wi6HXVklG20Pk
-FyW0uxjJfJXWsV7NZk3Kbo7KwEAq5eiMCIWKeaRmDXpnjNZtmDUldQyJyH2a3LKySCODn7uaG2SW
-cilmuNPLaFFLJcwfoRYfHoHNbVpsSWtFfF/BwJZo5K0PwrNIe4PNgUmsA4pyX+otolGrrwqFAMyr
-NDIC7GskGep86yS8W4OS1Ze5cBLfWFzQeUGeAK5cUxePHF9iLMjEWBIYyjnlE8FSsJDz4CAAzPHk
-Rq8GDHF8WQozjbJ9OUXShNldoUmNCtYpaAqjOgEGY8j6wT3JoJBs7XZ0ohUKkcTGWgZrCJ2pYV7b
-BFVVgy3d6uVYmNqitQs0TyJhqZJVSRJ32Y3UYnqCWRWXZOh8n2jrGxqqsp3xZXVOuXnzFYsR20OW
-KutsAILksnGQh3XzR3nXtdbrPAlqaIUm3ZcaBDYWib4Imy0s4NxY9luMMnklkhkS7VAzHipG+x9x
-sZam+nsPCdumRa6x+CWpS/Ube4jxfZgiCpajJnlE0PnDdrcyBlhguhBO4peV8TDTs6r1nkyEUh+D
-KCrWhuIgvk3pEJJGsSG0ugQcTA4Gm69tlB5wDwd7KrGTHDsA8cTzCATDAjw0dUoH1UCCXValZlQ8
-iQD+LGwWME+iIKJkscNWFTXakxneMQjjIbY1Bz6EVz9+vZ7voYuz4y/60LMoK95iGyUpfXiIWB6x
-Z2/7oibc7kudt6Hzr/ChNRLGG0uWzOauSug9GhasSxg/dps2FkWX55bn52DgYDIMYhCK5LaXs71Z
-Db/EfpKCHQwlyHGrGgV9gfn1trd4RFtsEtOwBlLzbICXp55rc0TIvPnMpw/MOQF/d0lvJEc89ayh
-x85lX54BOJUdTTlUBN7SaTuoEXuNIy0TXzSCL4FnessA9A12YKvc4oPoPJcF14CTL05GoEcA52bV
-gXhKrQEXsm/J+J0+2Sd+q4WCGFBzTy/QvRFlTdioGnDA+tR2X8yx2A2m+hcYgcg4FMMULAK9CzCP
-lj9dGM02WeQvHfKuaJhC/k+j2PDW/so851dwfz6cn/764HzkEqLerDgeyrxjtDBKOUw+jEpWeVoi
-+gEtEcrqEFxlbZ1stC/HzB56Z/D35eOsGhhvXs7fv5srFPXARnnaJIMPfThPCleCXNiWjdnvHT5v
-KNNUIdkmYLSskrCxNCGfatKNRNXOLiR6ojACAyi1hNtXKK8t7Z4mTkRU4LF/z89v6G7wOnkTnTzO
-guL09u38gNF47y9P387fJx9wLN6OL99Pbx/poRBPOvGA3dIp4pGlBVmFhRz4UcGJpI/WgnjuoQui
-oQfVh0JhFCUYEiYF40PZ4fD46ekqLKihr5voIEJjDvQI4gqIumvB0Cr942EDNrz/Gy9CRtyejmIL
-FOblAwDBeNoolw8I686RudYrwOSXvl7kwcjZRiRNGb69SbJDCjD58R4/Vt0i9JBv8oZCKB9xi41T
-vktsfagE8fAtkR7hN8So/4em1bO5wE+8zKE6ZLVbTy7P+J5eTnGD1axTJXLQLYcqfQRlYZ+7T4yb
-mg7XX8cyAwMLXw09LMPx5qPRrz/7SyyV4+HDd22cMthFyoc38WymhEVLc+yhKE3VvWkXcXi41xvA
-eNXVx8ueauC65N3jj18gEMJGAiXCWLihNjt4z8230dmhVA+nZAx97iBRcHuNqF77iK7ECMBZLb2E
-laDqQ0CewQNU4c4A7uNKexfDwZjYriSPWToCI79r30hOilyjGfjNGaJoebSrtGwy+YkfB9ZpsdFg
-Oon2lRyGj5kfVdCelXJ0yg6oc8mheDLEuh1Zl3jKWHr5+f7l8nr59jbZ/no+vfxzP/n+fnp9U/aM
-fdSL35D2LG3q5E5NCtOEm1TNoQlCJ4np7Ch1k2lJwPuj6+Nf78+owF4vD6fJ6/PpdP9DedFDU0jn
-8YIP4VJvNBA+fX25nL8qN/UdSDoX6ZPtcE1E8r+BXUy1CTEbBr3VKlIQLJgBmN5N8ZEr8wrsGlvK
-ra6HecaNuqQdNHoaY5ev4Y0zNJPCkvpzxItQEVeJ7MEpewpbII0ev09XtR5MxewR7rgQo/OKMcCb
-4+tfpzfKI0PDjNWu0ySLsV46vYh09avPjyqtJK0VZTfcr6YstXif21tWpQWGWDfYjXhQdXZ5f6GC
-1+GtfHeuwvBKO5J1uo7Mm52coG8r7GmtTA/tiEcXK4qPvlQeptlKjpbdGyUCKB4Znx4vbyd8Cm5+
-hgi+AmpMefNHlBA1PT++ficqqcAGGlngP7UMAwLGbZ0NT0dUhGCLJ1cIajltj8AO6mlkVGFIyKky
-mnxgIjVJ+cTzr3xEUXR//na+l9JYC5nz+HD5DmB2iah0FhRalEPZ9tVazMQKnwFMA39/ebSVI/Gc
-oGirT+uX0+n1/giC9fPlJf1sq+R3pGKn8l95a6vAwHHk5/fjA7Bm5Z3ED3O7BGs07edje4Yd80+t
-oo5SxHk/7KOdPMxUiUHr/K3xHuwi9Ojbr+vk82BAi5+TzQUIny5K2BCBAqGy73xDwCKLkxy2NYrN
-KpFVSY3eHGERkV6eMiUKZKYkO5HRuKfnmYJpdAV7JbF+lI8wsrSP3ytSqY21JW0TjVvX5OcbqG1r
-sndBfFizcDkLFG+MDqNvmHV8Hrae5/u/IeHBGYl+kykCOcBehzAD5vWIpsCoAPYq6yZYLryQKMpy
-359SJ4sdvj9PHpnBYCS1ug22dEp1a2bYwYj/92o+rPFGQMdJTcAcudEP6QfhzpKGjFwkMKs6ylmz
-wl+REkyGY5t0DIbImUGdzt7/FAmdxrkx5IDYSpuuVZQfbjDUHXSTq6IwaUrVhgc3KHLMRaOGo5SR
-WJbuP6AS2+zEOBTv06IozEpFcdlFZPSiPJK2DfDjkFWD40Z1evl2eXk8PsHqeLw8nd8uL9RAXSMb
-ejccnvuPJm+vvYu4LtNYln2DDdxLgVDS9sVeS5LHAdasIB2Wpz+MQy27ngi1J9IsmU4zt5O3l+P9
-+em76TvDGjn0cMNT3zW4E2TyEdSIQOuoURHctVwFsXKHWdkjI1ntiJOPDaVNxoBf8xSaRD+IudNI
-dmMPOWiuPgOcNdQ2e0DnbEdUVsl3+AN0PLHq7/XMzu0L4U7GMO6qGpa9FisJCQ2H4o4exH/yJTGw
-na6tah6wb1cpEoLXVyebVA2GysHxmswAlB/KSnJz67K4jAMDvw99vjfqYCtLc3XbCoAum4CSxohn
-14S/C8UFl2dzVqKziT3+eGSk6jbh4HrGfSqXEXJwjjBLMWw86Ds8+FFO1wGUlhgoUtUY7mFNbxUB
-513Bza7ibmCv2gj/a3qrnqTAHLBkqeQPA9UPPUfIkSYR8nlXNvRdHGKrkqFneUS/bkIKS5A9RJUF
-unVjDtEd7VqCRLdhTR94IdKe/2GzZtbuLyMT2auopjZ6oYf95mMHsmibYHIumHib2naxMBDXuwIj
-dQLdlSEV1PaPFXiw/hJLb4/NJevDHjTz2pKVOM2u9NvatU0duXNkQww3u2vNBhOww4qnMCsrsjru
-CA545YAOTWw8a7jT8SODeLAW1XeV7uwmU+Dnq6My4Iaj6tGMFyBSynOMds+2Ds06elh3M4LbgTwF
-Sx2UGFEvX29ycQ7AQ0e+Ax6yCFPCFvM0d/S4bLTeEQhbMEiBbUArSNcQ67w57B0dIB1b8FJRoziJ
-Yvy7NbMKMYG2zCPoTW31RTb/ve6I2LbGYZiz8E5DizOc4/0P5YUJGLqwZtWJxEH80tqyFjqKbcqa
-clOTLmE9jXEb1SPKFeYOPWQpo5ctp8LJTvsYdR8iPir+J5honzBwK+qvUX2NVgsrl/P51NZhu3ht
-oPp26LrFJrNkn9Zh8ylp8d+isbWeM6C0tb2HsnaddwVZNISe61X7/1V2LMtx47j7fkUqpz1kptJ2
-J3EOOVAS1dK2XtbDbfui6tgdT1fststu10z26xcgRYkPUM4eUk4D4FMgCIIAONczqb+/7F5vH9/9
-MHo8rqUy7GNN8RAAPPu0mQUMkzSLaq5dj655XehlheqtaWDKA2qVrljR4jGJ6TqY/CP3IU1XIbo7
-isa0kXdy8nbMkLilSOrq1wdYNIOL/TguBK0Pm/gLAko66nk2u5m+BjPdmdN4Zja1Lkj9JUNY2B5U
-c96xJvEx9KW/zjwtYKP0ia18Zt4qP+68uFzOYj/7sTXRqOJvEG76gUL+Ri+HDFVhvBGxve8Hkuy6
-HNH0cV3RLX+XLgl/i/JsefJbdNdNG5GEJpk2xvlJUL4fDqFD8P529+N+e9y9dwitY+0AHyzp9gC8
-J9kBD7yrb6QgGi68i2BmXdXubj3J3+HNW030UBYG3UECfkwTsX95PDv79PWPxXutzgxjJiOOMrFf
-nlIpQg2SL6dfzNonzBcjRYCBOyMNgBbJyUxxKmDOIvH160zPvmdhFv4myUzNFsmpt+KlFzMzSWRq
-V4vkq7f419M3i381Uy9axd8c8Nelv/WzL9STEkgCmhByXX/mLbs4eZs9gGZhzqnwHzFBqqkFDXYY
-TCEog7eOX9L1OZ9SIXwfQuG/0PU5szuOh/blN0jogH+DxLeI1mV61tdmnwSsM2E5C3H7YoXdT0SE
-PAPdytOCJIDDVFeXbp1hXbLWcJkfMVd1mmWmfVrhVoxnsw1iAMfarTOFnsrrIxtRdHqkuTFisndt
-V6+Nq29EdG1scHqUUYeVrkhDI83/AOgLvLrK0msZ0j9m0dADonWDmbxv3d28Pu+Pv1zvsTW/0jYD
-/NXX/LzDpzKdUxhGpsPRSLwdz6/QW8fjo48xKFxE0VHbz2ASGAj0BuB3HyUYpy7j4zyaHg87NBn0
-Uc4bcRHS1imZ3F1Rapr/ADGNIGONw/453yw+DE5TYJqFUFggMJhfxvLP19XkPp+QkaQt8/KKvqIa
-aVhVMWjzjcYwFUmV0oaYkeiK5bR5ceozi/HuyeMyo7UWrqNyU/RZQ/H3aI+zLfkr2Ui6KhgsH8+b
-M54+cvIFUeUEPDEO091um/zbe3TfuH38+/Dh1/Zh++H+cXv7tD98eNn+2EE9+9sP+8Nxd4cr6MP3
-px/v5aJa754Pu3uRcmF3wHuBaXH9S3u0fX/YH/fb+/1/t4idVl6KZmNgmXANS1p3aBUIWNoi+4zp
-wWxR4J2BSWC/sW43rtD+vo9X9rbIGM3SZS2Nhc3kdScWdKluzMLnX0/HR/n8zJjzZRq4JIbhrVil
-bc8G+MSFcxaRQJe0WYdplehmQAvhFkmYLqU1oEta6zbQCUYSumcQ1XFvT5iv8+uqcqnX+mWOqgEP
-OC7p8NavD26oPgMKJRmxnsyCfZQ2LMi4nYJmoFrFi5OzvMscRNFlNJDqifhD+amrMXdtwouQKGn7
-UpvY0ZlcGqBev9/vb/74ufv17kbw8B3mLfjlsG7dMKfnkcs/PAwJGElYR0SVIK0u+MmnT4uvqoPs
-9fjX7nDc32zxLRx+EL3EzPV/7zHH4svL481eoKLtcet0Owxz9/MQsDCBnZ+dfKzK7GphJEAcl90q
-bRZ6RnC1wPh5ekEML2Egsi7UKALhLPfweKtbfVXbAfURQzPW2UK2LlOHBCfyMCCqzmoqScSALGOq
-SAWd9Je5bBuiDKg2m5r0aFCcn/inG32T2879UBjXMc5qgm8oeCY1Zy4nJhJod/TSGpyNv7AiHlQG
-xt3L0W23Dk9P3JYF2IFeXpJCOMjYmp8ExhWEjqE0zKmddvExSmOX68mmvB8gj5YE7BMxe3kKvM4z
-/OvvV51HcvHYpRFB5tqZ8CefPjtdAfCpHn+nFmPCFhSQqgLAnxbETpqwUxeYEzC8qApKd2dsV/Xi
-KyXRNxU06N4F7Z/+MpzaRolDLSqA9i3tIK8oii5IfbZkSVGHlF1i5LFyYzovW4gpes+RWSzncDKl
-XjsaKaQXu69801LncQ39mSgW8ZkVEYu/lHhK2DWjFXr1hVnWsJMZ5lS7BrEpcFdzA82iMlwdR+Za
-kps4re8r9Ka0X4dX6TnV2y4ORw3mYqcD2XVJdOBsSTu5jYVo48qETmbkAVq+lRSvt4fbx4d3xevD
-993zu9XusHu2zg0jZzdpH1aUNhrVwcqKlNExCbUbSIwVV67jYJf1jwApnCr/I1665OjYWF05WNQt
-e+oAoBC+3ox4pc37uzWS1lZgjYXGY4S/FuwHBkva55v7/fdnfKbu+fH1uD8Q2y6mVqQFF2Le3L6Q
-SC4qLUOVj4RGjQrkfA26numi1bYIam96zb8t5kjmmvFur9MoZnROJPJsXsnGZWd8tLPNMcaTUEAm
-rFTRXRmq8Njix+WMDEdSOyJPryXHtEhhv7p0zzoW3nVLYM1VjkkQAY+WMUxM4Yq43fMRnehB65fJ
-pl/2d4ft8RWO3jd/7W5+wtlev/aXl0LIexis3YyGPNrP4DfqVmMK0oLVV9LlJVYLJfOukJql0ee+
-OteeHx4gfQDnOBBRtWaYRfdpw/UoSEHfwLBITX4rF2dQRYqwuurjuswtbyCdJOOFB1vwtu/aVL8k
-C8s60rkaExxxOKzmAYZmamNAqyUzPnUIxy4QhAZo8dmkcLXUsE/brjdLnVpqFABG8y/JoIIgS0Me
-XJ0RRSXGt3EJElZvmOfZZ0kBH8KH/UyrVaGhSofaRQescPfAEGqHzPGEMF2Vi8S18/NwjZIDxLe5
-2wuoowPot+QmFL1vXfiShBs32RaYor+8RrD9uzeeqx9gwjO+MmTWgEmZJ6PzgGc1HQI5odsE+HmO
-BsMxKTVmQAfhf5z+DlcTA3AafL+6TisSEQDihMRk13oEv4a4vPbQlx740l30wtiK3owTCk40Ud+U
-WYn6+QMFxauMM7oANqihAj2XIPwQvgUYxl6zXOOEll+2DUd/JArWr/Nq6ogGD3ISHDcanDVNGaYi
-oA8+dm0E3zPhL81zE2QkTCjE2GS2hUwl21Rzm6MbY5gx4TORCJ1vwo7eVSJRAdJivmo3Ty5iUBnz
-OUQ2q6xXzwWrIueaqF1lpWGswd9zcqGApd8S4h+YAE7v+v18mF33LTMqT+tz1GcoF/u8SmXijOF3
-KTIUrmCz1RNxNiA5pYe6ArS4D5P3ec42al4/qE1eQJ+e94fjT/Hg4+3D7uXOvfETW/RaxLHqIxrA
-mOaTVqmlMwwGOmew9WajafuLl+K8S3n7bTlOjMyz4NYwUqinxpUmNCoteVDCbtXzugYCI9oOE//D
-P9AFgrIx0kJ7Z2I8Gu7vd38c9w+DNiNfybyR8Gd33mRbwznAgWESyi7kVszhiG2qzLNTakTRhtWx
-Jy3/RBW0MUmyigJ03U+rlr50FTb6vEOTAzrET4OIQQZx4aD8bfHxZKnfZ0JtIDgwVol0JKrh3CSq
-BRp94AnAQTGC/jYtIxeJegJCPhyfp03OWl3o2RjRPQxQuLL7XZXpEFJiTRZImRCGJV5poJIPKSX3
-dxlBhsfjgXx/oxZftPv+eneH92fac+oTy4iMp6hz1+dTtzXgeHcnv863j/8sKCrMYKkrlS4ODe8d
-bEb82/v35hTrfq4JE7IfNxJgFn3G8LfHG7NhBTlvvzUTZl/QDZdn7pdCb1nnYDNcYI716qcY4e8D
-+xxmsfUEFsiakVDsGbTjIVZTbgpS3gkkMBcm8DWtByamL8ohYMTfxkSMWTHf6C/GhMyQSB91MvMq
-ft5hpmEzx/dJbEn1FhzDY6G3JTCUOOrj6292B0Zae1/10Y0X1PHcuEZyjEcAQUbmLh7Ehrg07xrp
-pD2JK5Br0YDkRSTFnLeSi9xlxItcXG+g38tMub4O7PkDYLWCs8SqsTFFmefdEKPXEKwvwpHFhT61
-54ZCcVozYDDXtCLBYrzfFs7N/7RwrMlL0nqKq0eid+Xj08uHd9njzc/XJyn8ku3h7sVccQWIHBDI
-JR0hZOAxNq/jRhqmNBQKR9lp2ZnQh6CroFstMLSueGOmZhc59gUTugjFWScUbRAd8xOPvdQ+CTbW
-J12BeUYbinc257ATwX4U6VcduBCG0egKyPzkSr8s2HBuX+/FuxWTnDP42daFBNDUQgRMhMbozVN1
-m6yAX2TNeWXJt0EUwWkmr9w0ZDgSTdr/++Vpf8D7XBjkw+tx988O/rM73vz55596zjyMLRP1itxC
-U67bUfnEzGREBJlEYLpiUUUBM+1Yq/Q2cBa8S7duQf+B8xF3VqnKL2PDPeSbjcT0TVZu0B3MJqg3
-Dc+dYqKH1hFGeEnxyp3/AeEdjDymQA+4rzTOtLCTq8xu/mmDFYa+Vj5niWm805td0+nk/2CIccWg
-pzweoiyZKYSZQOpDErofzFvfFXiXBPwv7T5zu4ncJud3SePcoMnDn1Klud0et+9Ql7lBk6dzEkDz
-qf2FqwFo9aahzrNqf2jTODUSvIldvugj1jI0PNZd1aamc9dsN+3GQziZwIEctEQ39K4OO0ryDKtu
-yO9iA534OPVRNSbSjCJQABOu9OOpVkO8wXdIAnp7L04R4wZystDxDrcgkJ+T4bkqIZExamtpnw8H
-h1ocGdxvKeNkQflEEwbVabQoFuFVW2qHe8x8LTqqP62AjChjRvoiT3tuRsZLdFfIcxBdWGFXNasS
-mkYdqWM1T0TruQjLByUFzdwWCUbYiclHSnHW0s1VokVM+dJb1cuKQ1OmCgNH0MWxEaHrnQGRC0fU
-ZNj+4Q/auIYk3M6otUaErN0AoW5nGfY1NOB4x2S0p+xCdkMDobuZxQ5LohKC3KvKEFzj/dJvfGTf
-9x2LDdkvdfVKaMjUcLiaHViYq1Vm2YfGeRMfhtICAQlaVuzUPdZqwaUy4/DtBpaQOw+ygwM/ukzY
-FKwaUhzTCGUFsPghgL0E2GiYJuWKq0s9AWcFSGqGTuuygB0CbJNn2TxhkK3FBWBa9r6wsTVUFvBh
-trUOV7EDU1xgw+kaPMte899HtFx+aWHvoyaZWD7TnR0lxLUFqd/tOc2xDCRJJWLXyPYUB7QMNo3K
-f/zUG/QRu0wdcQxPH5Ub4hugJPBV1DDMPGYGFQiQPpnUkjGopA3WCBLU0cJs769j0HmIPshReKIp
-JEmyAX6F47f4nnOE6ziNPdEIkmDILJhhVuw5OvnLF80raS5iTDqL6ySP8ErXzXj68helwJj6pSui
-G8wVhOkraljPaWlroES+6i6vRKgZpcih2RZ0001aRIZ0S9A2FDSNON5r5jux7nR9zhiEbtxvdy9H
-VKrx2Bhi7rvt3U6L3emMemUiGtF13eo35acxLH4Cyi8H/vJckQzKKRrey3qQBVayoSqnyajqRE5z
-mlyTTsJYRLYVszSTNjK/UU/Q5GzNVRyTnwplr9Qp/TQxnns8aKOfo73Vb8dpYD8oL9Ra1w6BNfCD
-UA/k8dby3crWUWsYq6S9Ab03mtKTYEaQ5GkhknT7KbzlB4mhp8KhtzF1XhNHwxmZHKCD6Axevzr1
-UglLP+4T85XBRo/7vIep1f2eedWmz0rCL3G9z0ybvKsbHmuljkIDVRNWV7o4F/A1INqSeupCoAcX
-mgcDONwW2lUBWGTf9Xe16zxxWgJ76WwpJh6ztsSgQ/spanTJaPH2wk+TWOnPTWwaUe5VksfXuTUP
-wmUPX/C156dyZgxdnBK8j8R3FLSJi0FM48TNKi2iCvVqsWXps5OOyN8eOSudrEbUzIcSCoifl0Ro
-oQiYNMe5zsvI4Yuc5yHo0LMsLHyqPJeSqhKPXRow9h317IblRJ3JK+v/Aar9+MeaaQEA
---===============8164051694738593071==--
+--===============2572857222738449674==--
 
