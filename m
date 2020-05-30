@@ -1,25 +1,25 @@
-Content-Type: multipart/mixed; boundary="===============6107338191886224997=="
+Content-Type: multipart/mixed; boundary="===============2816211136158718767=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [media-next:master 514/554] cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/memory_access/: No such file or directory
-Date: Sat, 30 May 2020 19:46:56 +0800
-Message-ID: <202005301953.UnG4Us4E%lkp@intel.com>
+Subject: [media-next:master 521/554] drivers/staging/media/atomisp/pci/hmm/hmm.c:269:6: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'}
+Date: Sat, 30 May 2020 20:13:27 +0800
+Message-ID: <202005302024.MpyKsFaa%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6107338191886224997==
+--===============2816211136158718767==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 tree:   git://linuxtv.org/mchehab/media-next.git master
 head:   74ac528a8f2668d34d9a343cae8f30f2235ccbdc
-commit: 46b9127387154c2fe689795ab6e8957c9ec5b4ce [514/554] media: atomisp: =
-get rid of memory_access.c
+commit: 12a9989bf254fb449233a61b104472d4838c44e2 [521/554] media: atomisp: =
+add debug for hmm alloc
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 reproduce (this is a W=3D1 build):
-        git checkout 46b9127387154c2fe689795ab6e8957c9ec5b4ce
+        git checkout 12a9989bf254fb449233a61b104472d4838c44e2
         # save the attached .config to linux build tree
         make W=3D1 ARCH=3Di386 =
 
@@ -27,56 +27,139 @@ reproduce (this is a W=3D1 build):
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
-Note: the media-next/master HEAD 74ac528a8f2668d34d9a343cae8f30f2235ccbdc b=
-uilds fine.
-      It only hurts bisectibility.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/memor=
+y_access/: No such file or directory [-Wmissing-include-dirs]
+In file included from include/linux/printk.h:326,
+from include/linux/kernel.h:15,
+from drivers/staging/media/atomisp/pci/hmm/hmm.c:22:
+drivers/staging/media/atomisp/pci/hmm/hmm.c: In function 'hmm_alloc':
+>> drivers/staging/media/atomisp/pci/hmm/hmm.c:269:6: warning: format '%ld'=
+ expects argument of type 'long int', but argument 6 has type 'size_t' {aka=
+ 'unsigned int'} [-Wformat=3D]
+269 |      "%s: pages: 0x%08x (%ld bytes), type: %d from highmem %d, user p=
+tr %p, cached %dn",
+|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+include/linux/dynamic_debug.h:125:15: note: in definition of macro '__dynam=
+ic_func_call'
+125 |   func(&id, ##__VA_ARGS__);           |               ^~~~~~~~~~~
+include/linux/dynamic_debug.h:157:2: note: in expansion of macro '_dynamic_=
+func_call'
+157 |  _dynamic_func_call(fmt,__dynamic_dev_dbg,            |  ^~~~~~~~~~~~=
+~~~~~~
+include/linux/dev_printk.h:114:2: note: in expansion of macro 'dynamic_dev_=
+dbg'
+114 |  dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+|  ^~~~~~~~~~~~~~~
+include/linux/dev_printk.h:114:23: note: in expansion of macro 'dev_fmt'
+114 |  dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+|                       ^~~~~~~
+>> drivers/staging/media/atomisp/pci/hmm/hmm.c:268:6: note: in expansion of=
+ macro 'dev_dbg'
+268 |      dev_dbg(atomisp_dev,
+|      ^~~~~~~
+drivers/staging/media/atomisp/pci/hmm/hmm.c:269:28: note: format string is =
+defined here
+269 |      "%s: pages: 0x%08x (%ld bytes), type: %d from highmem %d, user p=
+tr %p, cached %dn",
+|                          ~~^
+|                            |
+|                            long int
+|                          %d
 
->> cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/me=
-mory_access/: No such file or directory [-Wmissing-include-dirs]
---
->> cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/me=
-mory_access/: No such file or directory [-Wmissing-include-dirs]
-In file included from include/linux/uuid.h:12,
-from include/linux/mod_devicetable.h:13,
-from include/linux/pci.h:27,
-from drivers/staging/media/atomisp/pci/atomisp_ioctl.c:21:
-In function 'strncpy',
-inlined from 'atomisp_enum_input' at drivers/staging/media/atomisp/pci/atom=
-isp_ioctl.c:575:2:
-include/linux/string.h:282:9: warning: '__builtin_strncpy' output may be tr=
-uncated copying 31 bytes from a string of length 31 [-Wstringop-truncation]
-282 |  return __builtin_strncpy(p, q, size);
-|         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In function 'strncpy',
-inlined from 'atomisp_enum_input' at drivers/staging/media/atomisp/pci/atom=
-isp_ioctl.c:595:4:
-include/linux/string.h:282:9: warning: '__builtin_strncpy' output may be tr=
-uncated copying between 1 and 30 bytes from a string of length 31 [-Wstring=
-op-truncation]
-282 |  return __builtin_strncpy(p, q, size);
-|         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/me=
-mory_access/: No such file or directory [-Wmissing-include-dirs]
-drivers/staging/media/atomisp/pci/atomisp_v4l2.c:762:12: warning: 'atomisp_=
-mrfld_power' defined but not used [-Wunused-function]
-762 | static int atomisp_mrfld_power(struct atomisp_device *isp, bool enabl=
-e)
-|            ^~~~~~~~~~~~~~~~~~~
+vim +269 drivers/staging/media/atomisp/pci/hmm/hmm.c
+
+   220	=
+
+   221	ia_css_ptr hmm_alloc(size_t bytes, enum hmm_bo_type type,
+   222			     int from_highmem, const void __user *userptr,
+   223			     const uint16_t attrs)
+   224	{
+   225		unsigned int pgnr;
+   226		struct hmm_buffer_object *bo;
+   227		bool cached =3D attrs & ATOMISP_MAP_FLAG_CACHED;
+   228		int ret;
+   229	=
+
+   230		WARN_ON(attrs & ATOMISP_MAP_FLAG_CONTIGUOUS);
+   231	=
+
+   232		/*
+   233		 * Check if we are initialized. In the ideal world we wouldn't need
+   234		 * this but we can tackle it once the driver is a lot cleaner
+   235		 */
+   236	=
+
+   237		if (!hmm_initialized)
+   238			hmm_init();
+   239		/* Get page number from size */
+   240		pgnr =3D size_to_pgnr_ceil(bytes);
+   241	=
+
+   242		/* Buffer object structure init */
+   243		bo =3D hmm_bo_alloc(&bo_device, pgnr);
+   244		if (!bo) {
+   245			dev_err(atomisp_dev, "hmm_bo_create failed.\n");
+   246			goto create_bo_err;
+   247		}
+   248	=
+
+   249		/* Allocate pages for memory */
+   250		ret =3D hmm_bo_alloc_pages(bo, type, from_highmem, userptr, cached);
+   251		if (ret) {
+   252			dev_err(atomisp_dev, "hmm_bo_alloc_pages failed.\n");
+   253			goto alloc_page_err;
+   254		}
+   255	=
+
+   256		/* Combine the virtual address and pages together */
+   257		ret =3D hmm_bo_bind(bo);
+   258		if (ret) {
+   259			dev_err(atomisp_dev, "hmm_bo_bind failed.\n");
+   260			goto bind_err;
+   261		}
+   262	=
+
+   263		hmm_mem_stat.tol_cnt +=3D pgnr;
+   264	=
+
+   265		if (attrs & ATOMISP_MAP_FLAG_CLEARED)
+   266			hmm_set(bo->start, 0, bytes);
+   267	=
+
+ > 268		    dev_dbg(atomisp_dev,
+ > 269		    "%s: pages: 0x%08x (%ld bytes), type: %d from highmem %d, user =
+ptr %p, cached %d\n",
+   270		    __func__, bo->start, bytes, type, from_highmem, userptr, cached=
+);
+   271	=
+
+   272		return bo->start;
+   273	=
+
+   274	bind_err:
+   275		hmm_bo_free_pages(bo);
+   276	alloc_page_err:
+   277		hmm_bo_unref(bo);
+   278	create_bo_err:
+   279		return 0;
+   280	}
+   281	=
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6107338191886224997==
+--===============2816211136158718767==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPFF0l4AAy5jb25maWcAlDzbdtw2ku/zFX2Sl+QhGd2seHaPH0ASZCNNEAwAtrr9wqOR2xmd
+H4sICJ9K0l4AAy5jb25maWcAlDzbdtw2ku/zFX2Sl+QhGd2seHaPH0ASZCNNEAwAtrr9wqOR2xmd
 tSWvJM8kf79VAC8FEJSzc+bEYhWuhbqj0N//7fsN+/ry+Pn25f7u9tOnPze/nx5OT7cvpw+bj/ef
 Tv+9KdSmUXbDC2F/hsb1/cPXP/5+f/n2evPm519+Pvvp6e5iszs9PZw+bfLHh4/3v3+F3vePD3/7
 /m/w/+8B+PkLDPT0X5vf7+5++sfmh+L0z/vbh80/fr6E3ueXP/q/oG2umlJUfZ73wvRVnr/7cwTB
@@ -1349,5 +1432,5 @@ yWhHkzvrXwp2Vgc8K4BhSsfyimDuBqvoBNUYfvXT2/P2fo4CTTu1z80T7Qks/dQo8PqJxrqir6ni
 TaKvPSm2TbTI6UuijxG0k8wH3sD50kbQsHud6burLf2Mtl+Glj/qs30faz1zWZ1px0Azv8VlxJie
 U4LVvc5iz0eg9r+pLel55TZJFjhNx+57TsieMPFhtyedlppBY1nAtEXBY9LIrQJkh7iQG1B4a6yv
 Yb5tW7FKF/iTq7njzohb3euTUB1uE73aZH6VNHus/wOofW8jDKMEAA==
---===============6107338191886224997==--
+--===============2816211136158718767==--
 
