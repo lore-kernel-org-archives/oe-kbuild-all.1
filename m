@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3796162054836716978=="
+Content-Type: multipart/mixed; boundary="===============7988921192813251948=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-next:master 10517/14131] net/atm/ioctl.c:180:29: sparse: sparse: incorrect type in argument 2 (different address spaces)
-Date: Sun, 31 May 2020 11:07:56 +0800
-Message-ID: <202005311155.t4XPSTvd%lkp@intel.com>
+Subject: [linux-next:master 10519/14131] net/atm/ioctl.c:205:29: sparse: sparse: incorrect type in argument 2 (different address spaces)
+Date: Sun, 31 May 2020 11:55:02 +0800
+Message-ID: <202005311100.0ZpZjWbY%lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3796162054836716978==
+--===============7988921192813251948==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,14 +15,14 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   e7b08814b16b80a0bf76eeca16317f8c2ed23b8c
-commit: a3929484af75ee524419edbbc4e9ce012c3d67c9 [10517/14131] atm: move co=
-pyin from atm_getnames() into the caller
+commit: 8cacb4165985444c275a6f813f91f08479bdbfad [10519/14131] atm: lift co=
+pyin from atm_dev_ioctl()
 config: m68k-randconfig-s032-20200531 (attached as .config)
 compiler: m68k-linux-gcc (GCC) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.1-243-gc100a7ab-dirty
-        git checkout a3929484af75ee524419edbbc4e9ce012c3d67c9
+        git checkout 8cacb4165985444c275a6f813f91f08479bdbfad
         # save the attached .config to linux build tree
         make W=3D1 C=3D1 ARCH=3Dm68k CF=3D'-fdiagnostic-prefix -D__CHECK_EN=
 DIAN__'
@@ -73,12 +73,35 @@ pe] <asn:1> *
 :1>' of expression
    net/atm/ioctl.c:180:29: sparse: sparse: cast removes address space '<asn=
 :1>' of expression
->> net/atm/ioctl.c:180:29: sparse: sparse: incorrect type in argument 2 (di=
+   net/atm/ioctl.c:180:29: sparse: sparse: incorrect type in argument 2 (di=
 fferent address spaces) @@     expected void const * @@     got void [noder=
 ef] <asn:1> *[noderef] <asn:1> * @@
    net/atm/ioctl.c:180:29: sparse:     expected void const *
    net/atm/ioctl.c:180:29: sparse:     got void [noderef] <asn:1> *[noderef=
 ] <asn:1> *
+   net/atm/ioctl.c:203:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+   net/atm/ioctl.c:203:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+   net/atm/ioctl.c:203:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+   net/atm/ioctl.c:203:29: sparse: sparse: incorrect type in argument 2 (di=
+fferent address spaces) @@     expected void const * @@     got void [noder=
+ef] <asn:1> *[noderef] <asn:1> * @@
+   net/atm/ioctl.c:203:29: sparse:     expected void const *
+   net/atm/ioctl.c:203:29: sparse:     got void [noderef] <asn:1> *[noderef=
+] <asn:1> *
+   net/atm/ioctl.c:205:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+   net/atm/ioctl.c:205:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+   net/atm/ioctl.c:205:29: sparse: sparse: cast removes address space '<asn=
+:1>' of expression
+>> net/atm/ioctl.c:205:29: sparse: sparse: incorrect type in argument 2 (di=
+fferent address spaces) @@     expected void const * @@     got int [nodere=
+f] <asn:1> * @@
+   net/atm/ioctl.c:205:29: sparse:     expected void const *
+   net/atm/ioctl.c:205:29: sparse:     got int [noderef] <asn:1> *
 --
    net/atm/resources.c:203:13: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
@@ -86,7 +109,7 @@ ef] <asn:1> *[noderef] <asn:1> * @@
 <asn:1>' of expression
    net/atm/resources.c:203:13: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
->> net/atm/resources.c:203:13: sparse: sparse: incorrect type in argument 2=
+   net/atm/resources.c:203:13: sparse: sparse: incorrect type in argument 2=
  (different address spaces) @@     expected void const * @@     got int [no=
 deref] <asn:1> *iobuf_len @@
    net/atm/resources.c:203:13: sparse:     expected void const *
@@ -98,72 +121,50 @@ _len
 <asn:1>' of expression
    net/atm/resources.c:224:18: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
->> net/atm/resources.c:224:18: sparse: sparse: incorrect type in argument 1=
+   net/atm/resources.c:224:18: sparse: sparse: incorrect type in argument 1=
  (different address spaces) @@     expected void * @@     got int [noderef]=
  <asn:1> *iobuf_len @@
    net/atm/resources.c:224:18: sparse:     expected void *
    net/atm/resources.c:224:18: sparse:     got int [noderef] <asn:1> *iobuf=
 _len
-   net/atm/resources.c:256:21: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:236:13: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:256:21: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:236:13: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:256:21: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:236:13: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:256:21: sparse: sparse: incorrect type in argument 2=
- (different address spaces) @@     expected void const * @@     got void [n=
-oderef] <asn:1> *[noderef] <asn:1> * @@
-   net/atm/resources.c:256:21: sparse:     expected void const *
-   net/atm/resources.c:256:21: sparse:     got void [noderef] <asn:1> *[nod=
-eref] <asn:1> *
-   net/atm/resources.c:258:21: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:258:21: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:258:21: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:258:21: sparse: sparse: incorrect type in argument 2=
+>> net/atm/resources.c:236:13: sparse: sparse: incorrect type in argument 2=
  (different address spaces) @@     expected void const * @@     got int [no=
-deref] <asn:1> * @@
-   net/atm/resources.c:258:21: sparse:     expected void const *
-   net/atm/resources.c:258:21: sparse:     got int [noderef] <asn:1> *
-   net/atm/resources.c:260:21: sparse: sparse: cast removes address space '=
+deref] <asn:1> *sioc_len @@
+   net/atm/resources.c:236:13: sparse:     expected void const *
+   net/atm/resources.c:236:13: sparse:     got int [noderef] <asn:1> *sioc_=
+len
+   net/atm/resources.c:355:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:260:21: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:355:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:260:21: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:355:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:260:21: sparse: sparse: incorrect type in argument 2=
- (different address spaces) @@     expected void const * @@     got int [no=
-deref] <asn:1> * @@
-   net/atm/resources.c:260:21: sparse:     expected void const *
-   net/atm/resources.c:260:21: sparse:     got int [noderef] <asn:1> *
-   net/atm/resources.c:380:25: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:380:25: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:380:25: sparse: sparse: cast removes address space '=
-<asn:1>' of expression
-   net/atm/resources.c:380:25: sparse: sparse: incorrect type in argument 1=
+>> net/atm/resources.c:355:25: sparse: sparse: incorrect type in argument 1=
  (different address spaces) @@     expected void * @@     got int [noderef]=
- <asn:1> *[assigned] sioc_len @@
-   net/atm/resources.c:380:25: sparse:     expected void *
-   net/atm/resources.c:380:25: sparse:     got int [noderef] <asn:1> *[assi=
-gned] sioc_len
-   net/atm/resources.c:423:25: sparse: sparse: cast removes address space '=
+ <asn:1> *sioc_len @@
+   net/atm/resources.c:355:25: sparse:     expected void *
+   net/atm/resources.c:355:25: sparse:     got int [noderef] <asn:1> *sioc_=
+len
+   net/atm/resources.c:398:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:423:25: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:398:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:423:25: sparse: sparse: cast removes address space '=
+   net/atm/resources.c:398:25: sparse: sparse: cast removes address space '=
 <asn:1>' of expression
-   net/atm/resources.c:423:25: sparse: sparse: incorrect type in argument 1=
+   net/atm/resources.c:398:25: sparse: sparse: incorrect type in argument 1=
  (different address spaces) @@     expected void * @@     got int [noderef]=
- <asn:1> *[assigned] sioc_len @@
-   net/atm/resources.c:423:25: sparse:     expected void *
-   net/atm/resources.c:423:25: sparse:     got int [noderef] <asn:1> *[assi=
-gned] sioc_len
+ <asn:1> *sioc_len @@
+   net/atm/resources.c:398:25: sparse:     expected void *
+   net/atm/resources.c:398:25: sparse:     got int [noderef] <asn:1> *sioc_=
+len
 
-vim +180 net/atm/ioctl.c
+vim +205 net/atm/ioctl.c
 
     50	=
 
@@ -302,32 +303,58 @@ vim +180 net/atm/ioctl.c
    177			} else {
    178				struct atm_iobuf __user *iobuf =3D argp;
    179				len =3D &iobuf->length;
- > 180				if (get_user(buf, &iobuf->buffer))
+   180				if (get_user(buf, &iobuf->buffer))
    181					return -EFAULT;
    182			}
    183			error =3D atm_getnames(buf, len);
    184		} else {
-   185			error =3D atm_dev_ioctl(cmd, argp, compat);
-   186		}
-   187	=
+   185			int number;
+   186	=
 
-   188	done:
-   189		return error;
-   190	}
+   187			if (IS_ENABLED(CONFIG_COMPAT) && compat) {
+   188	#ifdef CONFIG_COMPAT
+   189				struct compat_atmif_sioc __user *csioc =3D argp;
+   190				compat_uptr_t carg;
    191	=
+
+   192				len =3D &csioc->length;
+   193				if (get_user(carg, &csioc->arg))
+   194					return -EFAULT;
+   195				buf =3D compat_ptr(carg);
+   196				if (get_user(number, &csioc->number))
+   197					return -EFAULT;
+   198	#endif
+   199			} else {
+   200				struct atmif_sioc __user *sioc =3D argp;
+   201	=
+
+   202				len =3D &sioc->length;
+ > 203				if (get_user(buf, &sioc->arg))
+   204					return -EFAULT;
+ > 205				if (get_user(number, &sioc->number))
+   206					return -EFAULT;
+   207			}
+   208			error =3D atm_dev_ioctl(cmd, buf, len, number, compat);
+   209		}
+   210	=
+
+   211	done:
+   212		return error;
+   213	}
+   214	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3796162054836716978==
+--===============7988921192813251948==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICO8c014AAy5jb25maWcAlDxJc9w2s/f8iqnkkhySaB3b3ysdQBCcQYabCHAk+cJSZNpRRYtr
+H4sICDQo014AAy5jb25maWcAlDxJc9w2s/f8iqnkkhySaB3b3ysdQBCcQYabCHAk+cJSZNpRRYtr
 NEqcf/+6AS4ACFBjV1L2dDe2Ru8A8dMPPy3I6/758XZ/f3f78PDf4kv71O5u9+2nxef7h/b/FnGx
 yAu5YDGXvwFxev/0+u33x+X7vxfnv7377ejX3d35YtPuntqHBX1++nz/5RVa3z8//fDTD/DfTwB8
 /Aod7f63wEa/PmD7X7/c3S1+XlH6y+LDb6e/HQEhLfKErxpKGy4awFz814PgR7NlleBFfvHh6PTo
@@ -721,5 +748,5 @@ qnfOSSWsUdCimvHGQN6iBHXiO6/WuNNeDDzkS79OxjgjPU7tRcouBQ2oSi9fqatNnnwBosqospQC
 LVw3geplBGDr9TKbArAo0DZiKtbmtWAqdinck248psYHruR6QVHgSUCF8mmEn67LDQU28qmgCDmN
 54nBB3EKjhn6Jn9yi2N4bhaiMw0rA6p5+hEYcMC44WzL9fruunGj5T6hWz0aBIgiK8nRymO+cRo5
 SJfbrp1WItrfTGaQi5onHoMpNDZ1xfGdwzHWNeIkAJzTxzq6AVkh1NLl+j/51WbAnGcBAA==
---===============3796162054836716978==--
+--===============7988921192813251948==--
 
