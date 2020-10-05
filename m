@@ -1,139 +1,131 @@
-Content-Type: multipart/mixed; boundary="===============2735412008388375332=="
+Content-Type: multipart/mixed; boundary="===============5199068761391120568=="
 MIME-Version: 1.0
-From: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+From: Alexandre Courbot <acourbot@google.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH 2/3] KEYS: trusted: Reserve TPM for seal and unseal operations
-Date: Mon, 05 Oct 2020 06:30:27 +0300
-Message-ID: <20201005033027.GA144802@linux.intel.com>
-In-Reply-To: <202010051054.nSqmgsmE-lkp@intel.com>
+Subject: Re: [chrome-os:chromeos-5.4 9/28] mtk_vcodec_fw.c:undefined reference to `scp_ipi_send'
+Date: Mon, 05 Oct 2020 12:37:41 +0900
+Message-ID: <CAPBb6MXpe3DuO645e8D5yAQu73Bf9gfJYL=wAX1mx_M4hHiL9Q@mail.gmail.com>
+In-Reply-To: <CABXOdTcO3ip+B=U7pGy21+wDsy3LiOrO75HB46jsnQNKwPiYJg@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2735412008388375332==
+--===============5199068761391120568==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-I'll fix this this and send v2.
+On Sat, Oct 3, 2020 at 12:37 AM Guenter Roeck <groeck@google.com> wrote:
+>
+> On Fri, Oct 2, 2020 at 5:47 AM Alexandre Courbot <acourbot@google.com> =
+wrote:
+> >
+> > Yes, and the problem has also been raised upstream. :/ Looking for the
+> > right fix.
+>
+> One can not set MTK_SCP without taking its dependencies into account.
+>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kcon=
+fig
+> index a097652cec52..0a51ca707b1e 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -245,6 +245,7 @@ config VIDEO_MEDIATEK_VCODEC
+>         depends on MTK_IOMMU || COMPILE_TEST
+>         depends on VIDEO_DEV && VIDEO_V4L2
+>         depends on ARCH_MEDIATEK || COMPILE_TEST
+> +       depends on REMOTEPROC
+>         select VIDEOBUF2_DMA_CONTIG
+>         select V4L2_MEM2MEM_DEV
+>         select VIDEO_MEDIATEK_VPU
+>
+> is the obvious fix.
 
-/Jarkko
+Sent a fix upstream:
 
-On Mon, Oct 05, 2020 at 10:42:00AM +0800, kernel test robot wrote:
-> Hi Jarkko,
-> =
+https://www.spinics.net/lists/kernel/msg3687878.html
 
-> I love your patch! Perhaps something to improve:
-> =
+Users of pure MT8173 systems might not want to bring remoteproc in for
+MT8183 support they won't use, so I've reworked the code to make it
+optional.
 
-> [auto build test WARNING on security/next-testing]
-> [also build test WARNING on integrity/next-integrity char-misc/char-misc-=
-testing linus/master v5.9-rc8 next-20201002]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> =
+I plan to wait until I can cherry-pick a FROMGIT into the CrOS tree,
+but if someone is affected by this, please let me know and I will make
+a FROMLIST.
 
-> url:    https://github.com/0day-ci/linux/commits/Jarkko-Sakkinen/KEYS-tru=
-sted-Fix-incorrect-handling-of-tpm_get_random/20201005-092710
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-sec=
-urity.git next-testing
-> config: x86_64-randconfig-a002-20201005 (attached as .config)
-> compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project bcd0=
-5599d0e53977a963799d6ee4f6e0bc21331b)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install x86_64 cross compiling tool for clang build
->         # apt-get install binutils-x86-64-linux-gnu
->         # https://github.com/0day-ci/linux/commit/ef36c0cd07555d658f81aee=
-66abb02bdbe1c37b7
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Jarkko-Sakkinen/KEYS-trusted-Fix=
--incorrect-handling-of-tpm_get_random/20201005-092710
->         git checkout ef36c0cd07555d658f81aee66abb02bdbe1c37b7
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross AR=
-CH=3Dx86_64 =
-
-> =
-
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> =
-
-> All warnings (new ones prefixed by >>):
-> =
-
->    In file included from security/keys/encrypted-keys/encrypted.c:22:
->    In file included from include/keys/trusted-type.h:12:
-> >> include/linux/tpm.h:423:16: warning: no previous prototype for functio=
-n 'tpm_transmit_cmd' [-Wmissing-prototypes]
->    extern ssize_t tpm_transmit_cmd(struct tpm_chip *chip, struct tpm_buf =
-*buf,
->                   ^
->    include/linux/tpm.h:423:8: note: declare 'static' if the function is n=
-ot intended to be used outside of this translation unit
->    extern ssize_t tpm_transmit_cmd(struct tpm_chip *chip, struct tpm_buf =
-*buf,
->           ^
-> >> include/linux/tpm.h:426:1: warning: non-void function does not return =
-a value [-Wreturn-type]
->    }
->    ^
->    2 warnings generated.
-> =
-
-> vim +/tpm_transmit_cmd +423 include/linux/tpm.h
-> =
-
->    397	=
-
->    398	extern int tpm_is_tpm2(struct tpm_chip *chip);
->    399	extern __must_check int tpm_try_get_ops(struct tpm_chip *chip);
->    400	extern void tpm_put_ops(struct tpm_chip *chip);
->    401	extern ssize_t tpm_transmit_cmd(struct tpm_chip *chip, struct tpm_=
-buf *buf,
->    402					size_t min_rsp_body_length, const char *desc);
->    403	extern int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
->    404				struct tpm_digest *digest);
->    405	extern int tpm_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
->    406				  struct tpm_digest *digests);
->    407	extern int tpm_send(struct tpm_chip *chip, void *cmd, size_t bufle=
-n);
->    408	extern int tpm_get_random(struct tpm_chip *chip, u8 *data, size_t =
-max);
->    409	extern struct tpm_chip *tpm_default_chip(void);
->    410	void tpm2_flush_context(struct tpm_chip *chip, u32 handle);
->    411	#else
->    412	static inline int tpm_is_tpm2(struct tpm_chip *chip)
->    413	{
->    414		return -ENODEV;
->    415	}
->    416	static inline int tpm_try_get_ops(struct tpm_chip *chip)
->    417	{
->    418		return -ENODEV;
->    419	}
->    420	static inline void tpm_put_ops(struct tpm_chip *chip)
->    421	{
->    422	}
->  > 423	extern ssize_t tpm_transmit_cmd(struct tpm_chip *chip, struct tpm_=
-buf *buf,
->    424					size_t min_rsp_body_length, const char *desc)
->    425	{
->  > 426	}
->    427	static inline int tpm_pcr_read(struct tpm_chip *chip, int pcr_idx,
->    428				       struct tpm_digest *digest)
->    429	{
->    430		return -ENODEV;
->    431	}
->    432	=
-
-> =
-
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-
-
---===============2735412008388375332==--
+>
+> Guenter
+>
+> >
+> > On Fri, Oct 2, 2020 at 8:23 PM Nicolas Boichat <drinkcat@google.com> =
+wrote:
+> > >
+> > > +Alexandre Courbot +Fritz Koenig I guess that's related to your recen=
+tly merged patches.
+> > >
+> > > On Fri, Oct 2, 2020, 18:45 kernel test robot <lkp@intel.com> wrote:
+> > >>
+> > >> tree:   https://chromium.googlesource.com/chromiumos/third_party/ker=
+nel chromeos-5.4
+> > >> head:   1d3392f3ab6c29e5812a47f0a9c946cf0f6e03b8
+> > >> commit: 6c834e841e853771807acc664507158b9226102d [9/28] FROMGIT: med=
+ia: mtk-vcodec: add SCP firmware ops
+> > >> config: i386-randconfig-a013-20201002 (attached as .config)
+> > >> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+> > >> reproduce (this is a W=3D1 build):
+> > >>         git remote add chrome-os https://chromium.googlesource.com/c=
+hromiumos/third_party/kernel
+> > >>         git fetch --no-tags chrome-os chromeos-5.4
+> > >>         git checkout 6c834e841e853771807acc664507158b9226102d
+> > >>         # save the attached .config to linux build tree
+> > >>         make W=3D1 ARCH=3Di386
+> > >>
+> > >> If you fix the issue, kindly add following tag as appropriate
+> > >> Reported-by: kernel test robot <lkp@intel.com>
+> > >>
+> > >> All errors (new ones prefixed by >>):
+> > >>
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_scp_ipi_send':
+> > >> >> mtk_vcodec_fw.c:(.text+0x92): undefined reference to `scp_ipi_sen=
+d'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_scp_set_ipi_register':
+> > >> >> mtk_vcodec_fw.c:(.text+0xaf): undefined reference to `scp_ipi_reg=
+ister'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_vpu_scp_dm_addr':
+> > >> >> mtk_vcodec_fw.c:(.text+0xcc): undefined reference to `scp_mapping=
+_dm_addr'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_scp_get_venc_capa':
+> > >> >> mtk_vcodec_fw.c:(.text+0xec): undefined reference to `scp_get_ven=
+c_hw_capa'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_scp_get_vdec_capa':
+> > >> >> mtk_vcodec_fw.c:(.text+0x10c): undefined reference to `scp_get_vd=
+ec_hw_capa'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_scp_load_firmware':
+> > >> >> mtk_vcodec_fw.c:(.text+0x12c): undefined reference to `scp_get_rp=
+roc'
+> > >> >> ld: mtk_vcodec_fw.c:(.text+0x131): undefined reference to `rproc_=
+boot'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_fw_select':
+> > >> >> mtk_vcodec_fw.c:(.text+0x294): undefined reference to `scp_get'
+> > >>    ld: drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o: in functio=
+n `mtk_vcodec_fw_release':
+> > >> >> mtk_vcodec_fw.c:(.text+0x2d7): undefined reference to `scp_put'
+> > >>
+> > >> ---
+> > >> 0-DAY CI Kernel Test Service, Intel Corporation
+> > >> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+> > >>
+> > >> --
+> > >> You received this message because you are subscribed to the Google G=
+roups "cros-kernel-buildreports" group.
+> > >> To unsubscribe from this group and stop receiving emails from it, se=
+nd an email to cros-kernel-buildreports+unsubscribe(a)googlegroups.com.
+> > >> To view this discussion on the web visit https://groups.google.com/d=
+/msgid/cros-kernel-buildreports/202010021814.NapfEnyz-lkp%40intel.com.
+--===============5199068761391120568==--
 
