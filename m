@@ -1,65 +1,89 @@
-Content-Type: multipart/mixed; boundary="===============0203645312561153871=="
+Content-Type: multipart/mixed; boundary="===============6402056735525513431=="
 MIME-Version: 1.0
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
+From: Pavel Machek <pavel@ucw.cz>
 To: kbuild-all@lists.01.org
-Subject: Re: [v2 PATCH] crypto: sun4i-ss - Fix sparse endianness markers
-Date: Thu, 08 Oct 2020 08:36:23 +0200
-Message-ID: <20201008063623.GA17802@Red>
-In-Reply-To: <20201008055238.GA9813@gondor.apana.org.au>
+Subject: Re: arceb-elf-ld: include/linux/leds.h:193: undefined reference to `devm_led_classdev_register_ext'
+Date: Thu, 08 Oct 2020 09:15:07 +0200
+Message-ID: <20201008071507.GA29893@amd>
+In-Reply-To: <202010081415.2R50UmDQ-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0203645312561153871==
+--===============6402056735525513431==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 08, 2020 at 04:52:38PM +1100, Herbert Xu wrote:
-> On Thu, Sep 24, 2020 at 03:27:38PM +0200, Corentin Labbe wrote:
-> >
-> > This is an example on next-20200923+BigEndian
-> > alg: ahash: sha1 test failed (wrong result) on test vector \"random: ps=
-ize=3D194 ksize=3D0\", cfg=3D\"random: inplace may_sleep use_finup src_divs=
-=3D[98.25%@+1124, <flush>1.75%@+5] iv_offset=3D18\"
+Hi!
+
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   c85fb28b6f999db9928b841f63f1beeb3074eeca
+> commit: 92a81562e695628086acb92f95090ab09d9b9ec0 leds: lp55xx: Add multic=
+olor framework support to lp55xx
+> date:   3 months ago
+> config: arc-randconfig-r035-20201008 (attached as .config)
+> compiler: arceb-elf-gcc (GCC) 9.3.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/commit/?id=3D92a81562e695628086acb92f95090ab09d9b9ec0
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/=
+git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 92a81562e695628086acb92f95090ab09d9b9ec0
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cros=
+s ARCH=3Darc =
+
 > =
 
-> Hmm, the only way I can see this happening is if it was triggered
-> by tcrypt.  Were you using tcrypt by any chance?
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+
+Hi robot. Do you have human around to talk to?
+
+> All errors (new ones prefixed by >>):
 > =
 
-> Ccing Eric in case he has any insight.
-> =
+>    arceb-elf-ld: lib/stackdepot.o: in function `filter_irq_stacks':
+>    lib/stackdepot.c:331: undefined reference to `__irqentry_text_start'
+>    arceb-elf-ld: lib/stackdepot.c:331: undefined reference to `__irqentry=
+_text_start'
+>    arceb-elf-ld: lib/stackdepot.o: in function `in_irqentry_text':
+>    lib/stackdepot.c:323: undefined reference to `__irqentry_text_end'
+>    arceb-elf-ld: lib/stackdepot.c:323: undefined reference to `__irqentry=
+_text_end'
+>    arceb-elf-ld: lib/stackdepot.c:324: undefined reference to `__softirqe=
+ntry_text_start'
+>    arceb-elf-ld: lib/stackdepot.c:324: undefined reference to `__softirqe=
+ntry_text_start'
+>    arceb-elf-ld: lib/stackdepot.c:325: undefined reference to `__softirqe=
+ntry_text_end'
+>    arceb-elf-ld: lib/stackdepot.c:325: undefined reference to
 
-> > =3D=3D=3D DUMP /proc/crypto =3D=3D=3D
-> > name         : sha1
-> > driver       : sha1-sun4i-ss
-> > module       : kernel
-> > priority     : 300
-> > refcnt       : 1
-> > selftest     : passed
-> > internal     : no
-> > type         : ahash
-> > async        : no
-> > blocksize    : 64
-> > digestsize   : 20
-> =
+What is going on here? Did you just start testing arc? The commit
+is... really old.
 
-> ...
-> =
+Best regards,
+								Pavel
+-- =
 
-> > name         : sha1
-> > driver       : sha1-generic
-> > module       : kernel
-> > priority     : 100
-> > refcnt       : 1
-> > selftest     : passed
-> > internal     : no
-> > type         : shash
-> > blocksize    : 64
-> > digestsize   : 20
-> =
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-> Thanks,
+--===============6402056735525513431==
+Content-Type: application/pgp-signature
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="signature.asc"
 
-Yes I use tcrypt to force all algos to be tested.
---===============0203645312561153871==--
+LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KVmVyc2lvbjogR251UEcgdjEKCmlFWUVBUkVD
+QUFZRkFsOSt2SHNBQ2drUU1PZndhcFhiK3ZJcmh3Q2d1YjBJVzViZlMrSTArZWpvWFh1T0lYNkgK
+T2FFQW5qRXhlNVRrelA1WWs5RksvWDMzRC9ZWjJWcXIKPVFDL1YKLS0tLS1FTkQgUEdQIFNJR05B
+VFVSRS0tLS0tCg==
+
+--===============6402056735525513431==--
 
