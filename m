@@ -1,19 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============8300763638325894182=="
+Content-Type: multipart/mixed; boundary="===============6271372985353771779=="
 MIME-Version: 1.0
 From: Xin Long <lucien.xin@gmail.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCHv2 net-next 05/17] sctp: create udp4 sock and add its encap_rcv
-Date: Fri, 09 Oct 2020 09:59:18 +0800
-Message-ID: <CADvbK_f2neAmkuHytPJ=Gc7TEf4nHjDZ1k2C_p6MUSBJtK6w5A@mail.gmail.com>
-In-Reply-To: <202010090235.YqoHRhHI-lkp@intel.com>
+Subject: Re: [PATCHv2 net-next 06/17] sctp: create udp6 sock and set its encap_rcv
+Date: Fri, 09 Oct 2020 09:59:37 +0800
+Message-ID: <CADvbK_d3u=M6BwLRDeiPVkCT7awix+Lcw=GOy4UcD=s9FPtpHA@mail.gmail.com>
+In-Reply-To: <202010090541.hDe5mdXB-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8300763638325894182==
+--===============6271372985353771779==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 9, 2020 at 2:30 AM kernel test robot <lkp@intel.com> wrote:
+On Fri, Oct 9, 2020 at 5:20 AM kernel test robot <lkp@intel.com> wrote:
 >
 > Hi Xin,
 >
@@ -31,12 +31,12 @@ t 9faebeb2d80065926dfbc09cb73b1bb7779a89cd
 >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
 n/make.cross -O ~/bin/make.cross
 >         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/55d6ef371ddfab66c7767da=
-14b490f7576262f1a
+>         # https://github.com/0day-ci/linux/commit/60851a8f9ae9fd55f119958=
+1dd78f6030bed63c7
 >         git remote add linux-review https://github.com/0day-ci/linux
 >         git fetch --no-tags linux-review Xin-Long/sctp-Implement-RFC6951-=
 UDP-Encapsulation-of-SCTP/20201008-175211
->         git checkout 55d6ef371ddfab66c7767da14b490f7576262f1a
+>         git checkout 60851a8f9ae9fd55f1199581dd78f6030bed63c7
 >         # save the attached .config to linux build tree
 >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cros=
 s ARCH=3Darm
@@ -48,13 +48,22 @@ s ARCH=3Darm
 >
 >    arm-linux-gnueabi-ld: net/sctp/protocol.o: in function `sctp_udp_sock_=
 start':
-> >> protocol.c:(.text+0x1084): undefined reference to `udp_sock_create4'
-> >> arm-linux-gnueabi-ld: protocol.c:(.text+0x10b0): undefined reference t=
+>    protocol.c:(.text+0x108c): undefined reference to `udp_sock_create4'
+>    arm-linux-gnueabi-ld: protocol.c:(.text+0x10b8): undefined reference t=
 o `setup_udp_tunnel_sock'
+> >> arm-linux-gnueabi-ld: protocol.c:(.text+0x111c): undefined reference t=
+o `udp_sock_create6'
+>    arm-linux-gnueabi-ld: protocol.c:(.text+0x113c): undefined reference t=
+o `setup_udp_tunnel_sock'
+> >> arm-linux-gnueabi-ld: protocol.c:(.text+0x1180): undefined reference t=
+o `udp_tunnel_sock_release'
 >    arm-linux-gnueabi-ld: net/sctp/protocol.o: in function `sctp_udp_sock_=
 stop':
-> >> protocol.c:(.text+0x1108): undefined reference to `udp_tunnel_sock_rel=
+>    protocol.c:(.text+0x11b4): undefined reference to `udp_tunnel_sock_rel=
 ease'
+>    arm-linux-gnueabi-ld: protocol.c:(.text+0x11d0): undefined reference t=
+o `udp_tunnel_sock_release'
+>
 diff --git a/net/sctp/Kconfig b/net/sctp/Kconfig
 index 39d7fa9569f8..5da599ff84a9 100644
 --- a/net/sctp/Kconfig
@@ -67,9 +76,8 @@ index 39d7fa9569f8..5da599ff84a9 100644
         help
           Stream Control Transmission Protocol
 
->
 > ---
 > 0-DAY CI Kernel Test Service, Intel Corporation
 > https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8300763638325894182==--
+--===============6271372985353771779==--
 
