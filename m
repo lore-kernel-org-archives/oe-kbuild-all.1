@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4719144184220281441=="
+Content-Type: multipart/mixed; boundary="===============3463879085137372954=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [RFC PATCH 4/5] ovl: monitor marking dirty activity of underlying upper inode
-Date: Sun, 11 Oct 2020 09:55:15 +0800
-Message-ID: <202010110946.RUQ2CeZi-lkp@intel.com>
-In-Reply-To: <20201010142355.741645-5-cgxu519@mykernel.net>
+Subject: Re: [RFC PATCH 5/5] ovl: impement containerized syncfs for overlayfs
+Date: Sun, 11 Oct 2020 10:57:42 +0800
+Message-ID: <202010111016.xSkqQavr-lkp@intel.com>
+In-Reply-To: <20201010142355.741645-6-cgxu519@mykernel.net>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4719144184220281441==
+--===============3463879085137372954==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -35,12 +35,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/6a0553975f03bb63033f5c246=
-273010a38a66ccf
+        # https://github.com/0day-ci/linux/commit/12d938a37e0a31d43b15e07ae=
+f1cd821bf11dc0e
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Chengguang-Xu/implement-containeri=
 zed-syncfs-for-overlayfs/20201011-071405
-        git checkout 6a0553975f03bb63033f5c246273010a38a66ccf
+        git checkout 12d938a37e0a31d43b15e07aef1cd821bf11dc0e
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm =
@@ -51,88 +51,288 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> fs/overlayfs/super.c:393:6: warning: no previous prototype for function =
+>> fs/overlayfs/super.c:285:6: warning: variable 'ret' is used uninitialize=
+d whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (upper_sb->s_op->sync_fs) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/overlayfs/super.c:293:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   fs/overlayfs/super.c:285:2: note: remove the 'if' if its condition is al=
+ways true
+           if (upper_sb->s_op->sync_fs) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/overlayfs/super.c:265:9: note: initialize the variable 'ret' to silen=
+ce this warning
+           int ret;
+                  ^
+                   =3D 0
+   fs/overlayfs/super.c:400:6: warning: no previous prototype for function =
 'ovl_evict_inode' [-Wmissing-prototypes]
    void ovl_evict_inode(struct inode *inode)
         ^
-   fs/overlayfs/super.c:393:1: note: declare 'static' if the function is no=
+   fs/overlayfs/super.c:400:1: note: declare 'static' if the function is no=
 t intended to be used outside of this translation unit
    void ovl_evict_inode(struct inode *inode)
    ^
    static =
 
-   1 warning generated.
---
-   fs/overlayfs/util.c:959:7: warning: unused variable 'flags' [-Wunused-va=
-riable]
-           int *flags =3D (int *)param;
-                ^
-   fs/overlayfs/util.c:958:20: warning: unused variable 'oi' [-Wunused-vari=
-able]
-           struct ovl_inode *oi =3D container_of(nb, struct ovl_inode, mark=
-_dirty_nb);
-                             ^
->> fs/overlayfs/util.c:955:5: warning: no previous prototype for function '=
-ovl_inode_dirty_notify' [-Wmissing-prototypes]
-   int ovl_inode_dirty_notify(struct notifier_block *nb,
+>> fs/overlayfs/super.c:410:5: warning: no previous prototype for function =
+'ovl_write_inode' [-Wmissing-prototypes]
+   int ovl_write_inode(struct inode *inode, struct writeback_control *wbc)
        ^
-   fs/overlayfs/util.c:955:1: note: declare 'static' if the function is not=
- intended to be used outside of this translation unit
-   int ovl_inode_dirty_notify(struct notifier_block *nb,
+   fs/overlayfs/super.c:410:1: note: declare 'static' if the function is no=
+t intended to be used outside of this translation unit
+   int ovl_write_inode(struct inode *inode, struct writeback_control *wbc)
    ^
    static =
 
-   3 warnings generated.
---
-   fs/overlayfs/util.c:958:20: warning: unused variable 'oi' [-Wunused-vari=
-able]
-           struct ovl_inode *oi =3D container_of(nb, struct ovl_inode, mark=
-_dirty_nb);
-                             ^
-   fs/overlayfs/util.c:959:7: warning: unused variable 'flags' [-Wunused-va=
-riable]
-           int *flags =3D (int *)param;
-                ^
->> fs/overlayfs/util.c:955:5: warning: no previous prototype for function '=
-ovl_inode_dirty_notify' [-Wmissing-prototypes]
-   int ovl_inode_dirty_notify(struct notifier_block *nb,
+>> fs/overlayfs/super.c:432:5: warning: no previous prototype for function =
+'ovl_drop_inode' [-Wmissing-prototypes]
+   int ovl_drop_inode(struct inode *inode)
        ^
-   fs/overlayfs/util.c:955:1: note: declare 'static' if the function is not=
- intended to be used outside of this translation unit
-   int ovl_inode_dirty_notify(struct notifier_block *nb,
+   fs/overlayfs/super.c:432:1: note: declare 'static' if the function is no=
+t intended to be used outside of this translation unit
+   int ovl_drop_inode(struct inode *inode)
    ^
    static =
 
-   3 warnings generated.
+   4 warnings generated.
 
-vim +/ovl_evict_inode +393 fs/overlayfs/super.c
+vim +285 fs/overlayfs/super.c
 
-   392	=
+   259	=
 
- > 393	void ovl_evict_inode(struct inode *inode)
-   394	{
-   395		struct inode *upper;
+   260	/* Sync real dirty inodes in upper filesystem (if it exists) */
+   261	static int ovl_sync_fs(struct super_block *sb, int wait)
+   262	{
+   263		struct ovl_fs *ofs =3D sb->s_fs_info;
+   264		struct super_block *upper_sb;
+   265		int ret;
+   266	=
+
+   267		if (!ovl_upper_mnt(ofs))
+   268			return 0;
+   269	=
+
+   270		if (!ovl_should_sync(ofs))
+   271			return 0;
+   272		/*
+   273		 * Not called for sync(2) call or an emergency sync (SB_I_SKIP_SYNC=
+).
+   274		 * All the super blocks will be iterated, including upper_sb.
+   275		 *
+   276		 * If this is a syncfs(2) call, then we do need to call
+   277		 * sync_filesystem() on upper_sb, but enough if we do it when being
+   278		 * called with wait =3D=3D 1.
+   279		 */
+   280		if (!wait)
+   281			return 0;
+   282	=
+
+   283		upper_sb =3D ovl_upper_mnt(ofs)->mnt_sb;
+   284	=
+
+ > 285		if (upper_sb->s_op->sync_fs) {
+   286			down_read(&upper_sb->s_umount);
+   287			ret =3D upper_sb->s_op->sync_fs(upper_sb, wait);
+   288			if (!ret)
+   289				ret =3D sync_blockdev(upper_sb->s_bdev);
+   290			up_read(&upper_sb->s_umount);
+   291		}
+   292	=
+
+   293		return ret;
+   294	}
+   295	=
+
+   296	/**
+   297	 * ovl_statfs
+   298	 * @sb: The overlayfs super block
+   299	 * @buf: The struct kstatfs to fill in with stats
+   300	 *
+   301	 * Get the filesystem statistics.  As writes always target the upper=
+ layer
+   302	 * filesystem pass the statfs to the upper filesystem (if it exists)
+   303	 */
+   304	static int ovl_statfs(struct dentry *dentry, struct kstatfs *buf)
+   305	{
+   306		struct ovl_fs *ofs =3D dentry->d_sb->s_fs_info;
+   307		struct dentry *root_dentry =3D dentry->d_sb->s_root;
+   308		struct path path;
+   309		int err;
+   310	=
+
+   311		ovl_path_real(root_dentry, &path);
+   312	=
+
+   313		err =3D vfs_statfs(&path, buf);
+   314		if (!err) {
+   315			buf->f_namelen =3D ofs->namelen;
+   316			buf->f_type =3D OVERLAYFS_SUPER_MAGIC;
+   317		}
+   318	=
+
+   319		return err;
+   320	}
+   321	=
+
+   322	/* Will this overlay be forced to mount/remount ro? */
+   323	static bool ovl_force_readonly(struct ovl_fs *ofs)
+   324	{
+   325		return (!ovl_upper_mnt(ofs) || !ofs->workdir);
+   326	}
+   327	=
+
+   328	static const char *ovl_redirect_mode_def(void)
+   329	{
+   330		return ovl_redirect_dir_def ? "on" : "off";
+   331	}
+   332	=
+
+   333	static const char * const ovl_xino_str[] =3D {
+   334		"off",
+   335		"auto",
+   336		"on",
+   337	};
+   338	=
+
+   339	static inline int ovl_xino_def(void)
+   340	{
+   341		return ovl_xino_auto_def ? OVL_XINO_AUTO : OVL_XINO_OFF;
+   342	}
+   343	=
+
+   344	/**
+   345	 * ovl_show_options
+   346	 *
+   347	 * Prints the mount options for a given superblock.
+   348	 * Returns zero; does not fail.
+   349	 */
+   350	static int ovl_show_options(struct seq_file *m, struct dentry *dentr=
+y)
+   351	{
+   352		struct super_block *sb =3D dentry->d_sb;
+   353		struct ovl_fs *ofs =3D sb->s_fs_info;
+   354	=
+
+   355		seq_show_option(m, "lowerdir", ofs->config.lowerdir);
+   356		if (ofs->config.upperdir) {
+   357			seq_show_option(m, "upperdir", ofs->config.upperdir);
+   358			seq_show_option(m, "workdir", ofs->config.workdir);
+   359		}
+   360		if (ofs->config.default_permissions)
+   361			seq_puts(m, ",default_permissions");
+   362		if (strcmp(ofs->config.redirect_mode, ovl_redirect_mode_def()) !=3D=
+ 0)
+   363			seq_printf(m, ",redirect_dir=3D%s", ofs->config.redirect_mode);
+   364		if (ofs->config.index !=3D ovl_index_def)
+   365			seq_printf(m, ",index=3D%s", ofs->config.index ? "on" : "off");
+   366		if (ofs->config.nfs_export !=3D ovl_nfs_export_def)
+   367			seq_printf(m, ",nfs_export=3D%s", ofs->config.nfs_export ?
+   368							"on" : "off");
+   369		if (ofs->config.xino !=3D ovl_xino_def() && !ovl_same_fs(sb))
+   370			seq_printf(m, ",xino=3D%s", ovl_xino_str[ofs->config.xino]);
+   371		if (ofs->config.metacopy !=3D ovl_metacopy_def)
+   372			seq_printf(m, ",metacopy=3D%s",
+   373				   ofs->config.metacopy ? "on" : "off");
+   374		if (ofs->config.ovl_volatile)
+   375			seq_puts(m, ",volatile");
+   376		return 0;
+   377	}
+   378	=
+
+   379	static int ovl_remount(struct super_block *sb, int *flags, char *dat=
+a)
+   380	{
+   381		struct ovl_fs *ofs =3D sb->s_fs_info;
+   382		struct super_block *upper_sb;
+   383		int ret =3D 0;
+   384	=
+
+   385		if (!(*flags & SB_RDONLY) && ovl_force_readonly(ofs))
+   386			return -EROFS;
+   387	=
+
+   388		if (*flags & SB_RDONLY && !sb_rdonly(sb)) {
+   389			upper_sb =3D ovl_upper_mnt(ofs)->mnt_sb;
+   390			if (ovl_should_sync(ofs)) {
+   391				down_read(&upper_sb->s_umount);
+   392				ret =3D sync_filesystem(upper_sb);
+   393				up_read(&upper_sb->s_umount);
+   394			}
+   395		}
    396	=
 
-   397		upper =3D ovl_inode_upper(inode);
-   398		if (upper)
-   399			ovl_unregister_mark_dirty_notify(OVL_I(inode));
-   400		clear_inode(inode);
-   401	}
-   402	=
+   397		return ret;
+   398	}
+   399	=
+
+   400	void ovl_evict_inode(struct inode *inode)
+   401	{
+   402		struct inode *upper;
+   403	=
+
+   404		upper =3D ovl_inode_upper(inode);
+   405		if (upper)
+   406			ovl_unregister_mark_dirty_notify(OVL_I(inode));
+   407		clear_inode(inode);
+   408	}
+   409	=
+
+ > 410	int ovl_write_inode(struct inode *inode, struct writeback_control *w=
+bc)
+   411	{
+   412		struct ovl_fs *ofs =3D inode->i_sb->s_fs_info;
+   413		struct super_block *upper_sb =3D ovl_upper_mnt(ofs)->mnt_sb;
+   414		struct inode *upper_inode =3D ovl_inode_upper(inode);
+   415		struct writeback_control upper_wbc =3D {
+   416			.nr_to_write		=3D LONG_MAX,
+   417			.sync_mode              =3D WB_SYNC_ALL,
+   418			.tagged_writepages	=3D wbc->tagged_writepages,
+   419			.for_kupdate		=3D wbc->for_kupdate,
+   420			.for_background		=3D wbc->for_background,
+   421			.for_sync		=3D 0,
+   422			.range_cyclic		=3D wbc->range_cyclic,
+   423			.range_start		=3D wbc->range_start,
+   424			.range_end		=3D wbc->range_end,
+   425		};
+   426	=
+
+   427		if (!upper_sb->s_op->write_inode || !upper_inode)
+   428			return 0;
+   429		return upper_sb->s_op->write_inode(upper_inode, &upper_wbc);
+   430	}
+   431	=
+
+ > 432	int ovl_drop_inode(struct inode *inode)
+   433	{
+   434		struct inode *upper_inode;
+   435	=
+
+   436		upper_inode =3D ovl_inode_upper(inode);
+   437		if (!upper_inode)
+   438			return 1;
+   439		if (!(upper_inode->i_state & I_DIRTY_ALL))
+   440			return 1;
+   441	=
+
+   442		return generic_drop_inode(inode);
+   443	}
+   444	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4719144184220281441==
+--===============3463879085137372954==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLRcgl8AAy5jb25maWcAlDxdd9s2su/9FTrpy96HbSQ7dpO9xw8gCUqoSIIGoA/7hUdR6Kxv
+H4sICJRogl8AAy5jb25maWcAlDxdd9s2su/9FTrpy96HbSQ7dpO9xw8gCUqoSIIGoA/7hUdR6Kxv
 bSsry2n773cG/ALIodKb01ObM4MBMBjMFwD//NPPE/Z2OjzvTo/73dPTX5Ov5Ut53J3KL5OHx6fy
 fyeRnGTSTHgkzC9AnDy+vP35fnd8nlz98umX6T+P+8vJsjy+lE+T8PDy8Pj1DRo/Hl5++vmnUGax
 mBdhWKy50kJmheFbc/Nu/7R7+Tr5Xh5fgW4yu/hl+st08o+vj6d/vX8P/39+PB4Px/dPT9+fi2/H
@@ -713,5 +913,5 @@ MpE1j1GdB6lykwRuX2VDAYbotCDQhFGKrERTeR3GCD4fTUoX6XELh0qEMeALcOnvDmIRk8WDbrkz
 h6AZNlWu38rEJus+W4BeUVRAGI731iB3DmM0GCbT4QZamNpQBDJBs0S/yI+pfbOwFeDrHaOfDb8s
 woZvnhyMFw4m8PIY9WoBiDFza/R4gsSiczIQCfA9F0VC6muVNcXWyKRNpqfpDhTnzcOu0ZEMKXnY
 zdZ2aLKoFmgDs0VBGVncERRmF+D4UydBBID5W9LOidXPGy9xlv3f/wDFqNbi5gkCAA==
---===============4719144184220281441==--
+--===============3463879085137372954==--
 
