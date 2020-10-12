@@ -1,29 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============4477375890407207591=="
+Content-Type: multipart/mixed; boundary="===============7243379742493127820=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [vfio:next 16/27] drivers/vfio/fsl-mc/vfio_fsl_mc.c:100:9: error: 'struct fsl_mc_device' has no member named 'driver_override'
-Date: Tue, 13 Oct 2020 05:30:28 +0800
-Message-ID: <202010130524.ES13dcN8-lkp@intel.com>
+Subject: [vfio:next 19/27] drivers/vfio/fsl-mc/vfio_fsl_mc.c:189:36: error: 'FSL_MC_REGION_CACHEABLE' undeclared
+Date: Tue, 13 Oct 2020 05:59:09 +0800
+Message-ID: <202010130507.H3A1OKjq-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4477375890407207591==
+--===============7243379742493127820==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 tree:   https://github.com/awilliam/linux-vfio.git next
 head:   2099363255f123f6c9abcfa8531bbec65a8f1820
-commit: 704f5082d8457a2166eb4cb4e460510117c70928 [16/27] vfio/fsl-mc: Scan =
-DPRC objects on vfio-fsl-mc driver bind
+commit: 67247289688d49a610a956c23c4ff032f0281845 [19/27] vfio/fsl-mc: Allow=
+ userspace to MMAP fsl-mc device MMIO regions
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce (this is a W=3D1 build):
-        # https://github.com/awilliam/linux-vfio/commit/704f5082d8457a2166e=
-b4cb4e460510117c70928
+        # https://github.com/awilliam/linux-vfio/commit/67247289688d49a610a=
+956c23c4ff032f0281845
         git remote add vfio https://github.com/awilliam/linux-vfio.git
         git fetch --no-tags vfio next
-        git checkout 704f5082d8457a2166eb4cb4e460510117c70928
+        git checkout 67247289688d49a610a956c23c4ff032f0281845
         # save the attached .config to linux build tree
         make W=3D1 ARCH=3Di386 =
 
@@ -33,145 +33,93 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_mmap_mmio':
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:189:36: error: 'FSL_MC_REGION_CACHEABL=
+E' undeclared (first use in this function)
+     189 |  region_cacheable =3D (region.type & FSL_MC_REGION_CACHEABLE) &&
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:189:36: note: each undeclared identifi=
+er is reported only once for each function it appears in
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:190:22: error: 'FSL_MC_REGION_SHAREABL=
+E' undeclared (first use in this function)
+     190 |       (region.type & FSL_MC_REGION_SHAREABLE);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
    drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_bus_notifier=
 ':
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:100:9: error: 'struct fsl_mc_device' h=
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:256:9: error: 'struct fsl_mc_device' h=
 as no member named 'driver_override'
-     100 |   mc_dev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
+     256 |   mc_dev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
          |         ^~
-   drivers/vfio/fsl-mc/vfio_fsl_mc.c:102:14: error: 'struct fsl_mc_device' =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:258:14: error: 'struct fsl_mc_device' =
 has no member named 'driver_override'
-     102 |   if (!mc_dev->driver_override)
+     258 |   if (!mc_dev->driver_override)
          |              ^~
    drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_init_device':
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:139:8: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:295:8: error: implicit declaration of =
 function 'dprc_setup' [-Werror=3Dimplicit-function-declaration]
-     139 |  ret =3D dprc_setup(mc_dev);
+     295 |  ret =3D dprc_setup(mc_dev);
          |        ^~~~~~~~~~
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:145:8: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:301:8: error: implicit declaration of =
 function 'dprc_scan_container' [-Werror=3Dimplicit-function-declaration]
-     145 |  ret =3D dprc_scan_container(mc_dev, false);
+     301 |  ret =3D dprc_scan_container(mc_dev, false);
          |        ^~~~~~~~~~~~~~~~~~~
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:154:2: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:310:2: error: implicit declaration of =
 function 'dprc_remove_devices' [-Werror=3Dimplicit-function-declaration]
-     154 |  dprc_remove_devices(mc_dev, NULL, 0);
+     310 |  dprc_remove_devices(mc_dev, NULL, 0);
          |  ^~~~~~~~~~~~~~~~~~~
->> drivers/vfio/fsl-mc/vfio_fsl_mc.c:155:2: error: implicit declaration of =
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:311:2: error: implicit declaration of =
 function 'dprc_cleanup' [-Werror=3Dimplicit-function-declaration]
-     155 |  dprc_cleanup(mc_dev);
+     311 |  dprc_cleanup(mc_dev);
          |  ^~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
-vim +100 drivers/vfio/fsl-mc/vfio_fsl_mc.c
+vim +/FSL_MC_REGION_CACHEABLE +189 drivers/vfio/fsl-mc/vfio_fsl_mc.c
 
-    88	=
+   174	=
 
-    89	static int vfio_fsl_mc_bus_notifier(struct notifier_block *nb,
-    90					    unsigned long action, void *data)
-    91	{
-    92		struct vfio_fsl_mc_device *vdev =3D container_of(nb,
-    93						struct vfio_fsl_mc_device, nb);
-    94		struct device *dev =3D data;
-    95		struct fsl_mc_device *mc_dev =3D to_fsl_mc_device(dev);
-    96		struct fsl_mc_device *mc_cont =3D to_fsl_mc_device(mc_dev->dev.pare=
-nt);
-    97	=
+   175	static int vfio_fsl_mc_mmap_mmio(struct vfio_fsl_mc_region region,
+   176					 struct vm_area_struct *vma)
+   177	{
+   178		u64 size =3D vma->vm_end - vma->vm_start;
+   179		u64 pgoff, base;
+   180		u8 region_cacheable;
+   181	=
 
-    98		if (action =3D=3D BUS_NOTIFY_ADD_DEVICE &&
-    99		    vdev->mc_dev =3D=3D mc_cont) {
- > 100			mc_dev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
-   101							    vfio_fsl_mc_ops.name);
-   102			if (!mc_dev->driver_override)
-   103				dev_warn(dev, "VFIO_FSL_MC: Setting driver override for device in=
- dprc %s failed\n",
-   104					 dev_name(&mc_cont->dev));
-   105			else
-   106				dev_info(dev, "VFIO_FSL_MC: Setting driver override for device in=
- dprc %s\n",
-   107					 dev_name(&mc_cont->dev));
-   108		} else if (action =3D=3D BUS_NOTIFY_BOUND_DRIVER &&
-   109			vdev->mc_dev =3D=3D mc_cont) {
-   110			struct fsl_mc_driver *mc_drv =3D to_fsl_mc_driver(dev->driver);
-   111	=
+   182		pgoff =3D vma->vm_pgoff &
+   183			((1U << (VFIO_FSL_MC_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
+   184		base =3D pgoff << PAGE_SHIFT;
+   185	=
 
-   112			if (mc_drv && mc_drv !=3D &vfio_fsl_mc_driver)
-   113				dev_warn(dev, "VFIO_FSL_MC: Object %s bound to driver %s while DP=
-RC bound to vfio-fsl-mc\n",
-   114					 dev_name(dev), mc_drv->driver.name);
-   115		}
-   116	=
+   186		if (region.size < PAGE_SIZE || base + size > region.size)
+   187			return -EINVAL;
+   188	=
 
-   117		return 0;
-   118	}
-   119	=
+ > 189		region_cacheable =3D (region.type & FSL_MC_REGION_CACHEABLE) &&
+ > 190				   (region.type & FSL_MC_REGION_SHAREABLE);
+   191		if (!region_cacheable)
+   192			vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
+   193	=
 
-   120	static int vfio_fsl_mc_init_device(struct vfio_fsl_mc_device *vdev)
-   121	{
-   122		struct fsl_mc_device *mc_dev =3D vdev->mc_dev;
-   123		int ret;
-   124	=
+   194		vma->vm_pgoff =3D (region.addr >> PAGE_SHIFT) + pgoff;
+   195	=
 
-   125		/* Non-dprc devices share mc_io from parent */
-   126		if (!is_fsl_mc_bus_dprc(mc_dev)) {
-   127			struct fsl_mc_device *mc_cont =3D to_fsl_mc_device(mc_dev->dev.par=
-ent);
-   128	=
-
-   129			mc_dev->mc_io =3D mc_cont->mc_io;
-   130			return 0;
-   131		}
-   132	=
-
-   133		vdev->nb.notifier_call =3D vfio_fsl_mc_bus_notifier;
-   134		ret =3D bus_register_notifier(&fsl_mc_bus_type, &vdev->nb);
-   135		if (ret)
-   136			return ret;
-   137	=
-
-   138		/* open DPRC, allocate a MC portal */
- > 139		ret =3D dprc_setup(mc_dev);
-   140		if (ret) {
-   141			dev_err(&mc_dev->dev, "VFIO_FSL_MC: Failed to setup DPRC (%d)\n", =
-ret);
-   142			goto out_nc_unreg;
-   143		}
-   144	=
-
- > 145		ret =3D dprc_scan_container(mc_dev, false);
-   146		if (ret) {
-   147			dev_err(&mc_dev->dev, "VFIO_FSL_MC: Container scanning failed (%d)=
-\n", ret);
-   148			goto out_dprc_cleanup;
-   149		}
-   150	=
-
-   151		return 0;
-   152	=
-
-   153	out_dprc_cleanup:
- > 154		dprc_remove_devices(mc_dev, NULL, 0);
- > 155		dprc_cleanup(mc_dev);
-   156	out_nc_unreg:
-   157		bus_unregister_notifier(&fsl_mc_bus_type, &vdev->nb);
-   158		vdev->nb.notifier_call =3D NULL;
-   159	=
-
-   160		return ret;
-   161	}
-   162	=
+   196		return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
+   197				       size, vma->vm_page_prot);
+   198	}
+   199	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4477375890407207591==
+--===============7243379742493127820==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPrEhF8AAy5jb25maWcAlDzLcty2svt8xZSzSRbJ0cuKU7e8wIAgBxmSoAFwNKMNS5HHjura
+H4sICDvMhF8AAy5jb25maWcAlDzLcty2svt8xZSzSRbJ0cuKU7e8wIAgBxmSoAFwNKMNS5HHjura
 Uo4knxP//e0G+GiAoOybRSx2N979RmN+/OHHFfvy/PD55vnu9ubTp6+rj8f74+PN8/H96sPdp+P/
 rDK1qpVdiUzaX4G4vLv/8s+/7s7fXK5e//r7rye/PN5errbHx/vjpxV/uP9w9/ELtL57uP/hxx+4
 qnNZdJx3O6GNVHVnxd6+ffXx9vaX31c/Zcc/727uV7//eg7dnL7+2f/1ijSTpis4f/t1ABVTV29/
@@ -1482,5 +1430,5 @@ WiLxItObvm66dbxDkX+ibY21hXG04ZvhLZcyzm7415dAqAufOZUmd6bfFOzsQXhSAMOUTv2rhrkM
 cFWkVi4lgqb+60Jfym1pNtp0HXI/qsh9mbVe3kQPy3iC5rd3/TGPEbwEYt8vaOiY1FmrTO0dpYKP
 Yu36VT/F4G1xmRWR09Ls6uqE/IqzEHahviNeM/CEfVNbFDzbTdwqQHKI9zY51TWAV6jdNzCLt62w
 pqrFST3C8Z3FH3LoQ1sd+xZdKBXhJrP7tP8HSuOjszbMBAA=
---===============4477375890407207591==--
+--===============7243379742493127820==--
 
