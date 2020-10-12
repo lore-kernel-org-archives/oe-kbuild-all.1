@@ -1,43 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============8444470443083974358=="
+Content-Type: multipart/mixed; boundary="===============6198573403162386686=="
 MIME-Version: 1.0
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Philip Li <philip.li@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH] i2c: designware: fix slave omitted IC_INTR_STOP_DET
-Date: Wed, 14 Oct 2020 13:16:46 +0300
-Message-ID: <20201014101646.GV4077@smile.fi.intel.com>
-In-Reply-To: <5DB475451BAA174CB158B5E897FC1525B1294238@MBS07.vivotek.tw>
+Subject: Re: [ti:ti-linux-5.4.y 1/1] net/hsr/hsr_forward.c:244:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute
+Date: Mon, 12 Oct 2020 20:08:18 +0800
+Message-ID: <20201012120818.GB23489@intel.com>
+In-Reply-To: <f7dac83f-511d-356b-4d00-c879cb85bf9f@ti.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8444470443083974358==
+--===============6198573403162386686==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2020 at 09:58:54AM +0000, Michael.Wu(a)vatics.com wrote:
-> On 10/14/20 4:53 PM, andriy.shevchenko(a)linux.intel.com wrote:
-> > =
-
-> > Wondering if you compile this at all...
+On Mon, Oct 12, 2020 at 06:42:21AM -0500, Dan Murphy wrote:
+> Hello robot
 > =
 
+> On 10/10/20 2:07 AM, kernel test robot wrote:
+> > tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5=
+.4.y
 > =
 
-> I'm very sorry that I did not compile it because I only have ARM SoC with=
- my
-> linux 4.9.170, but I've verified the logic of this patch in my linux.
+> Why is this TI tree being reported to the open source community? They have
+hi Dan, thanks for the info, this is added automatically, we will
+disable the test of this repo. Sorry for any confusion.
+
+> no interest in our product tree unless this same bug is in the mainline or
+> Linux stable
 > =
 
-> I'll correct these two syntax errors in next version. The reported
-> warnings occurs from drivers/i2c/busses/i2c-designware-slave.c:13 seems
-> not made by this modification. Please correct me if I'm wrong....
+> Dan
+> =
 
-So, you have a chance to create a follow up patch to fix the warnings. :-)
-
--- =
-
-With Best Regards,
-Andy Shevchenko
-
-
---===============8444470443083974358==--
+> _______________________________________________
+> kbuild-all mailing list -- kbuild-all(a)lists.01.org
+> To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
+--===============6198573403162386686==--
 
