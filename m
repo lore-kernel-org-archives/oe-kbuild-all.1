@@ -1,117 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============9100444308686762330=="
+Content-Type: multipart/mixed; boundary="===============4845205793360685179=="
 MIME-Version: 1.0
-From: Murphy, Declan <declan.murphy@intel.com>
+From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 To: kbuild-all@lists.01.org
-Subject: Re: [intel-linux-intel-lts:5.4/yocto 15/1142] drivers/crypto/keembay/keembay-ocs-hcu-core.c:218:31: sparse: sparse: Using plain integer as NULL pointer
-Date: Tue, 13 Oct 2020 08:35:41 +0000
-Message-ID: <DM6PR11MB368994F8EECBCB0497EA9ACDEB040@DM6PR11MB3689.namprd11.prod.outlook.com>
-In-Reply-To: <202010131642.km5I6doA-lkp@intel.com>
+Subject: Re: [PATCH v8 3/3] leds: trigger: implement a tty trigger
+Date: Tue, 13 Oct 2020 10:37:27 +0200
+Message-ID: <20201013083727.bii6p6yhdh53zbko@pengutronix.de>
+In-Reply-To: <202010122255.mTooYoPh-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============9100444308686762330==
+--===============4845205793360685179==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hey,
+Hello,
 
-@Alessandrelli, Daniele took over this submission. I'm temporarily on a dif=
-ferent project now.
+On Mon, Oct 12, 2020 at 10:16:59PM +0800, kernel test robot wrote:
+> Hi "Uwe,
 
-Regards,
-Declan
+I love your test report! Perhaps something to improve: The parser of the
+From: line should drop the " :-)
 
------Original Message-----
-From: lkp <lkp@intel.com> =
+>    drivers/leds/trigger/ledtrig-tty.c: In function 'ledtrig_tty_work':
+> >> drivers/leds/trigger/ledtrig-tty.c:92:7: warning: variable 'firstrun' =
+set but not used [-Wunused-but-set-variable]
+>       92 |  bool firstrun =3D false;
+>          |       ^~~~~~~~
 
-Sent: Tuesday, October 13, 2020 9:29 AM
-To: Murphy, Declan <declan.murphy@intel.com>
-Cc: kbuild-all(a)lists.01.org; Li, Yifan2 <yifan2.li@intel.com>
-Subject: [intel-linux-intel-lts:5.4/yocto 15/1142] drivers/crypto/keembay/k=
-eembay-ocs-hcu-core.c:218:31: sparse: sparse: Using plain integer as NULL p=
-ointer
+Indeed, this line should just be dropped. I won't resend yet, waiting
+for some feedback first and assuming reviewers are able to interpolate
+how v9 will look like :-)
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.4/yocto
-head:   eeb611e5394c56d45c5cc8f7dc484c9f19e93143
-commit: 9b07a958f2eb496c88faf0bd749eb600357f4190 [15/1142] crypto: keembay:=
- Add Keem Bay OCS HCU
-config: x86_64-randconfig-s021-20201013 (attached as .config)
-compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.3-rc1-dirty
-        # https://github.com/intel/linux-intel-lts/commit/9b07a958f2eb496c8=
-8faf0bd749eb600357f4190
-        git remote add intel-linux-intel-lts https://github.com/intel/linux=
--intel-lts.git
-        git fetch --no-tags intel-linux-intel-lts 5.4/yocto
-        git checkout 9b07a958f2eb496c88faf0bd749eb600357f4190
-        # save the attached .config to linux build tree
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=
-=3Dx86_64 =
+Best regards
+Uwe
 
+-- =
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--===============4845205793360685179==
+Content-Type: application/pgp-signature
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="signature.asc"
 
-"sparse warnings: (new ones prefixed by >>)"
->> drivers/crypto/keembay/keembay-ocs-hcu-core.c:218:31: sparse: sparse: =
+LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KCmlRRXpCQUFCQ2dBZEZpRUVmbklxRnBBWXJQ
+OCtkS1FMd2Z3VWVLM0s3QWtGQWwrRlowUUFDZ2tRd2Z3VWVLM0sKN0FsQnlRZi9RZXRyeWZndlJW
+ZXBKQ1B5ZkgxNXNTNW42a1ZmSG9RUnc1OXN6OEdsYnFyYUJOdE8vbUY2K1VXeApVNEFoVEhoYS9E
+YTFUOTdJZnZKRmdsWU1qMGovTUpuV01Vdk4rK3RrMkxHRjJwT1loVzhzeGl4SGloSGpoR3ZICjl6
+YUUvMWhQVTk2b25JQTdNQ29pNUROMUVPbEVLVkhRQ2d0b1VXT0RZakI0SmFhb0puOXNVeHdGOCtt
+YWIyQXUKNDlIN3JhdUE4VXU3RjFtVThlQnJibytKeW80MHJYZUNwRjdnbXEyRC9UNDU0KzJ6cFRm
+U28vQ2c2NU90NmZhSApPT0RnY254SXpBK09TMDJYSnBob0F2YlBmYTBndm5ZNUxFb2o1V2NwdzlU
+ZW4rYXplQitnU0ZCbVVMSXRNbExICm10ZmI5akhNN0U5VzZISjBQOGFDemh1cjdmVDdmUT09Cj1K
+bERkCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQo=
 
->> Using plain integer as NULL pointer
-   drivers/crypto/keembay/keembay-ocs-hcu-core.c:219:31: sparse: sparse: Us=
-ing plain integer as NULL pointer
-   drivers/crypto/keembay/keembay-ocs-hcu-core.c:749:31: sparse: sparse: Us=
-ing plain integer as NULL pointer
-   drivers/crypto/keembay/keembay-ocs-hcu-core.c:750:31: sparse: sparse: Us=
-ing plain integer as NULL pointer
-
-vim +218 drivers/crypto/keembay/keembay-ocs-hcu-core.c
-
-   202	=
-
-   203	static void kmb_ocs_free_dma_list(struct ocs_hcu_rctx *rctx)
-   204	{
-   205		struct ocs_hcu_dev *hcu_dev =3D rctx->hcu_dev;
-   206		struct device *dev =3D hcu_dev->dev;
-   207	=
-
-   208		if (!rctx->dma_list_head || !rctx->dma_list_tail)
-   209			return;
-   210	=
-
-   211		if (rctx->sg_dma_nents > 0)
-   212			dma_unmap_sg(dev, hcu_dev->req->src, rctx->sg_dma_nents,
-   213				     DMA_TO_DEVICE);
-   214	=
-
-   215		dma_free_coherent(dev, rctx->dma_list_size, rctx->dma_list_head,
-   216				  rctx->ll_dma_addr);
-   217	=
-
- > 218		rctx->dma_list_head =3D 0;
-   219		rctx->dma_list_tail =3D 0;
-   220		rctx->ll_dma_addr =3D 0;
-   221	}
-   222	=
-
-
----
-0-DAY CI Kernel Test Service, Intel Corporation https://lists.01.org/hyperk=
-itty/list/kbuild-all(a)lists.01.org
---------------------------------------------------------------
-Intel Research and Development Ireland Limited
-Registered in Ireland
-Registered Office: Collinstown Industrial Park, Leixlip, County Kildare
-Registered Number: 308263
-
-
-This e-mail and any attachments may contain confidential material for the s=
-ole
-use of the intended recipient(s). Any review or distribution by others is
-strictly prohibited. If you are not the intended recipient, please contact =
-the
-sender and delete all copies.
-
---===============9100444308686762330==--
+--===============4845205793360685179==--
 
