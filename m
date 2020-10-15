@@ -1,37 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============3588427538252978517=="
+Content-Type: multipart/mixed; boundary="===============5501401686060446774=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-stable-rc:linux-5.4.y 665/2391] drivers/android/binder.c:3776: Error: unrecognized keyword/register name `l.lwz
-Date: Fri, 16 Oct 2020 05:28:34 +0800
-Message-ID: <202010160523.r8yMbvrW-lkp@intel.com>
+Subject: [android-common:android11-5.4 8965/9908] drivers/media/tuners/tda8290.c:468: undefined reference to `i2c_transfer'
+Date: Fri, 16 Oct 2020 05:34:09 +0800
+Message-ID: <202010160559.jLWcpv6u-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3588427538252978517==
+--===============5501401686060446774==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable=
--rc.git linux-5.4.y
-head:   85b0841aab15c12948af951d477183ab3df7de14
-commit: c5665cafbedd2e2a523fe933e452391a02d3adb3 [665/2391] binder: Prevent=
- context manager from incrementing ref 0
-config: openrisc-randconfig-r002-20201014 (attached as .config)
-compiler: or1k-linux-gcc (GCC) 9.3.0
+Hi Greg,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   a2114d2456100c0db1d94773ec377fe8fa89f4a9
+commit: 9c8aa25e2955df58dae59e409ec1bc7f850935d9 [8965/9908] ANDROID: GKI: =
+fix symbol_get/put() build error on arm64 defconfig
+config: x86_64-randconfig-a011-20201014 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
-le-rc.git/commit/?id=3Dc5665cafbedd2e2a523fe933e452391a02d3adb3
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux=
-/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc linux-5.4.y
-        git checkout c5665cafbedd2e2a523fe933e452391a02d3adb3
+        git remote add android-common https://android.googlesource.com/kern=
+el/common
+        git fetch --no-tags android-common android11-5.4
+        git checkout 9c8aa25e2955df58dae59e409ec1bc7f850935d9
         # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
-ARCH=3Dopenrisc =
+        make W=3D1 ARCH=3Dx86_64 =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -39,1413 +36,672 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/android/binder.c: Assembler messages:
->> drivers/android/binder.c:3776: Error: unrecognized keyword/register name=
- `l.lwz ?ap,4(r25)'
-   drivers/android/binder.c:3781: Error: unrecognized keyword/register name=
- `l.addi ?ap,r0,0'
+   ld: drivers/i2c/algos/i2c-algo-bit.o: in function `i2c_bit_add_bus':
+   drivers/i2c/algos/i2c-algo-bit.c:685: undefined reference to `i2c_add_ad=
+apter'
+   ld: drivers/i2c/algos/i2c-algo-bit.o: in function `i2c_bit_add_numbered_=
+bus':
+   drivers/i2c/algos/i2c-algo-bit.c:691: undefined reference to `i2c_add_nu=
+mbered_adapter'
+   ld: drivers/media/tuners/tda8290.o: in function `tuner_i2c_xfer_send':
+   drivers/media/tuners/tuner-i2c.h:29: undefined reference to `i2c_transfe=
+r'
+   ld: drivers/media/tuners/tuner-i2c.h:29: undefined reference to `i2c_tra=
+nsfer'
+   ld: drivers/media/tuners/tda8290.o: in function `tda8290_standby':
+>> drivers/media/tuners/tda8290.c:468: undefined reference to `i2c_transfer'
+   ld: drivers/media/tuners/tda8290.o: in function `tuner_i2c_xfer_send':
+   drivers/media/tuners/tuner-i2c.h:29: undefined reference to `i2c_transfe=
+r'
+   ld: drivers/media/tuners/tuner-i2c.h:29: undefined reference to `i2c_tra=
+nsfer'
+   ld: drivers/media/tuners/tda8290.o:drivers/media/tuners/tda8290.c:584: m=
+ore undefined references to `i2c_transfer' follow
 
-vim +3776 drivers/android/binder.c
+vim +468 drivers/media/tuners/tda8290.c
 
-44d8047f1d87adc drivers/android/binder.c         Todd Kjos              201=
-8-08-28  3602  =
+de48eebce8b63db drivers/media/video/tda8290.c  Hartmut Hackmann      2005-1=
+1-08  454  =
 
-fb07ebc3e82a98a drivers/staging/android/binder.c Bojan Prtvar           201=
-3-09-02  3603  static int binder_thread_write(struct binder_proc *proc,
-fb07ebc3e82a98a drivers/staging/android/binder.c Bojan Prtvar           201=
-3-09-02  3604  			struct binder_thread *thread,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3605  			binder_uintptr_t binder_buffer, size_t size,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3606  			binder_size_t *consumed)
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3607  {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3608  	uint32_t cmd;
-342e5c90b60134d drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3609  	struct binder_context *context =3D proc->context;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3610  	void __user *buffer =3D (void __user *)(uintptr_t=
-)binder_buffer;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3611  	void __user *ptr =3D buffer + *consumed;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3612  	void __user *end =3D buffer + size;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3613  =
+4e9154b8a77d0f0 drivers/media/video/tda8290.c  Michael Krufky        2007-1=
+0-21  455  static void tda8290_standby(struct dvb_frontend *fe)
+793cf9e6a54c698 drivers/media/video/tda8290.c  Mauro Carvalho Chehab 2005-0=
+9-09  456  {
+4e9154b8a77d0f0 drivers/media/video/tda8290.c  Michael Krufky        2007-1=
+0-21  457  	struct tda8290_priv *priv =3D fe->analog_demod_priv;
+4e9154b8a77d0f0 drivers/media/video/tda8290.c  Michael Krufky        2007-1=
+0-21  458  =
 
-26549d17741035b drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3614  	while (ptr < end && thread->return_error.cmd =3D=3D BR_OK) {
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3615  		int ret;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3616  =
+8ff230fb4f48816 drivers/media/tuners/tda8290.c Arnd Bergmann         2017-1=
+2-11  459  	static unsigned char cb1[] =3D { 0x30, 0xD0 };
+8ff230fb4f48816 drivers/media/tuners/tda8290.c Arnd Bergmann         2017-1=
+2-11  460  	static unsigned char tda8290_standby[] =3D { 0x00, 0x02 };
+8ff230fb4f48816 drivers/media/tuners/tda8290.c Arnd Bergmann         2017-1=
+2-11  461  	static unsigned char tda8290_agc_tri[] =3D { 0x02, 0x20 };
+b208319993ceff7 drivers/media/video/tda8290.c  Michael Krufky        2007-0=
+5-29  462  	struct i2c_msg msg =3D {.addr =3D priv->tda827x_addr, .flags=3D=
+0, .buf=3Dcb1, .len =3D 2};
+de48eebce8b63db drivers/media/video/tda8290.c  Hartmut Hackmann      2005-1=
+1-08  463  =
 
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3617  		if (get_user(cmd, (uint32_t __user *)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3618  			return -EFAULT;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3619  		ptr +=3D sizeof(uint32_t);
-975a1ac9a9fe65d drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2012-10-16  3620  		trace_binder_command(cmd);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3621  		if (_IOC_NR(cmd) < ARRAY_SIZE(binder_stats.bc)) {
-0953c7976c36ce0 drivers/android/binder.c         Badhri Jagan Sridharan 201=
-7-06-29  3622  			atomic_inc(&binder_stats.bc[_IOC_NR(cmd)]);
-0953c7976c36ce0 drivers/android/binder.c         Badhri Jagan Sridharan 201=
-7-06-29  3623  			atomic_inc(&proc->stats.bc[_IOC_NR(cmd)]);
-0953c7976c36ce0 drivers/android/binder.c         Badhri Jagan Sridharan 201=
-7-06-29  3624  			atomic_inc(&thread->stats.bc[_IOC_NR(cmd)]);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3625  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3626  		switch (cmd) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3627  		case BC_INCREFS:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3628  		case BC_ACQUIRE:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3629  		case BC_RELEASE:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3630  		case BC_DECREFS: {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3631  			uint32_t target;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3632  			const char *debug_string;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3633  			bool strong =3D cmd =3D=3D BC_ACQUIRE || cmd =3D=3D BC_RE=
-LEASE;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3634  			bool increment =3D cmd =3D=3D BC_INCREFS || cmd =3D=3D BC=
-_ACQUIRE;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3635  			struct binder_ref_data rdata;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3636  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3637  			if (get_user(target, (uint32_t __user *)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3638  				return -EFAULT;
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3639  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3640  			ptr +=3D sizeof(uint32_t);
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3641  			ret =3D -1;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3642  			if (increment && !target) {
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3643  				struct binder_node *ctx_mgr_node;
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3644  				mutex_lock(&context->context_mgr_node_lock);
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3645  				ctx_mgr_node =3D context->binder_context_mgr_node;
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3646  				if (ctx_mgr_node) {
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3647  					if (ctx_mgr_node->proc =3D=3D proc) {
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3648  						binder_user_error("%d:%d context manager tried to acqu=
-ire desc 0\n",
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3649  								  proc->pid, thread->pid);
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3650  						mutex_unlock(&context->context_mgr_node_lock);
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3651  						return -EINVAL;
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3652  					}
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3653  					ret =3D binder_inc_ref_for_node(
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3654  							proc, ctx_mgr_node,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3655  							strong, NULL, &rdata);
-c5665cafbedd2e2 drivers/android/binder.c         Jann Horn              202=
-0-07-27  3656  				}
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3657  				mutex_unlock(&context->context_mgr_node_lock);
-c44b1231ff11709 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3658  			}
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3659  			if (ret)
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3660  				ret =3D binder_update_ref_for_handle(
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3661  						proc, target, increment, strong,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3662  						&rdata);
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3663  			if (!ret && rdata.desc !=3D target) {
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3664  				binder_user_error("%d:%d tried to acquire reference to d=
-esc %d, got %d instead\n",
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3665  					proc->pid, thread->pid,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3666  					target, rdata.desc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3667  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3668  			switch (cmd) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3669  			case BC_INCREFS:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3670  				debug_string =3D "IncRefs";
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3671  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3672  			case BC_ACQUIRE:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3673  				debug_string =3D "Acquire";
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3674  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3675  			case BC_RELEASE:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3676  				debug_string =3D "Release";
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3677  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3678  			case BC_DECREFS:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3679  			default:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3680  				debug_string =3D "DecRefs";
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3681  				break;
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3682  			}
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3683  			if (ret) {
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3684  				binder_user_error("%d:%d %s %d refcount change on invali=
-d ref %d ret %d\n",
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3685  					proc->pid, thread->pid, debug_string,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3686  					strong, target, ret);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3687  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3688  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3689  			binder_debug(BINDER_DEBUG_USER_REFS,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3690  				     "%d:%d %s ref %d desc %d s %d w %d\n",
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3691  				     proc->pid, thread->pid, debug_string,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3692  				     rdata.debug_id, rdata.desc, rdata.strong,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3693  				     rdata.weak);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3694  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3695  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3696  		case BC_INCREFS_DONE:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3697  		case BC_ACQUIRE_DONE: {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3698  			binder_uintptr_t node_ptr;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3699  			binder_uintptr_t cookie;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3700  			struct binder_node *node;
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3701  			bool free_node;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3702  =
-
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3703  			if (get_user(node_ptr, (binder_uintptr_t __user=
- *)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3704  				return -EFAULT;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3705  			ptr +=3D sizeof(binder_uintptr_t);
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3706  			if (get_user(cookie, (binder_uintptr_t __user *=
-)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3707  				return -EFAULT;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3708  			ptr +=3D sizeof(binder_uintptr_t);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3709  			node =3D binder_get_node(proc, node_ptr);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3710  			if (node =3D=3D NULL) {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3711  				binder_user_error("%d:%d %s u%016llx no match\=
-n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3712  					proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3713  					cmd =3D=3D BC_INCREFS_DONE ?
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3714  					"BC_INCREFS_DONE" :
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3715  					"BC_ACQUIRE_DONE",
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3716  					(u64)node_ptr);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3717  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3718  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3719  			if (cookie !=3D node->cookie) {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3720  				binder_user_error("%d:%d %s u%016llx node %d c=
-ookie mismatch %016llx !=3D %016llx\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3721  					proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3722  					cmd =3D=3D BC_INCREFS_DONE ?
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3723  					"BC_INCREFS_DONE" : "BC_ACQUIRE_DONE",
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3724  					(u64)node_ptr, node->debug_id,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3725  					(u64)cookie, (u64)node->cookie);
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3726  				binder_put_node(node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3727  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3728  			}
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3729  			binder_node_inner_lock(node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3730  			if (cmd =3D=3D BC_ACQUIRE_DONE) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3731  				if (node->pending_strong_ref =3D=3D 0) {
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3732  					binder_user_error("%d:%d BC_ACQUIRE_DONE node %d has no=
- pending acquire request\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3733  						proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3734  						node->debug_id);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3735  					binder_node_inner_unlock(node);
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3736  					binder_put_node(node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3737  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3738  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3739  				node->pending_strong_ref =3D 0;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3740  			} else {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3741  				if (node->pending_weak_ref =3D=3D 0) {
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3742  					binder_user_error("%d:%d BC_INCREFS_DONE node %d has no=
- pending increfs request\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3743  						proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3744  						node->debug_id);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3745  					binder_node_inner_unlock(node);
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3746  					binder_put_node(node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3747  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3748  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3749  				node->pending_weak_ref =3D 0;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3750  			}
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3751  			free_node =3D binder_dec_node_nilocked(node,
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3752  					cmd =3D=3D BC_ACQUIRE_DONE, 0);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3753  			WARN_ON(free_node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3754  			binder_debug(BINDER_DEBUG_USER_REFS,
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3755  				     "%d:%d %s node %d ls %d lw %d tr %d\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3756  				     proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3757  				     cmd =3D=3D BC_INCREFS_DONE ? "BC_INCREFS_DONE" : "B=
-C_ACQUIRE_DONE",
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3758  				     node->debug_id, node->local_strong_refs,
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3759  				     node->local_weak_refs, node->tmp_refs);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3760  			binder_node_inner_unlock(node);
-adc1884222276df drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3761  			binder_put_node(node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3762  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3763  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3764  		case BC_ATTEMPT_ACQUIRE:
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3765  			pr_err("BC_ATTEMPT_ACQUIRE not supported\n");
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3766  			return -EINVAL;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3767  		case BC_ACQUIRE_RESULT:
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3768  			pr_err("BC_ACQUIRE_RESULT not supported\n");
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3769  			return -EINVAL;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3770  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3771  		case BC_FREE_BUFFER: {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3772  			binder_uintptr_t data_ptr;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3773  			struct binder_buffer *buffer;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3774  =
-
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3775  			if (get_user(data_ptr, (binder_uintptr_t __user=
- *)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30 @3776  				return -EFAULT;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3777  			ptr +=3D sizeof(binder_uintptr_t);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3778  =
-
-53d311cfa19ad35 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3779  			buffer =3D binder_alloc_prepare_to_free(&proc->alloc,
-19c987241ca1216 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3780  							      data_ptr);
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3781  			if (IS_ERR_OR_NULL(buffer)) {
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3782  				if (PTR_ERR(buffer) =3D=3D -EPERM) {
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3783  					binder_user_error(
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3784  						"%d:%d BC_FREE_BUFFER u%016llx matched unreturned or c=
-urrently freeing buffer\n",
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3785  						proc->pid, thread->pid,
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3786  						(u64)data_ptr);
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3787  				} else {
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3788  					binder_user_error(
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3789  						"%d:%d BC_FREE_BUFFER u%016llx no match\n",
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3790  						proc->pid, thread->pid,
-7bada55ab506978 drivers/android/binder.c         Todd Kjos              201=
-8-11-06  3791  						(u64)data_ptr);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3792  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3793  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3794  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3795  			binder_debug(BINDER_DEBUG_FREE_BUFFER,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3796  				     "%d:%d BC_FREE_BUFFER u%016llx found buff=
-er %d for %s transaction\n",
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3797  				     proc->pid, thread->pid, (u64)data_ptr,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3798  				     buffer->debug_id,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3799  				     buffer->transaction ? "active" : "finished");
-44d8047f1d87adc drivers/android/binder.c         Todd Kjos              201=
-8-08-28  3800  			binder_free_buf(proc, buffer);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3801  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3802  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3803  =
-
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3804  		case BC_TRANSACTION_SG:
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3805  		case BC_REPLY_SG: {
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3806  			struct binder_transaction_data_sg tr;
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3807  =
-
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3808  			if (copy_from_user(&tr, ptr, sizeof(tr)))
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3809  				return -EFAULT;
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3810  			ptr +=3D sizeof(tr);
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3811  			binder_transaction(proc, thread, &tr.transaction_data,
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3812  					   cmd =3D=3D BC_REPLY_SG, tr.buffers_size);
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3813  			break;
-7980240b6d63e06 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3814  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3815  		case BC_TRANSACTION:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3816  		case BC_REPLY: {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3817  			struct binder_transaction_data tr;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3818  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3819  			if (copy_from_user(&tr, ptr, sizeof(tr)))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3820  				return -EFAULT;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3821  			ptr +=3D sizeof(tr);
-4bfac80af3a63f2 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3822  			binder_transaction(proc, thread, &tr,
-4bfac80af3a63f2 drivers/android/binder.c         Martijn Coenen         201=
-7-02-03  3823  					   cmd =3D=3D BC_REPLY, 0);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3824  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3825  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3826  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3827  		case BC_REGISTER_LOOPER:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3828  			binder_debug(BINDER_DEBUG_THREADS,
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3829  				     "%d:%d BC_REGISTER_LOOPER\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3830  				     proc->pid, thread->pid);
-b3e6861283790d7 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3831  			binder_inner_proc_lock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3832  			if (thread->looper & BINDER_LOOPER_STATE_ENTERED) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3833  				thread->looper |=3D BINDER_LOOPER_STATE_INVALID;
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3834  				binder_user_error("%d:%d ERROR: BC_REGISTER_LOOPER calle=
-d after BC_ENTER_LOOPER\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3835  					proc->pid, thread->pid);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3836  			} else if (proc->requested_threads =3D=3D 0) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3837  				thread->looper |=3D BINDER_LOOPER_STATE_INVALID;
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3838  				binder_user_error("%d:%d ERROR: BC_REGISTER_LOOPER calle=
-d without request\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3839  					proc->pid, thread->pid);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3840  			} else {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3841  				proc->requested_threads--;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3842  				proc->requested_threads_started++;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3843  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3844  			thread->looper |=3D BINDER_LOOPER_STATE_REGISTERED;
-b3e6861283790d7 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3845  			binder_inner_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3846  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3847  		case BC_ENTER_LOOPER:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3848  			binder_debug(BINDER_DEBUG_THREADS,
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3849  				     "%d:%d BC_ENTER_LOOPER\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3850  				     proc->pid, thread->pid);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3851  			if (thread->looper & BINDER_LOOPER_STATE_REGISTERED) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3852  				thread->looper |=3D BINDER_LOOPER_STATE_INVALID;
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3853  				binder_user_error("%d:%d ERROR: BC_ENTER_LOOPER called a=
-fter BC_REGISTER_LOOPER\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3854  					proc->pid, thread->pid);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3855  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3856  			thread->looper |=3D BINDER_LOOPER_STATE_ENTERED;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3857  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3858  		case BC_EXIT_LOOPER:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3859  			binder_debug(BINDER_DEBUG_THREADS,
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3860  				     "%d:%d BC_EXIT_LOOPER\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3861  				     proc->pid, thread->pid);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3862  			thread->looper |=3D BINDER_LOOPER_STATE_EXITED;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3863  			break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3864  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3865  		case BC_REQUEST_DEATH_NOTIFICATION:
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3866  		case BC_CLEAR_DEATH_NOTIFICATION: {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3867  			uint32_t target;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3868  			binder_uintptr_t cookie;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3869  			struct binder_ref *ref;
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3870  			struct binder_ref_death *death =3D NULL;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3871  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3872  			if (get_user(target, (uint32_t __user *)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3873  				return -EFAULT;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3874  			ptr +=3D sizeof(uint32_t);
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3875  			if (get_user(cookie, (binder_uintptr_t __user *=
-)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3876  				return -EFAULT;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3877  			ptr +=3D sizeof(binder_uintptr_t);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3878  			if (cmd =3D=3D BC_REQUEST_DEATH_NOTIFICATION) {
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3879  				/*
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3880  				 * Allocate memory for death notification
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3881  				 * before taking lock
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3882  				 */
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3883  				death =3D kzalloc(sizeof(*death), GFP_KERNEL);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3884  				if (death =3D=3D NULL) {
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3885  					WARN_ON(thread->return_error.cmd !=3D
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3886  						BR_OK);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3887  					thread->return_error.cmd =3D BR_ERROR;
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3888  					binder_enqueue_thread_work(
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3889  						thread,
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3890  						&thread->return_error.work);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3891  					binder_debug(
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3892  						BINDER_DEBUG_FAILED_TRANSACTION,
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3893  						"%d:%d BC_REQUEST_DEATH_NOTIFICATION failed\n",
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3894  						proc->pid, thread->pid);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3895  					break;
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3896  				}
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3897  			}
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3898  			binder_proc_lock(proc);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3899  			ref =3D binder_get_ref_olocked(proc, target, false);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3900  			if (ref =3D=3D NULL) {
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3901  				binder_user_error("%d:%d %s invalid ref %d\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3902  					proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3903  					cmd =3D=3D BC_REQUEST_DEATH_NOTIFICATION ?
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3904  					"BC_REQUEST_DEATH_NOTIFICATION" :
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3905  					"BC_CLEAR_DEATH_NOTIFICATION",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3906  					target);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3907  				binder_proc_unlock(proc);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3908  				kfree(death);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3909  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3910  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3911  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3912  			binder_debug(BINDER_DEBUG_DEATH_NOTIFICATION,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3913  				     "%d:%d %s %016llx ref %d desc %d s %d w %=
-d for node %d\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3914  				     proc->pid, thread->pid,
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3915  				     cmd =3D=3D BC_REQUEST_DEATH_NOTIFICATION ?
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3916  				     "BC_REQUEST_DEATH_NOTIFICATION" :
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3917  				     "BC_CLEAR_DEATH_NOTIFICATION",
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3918  				     (u64)cookie, ref->data.debug_id,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3919  				     ref->data.desc, ref->data.strong,
-372e3147df7016e drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3920  				     ref->data.weak, ref->node->debug_id);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3921  =
-
-ab51ec6bdf0b7af drivers/android/binder.c         Martijn Coenen         201=
-7-06-29  3922  			binder_node_lock(ref->node);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3923  			if (cmd =3D=3D BC_REQUEST_DEATH_NOTIFICATION) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3924  				if (ref->death) {
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3925  					binder_user_error("%d:%d BC_REQUEST_DEATH_NOTIFICATION =
-death notification already set\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3926  						proc->pid, thread->pid);
-ab51ec6bdf0b7af drivers/android/binder.c         Martijn Coenen         201=
-7-06-29  3927  					binder_node_unlock(ref->node);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3928  					binder_proc_unlock(proc);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3929  					kfree(death);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3930  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3931  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3932  				binder_stats_created(BINDER_STAT_DEATH);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3933  				INIT_LIST_HEAD(&death->work.entry);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3934  				death->cookie =3D cookie;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3935  				ref->death =3D death;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3936  				if (ref->node->proc =3D=3D NULL) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3937  					ref->death->work.type =3D BINDER_WORK_DEAD_BINDER;
-bb74562a7f83982 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3938  =
-
-1b77e9dcc3da935 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3939  					binder_inner_proc_lock(proc);
-1b77e9dcc3da935 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3940  					binder_enqueue_work_ilocked(
-bb74562a7f83982 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3941  						&ref->death->work, &proc->todo);
-bb74562a7f83982 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3942  					binder_wakeup_proc_ilocked(proc);
-1b77e9dcc3da935 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3943  					binder_inner_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3944  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3945  			} else {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3946  				if (ref->death =3D=3D NULL) {
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  3947  					binder_user_error("%d:%d BC_CLEAR_DEATH_NOTIFICATION de=
-ath notification not active\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3948  						proc->pid, thread->pid);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3949  					binder_node_unlock(ref->node);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3950  					binder_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3951  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3952  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3953  				death =3D ref->death;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3954  				if (death->cookie !=3D cookie) {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3955  					binder_user_error("%d:%d BC_CLEAR_DEATH_NOTIF=
-ICATION death notification cookie mismatch %016llx !=3D %016llx\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3956  						proc->pid, thread->pid,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3957  						(u64)death->cookie,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3958  						(u64)cookie);
-673068eee8560d5 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3959  					binder_node_unlock(ref->node);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3960  					binder_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3961  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3962  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3963  				ref->death =3D NULL;
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3964  				binder_inner_proc_lock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3965  				if (list_empty(&death->work.entry)) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3966  					death->work.type =3D BINDER_WORK_CLEAR_DEATH_NOTIFICATI=
-ON;
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3967  					if (thread->looper &
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3968  					    (BINDER_LOOPER_STATE_REGISTERED |
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3969  					     BINDER_LOOPER_STATE_ENTERED))
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3970  						binder_enqueue_thread_work_ilocked(
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3971  								thread,
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  3972  								&death->work);
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3973  					else {
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3974  						binder_enqueue_work_ilocked(
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3975  								&death->work,
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3976  								&proc->todo);
-1b77e9dcc3da935 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3977  						binder_wakeup_proc_ilocked(
-408c68b17aea2f2 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  3978  								proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3979  					}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3980  				} else {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3981  					BUG_ON(death->work.type !=3D BINDER_WORK_DEAD_BINDER);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3982  					death->work.type =3D BINDER_WORK_DEAD_BINDER_AND_CLEAR;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3983  				}
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3984  				binder_inner_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3985  			}
-ab51ec6bdf0b7af drivers/android/binder.c         Martijn Coenen         201=
-7-06-29  3986  			binder_node_unlock(ref->node);
-2c1838dc6817dd2 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3987  			binder_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3988  		} break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3989  		case BC_DEAD_BINDER_DONE: {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3990  			struct binder_work *w;
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3991  			binder_uintptr_t cookie;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3992  			struct binder_ref_death *death =3D NULL;
-10f62861b4a2f22 drivers/staging/android/binder.c Seunghun Lee           201=
-4-05-01  3993  =
-
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  3994  			if (get_user(cookie, (binder_uintptr_t __user *=
-)ptr))
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3995  				return -EFAULT;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  3996  =
-
-7a64cd887fdb97f drivers/android/binder.c         Lisa Du                201=
-6-02-17  3997  			ptr +=3D sizeof(cookie);
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3998  			binder_inner_proc_lock(proc);
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  3999  			list_for_each_entry(w, &proc->delivered_death,
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4000  					    entry) {
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4001  				struct binder_ref_death *tmp_death =3D
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4002  					container_of(w,
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4003  						     struct binder_ref_death,
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4004  						     work);
-10f62861b4a2f22 drivers/staging/android/binder.c Seunghun Lee           201=
-4-05-01  4005  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4006  				if (tmp_death->cookie =3D=3D cookie) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4007  					death =3D tmp_death;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4008  					break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4009  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4010  			}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4011  			binder_debug(BINDER_DEBUG_DEAD_BINDER,
-8ca86f1639ec589 drivers/android/binder.c         Todd Kjos              201=
-8-02-07  4012  				     "%d:%d BC_DEAD_BINDER_DONE %016llx found %pK\n",
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  4013  				     proc->pid, thread->pid, (u64)cookie,
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  4014  				     death);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4015  			if (death =3D=3D NULL) {
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  4016  				binder_user_error("%d:%d BC_DEAD_BINDER_DONE %=
-016llx not found\n",
-da49889deb34d35 drivers/staging/android/binder.c Arve Hj=C3=B8nnev=C3=A5g  =
-       2014-02-21  4017  					proc->pid, thread->pid, (u64)cookie);
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4018  				binder_inner_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4019  				break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4020  			}
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4021  			binder_dequeue_work_ilocked(&death->work);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4022  			if (death->work.type =3D=3D BINDER_WORK_DEAD_BINDER_AND_C=
-LEAR) {
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4023  				death->work.type =3D BINDER_WORK_CLEAR_DEATH_NOTIFICATIO=
-N;
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4024  				if (thread->looper &
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4025  					(BINDER_LOOPER_STATE_REGISTERED |
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4026  					 BINDER_LOOPER_STATE_ENTERED))
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  4027  					binder_enqueue_thread_work_ilocked(
-148ade2c4d4f46b drivers/android/binder.c         Martijn Coenen         201=
-7-11-15  4028  						thread, &death->work);
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4029  				else {
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4030  					binder_enqueue_work_ilocked(
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4031  							&death->work,
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4032  							&proc->todo);
-408c68b17aea2f2 drivers/android/binder.c         Martijn Coenen         201=
-7-08-31  4033  					binder_wakeup_proc_ilocked(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4034  				}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4035  			}
-72196393a5e3d28 drivers/android/binder.c         Todd Kjos              201=
-7-06-29  4036  			binder_inner_proc_unlock(proc);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4037  		} break;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4038  =
-
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4039  		default:
-56b468fc709b2b9 drivers/staging/android/binder.c Anmol Sarma            201=
-2-10-30  4040  			pr_err("%d:%d unknown command %d\n",
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4041  			       proc->pid, thread->pid, cmd);
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4042  			return -EINVAL;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4043  		}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4044  		*consumed =3D ptr - buffer;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4045  	}
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4046  	return 0;
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4047  }
-355b0502f6efea0 drivers/staging/android/binder.c Greg Kroah-Hartman     201=
-1-11-30  4048  =
+2f719f7a9aa599b drivers/media/tuners/tda8290.c Ondrej Zary           2013-0=
+2-03  464  	if (fe->ops.analog_ops.i2c_gate_ctrl)
+2f719f7a9aa599b drivers/media/tuners/tda8290.c Ondrej Zary           2013-0=
+2-03  465  		fe->ops.analog_ops.i2c_gate_ctrl(fe, 1);
+8c125f2ceb3ec1b drivers/media/video/tda8290.c  Michael Krufky        2007-1=
+0-27  466  	if (priv->ver & TDA8275A)
+de48eebce8b63db drivers/media/video/tda8290.c  Hartmut Hackmann      2005-1=
+1-08  467  		cb1[1] =3D 0x90;
+db8a695658cda21 drivers/media/video/tda8290.c  Michael Krufky        2007-0=
+8-21 @468  	i2c_transfer(priv->i2c_props.adap, &msg, 1);
+2f719f7a9aa599b drivers/media/tuners/tda8290.c Ondrej Zary           2013-0=
+2-03  469  	if (fe->ops.analog_ops.i2c_gate_ctrl)
+2f719f7a9aa599b drivers/media/tuners/tda8290.c Ondrej Zary           2013-0=
+2-03  470  		fe->ops.analog_ops.i2c_gate_ctrl(fe, 0);
+db8a695658cda21 drivers/media/video/tda8290.c  Michael Krufky        2007-0=
+8-21  471  	tuner_i2c_xfer_send(&priv->i2c_props, tda8290_agc_tri, 2);
+db8a695658cda21 drivers/media/video/tda8290.c  Michael Krufky        2007-0=
+8-21  472  	tuner_i2c_xfer_send(&priv->i2c_props, tda8290_standby, 2);
+793cf9e6a54c698 drivers/media/video/tda8290.c  Mauro Carvalho Chehab 2005-0=
+9-09  473  }
+793cf9e6a54c698 drivers/media/video/tda8290.c  Mauro Carvalho Chehab 2005-0=
+9-09  474  =
 
 
-:::::: The code at line 3776 was first introduced by commit
-:::::: 355b0502f6efea0ff9492753888772c96972d2a3 Revert "Staging: android: d=
-elete android drivers"
+:::::: The code at line 468 was first introduced by commit
+:::::: db8a695658cda21eacfa2a5e3b15e8964bfb93ef V4L/DVB (6127): tuner: kill=
+ i2c_client interface to tuner sub-drivers
 
-:::::: TO: Greg Kroah-Hartman <gregkh@suse.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: TO: Michael Krufky <mkrufky@linuxtv.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@infradead.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3588427538252978517==
+--===============5501401686060446774==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============3588427538252978517==--
+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
+6ytu/gEA
+--===============5501401686060446774==--
 
