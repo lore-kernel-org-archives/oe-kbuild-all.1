@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5781317744144058581=="
+Content-Type: multipart/mixed; boundary="===============8567903863647977537=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [jolsa-perf:bpf/attach 13/18] kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'bpf_trampoline_batch_alloc'
-Date: Mon, 19 Oct 2020 03:27:39 +0800
-Message-ID: <202010190338.v75aZL8c-lkp@intel.com>
+Subject: [jolsa-perf:bpf/attach 14/18] kernel/bpf/syscall.c:2508:28: error: too many arguments to function call, expected 2, have 3
+Date: Mon, 19 Oct 2020 03:46:42 +0800
+Message-ID: <202010190341.8TKg4ncb-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5781317744144058581==
+--===============8567903863647977537==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/=
 attach
 head:   309b598ba309017a35c6659304b00395d39c0ecb
-commit: 74674c0d67be89d274546c46f8715315099c2b9d [13/18] bpf: Add BPF_TRAMP=
-OLINE_BATCH_ATTACH support
+commit: 76d2bc34edffed0466fa45da762d30bf14425f40 [14/18] bpf: Add BPF_TRAMP=
+OLINE_BATCH_DETACH support
 config: arm-randconfig-r012-20201018 (attached as .config)
 compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project 2a75e9=
 56e5ce7ea212333a86fe65fc68185cbf48)
@@ -27,11 +27,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/co=
-mmit/?id=3D74674c0d67be89d274546c46f8715315099c2b9d
+mmit/?id=3D76d2bc34edffed0466fa45da762d30bf14425f40
         git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kern=
 el/git/jolsa/perf.git
         git fetch --no-tags jolsa-perf bpf/attach
-        git checkout 74674c0d67be89d274546c46f8715315099c2b9d
+        git checkout 76d2bc34edffed0466fa45da762d30bf14425f40
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm =
@@ -40,9 +40,25 @@ el/git/jolsa/perf.git
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'b=
+>> kernel/bpf/syscall.c:2508:28: error: too many arguments to function call=
+, expected 2, have 3
+                                                   tr_link->trampoline, NUL=
+L));
+                                                                        ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^~~~~~~~~~~
+   include/asm-generic/bug.h:145:27: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_once =3D !!(condition);                    \
+                                    ^~~~~~~~~
+   include/linux/bpf.h:712:19: note: 'bpf_trampoline_unlink_prog' declared =
+here
+   static inline int bpf_trampoline_unlink_prog(struct bpf_prog *prog,
+                     ^
+   kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'b=
 pf_trampoline_batch_alloc' [-Werror,-Wimplicit-function-declaration]
            batch =3D bpf_trampoline_batch_alloc(count);
                    ^
@@ -50,131 +66,85 @@ pf_trampoline_batch_alloc' [-Werror,-Wimplicit-function-declaration]
    kernel/bpf/syscall.c:2885:12: note: 'bpf_trampoline_batch' declared here
    static int bpf_trampoline_batch(const union bpf_attr *attr, int cmd)
               ^
->> kernel/bpf/syscall.c:2919:8: warning: incompatible integer to pointer co=
+   kernel/bpf/syscall.c:2919:8: warning: incompatible integer to pointer co=
 nversion assigning to 'struct bpf_trampoline_batch *' from 'int' [-Wint-con=
 version]
            batch =3D bpf_trampoline_batch_alloc(count);
                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/syscall.c:2946:8: error: implicit declaration of function 're=
+   kernel/bpf/syscall.c:2960:64: error: too many arguments to function call=
+, expected 2, have 3
+                           bpf_trampoline_unlink_prog(link->prog, tr_link->=
+trampoline, batch);
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~                      =
+            ^~~~~
+   include/linux/bpf.h:712:19: note: 'bpf_trampoline_unlink_prog' declared =
+here
+   static inline int bpf_trampoline_unlink_prog(struct bpf_prog *prog,
+                     ^
+   kernel/bpf/syscall.c:2966:9: error: implicit declaration of function 're=
 gister_ftrace_direct_ips' [-Werror,-Wimplicit-function-declaration]
-           ret =3D register_ftrace_direct_ips(batch->ips, batch->addrs, bat=
-ch->idx);
-                 ^
-   kernel/bpf/syscall.c:2946:8: note: did you mean 'register_ftrace_direct'?
+                   ret =3D register_ftrace_direct_ips(batch->ips, batch->ad=
+drs, batch->idx);
+                         ^
+   kernel/bpf/syscall.c:2966:9: note: did you mean 'register_ftrace_direct'?
    include/linux/ftrace.h:300:19: note: 'register_ftrace_direct' declared h=
 ere
    static inline int register_ftrace_direct(unsigned long ip, unsigned long=
  addr)
                      ^
->> kernel/bpf/syscall.c:2951:2: error: implicit declaration of function 'bp=
+>> kernel/bpf/syscall.c:2968:9: error: implicit declaration of function 'un=
+register_ftrace_direct_ips' [-Werror,-Wimplicit-function-declaration]
+                   ret =3D unregister_ftrace_direct_ips(batch->ips, batch->=
+addrs, batch->idx);
+                         ^
+   kernel/bpf/syscall.c:2968:9: note: did you mean 'register_ftrace_direct_=
+ips'?
+   kernel/bpf/syscall.c:2966:9: note: 'register_ftrace_direct_ips' declared=
+ here
+                   ret =3D register_ftrace_direct_ips(batch->ips, batch->ad=
+drs, batch->idx);
+                         ^
+   kernel/bpf/syscall.c:2974:2: error: implicit declaration of function 'bp=
 f_trampoline_batch_free' [-Werror,-Wimplicit-function-declaration]
            bpf_trampoline_batch_free(batch);
            ^
-   1 warning and 3 errors generated.
+   1 warning and 6 errors generated.
 
-vim +/bpf_trampoline_batch_alloc +2919 kernel/bpf/syscall.c
+vim +2508 kernel/bpf/syscall.c
 
-  2884	=
+  2501	=
 
-  2885	static int bpf_trampoline_batch(const union bpf_attr *attr, int cmd)
-  2886	{
-  2887		void __user *uout =3D u64_to_user_ptr(attr->trampoline_batch.out);
-  2888		void __user *uin =3D u64_to_user_ptr(attr->trampoline_batch.in);
-  2889		struct bpf_trampoline_batch *batch =3D NULL;
-  2890		struct bpf_prog *prog;
-  2891		int count, ret, i, fd;
-  2892		u32 *in, *out;
-  2893	=
+  2502	static void bpf_tracing_link_release(struct bpf_link *link)
+  2503	{
+  2504		struct bpf_tracing_link *tr_link =3D
+  2505			container_of(link, struct bpf_tracing_link, link);
+  2506	=
 
-  2894		if (CHECK_ATTR(BPF_RAW_TRACEPOINT_OPEN_BATCH))
-  2895			return -EINVAL;
-  2896	=
+  2507		WARN_ON_ONCE(bpf_trampoline_unlink_prog(link->prog,
+> 2508							tr_link->trampoline, NULL));
+  2509	=
 
-  2897		if (!uin || !uout)
-  2898			return -EINVAL;
-  2899	=
+  2510		bpf_trampoline_put(tr_link->trampoline);
+  2511	=
 
-  2900		count =3D attr->trampoline_batch.count;
-  2901	=
-
-  2902		in =3D kcalloc(count, sizeof(u32), GFP_KERNEL);
-  2903		out =3D kcalloc(count, sizeof(u32), GFP_KERNEL);
-  2904		if (!in || !out) {
-  2905			kfree(in);
-  2906			kfree(out);
-  2907			return -ENOMEM;
-  2908		}
-  2909	=
-
-  2910		ret =3D copy_from_user(in, uin, count * sizeof(u32));
-  2911		if (ret)
-  2912			goto out_clean;
-  2913	=
-
-  2914		/* test read out array */
-  2915		ret =3D copy_to_user(uout, out, count * sizeof(u32));
-  2916		if (ret)
-  2917			goto out_clean;
-  2918	=
-
-> 2919		batch =3D bpf_trampoline_batch_alloc(count);
-  2920		if (!batch)
-  2921			goto out_clean;
-  2922	=
-
-  2923		for (i =3D 0; i < count; i++) {
-  2924			if (cmd =3D=3D BPF_TRAMPOLINE_BATCH_ATTACH) {
-  2925				prog =3D bpf_prog_get(in[i]);
-  2926				if (IS_ERR(prog)) {
-  2927					ret =3D PTR_ERR(prog);
-  2928					goto out_clean;
-  2929				}
-  2930	=
-
-  2931				ret =3D -EINVAL;
-  2932				if (prog->type !=3D BPF_PROG_TYPE_TRACING)
-  2933					goto out_clean;
-  2934				if (prog->type =3D=3D BPF_PROG_TYPE_TRACING &&
-  2935				    prog->expected_attach_type =3D=3D BPF_TRACE_RAW_TP)
-  2936					goto out_clean;
-  2937	=
-
-  2938				fd =3D bpf_tracing_prog_attach(prog, 0, 0, batch);
-  2939				if (fd < 0)
-  2940					goto out_clean;
-  2941	=
-
-  2942				out[i] =3D fd;
-  2943			}
-  2944		}
-  2945	=
-
-> 2946		ret =3D register_ftrace_direct_ips(batch->ips, batch->addrs, batch-=
->idx);
-  2947		if (!ret)
-  2948			WARN_ON_ONCE(copy_to_user(uout, out, count * sizeof(u32)));
-  2949	=
-
-  2950	out_clean:
-> 2951		bpf_trampoline_batch_free(batch);
-  2952		kfree(in);
-  2953		kfree(out);
-  2954		return ret;
-  2955	}
-  2956	=
+  2512		/* tgt_prog is NULL if target is a kernel function */
+  2513		if (tr_link->tgt_prog)
+  2514			bpf_prog_put(tr_link->tgt_prog);
+  2515	}
+  2516	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5781317744144058581==
+--===============8567903863647977537==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEGUjF8AAy5jb25maWcAjDzJdtu4svv+Cp30pu/idjR4SN47XoAkKKFFEggAavCGR7GZtN/1
+H4sICMGYjF8AAy5jb25maWcAjDzJdtu4svv+Cp30pu/idjR4SN47XoAkKKFFEggAavCGR7GZtN/1
 kCvL6eTvXxU4ASSobi8Ss6owFQo1oeBff/l1Qt5OL0+H08Pd4fHx5+Rr+VweD6fyfvLl4bH830nE
 JxnXExox/TsQJw/Pbz/eH45Pk8vfP/4+nazL43P5OAlfnr88fH2Dhg8vz7/8+kvIs5gtizAsNlQq
 xrNC052+eXf3eHj+OvleHl+BbjKb/z6FPn77+nD6n/fv4d+nh+Px5fj+8fH7U/Ht+PJ/5d1pMj9c
@@ -735,5 +705,5 @@ R9gdO6bG/GJcdwSkwVTRNgd99Gl79+3Pe5zNB/j5+v3cvBtG2lveQ/Dj853zgjn/9m7ACYDEpM3e
 Wjo80IyYnsmjbwpRWAtRyrdZNrv9AfkxCowZPlG/fdj5OLewpWjK6jgTmusoNXiXGmW4OV3JQANE
 NSUCMt5eEMalGzgvMpyIplHOllPHGA0LieoDCg/aG5iY+aHWITQZJZw2ivisalTwTQSAZrXaoom+
 DaxrXAmETNWaTf1XF2/41ICnLtRAXPESumH5lXyjJDu5XsUy18k9TsIU2Hj9P8QGv+LZ4wEA
---===============5781317744144058581==--
+--===============8567903863647977537==--
 
