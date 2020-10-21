@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1622341705375496100=="
+Content-Type: multipart/mixed; boundary="===============2627858546434411912=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [jolsa-perf:bpf/batch 9/16] kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'bpf_trampoline_batch_alloc'; did you mean
-Date: Wed, 21 Oct 2020 12:06:10 +0800
-Message-ID: <202010211206.abydZjQH-lkp@intel.com>
+Subject: [jolsa-perf:bpf/batch 10/16] kernel/bpf/syscall.c:2507:15: error: too many arguments to function 'bpf_trampoline_unlink_prog'
+Date: Wed, 21 Oct 2020 13:34:54 +0800
+Message-ID: <202010211349.x2aiExO1-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1622341705375496100==
+--===============2627858546434411912==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,19 +15,19 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/=
 batch
 head:   c01d0e8916f27a4ef956b683f46eff53b2e17707
-commit: 7dc247228bff1a26c4c0da871bda27e461498f4b [9/16] bpf: Add BPF_TRAMPO=
-LINE_BATCH_ATTACH support
+commit: 177c965997379f586e507b97f54088f42866dded [10/16] bpf: Add BPF_TRAMP=
+OLINE_BATCH_DETACH support
 config: x86_64-randconfig-s022-20201021 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.3-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/co=
-mmit/?id=3D7dc247228bff1a26c4c0da871bda27e461498f4b
+mmit/?id=3D177c965997379f586e507b97f54088f42866dded
         git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kern=
 el/git/jolsa/perf.git
         git fetch --no-tags jolsa-perf bpf/batch
-        git checkout 7dc247228bff1a26c4c0da871bda27e461498f4b
+        git checkout 177c965997379f586e507b97f54088f42866dded
         # save the attached .config to linux build tree
         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=
 =3Dx86_64 =
@@ -38,8 +38,37 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
+   In file included from arch/x86/include/asm/bug.h:93,
+                    from include/linux/bug.h:5,
+                    from include/linux/cpumask.h:14,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:22,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:65,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:73,
+                    from include/linux/ktime.h:24,
+                    from include/linux/timer.h:6,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:9,
+                    from kernel/bpf/syscall.c:4:
+   kernel/bpf/syscall.c: In function 'bpf_tracing_link_release':
+>> kernel/bpf/syscall.c:2507:15: error: too many arguments to function 'bpf=
+_trampoline_unlink_prog'
+    2507 |  WARN_ON_ONCE(bpf_trampoline_unlink_prog(link->prog,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:102:25: note: in definition of macro 'WARN_ON_=
+ONCE'
+     102 |  int __ret_warn_on =3D !!(condition);   \
+         |                         ^~~~~~~~~
+   In file included from kernel/bpf/syscall.c:4:
+   include/linux/bpf.h:712:19: note: declared here
+     712 | static inline int bpf_trampoline_unlink_prog(struct bpf_prog *pr=
+og,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
    kernel/bpf/syscall.c: In function 'bpf_trampoline_batch':
->> kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'b=
+   kernel/bpf/syscall.c:2919:10: error: implicit declaration of function 'b=
 pf_trampoline_batch_alloc'; did you mean 'bpf_trampoline_batch'? [-Werror=
 =3Dimplicit-function-declaration]
     2919 |  batch =3D bpf_trampoline_batch_alloc(count);
@@ -50,125 +79,89 @@ ne_batch *' from 'int' makes pointer from integer without a cast [-Wint-con=
 version]
     2919 |  batch =3D bpf_trampoline_batch_alloc(count);
          |        ^
->> kernel/bpf/syscall.c:2946:8: error: implicit declaration of function 're=
+   kernel/bpf/syscall.c:2960:4: error: too many arguments to function 'bpf_=
+trampoline_unlink_prog'
+    2960 |    bpf_trampoline_unlink_prog(link->prog, tr_link->trampoline, b=
+atch);
+         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/bpf/syscall.c:4:
+   include/linux/bpf.h:712:19: note: declared here
+     712 | static inline int bpf_trampoline_unlink_prog(struct bpf_prog *pr=
+og,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/syscall.c:2966:9: error: implicit declaration of function 're=
 gister_ftrace_direct_ips'; did you mean 'register_ftrace_direct'? [-Werror=
 =3Dimplicit-function-declaration]
-    2946 |  ret =3D register_ftrace_direct_ips(batch->ips, batch->addrs, ba=
-tch->idx);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |        register_ftrace_direct
->> kernel/bpf/syscall.c:2952:2: error: implicit declaration of function 'bp=
+    2966 |   ret =3D register_ftrace_direct_ips(batch->ips, batch->addrs, b=
+atch->idx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         register_ftrace_direct
+>> kernel/bpf/syscall.c:2968:9: error: implicit declaration of function 'un=
+register_ftrace_direct_ips'; did you mean 'unregister_ftrace_direct'? [-Wer=
+ror=3Dimplicit-function-declaration]
+    2968 |   ret =3D unregister_ftrace_direct_ips(batch->ips, batch->addrs,=
+ batch->idx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         unregister_ftrace_direct
+   kernel/bpf/syscall.c:2975:2: error: implicit declaration of function 'bp=
 f_trampoline_batch_free'; did you mean 'bpf_trampoline_batch'? [-Werror=3Di=
 mplicit-function-declaration]
-    2952 |  bpf_trampoline_batch_free(batch);
+    2975 |  bpf_trampoline_batch_free(batch);
          |  ^~~~~~~~~~~~~~~~~~~~~~~~~
          |  bpf_trampoline_batch
    cc1: some warnings being treated as errors
 
-vim +2919 kernel/bpf/syscall.c
+vim +/bpf_trampoline_unlink_prog +2507 kernel/bpf/syscall.c
 
-  2884	=
+70ed506c3bbcfa8 Andrii Nakryiko        2020-03-02  2501  =
 
-  2885	static int bpf_trampoline_batch(const union bpf_attr *attr, int cmd)
-  2886	{
-  2887		void __user *uout =3D u64_to_user_ptr(attr->trampoline_batch.out);
-  2888		void __user *uin =3D u64_to_user_ptr(attr->trampoline_batch.in);
-  2889		struct bpf_trampoline_batch *batch =3D NULL;
-  2890		struct bpf_prog *prog;
-  2891		int count, ret, i, fd;
-  2892		u32 *in, *out;
-  2893	=
+70ed506c3bbcfa8 Andrii Nakryiko        2020-03-02  2502  static void bpf_tr=
+acing_link_release(struct bpf_link *link)
+babf3164095b067 Andrii Nakryiko        2020-03-09  2503  {
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2504  	struct =
+bpf_tracing_link *tr_link =3D
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2505  		contai=
+ner_of(link, struct bpf_tracing_link, link);
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2506  =
 
-  2894		if (CHECK_ATTR(BPF_RAW_TRACEPOINT_OPEN_BATCH))
-  2895			return -EINVAL;
-  2896	=
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29 @2507  	WARN_ON=
+_ONCE(bpf_trampoline_unlink_prog(link->prog,
+177c965997379f5 Jiri Olsa              2020-10-16  2508  						tr_link->tra=
+mpoline, NULL));
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2509  =
 
-  2897		if (!uin || !uout)
-  2898			return -EINVAL;
-  2899	=
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2510  	bpf_tra=
+mpoline_put(tr_link->trampoline);
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2511  =
 
-  2900		count =3D attr->trampoline_batch.count;
-  2901	=
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2512  	/* tgt_=
+prog is NULL if target is a kernel function */
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2513  	if (tr_=
+link->tgt_prog)
+3aac1ead5eb6b76 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  2514  		bpf_pr=
+og_put(tr_link->tgt_prog);
+babf3164095b067 Andrii Nakryiko        2020-03-09  2515  }
+babf3164095b067 Andrii Nakryiko        2020-03-09  2516  =
 
-  2902		in =3D kcalloc(count, sizeof(u32), GFP_KERNEL);
-  2903		out =3D kcalloc(count, sizeof(u32), GFP_KERNEL);
-  2904		if (!in || !out) {
-  2905			kfree(in);
-  2906			kfree(out);
-  2907			return -ENOMEM;
-  2908		}
-  2909	=
 
-  2910		ret =3D copy_from_user(in, uin, count * sizeof(u32));
-  2911		if (ret)
-  2912			goto out_clean;
-  2913	=
+:::::: The code at line 2507 was first introduced by commit
+:::::: 3aac1ead5eb6b76f3d2b8d111e6de1c2de23fb34 bpf: Move prog->aux->linked=
+_prog and trampoline into bpf_link on attach
 
-  2914		/* test read out array */
-  2915		ret =3D copy_to_user(uout, out, count * sizeof(u32));
-  2916		if (ret)
-  2917			goto out_clean;
-  2918	=
-
-> 2919		batch =3D bpf_trampoline_batch_alloc(count);
-  2920		if (!batch)
-  2921			goto out_clean;
-  2922	=
-
-  2923		for (i =3D 0; i < count; i++) {
-  2924			if (cmd =3D=3D BPF_TRAMPOLINE_BATCH_ATTACH) {
-  2925				prog =3D bpf_prog_get(in[i]);
-  2926				if (IS_ERR(prog)) {
-  2927					ret =3D PTR_ERR(prog);
-  2928					goto out_clean;
-  2929				}
-  2930	=
-
-  2931				ret =3D -EINVAL;
-  2932				if (prog->type !=3D BPF_PROG_TYPE_TRACING)
-  2933					goto out_clean;
-  2934				if (prog->type =3D=3D BPF_PROG_TYPE_TRACING &&
-  2935				    prog->expected_attach_type =3D=3D BPF_TRACE_RAW_TP)
-  2936					goto out_clean;
-  2937	=
-
-  2938				fd =3D bpf_tracing_prog_attach(prog, 0, 0, batch);
-  2939				if (fd < 0)
-  2940					goto out_clean;
-  2941	=
-
-  2942				out[i] =3D fd;
-  2943			}
-  2944		}
-  2945	=
-
-> 2946		ret =3D register_ftrace_direct_ips(batch->ips, batch->addrs, batch-=
->idx);
-  2947		if (!ret)
-  2948			WARN_ON_ONCE(copy_to_user(uout, out, count * sizeof(u32)));
-  2949	=
-
-  2950	out_clean:
-  2951		/* XXX cleanup partialy attached array */
-> 2952		bpf_trampoline_batch_free(batch);
-  2953		kfree(in);
-  2954		kfree(out);
-  2955		return ret;
-  2956	}
-  2957	=
-
+:::::: TO: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1622341705375496100==
+--===============2627858546434411912==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLymj18AAy5jb25maWcAlDxLc9w20vf8iinnkhzslWRb5dRXOmBIcIgMSdAAOA9dWIo89qoi
+H4sICEu8j18AAy5jb25maWcAlDxLc9w20vf8iinnkhzslWRb5dRXOmBIcIgMSdAAOA9dWIo89qoi
 S96RtLH//dcN8AGAzUlWB3sG3Wi8Gv3G/PzTzwv28vz49eb57vbm/v7H4svh4XC8eT58Wny+uz/8
 3yKVi0qaBU+FeQPIxd3Dy/d/ff9w2V6+W7x/89ubs8X6cHw43C+Sx4fPd19eoO/d48NPP/+UyCoT
 qzZJ2g1XWsiqNXxnrl59ub19/dvil/Twx93Nw+K3N2/fnL0+f/+r+/TK6yZ0u0qSqx9902okdfXb
@@ -882,5 +875,5 @@ GBruCIDQc9ShW0odzcdrBTwwc8mfsxLFOBYJrIp1ieMxT/QKtrU4RYeBX4EL3hvlWKg+YYucDyVX
 PH2eYHjovee3dfHa75wYHLRa/eTX3jda/lBIITEIdYPhBcFDDUaIYOgltJNXxOy6VkVX7YSbg1ix
 FmUWTnQiHpKgWZMyX0STcin2rJoEm4D2koHpkVwnFPUa0aNMJWkCyjBBeT4SNOyGBlXPy9vNNcHv
 OUFCChWt8j+WgahXw5sCAA==
---===============1622341705375496100==--
+--===============2627858546434411912==--
 
