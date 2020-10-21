@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7531791706284353110=="
+Content-Type: multipart/mixed; boundary="===============3610409128740312248=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: arch/mips/bmips/dma.c:55:13: warning: no previous prototype for 'dma_to_phys'
-Date: Wed, 21 Oct 2020 10:22:19 +0800
-Message-ID: <202010211017.0kFBJuY6-lkp@intel.com>
+Subject: arch/mips/bmips/dma.c:43:12: warning: no previous prototype for 'phys_to_dma'
+Date: Wed, 21 Oct 2020 11:03:06 +0800
+Message-ID: <202010211101.gsMQB6kj-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7531791706284353110==
+--===============3610409128740312248==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c4d6fe7311762f2e03b3c27ad38df7c40c80cc93
-commit: 7bc5c428a660d4d1bc95ba54bf4cb6bccf8c3029 dma-direct: remove __dma_t=
-o_phys
+commit: 5ceda74093a5c1c3f42a02b894df031f3bbc9af1 dma-direct: rename and cle=
+anup __phys_to_dma
 date:   6 weeks ago
 config: mips-randconfig-r022-20201021 (attached as .config)
 compiler: mips-linux-gcc (GCC) 9.3.0
@@ -25,11 +25,11 @@ reproduce (this is a W=3D1 build):
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7bc5c428a660d4d1bc95ba54bf4cb6bccf8c3029
+t/commit/?id=3D5ceda74093a5c1c3f42a02b894df031f3bbc9af1
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 7bc5c428a660d4d1bc95ba54bf4cb6bccf8c3029
+        git checkout 5ceda74093a5c1c3f42a02b894df031f3bbc9af1
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 ARCH=3Dmips =
@@ -40,11 +40,11 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   arch/mips/bmips/dma.c:43:12: warning: no previous prototype for '__phys_=
-to_dma' [-Wmissing-prototypes]
-      43 | dma_addr_t __phys_to_dma(struct device *dev, phys_addr_t pa)
-         |            ^~~~~~~~~~~~~
->> arch/mips/bmips/dma.c:55:13: warning: no previous prototype for 'dma_to_=
+>> arch/mips/bmips/dma.c:43:12: warning: no previous prototype for 'phys_to=
+_dma' [-Wmissing-prototypes]
+      43 | dma_addr_t phys_to_dma(struct device *dev, phys_addr_t pa)
+         |            ^~~~~~~~~~~
+   arch/mips/bmips/dma.c:55:13: warning: no previous prototype for 'dma_to_=
 phys' [-Wmissing-prototypes]
       55 | phys_addr_t dma_to_phys(struct device *dev, dma_addr_t dma_addr)
          |             ^~~~~~~~~~~
@@ -53,36 +53,36 @@ c_dma_for_cpu_all' [-Wmissing-prototypes]
       67 | void arch_sync_dma_for_cpu_all(void)
          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/dma_to_phys +55 arch/mips/bmips/dma.c
+vim +/phys_to_dma +43 arch/mips/bmips/dma.c
 
+    42	=
+
+  > 43	dma_addr_t phys_to_dma(struct device *dev, phys_addr_t pa)
+    44	{
+    45		struct bmips_dma_range *r;
+    46	=
+
+    47		for (r =3D bmips_dma_ranges; r && r->size; r++) {
+    48			if (pa >=3D r->child_addr &&
+    49			    pa < (r->child_addr + r->size))
+    50				return pa - r->child_addr + r->parent_addr;
+    51		}
+    52		return pa;
+    53	}
     54	=
-
-  > 55	phys_addr_t dma_to_phys(struct device *dev, dma_addr_t dma_addr)
-    56	{
-    57		struct bmips_dma_range *r;
-    58	=
-
-    59		for (r =3D bmips_dma_ranges; r && r->size; r++) {
-    60			if (dma_addr >=3D r->parent_addr &&
-    61			    dma_addr < (r->parent_addr + r->size))
-    62				return dma_addr - r->parent_addr + r->child_addr;
-    63		}
-    64		return dma_addr;
-    65	}
-    66	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7531791706284353110==
+--===============3610409128740312248==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICG2Vj18AAy5jb25maWcAlDzbcty4se/7FVPel92q7EbSSLJdp/QAkuAMdkiCBsAZjV5YWnns
+H4sICACgj18AAy5jb25maWcAlDzbcty4se/7FVPel92q7EbSSLJdp/QAkuAMdkiCBsAZjV5YWnns
 VUWWHF2y8d+fbvAGgE1KSVUST3ejATTQVzT1808/L9jL88O36+fbm+u7ux+Lr4f7w+P18+Hz4svt
 3eH/FolcFNIseCLM70Cc3d6//Pef326/Py3Ofv/4+9FvjzfLxebweH+4W8QP919uv77A6NuH+59+
 /imWRSpWdRzXW660kEVt+KW5eIejf7tDRr99vblZ/LKK418XH39f/n70zhkjdA2Iix8daDXwufh4
@@ -595,5 +595,5 @@ U57459P9DoRf6oCS3YIWyNsQJS/GeSKD0cCGQKkntOznHEVmHBA75IDTElM722z3LyjjoJAeYz7Q
 zd3WFCxWbZFSR4wWB1AxKSNdf1MKLIMrc5rI0NTP5bYers98AWtwzbxB1YfGMNoyMhNLM3U1l4Ir
 tbUiRc5WXPvYecVlOGx5/6L5FWnmKF2StVtNM3VTAYpRoMQVZEU8G7REK9ulR11r4TKLK0wVrewM
 hYCg1xAcq/LkgX7jckLLQ+rthefuY8QkH3leUuop4H9CeK1yMMwBAA==
---===============7531791706284353110==--
+--===============3610409128740312248==--
 
