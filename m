@@ -1,835 +1,1672 @@
-Content-Type: multipart/mixed; boundary="===============4317010385003756869=="
+Content-Type: multipart/mixed; boundary="===============6733117587278121410=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH 1/3] locking/rwlocks: Add contention detection for rwlocks
-Date: Wed, 28 Oct 2020 07:19:00 +0800
-Message-ID: <202010280746.MAHYdrUf-lkp@intel.com>
-In-Reply-To: <20201027164950.1057601-1-bgardon@google.com>
+Subject: Re: [PATCH v4 2/2] fs: ext4: Modify inode-test.c to use KUnit parameterized testing feature
+Date: Wed, 28 Oct 2020 07:49:42 +0800
+Message-ID: <202010280748.WUyq8OoJ-lkp@intel.com>
+In-Reply-To: <20201027174726.85284-1-98.arpi@gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4317010385003756869==
+--===============6733117587278121410==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ben,
+Hi Arpitha,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/master linus/master linux/master v5.10-rc1 ne=
-xt-20201027]
+[auto build test WARNING on ext4/dev]
+[also build test WARNING on linus/master v5.10-rc1 next-20201027]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Ben-Gardon/locking-rwlocks=
--Add-contention-detection-for-rwlocks/20201028-005208
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git feff2e6=
-5efd8d84cf831668e182b2ce73c604bbb
-config: arm64-randconfig-r021-20201027 (attached as .config)
-compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project f2c25c=
-70791de95d2466e09b5b58fc37f6ccd7a4)
+url:    https://github.com/0day-ci/linux/commits/Arpitha-Raghunandan/kunit-=
+Support-for-Parameterized-Testing/20201028-015018
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+config: mips-randconfig-r016-20201027 (attached as .config)
+compiler: mipsel-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/0cb6f36b82a21b6ce261382a6=
-8e09b1b4614a2ed
+        # https://github.com/0day-ci/linux/commit/2de1e52708cd83d1dc4c71887=
+6683f6809045a98
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ben-Gardon/locking-rwlocks-Add-con=
-tention-detection-for-rwlocks/20201028-005208
-        git checkout 0cb6f36b82a21b6ce261382a68e09b1b4614a2ed
+        git fetch --no-tags linux-review Arpitha-Raghunandan/kunit-Support-=
+for-Parameterized-Testing/20201028-015018
+        git checkout 2de1e52708cd83d1dc4c718876683f6809045a98
         # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm64 =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
+ARCH=3Dmips =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:10:
-   In file included from include/linux/arm_sdei.h:8:
-   In file included from include/acpi/ghes.h:5:
-   In file included from include/acpi/apei.h:9:
-   In file included from include/linux/acpi.h:13:
-   In file included from include/linux/irqdomain.h:35:
-   In file included from include/linux/of.h:17:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:13:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:16:
-   In file included from include/linux/spinlock.h:90:
-   In file included from arch/arm64/include/asm/spinlock.h:8:
-   In file included from ./arch/arm64/include/generated/asm/qrwlock.h:1:
->> include/asm-generic/qrwlock.h:126:9: error: implicit declaration of func=
-tion 'arch_spin_is_locked' [-Werror,-Wimplicit-function-declaration]
-           return arch_spin_is_locked(&lock->wait_lock);
-                  ^
-   1 error generated.
-   make[2]: *** [scripts/Makefile.build:117: arch/arm64/kernel/asm-offsets.=
-s] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1203: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from fs/ext4/inode-test.c:7:
+   fs/ext4/inode-test.c: In function 'ext4_inode_gen_params':
+>> include/kunit/test.h:1735:58: warning: return discards 'const' qualifier=
+ from pointer target type [-Wdiscarded-qualifiers]
+    1735 |   return __next - (array) < ARRAY_SIZE((array)) ? __next : NULL;=
+   \
+   fs/ext4/inode-test.c:214:1: note: in expansion of macro 'KUNIT_ARRAY_PAR=
+AM'
+     214 | KUNIT_ARRAY_PARAM(ext4_inode, test_data);
+         | ^~~~~~~~~~~~~~~~~
 
-vim +/arch_spin_is_locked +126 include/asm-generic/qrwlock.h
+vim +/const +1735 include/kunit/test.h
 
-   118	=
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1154  =
 
-   119	/**
-   120	 * queued_rwlock_is_contended - check if the lock is contended
-   121	 * @lock : Pointer to queue rwlock structure
-   122	 * Return: 1 if lock contended, 0 otherwise
-   123	 */
-   124	static inline int queued_rwlock_is_contended(struct qrwlock *lock)
-   125	{
- > 126		return arch_spin_is_locked(&lock->wait_lock);
-   127	}
-   128	=
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1155  #define KUNIT_PTR_NOT_=
+ERR_OR_NULL_ASSERTION(test, assert_type, ptr)	       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1156  	KUNIT_PTR_NOT_ERR_OR_=
+NULL_MSG_ASSERTION(test,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1157  						assert_type,		  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1158  						ptr,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1159  						NULL)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1160  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1161  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1162   * KUNIT_EXPECT_TRUE()=
+ - Causes a test failure when the expression is not true.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1163   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1164   * @condition: an arbi=
+trary boolean expression. The test fails when this does
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1165   * not evaluate to tru=
+e.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1166   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1167   * This and expectatio=
+ns of the form `KUNIT_EXPECT_*` will cause the test case
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1168   * to fail when the sp=
+ecified condition is not met; however, it will not prevent
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1169   * the test case from =
+continuing to run; this is otherwise known as an
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1170   * *expectation failur=
+e*.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1171   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1172  #define KUNIT_EXPECT_T=
+RUE(test, condition) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1173  	KUNIT_TRUE_ASSERTION(=
+test, KUNIT_EXPECTATION, condition)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1174  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1175  #define KUNIT_EXPECT_T=
+RUE_MSG(test, condition, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1176  	KUNIT_TRUE_MSG_ASSERT=
+ION(test,					       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1177  				 KUNIT_EXPECTATION=
+,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1178  				 condition,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1179  				 fmt,					       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1180  				 ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1181  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1182  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1183   * KUNIT_EXPECT_FALSE(=
+) - Makes a test failure when the expression is not false.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1184   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1185   * @condition: an arbi=
+trary boolean expression. The test fails when this does
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1186   * not evaluate to fal=
+se.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1187   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1188   * Sets an expectation=
+ that @condition evaluates to false. See
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1189   * KUNIT_EXPECT_TRUE()=
+ for more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1190   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1191  #define KUNIT_EXPECT_F=
+ALSE(test, condition) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1192  	KUNIT_FALSE_ASSERTION=
+(test, KUNIT_EXPECTATION, condition)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1193  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1194  #define KUNIT_EXPECT_F=
+ALSE_MSG(test, condition, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1195  	KUNIT_FALSE_MSG_ASSER=
+TION(test,					       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1196  				  KUNIT_EXPECTATIO=
+N,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1197  				  condition,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1198  				  fmt,					       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1199  				  ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1200  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1201  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1202   * KUNIT_EXPECT_EQ() -=
+ Sets an expectation that @left and @right are equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1203   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1204   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1205   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1206   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1207   * Sets an expectation=
+ that the values that @left and @right evaluate to are
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1208   * equal. This is sema=
+ntically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1209   * KUNIT_EXPECT_TRUE(@=
+test, (@left) =3D=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1210   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1211   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1212  #define KUNIT_EXPECT_E=
+Q(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1213  	KUNIT_BINARY_EQ_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1214  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1215  #define KUNIT_EXPECT_E=
+Q_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1216  	KUNIT_BINARY_EQ_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1217  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1218  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1219  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1220  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1221  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1222  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1223  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1224   * KUNIT_EXPECT_PTR_EQ=
+() - Expects that pointers @left and @right are equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1225   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1226   * @left: an arbitrary=
+ expression that evaluates to a pointer.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1227   * @right: an arbitrar=
+y expression that evaluates to a pointer.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1228   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1229   * Sets an expectation=
+ that the values that @left and @right evaluate to are
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1230   * equal. This is sema=
+ntically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1231   * KUNIT_EXPECT_TRUE(@=
+test, (@left) =3D=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1232   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1233   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1234  #define KUNIT_EXPECT_P=
+TR_EQ(test, left, right)				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1235  	KUNIT_BINARY_PTR_EQ_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1236  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1237  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1238  				      right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1239  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1240  #define KUNIT_EXPECT_P=
+TR_EQ_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1241  	KUNIT_BINARY_PTR_EQ_M=
+SG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1242  					  KUNIT_EXPECTATI=
+ON,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1243  					  left,				      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1244  					  right,			      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1245  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1246  					  ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1247  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1248  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1249   * KUNIT_EXPECT_NE() -=
+ An expectation that @left and @right are not equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1250   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1251   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1252   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1253   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1254   * Sets an expectation=
+ that the values that @left and @right evaluate to are not
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1255   * equal. This is sema=
+ntically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1256   * KUNIT_EXPECT_TRUE(@=
+test, (@left) !=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1257   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1258   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1259  #define KUNIT_EXPECT_N=
+E(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1260  	KUNIT_BINARY_NE_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1261  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1262  #define KUNIT_EXPECT_N=
+E_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1263  	KUNIT_BINARY_NE_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1264  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1265  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1266  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1267  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1268  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1269  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1270  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1271   * KUNIT_EXPECT_PTR_NE=
+() - Expects that pointers @left and @right are not equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1272   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1273   * @left: an arbitrary=
+ expression that evaluates to a pointer.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1274   * @right: an arbitrar=
+y expression that evaluates to a pointer.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1275   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1276   * Sets an expectation=
+ that the values that @left and @right evaluate to are not
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1277   * equal. This is sema=
+ntically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1278   * KUNIT_EXPECT_TRUE(@=
+test, (@left) !=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1279   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1280   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1281  #define KUNIT_EXPECT_P=
+TR_NE(test, left, right)				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1282  	KUNIT_BINARY_PTR_NE_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1283  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1284  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1285  				      right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1286  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1287  #define KUNIT_EXPECT_P=
+TR_NE_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1288  	KUNIT_BINARY_PTR_NE_M=
+SG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1289  					  KUNIT_EXPECTATI=
+ON,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1290  					  left,				      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1291  					  right,			      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1292  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1293  					  ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1294  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1295  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1296   * KUNIT_EXPECT_LT() -=
+ An expectation that @left is less than @right.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1297   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1298   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1299   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1300   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1301   * Sets an expectation=
+ that the value that @left evaluates to is less than the
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1302   * value that @right e=
+valuates to. This is semantically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1303   * KUNIT_EXPECT_TRUE(@=
+test, (@left) < (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1304   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1305   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1306  #define KUNIT_EXPECT_L=
+T(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1307  	KUNIT_BINARY_LT_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1308  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1309  #define KUNIT_EXPECT_L=
+T_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1310  	KUNIT_BINARY_LT_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1311  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1312  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1313  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1314  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1315  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1316  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1317  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1318   * KUNIT_EXPECT_LE() -=
+ Expects that @left is less than or equal to @right.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1319   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1320   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1321   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1322   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1323   * Sets an expectation=
+ that the value that @left evaluates to is less than or
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1324   * equal to the value =
+that @right evaluates to. Semantically this is equivalent
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1325   * to KUNIT_EXPECT_TRU=
+E(@test, (@left) <=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1326   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1327   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1328  #define KUNIT_EXPECT_L=
+E(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1329  	KUNIT_BINARY_LE_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1330  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1331  #define KUNIT_EXPECT_L=
+E_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1332  	KUNIT_BINARY_LE_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1333  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1334  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1335  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1336  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1337  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1338  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1339  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1340   * KUNIT_EXPECT_GT() -=
+ An expectation that @left is greater than @right.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1341   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1342   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1343   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1344   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1345   * Sets an expectation=
+ that the value that @left evaluates to is greater than
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1346   * the value that @rig=
+ht evaluates to. This is semantically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1347   * KUNIT_EXPECT_TRUE(@=
+test, (@left) > (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1348   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1349   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1350  #define KUNIT_EXPECT_G=
+T(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1351  	KUNIT_BINARY_GT_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1352  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1353  #define KUNIT_EXPECT_G=
+T_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1354  	KUNIT_BINARY_GT_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1355  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1356  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1357  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1358  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1359  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1360  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1361  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1362   * KUNIT_EXPECT_GE() -=
+ Expects that @left is greater than or equal to @right.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1363   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1364   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1365   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1366   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1367   * Sets an expectation=
+ that the value that @left evaluates to is greater than
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1368   * the value that @rig=
+ht evaluates to. This is semantically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1369   * KUNIT_EXPECT_TRUE(@=
+test, (@left) >=3D (@right)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1370   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1371   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1372  #define KUNIT_EXPECT_G=
+E(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1373  	KUNIT_BINARY_GE_ASSER=
+TION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1374  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1375  #define KUNIT_EXPECT_G=
+E_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1376  	KUNIT_BINARY_GE_MSG_A=
+SSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1377  				      KUNIT_EXPECT=
+ATION,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1378  				      left,				   =
+    \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1379  				      right,				  =
+     \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1380  				      fmt,				    =
+   \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1381  				      ##__VA_ARGS_=
+_)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1382  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1383  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1384   * KUNIT_EXPECT_STREQ(=
+) - Expects that strings @left and @right are equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1385   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1386   * @left: an arbitrary=
+ expression that evaluates to a null terminated string.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1387   * @right: an arbitrar=
+y expression that evaluates to a null terminated string.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1388   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1389   * Sets an expectation=
+ that the values that @left and @right evaluate to are
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1390   * equal. This is sema=
+ntically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1391   * KUNIT_EXPECT_TRUE(@=
+test, !strcmp((@left), (@right))). See KUNIT_EXPECT_TRUE()
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1392   * for more informatio=
+n.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1393   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1394  #define KUNIT_EXPECT_S=
+TREQ(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1395  	KUNIT_BINARY_STR_EQ_A=
+SSERTION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1396  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1397  #define KUNIT_EXPECT_S=
+TREQ_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1398  	KUNIT_BINARY_STR_EQ_M=
+SG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1399  					  KUNIT_EXPECTATI=
+ON,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1400  					  left,				      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1401  					  right,			      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1402  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1403  					  ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1404  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1405  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1406   * KUNIT_EXPECT_STRNEQ=
+() - Expects that strings @left and @right are not equal.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1407   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1408   * @left: an arbitrary=
+ expression that evaluates to a null terminated string.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1409   * @right: an arbitrar=
+y expression that evaluates to a null terminated string.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1410   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1411   * Sets an expectation=
+ that the values that @left and @right evaluate to are
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1412   * not equal. This is =
+semantically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1413   * KUNIT_EXPECT_TRUE(@=
+test, strcmp((@left), (@right))). See KUNIT_EXPECT_TRUE()
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1414   * for more informatio=
+n.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1415   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1416  #define KUNIT_EXPECT_S=
+TRNEQ(test, left, right) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1417  	KUNIT_BINARY_STR_NE_A=
+SSERTION(test, KUNIT_EXPECTATION, left, right)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1418  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1419  #define KUNIT_EXPECT_S=
+TRNEQ_MSG(test, left, right, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1420  	KUNIT_BINARY_STR_NE_M=
+SG_ASSERTION(test,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1421  					  KUNIT_EXPECTATI=
+ON,		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1422  					  left,				      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1423  					  right,			      =
+ \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1424  					  fmt,				       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1425  					  ##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1426  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1427  /**
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1428   * KUNIT_EXPECT_NOT_ER=
+R_OR_NULL() - Expects that @ptr is not null and not err.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1429   * @test: The test con=
+text object.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1430   * @ptr: an arbitrary =
+pointer.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1431   *
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1432   * Sets an expectation=
+ that the value that @ptr evaluates to is not null and not
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1433   * an errno stored in =
+a pointer. This is semantically equivalent to
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1434   * KUNIT_EXPECT_TRUE(@=
+test, !IS_ERR_OR_NULL(@ptr)). See KUNIT_EXPECT_TRUE() for
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1435   * more information.
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1436   */
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1437  #define KUNIT_EXPECT_N=
+OT_ERR_OR_NULL(test, ptr) \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1438  	KUNIT_PTR_NOT_ERR_OR_=
+NULL_ASSERTION(test, KUNIT_EXPECTATION, ptr)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1439  =
+
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1440  #define KUNIT_EXPECT_N=
+OT_ERR_OR_NULL_MSG(test, ptr, fmt, ...)		       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1441  	KUNIT_PTR_NOT_ERR_OR_=
+NULL_MSG_ASSERTION(test,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1442  						KUNIT_EXPECTATIO=
+N,	       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1443  						ptr,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1444  						fmt,			       \
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1445  						##__VA_ARGS__)
+73cda7bb8bfb1d Brendan Higgins     2019-09-23  1446  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1447  #define KUNIT_ASSERT_F=
+AILURE(test, fmt, ...) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1448  	KUNIT_FAIL_ASSERTION(=
+test, KUNIT_ASSERTION, fmt, ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1449  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1450  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1451   * KUNIT_ASSERT_TRUE()=
+ - Sets an assertion that @condition is true.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1452   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1453   * @condition: an arbi=
+trary boolean expression. The test fails and aborts when
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1454   * this does not evalu=
+ate to true.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1455   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1456   * This and assertions=
+ of the form `KUNIT_ASSERT_*` will cause the test case to
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1457   * fail *and immediate=
+ly abort* when the specified condition is not met. Unlike
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1458   * an expectation fail=
+ure, it will prevent the test case from continuing to run;
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1459   * this is otherwise k=
+nown as an *assertion failure*.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1460   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1461  #define KUNIT_ASSERT_T=
+RUE(test, condition) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1462  	KUNIT_TRUE_ASSERTION(=
+test, KUNIT_ASSERTION, condition)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1463  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1464  #define KUNIT_ASSERT_T=
+RUE_MSG(test, condition, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1465  	KUNIT_TRUE_MSG_ASSERT=
+ION(test,					       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1466  				 KUNIT_ASSERTION,	=
+		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1467  				 condition,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1468  				 fmt,					       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1469  				 ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1470  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1471  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1472   * KUNIT_ASSERT_FALSE(=
+) - Sets an assertion that @condition is false.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1473   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1474   * @condition: an arbi=
+trary boolean expression.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1475   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1476   * Sets an assertion t=
+hat the value that @condition evaluates to is false. This
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1477   * is the same as KUNI=
+T_EXPECT_FALSE(), except it causes an assertion failure
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1478   * (see KUNIT_ASSERT_T=
+RUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1479   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1480  #define KUNIT_ASSERT_F=
+ALSE(test, condition) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1481  	KUNIT_FALSE_ASSERTION=
+(test, KUNIT_ASSERTION, condition)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1482  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1483  #define KUNIT_ASSERT_F=
+ALSE_MSG(test, condition, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1484  	KUNIT_FALSE_MSG_ASSER=
+TION(test,					       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1485  				  KUNIT_ASSERTION,=
+			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1486  				  condition,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1487  				  fmt,					       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1488  				  ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1489  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1490  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1491   * KUNIT_ASSERT_EQ() -=
+ Sets an assertion that @left and @right are equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1492   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1493   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1494   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1495   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1496   * Sets an assertion t=
+hat the values that @left and @right evaluate to are
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1497   * equal. This is the =
+same as KUNIT_EXPECT_EQ(), except it causes an assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1498   * failure (see KUNIT_=
+ASSERT_TRUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1499   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1500  #define KUNIT_ASSERT_E=
+Q(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1501  	KUNIT_BINARY_EQ_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1502  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1503  #define KUNIT_ASSERT_E=
+Q_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1504  	KUNIT_BINARY_EQ_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1505  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1506  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1507  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1508  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1509  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1510  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1511  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1512   * KUNIT_ASSERT_PTR_EQ=
+() - Asserts that pointers @left and @right are equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1513   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1514   * @left: an arbitrary=
+ expression that evaluates to a pointer.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1515   * @right: an arbitrar=
+y expression that evaluates to a pointer.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1516   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1517   * Sets an assertion t=
+hat the values that @left and @right evaluate to are
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1518   * equal. This is the =
+same as KUNIT_EXPECT_EQ(), except it causes an assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1519   * failure (see KUNIT_=
+ASSERT_TRUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1520   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1521  #define KUNIT_ASSERT_P=
+TR_EQ(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1522  	KUNIT_BINARY_PTR_EQ_A=
+SSERTION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1523  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1524  #define KUNIT_ASSERT_P=
+TR_EQ_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1525  	KUNIT_BINARY_PTR_EQ_M=
+SG_ASSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1526  					  KUNIT_ASSERTION=
+,		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1527  					  left,				      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1528  					  right,			      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1529  					  fmt,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1530  					  ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1531  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1532  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1533   * KUNIT_ASSERT_NE() -=
+ An assertion that @left and @right are not equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1534   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1535   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1536   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1537   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1538   * Sets an assertion t=
+hat the values that @left and @right evaluate to are not
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1539   * equal. This is the =
+same as KUNIT_EXPECT_NE(), except it causes an assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1540   * failure (see KUNIT_=
+ASSERT_TRUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1541   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1542  #define KUNIT_ASSERT_N=
+E(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1543  	KUNIT_BINARY_NE_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1544  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1545  #define KUNIT_ASSERT_N=
+E_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1546  	KUNIT_BINARY_NE_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1547  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1548  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1549  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1550  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1551  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1552  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1553  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1554   * KUNIT_ASSERT_PTR_NE=
+() - Asserts that pointers @left and @right are not equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1555   * KUNIT_ASSERT_PTR_EQ=
+() - Asserts that pointers @left and @right are equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1556   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1557   * @left: an arbitrary=
+ expression that evaluates to a pointer.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1558   * @right: an arbitrar=
+y expression that evaluates to a pointer.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1559   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1560   * Sets an assertion t=
+hat the values that @left and @right evaluate to are not
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1561   * equal. This is the =
+same as KUNIT_EXPECT_NE(), except it causes an assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1562   * failure (see KUNIT_=
+ASSERT_TRUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1563   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1564  #define KUNIT_ASSERT_P=
+TR_NE(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1565  	KUNIT_BINARY_PTR_NE_A=
+SSERTION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1566  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1567  #define KUNIT_ASSERT_P=
+TR_NE_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1568  	KUNIT_BINARY_PTR_NE_M=
+SG_ASSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1569  					  KUNIT_ASSERTION=
+,		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1570  					  left,				      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1571  					  right,			      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1572  					  fmt,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1573  					  ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1574  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1575   * KUNIT_ASSERT_LT() -=
+ An assertion that @left is less than @right.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1576   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1577   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1578   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1579   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1580   * Sets an assertion t=
+hat the value that @left evaluates to is less than the
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1581   * value that @right e=
+valuates to. This is the same as KUNIT_EXPECT_LT(), except
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1582   * it causes an assert=
+ion failure (see KUNIT_ASSERT_TRUE()) when the assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1583   * is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1584   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1585  #define KUNIT_ASSERT_L=
+T(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1586  	KUNIT_BINARY_LT_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1587  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1588  #define KUNIT_ASSERT_L=
+T_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1589  	KUNIT_BINARY_LT_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1590  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1591  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1592  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1593  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1594  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1595  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1596   * KUNIT_ASSERT_LE() -=
+ An assertion that @left is less than or equal to @right.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1597   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1598   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1599   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1600   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1601   * Sets an assertion t=
+hat the value that @left evaluates to is less than or
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1602   * equal to the value =
+that @right evaluates to. This is the same as
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1603   * KUNIT_EXPECT_LE(), =
+except it causes an assertion failure (see
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1604   * KUNIT_ASSERT_TRUE()=
+) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1605   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1606  #define KUNIT_ASSERT_L=
+E(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1607  	KUNIT_BINARY_LE_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1608  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1609  #define KUNIT_ASSERT_L=
+E_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1610  	KUNIT_BINARY_LE_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1611  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1612  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1613  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1614  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1615  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1616  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1617  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1618   * KUNIT_ASSERT_GT() -=
+ An assertion that @left is greater than @right.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1619   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1620   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1621   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1622   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1623   * Sets an assertion t=
+hat the value that @left evaluates to is greater than the
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1624   * value that @right e=
+valuates to. This is the same as KUNIT_EXPECT_GT(), except
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1625   * it causes an assert=
+ion failure (see KUNIT_ASSERT_TRUE()) when the assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1626   * is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1627   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1628  #define KUNIT_ASSERT_G=
+T(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1629  	KUNIT_BINARY_GT_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1630  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1631  #define KUNIT_ASSERT_G=
+T_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1632  	KUNIT_BINARY_GT_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1633  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1634  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1635  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1636  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1637  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1638  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1639  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1640   * KUNIT_ASSERT_GE() -=
+ Assertion that @left is greater than or equal to @right.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1641   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1642   * @left: an arbitrary=
+ expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1643   * @right: an arbitrar=
+y expression that evaluates to a primitive C type.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1644   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1645   * Sets an assertion t=
+hat the value that @left evaluates to is greater than the
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1646   * value that @right e=
+valuates to. This is the same as KUNIT_EXPECT_GE(), except
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1647   * it causes an assert=
+ion failure (see KUNIT_ASSERT_TRUE()) when the assertion
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1648   * is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1649   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1650  #define KUNIT_ASSERT_G=
+E(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1651  	KUNIT_BINARY_GE_ASSER=
+TION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1652  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1653  #define KUNIT_ASSERT_G=
+E_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1654  	KUNIT_BINARY_GE_MSG_A=
+SSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1655  				      KUNIT_ASSERT=
+ION,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1656  				      left,				   =
+    \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1657  				      right,				  =
+     \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1658  				      fmt,				    =
+   \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1659  				      ##__VA_ARGS_=
+_)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1660  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1661  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1662   * KUNIT_ASSERT_STREQ(=
+) - An assertion that strings @left and @right are equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1663   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1664   * @left: an arbitrary=
+ expression that evaluates to a null terminated string.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1665   * @right: an arbitrar=
+y expression that evaluates to a null terminated string.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1666   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1667   * Sets an assertion t=
+hat the values that @left and @right evaluate to are
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1668   * equal. This is the =
+same as KUNIT_EXPECT_STREQ(), except it causes an
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1669   * assertion failure (=
+see KUNIT_ASSERT_TRUE()) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1670   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1671  #define KUNIT_ASSERT_S=
+TREQ(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1672  	KUNIT_BINARY_STR_EQ_A=
+SSERTION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1673  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1674  #define KUNIT_ASSERT_S=
+TREQ_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1675  	KUNIT_BINARY_STR_EQ_M=
+SG_ASSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1676  					  KUNIT_ASSERTION=
+,		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1677  					  left,				      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1678  					  right,			      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1679  					  fmt,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1680  					  ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1681  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1682  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1683   * KUNIT_ASSERT_STRNEQ=
+() - Expects that strings @left and @right are not equal.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1684   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1685   * @left: an arbitrary=
+ expression that evaluates to a null terminated string.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1686   * @right: an arbitrar=
+y expression that evaluates to a null terminated string.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1687   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1688   * Sets an expectation=
+ that the values that @left and @right evaluate to are
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1689   * not equal. This is =
+semantically equivalent to
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1690   * KUNIT_ASSERT_TRUE(@=
+test, strcmp((@left), (@right))). See KUNIT_ASSERT_TRUE()
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1691   * for more informatio=
+n.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1692   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1693  #define KUNIT_ASSERT_S=
+TRNEQ(test, left, right) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1694  	KUNIT_BINARY_STR_NE_A=
+SSERTION(test, KUNIT_ASSERTION, left, right)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1695  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1696  #define KUNIT_ASSERT_S=
+TRNEQ_MSG(test, left, right, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1697  	KUNIT_BINARY_STR_NE_M=
+SG_ASSERTION(test,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1698  					  KUNIT_ASSERTION=
+,		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1699  					  left,				      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1700  					  right,			      =
+ \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1701  					  fmt,				       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1702  					  ##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1703  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1704  /**
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1705   * KUNIT_ASSERT_NOT_ER=
+R_OR_NULL() - Assertion that @ptr is not null and not err.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1706   * @test: The test con=
+text object.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1707   * @ptr: an arbitrary =
+pointer.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1708   *
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1709   * Sets an assertion t=
+hat the value that @ptr evaluates to is not null and not
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1710   * an errno stored in =
+a pointer. This is the same as
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1711   * KUNIT_EXPECT_NOT_ER=
+R_OR_NULL(), except it causes an assertion failure (see
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1712   * KUNIT_ASSERT_TRUE()=
+) when the assertion is not met.
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1713   */
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1714  #define KUNIT_ASSERT_N=
+OT_ERR_OR_NULL(test, ptr) \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1715  	KUNIT_PTR_NOT_ERR_OR_=
+NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1716  =
+
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1717  #define KUNIT_ASSERT_N=
+OT_ERR_OR_NULL_MSG(test, ptr, fmt, ...)		       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1718  	KUNIT_PTR_NOT_ERR_OR_=
+NULL_MSG_ASSERTION(test,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1719  						KUNIT_ASSERTION,=
+	       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1720  						ptr,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1721  						fmt,			       \
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1722  						##__VA_ARGS__)
+e4aea8f8532b55 Brendan Higgins     2019-09-23  1723  =
+
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1724  /**
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1725   * KUNIT_ARRAY_PARAM()=
+ - Helper method for test parameter generators
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1726   * 			 required in par=
+ameterized tests.
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1727   * @name:  prefix of t=
+he name for the test parameter generator function.
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1728   *	   It will be suffi=
+xed by "_gen_params".
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1729   * @array: a user-supp=
+lied pointer to an array of test parameters.
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1730   */
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1731  #define KUNIT_ARRAY_PA=
+RAM(name, array)								\
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1732  	static void *name##_g=
+en_params(void *prev)						\
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1733  	{											\
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1734  		typeof((array)[0]) *=
+ __next =3D prev ? ((typeof(__next)) prev) + 1 : (array);	\
+ae68283f3e666a Arpitha Raghunandan 2020-10-27 @1735  		return __next - (arr=
+ay) < ARRAY_SIZE((array)) ? __next : NULL;			\
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1736  	}
+ae68283f3e666a Arpitha Raghunandan 2020-10-27  1737  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============4317010385003756869==
+--===============6733117587278121410==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGx7mF8AAy5jb25maWcAnDxbd9s2k+/9FTrpy7cPTXXzJbvHDxAJSqhIggFASfYLjmrLqbe+
-9JOdtPn3OwPwApCg4m9z2pwQM7gNBnOHfv7p5xH5+vbytH97uN0/Pn4ffTk8H477t8Pd6P7h8fA/
-o5iPcq5GNGbqIyCnD89f//l1f3w6n4/OPn76OP7leDsZrQ/H58PjKHp5vn/48hW6P7w8//TzTxHP
-E7bUUaQ3VEjGc63oTl19uH3cP38ZfTscXwFvNJl+HH8cj/715eHtv3/9Ff5+ejgeX46/Pj5+e9J/
-HV/+93D7Nrqf3k7Pbi/GF58md4dPZ3fT+fn5Yfzp97Pfzy7vb2cX9+e3t3cX+/l/fahnXbbTXo3r
-xjRu2qazs7H54yyTSR2lJF9efW8a8bPpM5l2OqyI1ERmeskVdzr5AM1LVZQqCGd5ynLqgHgulSgj
-xYVsW5n4rLdcrNuWRcnSWLGMakUWKdWSC2cCtRKUxDB4wuEvQJHYFU7k59HSnO/j6PXw9vWv9oxY
-zpSm+UYTAVRiGVNXsymgN8vKCgbTKCrV6OF19PzyhiM0ZOURSWsiffgQatakdElk1q8lSZWDH9OE
-lKkyiwk0r7hUOcno1Yd/Pb88H+Com/XJa7lhRRRYWsEl2+nsc0lLh8xuK3aOVNoCt0RFK93pEQku
-pc5oxsW1JkqRaAXAZgGlpClbBOYnJdycdpgV2VCgMYxvADg1SZ25O63myOD0R69ff3/9/vp2eGqP
-bElzKlhkmKMQfOEs1gXJFd8OQ3RKNzQNw2mS0EgxXHCS6MwyUQAvY0tBFB69s00RA0hqudWCSprH
-4a7RihU+m8c8Iyz32yTLQkh6xahAWl770IRIRTlrwbCcPE6pe6PqRWSSYZ9BQHA9BsazrHQ3jDPU
-C/NGNEviIqJxdS+ZK2BkQYSkVY+GnVwaxXRRLhPp8tbPo8Pz3ejlvsMawcOBm8NqAvS3aUTIpseG
-NTiCK7wGDsmVQzvDvijAFIvWeiE4iSMg+cneHprhavXwBAogxNhmWJ5T4E/35tzoAkblMYtcSuUc
-IQx25xPIAydlmgbupgE6M7DlCrnVEMUwS0Pn3mLbGQpBaVYoGCwPL6FG2PC0zBUR1yEpZXEcAVV1
-ijj06TXbu2bIGBXlr2r/+ufoDZY42sNyX9/2b6+j/e3ty9fnt4fnLx3CQgdNIjOuZcRmoRsmVAeM
-RxlYLjKW4RxvIFfEyWgF/E42yy5nL2SM0iqiIE2htwqSDBWWVETJEKkkc8eDz0ZBxEyiMoyDV+Ud
-hHL0HVCBSZ4aseYOZ2guonIkA3wLh6MB1j9FrxE+NN0BLzvnKj0MM1CnCSliulaXKwDqNZUxDbUr
-QSLaXxMQPE1R02euJEdITuEsJV1Gi5S59xxhCcnBvLk6n/cbQbeQ5MqxIhC04DxoQph5eLRA0g8u
-WBuzJlu4V9M/jIZD1/YfjhheN4fCI7d5BWN6uiHlaJ8koB9Zoq6mY7cdGSMjOwc+mbanzXK1BqMm
-oZ0xJrOuaLT3wwjI+ibL2z8Od18fD8fR/WH/9vV4eDXN1TYDUE8ey7IowAaUOi8zohcE7NbIu5aV
-0QlLnEwvO8K86dyFRkvBy0K6Fw5MoGgZvLUW2W7tFELBYnkKLuKMnIIncD1uqDiFsiqXVKWLMEoB
-xpo6uYKYblgUluYVBgwyKL3qbVKRnIIvipNgo/bDOg1sYDAbQIQG7hEQP1oXHA4SVRm4EdQ9vEos
-gyluJgkOD8ZAImF6EF4RUQNHKWhKQopska6ResaEF47RZ75JBgNLXoIt5Jj3ItbLG2MGtqPHegFN
-05CciHV6kxFHCMV6d9PpnN7w8KoRNB8C3UgVh7bEOerhSpq0xxRpDpo4YzcUzTtz3FxkcO1o6Fg6
-2BL+4Yj/jgdiVGjJ4sl5Fwc0R0SNAWClouNRFUn70dUvnbGMUQi3QHi8AVcGjXxdWYOBXVjW6FmL
-iTUvu+5VY0Z58rH7rfOMuX6hR2SaJkB6Eb6KCwKG84Bpl5SK7pwV4icIng6JbXOUFbto5YhKWnB3
-e5Itc5ImDjebnbkNxsh1G+QK5KS7E8LCLMm4LoEO4ZtO4g2TtCZ46LrDLAsiBHNt+zXiXmey36K9
-Y2taDSHxRqOz53FU/6yNvtgSEC+11YVov7k+btUAk23JtdSuNVGD6r4uDPnRtLp0bHyNdqOwpjwy
-XOEIAUkdj8uIzrqt5aVsQeOYhq64YQa8wLrr65hGWJneZEAG13Aoosl4XuvuKgBWHI73L8en/fPt
-YUS/HZ7BvCSgviM0MMF/aE3F4Fx22YEZGyPgndM4Jn1mZ7F+BNzGsMbhWUHgIMU6dOdTsvDERFqG
-9apMeSgAgv3h9MSS1qfu3BKEoTpHu1ILkCI88+dy4RhUAPMpdIByVSYJ+N8FgWkM2QioPlfU8ISl
-nj1kxKdRlJ6n58fHWjbMzudt3/P5wmV4LxJgUO1CugaiBcGHqkBzj82zjIDxk4PuY2CKZSy/mlye
-QiC7q+nACPWJNgNN3oEH403OG4oqEq2t4V1Zh44yT1O6JKk21IMLuSFpSa/G/9wd9ndj509rOEdr
-sCf6A9nxwUNMUrKUfXhtLVut0G9shFa9lECEZ7Wl4NeHohOyzAKtJGULAXYPcCuYOC433oCHr4ds
-0xo4Cxkthug0N5HaKoS44qpI3W2FcQT8y5XJMnPiZWsqcprqjIOfl1NXliagfikR6TV8a6uJ6puw
-tAFjE/eTVzNv+sYPKE1AsRvzQc9Jr1Hy2kB+JfyKx/0byiPY8ePh1o/921BnhAaL50XY9iVL6W6I
-XrLMd6zfJy1YHrKwDHQRZdPL2Vln3dCqme/22XYqUhPb86eA24BRvLBGNggiyqQKRnvNIe6uc97f
-LUb6dmdDndazzuKA+YCfI1LQLmA5WfcGXzHJhhe8pqg9r4cRMhoz4PmQ/K/g0mUv27YBfdVbSLYL
-ReEN6HPEs84Y4M+nMG1vFAG3UZKwtrIIIFIweDyMIf2b2AFSolQ6yEZSYUB7Nxl3/eTr/DP4fa6x
-ZdoVXQoSOHARdp5sn1WZx74XGwBPOzOVOStWrLeADRj84O71mW6Hcm1ojptdZ5gb2F9WuOowcLdd
-gydpIxWmGTTc6HA87t/2o79fjn/uj2CS3L2Ovj3sR29/HEb7R7BPnvdvD98Or6P74/7pgFiutEAF
-iZkuAu4p6qeUkhxkMrit/tYQjwo4pTLTl9Pz2eTTAKV9xIv3Is7H55+CZPPQJp/mF94JedDZdHxx
-dmLZ87OL961mPptPfryayXg6v5hcDk84mU8ux/Px4EAO3WVBo7JSrUQN7XAyOT87m05PzAjknp1f
-vGOPk7PZ+NN09p61CVrA7dUqXbDBhU0vzy/HF6dIcT6bTs/etbD5dD5wTBHZMECpUafT2UV4yC7i
-DEYNBQk6aBfzs3Mv5ODDZ+PJ5OR8ajdtBxvYQ1KCPybLBm88AcNtEkRFHZMytCga4pxPzsfjy3HI
-5kFprxOSrrlwWHQ8czc0gBPidYP6OU7gZo7bxY7PHV0fGo2CkzbxXAoegS0C1ksrzDFMz7oBwUr+
-/f8Ems+V87VxB2SfHSfnFegEI57PAzgexoZYA372qT9DDZtf/qj71exT14Wpu/adG9tj3rgnGBZf
-oI+dgx3hWVQISRkq2woY8t5MVDJzzDPbIjNH9OTCRG6vpmeNj1LZ0FXKoI2Plr6N3mCnFCPcxlR3
-8Vc3yHShHjd6ejbuoM581M4o4WFg0WN/ayuBybihMHwVCYBT7wQdGkNSUrDqK3dhENzztyvbJ6WR
-qn0MdB664R3wxlRo+LZ4oUhy9PqYG/G6lu0Gqvh70vUgTOAIgbrI4HzBo++uHmM9Rt9rLIzpxEld
-H0kWwFZmmEJVaZSa5aIqB7kiMd+iR5dad9aTAzRC5zeUYCSCYCrU8ZmqlkDOsxlvTXc0CjKGgYBH
-NpChjgSRKx2XwbXsaI41BY4dCi2Om4dlBSYfhTzNBRiM6Oq3VSk5OvqVmwg6k6ZB/jRxFfBqSG6c
-PPAFIi96Ym+9lAvnuAWPiSIm/NpE8+zJxL2OW63UQoyBjnkXpshyiRmJOBaauArdRiYcXxfDg3pF
-08Lz8mGUzaWTrPCOeFtompX9JK4jnCZnug4rnkaVVIH8CiPVpu+3y4+T0f54+8fDG9jKXzGM5KTy
-vH2vtpok8SLrS+wiKCItLJVojvGMRbJLSIwY+uCuJljRIQ13at3O3qbDe+vMVRI+uIeiGxg3rXAJ
-wG9W+YklDk7vLHH27iUWSmAebBXO1aAUau4DBzFDIrA7+yV8mBpAQClyw8PWBasnkgYH+vbaooTp
-nC4xzCQICidFXa/rB5txNjx/J7+RrDT07a3EXqB5/0RAfGNEdnmKawZnd1Z49u4jWSj2H50GdgiY
-+OPihNdtY8wntjS43O48chP2qxEGSrXEaHSqeve0kLSMeZX06gxZqX3BuGDq2lTcdTJDtfClJsLt
-a2e7NUwwYj4n1F4tS9Al5g9RdAeSC4l3hosXmPnlL3T8HZ6KstiUrX740Hb3MEMKG9W+CYu79YI2
-gPjy9+E4eto/778cng7PgQllCR6pW0RYNdS1AJ7Yr0BAvMLkikI6PtMypdSJpdYtfoQVWjFZXuO2
-VUcZmDJrPIV1sEYp6yD3kvktKErX3nx1INqWEjr8s/2sC75FRZUkLGK0TcGd6h/YZxeDO4ljNNcL
-J0qHqMuwlbhiCzAszEFiwleygClaHYUDbiNLQ4del7VVGFmDUQeZEMbuHg8OP2K5lpeBrltsqrvA
-0kzBNnVVXxdpyTc6Bfk9VFTi4mU0L0NiysVR1Cl1jpUFGCkva55Hx7LeyCg+Pnyz+UFXIuCY3cJG
-B1rIiNUonpTxIG0Bq+fT9qd26uQsdRtaJ8fDv78enm+/j15v949eRSHuGq7gZ5/w2GLoQBRoWenp
-TRfc1Jp5lDZgJNbgWRiM2ujEgQZqL37QCS+TJJv/oAvaoKby5v1deB5TWFgoaRnEBxhMsqlT8acH
-N75kqVioAsKjtEOggbNoqDEAb7Z+9RSE1/scAP9wW4PbadjwvsuGo7vm2rSjWRr5HFe1gT4mKqab
-juLFfPGW5TlWFpT52Zg1XfIN2KoDtw/+JzHRs4vdrsZvt+4gXK4dsDetCVe9ZyoPcbX1pzGph+k4
-vAYDnEznDfR7H3p57kDbyByYIJ9rwFA9bUgyuOCeADdnmTwcn/7eHwelnowyZuw8HvF0wJJDrOI9
-WDHVJjGcDF3ahIlsS4TJuYKzHDK2iCxA04lrmLDGdkmVbMGcr2qjQrXSMH3aZpQ0XgNmrlFbA9RB
-ETKkYQwbAHF6AVRoAym/zVOOxbGYDK5kRGAQxTQqh5pw7ljgxAgmYYCdFlsVYkZFwbbMdwq23PLZ
-kvMlqBmHMj4A08WmhM6aq862KwQsKAXpwB3c4ElV6JsiJEspOFR1wrtdgklbgkUXUI+J8yimimsB
-JbMoiobasbw84mBDXHcFiAVLHoGi74kudfhy3I/ua6a3MsspGsdLqNnGLeg2TYvCz8SFxzFT3Hx/
-/vcoK+RLdPJy2exec1LBW31yqBqpB2nnwDBZSVJ20wuSeJ5OBLfJezFnvjFiNz07151qmxZ4NplW
-QIeNWvCkHj1YgdlO0aCdnEP7l7TFmFn4iTmy2Ykpsrk7vg9crjAYeGL6SERqMo5Z8o6tEioHSNlA
-Qgt0geB9e/ImhLJIQ2UDPUwsUEHc3nzRisB/oMJMCUuXIgVPryez8VmnwKWC5qvT8Hb6RWN51xVe
-jp9/+OXu8Bcwd9D3tAHaqFNJvbYVMoGd/1bCJUvJgnrSFQ1a8LnWFMPkNE0GXlIakdM6eGUOd2mZ
-Y4Q0irzgkkFcd8t0bKugKghIytxU4mB2jAtQO7/RqPtuD9C8gtw25m+KtVacrzvAOCOmpo0tS14G
-CrDAobYOkH391kcwQCy5RVehLFxhXSUEwHZVLLmua8f7CGvwcbsl5w0QRq2yHQPAmAmTESFFcN/2
-Ma19lqu3K6ao/wzGosoMdW/12rVLeUGXwIgYlMA8RHWYmvQKkv06Vv/Q8GXuYMfVVi9gmbbyvwMz
-FaW4glC7CavbVWEOIkQAj6FPQAMlxFlW6iVRK5jDlp1hvCYIxtc9IZTqoCxb2rc1vXptA65a7aPj
-AVjMy36QwuSkqkJIVkTaPsisXzMHdlyljjClo9xKHAcD6ZnCcXSAph1tL+onWN7XjizI827JYJNz
-C6W76nGGQZY+cH0xJY5XfN1/zDfwMLCD9eNHgbUYyTFFSatMIIYEQ3gmS7jp30m4ZHWek0YscV/C
-2fimNLkQfDmA/Bi48gZUB0VDU3t1tp0BfFhboBvo7RTXDg3ionRqdL0ae8ULtPBtx5Rcc+/nBFKs
-PV3A0YFZFztzcXxiz5ZVFM4pMKymreCkowQq6GwKyzInGqIRnkyXl0JtraBVIOtVnYwU253L5oOg
-bvc6hB3oHgK1661+wUDoVQhaAKvMpnVc3Rfgtu5OGkdFUNwi3khXt2MY2K2zD5dqVBuBOURjioA/
-8cvv+9fD3ehPG33/6/hy/+DH2BCpok2ALgZqy9up/7wjAGmr3E9M7FEHf0UDayxYHqyS/4EN1bjQ
-cDr41Ma1SMyjE4lvHK4mnQvs0rY6VZvpRg836BtWWGV+CqPWzadGkCJqfrAiDccVakwWfrNTgZHf
-MB0YerNjMbC0Y6szJiXK0+ZRn2aZkecuEcoc+A/u6nW24Gl4/XAHshpvja96BieW9n1xCpZc6SU1
-FsjHIdaV+aQ9tzK3v1kC8pflhuLDdSw2Ga3B33SEtHlzZToDkUGouSpUbCXNhoDmmg3AmktqfrYj
-NmgmO9OiDEO6ncU23LXX3tzCHFcEjJOSosDTrHLB2kZMA9LMPqvSWwEd3H20+SwjIOg/h9uvb/vf
-Hw/m53hG5tnPm+OcLFieZFjY4eZwaqXSB1X17TWgyTz3jC0EVmKuS6RlXiIIHxg6BjV08J9kVbPI
-SLDCk5YVABg/lJnDQSpDtJE2Q1QwJMoOTy/H706UMZA9DFY8tQG8qtwpI3lJgs8em4oqi+KonhoS
-aMJ8O+gLGgJtbLSxV2HVw+g6A0Qqvez5SOj+mBdy/mWsNtz8kEEP0nuE4rdXy/HEsY/QvuNLw68y
-TrxksfVbpnbLVvbNPQaujZI2jYq5Y0FRsoSz4oHfobF+qe4+3VuBE25KjlTgKRdcZnA2/ReVbgix
-3rM5wIzZwo+r+fjTuXcmjRCsSJAQlpYiRMwKMiDW+9ZyOPmElfKmcC4MDpZE3hScO9x8sygd//lm
-loCB6HzL6kHiU7fFiJG+X2/isZpxYzS5+wYKUiFo41Obk0X3PRQ+j+tnfX3npBGnhXmutelMY59k
-9Z7yN5KW4E/fdDwukGro6JgfH3F2hM/1aR6tMiJCti3Ob9wR4llZw6KpHiF3c6PwAVRYVkVERrjl
-hzcsKMZkV0+qwRVZU69KEb91zIhDItDWO/+rSiG4LVWXlukGbIxdIjITMAhCcflrGvpRgF1cYHQc
-VufQ1GnsrJlZqrTpkcJm8fHXg4IzAwKJN5jcBB0NrlHwVQ0gFbn7Y1PmW8erqOhMhs2YhQg/LqoQ
-BBFhuDnFYuBlkgXCEQNfZmXo6ZvF0KrM804A8ToHccbXbKBa3HbcqPAzMIQmvDwFa6cNT4DHoslq
-GAb26zCQFQPltgbabNdt7HOF/j/OnqW5cZzH+/6K1HfY2j1Mjd+xt6oPFCXZbOsVUbbluajS6cx0
-apNOV5L+Hv/+A0jJIilQ7t3D9MQASPEJAiAAVrwYrFaFOIQa4W9AyU5XKBAL84JWFjpUDr8Of24v
-q426I+to+CEwbRMXTb7Ff/rbw88vTw9/s2tPw6WjV1xW3XFlL9Pjql3rqLzSmUQUkU47IdH4HHp0
-I+z9amxqV6NzuyIm125DKoqVHysSOqRWIY+kU6BCSVENhgRgzaqkJkahM7zDgwM+jKpzEQ1K62U4
-0o/OmUhZKj3bRBGqqfHjZbRdNcnp2vcUGRw6tGO5XgNFMl5RWsDC8mOa/QFTP+J1hJevYPAVWj3x
-9POwrKIqMFcm6LLx2TrRVFkQuJQhCY7VtLCOcKC4mFHNT2ogudH0lebr2yOejqAPfDy++TKP9hX1
-5+oABX+B8LrvxZoBCrM5GWhMSZJlShyxoCo/lHZpMi7uWgRUBaIINXpGdSrCOrZUfwutzOyUZm9R
-xVVBt7YRJXea1uOggYHIQZW9Wr8UTv2VMYbEJHajuE0OUcMpIQ8qyUCCfLF/DzqCMN0FG+Y2CGEp
-k6C1lyyMnNEcbt1Bg2tN8+lFr7VaqZ7vNw+vL1+evj9+vXl5xUxc79Q6q/HL5d4t+nH/9tfjh69E
-xcot7CF7lZkEenCIoe0LZ5i8hzpfSeJYf2u0RowDwXuxX6zTGHC6Ey0d8JxUDsYW9PmHbyNDihlZ
-Uc9SbJuuXxNRW3NIpe0eL4a70hg/sYQ/GXmF0KMc8ClR/M8vsKkYxYOSKZa+cHaolpEVhubPsKSB
-bdTnUZIQNBgXbzMokGcH3KxtTg8sI7wyduDQc0CJ4rJrLHjL3h3oZY1hfS7SWe5WiX6Z0TJ+hplq
-s63taaThIAGSPi9jc9RO4t9XY9NITxct8VjT5SVpp2tFT1c/CytqylbmeK58c7PSQ4W7AcvoLIgD
-guHsrUanb+WbgNX4DIwNMLlNVt6DLChF6DGSaBSSR8GICBcUutu+fR5yj0SF7IF79MbSk/SwcvJW
-955lVUrCk1lF8XlZGcrtFndzb4pV3e6nqR0GsU2hvVme2yJZiz0mLGunn0KnpWubVCqUZI4ghyCi
-tar29WQ2NdwdelizPZaWVm6g0qNH8Q4jnkVkdvLE0MPgh5mxoWKmRxJmLmQFCPgKbCzrMCycn02U
-cdM8W8+WPUXCisA0N+Zo0TDW6yrJTwUZ5yeiKMJ+Lg2nrR7WZEn7h0rwBxJ1VpnmaINS8yHDsMn4
-pV5rfgbpOrux4EYXwgwvLmWO2dyNdQRLlKH982h2rod2f1Jir0ll3tIb8NA0KhrwjJPgtM0uTTWE
-yKHtISKrVr69JAZZjhMJnBdRdpQnAZyVWvidIezFhWjDxhCcwAYNtEBjuVmK/EJDfcem6BWTfuqV
-UG5/NC0SW0dSkGYrc/PrCoYari9vIRbMJG1P2Em/+VCPmqMnWRTJHCUAlOV8VHdl5f9AxiVlTigL
-o9dlrDJTm+ao2k6B22ZoVXpv6cnraNBovZjaY8ouhcmE5bmxc04Gd+YPN8Oistjh7bF+qcE2Ft98
-PL63eb+tvhf7ysnmbfPpMi8aWCKiykvykB5U7yBMI7Ux3SwFYU1Q8cDcyRQBW8oREAxMwFPLHRZA
-Wx/t5+lG5cLQIwB8Nnz8+9OD6RNtEB+xGU7Nx5qT3BlxMuFmGDuCdEyJAeAs4ejUg5Y3mzkgNk4i
-t367X+UYdn9k6LJXcBHFZFQR0NSY67AmOob57Xwd4/z2dmL433agRsChToAxmgaDitxviFjg/2NP
-DmigSN1WWNgiYnuiexaN/MzcZBs2Po9d5nRZDLIAFoCJMv+8f7DDkLHkTsyn09rfdF7Mli6+0yGH
-lV8+epCB/VGjzjWKHUBgr6EolQrojG4kQwRTGXfU2pHDmtoVM4CnPGDUJ9QEqAZ7BuEwmD5jBJye
-2iV1hLO+k6MT7hDb9cIGDU0jwHSlUWjc3AGkjPGUs4g0qKlMVwUsm0WFJbNoEAxJMyL6d1QqeoYg
-7Ml2IiysD+6k9dO881c/Q+uAAVAqY3TJ9LWDfBSkR1Me5iY+jlh1ULdQTlyyDvp+/vn48fr68e3m
-q56JQaBdUOmgJXtCuD32Oy6CyllfBlhHVmvfRM8odpSBeWVpItJq74zbBVVWlCuHpjiwsnKbijAM
-zrKYuYHaLUhwlu8FI+sKuCyGjVMoVu3me9/cdERkXmsDPz8J253AwKnJGS8e2JEdBuaO0/cxZge2
-q5q6vTRI0vKYEHPD09lk7i8aFMDY68EyisllFFYJnamsWwdzWrNu0ckh4oy8K9IER/jP+Sh2iqZX
-U2q1G9Zmu87MGjBiT6b0EyXefWcYBWIQGEufxSBu9pwK3MOVkjjpIXm8RYVwOjwjO8T3x8ev7zcf
-rzdfHqGFaKf9iq5XN60qOe3ZQQdBu2qjQpgwJ5HK3TTp24AJhl+sn+15oN+gurhSl/FeJAZr0b8H
-TLIFi6w4kA+KaPS2ELml9TSbwhakN0WrLLmaMSDqEYF5M/ZGA2fC87pDVOwa56kww45FJquQDDSu
-yG61iC0DG3UF2KJCWV0yaLYg0E2gIYmp6ykXG9sdCP2S0KnRHJeo2lVA1KmPxOe0+2Cvsqg15RPA
-VaB0Ghj6vw5+ZDtDVtHBKtwIeXF/DJNlGMDhizmI7BPbX/qGMie6bIE6Rs0CYJk0c2N0ECMNh1WX
-wo1nGbDJ0Gfsl4ivpDtAwqYgQ3ix66l0Rs/31hni7g6i3EunayMLX41t5UkRj0iR03p7ocKSae8V
-hWOODt2rmK0zIlANmBnCHl6/f7y9PuPbOV+HUbFYN4Nj4OhcbtujqTWqJjvRl+xYSVzBv1OPUoIE
-aml7sfi6YbdUr7Xjajt5QduO8UO+lMCqvJMmu4f16h6FTJ1HuRCDmZ2v9bfNcgwr2t9eixBObC9l
-RCXmbtnP+9Nf308YsowLQl32yZ8/fry+fThLAUTik+qq+qy3TRjGWaF74ShVn8Lb3zlf3m7VFhQW
-/NhLhgk/yV6UnkTmat9jeLy/cJdreqQFzm5o5Zix4dY+269fYB8+PSP6cXw60jwQx0gkalL8LemH
-GvfQgmzWyFf1Z++/PuKTGgrdMw189o9uG2dhBDz4F9bL59vZlFosndJ79cuXrEk0P7vwuuj71x+v
-T9/dtmLuVRUaSn7eKnip6v0fTx8P336Be8pTa7it3AyYRv3+2np2gtJ4L6sVPOVKtTI+hhAVBdRw
-Qb5+BTUEh4v7bMF/e7h/+3rz5e3p61+2reeMVyf0fIWr2xmdLFmsZ5MNnVa+ZIVwzJx9tPnTQyv6
-3OSuF+9Bx43pxJaGX64JhrOv2lkP4h6rtDBvJDoIbBf9XuSlXSCRZyFLcprll/ozlyQo6lnebvQu
-aR6eX2F9Gjkr4pOaAytupQMpQTLEt+96JAZCsD5DSN+RvpSR3dNsPUmAOZ4TvBEhetQX6AKwrDb2
-meTdVBZtHw1lSoVnoWmuC0nx3Doqi5ZKLjZGEB1Lz22zJkBrTVtNo0MliN4pIqbeP2pJ9cO/fTKW
-7hUTDNY9VLnnXWBEHw8J/GABCAyVMAPzMI9JYAbyl9HWikTRvxvGN7eGkqaBYsYHhDIRKVbo0koz
-ir2FnaYDUJqKfAC0Xtjt6uPWlWXKdIJhtRhje10hMla8W2U1IIa6Gyods5wXeZJvz+bK8WxsbUD7
-+d6q8KbNTAsnzVag7au0HlVK87ry+BWpFD9RICiLrxSoGGJOP2t82zRWYTSzJ1K9qNKUph24Vbfg
-V4aeHA58m4q+1k4cQNWpitK26v5Ksn2Con0qj+xLLBM0sToKVj8KOzHEdbYRY0gv3F63OremVsmj
-+mktalozkyPgL7T5YdyGmZgIwSk+5alQnmpg9Mu4L21iDkE9QKRVaN2hVuHQ6VYfWvdvH0+4mG5+
-3L+9O+ctFmPlLSYpIPuH+DY7p6Zxv5nHo2VZLOlysI9UFqdB4f6UH7RbNfzwjjnAtMekeqaserv/
-/v6sXHtukvt/WfYA1cK8GHwdvyowtAvzxKv738GwlSz9vczT3+Pn+3eQM749/RiardXoxMKalOZz
-FEbc4aMIBw7gste2vLr5z4vBo0YdOsvlifTF7AgCOGnPGDN0siOWOnxi4Eeq2UZ5GlV2PirEITMM
-WLZvTiKsdg1tIyUIKRZDkC2ufG/9q9+b0v5vBCX5qlY3DGJKjSHJMC/IQR8U1N9yXzTQpSga3J37
-GnfRpKGswuFiAgmNDaGYBtGGwgJ3ALkDYIEEtme6tY5sCq2I3f/4YWRSVOZdRXX/AIzW3Tk5njY1
-zg16jBl8VG3R3VmimPBCAAfZ3E0c9L+sPk3+ubYfjTNJkij7RCJwiagVYj4zbRLksWdGOgK0D+sI
-TmdBONYkC9MqJgNYw7I8O6f5YcAWdIq/Ywm8gboyVFWAFqnnuNdYr0yPfjf68fnP31CvulfO6VDV
-8NrO7lnKl8uppxWY1T9OmNy5LPiCaE6lqFSCHBHTcVI2+djWSfmumM33syXl6YoEUlazpbMRZNIN
-kzWfJaMMnuorVehuHvgNUl3FEn1LYUbvtliQjWX7/sR0tm7tSE/v//tb/v03jnPgs2mr3ud8Ozdu
-g7RjOgjv6afpYgjFlyD7l76vzqf29gG9zv4oQnSeMmu44NDMdGJWm6NpcDuPelI949eRdoZ0T005
-6ZdqUsxqPFG3OBn/GrQ8whyKJ3QYUk4zzkcIEsy76PkgBvtlVjZatw4Y/E7PLe//8TuILPfPz4/P
-alhv/tTssjfEEAMdRpibjWymRo1wEJMqrMg6OIt906HwKSuPUZIQHUQ9g5pwhUQJXJC3TBcS/e7i
-sF71fN8QnNaCE2D9JB5Brl4SHMLte7oLmHIyMsZI2d+83EURMdjHbPhcR/r0/uAyRkWP/4BeNV4p
-7IKcdm/sp1fIfZ65bxSabKwQzWWeOlc63NSqWUkBZ9LNf+r/z27gfLl50eHkHq6uC1CC+fWqBs3K
-S4flaqDK/7FQsYCgdTkCwCFwVg0AmlOi8ufJHaYScLisIgiioPVinE3sDiEW8104YU0DGgwrC2gj
-OpLszkVU0ld6YWUYK1QW/EtJUJMwLtKTpRGwmDSksjLVAVBnPCBR+zz4bAHCc8ZSYTVg+IQIwCxL
-B/y2UgbA7zQ0zSM5RodgimFUlMy0JBqBDtwWTCetMZyjQNNSb/C+OICG1ev17WY1RMDpuBiUxyQa
-wAAvrqnHNLJM/N16N+GXfWnYTnpzXLicLesmLHJqQsJDmp7VUJnm4h3LKs8FSiXidPCyfIsTXG7m
-M7mYTM3agNMkuUSnqTaDM23D2BWNSChv1/Z1OlmVBTdXGitCuVlPZowM7BQymW2cV/M0bEY95QTy
-v4SN2VRAslwa3pwdIthNLS/PDq5asVGeN31XUr6aLyk1KpTT1doIo8AFDyMCZ2sxb+0/xif0cU9e
-RzSeDdZeY8owjszbyGPBMvO04bP2vWidLCkC4SKlbms0pmHVjAqA67FGCEcLxIeu+XkATlm9Wt8O
-yTdzXq8Mw3cHrevFakAMekuz3uyKSNaDIlE0nUwWpr3R6V3fOR7cTieDtdzmnv7n/fuN+P7+8fbz
-Rb0T//7t/g2Eyg+0wWA9N88gZN58hU339AP/NBJTo2ZqNuD/UZlxDdGus0TIeaOcZIm9YxGJGfmQ
-sLpURp2xSLp5F98/QHADXgpn3Nvj8/0HtIlYBMe88FoXx6ow7IJRdrqjOEbEd5b3EOa2gqbCnLhC
-oE1SVrL+BQqfL+6Ogf4LSiclZh4whMGcPouxasURgyFa1aIfr24uAImpsswqqAL/cWkLOungk3CG
-o0Bv+D1I6s00jFe6mc43i5v/ip/eHk/w339TUxeLMkIfNtqo3CLR7HamZ3fsM10HdIA+8nXb0cpN
-/BzkWeiLe1HHEInBBm4PzPMgdHSncqaPJNapIo/fQ8o4BsfR15WFF3WsfRhU8jwOSAEro0NIS2Nb
-n5bPuPQ8jAj94jrxP31EH+gGArw5qpkpcwnMgi59jCpaQG8DozLPdUuWpB6fCFa68YWdTeDj7enL
-T2QZUl9yMyMrpiWud/4Rv1jkwl4wQ/IgVdQRDlFgMHP9qrp7ST7ny1s6GrwnWNO33Ec4UyPax6g6
-F7uczOtvtIiFrKgiW8jRIGXriwUpdZkVbCN7z0XVdD71ZUvqCiWMow1D6fX9kYIPFpNZOK2i7QMw
-VslDtgBBxUm+QhWuIjtRHeMRSCn0GtLHVyWvjUDK/jDz2Fko65FL+LmeTqeNb7kXuGjntM9CuxKy
-lPuYAdTe1NvgWmuBfWWVsEJ/2Z3nAQizXMnpLuJ6z+03LKuE7gPz+YAjgmYNiPFNz7VFdijz0u6n
-gjRZsF6Tj/8ahYMyZ6GzW4MFvUkDniIj9gRwZDU9GNy37iqxzbO5tzLSH3+bmg9Xqp/k2a6vg1EQ
-99XvSSFijAt38rQEGRU0bpRpTT+W0MV4cK0QPotuluncCmHcmoJ22DZJjtdJgq2Hcxo0pYemfba9
-8Bylibg7uD5GA6TTRmIQdlEibWf3FtRU9E66oOkFdEHTK7lHX20Zvq9jsX1nORNFVDJQa0Nuo1Rk
-4nJm0nIanSjAqDi0zy+doy4hbXlmKZUEyfQzSWa0dyacLqHrvz2sD18bjmprY0Szq22P/kCrozWQ
-CtJkhcTcHHC8YuKAxuUvw5owGzG6ydvvXcmkiVMyjDQsGMPHRVgFy5hNlpP5eukWLe6UyYoW5QFf
-K0bjJdkKlsWMFpSxOHaK5oEXrG8b9wTu14mROXwWlTwQglecHj9P11fOEf2WlbVsSYcvowh6CqMw
-Y4kaO1Evd+Gs2fpyxGGpJnalGANdTBZe2WGXSUzfQY8WIr0nFCDnV7pzYKdI2H25ut3Ferasa1Jm
-0OGI5pqfkucxgicu3cSTqm9L690A9ywhUfuKuFKUjfFVt/C1DBC+Mr6H7tLphOZFYksvjs/plSXZ
-3UGZh/DRu3NTVNpol9v0WBQeEbVm09Xau0Ll3pPpR+7PdIU5R3G9qmeNZ133BMWV8yqFvrMst/hz
-mtSwn2hhGnDLgZ3OxMrTKDqm8h2Y7RG8tPfAXq7XC3ocELWkz3uNgi/SsS57+QfUOrBb0e3JB0dR
-xmfrzys6SgaQ9WwBWBoNo327IINH3a/KyHzDysSeS4vp4O/pxLOI4ogl2ZXPZaxqP9YLCxpEmxfk
-er4mTfdmnREmXbI5vZx5ttWx3l7ZpvBnmWd56mRCvCLLZHafVNzQ/016WM83E+KAZLXX9hLN9l5z
-aFu68CR5Mlt+BEHYkgnV6yGhw0SGBfO91Wegz68cSG3O7Sjbisx+t2QHKjysfbIr5wh9y2NxRT0u
-okziM0XW3U9+9ZC8S/KtsKTXu4TN65rWOe4Sr9IIddZR1vjQd2TaKLMhBzSBp86DpewWzlvvFUCH
-x8hpDwHejvjkmTK9ujrK0BqbcjVZXNmOZYRmG0uuX0/nG08OOERVOb1Xy/V0tbn2MVhITJLMq8Rc
-TiWJkiwFlcJKNSNRsHBPTqJkZD45ZyLyhJUx/GfxDRnTIw9wjMvg12w+IMTaaX8k38wmc8odzSpl
-bS74ufGcEYCabq5MqEyltQZkyjeenC8t11EU3BP6ExWC++I+8VMbX0IZhVxcOw1kztHxubbDeoAh
-++KEEQflHbM7UXGlzkqr2ipF7ev6ojnYaggrinMaueGAXaWwMD3xnRwzY2Weo1JQryCbjThneSHP
-1soIT7ypE1cdGpatot2hsri9hlwpZZcQTciOIsNISp/QW+Fr4iDXYQZs6cnQDTT7ecPSFUiHhScL
-d5WQCrfRtqN95MHPptw5j7JY2CM+diYq6sEGo9qT+COzn2PQkOa09K35C8H8mkVUX/OblbcX/6we
-mt5dmiSBObs60bUo6QsSRMwKerTjMKTXJAizBenUh5Y3fX1oOEUh0ArA6cjKyAUGPL3EXvfCaYc5
-ZMI3GJpGVAGj38Rp29Ckh3rYMoSOfbqlQN+8K3W3T21vpzMrYtMmSfEtGM+raRZhm2a/9lyIKuIr
-lg1FI4q7xWRK33J1BOvJijZcKgLg0BxUCp8/oCI5+u7nFVrrk368umfyo1u7sZ+gLjiZrmJ3ToQR
-6CVPADFnOIlCfDRuu8Uowp3FBbQjlhA3CPf7krNQZG7RHpmGflx7X+Qn0L5mgZcA1uwtSLRj+PXt
-OL7h520GC85L0t7WjNWxXEwXk9FGLNbrqZeAC44B/F60Nm578Xj4jDUwLFDXnI3iK76e+huoalis
-x/Gr2yv4jYvvuKyoI7VILAWHF8nIrOg4ivrEzl6SRKL1fzqZTrmfpq68uNaqdRU/nWz9NJob1iO1
-KGPNKFrZTn6BovJP4MUY4qXI1ItpzN+SrIYvfGYgw/q3E6vWk7kffTfagla9GsErjciPB61odKRQ
-zPYjq2g6qWlVDu/qQZQQ3P/xo6giKSMvvpVVtsBNZyX+O7YY9nK92SxTT1qC5N+MXUuT27iu/itZ
-3ruYGr0tL7KQJdnWtGSpRbkt90bVM+k6k7pJOpXknDv594cgKYkPwM4iD+MD3xQfAAgQMaW6Dqcz
-XF0FvvGkv1d4QG6GGeVQnhHqEwAfsgsliQW4Kw8ZI972Kpd8qR/jh8YVxy9ZgIP8LyXkGIDzP5Ro
-CeAjw8/ogFXdEb/0XKzr6uxKbboU2LYL7KsdTCPFBhg2GGYq/OcNn0ocjR3BGJppo3st1iHN9gBB
-Z80rAs16FQLq+X3euAm2YJqJz9O+YnzHvNOGVaeAgWVRZWSf6vJmBO4zpZ3FsEXEg4G6vywdYANO
-Hwj+52uhS3Z0SJyIypOpylY3lT675u4z8cvHJhvfgS3jp9fv39/tvr29fPjz5csHzHheOturgsjz
-GteaVFml3c1Qy++O73pscdHQffZQ1oSebOXim0rS74MQXy80xoZzRX9Ed/nyPIiDu1zZQB3ndaZi
-vwkIzYpeYpYG/v36533gESHQVq7jxXqVNO8wIKIVtqvTvm9hEhn2YU8NiNtxyw2ZjHrsJJyMKxeA
-eOVYgZj0fvn67x+kVbFw1mjMCiAI147YhBLgfg8vWWz3lRIDp+l4WC2JywC2D4b7Eok0Gb/8jApZ
-HBV8gvmO+WlWiVqIr10+abEgDDq4atTv2RbK+C7PR2t873tBdJvn+n6TpHZr/2ivtxpbPiFVK58g
-qMFnfXCoh6sywUN53bXgiEnXIyoan/eYuEWDu5h/YkRSjqX4C3uLCRORryzDw06LSrvQH/mRP/YI
-QDx5cYt7HAKfUEUuPIUKk9AnaXybs37gNbtVdfHG0a2geIIOM7nE2jXkWRL5CY6kkZ+uI74gcnIj
-SeomDYMQHR+AQsxoQ8t13ITxFk3d5Pixb2Xoej/ApPwLx6m8DLrN69pO9ZTUzRRCbYDGHFs8FqZV
-NeIgQ3vJLtkVbRFPYw0nyhNVU93f+SxavspEyDANecgnOzZOQxNMQ3vOj5yCwZc68kIPyXIUX4dL
-h2vgVOYYknVwt0P7YJfjW8M6qgM/l8KzGWpNEuuaJniEn3yVDAwh4UycsrpDHdMsDLursS6tAOg8
-+b8d+th24WLXU9bBfQ6p0QryC6Pl22hlyq/CyRF+i1u4RCAqx9+ew1bWcOgTBusktlTGrW8JR3P9
-BalWATF3jMDmC7Zvczjs4sWipbkekiRdhkqCoshmgpBsu9EmvyTn16zLbCI0WTgQI+imczELQyv+
-xMZxzDJ3KCmJtmzuMhGQAlfQiKewbNAQaFe7R8yUKTtlEHMRAULjpf5KL7Dr3gLn7U5/X7/QD/vg
-ASP3+rXIIPOlWe+gFTtXfEtqWvxCvbCJW2CGholceFhVlJfqZHgMXMChKXKkxpUw2kD4JaACVxBg
-EAYIeMn6vmqxOjTZQRhzoSPBD5F52fb4pcDk2mWE0dTKBnFJ0LARa4dcqoL/QBrwfCxPxzM27MVu
-i9b9kDVljurk1+LO/Q58cuxHJN+MxZ7vIwCcRc9NhyBjlxXohAKAn+Zv1UWwKEfv7ujVD3ym8bMc
-Vp+OibSGT0EE5OVj+Ki/RFnIe1Zlyc4+UYvAgbqrPPFbSJH4DMjNxutg1Q0l5rNS4zkMueYFQwOO
-2Ylfug9E1g8QzfB2zko252Qu13beuXnbRPZ6JtZ2eSPR2rsSwZtLV/am/0gdT9OuSRPzWbmOZwXb
-pBHm/Mfk2qQbzdekgxlnUhe13xLfYmWoftdkzPHGZj2/1/nmDmbgIJ6bGtOQA2WYhnBzrxZnfmeo
-xrzq8crszoHv+eENMNhSowIyNHBuXeWnNPTTOzXJr2k+NJkfeWR+guPg+5g5gMk4DKybn9zSDMa+
-jODGKuDikeUlCeMgR3FmgDJQBnDs0fUtXoFj1nTsWFHtK8uByJV/vnU2UjNHorS/SoN3zEOwgUeL
-Wd81IOChbQv9Wmk0jG/xZYdnWtVV4NOLgDA+uFNplrDrJvGp9h/Op2fiFbHe8odhH/jB5j4jbm1j
-srRUZcRaOl1Sz8Puuy4nOZv5hdv3U88n0JzvzeZbBgNumO9j0naDqaz3GZuaqouIQsQPYlibMTnX
-08BycmRP5YgetI0iHjZ+gJfAr/ezQ2tsCAoIER+PXoKn7jPW7cq+v8K2f8F5xP/76nAkF2Xx/wvh
-Rd9gBBePYRiP0CN32nzOd3y9JBdMubDfLfFSDMLKAXeVYXA2fCEnvtxLs+WZUFUB1MMFXzabj7mK
-cZiILUnoHtuma1k1EItjk/vhJg3xgYT0yxpJ4F12kjFp0CYAR0h4C7LYKjS2ilMdcbK+VdyvLVvA
-WTQ5TKu7O6ioXS8/2hsF88VaKLx+qWzh9o+fEambvsPfDm1Hj8If4L+XWPFEt9Erq4ADXIdu8z1f
-4dVDdf/gJ4eKn7nyKKZUPzb/r6xrIt+MXefBoNaWagh8YlLzERd7ekvCgeeNN04zkiO6BcbUly/h
-+5tll6NOio2VuOG54V3AqrrMCryCrGLqHIYWzAY/QB0Dm0zNniwbxLdk7ud+z+9zjrcijHVMk5jq
-5I4lsbchT27P5ZAEASZ3N7hmYQiaR98eG3WmxxV9xp78yGLChkKJbCt0++qbKrJO5oIkTy+rNQ7Q
-qNcdEmywq6qA9l5o5c4p6gsw6UGhvEXZ/L7v1GaPbkwSCj2XPcTtQSUY3wSNjVKo3I4v3z6IABPV
-7+07UIZqCjerYeIn/K2cmq2WPALosh7XL0kYwqg9mA/RVLocJONkurragTzeqkWfXfQPQxUhvZfc
-yo1jYL2LpO3zmwmzbifVAmZnCAWLpS+QkNSaoTmerY4FIZjqU4synVgcpwi9joyAADO5bM6+94A/
-m1yY9k3qWSzKxAKbDKsLMkRxLo04/n759vLXDwiZY8eUkHFtV2U/JoU9n6pxm07dcNWWQenXjiTy
-Dx2O3UG8+OusC+HT7Dy0EF9l1pmz128fXz65jvaVVEn4w8x1pZ4C0iD27JmqyFNRdn2ZZ0NZzD72
-iUkzJ/CTOPay6SnjpJO+1utMe5BTP+BYLr1QkRVqMGckOocRj1AHyjHriTKZPaVnpBFHXWyN1LlO
-vXgjx95HGNrz0auacmFBCypHMBYpcR2nzsjvUSUfjSf7UR7WVxfT6lwfAVbjQHGher4fghR1paAz
-tYbXeR2ZI5bgxVoeihUE8TFWn8PSeenbl98gBa+AmO3C1SHipU7lAAsxz8NDz+o2j480fQXnmXlr
-hOZvTMTSBENbMhCZSkBHfVMMSmFO195RyOt0fo4+3yw+G0PcNYPBMCL5V824NJdOD7O0lpdIO4MZ
-wvqV4Fy+M9/iMI9CGvHGcvIHw++Xc8sZdq1UoHj4yq9izg6vY78yYVi1r6iXg4ojz08jdqZfcD+p
-mCU0sDFS6O4w4gfs+WOQZ44/huxgRu028XsYzCrYnN31UmfaZeei5zvPe9+PgzUUxTz99mMyJti+
-pay8O0a/W55L6292St9RJyQOgn+auhMtdauwgvcnt+CtTvu6HFVuN3FtQtuznd+D+ZY7FdWhyvnB
-oHeGADazZz+MsZnSobG354RP5e48EY2V4C/M9daO17rEWDDOLXbZ+dDXlrWWgk4QrwEi6pkGcuJl
-9kD6QMuveZ0VhMfoph0zaWZdU55TgIM1EAMJZ4CIcGCmRsSom+HpgFePikF6mo5Fjb6vnA7McMl/
-ap/bBn08e4ZnmsPVuGVDyDW+DOHho5/m2HZ6/wLVisWt8+e5M1BgS2kEReOVABP00/CA0VQM8uW4
-K6ilNp/rzv0Mus4wuFSeRZHlv+qaClS4RU2Z0nbNTr0flQYVezwq3fHCb2anwnzQuhAnOPPxm09D
-vLZeGXdZhD651zjyJkjDeG3sCsmQv/3pEJjah5WjbVCR0MqwBFx3ECs+xAq4zvtWrByvp5bwx75W
-qhvKm3065fy7N3XsYOFUWUF4VWRRMM1/9xdyNXM/O8I2EoKVNtlpijziIfXKQBi3s7wPIkKW080v
-VdAFkKz/3Ct8MhrxA/hv8wo95PxPZ6wC2kTsUAE5JKmYLa+UVGOFUIyE6E2hYPYln7zYeUlrMU45
-lfpk0tHT+akd2pNdqsgPl6HlB2IJAuRpgLjsfTtezeL2QOfzzq0EG8LwuQsitN0KozQ7NpvURS/Z
-8ONIfaVcnbvShEUipsauPzN+FGrbYQnyKo3HeV1cg35ddwn9KuxCede3JtkOACZoR85qWKxzonyn
-Ll8g//vTj49fP73+w+sKhYuoS1gNIJqmlAfxLOu6PB1Ks6T5EbuxJi90/jdmv6rwesij0EvcDLs8
-28aRj+UpoX/wD3PmqU5wzLjJY72W19Ci1PLQx35O2tRj3tUFOgVudqyZlYq4C3IfoiZMxXZd5kj2
-6V9v3z7++Pvzd2uQ6kO7q6w5AMQu32PETA+MY2W8FLZI1CA+6Do31Br9jleO0/9++/7jThxrWWzl
-xyGu61zwBJewL/h4A2+KTYyHPFQweHIm8cqRKuogy/F3mQB2VTXiYmuxEgrdAvGWCXDhTot/J/i1
-XsyBisXxlu45jifUOy4JbxNiG+PwU0U8jpIYX3Wd7VmsVT+//3j9/O5PCByr4uf9z2c+Ez79fPf6
-+c/XDx9eP7z7XXH99vblNwis97/mlJ0PQZ8tousvQwAywC/xncwei428cnB5YYa+kl83qw4nEZHb
-FDNYIKuzJxrFnDXbLISzNWArm/IJu40KTBy4Ynvhsc2qzSnaUMvsQ9nwpcraB8Q50Fx0n5JoHEeT
-78TPmkX1YBJb8SjEopmPwIByqU0CX3N04Z+OjJndix3cyeoMddsKuJDJ5HllZqRLcXTyubP7sn9A
-PR3K76Wx/OsL6vX0eObXBsy2GHBL3rmQpl1nWoADMotOibyWWNDWyg2PPrOhsm4/UJJ0Y0K1aHEE
-pNPqbitGWwb3+YcfWb7wOzuHfpfL+suHl68/6OW8qFp4HHAmxFBiDGWwKhLv21077M/Pz1PLKsxw
-WTQtg6c1T41Z+6E6XZWNuqhY++NvuduqymvLkrnmqJc6EObiVDpb+/MYbJMNuquT26E1TYYztUQh
-y4kgqaBE7joCgetJj6UrC+znd1jIwDzaoVNLF2LHYsPqE2y9RdYmSQaPtmjiniP1WfzC0bx8h1mV
-r+cF56UkpJJyQ03gBbS+AYcu4UY3rxTAWIl/paNIQ6LFqWqbwZs0o8bDUkWfHg0rVEGVrqAMeRuQ
-zwNIFWrMDwvgiD99jQzP0wtCTCv6ed5Q7GKLi609s2FqB1Iw+IwicZBTIjUzeMB9CQgy6dqb2y9Q
-6mbjTXXdmVQpFd2ZgwBEZ94BsXBGRvqE4f8zpFU6sM/t/mvlQkK2Dja1ICLMOQRDj0fhAKyrvSCw
-S+TbWnAjv9nZCpGl2N4ereuoAM6EaHJOBHsikSkLc9j4zU5juZ/yU6UXWGSh3LBowszHmtmcmNCz
-Bt1LDQ4Ie0rUV+yqvh+Zwy+ogTexOboyhtnxAwSIbJ0Gw429GuDR9sEqiGLDJbPkey+JPfO+abrp
-8Eh/UjJGzbqiavdNTG8K3WnewZek3be3H29/vX1Sq7K1BvM/IECw2la3bbfL4GVTSWlCoVvrMglG
-VA8JOZtb4UISIlaMLqOggPB36NvaHN411KdWA1RcfmTaosF/GOIUaU/EKisw8Ur+9BHC8q1dBBmA
-kGXNsuuMd638p+t2RmGnoVPs8jLdsbkAVwYD+eR1BW6hH4QM2i5EgcKIBB0RjQk5lLlMatFeqvav
-1y+v315+vH1zpQBDxyv+9tf/IdXmTfTjNOWZtvqjTZM+FaYuGZyaJTfcvlmpwTH0L/EVQxp0IS4+
-cHntl9mzXNdp7dIoJStabZ1kNO8ZmA59e+406xlON5xGavwgYNqfeTKwzjFSwP/wIiSw9qI49iFC
-MLO6/OTUBd5Wm8GKXmRbLwnMsoHe5F0QMi81JZMOauzZNuoirDodDM3PTB/92BsR+tDsDe34UkQ2
-bjYJ4YVmZuqymp9Tb3RK/5B6sdsnbV7WraEvXZDLrT52dD0zIDU9piJ0xk4sUMJap7SM8RPwzRbu
-yp7vP9PuEKEPh5feAj2vW7Q6ZmddqstlLTTvfN8j0XAzIsPWsAZtj+slFOMwwiAvPSg8kKIA5EkA
-GxxIPB+ZnLzWaZJ47nwAYJsgndAUzTbxY6ytkGbc3GqryNVHOl4Am4TKdbu9m+v2RmLsGeLM8Ziz
-SEXLdRB+tmRsV1FuKpYvNt/4KdJVrGgS0+ZDQ9IIl3kuLA3p705jCWLsFLIw2O5LZkDK4Cg6THRs
-evG8RmTpk4a2GfbFcCjGUyQ8ReijfTODE3Yq1bhSzhWEaO4AhTSUhsMtbOqJeskSf6FeR7LsY3gr
-96eQ2O9Xri3U8c68mLkm/A6ij47HGW8uTysTWXHAj3dms+LCnms7PFPv9p6UQOLkAJt6Uj45Sk8b
-Tn1u3HtmlmdkkZciNHQhVTJndwVS7lx3+Osgm+3WXit5shH5oBeIr1XY5rR62KaS+i7Cz4vHU3bI
-kOFoQLubudsGX0w3tX4cgAOAIflQBBHOvgPflXXVVMP72A9mjnZvHRvmJFX/aIcEkkdBUncgFLv8
-erXHTkQCVMfMRW/8+vnt2893n1++fn398E7ki4iIRcpNNI6OjElnUFK+n1Y6/WlpSXiPFYwgpBsP
-jHzjLLXWrvBN0FV0ASpZccm6nZMITM7p+uwH+McjnBLqvbloQshe790Rno71xXBnI4giIM0T2fxm
-lyZso+l1JLU8PfvBxsms6fLUCmZjwOaRUb4SqT3z6bicUlmTxUXAp327wyJNSCZLnqSI7ejUi8/Q
-HBW1CdRa+laanyYW2bVaF+RLXmzDyO6lEUbL4lTKFIux7iw2kOM4rXjGZULyW2iKaW+rmWeTAvqb
-WxSygvr6z9eXLx8MSY7MXLoHtGqdFafOqePhMjmWDcYUAD91hEnVyhDcaKmw3wjvMWywY5uC92ls
-vvmTI95VeZDaH5+m6rC6SC5n++IXui7w7K7rq+f2ZM+5XcF3vsDu5l3BW+M3lyenr+GaHePHAoFL
-1S3VD3UXbqPQXQ+6dIMqNxc0TmJ7ObA2q2Ug4TbtlEDeoOXqncdDnIb252h741NDxpJ4qx9OdHLg
-DvFjM6a4kYfEpes+qmqrYwDj25+f76/fmzsplM1L5U4Wa0saKB/aau5Wkwgk7N9oBWcqJVeAG5bI
-fi7yMLBjHy0GiE5FF6HvnQbwTdsnYnbMsyL0qYBO2gpBPOMTDHkYpsQJXXZAxVqGnTzlYtuDO5xQ
-HzCkXdLrLNth7VWpENT8yA+Hvjxkg7C8t5rQ5g9nTE9z0U6JF/HEaD44+b/9/0elO17F7UuunFdq
-T4V70Rb7fleWggXR1jMK0pDUUDvpmH/Bzhsrh3nkWOnsUOm9jbREbyH79PIf/Rklz0dJ94+lbvqx
-0BnoiF0ytEUXxJlAajVSh8DjeAFKCnSKGcw+LhI2M8S/VYMHfWSuc4BM8SfalNAjmxLiX5HJ8wst
-CHHPwDpP7BFzbuHYpB7egk3qUy1ISw9fS0wmHze6MCeUdiVsL2A2+YRKcQXWl0z3IqcRZ0MyHLSk
-sRYC/x2sRzM6DygYOcOAa4V1TikLxbIY8mAbB1QJzZCE6FTTme7UUpxq8au2xuWeuG+wSVK7x4P+
-6vzP2CzrSzCI5otqYdpIyLw1FNOkgSW9lYNRLjt3XX11O0PSSQ1dB7GDgFE7Lai7W1bk0y4Dkw/N
-fbA8RUyw6pw12wZFljkZAfHYIKlI2Spz3cGfQkDhCDGl4FQK167PdpIsH9JtFGsn0xnJwZWImyC/
-BJ5v2BrOCHzZCXaW0hn0NcGgI3UT9AArqi4P/G79hE3smYXtjEcMc0dwMpJIRtLtVSIrp91jAOGt
-9NGwIOJlgM11LB7dkeFnej/2kMZL+k+3CUIJh5+nllF1WBSDBOyJCtQ0nfbnsp4O2Vk32J9zBO9n
-Gy9CRk8hgdsEgQS6p6sZUeduuEfkbpe403hO14+x7/LPM9XpqYp1UDWkH2YOXsV064VunrNT7582
-ABeiYOPSTcOlNX8xsbBhrIcwIWJ+a7Xzo3iDeZ9cpk85lPnQKt4kTrB+kDezLfa5GB2x3RCpbY2P
-w8OneOTH2IwzOLbohAYoiG+1Ejg25rtVDYrvlsyvkp47OKzZhREylNJLEJZCIIG/cWem+Gzkbhwh
-S1k/xJ6uPpkz7Ae++MbIlAa7U37f6Aqszeec+Z6HmYMvbS62222saZyOl8Z8ycd/Tk9VYZOUGakU
-CkuHCy8/Pv7nFfMqAh5/GLhqDQ3zqpUe+caDKgPBNIgrQwPOW/G0AOEyEJMHU4yYHFus0hwIyZJ9
-9FvUOLZB5GG5DpvRJ4DQ9/DiBt5LxEtDgwd7OmpwJAFecrQhqhRtYgQAOwK0pizfJGg0iYVjrKZ9
-dkLssZYswKcJQh/+y9iVNceNI+n3+RV62nnZieV9bEQ/sHhUsUUUaZJVKvmlQiOruxVrSQ5bnuie
-X7+ZAA8cCWoeZFn5JU4mgASQyLx05MfI4Z+sxqm/p24LZrZiiDyijbCzjTyXoPPzNaq8OrxFTyAb
-RVV4Yx1WZqYIJF61p7Kt4tCPQ9qljuDYD7mZ5eR78aqsnkueI+zBT7CrKAeqyH0TuonFtcXC4TkD
-M3Peg3qXkXnC99/KkN91qP7cZ+xQHyKXPIFbuh4vMtTZa4HGJKYy/TUPtuoD2k/vepRgwIashPWa
-ynO5utvIWEz/xNgRQGwFVAfHOqhb8MowGV1d4oBVmRB0BDyXrmjgecR8wQFL0wIvovqSA+To5a50
-N+ct5IiciCiPIy4xdXMgSmggJfqen0zGVGMF4hONAiSK6JWJQz4d3ljh2ZRNzhHaSk5JcRfV3ZQE
-lne+ZUUd88jiRm9JXB4rz92xXIzDzeUml5+ELaLAIp+iUusPUGlecl4G+taKDDAhEA1LyIITny4i
-IR+DrDD5URq2PTRBVbAko9R0CQ49n9C2OBCQH1hAW23o8iT2I3JxRyjwtvr4OObipLYeRtXnzITn
-IwxL4psiEFOaBgBx4pDdg1BqOSJceDoej3qjym2eX7uEnnQBM4n8CjGVJtKOKe5MFj6ajKqjRwvw
-DsMOV7R7oGmR27FrXlUduZrXx6E7wUa3G8hYTQtb74cePfwBsphTrhzdEAYOnXpoosT1ab+0qwB6
-oRPRh+LKYhZvbQqAw0+oNWtaK8ithlgULJdLEpPnxJtKiGAJbRM/TL+bkwSyBAG1NcDNdZQk5NC7
-lLDSbdUKtqOBE1ArGCChH8Uple8pL1LH4vNt5fAccj64FF0JutNG4s8NVJpMK9vpGCuJwT0cRner
-TwGndHgg+39SpQOQb8sB8XBe3yCwEvQCcr4vQSkPHPpuReLx3I95Ijxi3Wo5G/IgZlTjJyQlREJg
-O59ShYb8EEYX9F3NWEvq6Zxjcx3gHH5EZD6OQ0xpoQNjEaXigRbhekmRuMTazWPUeDYgJkrJoEMT
-SlLqY6Y8ZpDplBYDdN8yiY55vL0mjQeWk4bFCwPrXIcayEgnFk9OJ7oB6JapGpHNXTowhC6pAp3r
-LEoi2u/qxDG6nksWex4Tj/RuNTPcJX4c++T2GKHEpf3SrRypW9gSp96HiYm+5XRCLgUdd7Lq2x0J
-b2AdGAkNQEARfwpsQjCwDsTJgUBKDpnN4xdFpNBxbYyMPHOXjfmhkCPfzZTZtcV64ToDx/Yuu29P
-1MuQhUd4U+Nuiq7lEWNZFUQRGCCUP9mD3H5xDJhblc6njncP749/fHn7/ab7/vT+/PL09vP9Zv/2
-r6fvr2+aIcScvOvLKe/rvlXi8qoZ2gLuDm01Eh0kzoRkYClavHpaIJv9yZJUDtm4bKk2UqPRpROl
-cgZzo8UtoQlMvi9N4HNd93h9TrWDA0O3VRXuzrZLHLojOLobsg9ymJ/6ENWbn7ab/X/glfNz2Nw4
-BEwg6/e526rQrX/tx5r8OvxZxlba+f7KbAhu032yibN5HFlizS4eRpAhL7vHE5GdsMY36fyNDeQk
-d8RqMb8tbshl5si/riSpcr2F+f5WrsOIb31cIt/FbYkJ9WPhuumFFramZrHruHp3rX0Z+Y5TDjsr
-gzCTtHT39PyOd+GLNBKvmedO/TqPNRH0Z56xurz+xz8ffjx9Waea/OH7F2WyQu//OdVZ63RWjJoT
-htkwzZb53JvDbs1aGh8YaacdhnqnuIyVw3UiyzC5FJFT5dx5NZ16RnUi+jHcTDUzqHThYxQz5T6b
-pcTrmDTYaIVrZbOElYUPnBHVQ/LaJ5xJNCSvLdwLTpGHNtfIa+UVSwKEhBcC+kZfSrpnWX7NGb1t
-UhhtrzcEk27Bsvr3++3n6+P789vrHPnAuPRjVWFoCkib/DbDEs721Ak55zFMTZAq3rrtO3GXoWY6
-+LHFBdsMkztRnHAWO2ylsCwbvSR2ND9eHOHRHtE3SS4PhBU6NLkcahIBHk7ZkbcKnLqYb6u55K6j
-14YbY1A0PY6LhPQDdQvFv8vkq0jx4ojAYq2t5CeoVsfgEovNowsvFJ8nkfv0BfVDvSmcnNCXuAue
-0nefK047yeMfHzUzy4sBTM91Om+zXRMLbdizMITqx1uewRtZRdSh7gRqZj6c2hwpwUZoelDadNkw
-qJ95n43lXdvfiktDpWJ4YXi5XEii+vpeBtTo3wh0XuSlKvOhjmBbybt9ZT6M6M5rqHPJ5AFpkCP6
-lpNa23RAtXhLRMzmSRGLrj8NkeXhCMK/ZsfPMF22BR1dHDgWV3dKOm5+ZHmxsuI2kV+Ml9QunSx5
-9IE5vZj4Sx93SCfPC1Y4iajMUt8oOI6TwCeKSFJLPLEF92yNnK2F9KLQTsgoaYx80ixwBlO9V+a9
-0Zp9+Zm7ce3UAg27LySe667suaMWS5GoT+uJurwKYYxSg3R6A6K5ScZEXNPuVafLvADzoYWMapZA
-nKY/geHE20Q1WufEYzhGLm2LxVfTMrf7gOMMdRBHlw94WGg5Mefo7X0CskzNT9nuEjqOoSBkO4wx
-8kGZI+uoW5BJRYhACetzbWEW9r4qTYn7mekrtvkESlCTOKGuHqYMG3ZSsxEPmlYamoW5TqiG7eRG
-ZBYDnjkOnbU7BENC2TCtcKrpE6Z12twA/sTL6Kj1bZdZtrchZJwhiWwSbj7SkqjG6jjTN5bahUWs
-VHpymKvJA8Z5k24qezOSnQrVDTUAkRN8IKp3jevFvsEjCxTzQ9/XPoP+oI0T+fs0vU3nSxLaZl7i
-BTlXDpf3harOKMgbfTtzEF3LtSyPuhnkvcBCV/b3NtNcYzW7Q4ch9pXmzuZPZAIDXW3Ww+euNNXN
-kEQnWodI6Gyqv3eGmxR1LuaBHvEJp+UFn8wEyqStjWs+8r2GmBT52Yk263FvRmor9dfIXLk5ZAVG
-k86lyWs+6ZsWM9UHuW3ztx5E7U8Nf932l0HSvXuuQFVfMFpZ24yZbFe+MmD0iZOIXzOcmGyWvvJg
-DMGhw0AlCxeRE6hee5iWlKNNGUS9jJbDlQ03qUlEb01ULtzKksd1C1MR+mlCNWfahlJtmMdjU7Qu
-mXTCQS7wQYo8d0tMNvP/lUXauxIZTNL4QS8sO93NkrR3JBIg9qsUtBhikohsz6ogitsSDSF7s8qO
-oR+qJp8aant4urJZT1tWFrFJ2uwmwXIO1dd9K14PTeqTuw6FJ/JiN6NHAKxKEfnQW2IxVxcJBOUp
-dq2IRyNJ7FmEzHx4bmEiF0ONJbJ8w0asu9sZAE8UR3QGG28wVKZQ3pAp0PwqnsKSKEitUESKM99n
-heQYWF9xWCByOjL3kzom7yo1LHFsNQHMo/Oczhe0+MUKHid0kQAlKV1i3rmgFHu08LMuDCxv6GWm
-JAlpC06VidR9ZZZPcWr55LDhpeci8VTTIoSAhZT+oLLQX37arZAZo+uMwOIUTeGi3q5LDNXpc6lZ
-/UjoGSZR8ghA40nILuNQSg4FagtuoofNkoVTOlbwfIgy5s05UbN5i24CYpNP1mpo9qA5W86XJDah
-+33EBXtxh7TMUHgSL7BMwhyMKZvelQeNyVwQTnpkzZvfj7KIPJ+ez8Rm1iN7WArYbsFoweCY65Nr
-krRNtjQn1OJ40UyputUxUDLO+co0PTCktN3Z5xCBnacQQybwibF88XBJMOjbJgVRvJz0uXbaBQQl
-rG9T92qYebx0yNsClHRaXvMpnB5lo5pPR1bqhTUGuUEElVza/7DgmXBpPySTYffRjOrzyxnfFf2Z
-R1IayqZU/Z5Ofsu+PD/MW6H3v77JHiqm6mWM347QNciOWdPur+NZYtAqgYE6R4zUe6aaqTH3WcFD
-sH/QHUVvL2/2IfYflMafm5Nsi4spo3vmmpzromyvwhW42mEtf/7VrFHMzs9fnt6C5vn15583b99w
-8yn1ssjnHDTSKF5p6l5fouOnLeHTqlt+wZAVZ+sDfsEhtqusPuIsnh33pXTMx7PnV7XXBpjyRrmC
-EejdcXZKMHUU1URJwKRAWGsHaL1M8MgiutzRcuJk13Tz2/PX96fvT19uHn5AK78+Pb7j/99v/l5x
-4OZFTvx32UhBfKwTWgV8KCd4O26XSd6lu1PlaareSie+LqezkrWy+2spBcuaZgr3pMqi7OFMkB5e
-H5+/fn34/hdxkS0G6Thm+UEXo7qfrr54VtnPL89vIOmPb+jx579vvn1/e3z68QOdmz9A+S/Pf2qu
-eUQm45mfLloFbSyyOPAlTXYhp0ngmKILgAuqPb1fmljKLArckDrqkxjkO3FBZkPnK6dsgpwPvu8k
-Zk3yIfQtrnZXhsb36EgjU02as+85WZ17PnWdLZhO0GQ/MEY/LFfKs5GV6iv27tOc0HnxwDpqPRcM
-Q3u8v+7GCrT2i3wm9p99d/7h+2JYGE1JGLIsCpOEnEaVlOuUuJEbTGH40tTaHIH7eqchOUgueq8h
-OVKdNSsArsEbnxG5EvI9m8B3Y8LdbWvJgGwJvbfgEXX1IdDbwXFlDwyTEDdJBFWOYrM4+ACxa7mJ
-kTnsMsIPEWL1FlVF9I7S5oIudIMLkRoBy/Zr4Yjpp/4TfuclTmCK/XiXpg51nynBEVEhoG/21Lm7
-+J5nFz/Y96ceP0qQpBnHy4MynPRVnn8AWc2fZpKLF86zobyekmPm6XVjBMauRx/9ShzkEx5pVMXG
-FCnIIUX2KWnhAPnAb8VD16XyAzLKmAmlfpLuTAHIbpNkS6IPQzI/8VF6dulFqWefX2Dy+9fTy9Pr
-+w0GZjQ+36krItjNuJk+vwgg8c0vaOa5rrb/I1ge34AHply8kyCLxZk1Dr3DIGe/nYNwa1j0N+8/
-X0ELmrNd7QcLfnYF28OQnLD1pELbeP7x+ASKxuvTGwY4ffr6jcp66fjY3xiZLPTi1BA0QtkFBZ3V
-XV1MDyVnXcheFVGXh5en7w9Q7CusZFKcbFV2urE+4n6h0Qs91KHqYmaqHoMeo24KJTg12sRwdOsS
-g9Q4oKipQxbsu9Tp7gqrp/uC3p69yBLFe2WwnASuDBurMIeNeaE9h5H8CFCikpUEOnXuPMPTQ3Ei
-GekMV4ItpVmCxs4MsWfxV7QwxBZzrIVB63UDjoneiWOqzxJQIcwJtj2n20WkUWgMrvbs+klIaLrn
-IYrIC/BpqI4pcxxXrxsn+4baimTXnNuB3Dk+RR4xb4LsulTeZ8elanKma3J2Te6hd3yny31i83Fs
-26PjcnBj4mJtM5iC1RdZzjY0hv7XMDi6hNYW3kYZdbIpwYaaC9SgzPeGIgH0cJdVZu0GVmcddbgt
-4HJMyltCMoYwj33mk0sEPcXy2bcBmrkXnVfyMPGI8Zzdxn5s10yKuzR2A729SI0Sgpo48fWcM3nJ
-UCrFq1l9ffjxh7Q4GFoM3rTYlzA0f4mMUYbXj0Ekr9RqMYvD4e31cz+4UeTRa7OeWDoKQCwTIWqJ
-ExYFVY8IxtNxPa/Kf/54f3t5/vfTzXgWaoBxpMD5MShw18j2ghKGO3kMM2NFEy/dAmXn/Ga+8g2t
-hqZJEluSllkYq75aTJhaimQuNtRixiLzYKPnkE4ZdKbI0naO+VbMiyIr5voujX0aXUcxVJOwS+45
-XmJrziUP6Tf0KlPgOI61Ry4N5BHSR+YmY7x5XisY8yAYEssDc4URNVyLlYspUjZTQImxyuHTUwYO
-BpNHfwmO+baumupBW/zLjGXw8VepclA7bUKWJP0QQR7Gef5UkVOWOo51oAy155KODGWmekxd3zKG
-e1gCLEWDFPiO21e2sj8xt3ChF8njGINxB20M5MmYnNrUWdI8TuWT4v77w7c/nh+JSJTnfXbNesl1
-8kRA+bvuu9PwixvNkHjPiG+nXNWOVqJfq7ov77KmIeWgUKOjiO0k0OR1bN4jSuS/rcmvfZ7117u+
-Hkv0y7vWG7FLubhmr77DEn/zz5+//YbxqPU9VLW75qxoajkUCNCO7VhX9zJpFQFoF8OIzVf4TIWS
-Koefqm6avsyl94gTkLfdPaTKDKBm2b7cNbWaZLgf6LwQIPNCgM6ravuy3h+v5REESwnTBOCuHQ8T
-Qn4pZIFfJseKQ3ljU67Za61ou0GpTlFWZd+XxVV2x43FwGds6v1BrTy6fb4eyqYr+0Gr+lg3vLGw
-ATbfyCnf/Y85ujsRzgg/Q933ehj1Fe0YPZdhwvtd2Xs2AwFgOJ3LgT5bBxDf2ONli7XkAQa/f7FY
-rKKYgppVW7Pv67MVq2PLlhp73AhSoOSagWZnFZVsvHcttogCtTaVXggRyc4g1Fa0tvbesWxhONT0
-mTjgt/c9bQsImF9U1h44t23RtvTuGuExiTxra8YeNOMjrR5gD/V0XAMuhtZMYSZk9ZGycMceYkN+
-qi7KoDoVjTxvo0Ds2HV/GYOQXJKBYYmNpLRV2AMTKfDBdcUvd6u+PY4wN2hJWQlSdmyZ9cticCtb
-QHVs1gBjw2IizFsd6yrIvJOhFgQ+IeweHv/v6/Pvf7zf/NdNkxfzjTkReBtQcaU82UoQHbDMZgrj
-OuGt+PICYcl+xYSHgKakgzatfKaHEYPFeGSrQEkS2SH5pGeFpNdzRI0mu+nNKnEr15QqtsuORStH
-LVohyq/zjKkhHqSCztDyuOnoqu6KyLVIktSePr/kR2oFXHkmk336UxofcZLHD6RuLuVQMMVIomn3
-LZmfoeLNOQzt6Sj77dX+uIr44wqpy5lBuNZlnobSeQXSC5aVxz3MQWaSPrtjsEypRBDrDha+4dpW
-VdNmWk1+VRS6mXKtj91pvOpx6wFth6FkJ2oamus8x1aXyIeeaPAUcF4YlQxqAlSEYaYthl98Ty1/
-tmBqmwJtWUhJ4jXBoNAVvWAhfsbXkAP0YV8fR3oh4JXUrWLUypSfTuifhXR+i6m53wGtbcWJsXu1
-K7KmbTuVxMYuUyKdCeJAuyTkdenrrLmeYP+qHn/zhN0poH2nYVdBf7Ls6F0CXQBr/etnhZskFl+u
-CI91bQk0ucJczWR2plNiBJ/TYEtk8hn2N+A7Wr9EbDcmFjMSPooyx7UEMOIwqzX/JOqoudzvS4tf
-vyN/UuYlFid8Ao4sqzOHx0tlL7rI+ibb6LE99/dmhZvsfjO5yN7i5W3O3g6L7O04a4+0Ys1Bi0KO
-WJkfWt8+cmvYQOmTugFb3q+sDMWvH+Zg/2xzFnaO8ji4tiD1K26Xm4olNhefOCkXg32oImgfo6Bd
-ufHGV4MptWySi73mM4O9iNu237u2oy0uOW1j//rNJQqiwLLbE6JzySwWfAgfmWexxBET4+VAh6/l
-i3DdjXVhccODOCt9e7MATe0lczS0px7KyC5O5zpLbFq+hH8wP/N9SDvYh8b54nn2Gt6zinLkdCj+
-wQ0UFJsDLoeZEJYNSc3EYRipoS35/k1LAioRN5iEXe3n8pcoUJbSzlj4TqR7mUnlyetM5z9fuja/
-LSnrT56o4FaQeaWuuOgdSSdcszyNr+g/+S8dmQNpqRqhwTYrgCaCwXKzvNO1hRnKP8P0Hntuyi5p
-4ocxqGUWtyNaqn7Eq3uDXVEF0HkQ2V5W3/YtKmbt2Oo1m72QIV/tka6dBRd3Ngcc17tDPYxN2es5
-FeVQ74/8cFHLSFy4veWTpeNvb99hH/v09OPx4evTTd6dFpPi/O3l5e1VYp2skIkk/yv5U5yaWQ3N
-NRt6ogMQGbKa+ioIsU/2aW3J+ARbGNLVt1zGUFsK74ralEwOlaJiVLXqvKobSyq6oTW78JqeFAPT
-za7XlhEPI2VEnuvoH1FdS+r+9q5teaGbXVcz0lXfjOI8dL0tS7bL7gm5HW9Bh8zPQ7GYSGNTpq0h
-b0z28vXt9+fHm29fH97h75cfqlgIT4NZfTLUdwFc9teqLwr70rPyja3GR3MVDE+sGY/GpO0/FCZs
-el9lebnBVB83QHRtakH5Xpnv9qwcKI9bOSBuL74rGAVhidfTWDcDicIiCDNscyKbvL98UG3QXWBZ
-ajOeDf05JxY8bBi3hqrgHtM5vOB8V/OxcOk54QkXNatggAL7gs/n9e4TqJLRddhR1rxL/qA0Rquz
-bAvalzYsq7YgWIuIqWeC9U+8Qj0ITq04GFZTDtaUAG2USXUkG9A1hl19452dseF03DhTQJ62Asno
-mvKsKj5iaRrZ8+P3N/525fvbKx4/AQlUSpzdhDmxfIz6/5Q925LbOK6/4tqn2YeptSzLdp9T+0Bd
-bHNbt4iSLedF1ZN4Ml3TSed0d2o3f78EKMkkBarn1NQkMQCB4B0EQWBYVf/6V2rtenr69+M3cOi8
-rceTi0yUFwMVkuNconY9yjVqbhT9yzCrtZs8WL5DIEuXiz9RtkTgyjBbNotRGYRnf1kfNWuYYDMt
-YI8IVECnAwXBqyWqcG5szIQbqarmQDo2akRDHJ9jE7qxVKONvD319cxkH+liI8TdBO2ugLfbdHIm
-3c9LIZVbdxcOlErjXDoKwkcwge8sByPakL7HNtndVnfUMLF1xTORcnuPvBGwNAo2vvN7eCKwM9Ir
-Tqu43borIQ516nC+GQinL2htjNQ+ihlsGlvR7G2CshVkEgybTq5sbFw0LKI+WDc5cHocnp5cqotG
-N0yQicBtvS8PzHGG+NjaM+tja08XCZFqzZy2uIIVK+6zlPXnWlgJiXtx46g3u14CkTw7UnrLgPO2
-uu+tiWmdmM0MxsoIZGPtPGwa3vFGxyDxjHwWFqY7nmeQtFz3a2+5puFkUffrdUDDg2BN1ux+vfHm
-lgsgWK/oTwOfDF+nEQSkNLB46MEADIRPFhbGK/t+3KaoOxERE94KTjSC+1C6jokbCT9IqQVOIQjh
-FYJsZIVyZDQ1aOaaEyzr6ZoUSSICYtD3iH5sEUUCem5QK4qNg/OWbIX1ykj4osG3xH6AcIfo21nJ
-t54d3Zcgalti/PUIespJpO/5tKT+mpbU1wP83ODwRJZiBHmmzIhJAwpNVHODnFZQErH1fGKZkHA7
-YdyI2fmOWDk6yWrnjJ5nkc13xaHONtRKzvO86Kp7f+mTZ5AxVpWc2bNCKH2DDPBpklAqCWL8YMso
-ERAZkAnGDZINoRQj4m7lwvjU/Bkw9OBUWGclNhQCznHyuHuO4iEaxZSojDJvsyM6CBDbHTG6ewQt
-JiLvWidi9ivXHgzo3aZ9d0AOdPMjUlL5y83kcllDOSJq2lRKWgIpG5Q4Rg0YZxMorItr4K3+45AZ
-UO/LjFSOFpYT0SdDWI4EqdyCyfUEFHpvbvMCAp8YYK7DznhCIOGuGvyFc4Pg8nAcC0IjGDB014zY
-8XQ9IYD3IB2Tf/I9eTARvNr36r5D63AcgoXIVv6S2FUBsVkSKkGPoMfRgKTrKbJ1QK1momb+ipjT
-AJ96aSgM7wRz3WzgaY+JVRCQCh+i6JzTGsWW0ikkAgIr04itR+68iJrxDehppCo8txVgxA+PWC7r
-PbvbbSnELUrGLJLuLJ2A7OqRwPdaou9u6InHzAT9jgRI8o4MdMsrdBy1Hvmsc6QTPluttgnJQyid
-br77gMiVB7mnwXgk/lwXYyBeP6Ck6GP0zn2c7QKPGLEApwYAwskjBWDIx8kawdYjFlyArwilGIOr
-OOh9YjkAOK1booXqPdECurbkfEY4qSACZje3RkiCHXWAVnDX8aLHupKHaGTzpjYkoEu/o3UPxLxT
-obutg+WW7lapv1Jw2v73MYVcwaRsH9FWdbcp6dywmiK6De4oBhji0uW5NxIQlZDwDaXb5qzZBWtS
-2Pwd37uRZrYyioJaGUu2kadEZgRmMG1ixidKN3Bd02louy5KXThUrDwi3iEs+s3fPOZ7zOhu0Rvt
-jjyeXnwcuZGtRf7sQrREXuQGXiX5oab9JCRhxc6EPA1w/Gpy7N07phdA36+fHh+eUDLCmAifsnWd
-kL4XiIyqRtvXRlC3399cRBBalnpyLwQ14DdjwsIkvee5LX10hJTGrlaQaC5/zeCLSjBOXWErbAPR
-mK0iMxaxNL04vimrIub3yUWYVY/wDaAFuyiHGYu/7LtDkVdcUI8QgCDJBDSiwQvCKBaZBfso5bAH
-0CHJQl7Rrw8Qv68oezOi0qLiRWPVTJZRF40exw2hl8Qu+czSuqAe+wPyxJOzKHIemWwOl4rVXE8z
-AlAOCSvtZuO1q73+xcKKmRzqM8+PbDKa7pNccDmtHM+hgCSNyuJMumIjNpnM2DTJixPtx4boQh78
-3bMI3ztlstEnzZnJ5qxmBM3YxZ3YDgiqRI00NwcOlthiTzswIgUsa1XimgtZk9acGBx5ze2WL6o6
-uXdNKZZDUl05+rQFVAOqFcVgVyY1Sy85pfAhWq4KaRSbA7kHwtPQnxT89prRLqwnkJ1PewfpRJFz
-tSlTBhE65RywZlhZcbl126XKdcvdZP31v1kRUSYJvIy9t8B1wqyVQ4KSFFz9k8nqJNmWqeNpJY6q
-jLLt4FyukiRnghvGvBEoO9HJU2Ssqv9VXOyC9QnNT4VZB7nWiETPhIzAo5zemQ2rGlFnTBhXfDp0
-smU1sL92pfBN8JnzrKgnK1PL88y9AHxMqmKmYh8vsdw2dU8XbBHMQ90ZN+8aPJKiQ1xt/GXtwWlp
-BOyitvkh6amllYxiQ3RSQLnHejxRJwZ24bOEli/Pb8+fnp8oxQKY34eUNgUYtRRqmt07fG0yw/sE
-THKk4gW3qoPy1TOY0I6+vzpXTdLiGHHXQ2otvKsJ7L2aDBhEu60rfjChTVryXoE0vs9z680cgFkV
-HbsjE90xig2MSWY9xcEv87xoIDd0npypMNJEBDZo6kk4YeAVJ3smd4QOHn5zUdtFmS+1HP1f1FY7
-SADqXE1Up1zUU2TMBaRE75JWzuScpThpJlR7kU1aXWCzH5IK0/tO+grDVzdyUc3Bzzdll3+uzJGa
-D8o9Dr7n17dFdIslPMmAjt232bbL5aSXuhbG0lHfsEZoHB6M1HwjAjrzq9nCA1xu/XlCm/9uZH24
-aqLI7JSEDcmb8JDXSJK+Fq6ubZuVtzyWffWNT7koPW/T2l8bNHvZj+DLM0cj91EfEmbO0RSEmAZB
-M1+PxvNX084S6c7zerDBbUTISlIBi280kTXZqx3bbAJ5jiQaDPhBvmEHQ0AbaagHIIYez1QU7XHs
-qjfVi+jp4fXVtWSziPbtxHWlQs9ehyzn2BpkNSafxAJyuZ3+zwKboC4qiBrw+fpdLryvC3CJjwRf
-/PbjbRGm97A2dSJefH34OTjOPzy9Pi9+uy6+Xa+fr5//VxZ7NTgdr0/f0aX16/PLdfH47ffn4Uuo
-M//68OXx25dpkEYcRnG0M0MLSSgv3ZnrcHLHuaBMUsgQ2z+uInMiK7BK2K3SnPdet4vD04/rIn34
-eX0ZhM6wp2SPf33+fDUiimMX8KIrcvLUimvvOfLNTgAIbjKTZRoQIJOzokhxYPGBfJgyUsSQd6wq
-0oSunFogF4JWP5CDysY7V8aRlcKecIiAE7o85lFHxpHm5kBNsij2vXVojscH41Teg1cEv9WkTVV4
-n4fPX65v/4h/PDz9KneOK/bu4uX6fz8eX65qr1Uko5P2Gw7667eH356un60NGIqRuy8v5ckJ7StT
-KcZemeveVWe9rppw6RPSTT/sX0TPfVxX8DY840IkYNLbC1pQKAJrU8ScvnfGWXeEMK2Je1eCrWVr
-5scZFwFs0EnEQFzkhdjqOYZwYcG30baw/YtpCRFzrdqTEda4KZEd305DMV5FoO44pGDVve+Rt8Ea
-0WhpI2pxBEebnwTmfJTH0WPCavI7cG+QW0SUpAkqUiTvUu7eLY1SlrIu25FlJ1mZHCb7qsLt65jL
-BnPurIrqxI2DkobhJfvgYM3pJzK6YHINdGRnIKi6mpMi7HfeSvd3M1GBnltWH0kYQsYlekmahzWC
-piG5wrpZshyeFpIC9XgalwpOMy1CLkd1VJPYLKq7xtUAGHTGUcmsEFvXxbFFtiPvN3WitpmeAHpc
-zk6ZGYVLQ5bpig44rdEUNd/s9NsVDfchYg09KT7IlRrOi46CRRmVu5YKXaoTwWMYx/fwGKZkcZy4
-FN1xNUqqip15JSe3mKzVA9ElCwv6ea1GVdO3esZKECYVxA6Zl6mVy6C98Q4L1XlyEu97oewtzVS5
-RZbz3KnPaBwiJ4sWzDFd9g6PMxfHsMidvSIaj3Si0QdGvSIr2JTxdrdfbs0kl/oqbYchGTdC84Tv
-OAIkGScvSHvcamOdn+OmbtqpKCeRUO8jGzyUH4oazO/WWd0+Lw/7RXTZRhtLsY0uYDeezBoeo2nJ
-UTDuIvKMby1seHUVSw0CTv+jBAjtsj3v9kzU0ZFVB3uz5kL+dTowqx7WmVEqQnmUnHhY9Yl/TYmL
-M6uk9uM6V8FRzuSfHEVSqyPenrd1o2cFUqoQmLf3Z7uki6SkTOnI8yO2T2stz8cGdKRwFXitZW05
-Ch7BP/xg6dOY9cbMqYFNw/N7COOB8XBnzh6ytQtxb95IjKO4/OPn6+Onhyd1cKIVu/Ko9WRelAhs
-o4SfzAqCka07GQa4mh1PBSB14Ucg6vddeBnMYI72BHXUN2Ocqs6ExzdSOJfRQZ3ULAheq43pyDRT
-qKMljAriAc6qNMJo7b7Hzev3OgOIhplM9guTwnW4GwqT7Q/3pWfT9NZj+4N+lzdZFzb7PcRI0uI8
-NTOq+W3IXF8ev/9xfZFNdTPemSNmsDs1cWS1VjWFDTYbE1q2zAgsDbDs1H9tGrAk1HduyHlpvXwd
-oJITWvQm7EAY15odxlEvgnk8F7a5fCAmTI4si4PA30g2jkLkprpaba3VowdCyAl7fCDKkRUaG724
-b9wWyMNq6V47+mGjHnW5DDVoQCQ6W03QlugyjMQ1NSjqs5EcZMbOwEOIr1EIXlu9uwfLmw2SW19q
-GfeG0W5DE9gNJ98TpPuuCJPWhuXTwhMClExFbEJhLy/7rsrlbmoDGxZ5sPWz6GKjLH8W3AHwn/vp
-LUVzs5V8f7lCcprn1+tnyO/3++OXHy8PxI0F3M2ZRQKkO+bldHNFd6AbcT+YQPYbnQYcKmRu0PXR
-LE4C+jax6bBNDeBh2hmqvP3EBLZv8giUXff6ehsC5nrBpR40Ne2Z04iy91qWUBUuBoezUwLVtwYo
-Dg+lLZKCEhH2pjS0gebQnZMwYm7zNdz1UnXWZvD742pUEi6lnkcKf3Z1VBoK6QglrWwKuwcdSncw
-V+Bj7AsBScIMJUTxw8y4u5acGfXP79dfo0X24+nt8fvT9T/Xl3/EV+3XQvz78e3TH9O7UsU7a9qu
-5D7KFPTJirX2+f9yt8VikDXz28PbdZGB/XOiuSkh4rJjad3fXhgYFVd5xH4lpXMUYmzfUk/oxJnX
-6NJyM7FntAEySzIhj4TUsIT7VLhjvEmKN44qrSkBU6lP9U7VcOhoExVpQc85pAwrUO5zOBYdz6An
-54dkek0PMU0nrYvfa8FhdTBjtWdkzFDQXA7N4M7YvRVC+Jt1QF1LKfR5BYkITGYYaEl3jL5B9ail
-qj36J6VWK1XLpbf2PNrDHEmS1AtWS59+oYIUGNV3OeGNYEqFumHtCmEylhUBvDPfHo7wJRkJGNHT
-xPUIhtTyM2L1LgJWSaV/t55pIsCTb1J7bBC07SQuy4hbeRRw0jQSuFlNG6HcBWRk0QFrPLC7tUDQ
-TmrZw7EJXAyBZuPbQ12FZIZXNXUjJnxjuamv1mK5ox8TI82Y9dtVMLylXq6sctPaD+7shhqCP9st
-lUWev91RBkfl0RAxSOluMavTKLgznqEoXqzdbjeToiV4d3dn84CRHvzHJk3y/coLs2jSXPd1vNqQ
-Rw9Ec+F7+9T37qYTokdZb0qs1Qsvdn97evz25y/e33GRrw7hoo/Y/OPbZ9hypp5Pi19uTmJ/t9a/
-EEwQ2aQe4iKiggoireqftrLPrf5shJkUXfEBd55LTV8QqU7iso2bfoI5+1fu8d4ymLaaOGS+9Ypn
-bLL65fHLl+mK33u/TIf64BaD4ZadkvREhdxyjkVttcGAzerYyf6YsKoOE0armgbp6Jv5njRR2Tgk
-YVIjPvH64kCbTlUGavBrKsYUJY/f3+D69XXxplr2Nujy65vKDd7rh4tfoAPeHl6k+vh3IyC90dAV
-ywV3ZRkwK8hknzj314GqZIartYGTJ2wjfbz1Ibw/yJ195kq7DXd/QvBQnq2xiYcnBg9//vgOTfEK
-d9uv36/XT38Y8aRoilvhXP6Z85DllE0kkWuy5mc3flTVkVKciG/ijPVubvoXN6jDSA6OF5NcNExc
-cql2t12SowsaKF05BKQcFMgb906F1jRhfTKG4TthYgvNKVUqtgkE9xEHMJncXplkISQSXe60rYy1
-HD7XzBfArA95adUZvH039J1MfB45Ea2I4RiV9UaDfFDCab6iAjmQBag4iFyiyWDk2alrC+0eQP3u
-TtrmWZzTzpChTH1/aRuVyrS1ZRiODkNcrTI0+Rhho7RD+BB2KMP2ncLbvt3Hsvv4QXTxPfLjJf+Q
-lZ3RrxaqtKr00cUSk0+ELLPbAOFHaOsuO5A3VDcKXX45COwBYONsTxEdn7j6vsfBt5R9QOw7u8py
-c7z3u8ZiOE7N6Onx+u2NmpoWH/nTvl+YTNKuYugbPHAPm/3U4RX5g4Vb5y7OCKesFIqPJYqEdFlx
-Svr0VXRbKTKRpHuQ3LGmAYncT0t7VRvhoMjUdkDmfhW26ji2YdPe7r5ukzper7cOAy3PoOUjzuHK
-jhD0WHube/24VLIKPSPkfpWkOhiW0R75z6UFrgps98AEqxMvOHUJdtAWWoUNi6IecX/7201kuL7D
-1x8pZLYga6WTUIqZhleHeLPsW7V6QsPCRe6mpz0vOi4VwQbtG3oyWcDIfePDPjaBOlMkygtkQNYI
-CWjjk0LdnIPNb2DDee8jqaKkrdya2wMsD1WizMBW2QMty+L2ECaK7F3Ochfbp0kLueRItpncxOkK
-y512yKNBlSLR5oFZQeB801D0cantC/ALfLZ0cfg+OlHxBk94S8iLWrffK2BlxBdVMCjfEAuhucM6
-q7AnUUR0KpIeL8V1SgYvwkT/nuFmwu5fAXx6eX59/v1tcfz5/fry62nx5cf19Y0KE/oeKdK212/D
-YY54gwLPakOIre54wAZ48AlOTlLVcpPAwSHJaV9viXekdoEvIRPeUU6+Cn3HqP1bEsn/4YpyfP/7
-U0ceclPRRpjU9DEjTodx4w1l4YbOmEJTe+MZB0+fMNH4uDzBw9WbNA6ZSzkNokxbPgAIjx26Vs6z
-xJQXeXXlIeZVJ46wg2m2VaIHx5uQKrkY0eZ7QJeIlbFj1uzAHXFsD0Ua77njhWO2j4dAcuSSXBVZ
-Mi4cmhz9N3rDD/Ho6Ag+A7YqpfatreU92Ii7MQBV1Hm7TFz/YURM6PFoG5pPkQfciQyWPGDxtLIX
-hFz4Nsx4QDaiLoL6Qt1c2BI0IizxFeuBNAVoNH0KTiOBapqyvGjHfqBUAsjAFaXam0X5A+aHnPn3
-jfbwZSCEnAtSM9DGqbKYWExGWG/WG1ax6On505+6EQmylVbX368v12+frovP19fHL7qexyP9IhD4
-iXLnLfULkL/IUmtYyeUoYuraQJNbWed2G326mOi79Y7y/9OIqvvdUjOsaxjBA98MImIhyXARJo2e
-Gd3ErNduzo5UNBpRFEfJdkl5MVtEd6uArFwkIMVnF5UkdsiMYPTqh6LiH0xQKrzlagcH7DTmB0eF
-WvDofq9CYzS9+SqVLM2YINv0FAWOcRDGW2/niL+jV5pLnazLMlLfBAKGN8bCbAI4YotguSSgW/OB
-zAi/I29YUNIoW209r4tPpf1lb56Ybx4O2dhMSeR3XW7uKANY0HdlOCuYKEOIK0HGqYPQWRHH5US/
-Yh2hsLpLjVXujFm3p9ysgRStxs4lSb086cOZuQngrUbMTzMUmRybM+h57AkfpYPz/lwRrIAf0QxF
-krxHEZUNPP90FXRow5BEyDOEY9RDRgaXLVLnDI97bqaxKmOxVK1KKVCfoXiC9LdwyaX32/jVbrnp
-O5Zm2ZDfRaXnLW/fUZUB48s7i6393l89jYIyNmtyAxwImhj8ZGFN1MVGnk3ecnvmIFD+Sx4hqIPS
-jaSsYI6B+ZDgOmJ3jgIG/B0ZKFLJEBknnz6GP4PqRtSZrCc4bhxfSkRlf6rTQBT/nV+7uUuCo98z
-N6BxsiLKlIhJeVo7KH+ysMy0BUDBABvvjZkrIWPQ9ZtCdJa6Zw49ZZhnRmhXyNWFrK1GYw89TUcS
-zz9ePlG+GHArZFinFQSXRUNoUUW445gmWyuzZx/23gQyMA3Ao/ZZOBz+IFASy5wURZF256K6ZxXm
-UjXM1fCsoW4k+XK5C3aB1rJc8BQ8/UcSb+Mt8T+9qdXkG0gki7sVGWJLjb+Brsnv8+Kce6bISlqp
-Wi7XhuMJhGiBJ25dyevNOjS709A/re4amGeMp2HRmqVlx/9S9jTNjeM63vdXpOb0XtXMjvVp+TAH
-RZIdTSRLEWW3uy+qTOLpdlVsp5J07WR//RKkKAMUlLw9dHUMQBTFDxAA8bFBxjZjXQEoMZx77qwr
-ryeKD2J+2XxpyxGlmXK5Cl1IgKEILq8FuAJ1t8t8WekKam4Qojf0lx58u6aIF21Vnr29lU9+uRS5
-6E1sPxjTLubKDB7XiZDCBqd26cV6I3TPL4MKAkedJgY6tAfw3mI1OZC9lT+v86lPVWwWLn/0p9Le
-yo5yPdXWw7zaovNPw2LsSa5Blzs0HZS6P+1fDg9X2oBY33/fq+tOLlbXvKarV626AyvqmBeHR5Ry
-AW3ngl3Rn3WA9t7owO/2y4aEFLEQ7Y3kACsuDVO11OT2oFg3B/02njaq6rXRD+gUEey+T5Hdli8c
-r+fb7kCP7C2W+lN6l+5mfzy/7Z9fzg9cTE+TQTYbEKrZSWAe1o0+H1+/j48FbR/Bt7AAUDYPprca
-qT5oRVMW2RgAfIAVJfY9RmiBTVwajsy85hvJt6DJhtMCQt5GZ6OQo/Uv8f76tj9eVaer5Mfh+d9w
-bf1w+Fsu2FHWDzjw6rJLJbfL12IkdFK02X+mBhdUDBqNsyk7tt7GghpbxCBzx2LTcBdrqOxYkq+X
-6GAeMKQ3BCnFfIK03iyyRL4UkUx4TCq1ZegBu/K479cDA/4Bj9a4XB4bYxX6+uV8//hwPo6es06S
-UeK3y1K+KIwfUEF2ymsp2IqWP6fZfug0GLv690uJwrvzS37HTz6ILWkdW/fuAIFMicltviZbEJDX
-8hwcHXgIf2fw9oMDYrJCOqUS7VQ2urtNniT95Sp/xyk/wOXidNCLGuND3Y/mZ2OmHXX+u9xNLZcR
-TiHvft4/yTmyFwuRD+CKRB7ZF/aiwKCFQameFOmymlFl67wTmQ0V17nVQlEkiQWqkhLHAShYnTY9
-IxEW9V2ZT2Casl2Cu15pw+vyxmoeQHU6phvBxLg5yXQpvx4IlVsluSzvUVI4nPJHEKUoR/IOwzgw
-+kuyBoW3bQqra3Hd4LsLdp7/C+3kKZVbJ5wYgWssQAywMS/Vyq1oYuJqqDUWJUBAdiHBXv0gInBO
-EdgYhhuIwh7HNr/wJ5pXyXUVzXKDVyuCF9UXNbIMri4TFgzcciVn3lJ1VY9uvS4uQ+ZDJOLPuetk
-FKVaJQaF3ij3yZmjfUfgejVmRWWNHx2JfeP5ugXHq7x/hTmjd4enw+kfnkv07jvbZENuy8ZP4C/7
-hq/evu3cRTi3z1vjNPcfiSBIkSvhwnHZZHecD92uTS6Ojdk/bw/nk0kINZJmNHEXS00HYvTx3jSo
-Jv9WrXmvn55kKeKFzyZQ7wmUK+bRApbxzvEDXJfigvC8IGD6Ytybp9+kKCLf4xpVLtDvo0a1jf6j
-76vbdeCwWdh7As3Gasmry1wkTMebNlrMPe6SvicQZRDMXOZJE7k8/aikSNAl6CCWlVXzlbIMedAU
-ztztyrqcVoWp5/fgOJexj+TYFCR/9FG7HKxLrlkwccijcNvDEmEhIEYKF5vSfpk2PWjHLATuvV2z
-lO2h/nMp2GdGpOqtAhIZDSQuJhEm7yJ9UoIN+ZHvWrbN1q3R9OKHh/3T/uV83L+RHRunuXBCF1eA
-MqAFYrrprvB8csPUgyYuxQ1WYFuCAuJQ3x5gl4wx4KlyQlJidVj+IBEuTsokf/v4bkr/VqUFbJig
-ic6uy0RuUZ2xiHOoi92I3G6lsec4vOhaxk064+t5adyC99hrUoe8AqV3Vd3qPN5rRS2r/speE2o3
-nUliEOB1g/Eu54z6tzuRovoo6if1a9AgUoXkdpf8eetAMBfWBBPP9biZk5Lx3A/QZW0PsMtAGDBf
-QQqwIa2QIEGRzwYtScwiCBwTMI+fAPjkEyTWqtwlcvXwET8SF7oBd2cpkhgCzZDk0t5GnuNSwHUc
-EDcCawvrbX26l6ow5Hx7PHw/vN0/gae8PJPtTa5rJEGa0hbfd6Xz2cJpArwj547rEwpn4dJ9P3dD
-7uodEAuHPOouXOt3RH7785C8OpyFBC9/dznUgwdXz7gosK8kQVtsRp7qtOF5GHUOhUQz+tvq+hxH
-PcnfUTS3RmHBlrwEBC45CL8X2LqeLvxwjn/nyo9eikwIuKvd2W4Mi6IeRuzH6tobEDyzzBopbLqT
-+CRx5FJ0bLzBQjileuklWiBeAGtc1aR72XqbFVWdySXWZkmLk6mZm0bcyE0upSoik93s5hMcNF/H
-7m430cGiTVx/Tq5dFIh1fFGYBVoaGkCqHYMcOXPn/I6WOMdKv2QhuRptgHFxfUoAeCHljPFuETos
-10lqz8VhtwDwXZfy1dpb8E9n6+6bMyycAaoscnJT0XQVUtkO3cXEUK/jzTyiUqUWdvVa4PhcqlSB
-skp11KNlLvfzySdbtSNmkYPWjIF55NMN1Bczl18/msJxHS/6CD+LwJ1nsi+OG4lZ4NrdcUJHhG5o
-gWVLDlndGjpfsGK/Rkae748+TEQhWzqzf4uKN7UfKqW6M9oumKItEj/wudXSfin8mTeTq5GuCwkP
-AT6aroFiuwxVPAw3mb26uzONmvPso7MLn27Ll/Pp7So7PWK3Oym4NJk8SPsAC9omeqI3mD8/SeXX
-OhQjLySlq27KxHets3ywOA8NaMvwj/1R5U8S+9PrmTTbFnJH1Dcm+f47RWTfqlFa/usyC6OZ/ZuK
-Uz2MepMmIqKF0vP4zk5BbHZqCQ5ZtDh9ksopnaCHPuZNDlxiVXtYVKkF/rn9Fi12eAZGI0PUHeJ8
-KkayF0PDq4mjlgoobbBeqayouqDS4bHvwpWkv0rOx+P5REorGWla62E0at1CXzStS9p/tn3cxVIM
-vdNTqe+HRG2eG/pExXFRX5xz2cU4boIohq31Wh5HVpKF66dFxzf1e1Nu03u9uYiEiSSiYBbyyQMk
-ygs5xgcIKocFvksWNEB8XtqUiIVFGixc/uZF4TzunhEwMyLwBqHrN7Y+CGAwm05cdAB6EU7qwsE8
-CMgr5jjZJ/wOHettczboERDzWUPbWlDJ1qO7XLK5iM2ckNZVC0kLLo2lwvdd3xKlnJCdOpCcQpyT
-tQxdj/yOd4Ezt0ScIGI9YKT44s+xqy4AFq59zsvOziLXzrBA8EEwR3K8hs2laj6ChbjCnj689Fhc
-gt4+Wvi6fIjc948/j8f33l5LTyed9ivbrrK1tdF0STmFn8Zo8w11WrBJtPGJ5RGjvqkeLyFx+P70
-8H4l3k9vP/avh/+FrAdpKn6vi8Jkktf+QsrH4v7t/PJ7enh9ezn89ROi/+iWXwSux77+wyZ0Nrkf
-96/73wpJtn+8Ks7n56t/yS78++rvoYuvqIv42F76XjDDW0ACeg2gf/v/t23z3CfDQ/jh9/eX8+vD
-+XkvP9wWAZQBbRaRTgLI8WZ0m2sgz9+UES4k3HHXCJ/W870uVw67P5e7WLhSVcEnwAVGTwYEJ6cC
-OgRXX5uq89AFX1lvvFkwGwFsg01/sujnJ+xLebuSGs6M23zjUdaH+/7+6e0HEr4M9OXtqtEJnE6H
-t7N1Qi0z32dTMWsMOgXgzmAmR8RSDAHmsuudfTVC4t7qvv48Hh4Pb+/M6ildz0G8ML1pcbHYG1BV
-ZuNqYKYgFGRoa9mCbK1wcQ4e/ZuuhB5m2WNv2s2EaiXyuWX9QgiXzOjogzULlQziDZKwHPf3rz9f
-9se9lNt/ygG0ZAvYDD4bONDjwtFm8+fErqVAETEG5044+m0bhxWM7IrlrhLRHFvvDIQ+O0CppbTc
-hWgS8vW2y5PSlxsdNYihfaPIGoJwvBkUSOR2DNV2JFcqGIH7ihGW5NNv4EKUYSp2/FkzPYn4dIM5
-gESW9B7DQC83KTotzeH7jzeOtf4p1zo50ON0AxYbslfjArYqt1oKDypao4VRp2LhzWYWZEFWxo0z
-x6wOfkfkfUnpuU7EBkRJjIesoPK3la4rgfxebGSLRISBQ0UEEhEILtXE4XNVu3E9Y60YGiW/fTYj
-WQYGXUEU7mLG2q8oiUsMDgrmuFz/8YVFIdhjpe9/j/hTxI7rEANTUzezgPeaNoqfSbCGhNZmIlfY
-Vi4KH1dRkjxdMn689XoIsuCuq1ie28SaU9WtXDLcK2r5BSqLHC7XnTuOR4x9APFZttneep5DLga6
-zTYXWDYeQFbV9wFsce82EZ7vcNqEwuD7ODOmrZzUIETZuRUgQhZxAMzxoxLgB7hI+UYETuTiJATJ
-ulBjbUE8pBpts1IZmvBgadic283bInQwS/8mJ8Z1Z0QWpIxEB6rffz/t3/Q9CsNiblUZ73fym0x/
-fDtb8NbW/tqwjFdrfIgMQNumc0GQGwwJkSwOfRjaMkCdtVWZQV1KIpGViRe4/oyyV8gRAO0r2Wuk
-8Js+fYSGxGQW2qyTmzIJwDuCYSc9akIltqnI1xtkU3oOuSQjcPtctLAjTd1kHuDmXq+KSzZSy85Y
-9lUKTBOYsJdiHp4Op6kFhW1J66TI18zkIRp92d81VasrHx/xQcu8R/XAZHC7+u3q9e3+9Cj11dOe
-fsVNo2NIsC0LoVXG3mZTt4Zg8r64haOnqKr6U0oVSM5T9V/E97uXAE5SqJa696P89/3nk/z7+fx6
-AA0SjTHa55+TEwXu+fwm5ZQD4xER6Hzkl2t6IbkM73EPNg2fTbOpMJFDThYJQFd/YOSQBy4FOJ5D
-AZqp4pse3+Flm7YuQD/BC2biW9lxkONPpe6irBfOzL7tmmhZP601+5f9K4iBZJbM4F7Xs3BW8vkc
-rst6KrM7Fn2u44avppsWN/Kk4NJapLWAY5UXQXQJdoOpqfksT2oYbtZnoS4cBx1e+rfNl3rohMNC
-XXi0DRGEWNvTv+mx0cOsYx6g3pzTBjQvt74TQ1k7scbYskTAK9A3tTsLURvf6lhKvegyvwdQrcMA
-jcZhrDf2+rkoBCeoyDg+sYW36FPX4UOfEPcr8/zP4QhKKLCJxwOwnAfGgKOE2oAG8xV5GjdQzzfr
-ti7PC66hTBcnFJLEPc0ync99nLhbNEta8ETsFp7DbwSJCtjVCI1EVLbyLK1oWwReMduN/aqGgf9w
-ePqIodfzE+Sx+NTlxBULqpNJiONOsJNPmtVn3P74DOZEyloGoT9xF1hClew2LztV6qdKqk1dZKw4
-1WbYT78sdotZ6NAQSwXz+DlvS6lucfY7hUDOqK08C2lVFwVxOW4FliYnCkLMybmPv7S1tiNKzIyX
-GdSIZnH1l3Fgb97cXT38ODwzFbGbO3BsR2JxU3arPBkBurocw+QXdevmD8eGb12GeOtxsC5vxRS8
-L1xtcEW3xB2DTJX1teTkbYFP4xRiR+VnodmHusbQLPpMDctxULcGVWmZ27Aav1aDRIaoCgFetvBO
-DBLJEtg3oqtjKauB8AdeoSRjrXz2kk4yztMM5Z7RTh1AQXPV9jEhuOjA4LnejCcWu7VfkBcZ1F4i
-Q9dqqNp5TTNjX1dxk0rJJMldnmuZcoRV0uKCI0PBcpXHDdxk26YqCuw++xlGOz7hzvRwHYHVew+w
-W0MT6gSkKy6DhyZQA26/tk+KAakn5Feg7EoaPQQIjTtm5mnyfX3ZT+uFozQNGqyncbKtIQeJ3dw4
-jwCFd6tiM+oDSVagj9qbr1fi51+vKgrhwkb68qa0yhYCdiWEOacafWFVEjGdRwew2psI0nx/QAEx
-0qZ57pjWVIu8L+FFwRDbC9UtiPsTdBjmO9LFziZfbqIni/+IzHHjEd0klaeSpNLu9mtwt9K4dx6n
-xgIIungdF9WKtqFT5NjVzAB6W611/ybKkZmn1yrxl2tP5AXFSZJAsRau6Th5EuCqoFLDnZqqbZU2
-JG5je5b6r7HzyRKaRB4Ja6l5t1XTWKm2GSq1Ro98C7oi5qcvEnGx5TUZoIKYxrzcReXdh+u6zHeS
-S322rjUz1EPzziBGK16fXrEHFxhQqmf8sZhi05Ycq8Fk0e7Szgitc+Bw+HoXd260LlVxQLsLA/KD
-3aI9WOH7rNVUxnV9U60zyNYchuzpBGRVkhUVuMY0aSZo3/qwwbtoFvrM0PbZF+6kkr+w9xHGy8d3
-6vGJHuhzQa5cl3n9HQ6au0DVxhtT6yqLbEf6SnGiW2ZlW1k6Dt9Onky+Qk3LBBbXtxmNw2gh9t7D
-aQ3pqLKKRarVb9Dk00yg5Uf7vg/k7DYTyT4JzfRCGw7IfuzJ8xg5xfYGmjHTNsXl7MGJyzDwzdok
-T+jwyC/5twtYJVThOHIrgY47oXCqsxenG+dVR3LcDx2B4M4kJtnc8rTIpGj1Z5ZwHLZMyD6VPyfz
-hwOuoElYtOSxf4EqhUp1Peq7eC5/LGgQiYoNnc61kSR84lgV+/bBc6nY2HiEFXXWRwNfhu+DPiPB
-biKuEEqmjoYhPj2+nA+P5JPXaVPlfBlCQ46saTGXama9JfHm6mefMJQqHHfLuqlGlHAOS3W8rUdN
-6LBnHDg97IeMxhv32SYU8EiB5c6GN5AVVNRdlqnuoG2p3zte09o948vV28v9g7Ig2aqwaBFnkz90
-NtfuOrZOqAsKUgXz+YSARvlyTWJFtWmkrJCMcx9wZGzJFLPzlD7TksJlBja5ywaCVcvnbhgIRMsl
-zxnQkn9itwfz2hbnGjLQS31Z4zwyng7z0LLGVZT7lFC11GvrkXfxCKlSW7FfBa125aoZnhGTvp82
-abLl8hUMVKJt4jbf9fH5xxG+57XU5cQg8yTzbXcUgyvj5GZXuQz2usnTFZGm+64umyz7lvX4acf9
-Gi6ltA2tsZpuspW5ozKnzBJjpkYiXZLSkgbWLUs2vYdBx8sN+9jU6l0KNoFnlhk1Vf45Ds+vak2B
-f3biplSFhCE7dlfHK3ngOsg8h9oZWBIU5ZNjtrt4teCKh+PEPRuI2ljNFy7JK9WDhePP2OCizc6y
-9wCkz6rH3VmO+llLllwjhixy7JQBv8CqY0XdiyIvSf5uAPR5TnRujQt7GjDrVaqwk4ykkX+veclA
-rj8gQOuvBTk3TlMSpz7kw2uleCBFD1XkHF+TVHZmN3OhRVMaaHfZA5QcUjINmqc0kTstg6yBaV/W
-CDkwxHBP0GZy5YEVT2A7CoAqkcvZTJAhMttBZjWanczAumudp7HmvCahxgUkDrZz+kCOGQi2+koo
-uAYgj3/SfK3VNTPu5jZrSCGsATSu/H1BXW9yud7XEGm6jmHY2U6LPgs4jp0eFzcZloTCmIJppo14
-aMMIHJsKK1/qJxRBUAnA1LqCKFEi9kK12J7wS9ys+RHSePPNBNg2mEXcLcu226J7Ow1wraeIBRoy
-6i+F32HJScMICMSZjqRj1/LNxcav87qxpXwrOTdF/LWjFYAvUMml07yRG66T/334/IUyLr7EUp5Z
-VkVRfcFjiojzdZqxuR4vJDs5uep7J5ooMzleVf11JJol9w8/9uRSeSnUjuQd0TW11gxe9z8fz1d/
-y1092tQqhhaPuwLcKhGCwsBsiudRAWuVULJa5y0O+VIoyY2KtMnQDrvNmjV+lSU+t2VN2YECXHjH
-1EUUDGrctrw7hsbLMU8zNrLkZrOS++Ua96MHqW/D0reurJCRUhCDvX6Vr+J1myfWU/o/s7Qves94
-RhAjy4WuoKQrE/G6j9zlkL51is5Q4dpp8ofJ/PjHL4fXcxQFi9+cXzA6kcOkptT30B0ewcynMfOA
-vmzARAHxbLNwnGHBIiFuaBaOu/unJDQzgoXj3NksEnfig6PQm8T4k5jJQcKx+xZmMYFZeOFEawvs
-uGs9M/U9EMA/0be5bw9hLipYQB0fW0yedlw2/NemcejLVb0s2lPzTocHuzzY48GTX8RntcAU3MU3
-xs+nml582rTDWckIgW9vpQHDedYCwW2VR11DR0HBNhSmylJVUo4ag5MMCm1zcCllbJqKTp3CNJXU
-99i2vjZ5UVCbgcGt4kxiJkdJkUgJhC/jZCiktljEE7WNBpr1JudVYDIS8gM+JJLy3u1UJR6g2bRL
-foOkBZfZfrPOE13F/WLk0qBuXTWlFLK/KefIoeode/YT8V0H3+4ffr6Ag8uoXN9t9pWcufBbyjx3
-G8hcORIvzPmeNSKXZ44UJSU9JJDDx3izkahUt4wzcWmZu8cwrUpwl95IqT9rYqvkBqCU8JsnAwp5
-wCYbLaSXmVA3s22TJxN2p56WvZLXKCIKgBVNFSday36DOA6ima5BFRORZ0T0AUpK8kUBBbg+olGq
-dh1jBUXqRqAVaJMXEqPAYTZRT5ZypdipdFk01LO9+eOX31//Opx+//m6fzmeH/e//dg/Pe9fBonA
-pIm+DDCOmi1E+ccvEO74eP6f06/v98f7X5/O94/Ph9Ovr/d/7+XIHh5/PZze9t9h5f361/Pfv+jF
-eLt/Oe2frn7cvzzula/a/1V2ZMtx47hfceVpt2pnyvbYHs+DHyiJamlal3V0t/2icpzepCvjo3zM
-Jvv1C4A6eIBK9iHlNAEe4oGLIDBvSmUs2D88vXw/Ojwe8HHN4b93w/vLUaQKSeCixFwbgb7Faaul
-513CupW18SoopeCsoGkWZWEcOg0ESzW27lHfDVTswo+HN9C4d7TUyaz6p1DRTGUmWZ7tGvwcjWD/
-FE9v6W2KME0cHtJyNNyEL9+f356O7p9e9kdPL0dqg2hrQcjwTSsjeLpRfOqWSxGxhS5qsw7TKtG3
-swVwqyRGpkmt0EWt9TCmcxmLOInOD/bAvSMRvsGvq8rFXuu2qLEFvBp2UecI/my5W8E0JJjYoAI3
-FHeesqg6WKv45PQy7zIHUHQZX2hmHVLlFf3lzFsKTn+YTdG1CfANpkFP4OZxd6S529gUB1Epxe8f
-/zrc//J1//3onjb555e75y/fnb1dN8JZ8sjdYFKPUDyVAaJbWEdMk0BhN/L0/PwERX11kfX+9gVd
-zO/v3vafjuQjjRK9+v9zePtyJF5fn+4PBIru3u6cYYdhzszaKmTz6QxVEmD34vS4KrMbevnlHtFV
-2sBu0Lm6BaKZX1gXeZ1umOoSOgaqZ+QoVSHK6T09MqdX9xOD0BliGAfu1Lbu3g/bhlmZwMHL6i0z
-jWUc+L+xwnHZbe+Y/kCo2dbCPfRF4l8BTD/adtzSYpZ5d/6Su9cvvukzcnWPdDIX3GnbhZ5kiwTd
-qErj64r965vbWR3+Zj6Q1wEswxy73iVW+HQTHmRiLU8DpmkFYbM1TX23J8dRGjtLs2KZiHdZ8ujM
-aSKPGLwU9jl5LbkzX+fRyeklW6y/yZ2LT88vnE6h+Dc9EOh47BJx4jQBhdgEU3x+wjDiRPzmFuZM
-GVqIg9JlrO2qtkIqDoBtBR265s7D8xfjmmiiNC6PgrK+ZeSPogtSBrsO3eUKsnKLOVW9gDlUkrOF
-BebzTDk3pgkDlSlV36FEADt3aRaUumsTMd8e019mWOtE3IolWiyyRjCbZWQD7spK6TJVECwqFW7X
-3hruHLfS5XvttqRpd3aLKp9nTW2Kp4dnfCVjBWSZpifGRL1L1CS7ZRPjKeDlGbc9s1vObjwDE/cs
-3zYky6iHI3ePn54ejor3h4/7lzEyDD9+UTRpH1Y1eyczfmMdrFT2a0coQYiHfiuYLw2FjhS2fDbb
-CcPp988UlSOJ7ujVjQNFybPnlIMRwMvrE3RSAHwNs0L8BCRVwz0bqBMvMAYcUj8EvdfVoL8OH1/u
-QO16eXp/OzwyPBXjOXAEisoV2XG2F4aA+BGnGq4ZNpLQ1Ql1ZmQGjZ7l7DiWak9C6NTCMhoL5qgU
-lo/sE0RqTGn2x+I3enmt0dLSd04t+OdJk3U5JA+HTLYMYaa85du0KBhFC6HKUb9xpUAd2Fe1eadt
-4lwCdeDMcQ5W4y6ADnRvszUkdL8OhVjQEyi7vPIv5c4e9XResR8qWmCV5rNLB8ppUjMU1+T4jFHJ
-ACMMXWF6KO8jl3XRQKuhFjcVWE/9XJ4Mat/NtaZhFClQx10fFsX5+Y67INZwcwGnK8vYLxxgsA0a
-wdASGozYpF3e36acN5aGdx1KtotrdND3GS4mhER4YbJQWezIOsCNUEMaO1pkS1aVZEHQmsa3pad3
-mSyuQLZkkTB3T+FyMwRq6dBcIL2oqNjspdq2ErHchdK1j6jtgj4U/Ophhk20ty43L/KsxFeAqx3f
-gwa3vTiMQZ52+tOz5ibPJZrOydyOWe+1e+4ZWHVBNuA0XTCgzR52M2Jb5ToW52d3fvwH7OV6MOxL
-x3WoWofNJbmeIRQbGzAedIzfp9SWE1RxbQzP9G8yoLxS/nnMN6+ekt5/2d9/PTx+1rxb6RJdv72o
-U526ufDm6sMHCyp3LXpCzl/k1HcwVH7Ps+M/LiZMCf+JRH3zw8GA3BCus7RpfwKDZBr8H456dhP5
-iSkamwzSAgdFLkTx1RSvyicSZWkhRd3XolhJgy7ie0ne7ygAMik3sta9nkkiINmAg45P6EDrLEK8
-WanpsYW+h3QUIAgeaIFP/do0Myl4WUcpdxZhDnKJbpGBkVFM3VuJzG2+CilDpjAeEsM3oZNTmFe7
-MFmRx1otYwsDbzFi1B8Ht0rjieLUBpw6UB+KIXaKGT2zGByY+PQ3YR3ie4C21WlEeGLYFuAsO3aS
-sE/brjdrGQG/8Od0T2mSO4IAEZHBDefaaSCcmXSYIKLe+vU8xAhS3jgcXtjN8bpdqIUrAUlwsl7N
-CJqlRlmotEXporR1RVNVTCuGVn3hRfFB4SRFZa5P6gQCzZWq1YZTJpaiA7NdfovCLag3mUGgSJVl
-WoFyvhVQchl0Kubwd7dYbP/ud5cX+pIMpfSChs00PCCkwlzKoVjUObstZnCbwKldwmmAiSx0HIR/
-Mv16riPmeehXt/pjcw2Q3eqpmzTA7talI8zNcxBqRity+tyIzPLTFA1mcQPaQLS0FsbtdIOUSX/c
-oorQFbc3KBaWG3mm4Ac66c4FhQRu1SgA0NpVm1gwBOBzrDHpoU7HECaiqO7b/uIMTrDZD0xMJmp8
-EJKQtYEhk41su8od1ARvgR9F5bZYQGluipDA8RSR6kdYRpyCCQWhsIwVM95mm5ZtFpifV5TFiIn5
-dioTOoGqssxMUC0d7IHej5DZ5wQnGN/LokjIeUCsMrXBNCpedX1tdnCts7esNN6t4W/WN2XcAxk6
-amrNZ7d9K/TImPU1Ku56wIoqNWJnwo840mazTCN6cwHs3djVsNPHQ7OJmtI9SivZYmCwMo4E8yYf
-61Dy+V73Q4nLotWSguull99OLqwidD6AyYC10BYfMwlkKbd9K3yXZZjKJlCn/O37OOuahLxytBZb
-lPxMTjuFA7KEM9P/YpSAqfT55fD49lVFwHnYv352XYVI8FvTpBjinCoOMU8RaztUL7hAvFllIL5l
-00X6716M6y6V7dXZtAUG6d5pYcIIyrIdBxLJTJh+9jeFyNPQ3fY8hjczxE0elKj5yLoGdG0FVDX4
-B8JpUDZGYg7vtE727MNf+1/eDg+DwP1KqPeq/MVdBNWXmZBzLkNv9S4kM/38cTOUdh7LpiaUaCvq
-2OCsqwiOdFinVevJ7qj08rzDOw7Mtcw9f6hhwujBwdXp8dmlvnUrYE74kjLXjlktRaSMCI3OliTG
-rkFnbuAeOolQwwe1iVzj8rTJRRtqnMeG0ED6sshu3HkCih7KPu4KVUVkKQaRPOXue+l0bgUcdPV5
-VUncVycXerk9XtXTVoo15UBUbGRWzH52Z9A+omuFw/14tKP9x/fPn9HvJ318fXt5x8DE+oMrgcYB
-0BD1gDxa4eRzpJb26vjbCYelYtjwLQzxbRp0JCyAh374YH1840xHQ7xnaxuOJii6qRBCji+i+HNs
-toReXZzL/6RRrleRwb7wt2+hiQwHjcBgEkXagtLeG5uQYNZPkMJ01qnKAhh+ZGhoqhzd/jmXUK7P
-+XkDumkSCusJ+lP7wlwHfKQhmRWwh6e76k3taswCCbbctZhOpyzc5hBOsga7kFQbJDWWoRAQDlVT
-FobJwyyH1VezZkbUMXG83nrzIIEYxV6SWZeRwEdRhjI2y4CEs925X7/lbMCTraCNutwQ3FTJaGP2
-jqYMMLpA43Y3AJYkMxMxVtqDpxmKp/rDYeBDwbW/kTrsiKIvTP+IqoKBjS8hf9jvwJBGIeHEbrbJ
-BHfKiSwMZwAksQwIszv6EbIwauUL2qHEwkkRwCKjAUcWkeKY3r2zyftq1RIRdoay4a5omGqeltO6
-7YTDRD3FKg0yOaZq9F4VKr9sDFdQ1xTqF1dBt/cMZ0nxONT+uK2jEWVhEFILQPl/he5vPnj6Kqh7
-IahDfXVxpyqSMdNZUESlGa2M2mDJrEMGLckkUaHvlIMUIh2VT8+v/zrCTC3vz4qxJ3ePn3VhGwYS
-ohNwaSiqRjG+uu3kHF1QAUmp6dqrY83rvYxbtC6idjykqfRsYAT2CUZ8aUXDSXLbaxB5QIaKdA8f
-4kKqA139WP5U9TABRJtP7yjPMDxEnRXrAkMVmgIwldGdvi5CcW2bC4NTtZaysl4SDxsWaGBu+qwq
-izd6JM6c9B+vz4dH9FKEj3x4f9t/28N/9m/3v/766z81Yzi+Z6Z2V6Ss2SpkVZcb9lWzAtRiq5oo
-YKZ52zmBcQ7ss4tWnK6VO+mIXA18OFZzTjuPvt0qCBDQckvvB+yeto3MnWo0MMusgGWRrNxJHwBe
-yibaEhW1JpO+2ji95Dgy8DqO2NCQ4BDga+2ReU9NzZ+59Mbm/9kF0zGpMWcv0II4M6gQcQMCzmWk
-ouCDgq5AvyvY8sr8y7AkxfeWOZqhnGp06KsSDD/dvd0doUR4j1c/jrpJ10bWslZDoc39PBo2AUdW
-wSuSxMOLniQq0MExJrsVScOiLJ7B272GoBTLogV9pHEOM0ghrPSqTp0e/XQqsmbDt40QE3he7DMN
-I9yo+6BDQOjsKcknA0MuShrwROpPT8x+aS+xc4xQed1wtpAxIrExI47gej3orTVxc87cA6NLyrbK
-lCjUyjFUqXb6obQIb9pSj4ZEYfVh2Mabqo2mii9DV6BpJTzOaN2JrSPGAPtt2iZoTrTfgA3gnGRQ
-QMCbQQsF38fToiAm6fx2I+FQUbWibSEaNXksWENUvYYmkSZz35Q1aCikrHmEb+hEOPeghaHNGQ0f
-9vxoTQ06c7PVNdaBB6JVlv0sp79Rh7E7GhAZ2+n4xTMZKEsyzI512H1s7Qr+rR8J2S6CMbfDF8JR
-XK1MKRs+GuSm2N/AVHX81rlnklG8FZMtnACm2rDJho3EMa5hpzQFCNFwyJwtNAImadtczgB4COwC
-IGUUIsV+9TaWDxfJ8AmqgvSEXwP8QA75GjmOPRytKaGjtReMa4XmpoCTZ6Mm6Lkw5NFo7GOhtvyg
-b+g2kWmn9gHQmSQXNa+v6bufxbS6ExndXeEcGQbSsNxMcxf7ae+4vK2o8Z7KFS2YYfmQ3fNJZm+L
-W2iTiifT4VHG9C7YxxuBAZi9ats6ROUK7y3TzPFOUConxZxLB8Oc7kau3uoOGNo9UOlAiF/fvTxc
-nLEcO0WlYKR3aWQMI784A9KL7y4dX4QStDzM68LyQrs3/fqk3b++oeSHCk349Pf+5e6zlnhm3aGq
-rHVEBZwFx8LwLLQCyh0thPMVCkrMxyPxskq6ZZirch6Naa6MiZX5mzbe9suWfCB/sm1letZHOAHS
-DG03BsmEMmWm8xsTCSdGkd4DNvqbjMhLhuA1HHnHigCHACnBwFc0bWfAnpcL0QYrFTl71GiPZJ/E
-Iybed9RdjofYsDgrIBx9UUuh3MiOv2GmseOJvYOYQZxUaY3q3YCe22Mdtby/hNLokTw0wK79KDmc
-uUSKyo/hrR+MSg8pWgvkMEBfhgU4+RyUWZmXhR/LcIzwow2mRs8pVNonBj2ePXDMr03kDk21C9Oh
-bmvVK3yeEIx4TVjx4TEJYQ0YbclvaUJQfnp+eJC2+dLCARyOa8YbaNW9Q2cHVdWhO3I08cMx5lUM
-3MCPUaNfFZkx/TjeRy0ETSM+Grna3uuFvQ9fb4WfM+Gb3E9w1OTgExQ7kJfVR7W0POi5mZRkyN7w
-hCstIhznsuyCbcVpnW+FGRBQ7TKK6cVediNA40mzUKH8TVmA5vDp8KgA85V4z52aMpJhls4ERbKw
-w4eYSIYde4FwyTwEIZyzNI19oS3JZOJjTSxnmwaY12K0KDc4gRuUb8b/AG7i0yeclQIA
---===============4317010385003756869==--
+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
+1hVn9zYJ+xZP819et5HYoPEBAA==
+--===============6733117587278121410==--
 
