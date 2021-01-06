@@ -1,572 +1,246 @@
-Content-Type: multipart/mixed; boundary="===============6104499626429929254=="
+Content-Type: multipart/mixed; boundary="===============6436232288693816957=="
 MIME-Version: 1.0
-From: Daniel Vetter <daniel@ffwll.ch>
+From: Long Li <longli@microsoft.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
-Date: Fri, 08 Jan 2021 10:02:27 +0100
-Message-ID: <X/gfo5k0efFhxP/I@phenom.ffwll.local>
-In-Reply-To: <5ea2a270-2664-fad4-0048-ef498137e985@suse.de>
+Subject: Re: [PATCH 2/3] hv_netvsc: Wait for completion on request NVSP_MSG4_TYPE_SWITCH_DATA_PATH
+Date: Wed, 06 Jan 2021 23:59:52 +0000
+Message-ID: <
+ <BN8PR21MB11558420E44B211793B308F9CED09@BN8PR21MB1155.namprd21.prod.outlook.com>>
+In-Reply-To: <202101061221.LKsEcWmp-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6104499626429929254==
+--===============6436232288693816957==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 08, 2021 at 09:04:44AM +0100, Thomas Zimmermann wrote:
-> Hi
+> Subject: Re: [PATCH 2/3] hv_netvsc: Wait for completion on request
+> NVSP_MSG4_TYPE_SWITCH_DATA_PATH
 > =
 
-> Am 08.01.21 um 02:25 schrieb Rong Chen:
-> > Hi Thomas,
-> > =
-
-> > Thanks for the feedback, do you mean the patch was applied to a wrong b=
-ase?
+> Hi Long,
 > =
 
-> I'm on drm-tip, which already has the patches that fix these issues. I th=
-ink
-> I should start using git's --base option when sending out patchsets.
-
->From today all the patches should also be in linux-next. Our maintainer
-script didn't push the branches to the right tags because drm-misc-fixes
-wasn't rolled forward yet (there's some trickery to make sure we don't
-push patches to linux-next for the subsequent merge window before -rc1 is
-tagged).
--Daniel
-
+> Thank you for the patch! Perhaps something to improve:
 > =
 
-> Best regards
-> Thomas
+> [auto build test WARNING on linus/master] [also build test WARNING on
+> v5.11-rc2 next-20210104] [If your patch is applied to the wrong git tree,=
+ kindly
+> drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit-
+> scm.com%2Fdocs%2Fgit-format-
+> patch&amp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3d454eb468
+> b85fb08d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C6
+> 37455042608743102%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD
+> AiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D
+> 90AgH9HlZumRZ4UNC4uD2WIRpZ6ZEnvIdOKOfzYcXpI%3D&amp;reserved=3D0]
 > =
 
-> > =
+> url:
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgith
+> ub.com%2F0day-ci%2Flinux%2Fcommits%2FLong-Li%2Fhv_netvsc-Check-VF-
+> datapath-when-sending-traffic-to-VF%2F20210106-
+> 092237&amp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3d454eb46
+> 8b85fb08d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C
+> 637455042608753098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwM
+> DAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata
+> =3DvtVJ8pXIOxIYeKdaqT9pD1%2BEuOM3wz4yqsHh8uWsGP4%3D&amp;reserv
+> ed=3D0
+> base:
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.k
+> ernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&
+> amp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3d454eb468b85fb0
+> 8d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C6374550
+> 42608753098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ
+> IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DFXMG
+> CFODFoq3KLklxr17iVHiq%2FWmJ3c0fM7vIZRfNmc%3D&amp;reserved=3D0
+> e71ba9452f0b5b2e8dc8aa5445198cd9214a6a62
+> config: i386-allyesconfig (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+> reproduce (this is a W=3D1 build):
+>         #
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgith
+> ub.com%2F0day-
+> ci%2Flinux%2Fcommit%2F8c92b5574da1b0c2aee3eab7da2c4dad8d92572c&a
+> mp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3d454eb468b85fb08
+> d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C63745504
+> 2608753098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj
+> oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DMMXkQ
+> KENGpyfW0NJs2khBSKTuBExFSZaWHgWyyIj6UU%3D&amp;reserved=3D0
+>         git remote add linux-review
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgith
+> ub.com%2F0day-
+> ci%2Flinux&amp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3d454e
+> b468b85fb08d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0
+> %7C637455042608753098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjA
+> wMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;s
+> data=3Duge6PX2NyAe%2BjRtvgOhR5xzN2ltBctZXeZwn0hoYco0%3D&amp;reser
+> ved=3D0
+>         git fetch --no-tags linux-review Long-Li/hv_netvsc-Check-VF-datap=
+ath-
+> when-sending-traffic-to-VF/20210106-092237
+>         git checkout 8c92b5574da1b0c2aee3eab7da2c4dad8d92572c
+>         # save the attached .config to linux build tree
+>         make W=3D1 ARCH=3Di386
+> =
 
-> > Best Regards,
-> > Rong Chen
-> > =
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> =
 
-> > On 1/7/21 6:45 PM, Thomas Zimmermann wrote:
-> > > AFAICT these are false positives. The instances have been fixed alrea=
-dy.
-> > > =
+> All warnings (new ones prefixed by >>):
+> =
 
-> > > Am 07.01.21 um 10:45 schrieb kernel test robot:
-> > > > Hi Thomas,
-> > > > =
+>    drivers/net/hyperv/netvsc.c: In function 'netvsc_send_completion':
+> >> drivers/net/hyperv/netvsc.c:778:14: warning: cast to pointer from
+> >> integer of different size [-Wint-to-pointer-cast]
+>      778 |   pkt_rqst =3D (struct nvsp_message *)cmd_rqst;
+>          |              ^
 
-> > > > I love your patch! Yet something to improve:
-> > > > =
+I think this warning can be safely ignored.
 
-> > > > [auto build test ERROR on drm-tip/drm-tip]
-> > > > [cannot apply to drm-intel/for-linux-next linus/master v5.11-rc2
-> > > > next-20210104]
-> > > > [If your patch is applied to the wrong git tree, kindly drop us a n=
-ote.
-> > > > And when submitting patch, we suggest to use '--base' as documented=
- in
-> > > > https://git-scm.com/docs/git-format-patch]
-> > > > =
+When sending packets over vmbus, the address is passed as u64 and stored in=
+ternally as u64 in vmbus_next_request_id(). Passing a 32 bit address will n=
+ot lose any data. Later the address is retrieved from vmbus_request_addr() =
+as a u64. Again, it will not lose data when casting to a 32 bit address.
 
-> > > > url: https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm=
--Move-struct-drm_device-pdev-to-legacy/20210107-161007
-> > > > =
+This method of storing and retrieving addresses are used throughout other h=
+yper-v drivers. If we want to not to trigger this warning, I suggest making=
+ a patch to convert all those usages in all hyper-v drivers.
 
-> > > > base:=C2=A0=C2=A0 git://anongit.freedesktop.org/drm/drm-tip drm-tip
-> > > > config: x86_64-randconfig-s021-20210107 (attached as .config)
-> > > > compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
-> > > > reproduce:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # apt-get install =
-sparse
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # sparse version: =
-v0.6.3-208-g46a52ca4-dirty
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # https://github.c=
-om/0day-ci/linux/commit/380912f7b62c23322562c40e19efd7ad84d57e9c
-> > > > =
-
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git remote add lin=
-ux-review https://github.com/0day-ci/linux
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git fetch --no-tag=
-s linux-review Thomas-Zimmermann/drm-Move-struct-drm_device-pdev-to-legacy/=
-20210107-161007
-> > > > =
-
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git checkout 38091=
-2f7b62c23322562c40e19efd7ad84d57e9c
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # save the attache=
-d .config to linux build tree
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 make W=3D1 C=3D1 C=
-F=3D'-fdiagnostic-prefix
-> > > > -D__CHECK_ENDIAN__' ARCH=3Dx86_64
-> > > > =
-
-> > > > If you fix the issue, kindly add following tag as appropriate
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > =
-
-> > > > All errors (new ones prefixed by >>):
-> > > > =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_device.c: In fun=
-ction
-> > > > 'oaktrail_chip_setup':
-> > > > > > drivers/gpu/drm/gma500/oaktrail_device.c:509:26: error:
-> > > > > > 'struct drm_device' has no member named 'pdev'; did you
-> > > > > > mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 509 |=C2=A0 if (pci_enable_msi(dev->=
-pdev))
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > -- =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds.c: In funct=
-ion
-> > > > 'oaktrail_lvds_set_power':
-> > > > > > drivers/gpu/drm/gma500/oaktrail_lvds.c:63:25: error:
-> > > > > > 'struct drm_device' has no member named 'pdev'; did you
-> > > > > > mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 63 |=C2=A0=C2=A0 pm_request_id=
-le(&dev->pdev->dev);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > -- =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In f=
-unction 'get_clock':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:69:11=
-: warning:
-> > > > variable 'tmp' set but not used [-Wunused-but-set-variable]
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 69 |=C2=A0 u32 val, tmp;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In f=
-unction 'get_data':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:83:11=
-: warning:
-> > > > variable 'tmp' set but not used [-Wunused-but-set-variable]
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 83 |=C2=A0 u32 val, tmp;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In f=
-unction
-> > > > 'oaktrail_lvds_i2c_init':
-> > > > > > drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:148:35:
-> > > > > > error: 'struct drm_device' has no member named 'pdev';
-> > > > > > did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 148 |=C2=A0 chan->adapter.dev.parent=
- =3D &dev->pdev->dev;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > -- =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function=
- 'vmw_driver_load':
-> > > > > > drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661:22: error:
-> > > > > > 'struct drm_device' has no member named 'pdev'; did you
-> > > > > > mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 661 |=C2=A0 pci_set_master(dev->pdev=
-);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 In file included from drivers/gpu/drm/vmwgfx/vmw=
-gfx_drv.c:31:
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:47: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 690 |=C2=A0 dev_priv->io_start =3D p=
-ci_resource_start(dev->pdev, 0);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition=
- of macro
-> > > > 'pci_resource_start'
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar)
-> > > > ((dev)->resource[(bar)].start)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ^~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:691:49: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 691 |=C2=A0 dev_priv->vram_start =3D=
- pci_resource_start(dev->pdev, 1);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition=
- of macro
-> > > > 'pci_resource_start'
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar)
-> > > > ((dev)->resource[(bar)].start)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ^~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:692:49: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 692 |=C2=A0 dev_priv->mmio_start =3D=
- pci_resource_start(dev->pdev, 2);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition=
- of macro
-> > > > 'pci_resource_start'
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar)
-> > > > ((dev)->resource[(bar)].start)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ^~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:842:33: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 842 |=C2=A0 ret =3D pci_request_regi=
-ons(dev->pdev, "vmwgfx probe");
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:851:33: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 851 |=C2=A0=C2=A0 ret =3D pci_reques=
-t_region(dev->pdev, 2, "vmwgfx
-> > > > stealth probe");
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:859:35: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 859 |=C2=A0=C2=A0 ret =3D vmw_irq_in=
-stall(dev, dev->pdev->irq);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1005:27: err=
-or: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1005 |=C2=A0=C2=A0 pci_release_region(dev-=
->pdev, 2);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~=
-~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1007:28: err=
-or: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1007 |=C2=A0=C2=A0 pci_release_regions(dev=
-->pdev);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function
-> > > > 'vmw_driver_unload':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1056:27: err=
-or: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1056 |=C2=A0=C2=A0 pci_release_region(dev-=
->pdev, 2);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~=
-~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1058:28: err=
-or: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1058 |=C2=A0=C2=A0 pci_release_regions(dev=
-->pdev);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function=
- 'vmw_probe':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1522:7: erro=
-r: 'struct
-> > > > drm_device' has no member named 'pdev'; did you mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1522 |=C2=A0 dev->pdev =3D pdev;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > -- =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c: In function =
-'vmw_fb_init':
-> > > > > > drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:641:42: error:
-> > > > > > 'struct drm_device' has no member named 'pdev'; did you
-> > > > > > mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 641 |=C2=A0 struct device *device =
-=3D &vmw_priv->dev->pdev->dev;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 In file included from drivers/gpu/drm/vmwgfx/vmw=
-gfx_fb.c:35:
-> > > > =C2=A0=C2=A0=C2=A0 At top level:
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:256:23: warn=
-ing:
-> > > > 'vmw_cursor_plane_formats' defined but not used
-> > > > [-Wunused-const-variable=3D]
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 256 | static const uint32_t vmw_curs=
-or_plane_formats[] =3D {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~~
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:248:23: warn=
-ing:
-> > > > 'vmw_primary_plane_formats' defined but not used
-> > > > [-Wunused-const-variable=3D]
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 248 | static const uint32_t vmw_prim=
-ary_plane_formats[] =3D {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > -- =
-
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In funct=
-ion
-> > > > 'vmw_cmdbuf_set_pool_size':
-> > > > > > drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1233:48: error:
-> > > > > > 'struct drm_device' has no member named 'pdev'; did you
-> > > > > > mean 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1233 |=C2=A0 man->map =3D
-> > > > dma_alloc_coherent(&dev_priv->dev->pdev->dev, size,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In funct=
-ion
-> > > > 'vmw_cmdbuf_man_create':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1316:28: =
-error:
-> > > > 'struct drm_device' has no member named 'pdev'; did you mean
-> > > > 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1316 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &dev_priv->dev->pdev->dev,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1325:22: =
-error:
-> > > > 'struct drm_device' has no member named 'pdev'; did you mean
-> > > > 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1325 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &dev_=
-priv->dev->pdev->dev,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In funct=
-ion
-> > > > 'vmw_cmdbuf_remove_pool':
-> > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1390:42: =
-error:
-> > > > 'struct drm_device' has no member named 'pdev'; did you mean
-> > > > 'dev'?
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 1390 | dma_free_coherent(&man->dev_priv->d=
-ev->pdev->dev,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 ^~~~
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dev
-> > > > =
-
-> > > > =
-
-> > > > vim +509 drivers/gpu/drm/gma500/oaktrail_device.c
-> > > > =
-
-> > > > 1b082ccf5901108 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-03=C2=A0 503
-> > > > 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 504=C2=A0 static int
-> > > > oaktrail_chip_setup(struct drm_device *dev)
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 505=C2=A0 {
-> > > > 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 506=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct
-> > > > drm_psb_private *dev_priv =3D dev->dev_private;
-> > > > 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 507=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int r=
-et;
-> > > > 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 508
-> > > > 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-11 @509=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if
-> > > > (pci_enable_msi(dev->pdev))
-> > > > 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-11=C2=A0 510
-> > > > dev_warn(dev->dev, "Enabling MSI failed!\n");
-> > > > 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-11=C2=A0 511
-> > > > 8512e0748729a49 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-11=C2=A0 512
-> > > > dev_priv->regmap =3D oaktrail_regmap;
-> > > > 8512e0748729a49 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-11=C2=A0 513
-> > > > 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 514=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D
-> > > > mid_chip_setup(dev);
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 515=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r=
-et < 0)
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 516 return ret;
-> > > > 4086b1e2b19729e Kirill A. Shutemov 2012-05-03=C2=A0 517=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if
-> > > > (!dev_priv->has_gct) {
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 518=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 /*
-> > > > Now pull the BIOS data */
-> > > > d839ede47a56ff5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-03=C2=A0 519
-> > > > psb_intel_opregion_init(dev);
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 520
-> > > > psb_intel_init_bios(dev);
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 521=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > > 6528c897966c7d5 Patrik Jakobsson=C2=A0=C2=A0 2013-11-07=C2=A0 522
-> > > > gma_intel_setup_gmbus(dev);
-> > > > 5f503148efdda26 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2012-05-03=C2=A0 523
-> > > > oaktrail_hdmi_setup(dev);
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 524=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
-n 0;
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 525=C2=A0 }
-> > > > aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 2011-11-29=C2=A0 526
-> > > > =
-
-> > > > ---
-> > > > 0-DAY CI Kernel Test Service, Intel Corporation
-> > > > https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-> > > > =
-
-> > > =
-
-> > > =
-
-> > > _______________________________________________
-> > > kbuild-all mailing list -- kbuild-all(a)lists.01.org
-> > > To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
-> > =
+Thanks,
+Long
 
 > =
 
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 > =
 
+> vim +778 drivers/net/hyperv/netvsc.c
+> =
 
+>    757
+>    758	static void netvsc_send_completion(struct net_device *ndev,
+>    759					   struct netvsc_device *net_device,
+>    760					   struct vmbus_channel
+> *incoming_channel,
+>    761					   const struct vmpacket_descriptor
+> *desc,
+>    762					   int budget)
+>    763	{
+>    764		const struct nvsp_message *nvsp_packet =3D
+> hv_pkt_data(desc);
+>    765		u32 msglen =3D hv_pkt_datalen(desc);
+>    766		struct nvsp_message *pkt_rqst;
+>    767		u64 cmd_rqst;
+>    768
+>    769		/* First check if this is a VMBUS completion without data
+> payload */
+>    770		if (!msglen) {
+>    771			cmd_rqst =3D
+> vmbus_request_addr(&incoming_channel->requestor,
+>    772						      (u64)desc->trans_id);
+>    773			if (cmd_rqst =3D=3D VMBUS_RQST_ERROR) {
+>    774				netdev_err(ndev, "Invalid transaction id\n");
+>    775				return;
+>    776			}
+>    777
+>  > 778			pkt_rqst =3D (struct nvsp_message *)cmd_rqst;
+>    779			switch (pkt_rqst->hdr.msg_type) {
+>    780			case NVSP_MSG4_TYPE_SWITCH_DATA_PATH:
+>    781				complete(&net_device->channel_init_wait);
+>    782				break;
+>    783
+>    784			default:
+>    785				netdev_err(ndev, "Unexpected VMBUS
+> completion!!\n");
+>    786			}
+>    787			return;
+>    788		}
+>    789
+>    790		/* Ensure packet is big enough to read header fields */
+>    791		if (msglen < sizeof(struct nvsp_message_header)) {
+>    792			netdev_err(ndev, "nvsp_message length too
+> small: %u\n", msglen);
+>    793			return;
+>    794		}
+>    795
+>    796		switch (nvsp_packet->hdr.msg_type) {
+>    797		case NVSP_MSG_TYPE_INIT_COMPLETE:
+>    798			if (msglen < sizeof(struct nvsp_message_header) +
+>    799					sizeof(struct
+> nvsp_message_init_complete)) {
+>    800				netdev_err(ndev, "nvsp_msg length too
+> small: %u\n",
+>    801					   msglen);
+>    802				return;
+>    803			}
+>    804			fallthrough;
+>    805
+>    806		case NVSP_MSG1_TYPE_SEND_RECV_BUF_COMPLETE:
+>    807			if (msglen < sizeof(struct nvsp_message_header) +
+>    808					sizeof(struct
+> nvsp_1_message_send_receive_buffer_complete)) {
+>    809				netdev_err(ndev, "nvsp_msg1 length too
+> small: %u\n",
+>    810					   msglen);
+>    811				return;
+>    812			}
+>    813			fallthrough;
+>    814
+>    815		case NVSP_MSG1_TYPE_SEND_SEND_BUF_COMPLETE:
+>    816			if (msglen < sizeof(struct nvsp_message_header) +
+>    817					sizeof(struct
+> nvsp_1_message_send_send_buffer_complete)) {
+>    818				netdev_err(ndev, "nvsp_msg1 length too
+> small: %u\n",
+>    819					   msglen);
+>    820				return;
+>    821			}
+>    822			fallthrough;
+>    823
+>    824		case NVSP_MSG5_TYPE_SUBCHANNEL:
+>    825			if (msglen < sizeof(struct nvsp_message_header) +
+>    826					sizeof(struct
+> nvsp_5_subchannel_complete)) {
+>    827				netdev_err(ndev, "nvsp_msg5 length too
+> small: %u\n",
+>    828					   msglen);
+>    829				return;
+>    830			}
+>    831			/* Copy the response back */
+>    832			memcpy(&net_device->channel_init_pkt,
+> nvsp_packet,
+>    833			       sizeof(struct nvsp_message));
+>    834			complete(&net_device->channel_init_wait);
+>    835			break;
+>    836
+>    837		case NVSP_MSG1_TYPE_SEND_RNDIS_PKT_COMPLETE:
+>    838			netvsc_send_tx_complete(ndev, net_device,
+> incoming_channel,
+>    839						desc, budget);
+>    840			break;
+>    841
+>    842		default:
+>    843			netdev_err(ndev,
+>    844				   "Unknown send completion type %d
+> received!!\n",
+>    845				   nvsp_packet->hdr.msg_type);
+>    846		}
+>    847	}
+>    848
+> =
 
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
---===============6104499626429929254==--
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.
+> 01.org%2Fhyperkitty%2Flist%2Fkbuild-
+> all%40lists.01.org&amp;data=3D04%7C01%7Clongli%40microsoft.com%7C695cf3
+> d454eb468b85fb08d8b1fb3ddd%7C72f988bf86f141af91ab2d7cd011db47%7C1
+> %7C0%7C637455042608753098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
+> 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&
+> amp;sdata=3DAKWfmJrn1C%2BwaqX6wlu95HcPys9K0ju%2FlC%2Bu3O20jAg%3
+> D&amp;reserved=3D0
+--===============6436232288693816957==--
 
