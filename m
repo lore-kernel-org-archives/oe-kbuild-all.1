@@ -1,98 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============1035000627802366170=="
+Content-Type: multipart/mixed; boundary="===============4211850153063202091=="
 MIME-Version: 1.0
-From: Ionela Voinescu <ionela.voinescu@arm.com>
+From: Al Viro <viro@zeniv.linux.org.uk>
 To: kbuild-all@lists.01.org
 Subject: Re: arch/arm64/kernel/topology.c:367:22: sparse: sparse: dereference of noderef expression
-Date: Wed, 06 Jan 2021 15:52:14 +0000
-Message-ID: <20210106155214.GA30892@arm.com>
-In-Reply-To: <20210106152118.GA23403@gaia>
+Date: Wed, 06 Jan 2021 16:13:53 +0000
+Message-ID: <20210106161353.GC3579531@ZenIV.linux.org.uk>
+In-Reply-To: <20210106155214.GA30892@arm.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1035000627802366170==
+--===============4211850153063202091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wednesday 06 Jan 2021 at 15:21:19 (+0000), Catalin Marinas wrote:
-> On Wed, Jan 06, 2021 at 03:07:24PM +0000, Ionela Voinescu wrote:
-> > On Friday 18 Dec 2020 at 10:44:10 (+0000), Catalin Marinas wrote:
-> > > On Fri, Dec 18, 2020 at 05:00:16AM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
-nux.git master
-> > > > head:   74f602dc96dd854c7b2034947798c1e2a6b84066
-> > > > commit: 68c5debcc06d6d24f15dbf978780fc5efc147d5e arm64: implement C=
-PPC FFH support using AMUs
-> > > > date:   5 weeks ago
-> > > > config: arm64-randconfig-s032-20201217 (attached as .config)
-> > > > compiler: aarch64-linux-gcc (GCC) 9.3.0
-> > > > reproduce:
-> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/mast=
-er/sbin/make.cross -O ~/bin/make.cross
-> > > >         chmod +x ~/bin/make.cross
-> > > >         # apt-get install sparse
-> > > >         # sparse version: v0.6.3-184-g1b896707-dirty
-> > > >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/=
-linux.git/commit/?id=3D68c5debcc06d6d24f15dbf978780fc5efc147d5e
-> > > >         git remote add linus https://git.kernel.org/pub/scm/linux/k=
-ernel/git/torvalds/linux.git
-> > > >         git fetch --no-tags linus master
-> > > >         git checkout 68c5debcc06d6d24f15dbf978780fc5efc147d5e
-> > > >         # save the attached .config to linux build tree
-> > > >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 mak=
-e.cross C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Darm64 =
+On Wed, Jan 06, 2021 at 03:52:14PM +0000, Ionela Voinescu wrote:
+> > > > > vim +367 arch/arm64/kernel/topology.c
+> > > > > =
 
+> > > > >    362	=
+
+> > > > >    363	int cpc_read_ffh(int cpu, struct cpc_reg *reg, u64 *val)
+> > > > >    364	{
+> > > > >    365		int ret =3D -EOPNOTSUPP;
+> > > > >    366	=
+
+> > > > >  > 367		switch ((u64)reg->address) {
 > > > > =
 
-> > > > If you fix the issue, kindly add following tag as appropriate
-> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > That's not a dereference but I guess sparse complains of dropping t=
+he
+> > > > __iomem. We could change the cast to (__force u64) to silence spars=
+e.
 > > > > =
 
+> > > > Thanks for the report.
 > > > > =
 
-> > > > "sparse warnings: (new ones prefixed by >>)"
-> > > > >> arch/arm64/kernel/topology.c:367:22: sparse: sparse: dereference=
- of noderef expression
-> > > > =
-
-> > > > vim +367 arch/arm64/kernel/topology.c
-> > > > =
-
-> > > >    362	=
-
-> > > >    363	int cpc_read_ffh(int cpu, struct cpc_reg *reg, u64 *val)
-> > > >    364	{
-> > > >    365		int ret =3D -EOPNOTSUPP;
-> > > >    366	=
-
-> > > >  > 367		switch ((u64)reg->address) {
 > > > =
 
-> > > That's not a dereference but I guess sparse complains of dropping the
-> > > __iomem. We could change the cast to (__force u64) to silence sparse.
-> > > =
-
-> > > Thanks for the report.
-> > > =
-
+> > > Nothing I've tried seemed to silence sparse here, including casting to
+> > > (__force u64).
 > > =
 
-> > Nothing I've tried seemed to silence sparse here, including casting to
-> > (__force u64).
+> > Would it work if we changed the case lines to (u64 __iomem)0x0?
+> > =
+
 > =
 
-> Would it work if we changed the case lines to (u64 __iomem)0x0?
+> No, it does not. We still get the same warning on the switch line even
+> if there is no cast. Same if we directly check for:
 > =
 
+> if (reg->address =3D=3D (u64 __iomem)0x0)
 
-No, it does not. We still get the same warning on the switch line even
-if there is no cast. Same if we directly check for:
+Folks, could you stop with the voodoo?  This u64 __iomem address thing is c=
+ompletely
+wrong.  What it says is "address of that field shall be an iomem pointer",
+which makes no sense whatsoever.
 
-if (reg->address =3D=3D (u64 __iomem)0x0)
+Just what had been intended?  __iomem is a qualifier of the same sort
+as const or volatile - this mess makes as much sense as
+struct cpc_reg {
+        u8 descriptor;
+        u16 length;
+        u8 space_id;   =
 
-Ionela.
+        u8 bit_width;   =
 
-> -- =
+        u8 bit_offset;
+        u8 access_width;
+        u64 const address;
+} __packed;
 
-> Catalin
---===============1035000627802366170==--
+Which would *NOT* be read as "reg->address is a numeric representation of
+address of something unmodifiable" - it would be "the value stored in
+reg->address can not be modified".
+
+This annotation says "reg->address (somehow) lives in iomem", resulting in
+"so why the hell are you trying to read it by plain dereferencing of
+reg + field offset?" from sparse.
+
+Get rid of this misannotation and don't breed force-cast to confuse
+everything hard enough to STFU.
+--===============4211850153063202091==--
 
