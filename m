@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6489383622161316730=="
+Content-Type: multipart/mixed; boundary="===============1041439589607360492=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [bcache:nvdimm-meta 5/8] drivers/md/bcache/nvm-pages.c:287:6: error: redefinition of 'bch_nvm_free_pages'
-Date: Fri, 08 Jan 2021 17:31:11 +0800
-Message-ID: <202101081704.X10h8Dmq-lkp@intel.com>
+Subject: [bcache:nvdimm-meta 6/8] drivers/md/bcache/nvm-pages.c:385:20: error: redefinition of 'bch_get_allocated_pages'
+Date: Fri, 08 Jan 2021 17:58:33 +0800
+Message-ID: <202101081723.N8WvXw2G-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6489383622161316730==
+--===============1041439589607360492==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/colyli/linux-bcache=
 .git nvdimm-meta
 head:   cafe7a7d88c5585454eb1285218db1e60a174797
-commit: f9f3f44e35b3caa3b66bfe5f82c4c7550971e4df [5/8] bcache: bch_nvm_free=
-_pages() of the buddy
+commit: 2a5e6c49869e381e2a521f5cd39fee94541ee817 [6/8] bcache: get allocate=
+d pages from specific owner
 config: arc-randconfig-s031-20210108 (attached as .config)
 compiler: arc-elf-gcc (GCC) 9.3.0
 reproduce:
@@ -26,11 +26,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-208-g46a52ca4-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/colyli/linux-bcac=
-he.git/commit/?id=3Df9f3f44e35b3caa3b66bfe5f82c4c7550971e4df
+he.git/commit/?id=3D2a5e6c49869e381e2a521f5cd39fee94541ee817
         git remote add bcache https://git.kernel.org/pub/scm/linux/kernel/g=
 it/colyli/linux-bcache.git
         git fetch --no-tags bcache nvdimm-meta
-        git checkout f9f3f44e35b3caa3b66bfe5f82c4c7550971e4df
+        git checkout 2a5e6c49869e381e2a521f5cd39fee94541ee817
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Darc =
@@ -41,15 +41,15 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/md/bcache/nvm-pages.c:287:6: error: redefinition of 'bch_nvm_fre=
+   drivers/md/bcache/nvm-pages.c:287:6: error: redefinition of 'bch_nvm_fre=
 e_pages'
      287 | void bch_nvm_free_pages(void *addr, int order, const char *owner=
 _uuid)
          |      ^~~~~~~~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.c:14:
-   drivers/md/bcache/nvm-pages.h:98:20: note: previous definition of 'bch_n=
+   drivers/md/bcache/nvm-pages.h:99:20: note: previous definition of 'bch_n=
 vm_free_pages' was here
-      98 | static inline void bch_nvm_free_pages(void *addr, int order, con=
+      99 | static inline void bch_nvm_free_pages(void *addr, int order, con=
 st char *owner_uuid) { }
          |                    ^~~~~~~~~~~~~~~~~~
    drivers/md/bcache/nvm-pages.c:327:7: error: redefinition of 'bch_nvm_all=
@@ -57,39 +57,50 @@ oc_pages'
      327 | void *bch_nvm_alloc_pages(int order, const char *owner_uuid)
          |       ^~~~~~~~~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.c:14:
-   drivers/md/bcache/nvm-pages.h:93:21: note: previous definition of 'bch_n=
+   drivers/md/bcache/nvm-pages.h:94:21: note: previous definition of 'bch_n=
 vm_alloc_pages' was here
-      93 | static inline void *bch_nvm_alloc_pages(int order, const char *o=
+      94 | static inline void *bch_nvm_alloc_pages(int order, const char *o=
 wner_uuid)
          |                     ^~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/nvm-pages.c:574:27: error: redefinition of 'bch_regist=
+>> drivers/md/bcache/nvm-pages.c:385:20: error: redefinition of 'bch_get_al=
+located_pages'
+     385 | struct bch_extent *bch_get_allocated_pages(const char *owner_uui=
+d)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/md/bcache/nvm-pages.c:14:
+   drivers/md/bcache/nvm-pages.h:101:34: note: previous definition of 'bch_=
+get_allocated_pages' was here
+     101 | static inline struct bch_extent *bch_get_allocated_pages(const c=
+har *owner_uuid)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/bcache/nvm-pages.c:612:27: error: redefinition of 'bch_regist=
 er_namespace'
-     574 | struct bch_nvm_namespace *bch_register_namespace(const char *dev=
+     612 | struct bch_nvm_namespace *bch_register_namespace(const char *dev=
 _path)
          |                           ^~~~~~~~~~~~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.c:14:
-   drivers/md/bcache/nvm-pages.h:83:41: note: previous definition of 'bch_r=
+   drivers/md/bcache/nvm-pages.h:84:41: note: previous definition of 'bch_r=
 egister_namespace' was here
-      83 | static inline struct bch_nvm_namespace *bch_register_namespace(c=
+      84 | static inline struct bch_nvm_namespace *bch_register_namespace(c=
 onst char *dev_path)
          |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/nvm-pages.c:670:12: error: redefinition of 'bch_nvm_in=
+   drivers/md/bcache/nvm-pages.c:708:12: error: redefinition of 'bch_nvm_in=
 it'
-     670 | int __init bch_nvm_init(void)
+     708 | int __init bch_nvm_init(void)
          |            ^~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.c:14:
-   drivers/md/bcache/nvm-pages.h:87:19: note: previous definition of 'bch_n=
+   drivers/md/bcache/nvm-pages.h:88:19: note: previous definition of 'bch_n=
 vm_init' was here
-      87 | static inline int bch_nvm_init(void)
+      88 | static inline int bch_nvm_init(void)
          |                   ^~~~~~~~~~~~
-   drivers/md/bcache/nvm-pages.c:686:6: error: redefinition of 'bch_nvm_exi=
+   drivers/md/bcache/nvm-pages.c:724:6: error: redefinition of 'bch_nvm_exi=
 t'
-     686 | void bch_nvm_exit(void)
+     724 | void bch_nvm_exit(void)
          |      ^~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.c:14:
-   drivers/md/bcache/nvm-pages.h:91:20: note: previous definition of 'bch_n=
+   drivers/md/bcache/nvm-pages.h:92:20: note: previous definition of 'bch_n=
 vm_exit' was here
-      91 | static inline void bch_nvm_exit(void) { }
+      92 | static inline void bch_nvm_exit(void) { }
          |                    ^~~~~~~~~~~~
    In file included from drivers/md/bcache/nvm-pages.h:6,
                     from drivers/md/bcache/nvm-pages.c:14:
@@ -103,71 +114,141 @@ ed but not used [-Wunused-const-variable=3D]
          |                   ^~~~~~~~~~~~~~~
 
 
-vim +/bch_nvm_free_pages +287 drivers/md/bcache/nvm-pages.c
+vim +/bch_get_allocated_pages +385 drivers/md/bcache/nvm-pages.c
 
-   286	=
-
- > 287	void bch_nvm_free_pages(void *addr, int order, const char *owner_uui=
-d)
-   288	{
-   289		struct bch_nvm_namespace *ns;
-   290		struct bch_owner_list *owner_list;
-   291		struct bch_nvm_alloced_recs *alloced_recs;
-   292		int r;
-   293	=
-
-   294		mutex_lock(&only_set->lock);
-   295	=
-
-   296		ns =3D find_nvm_by_addr(addr, order);
-   297		if (!ns) {
-   298			pr_info("can't find nvm_dev by kaddr %p\n", addr);
-   299			goto unlock;
-   300		}
-   301	=
-
-   302		owner_list =3D find_owner_list(owner_uuid, false);
-   303		if (!owner_list) {
-   304			pr_info("can't found owner(uuid=3D%s)\n", owner_uuid);
-   305			goto unlock;
-   306		}
-   307	=
-
-   308		alloced_recs =3D find_nvm_alloced_recs(owner_list, ns, false);
-   309		if (!alloced_recs) {
-   310			pr_info("can't find alloced_recs(uuid=3D%s)\n", ns->uuid);
-   311			goto unlock;
-   312		}
-   313	=
-
-   314		r =3D remove_extent(alloced_recs, addr, order);
-   315		if (r < 0) {
-   316			pr_info("can't find extent\n");
-   317			goto unlock;
-   318		}
-   319	=
-
-   320		__free_space(ns, addr, order);
-   321	=
-
-   322	unlock:
-   323		mutex_unlock(&only_set->lock);
-   324	}
-   325	EXPORT_SYMBOL_GPL(bch_nvm_free_pages);
    326	=
+
+ > 327	void *bch_nvm_alloc_pages(int order, const char *owner_uuid)
+   328	{
+   329		void *kaddr =3D NULL;
+   330		struct bch_owner_list *owner_list;
+   331		struct bch_nvm_alloced_recs *alloced_recs;
+   332		int i, j;
+   333	=
+
+   334		mutex_lock(&only_set->lock);
+   335		owner_list =3D find_owner_list(owner_uuid, true);
+   336	=
+
+   337		for (j =3D 0; j < only_set->total_namespaces_nr; j++) {
+   338			struct bch_nvm_namespace *ns =3D only_set->nss[j];
+   339	=
+
+   340			if (!ns || (ns->free < (1 << order)))
+   341				continue;
+   342	=
+
+   343			for (i =3D order; i < MAX_ORDER; i++) {
+   344				struct list_head *list;
+   345				struct page *page, *buddy_page;
+   346	=
+
+   347				if (list_empty(&ns->free_area[i]))
+   348					continue;
+   349	=
+
+   350				list =3D ns->free_area[i].next;
+   351				page =3D container_of((void *)list, struct page, zone_device_data=
+);
+   352	=
+
+   353				list_del(list);
+   354	=
+
+   355				while (i !=3D order) {
+   356					buddy_page =3D nvm_vaddr_to_page(ns,
+   357						nvm_pgoff_to_vaddr(ns, page->index + (1 << (i - 1))));
+   358					buddy_page->private =3D i - 1;
+   359					buddy_page->index =3D page->index + (1 << (i - 1));
+   360					__SetPageBuddy(buddy_page);
+   361					list_add((struct list_head *)&buddy_page->zone_device_data,
+   362						&ns->free_area[i - 1]);
+   363					i--;
+   364				}
+   365	=
+
+   366				page->private =3D order;
+   367				__ClearPageBuddy(page);
+   368				ns->free -=3D 1 << order;
+   369				kaddr =3D nvm_pgoff_to_vaddr(ns, page->index);
+   370				break;
+   371			}
+   372	=
+
+   373			if (i !=3D MAX_ORDER) {
+   374				alloced_recs =3D find_nvm_alloced_recs(owner_list, ns, true);
+   375				add_extent(alloced_recs, kaddr, order);
+   376				break;
+   377			}
+   378		}
+   379	=
+
+   380		mutex_unlock(&only_set->lock);
+   381		return kaddr;
+   382	}
+   383	EXPORT_SYMBOL_GPL(bch_nvm_alloc_pages);
+   384	=
+
+ > 385	struct bch_extent *bch_get_allocated_pages(const char *owner_uuid)
+   386	{
+   387		struct bch_owner_list *owner_list =3D find_owner_list(owner_uuid, f=
+alse);
+   388		struct bch_nvm_alloced_recs *alloced_recs;
+   389		struct bch_extent *head =3D NULL, *e, *tmp;
+   390		int i;
+   391	=
+
+   392		if (!owner_list)
+   393			return NULL;
+   394	=
+
+   395		for (i =3D 0; i < only_set->total_namespaces_nr; i++) {
+   396			struct list_head *l;
+   397	=
+
+   398			alloced_recs =3D owner_list->alloced_recs[i];
+   399	=
+
+   400			if (!alloced_recs || alloced_recs->size =3D=3D 0)
+   401				continue;
+   402	=
+
+   403			l =3D alloced_recs->extent_head.next;
+   404			while (l !=3D &alloced_recs->extent_head) {
+   405				e =3D container_of(l, struct bch_extent, list);
+   406				tmp =3D kzalloc(sizeof(*tmp), GFP_KERNEL|__GFP_NOFAIL);
+   407	=
+
+   408				tmp->kaddr =3D e->kaddr;
+   409				tmp->nr =3D e->nr;
+   410	=
+
+   411				if (head)
+   412					list_add_tail(&tmp->list, &head->list);
+   413				else
+   414					head =3D tmp;
+   415	=
+
+   416				l =3D l->next;
+   417			}
+   418		}
+   419		return head;
+   420	}
+   421	EXPORT_SYMBOL_GPL(bch_get_allocated_pages);
+   422	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6489383622161316730==
+--===============1041439589607360492==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICJUh+F8AAy5jb25maWcAnDxdc+O2ru/9FZ7tSztztvVH4iRzJg8URVlcS6JWpGwnLxo38baZ
+H4sICCEn+F8AAy5jb25maWcAnDxdc+O2ru/9FZ7tSztztvVH4iRzJg8URVlcS6JWpGwnLxo38baZ
 ZpOM4/S2//4CpD5IiUo658yc7hoAQRAEQACk9scffpyQt9Pz9/3p4W7/+PjP5PfD0+G4Px3uJ98e
 Hg//nYRikgk1YSFXvwBx8vD09vev++Pd5PyX2eyX6efj3XyyPhyfDo8T+vz07eH3Nxj98Pz0w48/
 UJFFfFVRWm1YIbnIKsV26voTjP58ePz2+fe7u8lPK0p/nlz9svhl+skawGUFiOt/GtCqY3J9NV1M
@@ -530,5 +611,5 @@ xfp4qH/V8J/6sPz69SvNyiYv7bFImYujVzMa/BzETylDk3N7/v9Ro6ZngLShuqYU/yDLYMFjJlxY
 EtXhSu59HRtcjfqi9Q/b72TfQVtMtEdIMhGKEW6ZABtJn8+plMaS9EnrdUNZCydIHHxNTD2JJKCa
 Kp9yTbRIlyI8GHAvMxe7JS/uRt+mco55X2f9M6ojFvX+gFyEK8XDSO6Lt5qWOy1h7XM6nxISIBq8
 5KEZXeMZLWyfaJ9B9lVZbGIudSL00mTwk02zfDGUjvs/YMkkF8s2AQA=
---===============6489383622161316730==--
+--===============1041439589607360492==--
 
