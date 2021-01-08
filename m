@@ -1,530 +1,387 @@
-Content-Type: multipart/mixed; boundary="===============1474865096895977125=="
+Content-Type: multipart/mixed; boundary="===============2661106893990912872=="
 MIME-Version: 1.0
-From: Rong Chen <rong.a.chen@intel.com>
+From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
-Date: Fri, 08 Jan 2021 09:25:01 +0800
-Message-ID: <7486aeef-9fa4-91cb-8e95-383990cf3567@intel.com>
-In-Reply-To: <3c496f96-5efa-41d2-5911-1495619fab68@suse.de>
+Subject: [peterz-queue:sched/core-sched 3/11] kernel/sched/core.c:123:6: warning: no previous prototype for 'sched_core_get'
+Date: Fri, 08 Jan 2021 11:56:14 +0800
+Message-ID: <202101081100.UBs6dnkL-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1474865096895977125==
+--===============2661106893990912872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas,
-
-Thanks for the feedback, do you mean the patch was applied to a wrong base?
-
-Best Regards,
-Rong Chen
-
-On 1/7/21 6:45 PM, Thomas Zimmermann wrote:
-> AFAICT these are false positives. The instances have been fixed already.
->
-> Am 07.01.21 um 10:45 schrieb kernel test robot:
->> Hi Thomas,
->>
->> I love your patch! Yet something to improve:
->>
->> [auto build test ERROR on drm-tip/drm-tip]
->> [cannot apply to drm-intel/for-linux-next linus/master v5.11-rc2 =
-
->> next-20210104]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch]
->>
->> url: =
-
->> https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-Move-stru=
-ct-drm_device-pdev-to-legacy/20210107-161007
->> base:=C2=A0=C2=A0 git://anongit.freedesktop.org/drm/drm-tip drm-tip
->> config: x86_64-randconfig-s021-20210107 (attached as .config)
->> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
->> reproduce:
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # apt-get install sparse
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # sparse version: v0.6.=
-3-208-g46a52ca4-dirty
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # =
-
->> https://github.com/0day-ci/linux/commit/380912f7b62c23322562c40e19efd7ad=
-84d57e9c
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git remote add linux-re=
-view https://github.com/0day-ci/linux
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git fetch --no-tags lin=
-ux-review =
-
->> Thomas-Zimmermann/drm-Move-struct-drm_device-pdev-to-legacy/20210107-161=
-007
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git checkout 380912f7b6=
-2c23322562c40e19efd7ad84d57e9c
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # save the attached .co=
-nfig to linux build tree
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 make W=3D1 C=3D1 CF=3D'=
--fdiagnostic-prefix -D__CHECK_ENDIAN__' =
-
->> ARCH=3Dx86_64
->>
->> If you fix the issue, kindly add following tag as appropriate
->> Reported-by: kernel test robot <lkp@intel.com>
->>
->> All errors (new ones prefixed by >>):
->>
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_device.c: In function =
-
->> 'oaktrail_chip_setup':
->>>> drivers/gpu/drm/gma500/oaktrail_device.c:509:26: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 509 |=C2=A0 if (pci_enable_msi(dev->pdev))
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> -- =
-
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds.c: In function =
-
->> 'oaktrail_lvds_set_power':
->>>> drivers/gpu/drm/gma500/oaktrail_lvds.c:63:25: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 63 |=C2=A0=C2=A0 pm_request_idle(&d=
-ev->pdev->dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> -- =
-
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In functi=
-on 'get_clock':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:69:11: war=
-ning: =
-
->> variable 'tmp' set but not used [-Wunused-but-set-variable]
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 69 |=C2=A0 u32 val, tmp;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In functi=
-on 'get_data':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:83:11: war=
-ning: =
-
->> variable 'tmp' set but not used [-Wunused-but-set-variable]
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 83 |=C2=A0 u32 val, tmp;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In functi=
-on =
-
->> 'oaktrail_lvds_i2c_init':
->>>> drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:148:35: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 148 |=C2=A0 chan->adapter.dev.parent =3D =
-&dev->pdev->dev;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> -- =
-
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw=
-_driver_load':
->>>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661:22: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 661 |=C2=A0 pci_set_master(dev->pdev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 In file included from drivers/gpu/drm/vmwgfx/vmwgfx_d=
-rv.c:31:
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:47: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 690 |=C2=A0 dev_priv->io_start =3D pci_re=
-source_start(dev->pdev, 0);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition of m=
-acro =
-
->> 'pci_resource_start'
->> =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar) =
-
->> ((dev)->resource[(bar)].start)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:691:49: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 691 |=C2=A0 dev_priv->vram_start =3D pci_=
-resource_start(dev->pdev, 1);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition of m=
-acro =
-
->> 'pci_resource_start'
->> =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar) =
-
->> ((dev)->resource[(bar)].start)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:692:49: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 692 |=C2=A0 dev_priv->mmio_start =3D pci_=
-resource_start(dev->pdev, 2);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0 include/linux/pci.h:1854:40: note: in definition of m=
-acro =
-
->> 'pci_resource_start'
->> =C2=A0=C2=A0=C2=A0=C2=A0 1854 | #define pci_resource_start(dev, bar) =
-
->> ((dev)->resource[(bar)].start)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:842:33: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 842 |=C2=A0 ret =3D pci_request_regions(d=
-ev->pdev, "vmwgfx probe");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:851:33: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 851 |=C2=A0=C2=A0 ret =3D pci_request_reg=
-ion(dev->pdev, 2, "vmwgfx stealth =
-
->> probe");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:859:35: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 859 |=C2=A0=C2=A0 ret =3D vmw_irq_install=
-(dev, dev->pdev->irq);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1005:27: error: '=
-struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1005 |=C2=A0=C2=A0 pci_release_region(dev->pdev=
-, 2);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1007:28: error: '=
-struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1007 |=C2=A0=C2=A0 pci_release_regions(dev->pde=
-v);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~=
-~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function =
-
->> 'vmw_driver_unload':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1056:27: error: '=
-struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1056 |=C2=A0=C2=A0 pci_release_region(dev->pdev=
-, 2);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1058:28: error: '=
-struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1058 |=C2=A0=C2=A0 pci_release_regions(dev->pde=
-v);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~=
-~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw=
-_probe':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1522:7: error: 's=
-truct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1522 |=C2=A0 dev->pdev =3D pdev;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 dev
->> -- =
-
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c: In function 'vmw_=
-fb_init':
->>>> drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:641:42: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 641 |=C2=A0 struct device *device =3D &vm=
-w_priv->dev->pdev->dev;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 In file included from drivers/gpu/drm/vmwgfx/vmwgfx_f=
-b.c:35:
->> =C2=A0=C2=A0=C2=A0 At top level:
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:256:23: warning: =
-
->> 'vmw_cursor_plane_formats' defined but not used =
-
->> [-Wunused-const-variable=3D]
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 256 | static const uint32_t vmw_cursor_pl=
-ane_formats[] =3D {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~~
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:248:23: warning: =
-
->> 'vmw_primary_plane_formats' defined but not used =
-
->> [-Wunused-const-variable=3D]
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 248 | static const uint32_t vmw_primary_p=
-lane_formats[] =3D {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~~~
->> -- =
-
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function =
-
->> 'vmw_cmdbuf_set_pool_size':
->>>> drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1233:48: error: 'struct =
-
->>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1233 |=C2=A0 man->map =3D dma_alloc_coherent(&d=
-ev_priv->dev->pdev->dev, =
-
->> size,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function =
-
->> 'vmw_cmdbuf_man_create':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1316:28: error=
-: 'struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1316 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 &dev_priv->dev->pdev->dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~=
-~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1325:22: error=
-: 'struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1325 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &dev_priv-=
->dev->pdev->dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function =
-
->> 'vmw_cmdbuf_remove_pool':
->> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1390:42: error=
-: 'struct =
-
->> drm_device' has no member named 'pdev'; did you mean 'dev'?
->> =C2=A0=C2=A0=C2=A0=C2=A0 1390 | dma_free_coherent(&man->dev_priv->dev->p=
-dev->dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 ^~~~
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 dev
->>
->>
->> vim +509 drivers/gpu/drm/gma500/oaktrail_device.c
->>
->> 1b082ccf5901108 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-03=C2=A0 503
->> 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 504=C2=A0 static int =
-
->> oaktrail_chip_setup(struct drm_device *dev)
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 505=C2=A0 {
->> 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 506=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct =
-
->> drm_psb_private *dev_priv =3D dev->dev_private;
->> 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 507=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->> 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 508
->> 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-11 @509=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-
->> (pci_enable_msi(dev->pdev))
->> 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-11=C2=A0 510 dev_warn(dev->dev, =
-
->> "Enabling MSI failed!\n");
->> 9c0b6fcdc9faee5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-11=C2=A0 511
->> 8512e0748729a49 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-11=C2=A0 512 dev_priv->regmap =3D =
-
->> oaktrail_regmap;
->> 8512e0748729a49 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-11=C2=A0 513
->> 1b22edfd6efd02b Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 514=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D =
-
->> mid_chip_setup(dev);
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 515=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0)
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 516 return ret;
->> 4086b1e2b19729e Kirill A. Shutemov 2012-05-03=C2=A0 517=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 if =
-
->> (!dev_priv->has_gct) {
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 518=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 /* Now =
-
->> pull the BIOS data */
->> d839ede47a56ff5 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-03=C2=A0 519 =
-
->> psb_intel_opregion_init(dev);
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 520 =
-
->> psb_intel_init_bios(dev);
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 521=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> 6528c897966c7d5 Patrik Jakobsson=C2=A0=C2=A0 2013-11-07=C2=A0 522 =
-
->> gma_intel_setup_gmbus(dev);
->> 5f503148efdda26 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2012-05-03=C2=A0 523 =
-
->> oaktrail_hdmi_setup(dev);
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 524=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 525=C2=A0 }
->> aa0c45fdca0cff3 Alan Cox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2011-11-29=C2=A0 526
->>
->> ---
->> 0-DAY CI Kernel Test Service, Intel Corporation
->> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
->>
->
->
-> _______________________________________________
-> kbuild-all mailing list -- kbuild-all(a)lists.01.org
-> To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
-
---===============1474865096895977125==--
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sc=
+hed/core-sched
+head:   ead81f232b5b31ab6240a719ff3bad564c3f0e4c
+commit: 2230396a2aab4430f28f28fee97e26f3d8978b50 [3/11] sched: Core-wide rq=
+->lock
+config: powerpc-ps3_defconfig (attached as .config)
+compiler: powerpc64-linux-gcc (GCC) 9.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
+commit/?id=3D2230396a2aab4430f28f28fee97e26f3d8978b50
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue sched/core-sched
+        git checkout 2230396a2aab4430f28f28fee97e26f3d8978b50
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
+ARCH=3Dpowerpc =
+
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/sched/core.c:123:6: warning: no previous prototype for 'sched_cor=
+e_get' [-Wmissing-prototypes]
+     123 | void sched_core_get(void)
+         |      ^~~~~~~~~~~~~~
+>> kernel/sched/core.c:131:6: warning: no previous prototype for 'sched_cor=
+e_put' [-Wmissing-prototypes]
+     131 | void sched_core_put(void)
+         |      ^~~~~~~~~~~~~~
+   kernel/sched/core.c:2892:6: warning: no previous prototype for 'sched_se=
+t_stop_task' [-Wmissing-prototypes]
+    2892 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c: In function 'schedule_tail':
+   kernel/sched/core.c:4302:13: warning: variable 'rq' set but not used [-W=
+unused-but-set-variable]
+    4302 |  struct rq *rq;
+         |             ^~
+
+
+vim +/sched_core_get +123 kernel/sched/core.c
+
+   122	=
+
+ > 123	void sched_core_get(void)
+   124	{
+   125		mutex_lock(&sched_core_mutex);
+   126		if (!sched_core_count++)
+   127			__sched_core_enable();
+   128		mutex_unlock(&sched_core_mutex);
+   129	}
+   130	=
+
+ > 131	void sched_core_put(void)
+   132	{
+   133		mutex_lock(&sched_core_mutex);
+   134		if (!--sched_core_count)
+   135			__sched_core_disable();
+   136		mutex_unlock(&sched_core_mutex);
+   137	}
+   138	=
+
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+--===============2661106893990912872==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+/gf1IXm2BwIBAA==
+--===============2661106893990912872==--
 
