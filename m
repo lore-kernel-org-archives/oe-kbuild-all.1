@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2661106893990912872=="
+Content-Type: multipart/mixed; boundary="===============7539643171738165071=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [peterz-queue:sched/core-sched 3/11] kernel/sched/core.c:123:6: warning: no previous prototype for 'sched_core_get'
-Date: Fri, 08 Jan 2021 11:56:14 +0800
-Message-ID: <202101081100.UBs6dnkL-lkp@intel.com>
+Subject: [peterz-queue:sched/core-sched 10/11] kernel/sched/fair.c:10777:6: warning: no previous prototype for 'task_vruntime_update'
+Date: Fri, 08 Jan 2021 12:37:32 +0800
+Message-ID: <202101081217.t8nrlOhp-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2661106893990912872==
+--===============7539643171738165071==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sc=
 hed/core-sched
 head:   ead81f232b5b31ab6240a719ff3bad564c3f0e4c
-commit: 2230396a2aab4430f28f28fee97e26f3d8978b50 [3/11] sched: Core-wide rq=
-->lock
+commit: 6f7eefbb382e8c5fa56180f8cd5becb5f882a3d6 [10/11] sched/fair: Snapsh=
+ot the min_vruntime of CPUs on force idle
 config: powerpc-ps3_defconfig (attached as .config)
 compiler: powerpc64-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=3D1 build):
@@ -24,11 +24,11 @@ reproduce (this is a W=3D1 build):
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3D2230396a2aab4430f28f28fee97e26f3d8978b50
+commit/?id=3D6f7eefbb382e8c5fa56180f8cd5becb5f882a3d6
         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
 rnel/git/peterz/queue.git
         git fetch --no-tags peterz-queue sched/core-sched
-        git checkout 2230396a2aab4430f28f28fee97e26f3d8978b50
+        git checkout 6f7eefbb382e8c5fa56180f8cd5becb5f882a3d6
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 ARCH=3Dpowerpc =
@@ -39,59 +39,64 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/core.c:123:6: warning: no previous prototype for 'sched_cor=
-e_get' [-Wmissing-prototypes]
-     123 | void sched_core_get(void)
-         |      ^~~~~~~~~~~~~~
->> kernel/sched/core.c:131:6: warning: no previous prototype for 'sched_cor=
-e_put' [-Wmissing-prototypes]
-     131 | void sched_core_put(void)
-         |      ^~~~~~~~~~~~~~
-   kernel/sched/core.c:2892:6: warning: no previous prototype for 'sched_se=
-t_stop_task' [-Wmissing-prototypes]
-    2892 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'schedule_tail':
-   kernel/sched/core.c:4302:13: warning: variable 'rq' set but not used [-W=
-unused-but-set-variable]
-    4302 |  struct rq *rq;
-         |             ^~
+   kernel/sched/fair.c:5342:6: warning: no previous prototype for 'init_cfs=
+_bandwidth' [-Wmissing-prototypes]
+    5342 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |      ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/fair.c:10777:6: warning: no previous prototype for 'task_vr=
+untime_update' [-Wmissing-prototypes]
+   10777 | void task_vruntime_update(struct rq *rq, struct task_struct *p, =
+bool in_fi)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11304:6: warning: no previous prototype for 'free_fa=
+ir_sched_group' [-Wmissing-prototypes]
+   11304 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11306:5: warning: no previous prototype for 'alloc_f=
+air_sched_group' [-Wmissing-prototypes]
+   11306 | int alloc_fair_sched_group(struct task_group *tg, struct task_gr=
+oup *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11311:6: warning: no previous prototype for 'online_=
+fair_sched_group' [-Wmissing-prototypes]
+   11311 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11313:6: warning: no previous prototype for 'unregis=
+ter_fair_sched_group' [-Wmissing-prototypes]
+   11313 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/sched_core_get +123 kernel/sched/core.c
+vim +/task_vruntime_update +10777 kernel/sched/fair.c
 
-   122	=
+ 10776	=
 
- > 123	void sched_core_get(void)
-   124	{
-   125		mutex_lock(&sched_core_mutex);
-   126		if (!sched_core_count++)
-   127			__sched_core_enable();
-   128		mutex_unlock(&sched_core_mutex);
-   129	}
-   130	=
+ 10777	void task_vruntime_update(struct rq *rq, struct task_struct *p, bool=
+ in_fi)
+ 10778	{
+ 10779		struct sched_entity *se =3D &p->se;
+ 10780	=
 
- > 131	void sched_core_put(void)
-   132	{
-   133		mutex_lock(&sched_core_mutex);
-   134		if (!--sched_core_count)
-   135			__sched_core_disable();
-   136		mutex_unlock(&sched_core_mutex);
-   137	}
-   138	=
+ 10781		if (p->sched_class !=3D &fair_sched_class)
+ 10782			return;
+ 10783	=
+
+ 10784		se_fi_update(se, rq->core->core_forceidle_seq, in_fi);
+ 10785	}
+ 10786	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2661106893990912872==
+--===============7539643171738165071==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLvO918AAy5jb25maWcAjFzbc9u20n/vX6FxX855aOtbfNL5xg8gCEqoSIIBQPnyglFsJvEc
+H4sICGvb918AAy5jb25maWcAjFzbc9u20n/vX6FxX855aOtbfNL5xg8gCEqoSIIBQPnyglFsJvEc
 x8qR5bb5779dgBeABJV2pm20uwRxWez+9sL8/NPPC/J22H3dHp4ets/P3xefm5dmvz00j4tPT8/N
 /y1SsSiFXrCU619BOH96efv7t2+7v5r9t4fFu1/Pzn49/WX/cL5YN/uX5nlBdy+fnj6/wQhPu5ef
 fv6JijLjS0Op2TCpuCiNZrf6+qQd4eryl2cc8ZfPDw+Lfy0p/ffi918vfj098R7kygDj+ntHWg6D
@@ -383,5 +388,5 @@ I1AcG6DjC0Ge5OAykkWhaxd1zmiGM1PHVNjBWLqWES8vhtcBNnwqFmAKPNAz+o54KLi4wZUhYzaj
 72bWpt+m/FWU7pwSQ00PDdCoGOp8UEuY6jjVtCb5OIaItUqiHynhZJoGkr7iaZ3dy1QJ3wMdqZ2z
 DLQHQyYNTUc0w2Lt1PSUTJnguZpriDQM1LQcLAROWQxzNZkMA9AcCW75GK8dImWfZgbZv2erpF9q
 /gf1IXm2BwIBAA==
---===============2661106893990912872==--
+--===============7539643171738165071==--
 
