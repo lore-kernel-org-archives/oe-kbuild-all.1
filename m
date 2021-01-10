@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7555409286725728684=="
+Content-Type: multipart/mixed; boundary="===============7484063071676917523=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH RFC net-next 09/19] net: mvpp2: add FCA RXQ non occupied descriptor threshold
-Date: Mon, 11 Jan 2021 01:36:46 +0800
-Message-ID: <202101110134.xCZ2aZlt-lkp@intel.com>
-In-Reply-To: <1610292623-15564-10-git-send-email-stefanc@marvell.com>
+Subject: Re: [PATCH RFC net-next 11/19] net: mvpp2: add flow control RXQ and BM pool config callbacks
+Date: Mon, 11 Jan 2021 02:44:46 +0800
+Message-ID: <202101110231.sOEIY5zm-lkp@intel.com>
+In-Reply-To: <1610292623-15564-12-git-send-email-stefanc@marvell.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7555409286725728684==
+--===============7484063071676917523==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,12 +25,12 @@ base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
 config: x86_64-allyesconfig (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce (this is a W=3D1 build):
-        # https://github.com/0day-ci/linux/commit/20cd81f50a10cac92a32f3708=
-beff186252db792
+        # https://github.com/0day-ci/linux/commit/7cfb8c5889ee149baaa0c2923=
+1e8957f2b748ed2
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review stefanc-marvell-com/net-mvpp2-Add-=
 TX-Flow-Control-support/20210110-233909
-        git checkout 20cd81f50a10cac92a32f3708beff186252db792
+        git checkout 7cfb8c5889ee149baaa0c29231e8957f2b748ed2
         # save the attached .config to linux build tree
         make W=3D1 ARCH=3Dx86_64 =
 
@@ -40,49 +40,232 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:2422:6: warning: no prev=
+>> drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:760:6: warning: no previ=
+ous prototype for 'mvpp2_rxq_enable_fc' [-Wmissing-prototypes]
+     760 | void mvpp2_rxq_enable_fc(struct mvpp2_port *port)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:821:6: warning: no previ=
+ous prototype for 'mvpp2_rxq_disable_fc' [-Wmissing-prototypes]
+     821 | void mvpp2_rxq_disable_fc(struct mvpp2_port *port)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:864:6: warning: no previ=
+ous prototype for 'mvpp2_bm_pool_update_fc' [-Wmissing-prototypes]
+     864 | void mvpp2_bm_pool_update_fc(struct mvpp2_port *port,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:2591:6: warning: no prev=
 ious prototype for 'mvpp2_set_rxq_free_tresh' [-Wmissing-prototypes]
-    2422 | void mvpp2_set_rxq_free_tresh(struct mvpp2_port *port,
+    2591 | void mvpp2_set_rxq_free_tresh(struct mvpp2_port *port,
          |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/mvpp2_set_rxq_free_tresh +2422 drivers/net/ethernet/marvell/mvpp2/mvp=
-p2_main.c
+vim +/mvpp2_rxq_enable_fc +760 drivers/net/ethernet/marvell/mvpp2/mvpp2_mai=
+n.c
 
-  2418	=
+   758	=
 
-  2419	/* Routine set the number of non-occupied descriptors threshold that=
- change
-  2420	 * interrupt error cause polled by FW Flow Control
-  2421	 */
-> 2422	void mvpp2_set_rxq_free_tresh(struct mvpp2_port *port,
-  2423				      struct mvpp2_rx_queue *rxq)
-  2424	{
-  2425		u32 val;
-  2426	=
+   759	/* Routine enable flow control for RXQs conditon */
+ > 760	void mvpp2_rxq_enable_fc(struct mvpp2_port *port)
+   761	{
+   762		int val, cm3_state, host_id, q;
+   763		int fq =3D port->first_rxq;
+   764		unsigned long flags;
+   765	=
 
-  2427		mvpp2_write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
-  2428	=
+   766		spin_lock_irqsave(&port->priv->mss_spinlock, flags);
+   767	=
 
-  2429		val =3D mvpp2_read(port->priv, MVPP2_RXQ_THRESH_REG);
-  2430		val &=3D ~MVPP2_RXQ_NON_OCCUPIED_MASK;
-  2431		val |=3D MSS_THRESHOLD_STOP << MVPP2_RXQ_NON_OCCUPIED_OFFSET;
-  2432		mvpp2_write(port->priv, MVPP2_RXQ_THRESH_REG, val);
-  2433	}
-  2434	=
+   768		/* Remove Flow control enable bit to prevent race between FW and Ke=
+rnel
+   769		 * If Flow control were enabled, it would be re-enabled.
+   770		 */
+   771		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   772		cm3_state =3D (val & FLOW_CONTROL_ENABLE_BIT);
+   773		val &=3D ~FLOW_CONTROL_ENABLE_BIT;
+   774		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   775	=
+
+   776		/* Set same Flow control for all RXQs */
+   777		for (q =3D 0; q < port->nrxqs; q++) {
+   778			/* Set stop and start Flow control RXQ thresholds */
+   779			val =3D MSS_THRESHOLD_START;
+   780			val |=3D (MSS_THRESHOLD_STOP << MSS_RXQ_TRESH_STOP_OFFS);
+   781			mvpp2_cm3_write(port->priv, MSS_RXQ_TRESH_REG(q, fq), val);
+   782	=
+
+   783			val =3D mvpp2_cm3_read(port->priv, MSS_RXQ_ASS_REG(q, fq));
+   784			/* Set RXQ port ID */
+   785			val &=3D ~(MSS_RXQ_ASS_PORTID_MASK << MSS_RXQ_ASS_Q_BASE(q, fq));
+   786			val |=3D (port->id << MSS_RXQ_ASS_Q_BASE(q, fq));
+   787			val &=3D ~(MSS_RXQ_ASS_HOSTID_MASK << (MSS_RXQ_ASS_Q_BASE(q, fq)
+   788				+ MSS_RXQ_ASS_HOSTID_OFFS));
+   789	=
+
+   790			/* Calculate RXQ host ID:
+   791			 * In Single queue mode: Host ID equal to Host ID used for
+   792			 *			 shared RX interrupt
+   793			 * In Multi queue mode: Host ID equal to number of
+   794			 *			RXQ ID / number of CoS queues
+   795			 * In Single resource mode: Host ID always equal to 0
+   796			 */
+   797			if (queue_mode =3D=3D MVPP2_QDIST_SINGLE_MODE)
+   798				host_id =3D mvpp22_calc_shared_addr_space(port);
+   799			else if (queue_mode =3D=3D MVPP2_QDIST_MULTI_MODE)
+   800				host_id =3D q;
+   801			else
+   802				host_id =3D 0;
+   803	=
+
+   804			/* Set RXQ host ID */
+   805			val |=3D (host_id << (MSS_RXQ_ASS_Q_BASE(q, fq)
+   806				+ MSS_RXQ_ASS_HOSTID_OFFS));
+   807	=
+
+   808			mvpp2_cm3_write(port->priv, MSS_RXQ_ASS_REG(q, fq), val);
+   809		}
+   810	=
+
+   811		/* Notify Firmware that Flow control config space ready for update =
+*/
+   812		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   813		val |=3D FLOW_CONTROL_UPDATE_COMMAND_BIT;
+   814		val |=3D cm3_state;
+   815		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   816	=
+
+   817		spin_unlock_irqrestore(&port->priv->mss_spinlock, flags);
+   818	}
+   819	=
+
+   820	/* Routine disable flow control for RXQs conditon */
+ > 821	void mvpp2_rxq_disable_fc(struct mvpp2_port *port)
+   822	{
+   823		int val, cm3_state, q;
+   824		unsigned long flags;
+   825		int fq =3D port->first_rxq;
+   826	=
+
+   827		spin_lock_irqsave(&port->priv->mss_spinlock, flags);
+   828	=
+
+   829		/* Remove Flow control enable bit to prevent race between FW and Ke=
+rnel
+   830		 * If Flow control were enabled, it would be re-enabled.
+   831		 */
+   832		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   833		cm3_state =3D (val & FLOW_CONTROL_ENABLE_BIT);
+   834		val &=3D ~FLOW_CONTROL_ENABLE_BIT;
+   835		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   836	=
+
+   837		/* Disable Flow control for all RXQs */
+   838		for (q =3D 0; q < port->nrxqs; q++) {
+   839			/* Set threshold 0 to disable Flow control */
+   840			val =3D 0;
+   841			val |=3D (0 << MSS_RXQ_TRESH_STOP_OFFS);
+   842			mvpp2_cm3_write(port->priv, MSS_RXQ_TRESH_REG(q, fq), val);
+   843	=
+
+   844			val =3D mvpp2_cm3_read(port->priv, MSS_RXQ_ASS_REG(q, fq));
+   845	=
+
+   846			val &=3D ~(MSS_RXQ_ASS_PORTID_MASK << MSS_RXQ_ASS_Q_BASE(q, fq));
+   847	=
+
+   848			val &=3D ~(MSS_RXQ_ASS_HOSTID_MASK << (MSS_RXQ_ASS_Q_BASE(q, fq)
+   849				+ MSS_RXQ_ASS_HOSTID_OFFS));
+   850	=
+
+   851			mvpp2_cm3_write(port->priv, MSS_RXQ_ASS_REG(q, fq), val);
+   852		}
+   853	=
+
+   854		/* Notify Firmware that Flow control config space ready for update =
+*/
+   855		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   856		val |=3D FLOW_CONTROL_UPDATE_COMMAND_BIT;
+   857		val |=3D cm3_state;
+   858		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   859	=
+
+   860		spin_unlock_irqrestore(&port->priv->mss_spinlock, flags);
+   861	}
+   862	=
+
+   863	/* Routine disable/enable flow control for BM pool conditon */
+ > 864	void mvpp2_bm_pool_update_fc(struct mvpp2_port *port,
+   865				     struct mvpp2_bm_pool *pool,
+   866				     bool en)
+   867	{
+   868		int val, cm3_state;
+   869		unsigned long flags;
+   870	=
+
+   871		spin_lock_irqsave(&port->priv->mss_spinlock, flags);
+   872	=
+
+   873		/* Remove Flow control enable bit to prevent race between FW and Ke=
+rnel
+   874		 * If Flow control were enabled, it would be re-enabled.
+   875		 */
+   876		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   877		cm3_state =3D (val & FLOW_CONTROL_ENABLE_BIT);
+   878		val &=3D ~FLOW_CONTROL_ENABLE_BIT;
+   879		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   880	=
+
+   881		/* Check if BM pool should be enabled/disable */
+   882		if (en) {
+   883			/* Set BM pool start and stop thresholds per port */
+   884			val =3D mvpp2_cm3_read(port->priv, MSS_BUF_POOL_REG(pool->id));
+   885			val |=3D MSS_BUF_POOL_PORT_OFFS(port->id);
+   886			val &=3D ~MSS_BUF_POOL_START_MASK;
+   887			val |=3D (MSS_THRESHOLD_START << MSS_BUF_POOL_START_OFFS);
+   888			val &=3D ~MSS_BUF_POOL_STOP_MASK;
+   889			val |=3D MSS_THRESHOLD_STOP;
+   890			mvpp2_cm3_write(port->priv, MSS_BUF_POOL_REG(pool->id), val);
+   891		} else {
+   892			/* Remove BM pool from the port */
+   893			val =3D mvpp2_cm3_read(port->priv, MSS_BUF_POOL_REG(pool->id));
+   894			val &=3D ~MSS_BUF_POOL_PORT_OFFS(port->id);
+   895	=
+
+   896			/* Zero BM pool start and stop thresholds to disable pool
+   897			 * flow control if pool empty (not used by any port)
+   898			 */
+   899			if (!pool->buf_num) {
+   900				val &=3D ~MSS_BUF_POOL_START_MASK;
+   901				val &=3D ~MSS_BUF_POOL_STOP_MASK;
+   902			}
+   903	=
+
+   904			mvpp2_cm3_write(port->priv, MSS_BUF_POOL_REG(pool->id), val);
+   905		}
+   906	=
+
+   907		/* Notify Firmware that Flow control config space ready for update =
+*/
+   908		val =3D mvpp2_cm3_read(port->priv, MSS_FC_COM_REG);
+   909		val |=3D FLOW_CONTROL_UPDATE_COMMAND_BIT;
+   910		val |=3D cm3_state;
+   911		mvpp2_cm3_write(port->priv, MSS_FC_COM_REG, val);
+   912	=
+
+   913		spin_unlock_irqrestore(&port->priv->mss_spinlock, flags);
+   914	}
+   915	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7555409286725728684==
+--===============7484063071676917523==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICN8p+18AAy5jb25maWcAlDzLdtw2svv5ij7OJlkkI8myxjn3aAGSYDfcJEEDYD+0wVHktqNz
+H4sICGQ8+18AAy5jb25maWcAlDzLdtw2svv5ij7OJlkkI8myxjn3aAGSYDfcJEEDYD+0wVHktqNz
 Zcmjx4z997cK4KMAopVcLxKxqvAu1Bv90z9+WrCX54ev18+3N9d3dz8WXw73h8fr58Onxefbu8P/
 LAq5aKRZ8EKY34C4ur1/+f7P7+8v7MX54t1vp6e/nfz6eHO2WB8e7w93i/zh/vPtlxfo4Pbh/h8/
 /SOXTSmWNs/thistZGMN35nLN19ubn79ffFzcfjj9vp+8ftvb6Gb03e/+L/ekGZC22WeX/4YQMup
@@ -1447,5 +1630,5 @@ bWhwoNnoNz+Qe6/UDleq9YQ8OCxEtHBIFraENJKbYRWbQAd+X+46ES/JvALzEsjDKumYMYuQ7P0O
 wwI4O6xpWUc04uNfB17Q7+N4O19lReT0IjM2OLPyxVkYwNAZHDWuEmUGu7DCbIuId1WJWzXIBvGh
 XHZZJpLSDmxL7pcfEhFK9i0sGId2X/iTnNOfE5far/V9UZYojEDcREWo9yaSnblPWidGfFCe5FuL
 0f8H5syoSrYDBQA=
---===============7555409286725728684==--
+--===============7484063071676917523==--
 
