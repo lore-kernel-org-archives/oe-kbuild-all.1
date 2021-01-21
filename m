@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7350359184278266453=="
+Content-Type: multipart/mixed; boundary="===============4370841076897950393=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [masahiroy:testing3 2/3] COPYING CREDITS Documentation Kbuild Kconfig LICENSES MAINTAINERS Makefile README arch block certs crypto drivers fs include init ipc kernel lib mm net samples scripts security sound tools usr virt No rule to make target 'arch/powerpc/kernel/vdso32/vdso32.lds', needed by 'arch/powerpc/kernel/vdso32/vdso32.so.dbg'.
-Date: Thu, 21 Jan 2021 08:53:25 +0800
-Message-ID: <202101210810.KwmuX7hy-lkp@intel.com>
+Subject: [masahiroy:testing3 3/3] scripts/Makefile.headersinst:15: scripts/Kbuild.include: No such file or directory
+Date: Thu, 21 Jan 2021 09:22:00 +0800
+Message-ID: <202101210943.MFfrtdYb-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7350359184278266453==
+--===============4370841076897950393==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
 ild.git testing3
 head:   e04a6f917656dc5aab2a15a6bc3a8debb158e3d2
-commit: 90b7ccac106945e95f3d6c0d74333ca8f5ee9a12 [2/3] [build test] kbuild:=
- $(srctree)/$(src) -> $(src)
+commit: e04a6f917656dc5aab2a15a6bc3a8debb158e3d2 [3/3] kbuild: prefix $(src=
+tree)/ to included Makefiles in the source tree
 config: powerpc-randconfig-p001-20210121 (attached as .config)
 compiler: powerpc64-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=3D1 build):
@@ -24,11 +24,11 @@ reproduce (this is a W=3D1 build):
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git/commit/?id=3D90b7ccac106945e95f3d6c0d74333ca8f5ee9a12
+build.git/commit/?id=3De04a6f917656dc5aab2a15a6bc3a8debb158e3d2
         git remote add masahiroy https://git.kernel.org/pub/scm/linux/kerne=
 l/git/masahiroy/linux-kbuild.git
         git fetch --no-tags masahiroy testing3
-        git checkout 90b7ccac106945e95f3d6c0d74333ca8f5ee9a12
+        git checkout e04a6f917656dc5aab2a15a6bc3a8debb158e3d2
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 ARCH=3Dpowerpc =
@@ -39,39 +39,75 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> make[2]: *** No rule to make target 'arch/powerpc/kernel/vdso32/vdso32.l=
+>> scripts/Makefile.headersinst:15: scripts/Kbuild.include: No such file or=
+ directory
+>> make[2]: *** No rule to make target 'scripts/Kbuild.include'.
+   make[2]: Failed to remake makefile 'scripts/Kbuild.include'.
+   make[1]: *** [Makefile:1285: headers] Error 2
+   make[1]: Target 'headers_install' not remade because of errors.
+   make: *** [Makefile:176: __sub-make] Error 2
+   make: Target 'headers_install' not remade because of errors.
+--
+>> scripts/Makefile.headersinst:15: scripts/Kbuild.include: No such file or=
+ directory
+>> make[2]: *** No rule to make target 'scripts/Kbuild.include'.
+   make[2]: Failed to remake makefile 'scripts/Kbuild.include'.
+   make[1]: *** [Makefile:1285: headers] Error 2
+   make[2]: *** No rule to make target 'arch/powerpc/kernel/vdso32/vdso32.l=
 ds', needed by 'arch/powerpc/kernel/vdso32/vdso32.so.dbg'.
    make[2]: Target 'include/generated/vdso32-offsets.h' not remade because =
 of errors.
    make[1]: *** [arch/powerpc/Makefile:425: vdso_prepare] Error 2
    make[1]: Target 'modules_prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
+   make: *** [Makefile:176: __sub-make] Error 2
    make: Target 'modules_prepare' not remade because of errors.
 --
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts=
--sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflict=
-s-rr]
->> make[2]: *** No rule to make target 'arch/powerpc/kernel/vdso32/vdso32.l=
+>> scripts/Makefile.headersinst:15: scripts/Kbuild.include: No such file or=
+ directory
+>> make[2]: *** No rule to make target 'scripts/Kbuild.include'.
+   make[2]: Failed to remake makefile 'scripts/Kbuild.include'.
+   make[1]: *** [Makefile:1285: headers] Error 2
+   make[2]: *** No rule to make target 'arch/powerpc/kernel/vdso32/vdso32.l=
 ds', needed by 'arch/powerpc/kernel/vdso32/vdso32.so.dbg'.
    make[2]: Target 'include/generated/vdso32-offsets.h' not remade because =
 of errors.
    make[1]: *** [arch/powerpc/Makefile:425: vdso_prepare] Error 2
    make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
+   make: *** [Makefile:176: __sub-make] Error 2
    make: Target 'prepare' not remade because of errors.
+
+
+vim +15 scripts/Makefile.headersinst
+
+8d730cfb50cc77da David Woodhouse 2006-06-18  11  =
+
+05d8cba4a1e8c7e2 Masahiro Yamada 2017-05-16  12  PHONY :=3D __headers
+05d8cba4a1e8c7e2 Masahiro Yamada 2017-05-16  13  __headers:
+05d8cba4a1e8c7e2 Masahiro Yamada 2017-05-16  14  =
+
+05d8cba4a1e8c7e2 Masahiro Yamada 2017-05-16 @15  include scripts/Kbuild.inc=
+lude
+05d8cba4a1e8c7e2 Masahiro Yamada 2017-05-16  16  =
+
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 05d8cba4a1e8c7e2d1f91a24a2f3d26852938a04 kbuild: skip install/check =
+of headers right under uapi directories
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Masahiro Yamada <yamada.masahiro@socionext.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7350359184278266453==
+--===============4370841076897950393==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICHTJCGAAAy5jb25maWcAnFxbk+M2rn7Pr1BNXpKqnaz7mu461Q+0RNmMJVFNUu7Li8pxa5Ku
+H4sICJbQCGAAAy5jb25maWcAnFxbk+M2rn7Pr1BNXpKqnaz7mu461Q+0RNmMJVFNUu7Li8pxa5Ku
 7dva7iRzfv0BSMkCJbpn6qQqyRggwRsIfACo+fGHHyP2vnt9Xu0e16unp6/RH81Ls1ntmofoy+NT
 8z9RIqNCmognwvwCjbPHl/d//v32+nezeVtHZ78cHf0y+bxZn0aLZvPSPEXx68uXxz/eQcLj68sP
 P/4QyyIVszqO6yVXWsiiNvzWXH1qJZyffn5CiZ//WK+jn2Zx/HN0+cvJL5NPpKPQNTCuvnakWS/s
@@ -661,5 +697,5 @@ dbuXV5RaUUhPH//aPV/f7khwFCasImFLOn+V7i+1CkxprSh5mVK5tZthbtsbNC1MzTiHj+e1XmHL
 Jb2MQSMVrr34BatXgTaFHMpuWqJ3WeypK4hmXR20RVOhBsp1SWOiOUn1OlmCZ3cwQCAKAdq/WZCD
 H/jCItGjFBwnWvKBMSMzQ18xLqmCLO0dUxhNwq5boDHopEMYQ1CnupvcSIxqkeRmclumJWcd/T+9
 ULdRZwsCAA==
---===============7350359184278266453==--
+--===============4370841076897950393==--
 
