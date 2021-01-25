@@ -1,400 +1,142 @@
-Content-Type: multipart/mixed; boundary="===============1230760135068273963=="
+Content-Type: multipart/mixed; boundary="===============2522261037060741651=="
 MIME-Version: 1.0
 From: Nick Desaulniers <ndesaulniers@google.com>
 To: kbuild-all@lists.01.org
-Subject: Re: hppa64-linux-ld: mm/hugetlb.o(.text+0x50dc): cannot reach printk
-Date: Mon, 25 Jan 2021 09:54:00 -0800
-Message-ID: <CAKwvOd=rrTLc510cEA84BC_zzYVQ0ifPEMhRRtU-cyYPs_E4eA@mail.gmail.com>
-In-Reply-To: <202101162230.XswE8zOX-lkp@intel.com>
+Subject: Re: [PATCH] percpu: fix clang modpost warning in pcpu_build_alloc_info()
+Date: Mon, 25 Jan 2021 10:27:11 -0800
+Message-ID: <CAKwvOdnxnooqtyeSem63V_P5980jc0Z2PDG=0iM8ixeYTSaTCg@mail.gmail.com>
+In-Reply-To: <CAK8P3a2ZWfNeXKSm8K_SUhhwkor17jFo3xApLXjzfPqX0eUDUA@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1230760135068273963==
+--===============2522261037060741651==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-I suspect that adding some more sections here makes the distance
-between other sections too large to encode?  IIRC, arm (32b) linker
-can emit "range extending thunks" to help jump large distances.  Not
-sure what to make of this report; I wouldn't have expected this GCC
-randconfig to generate code in any of the sections that were added to
-the linkerscript in
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3Deff8728fe69880d3f7983bec3fb6cea4c306261f.
+On Mon, Jan 25, 2021 at 3:07 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> On Tue, Jan 5, 2021 at 1:55 AM Dennis Zhou <dennis@kernel.org> wrote:
+> >
+> > On Mon, Jan 04, 2021 at 04:46:51PM -0700, Nathan Chancellor wrote:
+> > > On Thu, Dec 31, 2020 at 09:28:52PM +0000, Dennis Zhou wrote:
+> > > >
+> >
+> > Hi Nathan,
+> >
+> > >
+> > > Hi Dennis,
+> > >
+> > > I did a bisect of the problematic config against defconfig and it poi=
+nts
+> > > out that CONFIG_GCOV_PROFILE_ALL is in the bad config but not the good
+> > > config, which makes some sense as that will mess with clang's inlining
+> > > heuristics. It does not appear to be the single config that makes a
+> > > difference but it gives some clarity.
+> > >
+> >
+> > Ah, thanks. To me it's kind of a corner case that I don't have a lot of
+> > insight into. __init code is pretty limited and this warning is really
+> > at the compilers whim. However, in this case only clang throws this
+> > warning.
+> >
+> > > I do not personally have any strong opinions around the patch but is =
+it
+> > > really that much wasted memory to just annotate mask with __refdata?
+> >
+> > It's really not much memory, 1 bit per max # of cpus. The reported
+> > config is on the extreme side compiling with 8k NR_CPUS, so 1kb. I'm
+> > just not in love with the idea of adding a patch to improve readability
+> > and it cost idle memory to resolve a compile time warning.
+> >
+> > If no one else chimes in in the next few days, I'll probably just apply
+> > it and go from there. If another issue comes up I'll drop this and tag
+> > it as __refdata.
+>
+> I've come across this one again in linux-next today, and found that
+> I had an old patch for it already, that I had never submitted:
+>
+> From 7d6f40414490092b86f1a64d8c42426ee350da1a Mon Sep 17 00:00:00 2001
+> From: Arnd Bergmann <arnd@arndb.de>
+> Date: Mon, 7 Dec 2020 23:24:20 +0100
+> Subject: [PATCH] mm: percpu: fix section mismatch warning
+>
+> Building with arm64 clang sometimes (fairly rarely) shows a
+> warning about the pcpu_build_alloc_info() function:
+>
+> WARNING: modpost: vmlinux.o(.text+0x21697c): Section mismatch in
+> reference from the function cpumask_clear_cpu() to the variable
+> .init.data:pcpu_build_alloc_info.mask
+> The function cpumask_clear_cpu() references
+> the variable __initdata pcpu_build_alloc_info.mask.
+> This is often because cpumask_clear_cpu lacks a __initdata
+> annotation or the annotation of pcpu_build_alloc_info.mask is wrong.
+>
+> What appears to be going on here is that the compiler decides to not
+> inline the cpumask_clear_cpu() function that is marked 'inline' but not
+> 'always_inline', and it then produces a specialized version of it that
+> references the static mask unconditionally as an optimization.
+>
+> Marking cpumask_clear_cpu() as __always_inline would fix it, as would
+> removing the __initdata annotation on the variable.  I went for marking
+> the function as __attribute__((flatten)) instead because all functions
 
-On Sat, Jan 16, 2021 at 6:37 AM kernel test robot <lkp@intel.com> wrote:
+I had to look this one up; it's new to me!
+https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#Common-F=
+unction-Attributes
+https://awesomekling.github.io/Smarter-C++-inlining-with-attribute-flatten/
+
+Seems pretty cool/flexible to control inlining on the caller side!
+
+At the least though, we should avoid open coding the function attributes.  =
+See
+include/linux/compiler_attributes.h
+
+Testing quickly in godbolt, __flatten__ has been supported since at
+least clang 3.5 and gcc 4.4, FWIW (so it doesn't need a
+__has_attribute guard).
+
+> called from it are really meant to be inlined here, and it prevents
+> the same problem happening here again. This is unlikely to be a problem
+> elsewhere because there are very few function-local static __initdata
+> variables in the kernel.
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   1d94330a437a573cfdf848f6743b1ed169242c8a
-> commit: eff8728fe69880d3f7983bec3fb6cea4c306261f vmlinux.lds.h: Add PGO a=
-nd AutoFDO input sections
-> date:   5 months ago
-> config: parisc-randconfig-r032-20210116 (attached as .config)
-> compiler: hppa64-linux-gcc (GCC) 9.3.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/commit/?id=3Deff8728fe69880d3f7983bec3fb6cea4c306261f
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/=
-git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout eff8728fe69880d3f7983bec3fb6cea4c306261f
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cros=
-s ARCH=3Dparisc
+> Fixes: 6c207504ae79 ("percpu: reduce the number of cpu distance compariso=
+ns")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+> diff --git a/mm/percpu.c b/mm/percpu.c
+> index 5ede8dd407d5..527181c46b08 100644
+> --- a/mm/percpu.c
+> +++ b/mm/percpu.c
+> @@ -2662,10 +2662,9 @@ early_param("percpu_alloc", percpu_alloc_setup);
+>   * On success, pointer to the new allocation_info is returned.  On
+>   * failure, ERR_PTR value is returned.
+>   */
+> -static struct pcpu_alloc_info * __init pcpu_build_alloc_info(
+> -                               size_t reserved_size, size_t dyn_size,
+> -                               size_t atom_size,
+> -                               pcpu_fc_cpu_distance_fn_t cpu_distance_fn)
+> +static struct pcpu_alloc_info * __init __attribute__((flatten))
+> +pcpu_build_alloc_info(size_t reserved_size, size_t dyn_size, size_t atom=
+_size,
+> +                     pcpu_fc_cpu_distance_fn_t cpu_distance_fn)
+>  {
+>         static int group_map[NR_CPUS] __initdata;
+>         static int group_cnt[NR_CPUS] __initdata;
 >
-> All errors (new ones prefixed by >>):
 >
->    hppa64-linux-ld: mm/page_alloc.o(.ref.text+0x110): cannot reach unknown
->    hppa64-linux-ld: mm/memblock.o(.text+0x27c): cannot reach __warn_printk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0xc4): cannot reach printk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x140): cannot reach prin=
-tk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x1e0): cannot reach memm=
-ove
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x314): cannot reach memm=
-ove
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x428): cannot reach memm=
-ove
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x5d4): cannot reach __wa=
-rn_printk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0xb20): cannot reach prin=
-tk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0xce8): cannot reach prin=
-tk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0xd30): cannot reach prin=
-tk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0xd4c): cannot reach memc=
-py
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x1130): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x11e0): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x16d8): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x1788): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x1e04): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.meminit.text+0x1e2c): cannot reach pri=
-ntk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x24): cannot reach strstr
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x100): cannot reach __warn_=
-printk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x118): cannot reach dump_st=
-ack
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x220): cannot reach printk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x48c): cannot reach printk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x55c): cannot reach printk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x62c): cannot reach printk
->    hppa64-linux-ld: mm/memblock.o(.init.text+0x720): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4cc): cannot reach _raw_spin_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x580): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x690): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x768): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7c8): cannot reach _raw_spin_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x938): cannot reach _raw_spin_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x980): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xaf8): cannot reach sprintf
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xb60): cannot reach sprintf
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xbd0): cannot reach sprintf
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xc38): cannot reach sprintf
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xcd8): cannot reach _raw_spin_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xcf0): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xd7c): cannot reach __next_node_in
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xdb4): cannot reach __next_node_in
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xeb8): cannot reach _raw_spin_unl=
-ock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xec8): cannot reach _raw_spin_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0xf58): cannot reach sprintf
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1638): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x16d8): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1764): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x17d0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1974): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1990): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x19b4): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x19d4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1d88): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x1db0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2588): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2658): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x26a8): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x26e4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x27b0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2964): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2984): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x29bc): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2a00): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2a40): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2b38): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2b58): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2c14): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2c8c): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2ccc): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2df4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2ed8): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2f38): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2f60): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2f84): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x2fc8): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3018): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3044): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3218): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3308): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x340c): cannot reach __xchg64
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3580): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x35b0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3604): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3aa0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3b00): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x3efc): cannot reach down_write
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4484): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x46ac): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4814): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x485c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x48cc): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4a1c): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4a88): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4b14): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4c0c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4cc0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4d18): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4dd4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x4ed4): cannot reach __muldi3
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5008): cannot reach sprintf
-> >> hppa64-linux-ld: mm/hugetlb.o(.text+0x50dc): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x51bc): cannot reach __muldi3
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5348): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x535c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x53d8): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x53ec): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x565c): cannot reach down_read
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5890): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x58d4): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x59f4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5b94): cannot reach _raw_spin_lo=
-ck_irqsave
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5bf4): cannot reach _raw_spin_un=
-lock_irqrestore
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5c14): cannot reach _raw_spin_lo=
-ck_irqsave
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5c34): cannot reach _raw_spin_un=
-lock_irqrestore
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5f58): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x5fdc): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x613c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6248): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x643c): cannot reach down_write
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x64c0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6690): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x66c0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x69a0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x69c0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x69d0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6a00): cannot reach ___ratelimit
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6a28): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6a80): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6bf4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6d98): cannot reach mutex_unlock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6de0): cannot reach down_read
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x6df4): cannot reach mutex_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x705c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7344): cannot reach down_read
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x74ac): cannot reach mutex_lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x74e0): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7708): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x77b0): cannot reach mutex_unlock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7830): cannot reach mutex_unlock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x794c): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7978): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7998): cannot reach mutex_unlock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7b14): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7bfc): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7ce4): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7e84): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x7f0c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8068): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8084): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x80b4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8240): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8314): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8518): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x85e0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8624): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x87a8): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8868): cannot reach down_write
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x889c): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x88ec): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8d40): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8d60): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8d9c): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8db8): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8e78): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8ea0): cannot reach __muldi3
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8ec0): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x8fd0): cannot reach __warn_printk
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x9074): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x90a4): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x90d4): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x92ec): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x9334): cannot reach __cmpxchg_u32
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x93dc): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x9454): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x9558): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x969c): cannot reach _raw_spin_lo=
-ck
->    hppa64-linux-ld: mm/hugetlb.o(.text+0x96ac): cannot reach _raw_spin_un=
-lock
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x248): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x26c): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x36c): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x3d0): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x3ec): cannot reach sscanf
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x568): cannot reach snprintf
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x728): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x744): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x8d4): cannot reach _raw_spi=
-n_lock
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0x900): cannot reach _raw_spi=
-n_unlock
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xa40): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xa70): cannot reach kobject_=
-create_and_add
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xb64): cannot reach kobject_=
-create_and_add
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xb9c): cannot reach kobject_=
-put
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xbb4): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xc84): cannot reach __muldi3
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xde8): cannot reach memparse
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xec0): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xef0): cannot reach unknown
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xf94): cannot reach memparse
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xfcc): cannot reach printk
->    hppa64-linux-ld: mm/hugetlb.o(.init.text+0xfe4): cannot reach unknown
->    hppa64-linux-ld: mm/slab.o(.text+0x490): cannot reach __udivdi3
->    hppa64-linux-ld: mm/slab.o(.text+0x4ac): cannot reach __umoddi3
+> Not sure if this would be any better than your patch.
 >
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+>        Arnd
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to clang-built-linux+unsubscribe(a)googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/clang-built-linux/CAK8P3a2ZWfNeXKSm8K_SUhhwkor17jFo3xApLXjzfPqX0eUDUA%40m=
+ail.gmail.com.
 
 
 
@@ -402,5 +144,5 @@ put
 
 Thanks,
 ~Nick Desaulniers
---===============1230760135068273963==--
+--===============2522261037060741651==--
 
