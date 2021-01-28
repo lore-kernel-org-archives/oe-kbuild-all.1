@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2268281987100515355=="
+Content-Type: multipart/mixed; boundary="===============5823777618538826782=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: arch/x86/mm/pat/set_memory.c:90:6: warning: no previous prototype for 'update_split_page_event_count'
-Date: Thu, 28 Jan 2021 18:03:45 +0800
-Message-ID: <202101281843.Az450sQM-lkp@intel.com>
+Subject: arch/x86/mm/pat/set_memory.c:97:19: error: 'DIRECT_MAP_4M_SPLIT' undeclared
+Date: Thu, 28 Jan 2021 18:25:08 +0800
+Message-ID: <202101281807.8wDb2nUR-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2268281987100515355==
+--===============5823777618538826782==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -35,41 +35,41 @@ edt/sched-tracing-Reset-critical-timings-on-scheduling/20210128-125618
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/mm/pat/set_memory.c:90:6: warning: no previous prototype for 'u=
+   arch/x86/mm/pat/set_memory.c:90:6: warning: no previous prototype for 'u=
 pdate_split_page_event_count' [-Wmissing-prototypes]
       90 | void update_split_page_event_count(int level)
          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    arch/x86/mm/pat/set_memory.c: In function 'update_split_page_event_count=
 ':
-   arch/x86/mm/pat/set_memory.c:97:19: error: 'DIRECT_MAP_4M_SPLIT' undecla=
+>> arch/x86/mm/pat/set_memory.c:97:19: error: 'DIRECT_MAP_4M_SPLIT' undecla=
 red (first use in this function)
       97 |    count_vm_event(DIRECT_MAP_4M_SPLIT);
          |                   ^~~~~~~~~~~~~~~~~~~
    arch/x86/mm/pat/set_memory.c:97:19: note: each undeclared identifier is =
 reported only once for each function it appears in
-   arch/x86/mm/pat/set_memory.c:100:19: error: 'DIRECT_MAP_1G_SPLIT' undecl=
+>> arch/x86/mm/pat/set_memory.c:100:19: error: 'DIRECT_MAP_1G_SPLIT' undecl=
 ared (first use in this function)
      100 |    count_vm_event(DIRECT_MAP_1G_SPLIT);
          |                   ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/update_split_page_event_count +90 arch/x86/mm/pat/set_memory.c
+vim +/DIRECT_MAP_4M_SPLIT +97 arch/x86/mm/pat/set_memory.c
 
     89	=
 
-  > 90	void update_split_page_event_count(int level)
+    90	void update_split_page_event_count(int level)
     91	{
     92		if (system_state =3D=3D SYSTEM_RUNNING) {
     93			if (level =3D=3D PG_LEVEL_2M) {
     94	#if defined(CONFIG_X86_64) || defined(CONFIG_X86_PAE)
     95				count_vm_event(DIRECT_MAP_2M_SPLIT);
     96	#else
-    97				count_vm_event(DIRECT_MAP_4M_SPLIT);
+  > 97				count_vm_event(DIRECT_MAP_4M_SPLIT);
     98	#endif
     99			} else if (level =3D=3D PG_LEVEL_1G) {
-   100				count_vm_event(DIRECT_MAP_1G_SPLIT);
+ > 100				count_vm_event(DIRECT_MAP_1G_SPLIT);
    101			}
    102		}
    103	}
@@ -80,13 +80,13 @@ vim +/update_split_page_event_count +90 arch/x86/mm/pat/set_memory.c
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2268281987100515355==
+--===============5823777618538826782==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICNiJEmAAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRAMQMqSNzyuo6Q+
+H4sICJeNEmAAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRAMQMqSNzyuo6Q+
 Tew82b5t/vs3A/ADoIZKXxephRl8D2Z+Mxjwxx9+XLDXl6cvdy8P93efP39bfNo/7g93L/sPi48P
 n/f/s0j1otT1QqSy/hWYi4fH17//9XDx7mpx+ety+evZL4f7y8V6f3jcf17wp8ePD59eofrD0+MP
 P/7AdZnJvOW83QhjpS7bWmzr6zef7u9/+W3xU7r//eHucfHbrxfQzPLyZ//Xm6CatG3O+fW3vigf
@@ -691,5 +691,5 @@ PvU4HtO1FCTpIgvjOs38cGXgv7WiB9EB1nB/lTrLIj01ZjE1ZFkvTbWBMqWiTux9b5sv0xzn1L36
 kNK1uWn128dmcziisormm+jxP5v9+k6r+0JpWocVFllbB+Ou0WyqLaItWUnyYqkuAkoio1d9V0oe
 3vMV1ZAVkmcZZuZIvyGxBm4OXEjSRWPbVyCZkvAlTDHkUc2+DMiCZxVnVyB1XKoe9BU4Od1OCKe4
 Ef4/oevyEgIbAgA=
---===============2268281987100515355==--
+--===============5823777618538826782==--
 
