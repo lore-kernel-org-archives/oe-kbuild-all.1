@@ -1,45 +1,339 @@
-Content-Type: multipart/mixed; boundary="===============2321756187374326609=="
+Content-Type: multipart/mixed; boundary="===============3352823550399690330=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
+From: Julia Lawall <julia.lawall@inria.fr>
 To: kbuild-all@lists.01.org
-Subject: [kdave-btrfs-devel:for-next-20210129 14784/14851] fs/btrfs/volumes.c:1462:10-11: WARNING: return of 0/1 in function 'dev_extent_hole_check_zoned' with return type bool
-Date: Sat, 30 Jan 2021 14:49:26 +0800
-Message-ID: <202101301416.gmP3XmvI-lkp@intel.com>
+Subject: [kdave-btrfs-devel:for-next-20210129 14783/14851] fs/btrfs/zoned.c:428:7-12: ERROR: reference preceded by free on line 394 (fwd)
+Date: Sat, 30 Jan 2021 09:33:43 +0100
+Message-ID: <alpine.DEB.2.22.394.2101300931370.3068@hadrien>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2321756187374326609==
+--===============3352823550399690330==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+The problem is in the default case starting on line 411.
+
+---------- Forwarded message ----------
+Date: Sat, 30 Jan 2021 11:48:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: kbuild(a)lists.01.org
+Cc: lkp(a)intel.com, Julia Lawall <julia.lawall@lip6.fr>
+Subject: [kdave-btrfs-devel:for-next-20210129 14783/14851]
+    fs/btrfs/zoned.c:428:7-12: ERROR: reference preceded by free on line 394
+
+CC: kbuild-all(a)lists.01.org
+TO: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Naohiro Aota <naohiro.aota@wdc.com>
+CC: Josef Bacik <josef@toxicpanda.com>
+
 tree:   https://github.com/kdave/btrfs-devel.git for-next-20210129
 head:   6e043613b2c4377ce095ea826160d42031156d35
-commit: 69e81c8e2824ec495071293cfebb74faca15e616 [14784/14851] btrfs: imple=
-ment zoned chunk allocator
+commit: 9e802babe3299843f991f1fd40212cde940115ba [14783/14851] btrfs: allow=
+ zoned mode on non-zoned block devices
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
 config: powerpc64-randconfig-c003-20210129 (attached as .config)
 compiler: powerpc64le-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 "coccinelle warnings: (new ones prefixed by >>)"
->> fs/btrfs/volumes.c:1462:10-11: WARNING: return of 0/1 in function 'dev_e=
-xtent_hole_check_zoned' with return type bool
+>> fs/btrfs/zoned.c:428:7-12: ERROR: reference preceded by free on line 394
 
-Please review and possibly fold the followup patch.
+vim +428 fs/btrfs/zoned.c
+
+ea7403f51b3ebc7 Naohiro Aota       2021-01-26  250
+5b316468983dfa9 Naohiro Aota       2020-11-10  251  int btrfs_get_dev_zone_=
+info(struct btrfs_device *device)
+5b316468983dfa9 Naohiro Aota       2020-11-10  252  {
+9e802babe329984 Johannes Thumshirn 2021-01-26  253  	struct btrfs_fs_info *=
+fs_info =3D device->fs_info;
+5b316468983dfa9 Naohiro Aota       2020-11-10  254  	struct btrfs_zoned_dev=
+ice_info *zone_info =3D NULL;
+5b316468983dfa9 Naohiro Aota       2020-11-10  255  	struct block_device *b=
+dev =3D device->bdev;
+862931c76327e54 Naohiro Aota       2020-11-10  256  	struct request_queue *=
+queue =3D bdev_get_queue(bdev);
+5b316468983dfa9 Naohiro Aota       2020-11-10  257  	sector_t nr_sectors;
+5b316468983dfa9 Naohiro Aota       2020-11-10  258  	sector_t sector =3D 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  259  	struct blk_zone *zones=
+ =3D NULL;
+5b316468983dfa9 Naohiro Aota       2020-11-10  260  	unsigned int i, nrepor=
+ted =3D 0, nr_zones;
+5b316468983dfa9 Naohiro Aota       2020-11-10  261  	unsigned int zone_sect=
+ors;
+9e802babe329984 Johannes Thumshirn 2021-01-26  262  	char *model, *emulated;
+5b316468983dfa9 Naohiro Aota       2020-11-10  263  	int ret;
+5b316468983dfa9 Naohiro Aota       2020-11-10  264
+9e802babe329984 Johannes Thumshirn 2021-01-26  265  	/*
+9e802babe329984 Johannes Thumshirn 2021-01-26  266  	 * Cannot use btrfs_is=
+_zoned here, since fs_info->zone_size might
+9e802babe329984 Johannes Thumshirn 2021-01-26  267  	 * not be set yet.
+9e802babe329984 Johannes Thumshirn 2021-01-26  268  	 */
+9e802babe329984 Johannes Thumshirn 2021-01-26  269  	if (!btrfs_fs_incompat=
+(fs_info, ZONED))
+5b316468983dfa9 Naohiro Aota       2020-11-10  270  		return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  271
+5b316468983dfa9 Naohiro Aota       2020-11-10  272  	if (device->zone_info)
+5b316468983dfa9 Naohiro Aota       2020-11-10  273  		return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  274
+5b316468983dfa9 Naohiro Aota       2020-11-10  275  	zone_info =3D kzalloc(=
+sizeof(*zone_info), GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  276  	if (!zone_info)
+5b316468983dfa9 Naohiro Aota       2020-11-10  277  		return -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  278
+9e802babe329984 Johannes Thumshirn 2021-01-26  279  	if (!bdev_is_zoned(bde=
+v)) {
+9e802babe329984 Johannes Thumshirn 2021-01-26  280  		if (!fs_info->zone_si=
+ze) {
+9e802babe329984 Johannes Thumshirn 2021-01-26  281  			ret =3D calculate_em=
+ulated_zone_size(fs_info);
+9e802babe329984 Johannes Thumshirn 2021-01-26  282  			if (ret)
+9e802babe329984 Johannes Thumshirn 2021-01-26  283  				goto out;
+9e802babe329984 Johannes Thumshirn 2021-01-26  284  		}
+9e802babe329984 Johannes Thumshirn 2021-01-26  285
+9e802babe329984 Johannes Thumshirn 2021-01-26  286  		ASSERT(fs_info->zone_=
+size);
+9e802babe329984 Johannes Thumshirn 2021-01-26  287  		zone_sectors =3D fs_i=
+nfo->zone_size >> SECTOR_SHIFT;
+9e802babe329984 Johannes Thumshirn 2021-01-26  288  	} else {
+5b316468983dfa9 Naohiro Aota       2020-11-10  289  		zone_sectors =3D bdev=
+_zone_sectors(bdev);
+9e802babe329984 Johannes Thumshirn 2021-01-26  290  	}
+9e802babe329984 Johannes Thumshirn 2021-01-26  291
+9e802babe329984 Johannes Thumshirn 2021-01-26  292  	nr_sectors =3D bdev_nr=
+_sectors(bdev);
+5b316468983dfa9 Naohiro Aota       2020-11-10  293  	/* Check if it's power=
+ of 2 (see is_power_of_2) */
+5b316468983dfa9 Naohiro Aota       2020-11-10  294  	ASSERT(zone_sectors !=
+=3D 0 && (zone_sectors & (zone_sectors - 1)) =3D=3D 0);
+5b316468983dfa9 Naohiro Aota       2020-11-10  295  	zone_info->zone_size =
+=3D zone_sectors << SECTOR_SHIFT;
+5b316468983dfa9 Naohiro Aota       2020-11-10  296  	zone_info->zone_size_s=
+hift =3D ilog2(zone_info->zone_size);
+862931c76327e54 Naohiro Aota       2020-11-10  297  	zone_info->max_zone_ap=
+pend_size =3D
+862931c76327e54 Naohiro Aota       2020-11-10  298  		(u64)queue_max_zone_a=
+ppend_sectors(queue) << SECTOR_SHIFT;
+5b316468983dfa9 Naohiro Aota       2020-11-10  299  	zone_info->nr_zones =
+=3D nr_sectors >> ilog2(zone_sectors);
+5b316468983dfa9 Naohiro Aota       2020-11-10  300  	if (!IS_ALIGNED(nr_sec=
+tors, zone_sectors))
+5b316468983dfa9 Naohiro Aota       2020-11-10  301  		zone_info->nr_zones++;
+5b316468983dfa9 Naohiro Aota       2020-11-10  302
+5b316468983dfa9 Naohiro Aota       2020-11-10  303  	zone_info->seq_zones =
+=3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  304  	if (!zone_info->seq_zo=
+nes) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  305  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  306  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  307  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  308
+5b316468983dfa9 Naohiro Aota       2020-11-10  309  	zone_info->empty_zones=
+ =3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  310  	if (!zone_info->empty_=
+zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  311  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  312  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  313  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  314
+5b316468983dfa9 Naohiro Aota       2020-11-10  315  	zones =3D kcalloc(BTRF=
+S_REPORT_NR_ZONES, sizeof(struct blk_zone), GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  316  	if (!zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  317  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  318  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  319  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  320
+5b316468983dfa9 Naohiro Aota       2020-11-10  321  	/* Get zones type */
+5b316468983dfa9 Naohiro Aota       2020-11-10  322  	while (sector < nr_sec=
+tors) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  323  		nr_zones =3D BTRFS_RE=
+PORT_NR_ZONES;
+5b316468983dfa9 Naohiro Aota       2020-11-10  324  		ret =3D btrfs_get_dev=
+_zones(device, sector << SECTOR_SHIFT, zones,
+5b316468983dfa9 Naohiro Aota       2020-11-10  325  					  &nr_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  326  		if (ret)
+5b316468983dfa9 Naohiro Aota       2020-11-10  327  			goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  328
+5b316468983dfa9 Naohiro Aota       2020-11-10  329  		for (i =3D 0; i < nr_=
+zones; i++) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  330  			if (zones[i].type =
+=3D=3D BLK_ZONE_TYPE_SEQWRITE_REQ)
+5b316468983dfa9 Naohiro Aota       2020-11-10  331  				__set_bit(nreported=
+, zone_info->seq_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  332  			if (zones[i].cond =
+=3D=3D BLK_ZONE_COND_EMPTY)
+5b316468983dfa9 Naohiro Aota       2020-11-10  333  				__set_bit(nreported=
+, zone_info->empty_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  334  			nreported++;
+5b316468983dfa9 Naohiro Aota       2020-11-10  335  		}
+5b316468983dfa9 Naohiro Aota       2020-11-10  336  		sector =3D zones[nr_z=
+ones - 1].start + zones[nr_zones - 1].len;
+5b316468983dfa9 Naohiro Aota       2020-11-10  337  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  338
+5b316468983dfa9 Naohiro Aota       2020-11-10  339  	if (nreported !=3D zon=
+e_info->nr_zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  340  		btrfs_err_in_rcu(devi=
+ce->fs_info,
+5b316468983dfa9 Naohiro Aota       2020-11-10  341  				 "inconsistent numb=
+er of zones on %s (%u/%u)",
+5b316468983dfa9 Naohiro Aota       2020-11-10  342  				 rcu_str_deref(devi=
+ce->name), nreported,
+5b316468983dfa9 Naohiro Aota       2020-11-10  343  				 zone_info->nr_zone=
+s);
+5b316468983dfa9 Naohiro Aota       2020-11-10  344  		ret =3D -EIO;
+5b316468983dfa9 Naohiro Aota       2020-11-10  345  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  346  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  347
+12659251ca5df05 Naohiro Aota       2020-11-10  348  	/* Validate superblock=
+ log */
+12659251ca5df05 Naohiro Aota       2020-11-10  349  	nr_zones =3D BTRFS_NR_=
+SB_LOG_ZONES;
+12659251ca5df05 Naohiro Aota       2020-11-10  350  	for (i =3D 0; i < BTRF=
+S_SUPER_MIRROR_MAX; i++) {
+12659251ca5df05 Naohiro Aota       2020-11-10  351  		u32 sb_zone;
+12659251ca5df05 Naohiro Aota       2020-11-10  352  		u64 sb_wp;
+12659251ca5df05 Naohiro Aota       2020-11-10  353  		int sb_pos =3D BTRFS_=
+NR_SB_LOG_ZONES * i;
+12659251ca5df05 Naohiro Aota       2020-11-10  354
+12659251ca5df05 Naohiro Aota       2020-11-10  355  		sb_zone =3D sb_zone_n=
+umber(zone_info->zone_size_shift, i);
+12659251ca5df05 Naohiro Aota       2020-11-10  356  		if (sb_zone + 1 >=3D =
+zone_info->nr_zones)
+12659251ca5df05 Naohiro Aota       2020-11-10  357  			continue;
+12659251ca5df05 Naohiro Aota       2020-11-10  358
+12659251ca5df05 Naohiro Aota       2020-11-10  359  		sector =3D sb_zone <<=
+ (zone_info->zone_size_shift - SECTOR_SHIFT);
+12659251ca5df05 Naohiro Aota       2020-11-10  360  		ret =3D btrfs_get_dev=
+_zones(device, sector << SECTOR_SHIFT,
+12659251ca5df05 Naohiro Aota       2020-11-10  361  					  &zone_info->sb_z=
+ones[sb_pos],
+12659251ca5df05 Naohiro Aota       2020-11-10  362  					  &nr_zones);
+12659251ca5df05 Naohiro Aota       2020-11-10  363  		if (ret)
+12659251ca5df05 Naohiro Aota       2020-11-10  364  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  365
+12659251ca5df05 Naohiro Aota       2020-11-10  366  		if (nr_zones !=3D BTR=
+FS_NR_SB_LOG_ZONES) {
+12659251ca5df05 Naohiro Aota       2020-11-10  367  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+12659251ca5df05 Naohiro Aota       2020-11-10  368  	"zoned: failed to read=
+ super block log zone info at devid %llu zone %u",
+12659251ca5df05 Naohiro Aota       2020-11-10  369  					 device->devid, sb=
+_zone);
+12659251ca5df05 Naohiro Aota       2020-11-10  370  			ret =3D -EUCLEAN;
+12659251ca5df05 Naohiro Aota       2020-11-10  371  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  372  		}
+12659251ca5df05 Naohiro Aota       2020-11-10  373
+12659251ca5df05 Naohiro Aota       2020-11-10  374  		/*
+12659251ca5df05 Naohiro Aota       2020-11-10  375  		 * If zones[0] is con=
+ventional, always use the beggining of the
+12659251ca5df05 Naohiro Aota       2020-11-10  376  		 * zone to record sup=
+erblock. No need to validate in that case.
+12659251ca5df05 Naohiro Aota       2020-11-10  377  		 */
+12659251ca5df05 Naohiro Aota       2020-11-10  378  		if (zone_info->sb_zon=
+es[BTRFS_NR_SB_LOG_ZONES * i].type =3D=3D
+12659251ca5df05 Naohiro Aota       2020-11-10  379  		    BLK_ZONE_TYPE_CON=
+VENTIONAL)
+12659251ca5df05 Naohiro Aota       2020-11-10  380  			continue;
+12659251ca5df05 Naohiro Aota       2020-11-10  381
+12659251ca5df05 Naohiro Aota       2020-11-10  382  		ret =3D sb_write_poin=
+ter(device->bdev,
+12659251ca5df05 Naohiro Aota       2020-11-10  383  				       &zone_info->=
+sb_zones[sb_pos], &sb_wp);
+12659251ca5df05 Naohiro Aota       2020-11-10  384  		if (ret !=3D -ENOENT =
+&& ret) {
+12659251ca5df05 Naohiro Aota       2020-11-10  385  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+12659251ca5df05 Naohiro Aota       2020-11-10  386  			"zoned: super block =
+log zone corrupted devid %llu zone %u",
+12659251ca5df05 Naohiro Aota       2020-11-10  387  					 device->devid, sb=
+_zone);
+12659251ca5df05 Naohiro Aota       2020-11-10  388  			ret =3D -EUCLEAN;
+12659251ca5df05 Naohiro Aota       2020-11-10  389  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  390  		}
+12659251ca5df05 Naohiro Aota       2020-11-10  391  	}
+12659251ca5df05 Naohiro Aota       2020-11-10  392
+12659251ca5df05 Naohiro Aota       2020-11-10  393
+5b316468983dfa9 Naohiro Aota       2020-11-10 @394  	kfree(zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  395
+5b316468983dfa9 Naohiro Aota       2020-11-10  396  	device->zone_info =3D =
+zone_info;
+5b316468983dfa9 Naohiro Aota       2020-11-10  397
+9e802babe329984 Johannes Thumshirn 2021-01-26  398  	switch (bdev_zoned_mod=
+el(bdev)) {
+9e802babe329984 Johannes Thumshirn 2021-01-26  399  	case BLK_ZONED_HM:
+9e802babe329984 Johannes Thumshirn 2021-01-26  400  		model =3D "host-manag=
+ed zoned";
+9e802babe329984 Johannes Thumshirn 2021-01-26  401  		emulated =3D "";
+9e802babe329984 Johannes Thumshirn 2021-01-26  402  		break;
+9e802babe329984 Johannes Thumshirn 2021-01-26  403  	case BLK_ZONED_HA:
+9e802babe329984 Johannes Thumshirn 2021-01-26  404  		model =3D "host-aware=
+ zoned";
+9e802babe329984 Johannes Thumshirn 2021-01-26  405  		emulated =3D "";
+9e802babe329984 Johannes Thumshirn 2021-01-26  406  		break;
+9e802babe329984 Johannes Thumshirn 2021-01-26  407  	case BLK_ZONED_NONE:
+9e802babe329984 Johannes Thumshirn 2021-01-26  408  		model =3D "regular";
+9e802babe329984 Johannes Thumshirn 2021-01-26  409  		emulated =3D "emulate=
+d ";
+9e802babe329984 Johannes Thumshirn 2021-01-26  410  		break;
+9e802babe329984 Johannes Thumshirn 2021-01-26  411  	default:
+9e802babe329984 Johannes Thumshirn 2021-01-26  412  		/* Just in case */
+9e802babe329984 Johannes Thumshirn 2021-01-26  413  		btrfs_err_in_rcu(fs_i=
+nfo, "Unsupported zoned model %d on %s",
+9e802babe329984 Johannes Thumshirn 2021-01-26  414  				 bdev_zoned_model(b=
+dev),
+9e802babe329984 Johannes Thumshirn 2021-01-26  415  				 rcu_str_deref(devi=
+ce->name));
+9e802babe329984 Johannes Thumshirn 2021-01-26  416  		ret =3D -EOPNOTSUPP;
+9e802babe329984 Johannes Thumshirn 2021-01-26  417  		goto out;
+9e802babe329984 Johannes Thumshirn 2021-01-26  418  	}
+9e802babe329984 Johannes Thumshirn 2021-01-26  419
+9e802babe329984 Johannes Thumshirn 2021-01-26  420  	btrfs_info_in_rcu(fs_i=
+nfo,
+9e802babe329984 Johannes Thumshirn 2021-01-26  421  		"%s block device %s, =
+%u %szones of %llu bytes",
+9e802babe329984 Johannes Thumshirn 2021-01-26  422  		model, rcu_str_deref(=
+device->name), zone_info->nr_zones,
+9e802babe329984 Johannes Thumshirn 2021-01-26  423  		emulated, zone_info->=
+zone_size);
+5b316468983dfa9 Naohiro Aota       2020-11-10  424
+5b316468983dfa9 Naohiro Aota       2020-11-10  425  	return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  426
+5b316468983dfa9 Naohiro Aota       2020-11-10  427  out:
+5b316468983dfa9 Naohiro Aota       2020-11-10 @428  	kfree(zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  429  	bitmap_free(zone_info-=
+>empty_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  430  	bitmap_free(zone_info-=
+>seq_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  431  	kfree(zone_info);
+5b316468983dfa9 Naohiro Aota       2020-11-10  432
+5b316468983dfa9 Naohiro Aota       2020-11-10  433  	return ret;
+5b316468983dfa9 Naohiro Aota       2020-11-10  434  }
+5b316468983dfa9 Naohiro Aota       2020-11-10  435
+
+:::::: The code at line 428 was first introduced by commit
+:::::: 5b316468983dfa9473ff0f1c42e4e30b4c267141 btrfs: get zone information=
+ of zoned block devices
+
+:::::: TO: Naohiro Aota <naohiro.aota@wdc.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2321756187374326609==
+--===============3352823550399690330==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICMj1FGAAAy5jb25maWcAjFxdd9s20r7fX6GT3uxepPVHkibnPb6ASFBCRRIMQEq2b3AUW0l8
+H4sICLTIFGAAAy5jb25maWcAjFxdd9s20r7fX6GT3uxepPVHkibnPb6ASFBCRRIMQEq2b3AUW0l8
 1rG8ktI2//6dAfgxAEGnPbttNAMMvgYzzwyG+eVfv8zY99P+2/b0cLd9fPwx+7J72h22p9397PPD
 4+7/ZqmclbKe8VTUv0Lj/OHp+9+/Pe//2h2e72Zvfz0///Xs9eHu7Wy1OzztHmfJ/unzw5fvIOFh
 //SvX/6VyDITC5MkZs2VFrI0Nb+ur161Et69edy9fkSZr7/c3c3+vUiS/8w+/Hr569kr0lVoA4yr
@@ -518,5 +812,5 @@ t9KwPr7AdHPopEOkvt6/mkXZZiziWTvhDG+8q1uf7ppABbgg+PwT0HQ1H3QZ4E4AGx7sTv73nIls
 RfnljGsgmDbb21JvjydUwVDjjDFP0/pxa8/rvAFlmuIysxvI6XTupPrEMAe2CNR1UNKRWxRL2HEu
 GrvvAKLxXC6sdFwJNFEGorgRFz0QokF7zbfKHCyYdQampeL6ix9XF/DH4kGQmXLfBdpXmSfdtJqd
 M2jh+7bOzmsQTqtcXf8ABpglcCGZAQA=
---===============2321756187374326609==--
+--===============3352823550399690330==--
 
