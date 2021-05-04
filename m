@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6760124709529216377=="
+Content-Type: multipart/mixed; boundary="===============9197340293981038149=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [powerpc:next-test 7/8] arch/powerpc/lib/feature-fixups.c:233:32: error: cast to smaller integer type 'enum stf_barrier_type' from 'void *'
-Date: Wed, 05 May 2021 01:26:05 +0800
-Message-ID: <202105050102.q3cYdXnk-lkp@intel.com>
+Subject: [powerpc:next-test 8/8] arch/powerpc/lib/feature-fixups.c:304:30: error: cast to smaller integer type 'enum l1d_flush_type' from 'void *'
+Date: Wed, 05 May 2021 02:31:38 +0800
+Message-ID: <202105050231.wjhXNTzu-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6760124709529216377==
+--===============9197340293981038149==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git n=
 ext-test
 head:   a5014a5c936a2a9a223e699e1f3abd54d5f68d2c
-commit: 682ebb015052696ac93cf8df28142d83be8dbcc3 [7/8] powerpc/64s: Fix cra=
-shes when toggling stf barrier
+commit: a5014a5c936a2a9a223e699e1f3abd54d5f68d2c [8/8] powerpc/64s: Fix cra=
+shes when toggling entry flush barrier
 config: powerpc-randconfig-r022-20210503 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 8f5a2a=
 5836cc8e4c1def2bdeb022e7b496623439)
@@ -27,11 +27,11 @@ make.cross -O ~/bin/make.cross
         # install powerpc cross compiling tool for clang build
         # apt-get install binutils-powerpc-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git=
-/commit/?id=3D682ebb015052696ac93cf8df28142d83be8dbcc3
+/commit/?id=3Da5014a5c936a2a9a223e699e1f3abd54d5f68d2c
         git remote add powerpc https://git.kernel.org/pub/scm/linux/kernel/=
 git/powerpc/linux.git
         git fetch --no-tags powerpc next-test
-        git checkout 682ebb015052696ac93cf8df28142d83be8dbcc3
+        git checkout a5014a5c936a2a9a223e699e1f3abd54d5f68d2c
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
 1 ARCH=3Dpowerpc =
@@ -42,43 +42,135 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> arch/powerpc/lib/feature-fixups.c:233:32: error: cast to smaller integer=
+   arch/powerpc/lib/feature-fixups.c:233:32: error: cast to smaller integer=
  type 'enum stf_barrier_type' from 'void *' [-Werror,-Wvoid-pointer-to-enum=
 -cast]
            enum stf_barrier_type types =3D (enum stf_barrier_type)data;
                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> arch/powerpc/lib/feature-fixups.c:304:30: error: cast to smaller integer=
+ type 'enum l1d_flush_type' from 'void *' [-Werror,-Wvoid-pointer-to-enum-c=
+ast]
+           enum l1d_flush_type types =3D (enum l1d_flush_type)data;
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +233 arch/powerpc/lib/feature-fixups.c
+vim +304 arch/powerpc/lib/feature-fixups.c
 
-   230	=
+   301	=
 
-   231	static int __do_stf_barrier_fixups(void *data)
-   232	{
- > 233		enum stf_barrier_type types =3D (enum stf_barrier_type)data;
-   234	=
+   302	static int __do_entry_flush_fixups(void *data)
+   303	{
+ > 304		enum l1d_flush_type types =3D (enum l1d_flush_type)data;
+   305		unsigned int instrs[3], *dest;
+   306		long *start, *end;
+   307		int i;
+   308	=
 
-   235		do_stf_entry_barrier_fixups(types);
-   236		do_stf_exit_barrier_fixups(types);
-   237	=
+   309		instrs[0] =3D 0x60000000; /* nop */
+   310		instrs[1] =3D 0x60000000; /* nop */
+   311		instrs[2] =3D 0x60000000; /* nop */
+   312	=
 
-   238		return 0;
-   239	}
-   240	=
+   313		i =3D 0;
+   314		if (types =3D=3D L1D_FLUSH_FALLBACK) {
+   315			instrs[i++] =3D 0x7d4802a6; /* mflr r10		*/
+   316			instrs[i++] =3D 0x60000000; /* branch patched below */
+   317			instrs[i++] =3D 0x7d4803a6; /* mtlr r10		*/
+   318		}
+   319	=
+
+   320		if (types & L1D_FLUSH_ORI) {
+   321			instrs[i++] =3D 0x63ff0000; /* ori 31,31,0 speculation barrier */
+   322			instrs[i++] =3D 0x63de0000; /* ori 30,30,0 L1d flush*/
+   323		}
+   324	=
+
+   325		if (types & L1D_FLUSH_MTTRIG)
+   326			instrs[i++] =3D 0x7c12dba6; /* mtspr TRIG2,r0 (SPR #882) */
+   327	=
+
+   328		start =3D PTRRELOC(&__start___entry_flush_fixup);
+   329		end =3D PTRRELOC(&__stop___entry_flush_fixup);
+   330		for (i =3D 0; start < end; start++, i++) {
+   331			dest =3D (void *)start + *start;
+   332	=
+
+   333			pr_devel("patching dest %lx\n", (unsigned long)dest);
+   334	=
+
+   335			patch_instruction((struct ppc_inst *)dest, ppc_inst(instrs[0]));
+   336	=
+
+   337			if (types =3D=3D L1D_FLUSH_FALLBACK)
+   338				patch_branch((struct ppc_inst *)(dest + 1), (unsigned long)&entry=
+_flush_fallback,
+   339					     BRANCH_SET_LINK);
+   340			else
+   341				patch_instruction((struct ppc_inst *)(dest + 1), ppc_inst(instrs[=
+1]));
+   342	=
+
+   343			patch_instruction((struct ppc_inst *)(dest + 2), ppc_inst(instrs[2=
+]));
+   344		}
+   345	=
+
+   346		start =3D PTRRELOC(&__start___scv_entry_flush_fixup);
+   347		end =3D PTRRELOC(&__stop___scv_entry_flush_fixup);
+   348		for (; start < end; start++, i++) {
+   349			dest =3D (void *)start + *start;
+   350	=
+
+   351			pr_devel("patching dest %lx\n", (unsigned long)dest);
+   352	=
+
+   353			patch_instruction((struct ppc_inst *)dest, ppc_inst(instrs[0]));
+   354	=
+
+   355			if (types =3D=3D L1D_FLUSH_FALLBACK)
+   356				patch_branch((struct ppc_inst *)(dest + 1), (unsigned long)&scv_e=
+ntry_flush_fallback,
+   357					     BRANCH_SET_LINK);
+   358			else
+   359				patch_instruction((struct ppc_inst *)(dest + 1), ppc_inst(instrs[=
+1]));
+   360	=
+
+   361			patch_instruction((struct ppc_inst *)(dest + 2), ppc_inst(instrs[2=
+]));
+   362		}
+   363	=
+
+   364	=
+
+   365		printk(KERN_DEBUG "entry-flush: patched %d locations (%s flush)\n",=
+ i,
+   366			(types =3D=3D L1D_FLUSH_NONE)       ? "no" :
+   367			(types =3D=3D L1D_FLUSH_FALLBACK)   ? "fallback displacement" :
+   368			(types &  L1D_FLUSH_ORI)        ? (types & L1D_FLUSH_MTTRIG)
+   369								? "ori+mttrig type"
+   370								: "ori type" :
+   371			(types &  L1D_FLUSH_MTTRIG)     ? "mttrig type"
+   372							: "unknown");
+   373	=
+
+   374		return 0;
+   375	}
+   376	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============6760124709529216377==
+--===============9197340293981038149==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICFJ8kWAAAy5jb25maWcAjDxdd9u2ku/9FTrpy92Hm9pS7Ka7xw8gCUqoSIIGQNnyC44iM6m3
+H4sICLqHkWAAAy5jb25maWcAjDxdd9u2ku/9FTrpy92Hm9pS7Ka7xw8gCUqoSIIGQNnyC44iM6m3
 jpWV5dzm3+8M+AWAoNqck8ScGQADYL4B+Oeffp6Rt9Ph6+70tN89P/+Yfalf6uPuVD/OPj891/8z
 S/is4GpGE6beA3H29PL21y/fDv+pj9/2s6v3l/P3F7N1fXypn2fx4eXz05c3aP10ePnp559iXqRs
 qeNYb6iQjBda0Xt1827/vHv5MvteH1+Bbna5eH8Bffzry9Ppv3/5Bf79+nQ8Ho6/PD9//6q/HQ//
@@ -742,5 +834,5 @@ UYxz7soBekbgoJqmqU+zY3tQYPs668XTpQpYdAUuSWhFfFnDYlL60fNqH8WbHYReSykNv6Yt8ya/
 UN1iPGj98HRy8n1wDYnjcuBbSbhXborsdFlJWGaOQrwajPksdF8M0rtnGiJN8HdxJelpLDzlKk7I
 I7u4dCOGReknVZ+KLesePCMU+GqbFXE9PMnoOUgWgV1LDeN0lLgroNqxIMyn0JdilnQhLtl/AevR
 Ge3uRwIA
---===============6760124709529216377==--
+--===============9197340293981038149==--
 
