@@ -1,135 +1,159 @@
-Content-Type: multipart/mixed; boundary="===============4031587955258146746=="
+Content-Type: multipart/mixed; boundary="===============5095250458101596217=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <rong.a.chen@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v5] mm: slub: move sysfs slab alloc/free interfaces to debugfs
-Date: Fri, 07 May 2021 08:21:20 +0300
-Message-ID: <202105070253.GuJL1RPR-lkp@intel.com>
-In-Reply-To: <1620296523-21922-1-git-send-email-faiyazm@codeaurora.org>
+Subject: arch/openrisc/mm/init.c:125:10: warning: Uninitialized variable: region [uninitvar]
+Date: Fri, 07 May 2021 13:45:12 +0800
+Message-ID: <20210507054512.GA2687475@shao2-debian>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4031587955258146746==
+--===============5095250458101596217==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Faiyaz,
-
-url:    https://github.com/0day-ci/linux/commits/Faiyaz-Mohammed/mm-slub-mo=
-ve-sysfs-slab-alloc-free-interfaces-to-debugfs/20210506-182420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-8404c9fbc84b741f66cff7d4934a25dd2c344452
-config: i386-randconfig-m021-20210506 (attached as .config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9f67672a817ec046f7554a885f0fe0d60e1bf99f
+commit: b10d6bca87204cdafd0cd7aaa837ad30b4eb8c20 arch, drivers: replace for=
+_each_membock() with for_each_mem_range()
+compiler: or1k-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/slub.c:5891 slab_debugfs_start() warn: possible memory leak of 'spos'
 
-vim +/spos +5891 mm/slub.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5877  static void *slab_debugfs_=
-start(struct seq_file *seq, loff_t *ppos)
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5878  {
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5879  	struct kmem_cache_node *n;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5880  	struct kmem_cache *s;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5881  	enum track_item alloc;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5882  	int node;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5883  	loff_t *spos =3D kmalloc(=
-sizeof(loff_t), GFP_KERNEL);
-                                                        ^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Generally avoid putting functions which can fail in the declaration
-block.  Allocations inside the declaration block are a tiny percent of
-declarations over all but they are an outsize source of static checker
-bugs.
+>> arch/openrisc/mm/init.c:125:10: warning: Uninitialized variable: region =
+[uninitvar]
+            region->base, region->base + region->size);
+            ^
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5884  =
+vim +125 arch/openrisc/mm/init.c
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5885  	s =3D seq->file->f_inode-=
->i_private;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5886  =
+61e85e367535a7 Jonas Bonn          2011-06-04   58  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5887  	if (!spos)
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5888  		return NULL;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5889  =
+61e85e367535a7 Jonas Bonn          2011-06-04   59  /*
+61e85e367535a7 Jonas Bonn          2011-06-04   60   * Map all physical mem=
+ory into kernel's address space.
+61e85e367535a7 Jonas Bonn          2011-06-04   61   *
+61e85e367535a7 Jonas Bonn          2011-06-04   62   * This is explicitly c=
+oded for two-level page tables, so if you need
+61e85e367535a7 Jonas Bonn          2011-06-04   63   * something else then =
+this needs to change.
+61e85e367535a7 Jonas Bonn          2011-06-04   64   */
+61e85e367535a7 Jonas Bonn          2011-06-04   65  static void __init map_=
+ram(void)
+61e85e367535a7 Jonas Bonn          2011-06-04   66  {
+b10d6bca87204c Mike Rapoport       2020-10-13   67  	phys_addr_t start, end;
+61e85e367535a7 Jonas Bonn          2011-06-04   68  	unsigned long v, p, e;
+61e85e367535a7 Jonas Bonn          2011-06-04   69  	pgprot_t prot;
+61e85e367535a7 Jonas Bonn          2011-06-04   70  	pgd_t *pge;
+b187fb7fca9cc4 Mike Rapoport       2020-06-04   71  	p4d_t *p4e;
+61e85e367535a7 Jonas Bonn          2011-06-04   72  	pud_t *pue;
+61e85e367535a7 Jonas Bonn          2011-06-04   73  	pmd_t *pme;
+61e85e367535a7 Jonas Bonn          2011-06-04   74  	pte_t *pte;
+b10d6bca87204c Mike Rapoport       2020-10-13   75  	u64 i;
+61e85e367535a7 Jonas Bonn          2011-06-04   76  	/* These mark extents =
+of read-only kernel pages...
+61e85e367535a7 Jonas Bonn          2011-06-04   77  	 * ...from vmlinux.lds=
+.S
+61e85e367535a7 Jonas Bonn          2011-06-04   78  	 */
+61e85e367535a7 Jonas Bonn          2011-06-04   79  	struct memblock_region=
+ *region;
+61e85e367535a7 Jonas Bonn          2011-06-04   80  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5890  	if (!(s->flags & SLAB_STO=
-RE_USER))
-88e180b99466c1 Faiyaz Mohammed 2021-05-06 @5891  		return ERR_PTR(-EOPNOTSU=
-PP);
+61e85e367535a7 Jonas Bonn          2011-06-04   81  	v =3D PAGE_OFFSET;
+61e85e367535a7 Jonas Bonn          2011-06-04   82  =
 
-"spos" is leaked.
+b10d6bca87204c Mike Rapoport       2020-10-13   83  	for_each_mem_range(i, =
+&start, &end) {
+b10d6bca87204c Mike Rapoport       2020-10-13   84  		p =3D (u32) start & P=
+AGE_MASK;
+b10d6bca87204c Mike Rapoport       2020-10-13   85  		e =3D (u32) end;
+61e85e367535a7 Jonas Bonn          2011-06-04   86  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5892  =
+61e85e367535a7 Jonas Bonn          2011-06-04   87  		v =3D (u32) __va(p);
+61e85e367535a7 Jonas Bonn          2011-06-04   88  		pge =3D pgd_offset_k(=
+v);
+61e85e367535a7 Jonas Bonn          2011-06-04   89  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5893  	if (*ppos =3D=3D 0) {
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5894  =
+61e85e367535a7 Jonas Bonn          2011-06-04   90  		while (p < e) {
+61e85e367535a7 Jonas Bonn          2011-06-04   91  			int j;
+b187fb7fca9cc4 Mike Rapoport       2020-06-04   92  			p4e =3D p4d_offset(p=
+ge, v);
+b187fb7fca9cc4 Mike Rapoport       2020-06-04   93  			pue =3D pud_offset(p=
+4e, v);
+61e85e367535a7 Jonas Bonn          2011-06-04   94  			pme =3D pmd_offset(p=
+ue, v);
+61e85e367535a7 Jonas Bonn          2011-06-04   95  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5895  		t.count =3D 0;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5896  		t.max =3D 0;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5897  		t.loc =3D NULL;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5898  		if (strcmp(seq->file->f_=
-path.dentry->d_name.name, "alloc_traces") =3D=3D 0)
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5899  			alloc =3D  TRACK_ALLOC;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5900  		else
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5901  			alloc =3D  TRACK_FREE;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5902  =
+61e85e367535a7 Jonas Bonn          2011-06-04   96  			if ((u32) pue !=3D (=
+u32) pge || (u32) pme !=3D (u32) pge) {
+61e85e367535a7 Jonas Bonn          2011-06-04   97  				panic("%s: OR1K ker=
+nel hardcoded for "
+61e85e367535a7 Jonas Bonn          2011-06-04   98  				      "two-level pa=
+ge tables",
+61e85e367535a7 Jonas Bonn          2011-06-04   99  				     __func__);
+61e85e367535a7 Jonas Bonn          2011-06-04  100  			}
+61e85e367535a7 Jonas Bonn          2011-06-04  101  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5903  		if (!alloc_loc_track(&t,=
- PAGE_SIZE / sizeof(struct location),
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5904  			     GFP_KERNEL)) {
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5905  			seq_puts(seq, "Out of m=
-emory\n");
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5906  			return ERR_PTR(-ENOMEM);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5907  		}
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5908  		/* Push back cpu slabs */
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5909  		flush_all(s);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5910  =
+61e85e367535a7 Jonas Bonn          2011-06-04  102  			/* Alloc one page fo=
+r holding PTE's... */
+fb054d0d91dbe3 Mike Rapoport       2019-03-11  103  			pte =3D memblock_all=
+oc_raw(PAGE_SIZE, PAGE_SIZE);
+fb054d0d91dbe3 Mike Rapoport       2019-03-11  104  			if (!pte)
+fb054d0d91dbe3 Mike Rapoport       2019-03-11  105  				panic("%s: Failed t=
+o allocate page for PTEs\n",
+fb054d0d91dbe3 Mike Rapoport       2019-03-11  106  				      __func__);
+61e85e367535a7 Jonas Bonn          2011-06-04  107  			set_pmd(pme, __pmd(_=
+KERNPG_TABLE + __pa(pte)));
+61e85e367535a7 Jonas Bonn          2011-06-04  108  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5911  		for_each_kmem_cache_node=
-(s, node, n) {
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5912  			unsigned long flags;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5913  			struct page *page;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5914  =
+61e85e367535a7 Jonas Bonn          2011-06-04  109  			/* Fill the newly al=
+located page with PTE'S */
+f47706099bdb8c Stefan Kristiansson 2014-01-11  110  			for (j =3D 0; p < e =
+&& j < PTRS_PER_PTE;
+61e85e367535a7 Jonas Bonn          2011-06-04  111  			     v +=3D PAGE_SIZ=
+E, p +=3D PAGE_SIZE, j++, pte++) {
+61e85e367535a7 Jonas Bonn          2011-06-04  112  				if (v >=3D (u32) _e=
+_kernel_ro ||
+61e85e367535a7 Jonas Bonn          2011-06-04  113  				    v < (u32) _s_ke=
+rnel_ro)
+61e85e367535a7 Jonas Bonn          2011-06-04  114  					prot =3D PAGE_KERN=
+EL;
+61e85e367535a7 Jonas Bonn          2011-06-04  115  				else
+61e85e367535a7 Jonas Bonn          2011-06-04  116  					prot =3D PAGE_KERN=
+EL_RO;
+61e85e367535a7 Jonas Bonn          2011-06-04  117  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5915  			if (!atomic_long_read(&=
-n->nr_slabs))
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5916  				continue;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5917  =
+61e85e367535a7 Jonas Bonn          2011-06-04  118  				set_pte(pte, mk_pte=
+_phys(p, prot));
+61e85e367535a7 Jonas Bonn          2011-06-04  119  			}
+61e85e367535a7 Jonas Bonn          2011-06-04  120  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5918  			spin_lock_irqsave(&n->l=
-ist_lock, flags);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5919  			list_for_each_entry(pag=
-e, &n->partial, slab_list)
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5920  				process_slab(&t, s, pa=
-ge, alloc);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5921  			list_for_each_entry(pag=
-e, &n->full, slab_list)
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5922  				process_slab(&t, s, pa=
-ge, alloc);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5923  			spin_unlock_irqrestore(=
-&n->list_lock, flags);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5924  		}
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5925  	}
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5926  =
+61e85e367535a7 Jonas Bonn          2011-06-04  121  			pge++;
+61e85e367535a7 Jonas Bonn          2011-06-04  122  		}
+61e85e367535a7 Jonas Bonn          2011-06-04  123  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5927  	if (*ppos < t.count) {
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5928  		*spos =3D *ppos;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5929  		return spos;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5930  	}
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5931  =
+61e85e367535a7 Jonas Bonn          2011-06-04  124  		printk(KERN_INFO "%s:=
+ Memory: 0x%x-0x%x\n", __func__,
+61e85e367535a7 Jonas Bonn          2011-06-04 @125  		       region->base, =
+region->base + region->size);
+61e85e367535a7 Jonas Bonn          2011-06-04  126  	}
+61e85e367535a7 Jonas Bonn          2011-06-04  127  }
+61e85e367535a7 Jonas Bonn          2011-06-04  128  =
 
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5932  	kfree(spos);
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5933  	return NULL;
-88e180b99466c1 Faiyaz Mohammed 2021-05-06  5934  }
+
+:::::: The code at line 125 was first introduced by commit
+:::::: 61e85e367535a7b6385b404bef93928768140f96 OpenRISC: Memory management
+
+:::::: TO: Jonas Bonn <jonas@southpole.se>
+:::::: CC: Jonas Bonn <jonas@southpole.se>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-
---===============4031587955258146746==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5095250458101596217==--
 
