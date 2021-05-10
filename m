@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7025929862424623917=="
+Content-Type: multipart/mixed; boundary="===============1653164490355760463=="
 MIME-Version: 1.0
 From: Michael Zaidman <michael.zaidman@gmail.com>
 To: kbuild-all@lists.01.org
-Subject: [PATCH v2] HID: ft260: fix format type warning in ft260_word_show()
-Date: Mon, 10 May 2021 19:30:29 +0300
-Message-ID: <20210510163029.2217-1-michael.zaidman@gmail.com>
+Subject: [PATCH v3] HID: ft260: fix format type warning in ft260_word_show()
+Date: Mon, 10 May 2021 19:34:28 +0300
+Message-ID: <20210510163428.2415-1-michael.zaidman@gmail.com>
 In-Reply-To: <202105060637.LeEC6ztp-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7025929862424623917==
+--===============1653164490355760463==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -46,13 +46,26 @@ Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
 Suggested-by: Joe Perches <joe@perches.com>
 Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/hid/hid-ft260.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-ft260.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-index 047aa85a7c83..38794a29599c 100644
+index 047aa85a7c83..ff2a49b5cac5 100644
 --- a/drivers/hid/hid-ft260.c
 +++ b/drivers/hid/hid-ft260.c
+@@ -779,7 +779,7 @@ static int ft260_byte_show(struct hid_device *hdev, int=
+ id, u8 *cfg, int len,
+ 	if (ret !=3D len && ret >=3D 0)
+ 		return -EIO;
+ =
+
+-	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", *field);
+ }
+ =
+
+ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int l=
+en,
 @@ -791,7 +791,7 @@ static int ft260_word_show(struct hid_device *hdev, int=
  id, u8 *cfg, int len,
  	if (ret !=3D len && ret >=3D 0)
@@ -69,5 +82,5 @@ index 047aa85a7c83..38794a29599c 100644
 
 2.25.1
 
---===============7025929862424623917==--
+--===============1653164490355760463==--
 
