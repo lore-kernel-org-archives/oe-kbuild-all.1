@@ -1,111 +1,63 @@
-Content-Type: multipart/mixed; boundary="===============1796280440193300951=="
+Content-Type: multipart/mixed; boundary="===============2334365170254324524=="
 MIME-Version: 1.0
-From: Peter Xu <peterx@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [aa:mapcount_deshare 20/27] mm/gup.c:2756:3: error: implicit declaration of function 'mm_set_has_pinned_flag'
-Date: Tue, 11 May 2021 10:36:36 -0400
-Message-ID: <YJqWdPZEro8Thkcr@t490s>
-In-Reply-To: <YJqTa+FXy2g/kvEU@t490s>
+Subject: Re: [kbuild] fs/fuse/dax.c:113 fuse_setup_one_mapping() warn: should 'start_idx << 21' be a 64 bit type?
+Date: Tue, 11 May 2021 10:51:57 -0400
+Message-ID: <20210511145157.GB238488@horse>
+In-Reply-To: <CAOssrKcwq_wFc+B72Vvkaai-TgXoZPTJ9fvBu+BzUg4idnFoZw@mail.gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1796280440193300951==
+--===============2334365170254324524==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 11, 2021 at 10:23:39AM -0400, Peter Xu wrote:
-> On Tue, May 11, 2021 at 08:31:23AM -0400, Andrea Arcangeli wrote:
-> > Hello,
-> > =
-
-> > thanks to the report.
-> > =
-
-> > Peter, this isn't immediately clear to me, is it perhaps something
-> > related to clang?
-> > =
-
-> > This is commit 8dec302e87453234fc7ac1cf4d09e4d577a06cf3
+On Tue, May 11, 2021 at 04:21:32PM +0200, Miklos Szeredi wrote:
+> On Mon, May 3, 2021 at 3:27 PM Dan Carpenter <dan.carpenter@oracle.com>=
+ wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git  master
+> > head:   9ccce092fc64d19504fa54de4fd659e279cc92e7
+> > commit: c2d0ad00d948de73c78f05d2b3e5bdfa605035cc virtiofs: implement da=
+x read/write operations
+> > config: i386-randconfig-m031-20210503 (attached as .config)
+> > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> >
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >
+> > New smatch warnings:
+> > fs/fuse/dax.c:113 fuse_setup_one_mapping() warn: should 'start_idx << 2=
+1' be a 64 bit type?
 > =
 
-> Andrea,
+> Yes.
 > =
 
-> I guess it's probably a NOMMU arm config so the helper got opted out as I
-> errornously put it into a CONFIG_MMU block without noticing..
+> But does it make any sense to enable virtiofs and/or dax on 32bit
+> guest? We sure aren't testing it, as seen from this bug report.
 > =
 
-> So we may need to squash below into that commit.
-> =
+> Vivek, what do you think?
 
-> I really should think of something to avoid such errors in the future, as=
- this
-> is the 2nd time happening at least this year..  Probably I should always =
-start
-> adding helpers at the beginning of files so I won't overlook any macros..
-> =
+Hi Miklos,
 
-> Thanks,
-> =
+We sure are not testing it but looks like it is possible to compile it
+on 32 bit systems. =
 
-> ----8<----
-> diff --git a/mm/gup.c b/mm/gup.c
-> index bb130723a6717..0223644d0c61a 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -392,6 +392,17 @@ void unpin_user_pages(struct page **pages, unsigned =
-long npages)
->  }
->  EXPORT_SYMBOL(unpin_user_pages);
->  =
 
-> +/*
-> + * Set the MMF_HAS_PINNED if not set yet; after set it'll be there for t=
-he mm's
-> + * lifecycle.  Avoid setting the bit unless necessary, or it might cause=
- write
-> + * cache bouncing on large SMP machines for concurrent pinned gups.
-> + */
-> +static inline void mm_set_has_pinned_flag(unsigned long *mm_flags)
-> +{
-> +       if (!test_bit(MMF_HAS_PINNED, mm_flags))
-> +               set_bit(MMF_HAS_PINNED, mm_flags);
-> +}
-> +
->  #ifdef CONFIG_MMU
->  static struct page *no_page_table(struct vm_area_struct *vma,
->                 unsigned int flags)
-> @@ -1270,17 +1281,6 @@ int fixup_user_fault(struct mm_struct *mm,
->  }
->  EXPORT_SYMBOL_GPL(fixup_user_fault);
->  =
+I can't think of a good reason that why virtiofs DAX should be disabled on =
 
-> -/*
-> - * Set the MMF_HAS_PINNED if not set yet; after set it'll be there for t=
-he mm's
-> - * lifecycle.  Avoid setting the bit unless necessary, or it might cause=
- write
-> - * cache bouncing on large SMP machines for concurrent pinned gups.
-> - */
-> -static inline void mm_set_has_pinned_flag(unsigned long *mm_flags)
-> -{
-> -       if (!test_bit(MMF_HAS_PINNED, mm_flags))
-> -               set_bit(MMF_HAS_PINNED, mm_flags);
-> -}
-> -
->  /*
->   * Please note that this function, unlike __get_user_pages will not
->   * return 0 for nr_pages > 0 without FOLL_NOWAIT
-> ----8<----
+32 bit systems. So I sent a patch series to fix this warning here.
 
-Btw, there's also a space issue with the patch (we need to reindent
-mm_set_has_pinned_flag so to use tabs rather than spaces), otherwise checkp=
-atch
-seems to complain.  Sorry about both issues!
+https://lore.kernel.org/linux-fsdevel/20210506184304.321645-1-vgoyal(a)redh=
+at.com/
 
--- =
+Thanks
+Vivek
 
-Peter Xu
-
---===============1796280440193300951==--
+--===============2334365170254324524==--
 
