@@ -1,129 +1,55 @@
-Content-Type: multipart/mixed; boundary="===============6113686891599758561=="
+Content-Type: multipart/mixed; boundary="===============8278991561945650752=="
 MIME-Version: 1.0
-From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+From: Dmitry Osipenko <digetx@gmail.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH] um: add 2 missing libs to fix various build errors
-Date: Wed, 12 May 2021 08:46:45 +0100
-Message-ID: <2f1283d0-64bc-a225-cff3-71893fdf3330@cambridgegreys.com>
-In-Reply-To: <2a2ddf5b-3d08-1a13-94c8-ae2ca0e6444b@infradead.org>
+Subject: Re: [PATCH v1 2/2] memory: tegra: Enable compile testing for all drivers
+Date: Tue, 11 May 2021 19:00:34 +0300
+Message-ID: <3ab5d50b-4955-7144-5d1d-d44cb0892d65@gmail.com>
+In-Reply-To: <06addbf3-0090-b76f-65cf-e0c10d284c69@canonical.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6113686891599758561==
+--===============8278991561945650752==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-
-
-On 12/05/2021 02:56, Randy Dunlap wrote:
-> On 4/9/21 10:28 PM, Anton Ivanov wrote:
->> On 10/04/2021 05:13, Randy Dunlap wrote:
->>> On 4/4/21 11:20 AM, Randy Dunlap wrote:
-> =
-
-> =
-
-> [snip]
-> =
-
->>>
->>> There are still some build errors in 2 object files:
->>>
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x8): undefined reference to `X86_=
-FEATURE_XMM2'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x15): undefined reference to `X86=
-_FEATURE_XMM2'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x22): undefined reference to `X86=
-_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x2f): undefined reference to `X86=
-_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x3c): undefined reference to `X86=
-_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x49): undefined reference to `X86=
-_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x56): undefined reference to `X86=
-_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: ker=
-nel/irq/generic-chip.o:(.altinstructions+0x63): more undefined references t=
-o `X86_FEATURE_XMM' follow
->>>
->>> and
->>>
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x8): undefined reference t=
-o `X86_FEATURE_XMM2'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x15): undefined reference =
-to `X86_FEATURE_XMM2'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x22): undefined reference =
-to `X86_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x2f): undefined reference =
-to `X86_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x3c): undefined reference =
-to `X86_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x49): undefined reference =
-to `X86_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x56): undefined reference =
-to `X86_FEATURE_XMM'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x63): undefined reference =
-to `X86_FEATURE_XMM2'
->>> /usr/lib/gcc/i586-suse-linux/10/../../../../i586-suse-linux/bin/ld: dri=
-vers/fpga/altera-pr-ip-core.o:(.altinstructions+0x70): undefined reference =
-to `X86_FEATURE_XMM2'
->>>
->>> I don't know what to do about these or what is causing them (other than
->>> "alternatives").
+11.05.2021 18:31, Krzysztof Kozlowski =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+...
+                                      ~~~~~~~~~~~~~~~~~~~~~^
+>>>>> drivers/memory/tegra/tegra124-emc.c:802:26: warning: implicit convers=
+ion from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 1=
+8446744071562067985 to 2147483665 [-Wconstant-conversion]
+>>>                    emc_ccfifo_writel(emc, EMC_ZQ_CAL_LONG_CMD_DEV0, EMC=
+_ZQ_CAL);
+>>>                    ~~~~~~~~~~~~~~~~~      ^~~~~~~~~~~~~~~~~~~~~~~~
+>>>    drivers/memory/tegra/tegra124-emc.c:154:36: note: expanded from macr=
+o 'EMC_ZQ_CAL_LONG_CMD_DEV0'
+>>>            (DRAM_DEV_SEL_0 | EMC_ZQ_CAL_LONG | EMC_ZQ_CAL_CMD)
+>>>             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+>>>    13 warnings generated.
 >>
->> I have a patch in the queue which should fix these - it "steals" the bug=
-/feature definitions from the x86 tree.
->>
->> A
+>> This doesn't look like a useful warning from clang, it should see that
+>> the constant value itself isn't truncated, hence it should be a problem
+>> of clang. Do you think it's okay to ignore this nonsense?
 > =
 
-> Hi Anton,
+> I admit I also do not see the real issue here. The DRAM_DEV_SEL_0 fits
+> in u32 and there is no other bitwise arithmetic than just OR, so why
+> clang assumes it can have 32 most signifcant bits toggled on?
 > =
 
-> Can you post (repost) the patch for these or point me to it
-> on a mailing list, please?
+> +Cc Nathan and Nick,
+> Maybe you could shed some light here on this warning?
 > =
 
-> =
+> Dmitry,
+> In general you should not ignore it because:
+> 1. This breaks allyesconfig with clang on powerpc (or it is one of the
+> stoppers),
+> 2. We might want in some future to build it with clang.
 
-> thanks.
-
-They are in patchwork:
-
-It is the first patch in these series:
-
-https://patchwork.ozlabs.org/project/linux-um/patch/20210312151609.24745-2-=
-anton.ivanov(a)cambridgegreys.com/
-https://patchwork.ozlabs.org/project/linux-um/patch/20210312151609.24745-3-=
-anton.ivanov(a)cambridgegreys.com/
-https://patchwork.ozlabs.org/project/linux-um/patch/20210312151609.24745-4-=
-anton.ivanov(a)cambridgegreys.com/
-
-Best Regards,
-
-> =
-
-
--- =
-
-Anton R. Ivanov
-Cambridgegreys Limited. Registered in England. Company Number 10273661
-https://www.cambridgegreys.com/
---===============6113686891599758561==--
+I meant to ignore it from the perspective of the memory drivers, i.e. it
+likely should be fixed in clang and not worked around in the code. Thank
+you for pinging the right people.
+--===============8278991561945650752==--
 
