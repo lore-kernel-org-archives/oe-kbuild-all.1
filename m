@@ -1,379 +1,578 @@
-Content-Type: multipart/mixed; boundary="===============2045471124562530916=="
+Content-Type: multipart/mixed; boundary="===============6187702964369208327=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: Re: [PATCH v1 2/2] memory: tegra: Enable compile testing for all drivers
-Date: Tue, 11 May 2021 11:31:03 -0400
-Message-ID: <06addbf3-0090-b76f-65cf-e0c10d284c69@canonical.com>
-In-Reply-To: <dd0b550e-76a0-bfbc-9d6f-5d867812046d@gmail.com>
+Date: Tue, 11 May 2021 23:43:07 +0800
+Message-ID: <202105112327.nAMH7lzl-lkp@intel.com>
+In-Reply-To: <20210510213729.7095-3-digetx@gmail.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2045471124562530916==
+--===============6187702964369208327==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 11/05/2021 11:17, Dmitry Osipenko wrote:
-> 11.05.2021 16:58, kernel test robot =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> Hi Dmitry,
->>
->> I love your patch! Perhaps something to improve:
->>
->> [auto build test WARNING on tegra/for-next]
->> [also build test WARNING on v5.13-rc1 next-20210511]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch]
->>
->> url:    https://github.com/0day-ci/linux/commits/Dmitry-Osipenko/Enable-=
-compile-testing-for-Tegra-memory-drivers/20210511-053910
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git =
-for-next
->> config: powerpc-randconfig-r032-20210511 (attached as .config)
->> compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project a0f=
-ed635fe1701470062495a6ffee1c608f3f1bc)
->> reproduce (this is a W=3D1 build):
->>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
-in/make.cross -O ~/bin/make.cross
->>         chmod +x ~/bin/make.cross
->>         # install powerpc cross compiling tool for clang build
->>         # apt-get install binutils-powerpc-linux-gnu
->>         # https://github.com/0day-ci/linux/commit/ecd67b1d49eb33c9821130=
-a2b3b896bab395118d
->>         git remote add linux-review https://github.com/0day-ci/linux
->>         git fetch --no-tags linux-review Dmitry-Osipenko/Enable-compile-=
-testing-for-Tegra-memory-drivers/20210511-053910
->>         git checkout ecd67b1d49eb33c9821130a2b3b896bab395118d
->>         # save the attached .config to linux build tree
->>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 ARCH=3Dpowerpc =
+Hi Dmitry,
 
->>
->> If you fix the issue, kindly add following tag as appropriate
->> Reported-by: kernel test robot <lkp@intel.com>
->>
->> All warnings (new ones prefixed by >>):
->>
->>    __do_insb
->>    ^
->>    arch/powerpc/include/asm/io.h:556:56: note: expanded from macro '__do=
-_insb'
->>    #define __do_insb(p, b, n)      readsb((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra30-emc.c:18:
->>    In file included from include/linux/interrupt.h:11:
->>    In file included from include/linux/hardirq.h:10:
->>    In file included from arch/powerpc/include/asm/hardirq.h:6:
->>    In file included from include/linux/irq.h:20:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:45:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(insw, (unsigned long p, void *b, unsigned long c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:211:1: note: expanded from here
->>    __do_insw
->>    ^
->>    arch/powerpc/include/asm/io.h:557:56: note: expanded from macro '__do=
-_insw'
->>    #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra30-emc.c:18:
->>    In file included from include/linux/interrupt.h:11:
->>    In file included from include/linux/hardirq.h:10:
->>    In file included from arch/powerpc/include/asm/hardirq.h:6:
->>    In file included from include/linux/irq.h:20:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:213:1: note: expanded from here
->>    __do_insl
->>    ^
->>    arch/powerpc/include/asm/io.h:558:56: note: expanded from macro '__do=
-_insl'
->>    #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra30-emc.c:18:
->>    In file included from include/linux/interrupt.h:11:
->>    In file included from include/linux/hardirq.h:10:
->>    In file included from arch/powerpc/include/asm/hardirq.h:6:
->>    In file included from include/linux/irq.h:20:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:215:1: note: expanded from here
->>    __do_outsb
->>    ^
->>    arch/powerpc/include/asm/io.h:559:58: note: expanded from macro '__do=
-_outsb'
->>    #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra30-emc.c:18:
->>    In file included from include/linux/interrupt.h:11:
->>    In file included from include/linux/hardirq.h:10:
->>    In file included from arch/powerpc/include/asm/hardirq.h:6:
->>    In file included from include/linux/irq.h:20:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:217:1: note: expanded from here
->>    __do_outsw
->>    ^
->>    arch/powerpc/include/asm/io.h:560:58: note: expanded from macro '__do=
-_outsw'
->>    #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra30-emc.c:18:
->>    In file included from include/linux/interrupt.h:11:
->>    In file included from include/linux/hardirq.h:10:
->>    In file included from arch/powerpc/include/asm/hardirq.h:6:
->>    In file included from include/linux/irq.h:20:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:219:1: note: expanded from here
->>    __do_outsl
->>    ^
->>    arch/powerpc/include/asm/io.h:561:58: note: expanded from macro '__do=
-_outsl'
->>    #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>>> drivers/memory/tegra/tegra30-emc.c:757:18: warning: implicit conversio=
-n from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 184=
-46744071562067985 to 2147483665 [-Wconstant-conversion]
->>                    writel_relaxed(EMC_ZQ_CAL_LONG_CMD_DEV0,
->>                    ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
->>    drivers/memory/tegra/tegra30-emc.c:161:36: note: expanded from macro =
-'EMC_ZQ_CAL_LONG_CMD_DEV0'
->>            (DRAM_DEV_SEL_0 | EMC_ZQ_CAL_LONG | EMC_ZQ_CAL_CMD)
->>                                              ^
->>    arch/powerpc/include/asm/io.h:679:40: note: expanded from macro 'writ=
-el_relaxed'
->>    #define writel_relaxed(v, addr) writel(v, addr)
->>                                    ~~~~~~ ^
->>    13 warnings generated.
->> --
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:203:1: note: expanded from here
->>    __do_outl
->>    ^
->>    arch/powerpc/include/asm/io.h:537:62: note: expanded from macro '__do=
-_outl'
->>    #define __do_outl(val, port)    writel(val,(PCI_IO_ADDR)_IO_BASE+port=
-);
->>                                               ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:43:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(insb, (unsigned long p, void *b, unsigned long c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:217:1: note: expanded from here
->>    __do_insb
->>    ^
->>    arch/powerpc/include/asm/io.h:556:56: note: expanded from macro '__do=
-_insb'
->>    #define __do_insb(p, b, n)      readsb((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:45:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(insw, (unsigned long p, void *b, unsigned long c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:219:1: note: expanded from here
->>    __do_insw
->>    ^
->>    arch/powerpc/include/asm/io.h:557:56: note: expanded from macro '__do=
-_insw'
->>    #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:221:1: note: expanded from here
->>    __do_insl
->>    ^
->>    arch/powerpc/include/asm/io.h:558:56: note: expanded from macro '__do=
-_insl'
->>    #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b)=
-, (n))
->>                                           ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:223:1: note: expanded from here
->>    __do_outsb
->>    ^
->>    arch/powerpc/include/asm/io.h:559:58: note: expanded from macro '__do=
-_outsb'
->>    #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:225:1: note: expanded from here
->>    __do_outsw
->>    ^
->>    arch/powerpc/include/asm/io.h:560:58: note: expanded from macro '__do=
-_outsw'
->>    #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>    In file included from drivers/memory/tegra/tegra124-emc.c:16:
->>    In file included from include/linux/io.h:13:
->>    In file included from arch/powerpc/include/asm/io.h:619:
->>    arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer =
-arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithme=
-tic]
->>    DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned lon=
-g c),
->>    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->>    arch/powerpc/include/asm/io.h:616:3: note: expanded from macro 'DEF_P=
-CI_AC_NORET'
->>                    __do_##name al;                                 \
->>                    ^~~~~~~~~~~~~~
->>    <scratch space>:227:1: note: expanded from here
->>    __do_outsl
->>    ^
->>    arch/powerpc/include/asm/io.h:561:58: note: expanded from macro '__do=
-_outsl'
->>    #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b)=
-,(n))
->>                                            ~~~~~~~~~~~~~~~~~~~~~^
->>>> drivers/memory/tegra/tegra124-emc.c:802:26: warning: implicit conversi=
-on from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 18=
-446744071562067985 to 2147483665 [-Wconstant-conversion]
->>                    emc_ccfifo_writel(emc, EMC_ZQ_CAL_LONG_CMD_DEV0, EMC_=
-ZQ_CAL);
->>                    ~~~~~~~~~~~~~~~~~      ^~~~~~~~~~~~~~~~~~~~~~~~
->>    drivers/memory/tegra/tegra124-emc.c:154:36: note: expanded from macro=
- 'EMC_ZQ_CAL_LONG_CMD_DEV0'
->>            (DRAM_DEV_SEL_0 | EMC_ZQ_CAL_LONG | EMC_ZQ_CAL_CMD)
->>             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
->>    13 warnings generated.
-> =
+I love your patch! Yet something to improve:
 
-> This doesn't look like a useful warning from clang, it should see that
-> the constant value itself isn't truncated, hence it should be a problem
-> of clang. Do you think it's okay to ignore this nonsense?
+[auto build test ERROR on tegra/for-next]
+[also build test ERROR on v5.13-rc1 next-20210511]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-I admit I also do not see the real issue here. The DRAM_DEV_SEL_0 fits
-in u32 and there is no other bitwise arithmetic than just OR, so why
-clang assumes it can have 32 most signifcant bits toggled on?
-
-+Cc Nathan and Nick,
-Maybe you could shed some light here on this warning?
-
-Dmitry,
-In general you should not ignore it because:
-1. This breaks allyesconfig with clang on powerpc (or it is one of the
-stoppers),
-2. We might want in some future to build it with clang.
+url:    https://github.com/0day-ci/linux/commits/Dmitry-Osipenko/Enable-com=
+pile-testing-for-Tegra-memory-drivers/20210511-053910
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for=
+-next
+config: parisc-randconfig-r011-20210511 (attached as .config)
+compiler: hppa64-linux-gcc (GCC) 9.3.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/ecd67b1d49eb33c9821130a2b=
+3b896bab395118d
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Enable-compile-tes=
+ting-for-Tegra-memory-drivers/20210511-053910
+        git checkout ecd67b1d49eb33c9821130a2b3b896bab395118d
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
+W=3D1 ARCH=3Dparisc =
 
 
-Best regards,
-Krzysztof
---===============2045471124562530916==--
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   hppa64-linux-ld: drivers/memory/tegra/tegra20-emc.o: in function `.LC9':
+>> (.data.rel.ro+0x30): undefined reference to `tegra20_clk_set_emc_round_c=
+allback'
+   hppa64-linux-ld: drivers/memory/tegra/tegra20-emc.o: in function `.LC52':
+   (.data.rel.ro+0xe0): undefined reference to `tegra20_clk_set_emc_round_c=
+allback'
+   hppa64-linux-ld: drivers/memory/tegra/tegra30-emc.o: in function `.LC11':
+>> (.data.rel.ro+0x30): undefined reference to `tegra20_clk_set_emc_round_c=
+allback'
+   hppa64-linux-ld: drivers/memory/tegra/tegra30-emc.o: in function `.LC48':
+   (.data.rel.ro+0xd0): undefined reference to `tegra20_clk_set_emc_round_c=
+allback'
+   hppa64-linux-ld: drivers/memory/tegra/tegra30-emc.o: in function `.LC60':
+>> (.data.rel.ro+0x118): undefined reference to `tegra20_clk_prepare_emc_mc=
+_same_freq'
+   hppa64-linux-ld: drivers/memory/tegra/tegra124-emc.o: in function `.LC3':
+>> (.data.rel.ro+0x10): undefined reference to `tegra124_clk_set_emc_callba=
+cks'
+   hppa64-linux-ld: drivers/memory/tegra/tegra124-emc.o: in function `.LC55=
+':
+   (.data.rel.ro+0x110): undefined reference to `tegra124_clk_set_emc_callb=
+acks'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for TEGRA124_CLK_EMC
+   Depends on COMMON_CLK
+   Selected by
+   - TEGRA124_EMC && MEMORY && TEGRA_MC && (ARCH_TEGRA_124_SOC || COMPILE_T=
+EST
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+--===============6187702964369208327==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+AQA=
+--===============6187702964369208327==--
 
