@@ -1,68 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============7706569303600683630=="
+Content-Type: multipart/mixed; boundary="===============5960706960602506091=="
 MIME-Version: 1.0
-From: Nikolay Aleksandrov <nikolay@nvidia.com>
+From: Vincent Chen <vincent.chen@sifive.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [net-next:master 40/65] net/bridge/br_input.c:135:8: error: too many arguments to function 'br_multicast_is_router'
-Date: Fri, 14 May 2021 13:12:12 +0300
-Message-ID: <7dde3521-3df5-8b65-b6a9-c974b84ab0eb@nvidia.com>
-In-Reply-To: <CA+G9fYuSVLOOu0aEs1bm5myxDMGe1VK_MVm61BmY3dwDx_yRmA@mail.gmail.com>
+Subject: Re: arch/riscv/errata/sifive/errata_cip_453.S:25: Error: Improper shift amount (38)
+Date: Fri, 14 May 2021 18:23:30 +0800
+Message-ID: <CABvJ_xhxog_MoNZFWnog+_vSBOXAX8+_KbnfyCrue5TGzDS20w@mail.gmail.com>
+In-Reply-To: <202105132239.YLq2DvEA-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7706569303600683630==
+--===============5960706960602506091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 14/05/2021 13:06, Naresh Kamboju wrote:
-> [Please ignore this email if you already know these build failures]
-> =
+Hi all,
+The resolved patch "0e0d49925" lacks a change, so this error still happens.
+I apologize for any inconvenience caused by this stupid mistake.
 
-> + Adding maintainers
-> =
+Vincent Chen
 
-> On Fri, 14 May 2021 at 06:35, kernel test robot <lkp@intel.com> wrote:
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.g=
-it master
->> head:   ea89c862f01e02ec459932c7c3113fa37aedd09a
->> commit: 1a3065a26807b4cdd65d3b696ddb18385610f7da [40/65] net: bridge: mc=
-ast: prepare is-router function for mcast router split
->> config: um-randconfig-s032-20210514 (attached as .config)
->> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
->> reproduce:
->>         # apt-get install sparse
->>         # sparse version: v0.6.3-341-g8af24329-dirty
->>         # https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next=
-.git/commit/?id=3D1a3065a26807b4cdd65d3b696ddb18385610f7da
->>         git remote add net-next https://git.kernel.org/pub/scm/linux/ker=
-nel/git/davem/net-next.git
->>         git fetch --no-tags net-next master
->>         git checkout 1a3065a26807b4cdd65d3b696ddb18385610f7da
->>         # save the attached .config to linux build tree
->>         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=
-=3D1 ARCH=3Dum
->>
->> If you fix the issue, kindly add following tag as appropriate
->> Reported-by: kernel test robot <lkp@intel.com>
->>
->> All errors (new ones prefixed by >>):
->>
->>    net/bridge/br_input.c: In function 'br_handle_frame_finish':
->>>> net/bridge/br_input.c:135:8: error: too many arguments to function 'br=
-_multicast_is_router'
->>      135 |        br_multicast_is_router(br, skb)) {
->>          |        ^~~~~~~~~~~~~~~~~~~~~~
->>    In file included from net/bridge/br_input.c:23:
->>    net/bridge/br_private.h:1059:20: note: declared here
->>     1059 | static inline bool br_multicast_is_router(struct net_bridge *=
-br)
->>          |                    ^~~~~~~~~~~~~~~~~~~~~~
->>
-
-I have already sent a patch for this one:
-https://patchwork.kernel.org/project/netdevbpf/patch/20210514073233.2564187=
--1-razor(a)blackwall.org/
-
-
---===============7706569303600683630==--
+On Thu, May 13, 2021 at 10:38 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Vincent,
+>
+> FYI, the error/warning still remains.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   c06a2ba62fc401b7aaefd23f5d0bc06d2457ccc1
+> commit: 800149a77c2cb8746a94457939b1ba1e37d2c14e riscv: sifive: Apply err=
+ata "cip-453" patch
+> date:   2 weeks ago
+> config: riscv-randconfig-r023-20210513 (attached as .config)
+> compiler: riscv32-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/commit/?id=3D800149a77c2cb8746a94457939b1ba1e37d2c14e
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/=
+git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 800149a77c2cb8746a94457939b1ba1e37d2c14e
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cros=
+s W=3D1 ARCH=3Driscv
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+>    arch/riscv/errata/sifive/errata_cip_453.S: Assembler messages:
+> >> arch/riscv/errata/sifive/errata_cip_453.S:25: Error: Improper shift am=
+ount (38)
+>    arch/riscv/errata/sifive/errata_cip_453.S:25: Error: Improper shift am=
+ount (39)
+>    arch/riscv/errata/sifive/errata_cip_453.S:35: Error: Improper shift am=
+ount (38)
+>    arch/riscv/errata/sifive/errata_cip_453.S:35: Error: Improper shift am=
+ount (39)
+>
+>
+> vim +25 arch/riscv/errata/sifive/errata_cip_453.S
+>
+>     23
+>     24  ENTRY(sifive_cip_453_page_fault_trp)
+>   > 25          ADD_SIGN_EXT a0, t0, t1
+>     26  #ifdef CONFIG_MMU
+>     27          la t0, do_page_fault
+>     28  #else
+>     29          la t0, do_trap_unknown
+>     30  #endif
+>     31          jr t0
+>     32  END(sifive_cip_453_page_fault_trp)
+>     33
+>
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5960706960602506091==--
 
