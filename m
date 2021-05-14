@@ -1,109 +1,132 @@
-Content-Type: multipart/mixed; boundary="===============2266161956487544665=="
+Content-Type: multipart/mixed; boundary="===============8175231034550870488=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: [linux-nvme:nvme-5.13 1/9] drivers/nvme/host/multipath.c:815 nvme_mpath_init_identify() warn: missing error code 'error'
-Date: Fri, 14 May 2021 08:55:29 +0300
-Message-ID: <202105140250.xTxn7Eqi-lkp@intel.com>
+Subject: drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->da_ref_clk' not released on lines: 952.
+Date: Fri, 14 May 2021 08:58:55 +0300
+Message-ID: <202105140401.k3v4vTpW-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2266161956487544665==
+--===============8175231034550870488==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/nvme.git nvme-5.13
-head:   e181811bd04d874fe48bbfa1165a82068b58144d
-commit: 5e1f689913a4498e3081093670ef9d85b2c60920 [1/9] nvme-multipath: fix =
-double initialization of ANA state
-config: i386-randconfig-m021-20210513 (attached as .config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+Hi Tiezhu,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   adc12a7407b28c0f257227a508db83ab00911b74
+commit: 133552bf03edbe3892767a4b64c56e3bed746374 phy: Remove CONFIG_ARCH_* =
+check for related subdir in Makefile
+config: powerpc-randconfig-m031-20210513 (attached as .config)
+compiler: powerpc-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/nvme/host/multipath.c:815 nvme_mpath_init_identify() warn: missing =
-error code 'error'
+drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->da_=
+ref_clk' not released on lines: 952.
+drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->ref=
+_clk' not released on lines: 952.
 
-vim +/error +815 drivers/nvme/host/multipath.c
+vim +955 drivers/phy/mediatek/phy-mtk-tphy.c
 
-5e1f689913a449 Christoph Hellwig 2021-04-29  791  int nvme_mpath_init_ident=
-ify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-5e1f689913a449 Christoph Hellwig 2021-04-29  792  {
-5e1f689913a449 Christoph Hellwig 2021-04-29  793  	size_t max_transfer_size=
- =3D ctrl->max_hw_sectors << SECTOR_SHIFT;
-5e1f689913a449 Christoph Hellwig 2021-04-29  794  	size_t ana_log_size;
-5e1f689913a449 Christoph Hellwig 2021-04-29  795  	int error =3D 0;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  796  =
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 917  static int mtk_phy_init(struct phy *phy)
+dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
+ 918  {
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 919  	struct mtk_phy_instance *instance =3D phy_get_drvdata(phy);
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 920  	struct mtk_tphy *tphy =3D dev_get_drvdata(phy->dev.parent);
+dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
+ 921  	int ret;
+dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
+ 922  =
 
-66b20ac0a1a107 Marta Rybczynska  2019-07-23  797  	/* check if multipath is=
- enabled and we have the capability */
-92decf118f1da4 Keith Busch       2020-04-03  798  	if (!multipath || !ctrl-=
->subsys ||
-92decf118f1da4 Keith Busch       2020-04-03  799  	    !(ctrl->subsys->cmic=
- & NVME_CTRL_CMIC_ANA))
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  800  		return 0;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  801  =
+15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 923  	ret =3D clk_prepare_enable(instance->ref_clk);
+15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 924  	if (ret) {
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 925  		dev_err(tphy->dev, "failed to enable ref_clk\n");
+15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 926  		return ret;
+15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 927  	}
+15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 928  =
 
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  802  	ctrl->anacap =3D id->ana=
-cap;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  803  	ctrl->anatt =3D id->anat=
-t;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  804  	ctrl->nanagrpid =3D le32=
-_to_cpu(id->nanagrpid);
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  805  	ctrl->anagrpmax =3D le32=
-_to_cpu(id->anagrpmax);
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  806  =
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 929  	ret =3D clk_prepare_enable(instance->da_ref_clk);
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 930  	if (ret) {
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 931  		dev_err(tphy->dev, "failed to enable da_ref\n");
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 932  		clk_disable_unprepare(instance->ref_clk);
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 933  		return ret;
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 934  	}
+12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
+ 935  =
 
-5e1f689913a449 Christoph Hellwig 2021-04-29  807  	ana_log_size =3D sizeof(=
-struct nvme_ana_rsp_hdr) +
-5e1f689913a449 Christoph Hellwig 2021-04-29  808  		ctrl->nanagrpid * sizeo=
-f(struct nvme_ana_group_desc) +
-5e1f689913a449 Christoph Hellwig 2021-04-29  809  		ctrl->max_namespaces * =
-sizeof(__le32);
-5e1f689913a449 Christoph Hellwig 2021-04-29  810  	if (ana_log_size > max_t=
-ransfer_size) {
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  811  		dev_err(ctrl->device,
-5e1f689913a449 Christoph Hellwig 2021-04-29  812  			"ANA log page size (%z=
-d) larger than MDTS (%zd).\n",
-5e1f689913a449 Christoph Hellwig 2021-04-29  813  			ana_log_size, max_tran=
-sfer_size);
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  814  		dev_err(ctrl->device, "=
-disabling ANA support.\n");
-5e1f689913a449 Christoph Hellwig 2021-04-29 @815  		goto out_uninit;
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 936  	switch (instance->type) {
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 937  	case PHY_TYPE_USB2:
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 938  		u2_phy_instance_init(tphy, instance);
+8158e917d91cb0 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2018-06-29 =
+ 939  		u2_phy_props_set(tphy, instance);
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 940  		break;
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 941  	case PHY_TYPE_USB3:
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 942  		u3_phy_instance_init(tphy, instance);
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 943  		break;
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 944  	case PHY_TYPE_PCIE:
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 945  		pcie_phy_instance_init(tphy, instance);
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 946  		break;
+4ab26cb66a8cb3 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 947  	case PHY_TYPE_SATA:
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 948  		sata_phy_instance_init(tphy, instance);
+4ab26cb66a8cb3 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 949  		break;
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 950  	default:
+cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
+ 951  		dev_err(tphy->dev, "incompatible PHY type\n");
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 952  		return -EINVAL;
 
-error =3D -EINVAL?
+clk_disable_unprepare()?
 
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  816  	}
-5e1f689913a449 Christoph Hellwig 2021-04-29  817  	if (ana_log_size > ctrl-=
->ana_log_size) {
-5e1f689913a449 Christoph Hellwig 2021-04-29  818  		nvme_mpath_stop(ctrl);
-3b7830904e1720 Logan Gunthorpe   2020-02-20  819  		kfree(ctrl->ana_log_buf=
-);
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  820  		ctrl->ana_log_buf =3D k=
-malloc(ctrl->ana_log_size, GFP_KERNEL);
-5e1f689913a449 Christoph Hellwig 2021-04-29  821  		if (!ctrl->ana_log_buf)
-5e1f689913a449 Christoph Hellwig 2021-04-29  822  			return -ENOMEM;
-bb830add192e9d Susobhan Dey      2018-09-25  823  	}
-5e1f689913a449 Christoph Hellwig 2021-04-29  824  	ctrl->ana_log_size =3D a=
-na_log_size;
-86cccfbf773faf Anton Eidelman    2019-10-18  825  	error =3D nvme_read_ana_=
-log(ctrl);
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  826  	if (error)
-5e1f689913a449 Christoph Hellwig 2021-04-29  827  		goto out_uninit;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  828  	return 0;
-5e1f689913a449 Christoph Hellwig 2021-04-29  829  =
+44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
+ 953  	}
+04466efca58f69 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
+ 954  =
 
-5e1f689913a449 Christoph Hellwig 2021-04-29  830  out_uninit:
-5e1f689913a449 Christoph Hellwig 2021-04-29  831  	nvme_mpath_uninit(ctrl);
-bb830add192e9d Susobhan Dey      2018-09-25  832  	return error;
-0d0b660f214dc4 Christoph Hellwig 2018-05-14  833  }
+dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
+@955  	return 0;
+dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
+ 956  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2266161956487544665==--
+--===============8175231034550870488==--
 
