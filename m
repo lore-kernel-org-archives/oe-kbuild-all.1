@@ -1,26 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============8175231034550870488=="
+Content-Type: multipart/mixed; boundary="===============9020973240079212432=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->da_ref_clk' not released on lines: 952.
-Date: Fri, 14 May 2021 08:58:55 +0300
-Message-ID: <202105140401.k3v4vTpW-lkp@intel.com>
+Subject: drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c:393 phy_meson_axg_mipi_dphy_probe() warn: 'priv->clk' not released on lines: 386.
+Date: Fri, 14 May 2021 09:04:15 +0300
+Message-ID: <202105140611.0pGD90Qg-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8175231034550870488==
+--===============9020973240079212432==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tiezhu,
-
-First bad commit (maybe !=3D root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   adc12a7407b28c0f257227a508db83ab00911b74
-commit: 133552bf03edbe3892767a4b64c56e3bed746374 phy: Remove CONFIG_ARCH_* =
-check for related subdir in Makefile
+head:   315d99318179b9cd5077ccc9f7f26a164c9fa998
+commit: 76aefb221146dbe0de124f566329c76d5dcf118a phy: amlogic: Add AXG MIPI=
+ D-PHY driver
 config: powerpc-randconfig-m031-20210513 (attached as .config)
 compiler: powerpc-linux-gcc (GCC) 9.3.0
 
@@ -29,104 +25,120 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->da_=
-ref_clk' not released on lines: 952.
-drivers/phy/mediatek/phy-mtk-tphy.c:955 mtk_phy_init() warn: 'instance->ref=
-_clk' not released on lines: 952.
+drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c:393 phy_meson_axg_mipi_dphy_p=
+robe() warn: 'priv->clk' not released on lines: 386.
 
-vim +955 drivers/phy/mediatek/phy-mtk-tphy.c
+vim +393 drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
 
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 917  static int mtk_phy_init(struct phy *phy)
-dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
- 918  {
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 919  	struct mtk_phy_instance *instance =3D phy_get_drvdata(phy);
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 920  	struct mtk_tphy *tphy =3D dev_get_drvdata(phy->dev.parent);
-dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
- 921  	int ret;
-dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
- 922  =
+76aefb221146db Neil Armstrong 2020-11-16  333  static int phy_meson_axg_mip=
+i_dphy_probe(struct platform_device *pdev)
+76aefb221146db Neil Armstrong 2020-11-16  334  {
+76aefb221146db Neil Armstrong 2020-11-16  335  	struct device *dev =3D &pde=
+v->dev;
+76aefb221146db Neil Armstrong 2020-11-16  336  	struct phy_provider *phy_pr=
+ovider;
+76aefb221146db Neil Armstrong 2020-11-16  337  	struct resource *res;
+76aefb221146db Neil Armstrong 2020-11-16  338  	struct phy_meson_axg_mipi_d=
+phy_priv *priv;
+76aefb221146db Neil Armstrong 2020-11-16  339  	struct phy *phy;
+76aefb221146db Neil Armstrong 2020-11-16  340  	void __iomem *base;
+76aefb221146db Neil Armstrong 2020-11-16  341  	int ret;
+76aefb221146db Neil Armstrong 2020-11-16  342  =
 
-15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 923  	ret =3D clk_prepare_enable(instance->ref_clk);
-15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 924  	if (ret) {
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 925  		dev_err(tphy->dev, "failed to enable ref_clk\n");
-15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 926  		return ret;
-15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 927  	}
-15de15c6b45b87 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 928  =
+76aefb221146db Neil Armstrong 2020-11-16  343  	priv =3D devm_kzalloc(dev, =
+sizeof(*priv), GFP_KERNEL);
+76aefb221146db Neil Armstrong 2020-11-16  344  	if (!priv)
+76aefb221146db Neil Armstrong 2020-11-16  345  		return -ENOMEM;
+76aefb221146db Neil Armstrong 2020-11-16  346  =
 
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 929  	ret =3D clk_prepare_enable(instance->da_ref_clk);
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 930  	if (ret) {
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 931  		dev_err(tphy->dev, "failed to enable da_ref\n");
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 932  		clk_disable_unprepare(instance->ref_clk);
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 933  		return ret;
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 934  	}
-12d0c0bed3f473 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2020-02-11 =
- 935  =
+76aefb221146db Neil Armstrong 2020-11-16  347  	priv->dev =3D dev;
+76aefb221146db Neil Armstrong 2020-11-16  348  	platform_set_drvdata(pdev, =
+priv);
+76aefb221146db Neil Armstrong 2020-11-16  349  =
 
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 936  	switch (instance->type) {
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 937  	case PHY_TYPE_USB2:
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 938  		u2_phy_instance_init(tphy, instance);
-8158e917d91cb0 drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2018-06-29 =
- 939  		u2_phy_props_set(tphy, instance);
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 940  		break;
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 941  	case PHY_TYPE_USB3:
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 942  		u3_phy_instance_init(tphy, instance);
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 943  		break;
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 944  	case PHY_TYPE_PCIE:
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 945  		pcie_phy_instance_init(tphy, instance);
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 946  		break;
-4ab26cb66a8cb3 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 947  	case PHY_TYPE_SATA:
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 948  		sata_phy_instance_init(tphy, instance);
-4ab26cb66a8cb3 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 949  		break;
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 950  	default:
-cd4ec4b03dc15b drivers/phy/mediatek/phy-mtk-tphy.c Chunfeng Yun 2017-08-03 =
- 951  		dev_err(tphy->dev, "incompatible PHY type\n");
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 952  		return -EINVAL;
+76aefb221146db Neil Armstrong 2020-11-16  350  	res =3D platform_get_resour=
+ce(pdev, IORESOURCE_MEM, 0);
+76aefb221146db Neil Armstrong 2020-11-16  351  	base =3D devm_ioremap_resou=
+rce(dev, res);
+76aefb221146db Neil Armstrong 2020-11-16  352  	if (IS_ERR(base))
+76aefb221146db Neil Armstrong 2020-11-16  353  		return PTR_ERR(base);
+76aefb221146db Neil Armstrong 2020-11-16  354  =
 
-clk_disable_unprepare()?
+76aefb221146db Neil Armstrong 2020-11-16  355  	priv->regmap =3D devm_regma=
+p_init_mmio(dev, base,
+76aefb221146db Neil Armstrong 2020-11-16  356  					&phy_meson_axg_mipi_dph=
+y_regmap_conf);
+76aefb221146db Neil Armstrong 2020-11-16  357  	if (IS_ERR(priv->regmap))
+76aefb221146db Neil Armstrong 2020-11-16  358  		return PTR_ERR(priv->regma=
+p);
+76aefb221146db Neil Armstrong 2020-11-16  359  =
 
-44a6d6ce6436a2 drivers/phy/phy-mt65xx-usb3.c       Ryder Lee    2017-08-03 =
- 953  	}
-04466efca58f69 drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2017-03-31 =
- 954  =
+76aefb221146db Neil Armstrong 2020-11-16  360  	priv->clk =3D devm_clk_get(=
+dev, "pclk");
+76aefb221146db Neil Armstrong 2020-11-16  361  	if (IS_ERR(priv->clk))
+76aefb221146db Neil Armstrong 2020-11-16  362  		return PTR_ERR(priv->clk);
+76aefb221146db Neil Armstrong 2020-11-16  363  =
 
-dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
-@955  	return 0;
-dc7f190fd51f5c drivers/phy/phy-mt65xx-usb3.c       Chunfeng Yun 2015-09-29 =
- 956  }
+76aefb221146db Neil Armstrong 2020-11-16  364  	priv->reset =3D devm_reset_=
+control_get(dev, "phy");
+76aefb221146db Neil Armstrong 2020-11-16  365  	if (IS_ERR(priv->reset))
+76aefb221146db Neil Armstrong 2020-11-16  366  		return PTR_ERR(priv->reset=
+);
+76aefb221146db Neil Armstrong 2020-11-16  367  =
+
+76aefb221146db Neil Armstrong 2020-11-16  368  	priv->analog =3D devm_phy_g=
+et(dev, "analog");
+76aefb221146db Neil Armstrong 2020-11-16  369  	if (IS_ERR(priv->analog))
+76aefb221146db Neil Armstrong 2020-11-16  370  		return PTR_ERR(priv->analo=
+g);
+76aefb221146db Neil Armstrong 2020-11-16  371  =
+
+76aefb221146db Neil Armstrong 2020-11-16  372  	ret =3D clk_prepare_enable(=
+priv->clk);
+76aefb221146db Neil Armstrong 2020-11-16  373  	if (ret)
+76aefb221146db Neil Armstrong 2020-11-16  374  		return ret;
+76aefb221146db Neil Armstrong 2020-11-16  375  =
+
+76aefb221146db Neil Armstrong 2020-11-16  376  	ret =3D reset_control_deass=
+ert(priv->reset);
+76aefb221146db Neil Armstrong 2020-11-16  377  	if (ret)
+76aefb221146db Neil Armstrong 2020-11-16  378  		return ret;
+76aefb221146db Neil Armstrong 2020-11-16  379  =
+
+76aefb221146db Neil Armstrong 2020-11-16  380  	phy =3D devm_phy_create(dev=
+, NULL, &phy_meson_axg_mipi_dphy_ops);
+76aefb221146db Neil Armstrong 2020-11-16  381  	if (IS_ERR(phy)) {
+76aefb221146db Neil Armstrong 2020-11-16  382  		ret =3D PTR_ERR(phy);
+76aefb221146db Neil Armstrong 2020-11-16  383  		if (ret !=3D -EPROBE_DEFER)
+76aefb221146db Neil Armstrong 2020-11-16  384  			dev_err(dev, "failed to c=
+reate PHY\n");
+76aefb221146db Neil Armstrong 2020-11-16  385  =
+
+76aefb221146db Neil Armstrong 2020-11-16  386  		return ret;
+
+Should we disable unprepare the clk?  I don't know, btw.  It seems like
+a lot of people don't bother with that.
+
+76aefb221146db Neil Armstrong 2020-11-16  387  	}
+76aefb221146db Neil Armstrong 2020-11-16  388  =
+
+76aefb221146db Neil Armstrong 2020-11-16  389  	phy_set_drvdata(phy, priv);
+76aefb221146db Neil Armstrong 2020-11-16  390  =
+
+76aefb221146db Neil Armstrong 2020-11-16  391  	phy_provider =3D devm_of_ph=
+y_provider_register(dev, of_phy_simple_xlate);
+
+Same if devm_of_phy_provider_register() fails I guess.
+
+76aefb221146db Neil Armstrong 2020-11-16  392  =
+
+76aefb221146db Neil Armstrong 2020-11-16 @393  	return PTR_ERR_OR_ZERO(phy_=
+provider);
+76aefb221146db Neil Armstrong 2020-11-16  394  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8175231034550870488==--
+--===============9020973240079212432==--
 
