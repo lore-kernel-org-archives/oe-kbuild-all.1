@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6986950465004214159=="
+Content-Type: multipart/mixed; boundary="===============6005836793095511658=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [arnd-playground:to-build 31/41] net/ipv6/ip6_tunnel.c:1614: warning: expecting prototype for ip6_tnl_ioctl(). Prototype was for ip6_tnl_siocdevprivate() instead
-Date: Tue, 18 May 2021 00:45:59 +0800
-Message-ID: <202105180044.koQQRTqp-lkp@intel.com>
+Subject: [arnd-playground:to-build 37/41] drivers/net/wan/lmc/lmc_proto.c:61:5: warning: no previous prototype for function 'lmc_proto_ioctl'
+Date: Tue, 18 May 2021 01:10:14 +0800
+Message-ID: <202105180111.xTwEBKnO-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6986950465004214159==
+--===============6005836793095511658==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git=
  to-build
 head:   5fd3eccb73a30251d944935959498ca308848a54
-commit: 382f957e43c56b6accc080efa5da678d8067ebf8 [31/41] ip_tunnel: use ndo=
-_siocdevprivate
+commit: cae2b1064d5a147bffbd0447f9cd264b140b7f72 [37/41] net: split out ndo=
+_siowandev ioctl
 config: x86_64-randconfig-a003-20210517 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 0a34ff=
 8bcb1df16fe7d643ccbe4567b2162c5024)
@@ -27,11 +27,11 @@ make.cross -O ~/bin/make.cross
         # install x86_64 cross compiling tool for clang build
         # apt-get install binutils-x86-64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.g=
-it/commit/?id=3D382f957e43c56b6accc080efa5da678d8067ebf8
+it/commit/?id=3Dcae2b1064d5a147bffbd0447f9cd264b140b7f72
         git remote add arnd-playground https://git.kernel.org/pub/scm/linux=
 /kernel/git/arnd/playground.git
         git fetch --no-tags arnd-playground to-build
-        git checkout 382f957e43c56b6accc080efa5da678d8067ebf8
+        git checkout cae2b1064d5a147bffbd0447f9cd264b140b7f72
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
 1 ARCH=3Dx86_64 =
@@ -42,215 +42,43 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> net/ipv6/ip6_tunnel.c:1614: warning: expecting prototype for ip6_tnl_ioc=
-tl(). Prototype was for ip6_tnl_siocdevprivate() instead
+>> drivers/net/wan/lmc/lmc_proto.c:61:5: warning: no previous prototype for=
+ function 'lmc_proto_ioctl' [-Wmissing-prototypes]
+   int lmc_proto_ioctl(lmc_softc_t *sc, struct if_settings *ifs)
+       ^
+   drivers/net/wan/lmc/lmc_proto.c:61:1: note: declare 'static' if the func=
+tion is not intended to be used outside of this translation unit
+   int lmc_proto_ioctl(lmc_softc_t *sc, struct if_settings *ifs)
+   ^
+   static =
+
+   1 warning generated.
 
 
-vim +1614 net/ipv6/ip6_tunnel.c
+vim +/lmc_proto_ioctl +61 drivers/net/wan/lmc/lmc_proto.c
 
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1581  =
+    60	=
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1582  /**
-3144581cb0b4b1 Yasuyuki Kozakai  2007-02-10  1583   * ip6_tnl_ioctl - confi=
-gure ipv6 tunnels from userspace
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1584   *   @dev: virtual devic=
-e associated with tunnel
-382f957e43c56b Arnd Bergmann     2020-11-05  1585   *   @ifr: unused
-382f957e43c56b Arnd Bergmann     2020-11-05  1586   *   @data: parameters p=
-assed from userspace
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1587   *   @cmd: command to be=
- performed
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1588   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1589   * Description:
-3144581cb0b4b1 Yasuyuki Kozakai  2007-02-10  1590   *   ip6_tnl_ioctl() is =
-used for managing IPv6 tunnels
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1591   *   from userspace.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1592   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1593   *   The possible comman=
-ds are the following:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1594   *     %SIOCGETTUNNEL: g=
-et tunnel parameters for device
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1595   *     %SIOCADDTUNNEL: a=
-dd tunnel matching given tunnel parameters
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1596   *     %SIOCCHGTUNNEL: c=
-hange tunnel parameters to those given
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1597   *     %SIOCDELTUNNEL: d=
-elete tunnel
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1598   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1599   *   The fallback device=
- "ip6tnl0", created during module
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1600   *   initialization, can=
- be used for creating other tunnel devices.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1601   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1602   * Return:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1603   *   0 on success,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1604   *   %-EFAULT if unable =
-to copy data to or from userspace,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1605   *   %-EPERM if current =
-process hasn't %CAP_NET_ADMIN set
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1606   *   %-EINVAL if passed =
-tunnel parameters are invalid,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1607   *   %-EEXIST if changin=
-g a tunnel's parameters would cause a conflict
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1608   *   %-ENODEV if attempt=
-ing to change or delete a nonexisting device
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1609   **/
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1610  =
+  > 61	int lmc_proto_ioctl(lmc_softc_t *sc, struct if_settings *ifs)
+    62	{
+    63		if (sc->if_type =3D=3D LMC_PPP)
+    64			return hdlc_ioctl(sc->lmc_device, ifs);
+    65		return -EOPNOTSUPP;
+    66	}
+    67	=
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1611  static int
-382f957e43c56b Arnd Bergmann     2020-11-05  1612  ip6_tnl_siocdevprivate(s=
-truct net_device *dev, struct ifreq *ifr,
-382f957e43c56b Arnd Bergmann     2020-11-05  1613  		       void __user *da=
-ta, int cmd)
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @1614  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1615  	int err =3D 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1616  	struct ip6_tnl_parm p;
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1617  	struct __ip6_tnl_parm=
- p1;
-74462f0d4a7342 Nicolas Dichtel   2014-04-16  1618  	struct ip6_tnl *t =3D n=
-etdev_priv(dev);
-74462f0d4a7342 Nicolas Dichtel   2014-04-16  1619  	struct net *net =3D t->=
-net;
-2dd02c897d798c Pavel Emelyanov   2008-04-16  1620  	struct ip6_tnl_net *ip6=
-n =3D net_generic(net, ip6_tnl_net_id);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1621  =
-
-0d3c703a9d1723 Tom Herbert       2016-04-29  1622  	memset(&p1, 0, sizeof(p=
-1));
-0d3c703a9d1723 Tom Herbert       2016-04-29  1623  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1624  	switch (cmd) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1625  	case SIOCGETTUNNEL:
-15820e129013dd Pavel Emelyanov   2008-04-16  1626  		if (dev =3D=3D ip6n->f=
-b_tnl_dev) {
-382f957e43c56b Arnd Bergmann     2020-11-05  1627  			if (copy_from_user(&p=
-, data, sizeof(p))) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1628  				err =3D -EFAULT;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1629  				break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1630  			}
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1631  			ip6_tnl_parm_from_u=
-ser(&p1, &p);
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1632  			t =3D ip6_tnl_locat=
-e(net, &p1, 0);
-37355565ba57fd Nicolas Dichtel   2015-03-16  1633  			if (IS_ERR(t))
-74462f0d4a7342 Nicolas Dichtel   2014-04-16  1634  				t =3D netdev_priv(de=
-v);
-5ef5d6c569f80c Dan Carpenter     2012-08-16  1635  		} else {
-5ef5d6c569f80c Dan Carpenter     2012-08-16  1636  			memset(&p, 0, sizeof(=
-p));
-567131a722ca06 Ville Nuorvala    2006-11-24  1637  		}
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1638  		ip6_tnl_parm_to_user=
-(&p, &t->parms);
-382f957e43c56b Arnd Bergmann     2020-11-05  1639  		if (copy_to_user(data,=
- &p, sizeof(p)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1640  			err =3D -EFAULT;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1641  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1642  	case SIOCADDTUNNEL:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1643  	case SIOCCHGTUNNEL:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1644  		err =3D -EPERM;
-af31f412c7c7a3 Eric W. Biederman 2012-11-16  1645  		if (!ns_capable(net->u=
-ser_ns, CAP_NET_ADMIN))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1646  			break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1647  		err =3D -EFAULT;
-382f957e43c56b Arnd Bergmann     2020-11-05  1648  		if (copy_from_user(&p,=
- data, sizeof(p)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1649  			break;
-567131a722ca06 Ville Nuorvala    2006-11-24  1650  		err =3D -EINVAL;
-502b093569e48d Yasuyuki Kozakai  2006-11-30  1651  		if (p.proto !=3D IPPRO=
-TO_IPV6 && p.proto !=3D IPPROTO_IPIP &&
-502b093569e48d Yasuyuki Kozakai  2006-11-30  1652  		    p.proto !=3D 0)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1653  			break;
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1654  		ip6_tnl_parm_from_us=
-er(&p1, &p);
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1655  		t =3D ip6_tnl_locate=
-(net, &p1, cmd =3D=3D SIOCADDTUNNEL);
-acf722f73499d8 Alexey Andriyanov 2014-10-29  1656  		if (cmd =3D=3D SIOCCHG=
-TUNNEL) {
-37355565ba57fd Nicolas Dichtel   2015-03-16  1657  			if (!IS_ERR(t)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1658  				if (t->dev !=3D dev)=
- {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1659  					err =3D -EEXIST;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1660  					break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1661  				}
-567131a722ca06 Ville Nuorvala    2006-11-24  1662  			} else
-567131a722ca06 Ville Nuorvala    2006-11-24  1663  				t =3D netdev_priv(de=
-v);
-acf722f73499d8 Alexey Andriyanov 2014-10-29  1664  			if (dev =3D=3D ip6n->=
-fb_tnl_dev)
-acf722f73499d8 Alexey Andriyanov 2014-10-29  1665  				err =3D ip6_tnl0_upd=
-ate(t, &p1);
-acf722f73499d8 Alexey Andriyanov 2014-10-29  1666  			else
-0b112457229d8a Nicolas Dichtel   2012-11-14  1667  				err =3D ip6_tnl_upda=
-te(t, &p1);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1668  		}
-37355565ba57fd Nicolas Dichtel   2015-03-16  1669  		if (!IS_ERR(t)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1670  			err =3D 0;
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1671  			ip6_tnl_parm_to_use=
-r(&p, &t->parms);
-382f957e43c56b Arnd Bergmann     2020-11-05  1672  			if (copy_to_user(data=
-, &p, sizeof(p)))
-567131a722ca06 Ville Nuorvala    2006-11-24  1673  				err =3D -EFAULT;
-567131a722ca06 Ville Nuorvala    2006-11-24  1674  =
-
-37355565ba57fd Nicolas Dichtel   2015-03-16  1675  		} else {
-37355565ba57fd Nicolas Dichtel   2015-03-16  1676  			err =3D PTR_ERR(t);
-37355565ba57fd Nicolas Dichtel   2015-03-16  1677  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1678  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1679  	case SIOCDELTUNNEL:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1680  		err =3D -EPERM;
-af31f412c7c7a3 Eric W. Biederman 2012-11-16  1681  		if (!ns_capable(net->u=
-ser_ns, CAP_NET_ADMIN))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1682  			break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1683  =
-
-15820e129013dd Pavel Emelyanov   2008-04-16  1684  		if (dev =3D=3D ip6n->f=
-b_tnl_dev) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1685  			err =3D -EFAULT;
-382f957e43c56b Arnd Bergmann     2020-11-05  1686  			if (copy_from_user(&p=
-, data, sizeof(p)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1687  				break;
-567131a722ca06 Ville Nuorvala    2006-11-24  1688  			err =3D -ENOENT;
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1689  			ip6_tnl_parm_from_u=
-ser(&p1, &p);
-c12b395a46646b xeb(a)mail.ru       2012-08-10  1690  			t =3D ip6_tnl_locat=
-e(net, &p1, 0);
-37355565ba57fd Nicolas Dichtel   2015-03-16  1691  			if (IS_ERR(t))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1692  				break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1693  			err =3D -EPERM;
-15820e129013dd Pavel Emelyanov   2008-04-16  1694  			if (t->dev =3D=3D ip6=
-n->fb_tnl_dev)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1695  				break;
-567131a722ca06 Ville Nuorvala    2006-11-24  1696  			dev =3D t->dev;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1697  		}
-22f8cde5bc336f Stephen Hemminger 2007-02-07  1698  		err =3D 0;
-22f8cde5bc336f Stephen Hemminger 2007-02-07  1699  		unregister_netdevice(d=
-ev);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1700  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1701  	default:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1702  		err =3D -EINVAL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1703  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1704  	return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1705  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1706  =
-
-
-:::::: The code at line 1614 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6986950465004214159==
+--===============6005836793095511658==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPaVomAAAy5jb25maWcAlDzLdtu4kvv+Cp30pu+iO7bjuDMzxwuQBCW0SIIBQFnyhsex5bTn
+H4sICDagomAAAy5jb25maWcAlDzLdtu4kvv+Cp30pu+iO7bjuDMzxwuQBCW0SIIBQFnyhsex5bTn
 +pEr2307fz9VAB8FEHTueGFbVYV3vVHQzz/9vGCvL08PVy9311f3998XX/eP+8PVy/5mcXt3v/+f
 RSYXlTQLngnzGxAXd4+vf7//+9NZe3a6+Pjb8Yffjn49XB8v1vvD4/5+kT493t59fYUO7p4ef/r5
 p1RWuVi2adpuuNJCVq3hW3P+7vr+6vHr4q/94RnoFtjLb0eLX77evfz3+/fw++HucHg6vL+//+uh
@@ -871,5 +699,5 @@ gq/BLDwxqvI2WAbqU8ePpmriykryj/ClQLRkWShED46LJnC4r7ab6jo3qbuJXaPjSxgP+SNnoaKf
 SFGDauzZcJ3RYvbJYWPThA7xlJ+Kt+5BU9LSyAqvRwHMa+6AKkNiqB2UXzH3g/tgVFF3ERIFfql4
 cerU1kYPywiuUbU7Sfj7ZmmdC3V0YvBkksEwPnjOqRWGiSPcFCByleWu5mFxDp7HTExAqGXX/0F3
 B4YK29SumwsKaXIkYO9i5oxQj3AYPlqsHjw9RcODv4XCKRB5zk0eal52AOma8T/j71MlbisCAA==
---===============6986950465004214159==--
+--===============6005836793095511658==--
 
