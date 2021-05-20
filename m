@@ -1,21 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============3803846890093400054=="
+Content-Type: multipart/mixed; boundary="===============0199189715699590917=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:19 +0800
-Message-ID: <20210520182519.GA47899@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:46 +0800
+Message-ID: <20210520182546.GA50354@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3803846890093400054==
+--===============0199189715699590917==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/namei.c:1223:3-6: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:152:3-6: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:741:2-5: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:743:2-5: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:855:2-5: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:182:2-5: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:169:3-6: WARNING: Use BUG_ON
+fs/afs/rxrpc.c:673:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +47,82 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- namei.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ rxrpc.c |   22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
---- a/fs/ocfs2/namei.c
-+++ b/fs/ocfs2/namei.c
-@@ -1219,8 +1219,7 @@ static int ocfs2_rename(struct inode *ol
- 	osb =3D OCFS2_SB(old_dir->i_sb);
- =
-
- 	if (new_inode) {
--		if (!igrab(new_inode))
+--- a/fs/afs/rxrpc.c
++++ b/fs/afs/rxrpc.c
+@@ -148,8 +148,7 @@ static void afs_data_delivered(struct sk
+ 	} else {
+ 		_debug("DLVR %p{%u} [%d]",
+ 		       skb, skb->mark, atomic_read(&afs_outstanding_skbs));
+-		if (atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1)
 -			BUG();
-+		BUG_ON(!igrab(new_inode));
++		BUG_ON(atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1);
+ 		rxrpc_kernel_data_delivered(skb);
  	}
+ }
+@@ -165,8 +164,7 @@ static void afs_free_skb(struct sk_buff
+ 	} else {
+ 		_debug("FREE %p{%u} [%d]",
+ 		       skb, skb->mark, atomic_read(&afs_outstanding_skbs));
+-		if (atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1)
+-			BUG();
++		BUG_ON(atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1);
+ 		rxrpc_kernel_free_skb(skb);
+ 	}
+ }
+@@ -178,8 +176,7 @@ static void afs_free_call(struct afs_cal
+ {
+ 	_debug("DONE %p{%s} [%d]",
+ 	       call, call->type->name, atomic_read(&afs_outstanding_calls));
+-	if (atomic_dec_return(&afs_outstanding_calls) =3D=3D -1)
+-		BUG();
++	BUG_ON(atomic_dec_return(&afs_outstanding_calls) =3D=3D -1);
  =
 
- 	/* Assume a directory hierarchy thusly:
---===============3803846890093400054==--
+ 	ASSERTCMP(call->rxcall, =3D=3D, NULL);
+ 	ASSERT(!work_pending(&call->async_work));
+@@ -669,8 +666,7 @@ void afs_transfer_reply(struct afs_call
+ {
+ 	size_t len =3D skb->len;
+ =
+
+-	if (skb_copy_bits(skb, 0, call->buffer + call->reply_size, len) < 0)
+-		BUG();
++	BUG_ON(skb_copy_bits(skb, 0, call->buffer + call->reply_size, len) < 0);
+ 	call->reply_size +=3D len;
+ }
+ =
+
+@@ -737,10 +733,8 @@ static int afs_deliver_cm_op_id(struct a
+ =
+
+ 	/* the operation ID forms the first four bytes of the request data */
+ 	len =3D min_t(size_t, len, 4 - call->offset);
+-	if (skb_copy_bits(skb, 0, oibuf + call->offset, len) < 0)
+-		BUG();
+-	if (!pskb_pull(skb, len))
+-		BUG();
++	BUG_ON(skb_copy_bits(skb, 0, oibuf + call->offset, len) < 0);
++	BUG_ON(!pskb_pull(skb, len));
+ 	call->offset +=3D len;
+ =
+
+ 	if (call->offset < 4) {
+@@ -850,9 +844,7 @@ int afs_extract_data(struct afs_call *ca
+ 	ASSERTCMP(call->offset, <, count);
+ =
+
+ 	len =3D min_t(size_t, len, count - call->offset);
+-	if (skb_copy_bits(skb, 0, buf + call->offset, len) < 0 ||
+-	    !pskb_pull(skb, len))
+-		BUG();
++	BUG_ON(skb_copy_bits(skb, 0, buf + call->offset, len) < 0 || !pskb_pull(s=
+kb, len));
+ 	call->offset +=3D len;
+ =
+
+ 	if (call->offset < count) {
+--===============0199189715699590917==--
 
