@@ -1,27 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============0199189715699590917=="
+Content-Type: multipart/mixed; boundary="===============7324339900964698548=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:46 +0800
-Message-ID: <20210520182546.GA50354@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:03 +0800
+Message-ID: <20210520182603.GA51827@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0199189715699590917==
+--===============7324339900964698548==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/afs/rxrpc.c:152:3-6: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:741:2-5: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:743:2-5: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:855:2-5: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:182:2-5: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:169:3-6: WARNING: Use BUG_ON
-fs/afs/rxrpc.c:673:2-5: WARNING: Use BUG_ON
+mm/slab.c:1474:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -47,82 +41,21 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rxrpc.c |   22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ slab.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/afs/rxrpc.c
-+++ b/fs/afs/rxrpc.c
-@@ -148,8 +148,7 @@ static void afs_data_delivered(struct sk
- 	} else {
- 		_debug("DLVR %p{%u} [%d]",
- 		       skb, skb->mark, atomic_read(&afs_outstanding_skbs));
--		if (atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1)
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -1470,8 +1470,7 @@ void __init kmem_cache_init_late(void)
+ 	/* 6) resize the head arrays to their final sizes */
+ 	mutex_lock(&slab_mutex);
+ 	list_for_each_entry(cachep, &slab_caches, list)
+-		if (enable_cpucache(cachep, GFP_NOWAIT))
 -			BUG();
-+		BUG_ON(atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1);
- 		rxrpc_kernel_data_delivered(skb);
- 	}
- }
-@@ -165,8 +164,7 @@ static void afs_free_skb(struct sk_buff
- 	} else {
- 		_debug("FREE %p{%u} [%d]",
- 		       skb, skb->mark, atomic_read(&afs_outstanding_skbs));
--		if (atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1)
--			BUG();
-+		BUG_ON(atomic_dec_return(&afs_outstanding_skbs) =3D=3D -1);
- 		rxrpc_kernel_free_skb(skb);
- 	}
- }
-@@ -178,8 +176,7 @@ static void afs_free_call(struct afs_cal
- {
- 	_debug("DONE %p{%s} [%d]",
- 	       call, call->type->name, atomic_read(&afs_outstanding_calls));
--	if (atomic_dec_return(&afs_outstanding_calls) =3D=3D -1)
--		BUG();
-+	BUG_ON(atomic_dec_return(&afs_outstanding_calls) =3D=3D -1);
++		BUG_ON(enable_cpucache(cachep, GFP_NOWAIT));
+ 	mutex_unlock(&slab_mutex);
  =
 
- 	ASSERTCMP(call->rxcall, =3D=3D, NULL);
- 	ASSERT(!work_pending(&call->async_work));
-@@ -669,8 +666,7 @@ void afs_transfer_reply(struct afs_call
- {
- 	size_t len =3D skb->len;
- =
-
--	if (skb_copy_bits(skb, 0, call->buffer + call->reply_size, len) < 0)
--		BUG();
-+	BUG_ON(skb_copy_bits(skb, 0, call->buffer + call->reply_size, len) < 0);
- 	call->reply_size +=3D len;
- }
- =
-
-@@ -737,10 +733,8 @@ static int afs_deliver_cm_op_id(struct a
- =
-
- 	/* the operation ID forms the first four bytes of the request data */
- 	len =3D min_t(size_t, len, 4 - call->offset);
--	if (skb_copy_bits(skb, 0, oibuf + call->offset, len) < 0)
--		BUG();
--	if (!pskb_pull(skb, len))
--		BUG();
-+	BUG_ON(skb_copy_bits(skb, 0, oibuf + call->offset, len) < 0);
-+	BUG_ON(!pskb_pull(skb, len));
- 	call->offset +=3D len;
- =
-
- 	if (call->offset < 4) {
-@@ -850,9 +844,7 @@ int afs_extract_data(struct afs_call *ca
- 	ASSERTCMP(call->offset, <, count);
- =
-
- 	len =3D min_t(size_t, len, count - call->offset);
--	if (skb_copy_bits(skb, 0, buf + call->offset, len) < 0 ||
--	    !pskb_pull(skb, len))
--		BUG();
-+	BUG_ON(skb_copy_bits(skb, 0, buf + call->offset, len) < 0 || !pskb_pull(s=
-kb, len));
- 	call->offset +=3D len;
- =
-
- 	if (call->offset < count) {
---===============0199189715699590917==--
+ 	/* Done! */
+--===============7324339900964698548==--
 
