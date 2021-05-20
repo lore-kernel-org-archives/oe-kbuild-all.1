@@ -1,22 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============0193199702423354724=="
+Content-Type: multipart/mixed; boundary="===============0584808176196806166=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix returnvar.cocci warnings
-Date: Fri, 21 May 2021 02:27:47 +0800
-Message-ID: <20210520182747.GA61156@ad678c5af442>
+Date: Fri, 21 May 2021 02:27:59 +0800
+Message-ID: <20210520182758.GA62138@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0193199702423354724==
+--===============0584808176196806166==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/dlmglue.c:4162:5-11: Unneeded variable: "status". Return "0" on li=
-ne 4180
+drivers/rtc/interface.c:981:5-8: Unneeded variable: "ret". Return "0" on li=
+ne 986
 
 
  Removes unneeded variable used to store return value.
@@ -35,31 +35,25 @@ port YYLOC global declaration
 :::::: branch date: 5 weeks ago
 :::::: commit date: 3 months ago
 
- dlmglue.c |    3 +--
+ interface.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/ocfs2/dlmglue.c
-+++ b/fs/ocfs2/dlmglue.c
-@@ -4159,7 +4159,6 @@ static int ocfs2_downconvert_thread_shou
- =
-
- static int ocfs2_downconvert_thread(void *arg)
+--- a/drivers/rtc/interface.c
++++ b/drivers/rtc/interface.c
+@@ -978,12 +978,11 @@ int rtc_timer_start(struct rtc_device *r
+  */
+ int rtc_timer_cancel(struct rtc_device *rtc, struct rtc_timer *timer)
  {
--	int status =3D 0;
- 	struct ocfs2_super *osb =3D arg;
- =
-
- 	/* only quit once we've been asked to stop and there is no more
-@@ -4177,7 +4176,7 @@ static int ocfs2_downconvert_thread(void
- 	}
- =
-
- 	osb->dc_task =3D NULL;
--	return status;
+-	int ret =3D 0;
+ 	mutex_lock(&rtc->ops_lock);
+ 	if (timer->enabled)
+ 		rtc_timer_remove(rtc, timer);
+ 	mutex_unlock(&rtc->ops_lock);
+-	return ret;
 +	return 0;
  }
  =
 
- void ocfs2_wake_downconvert_thread(struct ocfs2_super *osb)
---===============0193199702423354724==--
+=20
+--===============0584808176196806166==--
 
