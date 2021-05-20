@@ -1,25 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============3186081776493628213=="
+Content-Type: multipart/mixed; boundary="===============8649062412086941029=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:53 +0800
-Message-ID: <20210520182353.GA39061@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:48 +0800
+Message-ID: <20210520182348.GA38570@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3186081776493628213==
+--===============8649062412086941029==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/rxrpc/ar-recvmsg.c:125:4-7: WARNING: Use BUG_ON
-net/rxrpc/ar-recvmsg.c:217:5-8: WARNING: Use BUG_ON
-net/rxrpc/ar-recvmsg.c:242:3-6: WARNING: Use BUG_ON
-net/rxrpc/ar-recvmsg.c:269:4-7: WARNING: Use BUG_ON
-net/rxrpc/ar-recvmsg.c:321:3-6: WARNING: Use BUG_ON
+net/rxrpc/ar-key.c:847:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -45,65 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ar-recvmsg.c |   16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ ar-key.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/rxrpc/ar-recvmsg.c
-+++ b/net/rxrpc/ar-recvmsg.c
-@@ -121,8 +121,7 @@ int rxrpc_recvmsg(struct kiocb *iocb, st
- =
-
- 		if (test_bit(RXRPC_CALL_RELEASED, &call->flags)) {
- 			_debug("packet from released call");
--			if (skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb)
--				BUG();
-+			BUG_ON(skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb);
- 			rxrpc_free_skb(skb);
- 			continue;
- 		}
-@@ -212,9 +211,7 @@ int rxrpc_recvmsg(struct kiocb *iocb, st
- 			/* last bit of request received */
- 			if (!(flags & MSG_PEEK)) {
- 				_debug("eat packet");
--				if (skb_dequeue(&rx->sk.sk_receive_queue) !=3D
--				    skb)
--					BUG();
-+				BUG_ON(skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb);
- 				rxrpc_free_skb(skb);
- 			}
- 			msg->msg_flags &=3D ~MSG_MORE;
-@@ -238,8 +235,7 @@ int rxrpc_recvmsg(struct kiocb *iocb, st
- 		}
- =
-
- 		_debug("eat packet");
--		if (skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb)
--			BUG();
-+		BUG_ON(skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb);
- 		rxrpc_free_skb(skb);
+--- a/net/rxrpc/ar-key.c
++++ b/net/rxrpc/ar-key.c
+@@ -843,8 +843,7 @@ static int rxrpc_preparse_s(struct key_p
+ 		return PTR_ERR(ci);
  	}
  =
 
-@@ -265,8 +261,7 @@ receive_non_data_message:
- 		if (ret < 0)
- 			goto copy_error;
- 		if (!(flags & MSG_PEEK)) {
--			if (skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb)
--				BUG();
-+			BUG_ON(skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb);
- 			rxrpc_free_skb(skb);
- 		}
- 		goto out;
-@@ -317,8 +312,7 @@ terminal_message:
+-	if (crypto_blkcipher_setkey(ci, prep->data, 8) < 0)
+-		BUG();
++	BUG_ON(crypto_blkcipher_setkey(ci, prep->data, 8) < 0);
  =
 
- 	if (!(flags & MSG_PEEK)) {
- 		_net("free terminal skb %p", skb);
--		if (skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb)
--			BUG();
-+		BUG_ON(skb_dequeue(&rx->sk.sk_receive_queue) !=3D skb);
- 		rxrpc_free_skb(skb);
- 		rxrpc_remove_user_ID(rx, call);
- 	}
---===============3186081776493628213==--
+ 	prep->payload[0] =3D ci;
+ 	_leave(" =3D 0");
+--===============8649062412086941029==--
 
