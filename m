@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============7245194579276349433=="
+Content-Type: multipart/mixed; boundary="===============6259620901101796723=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix semicolon.cocci warnings
-Date: Fri, 21 May 2021 02:29:26 +0800
-Message-ID: <20210520182926.GA69995@ad678c5af442>
+Date: Fri, 21 May 2021 02:29:16 +0800
+Message-ID: <20210520182916.GA69013@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7245194579276349433==
+--===============6259620901101796723==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/tipc/socket.c:2366:2-3: Unneeded semicolon
+fs/ocfs2/cluster/quorum.c:89:2-3: Unneeded semicolon
 
 
  Removes unneeded semicolon.
@@ -34,20 +34,20 @@ port YYLOC global declaration
 :::::: branch date: 5 weeks ago
 :::::: commit date: 3 months ago
 
- socket.c |    2 +-
+ quorum.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/net/tipc/socket.c
-+++ b/net/tipc/socket.c
-@@ -2363,7 +2363,7 @@ int tipc_sk_ref_table_init(u32 req_sz, u
- 	req_sz++;
- 	for (actual_sz =3D 16; actual_sz < req_sz; actual_sz <<=3D 1) {
- 		/* do nothing */
+--- a/fs/ocfs2/cluster/quorum.c
++++ b/fs/ocfs2/cluster/quorum.c
+@@ -86,7 +86,7 @@ static void o2quo_fence_self(void)
+ 		       "system by restarting ***\n");
+ 		emergency_restart();
+ 		break;
 -	};
 +	}
+ }
  =
 
- 	/* allocate table & mark all entries as uninitialized */
- 	table =3D vzalloc(actual_sz * sizeof(struct reference));
---===============7245194579276349433==--
+ /* Indicate that a timeout occurred on a hearbeat region write. The
+--===============6259620901101796723==--
 
