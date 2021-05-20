@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============4459703942733156550=="
+Content-Type: multipart/mixed; boundary="===============2505176943254739411=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:30 +0800
-Message-ID: <20210520182530.GA48881@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:14 +0800
+Message-ID: <20210520182514.GA47408@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4459703942733156550==
+--===============2505176943254739411==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/ipv4/ping.c:613:3-6: WARNING: Use BUG_ON
+fs/ntfs/mft.c:590:4-7: WARNING: Use BUG_ON
+fs/ntfs/mft.c:783:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +42,32 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ping.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ mft.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/net/ipv4/ping.c
-+++ b/net/ipv4/ping.c
-@@ -609,8 +609,7 @@ int ping_getfrag(void *from, char *to,
- 	struct pingfakehdr *pfh =3D (struct pingfakehdr *)from;
+--- a/fs/ntfs/mft.c
++++ b/fs/ntfs/mft.c
+@@ -586,8 +586,7 @@ int ntfs_sync_mft_mirror(ntfs_volume *vo
+ 		for (i_bhs =3D 0; i_bhs < nr_bhs; i_bhs++) {
+ 			struct buffer_head *tbh =3D bhs[i_bhs];
  =
 
- 	if (offset =3D=3D 0) {
--		if (fraglen < sizeof(struct icmphdr))
+-			if (!trylock_buffer(tbh))
+-				BUG();
++			BUG_ON(!trylock_buffer(tbh));
+ 			BUG_ON(!buffer_uptodate(tbh));
+ 			clear_buffer_dirty(tbh);
+ 			get_bh(tbh);
+@@ -779,8 +778,7 @@ int write_mft_record_nolock(ntfs_inode *
+ 	for (i_bhs =3D 0; i_bhs < nr_bhs; i_bhs++) {
+ 		struct buffer_head *tbh =3D bhs[i_bhs];
+ =
+
+-		if (!trylock_buffer(tbh))
 -			BUG();
-+		BUG_ON(fraglen < sizeof(struct icmphdr));
- 		if (csum_partial_copy_fromiovecend(to + sizeof(struct icmphdr),
- 			    pfh->iov, 0, fraglen - sizeof(struct icmphdr),
- 			    &pfh->wcheck))
---===============4459703942733156550==--
++		BUG_ON(!trylock_buffer(tbh));
+ 		BUG_ON(!buffer_uptodate(tbh));
+ 		clear_buffer_dirty(tbh);
+ 		get_bh(tbh);
+--===============2505176943254739411==--
 
