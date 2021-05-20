@@ -1,34 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============4657490404328971028=="
+Content-Type: multipart/mixed; boundary="===============3393777768323072005=="
 MIME-Version: 1.0
 From: Philip Li <philip.li@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [kbuild] [linux-next:master 7132/11526] drivers/bluetooth/btusb.c:3775 btusb_mtk_setup() error: uninitialized symbol 'fw_version'.
-Date: Thu, 20 May 2021 09:58:13 +0800
-Message-ID: <20210520015813.GA3327173@pl-dbox>
-In-Reply-To: <20210217074946.GI2222@kadam>
+Subject: Re: [kbuild] drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:721 dpaa2_eth_build_sg_fd_single_buf() warn: overwrite may leak 'sgt_buf'
+Date: Thu, 20 May 2021 09:59:09 +0800
+Message-ID: <20210520015909.GB3327173@pl-dbox>
+In-Reply-To: <202104281748.NQlMojCM-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4657490404328971028==
+--===============3393777768323072005==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 17, 2021 at 10:49:46AM +0300, Dan Carpenter wrote:
-> [ Why is linux-mm CC'd on these patches??? - dan ]
-sorry for late, Hi Dan, FYI, we have defined related rule like mail cc
-in repo definition of linux-next. This can be found at
-https://github.com/intel/lkp-tests/blob/master/repo/linux/linux-next,
-which could be a requirement in early days.
+On Thu, Apr 29, 2021 at 10:29:27PM +0800, Dan Carpenter wrote:
+> [ Why is kbuild sending out 8 month old bug reports??? -dan ]
+hi Dan, it's possible such issue is just discovered by the newly
+generated randconfig arm-randconfig-m031-20210428.
 
 > =
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it  master
-> head:   6553715b6db5ff5d4898895dad1b2926cfe406cf
-> commit: fc342c4dc408754f50f19dc832152fbb4b73f1e6 [7132/11526] Bluetooth: =
-btusb: Add protocol support for MediaTek MT7921U USB devices
-> config: parisc-randconfig-m031-20210216 (attached as .config)
-> compiler: hppa-linux-gcc (GCC) 9.3.0
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   acd3d28594536e9096c1ea76c5867d8a68babef6
+> commit: 5d8dccf8bad96bdc5bd5594344ff67539cf3a733 dpaa2-eth: add a dpaa2_e=
+th_ prefix to all functions in dpaa2-eth.c
+> config: arm-randconfig-m031-20210428 (attached as .config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
 > =
 
 > If you fix the issue, kindly add following tag as appropriate
@@ -36,129 +34,197 @@ btusb: Add protocol support for MediaTek MT7921U USB devices
 > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 > =
 
-> New smatch warnings:
-> drivers/bluetooth/btusb.c:3775 btusb_mtk_setup() error: uninitialized sym=
-bol 'fw_version'.
+> smatch warnings:
+> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:721 dpaa2_eth_build_sg_f=
+d_single_buf() warn: overwrite may leak 'sgt_buf'
 > =
 
-> Old smatch warnings:
-> drivers/bluetooth/btusb.c:2201 btusb_setup_intel() warn: inconsistent ind=
-enting
+> vim +/sgt_buf +721 drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
 > =
 
-> vim +/fw_version +3775 drivers/bluetooth/btusb.c
+> 5d8dccf8bad96b drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-08-31  696  static int dpaa2_eth_build_sg_fd_single_buf(struct =
+dpaa2_eth_priv *priv,
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  697                                             struct s=
+k_buff *skb,
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  698                                             struct d=
+paa2_fd *fd)
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  699  {
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  700         struct device *dev =3D priv->net_dev->dev.pa=
+rent;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  701         struct dpaa2_eth_sgt_cache *sgt_cache;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  702         struct dpaa2_sg_entry *sgt;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  703         struct dpaa2_eth_swa *swa;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  704         dma_addr_t addr, sgt_addr;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  705         void *sgt_buf =3D NULL;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  706         int sgt_buf_size;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  707         int err;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  708
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  709         /* Prepare the HW SGT structure */
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  710         sgt_cache =3D this_cpu_ptr(priv->sgt_cache);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  711         sgt_buf_size =3D priv->tx_data_offset + size=
+of(struct dpaa2_sg_entry);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  712
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  713         if (sgt_cache->count =3D=3D 0)
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  714                 sgt_buf =3D kzalloc(sgt_buf_size + D=
+PAA2_ETH_TX_BUF_ALIGN,
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  715                                   GFP_ATOMIC);
 > =
 
-> a1c49c434e15050 Sean Wang 2019-06-02  3729  static int btusb_mtk_setup(st=
-ruct hci_dev *hdev)
-> a1c49c434e15050 Sean Wang 2019-06-02  3730  {
-> a1c49c434e15050 Sean Wang 2019-06-02  3731  	struct btusb_data *data =3D =
-hci_get_drvdata(hdev);
-> a1c49c434e15050 Sean Wang 2019-06-02  3732  	struct btmtk_hci_wmt_params =
-wmt_params;
-> a1c49c434e15050 Sean Wang 2019-06-02  3733  	ktime_t calltime, delta, ret=
-time;
-> a1c49c434e15050 Sean Wang 2019-06-02  3734  	struct btmtk_tci_sleep tci_s=
-leep;
-> a1c49c434e15050 Sean Wang 2019-06-02  3735  	unsigned long long duration;
-> a1c49c434e15050 Sean Wang 2019-06-02  3736  	struct sk_buff *skb;
-> a1c49c434e15050 Sean Wang 2019-06-02  3737  	const char *fwname;
-> a1c49c434e15050 Sean Wang 2019-06-02  3738  	int err, status;
-> a1c49c434e15050 Sean Wang 2019-06-02  3739  	u32 dev_id;
-> fc342c4dc408754 Mark Chen 2021-02-02  3740  	char fw_bin_name[64];
-> fc342c4dc408754 Mark Chen 2021-02-02  3741  	u32 fw_version;
-> a1c49c434e15050 Sean Wang 2019-06-02  3742  	u8 param;
-> a1c49c434e15050 Sean Wang 2019-06-02  3743  =
-
-> a1c49c434e15050 Sean Wang 2019-06-02  3744  	calltime =3D ktime_get();
-> a1c49c434e15050 Sean Wang 2019-06-02  3745  =
-
-> 48c13301e6baba5 Mark Chen 2021-02-02  3746  	err =3D btusb_mtk_id_get(dat=
-a, 0x80000008, &dev_id);
-> a1c49c434e15050 Sean Wang 2019-06-02  3747  	if (err < 0) {
-> a1c49c434e15050 Sean Wang 2019-06-02  3748  		bt_dev_err(hdev, "Failed to=
- get device id (%d)", err);
-> a1c49c434e15050 Sean Wang 2019-06-02  3749  		return err;
-> a1c49c434e15050 Sean Wang 2019-06-02  3750  	}
-> a1c49c434e15050 Sean Wang 2019-06-02  3751  =
-
-> fc342c4dc408754 Mark Chen 2021-02-02  3752  	if (!dev_id) {
-> fc342c4dc408754 Mark Chen 2021-02-02  3753  		err =3D btusb_mtk_id_get(da=
-ta, 0x70010200, &dev_id);
-> fc342c4dc408754 Mark Chen 2021-02-02  3754  		if (err < 0) {
-> fc342c4dc408754 Mark Chen 2021-02-02  3755  			bt_dev_err(hdev, "Failed t=
-o get device id (%d)", err);
-> fc342c4dc408754 Mark Chen 2021-02-02  3756  			return err;
-> fc342c4dc408754 Mark Chen 2021-02-02  3757  		}
-> fc342c4dc408754 Mark Chen 2021-02-02  3758  		err =3D btusb_mtk_id_get(da=
-ta, 0x80021004, &fw_version);
-> fc342c4dc408754 Mark Chen 2021-02-02  3759  		if (err < 0) {
-> fc342c4dc408754 Mark Chen 2021-02-02  3760  			bt_dev_err(hdev, "Failed t=
-o get fw version (%d)", err);
-> fc342c4dc408754 Mark Chen 2021-02-02  3761  			return err;
-> fc342c4dc408754 Mark Chen 2021-02-02  3762  		}
-> fc342c4dc408754 Mark Chen 2021-02-02  3763  	}
+> sgt_buf is assigned here.
 > =
 
-> "fw_version" not initialized on else path.
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  716         else
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  717                 sgt_buf =3D sgt_cache->buf[--sgt_cac=
+he->count];
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  718         if (unlikely(!sgt_buf))
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  719                 return -ENOMEM;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  720
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29 @721         sgt_buf =3D PTR_ALIGN(sgt_buf, DPAA2_ETH_TX_=
+BUF_ALIGN);
 > =
 
-> fc342c4dc408754 Mark Chen 2021-02-02  3764  =
-
-> a1c49c434e15050 Sean Wang 2019-06-02  3765  	switch (dev_id) {
-> 9ce67c3235be71e Sean Wang 2019-06-02  3766  	case 0x7663:
-> 9ce67c3235be71e Sean Wang 2019-06-02  3767  		fwname =3D FIRMWARE_MT7663;
-> 9ce67c3235be71e Sean Wang 2019-06-02  3768  		break;
-> a1c49c434e15050 Sean Wang 2019-06-02  3769  	case 0x7668:
-> a1c49c434e15050 Sean Wang 2019-06-02  3770  		fwname =3D FIRMWARE_MT7668;
-> a1c49c434e15050 Sean Wang 2019-06-02  3771  		break;
-> fc342c4dc408754 Mark Chen 2021-02-02  3772  	case 0x7961:
-> fc342c4dc408754 Mark Chen 2021-02-02  3773  		snprintf(fw_bin_name, sizeo=
-f(fw_bin_name),
-> fc342c4dc408754 Mark Chen 2021-02-02  3774  			"mediatek/BT_RAM_CODE_MT%0=
-4x_1_%x_hdr.bin",
-> fc342c4dc408754 Mark Chen 2021-02-02 @3775  			 dev_id & 0xffff, (fw_vers=
-ion & 0xff) + 1);
->                                                                          =
-          ^^^^^^^^^^
+> We're losing track of the original "sgt_buf" pointer so we won't be
+> able to pass it to kfree().
 > =
 
-> fc342c4dc408754 Mark Chen 2021-02-02  3776  		err =3D btusb_mtk_setup_fir=
-mware_79xx(hdev, fw_bin_name);
-> fc342c4dc408754 Mark Chen 2021-02-02  3777  =
-
-> fc342c4dc408754 Mark Chen 2021-02-02  3778  		/* Enable Bluetooth protoco=
-l */
-> fc342c4dc408754 Mark Chen 2021-02-02  3779  		param =3D 1;
-> fc342c4dc408754 Mark Chen 2021-02-02  3780  		wmt_params.op =3D BTMTK_WMT=
-_FUNC_CTRL;
-> fc342c4dc408754 Mark Chen 2021-02-02  3781  		wmt_params.flag =3D 0;
-> fc342c4dc408754 Mark Chen 2021-02-02  3782  		wmt_params.dlen =3D sizeof(=
-param);
-> fc342c4dc408754 Mark Chen 2021-02-02  3783  		wmt_params.data =3D &param;
-> fc342c4dc408754 Mark Chen 2021-02-02  3784  		wmt_params.status =3D NULL;
-> fc342c4dc408754 Mark Chen 2021-02-02  3785  =
-
-> fc342c4dc408754 Mark Chen 2021-02-02  3786  		err =3D btusb_mtk_hci_wmt_s=
-ync(hdev, &wmt_params);
-> fc342c4dc408754 Mark Chen 2021-02-02  3787  		if (err < 0) {
-> fc342c4dc408754 Mark Chen 2021-02-02  3788  			bt_dev_err(hdev, "Failed t=
-o send wmt func ctrl (%d)", err);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  722         sgt =3D (struct dpaa2_sg_entry *)(sgt_buf + =
+priv->tx_data_offset);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  723
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  724         addr =3D dma_map_single(dev, skb->data, skb-=
+>len, DMA_BIDIRECTIONAL);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  725         if (unlikely(dma_mapping_error(dev, addr))) {
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  726                 err =3D -ENOMEM;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  727                 goto data_map_failed;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  728         }
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  729
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  730         /* Fill in the HW SGT structure */
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  731         dpaa2_sg_set_addr(sgt, addr);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  732         dpaa2_sg_set_len(sgt, skb->len);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  733         dpaa2_sg_set_final(sgt, true);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  734
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  735         /* Store the skb backpointer in the SGT buff=
+er */
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  736         swa =3D (struct dpaa2_eth_swa *)sgt_buf;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  737         swa->type =3D DPAA2_ETH_SWA_SINGLE;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  738         swa->single.skb =3D skb;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  739         swa->sg.sgt_size =3D sgt_buf_size;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  740
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  741         /* Separately map the SGT buffer */
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  742         sgt_addr =3D dma_map_single(dev, sgt_buf, sg=
+t_buf_size, DMA_BIDIRECTIONAL);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  743         if (unlikely(dma_mapping_error(dev, sgt_addr=
+))) {
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  744                 err =3D -ENOMEM;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  745                 goto sgt_map_failed;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  746         }
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  747
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  748         dpaa2_fd_set_offset(fd, priv->tx_data_offset=
+);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  749         dpaa2_fd_set_format(fd, dpaa2_fd_sg);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  750         dpaa2_fd_set_addr(fd, sgt_addr);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  751         dpaa2_fd_set_len(fd, skb->len);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  752         dpaa2_fd_set_ctrl(fd, FD_CTRL_PTA);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  753
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  754         if (priv->tx_tstamp && skb_shinfo(skb)->tx_f=
+lags & SKBTX_HW_TSTAMP)
+> 5d8dccf8bad96b drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-08-31  755                 dpaa2_eth_enable_tx_tstamp(fd, sgt_b=
+uf);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  756
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  757         return 0;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  758
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  759  sgt_map_failed:
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  760         dma_unmap_single(dev, addr, skb->len, DMA_BI=
+DIRECTIONAL);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  761  data_map_failed:
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  762         if (sgt_cache->count >=3D DPAA2_ETH_SGT_CACH=
+E_SIZE)
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  763                 kfree(sgt_buf);
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  764         else
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  765                 sgt_cache->buf[sgt_cache->count++] =
+=3D sgt_buf;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  766
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  767         return err;
+> d70446ee1f406e drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c Ioana Cio=
+rnei   2020-06-29  768  }
 > =
 
 > ---
 > 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
-
-
-
+> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 > _______________________________________________
 > kbuild mailing list -- kbuild(a)lists.01.org
 > To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
-> _______________________________________________
-> kbuild-all mailing list -- kbuild-all(a)lists.01.org
-> To unsubscribe send an email to kbuild-all-leave(a)lists.01.org
-
---===============4657490404328971028==--
+--===============3393777768323072005==--
 
