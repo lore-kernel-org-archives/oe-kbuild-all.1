@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============2330561586309053864=="
+Content-Type: multipart/mixed; boundary="===============9151316940138157304=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:08 +0800
-Message-ID: <20210520182408.GA40534@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:56 +0800
+Message-ID: <20210520182456.GA45444@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2330561586309053864==
+--===============9151316940138157304==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/dlmfs/dlmfs.c:140:2-5: WARNING: Use BUG_ON
-fs/ocfs2/dlmfs/dlmfs.c:187:2-5: WARNING: Use BUG_ON
+fs/cachefiles/interface.c:298:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,34 +41,21 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- dlmfs.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ interface.c |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
---- a/fs/ocfs2/dlmfs/dlmfs.c
-+++ b/fs/ocfs2/dlmfs/dlmfs.c
-@@ -136,8 +136,7 @@ static int dlmfs_file_open(struct inode
- 	struct dlmfs_filp_private *fp =3D NULL;
- 	struct dlmfs_inode_private *ip;
- =
-
--	if (S_ISDIR(inode->i_mode))
--		BUG();
-+	BUG_ON(S_ISDIR(inode->i_mode));
- =
-
- 	mlog(0, "open called on inode %lu, flags 0x%x\n", inode->i_ino,
- 		file->f_flags);
-@@ -183,8 +182,7 @@ static int dlmfs_file_release(struct ino
- 	struct dlmfs_inode_private *ip =3D DLMFS_I(inode);
- 	struct dlmfs_filp_private *fp =3D file->private_data;
- =
-
--	if (S_ISDIR(inode->i_mode))
--		BUG();
-+	BUG_ON(S_ISDIR(inode->i_mode));
- =
-
- 	mlog(0, "close called on inode %lu\n", inode->i_ino);
-=20
---===============2330561586309053864==--
+--- a/fs/cachefiles/interface.c
++++ b/fs/cachefiles/interface.c
+@@ -293,9 +293,7 @@ static void cachefiles_drop_object(struc
+ 	/* note that the object is now inactive */
+ 	if (test_bit(CACHEFILES_OBJECT_ACTIVE, &object->flags)) {
+ 		write_lock(&cache->active_lock);
+-		if (!test_and_clear_bit(CACHEFILES_OBJECT_ACTIVE,
+-					&object->flags))
+-			BUG();
++		BUG_ON(!test_and_clear_bit(CACHEFILES_OBJECT_ACTIVE, &object->flags));
+ 		rb_erase(&object->active_node, &cache->active_nodes);
+ 		wake_up_bit(&object->flags, CACHEFILES_OBJECT_ACTIVE);
+ 		write_unlock(&cache->active_lock);
+--===============9151316940138157304==--
 
