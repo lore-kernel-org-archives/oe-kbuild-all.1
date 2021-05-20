@@ -1,42 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============8893555028838995425=="
+Content-Type: multipart/mixed; boundary="===============4575576003853918001=="
 MIME-Version: 1.0
-From: Daniel Borkmann <daniel@iogearbox.net>
+From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: kbuild-all@lists.01.org
-Subject: Re: [linux-next:pending-fixes 118/395] extable.c:undefined reference to `arm64_bpf_fixup_exception'
-Date: Thu, 20 May 2021 23:57:43 +0200
-Message-ID: <020bb9c5-e029-80ef-aa01-784cb34e2b58@iogearbox.net>
-In-Reply-To: <202105191005.n805ieKd-lkp@intel.com>
+Subject: Re: [linux-next:master 3800/3829] net/netfilter/nft_set_pipapo_avx2.c:1135:10: error: implicit declaration of function 'nft_pipapo_lookup'; did you mean 'nft_pipapo_avx2_lookup'?
+Date: Fri, 21 May 2021 09:09:57 +1000
+Message-ID: <20210521090957.052ae180@canb.auug.org.au>
+In-Reply-To: <202105201202.KwssJTLc-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8893555028838995425==
+--===============4575576003853918001==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 5/19/21 4:20 AM, kernel test robot wrote:
+Hi all,
+
+On Thu, 20 May 2021 12:52:05 +0800 kernel test robot <lkp@intel.com> wrot=
+e:
+>
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it pending-fixes
-> head:   8bb1ba5daf09803b0c243a53d34f6ae1da8acc23
-> commit: b24abcff918a5cbf44b0c982bd3477a93e8e4911 [118/395] bpf, kconfig: =
-Add consolidated menu entry for bpf with core options
-> config: arm64-randconfig-r034-20210519 (attached as .config)
-> compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project ceb1=
-ac9812cb0972cfa34cecc5e5704ae2a22063)
+it master
+> head:   9f24705effef8c3b9eca00d70594ef7e0364a6da
+> commit: 3b4f9530977112ddf177282e396d0715dc60b9a3 [3800/3829] fix up for m=
+erge involving nft_pipapo_lookup()
+> config: x86_64-randconfig-a001-20210520 (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 > reproduce (this is a W=3D1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
-in/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # install arm64 cross compiling tool for clang build
->          # apt-get install binutils-aarch64-linux-gnu
->          # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-nex=
-t.git/commit/?id=3Db24abcff918a5cbf44b0c982bd3477a93e8e4911
->          git remote add linux-next https://git.kernel.org/pub/scm/linux/k=
-ernel/git/next/linux-next.git
->          git fetch --no-tags linux-next pending-fixes
->          git checkout b24abcff918a5cbf44b0c982bd3477a93e8e4911
->          # save the attached .config to linux build tree
->          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross A=
-RCH=3Darm64
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git/commit/?id=3D3b4f9530977112ddf177282e396d0715dc60b9a3
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 3b4f9530977112ddf177282e396d0715dc60b9a3
+>         # save the attached .config to linux build tree
+>         make W=3D1 ARCH=3Dx86_64 =
+
 > =
 
 > If you fix the issue, kindly add following tag as appropriate
@@ -46,22 +44,78 @@ RCH=3Darm64
 > All errors (new ones prefixed by >>):
 > =
 
->     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
->     aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
->     aarch64-linux-gnu-ld: arch/arm64/mm/extable.o: in function `fixup_exc=
-eption':
->>> extable.c:(.text+0x44): undefined reference to `arm64_bpf_fixup_excepti=
-on'
+>    net/netfilter/nft_set_pipapo_avx2.c: In function 'nft_pipapo_avx2_look=
+up':
+> >> net/netfilter/nft_set_pipapo_avx2.c:1135:10: error: implicit declarati=
+on of function 'nft_pipapo_lookup'; did you mean 'nft_pipapo_avx2_lookup'? =
+[-Werror=3Dimplicit-function-declaration]  =
 
-Reproduced, fixed and squashed into:
+>     1135 |   return nft_pipapo_lookup(net, set, key, ext);
+>          |          ^~~~~~~~~~~~~~~~~
+>          |          nft_pipapo_avx2_lookup
+>    cc1: some warnings being treated as errors
 
-https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/commit/?id=3D6b=
-dacdb48e94ff26c03c6eeeef48c03c5e2f7dd4
+This is caused by an incomplete merge resolution I did.  I will add the
+following to the merge resolution today;
 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
->=20
+diff --git a/include/net/netfilter/nf_tables_core.h b/include/net/netfilter=
+/nf_tables_core.h
+index 789e9eadd76d..8652b2514e57 100644
+--- a/include/net/netfilter/nf_tables_core.h
++++ b/include/net/netfilter/nf_tables_core.h
+@@ -89,6 +89,8 @@ extern const struct nft_set_type nft_set_bitmap_type;
+ extern const struct nft_set_type nft_set_pipapo_type;
+ extern const struct nft_set_type nft_set_pipapo_avx2_type;
+ =
 
---===============8893555028838995425==--
++bool nft_pipapo_lookup(const struct net *net, const struct nft_set *set,
++			    const u32 *key, const struct nft_set_ext **ext);
+ #ifdef CONFIG_RETPOLINE
+ bool nft_rhash_lookup(const struct net *net, const struct nft_set *set,
+ 		      const u32 *key, const struct nft_set_ext **ext);
+@@ -101,8 +103,6 @@ bool nft_hash_lookup_fast(const struct net *net,
+ 			  const u32 *key, const struct nft_set_ext **ext);
+ bool nft_hash_lookup(const struct net *net, const struct nft_set *set,
+ 		     const u32 *key, const struct nft_set_ext **ext);
+-bool nft_pipapo_lookup(const struct net *net, const struct nft_set *set,
+-			    const u32 *key, const struct nft_set_ext **ext);
+ bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
+ 		       const u32 *key, const struct nft_set_ext **ext);
+ #else
+diff --git a/net/netfilter/nft_set_pipapo.c b/net/netfilter/nft_set_pipapo.c
+index 9addc0b447f7..dce866d93fee 100644
+--- a/net/netfilter/nft_set_pipapo.c
++++ b/net/netfilter/nft_set_pipapo.c
+@@ -408,7 +408,6 @@ int pipapo_refill(unsigned long *map, int len, int rule=
+s, unsigned long *dst,
+  *
+  * Return: true on match, false otherwise.
+  */
+-INDIRECT_CALLABLE_SCOPE
+ bool nft_pipapo_lookup(const struct net *net, const struct nft_set *set,
+ 		       const u32 *key, const struct nft_set_ext **ext)
+ {
+
+-- =
+
+Cheers,
+Stephen Rothwell
+
+--===============4575576003853918001==
+Content-Type: application/pgp-signature
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="attachment.sig"
+
+LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KCmlRRXpCQUVCQ0FBZEZpRUVOSUM5NmdpWjgx
+dFdkTGdLQVZCQzgwbFgwR3dGQW1DbTdFVUFDZ2tRQVZCQzgwbFgKMEd6Qjl3ZitPNUhRNVJIcmVE
+V25lQUQxSDVXSmd1VllXSk1YWjk2eWVIdFY4OFJtY3FFdmY3cWN2NmJ5TDJvZApodnl5WWZKL3dH
+MlZWeXVaL3NFQkx2UURKM05QU1lXQnhld3FJUUNhVE5EVlJ6ODJaekpZMVo2V211Z0ZvMnpoCjFt
+UDYyN0YrNksxc3FwTyttTzUrUU5JNUhXdDVmaEtkQ1NINFhzQVdueXVla2xOUHhoWXJxanQ5RDg0
+K004QUMKZ2dTKzkyaU5uSXl3KzRpRG5YL25WTFA0UUxLdFBMWEdUZldmT00wOU8zWVU2U3JURVVE
+Zzk3TjR2ZVhTdDUrcApndlFpZjdxRmIrV0k5cjg4QzJ5UjROeEUwc1d1V1VwMkNhUHZDWE1yR1Jo
+MXRLVnN4ajlSWFczbjhrS0cyMENvCmlqMDNWNnljdkp2Q2JidWt6TmcyczZxTGxoS29HUT09Cj1N
+N3dqCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQo=
+
+--===============4575576003853918001==--
 
