@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============2447910708266391821=="
+Content-Type: multipart/mixed; boundary="===============2616765870525942846=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix returnvar.cocci warnings
-Date: Fri, 21 May 2021 02:28:21 +0800
-Message-ID: <20210520182821.GA64103@ad678c5af442>
+Date: Fri, 21 May 2021 02:28:43 +0800
+Message-ID: <20210520182843.GA66067@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2447910708266391821==
+--===============2616765870525942846==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/dccp/proto.c:263:5-8: Unneeded variable: "err". Return "0" on line 307
+net/sunrpc/xprtsock.c:2042:5-8: Unneeded variable: "err". Return "0" on lin=
+e 2052
 
 
  Removes unneeded variable used to store return value.
@@ -34,30 +35,29 @@ port YYLOC global declaration
 :::::: branch date: 5 weeks ago
 :::::: commit date: 3 months ago
 
- proto.c |    3 +--
+ xprtsock.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/dccp/proto.c
-+++ b/net/dccp/proto.c
-@@ -260,7 +260,6 @@ int dccp_disconnect(struct sock *sk, int
- 	struct inet_connection_sock *icsk =3D inet_csk(sk);
- 	struct inet_sock *inet =3D inet_sk(sk);
- 	struct dccp_sock *dp =3D dccp_sk(sk);
+--- a/net/sunrpc/xprtsock.c
++++ b/net/sunrpc/xprtsock.c
+@@ -2039,7 +2039,6 @@ int xs_swapper(struct rpc_xprt *xprt, in
+ {
+ 	struct sock_xprt *transport =3D container_of(xprt, struct sock_xprt,
+ 			xprt);
 -	int err =3D 0;
- 	const int old_state =3D sk->sk_state;
  =
 
- 	if (old_state !=3D DCCP_CLOSED)
-@@ -304,7 +303,7 @@ int dccp_disconnect(struct sock *sk, int
- 	WARN_ON(inet->inet_num && !icsk->icsk_bind_hash);
+ 	if (enable) {
+ 		xprt->swapper++;
+@@ -2049,7 +2048,7 @@ int xs_swapper(struct rpc_xprt *xprt, in
+ 		sk_clear_memalloc(transport->inet);
+ 	}
  =
 
- 	sk->sk_error_report(sk);
 -	return err;
 +	return 0;
  }
- =
-
- EXPORT_SYMBOL_GPL(dccp_disconnect);
---===============2447910708266391821==--
+ EXPORT_SYMBOL_GPL(xs_swapper);
+ #else
+--===============2616765870525942846==--
 
