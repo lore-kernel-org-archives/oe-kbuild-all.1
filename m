@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============4338730924381962898=="
+Content-Type: multipart/mixed; boundary="===============2330561586309053864=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:22 +0800
-Message-ID: <20210520182422.GA42007@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:08 +0800
+Message-ID: <20210520182408.GA40534@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4338730924381962898==
+--===============2330561586309053864==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/dlm/dlmthread.c:191:4-7: WARNING: Use BUG_ON
+fs/ocfs2/dlmfs/dlmfs.c:140:2-5: WARNING: Use BUG_ON
+fs/ocfs2/dlmfs/dlmfs.c:187:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,20 +42,34 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- dlmthread.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ dlmfs.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/fs/ocfs2/dlm/dlmthread.c
-+++ b/fs/ocfs2/dlm/dlmthread.c
-@@ -187,8 +187,7 @@ static void dlm_purge_lockres(struct dlm
- 		/* clear our bit from the master's refmap, ignore errors */
- 		ret =3D dlm_drop_lockres_ref(dlm, res);
- 		if (ret < 0) {
--			if (!dlm_is_host_down(ret))
--				BUG();
-+			BUG_ON(!dlm_is_host_down(ret));
- 		}
- 		spin_lock(&dlm->spinlock);
- 		spin_lock(&res->spinlock);
---===============4338730924381962898==--
+--- a/fs/ocfs2/dlmfs/dlmfs.c
++++ b/fs/ocfs2/dlmfs/dlmfs.c
+@@ -136,8 +136,7 @@ static int dlmfs_file_open(struct inode
+ 	struct dlmfs_filp_private *fp =3D NULL;
+ 	struct dlmfs_inode_private *ip;
+ =
+
+-	if (S_ISDIR(inode->i_mode))
+-		BUG();
++	BUG_ON(S_ISDIR(inode->i_mode));
+ =
+
+ 	mlog(0, "open called on inode %lu, flags 0x%x\n", inode->i_ino,
+ 		file->f_flags);
+@@ -183,8 +182,7 @@ static int dlmfs_file_release(struct ino
+ 	struct dlmfs_inode_private *ip =3D DLMFS_I(inode);
+ 	struct dlmfs_filp_private *fp =3D file->private_data;
+ =
+
+-	if (S_ISDIR(inode->i_mode))
+-		BUG();
++	BUG_ON(S_ISDIR(inode->i_mode));
+ =
+
+ 	mlog(0, "close called on inode %lu\n", inode->i_ino);
+=20
+--===============2330561586309053864==--
 
