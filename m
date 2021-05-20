@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============2199330902378423919=="
+Content-Type: multipart/mixed; boundary="===============1435860030109387530=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:47 +0800
-Message-ID: <20210520182647.GA55755@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:53 +0800
+Message-ID: <20210520182653.GA56246@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2199330902378423919==
+--===============1435860030109387530==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/xfrm/xfrm_policy.c:310:2-5: WARNING: Use BUG_ON
+drivers/media/usb/zr364xx/zr364xx.c:381:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- xfrm_policy.c |    3 +--
+ zr364xx.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/xfrm/xfrm_policy.c
-+++ b/net/xfrm/xfrm_policy.c
-@@ -306,8 +306,7 @@ void xfrm_policy_destroy(struct xfrm_pol
+--- a/drivers/media/usb/zr364xx/zr364xx.c
++++ b/drivers/media/usb/zr364xx/zr364xx.c
+@@ -377,8 +377,7 @@ static void free_buffer(struct videobuf_
  {
- 	BUG_ON(!policy->walk.dead);
+ 	_DBG("%s\n", __func__);
  =
 
--	if (del_timer(&policy->timer) || del_timer(&policy->polq.hold_timer))
+-	if (in_interrupt())
 -		BUG();
-+	BUG_ON(del_timer(&policy->timer) || del_timer(&policy->polq.hold_timer));
++	BUG_ON(in_interrupt());
  =
 
- 	security_xfrm_policy_free(policy->security);
- 	kfree(policy);
---===============2199330902378423919==--
+ 	videobuf_vmalloc_free(&buf->vb);
+ 	buf->vb.state =3D VIDEOBUF_NEEDS_INIT;
+--===============1435860030109387530==--
 
