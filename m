@@ -1,27 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============5843644287237642953=="
+Content-Type: multipart/mixed; boundary="===============9215408282115578382=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:05 +0800
-Message-ID: <20210520182505.GA46426@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:01 +0800
+Message-ID: <20210520182500.GA45935@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5843644287237642953==
+--===============9215408282115578382==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/reiserfs/journal.c:1112:3-6: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:1397:2-5: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:742:3-6: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:654:2-5: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:656:2-5: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:666:2-5: WARNING: Use BUG_ON
-fs/reiserfs/journal.c:1666:5-8: WARNING: Use BUG_ON
+net/ipv4/ip_output.c:712:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -47,81 +41,21 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- journal.c |   23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ ip_output.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/reiserfs/journal.c
-+++ b/fs/reiserfs/journal.c
-@@ -650,10 +650,8 @@ static void submit_logged_buffer(struct
- 	bh->b_end_io =3D reiserfs_end_buffer_io_sync;
- 	clear_buffer_journal_new(bh);
- 	clear_buffer_dirty(bh);
--	if (!test_clear_buffer_journal_test(bh))
--		BUG();
--	if (!buffer_uptodate(bh))
--		BUG();
-+	BUG_ON(!test_clear_buffer_journal_test(bh));
-+	BUG_ON(!buffer_uptodate(bh));
- 	submit_bh(WRITE, bh);
- }
- =
-
-@@ -662,8 +660,7 @@ static void submit_ordered_buffer(struct
- 	get_bh(bh);
- 	bh->b_end_io =3D reiserfs_end_ordered_io;
- 	clear_buffer_dirty(bh);
--	if (!buffer_uptodate(bh))
--		BUG();
-+	BUG_ON(!buffer_uptodate(bh));
- 	submit_bh(WRITE, bh);
- }
- =
-
-@@ -738,8 +735,7 @@ void reiserfs_free_jh(struct buffer_head
- 		jh->bh =3D NULL;
- 		list_del_init(&jh->list);
- 		kfree(jh);
--		if (atomic_read(&nr_reiserfs_jh) <=3D 0)
+--- a/net/ipv4/ip_output.c
++++ b/net/ipv4/ip_output.c
+@@ -708,8 +708,7 @@ slow_path:
+ 		/*
+ 		 *	Copy a block of the IP datagram.
+ 		 */
+-		if (skb_copy_bits(skb, ptr, skb_transport_header(skb2), len))
 -			BUG();
-+		BUG_ON(atomic_read(&nr_reiserfs_jh) <=3D 0);
- 		atomic_dec(&nr_reiserfs_jh);
- 		put_bh(bh);
- 	}
-@@ -1108,8 +1104,7 @@ static int flush_commit_list(struct supe
- 	 * the file system.
- 	 */
- 	if (likely(!retval && !reiserfs_is_journal_aborted (journal))) {
--		if (buffer_dirty(jl->j_commit_bh))
--			BUG();
-+		BUG_ON(buffer_dirty(jl->j_commit_bh));
- 		mark_buffer_dirty(jl->j_commit_bh) ;
- 		depth =3D reiserfs_write_unlock_nested(s);
- 		if (reiserfs_barrier_flush(s))
-@@ -1392,9 +1387,7 @@ static int flush_journal_list(struct sup
- 	 */
- 	flush_commit_list(s, jl, 1);
++		BUG_ON(skb_copy_bits(skb, ptr, skb_transport_header(skb2), len));
+ 		left -=3D len;
  =
 
--	if (!(jl->j_state & LIST_DIRTY)
--	    && !reiserfs_is_journal_aborted(journal))
--		BUG();
-+	BUG_ON(!(jl->j_state & LIST_DIRTY) && !reiserfs_is_journal_aborted(journa=
-l));
- =
-
- 	/* are we done now? */
- 	if (atomic_read(&jl->j_nonzerolen) <=3D 0 &&
-@@ -1661,9 +1654,7 @@ static int write_one_transaction(struct
- 			get_bh(tmp_bh);
- 			lock_buffer(tmp_bh);
- 			if (cn->bh && can_dirty(cn) && buffer_dirty(tmp_bh)) {
--				if (!buffer_journal_dirty(tmp_bh) ||
--				    buffer_journal_prepared(tmp_bh))
--					BUG();
-+				BUG_ON(!buffer_journal_dirty(tmp_bh) || buffer_journal_prepared(tmp_bh=
-));
- 				add_to_chunk(chunk, tmp_bh, NULL, write_chunk);
- 				ret++;
- 			} else {
---===============5843644287237642953==--
+ 		/*
+--===============9215408282115578382==--
 
