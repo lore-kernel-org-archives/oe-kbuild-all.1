@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============8818420664933748939=="
+Content-Type: multipart/mixed; boundary="===============8114832835066394870=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:03 +0800
-Message-ID: <20210520182403.GA40043@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:17 +0800
+Message-ID: <20210520182417.GA41516@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8818420664933748939==
+--===============8114832835066394870==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/ipv4/devinet.c:1687:2-5: WARNING: Use BUG_ON
+fs/ocfs2/dlm/dlmrecovery.c:1634:4-7: WARNING: Use BUG_ON
+fs/ocfs2/dlm/dlmrecovery.c:1338:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +42,30 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- devinet.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ dlmrecovery.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/net/ipv4/devinet.c
-+++ b/net/ipv4/devinet.c
-@@ -1683,8 +1683,7 @@ static int inet_set_link_af(struct net_d
- 	if (!in_dev)
- 		return -EAFNOSUPPORT;
- =
-
--	if (nla_parse_nested(tb, IFLA_INET_MAX, nla, NULL) < 0)
+--- a/fs/ocfs2/dlm/dlmrecovery.c
++++ b/fs/ocfs2/dlm/dlmrecovery.c
+@@ -1334,8 +1334,7 @@ int dlm_send_one_lockres(struct dlm_ctxt
+ error:
+ 	mlog(ML_ERROR, "%s: dlm_send_mig_lockres_msg returned %d\n",
+ 	     dlm->name, ret);
+-	if (!dlm_is_host_down(ret))
 -		BUG();
-+	BUG_ON(nla_parse_nested(tb, IFLA_INET_MAX, nla, NULL) < 0);
- =
-
- 	if (tb[IFLA_INET_CONF]) {
- 		nla_for_each_nested(a, tb[IFLA_INET_CONF], rem)
---===============8818420664933748939==--
++	BUG_ON(!dlm_is_host_down(ret));
+ 	mlog(0, "%s: node %u went down while sending %s "
+ 	     "lockres %.*s\n", dlm->name, send_to,
+ 	     flags & DLM_MRES_RECOVERY ?  "recovery" : "migration",
+@@ -1630,8 +1629,7 @@ static int dlm_lockres_master_requery(st
+ 		ret =3D dlm_do_master_requery(dlm, res, nodenum, real_master);
+ 		if (ret < 0) {
+ 			mlog_errno(ret);
+-			if (!dlm_is_host_down(ret))
+-				BUG();
++			BUG_ON(!dlm_is_host_down(ret));
+ 			/* host is down, so answer for that node would be
+ 			 * DLM_LOCK_RES_OWNER_UNKNOWN.  continue. */
+ 		}
+--===============8114832835066394870==--
 
