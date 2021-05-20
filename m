@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============7324339900964698548=="
+Content-Type: multipart/mixed; boundary="===============4459703942733156550=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:03 +0800
-Message-ID: <20210520182603.GA51827@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:30 +0800
+Message-ID: <20210520182530.GA48881@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7324339900964698548==
+--===============4459703942733156550==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-mm/slab.c:1474:3-6: WARNING: Use BUG_ON
+net/ipv4/ping.c:613:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +41,21 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- slab.c |    3 +--
+ ping.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -1470,8 +1470,7 @@ void __init kmem_cache_init_late(void)
- 	/* 6) resize the head arrays to their final sizes */
- 	mutex_lock(&slab_mutex);
- 	list_for_each_entry(cachep, &slab_caches, list)
--		if (enable_cpucache(cachep, GFP_NOWAIT))
--			BUG();
-+		BUG_ON(enable_cpucache(cachep, GFP_NOWAIT));
- 	mutex_unlock(&slab_mutex);
+--- a/net/ipv4/ping.c
++++ b/net/ipv4/ping.c
+@@ -609,8 +609,7 @@ int ping_getfrag(void *from, char *to,
+ 	struct pingfakehdr *pfh =3D (struct pingfakehdr *)from;
  =
 
- 	/* Done! */
---===============7324339900964698548==--
+ 	if (offset =3D=3D 0) {
+-		if (fraglen < sizeof(struct icmphdr))
+-			BUG();
++		BUG_ON(fraglen < sizeof(struct icmphdr));
+ 		if (csum_partial_copy_fromiovecend(to + sizeof(struct icmphdr),
+ 			    pfh->iov, 0, fraglen - sizeof(struct icmphdr),
+ 			    &pfh->wcheck))
+--===============4459703942733156550==--
 
