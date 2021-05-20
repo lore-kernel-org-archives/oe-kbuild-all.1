@@ -1,21 +1,24 @@
-Content-Type: multipart/mixed; boundary="===============0596403699057120063=="
+Content-Type: multipart/mixed; boundary="===============5464931691940403706=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:47 +0800
-Message-ID: <20210520182447.GA44462@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:32 +0800
+Message-ID: <20210520182432.GA42989@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0596403699057120063==
+--===============5464931691940403706==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ext4/inline.c:997:3-6: WARNING: Use BUG_ON
+fs/afs/flock.c:243:2-5: WARNING: Use BUG_ON
+fs/afs/flock.c:245:2-5: WARNING: Use BUG_ON
+fs/afs/flock.c:143:3-6: WARNING: Use BUG_ON
+fs/afs/flock.c:177:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,23 +44,47 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- inline.c |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ flock.c |   13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
---- a/fs/ext4/inline.c
-+++ b/fs/ext4/inline.c
-@@ -992,9 +992,7 @@ void ext4_show_inline_dir(struct inode *
- 		trace_printk("de: off %u rlen %u name %*.s nlen %u ino %u\n",
- 			     offset, de_len, de->name_len, de->name,
- 			     de->name_len, le32_to_cpu(de->inode));
--		if (ext4_check_dir_entry(dir, NULL, de, bh,
--					 inline_start, inline_size, offset))
--			BUG();
-+		BUG_ON(ext4_check_dir_entry(dir, NULL, de, bh, inline_start, inline_size=
-, offset));
+--- a/fs/afs/flock.c
++++ b/fs/afs/flock.c
+@@ -139,8 +139,7 @@ void afs_lock_work(struct work_struct *w
+ 	if (!list_empty(&vnode->granted_locks)) {
+ 		_debug("extend");
  =
 
- 		offset +=3D de_len;
- 		de =3D (struct ext4_dir_entry_2 *) ((char *) de + de_len);
---===============0596403699057120063==--
+-		if (test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags))
+-			BUG();
++		BUG_ON(test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags));
+ 		fl =3D list_entry(vnode->granted_locks.next,
+ 				struct file_lock, fl_u.afs.link);
+ 		key =3D key_get(fl->fl_file->private_data);
+@@ -173,8 +172,7 @@ void afs_lock_work(struct work_struct *w
+ 	if (!list_empty(&vnode->pending_locks)) {
+ 		_debug("get");
+ =
+
+-		if (test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags))
+-			BUG();
++		BUG_ON(test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags));
+ 		fl =3D list_entry(vnode->pending_locks.next,
+ 				struct file_lock, fl_u.afs.link);
+ 		key =3D key_get(fl->fl_file->private_data);
+@@ -238,11 +236,8 @@ void afs_lock_work(struct work_struct *w
+ static void afs_defer_unlock(struct afs_vnode *vnode, struct key *key)
+ {
+ 	cancel_delayed_work(&vnode->lock_work);
+-	if (!test_and_clear_bit(AFS_VNODE_READLOCKED, &vnode->flags) &&
+-	    !test_and_clear_bit(AFS_VNODE_WRITELOCKED, &vnode->flags))
+-		BUG();
+-	if (test_and_set_bit(AFS_VNODE_UNLOCKING, &vnode->flags))
+-		BUG();
++	BUG_ON(!test_and_clear_bit(AFS_VNODE_READLOCKED, &vnode->flags) && !test_=
+and_clear_bit(AFS_VNODE_WRITELOCKED, &vnode->flags));
++	BUG_ON(test_and_set_bit(AFS_VNODE_UNLOCKING, &vnode->flags));
+ 	vnode->unlock_key =3D key_get(key);
+ 	afs_lock_may_be_available(vnode);
+ }
+--===============5464931691940403706==--
 
