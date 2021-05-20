@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============0285753827900966305=="
+Content-Type: multipart/mixed; boundary="===============7383724877938661663=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:27 +0800
-Message-ID: <20210520182427.GA42498@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:25 +0800
+Message-ID: <20210520182525.GA48390@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0285753827900966305==
+--===============7383724877938661663==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/ipv4/esp4.c:295:2-5: WARNING: Use BUG_ON
+drivers/usb/host/oxu210hp-hcd.c:398:2-5: WARNING: Use BUG_ON
+drivers/usb/host/oxu210hp-hcd.c:1714:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +42,36 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- esp4.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ oxu210hp-hcd.c |    7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
---- a/net/ipv4/esp4.c
-+++ b/net/ipv4/esp4.c
-@@ -291,8 +291,7 @@ static int esp_input_done2(struct sk_buf
- 	if (unlikely(err))
- 		goto out;
+--- a/drivers/usb/host/oxu210hp-hcd.c
++++ b/drivers/usb/host/oxu210hp-hcd.c
+@@ -394,8 +394,7 @@ static void ehci_quiesce(struct oxu_hcd
+ 	u32	temp;
  =
 
--	if (skb_copy_bits(skb, skb->len-alen-2, nexthdr, 2))
+ #ifdef DEBUG
+-	if (!HC_IS_RUNNING(oxu_to_hcd(oxu)->state))
 -		BUG();
-+	BUG_ON(skb_copy_bits(skb, skb->len - alen - 2, nexthdr, 2));
++	BUG_ON(!HC_IS_RUNNING(oxu_to_hcd(oxu)->state));
+ #endif
  =
 
- 	err =3D -EINVAL;
- 	padlen =3D nexthdr[0];
---===============0285753827900966305==--
+ 	/* wait for any schedule enables/disables to take effect */
+@@ -1709,9 +1708,7 @@ static void start_unlink_async(struct ox
+ =
+
+ #ifdef DEBUG
+ 	assert_spin_locked(&oxu->lock);
+-	if (oxu->reclaim || (qh->qh_state !=3D QH_STATE_LINKED
+-				&& qh->qh_state !=3D QH_STATE_UNLINK_WAIT))
+-		BUG();
++	BUG_ON(oxu->reclaim || (qh->qh_state !=3D QH_STATE_LINKED && qh->qh_state=
+ !=3D QH_STATE_UNLINK_WAIT));
+ #endif
+ =
+
+ 	/* stop async schedule right now? */
+--===============7383724877938661663==--
 
