@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============2251308433522191516=="
+Content-Type: multipart/mixed; boundary="===============3842360492336553550=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:27 +0800
-Message-ID: <20210520182327.GA36606@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:58 +0800
+Message-ID: <20210520182358.GA39552@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2251308433522191516==
+--===============3842360492336553550==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/rxrpc/ar-accept.c:381:2-5: WARNING: Use BUG_ON
-net/rxrpc/ar-accept.c:383:2-5: WARNING: Use BUG_ON
+mm/balloon_compaction.c:99:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,24 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ar-accept.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ balloon_compaction.c |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
---- a/net/rxrpc/ar-accept.c
-+++ b/net/rxrpc/ar-accept.c
-@@ -377,10 +377,8 @@ struct rxrpc_call *rxrpc_accept_call(str
- 	call->user_call_ID =3D user_call_ID;
- 	rb_link_node(&call->sock_node, parent, pp);
- 	rb_insert_color(&call->sock_node, &rx->calls);
--	if (test_and_set_bit(RXRPC_CALL_HAS_USERID, &call->flags))
--		BUG();
--	if (test_and_set_bit(RXRPC_CALL_ACCEPTED, &call->events))
--		BUG();
-+	BUG_ON(test_and_set_bit(RXRPC_CALL_HAS_USERID, &call->flags));
-+	BUG_ON(test_and_set_bit(RXRPC_CALL_ACCEPTED, &call->events));
- 	rxrpc_queue_call(call);
- =
-
- 	rxrpc_get_call(call);
---===============2251308433522191516==--
+--- a/mm/balloon_compaction.c
++++ b/mm/balloon_compaction.c
+@@ -94,9 +94,7 @@ struct page *balloon_page_dequeue(struct
+ 		 * an infinite loop while attempting to release all its pages.
+ 		 */
+ 		spin_lock_irqsave(&b_dev_info->pages_lock, flags);
+-		if (unlikely(list_empty(&b_dev_info->pages) &&
+-			     !b_dev_info->isolated_pages))
+-			BUG();
++		BUG_ON(unlikely(list_empty(&b_dev_info->pages) && !b_dev_info->isolated_=
+pages));
+ 		spin_unlock_irqrestore(&b_dev_info->pages_lock, flags);
+ 		page =3D NULL;
+ 	}
+--===============3842360492336553550==--
 
