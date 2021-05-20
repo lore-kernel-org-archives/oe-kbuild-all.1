@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============0228551704699036428=="
+Content-Type: multipart/mixed; boundary="===============5040592574233162984=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:09 +0800
-Message-ID: <20210520182609.GA52318@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:14 +0800
+Message-ID: <20210520182614.GA52809@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0228551704699036428==
+--===============5040592574233162984==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/sunrpc/svc_xprt.c:931:2-5: WARNING: Use BUG_ON
+net/ipv4/tcp_input.c:4658:5-8: WARNING: Use BUG_ON
+net/ipv4/tcp_input.c:4997:4-7: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +42,30 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- svc_xprt.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tcp_input.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/net/sunrpc/svc_xprt.c
-+++ b/net/sunrpc/svc_xprt.c
-@@ -927,8 +927,7 @@ static void svc_delete_xprt(struct svc_x
- 	struct svc_deferred_req *dr;
- =
-
- 	/* Only do this once */
--	if (test_and_set_bit(XPT_DEAD, &xprt->xpt_flags))
--		BUG();
-+	BUG_ON(test_and_set_bit(XPT_DEAD, &xprt->xpt_flags));
- =
-
- 	dprintk("svc: svc_delete_xprt(%p)\n", xprt);
- 	xprt->xpt_ops->xpo_detach(xprt);
---===============0228551704699036428==--
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -4654,8 +4654,7 @@ restart:
+ 			BUG_ON(offset < 0);
+ 			if (size > 0) {
+ 				size =3D min(copy, size);
+-				if (skb_copy_bits(skb, offset, skb_put(nskb, size), size))
+-					BUG();
++				BUG_ON(skb_copy_bits(skb, offset, skb_put(nskb, size), size));
+ 				TCP_SKB_CB(nskb)->end_seq +=3D size;
+ 				copy -=3D size;
+ 				start +=3D size;
+@@ -4993,8 +4992,7 @@ static void tcp_urg(struct sock *sk, str
+ 		/* Is the urgent pointer pointing into this packet? */
+ 		if (ptr < skb->len) {
+ 			u8 tmp;
+-			if (skb_copy_bits(skb, ptr, &tmp, 1))
+-				BUG();
++			BUG_ON(skb_copy_bits(skb, ptr, &tmp, 1));
+ 			tp->urg_data =3D TCP_URG_VALID | tmp;
+ 			if (!sock_flag(sk, SOCK_DEAD))
+ 				sk->sk_data_ready(sk);
+--===============5040592574233162984==--
 
