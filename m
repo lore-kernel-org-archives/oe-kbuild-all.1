@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============2505176943254739411=="
+Content-Type: multipart/mixed; boundary="===============6744983752295117369=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:14 +0800
-Message-ID: <20210520182514.GA47408@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:41 +0800
+Message-ID: <20210520182541.GA49863@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============2505176943254739411==
+--===============6744983752295117369==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ntfs/mft.c:590:4-7: WARNING: Use BUG_ON
-fs/ntfs/mft.c:783:3-6: WARNING: Use BUG_ON
+net/core/rtnetlink.c:1752:4-7: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,32 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- mft.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ rtnetlink.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/ntfs/mft.c
-+++ b/fs/ntfs/mft.c
-@@ -586,8 +586,7 @@ int ntfs_sync_mft_mirror(ntfs_volume *vo
- 		for (i_bhs =3D 0; i_bhs < nr_bhs; i_bhs++) {
- 			struct buffer_head *tbh =3D bhs[i_bhs];
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -1748,8 +1748,7 @@ static int do_setlink(const struct sk_bu
+ 		nla_for_each_nested(af, tb[IFLA_AF_SPEC], rem) {
+ 			const struct rtnl_af_ops *af_ops;
  =
 
--			if (!trylock_buffer(tbh))
+-			if (!(af_ops =3D rtnl_af_lookup(nla_type(af))))
 -				BUG();
-+			BUG_ON(!trylock_buffer(tbh));
- 			BUG_ON(!buffer_uptodate(tbh));
- 			clear_buffer_dirty(tbh);
- 			get_bh(tbh);
-@@ -779,8 +778,7 @@ int write_mft_record_nolock(ntfs_inode *
- 	for (i_bhs =3D 0; i_bhs < nr_bhs; i_bhs++) {
- 		struct buffer_head *tbh =3D bhs[i_bhs];
++			BUG_ON(!(af_ops =3D rtnl_af_lookup(nla_type(af))));
  =
 
--		if (!trylock_buffer(tbh))
--			BUG();
-+		BUG_ON(!trylock_buffer(tbh));
- 		BUG_ON(!buffer_uptodate(tbh));
- 		clear_buffer_dirty(tbh);
- 		get_bh(tbh);
---===============2505176943254739411==--
+ 			err =3D af_ops->set_link_af(dev, af);
+ 			if (err < 0)
+--===============6744983752295117369==--
 
