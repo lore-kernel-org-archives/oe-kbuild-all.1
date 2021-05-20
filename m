@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============6215593987801767528=="
+Content-Type: multipart/mixed; boundary="===============0228551704699036428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:25 +0800
-Message-ID: <20210520182625.GA53791@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:09 +0800
+Message-ID: <20210520182609.GA52318@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6215593987801767528==
+--===============0228551704699036428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/jbd2/transaction.c:2217:2-5: WARNING: Use BUG_ON
+net/sunrpc/svc_xprt.c:931:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- transaction.c |    3 +--
+ svc_xprt.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/jbd2/transaction.c
-+++ b/fs/jbd2/transaction.c
-@@ -2213,8 +2213,7 @@ int jbd2_journal_invalidatepage(journal_
- 	int may_free =3D 1;
- 	int ret =3D 0;
+--- a/net/sunrpc/svc_xprt.c
++++ b/net/sunrpc/svc_xprt.c
+@@ -927,8 +927,7 @@ static void svc_delete_xprt(struct svc_x
+ 	struct svc_deferred_req *dr;
  =
 
--	if (!PageLocked(page))
+ 	/* Only do this once */
+-	if (test_and_set_bit(XPT_DEAD, &xprt->xpt_flags))
 -		BUG();
-+	BUG_ON(!PageLocked(page));
- 	if (!page_has_buffers(page))
- 		return 0;
-=20
---===============6215593987801767528==--
++	BUG_ON(test_and_set_bit(XPT_DEAD, &xprt->xpt_flags));
+ =
+
+ 	dprintk("svc: svc_delete_xprt(%p)\n", xprt);
+ 	xprt->xpt_ops->xpo_detach(xprt);
+--===============0228551704699036428==--
 
