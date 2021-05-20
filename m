@@ -1,23 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============0541999593902095861=="
+Content-Type: multipart/mixed; boundary="===============3803846890093400054=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:10 +0800
-Message-ID: <20210520182510.GA46917@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:19 +0800
+Message-ID: <20210520182519.GA47899@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0541999593902095861==
+--===============3803846890093400054==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/journal.c:955:2-5: WARNING: Use BUG_ON
-fs/ocfs2/journal.c:1613:3-6: WARNING: Use BUG_ON
-fs/ocfs2/journal.c:1643:2-5: WARNING: Use BUG_ON
+fs/ocfs2/namei.c:1223:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -43,44 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- journal.c |    9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ namei.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/ocfs2/journal.c
-+++ b/fs/ocfs2/journal.c
-@@ -951,8 +951,7 @@ void ocfs2_journal_shutdown(struct ocfs2
- 		goto done;
+--- a/fs/ocfs2/namei.c
++++ b/fs/ocfs2/namei.c
+@@ -1219,8 +1219,7 @@ static int ocfs2_rename(struct inode *ol
+ 	osb =3D OCFS2_SB(old_dir->i_sb);
  =
 
- 	/* need to inc inode use count - jbd2_journal_destroy will iput. */
--	if (!igrab(inode))
--		BUG();
-+	BUG_ON(!igrab(inode));
- =
-
- 	num_running_trans =3D atomic_read(&(osb->journal->j_num_trans));
- 	trace_ocfs2_journal_shutdown(num_running_trans);
-@@ -1609,8 +1608,7 @@ static int ocfs2_replay_journal(struct o
- 	status =3D jbd2_journal_load(journal);
- 	if (status < 0) {
- 		mlog_errno(status);
--		if (!igrab(inode))
+ 	if (new_inode) {
+-		if (!igrab(new_inode))
 -			BUG();
-+		BUG_ON(!igrab(inode));
- 		jbd2_journal_destroy(journal);
- 		goto done;
++		BUG_ON(!igrab(new_inode));
  	}
-@@ -1639,8 +1637,7 @@ static int ocfs2_replay_journal(struct o
- 	if (status < 0)
- 		mlog_errno(status);
  =
 
--	if (!igrab(inode))
--		BUG();
-+	BUG_ON(!igrab(inode));
- =
-
- 	jbd2_journal_destroy(journal);
-=20
---===============0541999593902095861==--
+ 	/* Assume a directory hierarchy thusly:
+--===============3803846890093400054==--
 
