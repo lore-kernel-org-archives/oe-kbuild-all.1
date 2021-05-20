@@ -1,21 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============8649062412086941029=="
+Content-Type: multipart/mixed; boundary="===============6108761129691999824=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:48 +0800
-Message-ID: <20210520182348.GA38570@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:11 +0800
+Message-ID: <20210520182311.GA35133@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8649062412086941029==
+--===============6108761129691999824==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/rxrpc/ar-key.c:847:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:950:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:967:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:3227:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:3243:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:3440:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:3463:2-5: WARNING: Use BUG_ON
+net/key/af_key.c:2117:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +47,92 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ar-key.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ af_key.c |   24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
---- a/net/rxrpc/ar-key.c
-+++ b/net/rxrpc/ar-key.c
-@@ -843,8 +843,7 @@ static int rxrpc_preparse_s(struct key_p
- 		return PTR_ERR(ci);
- 	}
- =
-
--	if (crypto_blkcipher_setkey(ci, prep->data, 8) < 0)
+--- a/net/key/af_key.c
++++ b/net/key/af_key.c
+@@ -946,8 +946,7 @@ static struct sk_buff *__pfkey_xfrm_stat
+ 		pfkey_sockaddr_fill(&x->props.saddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
 -		BUG();
-+	BUG_ON(crypto_blkcipher_setkey(ci, prep->data, 8) < 0);
++	BUG_ON(!addr->sadb_address_prefixlen);
  =
 
- 	prep->payload[0] =3D ci;
- 	_leave(" =3D 0");
---===============8649062412086941029==--
+ 	/* dst address */
+ 	addr =3D (struct sadb_address*) skb_put(skb,
+@@ -963,8 +962,7 @@ static struct sk_buff *__pfkey_xfrm_stat
+ 		pfkey_sockaddr_fill(&x->id.daddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
+-		BUG();
++	BUG_ON(!addr->sadb_address_prefixlen);
+ =
+
+ 	if (!xfrm_addr_equal(&x->sel.saddr, &x->props.saddr,
+ 			     x->props.family)) {
+@@ -2110,11 +2108,7 @@ static int pfkey_xfrm_policy2msg(struct
+ 	addr->sadb_address_proto =3D pfkey_proto_from_xfrm(xp->selector.proto);
+ 	addr->sadb_address_prefixlen =3D xp->selector.prefixlen_s;
+ 	addr->sadb_address_reserved =3D 0;
+-	if (!pfkey_sockaddr_fill(&xp->selector.saddr,
+-				 xp->selector.sport,
+-				 (struct sockaddr *) (addr + 1),
+-				 xp->family))
+-		BUG();
++	BUG_ON(!pfkey_sockaddr_fill(&xp->selector.saddr, xp->selector.sport, (str=
+uct sockaddr *)(addr + 1), xp->family));
+ =
+
+ 	/* dst address */
+ 	addr =3D (struct sadb_address*) skb_put(skb,
+@@ -3223,8 +3217,7 @@ static int pfkey_send_acquire(struct xfr
+ 		pfkey_sockaddr_fill(&x->props.saddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
+-		BUG();
++	BUG_ON(!addr->sadb_address_prefixlen);
+ =
+
+ 	/* dst address */
+ 	addr =3D (struct sadb_address*) skb_put(skb,
+@@ -3239,8 +3232,7 @@ static int pfkey_send_acquire(struct xfr
+ 		pfkey_sockaddr_fill(&x->id.daddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
+-		BUG();
++	BUG_ON(!addr->sadb_address_prefixlen);
+ =
+
+ 	pol =3D (struct sadb_x_policy *)  skb_put(skb, sizeof(struct sadb_x_polic=
+y));
+ 	pol->sadb_x_policy_len =3D sizeof(struct sadb_x_policy)/sizeof(uint64_t);
+@@ -3436,8 +3428,7 @@ static int pfkey_send_new_mapping(struct
+ 		pfkey_sockaddr_fill(&x->props.saddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
+-		BUG();
++	BUG_ON(!addr->sadb_address_prefixlen);
+ =
+
+ 	/* NAT_T_SPORT (old port) */
+ 	n_port =3D (struct sadb_x_nat_t_port*) skb_put(skb, sizeof (*n_port));
+@@ -3459,8 +3450,7 @@ static int pfkey_send_new_mapping(struct
+ 		pfkey_sockaddr_fill(ipaddr, 0,
+ 				    (struct sockaddr *) (addr + 1),
+ 				    x->props.family);
+-	if (!addr->sadb_address_prefixlen)
+-		BUG();
++	BUG_ON(!addr->sadb_address_prefixlen);
+ =
+
+ 	/* NAT_T_DPORT (new port) */
+ 	n_port =3D (struct sadb_x_nat_t_port*) skb_put(skb, sizeof (*n_port));
+--===============6108761129691999824==--
 
