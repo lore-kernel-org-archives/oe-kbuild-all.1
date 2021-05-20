@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============6641724098612083664=="
+Content-Type: multipart/mixed; boundary="===============8752072868559164787=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:51 +0800
-Message-ID: <20210520182451.GA44953@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:37 +0800
+Message-ID: <20210520182437.GA43480@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6641724098612083664==
+--===============8752072868559164787==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ntfs/inode.c:349:2-5: WARNING: Use BUG_ON
-fs/ntfs/inode.c:372:2-5: WARNING: Use BUG_ON
+net/ipv4/icmp.c:925:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,32 +41,20 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- inode.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ icmp.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -345,8 +345,7 @@ void ntfs_destroy_big_inode(struct inode
- =
-
- 	ntfs_debug("Entering.");
- 	BUG_ON(ni->page);
--	if (!atomic_dec_and_test(&ni->count))
+--- a/net/ipv4/icmp.c
++++ b/net/ipv4/icmp.c
+@@ -921,8 +921,7 @@ static void icmp_timestamp(struct sk_buf
+ 	 */
+ 	icmp_param.data.times[1] =3D inet_current_timestamp();
+ 	icmp_param.data.times[2] =3D icmp_param.data.times[1];
+-	if (skb_copy_bits(skb, 0, &icmp_param.data.times[0], 4))
 -		BUG();
-+	BUG_ON(!atomic_dec_and_test(&ni->count));
- 	call_rcu(&inode->i_rcu, ntfs_i_callback);
- }
- =
-
-@@ -368,8 +367,7 @@ static void ntfs_destroy_extent_inode(nt
- {
- 	ntfs_debug("Entering.");
- 	BUG_ON(ni->page);
--	if (!atomic_dec_and_test(&ni->count))
--		BUG();
-+	BUG_ON(!atomic_dec_and_test(&ni->count));
- 	kmem_cache_free(ntfs_inode_cache, ni);
- }
-=20
---===============6641724098612083664==--
++	BUG_ON(skb_copy_bits(skb, 0, &icmp_param.data.times[0], 4));
+ 	icmp_param.data.icmph	   =3D *icmp_hdr(skb);
+ 	icmp_param.data.icmph.type =3D ICMP_TIMESTAMPREPLY;
+ 	icmp_param.data.icmph.code =3D 0;
+--===============8752072868559164787==--
 
