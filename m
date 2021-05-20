@@ -1,24 +1,23 @@
-Content-Type: multipart/mixed; boundary="===============3986478225193906418=="
+Content-Type: multipart/mixed; boundary="===============0541999593902095861=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:58 +0800
-Message-ID: <20210520182558.GA51336@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:10 +0800
+Message-ID: <20210520182510.GA46917@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============3986478225193906418==
+--===============0541999593902095861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/core/skbuff.c:1497:2-5: WARNING: Use BUG_ON
-net/core/skbuff.c:1084:2-5: WARNING: Use BUG_ON
-net/core/skbuff.c:986:2-5: WARNING: Use BUG_ON
-net/core/skbuff.c:1220:2-5: WARNING: Use BUG_ON
+fs/ocfs2/journal.c:955:2-5: WARNING: Use BUG_ON
+fs/ocfs2/journal.c:1613:3-6: WARNING: Use BUG_ON
+fs/ocfs2/journal.c:1643:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -44,64 +43,44 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- skbuff.c |   13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ journal.c |    9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -982,8 +982,7 @@ struct sk_buff *skb_copy(const struct sk
- 	/* Set the tail pointer and length */
- 	skb_put(n, skb->len);
+--- a/fs/ocfs2/journal.c
++++ b/fs/ocfs2/journal.c
+@@ -951,8 +951,7 @@ void ocfs2_journal_shutdown(struct ocfs2
+ 		goto done;
  =
 
--	if (skb_copy_bits(skb, -headerlen, n->head, headerlen + skb->len))
+ 	/* need to inc inode use count - jbd2_journal_destroy will iput. */
+-	if (!igrab(inode))
 -		BUG();
-+	BUG_ON(skb_copy_bits(skb, -headerlen, n->head, headerlen + skb->len));
++	BUG_ON(!igrab(inode));
  =
 
- 	copy_skb_header(n, skb);
- 	return n;
-@@ -1080,8 +1079,7 @@ int pskb_expand_head(struct sk_buff *skb
- =
-
- 	BUG_ON(nhead < 0);
- =
-
--	if (skb_shared(skb))
--		BUG();
-+	BUG_ON(skb_shared(skb));
- =
-
- 	size =3D SKB_DATA_ALIGN(size);
- =
-
-@@ -1215,9 +1213,7 @@ struct sk_buff *skb_copy_expand(const st
- 		head_copy_off =3D newheadroom - head_copy_len;
- =
-
- 	/* Copy the linear header and data. */
--	if (skb_copy_bits(skb, -head_copy_len, n->head + head_copy_off,
--			  skb->len + head_copy_len))
--		BUG();
-+	BUG_ON(skb_copy_bits(skb, -head_copy_len, n->head + head_copy_off, skb->l=
-en + head_copy_len));
- =
-
- 	copy_skb_header(n, skb);
- =
-
-@@ -1493,8 +1489,7 @@ unsigned char *__pskb_pull_tail(struct s
- 			return NULL;
+ 	num_running_trans =3D atomic_read(&(osb->journal->j_num_trans));
+ 	trace_ocfs2_journal_shutdown(num_running_trans);
+@@ -1609,8 +1608,7 @@ static int ocfs2_replay_journal(struct o
+ 	status =3D jbd2_journal_load(journal);
+ 	if (status < 0) {
+ 		mlog_errno(status);
+-		if (!igrab(inode))
+-			BUG();
++		BUG_ON(!igrab(inode));
+ 		jbd2_journal_destroy(journal);
+ 		goto done;
  	}
+@@ -1639,8 +1637,7 @@ static int ocfs2_replay_journal(struct o
+ 	if (status < 0)
+ 		mlog_errno(status);
  =
 
--	if (skb_copy_bits(skb, skb_headlen(skb), skb_tail_pointer(skb), delta))
+-	if (!igrab(inode))
 -		BUG();
-+	BUG_ON(skb_copy_bits(skb, skb_headlen(skb), skb_tail_pointer(skb), delta)=
-);
++	BUG_ON(!igrab(inode));
  =
 
- 	/* Optimization: no fragments, no reasons to preestimate
- 	 * size of pulled pages. Superb.
---===============3986478225193906418==--
+ 	jbd2_journal_destroy(journal);
+=20
+--===============0541999593902095861==--
 
