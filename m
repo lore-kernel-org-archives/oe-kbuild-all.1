@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============9151316940138157304=="
+Content-Type: multipart/mixed; boundary="===============3155201400158801978=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:56 +0800
-Message-ID: <20210520182456.GA45444@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:12 +0800
+Message-ID: <20210520182412.GA41025@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============9151316940138157304==
+--===============3155201400158801978==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/cachefiles/interface.c:298:3-6: WARNING: Use BUG_ON
+fs/ocfs2/dlm/dlmmaster.c:2216:4-7: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +41,20 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- interface.c |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ dlmmaster.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/cachefiles/interface.c
-+++ b/fs/cachefiles/interface.c
-@@ -293,9 +293,7 @@ static void cachefiles_drop_object(struc
- 	/* note that the object is now inactive */
- 	if (test_bit(CACHEFILES_OBJECT_ACTIVE, &object->flags)) {
- 		write_lock(&cache->active_lock);
--		if (!test_and_clear_bit(CACHEFILES_OBJECT_ACTIVE,
--					&object->flags))
--			BUG();
-+		BUG_ON(!test_and_clear_bit(CACHEFILES_OBJECT_ACTIVE, &object->flags));
- 		rb_erase(&object->active_node, &cache->active_nodes);
- 		wake_up_bit(&object->flags, CACHEFILES_OBJECT_ACTIVE);
- 		write_unlock(&cache->active_lock);
---===============9151316940138157304==--
+--- a/fs/ocfs2/dlm/dlmmaster.c
++++ b/fs/ocfs2/dlm/dlmmaster.c
+@@ -2212,8 +2212,7 @@ static int dlm_pre_master_reco_lockres(s
+ 		ret =3D dlm_do_master_requery(dlm, res, nodenum, &master);
+ 		if (ret < 0) {
+ 			mlog_errno(ret);
+-			if (!dlm_is_host_down(ret))
+-				BUG();
++			BUG_ON(!dlm_is_host_down(ret));
+ 			/* host is down, so answer for that node would be
+ 			 * DLM_LOCK_RES_OWNER_UNKNOWN.  continue. */
+ 			ret =3D 0;
+--===============3155201400158801978==--
 
