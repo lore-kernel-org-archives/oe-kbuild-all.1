@@ -1,22 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============7383724877938661663=="
+Content-Type: multipart/mixed; boundary="===============4662528431014166274=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:25 +0800
-Message-ID: <20210520182525.GA48390@ad678c5af442>
+Date: Fri, 21 May 2021 02:25:52 +0800
+Message-ID: <20210520182552.GA50845@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7383724877938661663==
+--===============4662528431014166274==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/usb/host/oxu210hp-hcd.c:398:2-5: WARNING: Use BUG_ON
-drivers/usb/host/oxu210hp-hcd.c:1714:2-5: WARNING: Use BUG_ON
+drivers/mmc/host/sdhci.c:324:3-6: WARNING: Use BUG_ON
+drivers/mmc/host/sdhci.c:370:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,36 +42,35 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- oxu210hp-hcd.c |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ sdhci.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/drivers/usb/host/oxu210hp-hcd.c
-+++ b/drivers/usb/host/oxu210hp-hcd.c
-@@ -394,8 +394,7 @@ static void ehci_quiesce(struct oxu_hcd
- 	u32	temp;
+--- a/drivers/mmc/host/sdhci.c
++++ b/drivers/mmc/host/sdhci.c
+@@ -320,8 +320,7 @@ static void sdhci_read_block_pio(struct
+ 	local_irq_save(flags);
  =
 
- #ifdef DEBUG
--	if (!HC_IS_RUNNING(oxu_to_hcd(oxu)->state))
--		BUG();
-+	BUG_ON(!HC_IS_RUNNING(oxu_to_hcd(oxu)->state));
- #endif
+ 	while (blksize) {
+-		if (!sg_miter_next(&host->sg_miter))
+-			BUG();
++		BUG_ON(!sg_miter_next(&host->sg_miter));
  =
 
- 	/* wait for any schedule enables/disables to take effect */
-@@ -1709,9 +1708,7 @@ static void start_unlink_async(struct ox
+ 		len =3D min(host->sg_miter.length, blksize);
  =
 
- #ifdef DEBUG
- 	assert_spin_locked(&oxu->lock);
--	if (oxu->reclaim || (qh->qh_state !=3D QH_STATE_LINKED
--				&& qh->qh_state !=3D QH_STATE_UNLINK_WAIT))
--		BUG();
-+	BUG_ON(oxu->reclaim || (qh->qh_state !=3D QH_STATE_LINKED && qh->qh_state=
- !=3D QH_STATE_UNLINK_WAIT));
- #endif
+@@ -366,8 +365,7 @@ static void sdhci_write_block_pio(struct
+ 	local_irq_save(flags);
  =
 
- 	/* stop async schedule right now? */
---===============7383724877938661663==--
+ 	while (blksize) {
+-		if (!sg_miter_next(&host->sg_miter))
+-			BUG();
++		BUG_ON(!sg_miter_next(&host->sg_miter));
+ =
+
+ 		len =3D min(host->sg_miter.length, blksize);
+=20
+--===============4662528431014166274==--
 
