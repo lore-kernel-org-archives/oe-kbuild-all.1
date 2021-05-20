@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============8114832835066394870=="
+Content-Type: multipart/mixed; boundary="===============4338730924381962898=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:17 +0800
-Message-ID: <20210520182417.GA41516@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:22 +0800
+Message-ID: <20210520182422.GA42007@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============8114832835066394870==
+--===============4338730924381962898==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/dlm/dlmrecovery.c:1634:4-7: WARNING: Use BUG_ON
-fs/ocfs2/dlm/dlmrecovery.c:1338:2-5: WARNING: Use BUG_ON
+fs/ocfs2/dlm/dlmthread.c:191:4-7: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,30 +41,20 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- dlmrecovery.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ dlmthread.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/ocfs2/dlm/dlmrecovery.c
-+++ b/fs/ocfs2/dlm/dlmrecovery.c
-@@ -1334,8 +1334,7 @@ int dlm_send_one_lockres(struct dlm_ctxt
- error:
- 	mlog(ML_ERROR, "%s: dlm_send_mig_lockres_msg returned %d\n",
- 	     dlm->name, ret);
--	if (!dlm_is_host_down(ret))
--		BUG();
-+	BUG_ON(!dlm_is_host_down(ret));
- 	mlog(0, "%s: node %u went down while sending %s "
- 	     "lockres %.*s\n", dlm->name, send_to,
- 	     flags & DLM_MRES_RECOVERY ?  "recovery" : "migration",
-@@ -1630,8 +1629,7 @@ static int dlm_lockres_master_requery(st
- 		ret =3D dlm_do_master_requery(dlm, res, nodenum, real_master);
+--- a/fs/ocfs2/dlm/dlmthread.c
++++ b/fs/ocfs2/dlm/dlmthread.c
+@@ -187,8 +187,7 @@ static void dlm_purge_lockres(struct dlm
+ 		/* clear our bit from the master's refmap, ignore errors */
+ 		ret =3D dlm_drop_lockres_ref(dlm, res);
  		if (ret < 0) {
- 			mlog_errno(ret);
 -			if (!dlm_is_host_down(ret))
 -				BUG();
 +			BUG_ON(!dlm_is_host_down(ret));
- 			/* host is down, so answer for that node would be
- 			 * DLM_LOCK_RES_OWNER_UNKNOWN.  continue. */
  		}
---===============8114832835066394870==--
+ 		spin_lock(&dlm->spinlock);
+ 		spin_lock(&res->spinlock);
+--===============4338730924381962898==--
 
