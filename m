@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============1998645693968556671=="
+Content-Type: multipart/mixed; boundary="===============0244615559164271275=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:21 +0800
-Message-ID: <20210520182321.GA36115@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:43 +0800
+Message-ID: <20210520182343.GA38079@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1998645693968556671==
+--===============0244615559164271275==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ntfs/aops.c:1198:3-6: WARNING: Use BUG_ON
+net/rxrpc/ar-input.c:689:2-5: WARNING: Use BUG_ON
+net/rxrpc/ar-input.c:482:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,20 +42,33 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- aops.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ ar-input.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/fs/ntfs/aops.c
-+++ b/fs/ntfs/aops.c
-@@ -1194,8 +1194,7 @@ lock_retry_remap:
- 		tbh =3D bhs[i];
- 		if (!tbh)
- 			continue;
--		if (!trylock_buffer(tbh))
+--- a/net/rxrpc/ar-input.c
++++ b/net/rxrpc/ar-input.c
+@@ -478,8 +478,7 @@ static void rxrpc_process_jumbo_packet(s
+ =
+
+ 		if (skb_copy_bits(jumbo, 0, &jhdr, sizeof(jhdr)) < 0)
+ 			goto protocol_error;
+-		if (!pskb_pull(jumbo, sizeof(jhdr)))
 -			BUG();
-+		BUG_ON(!trylock_buffer(tbh));
- 		/* The buffer dirty state is now irrelevant, just clean it. */
- 		clear_buffer_dirty(tbh);
- 		BUG_ON(!buffer_uptodate(tbh));
---===============1998645693968556671==--
++		BUG_ON(!pskb_pull(jumbo, sizeof(jhdr)));
+ =
+
+ 		sp->hdr.seq	=3D htonl(ntohl(sp->hdr.seq) + 1);
+ 		sp->hdr.serial	=3D htonl(ntohl(sp->hdr.serial) + 1);
+@@ -685,8 +684,7 @@ void rxrpc_data_ready(struct sock *sk)
+ 	if (skb_copy_bits(skb, sizeof(struct udphdr), &sp->hdr,
+ 			  sizeof(sp->hdr)) < 0)
+ 		goto bad_message;
+-	if (!pskb_pull(skb, sizeof(struct udphdr) + sizeof(sp->hdr)))
+-		BUG();
++	BUG_ON(!pskb_pull(skb, sizeof(struct udphdr) + sizeof(sp->hdr)));
+ =
+
+ 	_net("Rx RxRPC %s ep=3D%x call=3D%x:%x",
+ 	     sp->hdr.flags & RXRPC_CLIENT_INITIATED ? "ToServer" : "ToClient",
+--===============0244615559164271275==--
 
