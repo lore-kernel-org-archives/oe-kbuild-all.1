@@ -1,22 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============0244615559164271275=="
+Content-Type: multipart/mixed; boundary="===============8818420664933748939=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:43 +0800
-Message-ID: <20210520182343.GA38079@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:03 +0800
+Message-ID: <20210520182403.GA40043@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0244615559164271275==
+--===============8818420664933748939==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/rxrpc/ar-input.c:689:2-5: WARNING: Use BUG_ON
-net/rxrpc/ar-input.c:482:3-6: WARNING: Use BUG_ON
+net/ipv4/devinet.c:1687:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -42,33 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ar-input.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ devinet.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/rxrpc/ar-input.c
-+++ b/net/rxrpc/ar-input.c
-@@ -478,8 +478,7 @@ static void rxrpc_process_jumbo_packet(s
+--- a/net/ipv4/devinet.c
++++ b/net/ipv4/devinet.c
+@@ -1683,8 +1683,7 @@ static int inet_set_link_af(struct net_d
+ 	if (!in_dev)
+ 		return -EAFNOSUPPORT;
  =
 
- 		if (skb_copy_bits(jumbo, 0, &jhdr, sizeof(jhdr)) < 0)
- 			goto protocol_error;
--		if (!pskb_pull(jumbo, sizeof(jhdr)))
--			BUG();
-+		BUG_ON(!pskb_pull(jumbo, sizeof(jhdr)));
- =
-
- 		sp->hdr.seq	=3D htonl(ntohl(sp->hdr.seq) + 1);
- 		sp->hdr.serial	=3D htonl(ntohl(sp->hdr.serial) + 1);
-@@ -685,8 +684,7 @@ void rxrpc_data_ready(struct sock *sk)
- 	if (skb_copy_bits(skb, sizeof(struct udphdr), &sp->hdr,
- 			  sizeof(sp->hdr)) < 0)
- 		goto bad_message;
--	if (!pskb_pull(skb, sizeof(struct udphdr) + sizeof(sp->hdr)))
+-	if (nla_parse_nested(tb, IFLA_INET_MAX, nla, NULL) < 0)
 -		BUG();
-+	BUG_ON(!pskb_pull(skb, sizeof(struct udphdr) + sizeof(sp->hdr)));
++	BUG_ON(nla_parse_nested(tb, IFLA_INET_MAX, nla, NULL) < 0);
  =
 
- 	_net("Rx RxRPC %s ep=3D%x call=3D%x:%x",
- 	     sp->hdr.flags & RXRPC_CLIENT_INITIATED ? "ToServer" : "ToClient",
---===============0244615559164271275==--
+ 	if (tb[IFLA_INET_CONF]) {
+ 		nla_for_each_nested(a, tb[IFLA_INET_CONF], rem)
+--===============8818420664933748939==--
 
