@@ -1,33 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============6596235252617001459=="
+Content-Type: multipart/mixed; boundary="===============3666936986268488096=="
 MIME-Version: 1.0
-From: Arnd Bergmann <arnd@arndb.de>
+From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [asm-generic:compat-alloc-user-space-9 6/41] net/ethtool/ioctl.c:815:9: error: implicit declaration of function 'in_ia32_syscall'; did you mean 'in_compat_syscall'?
-Date: Thu, 20 May 2021 09:30:18 +0200
-Message-ID: <CAK8P3a2Mg0jHDxb9h+_9ox74gYp7v2jQFN2QOswT=VRpbPbMzA@mail.gmail.com>
-In-Reply-To: <20210520051951.GA21165@lst.de>
+Subject: [RFC PATCH thomash] drm/i915: i915_gem_ttm_obj_ops can be static
+Date: Thu, 20 May 2021 15:50:48 +0800
+Message-ID: <20210520075047.GA11757@78af2acee5b5>
+In-Reply-To: <202105201555.B8qPUapX-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6596235252617001459==
+--===============3666936986268488096==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 20, 2021 at 7:19 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, May 19, 2021 at 10:33:08PM +0200, Arnd Bergmann wrote:
-> >  static bool ethtool_translate_compat(void)
-> >  {
-> > -#ifdef CONFIG_X86_64
-> > +#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
-> >         /* On x86, translation is needed for i386 but not x32 */
-> >         return in_ia32_syscall();
-> >  #else
->
-> Please just use compat_need_64bit_alignment_fixup() instead.
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c:569:38: warning: symbol 'i915_gem_t=
+tm_obj_ops' was not declared. Should it be static?
 
-Ah perfect, thanks for adding that interface.
+Fixes: ed0bde777934 ("drm/i915: Use ttm mmap handling for ttm bo's.")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+ i915_gem_ttm.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-       Arnd
---===============6596235252617001459==--
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915=
+/gem/i915_gem_ttm.c
+index a94ee2b62fa3a..68fe64401c67f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -566,7 +566,7 @@ static const struct vm_operations_struct vm_ops_ttm =3D=
+ {
+ 	.close =3D i915_gem_mmap_vm_close,
+ };
+ =
+
+-const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops =3D {
++static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops =3D {
+ 	.name =3D "i915_gem_object_ttm",
+ 	.flags =3D I915_GEM_OBJECT_HAS_IOMEM,
+=20
+--===============3666936986268488096==--
 
