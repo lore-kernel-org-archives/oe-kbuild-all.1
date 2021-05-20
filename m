@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============5633755813243465211=="
+Content-Type: multipart/mixed; boundary="===============5145733300239599024=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:16 +0800
-Message-ID: <20210520182316.GA35624@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:38 +0800
+Message-ID: <20210520182338.GA37588@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5633755813243465211==
+--===============5145733300239599024==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/packet/af_packet.c:551:2-5: WARNING: Use BUG_ON
+net/rxrpc/ar-call.c:625:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- af_packet.c |    3 +--
+ ar-call.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/packet/af_packet.c
-+++ b/net/packet/af_packet.c
-@@ -547,8 +547,7 @@ static void prb_setup_retire_blk_timer(s
- {
- 	struct tpacket_kbdq_core *pkc;
+--- a/net/rxrpc/ar-call.c
++++ b/net/rxrpc/ar-call.c
+@@ -621,8 +621,7 @@ void rxrpc_release_call(struct rxrpc_cal
+ 	       call->rx_first_oos);
  =
 
--	if (tx_ring)
+ 	spin_lock_bh(&call->lock);
+-	if (test_and_set_bit(RXRPC_CALL_RELEASED, &call->flags))
 -		BUG();
-+	BUG_ON(tx_ring);
++	BUG_ON(test_and_set_bit(RXRPC_CALL_RELEASED, &call->flags));
+ 	spin_unlock_bh(&call->lock);
  =
 
- 	pkc =3D tx_ring ? GET_PBDQC_FROM_RB(&po->tx_ring) :
- 			GET_PBDQC_FROM_RB(&po->rx_ring);
---===============5633755813243465211==--
+ 	/* dissociate from the socket
+--===============5145733300239599024==--
 
