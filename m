@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============7237575814149481140=="
+Content-Type: multipart/mixed; boundary="===============3224614922793806289=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:31 +0800
-Message-ID: <20210520182631.GA54282@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:36 +0800
+Message-ID: <20210520182636.GA54773@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7237575814149481140==
+--===============3224614922793806289==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/ocfs2/dlmfs/userdlm.c:173:2-5: WARNING: Use BUG_ON
+drivers/virtio/virtio_balloon.c:365:3-6: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- userdlm.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ virtio_balloon.c |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
---- a/fs/ocfs2/dlmfs/userdlm.c
-+++ b/fs/ocfs2/dlmfs/userdlm.c
-@@ -169,8 +169,7 @@ static inline void user_dlm_grab_inode_r
- {
- 	struct inode *inode;
- 	inode =3D user_dlm_inode_from_user_lockres(lockres);
--	if (!igrab(inode))
--		BUG();
-+	BUG_ON(!igrab(inode));
- }
+--- a/drivers/virtio/virtio_balloon.c
++++ b/drivers/virtio/virtio_balloon.c
+@@ -360,9 +360,7 @@ static int init_vqs(struct virtio_balloo
+ 		update_balloon_stats(vb);
  =
 
- static void user_dlm_unblock_lock(struct work_struct *work);
---===============7237575814149481140==--
+ 		sg_init_one(&sg, vb->stats, sizeof vb->stats);
+-		if (virtqueue_add_outbuf(vb->stats_vq, &sg, 1, vb, GFP_KERNEL)
+-		    < 0)
+-			BUG();
++		BUG_ON(virtqueue_add_outbuf(vb->stats_vq, &sg, 1, vb, GFP_KERNEL) < 0);
+ 		virtqueue_kick(vb->stats_vq);
+ 	}
+ 	return 0;
+--===============3224614922793806289==--
 
