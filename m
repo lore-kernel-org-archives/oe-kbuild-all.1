@@ -1,24 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============5464931691940403706=="
+Content-Type: multipart/mixed; boundary="===============6641724098612083664=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:24:32 +0800
-Message-ID: <20210520182432.GA42989@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:51 +0800
+Message-ID: <20210520182451.GA44953@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5464931691940403706==
+--===============6641724098612083664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/afs/flock.c:243:2-5: WARNING: Use BUG_ON
-fs/afs/flock.c:245:2-5: WARNING: Use BUG_ON
-fs/afs/flock.c:143:3-6: WARNING: Use BUG_ON
-fs/afs/flock.c:177:3-6: WARNING: Use BUG_ON
+fs/ntfs/inode.c:349:2-5: WARNING: Use BUG_ON
+fs/ntfs/inode.c:372:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -44,47 +42,32 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- flock.c |   13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ inode.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/fs/afs/flock.c
-+++ b/fs/afs/flock.c
-@@ -139,8 +139,7 @@ void afs_lock_work(struct work_struct *w
- 	if (!list_empty(&vnode->granted_locks)) {
- 		_debug("extend");
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -345,8 +345,7 @@ void ntfs_destroy_big_inode(struct inode
  =
 
--		if (test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags))
--			BUG();
-+		BUG_ON(test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags));
- 		fl =3D list_entry(vnode->granted_locks.next,
- 				struct file_lock, fl_u.afs.link);
- 		key =3D key_get(fl->fl_file->private_data);
-@@ -173,8 +172,7 @@ void afs_lock_work(struct work_struct *w
- 	if (!list_empty(&vnode->pending_locks)) {
- 		_debug("get");
- =
-
--		if (test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags))
--			BUG();
-+		BUG_ON(test_and_set_bit(AFS_VNODE_LOCKING, &vnode->flags));
- 		fl =3D list_entry(vnode->pending_locks.next,
- 				struct file_lock, fl_u.afs.link);
- 		key =3D key_get(fl->fl_file->private_data);
-@@ -238,11 +236,8 @@ void afs_lock_work(struct work_struct *w
- static void afs_defer_unlock(struct afs_vnode *vnode, struct key *key)
- {
- 	cancel_delayed_work(&vnode->lock_work);
--	if (!test_and_clear_bit(AFS_VNODE_READLOCKED, &vnode->flags) &&
--	    !test_and_clear_bit(AFS_VNODE_WRITELOCKED, &vnode->flags))
+ 	ntfs_debug("Entering.");
+ 	BUG_ON(ni->page);
+-	if (!atomic_dec_and_test(&ni->count))
 -		BUG();
--	if (test_and_set_bit(AFS_VNODE_UNLOCKING, &vnode->flags))
--		BUG();
-+	BUG_ON(!test_and_clear_bit(AFS_VNODE_READLOCKED, &vnode->flags) && !test_=
-and_clear_bit(AFS_VNODE_WRITELOCKED, &vnode->flags));
-+	BUG_ON(test_and_set_bit(AFS_VNODE_UNLOCKING, &vnode->flags));
- 	vnode->unlock_key =3D key_get(key);
- 	afs_lock_may_be_available(vnode);
++	BUG_ON(!atomic_dec_and_test(&ni->count));
+ 	call_rcu(&inode->i_rcu, ntfs_i_callback);
  }
---===============5464931691940403706==--
+ =
+
+@@ -368,8 +367,7 @@ static void ntfs_destroy_extent_inode(nt
+ {
+ 	ntfs_debug("Entering.");
+ 	BUG_ON(ni->page);
+-	if (!atomic_dec_and_test(&ni->count))
+-		BUG();
++	BUG_ON(!atomic_dec_and_test(&ni->count));
+ 	kmem_cache_free(ntfs_inode_cache, ni);
+ }
+=20
+--===============6641724098612083664==--
 
