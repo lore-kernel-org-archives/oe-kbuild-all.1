@@ -1,22 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============4993609146861382678=="
+Content-Type: multipart/mixed; boundary="===============5826799827082123867=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix boolreturn.cocci warnings
-Date: Fri, 21 May 2021 02:23:06 +0800
-Message-ID: <20210520182306.GA34642@ad678c5af442>
+Date: Fri, 21 May 2021 02:22:55 +0800
+Message-ID: <20210520182255.GA33660@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4993609146861382678==
+--===============5826799827082123867==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/nfsd/nfsfh.c:437:10-11: WARNING: return of 0/1 in function 'fsid_type_ok=
-_for_exp' with return type bool
+block/blk-throttle.c:956:9-10: WARNING: return of 0/1 in function 'tg_may_d=
+ispatch' with return type bool
+block/blk-throttle.c:911:8-9: WARNING: return of 0/1 in function 'tg_with_i=
+n_bps_limit' with return type bool
+block/blk-throttle.c:869:8-9: WARNING: return of 0/1 in function 'tg_with_i=
+n_iops_limit' with return type bool
+block/blk-throttle.c:760:8-9: WARNING: return of 0/1 in function 'throtl_sl=
+ice_used' with return type bool
 
  Return statements in functions returning bool should use
  true/false instead of 1/0.
@@ -34,36 +40,63 @@ port YYLOC global declaration
 :::::: branch date: 5 weeks ago
 :::::: commit date: 3 months ago
 
- nfsfh.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ blk-throttle.c |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---- a/fs/nfsd/nfsfh.c
-+++ b/fs/nfsd/nfsfh.c
-@@ -434,7 +434,7 @@ static bool fsid_type_ok_for_exp(u8 fsid
- 	switch (fsid_type) {
- 	case FSID_DEV:
- 		if (!old_valid_dev(exp_sb(exp)->s_dev))
--			return 0;
-+			return false;
- 		/* FALL THROUGH */
- 	case FSID_MAJOR_MINOR:
- 	case FSID_ENCODE_DEV:
-@@ -444,13 +444,13 @@ static bool fsid_type_ok_for_exp(u8 fsid
- 	case FSID_UUID8:
- 	case FSID_UUID16:
- 		if (!is_root_export(exp))
--			return 0;
-+			return false;
- 		/* fall through */
- 	case FSID_UUID4_INUM:
- 	case FSID_UUID16_INUM:
- 		return exp->ex_uuid !=3D NULL;
- 	}
+--- a/block/blk-throttle.c
++++ b/block/blk-throttle.c
+@@ -757,7 +757,7 @@ static bool throtl_slice_used(struct thr
+ 	if (time_in_range(jiffies, tg->slice_start[rw], tg->slice_end[rw]))
+ 		return false;
+ =
+
 -	return 1;
 +	return true;
  }
  =
 
-=20
---===============4993609146861382678==--
+ /* Trim the used slices and adjust slice start accordingly */
+@@ -866,7 +866,7 @@ static bool tg_with_in_iops_limit(struct
+ =
+
+ 	if (wait)
+ 		*wait =3D jiffy_wait;
+-	return 0;
++	return false;
+ }
+ =
+
+ static bool tg_with_in_bps_limit(struct throtl_grp *tg, struct bio *bio,
+@@ -908,7 +908,7 @@ static bool tg_with_in_bps_limit(struct
+ 	jiffy_wait =3D jiffy_wait + (jiffy_elapsed_rnd - jiffy_elapsed);
+ 	if (wait)
+ 		*wait =3D jiffy_wait;
+-	return 0;
++	return false;
+ }
+ =
+
+ /*
+@@ -953,7 +953,7 @@ static bool tg_may_dispatch(struct throt
+ 	    tg_with_in_iops_limit(tg, bio, &iops_wait)) {
+ 		if (wait)
+ 			*wait =3D 0;
+-		return 1;
++		return true;
+ 	}
+ =
+
+ 	max_wait =3D max(bps_wait, iops_wait);
+@@ -964,7 +964,7 @@ static bool tg_may_dispatch(struct throt
+ 	if (time_before(tg->slice_end[rw], jiffies + max_wait))
+ 		throtl_extend_slice(tg, rw, jiffies + max_wait);
+ =
+
+-	return 0;
++	return false;
+ }
+ =
+
+ static void throtl_update_dispatch_stats(struct blkcg_gq *blkg, u64 bytes,
+--===============5826799827082123867==--
 
