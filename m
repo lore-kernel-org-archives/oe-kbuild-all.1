@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============9215408282115578382=="
+Content-Type: multipart/mixed; boundary="===============3530842128134038782=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:25:01 +0800
-Message-ID: <20210520182500.GA45935@ad678c5af442>
+Date: Fri, 21 May 2021 02:24:42 +0800
+Message-ID: <20210520182442.GA43971@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============9215408282115578382==
+--===============3530842128134038782==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/ipv4/ip_output.c:712:3-6: WARNING: Use BUG_ON
+net/ipv4/inetpeer.c:356:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,21 +41,21 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ip_output.c |    3 +--
+ inetpeer.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/net/ipv4/ip_output.c
-+++ b/net/ipv4/ip_output.c
-@@ -708,8 +708,7 @@ slow_path:
- 		/*
- 		 *	Copy a block of the IP datagram.
- 		 */
--		if (skb_copy_bits(skb, ptr, skb_transport_header(skb2), len))
--			BUG();
-+		BUG_ON(skb_copy_bits(skb, ptr, skb_transport_header(skb2), len));
- 		left -=3D len;
+--- a/net/ipv4/inetpeer.c
++++ b/net/ipv4/inetpeer.c
+@@ -352,8 +352,7 @@ static void unlink_from_pool(struct inet
+ {
+ 	struct inet_peer __rcu ***stackptr, ***delp;
  =
 
- 		/*
---===============9215408282115578382==--
+-	if (lookup(&p->daddr, stack, base) !=3D p)
+-		BUG();
++	BUG_ON(lookup(&p->daddr, stack, base) !=3D p);
+ 	delp =3D stackptr - 1; /* *delp[0] =3D=3D p */
+ 	if (p->avl_left =3D=3D peer_avl_empty_rcu) {
+ 		*delp[0] =3D p->avl_right;
+--===============3530842128134038782==--
 
