@@ -1,24 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============7830757660906313807=="
+Content-Type: multipart/mixed; boundary="===============2199330902378423919=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:26:42 +0800
-Message-ID: <20210520182642.GA55264@ad678c5af442>
+Date: Fri, 21 May 2021 02:26:47 +0800
+Message-ID: <20210520182647.GA55755@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7830757660906313807==
+--===============2199330902378423919==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-fs/afs/write.c:336:2-5: WARNING: Use BUG_ON
-fs/afs/write.c:338:2-5: WARNING: Use BUG_ON
-fs/afs/write.c:376:4-7: WARNING: Use BUG_ON
-fs/afs/write.c:378:4-7: WARNING: Use BUG_ON
+net/xfrm/xfrm_policy.c:310:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -44,38 +41,22 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- write.c |   12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ xfrm_policy.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/afs/write.c
-+++ b/fs/afs/write.c
-@@ -332,10 +332,8 @@ static int afs_write_back_from_locked_pa
- 	_enter(",%lx", primary_page->index);
+--- a/net/xfrm/xfrm_policy.c
++++ b/net/xfrm/xfrm_policy.c
+@@ -306,8 +306,7 @@ void xfrm_policy_destroy(struct xfrm_pol
+ {
+ 	BUG_ON(!policy->walk.dead);
  =
 
- 	count =3D 1;
--	if (!clear_page_dirty_for_io(primary_page))
+-	if (del_timer(&policy->timer) || del_timer(&policy->polq.hold_timer))
 -		BUG();
--	if (test_set_page_writeback(primary_page))
--		BUG();
-+	BUG_ON(!clear_page_dirty_for_io(primary_page));
-+	BUG_ON(test_set_page_writeback(primary_page));
++	BUG_ON(del_timer(&policy->timer) || del_timer(&policy->polq.hold_timer));
  =
 
- 	/* find all consecutive lockable dirty pages, stopping when we find a
- 	 * page that is not immediately lockable, is not dirty or is missing,
-@@ -372,10 +370,8 @@ static int afs_write_back_from_locked_pa
- 				unlock_page(page);
- 				break;
- 			}
--			if (!clear_page_dirty_for_io(page))
--				BUG();
--			if (test_set_page_writeback(page))
--				BUG();
-+			BUG_ON(!clear_page_dirty_for_io(page));
-+			BUG_ON(test_set_page_writeback(page));
- 			unlock_page(page);
- 			put_page(page);
- 		}
---===============7830757660906313807==--
+ 	security_xfrm_policy_free(policy->security);
+ 	kfree(policy);
+--===============2199330902378423919==--
 
