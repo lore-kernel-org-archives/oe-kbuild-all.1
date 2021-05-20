@@ -1,21 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============5145733300239599024=="
+Content-Type: multipart/mixed; boundary="===============2251308433522191516=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
 Subject: [PATCH] scripts/dtc: fix bugon.cocci warnings
-Date: Fri, 21 May 2021 02:23:38 +0800
-Message-ID: <20210520182338.GA37588@ad678c5af442>
+Date: Fri, 21 May 2021 02:23:27 +0800
+Message-ID: <20210520182327.GA36606@ad678c5af442>
 In-Reply-To: <202105210256.1Q2XDf1M-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============5145733300239599024==
+--===============2251308433522191516==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: kernel test robot <lkp@intel.com>
 
-net/rxrpc/ar-call.c:625:2-5: WARNING: Use BUG_ON
+net/rxrpc/ar-accept.c:381:2-5: WARNING: Use BUG_ON
+net/rxrpc/ar-accept.c:383:2-5: WARNING: Use BUG_ON
 
  Use BUG_ON instead of a if condition followed by BUG.
 
@@ -41,22 +42,24 @@ port YYLOC global declaration
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ar-call.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ ar-accept.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/net/rxrpc/ar-call.c
-+++ b/net/rxrpc/ar-call.c
-@@ -621,8 +621,7 @@ void rxrpc_release_call(struct rxrpc_cal
- 	       call->rx_first_oos);
- =
-
- 	spin_lock_bh(&call->lock);
--	if (test_and_set_bit(RXRPC_CALL_RELEASED, &call->flags))
+--- a/net/rxrpc/ar-accept.c
++++ b/net/rxrpc/ar-accept.c
+@@ -377,10 +377,8 @@ struct rxrpc_call *rxrpc_accept_call(str
+ 	call->user_call_ID =3D user_call_ID;
+ 	rb_link_node(&call->sock_node, parent, pp);
+ 	rb_insert_color(&call->sock_node, &rx->calls);
+-	if (test_and_set_bit(RXRPC_CALL_HAS_USERID, &call->flags))
 -		BUG();
-+	BUG_ON(test_and_set_bit(RXRPC_CALL_RELEASED, &call->flags));
- 	spin_unlock_bh(&call->lock);
+-	if (test_and_set_bit(RXRPC_CALL_ACCEPTED, &call->events))
+-		BUG();
++	BUG_ON(test_and_set_bit(RXRPC_CALL_HAS_USERID, &call->flags));
++	BUG_ON(test_and_set_bit(RXRPC_CALL_ACCEPTED, &call->events));
+ 	rxrpc_queue_call(call);
  =
 
- 	/* dissociate from the socket
---===============5145733300239599024==--
+ 	rxrpc_get_call(call);
+--===============2251308433522191516==--
 
