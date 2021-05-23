@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0157834987539305445=="
+Content-Type: multipart/mixed; boundary="===============7273847880101871428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [ath6kl:pending 16/26] drivers/net/wireless/ath/wcn36xx/main.c:1091:23: warning: no previous prototype for 'wcn36xx_get_first_vif'
-Date: Sun, 23 May 2021 21:05:36 +0800
-Message-ID: <202105232135.GqT7BiXu-lkp@intel.com>
+Subject: [ath6kl:pending 21/26] drivers/net/wireless/ath/wcn36xx/main.c:1158:6: warning: no previous prototype for 'wcn36xx_set_rekey_data'
+Date: Sun, 23 May 2021 21:43:33 +0800
+Message-ID: <202105232132.yHK9rIbR-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============0157834987539305445==
+--===============7273847880101871428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pendi=
 ng
 head:   a9cccebc0c3b91c2e5d2033d11def1e6f7fc74d4
-commit: d1f965c7b4068af9420408f308bcc6206158b658 [16/26] wcn36xx: Run suspe=
-nd for the first ieee80211_vif
+commit: 1d8370dacd1e89cfedac0b1b38e244aa5f3b4cef [21/26] wcn36xx: Add set_r=
+ekey_data callback
 config: arc-allyesconfig (attached as .config)
 compiler: arceb-elf-gcc (GCC) 9.3.0
 reproduce (this is a W=3D1 build):
@@ -24,11 +24,11 @@ reproduce (this is a W=3D1 build):
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/com=
-mit/?id=3Dd1f965c7b4068af9420408f308bcc6206158b658
+mit/?id=3D1d8370dacd1e89cfedac0b1b38e244aa5f3b4cef
         git remote add ath6kl https://git.kernel.org/pub/scm/linux/kernel/g=
 it/kvalo/ath.git
         git fetch --no-tags ath6kl pending
-        git checkout d1f965c7b4068af9420408f308bcc6206158b658
+        git checkout 1d8370dacd1e89cfedac0b1b38e244aa5f3b4cef
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 ARCH=3Darc =
@@ -39,43 +39,58 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/wcn36xx/main.c:1091:23: warning: no previous pr=
+   drivers/net/wireless/ath/wcn36xx/main.c:1092:23: warning: no previous pr=
 ototype for 'wcn36xx_get_first_vif' [-Wmissing-prototypes]
-    1091 | struct ieee80211_vif *wcn36xx_get_first_vif(struct wcn36xx *wcn)
+    1092 | struct ieee80211_vif *wcn36xx_get_first_vif(struct wcn36xx *wcn)
          |                       ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/ath/wcn36xx/main.c:1158:6: warning: no previous pro=
+totype for 'wcn36xx_set_rekey_data' [-Wmissing-prototypes]
+    1158 | void wcn36xx_set_rekey_data(struct ieee80211_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/wcn36xx/main.c:1243:6: warning: no previous pro=
+totype for 'wcn36xx_ipv6_addr_change' [-Wmissing-prototypes]
+    1243 | void wcn36xx_ipv6_addr_change(struct ieee80211_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/wcn36xx_get_first_vif +1091 drivers/net/wireless/ath/wcn36xx/main.c
+vim +/wcn36xx_set_rekey_data +1158 drivers/net/wireless/ath/wcn36xx/main.c
 
-  1090	=
+  1157	=
 
-> 1091	struct ieee80211_vif *wcn36xx_get_first_vif(struct wcn36xx *wcn)
-  1092	{
-  1093		struct wcn36xx_vif *tmp;
-  1094		struct ieee80211_vif *vif =3D NULL;
-  1095	=
+> 1158	void wcn36xx_set_rekey_data(struct ieee80211_hw *hw,
+  1159				    struct ieee80211_vif *vif,
+  1160				    struct cfg80211_gtk_rekey_data *data)
+  1161	{
+  1162		struct wcn36xx *wcn =3D hw->priv;
+  1163		struct wcn36xx_vif *vif_priv =3D wcn36xx_vif_to_priv(vif);
+  1164	=
 
-  1096		list_for_each_entry(tmp, &wcn->vif_list, list) {
-  1097			vif =3D wcn36xx_priv_to_vif(tmp);
-  1098			if (vif)
-  1099				break;
-  1100		}
-  1101		return vif;
-  1102	}
-  1103	=
+  1165		mutex_lock(&wcn->conf_mutex);
+  1166	=
+
+  1167		memcpy(vif_priv->rekey_data.kek, data->kek, NL80211_KEK_LEN);
+  1168		memcpy(vif_priv->rekey_data.kck, data->kck, NL80211_KCK_LEN);
+  1169		vif_priv->rekey_data.replay_ctr =3D
+  1170			cpu_to_le64(be64_to_cpup((__be64 *)data->replay_ctr));
+  1171		vif_priv->rekey_data.valid =3D true;
+  1172	=
+
+  1173		mutex_unlock(&wcn->conf_mutex);
+  1174	}
+  1175	=
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0157834987539305445==
+--===============7273847880101871428==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDFQqmAAAy5jb25maWcAlFxLd9s4st73r9Bxb2YW3fGrddN3jhcgCUpokQRDgJLsDY/iKGmf
+H4sICL9ZqmAAAy5jb25maWcAlFxLd9s4st73r9Bxb2YW3fGrddN3jhcgCUpokQRDgJLsDY/iKGmf
 dqwcW57bmV9/q8AXCgDlzCymo68Kr0KhXgD9808/z9jr8fB1d3y43z0+fp992T/tn3fH/afZ54fH
 /b9miZwVUs94IvSvwJw9PL3+/W73fD/77deLq1/Pf3m+v5it9s9P+8dZfHj6/PDlFVo/HJ5++vmn
 WBapWDRx3Kx5pYQsGs23+uYMWu8//rJ//PzLl/v72T8WcfzP2e+/QmdnVhOhGiDcfO+hxdjNze/n
@@ -1271,5 +1286,5 @@ BLuhLKa4NTYD6DLrW7gtOB53cXCfmbnJUf1KSM9IkUW5lghalm4LfdS872naThI+6BVaMF3rvkX2
 jgghBFnAWpRGcumtYhtZ3Ot6SmfiJRkrWS+B2I3Kd+NZpKPP+dLheYFvZO7E9bMde9qTnbae5c14
 mYFKxCF0+ABytBxp0iSgzRiPGxJntYgzD6q9XZTWqZf0ZOHdAdvkWtnXUezQu0ER7jIu6JrDgFVi
 9g5f9q2Jwf8CR6+lhUpqBAA=
---===============0157834987539305445==--
+--===============7273847880101871428==--
 
