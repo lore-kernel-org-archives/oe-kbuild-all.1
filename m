@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============6129982266170029265=="
+Content-Type: multipart/mixed; boundary="===============0676120639126513452=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [jens.wiklander:optee_ffa 3/5] drivers/tee/optee/call.c:196:6: warning: variable 'rc' is used uninitialized whenever 'if' condition is false
-Date: Tue, 25 May 2021 01:55:59 +0800
-Message-ID: <202105250151.XPcNzAJB-lkp@intel.com>
+Subject: [jens.wiklander:optee_ffa 5/5] ld.lld: error: duplicate symbol: ffa_dev_ops_get
+Date: Tue, 25 May 2021 02:29:57 +0800
+Message-ID: <202105250251.NFQMdtqU-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============6129982266170029265==
+--===============0676120639126513452==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 tree:   https://git.linaro.org/people/jens.wiklander/linux-tee.git optee_ffa
 head:   636bcfec71bba4457710dc447883d013efca34cd
-commit: 5eb0b29b029730e189f336063775a6d52feb6a5d [3/5] optee: refactor driv=
-er with internal callbacks
+commit: 636bcfec71bba4457710dc447883d013efca34cd [5/5] optee: add FF-A supp=
+ort
 config: arm64-randconfig-r026-20210524 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 93d1e5=
 822ed64abd777eb94ea9899e96c4c39fbe)
@@ -28,7 +28,7 @@ make.cross -O ~/bin/make.cross
         git remote add jens.wiklander https://git.linaro.org/people/jens.wi=
 klander/linux-tee.git
         git fetch --no-tags jens.wiklander optee_ffa
-        git checkout 5eb0b29b029730e189f336063775a6d52feb6a5d
+        git checkout 636bcfec71bba4457710dc447883d013efca34cd
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm64 =
@@ -37,106 +37,109 @@ klander/linux-tee.git
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/tee/optee/call.c:196:6: warning: variable 'rc' is used uninitial=
-ized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (IS_ERR(ma)) {
-               ^~~~~~~~~~
-   drivers/tee/optee/call.c:205:6: note: uninitialized use occurs here
-           if (rc) {
-               ^~
-   drivers/tee/optee/call.c:196:2: note: remove the 'if' if its condition i=
-s always true
-           if (IS_ERR(ma)) {
-           ^~~~~~~~~~~~~~~~
-   drivers/tee/optee/call.c:186:8: note: initialize the variable 'rc' to si=
-lence this warning
-           int rc;
-                 ^
-                  =3D 0
-   drivers/tee/optee/call.c:661:6: warning: variable 'rc' is used uninitial=
+   In file included from drivers/tee/optee/core.c:9:
+>> include/linux/arm_ffa.h:74:27: warning: no previous prototype for functi=
+on 'ffa_dev_ops_get' [-Wmissing-prototypes]
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+                             ^
+   include/linux/arm_ffa.h:74:7: note: declare 'static' if the function is =
+not intended to be used outside of this translation unit
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+         ^
+   static =
+
+   1 warning generated.
+--
+   In file included from drivers/tee/optee/call.c:6:
+>> include/linux/arm_ffa.h:74:27: warning: no previous prototype for functi=
+on 'ffa_dev_ops_get' [-Wmissing-prototypes]
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+                             ^
+   include/linux/arm_ffa.h:74:7: note: declare 'static' if the function is =
+not intended to be used outside of this translation unit
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+         ^
+   static =
+
+   drivers/tee/optee/call.c:668:6: warning: variable 'rc' is used uninitial=
 ized whenever 'if' condition is false [-Wsometimes-uninitialized]
            if (optee->ops->do_call_with_arg(ctx, shm) ||
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tee/optee/call.c:665:9: note: uninitialized use occurs here
+   drivers/tee/optee/call.c:672:9: note: uninitialized use occurs here
            return rc;
                   ^~
-   drivers/tee/optee/call.c:661:2: note: remove the 'if' if its condition i=
+   drivers/tee/optee/call.c:668:2: note: remove the 'if' if its condition i=
 s always true
            if (optee->ops->do_call_with_arg(ctx, shm) ||
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tee/optee/call.c:650:8: note: initialize the variable 'rc' to si=
+   drivers/tee/optee/call.c:657:8: note: initialize the variable 'rc' to si=
 lence this warning
            int rc;
                  ^
                   =3D 0
    2 warnings generated.
+--
+>> ld.lld: error: duplicate symbol: ffa_dev_ops_get
+   >>> defined at core.c
+   >>> drivers/tee/optee/core.o:(ffa_dev_ops_get)
+   >>> defined at call.c
+   >>> drivers/tee/optee/call.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: ffa_dev_ops_get
+   >>> defined at core.c
+   >>> drivers/tee/optee/core.o:(ffa_dev_ops_get)
+   >>> defined at rpc.c
+   >>> drivers/tee/optee/rpc.o:(.text+0x0)
+--
+   In file included from drivers/tee/optee/call.c:6:
+>> include/linux/arm_ffa.h:74:27: warning: no previous prototype for functi=
+on 'ffa_dev_ops_get' [-Wmissing-prototypes]
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+                             ^
+   include/linux/arm_ffa.h:74:7: note: declare 'static' if the function is =
+not intended to be used outside of this translation unit
+   const struct ffa_dev_ops *ffa_dev_ops_get(struct ffa_device *dev)
+         ^
+   static =
 
-
-vim +196 drivers/tee/optee/call.c
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  182  =
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  183  static struct tee_shm *get_m=
-sg_arg(struct tee_context *ctx, size_t num_params,
-5eb0b29b029730 Jens Wiklander 2021-03-25  184  				   struct optee_msg_arg =
-**msg_arg)
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  185  {
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  186  	int rc;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  187  	struct tee_shm *shm;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  188  	struct optee_msg_arg *ma;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  189  =
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  190  	shm =3D tee_shm_alloc(ctx, =
-OPTEE_MSG_GET_ARG_SIZE(num_params),
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  191  			    TEE_SHM_MAPPED);
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  192  	if (IS_ERR(shm))
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  193  		return shm;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  194  =
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  195  	ma =3D tee_shm_get_va(shm, =
-0);
-4fb0a5eb364d23 Jens Wiklander 2015-04-14 @196  	if (IS_ERR(ma)) {
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  197  		rc =3D PTR_ERR(ma);
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  198  		goto out;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  199  	}
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  200  =
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  201  	memset(ma, 0, OPTEE_MSG_GET=
-_ARG_SIZE(num_params));
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  202  	ma->num_params =3D num_para=
-ms;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  203  	*msg_arg =3D ma;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  204  out:
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  205  	if (rc) {
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  206  		tee_shm_free(shm);
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  207  		return ERR_PTR(rc);
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  208  	}
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  209  =
-
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  210  	return shm;
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  211  }
-4fb0a5eb364d23 Jens Wiklander 2015-04-14  212  =
-
-
-:::::: The code at line 196 was first introduced by commit
-:::::: 4fb0a5eb364d239722e745c02aef0dbd4e0f1ad2 tee: add OP-TEE driver
-
-:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
-:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
+   In file included from drivers/tee/optee/call.c:21:
+   In file included from drivers/tee/optee/optee_trace.h:67:
+   include/trace/define_trace.h:95:10: fatal error: './optee_trace.h' file =
+not found
+   #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/define_trace.h:90:32: note: expanded from macro 'TRACE_INC=
+LUDE'
+   # define TRACE_INCLUDE(system) __TRACE_INCLUDE(system)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/define_trace.h:87:34: note: expanded from macro '__TRACE_I=
+NCLUDE'
+   # define __TRACE_INCLUDE(system) __stringify(TRACE_INCLUDE_PATH/system.h)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+   #define __stringify(x...)       __stringify_1(x)
+                                   ^~~~~~~~~~~~~~~~
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+   #define __stringify_1(x...)     #x
+                                   ^~
+   <scratch space>:49:1: note: expanded from here
+   "./optee_trace.h"
+   ^~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6129982266170029265==
+--===============0676120639126513452==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDXkq2AAAy5jb25maWcAnDzZcuO2su/5Ctbk5dyHZLR5u6f8AJGghIgkaICUbL+wNLZm4hsv
+H4sICMzsq2AAAy5jb25maWcAnDzZcuO2su/5Ctbk5dyHZLR5u6f8AJGghIgkaICUbL+wNLZm4hsv
 c2R5kvn72w1wAUBQdp2pVGaEbgCNRqPRG/jrL78G5O3w8rQ9PNxtHx9/Bt92z7v99rC7D74+PO7+
 HUQ8yHgR0IgVvwNy8vD89s/n7f7pdBac/D6e/j76bX83CVa7/fPuMQhfnr8+fHuD/g8vz7/8+kvI
 s5gtqjCs1lRIxrOqoNfF5ae7x+3zt+DHbv8KeAGO8vso+Ne3h8P/fv4M/3962O9f9p8fH388Vd/3
@@ -677,5 +680,5 @@ uvu2I8EOMHiiI/dVNMVjFs+jUa81Um4Nv3prWmOV2jVyxmMNaYnyX+lLKRZK3I3Tc0Kt3xm8cgfp
 5gamo4gkrVPh3PwgTJupAwM4X1wfPiEoJRNracNL8BIeqZLCHiT+RV3cDZoqxY7CeD1ZFnGNGalo
 OMDiBtUErorKVAibTmAhrEFVgb3ICDtiCDHUA8cgmb4C0452Fd4ZsLdoSIlXt1WLjhfuFYxGwr4g
 QMrp7IOn/8xO4X9kwwF9QqnC0HelLMicj39vfDBBArj74wDwoxzwazAIhaDv/v8PjQ09UVXVAQA=
---===============6129982266170029265==--
+--===============0676120639126513452==--
 
