@@ -1,340 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============4118688290705154779=="
+Content-Type: multipart/mixed; boundary="===============1102287543992757508=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: [ti:ti-rt-linux-5.10.y 4403/5211] drivers/pci/controller/cadence/pci-j721e.c:417 j721e_pcie_probe() warn: missing error code 'ret'
-Date: Tue, 25 May 2021 16:12:27 +0300
-Message-ID: <202105252048.BzNMEGwA-lkp@intel.com>
+Subject: drivers/rtc/rtc-mxc_v2.c:361 mxc_rtc_probe() warn: 'pdata->clk' not released on lines: 341, 354, 361.
+Date: Tue, 25 May 2021 16:16:15 +0300
+Message-ID: <202105252102.h5r94CF9-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============4118688290705154779==
+--===============1102287543992757508==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.=
-10.y
-head:   9608f5b0459eb05d15bf5ac2945b0750d050fd57
-commit: d6c94541065433e99c45a5ba4280f2af08bd329a [4403/5211] PCI: j721e: Ad=
-d support to provide refclk to PCIe connector
-config: x86_64-randconfig-m001-20210525 (attached as .config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+Hi Alexandre,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a050a6d2b7e80ca52b2f4141eaf3420d201b72b3
+commit: 0020868f2a7037e87d6b3b196526de2fb885830d rtc: mxc{,_v2}: enable COM=
+PILE_TEST
+config: microblaze-randconfig-m031-20210525 (attached as .config)
+compiler: microblaze-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/pci/controller/cadence/pci-j721e.c:417 j721e_pcie_probe() warn: mis=
-sing error code 'ret'
+drivers/rtc/rtc-mxc_v2.c:361 mxc_rtc_probe() warn: 'pdata->clk' not release=
+d on lines: 341,354,361.
 
-vim +/ret +417 drivers/pci/controller/cadence/pci-j721e.c
+vim +361 drivers/rtc/rtc-mxc_v2.c
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  303  static int j721e_pci=
-e_probe(struct platform_device *pdev)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  304  {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  305  	struct device *dev =
-=3D &pdev->dev;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  306  	struct device_node =
-*node =3D dev->of_node;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  307  	struct pci_host_bri=
-dge *bridge;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  308  	struct j721e_pcie_d=
-ata *data;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  309  	struct cdns_pcie *c=
-dns_pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  310  	struct j721e_pcie *=
-pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  311  	struct cdns_pcie_rc=
- *rc;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  312  	struct cdns_pcie_ep=
- *ep;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  313  	struct gpio_desc *g=
-piod;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  314  	void __iomem *base;
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  315  	struct clk *clk;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  316  	u32 num_lanes;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  317  	u32 mode;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  318  	int ret;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  319  	int irq;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  320  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  279  static int mxc_rtc_prob=
+e(struct platform_device *pdev)
+83c880f79e88cc Patrick Bruenn      2017-12-18  280  {
+83c880f79e88cc Patrick Bruenn      2017-12-18  281  	struct mxc_rtc_data *p=
+data;
+83c880f79e88cc Patrick Bruenn      2017-12-18  282  	void __iomem *ioaddr;
+83c880f79e88cc Patrick Bruenn      2017-12-18  283  	int ret =3D 0;
+83c880f79e88cc Patrick Bruenn      2017-12-18  284  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  321  	data =3D (struct j7=
-21e_pcie_data *)of_device_get_match_data(dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  322  	if (!data)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  323  		return -EINVAL;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  324  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  285  	pdata =3D devm_kzalloc=
+(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
+83c880f79e88cc Patrick Bruenn      2017-12-18  286  	if (!pdata)
+83c880f79e88cc Patrick Bruenn      2017-12-18  287  		return -ENOMEM;
+83c880f79e88cc Patrick Bruenn      2017-12-18  288  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  325  	mode =3D (u32)data-=
->mode;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  326  =
+874532cdeefefa Anson Huang         2019-07-17  289  	pdata->ioaddr =3D devm=
+_platform_ioremap_resource(pdev, 0);
+83c880f79e88cc Patrick Bruenn      2017-12-18  290  	if (IS_ERR(pdata->ioad=
+dr))
+83c880f79e88cc Patrick Bruenn      2017-12-18  291  		return PTR_ERR(pdata-=
+>ioaddr);
+83c880f79e88cc Patrick Bruenn      2017-12-18  292  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  327  	pcie =3D devm_kzall=
-oc(dev, sizeof(*pcie), GFP_KERNEL);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  328  	if (!pcie)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  329  		return -ENOMEM;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  330  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  293  	ioaddr =3D pdata->ioad=
+dr;
+83c880f79e88cc Patrick Bruenn      2017-12-18  294  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  331  	pcie->dev =3D dev;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  332  	pcie->mode =3D mode;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  333  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  295  	pdata->clk =3D devm_cl=
+k_get(&pdev->dev, NULL);
+83c880f79e88cc Patrick Bruenn      2017-12-18  296  	if (IS_ERR(pdata->clk)=
+) {
+83c880f79e88cc Patrick Bruenn      2017-12-18  297  		dev_err(&pdev->dev, "=
+unable to get rtc clock!\n");
+83c880f79e88cc Patrick Bruenn      2017-12-18  298  		return PTR_ERR(pdata-=
+>clk);
+83c880f79e88cc Patrick Bruenn      2017-12-18  299  	}
+83c880f79e88cc Patrick Bruenn      2017-12-18  300  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  334  	base =3D devm_platf=
-orm_ioremap_resource_byname(pdev, "intd_cfg");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  335  	if (IS_ERR(base))
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  336  		return PTR_ERR(bas=
-e);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  337  	pcie->intd_cfg_base=
- =3D base;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  338  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  301  	spin_lock_init(&pdata-=
+>lock);
+83c880f79e88cc Patrick Bruenn      2017-12-18  302  	pdata->irq =3D platfor=
+m_get_irq(pdev, 0);
+83c880f79e88cc Patrick Bruenn      2017-12-18  303  	if (pdata->irq < 0)
+83c880f79e88cc Patrick Bruenn      2017-12-18  304  		return pdata->irq;
+83c880f79e88cc Patrick Bruenn      2017-12-18  305  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  339  	base =3D devm_platf=
-orm_ioremap_resource_byname(pdev, "user_cfg");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  340  	if (IS_ERR(base))
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  341  		return PTR_ERR(bas=
-e);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  342  	pcie->user_cfg_base=
- =3D base;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  343  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  306  	device_init_wakeup(&pd=
+ev->dev, 1);
+fbc5ee9a6955e6 Anson Huang         2019-04-11  307  	ret =3D dev_pm_set_wak=
+e_irq(&pdev->dev, pdata->irq);
+fbc5ee9a6955e6 Anson Huang         2019-04-11  308  	if (ret)
+fbc5ee9a6955e6 Anson Huang         2019-04-11  309  		dev_err(&pdev->dev, "=
+failed to enable irq wake\n");
+83c880f79e88cc Patrick Bruenn      2017-12-18  310  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  344  	ret =3D of_property=
-_read_u32(node, "num-lanes", &num_lanes);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  345  	if (ret || num_lane=
-s > MAX_LANES)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  346  		num_lanes =3D 1;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  347  	pcie->num_lanes =3D=
- num_lanes;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  348  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  311  	ret =3D clk_prepare_en=
+able(pdata->clk);
+83c880f79e88cc Patrick Bruenn      2017-12-18  312  	if (ret)
+83c880f79e88cc Patrick Bruenn      2017-12-18  313  		return ret;
+83c880f79e88cc Patrick Bruenn      2017-12-18  314  	/* initialize glitch d=
+etect */
+83c880f79e88cc Patrick Bruenn      2017-12-18  315  	writel(SRTC_LPPDR_INIT=
+, ioaddr + SRTC_LPPDR);
+83c880f79e88cc Patrick Bruenn      2017-12-18  316  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  349  	if (dma_set_mask_an=
-d_coherent(dev, DMA_BIT_MASK(48)))
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  350  		return -EINVAL;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  351  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  317  	/* clear lp interrupt =
+status */
+83c880f79e88cc Patrick Bruenn      2017-12-18  318  	writel(0xFFFFFFFF, ioa=
+ddr + SRTC_LPSR);
+83c880f79e88cc Patrick Bruenn      2017-12-18  319  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  352  	irq =3D platform_ge=
-t_irq_byname(pdev, "link_state");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  353  	if (irq < 0)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  354  		return irq;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  355  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  320  	/* move out of init st=
+ate */
+83c880f79e88cc Patrick Bruenn      2017-12-18  321  	writel((SRTC_LPCR_IE |=
+ SRTC_LPCR_NSA), ioaddr + SRTC_LPCR);
+83c880f79e88cc Patrick Bruenn      2017-12-18  322  	ret =3D mxc_rtc_wait_f=
+or_flag(ioaddr + SRTC_LPSR, SRTC_LPSR_IES);
+83c880f79e88cc Patrick Bruenn      2017-12-18  323  	if (ret) {
+83c880f79e88cc Patrick Bruenn      2017-12-18  324  		dev_err(&pdev->dev, "=
+Timeout waiting for SRTC_LPSR_IES\n");
+83c880f79e88cc Patrick Bruenn      2017-12-18  325  		clk_disable_unprepare=
+(pdata->clk);
+83c880f79e88cc Patrick Bruenn      2017-12-18  326  		return ret;
+83c880f79e88cc Patrick Bruenn      2017-12-18  327  	}
+83c880f79e88cc Patrick Bruenn      2017-12-18  328  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  356  	dev_set_drvdata(dev=
-, pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  357  	pm_runtime_enable(d=
-ev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  358  	ret =3D pm_runtime_=
-get_sync(dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  359  	if (ret < 0) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  360  		dev_err(dev, "pm_r=
-untime_get_sync failed\n");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  361  		goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  362  	}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  363  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  329  	/* move out of non-val=
+id state */
+83c880f79e88cc Patrick Bruenn      2017-12-18  330  	writel((SRTC_LPCR_IE |=
+ SRTC_LPCR_NVE | SRTC_LPCR_NSA |
+83c880f79e88cc Patrick Bruenn      2017-12-18  331  		SRTC_LPCR_EN_LP), ioa=
+ddr + SRTC_LPCR);
+83c880f79e88cc Patrick Bruenn      2017-12-18  332  	ret =3D mxc_rtc_wait_f=
+or_flag(ioaddr + SRTC_LPSR, SRTC_LPSR_NVES);
+83c880f79e88cc Patrick Bruenn      2017-12-18  333  	if (ret) {
+83c880f79e88cc Patrick Bruenn      2017-12-18  334  		dev_err(&pdev->dev, "=
+Timeout waiting for SRTC_LPSR_NVES\n");
+83c880f79e88cc Patrick Bruenn      2017-12-18  335  		clk_disable_unprepare=
+(pdata->clk);
+                                                                ^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  364  	ret =3D j721e_pcie_=
-ctrl_init(pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  365  	if (ret < 0) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  366  		dev_err(dev, "pm_r=
-untime_get_sync failed\n");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  367  		goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  368  	}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  369  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  336  		return ret;
+83c880f79e88cc Patrick Bruenn      2017-12-18  337  	}
+83c880f79e88cc Patrick Bruenn      2017-12-18  338  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  370  	ret =3D devm_reques=
-t_irq(dev, irq, j721e_pcie_link_irq_handler, 0,
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  371  			       "j721e-pci=
-e-link-down-irq", pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  372  	if (ret < 0) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  373  		dev_err(dev, "fail=
-ed to request link state IRQ %d\n", irq);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  374  		goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  375  	}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  376  =
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  339  	pdata->rtc =3D devm_rt=
+c_allocate_device(&pdev->dev);
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  340  	if (IS_ERR(pdata->rtc))
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  341  		return PTR_ERR(pdata-=
+>rtc);
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  377  	j721e_pcie_config_l=
-ink_irq(pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  378  =
+clk_disable_unprepare(pdata->clk);
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  379  	switch (mode) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  380  	case PCI_MODE_RC:
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  381  		if (!IS_ENABLED(CO=
-NFIG_PCIE_CADENCE_HOST)) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  382  			ret =3D -ENODEV;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  383  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  384  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  385  =
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  342  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  386  		bridge =3D devm_pc=
-i_alloc_host_bridge(dev, sizeof(*rc));
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  387  		if (!bridge) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  388  			ret =3D -ENOMEM;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  389  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  390  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  391  =
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  343  	pdata->rtc->ops =3D &m=
+xc_rtc_ops;
+95fbfa14b431d4 Alexandre Belloni   2018-05-19  344  	pdata->rtc->range_max =
+=3D U32_MAX;
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  345  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  392  		bridge->ops =3D &c=
-dns_ti_pcie_host_ops;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  393  		rc =3D pci_host_br=
-idge_priv(bridge);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  394  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  346  	clk_disable(pdata->clk=
+);
+83c880f79e88cc Patrick Bruenn      2017-12-18  347  	platform_set_drvdata(p=
+dev, pdata);
+83c880f79e88cc Patrick Bruenn      2017-12-18  348  	ret =3D
+83c880f79e88cc Patrick Bruenn      2017-12-18  349  	    devm_request_irq(&=
+pdev->dev, pdata->irq, mxc_rtc_interrupt, 0,
+83c880f79e88cc Patrick Bruenn      2017-12-18  350  			     pdev->name, &pd=
+ev->dev);
+83c880f79e88cc Patrick Bruenn      2017-12-18  351  	if (ret < 0) {
+83c880f79e88cc Patrick Bruenn      2017-12-18  352  		dev_err(&pdev->dev, "=
+interrupt not available.\n");
+83c880f79e88cc Patrick Bruenn      2017-12-18  353  		clk_unprepare(pdata->=
+clk);
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  395  		cdns_pcie =3D &rc-=
->pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  396  		cdns_pcie->dev =3D=
- dev;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  397  		cdns_pcie->ops =3D=
- &j721e_pcie_ops;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  398  		pcie->cdns_pcie =
-=3D cdns_pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  399  =
+Should these be clk_disable_unprepare()?  I don't know.  Please tell
+me the rules on this if the warning is wrong.  I also haven't looked up
+exactly why this warning is displayed, I would have expected
+clk_unprepare() to silence it.
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  400  		gpiod =3D devm_gpi=
-od_get_optional(dev, "reset", GPIOD_OUT_LOW);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  401  		if (IS_ERR(gpiod))=
- {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  402  			ret =3D PTR_ERR(g=
-piod);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  403  			if (ret !=3D -EPR=
-OBE_DEFER)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  404  				dev_err(dev, "Fa=
-iled to get reset GPIO\n");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  405  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  406  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  407  =
+83c880f79e88cc Patrick Bruenn      2017-12-18  354  		return ret;
+83c880f79e88cc Patrick Bruenn      2017-12-18  355  	}
+83c880f79e88cc Patrick Bruenn      2017-12-18  356  =
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  408  		ret =3D cdns_pcie_=
-init_phy(dev, cdns_pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  409  		if (ret) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  410  			dev_err(dev, "Fai=
-led to init phy\n");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  411  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  412  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  413  =
+fdcfd854333be5 Bartosz Golaszewski 2020-11-09  357  	ret =3D devm_rtc_regis=
+ter_device(pdata->rtc);
+5490a1e018a4b4 Alexandre Belloni   2018-05-19  358  	if (ret < 0)
+83c880f79e88cc Patrick Bruenn      2017-12-18  359  		clk_unprepare(pdata->=
+clk);
 
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  414  		clk =3D devm_clk_g=
-et_optional(dev, "pcie_refclk");
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  415  		if (IS_ERR(clk)) {
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  416  			dev_err(dev, "fai=
-led to get pcie_refclk\n");
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30 @417  			goto err_pcie_set=
-up;
+Same.
 
-ret =3D PTR_ERR(clk);
+83c880f79e88cc Patrick Bruenn      2017-12-18  360  =
 
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  418  		}
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  419  =
-
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  420  		ret =3D clk_prepar=
-e_enable(clk);
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  421  		if (ret) {
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  422  			dev_err(dev, "fai=
-led to enable pcie_refclk\n");
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  423  			goto err_get_sync;
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  424  		}
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  425  		pcie->refclk =3D c=
-lk;
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  426  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  427  		/*
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  428  		 * "Power Sequenci=
-ng and Reset Signal Timings" table in
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  429  		 * PCI EXPRESS CAR=
-D ELECTROMECHANICAL SPECIFICATION, REV. 3.0
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  430  		 * indicates PERST=
-# should be deasserted after minimum of 100us
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  431  		 * once REFCLK is =
-stable. The REFCLK to the connector in RC
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  432  		 * mode is selecte=
-d while enabling the PHY. So deassert PERST#
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  433  		 * after 100 us.
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  434  		 */
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  435  		if (gpiod) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  436  			usleep_range(100,=
- 200);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  437  			gpiod_set_value_c=
-ansleep(gpiod, 1);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  438  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  439  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  440  		ret =3D cdns_pcie_=
-host_setup(rc);
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  441  		if (ret < 0) {
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  442  			clk_disable_unpre=
-pare(pcie->refclk);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  443  			goto err_pcie_set=
-up;
-d6c94541065433 Kishon Vijay Abraham I 2021-03-30  444  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  445  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  446  		break;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  447  	case PCI_MODE_EP:
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  448  		if (!IS_ENABLED(CO=
-NFIG_PCIE_CADENCE_EP)) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  449  			ret =3D -ENODEV;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  450  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  451  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  452  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  453  		ep =3D devm_kzallo=
-c(dev, sizeof(*ep), GFP_KERNEL);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  454  		if (!ep) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  455  			ret =3D -ENOMEM;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  456  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  457  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  458  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  459  		cdns_pcie =3D &ep-=
->pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  460  		cdns_pcie->dev =3D=
- dev;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  461  		cdns_pcie->ops =3D=
- &j721e_pcie_ops;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  462  		pcie->cdns_pcie =
-=3D cdns_pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  463  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  464  		ret =3D cdns_pcie_=
-init_phy(dev, cdns_pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  465  		if (ret) {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  466  			dev_err(dev, "Fai=
-led to init phy\n");
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  467  			goto err_get_sync;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  468  		}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  469  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  470  		ret =3D cdns_pcie_=
-ep_setup(ep);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  471  		if (ret < 0)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  472  			goto err_pcie_set=
-up;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  473  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  474  		break;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  475  	default:
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  476  		dev_err(dev, "INVA=
-LID device type %d\n", mode);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  477  	}
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  478  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  479  	return 0;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  480  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  481  err_pcie_setup:
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  482  	cdns_pcie_disable_p=
-hy(cdns_pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  483  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  484  err_get_sync:
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  485  	pm_runtime_put(dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  486  	pm_runtime_disable(=
-dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  487  =
-
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  488  	return ret;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  489  }
+5490a1e018a4b4 Alexandre Belloni   2018-05-19 @361  	return ret;
+83c880f79e88cc Patrick Bruenn      2017-12-18  362  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4118688290705154779==--
+--===============1102287543992757508==--
 
