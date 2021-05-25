@@ -1,201 +1,94 @@
-Content-Type: multipart/mixed; boundary="===============1102287543992757508=="
+Content-Type: multipart/mixed; boundary="===============0637131095618343873=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild-all@lists.01.org
-Subject: drivers/rtc/rtc-mxc_v2.c:361 mxc_rtc_probe() warn: 'pdata->clk' not released on lines: 341, 354, 361.
-Date: Tue, 25 May 2021 16:16:15 +0300
-Message-ID: <202105252102.h5r94CF9-lkp@intel.com>
+Subject: [ti:ti-rt-linux-5.10.y 4405/5211] drivers/pci/endpoint/pci-epf-core.c:169 pci_epf_add_vepf() warn: inconsistent returns '&epf_pf->lock'.
+Date: Tue, 25 May 2021 16:52:39 +0300
+Message-ID: <202105252153.iX3RQPUD-lkp@intel.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============1102287543992757508==
+--===============0637131095618343873==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alexandre,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a050a6d2b7e80ca52b2f4141eaf3420d201b72b3
-commit: 0020868f2a7037e87d6b3b196526de2fb885830d rtc: mxc{,_v2}: enable COM=
-PILE_TEST
-config: microblaze-randconfig-m031-20210525 (attached as .config)
-compiler: microblaze-linux-gcc (GCC) 9.3.0
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.=
+10.y
+head:   9608f5b0459eb05d15bf5ac2945b0750d050fd57
+commit: 0cf43e35b1743dc43574089fcf3ff71d8cd2ae39 [4405/5211] PCI: endpoint:=
+ Add support to add virtual function in endpoint core
+config: x86_64-randconfig-m001-20210525 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/rtc/rtc-mxc_v2.c:361 mxc_rtc_probe() warn: 'pdata->clk' not release=
-d on lines: 341,354,361.
+drivers/pci/endpoint/pci-epf-core.c:169 pci_epf_add_vepf() warn: inconsiste=
+nt returns '&epf_pf->lock'.
 
-vim +361 drivers/rtc/rtc-mxc_v2.c
+vim +169 drivers/pci/endpoint/pci-epf-core.c
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  279  static int mxc_rtc_prob=
-e(struct platform_device *pdev)
-83c880f79e88cc Patrick Bruenn      2017-12-18  280  {
-83c880f79e88cc Patrick Bruenn      2017-12-18  281  	struct mxc_rtc_data *p=
-data;
-83c880f79e88cc Patrick Bruenn      2017-12-18  282  	void __iomem *ioaddr;
-83c880f79e88cc Patrick Bruenn      2017-12-18  283  	int ret =3D 0;
-83c880f79e88cc Patrick Bruenn      2017-12-18  284  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  141  int pci_epf_add_vep=
+f(struct pci_epf *epf_pf, struct pci_epf *epf_vf)
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  142  {
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  143  	u32 vfunc_no;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  144  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  285  	pdata =3D devm_kzalloc=
-(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-83c880f79e88cc Patrick Bruenn      2017-12-18  286  	if (!pdata)
-83c880f79e88cc Patrick Bruenn      2017-12-18  287  		return -ENOMEM;
-83c880f79e88cc Patrick Bruenn      2017-12-18  288  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  145  	if (IS_ERR_OR_NULL=
+(epf_pf) || IS_ERR_OR_NULL(epf_vf))
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  146  		return -EINVAL;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  147  =
 
-874532cdeefefa Anson Huang         2019-07-17  289  	pdata->ioaddr =3D devm=
-_platform_ioremap_resource(pdev, 0);
-83c880f79e88cc Patrick Bruenn      2017-12-18  290  	if (IS_ERR(pdata->ioad=
-dr))
-83c880f79e88cc Patrick Bruenn      2017-12-18  291  		return PTR_ERR(pdata-=
->ioaddr);
-83c880f79e88cc Patrick Bruenn      2017-12-18  292  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  148  	if (epf_pf->epc ||=
+ epf_vf->epc || epf_vf->epf_pf)
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  149  		return -EBUSY;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  150  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  293  	ioaddr =3D pdata->ioad=
-dr;
-83c880f79e88cc Patrick Bruenn      2017-12-18  294  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  151  	if (epf_pf->sec_ep=
+c || epf_vf->sec_epc)
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  152  		return -EBUSY;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  153  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  295  	pdata->clk =3D devm_cl=
-k_get(&pdev->dev, NULL);
-83c880f79e88cc Patrick Bruenn      2017-12-18  296  	if (IS_ERR(pdata->clk)=
-) {
-83c880f79e88cc Patrick Bruenn      2017-12-18  297  		dev_err(&pdev->dev, "=
-unable to get rtc clock!\n");
-83c880f79e88cc Patrick Bruenn      2017-12-18  298  		return PTR_ERR(pdata-=
->clk);
-83c880f79e88cc Patrick Bruenn      2017-12-18  299  	}
-83c880f79e88cc Patrick Bruenn      2017-12-18  300  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  154  	mutex_lock(&epf_pf=
+->lock);
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  155  	vfunc_no =3D find_=
+first_zero_bit(&epf_pf->vfunction_num_map,
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  156  				       BITS_PER=
+_LONG);
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  157  	if (vfunc_no >=3D =
+BITS_PER_LONG)
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  158  		return -EINVAL;
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  301  	spin_lock_init(&pdata-=
->lock);
-83c880f79e88cc Patrick Bruenn      2017-12-18  302  	pdata->irq =3D platfor=
-m_get_irq(pdev, 0);
-83c880f79e88cc Patrick Bruenn      2017-12-18  303  	if (pdata->irq < 0)
-83c880f79e88cc Patrick Bruenn      2017-12-18  304  		return pdata->irq;
-83c880f79e88cc Patrick Bruenn      2017-12-18  305  =
+mutex_unlock(&epf_pf->lock); before returning.
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  306  	device_init_wakeup(&pd=
-ev->dev, 1);
-fbc5ee9a6955e6 Anson Huang         2019-04-11  307  	ret =3D dev_pm_set_wak=
-e_irq(&pdev->dev, pdata->irq);
-fbc5ee9a6955e6 Anson Huang         2019-04-11  308  	if (ret)
-fbc5ee9a6955e6 Anson Huang         2019-04-11  309  		dev_err(&pdev->dev, "=
-failed to enable irq wake\n");
-83c880f79e88cc Patrick Bruenn      2017-12-18  310  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  159  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  311  	ret =3D clk_prepare_en=
-able(pdata->clk);
-83c880f79e88cc Patrick Bruenn      2017-12-18  312  	if (ret)
-83c880f79e88cc Patrick Bruenn      2017-12-18  313  		return ret;
-83c880f79e88cc Patrick Bruenn      2017-12-18  314  	/* initialize glitch d=
-etect */
-83c880f79e88cc Patrick Bruenn      2017-12-18  315  	writel(SRTC_LPPDR_INIT=
-, ioaddr + SRTC_LPPDR);
-83c880f79e88cc Patrick Bruenn      2017-12-18  316  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  160  	set_bit(vfunc_no, =
+&epf_pf->vfunction_num_map);
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  161  	epf_vf->vfunc_no =
+=3D vfunc_no;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  162  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  317  	/* clear lp interrupt =
-status */
-83c880f79e88cc Patrick Bruenn      2017-12-18  318  	writel(0xFFFFFFFF, ioa=
-ddr + SRTC_LPSR);
-83c880f79e88cc Patrick Bruenn      2017-12-18  319  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  163  	epf_vf->epf_pf =3D=
+ epf_pf;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  164  	epf_vf->is_vf =3D =
+true;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  165  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  320  	/* move out of init st=
-ate */
-83c880f79e88cc Patrick Bruenn      2017-12-18  321  	writel((SRTC_LPCR_IE |=
- SRTC_LPCR_NSA), ioaddr + SRTC_LPCR);
-83c880f79e88cc Patrick Bruenn      2017-12-18  322  	ret =3D mxc_rtc_wait_f=
-or_flag(ioaddr + SRTC_LPSR, SRTC_LPSR_IES);
-83c880f79e88cc Patrick Bruenn      2017-12-18  323  	if (ret) {
-83c880f79e88cc Patrick Bruenn      2017-12-18  324  		dev_err(&pdev->dev, "=
-Timeout waiting for SRTC_LPSR_IES\n");
-83c880f79e88cc Patrick Bruenn      2017-12-18  325  		clk_disable_unprepare=
-(pdata->clk);
-83c880f79e88cc Patrick Bruenn      2017-12-18  326  		return ret;
-83c880f79e88cc Patrick Bruenn      2017-12-18  327  	}
-83c880f79e88cc Patrick Bruenn      2017-12-18  328  =
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  166  	list_add_tail(&epf=
+_vf->list, &epf_pf->pci_vepf);
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  167  	mutex_unlock(&epf_=
+pf->lock);
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  168  =
 
-83c880f79e88cc Patrick Bruenn      2017-12-18  329  	/* move out of non-val=
-id state */
-83c880f79e88cc Patrick Bruenn      2017-12-18  330  	writel((SRTC_LPCR_IE |=
- SRTC_LPCR_NVE | SRTC_LPCR_NSA |
-83c880f79e88cc Patrick Bruenn      2017-12-18  331  		SRTC_LPCR_EN_LP), ioa=
-ddr + SRTC_LPCR);
-83c880f79e88cc Patrick Bruenn      2017-12-18  332  	ret =3D mxc_rtc_wait_f=
-or_flag(ioaddr + SRTC_LPSR, SRTC_LPSR_NVES);
-83c880f79e88cc Patrick Bruenn      2017-12-18  333  	if (ret) {
-83c880f79e88cc Patrick Bruenn      2017-12-18  334  		dev_err(&pdev->dev, "=
-Timeout waiting for SRTC_LPSR_NVES\n");
-83c880f79e88cc Patrick Bruenn      2017-12-18  335  		clk_disable_unprepare=
-(pdata->clk);
-                                                                ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^
-
-83c880f79e88cc Patrick Bruenn      2017-12-18  336  		return ret;
-83c880f79e88cc Patrick Bruenn      2017-12-18  337  	}
-83c880f79e88cc Patrick Bruenn      2017-12-18  338  =
-
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  339  	pdata->rtc =3D devm_rt=
-c_allocate_device(&pdev->dev);
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  340  	if (IS_ERR(pdata->rtc))
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  341  		return PTR_ERR(pdata-=
->rtc);
-
-clk_disable_unprepare(pdata->clk);
-
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  342  =
-
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  343  	pdata->rtc->ops =3D &m=
-xc_rtc_ops;
-95fbfa14b431d4 Alexandre Belloni   2018-05-19  344  	pdata->rtc->range_max =
-=3D U32_MAX;
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  345  =
-
-83c880f79e88cc Patrick Bruenn      2017-12-18  346  	clk_disable(pdata->clk=
-);
-83c880f79e88cc Patrick Bruenn      2017-12-18  347  	platform_set_drvdata(p=
-dev, pdata);
-83c880f79e88cc Patrick Bruenn      2017-12-18  348  	ret =3D
-83c880f79e88cc Patrick Bruenn      2017-12-18  349  	    devm_request_irq(&=
-pdev->dev, pdata->irq, mxc_rtc_interrupt, 0,
-83c880f79e88cc Patrick Bruenn      2017-12-18  350  			     pdev->name, &pd=
-ev->dev);
-83c880f79e88cc Patrick Bruenn      2017-12-18  351  	if (ret < 0) {
-83c880f79e88cc Patrick Bruenn      2017-12-18  352  		dev_err(&pdev->dev, "=
-interrupt not available.\n");
-83c880f79e88cc Patrick Bruenn      2017-12-18  353  		clk_unprepare(pdata->=
-clk);
-
-Should these be clk_disable_unprepare()?  I don't know.  Please tell
-me the rules on this if the warning is wrong.  I also haven't looked up
-exactly why this warning is displayed, I would have expected
-clk_unprepare() to silence it.
-
-83c880f79e88cc Patrick Bruenn      2017-12-18  354  		return ret;
-83c880f79e88cc Patrick Bruenn      2017-12-18  355  	}
-83c880f79e88cc Patrick Bruenn      2017-12-18  356  =
-
-fdcfd854333be5 Bartosz Golaszewski 2020-11-09  357  	ret =3D devm_rtc_regis=
-ter_device(pdata->rtc);
-5490a1e018a4b4 Alexandre Belloni   2018-05-19  358  	if (ret < 0)
-83c880f79e88cc Patrick Bruenn      2017-12-18  359  		clk_unprepare(pdata->=
-clk);
-
-Same.
-
-83c880f79e88cc Patrick Bruenn      2017-12-18  360  =
-
-5490a1e018a4b4 Alexandre Belloni   2018-05-19 @361  	return ret;
-83c880f79e88cc Patrick Bruenn      2017-12-18  362  }
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30 @169  	return 0;
+0cf43e35b1743dc Kishon Vijay Abraham I 2021-03-30  170  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1102287543992757508==--
+--===============0637131095618343873==--
 
