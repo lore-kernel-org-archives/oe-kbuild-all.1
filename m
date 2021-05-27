@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7691719403636184942=="
+Content-Type: multipart/mixed; boundary="===============2891332567619467427=="
 MIME-Version: 1.0
 From: kernel test robot <rong.a.chen@intel.com>
 To: kbuild-all@lists.01.org
-Subject: [dhowells-fs:fscache-iter-2 21/53] fs/fscache/dispatcher.c:12:1: iwyu: warning: superfluous #include <linux/freezer.h>
-Date: Thu, 27 May 2021 10:32:11 +0800
-Message-ID: <20210527023211.GR2687475@shao2-debian>
+Subject: [dhowells-fs:fscache-iter-2 35/53] fs/cachefiles/content-map.c:10:1: iwyu: warning: superfluous #include <linux/file.h>
+Date: Thu, 27 May 2021 10:34:27 +0800
+Message-ID: <20210527023427.GS2687475@shao2-debian>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7691719403636184942==
+--===============2891332567619467427==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
 it fscache-iter-2
 head:   b285c26894d96d708ee746d56df1519e42baaeb4
-commit: dcf2207b218d95e5b161b857561bcee6e821af74 [21/53] fscache: Provide a=
- simple thread pool for running ops asynchronously
+commit: 4235704490323737860e3f0a4c93ed249b675403 [35/53] cachefiles: Implem=
+ent a content-present indicator and bitmap
 config: x86_64-randconfig-b001-20210524 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 93d1e5=
 822ed64abd777eb94ea9899e96c4c39fbe)
@@ -28,7 +28,7 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs=
-.git/commit/?id=3Ddcf2207b218d95e5b161b857561bcee6e821af74
+.git/commit/?id=3D4235704490323737860e3f0a4c93ed249b675403
         git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/ker=
 nel/git/dhowells/linux-fs.git
         git fetch --no-tags dhowells-fs fscache-iter-2
@@ -42,14 +42,22 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
->> fs/fscache/dispatcher.c:12:1: iwyu: warning: superfluous #include <linux=
-/freezer.h>
+>> fs/cachefiles/content-map.c:10:1: iwyu: warning: superfluous #include <l=
+inux/file.h>
+>> fs/cachefiles/content-map.c:8:1: iwyu: warning: superfluous #include <li=
+nux/mount.h>
+>> fs/cachefiles/content-map.c:11:1: iwyu: warning: superfluous #include <l=
+inux/swap.h>
 
-vim +12 fs/fscache/dispatcher.c
+vim +10 fs/cachefiles/content-map.c
 
-dcf2207b218d95e David Howells 2020-02-06 @12  #include <linux/freezer.h>
-dcf2207b218d95e David Howells 2020-02-06  13  #include "internal.h"
-dcf2207b218d95e David Howells 2020-02-06  14  =
+423570449032373 David Howells 2020-02-06  @8  #include <linux/mount.h>
+423570449032373 David Howells 2020-02-06   9  #include <linux/slab.h>
+423570449032373 David Howells 2020-02-06 @10  #include <linux/file.h>
+423570449032373 David Howells 2020-02-06 @11  #include <linux/swap.h>
+423570449032373 David Howells 2020-02-06  12  #include <linux/xattr.h>
+423570449032373 David Howells 2020-02-06  13  #include "internal.h"
+423570449032373 David Howells 2020-02-06  14  =
 
 
 ---
@@ -60,13 +68,13 @@ _______________________________________________
 kbuild mailing list -- kbuild(a)lists.01.org
 To unsubscribe send an email to kbuild-leave(a)lists.01.org
 
---===============7691719403636184942==
+--===============2891332567619467427==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEAArGAAAy5jb25maWcAjDzJdty2svv7FX2cTe4isSTLiv3e0QIkQTbSJEEDZA/a4LQl2lcv
+H4sICKwkrGAAAy5jb25maWcAjDzJdty2svv7FX2cTe4isSTLiv3e0QIkQTbSJEEDZA/a4LQl2lcv
 GnxbrST++1cFcABAsB0tJDWqUJhqRqF/+tdPC/J6fH7cH+9v9w8P3xdf26f2sD+2d4sv9w/t/y4S
 vih5vaAJq38F5Pz+6fXvt39/uFJXl4v3v56/+/Xsl8Pt+WLVHp7ah0X8/PTl/usrELh/fvrXT/+K
 eZmyTMWxWlMhGS9VTbf19Zvbh/3T18Wf7eEF8BZI5dezxc9f74//8/Yt/H68PxyeD28fHv58VN8O
@@ -683,5 +691,5 @@ TccyRAAb3UFh1WFpxJSn8ksANAUf2JMQpM+hHy4t2X5423re8hNUutn44RgydA6Xpx+jQjmWlLcT
 c+hz6yZoEnHvW+QJuMycGYMBWwozE65Ug74qiaVFvwK34nJqmtGnlMyovhh85BAZoHWV80oxa5sn
 VQaC4sSUyfiUE8vqN8Sr/UYBLLyBu+Tmy4qJvWGo2CdIUJyFAvbpZF9Q1eDh5PpKphEongDalyaG
 My+5/IODhye0YRqexgI7+AB/YzoRCqSTx/8A/2A25okzAgA=
---===============7691719403636184942==--
+--===============2891332567619467427==--
 
