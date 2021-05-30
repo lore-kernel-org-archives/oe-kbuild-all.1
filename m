@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7704358935157767248=="
+Content-Type: multipart/mixed; boundary="===============3006323042003520775=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 To: kbuild-all@lists.01.org
-Subject: Re: [PATCH v6 01/14] gpu: host1x: Add DMA fence implementation
-Date: Sun, 30 May 2021 21:45:24 +0800
-Message-ID: <202105302124.x8rpySSh-lkp@intel.com>
-In-Reply-To: <20210530122156.3292479-2-mperttunen@nvidia.com>
+Subject: Re: [PATCH v6 09/14] drm/tegra: Implement new UAPI
+Date: Sun, 30 May 2021 22:01:58 +0800
+Message-ID: <202105302111.2PQGmv3L-lkp@intel.com>
+In-Reply-To: <20210530122156.3292479-10-mperttunen@nvidia.com>
 List-Id: <oe-kbuild-all.lists.linux.dev>
 
---===============7704358935157767248==
+--===============3006323042003520775==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -36,12 +36,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/5de49ce9211cbf0fbbfeb200e=
-72ce934f4574d4b
+        # https://github.com/0day-ci/linux/commit/0d658490b25da0e7f059362a4=
+5f609a92cbcbaef
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Mikko-Perttunen/TegraDRM-UAPI/2021=
 0530-205239
-        git checkout 5de49ce9211cbf0fbbfeb200e72ce934f4574d4b
+        git checkout 0d658490b25da0e7f059362a45f609a92cbcbaef
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm =
@@ -52,68 +52,68 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/host1x/fence.c:170:5: warning: no previous prototype for fun=
-ction 'host1x_fence_create_fd' [-Wmissing-prototypes]
-   int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold)
+>> drivers/gpu/drm/tegra/uapi.c:265:5: warning: no previous prototype for f=
+unction 'tegra_drm_ioctl_gem_create' [-Wmissing-prototypes]
+   int tegra_drm_ioctl_gem_create(struct drm_device *drm, void *data,
        ^
-   drivers/gpu/host1x/fence.c:170:1: note: declare 'static' if the function=
- is not intended to be used outside of this translation unit
-   int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold)
+   drivers/gpu/drm/tegra/uapi.c:265:1: note: declare 'static' if the functi=
+on is not intended to be used outside of this translation unit
+   int tegra_drm_ioctl_gem_create(struct drm_device *drm, void *data,
    ^
    static =
 
-   1 warning generated.
+>> drivers/gpu/drm/tegra/uapi.c:282:5: warning: no previous prototype for f=
+unction 'tegra_drm_ioctl_gem_mmap' [-Wmissing-prototypes]
+   int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
+       ^
+   drivers/gpu/drm/tegra/uapi.c:282:1: note: declare 'static' if the functi=
+on is not intended to be used outside of this translation unit
+   int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
+   ^
+   static =
+
+   2 warnings generated.
 
 
-vim +/host1x_fence_create_fd +170 drivers/gpu/host1x/fence.c
+vim +/tegra_drm_ioctl_gem_create +265 drivers/gpu/drm/tegra/uapi.c
 
-   169	=
+   264	=
 
- > 170	int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold)
-   171	{
-   172		struct sync_file *file;
-   173		struct dma_fence *f;
-   174		int fd;
-   175	=
+ > 265	int tegra_drm_ioctl_gem_create(struct drm_device *drm, void *data,
+   266				       struct drm_file *file)
+   267	{
+   268		struct drm_tegra_gem_create *args =3D data;
+   269		struct tegra_bo *bo;
+   270	=
 
-   176		f =3D host1x_fence_create(sp, threshold);
-   177		if (IS_ERR(f))
-   178			return PTR_ERR(f);
-   179	=
+   271		if (args->flags)
+   272			return -EINVAL;
+   273	=
 
-   180		fd =3D get_unused_fd_flags(O_CLOEXEC);
-   181		if (fd < 0) {
-   182			dma_fence_put(f);
-   183			return fd;
-   184		}
-   185	=
+   274		bo =3D tegra_bo_create_with_handle(file, drm, args->size, args->fla=
+gs,
+   275						 &args->handle);
+   276		if (IS_ERR(bo))
+   277			return PTR_ERR(bo);
+   278	=
 
-   186		file =3D sync_file_create(f);
-   187		dma_fence_put(f);
-   188		if (!file)
-   189			return -ENOMEM;
-   190	=
+   279		return 0;
+   280	}
+   281	=
 
-   191		fd_install(fd, file->file);
-   192	=
-
-   193		return fd;
-   194	}
-   195	EXPORT_SYMBOL(host1x_fence_create_fd);
-   196	=
-
+ > 282	int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7704358935157767248==
+--===============3006323042003520775==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICAGRs2AAAy5jb25maWcAjDzLdts4svv+Cp3uzdxFOpZsx/HM8QIkQQktkmAIUJK94VFsOa3b
+H4sICKSXs2AAAy5jb25maWcAjDzLdts4svv+Cp3uzdxFOpZsx/HM8QIkQQktkmAIUJK94VFsOa3b
 tuQryenO398qgA8ABJWZMydjVeFd7wfnt19+G5H30/51fdo+rl9efoy+bXabw/q0eRo9b182/xlF
 fJRxOaIRk7/D4GS7e//n4/rwOrr+fXz5+8WHw+N4NN8cdpuXUbjfPW+/vcPs7X73y2+/hDyL2bQK
 w2pBC8F4Vkm6kne/Pr6sd99G3zeHI4wb4Sq/X4z+9W17+vfHj/Dv6/Zw2B8+vrx8f63eDvv/3Tye
@@ -741,5 +741,5 @@ wNOgU4lQeZ19XZHVA4/wTgAMdJ2QctZeHabbuN6+vqHSiHZX9Pzv7X7z03itUyaIG9qh8sXJ+s0r
 XUMaORfGV3K5kjgpSu3bFlq5Qp+sfNP0m3JSWkwvo8mIYS0mkhuEi7Z2vUoApKskiuvPb+bAPzxX
 gADOC2xF8Y7ScoQhPc1BQEuQolBZgjLmM1QxHm1nPHP5QQciZ/3QFDs6fJYITCDSxkXUYOoL2oZR
 6v44UYNIJ0NyjiP+CxXmBKx0OgIA
---===============7704358935157767248==--
+--===============3006323042003520775==--
 
