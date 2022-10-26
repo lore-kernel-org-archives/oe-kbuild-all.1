@@ -1,181 +1,310 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C480B7B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Oct 2022 14:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B567B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Oct 2022 14:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666795079; x=1698331079;
+  t=1666795740; x=1698331740;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=X4/aFdcxJFymgcyM4Eb1dIh/8Dx1bQChUhoybp8FU6s=;
-  b=lMTBDJRmgu5lbMiUztYUds6ikSYFeok1f6rK8p+wCDH/LSgLo11Ftl6Z
-   +rOa1aUgzJDPUVex/NdxuHEnWbDQQByuz/ktnov9UOdjF/BNnEP2XJWFO
-   wW6uM6YvIANsMMVkd1uqNfEunQvzuX7ENsGV2YOcZaKoBgn/ETJNpT7S4
-   t2CJ5Zrk7Pxi7QcaYC9fj6ypeP3YfcfjXauwIM9i/uQbNzDnOqW760hAm
-   NpzAJ1zI/CPE/nNexv3KDzyjALnWsW2lguX5a1UBozcBEiUw3FYvDTXYi
-   Gd8u8clAEt7/ORu5THQ7QOUkWNEyLTRXNFt9F/wNkrI5tHbQbaYbNpUOK
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="306689758"
+  bh=Lt2gv6PhfLG6ybsyodaotlSoh26I2EaqLcY5zP80xPc=;
+  b=cO/lDaiFn56fT0tHFKdGe06ZZFs52HUIrtrS57KUzLVK9f3oWQ/evnN6
+   lvviEV+ypsf/RrixXZIbcVT3WwYVJtsknMC0tPoNB9XQBr8oHY2EIyZ1j
+   HYoYDbQXRxU7sbUF1p+YyNtplEHw7CdOgp8/5Meq7uLFp+zRXllAeJBX+
+   H/lVwRmrj2vpugVpoFtnFm10V6+LUs1PWJhA9N4BlhVzN7f2ZN2BNoDXF
+   b2MCJfJ4c/FD4ZfvfetT4upXbgj0IB+Fi92h0kQaKNTvGuimn4C1iv/rP
+   C/GpGm3C2LoJ6M9YWsSSQugzYdDR4JQwwt1txNW854seio0/umNHc2kiO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="370029592"
 X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="306689758"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 07:37:59 -0700
+   d="scan'208";a="370029592"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 07:48:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="961233004"
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="583181165"
 X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="961233004"
+   d="scan'208";a="583181165"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Oct 2022 07:37:57 -0700
+  by orsmga003.jf.intel.com with ESMTP; 26 Oct 2022 07:48:57 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1onhXY-0007XE-1p;
-	Wed, 26 Oct 2022 14:37:56 +0000
-Date: Wed, 26 Oct 2022 22:37:49 +0800
+	id 1onhiC-0007XU-2G;
+	Wed, 26 Oct 2022 14:48:56 +0000
+Date: Wed, 26 Oct 2022 22:47:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pratyush Kumar Khan <pratyush@sipanda.io>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/4] xdp: Support for kParser as bpf helper function
-Message-ID: <202210262209.Uh6YbpNO-lkp@intel.com>
-References: <20221026075054.119069-4-pratyush@sipanda.io>
+Subject: Re: [RFC 2/5] wireless: mwifiex: signal firmware readiness using
+ notify-device
+Message-ID: <202210262250.TQfhPrNJ-lkp@intel.com>
+References: <5d5e1e4b2f4d6c8abc4332f8664f911f26b18878.1666786471.git.matthias.schiffer@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="n2VOESs2BR3EuWWi"
+Content-Type: multipart/mixed; boundary="A+UYPa1FbYqu+ifX"
 Content-Disposition: inline
-In-Reply-To: <20221026075054.119069-4-pratyush@sipanda.io>
+In-Reply-To: <5d5e1e4b2f4d6c8abc4332f8664f911f26b18878.1666786471.git.matthias.schiffer@ew.tq-group.com>
 
 
---n2VOESs2BR3EuWWi
+--A+UYPa1FbYqu+ifX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Pratyush,
+Hi Matthias,
 
 [FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on next-20221026]
-[cannot apply to bpf-next/master bpf/master linus/master v6.1-rc2 v6.1-rc1 v6.0 v6.1-rc2]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on linus/master v6.1-rc2 next-20221026]
+[cannot apply to bluetooth/master bluetooth-next/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pratyush-Kumar-Khan/kParser-Add-new-kParser-KMOD/20221026-165116
-patch link:    https://lore.kernel.org/r/20221026075054.119069-4-pratyush%40sipanda.io
-patch subject: [RFC PATCH 3/4] xdp: Support for kParser as bpf helper function
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthias-Schiffer/notify-device-for-cross-driver-readiness-notification/20221026-211730
+patch link:    https://lore.kernel.org/r/5d5e1e4b2f4d6c8abc4332f8664f911f26b18878.1666786471.git.matthias.schiffer%40ew.tq-group.com
+patch subject: [RFC 2/5] wireless: mwifiex: signal firmware readiness using notify-device
 config: m68k-allyesconfig
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/68a7f009f159f30d492393caa868d0a168dfa95d
+        # https://github.com/intel-lab-lkp/linux/commit/c1eef9fa1fabf0f002ea921efa019597ceaf63f8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pratyush-Kumar-Khan/kParser-Add-new-kParser-KMOD/20221026-165116
-        git checkout 68a7f009f159f30d492393caa868d0a168dfa95d
+        git fetch --no-tags linux-review Matthias-Schiffer/notify-device-for-cross-driver-readiness-notification/20221026-211730
+        git checkout c1eef9fa1fabf0f002ea921efa019597ceaf63f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:3995:5: warning: no previous prototype for 'kparser_xdp_parse' [-Wmissing-prototypes]
-    3995 | int kparser_xdp_parse(struct xdp_buff *xdp, void *conf, size_t conf_len,
-         |     ^~~~~~~~~~~~~~~~~
-   net/core/filter.c: In function '____bpf_xdp_kparser':
->> net/core/filter.c:4054:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    4054 |         int err;
-         |             ^~~
->> net/core/filter.c:4053:13: warning: variable 'len1' set but not used [-Wunused-but-set-variable]
-    4053 |         int len1;
-         |             ^~~~
+   In file included from drivers/net/wireless/marvell/mwifiex/main.c:11:
+   drivers/net/wireless/marvell/mwifiex/main.c: In function '_mwifiex_fw_dpc':
+>> drivers/net/wireless/marvell/mwifiex/main.c:670:29: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long int' [-Wformat=]
+     670 |                             "cannot create firmware notify device: %d\n",
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     671 |                             PTR_ERR(adapter->notify_dev));
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             |
+         |                             long int
+   drivers/net/wireless/marvell/mwifiex/main.h:198:51: note: in definition of macro 'mwifiex_dbg'
+     198 |         _mwifiex_dbg(adapter, MWIFIEX_DBG_##mask, fmt, ##__VA_ARGS__)
+         |                                                   ^~~
+   drivers/net/wireless/marvell/mwifiex/main.c:670:69: note: format string is defined here
+     670 |                             "cannot create firmware notify device: %d\n",
+         |                                                                    ~^
+         |                                                                     |
+         |                                                                     int
+         |                                                                    %ld
 
 
-vim +/kparser_xdp_parse +3995 net/core/filter.c
+vim +670 drivers/net/wireless/marvell/mwifiex/main.c
 
-  3994	
-> 3995	int kparser_xdp_parse(struct xdp_buff *xdp, void *conf, size_t conf_len,
-  3996			      void *_metadata, size_t metadata_len)
-  3997	{
-  3998		struct kparser_hkey *keyptr = (struct kparser_hkey *)conf;
-  3999		ktime_t start_time, stop_time, elapsed_time;
-  4000		struct kparser_hkey key;
-  4001		const void *parser;
-  4002		void *data;
-  4003		int pktlen;
-  4004		int rc = 0;
-  4005	
-  4006		key.id = keyptr->id;
-  4007		strcpy(key.name, keyptr->name);
-  4008		pktlen = xdp_get_buff_len(xdp);
-  4009		data = (void *)(long)xdp->data;
-  4010		if (!kparser_funchooks.kparser_get_parser_hook) {
-  4011			pr_err("\n kparser module not loaded\n");
-  4012			return -EINVAL;
-  4013		} else {
-  4014			parser = kparser_funchooks.kparser_get_parser_hook(&key);
-  4015			if (!parser) {
-  4016				pr_err("kparser_get_parser() failed, key:{%s:%u}\n",
-  4017				       key.name, key.id);
-  4018				return -EINVAL;
-  4019			}
-  4020		}
-  4021	
-  4022		if (!kparser_funchooks.__kparser_parse_hook) {
-  4023			pr_err("\n kparser module not loaded\n");
-  4024			return -EINVAL;
-  4025		} else {
-  4026	#if KPARSER_DEBUG
-  4027			start_time = ktime_get();
-  4028	#endif
-  4029			rc = kparser_funchooks.__kparser_parse_hook(parser, data, pktlen,
-  4030								    _metadata, metadata_len);
-  4031	#if KPARSER_DEBUG
-  4032			stop_time = ktime_get();
-  4033			elapsed_time = ktime_sub(stop_time, start_time);
-  4034			pr_err("elapsedTime : %lld\n",  ktime_to_ns(elapsed_time));
-  4035	#endif
-  4036			if (!kparser_funchooks.kparser_put_parser_hook) {
-  4037				pr_err("\n kparser module not loaded\n");
-  4038				return -EINVAL;
-  4039			} else {
-  4040				if (kparser_funchooks.kparser_put_parser_hook(parser) != true)
-  4041					pr_err("kparser_put_parser() failed\n");
-  4042			}
-  4043	#if KPARSER_DEBUG
-  4044			pr_debug("%s:rc:{%d:%s}\n", __func__, rc, kparser_code_to_text(rc));
-  4045	#endif
-  4046		}
-  4047		return rc;
-  4048	}
-  4049	
-  4050	BPF_CALL_5(bpf_xdp_kparser, struct xdp_buff *, xdp, void *, conf,
-  4051		   u32, conf_len, void *, buf, u32, len)
-  4052	{
-> 4053		int len1;
-> 4054		int err;
-  4055	
-  4056		len1 = xdp_get_buff_len(xdp);
-  4057		err = kparser_xdp_parse(xdp, conf, conf_len, buf, len);
-  4058		return 0;
-  4059	}
-  4060	
+   535	
+   536	/*
+   537	 * This function gets firmware and initializes it.
+   538	 *
+   539	 * The main initialization steps followed are -
+   540	 *      - Download the correct firmware to card
+   541	 *      - Issue the init commands to firmware
+   542	 */
+   543	static int _mwifiex_fw_dpc(const struct firmware *firmware, void *context)
+   544	{
+   545		int ret;
+   546		char fmt[64];
+   547		struct mwifiex_adapter *adapter = context;
+   548		struct mwifiex_fw_image fw;
+   549		bool init_failed = false;
+   550		struct wireless_dev *wdev;
+   551		struct completion *fw_done = adapter->fw_done;
+   552	
+   553		if (!firmware) {
+   554			mwifiex_dbg(adapter, ERROR,
+   555				    "Failed to get firmware %s\n", adapter->fw_name);
+   556			goto err_dnld_fw;
+   557		}
+   558	
+   559		memset(&fw, 0, sizeof(struct mwifiex_fw_image));
+   560		adapter->firmware = firmware;
+   561		fw.fw_buf = (u8 *) adapter->firmware->data;
+   562		fw.fw_len = adapter->firmware->size;
+   563	
+   564		if (adapter->if_ops.dnld_fw) {
+   565			ret = adapter->if_ops.dnld_fw(adapter, &fw);
+   566		} else {
+   567			ret = mwifiex_dnld_fw(adapter, &fw);
+   568		}
+   569	
+   570		if (ret == -1)
+   571			goto err_dnld_fw;
+   572	
+   573		mwifiex_dbg(adapter, MSG, "WLAN FW is active\n");
+   574	
+   575		if (cal_data_cfg) {
+   576			if ((request_firmware(&adapter->cal_data, cal_data_cfg,
+   577					      adapter->dev)) < 0)
+   578				mwifiex_dbg(adapter, ERROR,
+   579					    "Cal data request_firmware() failed\n");
+   580		}
+   581	
+   582		/* enable host interrupt after fw dnld is successful */
+   583		if (adapter->if_ops.enable_int) {
+   584			if (adapter->if_ops.enable_int(adapter))
+   585				goto err_dnld_fw;
+   586		}
+   587	
+   588		adapter->init_wait_q_woken = false;
+   589		ret = mwifiex_init_fw(adapter);
+   590		if (ret == -1) {
+   591			goto err_init_fw;
+   592		} else if (!ret) {
+   593			adapter->hw_status = MWIFIEX_HW_STATUS_READY;
+   594			goto done;
+   595		}
+   596		/* Wait for mwifiex_init to complete */
+   597		if (!adapter->mfg_mode) {
+   598			wait_event_interruptible(adapter->init_wait_q,
+   599						 adapter->init_wait_q_woken);
+   600			if (adapter->hw_status != MWIFIEX_HW_STATUS_READY)
+   601				goto err_init_fw;
+   602		}
+   603	
+   604		if (!adapter->wiphy) {
+   605			if (mwifiex_register_cfg80211(adapter)) {
+   606				mwifiex_dbg(adapter, ERROR,
+   607					    "cannot register with cfg80211\n");
+   608				goto err_init_fw;
+   609			}
+   610		}
+   611	
+   612		if (mwifiex_init_channel_scan_gap(adapter)) {
+   613			mwifiex_dbg(adapter, ERROR,
+   614				    "could not init channel stats table\n");
+   615			goto err_init_chan_scan;
+   616		}
+   617	
+   618		if (driver_mode) {
+   619			driver_mode &= MWIFIEX_DRIVER_MODE_BITMASK;
+   620			driver_mode |= MWIFIEX_DRIVER_MODE_STA;
+   621		}
+   622	
+   623		rtnl_lock();
+   624		wiphy_lock(adapter->wiphy);
+   625		/* Create station interface by default */
+   626		wdev = mwifiex_add_virtual_intf(adapter->wiphy, "mlan%d", NET_NAME_ENUM,
+   627						NL80211_IFTYPE_STATION, NULL);
+   628		if (IS_ERR(wdev)) {
+   629			mwifiex_dbg(adapter, ERROR,
+   630				    "cannot create default STA interface\n");
+   631			wiphy_unlock(adapter->wiphy);
+   632			rtnl_unlock();
+   633			goto err_add_intf;
+   634		}
+   635	
+   636		if (driver_mode & MWIFIEX_DRIVER_MODE_UAP) {
+   637			wdev = mwifiex_add_virtual_intf(adapter->wiphy, "uap%d", NET_NAME_ENUM,
+   638							NL80211_IFTYPE_AP, NULL);
+   639			if (IS_ERR(wdev)) {
+   640				mwifiex_dbg(adapter, ERROR,
+   641					    "cannot create AP interface\n");
+   642				wiphy_unlock(adapter->wiphy);
+   643				rtnl_unlock();
+   644				goto err_add_intf;
+   645			}
+   646		}
+   647	
+   648		if (driver_mode & MWIFIEX_DRIVER_MODE_P2P) {
+   649			wdev = mwifiex_add_virtual_intf(adapter->wiphy, "p2p%d", NET_NAME_ENUM,
+   650							NL80211_IFTYPE_P2P_CLIENT, NULL);
+   651			if (IS_ERR(wdev)) {
+   652				mwifiex_dbg(adapter, ERROR,
+   653					    "cannot create p2p client interface\n");
+   654				wiphy_unlock(adapter->wiphy);
+   655				rtnl_unlock();
+   656				goto err_add_intf;
+   657			}
+   658		}
+   659		wiphy_unlock(adapter->wiphy);
+   660		rtnl_unlock();
+   661	
+   662		mwifiex_drv_get_driver_version(adapter, fmt, sizeof(fmt) - 1);
+   663		mwifiex_dbg(adapter, MSG, "driver_version = %s\n", fmt);
+   664		adapter->is_up = true;
+   665	
+   666		adapter->notify_dev = notify_device_create(adapter->dev, "firmware-notifier");
+   667		if (IS_ERR(adapter->notify_dev)) {
+   668			/* This error is not fatal */
+   669			mwifiex_dbg(adapter, ERROR,
+ > 670				    "cannot create firmware notify device: %d\n",
+   671				    PTR_ERR(adapter->notify_dev));
+   672			adapter->notify_dev = NULL;
+   673		}
+   674	
+   675		goto done;
+   676	
+   677	err_add_intf:
+   678		vfree(adapter->chan_stats);
+   679	err_init_chan_scan:
+   680		wiphy_unregister(adapter->wiphy);
+   681		wiphy_free(adapter->wiphy);
+   682	err_init_fw:
+   683		if (adapter->if_ops.disable_int)
+   684			adapter->if_ops.disable_int(adapter);
+   685	err_dnld_fw:
+   686		mwifiex_dbg(adapter, ERROR,
+   687			    "info: %s: unregister device\n", __func__);
+   688		if (adapter->if_ops.unregister_dev)
+   689			adapter->if_ops.unregister_dev(adapter);
+   690	
+   691		set_bit(MWIFIEX_SURPRISE_REMOVED, &adapter->work_flags);
+   692		mwifiex_terminate_workqueue(adapter);
+   693	
+   694		if (adapter->hw_status == MWIFIEX_HW_STATUS_READY) {
+   695			pr_debug("info: %s: shutdown mwifiex\n", __func__);
+   696			mwifiex_shutdown_drv(adapter);
+   697			mwifiex_free_cmd_buffers(adapter);
+   698		}
+   699	
+   700		init_failed = true;
+   701	done:
+   702		if (adapter->cal_data) {
+   703			release_firmware(adapter->cal_data);
+   704			adapter->cal_data = NULL;
+   705		}
+   706		if (adapter->firmware) {
+   707			release_firmware(adapter->firmware);
+   708			adapter->firmware = NULL;
+   709		}
+   710		if (init_failed) {
+   711			if (adapter->irq_wakeup >= 0)
+   712				device_init_wakeup(adapter->dev, false);
+   713			mwifiex_free_adapter(adapter);
+   714		}
+   715		/* Tell all current and future waiters we're finished */
+   716		complete_all(fw_done);
+   717	
+   718		return init_failed ? -EIO : 0;
+   719	}
+   720	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---n2VOESs2BR3EuWWi
+--A+UYPa1FbYqu+ifX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/m68k 6.1.0-rc2 Kernel Configuration
+# Linux/m68k 6.1.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="m68k-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -522,8 +651,6 @@ CONFIG_HAVE_ARCH_PFN_VALID=y
 #
 CONFIG_GCOV_KERNEL=y
 # end of GCOV-based kernel profiling
-
-CONFIG_FUNCTION_ALIGNMENT=0
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -1724,7 +1851,6 @@ CONFIG_PAGE_POOL_STATS=y
 CONFIG_FAILOVER=y
 CONFIG_ETHTOOL_NETLINK=y
 CONFIG_NETDEV_ADDR_LIST_TEST=y
-CONFIG_KPARSER=y
 
 #
 # Device Drivers
@@ -1880,7 +2006,6 @@ CONFIG_MTD_OF_PARTS=y
 CONFIG_MTD_OF_PARTS_BCM4908=y
 CONFIG_MTD_OF_PARTS_LINKSYS_NS=y
 CONFIG_MTD_PARSER_IMAGETAG=y
-CONFIG_MTD_PARSER_TPLINK_SAFELOADER=y
 CONFIG_MTD_PARSER_TRX=y
 CONFIG_MTD_SHARPSL_PARTS=y
 CONFIG_MTD_REDBOOT_PARTS=y
@@ -2176,14 +2301,6 @@ CONFIG_ZRAM_DEF_COMP_LZORLE=y
 CONFIG_ZRAM_DEF_COMP="lzo-rle"
 CONFIG_ZRAM_WRITEBACK=y
 CONFIG_ZRAM_MEMORY_TRACKING=y
-CONFIG_ZRAM_MULTI_COMP=y
-# CONFIG_ZRAM_DEF_RECOMP_LZORLE is not set
-CONFIG_ZRAM_DEF_RECOMP_ZSTD=y
-# CONFIG_ZRAM_DEF_RECOMP_LZ4 is not set
-# CONFIG_ZRAM_DEF_RECOMP_LZO is not set
-# CONFIG_ZRAM_DEF_RECOMP_LZ4HC is not set
-# CONFIG_ZRAM_DEF_RECOMP_842 is not set
-CONFIG_ZRAM_DEF_RECOMP="zstd"
 CONFIG_BLK_DEV_LOOP=y
 CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
 CONFIG_BLK_DEV_DRBD=y
@@ -2257,6 +2374,7 @@ CONFIG_MISC_RTSX=y
 CONFIG_HISI_HIKEY_USB=y
 CONFIG_OPEN_DICE=y
 CONFIG_VCPU_STALL_DETECTOR=y
+CONFIG_NOTIFY_DEVICE=y
 CONFIG_C2PORT=y
 
 #
@@ -2419,6 +2537,7 @@ CONFIG_SATA_RCAR=y
 # PATA SFF controllers with BMDMA
 #
 CONFIG_PATA_ARASAN_CF=y
+CONFIG_PATA_BK3710=y
 CONFIG_PATA_FTIDE010=y
 CONFIG_PATA_IMX=y
 CONFIG_PATA_PXA=y
@@ -2755,8 +2874,6 @@ CONFIG_ENC28J60_WRITEVERIFY=y
 CONFIG_ENCX24J600=y
 CONFIG_LAN966X_SWITCH=y
 CONFIG_SPARX5_SWITCH=y
-CONFIG_VCAP=y
-CONFIG_VCAP_KUNIT_TEST=y
 CONFIG_NET_VENDOR_MICROSEMI=y
 CONFIG_MSCC_OCELOT_SWITCH_LIB=y
 CONFIG_MSCC_OCELOT_SWITCH=y
@@ -2800,6 +2917,7 @@ CONFIG_NET_VENDOR_SMSC=y
 CONFIG_SMC9194=y
 CONFIG_SMC91X=y
 CONFIG_PCMCIA_SMC91C92=y
+CONFIG_SMC911X=y
 CONFIG_SMSC911X=y
 CONFIG_NET_VENDOR_SOCIONEXT=y
 CONFIG_SNI_AVE=y
@@ -3940,7 +4058,6 @@ CONFIG_NPCM7XX_KCS_IPMI_BMC=y
 CONFIG_IPMI_KCS_BMC_CDEV_IPMI=y
 CONFIG_IPMI_KCS_BMC_SERIO=y
 CONFIG_ASPEED_BT_IPMI_BMC=y
-CONFIG_SSIF_IPMI_BMC=y
 CONFIG_IPMB_DEVICE_INTERFACE=y
 CONFIG_HW_RANDOM=y
 CONFIG_HW_RANDOM_TIMERIOMEM=y
@@ -4460,7 +4577,6 @@ CONFIG_PINCTRL_SC7280_LPASS_LPI=y
 CONFIG_PINCTRL_SC8180X=y
 CONFIG_PINCTRL_SC8280XP=y
 CONFIG_PINCTRL_SDM660=y
-CONFIG_PINCTRL_SDM670=y
 CONFIG_PINCTRL_SDM845=y
 CONFIG_PINCTRL_SDX55=y
 CONFIG_PINCTRL_SM6115=y
@@ -4711,7 +4827,6 @@ CONFIG_GPIO_VIPERBOARD=y
 # Virtual GPIO drivers
 #
 CONFIG_GPIO_AGGREGATOR=y
-CONFIG_GPIO_LATCH=y
 CONFIG_GPIO_MOCKUP=y
 CONFIG_GPIO_VIRTIO=y
 CONFIG_GPIO_SIM=y
@@ -5346,7 +5461,6 @@ CONFIG_BCMA_DEBUG=y
 CONFIG_MFD_CORE=y
 CONFIG_MFD_ACT8945A=y
 CONFIG_MFD_AS3711=y
-CONFIG_MFD_SMPRO=y
 CONFIG_MFD_AS3722=y
 CONFIG_PMIC_ADP5520=y
 CONFIG_MFD_AAT2870_CORE=y
@@ -6168,6 +6282,7 @@ CONFIG_VIDEO_STM32_DMA2D=y
 # Sunxi media platform drivers
 #
 CONFIG_VIDEO_SUN4I_CSI=y
+CONFIG_VIDEO_SUN6I_CSI=y
 
 #
 # Texas Instruments drivers
@@ -6951,7 +7066,6 @@ CONFIG_DRM_MXSFB=y
 CONFIG_DRM_IMX_LCDIF=y
 CONFIG_DRM_ARCPGU=y
 CONFIG_DRM_GM12U320=y
-CONFIG_DRM_OFDRM=y
 CONFIG_DRM_PANEL_MIPI_DBI=y
 CONFIG_DRM_SIMPLEDRM=y
 CONFIG_TINYDRM_HX8357D=y
@@ -9137,6 +9251,7 @@ CONFIG_EP93XX_DMA=y
 CONFIG_FSL_EDMA=y
 CONFIG_IMG_MDC_DMA=y
 CONFIG_INTEL_IDMA64=y
+CONFIG_INTEL_IOP_ADMA=y
 CONFIG_K3_DMA=y
 CONFIG_MCF_EDMA=y
 CONFIG_MILBEAUT_HDMAC=y
@@ -11379,8 +11494,6 @@ CONFIG_FPGA_MGR_ZYNQMP_FPGA=y
 CONFIG_FPGA_MGR_VERSAL_FPGA=y
 CONFIG_FPGA_M10_BMC_SEC_UPDATE=y
 CONFIG_FPGA_MGR_MICROCHIP_SPI=y
-CONFIG_FPGA_MGR_LATTICE_SYSCONFIG=y
-CONFIG_FPGA_MGR_LATTICE_SYSCONFIG_SPI=y
 CONFIG_FSI=y
 CONFIG_FSI_NEW_DEV_NODE=y
 CONFIG_FSI_MASTER_GPIO=y
@@ -11732,7 +11845,6 @@ CONFIG_NFS_DEBUG=y
 CONFIG_NFS_DISABLE_UDP_SUPPORT=y
 CONFIG_NFS_V4_2_READ_PLUS=y
 CONFIG_NFSD=y
-CONFIG_NFSD_V2=y
 CONFIG_NFSD_V2_ACL=y
 CONFIG_NFSD_V3_ACL=y
 CONFIG_NFSD_V4=y
@@ -12622,6 +12734,7 @@ CONFIG_ASYNC_RAID6_TEST=y
 CONFIG_TEST_HEXDUMP=y
 CONFIG_STRING_SELFTEST=y
 CONFIG_TEST_STRING_HELPERS=y
+CONFIG_TEST_STRSCPY=y
 CONFIG_TEST_KSTRTOX=y
 CONFIG_TEST_PRINTF=y
 CONFIG_TEST_SCANF=y
@@ -12655,7 +12768,6 @@ CONFIG_MEMCPY_KUNIT_TEST=y
 CONFIG_IS_SIGNED_TYPE_KUNIT_TEST=y
 CONFIG_OVERFLOW_KUNIT_TEST=y
 CONFIG_STACKINIT_KUNIT_TEST=y
-CONFIG_STRSCPY_KUNIT_TEST=y
 CONFIG_TEST_UDELAY=y
 CONFIG_TEST_STATIC_KEYS=m
 CONFIG_TEST_DYNAMIC_DEBUG=y
@@ -12677,4 +12789,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---n2VOESs2BR3EuWWi--
+--A+UYPa1FbYqu+ifX--
