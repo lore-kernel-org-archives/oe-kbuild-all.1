@@ -1,54 +1,55 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6FD15CAE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Oct 2022 10:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A7123C0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Oct 2022 11:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667037809; x=1698573809;
+  t=1667042672; x=1698578672;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GuIfEF3+C6UTTZ2Ionzg2txZ55oCOVlWiYA4NNvvAkU=;
-  b=hCbRzRC9+0PTMxJey4WKJr8n8VNDRShui1QSnegQI7ky0KEru/OHYeh6
-   +OkC7kus+rBFJIrpgh713mCpq4odOJ2j8d+ZUKEj2nN/unbGnYCZEZPqD
-   X4pRXpTn1h7mwr2WbI6Q3S2KoMoWitWhBKSoMcXwce6pT2qbMnj74aQAU
-   GjfMdvad6PGP8ScvRublTC4XAz0g39vqpQZq82UC3W2MoZ23DLDsdEAwg
-   Ei9dPFQA9gfeKk9wNzRCksGQ9gYjaVY40VSwW1mPpjiVoBzmmyK2hzEUc
-   xegg3y9+m6FOvHMniN2za5xg4PDa1iaDUfsbd4n/cnMcaDn+lXdyIJ0Md
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="308653913"
+  bh=6GEM8LkpyIt5duMSu5YT1w2yyERg0vQM+LS2KrItfFE=;
+  b=IxiHDoVYIWgzyMa5Tp0urQaOyqVah2FXnjxD04VOqKwmnGJhPxgvJZga
+   S/fLiYI0VMHwHPQ6IlgLjyT+gcBfPmCDdjZCQV7zYvF0LWzd7yHd1zBQz
+   gF27sJdDFaxFwBxWs55aTveVKNFOd+GW4gP6qb5ed9c6Gs/VPcf/yN7ST
+   PWNkdGQWAklc9+IvKKik9Z4SY0nIwUzhyt70J2GCGL+EPF5lkKfVTyZSm
+   a/VvDMvD0fTjmLs6RULhmYZRfiRDXoDdxOOQLepJKsU+HXWBIvw+A2qw1
+   2ri8y02vOn9ncc6iNWxoNOOD6Whh3ppZY8YJlxA4A6rMlyurkwugBMrOg
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="308658227"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="308653913"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 03:03:28 -0700
+   d="scan'208";a="308658227"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 04:24:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="962291417"
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="758367357"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="962291417"
+   d="scan'208";a="758367357"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Oct 2022 03:03:27 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Oct 2022 04:24:29 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ooigY-000AuN-1X;
-	Sat, 29 Oct 2022 10:03:26 +0000
-Date: Sat, 29 Oct 2022 18:02:48 +0800
+	id 1oojwy-000AyD-15;
+	Sat, 29 Oct 2022 11:24:28 +0000
+Date: Sat, 29 Oct 2022 19:23:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: James Morse <james.morse@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
 	Catalin Marinas <catalin.marinas@arm.com>
-Subject: arch/arm64/kernel/proton-pack.c:1054:14: warning: no previous
- prototype for 'spectre_bhb_patch_loop_iter'
-Message-ID: <202210291747.ui71p7KA-lkp@intel.com>
+Subject: arch/arm64/kernel/proton-pack.c:1117:13: warning: no previous
+ prototype for 'spectre_bhb_patch_clearbhb'
+Message-ID: <202210291938.CidZ6iUt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rk2CdyLkVSXBzenu"
+Content-Type: multipart/mixed; boundary="2dqPkX8Zkau6w7o/"
 Content-Disposition: inline
 
 
---rk2CdyLkVSXBzenu
+--2dqPkX8Zkau6w7o/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -58,17 +59,17 @@ FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   576e61cea1e4b66f52f164dee0edbe4b1c999997
-commit: 558c303c9734af5a813739cd284879227f7297d2 arm64: Mitigate spectre style branch history side channels
+commit: 228a26b912287934789023b4132ba76065d9491c arm64: Use the clearbhb instruction in mitigations
 date:   8 months ago
 config: arm64-alldefconfig
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=558c303c9734af5a813739cd284879227f7297d2
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=228a26b912287934789023b4132ba76065d9491c
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 558c303c9734af5a813739cd284879227f7297d2
+        git checkout 228a26b912287934789023b4132ba76065d9491c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
@@ -84,52 +85,92 @@ All warnings (new ones prefixed by >>):
    arch/arm64/kernel/proton-pack.c:584:13: warning: no previous prototype for 'smccc_patch_fw_mitigation_conduit' [-Wmissing-prototypes]
      584 | void __init smccc_patch_fw_mitigation_conduit(struct alt_instr *alt,
          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/proton-pack.c:1032:14: warning: no previous prototype for 'spectre_bhb_patch_loop_mitigation_enable' [-Wmissing-prototypes]
-    1032 | void noinstr spectre_bhb_patch_loop_mitigation_enable(struct alt_instr *alt,
+   arch/arm64/kernel/proton-pack.c:1048:14: warning: no previous prototype for 'spectre_bhb_patch_loop_mitigation_enable' [-Wmissing-prototypes]
+    1048 | void noinstr spectre_bhb_patch_loop_mitigation_enable(struct alt_instr *alt,
          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/proton-pack.c:1043:14: warning: no previous prototype for 'spectre_bhb_patch_fw_mitigation_enabled' [-Wmissing-prototypes]
-    1043 | void noinstr spectre_bhb_patch_fw_mitigation_enabled(struct alt_instr *alt,
+   arch/arm64/kernel/proton-pack.c:1059:14: warning: no previous prototype for 'spectre_bhb_patch_fw_mitigation_enabled' [-Wmissing-prototypes]
+    1059 | void noinstr spectre_bhb_patch_fw_mitigation_enabled(struct alt_instr *alt,
          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/proton-pack.c:1054:14: warning: no previous prototype for 'spectre_bhb_patch_loop_iter' [-Wmissing-prototypes]
-    1054 | void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
+   arch/arm64/kernel/proton-pack.c:1070:14: warning: no previous prototype for 'spectre_bhb_patch_loop_iter' [-Wmissing-prototypes]
+    1070 | void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/proton-pack.c:1075:14: warning: no previous prototype for 'spectre_bhb_patch_wa3' [-Wmissing-prototypes]
-    1075 | void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
+   arch/arm64/kernel/proton-pack.c:1091:14: warning: no previous prototype for 'spectre_bhb_patch_wa3' [-Wmissing-prototypes]
+    1091 | void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
          |              ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/proton-pack.c:1117:13: warning: no previous prototype for 'spectre_bhb_patch_clearbhb' [-Wmissing-prototypes]
+    1117 | void __init spectre_bhb_patch_clearbhb(struct alt_instr *alt,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/spectre_bhb_patch_loop_iter +1054 arch/arm64/kernel/proton-pack.c
+vim +/spectre_bhb_patch_clearbhb +1117 arch/arm64/kernel/proton-pack.c
 
-  1052	
-  1053	/* Patched to correct the immediate */
-> 1054	void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
-  1055					   __le32 *origptr, __le32 *updptr, int nr_inst)
-  1056	{
-  1057		u8 rd;
-  1058		u32 insn;
-  1059		u16 loop_count = spectre_bhb_loop_affected(SCOPE_SYSTEM);
-  1060	
-  1061		BUG_ON(nr_inst != 1); /* MOV -> MOV */
-  1062	
-  1063		if (!IS_ENABLED(CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY))
-  1064			return;
-  1065	
-  1066		insn = le32_to_cpu(*origptr);
-  1067		rd = aarch64_insn_decode_register(AARCH64_INSN_REGTYPE_RD, insn);
-  1068		insn = aarch64_insn_gen_movewide(rd, loop_count, 0,
-  1069						 AARCH64_INSN_VARIANT_64BIT,
-  1070						 AARCH64_INSN_MOVEWIDE_ZERO);
-  1071		*updptr++ = cpu_to_le32(insn);
-  1072	}
-  1073	
-  1074	/* Patched to mov WA3 when supported */
-> 1075	void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
+  1057	
+  1058	/* Patched to NOP when enabled */
+> 1059	void noinstr spectre_bhb_patch_fw_mitigation_enabled(struct alt_instr *alt,
+  1060							   __le32 *origptr,
+  1061							   __le32 *updptr, int nr_inst)
+  1062	{
+  1063		BUG_ON(nr_inst != 1);
+  1064	
+  1065		if (test_bit(BHB_FW, &system_bhb_mitigations))
+  1066			*updptr++ = cpu_to_le32(aarch64_insn_gen_nop());
+  1067	}
+  1068	
+  1069	/* Patched to correct the immediate */
+  1070	void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
+  1071					   __le32 *origptr, __le32 *updptr, int nr_inst)
+  1072	{
+  1073		u8 rd;
+  1074		u32 insn;
+  1075		u16 loop_count = spectre_bhb_loop_affected(SCOPE_SYSTEM);
+  1076	
+  1077		BUG_ON(nr_inst != 1); /* MOV -> MOV */
+  1078	
+  1079		if (!IS_ENABLED(CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY))
+  1080			return;
+  1081	
+  1082		insn = le32_to_cpu(*origptr);
+  1083		rd = aarch64_insn_decode_register(AARCH64_INSN_REGTYPE_RD, insn);
+  1084		insn = aarch64_insn_gen_movewide(rd, loop_count, 0,
+  1085						 AARCH64_INSN_VARIANT_64BIT,
+  1086						 AARCH64_INSN_MOVEWIDE_ZERO);
+  1087		*updptr++ = cpu_to_le32(insn);
+  1088	}
+  1089	
+  1090	/* Patched to mov WA3 when supported */
+  1091	void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
+  1092					   __le32 *origptr, __le32 *updptr, int nr_inst)
+  1093	{
+  1094		u8 rd;
+  1095		u32 insn;
+  1096	
+  1097		BUG_ON(nr_inst != 1); /* MOV -> MOV */
+  1098	
+  1099		if (!IS_ENABLED(CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY) ||
+  1100		    !test_bit(BHB_FW, &system_bhb_mitigations))
+  1101			return;
+  1102	
+  1103		insn = le32_to_cpu(*origptr);
+  1104		rd = aarch64_insn_decode_register(AARCH64_INSN_REGTYPE_RD, insn);
+  1105	
+  1106		insn = aarch64_insn_gen_logical_immediate(AARCH64_INSN_LOGIC_ORR,
+  1107							  AARCH64_INSN_VARIANT_32BIT,
+  1108							  AARCH64_INSN_REG_ZR, rd,
+  1109							  ARM_SMCCC_ARCH_WORKAROUND_3);
+  1110		if (WARN_ON_ONCE(insn == AARCH64_BREAK_FAULT))
+  1111			return;
+  1112	
+  1113		*updptr++ = cpu_to_le32(insn);
+  1114	}
+  1115	
+  1116	/* Patched to NOP when not supported */
+> 1117	void __init spectre_bhb_patch_clearbhb(struct alt_instr *alt,
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---rk2CdyLkVSXBzenu
+--2dqPkX8Zkau6w7o/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -1965,4 +2006,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---rk2CdyLkVSXBzenu--
+--2dqPkX8Zkau6w7o/--
