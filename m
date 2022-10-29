@@ -1,243 +1,142 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D98A15C8E;
-	Sat, 29 Oct 2022 05:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F0517C7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Oct 2022 05:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667021408; x=1698557408;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xfx0nSLYlZhxYc3LVPw0e62nS1uZXaFNSjsZ2DmrTwM=;
-  b=Cme84b62wbbN7pb4bXa2UjM2Xfn7xc3Z5BHL+5XBSEI19kUx7bQksIkT
-   ZakQe34qgz8GHOGs5YZm/l/namJSwCidoqnJZX5hw2O11mEjVRTU1qMBb
-   zB93IeQ0iRoCnep6CDVhL2osCD5v/6UTp0zitWQmZRXPMN9Zg1cGVMQpP
-   sJPWpYJizBst4BHQsKcOpTza9UuYkW8+pkPhqtxdPsuPdJj7SQb1dEWoV
-   TrppsVnHYAuOEX3215ZL7TOZBbe9O6Ad872zvc2YVpH4aZEkfa1EUJhsU
-   5/AZ2Nx4b5FFfImBNeDL1NxMsks/w9gV5kVT2U/nBKcJ3KPdV8zq87nIh
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="394956123"
+  t=1667022015; x=1698558015;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IwmFXvJW4uKw/T/iFIXaGErDdVYxsQsT9fMdkQCH6/Y=;
+  b=QSlWoMw78u5d6XdoNeaXN5tN/4r+pNLn8P5GJgd1abXFwPIfHfaHHoaZ
+   563TCOeC/exhLR4IxJ0A3i3mILbrsdKKWg68M/JRWfkLlNA5XrTYSNvf4
+   rXtlI90t7WCHNv8RQPkpx6uZeVnDudFlX9IlHpmM7z9lVqv0OaOoAH3P5
+   xPqXDeCb4h3Elb99JyD0+LUJouydvo2+88Z7cMrd2yD2MT2kUcZhtNW4g
+   AZJ2SUeSp+B+kvV7BUXtcUpN84X5E/VbR2ErrqDeKoT4aGbPlAaHVw6P9
+   kzJco5bFZ6BLZ0HS6t5Clk18U0B/XHXq0bk6zzzbK6pbo5h3jcGAdOXRy
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="309729556"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="394956123"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 22:30:07 -0700
+   d="scan'208";a="309729556"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 22:40:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="664251181"
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="610975118"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="664251181"
+   d="scan'208";a="610975118"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 28 Oct 2022 22:30:04 -0700
+  by orsmga006.jf.intel.com with ESMTP; 28 Oct 2022 22:40:05 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ooeQ0-000Ae7-0F;
-	Sat, 29 Oct 2022 05:30:04 +0000
-Date: Sat, 29 Oct 2022 13:29:52 +0800
+	id 1ooeZg-000Aet-1A;
+	Sat, 29 Oct 2022 05:40:04 +0000
+Date: Sat, 29 Oct 2022 13:40:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: sriram.yagnaraman@est.tech, netfilter-devel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: Re: [PATCH 1/2] netfilter: nf_ct_sctp: introduce no_random_port proc
- entry
-Message-ID: <202210291330.oCodAdeI-lkp@intel.com>
-References: <20221028205225.10189-2-sriram.yagnaraman@est.tech>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fanotify_pre_content 14/16] fs/namespace.c:474:19: error:
+ use of undeclared identifier 'path_want_rename'; did you mean
+ 'path_want_write'?
+Message-ID: <202210291352.tBLhDfhM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="SMmpWvqv2LK1fXEK"
+Content-Type: multipart/mixed; boundary="BoG2WuxeqHYD+rCU"
 Content-Disposition: inline
-In-Reply-To: <20221028205225.10189-2-sriram.yagnaraman@est.tech>
 
 
---SMmpWvqv2LK1fXEK
+--BoG2WuxeqHYD+rCU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.1-rc2 next-20221028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sriram-yagnaraman-est-tech/netfilter-nf_ct_sctp-improve-SCTP-multihoming/20221029-045432
-patch link:    https://lore.kernel.org/r/20221028205225.10189-2-sriram.yagnaraman%40est.tech
-patch subject: [PATCH 1/2] netfilter: nf_ct_sctp: introduce no_random_port proc entry
+tree:   https://github.com/amir73il/linux fanotify_pre_content
+head:   5afbfcfb7e5c878b0b93edef5977edb1debac600
+commit: bfb413d94352ce9a55c2054eee1a6156066a2d0d [14/16] fanotify: introduce directory entry pre modify permission events
 config: i386-randconfig-a013
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a5f6ca19b0f49255370ffedc35bad02ed4004b69
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review sriram-yagnaraman-est-tech/netfilter-nf_ct_sctp-improve-SCTP-multihoming/20221029-045432
-        git checkout a5f6ca19b0f49255370ffedc35bad02ed4004b69
+        # https://github.com/amir73il/linux/commit/bfb413d94352ce9a55c2054eee1a6156066a2d0d
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il fanotify_pre_content
+        git checkout bfb413d94352ce9a55c2054eee1a6156066a2d0d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/netfilter/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> net/netfilter/nf_nat_core.c:430:7: error: implicit declaration of function 'nf_sctp_pernet' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   if (nf_sctp_pernet(nf_ct_net(ct))->sctp_no_random_port)
-                       ^
->> net/netfilter/nf_nat_core.c:430:38: error: member reference type 'int' is not a pointer
-                   if (nf_sctp_pernet(nf_ct_net(ct))->sctp_no_random_port)
-                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
-   2 errors generated.
+>> fs/namespace.c:474:19: error: use of undeclared identifier 'path_want_rename'; did you mean 'path_want_write'?
+   EXPORT_SYMBOL_GPL(path_want_rename);
+                     ^~~~~~~~~~~~~~~~
+                     path_want_write
+   include/linux/export.h:151:48: note: expanded from macro 'EXPORT_SYMBOL_GPL'
+   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "_gpl")
+                                                          ^
+   include/linux/export.h:147:50: note: expanded from macro '_EXPORT_SYMBOL'
+   #define _EXPORT_SYMBOL(sym, sec)        __EXPORT_SYMBOL(sym, sec, "")
+                                                           ^
+   include/linux/export.h:140:56: note: expanded from macro '__EXPORT_SYMBOL'
+   #define __EXPORT_SYMBOL(sym, sec, ns)   ___EXPORT_SYMBOL(sym, sec, ns)
+                                                            ^
+   include/linux/export.h:87:16: note: expanded from macro '___EXPORT_SYMBOL'
+           extern typeof(sym) sym;                                                 \
+                         ^
+   fs/namespace.c:420:19: note: 'path_want_write' declared here
+   EXPORT_SYMBOL_GPL(path_want_write);
+                     ^
+   1 error generated.
 
 
-vim +/nf_sctp_pernet +430 net/netfilter/nf_nat_core.c
+vim +474 fs/namespace.c
 
-   374	
-   375	/* Alter the per-proto part of the tuple (depending on maniptype), to
-   376	 * give a unique tuple in the given range if possible.
-   377	 *
-   378	 * Per-protocol part of tuple is initialized to the incoming packet.
-   379	 */
-   380	static void nf_nat_l4proto_unique_tuple(struct nf_conntrack_tuple *tuple,
-   381						const struct nf_nat_range2 *range,
-   382						enum nf_nat_manip_type maniptype,
-   383						const struct nf_conn *ct)
-   384	{
-   385		unsigned int range_size, min, max, i, attempts;
-   386		__be16 *keyptr;
-   387		u16 off;
-   388		static const unsigned int max_attempts = 128;
-   389	
-   390		switch (tuple->dst.protonum) {
-   391		case IPPROTO_ICMP:
-   392		case IPPROTO_ICMPV6:
-   393			/* id is same for either direction... */
-   394			keyptr = &tuple->src.u.icmp.id;
-   395			if (!(range->flags & NF_NAT_RANGE_PROTO_SPECIFIED)) {
-   396				min = 0;
-   397				range_size = 65536;
-   398			} else {
-   399				min = ntohs(range->min_proto.icmp.id);
-   400				range_size = ntohs(range->max_proto.icmp.id) -
-   401					     ntohs(range->min_proto.icmp.id) + 1;
-   402			}
-   403			goto find_free_id;
-   404	#if IS_ENABLED(CONFIG_NF_CT_PROTO_GRE)
-   405		case IPPROTO_GRE:
-   406			/* If there is no master conntrack we are not PPTP,
-   407			   do not change tuples */
-   408			if (!ct->master)
-   409				return;
-   410	
-   411			if (maniptype == NF_NAT_MANIP_SRC)
-   412				keyptr = &tuple->src.u.gre.key;
-   413			else
-   414				keyptr = &tuple->dst.u.gre.key;
-   415	
-   416			if (!(range->flags & NF_NAT_RANGE_PROTO_SPECIFIED)) {
-   417				min = 1;
-   418				range_size = 65535;
-   419			} else {
-   420				min = ntohs(range->min_proto.gre.key);
-   421				range_size = ntohs(range->max_proto.gre.key) - min + 1;
-   422			}
-   423			goto find_free_id;
-   424	#endif
-   425		case IPPROTO_SCTP:
-   426			/* SCTP port randomization disabled, try to use the same source port
-   427			 * as in the original packet. Drop packets if another endpoint tries
-   428			 * to use same source port behind NAT.
-   429			 */
- > 430			if (nf_sctp_pernet(nf_ct_net(ct))->sctp_no_random_port)
-   431				return;
-   432		case IPPROTO_UDP:
-   433		case IPPROTO_UDPLITE:
-   434		case IPPROTO_TCP:
-   435		case IPPROTO_DCCP:
-   436			if (maniptype == NF_NAT_MANIP_SRC)
-   437				keyptr = &tuple->src.u.all;
-   438			else
-   439				keyptr = &tuple->dst.u.all;
-   440	
-   441			break;
-   442		default:
-   443			return;
-   444		}
-   445	
-   446		/* If no range specified... */
-   447		if (!(range->flags & NF_NAT_RANGE_PROTO_SPECIFIED)) {
-   448			/* If it's dst rewrite, can't change port */
-   449			if (maniptype == NF_NAT_MANIP_DST)
-   450				return;
-   451	
-   452			if (ntohs(*keyptr) < 1024) {
-   453				/* Loose convention: >> 512 is credential passing */
-   454				if (ntohs(*keyptr) < 512) {
-   455					min = 1;
-   456					range_size = 511 - min + 1;
-   457				} else {
-   458					min = 600;
-   459					range_size = 1023 - min + 1;
-   460				}
-   461			} else {
-   462				min = 1024;
-   463				range_size = 65535 - 1024 + 1;
-   464			}
-   465		} else {
-   466			min = ntohs(range->min_proto.all);
-   467			max = ntohs(range->max_proto.all);
-   468			if (unlikely(max < min))
-   469				swap(max, min);
-   470			range_size = max - min + 1;
-   471		}
-   472	
-   473	find_free_id:
-   474		if (range->flags & NF_NAT_RANGE_PROTO_OFFSET)
-   475			off = (ntohs(*keyptr) - ntohs(range->base_proto.all));
-   476		else
-   477			off = get_random_u16();
-   478	
-   479		attempts = range_size;
-   480		if (attempts > max_attempts)
-   481			attempts = max_attempts;
-   482	
-   483		/* We are in softirq; doing a search of the entire range risks
-   484		 * soft lockup when all tuples are already used.
-   485		 *
-   486		 * If we can't find any free port from first offset, pick a new
-   487		 * one and try again, with ever smaller search window.
-   488		 */
-   489	another_round:
-   490		for (i = 0; i < attempts; i++, off++) {
-   491			*keyptr = htons(min + off % range_size);
-   492			if (!nf_nat_used_tuple(tuple, ct))
-   493				return;
-   494		}
-   495	
-   496		if (attempts >= range_size || attempts < 16)
-   497			return;
-   498		attempts /= 2;
-   499		off = get_random_u16();
-   500		goto another_round;
-   501	}
-   502	
+   448	
+   449	/**
+   450	 * parents_want_write - get write access to a parents' mount before rename
+   451	 *
+   452	 * In addition to taking write access, it is also used to notify
+   453	 * listeners on an intent to make modifications in the filesystem.
+   454	 *
+   455	 * After finished, mnt_drop_write must be called to drop the reference.
+   456	 */
+   457	int parents_want_write(const struct path *oldpath,
+   458			       const struct lookup_result *oldres,
+   459			       const struct path *newpath,
+   460			       const struct lookup_result *newres)
+   461	{
+   462		int ret;
+   463	
+   464		if (oldres->flags & LOOKUP_NONOTIFY)
+   465			goto out;
+   466	
+   467		ret = fsnotify_rename_perm(oldpath, &oldres->last,
+   468					   newpath, &newres->last);
+   469		if (ret)
+   470			return ret;
+   471	out:
+   472		return mnt_want_write(oldpath->mnt);
+   473	}
+ > 474	EXPORT_SYMBOL_GPL(path_want_rename);
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---SMmpWvqv2LK1fXEK
+--BoG2WuxeqHYD+rCU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 6.1.0-rc2 Kernel Configuration
+# Linux/i386 6.0.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 14.0.6 (git://gitmirror/llvm_project f28c006a5895fc0e329fe15fead81e37457cb1d1)"
 CONFIG_GCC_VERSION=0
@@ -2586,7 +2485,6 @@ CONFIG_KEYBOARD_ATKBD=y
 # CONFIG_KEYBOARD_MPR121 is not set
 # CONFIG_KEYBOARD_NEWTON is not set
 # CONFIG_KEYBOARD_OPENCORES is not set
-# CONFIG_KEYBOARD_PINEPHONE is not set
 # CONFIG_KEYBOARD_SAMSUNG is not set
 # CONFIG_KEYBOARD_GOLDFISH_EVENTS is not set
 # CONFIG_KEYBOARD_STOWAWAY is not set
@@ -3014,7 +2912,6 @@ CONFIG_PINCONF=y
 CONFIG_GENERIC_PINCONF=y
 CONFIG_DEBUG_PINCTRL=y
 # CONFIG_PINCTRL_AMD is not set
-# CONFIG_PINCTRL_CY8C95X0 is not set
 CONFIG_PINCTRL_DA9062=m
 CONFIG_PINCTRL_EQUILIBRIUM=y
 CONFIG_PINCTRL_MCP23S08_I2C=m
@@ -3112,6 +3009,7 @@ CONFIG_GPIO_WINBOND=m
 #
 # I2C GPIO expanders
 #
+# CONFIG_GPIO_ADP5588 is not set
 CONFIG_GPIO_ADNP=y
 CONFIG_GPIO_GW_PLD=m
 # CONFIG_GPIO_MAX7300 is not set
@@ -6106,7 +6004,6 @@ CONFIG_DEBUG_MISC=y
 # Compile-time checks and compiler options
 #
 CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_LEB128=y
 # CONFIG_DEBUG_INFO_NONE is not set
 CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
 # CONFIG_DEBUG_INFO_DWARF4 is not set
@@ -6469,4 +6366,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---SMmpWvqv2LK1fXEK--
+--BoG2WuxeqHYD+rCU--
