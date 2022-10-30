@@ -1,68 +1,69 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BD17B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Oct 2022 04:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D0192
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Oct 2022 04:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667103250; x=1698639250;
+  t=1667105710; x=1698641710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U76Do1GXxWTHUDE32I+B1/WxSG5Ke1fsznYFz6ah/F8=;
-  b=LXDuiCXISfy78936TSJ2gBZpu/b/65fFzZp/X3oEvJAm1tp9A8QaIMCM
-   5IAnOYRuys9i+efsvLrj51CTIITjDmyrU1g33wjsVeMtXirjKQXevLvye
-   Ux35Lk0Y8lGrUulYLjIJxrLipKHN0kb0sv8+LTUGQ/Z81dZWNQysbkikP
-   L2XFRacj/Vdw19rYKg3YI52Nohg23qWo/6ztjRt+8zgf2g2RVwGjrBgN3
-   TgrFwvLE0OATRXxjifkpaNgKLxV4Z7ja1fGYkmZVtMQsEg/ChgtmSU3pt
-   Cj5KkXio2YNQgc1DOwNcQtSgD/0/5fh0axMENqx8rnSsjWVXvj/IfTgOL
+  bh=785ZWGs9lDcdwFSQAyn1bcoEsEbHYjXqQexCKRausgo=;
+  b=mBZ/+lfSiub7ClbzbKVpp9lEqst7tEPdMcVK2w2sayRTBawTSPnO5OeR
+   zdPD1dgIyY7kJSaSMjRyjyUROA+bOG4zhjqDXKc0xfC3akyR6tpUOe4Bm
+   1DsLls7qnjcIU4sF4NTz3/mGeR1O2EN4kmJp61XMUBoW0S3gND+aFR/mQ
+   7U3/kr+5JqBRwpc2PmQjZdIrCiwiEXZLrf+1nv4RI/fORTa3nUerMyEMa
+   wQW3u4hN9FT0o5uW4/MAZqx9q5j0F+VvbkhhOY1/pOn+z0fRQ5XBw5GN3
+   7NUZ2mLuJCSloXVXOEav1U/vqproQzFsEqiDABkEcM0G00eD76R3ZpE+b
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="395031782"
+X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="309799537"
 X-IronPort-AV: E=Sophos;i="5.95,225,1661842800"; 
-   d="scan'208";a="395031782"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 21:14:09 -0700
+   d="scan'208";a="309799537"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 21:55:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="664426208"
+X-IronPort-AV: E=McAfee;i="6500,9779,10515"; a="962438537"
 X-IronPort-AV: E=Sophos;i="5.95,225,1661842800"; 
-   d="scan'208";a="664426208"
+   d="scan'208";a="962438537"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Oct 2022 21:14:07 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Oct 2022 21:55:08 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oozi2-000Bcw-1i;
-	Sun, 30 Oct 2022 04:14:06 +0000
-Date: Sun, 30 Oct 2022 12:13:47 +0800
+	id 1op0Lj-000Bes-1t;
+	Sun, 30 Oct 2022 04:55:07 +0000
+Date: Sun, 30 Oct 2022 12:54:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.0/prjc 303/318] kernel/sched/alt_core.c:966:6: warning: no
- previous prototype for 'resched_curr'
-Message-ID: <202210301256.GAAETZW2-lkp@intel.com>
+Subject: [zen:6.0/prjc 306/318] kernel/sched/alt_core.c:5835: warning:
+ expecting prototype for sys_sched_getscheduler(). Prototype was for
+ sys_sched_getparam() instead
+Message-ID: <202210301218.Nc7VvGxb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="uGVVQOJoxPSq3A5D"
+Content-Type: multipart/mixed; boundary="z6SVqcY/uVS2A3Lh"
 Content-Disposition: inline
 
 
---uGVVQOJoxPSq3A5D
+--z6SVqcY/uVS2A3Lh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.0/prjc
 head:   631bbf330d37404b09c634936cacb7d8b8260a50
-commit: bb854eb5232ea7cf77daace83989feb83a724668 [303/318] sched/alt: [Sync] io_uring: Move to separate directory
+commit: 67ba7df9fe53493ac44acc9af536301e7c34a6f2 [306/318] sched/alt: [Sync] sched, drivers: Remove max param from effective_cpu_util()/sched_cpu_util()
 config: sparc-allyesconfig
 compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/bb854eb5232ea7cf77daace83989feb83a724668
+        # https://github.com/zen-kernel/zen-kernel/commit/67ba7df9fe53493ac44acc9af536301e7c34a6f2
         git remote add zen https://github.com/zen-kernel/zen-kernel
         git fetch --no-tags zen 6.0/prjc
-        git checkout bb854eb5232ea7cf77daace83989feb83a724668
+        git checkout 67ba7df9fe53493ac44acc9af536301e7c34a6f2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash kernel/sched/
@@ -72,143 +73,62 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/alt_core.c:42:
-   kernel/sched/alt_sched.h:480:42: warning: 'struct cpuidle_state' declared inside parameter list will not be visible outside of this definition or declaration
-     480 |                                   struct cpuidle_state *idle_state)
-         |                                          ^~~~~~~~~~~~~
-   kernel/sched/alt_core.c:632:15: error: conflicting types for 'sched_cpu_util'; have 'long unsigned int(int,  long unsigned int)'
-     632 | unsigned long sched_cpu_util(int cpu, unsigned long max)
-         |               ^~~~~~~~~~~~~~
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/alt_core.c:14:
-   include/linux/sched.h:2304:15: note: previous declaration of 'sched_cpu_util' with type 'long unsigned int(int)'
-    2304 | unsigned long sched_cpu_util(int cpu);
-         |               ^~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:966:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
-     966 | void resched_curr(struct rq *rq)
-         |      ^~~~~~~~~~~~
->> kernel/sched/alt_core.c:989:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
-     989 | void resched_cpu(int cpu)
-         |      ^~~~~~~~~~~
->> kernel/sched/alt_core.c:1004:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
-    1004 | void select_nohz_load_balancer(int stop_tick) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:1006:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
-    1006 | void set_cpu_sd_state_idle(void) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:1192:6: warning: no previous prototype for 'hrtick_start' [-Wmissing-prototypes]
-    1192 | void hrtick_start(struct rq *rq, u64 delay)
-         |      ^~~~~~~~~~~~
->> kernel/sched/alt_core.c:2339:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
-    2339 | void sched_ttwu_pending(void *arg)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:2372:6: warning: no previous prototype for 'send_call_function_single_ipi' [-Wmissing-prototypes]
-    2372 | void send_call_function_single_ipi(int cpu)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:4750:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
-    4750 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
->> kernel/sched/alt_core.c:6786:6: warning: no previous prototype for 'idle_task_exit' [-Wmissing-prototypes]
-    6786 | void idle_task_exit(void)
-         |      ^~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:6996:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
-    6996 | int sched_cpu_activate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7035:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
-    7035 | int sched_cpu_deactivate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7099:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
-    7099 | int sched_cpu_starting(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7119:5: warning: no previous prototype for 'sched_cpu_wait_empty' [-Wmissing-prototypes]
-    7119 | int sched_cpu_wait_empty(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7161:5: warning: no previous prototype for 'sched_cpu_dying' [-Wmissing-prototypes]
-    7161 | int sched_cpu_dying(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7242:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
-    7242 | void __init sched_init_smp(void)
-         |             ^~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7294:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
-    7294 | void __init sched_init(void)
-         |             ^~~~~~~~~~
->> kernel/sched/alt_core.c:7649:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
-    7649 | struct task_group *sched_create_group(struct task_group *parent)
-         |                    ^~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7660:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
-    7660 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7671:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
-    7671 | void sched_destroy_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7677:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
-    7677 | void sched_release_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:7747:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
-    7747 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7816:27: warning: initialized field overwritten [-Woverride-init]
-    7816 |         .legacy_cftypes = cpu_legacy_files,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7816:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
+   kernel/sched/alt_core.c:114: warning: cannot understand function prototype: 'int sched_yield_type __read_mostly = 1; '
+   kernel/sched/alt_core.c:3534: warning: Function parameter or member 'prev' not described in 'prepare_task_switch'
+   kernel/sched/alt_core.c:3567: warning: Excess function parameter 'rq' description in 'finish_task_switch'
+   kernel/sched/alt_core.c:5767: warning: Function parameter or member 'flags' not described in 'sys_sched_setattr'
+>> kernel/sched/alt_core.c:5835: warning: expecting prototype for sys_sched_getscheduler(). Prototype was for sys_sched_getparam() instead
 
 
-vim +/resched_curr +966 kernel/sched/alt_core.c
+vim +5835 kernel/sched/alt_core.c
 
-0002a87257be0b Alfred Chen 2019-08-19   958  
-0002a87257be0b Alfred Chen 2019-08-19   959  /*
-0002a87257be0b Alfred Chen 2019-08-19   960   * resched_curr - mark rq's current task 'to be rescheduled now'.
-0002a87257be0b Alfred Chen 2019-08-19   961   *
-0002a87257be0b Alfred Chen 2019-08-19   962   * On UP this means the setting of the need_resched flag, on SMP it
-0002a87257be0b Alfred Chen 2019-08-19   963   * might also involve a cross-CPU call to trigger the scheduler on
-0002a87257be0b Alfred Chen 2019-08-19   964   * the target CPU.
-0002a87257be0b Alfred Chen 2019-08-19   965   */
-0002a87257be0b Alfred Chen 2019-08-19  @966  void resched_curr(struct rq *rq)
-0002a87257be0b Alfred Chen 2019-08-19   967  {
-0002a87257be0b Alfred Chen 2019-08-19   968  	struct task_struct *curr = rq->curr;
-0002a87257be0b Alfred Chen 2019-08-19   969  	int cpu;
-0002a87257be0b Alfred Chen 2019-08-19   970  
-0002a87257be0b Alfred Chen 2019-08-19   971  	lockdep_assert_held(&rq->lock);
-0002a87257be0b Alfred Chen 2019-08-19   972  
-0002a87257be0b Alfred Chen 2019-08-19   973  	if (test_tsk_need_resched(curr))
-0002a87257be0b Alfred Chen 2019-08-19   974  		return;
-0002a87257be0b Alfred Chen 2019-08-19   975  
-0002a87257be0b Alfred Chen 2019-08-19   976  	cpu = cpu_of(rq);
-0002a87257be0b Alfred Chen 2019-08-19   977  	if (cpu == smp_processor_id()) {
-0002a87257be0b Alfred Chen 2019-08-19   978  		set_tsk_need_resched(curr);
-0002a87257be0b Alfred Chen 2019-08-19   979  		set_preempt_need_resched();
-0002a87257be0b Alfred Chen 2019-08-19   980  		return;
-0002a87257be0b Alfred Chen 2019-08-19   981  	}
-0002a87257be0b Alfred Chen 2019-08-19   982  
-0002a87257be0b Alfred Chen 2019-08-19   983  	if (set_nr_and_not_polling(curr))
-0002a87257be0b Alfred Chen 2019-08-19   984  		smp_send_reschedule(cpu);
-0002a87257be0b Alfred Chen 2019-08-19   985  	else
-0002a87257be0b Alfred Chen 2019-08-19   986  		trace_sched_wake_idle_without_ipi(cpu);
-0002a87257be0b Alfred Chen 2019-08-19   987  }
-0002a87257be0b Alfred Chen 2019-08-19   988  
-0002a87257be0b Alfred Chen 2019-08-19  @989  void resched_cpu(int cpu)
-0002a87257be0b Alfred Chen 2019-08-19   990  {
-0002a87257be0b Alfred Chen 2019-08-19   991  	struct rq *rq = cpu_rq(cpu);
-0002a87257be0b Alfred Chen 2019-08-19   992  	unsigned long flags;
-0002a87257be0b Alfred Chen 2019-08-19   993  
-0002a87257be0b Alfred Chen 2019-08-19   994  	raw_spin_lock_irqsave(&rq->lock, flags);
-0002a87257be0b Alfred Chen 2019-08-19   995  	if (cpu_online(cpu) || cpu == smp_processor_id())
-0002a87257be0b Alfred Chen 2019-08-19   996  		resched_curr(cpu_rq(cpu));
-0002a87257be0b Alfred Chen 2019-08-19   997  	raw_spin_unlock_irqrestore(&rq->lock, flags);
-0002a87257be0b Alfred Chen 2019-08-19   998  }
-0002a87257be0b Alfred Chen 2019-08-19   999  
-0002a87257be0b Alfred Chen 2019-08-19  1000  #ifdef CONFIG_SMP
-0002a87257be0b Alfred Chen 2019-08-19  1001  #ifdef CONFIG_NO_HZ_COMMON
-53ab197f0d4aa5 Alfred Chen 2020-08-07  1002  void nohz_balance_enter_idle(int cpu) {}
-0002a87257be0b Alfred Chen 2019-08-19  1003  
-53ab197f0d4aa5 Alfred Chen 2020-08-07 @1004  void select_nohz_load_balancer(int stop_tick) {}
-0002a87257be0b Alfred Chen 2019-08-19  1005  
-0002a87257be0b Alfred Chen 2019-08-19 @1006  void set_cpu_sd_state_idle(void) {}
-0002a87257be0b Alfred Chen 2019-08-19  1007  
+0002a87257be0b Alfred Chen 2019-08-19  5825  
+0002a87257be0b Alfred Chen 2019-08-19  5826  /**
+0002a87257be0b Alfred Chen 2019-08-19  5827   * sys_sched_getscheduler - get the RT priority of a thread
+0002a87257be0b Alfred Chen 2019-08-19  5828   * @pid: the pid in question.
+0002a87257be0b Alfred Chen 2019-08-19  5829   * @param: structure containing the RT priority.
+0002a87257be0b Alfred Chen 2019-08-19  5830   *
+0002a87257be0b Alfred Chen 2019-08-19  5831   * Return: On success, 0 and the RT priority is in @param. Otherwise, an error
+0002a87257be0b Alfred Chen 2019-08-19  5832   * code.
+0002a87257be0b Alfred Chen 2019-08-19  5833   */
+0002a87257be0b Alfred Chen 2019-08-19  5834  SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+0002a87257be0b Alfred Chen 2019-08-19 @5835  {
+0002a87257be0b Alfred Chen 2019-08-19  5836  	struct sched_param lp = { .sched_priority = 0 };
+0002a87257be0b Alfred Chen 2019-08-19  5837  	struct task_struct *p;
+0002a87257be0b Alfred Chen 2019-08-19  5838  	int retval = -EINVAL;
+0002a87257be0b Alfred Chen 2019-08-19  5839  
+0002a87257be0b Alfred Chen 2019-08-19  5840  	if (!param || pid < 0)
+0002a87257be0b Alfred Chen 2019-08-19  5841  		goto out_nounlock;
+0002a87257be0b Alfred Chen 2019-08-19  5842  
+0002a87257be0b Alfred Chen 2019-08-19  5843  	rcu_read_lock();
+0002a87257be0b Alfred Chen 2019-08-19  5844  	p = find_process_by_pid(pid);
+0002a87257be0b Alfred Chen 2019-08-19  5845  	retval = -ESRCH;
+0002a87257be0b Alfred Chen 2019-08-19  5846  	if (!p)
+0002a87257be0b Alfred Chen 2019-08-19  5847  		goto out_unlock;
+0002a87257be0b Alfred Chen 2019-08-19  5848  
+0002a87257be0b Alfred Chen 2019-08-19  5849  	retval = security_task_getscheduler(p);
+0002a87257be0b Alfred Chen 2019-08-19  5850  	if (retval)
+0002a87257be0b Alfred Chen 2019-08-19  5851  		goto out_unlock;
+0002a87257be0b Alfred Chen 2019-08-19  5852  
+0002a87257be0b Alfred Chen 2019-08-19  5853  	if (task_has_rt_policy(p))
+0002a87257be0b Alfred Chen 2019-08-19  5854  		lp.sched_priority = p->rt_priority;
+0002a87257be0b Alfred Chen 2019-08-19  5855  	rcu_read_unlock();
+0002a87257be0b Alfred Chen 2019-08-19  5856  
+0002a87257be0b Alfred Chen 2019-08-19  5857  	/*
+0002a87257be0b Alfred Chen 2019-08-19  5858  	 * This one might sleep, we cannot do it with a spinlock held ...
+0002a87257be0b Alfred Chen 2019-08-19  5859  	 */
+0002a87257be0b Alfred Chen 2019-08-19  5860  	retval = copy_to_user(param, &lp, sizeof(*param)) ? -EFAULT : 0;
+0002a87257be0b Alfred Chen 2019-08-19  5861  
+0002a87257be0b Alfred Chen 2019-08-19  5862  out_nounlock:
+0002a87257be0b Alfred Chen 2019-08-19  5863  	return retval;
+0002a87257be0b Alfred Chen 2019-08-19  5864  
+0002a87257be0b Alfred Chen 2019-08-19  5865  out_unlock:
+0002a87257be0b Alfred Chen 2019-08-19  5866  	rcu_read_unlock();
+0002a87257be0b Alfred Chen 2019-08-19  5867  	return retval;
+0002a87257be0b Alfred Chen 2019-08-19  5868  }
+0002a87257be0b Alfred Chen 2019-08-19  5869  
 
-:::::: The code at line 966 was first introduced by commit
+:::::: The code at line 5835 was first introduced by commit
 :::::: 0002a87257be0b38c6be6e16c15ebd1e15c322d2 Project C v5.7.5-r2
 
 :::::: TO: Alfred Chen <cchalpha@gmail.com>
@@ -218,7 +138,7 @@ vim +/resched_curr +966 kernel/sched/alt_core.c
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---uGVVQOJoxPSq3A5D
+--z6SVqcY/uVS2A3Lh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -14243,4 +14163,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---uGVVQOJoxPSq3A5D--
+--z6SVqcY/uVS2A3Lh--
