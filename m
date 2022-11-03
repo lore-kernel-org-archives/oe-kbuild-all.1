@@ -1,26 +1,46 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2618963A0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Nov 2022 17:30:24 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1oqe2j-00054Z-DI; Thu, 03 Nov 2022 18:30:17 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1oqe2j-0003XJ-05; Thu, 03 Nov 2022 18:30:17 +0100
-Date: Thu, 3 Nov 2022 18:30:16 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [sailus-media-tree:master 43/47] drivers/clk/clk.c:1022:5:
- error: redefinition of 'clk_prepare'
-Message-ID: <20221103173016.a2stvc6jtprs3nzh@pengutronix.de>
-References: <202211031915.GxCDfpg5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C4E63A0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Nov 2022 17:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667497251; x=1699033251;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vqW9kt3QtjDTsagYNGdwnm79jd6jlHJ3iSbJMKLko/A=;
+  b=j6jIOBfm79vlashxhRLAVkZjqBfJZTJTIChs87u7oy/nFrovuuBfmoIE
+   UvAUJeon05dZYb/STkSni+xOU6iNrMeghQxQ582slyZSFX6cbZcejdayR
+   3NZjBOUV7Hcz/NaCNK2e4WTyZuGSrxkKyMEJlPtuU6/ADH9HlygpjjQpQ
+   OqbRzdK9/SYKiwqFxHCqwOrl7uJgWLU59WjCqghWFS/LMgd9SeLvVlAg2
+   2Cas5ekeuC8gn4moGwqt4LE/hcf7oD0nEFHHlKT8DJlydgkqifK5YzhlD
+   EMg+i0fI0xLLv532lKAxT38MBUgeInkD+6Vcob/QHkbwyn/LkyzrqNbcd
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="396060019"
+X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; 
+   d="scan'208";a="396060019"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 10:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="964022392"
+X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; 
+   d="scan'208";a="964022392"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Nov 2022 10:40:49 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oqeCv-000G9l-0E;
+	Thu, 03 Nov 2022 17:40:49 +0000
+Date: Fri, 04 Nov 2022 01:40:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner (Microsoft) <brauner@kernel.org>,
+ Christian Brauner <brauner@kernel.org>
+Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: [lkp] [+1001 bytes kernel size regression] [i386-tinyconfig]
+ [e5e4d5e4be] xattr: ensure simple xattrs scale better
+Message-ID: <6363fcfe.LVBSqV0TW5VqILgF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -28,66 +48,47 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202211031915.GxCDfpg5-lkp@intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 22-11-03, kernel test robot wrote:
-> tree:   git://linuxtv.org/sailus/media_tree.git master
-> head:   7336c54a562b479866d2de2abc61487a4e07b0b9
-> commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb [43/47] media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-> config: sh-allmodconfig
-> compiler: sh4-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
->         git fetch --no-tags sailus-media-tree master
->         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
->      941 | void clk_unprepare(struct clk *clk)
->          |      ^~~~~~~~~~~~~
->    In file included from drivers/clk/clk.c:9:
->    include/linux/clk.h:303:20: note: previous definition of 'clk_unprepare' with type 'void(struct clk *)'
->      303 | static inline void clk_unprepare(struct clk *clk)
->          |                    ^~~~~~~~~~~~~
-> >> drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
->     1022 | int clk_prepare(struct clk *clk)
->          |     ^~~~~~~~~~~
->    include/linux/clk.h:271:19: note: previous definition of 'clk_prepare' with type 'int(struct clk *)'
->      271 | static inline int clk_prepare(struct clk *clk)
->          |                   ^~~~~~~~~~~
-> >> drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
->     1268 | bool clk_is_enabled_when_prepared(struct clk *clk)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/clk.h:284:20: note: previous definition of 'clk_is_enabled_when_prepared' with type 'bool(struct clk *)' {aka '_Bool(struct clk *)'}
->      284 | static inline bool clk_is_enabled_when_prepared(struct clk *clk)
->          |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for COMMON_CLK
->    Depends on [n]: !HAVE_LEGACY_CLK [=y]
->    Selected by [m]:
->    - VIDEO_TC358746 [=m] && MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && PM [=y] && I2C [=m]
+FYI, we noticed a +1001 bytes kernel size regression due to commit:
 
-Hm.. this is strange but my relate to the unmet dependency. I could add
-a depends on COMMON_CLK but this no i2c driver is doing that, just a few
-platform drivers.
+commit: e5e4d5e4be4eb54c5ce57930654a2fe825f713ed (xattr: ensure simple xattrs scale better)
+https://github.com/ammarfaizi2/linux-block brauner/linux/fs.xattr.simple.rework
 
-Regards,
-  Marco
+
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
+
+9abf2313: Linux 6.1-rc1
+e5e4d5e4: xattr: ensure simple xattrs scale better
+
++---------------------------------------+----------+----------+-------+
+|                symbol                 | 9abf2313 | e5e4d5e4 | delta |
++---------------------------------------+----------+----------+-------+
+| bzImage                               | 491520   | 492096   | 576   |
+| nm.t.rhashtable_insert_fast           | 0        | 247      | 247   |
+| nm.t.rhashtable_remove_fast.constprop | 0        | 181      | 181   |
+| nm.T.simple_xattr_set                 | 256      | 410      | 154   |
+| nm.t.rhashtable_lookup                | 0        | 149      | 149   |
+| nm.t.put_simple_xattr                 | 0        | 45       | 45    |
+| nm.T.simple_xattr_list                | 94       | 128      | 34    |
+| nm.T.simple_xattr_get                 | 75       | 106      | 31    |
+| nm.t.simple_xattr_obj_hashfn          | 0        | 30       | 30    |
+| nm.d.rhash_params                     | 0        | 28       | 28    |
+| nm.t.simple_xattr_key_hashfn          | 0        | 26       | 26    |
+| nm.t.free_simple_xattr                | 0        | 23       | 23    |
+| nm.t.simple_xattr_obj_cmpfn           | 0        | 22       | 22    |
+| nm.T.simple_xattrs_free               | 0        | 12       | 12    |
+| nm.T.simple_xattrs_init               | 0        | 10       | 10    |
+| nm.T.simple_xattr_alloc               | 49       | 56       | 7     |
+| nm.T.simple_xattr_add                 | 0        | 6        | 6     |
+| nm.t.free_simple_xattr_rcu_cb         | 0        | 5        | 5     |
+| nm.t.free_simple_xattr_rhash_cb       | 0        | 2        | 2     |
+| nm.D.linux_banner                     | 152      | 154      | 2     |
+| nm.T.simple_xattr_list_add            | 13       | 0        | -13   |
++---------------------------------------+----------+----------+-------+
+
+
+
+Thanks
+
