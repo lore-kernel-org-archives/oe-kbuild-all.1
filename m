@@ -1,228 +1,192 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413F12584
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Nov 2022 22:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7617F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Nov 2022 00:38:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667688421; x=1699224421;
+  t=1667695100; x=1699231100;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7MOdsT9cTB/4IX6c+roiaJMQ/p6nE9ZahS/9lfOPZiQ=;
-  b=mxgXsZlqY4cKCxYFvfKZWxne31uAskYIPDz4mh0hTCFF+BanH7eMFElA
-   V6Cc8wvdmLMjxzc6+uDrOD0mJ1BJqNhGtDAm+jNFGHVf05bLwfxs1YeVB
-   wEUfVpE3aemel3Odq5NYXLE0p9N+95ySFIGa3BrG7SWaztCHsJ0W2PPAu
-   07isoQkhbmOgapyNZVv9QHrjodlcZxHREjyVPZbzaUX+naxTONprSC/Nr
-   M9fQl0hFMGMl/fLwqZ6iBbYtQ7JsfDLvTXKyd3ZE7pvA0sIAuRC8ldgMq
-   IHrUDLJbNDbDnWMV3Ynl6PN4q1RmAmG6hjy0Fa6EXY80Z9bXSGzw/wHyo
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10522"; a="374455584"
+  bh=t7yX/vo64tSvaWFA9o06Rdgb3vO3VUhsCi0nGl5wnz8=;
+  b=DusV+FQgp6V+fUpN1su01NRi/+FgBIj2xVJiNysQTd4RWeKSH3QORpjN
+   55VNxIMK1OJ1j9vrGq/P8ON5Oy8selZbtRttwzsycoJmtzUHGB3kQTWfm
+   fd+HrZTz29Aa9akhxwSmEfymMW/zlqNDMokuzWDwaomc8ryaNxHV7MdMN
+   GQSXZk6DPNC/zQeIYlnoNXFGS4BHrm/99DTjNtwIoitiC3gYXhHqddiZI
+   YIm/At3m1g0qzQ6RAHHEmbHb9hz3tW4wx2/DXht3qt6ZeKL9nnW/jcOqg
+   xHgeIAVjxMG2Q0VfdNPHFu9cc44KxaY2Ul52Io3j875V6KDKnjZpSfMF3
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10522"; a="308926319"
 X-IronPort-AV: E=Sophos;i="5.96,141,1665471600"; 
-   d="scan'208";a="374455584"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2022 15:47:00 -0700
+   d="scan'208";a="308926319"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2022 17:38:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10522"; a="699051809"
+X-IronPort-AV: E=McAfee;i="6500,9779,10522"; a="613478291"
 X-IronPort-AV: E=Sophos;i="5.96,141,1665471600"; 
-   d="scan'208";a="699051809"
+   d="scan'208";a="613478291"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Nov 2022 15:46:57 -0700
+  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2022 17:38:00 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1orRwH-000IOn-0P;
-	Sat, 05 Nov 2022 22:46:57 +0000
-Date: Sun, 6 Nov 2022 06:46:16 +0800
+	id 1orTfj-000IRr-1W;
+	Sun, 06 Nov 2022 00:37:59 +0000
+Date: Sun, 6 Nov 2022 08:37:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:dp-altmode-WIP 19/19]
- drivers/gpu/drm/apple/apple_drv.c:430:9: warning: ignoring return value of
- 'mux_control_select' declared with attribute 'warn_unused_result'
-Message-ID: <202211060648.4iPw2yT1-lkp@intel.com>
+Subject: [ardb:arm64-wxn-v8 24/32] __pi_map_kernel.c:undefined reference to
+ `__pi__GLOBAL_OFFSET_TABLE_'
+Message-ID: <202211060849.GKamGNqN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2tuq6tQ21BHYhqKY"
+Content-Type: multipart/mixed; boundary="nfkisSRGyRc4yY0A"
 Content-Disposition: inline
 
 
---2tuq6tQ21BHYhqKY
+--nfkisSRGyRc4yY0A
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux dp-altmode-WIP
-head:   a93f79b124ea5e82b80ebf029d85df6d834089d6
-commit: a93f79b124ea5e82b80ebf029d85df6d834089d6 [19/19] fixup! DCP WIP
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-wxn-v8
+head:   f0e4feaa4c0d8b6c4e42114dfb94f39e6983b9f6
+commit: e6b3bc39247cf146d9039f3d98f7ddeca5a4a3b1 [24/32] arm64: head: Move early kernel mapping routines into C code
 config: arm64-allyesconfig
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/a93f79b124ea5e82b80ebf029d85df6d834089d6
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux dp-altmode-WIP
-        git checkout a93f79b124ea5e82b80ebf029d85df6d834089d6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=e6b3bc39247cf146d9039f3d98f7ddeca5a4a3b1
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb arm64-wxn-v8
+        git checkout e6b3bc39247cf146d9039f3d98f7ddeca5a4a3b1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/apple/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+Note: the ardb/arm64-wxn-v8 HEAD f0e4feaa4c0d8b6c4e42114dfb94f39e6983b9f6 builds fine.
+      It only hurts bisectability.
 
-   drivers/gpu/drm/apple/apple_drv.c:131:19: warning: no previous prototype for 'apple_plane_init' [-Wmissing-prototypes]
-     131 | struct drm_plane *apple_plane_init(struct drm_device *dev,
-         |                   ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/apple/apple_drv.c:240:6: warning: no previous prototype for 'dcp_atomic_commit_tail' [-Wmissing-prototypes]
-     240 | void dcp_atomic_commit_tail(struct drm_atomic_state *old_state)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/apple/apple_drv.c: In function 'apple_platform_probe':
->> drivers/gpu/drm/apple/apple_drv.c:430:9: warning: ignoring return value of 'mux_control_select' declared with attribute 'warn_unused_result' [-Wunused-result]
-     430 |         mux_control_select(apple->xbar_atc1, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-
-vim +430 drivers/gpu/drm/apple/apple_drv.c
-
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  372  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  373  static int apple_platform_probe(struct platform_device *pdev)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  374  {
-6d6c662e49f025 Janne Grunau      2022-10-21  375  	struct device *dev = &pdev->dev;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  376  	struct apple_drm_private *apple;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  377  	struct platform_device *dcp[MAX_COPROCESSORS];
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  378  	int ret, nr_dcp, i;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  379  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  380  	for (nr_dcp = 0; nr_dcp < MAX_COPROCESSORS; ++nr_dcp) {
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  381  		struct device_node *np;
-6d6c662e49f025 Janne Grunau      2022-10-21  382  		struct device_link *dcp_link;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  383  
-6d6c662e49f025 Janne Grunau      2022-10-21  384  		np = of_parse_phandle(dev->of_node, "apple,coprocessors",
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  385  				      nr_dcp);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  386  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  387  		if (!np)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  388  			break;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  389  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  390  		dcp[nr_dcp] = of_find_device_by_node(np);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  391  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  392  		if (!dcp[nr_dcp])
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  393  			return -ENODEV;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  394  
-6d6c662e49f025 Janne Grunau      2022-10-21  395  		dcp_link = device_link_add(dev, &dcp[nr_dcp]->dev,
-6d6c662e49f025 Janne Grunau      2022-10-21  396  					   DL_FLAG_AUTOREMOVE_CONSUMER);
-6d6c662e49f025 Janne Grunau      2022-10-21  397  		if (!dcp_link) {
-6d6c662e49f025 Janne Grunau      2022-10-21  398  			dev_err(dev, "Failed to link to DCP %d device", nr_dcp);
-6d6c662e49f025 Janne Grunau      2022-10-21  399  			return -EINVAL;
-6d6c662e49f025 Janne Grunau      2022-10-21  400  		}
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  401  
-6d6c662e49f025 Janne Grunau      2022-10-21  402  		if (dcp_link->supplier->links.status != DL_DEV_DRIVER_BOUND)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  403  			return -EPROBE_DEFER;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  404  	}
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  405  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  406  	/* Need at least 1 DCP for a display subsystem */
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  407  	if (nr_dcp < 1)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  408  		return -ENODEV;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  409  
-6d6c662e49f025 Janne Grunau      2022-10-21  410  	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  411  	if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  412  		return ret;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  413  
-6d6c662e49f025 Janne Grunau      2022-10-21  414  	apple = devm_drm_dev_alloc(dev, &apple_drm_driver,
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  415  				   struct apple_drm_private, drm);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  416  	if (IS_ERR(apple))
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  417  		return PTR_ERR(apple);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  418  
-dc2155735fed04 Sven Peter        2022-11-05  419  	// <HACK>
-dc2155735fed04 Sven Peter        2022-11-05  420  	apple->atc1 = devm_phy_get(dev, "atcphy1-dpphy");
-dc2155735fed04 Sven Peter        2022-11-05  421  	if (IS_ERR(apple->atc1)) {
-dc2155735fed04 Sven Peter        2022-11-05  422  		dev_err(dev, "Failed to get atcphy: %ld", PTR_ERR(apple->atc1));
-dc2155735fed04 Sven Peter        2022-11-05  423  		return PTR_ERR(apple->atc1);
-dc2155735fed04 Sven Peter        2022-11-05  424  	}
-dc2155735fed04 Sven Peter        2022-11-05  425  	apple->xbar_atc1 = devm_mux_control_get(dev, "atcphy1-dpphy");
-dc2155735fed04 Sven Peter        2022-11-05  426  	if (IS_ERR(apple->xbar_atc1)) {
-dc2155735fed04 Sven Peter        2022-11-05  427  		dev_err(dev, "Failed to get atcphy-xbar: %ld", PTR_ERR(apple->xbar_atc1));
-dc2155735fed04 Sven Peter        2022-11-05  428  		return PTR_ERR(apple->xbar_atc1);
-dc2155735fed04 Sven Peter        2022-11-05  429  	}
-dc2155735fed04 Sven Peter        2022-11-05 @430  	mux_control_select(apple->xbar_atc1, 0);
-dc2155735fed04 Sven Peter        2022-11-05  431  	// </HACK>
-dc2155735fed04 Sven Peter        2022-11-05  432  
-9bec832ab04f90 Janne Grunau      2022-10-21  433  	ret = drm_vblank_init(&apple->drm, nr_dcp);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  434  	if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  435  		return ret;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  436  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  437  	ret = drmm_mode_config_init(&apple->drm);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  438  	if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  439  		goto err_unload;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  440  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  441  	/*
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  442  	 * IOMFB::UPPipeDCP_H13P::verify_surfaces produces the error "plane
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  443  	 * requires a minimum of 32x32 for the source buffer" if smaller
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  444  	 */
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  445  	apple->drm.mode_config.min_width = 32;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  446  	apple->drm.mode_config.min_height = 32;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  447  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  448  	/* Unknown maximum, use the iMac (24-inch, 2021) display resolution as
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  449  	 * maximum.
-eff790186e7fdd Janne Grunau      2022-10-01  450  	 * TODO: this is the max framebuffer size not the maximal supported output
-eff790186e7fdd Janne Grunau      2022-10-01  451  	 * resolution. DCP reports the maximal framebuffer size take it from there.
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  452  	 */
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  453  	apple->drm.mode_config.max_width = 4480;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  454  	apple->drm.mode_config.max_height = 2520;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  455  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  456  	apple->drm.mode_config.funcs = &apple_mode_config_funcs;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  457  	apple->drm.mode_config.helper_private = &apple_mode_config_helpers;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  458  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  459  	for (i = 0; i < nr_dcp; ++i) {
-dc2155735fed04 Sven Peter        2022-11-05  460  		ret = apple_probe_per_dcp(dev, &apple->drm, dcp[i], i, apple);
-6d6c662e49f025 Janne Grunau      2022-10-21  461  
-6d6c662e49f025 Janne Grunau      2022-10-21  462  		if (ret)
-6d6c662e49f025 Janne Grunau      2022-10-21  463  			goto err_unload;
-6d6c662e49f025 Janne Grunau      2022-10-21  464  
-6d6c662e49f025 Janne Grunau      2022-10-21  465  		ret = dcp_start(dcp[i]);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  466  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  467  		if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  468  			goto err_unload;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  469  	}
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  470  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  471  	drm_mode_config_reset(&apple->drm);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  472  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  473  	ret = drm_aperture_remove_framebuffers(false, &apple_drm_driver);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  474  	if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  475  		return ret;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  476  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  477  	ret = drm_dev_register(&apple->drm, 0);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  478  	if (ret)
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  479  		goto err_unload;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  480  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  481  	drm_fbdev_generic_setup(&apple->drm, 32);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  482  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  483  	return 0;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  484  
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  485  err_unload:
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  486  	drm_dev_put(&apple->drm);
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  487  	return ret;
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  488  }
-57afba12760c22 Alyssa Rosenzweig 2021-08-27  489  
-
-:::::: The code at line 430 was first introduced by commit
-:::::: dc2155735fed0465eca446e9ffd80df527341386 DCP WIP
-
-:::::: TO: Sven Peter <sven@svenpeter.dev>
-:::::: CC: Sven Peter <sven@svenpeter.dev>
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_match_options':
+   __pi_idreg-override.c:(.init.text+0x10): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x10): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x20): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x524): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x524): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x528): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_mmfr1_vh_filter':
+   __pi_idreg-override.c:(.init.text+0x578): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x578): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x580): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x5e0): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x5e0): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x5ec): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_pfr0_sve_filter':
+   __pi_idreg-override.c:(.init.text+0x624): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x624): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x62c): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x680): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x680): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x68c): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_pfr1_sme_filter':
+   __pi_idreg-override.c:(.init.text+0x6c4): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x6c4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x6cc): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x720): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x720): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x72c): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_skip_spaces':
+   __pi_idreg-override.c:(.init.text+0x764): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x764): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x770): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x7c0): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x7c0): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x7cc): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi___parse_cmdline':
+   __pi_idreg-override.c:(.init.text+0x83c): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0x83c): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0x848): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0xab0): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0xab0): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0xabc): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: in function `__pi_init_feature_override':
+   __pi_idreg-override.c:(.init.text+0xb28): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0xb28): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0xb34): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0xcfc): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/idreg-override.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_idreg-override.c:(.init.text+0xcfc): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_idreg-override.c:(.init.text+0xd08): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: in function `__pi_map_range':
+>> __pi_map_kernel.c:(.init.text+0x14): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x14): dangerous relocation: unsupported relocation
+>> aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x20): undefined reference to `__pi_latent_entropy'
+>> aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x350): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x350): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x354): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: in function `__pi_map_segment':
+   __pi_map_kernel.c:(.init.text+0x3d8): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x3d8): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x3e4): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: in function `__pi_map_kernel':
+   __pi_map_kernel.c:(.init.text+0x474): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x474): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x47c): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x6d4): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x6d4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x6e0): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: in function `__pi_early_map_kernel':
+   __pi_map_kernel.c:(.init.text+0x754): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/map_kernel.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_map_kernel.c:(.init.text+0x754): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_map_kernel.c:(.init.text+0x75c): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: arch/arm64/kernel/pi/relocate.pi.o: in function `__pi_relocate_kernel':
+   __pi_relocate.c:(.init.text+0x4): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/relocate.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_relocate.c:(.init.text+0x4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_relocate.c:(.init.text+0x10): undefined reference to `__pi_latent_entropy'
+   aarch64-linux-ld: __pi_relocate.c:(.init.text+0xb0): undefined reference to `__pi__GLOBAL_OFFSET_TABLE_'
+   aarch64-linux-ld: arch/arm64/kernel/pi/relocate.pi.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__pi__GLOBAL_OFFSET_TABLE_' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   __pi_relocate.c:(.init.text+0xb0): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: __pi_relocate.c:(.init.text+0xbc): undefined reference to `__pi_latent_entropy'
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---2tuq6tQ21BHYhqKY
+--nfkisSRGyRc4yY0A
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 6.1.0-rc1-asahi-dcp Kernel Configuration
+# Linux/arm64 6.1.0-rc3 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="aarch64-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -878,7 +842,6 @@ CONFIG_CPUFREQ_DT_PLATDEV=y
 CONFIG_ACPI_CPPC_CPUFREQ=y
 CONFIG_ACPI_CPPC_CPUFREQ_FIE=y
 CONFIG_ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM=y
-CONFIG_ARM_APPLE_SOC_CPUFREQ=y
 CONFIG_ARM_ARMADA_37XX_CPUFREQ=y
 CONFIG_ARM_ARMADA_8K_CPUFREQ=y
 CONFIG_ARM_SCPI_CPUFREQ=y
@@ -2213,7 +2176,6 @@ CONFIG_BT_HCIUART_QCA=y
 CONFIG_BT_HCIUART_AG6XX=y
 CONFIG_BT_HCIUART_MRVL=y
 CONFIG_BT_HCIBCM203X=y
-CONFIG_BT_HCIBCM4377=y
 CONFIG_BT_HCIBPA10X=y
 CONFIG_BT_HCIBFUSB=y
 CONFIG_BT_HCIDTL1=y
@@ -2748,9 +2710,6 @@ CONFIG_EFI_PARAMS_FROM_FDT=y
 CONFIG_EFI_RUNTIME_WRAPPERS=y
 CONFIG_EFI_GENERIC_STUB=y
 CONFIG_EFI_ZBOOT=y
-CONFIG_EFI_ZBOOT_SIGNING=y
-CONFIG_EFI_ZBOOT_SIGNING_CERT=""
-CONFIG_EFI_ZBOOT_SIGNING_KEY=""
 CONFIG_EFI_ARMSTUB_DTB_LOADER=y
 CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
 CONFIG_EFI_BOOTLOADER_CONTROL=y
@@ -5204,7 +5163,6 @@ CONFIG_INPUT_RAVE_SP_PWRBUTTON=y
 CONFIG_INPUT_SC27XX_VIBRA=y
 CONFIG_INPUT_RT5120_PWRKEY=y
 CONFIG_INPUT_STPMIC1_ONKEY=y
-CONFIG_INPUT_MACSMC_HID=y
 CONFIG_RMI4_CORE=y
 CONFIG_RMI4_I2C=y
 CONFIG_RMI4_SPI=y
@@ -5723,7 +5681,6 @@ CONFIG_SPI_MEM=y
 CONFIG_SPI_ALTERA=y
 CONFIG_SPI_ALTERA_CORE=y
 CONFIG_SPI_ALTERA_DFL=y
-CONFIG_SPI_APPLE=y
 CONFIG_SPI_AR934X=y
 CONFIG_SPI_ATH79=y
 CONFIG_SPI_ARMADA_3700=y
@@ -5850,7 +5807,6 @@ CONFIG_SPMI=y
 CONFIG_SPMI_HISI3670=y
 CONFIG_SPMI_MSM_PMIC_ARB=y
 CONFIG_SPMI_MTK_PMIF=y
-CONFIG_SPMI_APPLE=y
 CONFIG_HSI=y
 CONFIG_HSI_BOARDINFO=y
 
@@ -6333,7 +6289,6 @@ CONFIG_GPIO_KEMPLD=y
 CONFIG_GPIO_LP3943=y
 CONFIG_GPIO_LP873X=y
 CONFIG_GPIO_LP87565=y
-CONFIG_GPIO_MACSMC=y
 CONFIG_GPIO_MADERA=y
 CONFIG_GPIO_MAX77620=y
 CONFIG_GPIO_MAX77650=y
@@ -6446,7 +6401,6 @@ CONFIG_POWER_RESET_GPIO=y
 CONFIG_POWER_RESET_GPIO_RESTART=y
 CONFIG_POWER_RESET_HISI=y
 CONFIG_POWER_RESET_LINKSTATION=y
-CONFIG_POWER_RESET_MACSMC=y
 CONFIG_POWER_RESET_MSM=y
 CONFIG_POWER_RESET_QCOM_PON=y
 CONFIG_POWER_RESET_OCELOT_RESET=y
@@ -6562,7 +6516,6 @@ CONFIG_BATTERY_ACER_A500=y
 CONFIG_BATTERY_SURFACE=y
 CONFIG_CHARGER_SURFACE=y
 CONFIG_BATTERY_UG3105=y
-CONFIG_CHARGER_MACSMC=y
 CONFIG_HWMON=y
 CONFIG_HWMON_VID=y
 CONFIG_HWMON_DEBUG_CHIP=y
@@ -7077,7 +7030,6 @@ CONFIG_MFD_CORE=y
 CONFIG_MFD_ALTERA_A10SR=y
 CONFIG_MFD_ALTERA_SYSMGR=y
 CONFIG_MFD_ACT8945A=y
-CONFIG_MFD_APPLE_SPMI_PMU=y
 CONFIG_MFD_AS3711=y
 CONFIG_MFD_AS3722=y
 CONFIG_PMIC_ADP5520=y
@@ -7174,7 +7126,6 @@ CONFIG_MFD_RN5T618=y
 CONFIG_MFD_SEC_CORE=y
 CONFIG_MFD_SI476X_CORE=y
 CONFIG_MFD_SIMPLE_MFD_I2C=y
-CONFIG_MFD_SIMPLE_MFD_SPMI=y
 CONFIG_MFD_SL28CPLD=y
 CONFIG_MFD_SM501=y
 CONFIG_MFD_SM501_GPIO=y
@@ -8885,7 +8836,6 @@ CONFIG_DRM_SSD130X=y
 CONFIG_DRM_SSD130X_I2C=y
 CONFIG_DRM_SSD130X_SPI=y
 CONFIG_DRM_SPRD=y
-CONFIG_DRM_APPLE=y
 CONFIG_DRM_HYPERV=y
 CONFIG_DRM_LEGACY=y
 CONFIG_DRM_TDFX=y
@@ -9370,7 +9320,6 @@ CONFIG_SND_SOC_AMD_CZ_RT5645_MACH=y
 CONFIG_SND_SOC_AMD_ST_ES8336_MACH=y
 CONFIG_SND_AMD_ACP_CONFIG=y
 CONFIG_SND_SOC_APPLE_MCA=y
-CONFIG_SND_SOC_APPLE_MACAUDIO=y
 CONFIG_SND_ATMEL_SOC=y
 CONFIG_SND_ATMEL_SOC_PDC=y
 CONFIG_SND_ATMEL_SOC_DMA=y
@@ -9898,7 +9847,6 @@ CONFIG_SND_SOC_CS42L52=y
 CONFIG_SND_SOC_CS42L56=y
 CONFIG_SND_SOC_CS42L73=y
 CONFIG_SND_SOC_CS42L83=y
-CONFIG_SND_SOC_CS42L84=y
 CONFIG_SND_SOC_CS4234=y
 CONFIG_SND_SOC_CS4265=y
 CONFIG_SND_SOC_CS4270=y
@@ -10372,20 +10320,6 @@ CONFIG_SURFACE_KBD=y
 # end of Surface System Aggregator Module HID support
 
 CONFIG_SURFACE_HID_CORE=y
-
-#
-# SPI HID support
-#
-CONFIG_SPI_HID_APPLE_OF=y
-# end of SPI HID support
-
-CONFIG_SPI_HID_APPLE_CORE=y
-
-#
-# DockChannel HID support
-#
-CONFIG_HID_DOCKCHANNEL=y
-# end of DockChannel HID support
 # end of HID support
 
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
@@ -10421,7 +10355,6 @@ CONFIG_USB_XHCI_HCD=y
 CONFIG_USB_XHCI_DBGCAP=y
 CONFIG_USB_XHCI_PCI=y
 CONFIG_USB_XHCI_PCI_RENESAS=y
-CONFIG_USB_XHCI_PCI_ASMEDIA=y
 CONFIG_USB_XHCI_PLATFORM=y
 CONFIG_USB_XHCI_HISTB=y
 CONFIG_USB_XHCI_MTK=y
@@ -11435,7 +11368,6 @@ CONFIG_RTC_DRV_HID_SENSOR_TIME=y
 CONFIG_RTC_DRV_GOLDFISH=y
 CONFIG_RTC_DRV_WILCO_EC=y
 CONFIG_RTC_DRV_MSC313=y
-CONFIG_RTC_DRV_MACSMC=y
 CONFIG_DMADEVICES=y
 CONFIG_DMADEVICES_DEBUG=y
 CONFIG_DMADEVICES_VDEBUG=y
@@ -12079,9 +12011,6 @@ CONFIG_SURFACE_PRO3_BUTTON=y
 CONFIG_SURFACE_AGGREGATOR=y
 CONFIG_SURFACE_AGGREGATOR_BUS=y
 CONFIG_SURFACE_AGGREGATOR_ERROR_INJECTION=y
-CONFIG_APPLE_PLATFORMS=y
-CONFIG_APPLE_SMC=y
-CONFIG_APPLE_SMC_RTKIT=y
 CONFIG_HAVE_CLK=y
 CONFIG_HAVE_CLK_PREPARE=y
 CONFIG_COMMON_CLK=y
@@ -12799,9 +12728,7 @@ CONFIG_MESON_MX_SOCINFO=y
 #
 CONFIG_APPLE_PMGR_PWRSTATE=y
 CONFIG_APPLE_RTKIT=y
-CONFIG_APPLE_RTKIT_HELPER=y
 CONFIG_APPLE_SART=y
-CONFIG_APPLE_DOCKCHANNEL=y
 # end of Apple SoC drivers
 
 #
@@ -13959,7 +13886,6 @@ CONFIG_PHY_MESON_G12A_USB3_PCIE=y
 CONFIG_PHY_MESON_AXG_PCIE=y
 CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG=y
 CONFIG_PHY_MESON_AXG_MIPI_DPHY=y
-CONFIG_PHY_APPLE_ATC=y
 
 #
 # PHY drivers for Broadcom platforms
@@ -14185,7 +14111,6 @@ CONFIG_NVMEM_SC27XX_EFUSE=y
 CONFIG_NVMEM_SNVS_LPGPR=y
 CONFIG_NVMEM_SPMI_SDAM=y
 CONFIG_NVMEM_SPRD_EFUSE=y
-CONFIG_NVMEM_SPMI_MFD=y
 CONFIG_NVMEM_STM32_ROMEM=y
 CONFIG_NVMEM_SUNPLUS_OCOTP=y
 CONFIG_NVMEM_SUNXI_SID=y
@@ -14263,7 +14188,6 @@ CONFIG_MULTIPLEXER=y
 #
 CONFIG_MUX_ADG792A=y
 CONFIG_MUX_ADGS1408=y
-CONFIG_MUX_APPLE_DPXBAR=y
 CONFIG_MUX_GPIO=y
 CONFIG_MUX_MMIO=y
 # end of Multiplexer drivers
@@ -15935,4 +15859,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---2tuq6tQ21BHYhqKY--
+--nfkisSRGyRc4yY0A--
