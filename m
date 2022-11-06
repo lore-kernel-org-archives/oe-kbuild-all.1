@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4D328EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Nov 2022 14:56:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0EDC433D6;
-	Sun,  6 Nov 2022 14:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC728EC;
+	Sun,  6 Nov 2022 15:25:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66AF1C433D6;
+	Sun,  6 Nov 2022 15:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667746602;
-	bh=pTF6DEG0iD2tUKx6NfIbRgijF+x5iwhtNqdOL8+Fo/A=;
+	s=k20201202; t=1667748313;
+	bh=lZ9gOuIK/p/+AxLeA6qMbQ9qzDHEck1QexyR55L+9Dk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LGxt+3pgotEhPFCiPHcYKPlcajj1SWsBPCIho6sIYahdnEA62PuvGcbjbS3HlCcDr
-	 LCCRtAIQrn3gNaez2l0mMKxhnIDgwr7jfSefYoJRS8hVTI1eoYJjBvLRWJ/Lv9LklH
-	 etaTt+9lfzrdWwxfpCM4FMZw6B6fGP+r7iNT5YzrlCglOQFqYNuJYh1eLh+/xfJC5Q
-	 LM6lAqLTtpnZUB2Ehyg4Dv1HP77CZDr4T29QRvq5ilSURYwAoSNf6mfjXutGMMadjn
-	 5HacU+aGql6sAs630roS2cxm5WOLtERRwR/4608W8X+OEvBNpnbbRkl2SfwvRrVeqQ
-	 OnozqV6ifc8NA==
-Date: Sun, 6 Nov 2022 14:56:35 +0000
+	b=c2y2LmsiNGpYap3pOrD5SdXfqIiha/uI8LpSIwt1cVR3iAeWm5IzMw4DEag7FexRL
+	 3psNGNKKApsOtEiNsGcFeMu0R2mf2KZSwsitsraVEfq0o4d79YzVhLtBkU03JbTfcb
+	 tko2Vmg+0BFDkqO8h48ldic8vzZoQX6nS+ygnGRGB5ALgOc8wmtP6+RhbbmaNPCzcA
+	 HDAdsOZC/0GownoZBG5hrHFU3fOZmuOcJrfvG2/i+jYXWtPZacVeYGScnDfan+Ghut
+	 kllEULi5d/JA5tUXwDLZQqptHULr1suHpqQEVo/LIMSdebhcQyfg2+QOl5zQHgJWMO
+	 l5Y2sUzyxDiAQ==
+Date: Sun, 6 Nov 2022 15:25:03 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: kernel test robot <lkp@intel.com>
-Cc: Leonard =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, Lars-Peter
- Clausen <lars@metafoo.de>, kernel@pengutronix.de,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: adc: add ADC driver for the TI LMP92064
- controller
-Message-ID: <20221106145635.29716833@jic23-huawei>
-In-Reply-To: <202211011818.QyWLsBVu-lkp@intel.com>
-References: <20221101064804.720050-2-l.goehrs@pengutronix.de>
-	<202211011818.QyWLsBVu-lkp@intel.com>
+Cc: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>, lars@metafoo.de,
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, jdelvare@suse.com,
+ linux@roeck-us.net, linux-hwmon@vger.kernel.org, rajat.khandelwal@intel.com
+Subject: Re: [PATCH v7] iio: temperature: Add driver support for Maxim
+ MAX30208
+Message-ID: <20221106152503.2f7e9f7f@jic23-huawei>
+In-Reply-To: <202211041434.J9y1aows-lkp@intel.com>
+References: <20221101174409.316447-1-rajat.khandelwal@linux.intel.com>
+	<202211041434.J9y1aows-lkp@intel.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -38,68 +38,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 1 Nov 2022 18:36:14 +0800
+On Fri, 4 Nov 2022 14:50:33 +0800
 kernel test robot <lkp@intel.com> wrote:
 
-> Hi Leonard,
+> Hi Rajat,
 > 
 > I love your patch! Perhaps something to improve:
 > 
 > [auto build test WARNING on jic23-iio/togreg]
-> [also build test WARNING on linus/master v6.1-rc3 next-20221101]
+> [also build test WARNING on linus/master v6.1-rc3 next-20221104]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Leonard-G-hrs/dt-bindings-iio-adc-add-TI-LMP92064-controller/20221101-145036
+> url:    https://github.com/intel-lab-lkp/linux/commits/Rajat-Khandelwal/iio-temperature-Add-driver-support-for-Maxim-MAX30208/20221101-102308
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/20221101064804.720050-2-l.goehrs%40pengutronix.de
-> patch subject: [PATCH v2 2/2] iio: adc: add ADC driver for the TI LMP92064 controller
-> config: x86_64-allyesconfig
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> patch link:    https://lore.kernel.org/r/20221101174409.316447-1-rajat.khandelwal%40linux.intel.com
+> patch subject: [PATCH v7] iio: temperature: Add driver support for Maxim MAX30208
+> config: riscv-randconfig-c006-20221103
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
 > reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/4b264b5bc9425f051a3ce5c5a9a30a66d3a0a477
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/2375dabd39957ad8e80878c5604eda8a9f73932d
 >         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Leonard-G-hrs/dt-bindings-iio-adc-add-TI-LMP92064-controller/20221101-145036
->         git checkout 4b264b5bc9425f051a3ce5c5a9a30a66d3a0a477
+>         git fetch --no-tags linux-review Rajat-Khandelwal/iio-temperature-Add-driver-support-for-Maxim-MAX30208/20221101-102308
+>         git checkout 2375dabd39957ad8e80878c5604eda8a9f73932d
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iio/adc/
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/block/ drivers/iio/temperature/
 > 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
 > 
 > All warnings (new ones prefixed by >>):
 > 
->    drivers/iio/adc/ti-lmp92064.c: In function 'lmp92064_adc_probe':
->    drivers/iio/adc/ti-lmp92064.c:267:15: error: implicit declaration of function 'devm_regulator_get_enable'; did you mean 'devm_regulator_get_optional'? [-Werror=implicit-function-declaration]
->      267 |         ret = devm_regulator_get_enable(dev, "vdd");
->          |               ^~~~~~~~~~~~~~~~~~~~~~~~~
->          |               devm_regulator_get_optional
-
-That's odd. it's definitely in the trees referenced above and there are stubs
-for when regulator support isn't built.  No idea... 
-
-
->    At top level:
-> >> drivers/iio/adc/ti-lmp92064.c:293:35: warning: 'lmp92064_id_table' defined but not used [-Wunused-const-variable=]  
->      293 | static const struct spi_device_id lmp92064_id_table[] = {
->          |                                   ^~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-
-This one is obvious though as the relevant entry in the struct spi_driver
-is not set.
- 
+> >> drivers/iio/temperature/max30208.c:195:36: warning: unused variable 'max30208_acpi_match' [-Wunused-const-variable]  
+>    static const struct acpi_device_id max30208_acpi_match[] = {
+>                                       ^
+>    1 warning generated.
 > 
+See review comments on v6 that said to drop the use of ACPI_PTR(). It's not worth
+the fiddly handling to save a trivial amount of data.
+
+Jonathan
+
 > 
-> vim +/lmp92064_id_table +293 drivers/iio/adc/ti-lmp92064.c
+> vim +/max30208_acpi_match +195 drivers/iio/temperature/max30208.c
 > 
->    292	
->  > 293	static const struct spi_device_id lmp92064_id_table[] = {  
->    294		{ "lmp92064", 0 },
->    295		{}
->    296	};
->    297	MODULE_DEVICE_TABLE(spi, lmp92064_id_table);
->    298	
+>    194	
+>  > 195	static const struct acpi_device_id max30208_acpi_match[] = {  
+>    196		{ "MAX30208" },
+>    197		{ }
+>    198	};
+>    199	MODULE_DEVICE_TABLE(acpi, max30208_acpi_match);
+>    200	
 > 
 
