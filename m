@@ -1,89 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C24228E8;
-	Mon,  7 Nov 2022 08:43:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0197EC433D6;
-	Mon,  7 Nov 2022 08:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667810590;
-	bh=c9Fcsd9awmFUgXdUD43LmU8VxDOSHmhYtxezPOps+vg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=V/tkCup0quN9nI3tyC7fZUTz0crQvZoq3VcI5mZucS5nZKwSxUgFqMGcN0VpMFsDM
-	 Ckp/xG+cs/B4Ra2qPen9jJgoFmSLHXD0DvI+zw6R5Kbze8dIfDo6Cf2QS87kOADHep
-	 nn5Mm2QS0UdBqH0jx89HF+ILw/+8qPFPMnvb2UvYbkuG1rITXNpb/wEx+qg5FvohWL
-	 T+eBK0KGalhJ8b9wrcuzOzbym4iWk/WKa6Msm/QeXm6MDg+syextl+ctRzr8W4bepX
-	 wZYVY8UQh5/qehVIT/GqzqzX+sBTaCR8JQOa82YgZQodjkBvdFrwSKuqBnc9IEf8Ai
-	 3CkY8pNqpS0BA==
-Message-ID: <ebc2fb50-39d1-4e3e-b108-8907af4853d1@kernel.org>
-Date: Mon, 7 Nov 2022 10:43:06 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FE428E8;
+	Mon,  7 Nov 2022 09:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B630AC433C1;
+	Mon,  7 Nov 2022 09:22:36 +0000 (UTC)
+Date: Mon, 7 Nov 2022 09:22:33 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Isaac Manjarres <isaacmanjarres@google.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Alasdair Kergon <agk@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Joerg Roedel <joro@8bytes.org>, Mark Brown <broonie@kernel.org>,
+	Mike Snitzer <snitzer@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 04/13] mm/slab: Allow kmalloc() minimum alignment
+ fallback to dma_get_cache_alignment()
+Message-ID: <Y2jOWXz0rdM/+jfx@arm.com>
+References: <20221106220143.2129263-5-catalin.marinas@arm.com>
+ <202211070812.BhGKB0Hd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: ld.lld: error: undefined symbol: gpmc_omap_onenand_set_timings
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <202211050325.XVtPvMvy-lkp@intel.com>
- <402e120a-044e-12ac-7d10-cf8b3b5a1404@kernel.org>
- <1937d7b5-89f4-0cb2-957a-bda2dcbbdb37@kernel.org>
- <118ef884-de2e-3bd3-4888-f9154e5a300e@kernel.org>
-From: Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <118ef884-de2e-3bd3-4888-f9154e5a300e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202211070812.BhGKB0Hd-lkp@intel.com>
 
-
-
-On 07/11/2022 10:42, Krzysztof Kozlowski wrote:
-> On 07/11/2022 09:41, Roger Quadros wrote:
->>
->>
->> On 04/11/2022 21:36, Krzysztof Kozlowski wrote:
->>> On 04/11/2022 15:29, kernel test robot wrote:
->>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>>> head:   ee6050c8af96bba2f81e8b0793a1fc2f998fcd20
->>>> commit: 854fd9209b20837ab48c2e6714e5e44dd8ea33a2 memory: omap-gpmc: Allow building as a module
->>>> date:   6 months ago
->>>> config: arm-buildonly-randconfig-r004-20221104
->>>> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 2bbafe04fe785a9469bea5a3737f8d7d3ce4aca2)
->>>> reproduce (this is a W=1 build):
->>>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>>         chmod +x ~/bin/make.cross
->>>>         # install arm cross compiling tool for clang build
->>>>         # apt-get install binutils-arm-linux-gnueabi
->>>>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=854fd9209b20837ab48c2e6714e5e44dd8ea33a2
->>>>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->>>>         git fetch --no-tags linus master
->>>>         git checkout 854fd9209b20837ab48c2e6714e5e44dd8ea33a2
->>>>         # save the config file
->>>>         mkdir build_dir && cp config build_dir/.config
->>>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
->>>>
->>>> If you fix the issue, kindly add following tag where applicable
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> +Cc Miquel,
->>>
->>> Hm, I am pretty sure we already fixed it... but it seems not. I think
->>> this needs dependency in MTD_ONENAND_OMAP2 - one is module, second
->>> cannot be built-in.
->>
->> We fixed MTD_NAND_OMAP2 but missed this MTD_ONENAND_OMAP2.
->>
->> I'll send out a patch soon.
+On Mon, Nov 07, 2022 at 08:50:31AM +0800, kernel test robot wrote:
+> url:    https://github.com/intel-lab-lkp/linux/commits/Catalin-Marinas/mm-dma-arm64-Reduce-ARCH_KMALLOC_MINALIGN-to-8/20221107-060303
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20221106220143.2129263-5-catalin.marinas%40arm.com
+> patch subject: [PATCH v3 04/13] mm/slab: Allow kmalloc() minimum alignment fallback to dma_get_cache_alignment()
+> config: parisc-randconfig-r003-20221106
+> compiler: hppa-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/309bc52a1ed9665a1b9d32bcf094918ceb6af519
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Catalin-Marinas/mm-dma-arm64-Reduce-ARCH_KMALLOC_MINALIGN-to-8/20221107-060303
+>         git checkout 309bc52a1ed9665a1b9d32bcf094918ceb6af519
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 > 
-> I already sent a patch for this. Can you review it?
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    mm/slab_common.c: In function '__kmalloc_minalign':
+> >> mm/slab_common.c:866:52: error: 'io_tlb_default_mem' undeclared (first use in this function)
+>      866 |             cache_align < ARCH_KMALLOC_MINALIGN || io_tlb_default_mem.nslabs)
+>          |                                                    ^~~~~~~~~~~~~~~~~~
+>    mm/slab_common.c:866:52: note: each undeclared identifier is reported only once for each function it appears in
 
-Just saw it after I replied to this one :)
-Thanks! I'll review it.
+Thanks for this. It looks like I didn't test the series with
+CONFIG_SWIOTLB disabled.
 
-cheers,
--roger
+-- 
+Catalin
