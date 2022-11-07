@@ -1,35 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FE428E8;
-	Mon,  7 Nov 2022 09:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B630AC433C1;
-	Mon,  7 Nov 2022 09:22:36 +0000 (UTC)
-Date: Mon, 7 Nov 2022 09:22:33 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Isaac Manjarres <isaacmanjarres@google.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Alasdair Kergon <agk@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Joerg Roedel <joro@8bytes.org>, Mark Brown <broonie@kernel.org>,
-	Mike Snitzer <snitzer@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 04/13] mm/slab: Allow kmalloc() minimum alignment
- fallback to dma_get_cache_alignment()
-Message-ID: <Y2jOWXz0rdM/+jfx@arm.com>
-References: <20221106220143.2129263-5-catalin.marinas@arm.com>
- <202211070812.BhGKB0Hd-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF1E28E8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Nov 2022 09:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667813470; x=1699349470;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5znuvfcRUx7KWtUAcWVSs6hlptb3yaNGKcMniRvX9II=;
+  b=iaQUBScEOZP2KskksEYmwxrWuI7GLLp/HvNuf1UUWNW3ZCMhInSzGFd3
+   nOGded1aZIDUzmLM11eXPRYUyiRnlyg27DsE2LAHx8Tkvp8ReQJvMLXk0
+   AWTmFvYADAtfeDd2wpvyjDkTzON4SsEWy8Sd7KxJSv9oteaxHNAyRYbK6
+   fFqYhOwVMR08suQJts0livG2FKI/iWqybNVRLx9cP68lCV7zMwMbQPSJB
+   rqi2YRZ3lOzNLQwLE0E0R8As+gKvFRnqYMQYdfDGCCvNLbZS6GEsSTPye
+   uf/8hP0s6STvp4ZnJUfFLwVKz8/mOP2e338YG1h3vjgIOtSYZQCVBuypn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312133051"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
+   d="scan'208";a="312133051"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 01:31:10 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="699404446"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
+   d="scan'208";a="699404446"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 01:31:08 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 0D685201B6;
+	Mon,  7 Nov 2022 11:31:06 +0200 (EET)
+Date: Mon, 7 Nov 2022 09:31:06 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [sailus-media-tree:master 43/47] drivers/clk/clk.c:1022:5:
+ error: redefinition of 'clk_prepare'
+Message-ID: <Y2jQWuZVkk9aInJe@paasikivi.fi.intel.com>
+References: <202211031915.GxCDfpg5-lkp@intel.com>
+ <20221103173016.a2stvc6jtprs3nzh@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -38,39 +48,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202211070812.BhGKB0Hd-lkp@intel.com>
+In-Reply-To: <20221103173016.a2stvc6jtprs3nzh@pengutronix.de>
 
-On Mon, Nov 07, 2022 at 08:50:31AM +0800, kernel test robot wrote:
-> url:    https://github.com/intel-lab-lkp/linux/commits/Catalin-Marinas/mm-dma-arm64-Reduce-ARCH_KMALLOC_MINALIGN-to-8/20221107-060303
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20221106220143.2129263-5-catalin.marinas%40arm.com
-> patch subject: [PATCH v3 04/13] mm/slab: Allow kmalloc() minimum alignment fallback to dma_get_cache_alignment()
-> config: parisc-randconfig-r003-20221106
-> compiler: hppa-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/309bc52a1ed9665a1b9d32bcf094918ceb6af519
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Catalin-Marinas/mm-dma-arm64-Reduce-ARCH_KMALLOC_MINALIGN-to-8/20221107-060303
->         git checkout 309bc52a1ed9665a1b9d32bcf094918ceb6af519
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mm/slab_common.c: In function '__kmalloc_minalign':
-> >> mm/slab_common.c:866:52: error: 'io_tlb_default_mem' undeclared (first use in this function)
->      866 |             cache_align < ARCH_KMALLOC_MINALIGN || io_tlb_default_mem.nslabs)
->          |                                                    ^~~~~~~~~~~~~~~~~~
->    mm/slab_common.c:866:52: note: each undeclared identifier is reported only once for each function it appears in
+Hi Marco,
 
-Thanks for this. It looks like I didn't test the series with
-CONFIG_SWIOTLB disabled.
+On Thu, Nov 03, 2022 at 06:30:16PM +0100, Marco Felsch wrote:
+> Hi,
+> 
+> On 22-11-03, kernel test robot wrote:
+> > tree:   git://linuxtv.org/sailus/media_tree.git master
+> > head:   7336c54a562b479866d2de2abc61487a4e07b0b9
+> > commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb [43/47] media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
+> > config: sh-allmodconfig
+> > compiler: sh4-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
+> >         git fetch --no-tags sailus-media-tree master
+> >         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
+> >      941 | void clk_unprepare(struct clk *clk)
+> >          |      ^~~~~~~~~~~~~
+> >    In file included from drivers/clk/clk.c:9:
+> >    include/linux/clk.h:303:20: note: previous definition of 'clk_unprepare' with type 'void(struct clk *)'
+> >      303 | static inline void clk_unprepare(struct clk *clk)
+> >          |                    ^~~~~~~~~~~~~
+> > >> drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
+> >     1022 | int clk_prepare(struct clk *clk)
+> >          |     ^~~~~~~~~~~
+> >    include/linux/clk.h:271:19: note: previous definition of 'clk_prepare' with type 'int(struct clk *)'
+> >      271 | static inline int clk_prepare(struct clk *clk)
+> >          |                   ^~~~~~~~~~~
+> > >> drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
+> >     1268 | bool clk_is_enabled_when_prepared(struct clk *clk)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    include/linux/clk.h:284:20: note: previous definition of 'clk_is_enabled_when_prepared' with type 'bool(struct clk *)' {aka '_Bool(struct clk *)'}
+> >      284 | static inline bool clk_is_enabled_when_prepared(struct clk *clk)
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > Kconfig warnings: (for reference only)
+> >    WARNING: unmet direct dependencies detected for COMMON_CLK
+> >    Depends on [n]: !HAVE_LEGACY_CLK [=y]
+> >    Selected by [m]:
+> >    - VIDEO_TC358746 [=m] && MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && PM [=y] && I2C [=m]
+> 
+> Hm.. this is strange but my relate to the unmet dependency. I could add
+> a depends on COMMON_CLK but this no i2c driver is doing that, just a few
+> platform drivers.
+
+I think you should drop the dependency (through select) altogether as you
+(I expect) don't really need the common clock framework.
+
+Could you send a patch?
 
 -- 
-Catalin
+Kind regards,
+
+Sakari Ailus
