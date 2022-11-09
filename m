@@ -1,265 +1,225 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1222A2CA7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Nov 2022 09:22:38 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A99DlcG028236;
-	Wed, 9 Nov 2022 09:22:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=mUu6vqQ0rbW6C0x+MoIyoE/7W3tIh+6EqvopY6zkOwI=;
- b=EBcJx+frfknOyfvnSbCfYCkgGhyQ/7GaWCx4GfI96N/t0Rgl0eGoRQNBxsXISSBT+rMb
- l9H3TYC/DAUZ0waoGgwm7TDLAdhM8nsvOmTYTxt9Eetip16nmm5rwNOBYYh1OTphrN1w
- 0ULexCicS9d7Oiy1v5rxnqjpGFSGQOx24AKiuLBKPFdcnLj+bvZ+oKCjuMTwHUjk1eqH
- nkw3O8Qomg2i5iG5lht+j5KHVIo831FITHL2pN/SgGd4z1LTVMgJgDxvYbgdWfoE1/b6
- niWIEyVqBzUB8Hl9pjjE7Kudlv1+gVUU9uFHIqwz4XEIwDJTbRas6CP1pM2QRMZQNOQs IA== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kr9cn816w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 09 Nov 2022 09:22:36 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2A97rvxX000353;
-	Wed, 9 Nov 2022 09:21:24 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3kpcseq4gn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 09 Nov 2022 09:21:24 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5116AB1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Nov 2022 09:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1667986026; x=1699522026;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=tNY0+X7VkxPq5AKpKsGr19szO9fP9natneztRHeV45A=;
+  b=ztumjxp9OqxPZCk+u/cP1Sb3i3Pvi3j0BxRTtwA8V3gdD6V9sQtqp1Vl
+   XuoPaIjT6MrMfcr1z/N7SaVdPh6GboL5rzIeA6WgIKPyzv/a2xQbLjZJu
+   0dnF8pA/3ovIlfWv2hinUCS+RHb0+Ndw25XjqaBE2WLipSaQoK5z7Wm+j
+   xoamZRRaojayBZ9o2x1EBIuCqOyUjkRbRKPVGbLbdrVMZWNsnhpI7412L
+   k1LBNBLEGrjrHtFXRvAK6pZmz87E6M8ZVjMOI7Ao4KfToK/GHxqu/xPEx
+   7+UdlHSJm9l7ujTsnX8K1UGva+ESGMkX/s9/4qCWf5p/UkpKfjOwPF60l
+   g==;
+X-IronPort-AV: E=Sophos;i="5.96,150,1665471600"; 
+   d="scan'208";a="182636238"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Nov 2022 02:26:58 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Wed, 9 Nov 2022 02:26:57 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12 via Frontend Transport; Wed, 9 Nov 2022 02:26:57 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XyGu7ZozX8eqH50fKOqwGSFCnxn0FztpU/nT388o/W+0+tv/2Cq7RKRvcCFu0RGtMpOouWHpEZI9JhTcqI8hnrda+WZF/q8wgP0i0Dh0jHJghY3N7TFJQkHbVQyXiFiNNOiUQKNqrZZCj/cMxcmhc3xMqN0poxtNouQLeJB2/gT4aBr6MwavVwM2V/ipDr8h491XwPQNZKCL5OULsmhB0TCc8YhLXxw7SfTgGZPuMik8/LYfqMxivvDTz1UkkhfUQPjOdDnC+RzH2rAc87j7KbFj8qPHXR6dPnTGWn+TvERc+CFRBk0PfajHZx5KLcLP2sPx/XL6cQcz0NrQ4dgA7g==
+ b=M6qcv5QIqOmFQB4MewBVRF4y3Ux8uikOSQaZhu3X+kjG5sr+T9P6nMIEvBnwssT/yl7MuhzVdKSyTT5k+UYcGF0tdWyCgYpYTEpX/NKNpbBhI0FvcJ4uA9KJJl462bUITX1TX/wpxWzqiF/jK1ut/v0L1HXUJcMcwjUWbYiyYIubFfjdwAooY+3EDJ0Zm/HciG90WpXgixJq5LNmkIScmP3Qra5iCK/vEz5/HiYQx2fsAYGy8MIHFzRA1WGp01rm4GD1Xzm9JRK3/EsbggQSho2nkIaOvGfE4xvp2ch+URakJpvitrLUHVnuaP47eLOHf94vMjsUf7bUy1qD7UL9Yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mUu6vqQ0rbW6C0x+MoIyoE/7W3tIh+6EqvopY6zkOwI=;
- b=QFFEGaJEsDyjnC40m1VIw17oHUF5igVI4cCsiojT0zU+TmhpE+ztrX3N4AYNRSOj0KD+J+H7Xw2x57wqi4LL1yZnJmeXUEPAQ89oi1K2H5YbHgICYJw6DzMN7GlzEqrG2DVBNZlxOM/Z8h9dGNgy3O0joVPs21pWWmmyd3Wj8h4jAX2y7RNBUlLlQT7SQyo8I1eeI92mEQgsYWzVDwy9pqHhG9XpDgU1XC5Zh3niXySWe9cmZnRxRk4/+KcwZN6WpZ90to3bqD4zdkrPFuR+AISWOKiHXk+mnhT8xwSAnFH93SZYu+Dd71jFJ14W2+RT/IOjbtnbwZOwNuqUyOO6bA==
+ bh=vQyVYzu18Mic4By6tfmY0b66m2aM+Mkxmw3O03pRdSk=;
+ b=GQPLRf+7P8vmFVxOMl900cqckE8VLXXgj6tvEdkkfoTk0+hX3Kb1T0jc/XWGkX6amOKV6vJIeqzO68q7I5fvH00P2pLQuCbxeVXvn9RZmfu96b4+ym8LDkPMFniRzgySEhhCYAmkURTC5jBQdgs68ILMECfnUXq3JX07RbHVAST0EK1fxDvDPIfW4jgSX0zKpT4i8u0Mz9wardHgoTnTVyFdqurLe4+I7SVEeTkaNOAfICgu1nUPYgcE8s4InsWP1dQPNM8LoikNlmEX84Su/blY5FQUyj7ZdPi3riqcSJ8tEAEjfyry+Hwgfmwp3coqNESJE1Uu2AhQeoNs/n1mPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mUu6vqQ0rbW6C0x+MoIyoE/7W3tIh+6EqvopY6zkOwI=;
- b=ePygLVcckcaKRqA+IlaauzqkXpeLehS2gJ0hP0kFjeN5zDU4tXBkyWCAFIgL5hXWDpOBgmo0fMJRU1REg2aNybBSxVScQF2TTf/xAs9FXrcVZJtPQOcAJ6tTUA7Cwdy9kDujAXqXyQ0dpymeInZw5zSbID1UwkdJgtx3oQDhaNs=
-Received: from PH0PR10MB5706.namprd10.prod.outlook.com (2603:10b6:510:148::10)
- by PH0PR10MB4727.namprd10.prod.outlook.com (2603:10b6:510:3f::19) with
+ bh=vQyVYzu18Mic4By6tfmY0b66m2aM+Mkxmw3O03pRdSk=;
+ b=dX5WLKZtA4kcCWyd5Lb+mnbNpSGupZIET9q6Hwl2kKxtq28qDCZSMpezRrh6KxhwsmKO8s/FbqcXYRBeinhFKCR0azE9VZfSinJlollh+8nU8QjUpOm1bsYjXAonUwyqIg6FnL6Yl9DUQP8gvjsA8OnWdY+tOIoXQsE9fb7vobo=
+Received: from CO6PR11MB5569.namprd11.prod.outlook.com (2603:10b6:303:139::20)
+ by SJ2PR11MB7548.namprd11.prod.outlook.com (2603:10b6:a03:4cd::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Wed, 9 Nov
- 2022 09:21:22 +0000
-Received: from PH0PR10MB5706.namprd10.prod.outlook.com
- ([fe80::c0a4:3fc3:dfa1:8f56]) by PH0PR10MB5706.namprd10.prod.outlook.com
- ([fe80::c0a4:3fc3:dfa1:8f56%4]) with mapi id 15.20.5791.022; Wed, 9 Nov 2022
- 09:21:22 +0000
-Message-ID: <6af7ebaf-4dca-31ad-7854-df73772dacbf@oracle.com>
-Date: Wed, 9 Nov 2022 17:21:12 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0)
- Gecko/20100101 Thunderbird/95.0
-Subject: Re: [PATCH] btrfs: move device->name rcu alloc and assign to
- btrfs_alloc_device()
-To: kernel test robot <lkp@intel.com>, Anand Jain <anand.jain@oracle.com>,
-        linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <558d3ae7ad53788c05810ae452cece7036316fb2.1667831845.git.anand.jain@oracle.com>
- <202211091331.YNFqkpxV-lkp@intel.com>
-From: Anand Jain <anand.jain@oracle.com>
-In-Reply-To: <202211091331.YNFqkpxV-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0117.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::21) To PH0PR10MB5706.namprd10.prod.outlook.com
- (2603:10b6:510:148::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Wed, 9 Nov
+ 2022 09:26:52 +0000
+Received: from CO6PR11MB5569.namprd11.prod.outlook.com
+ ([fe80::d02f:4ea6:e2ce:4a93]) by CO6PR11MB5569.namprd11.prod.outlook.com
+ ([fe80::d02f:4ea6:e2ce:4a93%7]) with mapi id 15.20.5791.027; Wed, 9 Nov 2022
+ 09:26:52 +0000
+From: <Daniel.Machon@microchip.com>
+To: <petrm@nvidia.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-mm@kvack.org>, <pabeni@redhat.com>
+Subject: Re: [linux-next:master 4744/6155] net/dcb/dcbnl.c:1230:1: warning:
+ the frame size of 1244 bytes is larger than 1024 bytes
+Thread-Topic: [linux-next:master 4744/6155] net/dcb/dcbnl.c:1230:1: warning:
+ the frame size of 1244 bytes is larger than 1024 bytes
+Thread-Index: AQHY8rbly5CzSMZTOUmUqRu03Vqiyq4zo7KAgABKlQCAAPyQgIABbXwA
+Date: Wed, 9 Nov 2022 09:26:52 +0000
+Message-ID: <Y2t01hP4yx6aOnie@DEN-LT-70577>
+References: <202211072213.KSrsyiuE-lkp@intel.com> <87y1smpwe0.fsf@nvidia.com>
+ <Y2luYj9zmLDuiTnl@DEN-LT-70577> <87cz9xpslm.fsf@nvidia.com>
+In-Reply-To: <87cz9xpslm.fsf@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5569:EE_|SJ2PR11MB7548:EE_
+x-ms-office365-filtering-correlation-id: c7aca42c-ade7-4fae-8f3c-08dac2348920
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SgFsOaYxs+GcR2Ocse7HXsWK8lUzf9wAGxv6TBlrNyR+IVPaUyY6T4crmob2VPZQn1hHnZ/d+AvIROT5IUtLVYAaHk1kNXxaOM7qzYwHlF58qG1L/Ect+KdLnqVdJyDF6X0VJ3juKm5e0Wuiej58YSP4F4+EhYyGwRM1gBixA/2OrF4/KWgBLLmdQBzEWDHxQ3aR4ncSLE0LZNkzCYn7p+UJnGV86dENU6dSdFWGmmDSx/kCWHV5RU3iyRW87+TCImHuEospF4n22tRL3QPLYJxYkkvu5JFhEyri3hhqsfeYC3AND8aiQxOwOBtGCfm9Xsp9Uc8sBKlt/WsSbJJb/CdHGQGw6U00PFiXKyreG2b6+NDXo8X6tMiLPmcZUQ5RKPZD3xQBfq9ewvB+MaigONs2pNTMfCWTJR2oDJZjsRa75XU5Io+VdEC9RlBs/5g9COf8xUBRiguhOld7WlJbF6/vxVsDmA8fvCvg4gYWkdK5uSfHDScLSgJK0j9I4BAq+L3t4YhX1sRasafD5jtAsUCwklJBcc1VZZOioOHTssJFaQIu6J48okUVugZFya/9iCxrGQ+GJvQcCGtZQlg3BUc/EAI9BdxwAiSE4Pyv/Z2f6eEtNmO2crPaxugBFErNPsfRNTWksbVCD8GTfHX6ED0ID13APIl9BnWZwMpVxufuLb0wtWgT4vr7TWG6jKmI3uXFz8tsif7zWBMRaSJdCx9JvuKJqplbsLkrCUj3IMXryM2zJ+YU+mxOJQjEuNjMVE62kzFbNTftFwzwXJ1UuXfxP1YeB2aTpuUDBuMky3zWIPwMaGDliQb3xozhNZMSCRLW4ERAnDlJs6JBHPdhVQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5569.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(136003)(376002)(396003)(39860400002)(346002)(366004)(451199015)(5660300002)(38100700002)(8936002)(41300700001)(6506007)(4326008)(76116006)(66446008)(66476007)(2906002)(83380400001)(71200400001)(316002)(86362001)(54906003)(6916009)(26005)(478600001)(66946007)(66556008)(122000001)(38070700005)(6512007)(64756008)(91956017)(6486002)(186003)(33716001)(9686003)(8676002)(966005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6h8S4COAI/LYHkCL/s208XR6DFEbSZj7HMYGhq9BmuzY8pP0C4VoBILXJOdu?=
+ =?us-ascii?Q?EkXg+L7wjmKeTGig1uy+YVx+fbCx8l6F4Iniil3UscnlHk3g+UKC2/NErzVB?=
+ =?us-ascii?Q?LHhU1dW9+rfJfXPPxicVxWi7SP9L4X5npaFKp+Z2f1wax3HPkCBOkUK6uvYK?=
+ =?us-ascii?Q?28W0QHI0tiv57+wPyMr5Gem+BriP1o72Esa2xGfPyv9HE5csxgbHig6TPwpa?=
+ =?us-ascii?Q?jEQVajwJtJEVP3MT04KnT6WLv5rME7YYAj5afh6IoRU6GTRbT4PMLZi/qEXK?=
+ =?us-ascii?Q?IMpKLroHD+gcWFymum6sc1vPFfZbohCmEffq11J4F72+SFmZ8FsQqVMtOixC?=
+ =?us-ascii?Q?E2rbsAveeTyqTWM1C6bZmwdMrJoTPTbu5tA3m0pA9ZlKcAAWHO2SFaPXL5rF?=
+ =?us-ascii?Q?++pozo9w9cj3xlwOH3yWuaobWJEn+tWE2s1DSf5W/lzBNyj8HcEc2akPyqbp?=
+ =?us-ascii?Q?SsV1tyoTDdLDBt9oLtrU8/l3/ybObR0/4D1OmR5txTcB6w+FNTaZm6AH8UqO?=
+ =?us-ascii?Q?tGvn7zv0yTsrNDVPkFG0chRJlzDlAVLGPSF1fM+y084vVMnw09rcU2kFNFz0?=
+ =?us-ascii?Q?mQs03vmG7evyKeXXza1AEz4O5riYdShyXWjSUljIIeup8JrWyXLy4IF9ntnp?=
+ =?us-ascii?Q?iKKOMu6vWbsbWHNtYRxBo5n84FBpH/LJKMzCupgjsR9jRcp5C3tRH4G8g2oE?=
+ =?us-ascii?Q?NlORD/lNYP65bbU8D6uEugD9wajE65PWi0o3ZK9ev/2i6LgRszbTGPKR85mX?=
+ =?us-ascii?Q?8zqwHvypR2aU0kz3C/gRScZcgeFw6rGA/5Zka7FlmX+yyEMO278ueqgZPvjq?=
+ =?us-ascii?Q?NdlCztaCHipX7AbpvwBwIdJLtz2X9hR84aYgByScscPUmmt+7VP0/gz3AT/1?=
+ =?us-ascii?Q?2065t3xQKogiua9/4+c6ajLwt3LBweoUNIYZCIwULVejf/MAQeWJlxQFedPQ?=
+ =?us-ascii?Q?ihXvLf9k2OPpC1csx+04thERQRI0QIT4JHM8EQsCTW0fx+1HKFRyKYgsKKGS?=
+ =?us-ascii?Q?f448ae1UDHgv6koD19Lxz7mDFkjt5crxtHIG2ILufdvWQphRB+dO+0a83YQk?=
+ =?us-ascii?Q?6kxlaxoZL5O+/AV6xv0n/AS34usja2MAGfqL11rkMU6R6Y5pNuNAV7BnC338?=
+ =?us-ascii?Q?OxbS32/1W7rvSeMqsJRCxf2KHWkt3uprsZfhAaHoM6BvBaze474IXxjClZj1?=
+ =?us-ascii?Q?3I546qhrMhp1FGjU4n1ZRd2w72ZoCSnAQnqrFtoTWIvKSkPwUxpCZlyqxUq1?=
+ =?us-ascii?Q?TrPy0/uzOkEKuG5MWVYYsOelmHqyQLSAavqlk0oJCeBfIKn8tz67LZ431fUY?=
+ =?us-ascii?Q?639UtA9qHOkUc8+z+kcicAf5OhT+ilhOmptW2WbVrPh5AL/goCefbsFpubJg?=
+ =?us-ascii?Q?kH0LrpZXc4d+XvMn9bnasTVh+/iwUV5LcQCZ084JaWUEy1MAfQ32NlkQ6gHw?=
+ =?us-ascii?Q?493c1BYB+hIZ1155UQklYr/g3Q2UBZgGLWd4yhJ6+HVys9TzKmHa+uyVFxL5?=
+ =?us-ascii?Q?Hy6biaGFN13esBVUEgHIE9UobpgNd4f8zJg0FrA1UFcyvC9GeBmV8C+FckF/?=
+ =?us-ascii?Q?NlDJ/i9dfjnOMaMNOgz7cbHtpgWqJJVclGJla76f7es2cuaQae+T69hY+E9Y?=
+ =?us-ascii?Q?zq+vYBRRY6hKgGK2QjvIQzc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3B2A1E1D0060654A9D637EA0129E8715@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5706:EE_|PH0PR10MB4727:EE_
-X-MS-Office365-Filtering-Correlation-Id: 385235d4-d87a-456f-67e8-08dac233c3e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+O8CLojZQu3nw+ozZUpUqQHbc0VPB05Y0kTYfYD3OWXfRqt4SMuj8SFYkbXwoK7WuKZtivI/xzdRr4snn8Ktgjas2NoKzLlIQaITVI7A7+0M1Zp+eQmUHKf20OakYChCCE3ok3vw07AY+Q+sS9NpduJL08ss+n9DOyC7GZjmVt2TdQYe2I74fDsfUiRVI6K/FK9mET2kXrpBcZTNQ3PaoG9VQKRVs3FFIgRVFGcgTaOj37dxBiQ3MFA6RHp6fhK0czzPNjBexIsNzejzFXqNjBLCx06bhv33SkTkLSq88dOJiwGQeuI2CPkJzKQmz9sKl6u96Wu3HTU6fwJfbxfi/Kvdy/HSCWx2ygYi5xthHyHlcLKMNKYwvec0R9LApnuoY3IQJhnyFr0LDdzODbmUQiN2l9krBM2iOvYls4jzg3Wrj/eErVL8phogp+Si8y7Dv0W64psvq3oqSChIrf87iSR5qwfkFQuLFhUJooMFfYxkRa9EtSddcDPtazUmhI+5OzitRIAopKfub6GNg3KtFF5hYe0YdwBJHtrKHrxlePbKR0vCbk0h7seqUF+Pf+rBlyUdRc7kzgRSGx+5zOSBUDmyXokM+cA0W/gx4BiK4KVfOGQgs1h6Z6qIR3Vx5+TZ/3bYsFenwXIYqmDCfkDti5zOysXEpWNJKbGQp9KvBWUtWptOekNSQ6gFOy6VGTfNEEYdxDdC57RoQD3hvKg/lYqb6COKZ8JFz62VeXPPlwfpkJv5497kKpSY9oxbZqkN5FS3qmSzpTSrOlmyNr9RzlZeDzKeLwuSpbksCwsDtDcQKf4fnu7Lo1EzN3bQRedSWtmGHcWsMO8CxwxIQilSAJRCAr++OqrySTeMivAvaD1fASKsoITvoicBmhPrHCOr
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5706.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(376002)(366004)(136003)(39860400002)(346002)(451199015)(86362001)(31696002)(36756003)(2616005)(2906002)(5660300002)(44832011)(6506007)(6512007)(26005)(186003)(83380400001)(53546011)(38100700002)(66946007)(66556008)(316002)(966005)(6486002)(478600001)(110136005)(4326008)(8936002)(66476007)(41300700001)(8676002)(6666004)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?azRrc08wMHJPdHFaT05NZ3ViOWR6YzlheEFBUHF2Z2V0RDJVbGVoTS9aSzFJ?=
- =?utf-8?B?Z1pwUkY3Nmhaa1MzbjY4T0UzMEZTTzRvd0t6bWFBNno5TTc4Zkw0SytXdUE0?=
- =?utf-8?B?Ty9CNDJlQWlTSlFqV2ZXUWRNcFVyQ2QzK1FCQURaNWpHaHRIT21UWWhrQ3Uy?=
- =?utf-8?B?OEFNL2FNZ1RZaU9iQWZIenAyUVA0Vk1tNHpESmRJMHhabm5zOVpoN0QxWWNI?=
- =?utf-8?B?VFg2NGd1ckJJYngzSnRaUzFKdlNrWkZpMlNWK2lnZ0kybGppU0ZuUmo3V2t6?=
- =?utf-8?B?WmVGQ2MrMnRaUStWOWZzRUl1UHFWS2xhMUMxK3dOd1JJME9HZkpGS3IzemFi?=
- =?utf-8?B?SWNoTlBoOVprUGtBTndSc0lpWW5MRjlkZVdPZWVWWlMyc1B0SjdXcmVRdklL?=
- =?utf-8?B?bUNLdFN2SjZHYmxkTEROWEU4OFlyTjhLTnNoYWo4VGU4VXV5SGFnZGlXNnY3?=
- =?utf-8?B?T0djWVNJc3RKQ0k2VXdTVDhrMWlxeFU3QktQYktxdlJKN3hrZFFocWNrc0hr?=
- =?utf-8?B?ZWZTWTlrQ2I0T0kybzZ6TkxIQmFmaitJMk5mZENwRTg5MmxId3JTQmx6SzZo?=
- =?utf-8?B?VE9hUEpqait0Ui9JclVUMU1jUkMzL0hiTVI3YVYwdXU4MHU2dzZQRHhZMTF3?=
- =?utf-8?B?ZGFiaEwyeWNzKzM1d3RqckQ4YUF5TjVaM3AvRHcwOEcrclJRV3dwQzZVNXli?=
- =?utf-8?B?L08yZ2lqVDNsd2ptRjVwUFZtR1U0WEZaWEgySjhpa0t1ZjRjTUd2dlRRTTV5?=
- =?utf-8?B?dG85YUhKWktlOTNLcXdRb3NLQi9IZENBNUlZa29UNkdralg4VzU3clRGcnJ2?=
- =?utf-8?B?dnJINWowM1pCTUtlVEZHcE5nZWQvUlZ2N0syYWg1NG0zVXVwdDllR1ZmSXly?=
- =?utf-8?B?WUVzV1dLU2trSnpuTFdpbU5XZlN5SnRhT2F5cmxCWnUxeE1yaHM3YU85NEN0?=
- =?utf-8?B?MURPSkxWZ29sOEhnVk9xdUVDa05INlRMN2pyTXV6Vy92QXBQbnBBNkp5OU50?=
- =?utf-8?B?c0xtbGU5YVBEdDg4V3hiN1I5UlNtS2xGV2ViV3A2eDJxTkhZNEJOQW16em5J?=
- =?utf-8?B?M2phSkc5VElHaXdOaDZwYUlGRlNwTklmZXhQS3c0bWNUcW5nNXptSHcyMVRH?=
- =?utf-8?B?UXpQYmpoTVdiNEdhNGpvNmZLMlZ5NkJlTk1TOHdzeG54Q3VTbHhlaExwNUlF?=
- =?utf-8?B?NVlBcWpYQzh4V01LYkFxdS9TaEZubStuRHNaNWVUbzJZVkVJcjlhVHZhUm85?=
- =?utf-8?B?blZZZ1pJRnBoQTFmQXV2Y1ZUYkdSaEFpbHo3RWZBZGRDRjJMSkhUVUtZNk9H?=
- =?utf-8?B?ZDQ4UXN3aXdia2JHeGZKY1NuUXM2SFBHU1BEUGlCd0VDa0ErVkRkZDl6NDRk?=
- =?utf-8?B?LzNhcWM4RlVVNjNjQ3djdnM2VERLcFlHWEJzYTdBUXRBYkZBdElVNXd3a0NR?=
- =?utf-8?B?RVlGMTY2S2V5TWw4bmVrbDlod1FLRHp1aUhYVFpvSG1VbU9wd3UxazhvbUE5?=
- =?utf-8?B?UDROY1BwSFRpcTJnTVJBdkhGUzJHZVgzK2hPNiszejhJY1Rwd05reEhwZUY4?=
- =?utf-8?B?R1F1SytzeGtSTXlyUGJPaVgzeGlhQ2llM0RkZnhnYTNmOW90Zzd4WHVXeEhy?=
- =?utf-8?B?Y2pqRlRvT2x2NEoveVJIdEo3UHNRUVJoTXZaT1dSQjFZRGgyVFZaa2ljQnZM?=
- =?utf-8?B?aEcyU0VFRWVMU2tFVUhpTW5JR3RHR09GZ095eHM4czdNYWY2WUxnZHlOMTRE?=
- =?utf-8?B?eTk5M2dZRnYyZTlweTJDWGtDRXBDaDVNL3gxUXNKZWNXajI2MCtabllFUTNC?=
- =?utf-8?B?NHNuSE1DbDBhUk5zYWk3R2ZCN3RIU1hsNVVrV1ppMkhoOVBWdlU0MWJGM1Jq?=
- =?utf-8?B?V2l6RDRQcTljOER4OWtla21vTnVvWUhGYjZBTXJ2UXBVbmtsdENKcUxQRVFw?=
- =?utf-8?B?OWpta3EzUnZ1M0lzZTZ2c3FzMUs5SnZOWlhxRTFqZDJOMnNoRzViT3JhQ2wr?=
- =?utf-8?B?ajJEanBsMjM0cUtDckMxSXQ4Vy9ObUg0cy9kM05TUEh4K0dhdkRBdDU1dVlk?=
- =?utf-8?B?TFZZMWhPSzFNNVA3bXhmTjdrTnNJRjVhbjUvNzZBeHV5b1Z0cDR0ZGNIdzZI?=
- =?utf-8?Q?gFfJFNjG5dymNllkSz7tbWpm1?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 385235d4-d87a-456f-67e8-08dac233c3e0
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5706.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2022 09:21:22.2187
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5569.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7aca42c-ade7-4fae-8f3c-08dac2348920
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2022 09:26:52.0734
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 48kGk6v8mEGc3OtXwDlbNWcHMNUOQ+cA/d9ZvU5B3xE3VSAYUaDhYZMxsNehYIE8cXYRBp4B5WDQVuAqNzG12w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4727
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-09_03,2022-11-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 spamscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211090071
-X-Proofpoint-ORIG-GUID: loPnDcyb-09oiDaM7klMvWiPrw9wmHaN
-X-Proofpoint-GUID: loPnDcyb-09oiDaM7klMvWiPrw9wmHaN
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PldGFnJDBtVO2Xxwtj3JI2L/Q1YLTLZXpKoN9Q/6U468+LJPxzCL3yihWfbWj1rBu+S2VR3RPetRxB7QRkW1vCBfNKig8Tr2YhR6GNuuEDg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7548
 
-On 11/9/22 13:25, kernel test robot wrote:
-> Hi Anand,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on kdave/for-next]
-> [also build test WARNING on linus/master v6.1-rc4]
-> [cannot apply to next-20221108]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Jain/btrfs-move-device-name-rcu-alloc-and-assign-to-btrfs_alloc_device/20221107-230806
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-> patch link:    https://lore.kernel.org/r/558d3ae7ad53788c05810ae452cece7036316fb2.1667831845.git.anand.jain%40oracle.com
-> patch subject: [PATCH] btrfs: move device->name rcu alloc and assign to btrfs_alloc_device()
-> config: riscv-randconfig-s043-20221108
-> compiler: riscv64-linux-gcc (GCC) 12.1.0
-> reproduce:
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # apt-get install sparse
->          # sparse version: v0.6.4-39-gce1a6720-dirty
->          # https://github.com/intel-lab-lkp/linux/commit/084f70deaf67118927d4f0494ff5b3988eb77146
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Anand-Jain/btrfs-move-device-name-rcu-alloc-and-assign-to-btrfs_alloc_device/20221107-230806
->          git checkout 084f70deaf67118927d4f0494ff5b3988eb77146
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash fs/btrfs/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> sparse warnings: (new ones prefixed by >>)
->     WARNING: invalid argument to '-march': '_zihintpause'
->     fs/btrfs/volumes.c:409:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
->     fs/btrfs/volumes.c:409:31: sparse:     expected struct rcu_string *str
->     fs/btrfs/volumes.c:409:31: sparse:     got struct rcu_string [noderef] __rcu *name
->     fs/btrfs/volumes.c:617:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
->     fs/btrfs/volumes.c:617:43: sparse:     expected char const *device_path
->     fs/btrfs/volumes.c:617:43: sparse:     got char [noderef] __rcu *
->     fs/btrfs/volumes.c:884:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
->     fs/btrfs/volumes.c:884:50: sparse:     expected char const *
->     fs/btrfs/volumes.c:884:50: sparse:     got char [noderef] __rcu *
->     fs/btrfs/volumes.c:954:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
->     fs/btrfs/volumes.c:954:39: sparse:     expected struct rcu_string *str
->     fs/btrfs/volumes.c:954:39: sparse:     got struct rcu_string [noderef] __rcu *name
->>> fs/btrfs/volumes.c:1000:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
->     fs/btrfs/volumes.c:1000:34: sparse:     expected char const *dev_path
->     fs/btrfs/volumes.c:1000:34: sparse:     got char [noderef] __rcu *
->     fs/btrfs/volumes.c:2182:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
->     fs/btrfs/volumes.c:2182:49: sparse:     expected char const *device_path
->     fs/btrfs/volumes.c:2182:49: sparse:     got char [noderef] __rcu *
->     fs/btrfs/volumes.c:2297:41: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
->     fs/btrfs/volumes.c:2297:41: sparse:     expected char const *device_path
->     fs/btrfs/volumes.c:2297:41: sparse:     got char [noderef] __rcu *
-> 
-> vim +1000 fs/btrfs/volumes.c
-> 
->     980	
->     981	static struct btrfs_fs_devices *clone_fs_devices(struct btrfs_fs_devices *orig)
->     982	{
->     983		struct btrfs_fs_devices *fs_devices;
->     984		struct btrfs_device *device;
->     985		struct btrfs_device *orig_dev;
->     986		int ret = 0;
->     987	
->     988		lockdep_assert_held(&uuid_mutex);
->     989	
->     990		fs_devices = alloc_fs_devices(orig->fsid, NULL);
->     991		if (IS_ERR(fs_devices))
->     992			return fs_devices;
->     993	
->     994		fs_devices->total_devices = orig->total_devices;
->     995	
->     996		list_for_each_entry(orig_dev, &orig->devices, dev_list) {
->     997			const char *dev_path = NULL;
->     998	
->     999			if (orig_dev->name)
->> 1000				dev_path = orig_dev->name->str;
+> >> kernel test robot <lkp@intel.com> writes:
+> >>
+> >> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-n=
+ext.git master
+> >> > head:   d8e87774068af213ab5b058b1b114dc397b577aa
+> >> > commit: 6182d5875c330a5a611687caa05f47752455720c [4744/6155] net: dc=
+b: add new apptrust attribute
+> >> > config: i386-buildonly-randconfig-r006-20221107
+> >> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> >> > reproduce (this is a W=3D1 build):
+> >> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux=
+-next.git/commit/?id=3D6182d5875c330a5a611687caa05f47752455720c
+> >> >         git remote add linux-next https://git.kernel.org/pub/scm/lin=
+ux/kernel/git/next/linux-next.git
+> >> >         git fetch --no-tags linux-next master
+> >> >         git checkout 6182d5875c330a5a611687caa05f47752455720c
+> >> >         # save the config file
+> >> >         mkdir build_dir && cp config build_dir/.config
+> >> >         make W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash net/d=
+cb/
+> >> >
+> >> > If you fix the issue, kindly add following tag where applicable
+> >> > | Reported-by: kernel test robot <lkp@intel.com>
+> >> >
+> >> > All warnings (new ones prefixed by >>):
+> >> >
+> >> >    net/dcb/dcbnl.c: In function 'dcbnl_ieee_fill':
+> >> >>> net/dcb/dcbnl.c:1230:1: warning: the frame size of 1244 bytes is l=
+arger than 1024 bytes [-Wframe-larger-than=3D]
+> >>
+> >> The on-stack array that was added is pushing things:
+> >>
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1170       if (ops->dcbnl=
+_getapptrust) {
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1171               u8 sel=
+ectors[IEEE_8021QAZ_APP_SEL_MAX + 1] =3D {0};
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1172               int ns=
+electors, i;
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1173
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1174               apptru=
+st =3D nla_nest_start(skb, DCB_ATTR_DCB_APP_TRUST_TABLE);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1175               if (!a=
+pptrust)
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1176                     =
+  return -EMSGSIZE;
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1177
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1178               err =
+=3D ops->dcbnl_getapptrust(netdev, selectors, &nselectors);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1179               if (!e=
+rr) {
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1180                     =
+  for (i =3D 0; i < nselectors; i++) {
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1181                     =
+          enum ieee_attrs_app type =3D
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1182                     =
+                  dcbnl_app_attr_type_get(selectors[i]);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1183                     =
+          err =3D nla_put_u8(skb, type, selectors[i]);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1184                     =
+          if (err) {
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1185                     =
+                  nla_nest_cancel(skb, apptrust);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1186                     =
+                  return err;
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1187                     =
+          }
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1188                     =
+  }
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1189               }
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1190
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1191               nla_ne=
+st_end(skb, apptrust);
+> >> > 6182d5875c330a Daniel Machon   2022-11-01  1192       }
+> >>
+> >> I think this should either be converted to dynamic allocation, or the
+> >> array size should be reduced to number of unique selectors, instead of
+> >> the value of the highest selector.
+> >
+> > Yep. Dynamic allocation sounds good to me. Alternatively, could we move
+> > the getapptrust part to a separate noinline function?
+>=20
+> I think the reasoning behind the warning is that functions with large
+> frames consume too much stack space, which is scarce in kernel. Moving
+> the logic to a separate function might silence the warning, but wouldn't
+> make the issue go away.
+>=20
+> Extracting the logic to a separate function might still make sense,
+> because it's going to make it easier to manage the dynamic allocation,
+> but is not enough on its own.
 
+Alright. Will submit a patch to net-next soon :-)
 
-David,
-
-Access like orig_dev->name->str isn't introduced in this patch.
-We have to restore the original comment about it.
-
-                 /*
-                  * This is ok to do without rcu read locked because we 
-hold the
-                  * uuid mutex so nothing we touch in here is going to 
-disappear.
-                  */
-
-
-
-Thanks, Anand
-
-
->    1001	
->    1002			device = btrfs_alloc_device(NULL, &orig_dev->devid,
->    1003						    orig_dev->uuid, dev_path);
->    1004			if (IS_ERR(device)) {
->    1005				ret = PTR_ERR(device);
->    1006				goto error;
->    1007			}
->    1008	
->    1009			list_add(&device->dev_list, &fs_devices->devices);
->    1010			device->fs_devices = fs_devices;
->    1011			fs_devices->num_devices++;
->    1012		}
->    1013		return fs_devices;
->    1014	error:
->    1015		free_fs_devices(fs_devices);
->    1016		return ERR_PTR(ret);
->    1017	}
->    1018	
-> 
-
+/ Daniel=
