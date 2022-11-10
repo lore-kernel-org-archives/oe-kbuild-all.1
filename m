@@ -1,61 +1,50 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135BD39D;
-	Thu, 10 Nov 2022 06:57:10 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id l14so901972wrw.2;
-        Wed, 09 Nov 2022 22:57:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513B039F;
+	Thu, 10 Nov 2022 07:06:28 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso3728062wmb.0;
+        Wed, 09 Nov 2022 23:06:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
-        b=ih2hj2AwLw6uHnoVWJIxZvKqdEAjHM0jD7xTrnsEAwACZBNaBmpfcMk5js1HYZby6j
-         lZ14H3xql7RMtd4Y631wpUfgRpewaFbcFGzKPVwWfKNW2ligyRCLwPQ0coycdb/HPLK5
-         Aa1eGy6Pbd1viF+NxdMGsQyEO5mqdq94QY682+gg46t1yKKXWpO4OF40rayUs3SIG9KG
-         BN6bsWIsNMEzq0E+OtfV1rOk0IizI2F1Dpa0xipPGxX4ZJeUp16zdkHN+WshRusac+TJ
-         S4RoDuaavXzvW1osuQLAGkp00ifZsf31CoNtZIuefwBTNOVgXZexiRyt3fbOd97uwWYv
-         bdhQ==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8hS2mzb0ymVFYyLFUNvvdonlye8wUvYJ1UYA7lGOiOk=;
+        b=iWr92FmAGVG1Pj7oxGQjxxehnGtp8REhwjMv87ioep45GpNYW1x/Nu5+d4Svkf9OC0
+         e8CIntISQKYqbJrEFVq6nafhBMaqFVPEXNcgcy1tqbmreicRPzXLWdf1CEf4lIFX7eOL
+         ZUSaBop1li8vDOlaB78TnGsAEVX28Ff2kk6Vt6bz248yUz8GCPJFPOY46eJRtSRINf6t
+         ESc4c9bR/cV1NWJvXlzkAkzFN2C4qXus+XZ3v9pzGpUgGjTDZOWUCEqbpFsjZysLkZoI
+         w324lbLre0qF0d7uO36wv232MTwBNWgMBvIk4y5+1q4zKTmQFGsNUIfhjQi1u0ky57bB
+         aohg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
-        b=0uGBdVBBfOvL2xGBATTBjuwrmpjH9iwKGGWWZ12NV1QEl6OmiIg7amZhBVGyqQlzxf
-         eHBaYAspOAsQaOdwBp81uJohB/k5OH4riRy7Cy9SDRUvLXmxGeKOMbm86FyBqLQZG5BQ
-         2v3x3sSQfVUVT+dY/t6/2Ss3rxmjjrR+RYCgCOzcRvrUBqLc3gP84WtR4BRzNTMNOyEY
-         vTCttoTAZQeFNuybtX2YU/kD0w+JqBRZWYe5onxMv7nhOSwKPlGP6g8JFuqL4fHJCnmk
-         MVUxL+8osnDsvW90XCceekanHXCMCOPZJixWI59A5VsTYfxpTHwQnz7ijqoum8tshtOL
-         oskw==
-X-Gm-Message-State: ACrzQf38eRUynT+bC2iL5LE61hVdvXHMIhN1c0Kqa8SofbWbOYkhe/WX
-	22i4QZvuzMK74LDX2INJUB1As+AI8mRyoQ==
-X-Google-Smtp-Source: AMsMyM6YvildaZhGa/d4MYEc0dWoFhApR6w0TXgYEOeTCBEzNq0RU0eJrIdKmvqEDf29jjNFtqRVCQ==
-X-Received: by 2002:a5d:618e:0:b0:22a:f546:3f68 with SMTP id j14-20020a5d618e000000b0022af5463f68mr995725wru.651.1668063428798;
-        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8hS2mzb0ymVFYyLFUNvvdonlye8wUvYJ1UYA7lGOiOk=;
+        b=DTB+sjJ1iEzKJfd+admyCUUoNPNQQoPa9J1zRcst8f2JH+05Me00NkDkJPoR+LAfSK
+         DaqpsVQdK+7Cd4iM2MJUyJHIfi2U0TQNPVUXVLCDYJMLjVpPxlzSoi4tzBK64r9XgMnU
+         B3j/FRulIPcwH9lZUcKvtUVfXwuxMw5TGaRFevXK9sNz93ffCR6vvHkGvtRiokn9Ig5/
+         ZwmRKKiwongnuHlGoMob2IGBerOT91hc51lodpr1/c8ae6O3q5zLU2kPWZIo0DXQKHNR
+         o0DAkzvHQBAXD6DA7nq6aGDvXzzDxJ6FIUHYwHzHcaRzwH7lk8QQAm5BEgI8P1e1NBM2
+         WqQQ==
+X-Gm-Message-State: ACrzQf2dQN1R+ZSdbFlYN+xBL1kGRxJEb2pJySGzepW7aPXvVcY2IckN
+	IrlqKdQ83J+5IJSn3iLKrNR3YbuKAXYg4Q==
+X-Google-Smtp-Source: AMsMyM6uL9XftXUMhqDhK+Qp6WMtryOMFhn7tQgsZXbqKPBCW9MWCvY3JYQ1vKUXYaquy8YdIQiDcA==
+X-Received: by 2002:a1c:7206:0:b0:3cf:76c4:ae9d with SMTP id n6-20020a1c7206000000b003cf76c4ae9dmr34677161wmc.204.1668063986046;
+        Wed, 09 Nov 2022 23:06:26 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h4-20020a05600c350400b003c6f426467fsm4357994wmq.40.2022.11.09.22.57.07
+        by smtp.gmail.com with ESMTPSA id i5-20020adffc05000000b0023660f6cecfsm15032367wrr.80.2022.11.09.23.06.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
-Date: Thu, 10 Nov 2022 09:57:04 +0300
+        Wed, 09 Nov 2022 23:06:25 -0800 (PST)
+Date: Thu, 10 Nov 2022 10:06:22 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <202211100529.cG57XaEQ-lkp@intel.com>
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless-5 19/77]
+ net/rxrpc/input.c:519 rxrpc_input_data() warn: passing freed memory 'skb'
+Message-ID: <202211100616.HvYb1VNT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +53,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221103163113.245462-2-paul.kocialkowski@bootlin.com>
 
-Hi Paul,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-CSI-Rework/20221104-003518
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20221103163113.245462-2-paul.kocialkowski%40bootlin.com
-patch subject: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with port management
-config: arc-randconfig-m041-20221107
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-ringless-5
+head:   30d95efe06e18bd55691902bb4ec873e4b21a754
+commit: dad511288b61094b347de3baa13077e648a40dec [19/77] rxrpc: Clone received jumbo subpackets and queue separately
+config: openrisc-randconfig-m031-20221106
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:86 sun6i_csi_bridge_s_stream() warn: missing error code 'ret'
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:279 sun6i_csi_bridge_notifier_bound() error: uninitialized symbol 'enabled'.
+New smatch warnings:
+net/rxrpc/input.c:519 rxrpc_input_data() warn: passing freed memory 'skb'
 
-vim +/ret +86 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+Old smatch warnings:
+net/rxrpc/input.c:1269 rxrpc_input_packet() warn: passing freed memory 'skb'
 
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   62  static int sun6i_csi_bridge_s_stream(struct v4l2_subdev *subdev, int on)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   63  {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   64  	struct sun6i_csi_device *csi_dev = v4l2_get_subdevdata(subdev);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   65  	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   66  	struct media_pad *local_pad = &bridge->pads[SUN6I_CSI_BRIDGE_PAD_SINK];
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   67  	struct device *dev = csi_dev->dev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   68  	struct v4l2_subdev *source_subdev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   69  	struct media_pad *remote_pad;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   70  	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   71  	int ret = 0;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   72  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   73  	/* Source */
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   74  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   75  	remote_pad = media_pad_remote_pad_unique(local_pad);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   76  	if (IS_ERR(remote_pad)) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   77  		dev_err(dev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   78  			"zero or more than a single source connected to the bridge\n");
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   79  		return PTR_ERR(remote_pad);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   80  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   81  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   82  	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   83  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   84  	if (!on) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   85  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  @86  		goto disable;
+vim +/skb +519 net/rxrpc/input.c
 
-This is intentional, but it should just return 0;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  494  static void rxrpc_input_data(struct rxrpc_call *call, struct sk_buff *skb)
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  495  {
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  496  	struct rxrpc_skb_priv *sp = rxrpc_skb(skb);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  497  	enum rxrpc_call_state state;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  498  	rxrpc_serial_t serial = sp->hdr.serial;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  499  	rxrpc_seq_t seq0 = sp->hdr.seq;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  500  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  501  	_enter("{%u,%u},{%u,%u}",
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  502  	       call->rx_hard_ack, call->rx_top, skb->len, seq0);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  503  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  504  	_proto("Rx DATA %%%u { #%u f=%02x }",
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  505  	       sp->hdr.serial, seq0, sp->hdr.flags);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  506  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  507  	state = READ_ONCE(call->state);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  508  	if (state >= RXRPC_CALL_COMPLETE) {
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  509  		rxrpc_free_skb(skb, rxrpc_skb_freed);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  510  		goto out;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  511  	}
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  512  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  513  	/* Unshare the packet so that it can be modified for in-place
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  514  	 * decryption.
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  515  	 */
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  516  	if (sp->hdr.securityIndex != 0) {
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  517  		struct sk_buff *nskb = skb_unshare(skb, GFP_NOFS);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  518  		if (!nskb) {
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07 @519  			rxrpc_eaten_skb(skb, rxrpc_skb_unshared_nomem);
 
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   87  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   88  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   89  	ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   90  	if (ret && ret != -ENOIOCTLCMD)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   91  		goto disable;
+We can't use "skb" after skb_unshare().  It means we dropped our
+reference to the skb.  The other reference holder probably holds a
+reference so it will probably work, but it could also race and lead to
+a use after free.
 
-Do we really need to clean anything up?  Why not just:
+This only affects tracing code and not regular runtime but it's still a
+bug.
 
-	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
-
-	return v4l2_subdev_call(source_subdev, video, s_stream, !!on);
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   92  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   93  	return 0;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   94  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   95  disable:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   96  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   97  	return ret;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   98  }
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   99  
-
-[ snip ]
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  254  static int
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  255  sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  256  				struct v4l2_subdev *remote_subdev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  257  				struct v4l2_async_subdev *async_subdev)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  258  {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  259  	struct sun6i_csi_device *csi_dev =
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  260  		container_of(notifier, struct sun6i_csi_device,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  261  			     bridge.notifier);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  262  	struct sun6i_csi_bridge_async_subdev *bridge_async_subdev =
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  263  		container_of(async_subdev, struct sun6i_csi_bridge_async_subdev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  264  			     async_subdev);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  265  	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  266  	bool enabled;
-
-This neesds to be "bool enabled = false;"
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  267  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  268  	switch (source->endpoint.base.port) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  269  	case SUN6I_CSI_PORT_PARALLEL:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  270  		enabled = true;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  271  		break;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  272  	default:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  273  		break;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  274  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  275  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  276  	source->subdev = remote_subdev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  277  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  278  	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03 @279  				     remote_subdev, enabled);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  280  }
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  520  			return;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  521  		}
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  522  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  523  		if (nskb != skb) {
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  524  			rxrpc_eaten_skb(skb, rxrpc_skb_received);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  525  			skb = nskb;
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  526  			rxrpc_new_skb(skb, rxrpc_skb_unshared);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  527  			sp = rxrpc_skb(skb);
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  528  		}
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  529  	}
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  530  
+dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  531  	if (state == RXRPC_CALL_SERVER_RECV_REQUEST) {
 
 -- 
 0-DAY CI Kernel Test Service
