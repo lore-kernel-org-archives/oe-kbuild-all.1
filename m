@@ -1,61 +1,61 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7C129A5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206CC107A2
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Nov 2022 16:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1668098312; x=1699634312;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X//SwPTc6l1bAm20A1NZ6LiI4qAt7YDfoHw3v7bFzF8=;
-  b=e4HvGI4SBl3Bqz1Uv1CC1Tct7KdTV8cNMvIsyE98bOn3oJbRgtu/x96p
-   70a67npmjauyhC/ZwZ6s8nbOQoBpfPseHh3z6babg5oS3Sw/SCQLF8DeZ
-   066f2KldSfRJT4fGKgQcDU3koNNKn+WsjBSRsOy30q3IGZEHLodsmJsby
-   +74AKEw1drj/aZm6lUb7iY+FQk6g4Whhcl3f9EFJdaAvICTZb62kfSP2U
-   VvGvxK4tefl//7QIRc51etRERqzZyWUV39MLHTWDZAMNRVjGmJ1fAW5mf
-   l0PncEnxNn0VTGK9W/Q0gTUvN669vTXPeuxiGlADybhCxoGlrTLT9VKmP
+  bh=66A1/eZ46dTAaWcwJDEiJcy6245PDNku6o0lnUVswLI=;
+  b=F2C7HBhbarWqWPFNUs0VV1dfADllfuzTOsJKfvEkDDv3ajTKFS6PFDWm
+   GGzY6JhyRzh//EOOvr2wlfMBxlCGSLkDvXNctV7VfsbHrptDdDusM9P3m
+   zT+pwO1394iLFUiBKA/UAOWY7U7NjXHjBw6E/CiBvuYrCps9SkNosmH4I
+   ugPJsRSec1IZIVyx7YxBU2MNn0MSbMTYuiP3xBxYGLbOfey65TO/oKOYD
+   7RFYXH9DYAZ2mwhd2v5/kTeqZfLNa3AivYAy2aG94gFmJ2LNKPimH+evS
+   xpKmi2kKB8V/q8NrmtVwuhXdkXsYVMtbgsbT4YYH4GyOh93xM4t/k/vg5
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="311361860"
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="294709113"
 X-IronPort-AV: E=Sophos;i="5.96,154,1665471600"; 
-   d="scan'208";a="311361860"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 08:38:31 -0800
+   d="scan'208";a="294709113"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 08:38:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="700863893"
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="615160000"
 X-IronPort-AV: E=Sophos;i="5.96,154,1665471600"; 
-   d="scan'208";a="700863893"
+   d="scan'208";a="615160000"
 Received: from lkp-server01.sh.intel.com (HELO e783503266e8) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Nov 2022 08:38:29 -0800
+  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2022 08:38:30 -0800
 Received: from kbuild by e783503266e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1otAZR-0002yv-10;
+	id 1otAZR-0002yx-14;
 	Thu, 10 Nov 2022 16:38:29 +0000
-Date: Fri, 11 Nov 2022 00:37:38 +0800
+Date: Fri, 11 Nov 2022 00:37:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:bmap 14/14] include/linux/topology.h:253: multiple definition
- of `sched_numa_find_nth_cpu';
- block/bfq-iosched.o:include/linux/topology.h:253: first defined here
-Message-ID: <202211110032.rYKPJr3n-lkp@intel.com>
+Subject: [norov:bmap 14/14] include/linux/find.h:197: multiple definition of
+ `sched_numa_find_nth_cpu'; block/bfq-iosched.o:include/linux/find.h:197:
+ first defined here
+Message-ID: <202211110050.imhVOVcF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="YfbHMCvSA2s3sV4e"
+Content-Type: multipart/mixed; boundary="hO6RnGb66UFeZvkE"
 Content-Disposition: inline
 
 
---YfbHMCvSA2s3sV4e
+--hO6RnGb66UFeZvkE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/norov/linux bmap
 head:   e29b1c06ade6691ae2759e9638d4c16b243c7c3a
 commit: e29b1c06ade6691ae2759e9638d4c16b243c7c3a [14/14] cpumask: improve on cpumask_local_spread() locality
-config: um-i386_defconfig
+config: um-x86_64_defconfig
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/norov/linux/commit/e29b1c06ade6691ae2759e9638d4c16b243c7c3a
@@ -64,69 +64,88 @@ reproduce (this is a W=1 build):
         git checkout e29b1c06ade6691ae2759e9638d4c16b243c7c3a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   ld: block/bfq-wf2q.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; block/bfq-iosched.o:include/linux/topology.h:253: first defined here
-   ld: block/bfq-cgroup.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; block/bfq-iosched.o:include/linux/topology.h:253: first defined here
+   ld: block/bfq-wf2q.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; block/bfq-iosched.o:include/linux/find.h:197: first defined here
+   ld: block/bfq-cgroup.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; block/bfq-iosched.o:include/linux/find.h:197: first defined here
 --
-   ld: fs/isofs/inode.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
-   ld: fs/isofs/dir.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
-   ld: fs/isofs/util.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
-   ld: fs/isofs/rock.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
-   ld: fs/isofs/export.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
-   ld: fs/isofs/joliet.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/topology.h:253: first defined here
+   ld: fs/isofs/inode.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
+   ld: fs/isofs/dir.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
+   ld: fs/isofs/util.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
+   ld: fs/isofs/rock.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
+   ld: fs/isofs/export.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
+   ld: fs/isofs/joliet.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/isofs/namei.o:include/linux/find.h:197: first defined here
 --
-   ld: fs/autofs/inode.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
-   ld: fs/autofs/root.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
-   ld: fs/autofs/symlink.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
-   ld: fs/autofs/waitq.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
-   ld: fs/autofs/expire.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
-   ld: fs/autofs/dev-ioctl.o: in function `sched_numa_find_nth_cpu':
->> include/linux/topology.h:253: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/topology.h:253: first defined here
+   ld: fs/autofs/inode.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
+   ld: fs/autofs/root.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
+   ld: fs/autofs/symlink.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
+   ld: fs/autofs/waitq.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
+   ld: fs/autofs/expire.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
+   ld: fs/autofs/dev-ioctl.o: in function `find_nth_bit':
+>> include/linux/find.h:197: multiple definition of `sched_numa_find_nth_cpu'; fs/autofs/init.o:include/linux/find.h:197: first defined here
 
 
-vim +253 include/linux/topology.h
+vim +197 include/linux/find.h
 
-   247	
-   248	#ifdef CONFIG_NUMA
-   249	int sched_numa_find_nth_cpu(const struct cpumask *cpus, int cpu, int node);
-   250	extern const struct cpumask *sched_numa_hop_mask(unsigned int node, unsigned int hops);
-   251	#else
-   252	int sched_numa_find_nth_cpu(const struct cpumask *cpus, int cpu, int node)
- > 253	{
-   254		return cpumask_nth(cpu, cpus);
-   255	}
-   256	static inline const struct cpumask *
-   257	sched_numa_hop_mask(unsigned int node, unsigned int hops)
-   258	{
-   259		return ERR_PTR(-EOPNOTSUPP);
-   260	}
-   261	#endif	/* CONFIG_NUMA */
-   262	
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita 2010-09-29  179  
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  180  /**
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  181   * find_nth_bit - find N'th set bit in a memory region
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  182   * @addr: The address to start the search at
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  183   * @size: The maximum number of bits to search
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  184   * @n: The number of set bit, which position is needed, counting from 0
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  185   *
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  186   * The following is semantically equivalent:
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  187   *	 idx = find_nth_bit(addr, size, 0);
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  188   *	 idx = find_first_bit(addr, size);
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  189   *
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  190   * Returns the bit number of the N'th set bit.
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  191   * If no such, returns @size.
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  192   */
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  193  static inline
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  194  unsigned long find_nth_bit(const unsigned long *addr, unsigned long size, unsigned long n)
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  195  {
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  196  	if (n >= size)
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17 @197  		return size;
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  198  
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  199  	if (small_const_nbits(size)) {
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  200  		unsigned long val =  *addr & GENMASK(size - 1, 0);
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  201  
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  202  		return val ? fns(val, n) : size;
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  203  	}
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  204  
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  205  	return __find_nth_bit(addr, size, n);
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  206  }
+3cea8d47532775 include/linux/find.h              Yury Norov   2022-09-17  207  
+
+:::::: The code at line 197 was first introduced by commit
+:::::: 3cea8d475327756066e2a54f0b651bb7284dd448 lib: add find_nth{,_and,_andnot}_bit()
+
+:::::: TO: Yury Norov <yury.norov@gmail.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---YfbHMCvSA2s3sV4e
+--hO6RnGb66UFeZvkE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -232,6 +251,7 @@ CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
 #
 # end of Scheduler features
 
+CONFIG_CC_HAS_INT128=y
 CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
 CONFIG_GCC12_NO_ARRAY_BOUNDS=y
 CONFIG_CGROUPS=y
@@ -318,54 +338,29 @@ CONFIG_ARCH_HAS_CACHE_LINE_SIZE=y
 #
 # Host processor type and features
 #
-# CONFIG_M486SX is not set
-# CONFIG_M486 is not set
-# CONFIG_M586 is not set
-# CONFIG_M586TSC is not set
-# CONFIG_M586MMX is not set
-CONFIG_M686=y
-# CONFIG_MPENTIUMII is not set
-# CONFIG_MPENTIUMIII is not set
-# CONFIG_MPENTIUMM is not set
-# CONFIG_MPENTIUM4 is not set
-# CONFIG_MK6 is not set
-# CONFIG_MK7 is not set
 # CONFIG_MK8 is not set
-# CONFIG_MCRUSOE is not set
-# CONFIG_MEFFICEON is not set
-# CONFIG_MWINCHIPC6 is not set
-# CONFIG_MWINCHIP3D is not set
-# CONFIG_MELAN is not set
-# CONFIG_MGEODEGX1 is not set
-# CONFIG_MGEODE_LX is not set
-# CONFIG_MCYRIXIII is not set
-# CONFIG_MVIAC3_2 is not set
-# CONFIG_MVIAC7 is not set
+# CONFIG_MPSC is not set
 # CONFIG_MCORE2 is not set
 # CONFIG_MATOM is not set
-# CONFIG_X86_GENERIC is not set
-CONFIG_X86_INTERNODE_CACHE_SHIFT=5
-CONFIG_X86_L1_CACHE_SHIFT=5
-CONFIG_X86_USE_PPRO_CHECKSUM=y
+CONFIG_GENERIC_CPU=y
+CONFIG_X86_INTERNODE_CACHE_SHIFT=6
+CONFIG_X86_L1_CACHE_SHIFT=6
 CONFIG_X86_TSC=y
 CONFIG_X86_CMPXCHG64=y
 CONFIG_X86_CMOV=y
-CONFIG_X86_MINIMUM_CPU_FAMILY=6
+CONFIG_X86_MINIMUM_CPU_FAMILY=64
 CONFIG_IA32_FEAT_CTL=y
 CONFIG_CPU_SUP_INTEL=y
 CONFIG_CPU_SUP_AMD=y
 CONFIG_CPU_SUP_HYGON=y
 CONFIG_CPU_SUP_CENTAUR=y
-CONFIG_CPU_SUP_TRANSMETA_32=y
 CONFIG_CPU_SUP_ZHAOXIN=y
-CONFIG_CPU_SUP_VORTEX_32=y
 # end of Host processor type and features
 
 CONFIG_UML_X86=y
-CONFIG_X86_32=y
+CONFIG_64BIT=y
+CONFIG_X86_64=y
 CONFIG_3_LEVEL_PGTABLES=y
-CONFIG_ARCH_HAS_SC_SIGNALS=y
-CONFIG_ARCH_REUSE_HOST_VSYSCALL_AREA=y
 CONFIG_GENERIC_HWEIGHT=y
 # CONFIG_STATIC_LINK is not set
 CONFIG_LD_SCRIPT_DYN=y
@@ -373,7 +368,7 @@ CONFIG_LD_SCRIPT_DYN_RPATH=y
 CONFIG_HOSTFS=y
 CONFIG_MCONSOLE=y
 CONFIG_MAGIC_SYSRQ=y
-CONFIG_KERNEL_STACK_ORDER=1
+CONFIG_KERNEL_STACK_ORDER=2
 # CONFIG_MMAPPER is not set
 CONFIG_PGTABLE_LEVELS=3
 # CONFIG_UML_TIME_TRAVEL_SUPPORT is not set
@@ -431,24 +426,21 @@ CONFIG_PM=y
 # General architecture-dependent options
 #
 CONFIG_CRASH_CORE=y
+CONFIG_HAVE_64BIT_ALIGNED_ACCESS=y
 CONFIG_TRACE_IRQFLAGS_SUPPORT=y
 CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
-CONFIG_ARCH_32BIT_OFF_T=y
 CONFIG_HAVE_ASM_MODVERSIONS=y
-CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
 CONFIG_HAVE_ARCH_SECCOMP=y
 CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
 CONFIG_SECCOMP=y
 CONFIG_SECCOMP_FILTER=y
 # CONFIG_SECCOMP_CACHE_DEBUG is not set
 CONFIG_LTO_NONE=y
-CONFIG_MODULES_USE_ELF_REL=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_MODULES_USE_ELF_RELA=y
 CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
 CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_CLONE_BACKWARDS=y
-CONFIG_OLD_SIGSUSPEND3=y
-CONFIG_OLD_SIGACTION=y
-CONFIG_COMPAT_32BIT_TIME=y
+# CONFIG_COMPAT_32BIT_TIME is not set
 CONFIG_ARCH_NO_PREEMPT=y
 CONFIG_ARCH_EPHEMERAL_INODES=y
 CONFIG_HAVE_ARCH_VMAP_STACK=y
@@ -525,7 +517,6 @@ CONFIG_FREEZER=y
 # Executable file formats
 #
 CONFIG_BINFMT_ELF=y
-CONFIG_ARCH_BINFMT_ELF_EXTRA_PHDRS=y
 CONFIG_ELFCORE=y
 CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS=y
 CONFIG_BINFMT_SCRIPT=y
@@ -555,6 +546,7 @@ CONFIG_FLATMEM=y
 CONFIG_SPLIT_PTLOCK_CPUS=4
 # CONFIG_COMPACTION is not set
 # CONFIG_PAGE_REPORTING is not set
+CONFIG_PHYS_ADDR_T_64BIT=y
 # CONFIG_KSM is not set
 CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
 CONFIG_NEED_PER_CPU_KM=y
@@ -988,7 +980,6 @@ CONFIG_LDISC_AUTOLOAD=y
 # CONFIG_VIRTIO_CONSOLE is not set
 CONFIG_HW_RANDOM=y
 CONFIG_UML_RANDOM=y
-# CONFIG_NSC_GPIO is not set
 CONFIG_DEVMEM=y
 CONFIG_RANDOM_TRUST_CPU=y
 CONFIG_RANDOM_TRUST_BOOTLOADER=y
@@ -1371,6 +1362,7 @@ CONFIG_SYSFS=y
 CONFIG_TMPFS=y
 # CONFIG_TMPFS_POSIX_ACL is not set
 # CONFIG_TMPFS_XATTR is not set
+# CONFIG_TMPFS_INODE64 is not set
 CONFIG_MEMFD_CREATE=y
 # CONFIG_CONFIGFS_FS is not set
 # end of Pseudo filesystems
@@ -1659,7 +1651,7 @@ CONFIG_CRYPTO_LIB_UTILS=y
 CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
 # CONFIG_CRYPTO_LIB_CHACHA is not set
 # CONFIG_CRYPTO_LIB_CURVE25519 is not set
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
+CONFIG_CRYPTO_LIB_POLY1305_RSIZE=11
 # CONFIG_CRYPTO_LIB_POLY1305 is not set
 # CONFIG_CRYPTO_LIB_CHACHA20POLY1305 is not set
 CONFIG_CRYPTO_LIB_SHA1=y
@@ -1684,6 +1676,7 @@ CONFIG_CRC32_SLICEBY8=y
 # CONFIG_RANDOM32_SELFTEST is not set
 # CONFIG_XZ_DEC is not set
 CONFIG_NO_DMA=y
+CONFIG_ARCH_DMA_ADDR_T_64BIT=y
 # CONFIG_DMA_API_DEBUG is not set
 CONFIG_DQL=y
 CONFIG_NLATTR=y
@@ -1728,7 +1721,7 @@ CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
 # CONFIG_DEBUG_INFO_SPLIT is not set
 CONFIG_PAHOLE_HAS_SPLIT_BTF=y
 # CONFIG_GDB_SCRIPTS is not set
-CONFIG_FRAME_WARN=1024
+CONFIG_FRAME_WARN=2048
 # CONFIG_STRIP_ASM_SYMS is not set
 # CONFIG_READABLE_ASM is not set
 CONFIG_DEBUG_SECTION_MISMATCH=y
@@ -1771,8 +1764,11 @@ CONFIG_HAVE_DEBUG_KMEMLEAK=y
 # CONFIG_SCHED_STACK_END_CHECK is not set
 # CONFIG_DEBUG_VM is not set
 CONFIG_DEBUG_MEMORY_INIT=y
+CONFIG_HAVE_ARCH_KASAN=y
+CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
 CONFIG_CC_HAS_KASAN_GENERIC=y
 CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
+# CONFIG_KASAN is not set
 # end of Memory Debugging
 
 # CONFIG_DEBUG_SHIRQ is not set
@@ -1814,6 +1810,7 @@ CONFIG_LOCK_DEBUGGING_SUPPORT=y
 # CONFIG_LOCK_TORTURE_TEST is not set
 # CONFIG_WW_MUTEX_SELFTEST is not set
 # CONFIG_SCF_TORTURE_TEST is not set
+# CONFIG_CSD_LOCK_WAIT_DEBUG is not set
 # end of Lock Debugging (spinlocks, mutexes, etc...)
 
 # CONFIG_DEBUG_IRQFLAGS is not set
@@ -1927,4 +1924,4 @@ CONFIG_RUNTIME_TESTING_MENU=y
 # end of Rust hacking
 # end of Kernel hacking
 
---YfbHMCvSA2s3sV4e--
+--hO6RnGb66UFeZvkE--
