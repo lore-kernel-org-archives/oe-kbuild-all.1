@@ -1,98 +1,102 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198B2256D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 09:29:55 +0000 (UTC)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N9kXg61sPzHw3N
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 17:29:23 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 14 Nov 2022 17:29:52 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 14 Nov 2022 17:29:52 +0800
-Subject: Re: [PATCH v7 5/6] doc: Document CONFIG_RCU_CPU_STALL_CPUTIME=y stall
- information
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-References: <20221111130709.247-6-thunder.leizhen@huawei.com>
- <202211130627.0qfD08wi-lkp@intel.com>
-From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <90d7154b-04d7-4423-e07e-8829eb6cd630@huawei.com>
-Date: Mon, 14 Nov 2022 17:29:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2581B256D;
+	Mon, 14 Nov 2022 09:38:41 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id v1so17014297wrt.11;
+        Mon, 14 Nov 2022 01:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gk0wDqaeIteIPWX+fh6LCTRY6H/7I09heKmSat8+Xq8=;
+        b=cNaqT+CUMFTflrtybExMiz+whdcEAWbdB6ssZ+C25wVKwDBXRYqa8VSXGeUFsbo2h3
+         zwIl1zdzBkiTAChuOdZ2E8gIsqMyL8Bylyv4+KSDueH9dsli8ZJfBSiI3J9/bH/7WNpB
+         YNjdi+HdsbWPlwEhwSxYAJDg04Y7xbxB+29KPBOlsyE5T8Blid6zq7mi2nMTCCmc7HEy
+         wIXWq3pVWBifdgIFkQxEUA0ghZ48lz01TiAWGiNIMAdONOD+jl4pRn5SgqY/qbarRqNR
+         1txniIycywDUds68yL2ARIidNFRtfPFARcl4WirDuoiKggWa1DpYyr1vWiFnlwHknR5B
+         9spA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gk0wDqaeIteIPWX+fh6LCTRY6H/7I09heKmSat8+Xq8=;
+        b=R34p+r2iWGdSyKG/KGBhflyqNQU8iP+ineQWh3qRyaiV6kPVwwDYLJLohZAW0SaQ5v
+         zl1+q682pTjmSKH+deUtmrArRk2/Mu7/daBIDCjjhTBNb38AC5h93fi7TDRP+moRb3fA
+         n19Lc77Sjyw4E+zSuBDz1tKj79p7rLYgJfuEq8e+owdM87Gg+G4e1ecopAJar8s4EYe8
+         4EbehZJE0Ugky68QkqHawmnap+jpTyumnU4ldzq++qf7X/H2ePEXqNkQ3nV55RZf1vDi
+         bHPAVC6Jw0KJUIsGbkzo+pNHEpbdus6JF+M67GKZWltW5qBoQKak99xoIjxYiSVETTfr
+         LNgA==
+X-Gm-Message-State: ANoB5pkuChsASXk9UtO62P1V9MsA89gXSJpnWiuhPUsVYVFFe7HJ5dvR
+	uDGPrb+G6ndCfyhmQYSfGIE=
+X-Google-Smtp-Source: AA0mqf7Sf0pcsYD1g4YeP9hI5wzejL0opgcwP2g/YxYjAodcFOefLLs66sxhmIaUPfdo3y8JtUBTVg==
+X-Received: by 2002:a5d:528c:0:b0:22f:da60:345 with SMTP id c12-20020a5d528c000000b0022fda600345mr6838499wrv.218.1668418720173;
+        Mon, 14 Nov 2022 01:38:40 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v10-20020adf8b4a000000b00235da296623sm9105788wra.31.2022.11.14.01.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 01:38:39 -0800 (PST)
+Date: Mon, 14 Nov 2022 12:38:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, bpf@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	Dave Marchevsky <davemarchevsky@meta.com>,
+	Delyan Kratunov <delyank@meta.com>
+Subject: Re: [PATCH bpf-next v6 11/26] bpf: Allow locking bpf_spin_lock in
+ allocated objects
+Message-ID: <Y3IMnCft+np21Z7f@kadam>
+References: <20221111193224.876706-12-memxor@gmail.com>
+ <202211140520.Q5kvXPSL-lkp@intel.com>
+ <20221114091100.xc6manlxdjad2t24@apollo>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202211130627.0qfD08wi-lkp@intel.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221114091100.xc6manlxdjad2t24@apollo>
 
-
-
-On 2022/11/13 6:52, kernel test robot wrote:
-> Hi Zhen,
+On Mon, Nov 14, 2022 at 02:41:00PM +0530, Kumar Kartikeya Dwivedi wrote:
+> On Mon, Nov 14, 2022 at 01:55:01PM IST, Dan Carpenter wrote:
+> > Hi Kumar,
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/Allocated-objects-BPF-linked-lists/20221112-033643
+> > base:   e5659e4e19e49f1eac58bb07ce8bc2d78a89fe65
+> > patch link:    https://lore.kernel.org/r/20221111193224.876706-12-memxor%40gmail.com
+> > patch subject: [PATCH bpf-next v6 11/26] bpf: Allow locking bpf_spin_lock in allocated objects
+> > config: x86_64-randconfig-m001
+> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> >
+> > smatch warnings:
+> > kernel/bpf/verifier.c:5623 process_spin_lock() error: uninitialized symbol 'rec'.
+> >
+> > vim +/rec +5623 kernel/bpf/verifier.c
 > 
-> Thank you for the patch! Perhaps something to improve:
+> Hi Dan,
 > 
-> [auto build test WARNING on paulmck-rcu/dev]
-> [also build test WARNING on tip/sched/core linus/master v6.1-rc4 next-20221111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Thanks for the report! I noticed it yesterday night.
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Zhen-Lei/rcu-Add-RCU-stall-diagnosis-information/20221111-211035
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-> patch link:    https://lore.kernel.org/r/20221111130709.247-6-thunder.leizhen%40huawei.com
-> patch subject: [PATCH v7 5/6] doc: Document CONFIG_RCU_CPU_STALL_CPUTIME=y stall information
-> reproduce:
->         # https://github.com/intel-lab-lkp/linux/commit/062a824ff2c71185d19ff8d39fef18fda82e474f
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Zhen-Lei/rcu-Add-RCU-stall-diagnosis-information/20221111-211035
->         git checkout 062a824ff2c71185d19ff8d39fef18fda82e474f
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<------------first timeout---------->|<-----second timeout----->".
->>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<--half timeout-->|<--half timeout-->".
->>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<--first period-->".
->>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<-----------second sampling period---------->".
-
-Well, thanks. Replacing '|' with ":' solves the problem. Fortunately, they look alike.
-
-> 
-> vim +415 Documentation/RCU/stallwarn.rst
-> 
->    414	
->  > 415	The sampling period is shown as follows:
->    416	|<------------first timeout---------->|<-----second timeout----->|
->    417	|<--half timeout-->|<--half timeout-->|                          |
->    418	|                  |<--first period-->|                          |
->    419	|                  |<-----------second sampling period---------->|
->    420	|                  |                  |                          |
->    421	|          sampling time point    1st-stall                  2nd-stall
->    422	
->    423	
+> How should I be crediting you in the respin? Not sure Reported-by: is ok if I
+> incorporate the fix into the patch and resend it. Would Fixed-by: be better?
 > 
 
--- 
-Regards,
-  Zhen Lei
+I've always said there should be a Fixes-from: tag but it doesn't exist.
+
+Just leave it off.  These emails are auto-generated by the kbuild-bot
+because credit helps fund their work.  I just look the bug reports and
+forward the reports.
+
+regards,
+dan carpenter
+
