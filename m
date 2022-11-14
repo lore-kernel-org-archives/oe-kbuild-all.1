@@ -1,93 +1,347 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580782C9D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 22:55:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668466548; x=1700002548;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to;
-  bh=EZ/crrnadC6FZuL7yBtXGWmT4C8UtSxOOH2Ei2CQ/g8=;
-  b=C+RhvfDE9PrdGibCs+5lX261yP6E4seqQBS/G1iGgBH7HE6puu7bDMhC
-   edmDgtS93lAi+3cW/XcFbP9HQsEVX3ASCa2vaMbKbjS0PSw82jGZ50DV3
-   abhfw+scxaqxIVpbqsVJW+w31gE3MH9G/RDEZyaAz+8X/Zur5eHn9wyZi
-   pGY8S7s/f2OYkp03awLkVAdnCcNEPusB1TM3rfIOZdlQn8j8tqoQ3rMvA
-   K9pas13zQWaS3ZK96gB74/HLOLKKwfYHTKkIOx3HAEfuk9Lk5c5RhaGn9
-   Lffo7ZU+kht8D62CJaMEKi5MlVxReYPmli/rf8M/1qAoe8DYS6KSeA5k3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299623703"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="299623703"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 14:55:48 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="763671861"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="763671861"
-Received: from satyanay-mobl1.amr.corp.intel.com (HELO [10.209.114.162]) ([10.209.114.162])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 14:55:47 -0800
-Content-Type: multipart/mixed; boundary="------------kmmSIrzdsbBte0dHQX96MiNE"
-Message-ID: <fdae3de9-db03-b04d-1992-bc8efd053053@intel.com>
-Date: Mon, 14 Nov 2022 14:55:46 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC222C9D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 22:56:30 +0000 (UTC)
+Received: from [192.168.2.144] (bband-dyn193.178-41-216.t-com.sk [178.41.216.193])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2E5A01F917;
+	Mon, 14 Nov 2022 23:56:27 +0100 (CET)
+Date: Mon, 14 Nov 2022 23:56:21 +0100
+From: Martin Botka <martin.botka@somainline.org>
+Subject: Re: [PATCH 1/1] regulator: axp20x: Add support for AXP1530 variant
+To: kernel test robot <lkp@intel.com>
+Cc: martin.botka1@gmail.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, ~postmarketos/upstreaming@lists.sr.ht,
+	Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@somainline.org>, Marijn Suijten
+	<marijn.suijten@somainline.org>, Jami Kettunen
+	<jamipkettunen@somainline.org>, Paul Bouchara <paul.bouchara@somainline.org>,
+	Yenda <jtrmal@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	linux-kernel@vger.kernel.org
+Message-Id: <X11DLR.YBCMARW947UJ2@somainline.org>
+In-Reply-To: <202211150623.9oWDx9Ec-lkp@intel.com>
+References: <20221114162459.1802174-1-martin.botka@somainline.org>
+	<202211150623.9oWDx9Ec-lkp@intel.com>
+X-Mailer: geary/40.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [tip:x86/mm 5/16] sound/core/hwdep.c:243:24: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>
-References: <202211150551.T7mpZomP-lkp@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <202211150551.T7mpZomP-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-This is a multi-part message in MIME format.
---------------kmmSIrzdsbBte0dHQX96MiNE
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Patch depends on the MFD driver which introduces also the regulator 
+definitions.
 
-On 11/14/22 13:41, kernel test robot wrote:
->    sound/core/hwdep.c:243:24: sparse:     expected int [noderef] __user *__ptr_clean
->    sound/core/hwdep.c:243:24: sparse:     got int *
->    sound/core/hwdep.c:273:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int [noderef] __user *__ptr_clean @@     got int * @@
->    sound/core/hwdep.c:273:29: sparse:     expected int [noderef] __user *__ptr_clean
->    sound/core/hwdep.c:273:29: sparse:     got int *
->    sound/core/hwdep.c:292:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int [noderef] __user *__ptr_clean @@     got int * @@
->    sound/core/hwdep.c:292:29: sparse:     expected int [noderef] __user *__ptr_clean
->    sound/core/hwdep.c:292:29: sparse:     got int *
+On Tue, Nov 15 2022 at 06:52:24 AM +08:00:00, kernel test robot 
+<lkp@intel.com> wrote:
+> Hi Martin,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on broonie-regulator/for-next]
+> [also build test ERROR on linus/master v6.1-rc5 next-20221114]
+> [If your patch is applied to the wrong git tree, kindly drop us a 
+> note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Martin-Botka/regulator-axp20x-Add-support-for-AXP1530-variant/20221115-002644
+> base:   
+> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git 
+> for-next
+> patch link:    
+> https://lore.kernel.org/r/20221114162459.1802174-1-martin.botka%40somainline.org
+> patch subject: [PATCH 1/1] regulator: axp20x: Add support for AXP1530 
+> variant
+> config: x86_64-randconfig-k001-20221114
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project 
+> f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>         wget 
+> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
+> -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # 
+> https://github.com/intel-lab-lkp/linux/commit/7f0eb274b33943549c38a0eb160748d3754ad1e7
+>         git remote add linux-review 
+> https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review 
+> Martin-Botka/regulator-axp20x-Add-support-for-AXP1530-variant/20221115-002644
+>         git checkout 7f0eb274b33943549c38a0eb160748d3754ad1e7
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross 
+> W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/regulator/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>>  drivers/regulator/axp20x-regulator.c:1021:2: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC1'
+>            AXP_DESC_RANGES(AXP1530, DCDC1, "dcdc1", "vin1", 
+> axp1530_dcdc1_ranges,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:351:10: note: expanded from 
+> macro 'AXP_DESC_RANGES'
+>                    .id             = _family##_##_id,                 
+>              \
+>                                      ^
+>    <scratch space>:53:1: note: expanded from here
+>    AXP1530_DCDC1
+>    ^
+>>>  drivers/regulator/axp20x-regulator.c:1022:12: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC1_CONRTOL'
+>                                            0x6B, 
+> AXP1530_DCDC1_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                  ^
+>>>  drivers/regulator/axp20x-regulator.c:1022:41: error: use of 
+>>> undeclared identifier 'AXP1530_OUTPUT_CONTROL'
+>                                            0x6B, 
+> AXP1530_DCDC1_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                                       
+>         ^
+>>>  drivers/regulator/axp20x-regulator.c:1024:2: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC2'
+>            AXP_DESC_RANGES(AXP1530, DCDC2, "dcdc2", "vin2", 
+> axp1530_dcdc2_ranges,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:351:10: note: expanded from 
+> macro 'AXP_DESC_RANGES'
+>                    .id             = _family##_##_id,                 
+>              \
+>                                      ^
+>    <scratch space>:58:1: note: expanded from here
+>    AXP1530_DCDC2
+>    ^
+>>>  drivers/regulator/axp20x-regulator.c:1025:12: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC2_CONRTOL'
+>                                            0x58, 
+> AXP1530_DCDC2_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                  ^
+>    drivers/regulator/axp20x-regulator.c:1025:41: error: use of 
+> undeclared identifier 'AXP1530_OUTPUT_CONTROL'
+>                                            0x58, 
+> AXP1530_DCDC2_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                                       
+>         ^
+>>>  drivers/regulator/axp20x-regulator.c:1027:2: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC3'
+>            AXP_DESC_RANGES(AXP1530, DCDC3, "dcdc3", "vin3", 
+> axp1530_dcdc3_ranges,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:351:10: note: expanded from 
+> macro 'AXP_DESC_RANGES'
+>                    .id             = _family##_##_id,                 
+>              \
+>                                      ^
+>    <scratch space>:63:1: note: expanded from here
+>    AXP1530_DCDC3
+>    ^
+>>>  drivers/regulator/axp20x-regulator.c:1028:12: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC3_CONRTOL'
+>                                            0x58, 
+> AXP1530_DCDC3_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                  ^
+>    drivers/regulator/axp20x-regulator.c:1028:41: error: use of 
+> undeclared identifier 'AXP1530_OUTPUT_CONTROL'
+>                                            0x58, 
+> AXP1530_DCDC3_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>                                                                       
+>         ^
+>>>  drivers/regulator/axp20x-regulator.c:1030:2: error: use of 
+>>> undeclared identifier 'AXP1530_LDO1'
+>            AXP_DESC(AXP1530, LDO1, "ldo1", "ldo1in", 500, 3500, 100,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:303:10: note: expanded from 
+> macro 'AXP_DESC'
+>                    .id             = _family##_##_id,                 
+>              \
+>                                      ^
+>    <scratch space>:68:1: note: expanded from here
+>    AXP1530_LDO1
+>    ^
+>>>  drivers/regulator/axp20x-regulator.c:1031:6: error: use of 
+>>> undeclared identifier 'AXP1530_ALDO1_CONRTOL'
+>                                            AXP1530_ALDO1_CONRTOL, 
+> 0x1f, AXP1530_OUTPUT_CONTROL,
+>                                            ^
+>    drivers/regulator/axp20x-regulator.c:1031:35: error: use of 
+> undeclared identifier 'AXP1530_OUTPUT_CONTROL'
+>                                            AXP1530_ALDO1_CONRTOL, 
+> 0x1f, AXP1530_OUTPUT_CONTROL,
+>                                                                       
+>   ^
+>>>  drivers/regulator/axp20x-regulator.c:1033:2: error: use of 
+>>> undeclared identifier 'AXP1530_LDO2'
+>            AXP_DESC(AXP1530, LDO2, "ldo2", "ldo2in", 500, 3500, 100,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:303:10: note: expanded from 
+> macro 'AXP_DESC'
+>                    .id             = _family##_##_id,                 
+>              \
+>                                      ^
+>    <scratch space>:73:1: note: expanded from here
+>    AXP1530_LDO2
+>    ^
+>>>  drivers/regulator/axp20x-regulator.c:1034:6: error: use of 
+>>> undeclared identifier 'AXP1530_DLDO1_CONRTOL'
+>                                            AXP1530_DLDO1_CONRTOL, 
+> 0x1f, AXP1530_OUTPUT_CONTROL,
+>                                            ^
+>    drivers/regulator/axp20x-regulator.c:1034:35: error: use of 
+> undeclared identifier 'AXP1530_OUTPUT_CONTROL'
+>                                            AXP1530_DLDO1_CONRTOL, 
+> 0x1f, AXP1530_OUTPUT_CONTROL,
+>                                                                       
+>   ^
+>>>  drivers/regulator/axp20x-regulator.c:1077:7: error: use of 
+>>> undeclared identifier 'AXP1530_ID'; did you mean 'AXP152_ID'?
+>            case AXP1530_ID:
+>                 ^~~~~~~~~~
+>                 AXP152_ID
+>    include/linux/mfd/axp20x.h:14:2: note: 'AXP152_ID' declared here
+>            AXP152_ID = 0,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:1295:8: error: use of 
+> undeclared identifier 'AXP1530_ID'; did you mean 'AXP152_ID'?
+>                    case AXP1530_ID:
+>                         ^~~~~~~~~~
+>                         AXP152_ID
+>    include/linux/mfd/axp20x.h:14:2: note: 'AXP152_ID' declared here
+>            AXP152_ID = 0,
+>            ^
+>>>  drivers/regulator/axp20x-regulator.c:1297:17: error: use of 
+>>> undeclared identifier 'AXP1530_REG_ID_MAX'
+>                    nregulators = AXP1530_REG_ID_MAX;
+>                                  ^
+>>>  drivers/regulator/axp20x-regulator.c:1021:2: error: use of 
+>>> undeclared identifier 'AXP1530_DCDC1'
+>            AXP_DESC_RANGES(AXP1530, DCDC1, "dcdc1", "vin1", 
+> axp1530_dcdc1_ranges,
+>            ^
+>    drivers/regulator/axp20x-regulator.c:345:3: note: expanded from 
+> macro 'AXP_DESC_RANGES'
+>            [_family##_##_id] = {                                      
+>              \
+>             ^
+>    <scratch space>:51:1: note: expanded from here
+>    AXP1530_DCDC1
+>    ^
+>    fatal error: too many errors emitted, stopping now [-ferror-limit=]
+>    20 errors generated.
+> 
+> 
+> vim +/AXP1530_DCDC1 +1021 drivers/regulator/axp20x-regulator.c
+> 
+>   1019
+>   1020	static const struct regulator_desc axp1530_regulators[] = {
+>>  1021		AXP_DESC_RANGES(AXP1530, DCDC1, "dcdc1", "vin1", 
+>> axp1530_dcdc1_ranges,
+>>  1022						0x6B, AXP1530_DCDC1_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>   1023						BIT(0)),
+>>  1024		AXP_DESC_RANGES(AXP1530, DCDC2, "dcdc2", "vin2", 
+>> axp1530_dcdc2_ranges,
+>>  1025						0x58, AXP1530_DCDC2_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>   1026						BIT(1)),
+>>  1027		AXP_DESC_RANGES(AXP1530, DCDC3, "dcdc3", "vin3", 
+>> axp1530_dcdc3_ranges,
+>>  1028						0x58, AXP1530_DCDC3_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+>   1029						BIT(2)),
+>>  1030		AXP_DESC(AXP1530, LDO1, "ldo1", "ldo1in", 500, 3500, 100,
+>>  1031						AXP1530_ALDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
+>   1032						BIT(3)),
+>>  1033		AXP_DESC(AXP1530, LDO2, "ldo2", "ldo2in", 500, 3500, 100,
+>>  1034						AXP1530_DLDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
+>   1035						BIT(4)),
+>   1036	};
+>   1037
+>   1038	static int axp20x_set_dcdc_freq(struct platform_device *pdev, 
+> u32 dcdcfreq)
+>   1039	{
+>   1040		struct axp20x_dev *axp20x = dev_get_drvdata(pdev->dev.parent);
+>   1041		unsigned int reg = AXP20X_DCDC_FREQ;
+>   1042		u32 min, max, def, step;
+>   1043
+>   1044		switch (axp20x->variant) {
+>   1045		case AXP202_ID:
+>   1046		case AXP209_ID:
+>   1047			min = 750;
+>   1048			max = 1875;
+>   1049			def = 1500;
+>   1050			step = 75;
+>   1051			break;
+>   1052		case AXP803_ID:
+>   1053		case AXP813_ID:
+>   1054			/*
+>   1055			 * AXP803/AXP813 DCDC work frequency setting has the same
+>   1056			 * range and step as AXP22X, but at a different register.
+>   1057			 * (See include/linux/mfd/axp20x.h)
+>   1058			 */
+>   1059			reg = AXP803_DCDC_FREQ_CTRL;
+>   1060			fallthrough;	/* to the check below */
+>   1061		case AXP806_ID:
+>   1062			/*
+>   1063			 * AXP806 also have DCDC work frequency setting register at a
+>   1064			 * different position.
+>   1065			 */
+>   1066			if (axp20x->variant == AXP806_ID)
+>   1067				reg = AXP806_DCDC_FREQ_CTRL;
+>   1068			fallthrough;
+>   1069		case AXP221_ID:
+>   1070		case AXP223_ID:
+>   1071		case AXP809_ID:
+>   1072			min = 1800;
+>   1073			max = 4050;
+>   1074			def = 3000;
+>   1075			step = 150;
+>   1076			break;
+>>  1077		case AXP1530_ID:
+>   1078			/*
+>   1079			 * Do not set the DCDC frequency on AXP1530
+>   1080			 */
+>   1081			return 0;
+>   1082			break;
+>   1083		default:
+>   1084			dev_err(&pdev->dev,
+>   1085				"Setting DCDC frequency for unsupported AXP variant\n");
+>   1086			return -EINVAL;
+>   1087		}
+>   1088
+>   1089		if (dcdcfreq == 0)
+>   1090			dcdcfreq = def;
+>   1091
+>   1092		if (dcdcfreq < min) {
+>   1093			dcdcfreq = min;
+>   1094			dev_warn(&pdev->dev, "DCDC frequency too low. Set to 
+> %ukHz\n",
+>   1095				 min);
+>   1096		}
+>   1097
+>   1098		if (dcdcfreq > max) {
+>   1099			dcdcfreq = max;
+>   1100			dev_warn(&pdev->dev, "DCDC frequency too high. Set to 
+> %ukHz\n",
+>   1101				 max);
+>   1102		}
+>   1103
+>   1104		dcdcfreq = (dcdcfreq - min) / step;
+>   1105
+>   1106		return regmap_update_bits(axp20x->regmap, reg,
+>   1107					  AXP20X_FREQ_DCDC_MASK, dcdcfreq);
+>   1108	}
+>   1109
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://01.org/lkp
 
-I think the sparse ends up throwing away all of its annotations once it
-dereferences a pointer.  So, '*(int __user *)' boils down to a plain
-'int'.  Confusingly, a '*(int __user *) *' boils down to an 'int *'.
 
-That's what happened here.  A __user-annotated point got dereferenced
-down to an 'int' and then turned into a pointer again.
-
-I think the trick in this case is to avoid dereferencing the pointer too
-early by just moving the dereference outside of the casting, like the
-attached patch.  But, it also feels kinda wrong.  I'd love a second
-opinion on this one.
---------------kmmSIrzdsbBte0dHQX96MiNE
-Content-Type: text/x-patch; charset=UTF-8; name="lam-sparse.patch"
-Content-Disposition: attachment; filename="lam-sparse.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL3VhY2Nlc3MuaCBiL2FyY2gveDg2
-L2luY2x1ZGUvYXNtL3VhY2Nlc3MuaAppbmRleCAwZGI2ZjU0NTE4NTQuLmI4OTQ3YjYyM2M3
-MiAxMDA2NDQKLS0tIGEvYXJjaC94ODYvaW5jbHVkZS9hc20vdWFjY2Vzcy5oCisrKyBiL2Fy
-Y2gveDg2L2luY2x1ZGUvYXNtL3VhY2Nlc3MuaApAQCAtMzksNyArMzksNyBAQCBzdGF0aWMg
-aW5saW5lIGJvb2wgcGFnZWZhdWx0X2Rpc2FibGVkKHZvaWQpOwogI2RlZmluZSB1bnRhZ2dl
-ZF9wdHIobW0sIHB0cikJKHsJCQkJCVwKIAl1NjQgX19wdHJ2YWwgPSAoX19mb3JjZSB1NjQp
-KHB0cik7CQkJCVwKIAlfX3B0cnZhbCA9IHVudGFnZ2VkX2FkZHIobW0sIF9fcHRydmFsKTsJ
-CQkJXAotCShfX2ZvcmNlIF9fdHlwZW9mX18oKihwdHIpKSAqKV9fcHRydmFsOwkJCQlcCisJ
-KihfX2ZvcmNlIF9fdHlwZW9mX18oKHB0cikpICopX19wdHJ2YWw7CQkJCVwKIH0pCiAjZWxz
-ZQogI2RlZmluZSB1bnRhZ2dlZF9hZGRyKG1tLCBhZGRyKQkoYWRkcikK
-
---------------kmmSIrzdsbBte0dHQX96MiNE--
