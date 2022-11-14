@@ -1,113 +1,185 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCC84C6A;
-	Mon, 14 Nov 2022 12:50:46 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id k8so18075592wrh.1;
-        Mon, 14 Nov 2022 04:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ebPDjnpT9FEZbqx8WX9mvWvezyz1UR4PKe1b2ct2IXY=;
-        b=msIHLa7KKo7g2crtm4xgt7zDxZsWalrj/HzmaP6W6YGmd3aIZlcVUtGmiBfZGIdhWv
-         jFeZgCi2f7+jT+fKpfyjTzj1NmTGOTYhTtG95aIG7v9RfKymPjcVusQYSg2oO11DYvTA
-         m5fcjwKdJ9+QnUXaxfg4dNrB/qIrLYvyyuR6fWVipAjnKmqw2fSIiU2wFKcGpx6fLd66
-         6/qSRo6nHYIc5/s4i3DqdZV8rndK3a9Bm4ALiACsuEAnfEXm9ABWF6uItgVfX62nKUU7
-         WcHnIw5Hd1Etb8aD0QgA576EpM+WjZEuqG6z0epqfpqYeOwRx3673HEm3Bi1tXvVnn/O
-         d6OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ebPDjnpT9FEZbqx8WX9mvWvezyz1UR4PKe1b2ct2IXY=;
-        b=1udrDRhe2c7fmxeje/PLPTgg1dUdLVP1cW04cqlzYMLsw+H+wHEy+lvReCtC6QfK6e
-         AOoFfH28o5+DOSvQa6tLBwoXhjc/A0W4pUhXW3OU2hOymGEdiezXzkWzA4iiQIwRUeRJ
-         L3Ir37qtE1LkzKrRswprtudmG5RXUgmkREZjQXa35PJVOX/zAfllgMVvzaGcXRMWnWLR
-         k06HlL62H3xv64L27LCSYgBKfkgYOJoO/L8QTo8OVBip0BKdhDuzZFUNaMDlt2DwtA07
-         hnvOOyrR3T44wo9gAYEnLr+13g4ByuDMXtZOceIapZ/Of5jhOx2ZwzJU2C6JaAfV53M6
-         Oipg==
-X-Gm-Message-State: ANoB5pnuss91hvTJ+jYDyk4+o09VhsL+i4idMWdo28vTkDAX5gtGey+3
-	SVgsJLoTJmu73mk1BV3UUSVNzz8lX75+tQ==
-X-Google-Smtp-Source: AA0mqf55Un/hIeoazH3lCovZ8BocgSBuLTf7zWrQrwo6lVqkC3dsYQ/AJHTYmWoQlB6zE/S66Wxj+Q==
-X-Received: by 2002:a5d:4688:0:b0:230:d617:4dc2 with SMTP id u8-20020a5d4688000000b00230d6174dc2mr7762482wrq.652.1668430244679;
-        Mon, 14 Nov 2022 04:50:44 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t67-20020a1c4646000000b003cfa622a18asm18237458wma.3.2022.11.14.04.50.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 04:50:43 -0800 (PST)
-Date: Mon, 14 Nov 2022 15:50:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:brauner/linux/fs.xattr.simple.rework.rbtree 1/1]
- fs/xattr.c:1118 simple_xattr_get() error: uninitialized symbol 'ret'.
-Message-ID: <202211141711.hT8AaeOS-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0194C6A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 13:07:17 +0000 (UTC)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N9qM25QrvzHvQq;
+	Mon, 14 Nov 2022 21:06:22 +0800 (CST)
+Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 14 Nov 2022 21:06:51 +0800
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 14 Nov
+ 2022 21:06:51 +0800
+Subject: Re: [PATCH v12 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, kernel test robot
+	<lkp@intel.com>, <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
+	<leo.yan@linaro.org>, <jonathan.cameron@huawei.com>, <john.garry@huawei.com>
+References: <20221109135008.9485-2-hejunhao3@huawei.com>
+ <202211120623.aFVBerTp-lkp@intel.com>
+ <a1343ef8-19f2-e3fc-35b7-02a989e093f5@arm.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <coresight@lists.linaro.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<lpieralisi@kernel.org>, <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+	<f.fangjian@huawei.com>, <prime.zeng@hisilicon.com>
+From: hejunhao <hejunhao3@huawei.com>
+Message-ID: <901ee9b4-f0b3-437e-fce9-be3c6c214afe@huawei.com>
+Date: Mon, 14 Nov 2022 21:06:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <a1343ef8-19f2-e3fc-35b7-02a989e093f5@arm.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 
-tree:   https://github.com/ammarfaizi2/linux-block brauner/linux/fs.xattr.simple.rework.rbtree
-head:   b1999797db0738e60ae9730fcdd5ec6dd7604cd0
-commit: b1999797db0738e60ae9730fcdd5ec6dd7604cd0 [1/1] xattr: use rbtree for simple_xattrs
-config: m68k-randconfig-m041-20221110
-compiler: m68k-linux-gcc (GCC) 12.1.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-fs/xattr.c:1118 simple_xattr_get() error: uninitialized symbol 'ret'.
+On 2022/11/14 18:49, Suzuki K Poulose wrote:
+> On 11/11/2022 22:06, kernel test robot wrote:
+>> Hi Junhao,
+>>
+>> I love your patch! Perhaps something to improve:
+>>
+>> [auto build test WARNING on soc/for-next]
+>> [also build test WARNING on linus/master v6.1-rc4 next-20221111]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url: 
+>> https://github.com/intel-lab-lkp/linux/commits/Junhao-He/Add-support-for-UltraSoc-System-Memory-Buffer/20221109-215158
+>> base: https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git 
+>> for-next
+>> patch link: 
+>> https://lore.kernel.org/r/20221109135008.9485-2-hejunhao3%40huawei.com
+>> patch subject: [PATCH v12 1/2] drivers/coresight: Add UltraSoc System 
+>> Memory Buffer driver
+>> config: arm64-randconfig-s033-20221111
+>> compiler: aarch64-linux-gcc (GCC) 12.1.0
+>> reproduce:
+>>          wget 
+>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
+>> -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # apt-get install sparse
+>>          # sparse version: v0.6.4-39-gce1a6720-dirty
+>>          # 
+>> https://github.com/intel-lab-lkp/linux/commit/49ede03fd874b65deca5382ea84c3377188136da
+>>          git remote add linux-review 
+>> https://github.com/intel-lab-lkp/linux
+>>          git fetch --no-tags linux-review 
+>> Junhao-He/Add-support-for-UltraSoc-System-Memory-Buffer/20221109-215158
+>>          git checkout 49ede03fd874b65deca5382ea84c3377188136da
+>>          # save the config file
+>>          mkdir build_dir && cp config build_dir/.config
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 
+>> make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' 
+>> O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/hwtracing/coresight/
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>>> drivers/hwtracing/coresight/ultrasoc-smb.c:113:33: sparse: sparse: 
+>>>> cast removes address space '__iomem' of expression
+>>>> drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse: sparse: 
+>>>> incorrect type in argument 1 (different address spaces) @@     
+>>>> expected void const * @@     got void [noderef] __iomem * @@
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> expected void const *
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> got void [noderef] __iomem *
+>>>> drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse: sparse: 
+>>>> incorrect type in argument 1 (different address spaces) @@     
+>>>> expected void const * @@     got void [noderef] __iomem * @@
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> expected void const *
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> got void [noderef] __iomem *
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse: 
+>> sparse: incorrect type in argument 2 (different address spaces) 
+>> @@     expected void const * @@     got void [noderef] __iomem * @@
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> expected void const *
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:354:17: sparse:     
+>> got void [noderef] __iomem *
+>>>> drivers/hwtracing/coresight/ultrasoc-smb.c:463:14: sparse: sparse: 
+>>>> incorrect type in assignment (different address spaces) @@     
+>>>> expected void [noderef] __iomem *base @@     got void * @@
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:463:14: sparse:     
+>> expected void [noderef] __iomem *base
+>>     drivers/hwtracing/coresight/ultrasoc-smb.c:463:14: sparse:     
+>> got void *
+>>
+>> vim +/__iomem +113 drivers/hwtracing/coresight/ultrasoc-smb.c
+>>
+>>      89
+>>      90    static ssize_t smb_read(struct file *file, char __user 
+>> *data, size_t len,
+>>      91                loff_t *ppos)
+>>      92    {
+>>      93        struct smb_drv_data *drvdata = 
+>> container_of(file->private_data,
+>>      94                        struct smb_drv_data, miscdev);
+>>      95        struct smb_data_buffer *sdb = &drvdata->sdb;
+>>      96        struct device *dev = &drvdata->csdev->dev;
+>>      97        ssize_t to_copy = 0;
+>>      98
+>>      99        mutex_lock(&drvdata->mutex);
+>>     100
+>>     101        if (!sdb->data_size) {
+>>     102            smb_update_data_size(drvdata);
+>>     103            if (!sdb->data_size)
+>>     104                goto out;
+>>     105        }
+>>     106
+>>     107        to_copy = min(sdb->data_size, len);
+>>     108
+>>     109        /* Copy parts of trace data when read pointer wrap 
+>> around SMB buffer */
+>>     110        if (sdb->rd_offset + to_copy > sdb->buf_size)
+>>     111            to_copy = sdb->buf_size - sdb->rd_offset;
+>>     112
+>>   > 113        if (copy_to_user(data, (void *)sdb->buf_base + 
+>> sdb->rd_offset,
+>>     114                 to_copy)) {
+>>     115            dev_dbg(dev, "Failed to copy data to user\n");
+>>     116            to_copy = -EFAULT;
+>>     117            goto out;
+>>     118        }
+>>     119
+>
+> Please could we replace this with copy_to_user_fromio() ?
+>
+> Suzuki
+>
+> _______________________________________________
+> CoreSight mailing list -- coresight@lists.linaro.org
+> To unsubscribe send an email to coresight-leave@lists.linaro.org
+> .
+>
+Hi Suzuki,
 
-vim +/ret +1118 fs/xattr.c
+This is a cache memory,  due to improper use of "__iomem" , the sparse 
+generates warnings.
+I has fix it in v13.
+https://lore.kernel.org/lkml/20221114090316.63157-2-hejunhao3@huawei.com/
 
-38f38657444d15 Aristeu Rozanski  2012-08-23  1086  int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
-38f38657444d15 Aristeu Rozanski  2012-08-23  1087  		     void *buffer, size_t size)
-38f38657444d15 Aristeu Rozanski  2012-08-23  1088  {
-b1999797db0738 Christian Brauner 2022-11-04  1089  	struct simple_xattr *xattr = NULL;
-b1999797db0738 Christian Brauner 2022-11-04  1090  	struct rb_node *rbp;
-b1999797db0738 Christian Brauner 2022-11-04  1091  	int ret, seq = 0;
-b1999797db0738 Christian Brauner 2022-11-04  1092  
-b1999797db0738 Christian Brauner 2022-11-04  1093  	rcu_read_lock();
-b1999797db0738 Christian Brauner 2022-11-04  1094  	do {
-b1999797db0738 Christian Brauner 2022-11-04  1095  		read_seqbegin_or_lock(&xattrs->lock, &seq);
-b1999797db0738 Christian Brauner 2022-11-04  1096  		rbp = rcu_dereference(xattrs->rb_root.rb_node);
-b1999797db0738 Christian Brauner 2022-11-04  1097  		while (rbp) {
-b1999797db0738 Christian Brauner 2022-11-04  1098  			xattr = rb_entry(rbp, struct simple_xattr, rb_node);
-b1999797db0738 Christian Brauner 2022-11-04  1099  			if (strcmp(xattr->name, name) < 0) {
-b1999797db0738 Christian Brauner 2022-11-04  1100  				rbp = rcu_dereference(rbp->rb_left);
-b1999797db0738 Christian Brauner 2022-11-04  1101  			} else if (strcmp(xattr->name, name) > 0) {
-b1999797db0738 Christian Brauner 2022-11-04  1102  				rbp = rcu_dereference(rbp->rb_right);
-b1999797db0738 Christian Brauner 2022-11-04  1103  			} else {
-38f38657444d15 Aristeu Rozanski  2012-08-23  1104  				ret = xattr->size;
-38f38657444d15 Aristeu Rozanski  2012-08-23  1105  				if (buffer) {
-38f38657444d15 Aristeu Rozanski  2012-08-23  1106  					if (size < xattr->size)
-38f38657444d15 Aristeu Rozanski  2012-08-23  1107  						ret = -ERANGE;
-38f38657444d15 Aristeu Rozanski  2012-08-23  1108  					else
-38f38657444d15 Aristeu Rozanski  2012-08-23  1109  						memcpy(buffer, xattr->value, xattr->size);
-38f38657444d15 Aristeu Rozanski  2012-08-23  1110  				}
-38f38657444d15 Aristeu Rozanski  2012-08-23  1111  				break;
+Best regards,
+Junhao.
 
-"ret" is only initialized if we find "xattr->name == name".
 
-38f38657444d15 Aristeu Rozanski  2012-08-23  1112  			}
-b1999797db0738 Christian Brauner 2022-11-04  1113  		}
-b1999797db0738 Christian Brauner 2022-11-04  1114  	} while (need_seqretry(&xattrs->lock, seq));
-b1999797db0738 Christian Brauner 2022-11-04  1115  	done_seqretry(&xattrs->lock, seq);
-b1999797db0738 Christian Brauner 2022-11-04  1116  	rcu_read_unlock();
-b1999797db0738 Christian Brauner 2022-11-04  1117  
-38f38657444d15 Aristeu Rozanski  2012-08-23 @1118  	return ret;
-38f38657444d15 Aristeu Rozanski  2012-08-23  1119  }
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
 
