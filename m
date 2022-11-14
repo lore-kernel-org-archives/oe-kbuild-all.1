@@ -1,237 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C214C70
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 13:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1668431306;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+RATmLDqy4Cb3/OcvezxdmIEs6SpBnhwsQ/KyFcaC8s=;
-	b=HlDIQtv50WJ9414i6XrUhkVRuTmOYu5yXxQLbdPkt+AGCEG258Vxem31k3ZqDcRXLPadOP
-	xX623oEK9yNytA6DywpviG30IOQpfxdEl3h7FBSCdhzGKIf6J/o79ShURQlGlbk5kB6C0b
-	rRK6NnhgfUgAFZA+mLEm15tAQUuDGPI=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-455-voQ8NJcxOiSqFIh-Z0tWdA-1; Mon, 14 Nov 2022 08:08:25 -0500
-X-MC-Unique: voQ8NJcxOiSqFIh-Z0tWdA-1
-Received: by mail-pg1-f198.google.com with SMTP id p7-20020a631e47000000b0047691854a86so1067896pgm.16
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 05:08:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-language:content-transfer-encoding:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+RATmLDqy4Cb3/OcvezxdmIEs6SpBnhwsQ/KyFcaC8s=;
-        b=xqMdPGQngIxcHdTeyw3/rB1yxIqeAtSPoQvjUqUmTLVKX7R/dbdb939JjpPr+LHxd8
-         prGB1ZWKB2mxnMoyTEbi4tOnADikAg00BgLBhgyF4R8mHEHENmyiiq978TeM9EY8eeG9
-         oGEHvnsg4s8L7mDXj0epCoJsnb9RNdV7bh3AKTpgxu2qu3Bm/AR5QVXRn3z0tIJ9JECA
-         PG1Tq1gDbk9N7UUrK/QCSBBIIBveJxVF8tafp1ij7GPjZkAdPKsJ9AeBlq7PWPq/MQkW
-         1F2UHEIV8jopLvuPR/vymFSej4mnMeJJwEGPYvkbOW2rD3DZqCUXsOFHhlrNVU+8eLWS
-         u+dQ==
-X-Gm-Message-State: ANoB5plh8UOBC3Z/4cCeCKJQniTuVJe/T4JDlxBSTcCcGCBRmLO9Rpcb
-	vIEApybr0bdAkpDbxA2KoJKayumJzZmIFTPHaMyLqmQbG7Vm8z9eK+73RkBiwRiSyXiWXjmbcll
-	NtiEb6VGzK+kF2rHM93OHw1eVJA==
-X-Received: by 2002:a17:903:26c6:b0:178:b4b7:d74d with SMTP id jg6-20020a17090326c600b00178b4b7d74dmr13500422plb.83.1668431303960;
-        Mon, 14 Nov 2022 05:08:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7ob3Ev+cayEQvYpWckntbw+lZQjPtkPLBPRk6Vc4NEjns+KhCv3GjW+SN4cqEFsbDBtq/xsg==
-X-Received: by 2002:a17:903:26c6:b0:178:b4b7:d74d with SMTP id jg6-20020a17090326c600b00178b4b7d74dmr13500391plb.83.1668431303643;
-        Mon, 14 Nov 2022 05:08:23 -0800 (PST)
-Received: from [10.72.12.148] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id m1-20020a17090ade0100b0020dc318a43esm6479211pjv.25.2022.11.14.05.08.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 05:08:23 -0800 (PST)
-Subject: Re: [PATCH 2/2 v2] ceph: use a xarray to record all the opened files
- for each inode
-To: kernel test robot <lkp@intel.com>, ceph-devel@vger.kernel.org,
- jlayton@kernel.org, idryomov@gmail.com, viro@zeniv.linux.org.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lhenriques@suse.de,
- mchangir@redhat.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-References: <20221114051901.15371-3-xiubli@redhat.com>
- <202211141614.dhSgZRvB-lkp@intel.com>
-From: Xiubo Li <xiubli@redhat.com>
-Message-ID: <a7243d03-da3a-8df5-1c5c-b4540fb1a91a@redhat.com>
-Date: Mon, 14 Nov 2022 21:08:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FC54C78;
+	Mon, 14 Nov 2022 13:37:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57DDC433C1;
+	Mon, 14 Nov 2022 13:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668433039;
+	bh=QV8WtFPX9sVKGTjiyOjV7TGGN3nbDOd5pAWQ9Z8DwrE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PKhFoA7CP/W+idaCkrO6vSoBMSMPbPIBzAGJA40aX2S5x9PDWqRPcinH43k44SQvA
+	 Xq1L+M8rf2og7kqq5CQo1tCaL5xvJkp6XRq4ofjTQIi+r7WgKFub/yc0lWBBmVEKxT
+	 Ei3HcdCb8gohVmsZ2ixs9JQ78PfyFk18s2q/Qq+DKyg4D4dw/DikDLvYRe4K6Ec+j1
+	 5KJy7CLpEbGCTBSVw1RFz85ua2cYiaZ5BOSEliYWufZBTzOCHKFYeyaZZ0dX+ZcGXT
+	 FhcaXLPheygeS59qK6jnYcxB21RU9kw1SLlNaaiXzLESSUtrzlPkmmuvgMnXoOVzqr
+	 LdIs6KzBpzCxA==
+Date: Mon, 14 Nov 2022 14:37:14 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:brauner/linux/fs.xattr.simple.rework.rbtree
+ 1/1] fs/xattr.c:1118 simple_xattr_get() error: uninitialized symbol 'ret'.
+Message-ID: <20221114133714.sglfhlw7i33avjmt@wittgenstein>
+References: <202211141711.hT8AaeOS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202211141614.dhSgZRvB-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202211141711.hT8AaeOS-lkp@intel.com>
 
-Hi
-
-Thanks for reporting this.
-
-I will fix it in the next version.
-
-- Xiubo
-
-On 14/11/2022 16:54, kernel test robot wrote:
-> Hi,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on ceph-client/testing]
-> [also build test WARNING on ceph-client/for-linus linus/master v6.1-rc5 next-20221111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/xiubli-redhat-com/ceph-fix-the-use-after-free-bug-for-file_lock/20221114-132233
-> base:   https://github.com/ceph/ceph-client.git testing
-> patch link:    https://lore.kernel.org/r/20221114051901.15371-3-xiubli%40redhat.com
-> patch subject: [PATCH 2/2 v2] ceph: use a xarray to record all the opened files for each inode
-> config: hexagon-randconfig-r041-20221114
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 463da45892e2d2a262277b91b96f5f8c05dc25d0)
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/232cc8f1dbeddb308946202a7c67ee4d20451ae7
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review xiubli-redhat-com/ceph-fix-the-use-after-free-bug-for-file_lock/20221114-132233
->          git checkout 232cc8f1dbeddb308946202a7c67ee4d20451ae7
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/ceph/
->
+On Mon, Nov 14, 2022 at 03:50:41PM +0300, Dan Carpenter wrote:
+> tree:   https://github.com/ammarfaizi2/linux-block brauner/linux/fs.xattr.simple.rework.rbtree
+> head:   b1999797db0738e60ae9730fcdd5ec6dd7604cd0
+> commit: b1999797db0738e60ae9730fcdd5ec6dd7604cd0 [1/1] xattr: use rbtree for simple_xattrs
+> config: m68k-randconfig-m041-20221110
+> compiler: m68k-linux-gcc (GCC) 12.1.0
+> 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->     In file included from fs/ceph/locks.c:8:
->     In file included from fs/ceph/super.h:8:
->     In file included from include/linux/backing-dev.h:16:
->     In file included from include/linux/writeback.h:13:
->     In file included from include/linux/blk_types.h:10:
->     In file included from include/linux/bvec.h:10:
->     In file included from include/linux/highmem.h:12:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __raw_readb(PCI_IOBASE + addr);
->                               ~~~~~~~~~~ ^
->     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->                                                       ^
->     In file included from fs/ceph/locks.c:8:
->     In file included from fs/ceph/super.h:8:
->     In file included from include/linux/backing-dev.h:16:
->     In file included from include/linux/writeback.h:13:
->     In file included from include/linux/blk_types.h:10:
->     In file included from include/linux/bvec.h:10:
->     In file included from include/linux/highmem.h:12:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->     #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->                                                       ^
->     In file included from fs/ceph/locks.c:8:
->     In file included from fs/ceph/super.h:8:
->     In file included from include/linux/backing-dev.h:16:
->     In file included from include/linux/writeback.h:13:
->     In file included from include/linux/blk_types.h:10:
->     In file included from include/linux/bvec.h:10:
->     In file included from include/linux/highmem.h:12:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writeb(value, PCI_IOBASE + addr);
->                                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->>> fs/ceph/locks.c:66:6: warning: variable 'fi' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->             if (val == CEPH_FILP_AVAILABLE) {
->                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
->     fs/ceph/locks.c:79:14: note: uninitialized use occurs here
->             atomic_dec(&fi->num_locks);
->                         ^~
->     fs/ceph/locks.c:66:2: note: remove the 'if' if its condition is always true
->             if (val == CEPH_FILP_AVAILABLE) {
->             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     fs/ceph/locks.c:47:27: note: initialize the variable 'fi' to silence this warning
->             struct ceph_file_info *fi;
->                                      ^
->                                       = NULL
->     7 warnings generated.
->
->
-> vim +66 fs/ceph/locks.c
->
->      42	
->      43	static void ceph_fl_release_lock(struct file_lock *fl)
->      44	{
->      45		struct inode *inode = fl->fl_u.ceph_fl.fl_inode;
->      46		struct ceph_inode_info *ci;
->      47		struct ceph_file_info *fi;
->      48		void *val;
->      49	
->      50		/*
->      51		 * If inode is NULL it should be a request file_lock,
->      52		 * nothing we can do.
->      53		 */
->      54		if (!inode)
->      55			return;
->      56	
->      57		ci = ceph_inode(inode);
->      58	
->      59		/*
->      60		 * For Posix-style locks, it may race between filp_close()s,
->      61		 * and it's possible that the 'file' memory pointed by
->      62		 * 'fl->fl_file' has been released. If so just skip it.
->      63		 */
->      64		rcu_read_lock();
->      65		val = xa_load(&ci->i_opened_files, (unsigned long)fl->fl_file);
->    > 66		if (val == CEPH_FILP_AVAILABLE) {
->      67			fi = fl->fl_file->private_data;
->      68			atomic_dec(&fi->num_locks);
->      69		}
->      70		rcu_read_unlock();
->      71	
->      72		if (atomic_dec_and_test(&ci->i_filelock_ref)) {
->      73			/* clear error when all locks are released */
->      74			spin_lock(&ci->i_ceph_lock);
->      75			ci->i_ceph_flags &= ~CEPH_I_ERROR_FILELOCK;
->      76			spin_unlock(&ci->i_ceph_lock);
->      77		}
->      78		iput(inode);
->      79		atomic_dec(&fi->num_locks);
->      80	}
->      81	
->
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
+> smatch warnings:
+> fs/xattr.c:1118 simple_xattr_get() error: uninitialized symbol 'ret'.
+> 
+> vim +/ret +1118 fs/xattr.c
+> 
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1086  int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1087  		     void *buffer, size_t size)
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1088  {
+> b1999797db0738 Christian Brauner 2022-11-04  1089  	struct simple_xattr *xattr = NULL;
+> b1999797db0738 Christian Brauner 2022-11-04  1090  	struct rb_node *rbp;
+> b1999797db0738 Christian Brauner 2022-11-04  1091  	int ret, seq = 0;
+> b1999797db0738 Christian Brauner 2022-11-04  1092  
+> b1999797db0738 Christian Brauner 2022-11-04  1093  	rcu_read_lock();
+> b1999797db0738 Christian Brauner 2022-11-04  1094  	do {
+> b1999797db0738 Christian Brauner 2022-11-04  1095  		read_seqbegin_or_lock(&xattrs->lock, &seq);
+> b1999797db0738 Christian Brauner 2022-11-04  1096  		rbp = rcu_dereference(xattrs->rb_root.rb_node);
+> b1999797db0738 Christian Brauner 2022-11-04  1097  		while (rbp) {
+> b1999797db0738 Christian Brauner 2022-11-04  1098  			xattr = rb_entry(rbp, struct simple_xattr, rb_node);
+> b1999797db0738 Christian Brauner 2022-11-04  1099  			if (strcmp(xattr->name, name) < 0) {
+> b1999797db0738 Christian Brauner 2022-11-04  1100  				rbp = rcu_dereference(rbp->rb_left);
+> b1999797db0738 Christian Brauner 2022-11-04  1101  			} else if (strcmp(xattr->name, name) > 0) {
+> b1999797db0738 Christian Brauner 2022-11-04  1102  				rbp = rcu_dereference(rbp->rb_right);
+> b1999797db0738 Christian Brauner 2022-11-04  1103  			} else {
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1104  				ret = xattr->size;
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1105  				if (buffer) {
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1106  					if (size < xattr->size)
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1107  						ret = -ERANGE;
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1108  					else
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1109  						memcpy(buffer, xattr->value, xattr->size);
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1110  				}
+> 38f38657444d15 Aristeu Rozanski  2012-08-23  1111  				break;
+> 
+> "ret" is only initialized if we find "xattr->name == name".
 
+Hey Dan,
+
+Thanks for the report but fwiw, this version of the patchset hasn't made
+it. We went with what's in -next currently. So that bug should be gone!
+
+Thank you!
+Christian
