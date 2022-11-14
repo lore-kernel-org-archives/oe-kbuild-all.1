@@ -1,75 +1,98 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26DD23A8;
-	Mon, 14 Nov 2022 09:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668417433; x=1699953433;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=OL3EwMwmfvGi3Wdctj7Gosxx5UmerMBDjlJchvC6JcM=;
-  b=M1781oa3bS7Use9GDv3LnSg0c3lY5tKrkSchasXbd2naDKh5byuqOSXH
-   frFeXT6l73EboNVCssuBz7qb+BLuAXGvvL8syI0PU37FaOc1GU8j+Pr0J
-   UoUG3A/3G+maEN1qd0lpnFIQIMJEuGsQ4lqQ7FF/BoXRuLxJlBE2eU+sz
-   NhSUWAdsexnKYJI95xVvKRnBsNePD1lhrmRBMHYjgZL1JU0lb5GQc+nm3
-   d/RMR0/daZbc45mgHMwMYE0B/MhxIddBEx1YsEFVlopQ+GgEuKRd+f1a8
-   9dQVnbl8CAAbnU3oOoETqr3NzpAl1kZIxJrMQ1gsI6LEaDUE4EZzBXyXc
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="309548698"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="309548698"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 01:17:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="967496548"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="967496548"
-Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.254.214.100]) ([10.254.214.100])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 01:17:10 -0800
-Subject: Re: [helgaas-pci:pci/enumeration 3/3] drivers/pci/probe.c:909:6:
- warning: variable 'err' is used uninitialized whenever 'if' condition is true
-To: Bjorn Helgaas <helgaas@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
-References: <20221108130816.GA464595@bhelgaas>
-From: "Chen, Rong A" <rong.a.chen@intel.com>
-Message-ID: <c8c2f0ee-1f67-cdc0-da21-233dc7df4778@intel.com>
-Date: Mon, 14 Nov 2022 17:17:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198B2256D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 09:29:55 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N9kXg61sPzHw3N
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 17:29:23 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 14 Nov 2022 17:29:52 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 14 Nov 2022 17:29:52 +0800
+Subject: Re: [PATCH v7 5/6] doc: Document CONFIG_RCU_CPU_STALL_CPUTIME=y stall
+ information
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+References: <20221111130709.247-6-thunder.leizhen@huawei.com>
+ <202211130627.0qfD08wi-lkp@intel.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <90d7154b-04d7-4423-e07e-8829eb6cd630@huawei.com>
+Date: Mon, 14 Nov 2022 17:29:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20221108130816.GA464595@bhelgaas>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <202211130627.0qfD08wi-lkp@intel.com>
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 
 
 
-On 11/8/2022 9:08 PM, Bjorn Helgaas wrote:
-> Why did the bot tell me the build was *SUCCESSFUL* even though this is
-> clearly a problem?  Here's the "success" message:
+On 2022/11/13 6:52, kernel test robot wrote:
+> Hi Zhen,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on paulmck-rcu/dev]
+> [also build test WARNING on tip/sched/core linus/master v6.1-rc4 next-20221111]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Zhen-Lei/rcu-Add-RCU-stall-diagnosis-information/20221111-211035
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+> patch link:    https://lore.kernel.org/r/20221111130709.247-6-thunder.leizhen%40huawei.com
+> patch subject: [PATCH v7 5/6] doc: Document CONFIG_RCU_CPU_STALL_CPUTIME=y stall information
+> reproduce:
+>         # https://github.com/intel-lab-lkp/linux/commit/062a824ff2c71185d19ff8d39fef18fda82e474f
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Zhen-Lei/rcu-Add-RCU-stall-diagnosis-information/20221111-211035
+>         git checkout 062a824ff2c71185d19ff8d39fef18fda82e474f
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<------------first timeout---------->|<-----second timeout----->".
+>>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<--half timeout-->|<--half timeout-->".
+>>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<--first period-->".
+>>> Documentation/RCU/stallwarn.rst:415: WARNING: Undefined substitution referenced: "<-----------second sampling period---------->".
 
-Hi Bjorn,
-
-Sorry about that, it's an internal bug in our service.
-
-Best Regards,
-Rong Chen
+Well, thanks. Replacing '|' with ":' solves the problem. Fortunately, they look alike.
 
 > 
->    https://lore.kernel.org/all/636a47ad.UocsB2qjv%2FcFWvK2%25lkp@intel.com/
+> vim +415 Documentation/RCU/stallwarn.rst
 > 
-> On Tue, Nov 08, 2022 at 03:21:20PM +0800, kernel test robot wrote:
+>    414	
+>  > 415	The sampling period is shown as follows:
+>    416	|<------------first timeout---------->|<-----second timeout----->|
+>    417	|<--half timeout-->|<--half timeout-->|                          |
+>    418	|                  |<--first period-->|                          |
+>    419	|                  |<-----------second sampling period---------->|
+>    420	|                  |                  |                          |
+>    421	|          sampling time point    1st-stall                  2nd-stall
+>    422	
+>    423	
 > 
->>>> drivers/pci/probe.c:909:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->>             if (bus->domain_nr < 0)
->>                 ^~~~~~~~~~~~~~~~~~
-> 
-> I set "err = -EINVAL" here; let me know if you prefer something
-> different.
-> 
+
+-- 
+Regards,
+  Zhen Lei
