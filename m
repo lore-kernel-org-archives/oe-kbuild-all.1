@@ -1,206 +1,92 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5369579FE;
-	Mon, 14 Nov 2022 18:40:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8583179FD;
+	Mon, 14 Nov 2022 18:50:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668451247; x=1699987247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/Xn7WnUieZKsE6tkeRXIJ6lS41fey54aVMRjiQLTlnA=;
-  b=MX19WojlJtxpQFF8f54p3Jo2Kx/wLlY1EgsgVIPqkPnM3od0sK91XoGX
-   RJnsEW5XRuU4NmpWSKIZ2WaQ8Uewk/PTsz59c9ecyBVlyJOMC0tB3BA34
-   Dre2569dzT1KuBKItcWjfvGC0k3cMgY6uqsDj0p1dFxCEWJDd4Qhdscv6
-   FrvrNkh4Pe3pg4ulIqVX0kNFOxuHF+eNoDGZQ7AQjSIYwGyQVNUHCM++h
-   MBbR2sP/7j7YCX13cyo7vvxz2ufuVm7cXc1QfO6mekggjdWI8UDZQMphk
-   es9vTis0yYRc6LeKcAkzsnj7Z2TEDyqNxyjghuzvz0yXGwfJ8gCL7zvCO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="310758461"
+  t=1668451844; x=1699987844;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/U1fgZ9G12LIpFiqZllfKHDAYCl+CggOTXHk/3DzmZw=;
+  b=Xw/JbX+QUqjIGi3YtPY10FGqa3vrgb5GnOiN8g/4bYFLI95C/WEpimqw
+   wXZfpctfB89xfwlKVQGLi7dW/ZtL5kPG7Q1zunmPluBciuD6FR+S0xuPV
+   x4leG6G32QBkFM3P/mD/50ISxYrlCSDo3r/WuQq/H3QYfUmuqYU1u4lwE
+   zdaqZncmRBnkFg40ox+u9GGBbGBdMAu5VXIYC5BlyEBhcnRcrnC2PCff9
+   TEQ2Jz+almH5D6pKQzwWuIwET5yLL+X589iIlsBEt0I87m49R0uy/HLk2
+   CE2axbNMiC6Ptl96yfe53k3nYjXVz47pG8VuwN3nAr3lsusx69rKDvFGT
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="295414521"
 X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="310758461"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 10:40:46 -0800
+   d="scan'208";a="295414521"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 10:50:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="669771426"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="638605152"
 X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="669771426"
+   d="scan'208";a="638605152"
 Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 14 Nov 2022 10:40:41 -0800
+  by orsmga002.jf.intel.com with ESMTP; 14 Nov 2022 10:50:41 -0800
 Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oueNs-0000fF-27;
-	Mon, 14 Nov 2022 18:40:40 +0000
-Date: Tue, 15 Nov 2022 02:39:47 +0800
+	id 1oueXY-0000fX-2U;
+	Mon, 14 Nov 2022 18:50:40 +0000
+Date: Tue, 15 Nov 2022 02:49:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jakob Koschel <jakobkoschel@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kevin Cernekee <cernekee@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v1 1/4] list: Introduce list_count() to count existing
- nodes
-Message-ID: <202211150257.qERcAoU7-lkp@intel.com>
-References: <20221114112842.38565-1-andriy.shevchenko@linux.intel.com>
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:tglx/devel/devmsi-arm 17/132] ERROR: modpost:
+ "get_cached_msi_msg" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
+Message-ID: <202211150219.p93ilCSd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="PshCeLBe8BQeWMse"
+Content-Type: multipart/mixed; boundary="kSxKTtnqUdwA7l7x"
 Content-Disposition: inline
-In-Reply-To: <20221114112842.38565-1-andriy.shevchenko@linux.intel.com>
 
 
---PshCeLBe8BQeWMse
+--kSxKTtnqUdwA7l7x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Andy,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.1-rc5 next-20221114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/list-Introduce-list_count-to-count-existing-nodes/20221114-193023
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20221114112842.38565-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/4] list: Introduce list_count() to count existing nodes
+tree:   https://github.com/ammarfaizi2/linux-block tglx/devel/devmsi-arm
+head:   ef258fa6ef68c6cddaf645454d259af71a0effa5
+commit: 55b20d539fb14d509565d68827f943bf60df9c51 [17/132] genirq: Get rid of GENERIC_MSI_IRQ_DOMAIN
 config: i386-randconfig-a012-20221114
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/124813c325e31e99580c2aaef85bb3943e55c36e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/list-Introduce-list_count-to-count-existing-nodes/20221114-193023
-        git checkout 124813c325e31e99580c2aaef85bb3943e55c36e
+        # https://github.com/ammarfaizi2/linux-block/commit/55b20d539fb14d509565d68827f943bf60df9c51
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block tglx/devel/devmsi-arm
+        git checkout 55b20d539fb14d509565d68827f943bf60df9c51
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/gpu/drm/i915/gt/intel_engine_cs.c:2007:22: error: expected identifier or '('
-   static unsigned long list_count(struct list_head *list)
-                        ^
-   include/linux/list.h:663:2: note: expanded from macro 'list_count'
-   ({                                      \
-    ^
-   drivers/gpu/drm/i915/gt/intel_engine_cs.c:2007:22: error: expected ')'
-   include/linux/list.h:663:2: note: expanded from macro 'list_count'
-   ({                                      \
-    ^
-   drivers/gpu/drm/i915/gt/intel_engine_cs.c:2007:22: note: to match this '('
-   include/linux/list.h:662:27: note: expanded from macro 'list_count'
-   #define list_count(head)                \
-                                           ^
->> drivers/gpu/drm/i915/gt/intel_engine_cs.c:2193:6: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-                      list_count(&engine->sched_engine->hold));
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:662:27: note: expanded from macro 'list_count'
-   #define list_count(head)                \
-                                           ^
-   1 warning and 2 errors generated.
-
-
-vim +2193 drivers/gpu/drm/i915/gt/intel_engine_cs.c
-
-dc0dad365c5ed8 drivers/gpu/drm/i915/gt/intel_engine_cs.c John Harrison   2021-07-26  2144  
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2145  void intel_engine_dump(struct intel_engine_cs *engine,
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2146  		       struct drm_printer *m,
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2147  		       const char *header, ...)
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2148  {
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2149  	struct i915_gpu_error * const error = &engine->i915->gpu_error;
-0212bdef5a4de3 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-15  2150  	struct i915_request *rq;
-538ef96b9dae7f drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-14  2151  	intel_wakeref_t wakeref;
-cfe7288c276e35 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-07-15  2152  	unsigned long flags;
-4fb33953438bf3 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-19  2153  	ktime_t dummy;
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2154  
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2155  	if (header) {
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2156  		va_list ap;
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2157  
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2158  		va_start(ap, header);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2159  		drm_vprintf(m, header, &ap);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2160  		va_end(ap);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2161  	}
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2162  
-cb823ed9915b0d drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-07-12  2163  	if (intel_gt_is_wedged(engine->gt))
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2164  		drm_printf(m, "*** WEDGED ***\n");
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2165  
-79ffac8599c4d8 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-04-24  2166  	drm_printf(m, "\tAwake? %d\n", atomic_read(&engine->wakeref.count));
-7983990ca94ab6 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-11-28  2167  	drm_printf(m, "\tBarriers?: %s\n",
-01fabda8e3d62e drivers/gpu/drm/i915/gt/intel_engine_cs.c Lucas De Marchi 2022-02-25  2168  		   str_yes_no(!llist_empty(&engine->barrier_tasks)));
-b81e4d9b594188 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-12-19  2169  	drm_printf(m, "\tLatency: %luus\n",
-b81e4d9b594188 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-12-19  2170  		   ewma__engine_latency_read(&engine->latency));
-4fb33953438bf3 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-19  2171  	if (intel_engine_supports_stats(engine))
-4fb33953438bf3 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-19  2172  		drm_printf(m, "\tRuntime: %llums\n",
-4fb33953438bf3 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-19  2173  			   ktime_to_ms(intel_engine_get_busy_time(engine,
-4fb33953438bf3 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-19  2174  								  &dummy)));
-ac4fc5b38d1abc drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-06-05  2175  	drm_printf(m, "\tForcewake: %x domains, %d active\n",
-2c421896adb099 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2021-01-15  2176  		   engine->fw_domain, READ_ONCE(engine->fw_active));
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2177  
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2178  	rcu_read_lock();
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2179  	rq = READ_ONCE(engine->heartbeat.systole);
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2180  	if (rq)
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2181  		drm_printf(m, "\tHeartbeat: %d ms ago\n",
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2182  			   jiffies_to_msecs(jiffies - rq->emitted_jiffies));
-058179e72e0956 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-23  2183  	rcu_read_unlock();
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2184  	drm_printf(m, "\tReset count: %d (global %d)\n",
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2185  		   i915_reset_engine_count(error, engine),
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2186  		   i915_reset_count(error));
-0bda4b80d949d8 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-09-16  2187  	print_properties(engine, m);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2188  
-349a2bc5aae45f drivers/gpu/drm/i915/gt/intel_engine_cs.c Matthew Brost   2021-06-17  2189  	spin_lock_irqsave(&engine->sched_engine->lock, flags);
-dc0dad365c5ed8 drivers/gpu/drm/i915/gt/intel_engine_cs.c John Harrison   2021-07-26  2190  	engine_dump_active_requests(engine, m);
-83c317832eb186 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-06-14  2191  
-349a2bc5aae45f drivers/gpu/drm/i915/gt/intel_engine_cs.c Matthew Brost   2021-06-17  2192  	drm_printf(m, "\tOn hold?: %lu\n",
-349a2bc5aae45f drivers/gpu/drm/i915/gt/intel_engine_cs.c Matthew Brost   2021-06-17 @2193  		   list_count(&engine->sched_engine->hold));
-349a2bc5aae45f drivers/gpu/drm/i915/gt/intel_engine_cs.c Matthew Brost   2021-06-17  2194  	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2195  
-a4eb99a1d61754 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-08-13  2196  	drm_printf(m, "\tMMIO base:  0x%08x\n", engine->mmio_base);
-cd6a851385be87 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-07  2197  	wakeref = intel_runtime_pm_get_if_in_use(engine->uncore->rpm);
-538ef96b9dae7f drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-14  2198  	if (wakeref) {
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2199  		intel_engine_print_registers(engine, m);
-cd6a851385be87 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2019-10-07  2200  		intel_runtime_pm_put(engine->uncore->rpm, wakeref);
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2201  	} else {
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2202  		drm_printf(m, "\tDevice is asleep; skipping register dump\n");
-3ceda3a4a85633 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2018-02-12  2203  	}
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-10-09  2204  
-1f0e785a9cc09b drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson    2020-11-19  2205  	intel_execlists_show_requests(engine, m, i915_request_show, 8);
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-10-09  2206  
-c1bf272857896d drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-12-22  2207  	drm_printf(m, "HWSP:\n");
-0ca88ba0d6347c drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-28  2208  	hexdump(m, engine->status_page.addr, PAGE_SIZE);
-c1bf272857896d drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-12-22  2209  
-01fabda8e3d62e drivers/gpu/drm/i915/gt/intel_engine_cs.c Lucas De Marchi 2022-02-25  2210  	drm_printf(m, "Idle? %s\n", str_yes_no(intel_engine_is_idle(engine)));
-52c0fdb25c7c91 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-29  2211  
-52c0fdb25c7c91 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2019-01-29  2212  	intel_engine_print_breadcrumbs(engine, m);
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-10-09  2213  }
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson    2017-10-09  2214  
+>> ERROR: modpost: "get_cached_msi_msg" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---PshCeLBe8BQeWMse
+--kSxKTtnqUdwA7l7x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 6.1.0-rc3 Kernel Configuration
+# Linux/i386 6.1.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 14.0.6 (git://gitmirror/llvm_project f28c006a5895fc0e329fe15fead81e37457cb1d1)"
 CONFIG_GCC_VERSION=0
@@ -4574,10 +4460,6 @@ CONFIG_USB_ARCH_HAS_HCD=y
 CONFIG_USB_PCI=y
 
 #
-# USB dual-mode controller drivers
-#
-
-#
 # USB port drivers
 #
 
@@ -6447,4 +6329,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---PshCeLBe8BQeWMse--
+--kSxKTtnqUdwA7l7x--
