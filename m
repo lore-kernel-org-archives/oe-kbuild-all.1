@@ -1,124 +1,103 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEF4AD30;
-	Tue, 15 Nov 2022 13:19:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9494B220B5;
-	Tue, 15 Nov 2022 13:19:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1668518345;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1765AD30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 13:24:33 +0000 (UTC)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 85164100011;
+	Tue, 15 Nov 2022 13:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1668518671;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0ujcJIVFIxzxQNIYJWtyhWUQOE5HhxGvASb0AeTKC6U=;
-	b=EaGdTNPTfvcR2HMqehyksdqQhehpnufntR0zz9uKn5w1vv7DRfEJW35XiiRrdUwda1FMbQ
-	GSuxjyGZTrCO6nGnx8np4yfbxrcWyMTfggXJ6+ovo8xfemLIn+Lb4hOrqyzkfOn7KY0M/A
-	My97He7s9Sedo5JWhK9Kv/qIwOjkokI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1668518345;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ujcJIVFIxzxQNIYJWtyhWUQOE5HhxGvASb0AeTKC6U=;
-	b=K6MwSjKnEd5/dwX+tJOrIHwhrL7hleHPBd0N44zyW4SDpyytyEiwSES5SlITmHQRXAejLl
-	MD7UUNxjxAEpigCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6405B13A91;
-	Tue, 15 Nov 2022 13:19:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id J2drF8mRc2PkXgAAMHmgww
-	(envelope-from <dsterba@suse.cz>); Tue, 15 Nov 2022 13:19:05 +0000
-Date: Tue, 15 Nov 2022 14:18:39 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>,
-	linux-btrfs@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW
- data csum  verification
-Message-ID: <20221115131839.GG5824@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu@suse.com>
- <202211150946.Z76SnBqp-lkp@intel.com>
+	bh=f6fcy6AoSokp3bOroUbPnvTVQrydLqn0tIKHwQ1O4Z8=;
+	b=GFNU2XeCv9u6jVUVPf7qJMQXEpFNt3zpy/7wSoIevQYyR6yA5Cf5Z8mtKsAMRIgOX0eyjc
+	rzJiRFpcmliu5MxWSQ96TysGrCPR0IZCmyO3KDyNo0mC7bKHKSrd6BmZmqPhXHfCyOtotE
+	xvyysg+eHE/4uFpd+Q4p3mXDhqyCZ9YfCZwXur/QXU+GhfotFyDe7S+gWjqFfFoV78f+7j
+	QRWatgQiUSulMgISP8f2FE3RqeGdtODDJ5c4vPpsjOJq5nncHDbiWsp+b5cL0+RmopBb5K
+	kagpX6pj4+jit0VFY73QtD/wAzZ/kMrwp5Z2KNjGSO/PQTLgjjmsGj49llddDA==
+Date: Tue, 15 Nov 2022 14:24:25 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Magnus Damm
+ <magnus.damm@gmail.com>, Gareth Williams <gareth.williams.jx@renesas.com>,
+ oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF
+ controller entry
+Message-ID: <20221115142425.34e0a82d@bootlin.com>
+In-Reply-To: <202211152032.SMRBH7dx-lkp@intel.com>
+References: <20221114111513.1436165-8-herve.codina@bootlin.com>
+	<202211152032.SMRBH7dx-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202211150946.Z76SnBqp-lkp@intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 15, 2022 at 09:40:22AM +0300, Dan Carpenter wrote:
-> Hi Qu,
-> 
+Hi All,
+
+On Tue, 15 Nov 2022 20:20:33 +0800
+kernel test robot <lkp@intel.com> wrote:
+
+> Hi Herve,
+>=20
+> I love your patch! Perhaps something to improve:
+>=20
+> [auto build test WARNING on geert-renesas-drivers/renesas-clk]
+> [also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus ge=
+ert-renesas-devel/next linus/master v6.1-rc5 next-20221114]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-raid56-destructive-RMW-fix-for-RAID5-data-profiles/20221114-082910
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-> patch link:    https://lore.kernel.org/r/6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu%40suse.com
-> patch subject: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW data csum  verification
-> config: x86_64-randconfig-m001-20221114
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> 
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/Add-t=
+he-Renesas-USBF-controller-support/20221114-192136
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
+vers.git renesas-clk
+> patch link:    https://lore.kernel.org/r/20221114111513.1436165-8-herve.c=
+odina%40bootlin.com
+> patch subject: [PATCH v2 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF con=
+troller entry
+> reproduce:
+>         # https://github.com/intel-lab-lkp/linux/commit/2d4ab4c37cc32d822=
+86869f7ec4ee5247354db88
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Herve-Codina/Add-the-Renesas-USB=
+F-controller-support/20221114-192136
+>         git checkout 2d4ab4c37cc32d82286869f7ec4ee5247354db88
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONF=
+IG_WARN_ABI_ERRORS
+>         make htmldocs
+>=20
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> New smatch warnings:
-> fs/btrfs/raid56.c:2108 fill_data_csums() error: uninitialized symbol 'ret'.
-> 
-> Old smatch warnings:
-> fs/btrfs/raid56.c:1017 get_rbio_veritical_errors() error: we previously assumed 'faila' could be null (see line 1011)
-> 
-> vim +/ret +2108 fs/btrfs/raid56.c
-> 
-> f24e7de3761574 Qu Wenruo       2022-11-14  2057  static void fill_data_csums(struct btrfs_raid_bio *rbio)
-> f24e7de3761574 Qu Wenruo       2022-11-14  2058  {
-> f24e7de3761574 Qu Wenruo       2022-11-14  2059  	struct btrfs_fs_info *fs_info = rbio->bioc->fs_info;
-> f24e7de3761574 Qu Wenruo       2022-11-14  2060  	struct btrfs_root *csum_root = btrfs_csum_root(fs_info,
-> f24e7de3761574 Qu Wenruo       2022-11-14  2061  						       rbio->bioc->raid_map[0]);
-> f24e7de3761574 Qu Wenruo       2022-11-14  2062  	const u64 start = rbio->bioc->raid_map[0];
-> f24e7de3761574 Qu Wenruo       2022-11-14  2063  	const u32 len = (rbio->nr_data * rbio->stripe_nsectors) <<
-> f24e7de3761574 Qu Wenruo       2022-11-14  2064  			fs_info->sectorsize_bits;
-> f24e7de3761574 Qu Wenruo       2022-11-14  2065  	int ret;
-> f24e7de3761574 Qu Wenruo       2022-11-14  2066  
-> f24e7de3761574 Qu Wenruo       2022-11-14  2067  	/* The rbio should not has its csum buffer initialized. */
-> f24e7de3761574 Qu Wenruo       2022-11-14  2068  	ASSERT(!rbio->csum_buf && !rbio->csum_bitmap);
-> f24e7de3761574 Qu Wenruo       2022-11-14  2069  
-> f24e7de3761574 Qu Wenruo       2022-11-14  2070  	/*
-> f24e7de3761574 Qu Wenruo       2022-11-14  2071  	 * Skip the csum search if:
-> f24e7de3761574 Qu Wenruo       2022-11-14  2072  	 *
-> f24e7de3761574 Qu Wenruo       2022-11-14  2073  	 * - The rbio doesn't belongs to data block groups
-> f24e7de3761574 Qu Wenruo       2022-11-14  2074  	 *   Then we are doing IO for tree blocks, no need to
-> f24e7de3761574 Qu Wenruo       2022-11-14  2075  	 *   search csums.
-> f24e7de3761574 Qu Wenruo       2022-11-14  2076  	 *
-> f24e7de3761574 Qu Wenruo       2022-11-14  2077  	 * - The rbio belongs to mixed block groups
-> f24e7de3761574 Qu Wenruo       2022-11-14  2078  	 *   This is to avoid deadlock, as we're already holding
-> f24e7de3761574 Qu Wenruo       2022-11-14  2079  	 *   the full stripe lock, if we trigger a metadata read, and
-> f24e7de3761574 Qu Wenruo       2022-11-14  2080  	 *   it needs to do raid56 recovery, we will deadlock.
-> f24e7de3761574 Qu Wenruo       2022-11-14  2081  	 */
-> f24e7de3761574 Qu Wenruo       2022-11-14  2082  	if (!(rbio->bioc->map_type & BTRFS_BLOCK_GROUP_DATA) ||
-> f24e7de3761574 Qu Wenruo       2022-11-14  2083  	    rbio->bioc->map_type & BTRFS_BLOCK_GROUP_METADATA)
-> f24e7de3761574 Qu Wenruo       2022-11-14  2084  		return;
-> f24e7de3761574 Qu Wenruo       2022-11-14  2085  
-> f24e7de3761574 Qu Wenruo       2022-11-14  2086  	rbio->csum_buf = kzalloc(rbio->nr_data * rbio->stripe_nsectors *
-> f24e7de3761574 Qu Wenruo       2022-11-14  2087  				 fs_info->csum_size, GFP_NOFS);
-> f24e7de3761574 Qu Wenruo       2022-11-14  2088  	rbio->csum_bitmap = bitmap_zalloc(rbio->nr_data * rbio->stripe_nsectors,
-> f24e7de3761574 Qu Wenruo       2022-11-14  2089  				 GFP_NOFS);
-> f24e7de3761574 Qu Wenruo       2022-11-14  2090  	if (!rbio->csum_buf || !rbio->csum_bitmap)
-> f24e7de3761574 Qu Wenruo       2022-11-14  2091  		goto error;
-> 
-> "ret" uninitialized on this path.
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> >> Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/usb/renesas,usbf.yaml =20
+>=20
 
-Thanks for the report, now initialized to -ENOMEM.
+Oops, I renamed a file and missed the MAINTAINER file update.
+Will be fixed in v3.
+
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
