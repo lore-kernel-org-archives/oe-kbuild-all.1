@@ -1,90 +1,130 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2512F31
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 10:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668507353; x=1700043353;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=4uAJpOIG4I1tmYqd8L8zy9c3xHeHAX640tgSLalwAMM=;
-  b=n1OXw56RvH7SVqxizBv53EWZApb7uQK/PvLvG2GJmx0fnINRCIwvyX52
-   rzxc+mAnNVexJkGpwswwBsSG8fYg292kTLjY2EsjT4pFFfyoqXZOEXHT1
-   x5VShPh7g1OdYHQNEXpyO4YhDzN8ZZukasIdWqMLm0BYr5AyV2KF7aqa9
-   3nf8qrtQ+9LaA7WjYFbGY74XdLCOfz45wluDKxVT6u40mm9N321/Wyla9
-   M+YTIhY+Xt1kyMjood3iTLLUSt6oD9WeJXo0Y3sRTx2WJ/EKIoED1i2Ac
-   7hzXKYJBMgzY/KRn8quIlG8vdqlgvwJvT62SuZPHl8IJMWeoSyvwIMYrL
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="339013438"
-X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="339013438"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 02:15:52 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="727898941"
-X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="727898941"
-Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.254.213.226]) ([10.254.213.226])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 02:15:50 -0800
-Subject: Re: [linux-stable-rc:queue/4.9 28/28] depmod: WARNING: could not open
- modules.builtin.modinfo at
- /tmp/kernel/i386-randconfig-a003-20221114/gcc-7/46a89225a27e8c41414eb8278883f515ba7085c8/lib/modules/4.9.333-00028-g46a89225a27e:
- No such file or directory
-To: Tudor.Ambarus@microchip.com, lkp@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, sashal@kernel.org, vkoul@kernel.org,
- gregkh@linuxfoundation.org
-References: <202211150709.X8q5MX46-lkp@intel.com>
- <1ac54508-3253-66fe-5932-27548c8ba8a2@microchip.com>
-From: "Chen, Rong A" <rong.a.chen@intel.com>
-Message-ID: <f0ed276a-af09-30d0-e0e6-32cccf6d28f2@intel.com>
-Date: Tue, 15 Nov 2022 18:15:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC61D2F31
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 10:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1668507579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NtreQiNOVy68TVeXNZUGAda0K+VxdJ6VamWz3SfN89U=;
+	b=TzB1Ic8yy37mU+UQ9LHtCMgIwwQi7E6M9tY9R+u6UPr0YNkSVlO0ZeOfPUi3kCjaAgB9lr
+	59pjEqgkK1XBSARX+z8i4VzJYvmn/my2vcnXbAPwUIA5LMB5bxY+UeYaF7pr8rGlsUgr1E
+	ySp+d29mjPykREsze2HtxTGDXUOlySY=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-656-mOdCMldPNoWpNo-eLiYZKw-1; Tue, 15 Nov 2022 05:19:38 -0500
+X-MC-Unique: mOdCMldPNoWpNo-eLiYZKw-1
+Received: by mail-qv1-f70.google.com with SMTP id e13-20020ad450cd000000b004bb49d98da4so10242469qvq.9
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 02:19:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NtreQiNOVy68TVeXNZUGAda0K+VxdJ6VamWz3SfN89U=;
+        b=C0OOHDfWzCTeO9/diPIZZz6rjW6Bo5WhlnVsMGH7sxXcJNM39A1+gs2HEp9QB3BNQC
+         089DuW7oPOwHTKwwSm+CLf6XGfaeNdribl7zZrxuUl45LjY849uTGzqqay00b6u6nCKT
+         l1shkxm+AUXF2U8DFxXv81FWhyzHkf+BLdnw3JNw1On3GVg/DMzMh8RUuDZ0bAN9YRu6
+         GWhjQOVacpzM1wI7vX6+JjTUcMFPtbR3qgsc1NyTG3GqpGlIPW/zTu/cWSame++XgU7A
+         ufB3msDvvxv5K5dwEOXQN2kBjUmLkuPYylQ1XGVtYeI8ILWjRc221ljzyYm+YyamHWmV
+         8B0g==
+X-Gm-Message-State: ANoB5pnbLIWOh2MokuBNdIf6M9b1BEfywu/YNmaQmu/TW87k28iFml99
+	QpNtWt3y/GoM5Fqc8XkPW8qWLY1/JzfUFzRwv6MM9Pe2Jus7Aq/xXr8rIt85BYsQ/mGgq/5KfR/
+	gZmVSTYrEjzfuNgJFYXskUAL1Xg==
+X-Received: by 2002:ac8:4a09:0:b0:3a5:40ac:598 with SMTP id x9-20020ac84a09000000b003a540ac0598mr15620477qtq.606.1668507578132;
+        Tue, 15 Nov 2022 02:19:38 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf65iD65CoAUfID3Jadivs1dRIY31oAo1CfR5LfbIXrufLKHTIsKCL0ymECzgrN3BO416MGwUA==
+X-Received: by 2002:ac8:4a09:0:b0:3a5:40ac:598 with SMTP id x9-20020ac84a09000000b003a540ac0598mr15620459qtq.606.1668507577879;
+        Tue, 15 Nov 2022 02:19:37 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-120-203.dyn.eolo.it. [146.241.120.203])
+        by smtp.gmail.com with ESMTPSA id z12-20020ac8454c000000b003a4f435e381sm6941821qtn.18.2022.11.15.02.19.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 02:19:37 -0800 (PST)
+Message-ID: <cf4ba8ec52db5fabf61032a355d2a2b57f9bb0d5.camel@redhat.com>
+Subject: Re: [PATCH net-next 5/7] sctp: add dif and sdif check in asoc and
+ ep lookup
+From: Paolo Abeni <pabeni@redhat.com>
+To: Xin Long <lucien.xin@gmail.com>, kernel test robot <lkp@intel.com>
+Cc: network dev <netdev@vger.kernel.org>, linux-sctp@vger.kernel.org, 
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, davem@davemloft.net, 
+ kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Marcelo Ricardo
+ Leitner <marcelo.leitner@gmail.com>, Neil Horman <nhorman@tuxdriver.com>,
+ David Ahern <dsahern@gmail.com>, Carlo Carraro <colrack@gmail.com>
+Date: Tue, 15 Nov 2022 11:19:34 +0100
+In-Reply-To: <CADvbK_ezonDWaT5fUdc0w5+y91PEaHc8YveV8KGyBC7sH3fWmw@mail.gmail.com>
+References: <86dfdc49613ca8a8a6a3d7c7cf2e7bd8207338f2.1668357542.git.lucien.xin@gmail.com>
+	 <202211140427.Bd5Zjdbe-lkp@intel.com>
+	 <CADvbK_ezonDWaT5fUdc0w5+y91PEaHc8YveV8KGyBC7sH3fWmw@mail.gmail.com>
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1ac54508-3253-66fe-5932-27548c8ba8a2@microchip.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/15/2022 3:05 PM, Tudor.Ambarus@microchip.com wrote:
-> On 11/15/22 01:42, kernel test robot wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.9
->> head:   46a89225a27e8c41414eb8278883f515ba7085c8
->> commit: 46a89225a27e8c41414eb8278883f515ba7085c8 [28/28] dmaengine: at_hdmac: Check return code of dma_async_device_register
->> config: i386-randconfig-a003-20221114
->> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
->> reproduce (this is a W=1 build):
->>          # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=46a89225a27e8c41414eb8278883f515ba7085c8
->>          git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
->>          git fetch --no-tags linux-stable-rc queue/4.9
->>          git checkout 46a89225a27e8c41414eb8278883f515ba7085c8
->>          # save the config file
->>          mkdir build_dir && cp config build_dir/.config
->>          make W=1 O=build_dir ARCH=i386 modules_install
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> depmod: WARNING: could not open modules.builtin.modinfo at /tmp/kernel/i386-randconfig-a003-20221114/gcc-7/46a89225a27e8c41414eb8278883f515ba7085c8/lib/modules/4.9.333-00028-g46a89225a27e: No such file or directory
+On Mon, 2022-11-14 at 21:38 -0500, Xin Long wrote:
+> On Sun, Nov 13, 2022 at 3:15 PM kernel test robot <lkp@intel.com> wrote:
+> > 
+> > Hi Xin,
+> > 
+> > Thank you for the patch! Yet something to improve:
+> > 
+> > [auto build test ERROR on net-next/master]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Long/sctp-support-vrf-processing/20221114-004540
+> > patch link:    https://lore.kernel.org/r/86dfdc49613ca8a8a6a3d7c7cf2e7bd8207338f2.1668357542.git.lucien.xin%40gmail.com
+> > patch subject: [PATCH net-next 5/7] sctp: add dif and sdif check in asoc and ep lookup
+> > config: arm-randconfig-r034-20221114
+> > compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 463da45892e2d2a262277b91b96f5f8c05dc25d0)
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install arm cross compiling tool for clang build
+> >         # apt-get install binutils-arm-linux-gnueabi
+> >         # https://github.com/intel-lab-lkp/linux/commit/6129dc2e382c6e2d3198f6c32cc1f750a15a77ab
+> >         git remote add linux-review https://github.com/intel-lab-lkp/linux
+> >         git fetch --no-tags linux-review Xin-Long/sctp-support-vrf-processing/20221114-004540
+> >         git checkout 6129dc2e382c6e2d3198f6c32cc1f750a15a77ab
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash net/openvswitch/
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    In file included from net/openvswitch/actions.c:26:
+> >    In file included from include/net/sctp/checksum.h:27:
+> > > > include/net/sctp/sctp.h:686:35: error: no member named 'sctp' in 'struct net'
+> >            l3mdev_accept = !!READ_ONCE(net->sctp.l3mdev_accept);
+> >                                        ~~~  ^
+> The build disabled IP_SCTP, while net/sctp/sctp.h is included in other modules.
+> Instead of "net/sctp/sctp.h", "linux/sctp.h" should be included, I
+> will send another patch series to fix them.
 > 
-> The warning does not seem related to the blamed commit.
-> 
+> We do NOT need to change anything in this series.
 
-Hi Tudor,
+'net->sctp' is defined only when CONFIG_SCTP is enabled. AFAICS the new
+helper introduced by this patch is the only function in sctp.h
+accessing 'net->sctp', so prior to this patch including sctp.h with
 
-Sorry for the inconvenience, it's a false positive,
-please ignore this report.
+# CONFIG_SCTP is not set
 
-Best Regards,
-Rong Chen
+was apparently safe, while not it breaks the build.
+
+I think the issue should be addressed here.
+
+Thanks,
+
+Paolo
+
