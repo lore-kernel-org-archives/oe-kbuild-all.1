@@ -1,71 +1,47 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71EB1FC1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 03:40:12 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9C0A25C020F;
-	Mon, 14 Nov 2022 22:40:11 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 14 Nov 2022 22:40:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1668483611; x=1668570011; bh=9P
-	VrHPKYYcYCXrIE3gNrsDWA5311mFLsY2+fOAxWt74=; b=jap4O8bsxOdwVziKSk
-	Xg4v+xdttQQvTus3LhaHf4KBHJPF7+5mMW70hfwMXhVrtOGEfC9dgnLhiinBBpYo
-	foNAhWxded8jDuyWS5sFVcKxnh6Y9jdhA5qojO9+uuF7+uW4I2L63aaMT0fPJVDm
-	rHBKLT4WFm86bTPyIXL5tTWb2eJ3Uiw/w9+SFV8bstGKZ8zUhR+1Nd8+4CacbmBg
-	Jy6GLye3dOi3NnKsh9mzR4R8wcdP3U9vVI0I4hKv95ACaZSvp0cIDFZ8D4dEkIKE
-	ZGsTwWYIxNcvOa1x5qwtFd/oq2BTtmCWL2gzwDdwuT5Ywz9NwjrTKwdzS+Ov4Nr/
-	20hA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1668483611; x=1668570011; bh=9PVrHPKYYcYCXrIE3gNrsDWA5311
-	mFLsY2+fOAxWt74=; b=vK0fJhHpZdINnyoLcZHEemLH59mzDRZvAOhLgiRV+9O5
-	OpKDm3ZWFVOQe4EA+eQgj1JVgl3EE3t3GzQrEsK7u/8M7shGFusRU1X6sGbnKsFS
-	6IvyE0EF0BZbGehvWsRmSC7aPnZYcfOWiDSxkIEQJfSPQC7YwZkL4shwD5YlhBT1
-	GUF9qcu6MnrrG8skIn9ZUooDsyEoDBsJKWvaqfPobSs29VLFuMENKJuEuJj7a2Rs
-	UGaYz05VzksrdJNREFzP9TYddjBiIcC0ib1oiSdkwz/D0MFA5vSFUa1dTXUpXF+E
-	VaVNWobBo1socU4n23EgjweNBy9UEsgRuO+mSy8LZg==
-X-ME-Sender: <xms:GwpzYzwpszokUsCpkUFEBYyDNonlCmltcxsllU8oNI4nq0IWYarByQ>
-    <xme:GwpzY7SSmkgxjEbAJYLYhUqXhA6kfzH4nA34BCJInSTe4hiLRfCzv8kFPaeYdzUnm
-    RabGDvxUf3GAnLyQrk>
-X-ME-Received: <xmr:GwpzY9WG7hZ69EZX2K8jtItx07ZWfwyeHuLsPcjImoYsYcJlT4a1gIs7y5bxrepbJSL5MA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeefgdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
-    lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
-    hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
-    tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:GwpzY9gy8ldFsBNYM5rPe2VET8mDUMJ6EBefdF2M9jiwnFoClFOEcw>
-    <xmx:GwpzY1B6MXdn1b_ehbnqWxR8p_j10Jj3c8G5npBnwlBCbz6eSiTZAQ>
-    <xmx:GwpzY2KQm9ZbPs5dhoAy1-zW3RQA8dnKMktugtgIbN9a9RhuoMJ_lg>
-    <xmx:GwpzY_AxXpB8NuWUJ84EsTXdB3IRyGjMfk9ge8P1jWV2ULHp9ymy7g>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Nov 2022 22:40:10 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 4E503109875; Tue, 15 Nov 2022 06:40:07 +0300 (+03)
-Date: Tue, 15 Nov 2022 06:40:07 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: kernel test robot <lkp@intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [tip:x86/mm 5/16] sound/core/hwdep.c:243:24: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Message-ID: <20221115034007.go64rirsoqazpks7@box.shutemov.name>
-References: <202211150551.T7mpZomP-lkp@intel.com>
- <fdae3de9-db03-b04d-1992-bc8efd053053@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03291FC1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Nov 2022 04:13:29 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id 63so9802885iov.8
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Nov 2022 20:13:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+kzsiWXbAaTfTSEeYq53aj5QUY471/DVxdjgiIyCZYk=;
+        b=cdoc8efmjn+jQ7ARHCXdMytFUSRSDGQ6gBhyVlI3Vj5OgCMM8Knd+8Xn/JsMwmZGsg
+         MtSZ/VA9uWhni0/MWcmGUu1ybkmv2qD59X0WNnJUJtviXQHsYeR73RSAMnCw6nVvlsY6
+         miEq/hvhaQf9zeyEyTaPCZv/+ve0DWMbzoTG0dPdGUYsv0y/eO9pR9ZB2csIWe2Ab5uL
+         Rsia8hXBtnQzgAS64xquBZ69FOtq1cIdrd7mIHCkow7WFz7g6eTrnCaUN6e0dx5jTPAA
+         9ixQXXpBAMHwmVJOfBwDR/0Dhz5uv3haPn3qLxrFdqzVU1kNYmTHhBKPTHV+NSFITzeb
+         Akzw==
+X-Gm-Message-State: ANoB5pkWIsTTr4ynzIupEOvXG2vD2eGYnb2tAIe1DdKTHF4hXnYzgjVz
+	g2UC7TU4RsoztO3ciq9IFG4=
+X-Google-Smtp-Source: AA0mqf6GLmY2F1XnOyE6lkOe8a+C8EF+DY0gL6NgwHrGxPhgOeBj39sinxwn94OMrnYYlkxLpI3u2w==
+X-Received: by 2002:a02:ccf5:0:b0:363:7181:954e with SMTP id l21-20020a02ccf5000000b003637181954emr7170298jaq.40.1668485608767;
+        Mon, 14 Nov 2022 20:13:28 -0800 (PST)
+Received: from fedora ([2607:f598:b99a:be1:dfa7:eed0:45ca:de3c])
+        by smtp.gmail.com with ESMTPSA id f14-20020a02a10e000000b003760a908bfasm2481380jag.169.2022.11.14.20.13.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 20:13:28 -0800 (PST)
+Date: Mon, 14 Nov 2022 20:13:25 -0800
+From: Dennis Zhou <dennis@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Baoquan He <bhe@redhat.com>, kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	42.hyeyoo@gmail.com
+Subject: Re: [linux-next:master 5002/7443]
+ include/linux/compiler_types.h:357:45: error: call to
+ '__compiletime_assert_474' declared with attribute error: BUILD_BUG_ON
+ failed: PERCPU_DYNAMIC_EARLY_SIZE < NR_KMALLOC_TYPES * KMALLOC_SHIFT_HIGH *
+ sizeof(struct kmem_cache_cpu)
+Message-ID: <Y3MR5ZA6DClG/2rC@fedora>
+References: <202211120436.HzD1i2yQ-lkp@intel.com>
+ <Y3Hx8SYyD9y1Q8o/@MiWiFi-R3L-srv>
+ <dda9e5fc-258b-bf67-c90a-f7fb23ab68e3@suse.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,126 +50,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fdae3de9-db03-b04d-1992-bc8efd053053@intel.com>
+In-Reply-To: <dda9e5fc-258b-bf67-c90a-f7fb23ab68e3@suse.cz>
 
-On Mon, Nov 14, 2022 at 02:55:46PM -0800, Dave Hansen wrote:
-> On 11/14/22 13:41, kernel test robot wrote:
-> >    sound/core/hwdep.c:243:24: sparse:     expected int [noderef] __user *__ptr_clean
-> >    sound/core/hwdep.c:243:24: sparse:     got int *
-> >    sound/core/hwdep.c:273:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int [noderef] __user *__ptr_clean @@     got int * @@
-> >    sound/core/hwdep.c:273:29: sparse:     expected int [noderef] __user *__ptr_clean
-> >    sound/core/hwdep.c:273:29: sparse:     got int *
-> >    sound/core/hwdep.c:292:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int [noderef] __user *__ptr_clean @@     got int * @@
-> >    sound/core/hwdep.c:292:29: sparse:     expected int [noderef] __user *__ptr_clean
-> >    sound/core/hwdep.c:292:29: sparse:     got int *
+Hi Vlastimil & Baoquan,
+
+On Mon, Nov 14, 2022 at 06:58:13PM +0100, Vlastimil Babka wrote:
+> On 11/14/22 08:44, Baoquan He wrote:
+> > Hi,
+> > 
+> > I reproduced the build failure according to lkp report and made a patch
+> > as below to fix it.
+> > 
+> > From dae7dd9705015ce36db757e88c78802584f949b1 Mon Sep 17 00:00:00 2001
+> > From: Baoquan He <bhe@redhat.com>
+> > Date: Sun, 13 Nov 2022 18:08:27 +0800
+> > Subject: [PATCH] percpu: adjust the value of PERCPU_DYNAMIC_EARLY_SIZE
+> > Content-type: text/plain
+> > 
+> > LKP reported a build failure as below on the patch "mm/slub, percpu:
+> > correct the calculation of early percpu allocation size"
 > 
-> I think the sparse ends up throwing away all of its annotations once it
-> dereferences a pointer.  So, '*(int __user *)' boils down to a plain
-> 'int'.  Confusingly, a '*(int __user *) *' boils down to an 'int *'.
+> Since I have that patch in slab.git exposed to -next, should I take this fix
+> too, to make things simpler? Dennis?
 > 
-> That's what happened here.  A __user-annotated point got dereferenced
-> down to an 'int' and then turned into a pointer again.
-> 
-> I think the trick in this case is to avoid dereferencing the pointer too
-> early by just moving the dereference outside of the casting, like the
-> attached patch.  But, it also feels kinda wrong.  I'd love a second
-> opinion on this one.
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-> index 0db6f5451854..b8947b623c72 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -39,7 +39,7 @@ static inline bool pagefault_disabled(void);
->  #define untagged_ptr(mm, ptr)	({					\
->  	u64 __ptrval = (__force u64)(ptr);				\
->  	__ptrval = untagged_addr(mm, __ptrval);				\
-> -	(__force __typeof__(*(ptr)) *)__ptrval;				\
-> +	*(__force __typeof__((ptr)) *)__ptrval;				\
 
-It casts __ptrval to pointer to pointer and then dereferences it, so it
-gives a new value on the output. It breaks boot for me.
+I don't have any problems with you running a fix, but I'm not quite sure
+this is the right fix. Though this might cause a trivial merge conflict
+with: d667c94962c1 ("mm/percpu: remove unused PERCPU_DYNAMIC_EARLY_SLOTS")
+in my percpu#for-6.2 branch.
 
-We can drop all '*' here and get:
+If I'm understanding this correctly, slub requires additional percpu
+memory due to the use of 64k pages. By increasing
+PERCPU_DYNAMIC_EARLY_SIZE, we solve the problem for 64k page users, but
+require a few unnecessary pages that can bloat the size of subsequent
+percpu chunks. Though, I'm not sure if that's an issue today for
+embedded devices.
 
-	(__force __typeof__(ptr))__ptrval;				\
+I think adding parity to PERCPU_DYNAMIC_EARLY_SIZE with
+PERCPU_DYNAMIC_RESERVE is defined by BITS_PER_LONG is a safer option
+here. A small TODO item would be to make PERCPU_DYNAMIC_RESERVE be a +
+value instead of a max() with PERCPU_DYNAMIC_EARLY_SIZE.
 
-It helps with sparse and streamlines the code. But it uncovers error in
-sg_scsi_ioctl():
+Thanks,
+Dennis
 
-	error: cast specifies array type
-
-The line that triggers the error is:
-
-	if (get_user(opcode, sic->data))
-
-'sic->data' is an array. And it breaks get_user() contract:
-
- * @ptr must have pointer-to-simple-variable type, and the result of
- * dereferencing @ptr must be assignable to @x without a cast.
-
-Array is not pointer-to-simple-variable type. Let's cast it explicitly to
-(char __user *). It should match the current behaviour. But double check
-would be nice.
-
-With sg_scsi_ioctl() fixed, it builds and boots fine for me.
-
-I also looked again at get_user() and put_user() and I think we can
-simplify them. The variable just adds noise.
-
-The change below helps with the sparse complains. I didn't checked all of
-them, but what check looks good.
-
-If it looks okay, I will prepare 3 patches: scsi fix, sparse fix,
-get/put_user() cleanup.
-
-diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-index 1d2c79246681..bd92e1ee1c1a 100644
---- a/arch/x86/include/asm/uaccess.h
-+++ b/arch/x86/include/asm/uaccess.h
-@@ -43,7 +43,7 @@ DECLARE_STATIC_KEY_FALSE(tagged_addr_key);
- #define untagged_ptr(mm, ptr)	({					\
- 	u64 __ptrval = (__force u64)(ptr);				\
- 	__ptrval = untagged_addr(mm, __ptrval);				\
--	(__force __typeof__(*(ptr)) *)__ptrval;				\
-+	(__force __typeof__(ptr))__ptrval;				\
- })
- #else
- #define untagged_addr(mm, addr)	(addr)
-@@ -158,10 +158,8 @@ extern int __get_user_bad(void);
+---
+diff --git a/include/linux/percpu.h b/include/linux/percpu.h
+index f1ec5ad1351c..22ce3271eed2 100644
+--- a/include/linux/percpu.h
++++ b/include/linux/percpu.h
+@@ -42,7 +42,11 @@
+  * larger than PERCPU_DYNAMIC_EARLY_SIZE.
   */
- #define get_user(x,ptr)							\
- ({									\
--	__typeof__(*(ptr)) __user *__ptr_clean;				\
--	__ptr_clean = untagged_ptr(current->mm, ptr);			\
- 	might_fault();							\
--	do_get_user_call(get_user,x,__ptr_clean);			\
-+	do_get_user_call(get_user,x,untagged_ptr(current->mm, ptr));	\
- })
+ #define PERCPU_DYNAMIC_EARLY_SLOTS	128
++#if BITS_PER_LONG > 32
++#define PERCPU_DYNAMIC_EARLY_SIZE	(20 << 10)
++#else
+ #define PERCPU_DYNAMIC_EARLY_SIZE	(12 << 10)
++#endif
  
- /**
-@@ -263,10 +261,8 @@ extern void __put_user_nocheck_8(void);
-  * Return: zero on success, or -EFAULT on error.
-  */
- #define put_user(x, ptr) ({						\
--	__typeof__(*(ptr)) __user *__ptr_clean;				\
--	__ptr_clean = untagged_ptr(current->mm, ptr);			\
- 	might_fault();							\
--	do_put_user_call(put_user,x,__ptr_clean);			\
-+	do_put_user_call(put_user,x,untagged_ptr(current->mm, ptr));	\
- })
- 
- /**
-diff --git a/drivers/scsi/scsi_ioctl.c b/drivers/scsi/scsi_ioctl.c
-index 2d20da55fb64..c285502f5993 100644
---- a/drivers/scsi/scsi_ioctl.c
-+++ b/drivers/scsi/scsi_ioctl.c
-@@ -519,7 +519,7 @@ static int sg_scsi_ioctl(struct request_queue *q, fmode_t mode,
- 		return -EFAULT;
- 	if (in_len > PAGE_SIZE || out_len > PAGE_SIZE)
- 		return -EINVAL;
--	if (get_user(opcode, sic->data))
-+	if (get_user(opcode, (char __user *)sic->data))
- 		return -EFAULT;
- 
- 	bytes = max(in_len, out_len);
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+ /*
+  * PERCPU_DYNAMIC_RESERVE indicates the amount of free area to piggy
