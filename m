@@ -1,33 +1,33 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0452D7C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1406915B9
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Nov 2022 00:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1668559445; x=1700095445;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3bqLkNfBeyVu6ZozHb3GDCMkCiQN1T0vQC8Er0Ni6co=;
-  b=UVB3p91GPs8YCsGoxbsAkHgaQkzozpL0I81KjQf+mJKdswGPsYi2vQ0a
-   9AhQ/ND1nT3+yNcxAofS+BNweMX2lZ7ITf65xYE7LZDkV3NOrTZhjf2CJ
-   Frak6Lz1LIVRLWn+wDMgr5DNtdzcdOceiKsp/UAYmODs681noZCRp1xKP
-   Q7stNp6rkENvZdpyRGJ3UyhL7Byi8/a6ExlItVA0zm0c9ZwO8sz5EMWZa
-   g1UFaOXkRwjYewORMSAaK6p8fGiDL7fux+8baUSRlGW6IZIEuRANhvT43
-   UFMQWiOuN2K6FdST+1uth+Q399J/zxREFl4llrdjUpw3uE+i4mEp6SJag
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="311116307"
+  bh=IhFBAznLG1DY+6oqG9WaOOSep20Baj1si3bnp+y4wkA=;
+  b=WGzt4t8oEe5VRtFUZSR9YTHmXHXLsYKP2c8+bU7oFvYlMauG+nxZmu9L
+   tH2CnGuEz3Gx24ZjqyGwvCZzgtHNo7WtSQV+/jox/Zoeu3qp+blZOPNB7
+   kEwW3NQJ9IJ+DyHVEexlsgWsXlzdu+aanSNcnHfc6t0v8F0NWg2zyAILo
+   xKVxQ/iYDwC3S7l7FomA1xRVW/DR3x5F3lhD7vGJGSQawOD8AX9XEZag/
+   uMNpO27m6Na2Cp+ARsgCOHLr5hc3fDsKYNTAS7hXdnMEhtGTqptTuLnsQ
+   h7gK0r6xmGBheHHOoRVqgGOLK+/1yF1X7xKGFyrT3s1jKRof06nobx1SZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="339217788"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="311116307"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="968210386"
+   d="scan'208";a="339217788"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="707941468"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="968210386"
+   d="scan'208";a="707941468"
 Received: from nrobin-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.249.45.56])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:01 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:01 -0800
 Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 125161042A8; Wed, 16 Nov 2022 03:43:59 +0300 (+03)
+	id 19A4110443E; Wed, 16 Nov 2022 03:43:59 +0300 (+03)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: kirill@shutemov.name
 Cc: dave.hansen@intel.com,
@@ -39,12 +39,13 @@ Cc: dave.hansen@intel.com,
 	martin.petersen@oracle.com,
 	oe-kbuild-all@lists.linux.dev,
 	x86@kernel.org
-Subject: [PATCH 0/2] x86/mm: Fix sparse warning due to LAM patchset
-Date: Wed, 16 Nov 2022 03:43:51 +0300
-Message-Id: <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
+Subject: [PATCH 1/2] scsi: Fix get_user() in call sg_scsi_ioctl()
+Date: Wed, 16 Nov 2022 03:43:52 +0300
+Message-Id: <20221116004353.15052-2-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221115155802.p3vjnk7eqqcyskt3@box.shutemov.name>
+In-Reply-To: <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
 References: <20221115155802.p3vjnk7eqqcyskt3@box.shutemov.name>
+ <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,18 +54,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-LKP reported new warnings due to LAM patchset.
+get_user() expects the pointer to be pointer-to-simple-variable type,
+but sic->data is array of 'unsigned char'. It violates get_user()
+contracts.
 
-Fix them.
+Cast it explicitly to 'unsigned char __user *'. It matches current
+behaviour.
 
-Kirill A. Shutemov (2):
-  scsi: Fix get_user() in call sg_scsi_ioctl()
-  x86/mm: Fix sparse warnings in untagged_ptr()
+This is preparation for fixing sparse warnings caused by Linear Address
+Masking patchset.
 
- arch/x86/include/asm/uaccess.h | 10 +++-------
- drivers/scsi/scsi_ioctl.c      |  2 +-
- 2 files changed, 4 insertions(+), 8 deletions(-)
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+---
+ drivers/scsi/scsi_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/scsi/scsi_ioctl.c b/drivers/scsi/scsi_ioctl.c
+index 2d20da55fb64..72b3ab5137b8 100644
+--- a/drivers/scsi/scsi_ioctl.c
++++ b/drivers/scsi/scsi_ioctl.c
+@@ -519,7 +519,7 @@ static int sg_scsi_ioctl(struct request_queue *q, fmode_t mode,
+ 		return -EFAULT;
+ 	if (in_len > PAGE_SIZE || out_len > PAGE_SIZE)
+ 		return -EINVAL;
+-	if (get_user(opcode, sic->data))
++	if (get_user(opcode, (unsigned char __user *)sic->data))
+ 		return -EFAULT;
+ 
+ 	bytes = max(in_len, out_len);
 -- 
 2.38.0
 
