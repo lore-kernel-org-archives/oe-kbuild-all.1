@@ -1,111 +1,66 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CD27C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Nov 2022 00:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591187C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Nov 2022 00:48:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668559446; x=1700095446;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Tx19St9qzi0HfKCU80s71CDjOvtppRUy1zquC1kpDYM=;
-  b=T+N9BQJWY0QFUkvMlhtOg5pF/MqciLw0MB+OmD254Ch+6gbAv7z+d+Az
-   isWrsPyyLAMnQ0RB+28CBX61d+YlJxEV1ER3YKP2Xc1H592V39RzGlLb+
-   scYWVYMNNBtVqSG9N+SnbNo/US2quFHbBRE+KerBT320f4cSRl64MSuD1
-   qiAvlfgOhfQG0y249uaM3niQBKSyE6srMPB9U/hSrebeYgbpmHkMuSJ2I
-   azCracNULhYBekXPSbyAT9GtXGUd+cJQkpvMII3fOVLl1YQgD7T7GQoIo
-   yWSU5lIB4G3yRrMFKUrK9pZvY4wKrNwnsupn8HX9oMYki4csWnMmk6gF5
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="311116304"
+  t=1668559722; x=1700095722;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jdxemFICCUVRqw21+/QhmStA6qNIYVoMBN+x0XTl/Cw=;
+  b=m/dAd3a6GZPQPFalJVoH7g5Py2jC7/dg5zj+F88if3NQz0yiQuhnc9Gd
+   ke1rXK+D99q9xGREnKZwf9yGVGLH0e0ixFulZUifWHlqN4vw6ryKnNSEP
+   MNVJrd8tWPGIOw/vn36J8gZPg0rl/zB0VHVt/J41S1zPetua2e0HDtTVK
+   XyNKNYRZGT3w4Yk4KKI81OwjCsmLsO/eEqWXuP+fD1VZUl7MlyEe08jz5
+   xi580dKddLJ8QysWgJfpz8JPLtCksEBliFQAgHz3zHvNBZIoHTh2/FuKU
+   hD9F2NliotnfEVXux4ocr3SG+n9ZIUPd5AvVU7N1SXYKV95iXaWM6uUua
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="339218777"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="311116304"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="968210385"
+   d="scan'208";a="339218777"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:48:41 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="884177755"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="968210385"
-Received: from nrobin-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.249.45.56])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:01 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 23AB810446E; Wed, 16 Nov 2022 03:43:59 +0300 (+03)
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: kirill@shutemov.name
-Cc: dave.hansen@intel.com,
-	dave.hansen@linux.intel.com,
-	jejb@linux.ibm.com,
-	kirill.shutemov@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	martin.petersen@oracle.com,
-	oe-kbuild-all@lists.linux.dev,
-	x86@kernel.org
-Subject: [PATCH 2/2] x86/mm: Fix sparse warnings in untagged_ptr()
-Date: Wed, 16 Nov 2022 03:43:53 +0300
-Message-Id: <20221116004353.15052-3-kirill.shutemov@linux.intel.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
-References: <20221115155802.p3vjnk7eqqcyskt3@box.shutemov.name>
- <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
+   d="scan'208";a="884177755"
+Received: from dn-intelpc-071822.amr.corp.intel.com (HELO [10.212.229.216]) ([10.212.229.216])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:48:40 -0800
+Message-ID: <9c96f82e-000b-88f8-fa37-753ed6723119@intel.com>
+Date: Tue, 15 Nov 2022 16:48:40 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/2] scsi: Fix get_user() in call sg_scsi_ioctl()
+Content-Language: en-US
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ kirill@shutemov.name
+Cc: dave.hansen@linux.intel.com, jejb@linux.ibm.com,
+ linux-kernel@vger.kernel.org, lkp@intel.com, martin.petersen@oracle.com,
+ oe-kbuild-all@lists.linux.dev, x86@kernel.org
+References: <20221115155802.p3vjnk7eqqcyskt3@box.shutemov.name>
+ <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
+ <20221116004353.15052-2-kirill.shutemov@linux.intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <20221116004353.15052-2-kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Linear Address Masking patchset triggered a lot of sparse warnings.
+On 11/15/22 16:43, Kirill A. Shutemov wrote:
+> get_user() expects the pointer to be pointer-to-simple-variable type,
+> but sic->data is array of 'unsigned char'. It violates get_user()
+> contracts.
+> 
+> Cast it explicitly to 'unsigned char __user *'. It matches current
+> behaviour.
+> 
+> This is preparation for fixing sparse warnings caused by Linear Address
+> Masking patchset.
 
-The root cause is that casting pointer to '__typeof__(*(ptr)) *' will
-strip all sparse tags. The type has to be defined based on the pointer
-type, not based on what the pointer points to.
-
-Fix cast in untagged_ptr() and avoid __typeof__() usage in
-get/put_user().
-
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- arch/x86/include/asm/uaccess.h | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-index 1d2c79246681..bd92e1ee1c1a 100644
---- a/arch/x86/include/asm/uaccess.h
-+++ b/arch/x86/include/asm/uaccess.h
-@@ -43,7 +43,7 @@ DECLARE_STATIC_KEY_FALSE(tagged_addr_key);
- #define untagged_ptr(mm, ptr)	({					\
- 	u64 __ptrval = (__force u64)(ptr);				\
- 	__ptrval = untagged_addr(mm, __ptrval);				\
--	(__force __typeof__(*(ptr)) *)__ptrval;				\
-+	(__force __typeof__(ptr))__ptrval;				\
- })
- #else
- #define untagged_addr(mm, addr)	(addr)
-@@ -158,10 +158,8 @@ extern int __get_user_bad(void);
-  */
- #define get_user(x,ptr)							\
- ({									\
--	__typeof__(*(ptr)) __user *__ptr_clean;				\
--	__ptr_clean = untagged_ptr(current->mm, ptr);			\
- 	might_fault();							\
--	do_get_user_call(get_user,x,__ptr_clean);			\
-+	do_get_user_call(get_user,x,untagged_ptr(current->mm, ptr));	\
- })
- 
- /**
-@@ -263,10 +261,8 @@ extern void __put_user_nocheck_8(void);
-  * Return: zero on success, or -EFAULT on error.
-  */
- #define put_user(x, ptr) ({						\
--	__typeof__(*(ptr)) __user *__ptr_clean;				\
--	__ptr_clean = untagged_ptr(current->mm, ptr);			\
- 	might_fault();							\
--	do_put_user_call(put_user,x,__ptr_clean);			\
-+	do_put_user_call(put_user,x,untagged_ptr(current->mm, ptr));	\
- })
- 
- /**
--- 
-2.38.0
-
+What's the side-effect if this isn't applied?  Is it worse than sparse
+warnings?
