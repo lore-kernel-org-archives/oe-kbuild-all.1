@@ -1,33 +1,33 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1406915B9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Nov 2022 00:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CD27C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Nov 2022 00:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668559445; x=1700095445;
+  t=1668559446; x=1700095446;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=IhFBAznLG1DY+6oqG9WaOOSep20Baj1si3bnp+y4wkA=;
-  b=WGzt4t8oEe5VRtFUZSR9YTHmXHXLsYKP2c8+bU7oFvYlMauG+nxZmu9L
-   tH2CnGuEz3Gx24ZjqyGwvCZzgtHNo7WtSQV+/jox/Zoeu3qp+blZOPNB7
-   kEwW3NQJ9IJ+DyHVEexlsgWsXlzdu+aanSNcnHfc6t0v8F0NWg2zyAILo
-   xKVxQ/iYDwC3S7l7FomA1xRVW/DR3x5F3lhD7vGJGSQawOD8AX9XEZag/
-   uMNpO27m6Na2Cp+ARsgCOHLr5hc3fDsKYNTAS7hXdnMEhtGTqptTuLnsQ
-   h7gK0r6xmGBheHHOoRVqgGOLK+/1yF1X7xKGFyrT3s1jKRof06nobx1SZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="339217788"
+  bh=Tx19St9qzi0HfKCU80s71CDjOvtppRUy1zquC1kpDYM=;
+  b=T+N9BQJWY0QFUkvMlhtOg5pF/MqciLw0MB+OmD254Ch+6gbAv7z+d+Az
+   isWrsPyyLAMnQ0RB+28CBX61d+YlJxEV1ER3YKP2Xc1H592V39RzGlLb+
+   scYWVYMNNBtVqSG9N+SnbNo/US2quFHbBRE+KerBT320f4cSRl64MSuD1
+   qiAvlfgOhfQG0y249uaM3niQBKSyE6srMPB9U/hSrebeYgbpmHkMuSJ2I
+   azCracNULhYBekXPSbyAT9GtXGUd+cJQkpvMII3fOVLl1YQgD7T7GQoIo
+   yWSU5lIB4G3yRrMFKUrK9pZvY4wKrNwnsupn8HX9oMYki4csWnMmk6gF5
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="311116304"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="339217788"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="707941468"
+   d="scan'208";a="311116304"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="968210385"
 X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="707941468"
+   d="scan'208";a="968210385"
 Received: from nrobin-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.249.45.56])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:01 -0800
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 16:44:01 -0800
 Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 19A4110443E; Wed, 16 Nov 2022 03:43:59 +0300 (+03)
+	id 23AB810446E; Wed, 16 Nov 2022 03:43:59 +0300 (+03)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: kirill@shutemov.name
 Cc: dave.hansen@intel.com,
@@ -39,9 +39,9 @@ Cc: dave.hansen@intel.com,
 	martin.petersen@oracle.com,
 	oe-kbuild-all@lists.linux.dev,
 	x86@kernel.org
-Subject: [PATCH 1/2] scsi: Fix get_user() in call sg_scsi_ioctl()
-Date: Wed, 16 Nov 2022 03:43:52 +0300
-Message-Id: <20221116004353.15052-2-kirill.shutemov@linux.intel.com>
+Subject: [PATCH 2/2] x86/mm: Fix sparse warnings in untagged_ptr()
+Date: Wed, 16 Nov 2022 03:43:53 +0300
+Message-Id: <20221116004353.15052-3-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221116004353.15052-1-kirill.shutemov@linux.intel.com>
 References: <20221115155802.p3vjnk7eqqcyskt3@box.shutemov.name>
@@ -54,36 +54,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-get_user() expects the pointer to be pointer-to-simple-variable type,
-but sic->data is array of 'unsigned char'. It violates get_user()
-contracts.
+Linear Address Masking patchset triggered a lot of sparse warnings.
 
-Cast it explicitly to 'unsigned char __user *'. It matches current
-behaviour.
+The root cause is that casting pointer to '__typeof__(*(ptr)) *' will
+strip all sparse tags. The type has to be defined based on the pointer
+type, not based on what the pointer points to.
 
-This is preparation for fixing sparse warnings caused by Linear Address
-Masking patchset.
+Fix cast in untagged_ptr() and avoid __typeof__() usage in
+get/put_user().
 
 Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/scsi/scsi_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/include/asm/uaccess.h | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/scsi/scsi_ioctl.c b/drivers/scsi/scsi_ioctl.c
-index 2d20da55fb64..72b3ab5137b8 100644
---- a/drivers/scsi/scsi_ioctl.c
-+++ b/drivers/scsi/scsi_ioctl.c
-@@ -519,7 +519,7 @@ static int sg_scsi_ioctl(struct request_queue *q, fmode_t mode,
- 		return -EFAULT;
- 	if (in_len > PAGE_SIZE || out_len > PAGE_SIZE)
- 		return -EINVAL;
--	if (get_user(opcode, sic->data))
-+	if (get_user(opcode, (unsigned char __user *)sic->data))
- 		return -EFAULT;
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index 1d2c79246681..bd92e1ee1c1a 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -43,7 +43,7 @@ DECLARE_STATIC_KEY_FALSE(tagged_addr_key);
+ #define untagged_ptr(mm, ptr)	({					\
+ 	u64 __ptrval = (__force u64)(ptr);				\
+ 	__ptrval = untagged_addr(mm, __ptrval);				\
+-	(__force __typeof__(*(ptr)) *)__ptrval;				\
++	(__force __typeof__(ptr))__ptrval;				\
+ })
+ #else
+ #define untagged_addr(mm, addr)	(addr)
+@@ -158,10 +158,8 @@ extern int __get_user_bad(void);
+  */
+ #define get_user(x,ptr)							\
+ ({									\
+-	__typeof__(*(ptr)) __user *__ptr_clean;				\
+-	__ptr_clean = untagged_ptr(current->mm, ptr);			\
+ 	might_fault();							\
+-	do_get_user_call(get_user,x,__ptr_clean);			\
++	do_get_user_call(get_user,x,untagged_ptr(current->mm, ptr));	\
+ })
  
- 	bytes = max(in_len, out_len);
+ /**
+@@ -263,10 +261,8 @@ extern void __put_user_nocheck_8(void);
+  * Return: zero on success, or -EFAULT on error.
+  */
+ #define put_user(x, ptr) ({						\
+-	__typeof__(*(ptr)) __user *__ptr_clean;				\
+-	__ptr_clean = untagged_ptr(current->mm, ptr);			\
+ 	might_fault();							\
+-	do_put_user_call(put_user,x,__ptr_clean);			\
++	do_put_user_call(put_user,x,untagged_ptr(current->mm, ptr));	\
+ })
+ 
+ /**
 -- 
 2.38.0
 
