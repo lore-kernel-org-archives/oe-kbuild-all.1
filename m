@@ -1,188 +1,144 @@
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF5E259D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Nov 2022 08:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1668760365; x=1700296365;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=WJOKAj6aQrJ5wexvY9Yq9SWqfZivQFp69GIPWhPus9g=;
-  b=nYyfP0Vq4H+rRatS4PqXUW4buVpyZ410XG7ajFfViGRNenyB62bSbLqF
-   DbWpzHsRvaYtlybH4nbS07nBt/SFwIIrJzVfSpIaO7egIX5cmD/33Czzj
-   cr+5zzZlBuDrOGNQJTZcsXKNPb4w58JMiB7xTI1VroEvXfU9c0nXNE0uO
-   ztieub9divErQuiKbUOt8mcjqHx+FtvaxeqFekQtlRJUhbz0Ft/UDvgRN
-   yu2zlC1/PrXmOOBU3oQlOsb5g/wQtUJ3KJHKFRdv2QJOU5BJutACvAeQM
-   k8rhOje/LH/NwQL/j6mIS4KvvxzdyAegA5+KWGgoTa5QBes1fa48URUKK
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,173,1665417600"; 
-   d="scan'208";a="320937486"
-Received: from mail-mw2nam12lp2040.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.40])
-  by ob1.hgst.iphmx.com with ESMTP; 18 Nov 2022 16:31:30 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZlRR6I0zClEBkSKFb4kW6hAF101EWFCJKeALG6FYQ+3KVYydyLexP1zUiOOzDL+Ri5CbeHXqQ6eEOpuRK0/ShSG4UTJhNio57nty/ArPG75p5CwE5UzuogAhuEApiGuiyUGOPth2YOQ/H0E+mCk4XbGCfQbt8fUndXAYyYiWVTSo6IFnlmwAR9hE44nZc1NPWmmOA62UVDxM5C/DkNtqvZBl1Xj5SUBGHYrKYSxGN/puPL9mCLmxW0o5DjvqYK0xZAMVKpdKZtSs4tVMlhegzb2H0/DhklgSOWfzagM3CCnNQrfrLrlIZeC3+p3Qr3UNLiIRnR7GKKMWHhX32SibjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WJOKAj6aQrJ5wexvY9Yq9SWqfZivQFp69GIPWhPus9g=;
- b=Kllx1bQChil21dfPdxVSwq//4BeMjpz1uIJTXrUNaELGRzVPvYwumBPBp1fplmcm5giap54xQRZhMhpF/Ts7yr4GsEMSYVaBsxF3JwgZqKHlZgVXokp/6ysTGawbEbQTAyG9p04iCIS2ZYkoK34Ao7XEAavSLFB6buKNyil3T8PeV525vSJ7PPJXuEfr/x9AV3A9O2KX5c+KdZOG0jx0lFfxra4brRKKI8STHv50wKtETOpIUfw1BfO1ibPv81/MqOhICxA9NRE/Pno9Mg1BU4Ul3z3yO/E3knisTaSDldJX4RnqG3HyIGsmBp80B+ZrTXC4ZGb5cSNTQ+Pgg5q0Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E84128E3;
+	Fri, 18 Nov 2022 08:49:38 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w14so8201289wru.8;
+        Fri, 18 Nov 2022 00:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WJOKAj6aQrJ5wexvY9Yq9SWqfZivQFp69GIPWhPus9g=;
- b=HODbnfxO0JGqJ0AqS6z2fZDBVXaN6/aMcDAlDmOCq1RelDEBAYV/9vq345K7Lbt2MjIrj23DtIus86MuAsAIpVDHFEVj5svUvUfKPAybMr42kxcA50T7O2eJo1ldpZhqkg5GzL9O9hB/Qz+Q7i1S6zITkVYP2XY6biYWlVYutnc=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
- by MW4PR04MB7425.namprd04.prod.outlook.com (2603:10b6:303:78::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.20; Fri, 18 Nov
- 2022 08:31:26 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::f4cd:7c80:5642:bf1a]) by PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::f4cd:7c80:5642:bf1a%7]) with mapi id 15.20.5813.019; Fri, 18 Nov 2022
- 08:31:26 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: kernel test robot <lkp@intel.com>, "Martin K . Petersen"
-	<martin.petersen@oracle.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, Damien Le Moal
-	<Damien.LeMoal@opensource.wdc.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v2] scsi: sd_zbc: trace zone append emulation
-Thread-Topic: [PATCH v2] scsi: sd_zbc: trace zone append emulation
-Thread-Index: AQHY+CDXCOC0I4eZpUuWZjylU2pizK4/dVyAgATqrIA=
-Date: Fri, 18 Nov 2022 08:31:26 +0000
-Message-ID: <7c758dc6-692c-3aeb-a0de-05e4134f839f@wdc.com>
-References:
- <6a21e78a188e5a0d630acd771afee11c7d45d183.1668427228.git.johannes.thumshirn@wdc.com>
- <202211151344.VGP4HoGU-lkp@intel.com>
-In-Reply-To: <202211151344.VGP4HoGU-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR04MB7416:EE_|MW4PR04MB7425:EE_
-x-ms-office365-filtering-correlation-id: 409520f7-7c8c-47de-a19f-08dac93f4863
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- U6Q+W+l7SqW1t5MsvwxmjcUerdHmPspOiZNdUNycvXve9kHEHMSFhgkqF5MQpp1y9elg1snUOthvPaSSotTernCkdgM9v65Zrm6S1sK8/lbcjTr2P8TgnMe2i9AuYHW7C52ZErOR1bxqMT/H3eXs9RS4RZgusAVVR0/rwvRmilrR/SC3rGutOzHuKAfT3XTyFYMCO/8PslEG2STvr7/HLX/YrY1psP0o9OdJdE8MvPBlKMrxS4n9QMC4Jta0e/HrIQ15biwWQdF1SNlzCtZZrmKmo8gX2r7AHS4oJu9d469EFk7msJmsQHpXDUi7tPV94HoGAlDMQfiXlOPt71O7eMKqC8edoA+K7VLf7coKWlMn2hREn1GkK6f/4recQCz6lVHgo9xynAjv6CcBNRWYzH8eW2qTjdOkGhd6VYIVrC+D/UG12K/2iM6dG7a8d6rDHId0HGj3Nl5GrAgVUWQusVAlZxxwDyGonIo196n2rCARLsuLM5yYMqUf6hMrH2nlofD6TlH9GG/EaMvoMePB3Erw8Oxz9BWkXjDyxeULnFm1stTA2uzyoF0NVwNO+POvbZP4z1oyHhqlenJ37SgkWR1+OHwfAGRPsqSGMeF02veH2a3BO90idWQ/1nVmZqK6o+8Wem9+aObVnR49QNm4Fii/3R/hsY5DNPXDOGLihLGw7qWXv+e7aNqfN1X8bR8ViXG8u5yhxtWeJKO5nAe0OJvHDI2d4L8gVPyHdmrzKcSzbVuB7s1q37wG3OjHhIJLTl+kVjZOG4nrUcYbPsbk/CJkYSgjY7HSZSHdJMpgIkwEnMXe29rn6TStfuFcGhoXEJrY5si6fV9S6XcYgJzVTw==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(366004)(346002)(136003)(376002)(451199015)(2906002)(31686004)(83380400001)(36756003)(2616005)(76116006)(31696002)(86362001)(66476007)(6506007)(186003)(38100700002)(53546011)(6512007)(110136005)(54906003)(38070700005)(82960400001)(122000001)(8936002)(41300700001)(5660300002)(8676002)(64756008)(4326008)(66556008)(66946007)(66446008)(91956017)(966005)(316002)(71200400001)(6486002)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NFpFRVUxbWl3RWdSbmx6MUZFODdMZ05uaHQwZnc1UGZidGNJM0dTQzNzQzlJ?=
- =?utf-8?B?M0pVamc1cXhuMmQ0ZmpxUWVkQnZPci91WVNmdFdOdlE5QU1wZFIxU0pUYjNX?=
- =?utf-8?B?VjJoKzJZcEV4M1RYL2FVUkRQa2pKUmhOblRWdHB0d3hEcXB4bkxoSUNlTDhX?=
- =?utf-8?B?Wk1oNHljeVhvdHVZTjFIR2tpL1AyUjJJMiszRTZrS1dYUUk1NGZnVzh5UUxB?=
- =?utf-8?B?S0QxaFdEaDVGUUp6UWN3bkNyQ1RuQ0srcm1HdllHNitGVW5xUW4zYXpPem0r?=
- =?utf-8?B?Q3VJblFCWjBoaWdSaVVYWnBzWTBTWG8rdkJHQmVJc0R6Y05pdXZSSW95WTlC?=
- =?utf-8?B?N1ROcEJ6eERORHBMazA4em5MTENoSU9ON3pTTlV3OUhXUnR4SnVMRlFZZ1g0?=
- =?utf-8?B?S3VjTU1HVE5qVFpYd25TdVRteGlPNEFjaEhLQUZOMmhJcDJidk9mdVlZWkdh?=
- =?utf-8?B?dVl3bkY2c0xWQXpWSWJhZEJYRFVZemRaOUZEclFHMVhSeWU4aEZDbTNFZ2wy?=
- =?utf-8?B?Y2pFU1ZDVDF3SGNMOTh3cDNEOUc5TDM4UVFnZERQbDEzUFRVbkI0WkJRUXNt?=
- =?utf-8?B?akR1R2FMazdyL0dZNXhqZTQvUEdQbFRONmpscThwU2ptQXAzSzBIOUMwcFNl?=
- =?utf-8?B?NzJpTjhJUkF6Zm40Q1YwWTF6cnZWeEt0cEFMZ2JJVEFmY3NVQmdXN0pjd081?=
- =?utf-8?B?WTZYOEU5WHhIb2U4TUh3OGxSUU1XUmM2UmNZWktIcUNHQWJWV3djUmJ5UEZW?=
- =?utf-8?B?OUtLQlljRjN1Q0RkSTg5Ry8ycG9vQ0EzTE5Cb1dlWmNIYTBkWGY0SXZLbGRQ?=
- =?utf-8?B?RGVXZk56UmlSVVdiemdQdys0M0xaa0dkQ2RZTDgrT3NIYkpKR0ZEMFhtQnUr?=
- =?utf-8?B?Q1crOWQxZEEva1h6MEZTODBoTW9MOHROR2c2bDR1enV0TkRmK3NMV3RSYjF4?=
- =?utf-8?B?a3RXWmpLL2htNmFiUEQzSmlneUdZQ2s0eTZkbnVuYkZxNThXQThkOW5XUUdy?=
- =?utf-8?B?aDJ0UHcveWVDeUxCbzRZR0N2QXlhK1BHbUlGbWU5eEFrWm41cGJBa2xCaEpQ?=
- =?utf-8?B?WittVHlxTUgyd1g1QitSS29LRm5UQ0JhMmFXdHF6MmhZenZadFVURnZjNDIv?=
- =?utf-8?B?bjY3VUhlMkhCNTI4cXNLWnR5aVRjS3drbTg3MTVjRW1uaXhDUnRCa1FraDRP?=
- =?utf-8?B?dS9KQURzV2lCZFdoR2x0R0RYUUEwb2Rkb3BiSDZIanhRb3dsNE5xNmRVWEo4?=
- =?utf-8?B?NGs4SDNtMUNTN1RELzRuOVdvRno5QVFtYjNhUnlyNDMxalN2anAwTnJhZ2x4?=
- =?utf-8?B?VkR2eWVlZjZIUFp3NDJKNzhqb09ITHZUL2pNbE4vVmFZMVMxbUdSWEZSZ1Rz?=
- =?utf-8?B?Rnd3akR2T25RZzNWaE5ZbktzQ1ZTZ1J4KzRnMTJTTmx5OU05NnkrREkwd1dC?=
- =?utf-8?B?d3lqTWlGajY3TFF2UWRlMXlKeTVvVStNZjVmWDhWWUdYSjhSemdoWW5LUi9k?=
- =?utf-8?B?UTRlampXamtqeGxsbDBpbGtqRG8rVFhVT1JweVhjaVNMQlBtRGVoVjJyajJk?=
- =?utf-8?B?Skh1MDJiazdhUExWVlY5N0VObXFUTmExTHBLQlRnd0hBRndkc1FJMjQwOHFW?=
- =?utf-8?B?ZjhDbXI5eHRNQm0wOEJwZldEalZyN3VHMEdVS1lUSkErU1Q5MzJNNzY0aXZQ?=
- =?utf-8?B?cnJtYkEvOThzU0lqVy9ubndFVlRHRVRuYUdtTmdVUzVQWWdXM0hoblZ2dVll?=
- =?utf-8?B?SGpVeEZYalhRRGlTdUlHQi93UGNKSU9zNExlS2daQUh5Z2VjaXlKRGxhWmJy?=
- =?utf-8?B?RWpLa24xZUJ3UUFBTTJ3ZUJ0WXVvOWRveisyVjVsZWtEU0s1cnZ3dlkxSGxz?=
- =?utf-8?B?SndmWVU1Rkg0UHRlRldVYXlrTkdDN0FHMGxFMnRqVEhCNDlwbnExNU1vcmtM?=
- =?utf-8?B?Nk5Cb1FrR2Z2eFBQOU9heWRFYm5SbUxyb3dZc2FLV01PeDBMaUVqcXlCTFZn?=
- =?utf-8?B?bEMyd01QR3h2eXZJa1JMcDM1dnc5cEdxR01VTGdxQ0UyVzN6YUNGZllMcmJt?=
- =?utf-8?B?VmFHdHkzd2xMb3FIbUZOMVpDM09nOWt6S2ZISG9Wc1NYc29qaUFTM3IyaTBo?=
- =?utf-8?B?WGozZCtoZHBjdWJRUmxWUUhtSVltVnFvYVpnS1AvRmk0d1p5djVrWE9KWmNs?=
- =?utf-8?B?dzdEWmd4a2UvR3RtLzJWR2MrVnljdzBqdDlqREpTSk5FYkxuWk1DVkVMQkxV?=
- =?utf-8?Q?oBA8x0bp/NqiLQAMdMFuFRSWzBBX2EqY1CfcirR+iQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BBD12DAFD9A70040930C899785C66CC7@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EFf3ARm0nT3jNjeZbLtGtvZ64o3cCUyg4luOmQ6Lb/Y=;
+        b=goxpWQCMqoKib0sTZ8LbE8nR/bhF1mqHc+Ur/gfUFNauWI9mY1jnAFyTG6AoxiyEW4
+         VpYbNydB5H42cuNTROGGTq6WKiLgb8bjLanaI0VrdnsYtfhEBZl6TWtcvwdocPwURNiw
+         p/TB2fwcNOQ3ev4K7zqPzeDWcwclFKJNyMFwvp2Iq62fcHue/RBEwOhJcQXmPhNGEihY
+         1fNPneFF0rhWkszd68GRPFam236ZO/KMgPFI/0NQ0vFj2QZCFGcQ629aw7spGBU4FORZ
+         Fi2veT1rLzaIlm5C3Ug2iCloG7oD6RHJdfE6yVNmAxy59mAjN2ejYTktjYB9IpHbloHk
+         c/kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EFf3ARm0nT3jNjeZbLtGtvZ64o3cCUyg4luOmQ6Lb/Y=;
+        b=L/fWnYL2/xtt775ej5nT9JC/Yl2dEuHHn2Bh529EWwuzLZHl+hIIvhFfu4QFrtBQ7Y
+         KzZZZPR52JYmWpW/rxqEFqDfG6pG9h6kgfhUDOhMOOggz8SfJJd3evocAjI54RNnir7Q
+         y5iC6PalpZ+PC9NcCohF/IheQtQRJpqa5OGRWTZ9VXNcur92pgEx0P0k3LSd/52MC+L4
+         e3AOpv6HHmzD/rUIDXzVfWazmS7BEan/AZCF269BdWqDg/pzLU0CEWJzPXsm3iVJCBYa
+         7XNaOtBiDD7Y9ZcJBh2Gt83gwHa7YmeX+TRhGKoltaifUUNkw18s9WPthhrl3n86x2BQ
+         8xmw==
+X-Gm-Message-State: ANoB5pnuZiFhDilQPN5i3jaPUFxFzllTpmiTtL+bczrDbImLylhdDAfd
+	fDNIRtL3nRn5hDNcFfaF5nHg3G7u6zzH8g==
+X-Google-Smtp-Source: AA0mqf7t9kNJbwFnu86aNf9/TTboDHFL6r+wAW/CljoO8KJqh82cMMSnmIdKuZwBDR5GXLBSlVqWHA==
+X-Received: by 2002:a5d:68d2:0:b0:236:8a6d:e4f2 with SMTP id p18-20020a5d68d2000000b002368a6de4f2mr3835101wrw.271.1668761376094;
+        Fri, 18 Nov 2022 00:49:36 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x11-20020a5d60cb000000b00241bc4880fesm2304200wrt.111.2022.11.18.00.49.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 00:49:35 -0800 (PST)
+Date: Fri, 18 Nov 2022 11:49:33 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 65/84]
+ drivers/char/tpm/tpm_tis_i2c_cr50.c:763 tpm_cr50_i2c_probe() error:
+ uninitialized symbol 'rc'.
+Message-ID: <202211181503.XWBTmFt9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	BING9OpOyvPG8dPdkV+LeG3D0wcW0Ffsna6cBgTaWB/m5xVRRfnwgEPhM+kvN/PQHvFWPlV7GY36JbQWy+OopV9XX3SzbCh4OURF4XiDJN5Lfh+h18aRENWbJbn3bmpMuuCNqJyf8U6hR+/uX7KjvUvGoTmbE0VqHKtrySGdIWEMJGEuYALw8a4mefbRejRqIIzGg6/SwePFJHnEHr49QEebDeY+T8qBtyK2uWbpLRYJf7o8tKwEAkh26qtCRqXWscgnufkXB4+XyOAgwIhDm8hOwiPOv0Cy5g/j988WT7h1bBgMxQCzY73Jy86DY27NvNwRyMyV5DSbjrZxwKjo/uqnADizuJrnYkiu7zJX2I852GY542iw9UT7Rk9KAO5qiHpDig+XlfYKk5phUj6v85k5XJcbWMDX1had7XF4nl5urMruUL1bFcFWjcs9YJYmLe0M8Noakshabir04O8uXEuhx6XtmlEA4+F6vvGQHClx5qygLLxA7A/zBaz5qYZR82clMNRqkQAT7fEEhjz1yVahWs1IZmk4gaXYE6iJzYkYirIKKWtY4L14HS16XTcv0InWwoTw8bwEVtEsmptEEU6uo1H/31YR4bsjhe02c1XFON0rRcJvquBuKz9103sFvPjqguXZgnwgTNx4ufB70nIgHWhM2MYvxxadKqAVWS7UEvZJP/W8XXFWC97GgAsai7ATynpbhJeVeC32Zmcf63HWkdQEYN3lngTqlzww7GtmCV85WXnEU2YdIQ0ztMW3V+9/nsrPngYJSX+XiTFHu+YbdY/ebu6LtC8BF9ZhxYPtiRuEgzwpMdz/N0ygAuJOfDlJ3O42YwwXZSabx0F2rueFc3lTTMENfHwX9njhIaw0PhJT+o9wzMcqaGXO4w9hpfjAU1Bd2hSiYZd8vnrexQ==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 409520f7-7c8c-47de-a19f-08dac93f4863
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2022 08:31:26.0801
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pb5+H7xQ6BV0xA6ktvmuYtThUauu3xLnn6+f7b8GYMjjFFFRWIpbGmt0IvBPlUUeEy1Lotc9QSfLKSCt7ixXJcYKMYtMYRXJdZgS+hslTeQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7425
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gMTUuMTEuMjIgMDY6MjcsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiBIaSBKb2hhbm5l
-cywNCj4gDQo+IEkgbG92ZSB5b3VyIHBhdGNoISBZZXQgc29tZXRoaW5nIHRvIGltcHJvdmU6DQo+
-IA0KPiBbYXV0byBidWlsZCB0ZXN0IEVSUk9SIG9uIG1rcC1zY3NpL2Zvci1uZXh0XQ0KPiBbYWxz
-byBidWlsZCB0ZXN0IEVSUk9SIG9uIGplamItc2NzaS9mb3ItbmV4dCBsaW51cy9tYXN0ZXIgdjYu
-MS1yYzUgbmV4dC0yMDIyMTExNF0NCj4gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGllZCB0byB0aGUg
-d3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4NCj4gQW5kIHdoZW4gc3VibWl0
-dGluZyBwYXRjaCwgd2Ugc3VnZ2VzdCB0byB1c2UgJy0tYmFzZScgYXMgZG9jdW1lbnRlZCBpbg0K
-PiBodHRwczovL2dpdC1zY20uY29tL2RvY3MvZ2l0LWZvcm1hdC1wYXRjaCNfYmFzZV90cmVlX2lu
-Zm9ybWF0aW9uXQ0KPiANCj4gdXJsOiAgICBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwtbGFiLWxr
-cC9saW51eC9jb21taXRzL0pvaGFubmVzLVRodW1zaGlybi9zY3NpLXNkX3piYy10cmFjZS16b25l
-LWFwcGVuZC1lbXVsYXRpb24vMjAyMjExMTQtMjAwNDI0DQo+IGJhc2U6ICAgaHR0cHM6Ly9naXQu
-a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvbWtwL3Njc2kuZ2l0IGZvci1uZXh0
-DQo+IHBhdGNoIGxpbms6ICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvNmEyMWU3OGExODhl
-NWEwZDYzMGFjZDc3MWFmZWUxMWM3ZDQ1ZDE4My4xNjY4NDI3MjI4LmdpdC5qb2hhbm5lcy50aHVt
-c2hpcm4lNDB3ZGMuY29tDQo+IHBhdGNoIHN1YmplY3Q6IFtQQVRDSCB2Ml0gc2NzaTogc2RfemJj
-OiB0cmFjZSB6b25lIGFwcGVuZCBlbXVsYXRpb24NCj4gY29uZmlnOiB4ODZfNjQtcmhlbC04LjMt
-ZnVuYw0KPiBjb21waWxlcjogZ2NjLTExIChEZWJpYW4gMTEuMy4wLTgpIDExLjMuMA0KPiByZXBy
-b2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOg0KPiAgICAgICAgICMgaHR0cHM6Ly9naXRodWIu
-Y29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0LzdiYjQwYmE0MzEwNzNhMjgzYzFkYjY2OWFl
-ZTQxNDIwNDVkZDA5NzYNCj4gICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51eC1yZXZpZXcgaHR0
-cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgNCj4gICAgICAgICBnaXQgZmV0Y2gg
-LS1uby10YWdzIGxpbnV4LXJldmlldyBKb2hhbm5lcy1UaHVtc2hpcm4vc2NzaS1zZF96YmMtdHJh
-Y2Utem9uZS1hcHBlbmQtZW11bGF0aW9uLzIwMjIxMTE0LTIwMDQyNA0KPiAgICAgICAgIGdpdCBj
-aGVja291dCA3YmI0MGJhNDMxMDczYTI4M2MxZGI2NjlhZWU0MTQyMDQ1ZGQwOTc2DQo+ICAgICAg
-ICAgIyBzYXZlIHRoZSBjb25maWcgZmlsZQ0KPiAgICAgICAgIG1rZGlyIGJ1aWxkX2RpciAmJiBj
-cCBjb25maWcgYnVpbGRfZGlyLy5jb25maWcNCj4gICAgICAgICBtYWtlIFc9MSBPPWJ1aWxkX2Rp
-ciBBUkNIPXg4Nl82NCBTSEVMTD0vYmluL2Jhc2gNCj4gDQo+IElmIHlvdSBmaXggdGhlIGlzc3Vl
-LCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0KPiB8IFJlcG9ydGVk
-LWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gDQo+IEFsbCBlcnJvcnMg
-KG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+LCBvbGQgb25lcyBwcmVmaXhlZCBieSA8PCk6DQo+IA0K
-Pj4+IEVSUk9SOiBtb2Rwb3N0OiAiX190cmFjZXBvaW50X3Njc2lfcHJlcGFyZV96b25lX2FwcGVu
-ZCIgW2RyaXZlcnMvc2NzaS9zZF9tb2Qua29dIHVuZGVmaW5lZCENCj4+PiBFUlJPUjogbW9kcG9z
-dDogIl9fU0NLX190cF9mdW5jX3Njc2lfcHJlcGFyZV96b25lX2FwcGVuZCIgW2RyaXZlcnMvc2Nz
-aS9zZF9tb2Qua29dIHVuZGVmaW5lZCENCj4+PiBFUlJPUjogbW9kcG9zdDogIl9fU0NLX190cF9m
-dW5jX3Njc2lfem9uZV93cF91cGRhdGUiIFtkcml2ZXJzL3Njc2kvc2RfbW9kLmtvXSB1bmRlZmlu
-ZWQhDQo+Pj4gRVJST1I6IG1vZHBvc3Q6ICJfX1NDVF9fdHBfZnVuY19zY3NpX3pvbmVfd3BfdXBk
-YXRlIiBbZHJpdmVycy9zY3NpL3NkX21vZC5rb10gdW5kZWZpbmVkIQ0KPj4+IEVSUk9SOiBtb2Rw
-b3N0OiAiX190cmFjZXBvaW50X3Njc2lfem9uZV93cF91cGRhdGUiIFtkcml2ZXJzL3Njc2kvc2Rf
-bW9kLmtvXSB1bmRlZmluZWQhDQo+Pj4gRVJST1I6IG1vZHBvc3Q6ICJfX1NDVF9fdHBfZnVuY19z
-Y3NpX3ByZXBhcmVfem9uZV9hcHBlbmQiIFtkcml2ZXJzL3Njc2kvc2RfbW9kLmtvXSB1bmRlZmlu
-ZWQhDQo+IA0KDQpJIGhhdmUgbm8gY2x1ZSB3aGF0IG1vZHBvc3QgaXMgdHJ5aW5nIHRvIHRlbGwg
-bWUgaGVyZS4gVGhlc2UgdHJhY2Vwb2ludHMgYXJlbid0DQppbiBhbnkgd2F5IGRpZmZlcmVudCB0
-byB0aGUgb3RoZXIgdHJhY2Vwb2ludHMgaW4gU0NTSS4NCg==
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   675b4fa09388811028b668cef22747175b6ef900
+commit: 44ebfceb7220e89896fefe82a8b1237e46c51c6a [65/84] BACKPORT: FROMLIST: char: tpm: cr50: Use generic request/relinquish locality ops
+config: x86_64-randconfig-m001
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+
+smatch warnings:
+drivers/char/tpm/tpm_tis_i2c_cr50.c:763 tpm_cr50_i2c_probe() error: uninitialized symbol 'rc'.
+
+vim +/rc +763 drivers/char/tpm/tpm_tis_i2c_cr50.c
+
+6824f8554a98cba Adrian Ratiu  2021-07-27  709  static int tpm_cr50_i2c_probe(struct i2c_client *client)
+3a253caaad11cf4 Duncan Laurie 2020-12-07  710  {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  711  	struct tpm_i2c_cr50_priv_data *priv;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  712  	struct device *dev = &client->dev;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  713  	struct tpm_chip *chip;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  714  	u32 vendor;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  715  	u8 buf[4];
+3a253caaad11cf4 Duncan Laurie 2020-12-07  716  	int rc;
+44ebfceb7220e89 Jan Dabros    2022-11-03  717  	int loc;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  718  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  719  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+3a253caaad11cf4 Duncan Laurie 2020-12-07  720  		return -ENODEV;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  721  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  722  	chip = tpmm_chip_alloc(dev, &cr50_i2c);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  723  	if (IS_ERR(chip))
+3a253caaad11cf4 Duncan Laurie 2020-12-07  724  		return PTR_ERR(chip);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  725  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  726  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  727  	if (!priv)
+3a253caaad11cf4 Duncan Laurie 2020-12-07  728  		return -ENOMEM;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  729  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  730  	/* cr50 is a TPM 2.0 chip */
+3a253caaad11cf4 Duncan Laurie 2020-12-07  731  	chip->flags |= TPM_CHIP_FLAG_TPM2;
+47fe54939e1e548 Rob Barnes    2021-12-06  732  	if (tpm_cr50_i2c_is_firmware_power_managed(dev))
+3a253caaad11cf4 Duncan Laurie 2020-12-07  733  		chip->flags |= TPM_CHIP_FLAG_FIRMWARE_POWER_MANAGED;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  734  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  735  	/* Default timeouts */
+3a253caaad11cf4 Duncan Laurie 2020-12-07  736  	chip->timeout_a = msecs_to_jiffies(TIS_SHORT_TIMEOUT);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  737  	chip->timeout_b = msecs_to_jiffies(TIS_LONG_TIMEOUT);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  738  	chip->timeout_c = msecs_to_jiffies(TIS_SHORT_TIMEOUT);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  739  	chip->timeout_d = msecs_to_jiffies(TIS_SHORT_TIMEOUT);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  740  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  741  	dev_set_drvdata(&chip->dev, priv);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  742  	init_completion(&priv->tpm_ready);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  743  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  744  	if (client->irq > 0) {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  745  		rc = devm_request_irq(dev, client->irq, tpm_cr50_i2c_int_handler,
+446cd6f0f3045dd Tian Tao      2021-05-17  746  				      IRQF_TRIGGER_FALLING | IRQF_ONESHOT |
+446cd6f0f3045dd Tian Tao      2021-05-17  747  				      IRQF_NO_AUTOEN,
+3a253caaad11cf4 Duncan Laurie 2020-12-07  748  				      dev->driver->name, chip);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  749  		if (rc < 0) {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  750  			dev_err(dev, "Failed to probe IRQ %d\n", client->irq);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  751  			return rc;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  752  		}
+3a253caaad11cf4 Duncan Laurie 2020-12-07  753  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  754  		priv->irq = client->irq;
+3a253caaad11cf4 Duncan Laurie 2020-12-07  755  	} else {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  756  		dev_warn(dev, "No IRQ, will use %ums delay for TPM ready\n",
+3a253caaad11cf4 Duncan Laurie 2020-12-07  757  			 TPM_CR50_TIMEOUT_NOIRQ_MS);
+3a253caaad11cf4 Duncan Laurie 2020-12-07  758  	}
+3a253caaad11cf4 Duncan Laurie 2020-12-07  759  
+44ebfceb7220e89 Jan Dabros    2022-11-03  760  	loc = tpm_cr50_request_locality(chip, TPM_CR50_I2C_DEFAULT_LOC);
+44ebfceb7220e89 Jan Dabros    2022-11-03  761  	if (loc < 0) {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  762  		dev_err(dev, "Could not request locality\n");
+3a253caaad11cf4 Duncan Laurie 2020-12-07 @763  		return rc;
+
+return loc;
+
+3a253caaad11cf4 Duncan Laurie 2020-12-07  764  	}
+3a253caaad11cf4 Duncan Laurie 2020-12-07  765  
+3a253caaad11cf4 Duncan Laurie 2020-12-07  766  	/* Read four bytes from DID_VID register */
+44ebfceb7220e89 Jan Dabros    2022-11-03  767  	rc = tpm_cr50_i2c_read(chip, TPM_I2C_DID_VID(loc), buf, sizeof(buf));
+3a253caaad11cf4 Duncan Laurie 2020-12-07  768  	if (rc < 0) {
+3a253caaad11cf4 Duncan Laurie 2020-12-07  769  		dev_err(dev, "Could not read vendor id\n");
+44ebfceb7220e89 Jan Dabros    2022-11-03  770  		if (tpm_cr50_release_locality(chip, loc))
+44ebfceb7220e89 Jan Dabros    2022-11-03  771  			dev_err(dev, "Could not release locality\n");
+44ebfceb7220e89 Jan Dabros    2022-11-03  772  		return rc;
+44ebfceb7220e89 Jan Dabros    2022-11-03  773  	}
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
