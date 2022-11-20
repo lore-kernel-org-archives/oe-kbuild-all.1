@@ -1,153 +1,213 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B851C80B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Nov 2022 20:52:08 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5so7225400wmo.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Nov 2022 12:52:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=layalina-io.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SG0Aeb3AkNCRdUKmIoyZXLGGCOpWzdo7IiLbJYcybAQ=;
-        b=sVJjVbQ8f6t/SnFDbSP7Uh2ol/fTnLHmcckKbLxA0w2qvSHz+/egSniH/vQEVhRTIQ
-         1sDT/RoYXRg7mslXE107+QRF2buBDezS/Xde8n/KDizX3G+AHdu/60x2nkWPe99c7j+c
-         niF9Cu+w+rT0bAZh3V8+mQLMGAHGLq3wyWtG7srXCyKm6caQgCRk6IMkLe4zudDiHOjp
-         7WZrRqFYGJVbA37cA6RcBO8ohnmA6dXrvFPKFrB0XcSNJfPC6mS47AC6tPWx5JAh27KS
-         y/1Cd2RT/4t8mJ0bqBpYBmiAecWftsvwPhHe4ulEET5AuBGNbpzKTOa67vZM7vpJxEaT
-         sKQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SG0Aeb3AkNCRdUKmIoyZXLGGCOpWzdo7IiLbJYcybAQ=;
-        b=OMz8iWaNYdptMqgkbNZUf7pq0p4jdPmuwQB+1b2AY0TwmnsYKMDphxQKcxwFQ3929c
-         JxXgtHoDLmpfeNjr0AEJDLDogB5PMEGAXbLaBMgkVGJpF1tEWK3mvnJ5zkYTIP4hydmq
-         Fx5AgS2Hzk9iKTxOF+Ctbs0hP6j6d2Wa8UGlyks2R9tx22uVR47TSPsWY+oGEW9oRX2q
-         5t7dcxiqjol0Bm76dhsqcyjHmOhiFVpbNodrK6Bu/vR7gCOOCcZ+wveSQxR5qldQKxCn
-         IyyGhJCUTC6XhvDY8qC3th57dQDAjpuuLvo4WWmyA4ni9tYQiKQlN1zovtv/5Nxb4sjj
-         f1Cg==
-X-Gm-Message-State: ANoB5pkhF0XLKPSi/6UX68lQZ1klB/O/M+Ifu0t3x60h1hdBn+te2lph
-	sLUzCT7M1NwUM8Zwv0E1fqcI8g==
-X-Google-Smtp-Source: AA0mqf7bOvSTYUu/AICcCb4TKkNUK5bJ4iXaEeIUcc2L+EI+6h0HYJGdUl7p/lc5fV8n5firUWmbXQ==
-X-Received: by 2002:a05:600c:1f0c:b0:3cf:a41d:8418 with SMTP id bd12-20020a05600c1f0c00b003cfa41d8418mr2708337wmb.190.1668977526994;
-        Sun, 20 Nov 2022 12:52:06 -0800 (PST)
-Received: from airbuntu (host86-130-134-87.range86-130.btcentralplus.com. [86.130.134.87])
-        by smtp.gmail.com with ESMTPSA id q3-20020adfcd83000000b0022eafed36ebsm9571723wrj.73.2022.11.20.12.52.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 12:52:06 -0800 (PST)
-Date: Sun, 20 Nov 2022 20:52:05 +0000
-From: Qais Yousef <qyousef@layalina.io>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
-	Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
-	Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: sched: Add a new sched-util-clamp.rst
-Message-ID: <20221120205205.itjp7ken5hdbtkty@airbuntu>
-References: <20221113152629.3wbyeejsj5v33rvu@airbuntu>
- <Y3ICaCPX61EOn/KN@debian.me>
- <20221115205547.3f4kzig5r44ipv3b@airbuntu>
- <Y3ShA8SGM4PTYPLJ@debian.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AE33D99
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Nov 2022 22:01:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668981677; x=1700517677;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ClXTTv5rYQRzvytU9ha1DBKtZaJ5qI4w/xEN+1ddcec=;
+  b=nTM6XLAqaiemHAmNxBf5LVaz7qsAWUgtSaH3Ih3kjQSu+HkJDbTkA1S4
+   5XWHsEws3zbDWDPr1i+DDaqc9wsJbEwAL6cyAl9+C9qQhCIg1EafieUzf
+   wh6U+nriY/2O6eJlMpkX1RDXZ9Us2PF48VhRE7GZAScFOE1lHmvuZzDHI
+   meKuehOGBNLseWAw2NzNb5Z6xW7Dm4WtUMu1kQHKf4buDNm1URME4y5FJ
+   Sc6743bpD2b3jw7A13rYYYLrX2sxltjJcGeFZ8/BI+F8XFJQMfv11trCW
+   p1cEXZp/z+kxZEBGq2GilrXMl+S7KtqqJHcyRXW1Y2QQhuGCNjQIIgfca
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="315255595"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
+   d="scan'208";a="315255595"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2022 14:01:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="815503880"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
+   d="scan'208";a="815503880"
+Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 20 Nov 2022 14:01:15 -0800
+Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1owsNH-0003E9-09;
+	Sun, 20 Nov 2022 22:01:15 +0000
+Date: Mon, 21 Nov 2022 06:01:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: warning: Local
+ variable 'ret' shadows outer variable [shadowVariable]
+Message-ID: <202211210538.gWZuy1H7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3ShA8SGM4PTYPLJ@debian.me>
 
-On 11/16/22 15:36, Bagas Sanjaya wrote:
-> On Tue, Nov 15, 2022 at 08:55:47PM +0000, Qais Yousef wrote:
-> > > >  2.1  BUCKETS:
-> > > >  -------------
-> > > >  
-> > > > +.. code-block:: c
-> > > > +
-> > > >                             [struct rq]
-> > > >  
-> > > > -(bottom)                                                    (top)
-> > > > +  (bottom)                                                    (top)
-> > > >  
-> > > > -  0                                                          1024
-> > > > -  |                                                           |
-> > > > -  +-----------+-----------+-----------+----   ----+-----------+
-> > > > -  |  Bucket 0 |  Bucket 1 |  Bucket 2 |    ...    |  Bucket N |
-> > > > -  +-----------+-----------+-----------+----   ----+-----------+
-> > > > -     :           :                                   :
-> > > > -     +- p0       +- p3                               +- p4
-> > > > -     :                                               :
-> > > > -     +- p1                                           +- p5
-> > > > -     :
-> > > > -     +- p2
-> > > > +    0                                                          1024
-> > > > +    |                                                           |
-> > > > +    +-----------+-----------+-----------+----   ----+-----------+
-> > > > +    |  Bucket 0 |  Bucket 1 |  Bucket 2 |    ...    |  Bucket N |
-> > > > +    +-----------+-----------+-----------+----   ----+-----------+
-> > > > +       :           :                                   :
-> > > > +       +- p0       +- p3                               +- p4
-> > > > +       :                                               :
-> > > > +       +- p1                                           +- p5
-> > > > +       :
-> > > > +       +- p2
-> > > 
-> > > The code block above is diagram, isn't it? Thus specifying language for
-> > > syntax highlighting (in this case ``c``) isn't appropriate.
-> > 
-> > I could do with a helping hand here actually. I am a text only person but
-> > trying to follow the new rst docs; but I don't have a clue to be honest.
-> > 
-> > I did try to find the right directive, but I couldn't find it. What should be
-> > specified for this diagram?
-> 
-> Just leave ..code-block:: directive alone or use simpler double colon
-> (::). The highlighting will not be applied to the code snippet.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   77c51ba552a1c4f73228766e43ae37c4101b3758
+commit: 4d07b0bc403403438d9cf88450506240c5faf92f drm/display/dp_mst: Move all payload info into the atomic state
+date:   3 months ago
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 4d07b0bc403403438d9cf88450506240c5faf92f
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-Leaving
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-	..code-block::
+cppcheck warnings: (new ones prefixed by >>)
+   In file included from drivers/gpu/drm/radeon/radeon_bios.c:
+>> drivers/gpu/drm/radeon/radeon_device.c:1577:22: warning: Local variable 'robj' shadows outer variable [shadowVariable]
+      struct radeon_bo *robj = gem_to_radeon_bo(radeon_crtc->cursor_bo);
+                        ^
+   drivers/gpu/drm/radeon/radeon_device.c:1574:21: note: Shadowed declaration
+     struct radeon_bo *robj;
+                       ^
+   drivers/gpu/drm/radeon/radeon_device.c:1577:22: note: Shadow variable
+      struct radeon_bo *robj = gem_to_radeon_bo(radeon_crtc->cursor_bo);
+                        ^
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: warning: Local variable 'ret' shadows outer variable [shadowVariable]
+     int ret;
+         ^
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:4737:9: note: Shadowed declaration
+    int i, ret;
+           ^
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: note: Shadow variable
+     int ret;
+         ^
 
-produces this error:
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-	sched-util-clamp.rst:172: WARNING: Error in "code-block" directive: 1 argument(s) required, 0 supplied
+   In file included from drivers/gpu/drm/radeon/radeon_bios.c:
+>> drivers/gpu/drm/radeon/radeon_bios.c:414:2: warning: Signed integer overflow for expression '0xf<<28'. [integerOverflow]
+    WREG32(R600_ROM_CNTL,
+    ^
+   drivers/gpu/drm/radeon/radeon_bios.c:471:2: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
+    WREG32(RADEON_SEPROM_CNTL1,
+    ^
+   drivers/gpu/drm/radeon/radeon_bios.c:539:2: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
+    WREG32(RADEON_SEPROM_CNTL1,
+    ^
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:1691:30: warning: Parameter 'port' can be declared as pointer to const [constParameter]
+        struct drm_dp_mst_port *port)
+                                ^
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:5003:34: warning: Parameter 'branch' can be declared as pointer to const [constParameter]
+          struct drm_dp_mst_branch *branch)
+                                    ^
 
-I used
+vim +/ret +4780 drivers/gpu/drm/display/drm_dp_mst_topology.c
 
-	::
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4724  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4725  /**
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4726   * drm_dp_mst_dump_topology(): dump topology to seq file.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4727   * @m: seq_file to dump output to
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4728   * @mgr: manager to dump current topology for.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4729   *
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4730   * helper to dump MST topology to a seq file for debugfs.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4731   */
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4732  void drm_dp_mst_dump_topology(struct seq_file *m,
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4733  			      struct drm_dp_mst_topology_mgr *mgr)
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4734  {
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4735  	struct drm_dp_mst_topology_state *state;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4736  	struct drm_dp_mst_atomic_payload *payload;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4737  	int i, ret;
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4738  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4739  	mutex_lock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4740  	if (mgr->mst_primary)
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4741  		drm_dp_mst_dump_mstb(m, mgr->mst_primary);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4742  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4743  	/* dump VCPIs */
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4744  	mutex_unlock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4745  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4746  	ret = drm_modeset_lock_single_interruptible(&mgr->base.lock);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4747  	if (ret < 0)
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4748  		return;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4749  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4750  	state = to_drm_dp_mst_topology_state(mgr->base.state);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4751  	seq_printf(m, "\n*** Atomic state info ***\n");
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4752  	seq_printf(m, "payload_mask: %x, max_payloads: %d, start_slot: %u, pbn_div: %d\n",
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4753  		   state->payload_mask, mgr->max_payloads, state->start_slot, state->pbn_div);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4754  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4755  	seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc |     sink name     |\n");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4756  	for (i = 0; i < mgr->max_payloads; i++) {
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4757  		list_for_each_entry(payload, &state->payloads, next) {
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4758  			char name[14];
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4759  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4760  			if (payload->vcpi != i || payload->delete)
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4761  				continue;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4762  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4763  			fetch_monitor_name(mgr, payload->port, name, sizeof(name));
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4764  			seq_printf(m, " %5d %6d %6d %02d - %02d %5d %5s %19s\n",
+e55f2ffc4dc105 drivers/gpu/drm/drm_dp_mst_topology.c         Eryk Brol         2021-03-25  4765  				   i,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4766  				   payload->port->port_num,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4767  				   payload->vcpi,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4768  				   payload->vc_start_slot,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4769  				   payload->vc_start_slot + payload->time_slots - 1,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4770  				   payload->pbn,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4771  				   payload->dsc_enabled ? "Y" : "N",
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4772  				   (*name != 0) ? name : "Unknown");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4773  		}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4774  	}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4775  
+e55f2ffc4dc105 drivers/gpu/drm/drm_dp_mst_topology.c         Eryk Brol         2021-03-25  4776  	seq_printf(m, "\n*** DPCD Info ***\n");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4777  	mutex_lock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4778  	if (mgr->mst_primary) {
+7056a2bccc3b5a drivers/gpu/drm/drm_dp_mst_topology.c         Andy Shevchenko   2018-03-19  4779  		u8 buf[DP_PAYLOAD_TABLE_SIZE];
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05 @4780  		int ret;
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4781  
+7a710a8bc90931 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak         2022-06-14  4782  		if (drm_dp_read_dpcd_caps(mgr->aux, buf) < 0) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4783  			seq_printf(m, "dpcd read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4784  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4785  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4786  		seq_printf(m, "dpcd: %*ph\n", DP_RECEIVER_CAP_SIZE, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4787  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4788  		ret = drm_dp_dpcd_read(mgr->aux, DP_FAUX_CAP, buf, 2);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4789  		if (ret != 2) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4790  			seq_printf(m, "faux/mst read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4791  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4792  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4793  		seq_printf(m, "faux/mst: %*ph\n", 2, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4794  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4795  		ret = drm_dp_dpcd_read(mgr->aux, DP_MSTM_CTRL, buf, 1);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4796  		if (ret != 1) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4797  			seq_printf(m, "mst ctrl read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4798  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4799  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4800  		seq_printf(m, "mst ctrl: %*ph\n", 1, buf);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4801  
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4802  		/* dump the standard OUI branch header */
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4803  		ret = drm_dp_dpcd_read(mgr->aux, DP_BRANCH_OUI, buf, DP_BRANCH_OUI_HEADER_SIZE);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4804  		if (ret != DP_BRANCH_OUI_HEADER_SIZE) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4805  			seq_printf(m, "branch oui read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4806  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4807  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4808  		seq_printf(m, "branch oui: %*phN devid: ", 3, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4809  
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4810  		for (i = 0x3; i < 0x8 && buf[i]; i++)
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4811  			seq_printf(m, "%c", buf[i]);
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4812  		seq_printf(m, " revision: hw: %x.%x sw: %x.%x\n",
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4813  			   buf[0x9] >> 4, buf[0x9] & 0xf, buf[0xa], buf[0xb]);
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4814  		if (dump_dp_payload_table(mgr, buf))
+7056a2bccc3b5a drivers/gpu/drm/drm_dp_mst_topology.c         Andy Shevchenko   2018-03-19  4815  			seq_printf(m, "payload table: %*ph\n", DP_PAYLOAD_TABLE_SIZE, buf);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4816  	}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4817  
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4818  out:
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4819  	mutex_unlock(&mgr->lock);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4820  	drm_modeset_unlock(&mgr->base.lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4821  }
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4822  EXPORT_SYMBOL(drm_dp_mst_dump_topology);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4823  
 
-and it seems to produces the desired results. I tried this first but I think my
-indentation was broken then which is why it didn't work at the time and I moved
-to code-block.
+:::::: The code at line 4780 was first introduced by commit
+:::::: ad7f8a1f9ced7f049f9b66d588723f243a7034cd drm/helper: add Displayport multi-stream helper (v0.6)
 
-> 
-> > > > @@ -200,6 +203,8 @@ The rq has a bucket for each uclamp_id: [UCLAMP_MIN, UCLAMP_MAX].
-> > > >  The range of each bucket is 1024/N. For example for the default value of 5 we
-> > > >  will have 5 buckets, each of which will cover the following range:
-> > > >  
-> > > > +.. code-block:: c
-> > > > +
-> > > 
-> > > Again, why ``c`` syntax highlighting?
-> > 
-> > This is a C code snippet. What would be better to use? I think I was getting
-> > errors if I don't specify something. But again; I was touching my way around in
-> > the dark here trying to figure it out.
-> > 
-> 
-> Yup, that's the correct language for highlighting.
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
-Thanks Bagas!
-
-
---
-Qais Yousef
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
