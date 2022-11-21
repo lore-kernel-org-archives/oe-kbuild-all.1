@@ -1,97 +1,72 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8966FA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Nov 2022 17:26:23 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A47623A;
-	Mon, 21 Nov 2022 09:26:29 -0800 (PST)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.30.141])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C80593F587;
-	Mon, 21 Nov 2022 09:26:21 -0800 (PST)
-Date: Mon, 21 Nov 2022 17:26:15 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Will Deacon <will@kernel.org>, Florent Revest <revest@chromium.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CC96FA6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Nov 2022 17:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BFA5C433D6;
+	Mon, 21 Nov 2022 17:40:16 +0000 (UTC)
+Date: Mon, 21 Nov 2022 12:40:15 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
+ Memory Management List <linux-mm@kvack.org>, Will Deacon <will@kernel.org>,
+ Florent Revest <revest@chromium.org>, "Masami Hiramatsu (Google)"
+ <mhiramat@kernel.org>
 Subject: Re: [linux-next:master 8539/9537] include/linux/ftrace.h:126:16:
- error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean
- 'ftrace_get_regs'?
-Message-ID: <Y3u0t6eHjMbMdyUq@FVFF77S0Q05N.cambridge.arm.com>
+ error: implicit declaration of function 'arch_ftrace_get_regs'; did you
+ mean 'ftrace_get_regs'?
+Message-ID: <20221121124015.31d34642@gandalf.local.home>
+In-Reply-To: <Y3u0t6eHjMbMdyUq@FVFF77S0Q05N.cambridge.arm.com>
 References: <202211212249.livTPi3Y-lkp@intel.com>
+	<Y3u0t6eHjMbMdyUq@FVFF77S0Q05N.cambridge.arm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202211212249.livTPi3Y-lkp@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 21, 2022 at 10:55:34PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   e4cd8d3ff7f9efeb97330e5e9b99eeb2a68f5cf9
-> commit: 26299b3f6ba26bfc234b73126d14bdf4dec5275a [8539/9537] ftrace: arm64: move from REGS to ARGS
-> config: arm64-buildonly-randconfig-r003-20221120
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=26299b3f6ba26bfc234b73126d14bdf4dec5275a
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout 26299b3f6ba26bfc234b73126d14bdf4dec5275a
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
+On Mon, 21 Nov 2022 17:26:15 +0000
+Mark Rutland <mark.rutland@arm.com> wrote:
+
+> ... and since arm64 can be built with DYNAMIC_FTRACE=n we end up with:
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
+>   CONFIG_DYNAMIC_FTRACE=n
+
+Is there any reason to have CONFIG_DYNAMIC_FTRACE=n and
+CONFIG_FUNCTION_TRACE=y?
+
+The only reason I keep the option to turn off DYNAMIC_FTRACE is for
+debugging purposes.
+
+That is, if you have HAVE_DYNAMIC_FTRACE, then DYNAMIC_FTRACE should be
+enabled whenever it is needed by something else.
+
+The reason for static ftrace is simply to help new architectures work their
+way to having DYNAMIC_FTRACE enabled. Perhaps the solution is to get rid of
+the DYNAMIC_FRACE prompt, and have it set whenever FUNCTION_TRACER is set
+and HAVE_DYNAMIC_FTRACE is set.
+
+For debugging purposes, I may add
+
+HAVE_DEBUG_DYNAMIC_FTRACE
+
+which brings back the prompt (for x86 only).
+
+-- Steve
+
+
+>   CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
+>   CONFIG_DYNAMIC_FTRACE_WITH_ARGS=n
 > 
-> All error/warnings (new ones prefixed by >>):
+> Looking at this some more, ftrace_regs_has_args() should check for
+> CONFIG_DYNAMIC_FTRACE_WITH_ARGS rather than
+> CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS, or it'll bogusly report we have args when
+> CONFIG_DYNAMIC_FTRACE=n.
 > 
->    In file included from include/linux/kvm_host.h:32,
->                     from arch/arm64/kernel/asm-offsets.c:15:
->    include/linux/ftrace.h: In function 'ftrace_get_regs':
-> >> include/linux/ftrace.h:126:16: error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean 'ftrace_get_regs'? [-Werror=implicit-function-declaration]
->      126 |         return arch_ftrace_get_regs(fregs);
->          |                ^~~~~~~~~~~~~~~~~~~~
->          |                ftrace_get_regs
-> >> include/linux/ftrace.h:126:16: warning: returning 'int' from a function with return type 'struct pt_regs *' makes pointer from integer without a cast [-Wint-conversion]
->      126 |         return arch_ftrace_get_regs(fregs);
->          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Ah; this is due to some mismatched CPP guards for
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS and CONFIG_DYNAMIC_FTRACE_WITH_ARGS.
-
-The core ftrace code provids this under guards:
-
-  #ifndef CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS
-  ...
-  #endif /* CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS */
-
-... but arm64 defines this under:
-
-  #ifdef CONFIG_DYNAMIC_FTRACE_WITH_ARGS
-  ...
-  #endif
-
-... and since arm64 can be built with DYNAMIC_FTRACE=n we end up with:
-
-  CONFIG_DYNAMIC_FTRACE=n
-  CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
-  CONFIG_DYNAMIC_FTRACE_WITH_ARGS=n
-
-Looking at this some more, ftrace_regs_has_args() should check for
-CONFIG_DYNAMIC_FTRACE_WITH_ARGS rather than
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS, or it'll bogusly report we have args when
-CONFIG_DYNAMIC_FTRACE=n.
-
-I'd prefer to change the core ftrace code to check for
-CONFIG_DYNAMIC_FTRACE_WITH_ARGS for consistency with that, but I'll need to
-check how that affects other architectures.
-
-Thanks,
-Mark.
+> I'd prefer to change the core ftrace code to check for
+> CONFIG_DYNAMIC_FTRACE_WITH_ARGS for consistency with that, but I'll need to
+> check how that affects other architectures.
