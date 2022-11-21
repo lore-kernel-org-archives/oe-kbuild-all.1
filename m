@@ -1,84 +1,134 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457727E6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Nov 2022 01:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668992542; x=1700528542;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tvfDv+7CWSD4OhaAsXXib4PcN2d9j7S5hmueVA0Lm/4=;
-  b=Ljo9IFoYJ9osqCn3DXsSERIIchNYH1qKYn7QlxPTdGjQQHUC0oQWS3fH
-   whwDcZNe/8hplkO8GyXDpZh52I740B0h5m5o9jsYyxuP19Bx9fOfFQ3ha
-   uVXfcsviKi7B906D3xKx5+Xn6OPq+eNvEX2nTQgd2vZlcuf3By9pPiKrj
-   Eh0LriA5g2mUmJWLN9P2G5l/Ii5/OMh/7v7r5Xu3/UUaIslT/v+t+mtln
-   QURZwRAlL0ZEWimFWM/43uOXTxpClPZ37LobSNI/QrNQYnaCI6s8WD5dQ
-   55XdcAYx/hkQf96V0x63dRQAjj4Rm7mgFC3Bk19xJBukBSZT6BR3C6Mok
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="315267444"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="315267444"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2022 17:02:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="746704196"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="746704196"
-Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Nov 2022 17:02:20 -0800
-Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1owvCV-0003Jp-2w;
-	Mon, 21 Nov 2022 01:02:19 +0000
-Date: Mon, 21 Nov 2022 09:01:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner (Microsoft) <brauner@kernel.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+187 bytes kernel size regression] [i386-tinyconfig]
- [02f7b9fde6] [REWRITE ME!!!] xattr: use rbtree for simple_xattrs
-Message-ID: <637ace05.0BXdrY5qcElSrYPQ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161187FE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Nov 2022 03:59:24 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id k15so10232234pfg.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Nov 2022 19:59:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=27WM+Y8jWb1LbvGj3DTgTBmDJaPh9BKIXQ56Fw9urpk=;
+        b=W2l2otg0QsQqjjC0xylN6Y9Y9t9QgGoBs8DnaTsfc0PZd88sh6kjbLZ16l2+Be0X6+
+         wWuTINsam5mP8psCVXL5668tpkGyhqKiQzSnGe+0EU6nd7TPhqOb+OkLz61INCHP/2Ki
+         Qvtn52r1ElroAH5F8J196hfAeGmy0SQ56vOxfP/zIf8jBg135myrGz8iUWGII32rfXPU
+         k08oKkLkXOEr+louuFRLOcL+G+HcFbJuXZxqn1ZMDfICRx3Max4TOGV/um28QNCs4j+m
+         z7PhNB/apyViyzHdTnhcwwtBDw/EWNtWEB4pw7lrYyMAP08B0jKLTTzfxhhVXE6MgkJb
+         e5xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=27WM+Y8jWb1LbvGj3DTgTBmDJaPh9BKIXQ56Fw9urpk=;
+        b=WRVyScEIqgglBc8XtqVjUV/L4joZ58/kZDAwhs6mxl5onqqLEUla8y3ofZzKLmqNW/
+         q5DjFeulbcdNIhHrPmDD3UstRpTqkNTopjG4dyVjIflkN+jtYdeLNJ9iXdx29p9M4wVx
+         F1PbAtp6/767OsAhUkuiyg099FIwJg7zXr4vaiojeiWsjLahk5Z+RKCj+pLPOaO4ZGQW
+         pgj+BebWkiDe9XjwUrbpv65k1jf4NMce5EkCJ1K6eLE/9Sr5wyFsBSUgF31qDk919ycV
+         jbklCq3zfKcsKCCaL3sqlRa5tm84q6kExor9gvfGsf1MVo4O9S8xCwhFtvvjP+lH2kD6
+         S0QQ==
+X-Gm-Message-State: ANoB5plGAAutwlMBKfnX2zAMrKBr30jcS1k3WboRTLC+ourGZgiXgRu/
+	qEusrPW2QxNkpflSn7TQV7o=
+X-Google-Smtp-Source: AA0mqf49jEfvGyxZO0jXVZ81EVi8wO9jpymaMotqlDjuJYfCHuNg7X8sS421I3+cFgNY3VQ6HT9slQ==
+X-Received: by 2002:a05:6a00:d66:b0:56a:fd45:d054 with SMTP id n38-20020a056a000d6600b0056afd45d054mr2845822pfv.3.1669003163465;
+        Sun, 20 Nov 2022 19:59:23 -0800 (PST)
+Received: from debian.. (subs03-180-214-233-72.three.co.id. [180.214.233.72])
+        by smtp.gmail.com with ESMTPSA id m9-20020a170902f64900b00176d218889esm8393163plg.228.2022.11.20.19.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Nov 2022 19:59:23 -0800 (PST)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	kernel test robot <lkp@intel.com>
+Cc: Jiri Pirko <jiri@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next] Documentation: devlink: Add blank line padding on numbered lists in Devlink Port documentation
+Date: Mon, 21 Nov 2022 10:58:55 +0700
+Message-Id: <20221121035854.28411-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <202211200926.kfOPiVti-lkp@intel.com>
+References: <202211200926.kfOPiVti-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2915; i=bagasdotme@gmail.com; h=from:subject; bh=FikTYVYcBbXw6Hy49WYOku8tu7kNbGLfWCUs6r4Xui4=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMlV3+vWq35h2/c5/h1HMfvSbskN+ypMpH4mH7ohbjXnrIYQ b/C+jlIWBjEOBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExkxzKGP9wKKzxurLq/431XCXOCya 2vvwq7LwsvDrhwp/fr1ZK78pyMDEtbd1u0vd7ocHFyyt5pTrpbBKJfr5L9mPL95HURxdfOUbwA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+kernel test robot reported indentation warnings:
 
-FYI, we noticed a +187 bytes kernel size regression due to commit:
+Documentation/networking/devlink/devlink-port.rst:220: WARNING: Unexpected indentation.
+Documentation/networking/devlink/devlink-port.rst:222: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-commit: 02f7b9fde6162888dbdf9ff5aea27f94eadd77df ([REWRITE ME!!!] xattr: use rbtree for simple_xattrs)
-https://github.com/ammarfaizi2/linux-block brauner/linux/fs.xattr.simple.rework.rwlock
+These warnings cause lists (arbitration flow for which the warnings blame to
+and 3-step subfunction setup) to be rendered inline instead. Also, for the
+former list, automatic list numbering is messed up.
 
+Fix these warnings by adding missing blank line padding.
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
+Link: https://lore.kernel.org/linux-doc/202211200926.kfOPiVti-lkp@intel.com/
+Fixes: 242dd64375b80a ("Documentation: Add documentation for new devlink-rate attributes")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/networking/devlink/devlink-port.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-9abf2313: Linux 6.1-rc1
-02f7b9fd: [REWRITE ME!!!] xattr: use rbtree for simple_xattrs
+diff --git a/Documentation/networking/devlink/devlink-port.rst b/Documentation/networking/devlink/devlink-port.rst
+index 643f5903d1d8aa..98557c2ab1c11f 100644
+--- a/Documentation/networking/devlink/devlink-port.rst
++++ b/Documentation/networking/devlink/devlink-port.rst
+@@ -130,10 +130,11 @@ it is deployed. Subfunction is created and deployed in unit of 1. Unlike
+ SRIOV VFs, a subfunction doesn't require its own PCI virtual function.
+ A subfunction communicates with the hardware through the parent PCI function.
+ 
+-To use a subfunction, 3 steps setup sequence is followed.
+-(1) create - create a subfunction;
+-(2) configure - configure subfunction attributes;
+-(3) deploy - deploy the subfunction;
++To use a subfunction, 3 steps setup sequence is followed:
++
++1) create - create a subfunction;
++2) configure - configure subfunction attributes;
++3) deploy - deploy the subfunction;
+ 
+ Subfunction management is done using devlink port user interface.
+ User performs setup on the subfunction management device.
+@@ -216,13 +217,17 @@ nodes with the same priority form a WFQ subgroup in the sibling group
+ and arbitration among them is based on assigned weights.
+ 
+ Arbitration flow from the high level:
++
+ #. Choose a node, or group of nodes with the highest priority that stays
+    within the BW limit and are not blocked. Use ``tx_priority`` as a
+    parameter for this arbitration.
++
+ #. If group of nodes have the same priority perform WFQ arbitration on
+    that subgroup. Use ``tx_weight`` as a parameter for this arbitration.
++
+ #. Select the winner node, and continue arbitration flow among it's children,
+    until leaf node is reached, and the winner is established.
++
+ #. If all the nodes from the highest priority sub-group are satisfied, or
+    overused their assigned BW, move to the lower priority nodes.
+ 
 
-+------------------------------+----------+----------+-------+
-|            symbol            | 9abf2313 | 02f7b9fd | delta |
-+------------------------------+----------+----------+-------+
-| nm.T.simple_xattr_add        | 0        | 72       | 72    |
-| bzImage                      | 491520   | 491584   | 64    |
-| nm.T.simple_xattrs_free      | 0        | 49       | 49    |
-| nm.T.simple_xattr_set        | 256      | 288      | 32    |
-| nm.t.free_simple_xattr       | 0        | 23       | 23    |
-| nm.t.rbtree_simple_xattr_cmp | 0        | 12       | 12    |
-| nm.T.simple_xattrs_init      | 0        | 7        | 7     |
-| nm.T.simple_xattr_get        | 75       | 78       | 3     |
-| nm.D.linux_banner            | 152      | 155      | 3     |
-| nm.T.simple_xattr_list       | 94       | 93       | -1    |
-| nm.T.simple_xattr_list_add   | 13       | 0        | -13   |
-+------------------------------+----------+----------+-------+
-
-
-
-Thanks
+base-commit: 8bd8dcc5e47f0f9dc40187c3b8b42d992181eee1
+-- 
+An old man doll... just what I always wanted! - Clara
 
