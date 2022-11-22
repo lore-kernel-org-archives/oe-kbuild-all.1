@@ -1,48 +1,26 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E33EA4;
-	Tue, 22 Nov 2022 14:55:07 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id e13so20969082edj.7;
-        Tue, 22 Nov 2022 06:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2wFSWoFIJfsyyiI2M/5aDDolOMz28JVVqrVpNUDbq6Y=;
-        b=I0nXhQ7WOfMJBv6y5tqaII0gpWbAAn2e1agEwR4ZUVLsjzyFAjcm8oHM2DKp1wTpgV
-         UjZj/R+o5YQhc/IQ509Ds1vW1YZAdhsaT4DgfhsFCb4ddDb9rWBeHjuG4ETA7LkJlVUm
-         n+mvUD3+sY/a/C/opEp9EMERGYEpPZ1tgmh8BptPOZmtSOwfmUSaIvYNrX9osiAS2MMw
-         pFI8LLrF2ymRQlg8GgsNADS+Wsa+fAI6SVARXmRJQxNEmSEMqNQYC3aL7Pe4F0asW3RZ
-         kqiqTuK+mhlbnwq+8uA9C1Gzb0GUh7a4b6OyHcnuKgeGUmkJ67iKyZJ1YX/Fqg9Es7Mk
-         QH9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2wFSWoFIJfsyyiI2M/5aDDolOMz28JVVqrVpNUDbq6Y=;
-        b=6vfv3OCY9YF8Lc4dyxGY12/vXYaJpxJhragnKtaEzaZYzuLytWuyj3YG05g9ILPtRt
-         7h75x9Xitow9LRdAQjx+Ge2flZYyj521XamVtx3R1JlHb6NCz4p70D8wRqNZAbGDg3Pd
-         7J2sSKyU/0CwE1ZPlQBT69VHZEXh3lETNDtO9CfhQ1XEXogvpS9acgl9UAKgYI4G+NBg
-         enifQkchsP0hZE3Nx27voP9d0xivKojVl+4vG12Uc8vY82HBFabwEeWBp3vrvYSuMdPO
-         lyukzqHY+Nmo4k5/6HRNASVUXeYIyJr/deyDqjnsPgEbpecs6OzkkvNI+0/LpXUEItkS
-         93Gw==
-X-Gm-Message-State: ANoB5plktRym4OSjQexC4QX4T4K+DtxMMHLHB+kQwS5msh1AnAQy2Ukp
-	PtWtbMHbLqpvZcJacecTATUaxMifI3M=
-X-Google-Smtp-Source: AA0mqf47TdDZzPzKbjISZgR8bvQlBp/UAh6B3+Nn5Vsva1XJXlg6B6LcP4pR6nkz4CPhpTtpI4o4AA==
-X-Received: by 2002:aa7:c9cd:0:b0:461:891a:8162 with SMTP id i13-20020aa7c9cd000000b00461891a8162mr21041340edt.398.1669128905549;
-        Tue, 22 Nov 2022 06:55:05 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c18-20020a17090618b200b0073a20469f31sm6141978ejf.41.2022.11.22.06.55.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 06:55:04 -0800 (PST)
-Date: Tue, 22 Nov 2022 17:55:00 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/3] usb: Add USB repeater generic framework
-Message-ID: <202211222219.nT22Ba7b-lkp@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED2D7468
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Nov 2022 15:13:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FC181FB;
+	Tue, 22 Nov 2022 07:13:55 -0800 (PST)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.32.179])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E7C0F3F73D;
+	Tue, 22 Nov 2022 07:13:47 -0800 (PST)
+Date: Tue, 22 Nov 2022 15:13:39 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Will Deacon <will@kernel.org>, Florent Revest <revest@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: Re: [linux-next:master 8539/9537] include/linux/ftrace.h:126:16:
+ error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean
+ 'ftrace_get_regs'?
+Message-ID: <Y3znIwkQQ6I1M9cF@FVFF77S0Q05N.cambridge.arm.com>
+References: <202211212249.livTPi3Y-lkp@intel.com>
+ <Y3u0t6eHjMbMdyUq@FVFF77S0Q05N.cambridge.arm.com>
+ <20221121124015.31d34642@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +29,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221116123019.2753230-2-abel.vesa@linaro.org>
+In-Reply-To: <20221121124015.31d34642@gandalf.local.home>
 
-Hi Abel,
+On Mon, Nov 21, 2022 at 12:40:15PM -0500, Steven Rostedt wrote:
+> On Mon, 21 Nov 2022 17:26:15 +0000
+> Mark Rutland <mark.rutland@arm.com> wrote:
+> 
+> > ... and since arm64 can be built with DYNAMIC_FTRACE=n we end up with:
+> > 
+> >   CONFIG_DYNAMIC_FTRACE=n
+> 
+> Is there any reason to have CONFIG_DYNAMIC_FTRACE=n and
+> CONFIG_FUNCTION_TRACE=y?
+>
+> The only reason I keep the option to turn off DYNAMIC_FTRACE is for
+> debugging purposes.
+> 
+> That is, if you have HAVE_DYNAMIC_FTRACE, then DYNAMIC_FTRACE should be
+> enabled whenever it is needed by something else.
+> 
+> The reason for static ftrace is simply to help new architectures work their
+> way to having DYNAMIC_FTRACE enabled. Perhaps the solution is to get rid of
+> the DYNAMIC_FRACE prompt, and have it set whenever FUNCTION_TRACER is set
+> and HAVE_DYNAMIC_FTRACE is set.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+To be honest, we just didn't think to remove static ftrace; I'm happy to remove
+that for arm64.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/usb-Add-generic-repeater-framework-and-SM8550-driver/20221116-203345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20221116123019.2753230-2-abel.vesa%40linaro.org
-patch subject: [RFC PATCH 1/3] usb: Add USB repeater generic framework
-config: arc-randconfig-m041-20221122
-compiler: arc-elf-gcc (GCC) 12.1.0
+That said, I still think it makes sense to change the code to check 
+CONFIG_DYNAMIC_FTRACE_WITH_ARGS rather than
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS, as mentioned below, unless you intend for
+that to have an effect on static ftrace on x86?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+Everywhere else with DYNAMIC_FTRACE_WITH_ARGS forces DYNAMIC_FTRACE, so it ends
+up equivalent; x86 and arm64 are the only exceptions today.
 
-smatch warnings:
-drivers/usb/repeater/repeater.c:111 devm_usb_get_repeater_by_node() error: uninitialized symbol 'flags'.
+Thanks,
+Mark.
 
-vim +/flags +111 drivers/usb/repeater/repeater.c
-
-19c3fed685e0e8 Abel Vesa 2022-11-16   79  struct  usb_repeater *devm_usb_get_repeater_by_node(struct device *dev,
-19c3fed685e0e8 Abel Vesa 2022-11-16   80  					  struct device_node *node,
-19c3fed685e0e8 Abel Vesa 2022-11-16   81  					  struct notifier_block *nb)
-19c3fed685e0e8 Abel Vesa 2022-11-16   82  {
-19c3fed685e0e8 Abel Vesa 2022-11-16   83  	struct usb_repeater *rptr = ERR_PTR(-ENOMEM);
-19c3fed685e0e8 Abel Vesa 2022-11-16   84  	struct usb_repeater *rptr_devm;
-19c3fed685e0e8 Abel Vesa 2022-11-16   85  	unsigned long flags;
-19c3fed685e0e8 Abel Vesa 2022-11-16   86  
-19c3fed685e0e8 Abel Vesa 2022-11-16   87  	rptr_devm = devres_alloc(devm_usb_repeater_release,
-19c3fed685e0e8 Abel Vesa 2022-11-16   88  					sizeof(*rptr_devm), GFP_KERNEL);
-19c3fed685e0e8 Abel Vesa 2022-11-16   89  	if (!rptr_devm) {
-19c3fed685e0e8 Abel Vesa 2022-11-16   90  		dev_dbg(dev, "failed to allocate memory for devres\n");
-19c3fed685e0e8 Abel Vesa 2022-11-16   91  		goto err0;
-
-return ERR_PTR(-ENOMEM);
-
-19c3fed685e0e8 Abel Vesa 2022-11-16   92  	}
-19c3fed685e0e8 Abel Vesa 2022-11-16   93  
-19c3fed685e0e8 Abel Vesa 2022-11-16   94  	spin_lock_irqsave(&usb_repeater_lock, flags);
-19c3fed685e0e8 Abel Vesa 2022-11-16   95  
-19c3fed685e0e8 Abel Vesa 2022-11-16   96  	rptr = of_usb_find_repeater(node);
-19c3fed685e0e8 Abel Vesa 2022-11-16   97  	if (IS_ERR(rptr)) {
-19c3fed685e0e8 Abel Vesa 2022-11-16   98  		devres_free(rptr_devm);
-19c3fed685e0e8 Abel Vesa 2022-11-16   99  		goto err0;
-19c3fed685e0e8 Abel Vesa 2022-11-16  100  	}
-19c3fed685e0e8 Abel Vesa 2022-11-16  101  
-19c3fed685e0e8 Abel Vesa 2022-11-16  102  	if (!try_module_get(rptr->dev->driver->owner)) {
-19c3fed685e0e8 Abel Vesa 2022-11-16  103  		rptr = ERR_PTR(-ENODEV);
-19c3fed685e0e8 Abel Vesa 2022-11-16  104  		devres_free(rptr_devm);
-19c3fed685e0e8 Abel Vesa 2022-11-16  105  		goto err0;
-19c3fed685e0e8 Abel Vesa 2022-11-16  106  	}
-19c3fed685e0e8 Abel Vesa 2022-11-16  107  	devres_add(dev, rptr_devm);
-19c3fed685e0e8 Abel Vesa 2022-11-16  108  
-19c3fed685e0e8 Abel Vesa 2022-11-16  109  	get_device(rptr->dev);
-19c3fed685e0e8 Abel Vesa 2022-11-16  110  err0:
-19c3fed685e0e8 Abel Vesa 2022-11-16 @111  	spin_unlock_irqrestore(&usb_repeater_lock, flags);
-19c3fed685e0e8 Abel Vesa 2022-11-16  112  
-19c3fed685e0e8 Abel Vesa 2022-11-16  113  	return rptr;
-19c3fed685e0e8 Abel Vesa 2022-11-16  114  }
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
+> 
+> For debugging purposes, I may add
+> 
+> HAVE_DEBUG_DYNAMIC_FTRACE
+> 
+> which brings back the prompt (for x86 only).
+> 
+> -- Steve
+> 
+> 
+> >   CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
+> >   CONFIG_DYNAMIC_FTRACE_WITH_ARGS=n
+> > 
+> > Looking at this some more, ftrace_regs_has_args() should check for
+> > CONFIG_DYNAMIC_FTRACE_WITH_ARGS rather than
+> > CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS, or it'll bogusly report we have args when
+> > CONFIG_DYNAMIC_FTRACE=n.
+> > 
+> > I'd prefer to change the core ftrace code to check for
+> > CONFIG_DYNAMIC_FTRACE_WITH_ARGS for consistency with that, but I'll need to
+> > check how that affects other architectures.
