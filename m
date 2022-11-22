@@ -1,68 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61EDAED0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Nov 2022 16:41:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14CFF1FB;
-	Tue, 22 Nov 2022 08:41:16 -0800 (PST)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.32.179])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D5153F73D;
-	Tue, 22 Nov 2022 08:41:08 -0800 (PST)
-Date: Tue, 22 Nov 2022 16:41:02 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Will Deacon <will@kernel.org>, Florent Revest <revest@chromium.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [linux-next:master 8539/9537] include/linux/ftrace.h:126:16:
- error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean
- 'ftrace_get_regs'?
-Message-ID: <Y3z7nlH2jKxO6cjr@FVFF77S0Q05N.cambridge.arm.com>
-References: <202211212249.livTPi3Y-lkp@intel.com>
- <Y3u0t6eHjMbMdyUq@FVFF77S0Q05N.cambridge.arm.com>
- <20221121124015.31d34642@gandalf.local.home>
- <Y3znIwkQQ6I1M9cF@FVFF77S0Q05N.cambridge.arm.com>
- <20221122103042.07c349ee@gandalf.local.home>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC61107A1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Nov 2022 17:23:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6619CC433D6;
+	Tue, 22 Nov 2022 17:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669137834;
+	bh=qaoX8JS/r3B9Mh36lrvWBGRiKnKRUTQSKQq3gRh6e6Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZiiNcDWMpUYM6wDzFI775zdShVfU+e0I05DnaR6XtomWpxTqZHUXvKOtkuDh85Uoq
+	 8d6FJ9sXQVF/8cbj8xSdYMUr3MTlkwgs88Og1eKXM2oyfskKTkTvjBejMA/nLQnnep
+	 pHyJmbmhGqMVoY/GQ//XEcrPEeY13HeJ5MayDKkUx0tITCUYizgvC+mCKvXTQb1Uz/
+	 Piwra5EbgmN6lPKMUhrwEVJOJKSd1r3D+yiT8si2HaQmagPt3yMh5L/SHNq/2txfdD
+	 UQZTpoqx+/Wh9rPgIHNV0WmNy5PQnqWlmBjtfULQnNHiprnsZ/30zFxTpcun3qmxAM
+	 WwDs6+uENfhqg==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 37/37] mm/damon/sysfs.c:1770:1: warning: the frame size of 4112 bytes is larger than 2048 bytes
+Date: Tue, 22 Nov 2022 17:23:52 +0000
+Message-Id: <20221122172352.108928-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202211201007.rrcqTUxE-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122103042.07c349ee@gandalf.local.home>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 22, 2022 at 10:30:42AM -0500, Steven Rostedt wrote:
-> On Tue, 22 Nov 2022 15:13:39 +0000
-> Mark Rutland <mark.rutland@arm.com> wrote:
+On Sun, 20 Nov 2022 10:09:58 +0800 kernel test robot <lkp@intel.com> wrote:
+
+> [-- Attachment #1: Type: text/plain, Size: 1519 bytes --]
 > 
-> > To be honest, we just didn't think to remove static ftrace; I'm happy to remove
-> > that for arm64.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   06638cb072cbac35ea150107af1992c5249cc671
+> commit: 06638cb072cbac35ea150107af1992c5249cc671 [37/37] (not-for-sending) mm/damon/sysfs: Add a file for simple checking memcg ids and paths
+> config: loongarch-allmodconfig
+> compiler: loongarch64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?id=06638cb072cbac35ea150107af1992c5249cc671
+>         git remote add sj https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git
+>         git fetch --no-tags sj damon/next
+>         git checkout 06638cb072cbac35ea150107af1992c5249cc671
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash mm/damon/
 > 
-> Please do. There's no reason for it. The *only* reason I keep it around on
-> x86 is to make sure it still works (for those other architectures
-> developing ftrace).
-
-I've sent that out as:
-
-  https://lore.kernel.org/linux-arm-kernel/20221122163624.1225912-1-mark.rutland@arm.com/T/#u
-
-... on the assumption Will can queue that as a fixup.
-
-> > That said, I still think it makes sense to change the code to check 
-> > CONFIG_DYNAMIC_FTRACE_WITH_ARGS rather than
-> > CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS, as mentioned below, unless you intend for
-> > that to have an effect on static ftrace on x86?
-> > 
-> > Everywhere else with DYNAMIC_FTRACE_WITH_ARGS forces DYNAMIC_FTRACE, so it ends
-> > up equivalent; x86 and arm64 are the only exceptions today.
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
 > 
-> Yeah, looking at the code, I think it does make sense to just use
-> DYNAMIC_FTRACE_WITH_ARGS, as that was created to combine the other two
-> configs anyway.
+> All warnings (new ones prefixed by >>):
+> 
+>    mm/damon/sysfs.c: In function 'debug_show':
+> >> mm/damon/sysfs.c:1770:1: warning: the frame size of 4112 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+>     1770 | }
+>          | ^
 
-Great; I'll follow up with a cleanup patch once the above has settled.
+Thank you for finding this!  Fixed:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=a3845859246e47f3f4b5bc8ddba4a435a0fb4611
+
 
 Thanks,
-Mark.
+SJ
