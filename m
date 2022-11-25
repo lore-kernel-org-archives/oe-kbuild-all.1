@@ -1,107 +1,133 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FE533DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Nov 2022 14:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0562C9D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Nov 2022 14:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669385128; x=1700921128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=49v6jV7/APeG7V/lVoH5mGvV+9y8ht9JG3MCRW/cek8=;
-  b=W1Ah5cucuHvBO5IVDkn4Z3+m0q/wRj7ialLkH7mWwyamGUUUg4ziB+zc
-   ErA2gR5vy5Oe+ZONC5EdIDoqBxRtB02nAVzCsvzVywoo/S6LQEeChY/eZ
-   qEvxTCvugTonznk5fu0DbPqvEYpnm3hniaOGBZHegmdf7eRyxe+3OgWCY
-   TvvQH7vxF5oiRlgdPGn2K4lSbn255UjRNMl6t4hZeqG545IOWBIJxoWNT
-   eFb2pIUJ+RshqaX8U+RyZspUjtbciEDYrR9ftiLvY+Pdg2vkGVWvseC3v
-   Ou1ANpFutW5UehwO+jIhzwphkcAleW5owD6AcL5v+Dr2TGi5chOHSjx/r
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="376632298"
+  t=1669386928; x=1700922928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ZGbfnjBC8RawrVPivRz0rSaqNce6NFMEcF47uk2+f0=;
+  b=k4v7vDl6bPZw5nt+3A4CirdfxOyNbhXnxyaf8HE/i8xhhTXTEIRb22Nb
+   lp5qYxfM1kp32RzRE0pXfxOsNyDp12F6jg9HNhZloCYL9BfuZOatg3Iob
+   YbQ0GMEN0nSED1SE4fU2+htw56ZNnz9W5KZOBJSEHkw7iOPBPVVPY8ndl
+   lzh0u1miIEPU5hogp5RzMNEIrPizsO/2UFIhInB+OqEysJD9O6mTHe50m
+   om2j0T3KIaSpk+erZroS5gmedp0xVPqt7uII7NKAsyAXLh3Hy2z957uo9
+   wh7f4QdtmM9+CT71i8p1UichNeXKV9yX2XZl295qbW3xcQeZ37cLoCzPa
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="341395578"
 X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
-   d="scan'208";a="376632298"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2022 06:05:27 -0800
+   d="scan'208";a="341395578"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2022 06:35:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="748598285"
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="644819423"
 X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
-   d="scan'208";a="748598285"
+   d="scan'208";a="644819423"
 Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2022 06:05:25 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 25 Nov 2022 06:35:25 -0800
 Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oyZKW-0005Cb-2L;
-	Fri, 25 Nov 2022 14:05:24 +0000
-Date: Fri, 25 Nov 2022 22:04:31 +0800
+	id 1oyZnZ-0005Db-14;
+	Fri, 25 Nov 2022 14:35:25 +0000
+Date: Fri, 25 Nov 2022 22:34:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-hardening-rebased 11/37]
- arch/x86/coco/tdx/tdx.c:309:14: warning: no previous prototype for
- 'tdx_write_msr'
-Message-ID: <202211252200.xNd5GJJs-lkp@intel.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1] mm: Add memory.demote for proactive demotion only
+Message-ID: <202211252211.BWWDVuOB-lkp@intel.com>
+References: <20221122203850.2765015-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="YcESsKjHjniH6ywT"
+Content-Type: multipart/mixed; boundary="A8ATUVczxjgAhUt6"
 Content-Disposition: inline
+In-Reply-To: <20221122203850.2765015-2-almasrymina@google.com>
 
 
---YcESsKjHjniH6ywT
+--A8ATUVczxjgAhUt6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-hardening-rebased
-head:   0eac08d9803689fc17e64f08acf8381f1c9c4a3a
-commit: ab502e30ea17a59bfe49c5b6c61ba5514c28f7a4 [11/37] x86/tdx: Use direct paravirt call for wrmsrl
+Hi Mina,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/mm-Add-memory-demote-for-proactive-demotion-only/20221123-044037
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20221122203850.2765015-2-almasrymina%40google.com
+patch subject: [RFC PATCH v1] mm: Add memory.demote for proactive demotion only
 config: x86_64-randconfig-a013
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/ab502e30ea17a59bfe49c5b6c61ba5514c28f7a4
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-hardening-rebased
-        git checkout ab502e30ea17a59bfe49c5b6c61ba5514c28f7a4
+        # https://github.com/intel-lab-lkp/linux/commit/19332fd23e9164668e6478d89979b3476d41de91
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mina-Almasry/mm-Add-memory-demote-for-proactive-demotion-only/20221123-044037
+        git checkout 19332fd23e9164668e6478d89979b3476d41de91
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/coco/tdx/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/coco/tdx/tdx.c:309:14: warning: no previous prototype for 'tdx_write_msr' [-Wmissing-prototypes]
-     309 | void notrace tdx_write_msr(unsigned int msr, u32 low, u32 high)
-         |              ^~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'memory_demote':
+>> mm/memcontrol.c:6630:40: error: 'MEMCG_RECLAIM_ONLY_DEMOTE' undeclared (first use in this function); did you mean 'MEMCG_RECLAIM_MAY_SWAP'?
+    6630 |         unsigned int reclaim_options = MEMCG_RECLAIM_ONLY_DEMOTE;
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                        MEMCG_RECLAIM_MAY_SWAP
+   mm/memcontrol.c:6630:40: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/tdx_write_msr +309 arch/x86/coco/tdx/tdx.c
+vim +6630 mm/memcontrol.c
 
-   308	
- > 309	void notrace tdx_write_msr(unsigned int msr, u32 low, u32 high)
-   310	{
-   311		struct tdx_hypercall_args args = {
-   312			.r10 = TDX_HYPERCALL_STANDARD,
-   313			.r11 = hcall_func(EXIT_REASON_MSR_WRITE),
-   314			.r12 = msr,
-   315			.r13 = (u64)high << 32 | low,
-   316		};
-   317	
-   318		if (tdx_fast_tdcall_path_msr(msr))
-   319			__tdx_hypercall(&args, 0);
-   320		else
-   321			native_write_msr(msr, low, high);
-   322	}
-   323	
+  6623	
+  6624	static ssize_t memory_demote(struct kernfs_open_file *of, char *buf,
+  6625				     size_t nbytes, loff_t off)
+  6626	{
+  6627		struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+  6628		unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+  6629		unsigned long nr_to_demote, nr_demoted = 0;
+> 6630		unsigned int reclaim_options = MEMCG_RECLAIM_ONLY_DEMOTE;
+  6631		int err;
+  6632	
+  6633		buf = strstrip(buf);
+  6634		err = page_counter_memparse(buf, "", &nr_to_demote);
+  6635		if (err)
+  6636			return err;
+  6637	
+  6638		while (nr_demoted < nr_to_demote) {
+  6639			unsigned long demoted;
+  6640	
+  6641			if (signal_pending(current))
+  6642				return -EINTR;
+  6643	
+  6644			demoted = try_to_free_mem_cgroup_pages(
+  6645				memcg, nr_to_demote - nr_demoted, GFP_KERNEL,
+  6646				reclaim_options);
+  6647	
+  6648			if (!demoted && !nr_retries--)
+  6649				return -EAGAIN;
+  6650	
+  6651			nr_demoted += demoted;
+  6652		}
+  6653	
+  6654		return nbytes;
+  6655	}
+  6656	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---YcESsKjHjniH6ywT
+--A8ATUVczxjgAhUt6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -4833,6 +4859,7 @@ CONFIG_RUNTIME_TESTING_MENU=y
 # CONFIG_TEST_BITMAP is not set
 # CONFIG_TEST_UUID is not set
 # CONFIG_TEST_XARRAY is not set
+# CONFIG_TEST_MAPLE_TREE is not set
 # CONFIG_TEST_RHASHTABLE is not set
 # CONFIG_TEST_SIPHASH is not set
 # CONFIG_TEST_IDA is not set
@@ -4851,6 +4878,7 @@ CONFIG_RUNTIME_TESTING_MENU=y
 # CONFIG_TEST_MEMINIT is not set
 # CONFIG_TEST_FREE_PAGES is not set
 # CONFIG_TEST_CLOCKSOURCE_WATCHDOG is not set
+# CONFIG_TEST_OBJPOOL is not set
 CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_MEMTEST is not set
 # end of Kernel Testing and Coverage
@@ -4861,4 +4889,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---YcESsKjHjniH6ywT--
+--A8ATUVczxjgAhUt6--
