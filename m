@@ -1,166 +1,140 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E9715A8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Nov 2022 02:18:57 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AQ1cJB9010405;
-	Sat, 26 Nov 2022 02:18:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2022-7-12;
- bh=+WZ1ocWAXZjWErdBS+DohX3zCZvgNDpQIQksVzefwOg=;
- b=vurw4kF+Rhsfd0Ub+ECctobH1gQMyOBrKJNWYrDfVpLqPLGgAtgjIuH+y+GckTyGC+qT
- 2fq1aj7gHzieG5WG6tFSWD0ObPJcPoExaip58Qea7b1PNlGAhS9AzGaeahr7w7SLye5A
- sulOtyYOonU6nPMlQP5T6nSDhstXMWRqPsG2HNXsBYhbAizBE5sKpNLS4JlWYvbj6Jk2
- 3Tx7UyBz6cG4ABR2JqZrH3sa2t8/ZPHtrrtEE+dleT/xQ+F0ZRAbKrVpWmleuJY07N/8
- U2wO1Jzs1nB3rny/PStseyYYopaOG9ZEy/PMpK5jpFTpoNsxqP5Ozy9t5SnzxgAPteFG ag== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kxrfb9hu7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 26 Nov 2022 02:18:54 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2AQ1X5Rd005371;
-	Sat, 26 Nov 2022 02:18:53 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2046.outbound.protection.outlook.com [104.47.57.46])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3m398215x3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 26 Nov 2022 02:18:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n5mzOsC/1ek3kHbXLwnHwX8FtUfMSrf0RifB9cXEte8j985OF9O8LeYAXLfsUC6lM4w5kNkyZ1rVqY5KvOzDqBI2L9xB4sKoIMvlkXfwCK+u9kNtzahWzk64TUmPW8R+W1dvi6Zsaw/Lc9tmyPeVtxKog/fx0x3AmJGQ4SzTxi4m1/lo7tJR/qxIQIPe9B0cGvDWtmKJ2rid4h1ed4Fqokr888pUjbyEAjUpkqPQ0qNSqI95RDMbalDdRXQUny5dSejbfKcrtZ9EzNAR3oSXTg82pCKF7su0KHpPffy0bpvErDSxyrRtgYLHpgY6aUGJY4FcXzGGzKZOy7IpEdvajQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+WZ1ocWAXZjWErdBS+DohX3zCZvgNDpQIQksVzefwOg=;
- b=Nb4eBrhfk+88mD+KnRXFbWZnOQoaAqz94DHnpDMsodsGqnRpMK7lAwF9LuAkfUG5pEBokVh9IiXI5kfs3O0xX5b3Dree3/6Xx4zc+vQhl2hTnP59+FRVyroylLSd0Y/GzmXUTBWx6h5ZeSfjHsJlz1P/STAvGohQ9iujvtu1EKJiIasP3fobxC3sbVu42gUjBFgK9YVNYLkOuSwf3Ou+a+dXJrXbDsgB2jd2QKB/xjN7S+YkWuytfqWX99/+goySQlm8hCpfXYvXbUcTyO557KpTszpliJWvLf4bts5QGBVxCaBixD0n+xZIo0+lGNcbMX0D0FxblH3NO7G+Nxspsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+WZ1ocWAXZjWErdBS+DohX3zCZvgNDpQIQksVzefwOg=;
- b=RZ+RxXotN2I9QGU0+YiYY4POA8OeY2f2ITVG24TwoH/rrSNcoFRdVJn9n5gas3C4Qhh0o1RKOAB2/9i4pbo21SjG+WGQdTdX2CFyu1afbRQYWK5MNJvnCkGSPUjjIdl+ufKXLdm5qRr/5W0ro5QvX1k4AYgfny+mgQxUR/JiLuY=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by BY5PR10MB4114.namprd10.prod.outlook.com (2603:10b6:a03:211::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.21; Sat, 26 Nov
- 2022 02:18:51 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::b32e:78d8:ef63:470a]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::b32e:78d8:ef63:470a%9]) with mapi id 15.20.5857.020; Sat, 26 Nov 2022
- 02:18:51 +0000
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: kernel test robot <lkp@intel.com>,
-        "Martin K . Petersen"
- <martin.petersen@oracle.com>,
-        "oe-kbuild-all@lists.linux.dev"
- <oe-kbuild-all@lists.linux.dev>,
-        "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>,
-        Damien Le Moal
- <Damien.LeMoal@opensource.wdc.com>,
-        Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v2] scsi: sd_zbc: trace zone append emulation
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1h6ymo3wp.fsf@ca-mkp.ca.oracle.com>
-References: <6a21e78a188e5a0d630acd771afee11c7d45d183.1668427228.git.johannes.thumshirn@wdc.com>
-	<202211151344.VGP4HoGU-lkp@intel.com>
-	<7c758dc6-692c-3aeb-a0de-05e4134f839f@wdc.com>
-Date: Fri, 25 Nov 2022 21:18:48 -0500
-In-Reply-To: <7c758dc6-692c-3aeb-a0de-05e4134f839f@wdc.com> (Johannes
-	Thumshirn's message of "Fri, 18 Nov 2022 08:31:26 +0000")
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR13CA0031.namprd13.prod.outlook.com
- (2603:10b6:a03:180::44) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3380C7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Nov 2022 02:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1669430213; x=1700966213;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=JNCi3LJwfinnZKzD9y0LmfbvVSPVLhyEvFpV8dzXlKU=;
+  b=Dp6gTNf+4lfmDgwq54BjNkzDcAf0S/tZ/TV2OX6HQWGznBiDL3EJ/gUU
+   cskU5syyAyLWRuYV5CUhuhGXMaHTRYBtqJLdnVIx2S9I2Dv7ZZOZ3KNDY
+   uuy957bMVCSFaQCF7FwXxGjMADBxV7C8WJwKwUJWatSasUeT3xpbtYGY0
+   guZy6H7JJojG7Tsbqf909Nr1eot1L8dmBjNraalYO5xHWgMb9pOc0Knaw
+   GUExp+F97VzGniL1YMH1+tjJpaMiCJ4e9mmOAfgn+AZUrsU4m21/i1BUJ
+   FU6RXCMqAP4/9i3vNGY1werfu1JrQkEtyI9vk/3yuXaUzD7vpgvVHz7SN
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,194,1665417600"; 
+   d="scan'208";a="217506251"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Nov 2022 10:35:41 +0800
+IronPort-SDR: EZG5WDu6ggsJgNedmw42KisER9QXx5raR/1DYCR5MRvUw3+eHMFXDIvMl6RH5EmwAvMEIXZck7
+ NKeb7qeM+TKznAr+WFuK5dSzrnNHYazvjzoIJKNqbCKdH2s+9lxckPcHBrDFL3mFHhwbgyUzHl
+ va2uFnX1CaEL9SRUAEq8X37CSdiiGt79oxrZjYpS28jb3RQh5btjpEOHjilDLwnIwY8xS5iz1D
+ 0Xj3rBI6bHIbior72+k/LqQo4ZWwf2XoJXqT3nsdFhomv0wzQSzrS51eHYP3fP3Dljepx/L9YY
+ 9zg=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Nov 2022 17:54:26 -0800
+IronPort-SDR: CotP7HfXtFlucCvVcLSx4wL9HfJ+LiIY7fD+4HQK+m4QFWhQRzJV0qoCFDek8FETjv5c3OsAOO
+ OBOpuhtRE9VhFaUnbfE5GOSiaGWvPvLSN7WlZF5vqGnyDCH/gYYA0YMpThST8htOkd+NU6N6Pb
+ ZJkSvSzwHoSg0P85ayiOTsTOzGT82936y2ENtnDEw6A2l5uRYU6bjXKSylahb5L/3kkhh1FByo
+ SE7DQWvZfHzLjQQHlD9yGijrrdHU3rxGLjRnKwDVRjJo+jTt8MN9EjAr5zShThVQWRXsaIU+NF
+ 4MU=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Nov 2022 18:35:41 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NJwnn2g3kz1RwtC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Nov 2022 18:35:41 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1669430140; x=1672022141; bh=JNCi3LJwfinnZKzD9y0LmfbvVSPVLhyEvFp
+	V8dzXlKU=; b=KaH6c1zurSp45XL40cO1gQU9DIBRtkyfX7OJNc5KB2QwzU8Yk7A
+	kwEjTO/VVM6faxeb1kNEDx5LEeyPHe6vpC45L6w22P6UYcW1oYt+euW4P+zWvqa9
+	JDunmygcRPcN5+3Yip63GHCt/S76ql3SzukzD0rgtx8KwnLbcQXwdJCjE9mvwq4p
+	WoS3wHII9NJQLdhak9eguWHS+egF+K2APJ4ySn8oKP6D5xTDlORk80SubUxa9FkW
+	PnE36Q1ydvkpjGOQoJD46Ql37R/biYt5AQbiDR/RGfp0HaAsi/RvJiN8O55vEYpI
+	u6nQYqVt1kR4gDd9G9NcIMrNx/CEkrIMt0Q==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id WoONt0MqPDNP for <oe-kbuild-all@lists.linux.dev>;
+	Fri, 25 Nov 2022 18:35:40 -0800 (PST)
+Received: from [10.225.163.56] (unknown [10.225.163.56])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NJwnl67ddz1RvLy;
+	Fri, 25 Nov 2022 18:35:39 -0800 (PST)
+Message-ID: <969cf476-d732-9566-63e4-01fb23fa74fe@opensource.wdc.com>
+Date: Sat, 26 Nov 2022 11:35:38 +0900
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|BY5PR10MB4114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5bb85f14-173c-414e-f09c-08dacf548f34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	UksRGbyj49bbfgOEbVTT+lNreORuCsyk50DY6Ytne9EuDoWgIOs0GQMahdyl7BcM7JD+6nRrXmjsPuX0njyOVMjrNIn3QwvjlfN67WAszknILJQPMhJ81w48FbuvuOgzFw9VXGT9xz8/kXYBDAokjVZ6M0iuWmYRwLyHv4UQvbeH/7oxHnsgmp+X0qy6lVSboWuKVnS5o1Hd+5WzD/HOqzEND3RZgOIgkAbeOL4VWwHeli3R20zvWMMSMMq6KpXdXX4FrlmMR2GnlXtQ0NU2/GSp4gLg8n9eC4oYQm+DGJxEY19MvbUC6WdpKFNN8oZZ4KyKfXMa4EiBiiYDRnLheLJdCKGcVJMeNV5AalITGiQ/zP3A114BlurFCmeTCLgAHUriedl92yLTwBbL0APMcbKQ8Z1iKdu+nnzo2txcmiH3YcsecU8vz2hKocyKn8hAizDZ8uzGfwaVfXOJQ56DnhMDp7ZLPssgJDoXfEmjGdLoG4YGOJsmzjbnVbpb6sasfBPmZ6iQA6UvGgRJE9U3sk5UwaCiUQ0zRbSGipkCyWxNRt5OvJFfcgT5H4wD2WcpEX67vIdV1/2ZhpauKo0Pli3pUWV+DuTPSiZ/U4xwzoINnZUYOxa7rPgfq2yQtIpAh+bgx95Aab9g1XuZ4P4rrA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(376002)(396003)(346002)(366004)(39860400002)(451199015)(38100700002)(2906002)(41300700001)(4744005)(86362001)(83380400001)(66476007)(66946007)(6916009)(316002)(66556008)(6486002)(54906003)(8676002)(186003)(478600001)(36916002)(5660300002)(8936002)(26005)(6666004)(6512007)(6506007)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YWFsGO+ab3gyXNp4i/gSblu53o5UDveX70cUStMA4w9IyqF02rIaFyowcXWX?=
- =?us-ascii?Q?FT7+eBZBA1IV/XtojeUt9MgJqNoLHUiVYhaJnNBd7oPdM/zD83e6KAmrofYB?=
- =?us-ascii?Q?8/jxzeTFhPA6z3FxtRCszgdNP3WCS64u7JkL5/RHn6FLNu71xQZ2cdyZX3S9?=
- =?us-ascii?Q?bFkCV6a2sThGIYIcvg/Vq/wRQXZKuvjlPP1J5W8ZJfjpeHEDt5JMUEKZoy/n?=
- =?us-ascii?Q?WKQ6tyVwXZx4PqaNUvv0AP/a70JrKEhPpg5x3eiVDb12VUICYj/gY3nHVe5d?=
- =?us-ascii?Q?Y17QcMONxAnHolz6sWmBQjrRoAocqIBk7VO9NPdN+LBazbzquOTOeRkCtknj?=
- =?us-ascii?Q?+u8s7HGJTDkpsNHrLA3RDYeYbshAFHuSmUtk3q7Cz+bm7/1E4nuMHYzxExcd?=
- =?us-ascii?Q?fG35XFC94qdKwBoSy/6XwXcLOH3sy/72N9ethkBQSK11fu2yV7mTWgtzBnxu?=
- =?us-ascii?Q?vd58XEssR4XITWiYmtbLAiLoFu9w/tqkbyOZKt/xiDfhjXMhdilRSv+Ap3jF?=
- =?us-ascii?Q?0YJzNZQlvTXVc/Zv4ucK2ccEvXitSfmjtwn6B70wKUL2hYFF4yy7j+KMrV6k?=
- =?us-ascii?Q?FX1TVz6OxUo/GnTriBILackE3iAfw4jqvDZCA3la70wftsnthyEGU64Nvd31?=
- =?us-ascii?Q?MO87qr57pEjrIEt3mTlvhCpNTsm3WY8us+xXRdjxS1mNNSwJMje/5J1Kjgax?=
- =?us-ascii?Q?k1JKtuD9HvQpeNOxaZUFzqYDPJLB6M44co76yqKC1gKNZK3PUblpPJuNxRUU?=
- =?us-ascii?Q?IBgxbj/S9LAecUYAS/Lp5RGmImrrqDpBwFGm6FMIM0CHV22/hxIXxcgTFRna?=
- =?us-ascii?Q?05EnHQZhw5/09/ovWhOaGk04/NoAbQNUbbEauv9K/vCAf1EX3zMIyy7Uy8+2?=
- =?us-ascii?Q?tH7rH+l55FiwJCb788IRYH5brKiHXLU3ndX9cDzrgjE8HlBQ8FMIaiqdqKYr?=
- =?us-ascii?Q?rrgbFFkTVlIe9AdlJ0boRK0oELCKZlt3lDi6MePx0/2tTbj04Drhr1JfrbQd?=
- =?us-ascii?Q?el+lxfJKsLIAQB+qQDlfMQW8ObUhjz9S2PUtN5DsrGrAnKA83T4393E6jMx6?=
- =?us-ascii?Q?ZBr76q5A+VU7/8wqAmh1hbY3zgXinSXwtLp/l5bMEu2uHMAOU8Vh9WiA75jg?=
- =?us-ascii?Q?GvlVTWgJkPR93vexq9hhBPrEXG8afztGHzbFXNnEVqf/zyevC/58aBT7ZPw+?=
- =?us-ascii?Q?oFQk3MlyrFsPbDALz9KOgx6ZIWqLpqnQL0vB49vxHyFNu2YGGDr/KNSxkjap?=
- =?us-ascii?Q?66NoTqMapDvptLDaytSVFkt/diOBxCTRh9ge/RzqKbBpDfmsj7DxAzOKW5Sl?=
- =?us-ascii?Q?7KlSvkSBqpcUgTARFyn7QTXzf9jKO+nuHoXKwMPJOE+0oKJdptIwToUU9Lgr?=
- =?us-ascii?Q?mJPmqARvqpF5UaY1+OoUopHpOikxwvJ+MMFUq+PCXSdsZMODpb0wSUTeN6Ag?=
- =?us-ascii?Q?qEpbvmxdBsqkeqMS4XeuTGsWWTj0BS0ATIt/Pi7nXRjm4AxX0tcOb7eyv9+J?=
- =?us-ascii?Q?sOJadFr/fA4pWgnDzrj8pmTRnvdt52quV8ZvS4LWZdlWfbfZDv86T4K2Dzwt?=
- =?us-ascii?Q?PL3MmeYGCzkFDjanixuTXlxA5QRQcu66F/EWz7CYOv/gyG19W8XPBrFL82rd?=
- =?us-ascii?Q?4Q=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	bQhmU+VvOD9VUP9lRvCKsMnkOnUHLx4x+1J8gadCyT7eRUeQdr+LVzx2EaPNU1a1ajpW6tTs4ASm06xs/ArJmVAzc4/2LdDU4HC4ua/nnyAHoR8nYVeegEX5VlJdHbNopYJW9AmMMBd2Tq/JK70CLKjzybrchNGWxQcFQ5OsaJi0darE+EnZruvDtpA84XSaabIZvcY7FugmimK2fj1rC/QQr+7Xm/3Wj/oJfZuAuBCYwiMjbuJnpt5Y72DGyo3+9kWrn8jBaLDpqmlSXx3Q5WbL4H1DTuryIweCT9+IORABIbKIIL+tfHjzjAEJIPVyFXnng45CAnvP+BGkSv74wMcsubCsEPOXYXEEy7B4LZ/MCeaWZ86hWMUoMpYpd5tWl+2UEGWWXJ7GBDXmwFQ01ir3qZZvnJ867pUCS1YPfTZjufgqai6Dh5iiYRJeJVSnjh0FA77Sp5mhLJx+bWZ+APFfTdDZUiPXrXZBmivxQDIb90OZPtqHMjsXvkwrWHxDYc1Sh95Xi1bZsecVMgfiEyil6L5E9O7tlVzFAtQPwLMDP6Zd7/L0IJthlz9iTc8rkwEplwveuDM7VtENDZr0coBnuLRTtS8AgzJs8k2kFmLgRuTHL2YsgLrpCzTrSnSz3hCm7ob7WomxvuTWVPBB/tY/pW+RC6pBo/+TlBL0e5xT76NwJbFyCr9jGZeLAqcsN2XShJXvBSQ7JYoDy6R4Jnektlrfh68Iy0bdbp5ZBA/rKroQeUyidbt/KOK++UMxQIf3IMMjFXYRwKJVkFvfabiiTIzNp0iEHxVIFpvNjwY/JBmD4TCtmX5Z7omV2mZ4ObF0qGPh325EKW4C9qfryxRktMfjMh/RiemfDWGWohisSCFcn3SI1uelKzCIrtpQEatXzvM2lVxKiaWOEiB0k83IJoQ9RqFk1BPafAUqwI8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bb85f14-173c-414e-f09c-08dacf548f34
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2022 02:18:51.4566
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MRZuz/NDMVdGqWX1zvWk/pnFOEezBRJo9xuzpciQ48AAQ3TEOKzMx5ylZF0hLq/4ZkOSF9az/c8IJJUji07l2YDxmkqq/+KwFBtbfm6Oebk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4114
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-26_02,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 phishscore=0
- mlxscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=716
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211260015
-X-Proofpoint-GUID: i69I2RpABghQzJp2FNaRErRp1YElKNC3
-X-Proofpoint-ORIG-GUID: i69I2RpABghQzJp2FNaRErRp1YElKNC3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2] scsi: sd_zbc: trace zone append emulation
+Content-Language: en-US
+To: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+Cc: kernel test robot <lkp@intel.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Hannes Reinecke <hare@suse.de>
+References: <6a21e78a188e5a0d630acd771afee11c7d45d183.1668427228.git.johannes.thumshirn@wdc.com>
+ <202211151344.VGP4HoGU-lkp@intel.com>
+ <7c758dc6-692c-3aeb-a0de-05e4134f839f@wdc.com>
+ <yq1h6ymo3wp.fsf@ca-mkp.ca.oracle.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <yq1h6ymo3wp.fsf@ca-mkp.ca.oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 11/26/22 11:18, Martin K. Petersen wrote:
+> 
+> Johannes,
+> 
+>>>>> ERROR: modpost: "__tracepoint_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
+>>>>> ERROR: modpost: "__SCK__tp_func_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
+>>>>> ERROR: modpost: "__SCK__tp_func_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
+>>>>> ERROR: modpost: "__SCT__tp_func_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
+>>>>> ERROR: modpost: "__tracepoint_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
+>>>>> ERROR: modpost: "__SCT__tp_func_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
+>>>
+>>
+>> I have no clue what modpost is trying to tell me here. These tracepoints aren't
+>> in any way different to the other tracepoints in SCSI.
+> 
+> Haven't investigated. But I get the same errors building scsi-staging
+> with your patch applied. Builds fine without it. gcc 12.1.
+> 
 
-Johannes,
+This is missing:
 
->>>> ERROR: modpost: "__tracepoint_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
->>>> ERROR: modpost: "__SCK__tp_func_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
->>>> ERROR: modpost: "__SCK__tp_func_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
->>>> ERROR: modpost: "__SCT__tp_func_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
->>>> ERROR: modpost: "__tracepoint_scsi_zone_wp_update" [drivers/scsi/sd_mod.ko] undefined!
->>>> ERROR: modpost: "__SCT__tp_func_scsi_prepare_zone_append" [drivers/scsi/sd_mod.ko] undefined!
->> 
->
-> I have no clue what modpost is trying to tell me here. These tracepoints aren't
-> in any way different to the other tracepoints in SCSI.
+diff --git a/drivers/scsi/scsi_trace.c b/drivers/scsi/scsi_trace.c
+index 41a950075913..224b38c0fb0f 100644
+--- a/drivers/scsi/scsi_trace.c
++++ b/drivers/scsi/scsi_trace.c
+@@ -389,3 +389,4 @@ scsi_trace_parse_cdb(struct trace_seq *p, unsigned
+char *cdb, int len)
+                return scsi_trace_misc(p, cdb, len);
+        }
+ }
++EXPORT_SYMBOL(scsi_trace_parse_cdb);
+diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+index 956d1982c51b..e7a0e1ace6d0 100644
+--- a/drivers/scsi/sd_zbc.c
++++ b/drivers/scsi/sd_zbc.c
+@@ -18,6 +18,7 @@
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_cmnd.h>
 
-Haven't investigated. But I get the same errors building scsi-staging
-with your patch applied. Builds fine without it. gcc 12.1.
++#define CREATE_TRACE_POINTS
+ #include <trace/events/scsi.h>
+
+ #include "sd.h"
+
+With that, it compiles fine.
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Damien Le Moal
+Western Digital Research
+
