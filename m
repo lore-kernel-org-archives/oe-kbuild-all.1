@@ -1,132 +1,348 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE228190
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Nov 2022 00:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E85EB29
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Nov 2022 01:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669509919; x=1701045919;
+  t=1669513581; x=1701049581;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a4aJDnKvnWW+g6UJURy1lSwWOZSXZdnHshDF4lilAH4=;
-  b=VG9EQPCDgBwCEpem7/xaFoWRYln7s+ozNLWIg/aVdhwyPNo134+ZPCBP
-   gg9v2yRSa3SFZ4vphg5rwUytPRujsRSVhhZy2KsqKV1IXyCS1SxdzPf0x
-   ow1e1ljBSC3tHu9tkttfeUZiyw8HknHM2ZEd5rQfHlTN5bIJt8PNo2wc9
-   Ashju2+9EDM5/hBDetFwDPv3J/7QoPqFPOBIUXQG3uROwFPEzKKyRKfwK
-   uKn2/gVnGItc767FnZiyP2Kgb4XBjEBskmgeSWf0F/PR9a4+U3NaS8+Q0
-   LGdedB/mlykXxpNkBx7kvnXz5NX0Vg6WwAT+GDLZcgDdPthd8/hsebOtx
+  bh=5dTpsQqRsf873oLTKV3WeBGdi1LkdFMsz+U4i6dCkpo=;
+  b=jPM8iyA5jWcA8fgQNnp31gVvH2L2y6YlPj2oVcVCVhi843yFzgjpzqO6
+   2vbmBHBQwdxKwQUZkenG3CyCtog5tAglEwdUr6JRtDeOHFe/JeGyCgPl+
+   dax5WXKZtlljuUv7EQeZ3WYhK5DLmYJ3hexmUN5M8uAObX4FZ7XWgL/6E
+   4J5A4sEJxnu3sTVazZV4nmMASEG+JNtxdQk4Eswk8lcidKxlLd/XqL2dg
+   FIPq3CZlaefIqod9BdpMHZtaHtiO3q1uMVEg3mtMiH2JeNVUbegeizWTH
+   B89GnE13io29/ub2d4JMxsgqCePXOTB6ZIojxnVFWkIQhtygehmcxkNhZ
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="313329234"
+X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="400926671"
 X-IronPort-AV: E=Sophos;i="5.96,197,1665471600"; 
-   d="scan'208";a="313329234"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 16:45:19 -0800
+   d="scan'208";a="400926671"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 17:46:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="645103836"
+X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="643018448"
 X-IronPort-AV: E=Sophos;i="5.96,197,1665471600"; 
-   d="scan'208";a="645103836"
+   d="scan'208";a="643018448"
 Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Nov 2022 16:45:16 -0800
+  by orsmga002.jf.intel.com with ESMTP; 26 Nov 2022 17:46:18 -0800
 Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oz5nI-0006g9-0W;
-	Sun, 27 Nov 2022 00:45:16 +0000
-Date: Sun, 27 Nov 2022 08:44:52 +0800
+	id 1oz6kL-0006hl-1I;
+	Sun, 27 Nov 2022 01:46:17 +0000
+Date: Sun, 27 Nov 2022 09:45:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.1.x-imx 6200/18019]
- drivers/pwm/pwm-rpmsg-imx.c:308:13: warning: variable 'ret' set but not used
-Message-ID: <202211270803.RkHimLFA-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.1.x-imx 7135/18019]
+ drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:225:24: warning: variable
+ 'retEvents' set but not used
+Message-ID: <202211270906.EWkddm1C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="R3FWX84ap/B24Ftu"
+Content-Type: multipart/mixed; boundary="y9pVfqZsca4gf/KA"
 Content-Disposition: inline
 
 
---R3FWX84ap/B24Ftu
+--y9pVfqZsca4gf/KA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Oliver,
+
+First bad commit (maybe != root cause):
+
 tree:   https://github.com/Freescale/linux-fslc 5.15-2.1.x-imx
 head:   c4c56565f9a812fafee843d7a7248f4991a6b709
-commit: 244a56ed5875f2b0599588959f2d8bdd7cc26b40 [6200/18019] Merge branch 'pwm/next' into next
+commit: 13f2eac454a01cf3398e037b3f5b428d48e6ce1c [7135/18019] MLK-25749-1: gpu: drm: bridge: cadence: Renaming imx HDCP functions to common name
 config: h8300-randconfig-r005-20221127
 compiler: h8300-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/244a56ed5875f2b0599588959f2d8bdd7cc26b40
+        # https://github.com/Freescale/linux-fslc/commit/13f2eac454a01cf3398e037b3f5b428d48e6ce1c
         git remote add freescale-fslc https://github.com/Freescale/linux-fslc
         git fetch --no-tags freescale-fslc 5.15-2.1.x-imx
-        git checkout 244a56ed5875f2b0599588959f2d8bdd7cc26b40
+        git checkout 13f2eac454a01cf3398e037b3f5b428d48e6ce1c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/gpu/drm/bridge/cadence/ drivers/gpu/drm/imx/ drivers/phy/freescale/ drivers/pwm/ drivers/soc/imx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/gpu/drm/bridge/cadence/ drivers/gpu/drm/imx/ drivers/phy/freescale/ drivers/soc/imx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pwm/pwm-rpmsg-imx.c: In function 'pwm_rpchip_get_state':
->> drivers/pwm/pwm-rpmsg-imx.c:308:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     308 |         int ret;
-         |             ^~~
-   drivers/pwm/pwm-rpmsg-imx.c: In function 'pwm_rpchip_remove':
-   drivers/pwm/pwm-rpmsg-imx.c:403:16: error: void value not ignored as it ought to be
-     403 |         return pwmchip_remove(&rdata->chip);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-rpmsg-imx.c:404:1: error: control reaches end of non-void function [-Werror=return-type]
-     404 | }
-         | ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/ctype.h:5,
+                    from include/drm/drm_bridge.h:26,
+                    from include/drm/bridge/cdns-mhdp.h:19,
+                    from drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:12:
+   include/linux/scatterlist.h: In function 'sg_set_buf':
+   include/asm-generic/page.h:89:51: warning: ordered comparison of pointer with null pointer [-Wextra]
+      89 | #define virt_addr_valid(kaddr)  (((void *)(kaddr) >= (void *)PAGE_OFFSET) && \
+         |                                                   ^~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |         ^~~~~~
+   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |                 ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: In function 'cdns_hdcp_set_config':
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:225:24: warning: variable 'retEvents' set but not used [-Wunused-but-set-variable]
+     225 |         u8 bus_config, retEvents;
+         |                        ^~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: In function 'cdns_hdcp_check_receviers':
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:329:20: warning: variable 'events' set but not used [-Wunused-but-set-variable]
+     329 |                 u8 events = 0;
+         |                    ^~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: At top level:
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:968:6: warning: no previous prototype for 'cnds_hdcp_create_device_files' [-Wmissing-prototypes]
+     968 | void cnds_hdcp_create_device_files(struct cdns_mhdp_device *mhdp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1017:6: warning: no previous prototype for 'cdns_hdcp_dump_pairing' [-Wmissing-prototypes]
+    1017 | void cdns_hdcp_dump_pairing(struct seq_file *s, void *data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1065:5: warning: no previous prototype for 'cdns_hdcp_init' [-Wmissing-prototypes]
+    1065 | int cdns_hdcp_init(struct cdns_mhdp_device *mhdp, struct device_node *of_node)
+         |     ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1109:5: warning: no previous prototype for 'cdns_hdcp_enable' [-Wmissing-prototypes]
+    1109 | int cdns_hdcp_enable(struct cdns_mhdp_device *mhdp)
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1135:5: warning: no previous prototype for 'cdns_hdcp_disable' [-Wmissing-prototypes]
+    1135 | int cdns_hdcp_disable(struct cdns_mhdp_device *mhdp)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1158:6: warning: no previous prototype for 'cdns_hdcp_atomic_check' [-Wmissing-prototypes]
+    1158 | void cdns_hdcp_atomic_check(struct drm_connector *connector,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +308 drivers/pwm/pwm-rpmsg-imx.c
+vim +/retEvents +225 drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c
 
-e7154d4f7b9907 Clark Wang 2021-06-04  302  
-e7154d4f7b9907 Clark Wang 2021-06-04  303  static void pwm_rpchip_get_state(struct pwm_chip *chip,
-e7154d4f7b9907 Clark Wang 2021-06-04  304  				  struct pwm_device *pwm,
-e7154d4f7b9907 Clark Wang 2021-06-04  305  				  struct pwm_state *state)
-e7154d4f7b9907 Clark Wang 2021-06-04  306  {
-e7154d4f7b9907 Clark Wang 2021-06-04  307  	struct imx_rpmsg_pwm_data *rdata = to_imx_rpmsg_pwm_chip(chip);
-e7154d4f7b9907 Clark Wang 2021-06-04 @308  	int ret;
-e7154d4f7b9907 Clark Wang 2021-06-04  309  
-e7154d4f7b9907 Clark Wang 2021-06-04  310  	mutex_lock(&pwm_rpmsg.lock);
-e7154d4f7b9907 Clark Wang 2021-06-04  311  
-e7154d4f7b9907 Clark Wang 2021-06-04  312  	if (pwm_rpmsg.request_id >= 0xFF)
-e7154d4f7b9907 Clark Wang 2021-06-04  313  		pwm_rpmsg.request_id = 0;
-e7154d4f7b9907 Clark Wang 2021-06-04  314  	pwm_rpmsg.request_id++;
-e7154d4f7b9907 Clark Wang 2021-06-04  315  
-e7154d4f7b9907 Clark Wang 2021-06-04  316  	pwm_rpmsg.chip_id = rdata->chip_id;
-e7154d4f7b9907 Clark Wang 2021-06-04  317  	pwm_rpmsg.channel_id = pwm->hwpwm;
-e7154d4f7b9907 Clark Wang 2021-06-04  318  	ret = pwm_rpsmg_get(&pwm_rpmsg, state);
-e7154d4f7b9907 Clark Wang 2021-06-04  319  
-e7154d4f7b9907 Clark Wang 2021-06-04  320  	mutex_unlock(&pwm_rpmsg.lock);
-e7154d4f7b9907 Clark Wang 2021-06-04  321  }
-e7154d4f7b9907 Clark Wang 2021-06-04  322  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  222  
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  223  static int cdns_hdcp_set_config(struct cdns_mhdp_device *mhdp, u8 hdcp_config)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  224  {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30 @225  	u8 bus_config, retEvents;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  226  	u16 hdcp_port_status;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  227  	int ret;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  228  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  229  	/* Clearing out existing events */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  230  	wait4event(mhdp, &mhdp->hdcp.events, HDMI_TX_HPD_EVENT, HDCP_EVENT_TO_DEF);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  231  	mhdp->hdcp.events = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  232  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  233  	if (!strncmp("imx8mq-hdmi", mhdp->plat_data->plat_name, 11)) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  234  		DRM_DEBUG_KMS("INFO: Switching HDCP Commands to SAPB.\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  235  		bus_config = (1 << GENERAL_BUS_SETTINGS_HDCP_BUS_BIT);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  236  		ret = cdns_mhdp_apb_conf(mhdp, bus_config);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  237  		if (ret) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  238  			DRM_ERROR("Failed to set APB configuration.\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  239  			if (ret & (1 << GENERAL_BUS_SETTINGS_RESP_HDCP_BUS_BIT))/* 1 - locked */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  240  				DRM_ERROR("Failed to switch HDCP to SAPB Mailbox\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  241  			return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  242  		}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  243  		DRM_DEBUG_KMS("INFO: HDCP switched to SAPB\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  244  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  245  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  246  	/* HDCP 2.2(and/or 1.4) | activate | km-key |  0 */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  247  	hdcp_config |=  CDNS_HDCP_ACTIVATE | (HDCP_USE_KMKEY << 4) | (HDCP_CONTENT_TYPE_0 << 3);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  248  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  249  	DRM_DEBUG_KMS("INFO: Enabling HDCP...\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  250  	ret = cdns_mhdp_hdcp_tx_config(mhdp, hdcp_config);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  251  	if (ret < 0)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  252  		DRM_DEBUG_KMS("cdns_mhdp_hdcp_tx_config failed\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  253  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  254  	/* Wait until HDCP_TX_STATUS EVENT appears */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  255  	DRM_DEBUG_KMS("INFO: wait4event -> HDCPTX_STATUS_EVENT\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  256  	retEvents = wait4event(mhdp, &mhdp->hdcp.events, HDCPTX_STATUS_EVENT, HDCP_EVENT_TO_DEF);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  257  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  258  	/* Set TX STATUS REQUEST */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  259  	DRM_DEBUG_KMS("INFO: Getting port status\n");
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  260  	hdcp_port_status = cdns_hdcp_get_status(mhdp);
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  261  	if (cdns_hdcp_handle_status(hdcp_port_status) != 0)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  262  		return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  263  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  264  	return 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  265  }
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  266  
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  267  static int cdns_hdcp_auth_check(struct cdns_mhdp_device *mhdp)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  268  {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  269  	u16 hdcp_port_status;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  270  	int ret;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  271  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  272  	DRM_DEBUG_KMS("INFO: wait4event -> HDCPTX_STATUS_EVENT\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  273  	mhdp->hdcp.events = wait4event(mhdp, &mhdp->hdcp.events, HDCPTX_STATUS_EVENT, HDCP_EVENT_TO_DEF+HDCP_EVENT_TO_DEF);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  274  	if (mhdp->hdcp.events == 0)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  275  		return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  276  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  277  	DRM_DEBUG_KMS("HDCP: HDCPTX_STATUS_EVENT\n");
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  278  	hdcp_port_status = cdns_hdcp_get_status(mhdp);
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  279  	ret = cdns_hdcp_handle_status(hdcp_port_status);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  280  	if (ret != 0) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  281  		if (ret == HDCP_TRAN_ERR_REAUTH_REQ) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  282  			DRM_ERROR("HDCP_TRAN_ERR_REAUTH_REQ-->one more try!\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  283  			return 1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  284  		} else
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  285  			return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  286  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  287  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  288  	if (hdcp_port_status & HDCP_PORT_STS_AUTH) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  289  		DRM_INFO("Authentication completed successfully!\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  290  		/* Dump hdmi and phy register */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  291  		mhdp->hdcp.state = HDCP_STATE_AUTHENTICATED;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  292  		return 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  293  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  294  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  295  	DRM_WARN("Authentication failed\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  296  	mhdp->hdcp.state = HDCP_STATE_AUTH_FAILED;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  297  	return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  298  }
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  299  
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  300  inline void cdns_hdcp_swap_id(u8 *in, u8 *out)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  301  {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  302  	int i;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  303  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  304  	for (i = 0; i < HDCP_RECEIVER_ID_SIZE_BYTES; i++)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  305  		out[HDCP_RECEIVER_ID_SIZE_BYTES - (i + 1)] = in[i];
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  306  }
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  307  
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  308  inline void cdns_hdcp_swap_list(u8 *list_in, u8 *list_out, int num_ids)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  309  {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  310  	int i;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  311  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  312  	for (i = 0; i < num_ids; i++)
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  313  		cdns_hdcp_swap_id(&list_in[i * HDCP_RECEIVER_ID_SIZE_BYTES],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  314  				 &list_out[i * HDCP_RECEIVER_ID_SIZE_BYTES]);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  315  }
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  316  
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  317  static int cdns_hdcp_check_receviers(struct cdns_mhdp_device *mhdp)
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  318  {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  319  	u8 ret_events;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  320  	u8 hdcp_num_rec, i;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  321  	u8 hdcp_rec_id[HDCP_MAX_RECEIVERS][HDCP_RECEIVER_ID_SIZE_BYTES];
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  322  	u8 hdcp_rec_id_temp[HDCP_MAX_RECEIVERS][HDCP_RECEIVER_ID_SIZE_BYTES];
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  323  	u16 hdcp_port_status = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  324  	int ret;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  325  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  326  	DRM_INFO("INFO: Waiting for Receiver ID valid event\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  327  	ret_events = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  328  	do {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30 @329  		u8 events = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  330  		u8 hdcp_last_error = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  331  		events = check_event(ret_events,
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  332  				     HDCPTX_IS_RECEIVER_ID_VALID_EVENT);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  333  		DRM_DEBUG_KMS("INFO: Waiting HDCPTX_IS_RECEIVER_ID_VALID_EVENT\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  334  		ret_events = wait4event(mhdp, &mhdp->hdcp.events,
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  335  					HDCPTX_IS_RECEIVER_ID_VALID_EVENT,
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  336  					(mhdp->hdcp.sink_is_repeater ?
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  337  					 HDCP_EVENT_TO_RPT : HDCP_EVENT_TO_DEF));
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  338  		if (ret_events == 0) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  339  			/* time out occurred, return error */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  340  			DRM_ERROR("HDCP error did not get receiver IDs\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  341  			return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  342  		}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  343  		if (check_event(ret_events, HDCPTX_STATUS_EVENT) != 0) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  344  			/* There was a status update, could be due to HPD
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  345  			   going down or some other error, check if an error
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  346  			   was set, if so exit.
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  347  			*/
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  348  			hdcp_port_status = cdns_hdcp_get_status(mhdp);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  349  			hdcp_last_error = GET_HDCP_PORT_STS_LAST_ERR(hdcp_port_status);
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  350  			if (cdns_hdcp_handle_status(hdcp_port_status)) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  351  				DRM_ERROR("HDCP error no: %u\n", hdcp_last_error);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  352  				return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  353  			} else {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  354  				/* No error logged, keep going.
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  355  				 * If this somehow happened at same time, then need to
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  356  				 * put the HDCPTX_STATUS_EVENT back into the global
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  357  				 * events pool and checked later. */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  358  				mhdp->hdcp.events |= HDCPTX_STATUS_EVENT;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  359  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  360  				/* Special condition when connected to HDCP 1.4 repeater
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  361  				 * with no downstream devices attached, then will not
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  362  				 * get receiver ID list but instead will reach
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  363  				 * authenticated state. */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  364  				if ((mhdp->hdcp.hdcp_version == HDCP_TX_1) && (mhdp->hdcp.sink_is_repeater == 1) &&
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  365  				    ((hdcp_port_status & HDCP_PORT_STS_AUTH) == HDCP_PORT_STS_AUTH)) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  366  					DRM_INFO("Connected to HDCP 1.4 repeater with no downstream devices!\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  367  					return 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  368  				}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  369  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  370  				msleep(20);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  371  			}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  372  		}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  373  	} while (check_event(ret_events,
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  374  			     HDCPTX_IS_RECEIVER_ID_VALID_EVENT) == 0);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  375  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  376  	DRM_INFO("INFO: Requesting Receivers ID's\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  377  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  378  	hdcp_num_rec = 0;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  379  	memset(&hdcp_rec_id, 0, sizeof(hdcp_rec_id));
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  380  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  381  	ret = cdns_mhdp_hdcp_tx_is_receiver_id_valid(mhdp, (u8 *)hdcp_rec_id, &hdcp_num_rec);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  382  	if (ret) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  383  		DRM_DEV_ERROR(mhdp->dev, "Failed to hdcp tx receiver ID.\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  384  		return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  385  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  386  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  387  	if (hdcp_num_rec == 0) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  388  		DRM_DEBUG_KMS("WARN: Failed to get receiver list\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  389  		/* Unknown problem, return error */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  390  		return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  391  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  392  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  393  	DRM_INFO("INFO: Number of Receivers: %d\n", hdcp_num_rec);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  394  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  395  	for (i = 0; i < hdcp_num_rec; ++i) {
+5d16f95c493063 drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2021-02-23  396  		DRM_INFO("\tReceiver ID%2d: %.2X%.2X%.2X%.2X%.2X\n",
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  397  			 i,
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  398  			 hdcp_rec_id[i][0],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  399  			 hdcp_rec_id[i][1],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  400  			 hdcp_rec_id[i][2],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  401  			 hdcp_rec_id[i][3],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  402  			 hdcp_rec_id[i][4]
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  403  			);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  404  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  405  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  406  	/* swap ids byte order */
+13f2eac454a01c drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c Oliver Brown 2021-04-19  407  	cdns_hdcp_swap_list(&hdcp_rec_id[0][0],
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  408  			   &hdcp_rec_id_temp[0][0], hdcp_num_rec);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  409  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  410  	/* Check Receiver ID's against revocation list in SRM */
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  411  	if (drm_hdcp_check_ksvs_revoked(mhdp->drm_dev, (u8 *)hdcp_rec_id_temp, hdcp_num_rec)) {
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  412  		mhdp->hdcp.state = HDCP_STATE_AUTH_FAILED;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  413  		DRM_ERROR("INFO: Receiver check fails\n");
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  414  		return -1;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  415  	}
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  416  
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  417  	ret = cdns_mhdp_hdcp_tx_respond_receiver_id_valid(mhdp, 1);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  418  	DRM_INFO("INFO: Responding with Receiver ID's OK!, ret=%d\n", ret);
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  419  	return ret;
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  420  }
+90f86fd84a29ac drivers/gpu/drm/bridge/cadence/cdns-hdmi-hdcp.c   Sandor Yu    2020-12-30  421  
 
-:::::: The code at line 308 was first introduced by commit
-:::::: e7154d4f7b990758d8d2cac17d5b0bc1f665450f MLK-25559-1 pwm: imx-rpchip: add pwm over rpmsg driver
+:::::: The code at line 225 was first introduced by commit
+:::::: 90f86fd84a29acf20e4140f11b2c2e8e8710432b MLK-25199-5: drm: bridge: mhdp_hdcp: add HDMI TX HDCP driver
 
-:::::: TO: Clark Wang <xiaoning.wang@nxp.com>
+:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
 :::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---R3FWX84ap/B24Ftu
+--y9pVfqZsca4gf/KA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/h8300 5.15.0 Kernel Configuration
+# Linux/h8300 5.15.5 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="h8300-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -589,6 +805,7 @@ CONFIG_INFTL=y
 CONFIG_SSFDC=y
 # CONFIG_SM_FTL is not set
 CONFIG_MTD_OOPS=y
+# CONFIG_MTD_PSTORE is not set
 # CONFIG_MTD_PARTITIONED_MASTER is not set
 
 #
@@ -2351,7 +2568,7 @@ CONFIG_DRM_CDNS_MHDP=y
 CONFIG_DRM_CDNS_HDMI=y
 CONFIG_DRM_CDNS_DP=y
 CONFIG_DRM_CDNS_AUDIO=y
-CONFIG_DRM_CDNS_HDMI_HDCP=y
+CONFIG_DRM_CDNS_HDCP=y
 # CONFIG_DRM_CDNS_HDMI_CEC is not set
 CONFIG_DRM_DW_HDMI=y
 CONFIG_DRM_DW_HDMI_CEC=y
@@ -3645,6 +3862,7 @@ CONFIG_SI7020=y
 #
 # CONFIG_BMI160_I2C is not set
 # CONFIG_FXOS8700_I2C is not set
+# CONFIG_RPMSG_IIO_PEDOMETER is not set
 # CONFIG_KMX61 is not set
 CONFIG_INV_ICM42600=y
 CONFIG_INV_ICM42600_I2C=y
@@ -4371,6 +4589,11 @@ CONFIG_PSTORE_COMPRESS_DEFAULT="lz4hc"
 # CONFIG_PSTORE_CONSOLE is not set
 # CONFIG_PSTORE_PMSG is not set
 CONFIG_PSTORE_RAM=y
+CONFIG_PSTORE_ZONE=y
+CONFIG_PSTORE_BLK=y
+CONFIG_PSTORE_BLK_BLKDEV=""
+CONFIG_PSTORE_BLK_KMSG_SIZE=64
+CONFIG_PSTORE_BLK_MAX_REASON=2
 # CONFIG_SYSV_FS is not set
 CONFIG_UFS_FS=y
 CONFIG_UFS_FS_WRITE=y
@@ -4907,4 +5130,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---R3FWX84ap/B24Ftu--
+--y9pVfqZsca4gf/KA--
