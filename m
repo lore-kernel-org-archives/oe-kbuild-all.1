@@ -1,134 +1,171 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92D37F6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Dec 2022 00:03:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BmLeKx6zk5NKWxjGWhx8EpIbxI9BQjsnccRhMsL9JHOvHS7HkHVlKQtFlLdNUtnkjWeR2Vyer3sjWpre3lLLwknQHblh9YGfwRJ1MTCxcxtCZtXCIRIYIqGClNrW+9alGkPlfHl4xtE6Z1mYIdLWQvWmtbkLCZVSZ6S3Jdnv0yc2b6tH+9gCGHqL+EnoWCiahLMThezUsiSK+lwKpnH7KvffTiWNQYK4kfDOCH1NlYzqWD8w9thD8Ipy+f4jKK7qF+km7H4307Pz0SbIdDbxJxAkHVwKtmHEIESvCHU6oTaO4cf89djrDLYiKTJgFf2wpQZbjcEyWlyK37z2oE5ivA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zHa3STLLjuRUT/g5DxmviSf0zqzz0oAmrTsOSr4JHM4=;
- b=f6jFJD14LRSf7j1M/LhfYhSNpkme8zevVLzvlB0yz2wliC8+OMQXxqh/dCxPShU3eqMefhdEbVf67oQFJ/GXc8rUvn6Xrkv2PtIwBzkvJABPYgCqSpnmr0PLGERmlt8ey5UqNdYzg83iusywY+kCNWfG4qHeVrjfaSAmOSNzQqCHvBThUxjzyrCdhGfPs3sQKypMaf2d70tZNjECEyQ6bmJjjsH4VT4cRRXaLuYirKH5llt3Qe1kNfmFmWoz/HSeBtUPyhaUUDiH0ou3Pe/sfE9hum9nOBGt/Kn7rQDJj4TTAQmhjvJezD9DDgSR+slwHJOf1XUMnGsgU4NoKILITw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zHa3STLLjuRUT/g5DxmviSf0zqzz0oAmrTsOSr4JHM4=;
- b=GHT06QTkC3ZnWxpKZ1mgCuuxcwZc/hiEuRcPUy+s5TM9gN1WNGoS3309lCocN5nHc8hEE1jp2UEzV41qh8MEEDkbivkaitcX+4srF82PQPtYXRn9pYrSyAfytSVBDSQ8G2P/R27lb1kQ03XlqT8B4x7whQbdKiBfU8qPr8qHTbtz+l27sgbPLuPLvWrmE6ogvCi3YlFE73fiBaVQlBsRxBuG8G/voRVVWHvgXWEvAYWmkNtu7+xZPnm/LyMuvGIffqovZXFw9ybWFnofx9tXP7QpqxBDxVGygO47kYSVWEKYe2of+dje+XQ1V0UoAf2WGO5uti/DBfMhMX3GB2oxhQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by IA1PR12MB6651.namprd12.prod.outlook.com (2603:10b6:208:3a0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Thu, 1 Dec
- 2022 00:03:35 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%8]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
- 00:03:35 +0000
-Date: Wed, 30 Nov 2022 20:03:34 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763687F6;
+	Thu,  1 Dec 2022 00:10:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD3BC43470;
+	Thu,  1 Dec 2022 00:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669853407;
+	bh=0/kBySII/a5KqZyXXc2+z/yVZU9fMNsn3bFYkirMqxE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=BzFnRc1eR/O0WMAS6eYHnTUOYDQ40/PH/Ih6jVIjgZbzC6+n/6m+m6CmMbjzG/t3V
+	 /LlHANi8J4nHIVQs5iBXsDuFaWemN8a5uQDjbKekcmxsw3d4kw2bOxIY2x/nZKZqH6
+	 ZQ2P021xR5s0m6TgIhx0lfTAfSTOevedcqeKIbJ42ou3Bg9ex8lvTclwxrNDstdRV9
+	 GyQUeRsojP+q2HFXgnVhmcWzxjxCk0e5QUZJ7YJqf6FxNowD0rW2JfHdXEo9Q73jXK
+	 2rIPQLoY7UjEnOgsEnPcN5kPI0wj0vr6p3TAsjSO7E9bBp9HDPxlUCCyjglWyD8JTN
+	 KdeSUpILCC0GQ==
+Message-ID: <5843a4f790d1f87c3e33ef8554f8493404856257.camel@kernel.org>
+Subject: Re: [ceph-client:testing 1/4] include/linux/fs.h:1342:20: error:
+ static declaration of 'vfs_inode_has_locks' follows non-static declaration
+From: Jeff Layton <jlayton@kernel.org>
 To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
-	Nicolin Chen <nicolinc@nvidia.com>, linux-doc@vger.kernel.org
-Subject: Re: [jgunthorpe:iommufd 11/20] htmldocs:
- Documentation/userspace-api/iommufd:174: ./include/uapi/linux/iommufd.h:117:
- WARNING: Unexpected indentation.
-Message-ID: <Y4fvVvCbZgXxXg0J@nvidia.com>
-References: <202212010331.21lwbBde-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202212010331.21lwbBde-lkp@intel.com>
-X-ClientProxiedBy: BL1PR13CA0398.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::13) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	ceph-devel@vger.kernel.org, Xiubo Li <xiubli@redhat.com>, Christoph Hellwig
+	 <hch@infradead.org>
+Date: Wed, 30 Nov 2022 19:10:05 -0500
+In-Reply-To: <202212010417.wCjpGlKY-lkp@intel.com>
+References: <202212010417.wCjpGlKY-lkp@intel.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|IA1PR12MB6651:EE_
-X-MS-Office365-Filtering-Correlation-Id: 480ef6fa-cf90-4828-c494-08dad32f7dcd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	4biNJur9LcDdWBGEAdVReptSnBVXmlU/KQZ66398y9u6pxqTOY5GpL1tT7SR033tmVxf8OUOimXuUZ2/QHBn6YIUuTjoesVuf1iYJ7fWIRpk1+OvQJ58VgMeE1ithrtcdsIdf2gvFHtAIwhJqfRj6If1EgbF09RLrCDVr/Y8JyX9jeR1+ZPc+vn+foTgGZYPcMRlOtouI8tmacYvZnLqRy6Vcsudl3ao3gIahNOlumHT9ulTVm5JSLFZ2ijLsgfktCqy0bkfBEQ2eo10RcFaZALmKdghj9/71LqEGCqgV9IXD41N+uZzAtLdK88bVeZ7VMS75lzPLsUr2fUv/byIq4KmeuN+cieGn0yv5AuRsez6wwKANOMB9HPXMXzi1kFqNVGwRNk3PRlkZFZpagooOYKOs0rTIAMHffPeg1KHbRCN7tModKrEcH4B7WmJsYwcl5pAp+EeUfocZTy2R/70x7s0OZp7BEBbyGQHt+Dh0QPwCTxnHgNrTNh9aALTp0OoS3XeRWs1mpWWy1Ng763slrMvbvfY5ymNAvHzmfPniqh8d9Iv8JcHUCFVqZxZ2612+M7Wt7wMKo9kJSNU1hcwJjsRJXu2OGL3bsCeCmhZOcEu35Cy9hCuWl+AiptL8KxxbeZQcsJGO9FNS8Rk1hfxeQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199015)(186003)(2616005)(38100700002)(6916009)(6486002)(316002)(54906003)(36756003)(86362001)(6506007)(26005)(83380400001)(478600001)(8676002)(2906002)(66946007)(6512007)(41300700001)(8936002)(66556008)(4326008)(66476007)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+SuEJgytQnzXFG9dTXxUJ3ZK0N8y/FoZA+UtwFHfieamDz6bH/wzLsRYxZUN?=
- =?us-ascii?Q?hK7ylWShzHt9ZnqvHvQVeyOzkNBxMKX0DxPQvmKIoiMjBQGavapo8SNUktjt?=
- =?us-ascii?Q?Q+6CI5hFDUbAOHMQeqMr0ZWz/MMQ+i5FMgr1Od/YAht6z6Gr7LK3XwgZJFXg?=
- =?us-ascii?Q?aihbjmW5GYTidKC87GZo3rNRvRN9ZgCHr1ESAuAa31ApV+HxU0/GE8AxI1+L?=
- =?us-ascii?Q?2mp0jENnKpuenyEfflfgLwQxRTzDLUDARrdnPLmWw5wXiMe4+F/FgEPA+oT2?=
- =?us-ascii?Q?RLx7o/fC2pgFT4wvS7qgtnqAkziVKNsOxAayGHPqeh1PIo1V5WvJuYkh5a1n?=
- =?us-ascii?Q?1JI6QhCcFsY5Geahy1Yk3gX/AL8iVxOKUnp556ALZn6hkNYjxqcBpwYUB6g5?=
- =?us-ascii?Q?gK+7u8xoBmDfCXIq79NgldnwlGxenGpQxBXhn+f9P3n8/75/dp//zVD62s30?=
- =?us-ascii?Q?mAMwEVRW7we1W6Ui19J2A04DEdEkq/b7Ee1R5Sajw277ZDlcDKiRy3OxQmx+?=
- =?us-ascii?Q?8486bAQZKinz8uKYZBFjpUYvFpspbaaX7k+9uYSRKcg01lvp0ZZJwar44Oeq?=
- =?us-ascii?Q?AfXbADimT9GErguhGqAJUTyf6vSC9YOLvNhTBBonNsO1oT9gZlrOkWdcqPHJ?=
- =?us-ascii?Q?TzWI4uFlRYfWpfzDYqGndfkAa+bbk1pFbsj7rvc50pcJpJ5eCd6TllJohbNU?=
- =?us-ascii?Q?15Uj1NcBO91nq3j/BPwaW/uM8oft/h+ILtSloKbXR4Q2maaovsREuDml7hp4?=
- =?us-ascii?Q?AEX3o32uQHkGYyf7gN2Z35YU1RfEOaZ+ryO2AryGIT8DXvntf53/egljj/t/?=
- =?us-ascii?Q?oMSOXWsE5zH0eC477djii54LWsBbCA0LWdUc931cIF2g7k3l3EF11Gk2vs+/?=
- =?us-ascii?Q?fM+nNA2dp+JbX6WhCOBYfaglHVHKTItepyakcTOF4yd4g6vabJcvj22bHoGD?=
- =?us-ascii?Q?CudPpDxcIg8bYdjpIECGMRkW4EaqM8dLqHDALOSFFBp+shp5riAWW87dsjtq?=
- =?us-ascii?Q?lUUxZSBKzShhwE5GheUEuwEamnXPYe15XNL4BBf/j7Ze+2OxG7TLrGjCmW4I?=
- =?us-ascii?Q?VfUocnsZT0eKBttByPA07mUdBxFuxE/PSPnCKd6v1hrcXbsnPUR+5Y3Htxjj?=
- =?us-ascii?Q?BTAPmxxwTmlC3D54FIp2CVnUvP2i/l4dUfPnGq8CT6IXtO4sRQPXGXH08ksS?=
- =?us-ascii?Q?V5vR8lKJrrlPHis/D+/KLHBIDn1HfDeHs1qufaj6mAl2HoqiAr0n4af2OZzl?=
- =?us-ascii?Q?Qk1loN8yZkT6y7zoiQL28Z2ArSMd6wY9cuzmvxnHwWfv3JQUHH/c59DI89fL?=
- =?us-ascii?Q?Q0dWn+XNA/nW1WqpY6yTUf39IMFL5lQnpgI0uJntH29VJvhrZ242f/xaRAg3?=
- =?us-ascii?Q?ynhL8kFhWtyMJ0bXvjLb/2RtFBjXQb7agEvzr79dj8hyM3DuPpAd4+AxMgWy?=
- =?us-ascii?Q?DbUNV/GBsTmW+e06eschizTu1lKuQENz9nhmCX5XbDBqI3Z6S88xtgvScLkZ?=
- =?us-ascii?Q?4zyVIqKD0ibAJRVdlUbyiNDslaHqsiWFAYYkFNxTLZCSqqlTcymp4Uw2XULu?=
- =?us-ascii?Q?kYZXv75AGjFHIPulEQM=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 480ef6fa-cf90-4828-c494-08dad32f7dcd
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 00:03:35.5524
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vExM/2zakt5LdEyNJ8BbAwFI2c4NLVd1evOADSofvoUZMW+jjroB88HhF0NEMr5a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6651
 
-On Thu, Dec 01, 2022 at 03:57:59AM +0800, kernel test robot wrote:
-
+On Thu, 2022-12-01 at 04:08 +0800, kernel test robot wrote:
+> tree:   https://github.com/ceph/ceph-client.git testing
+> head:   6a6f71f4a4a945600943c2ce926f7b4174f75c0d
+> commit: 8c552db6d9d144857f755a156b10de0b848a9de8 [1/4] [DO NOT MERGE] fil=
+elock: new helper: vfs_inode_has_locks
+> config: hexagon-randconfig-r041-20221128
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 6e4c=
+ea55f0d1104408b26ac574566a0e4de48036)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/ceph/ceph-client/commit/8c552db6d9d144857f75=
+5a156b10de0b848a9de8
+>         git remote add ceph-client https://github.com/ceph/ceph-client.gi=
+t
+>         git fetch --no-tags ceph-client testing
+>         git checkout 8c552db6d9d144857f755a156b10de0b848a9de8
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 O=3Dbuild_dir ARCH=3Dhexagon prepare
+>=20
 > If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> Documentation/userspace-api/iommufd:174: ./include/uapi/linux/iommufd.h:117: WARNING: Unexpected indentation.
-> >> Documentation/userspace-api/iommufd:174: ./include/uapi/linux/iommufd.h:119: WARNING: Block quote ends without a blank line; unexpected unindent.
->
+> > Reported-by: kernel test robot <lkp@intel.com>
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    In file included from arch/hexagon/kernel/asm-offsets.c:12:
+>    In file included from include/linux/compat.h:17:
+> > > include/linux/fs.h:1342:20: error: static declaration of 'vfs_inode_h=
+as_locks' follows non-static declaration
+>    static inline bool vfs_inode_has_locks(struct inode *inode)
+>                       ^
+>    include/linux/fs.h:1173:6: note: previous declaration is here
+>    bool vfs_inode_has_locks(struct inode *inode);
+>         ^
 
-This will fix it up:
+I'm really confused here.
 
-diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
-index de8d2d4f8bb604..98ebba80cfa1fc 100644
---- a/include/uapi/linux/iommufd.h
-+++ b/include/uapi/linux/iommufd.h
-@@ -114,9 +114,11 @@ struct iommu_iova_range {
-  * caller should allocate a larger output array and re-issue the ioctl.
-  *
-  * out_iova_alignment returns the minimum IOVA alignment that can be given
-- * to IOMMU_IOAS_MAP/COPY. IOVA's must satisfy:
-+ * to IOMMU_IOAS_MAP/COPY. IOVA's must satisfy::
-+ *
-  *   starting_iova % out_iova_alignment == 0
-  *   (starting_iova + length) % out_iova_alignment == 0
-+ *
-  * out_iova_alignment can be 1 indicating any IOVA is allowed. It cannot
-  * be higher than the system PAGE_SIZE.
-  */
+The non-static declaration is inside an #ifdef CONFIG_FILE_LOCKING
+block, and the static inline definition is in the #else block just
+after. How is it possible for them to conflict? Is the preprocessor
+borked or something?
+
+FWIW, I was able to build kernels on x86_64 with CONFIG_FILE_LOCKING
+both enabled and disabled. I'm not seeing the same problem there.
+
+>    In file included from arch/hexagon/kernel/asm-offsets.c:15:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:547:31: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __raw_readb(PCI_IOBASE + addr);
+>                              ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:560:61: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE +=
+ addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded fro=
+m macro '__le16_to_cpu'
+>    #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+>                                                      ^
+>    In file included from arch/hexagon/kernel/asm-offsets.c:15:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:573:61: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE +=
+ addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded fro=
+m macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>                                                      ^
+>    In file included from arch/hexagon/kernel/asm-offsets.c:15:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:584:33: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writeb(value, PCI_IOBASE + addr);
+>                                ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:594:59: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + add=
+r);
+>                                                          ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:604:59: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + add=
+r);
+>                                                          ~~~~~~~~~~ ^
+>    6 warnings and 1 error generated.
+>    make[2]: *** [scripts/Makefile.build:118: arch/hexagon/kernel/asm-offs=
+ets.s] Error 1
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:1270: prepare0] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:231: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+>=20
+>=20
+> vim +/vfs_inode_has_locks +1342 include/linux/fs.h
+>=20
+>   1341=09
+> > 1342	static inline bool vfs_inode_has_locks(struct inode *inode)
+>   1343	{
+>   1344		return false;
+>   1345	}
+>   1346=09
+>=20
+
+--=20
+Jeff Layton <jlayton@kernel.org>
