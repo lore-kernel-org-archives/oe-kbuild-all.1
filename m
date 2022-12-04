@@ -1,68 +1,67 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15E291D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Dec 2022 11:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8342900
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Dec 2022 12:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670154794; x=1701690794;
+  t=1670155394; x=1701691394;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1dnJMJYSHN5Msxmzp8fRKEet7vk7Cf2KZkC94vCBPXo=;
-  b=LhLhvL1/Gs48yOBrJmqcW7xMtLdgWvtMzyNV8D77p0y0VKjEP8WlTnE3
-   u3q6Kr3wqAqTgMB8/mElpRpUbxxcPssH9vnF2XUvM/XdACqciA1Jac4T7
-   HaMLaByxz15/gfmLjZ+tVmy0I4GQEAhHu6dcYEeZbF7AwHxHScbwsDTCD
-   Nky0Y3vAIIHGTUxHCx4glRESfcYr68UyBTTPB4OSwud+ftXSM0EUjbCa+
-   iYcPTe616OdWuBwVwcE2+DhIyA8pkySDYRgKemiFmZt6t3KBRTISgSJrP
-   koTHJNGqQkwp6YLSVNHq8bZ5or06yRRNnRCp+EGLCeIT+dy64c5jxVGZe
+  bh=tEontwBJvREf0ihi9OEYWPT1ZuGB3b8ZXtpOEQEhJVk=;
+  b=WLfn5QnR87+L00j8MqeiFHbY5ly7XNLZFfa+oGjGnJEF7V0i2CpP3aTa
+   de4qEvVOL7jsmYPafGWOv+O1cpGLPsMRqqY+3nV6JG7R2ZQZpnqaSKNP2
+   MiwRUKzDvvbOXGsnkiK33q9wkT2J0fiKMO8SEVs+HI8EM54W/ZvNxZnMW
+   wxdjiynQ0S4AIYoiZtDXj3pbOmeeYL8h9AU4BkQIo2x0iHttSqsWz0SRS
+   ZzeZ+AoNS31VL+2Co3d+U0iCtPSweUvOTubSkFor13FXGP6P0/FY8Rd/L
+   1wJBpoTO53pzpA9JBtueD95qgtlH9xL52eLXBwhQCBqGYeETiUPQ6RPA5
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="295887652"
+X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="295888657"
 X-IronPort-AV: E=Sophos;i="5.96,217,1665471600"; 
-   d="scan'208";a="295887652"
+   d="scan'208";a="295888657"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2022 03:53:13 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2022 04:03:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="645516351"
+X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="645517697"
 X-IronPort-AV: E=Sophos;i="5.96,217,1665471600"; 
-   d="scan'208";a="645516351"
+   d="scan'208";a="645517697"
 Received: from lkp-server01.sh.intel.com (HELO 4d912534d779) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 04 Dec 2022 03:53:10 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Dec 2022 04:03:10 -0800
 Received: from kbuild by 4d912534d779 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p1nYU-0000lt-0J;
-	Sun, 04 Dec 2022 11:53:10 +0000
-Date: Sun, 4 Dec 2022 19:52:11 +0800
+	id 1p1niA-0000mD-0r;
+	Sun, 04 Dec 2022 12:03:10 +0000
+Date: Sun, 4 Dec 2022 20:02:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Schlabbach <robert_s@gmx.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [linux-next:master 10545/12617] htmldocs:
- Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
- the link has no caption the label must precede a section header)
-Message-ID: <202212041950.nfP8CWIY-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>, linux-doc@vger.kernel.org
+Subject: [kvm:queue 228/260] htmldocs: Documentation/virt/kvm/api.rst:7287:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+Message-ID: <202212041933.aBJnZNj5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rbUkNu3dqvIvuOVR"
+Content-Type: multipart/mixed; boundary="chS4zkEqh5DC1wO1"
 Content-Disposition: inline
 
 
---rbUkNu3dqvIvuOVR
+--chS4zkEqh5DC1wO1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5be860bfc73408bc1a8af9167955e480ecebba84
-commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744 [10545/12617] media: dvb: add DVB-C2 and DVB-S2X parameter values
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   5656374b168c98377b6feee8d7500993eebda230
+commit: 1f158147181b83c5ae02273d0b3b9eddaebcc854 [228/260] KVM: x86: Clean up KVM_CAP_X86_USER_SPACE_MSR documentation
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6508a50fe84f9858e8b59b53dce3847aaeeab744
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6508a50fe84f9858e8b59b53dce3847aaeeab744
+        # https://git.kernel.org/pub/scm/virt/kvm/kvm.git/commit/?id=1f158147181b83c5ae02273d0b3b9eddaebcc854
+        git remote add kvm https://git.kernel.org/pub/scm/virt/kvm/kvm.git
+        git fetch --no-tags kvm queue
+        git checkout 1f158147181b83c5ae02273d0b3b9eddaebcc854
         make menuconfig
         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
         make htmldocs
@@ -72,21 +71,23 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-8-l (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-64 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: qam-1024 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: guard-interval-1-64 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: rolloff-15 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: sys-dvbc2 (if the link has no caption the label must precede a section header)
+>> Documentation/virt/kvm/api.rst:7287: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-vim +6 Documentation/output/frontend.h.rst
+vim +7287 Documentation/virt/kvm/api.rst
+
+  7283	
+  7284		KVM_MSR_EXIT_REASON_UNKNOWN - intercept accesses to unknown (to KVM) MSRs
+  7285		KVM_MSR_EXIT_REASON_INVAL   - intercept accesses that are architecturally
+  7286	                                invalid according to the vCPU model and/or mode
+> 7287		KVM_MSR_EXIT_REASON_FILTER  - intercept accesses that are denied by userspace
+  7288	                                via KVM_X86_SET_MSR_FILTER
+  7289	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---rbUkNu3dqvIvuOVR
+--chS4zkEqh5DC1wO1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -1718,4 +1719,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---rbUkNu3dqvIvuOVR--
+--chS4zkEqh5DC1wO1--
