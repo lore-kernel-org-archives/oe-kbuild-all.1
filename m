@@ -1,212 +1,116 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70FD47C;
-	Mon,  5 Dec 2022 01:51:30 +0000 (UTC)
-Received: from loongson.cn (unknown [117.133.84.183])
-	by gateway (Coremail) with SMTP id _____8AxTeufTo1j7ywDAA--.7478S3;
-	Mon, 05 Dec 2022 09:51:28 +0800 (CST)
-Received: from [192.168.1.2] (unknown [117.133.84.183])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxXuCcTo1jvrAlAA--.26746S3;
-	Mon, 05 Dec 2022 09:51:25 +0800 (CST)
-Message-ID: <e9ef114c-55fe-0a6b-398c-51b94b215559@loongson.cn>
-Date: Mon, 5 Dec 2022 09:51:24 +0800
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208F27C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Dec 2022 02:22:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F293C433D6;
+	Mon,  5 Dec 2022 02:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670206964;
+	bh=Cn3ezycj/hgkYZSmnsbG0Xf6HdocRNCz4W3bOYWZQHU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=n6QV3gQL8KdKQRtnI97RBRU33hThuDBre20wmHsLq78A9IKp+XoYphbNbQuHIRPJD
+	 MwnMGMcJ/1UVyXycSk0K4yspT5/g1Any32rkVrgzPZNm3hYaPS1CYwE/nQnT2glgKh
+	 A3MkF3dCf5cFjBHfs9MxuAmgBWYpY0yR/+Cbch9EbBeKtAk1Wgp+1/X79GqmlYqA8K
+	 dYvwEmiFGzoPL3RO5GhFpMXe2jB4WFqGVKAXqjFXCiD/LGGhVOeJffxCMUqWTuGpQj
+	 eehc0VzDGR5Lz8B19fNpQAfttLJ74Ls7umlEEdZHdpJqNxFa+je00YB4lkRnngW4he
+	 Dqa55b2OZz22Q==
+Date: Mon, 5 Dec 2022 11:22:36 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: David Howells <dhowells@redhat.com>, rostedt@goodmis.org,
+ mhiramat@kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] trace: Fix some checker warnings
+Message-Id: <20221205112236.f99c6104e988aa4f3dd89cd0@kernel.org>
+In-Reply-To: <202212022034.OqPXTS9u-lkp@intel.com>
+References: <166992525941.1716618.13740663757583361463.stgit@warthog.procyon.org.uk>
+	<202212022034.OqPXTS9u-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [brgl:gpio/for-next 63/65]
- drivers/gpio/gpio-loongson-64bit.c:263:15: error: no member named 'of_node'
- in 'struct gpio_chip'; did you mean 'fwnode'?
-To: kernel test robot <lkp@intel.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Jianmin Lv <lvjianmin@loongson.cn>,
- Hongchen Zhang <zhanghongchen@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, Juxin Gao <gaojuxin@loongson.cn>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <202212040126.HnyXYYfY-lkp@intel.com>
-From: Yinbo Zhu <zhuyinbo@loongson.cn>
-In-Reply-To: <202212040126.HnyXYYfY-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8CxXuCcTo1jvrAlAA--.26746S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3Ww1fGryrXFWkGry5Zr1rCrg_yoWxZr4Upa
-	1Uu340qws5Xr1UJwsYkanxArWYyw45G3yakFy0g34093W7tr98tr1DuFZIgr1q9r4q9a4j
-	gr4xGay2ga4UAaUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bfxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64
-	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28E
-	F7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY
-	6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrV
-	C2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE
-	7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7V
-	AKI48JMxAIw28IcVCjz48v1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
-	67AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
-	8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
-	CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
-	1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBI
-	daVFxhVjvjDU0xZFpf9x07jbOz3UUUUU=
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Bartosz,
+On Fri, 2 Dec 2022 20:43:15 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-
-My loongson-2 configure file is enable CONFIG_OF_GPIO by default, so 
-there is no
-
-compilation error, and I will add select OF_GPIO for GPIO_LOONGSON_64BIT.
-
-
-About the warning that happen on arch/hexagon/,  It should be related to 
-architecture
-
-file.  My patch was base on LoongArch architecture and compile it no any 
-warning that
-
-use W=1.
-
-
-Thanks,
-
-Yinbo
-
-在 2022/12/4 1:20, kernel test robot 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-> head:   96010045bb9eb70dcb67937e4e6ac182bdb2b1be
-> commit: d9cfe5825bb342548a5abd57ad37c7523b9ef446 [63/65] gpio: loongson: add gpio driver support
-> config: hexagon-buildonly-randconfig-r002-20221203
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 6e4cea55f0d1104408b26ac574566a0e4de48036)
+> Hi David,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.1-rc7 next-20221202]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Howells/trace-Fix-some-checker-warnings/20221202-040957
+> patch link:    https://lore.kernel.org/r/166992525941.1716618.13740663757583361463.stgit%40warthog.procyon.org.uk
+> patch subject: [PATCH] trace: Fix some checker warnings
+> config: i386-randconfig-a012
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 > reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=d9cfe5825bb342548a5abd57ad37c7523b9ef446
->          git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
->          git fetch --no-tags brgl gpio/for-next
->          git checkout d9cfe5825bb342548a5abd57ad37c7523b9ef446
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpio/
->
+>         # https://github.com/intel-lab-lkp/linux/commit/90c2da2e191f0b26e8194f45579e8227c9950fa8
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review David-Howells/trace-Fix-some-checker-warnings/20221202-040957
+>         git checkout 90c2da2e191f0b26e8194f45579e8227c9950fa8
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+> 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
->
+> 
 > All errors (new ones prefixed by >>):
->
->     In file included from drivers/gpio/gpio-loongson-64bit.c:14:
->     In file included from include/linux/gpio/driver.h:6:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __raw_readb(PCI_IOBASE + addr);
->                               ~~~~~~~~~~ ^
->     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->                                                       ^
->     In file included from drivers/gpio/gpio-loongson-64bit.c:14:
->     In file included from include/linux/gpio/driver.h:6:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->     #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->                                                       ^
->     In file included from drivers/gpio/gpio-loongson-64bit.c:14:
->     In file included from include/linux/gpio/driver.h:6:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writeb(value, PCI_IOBASE + addr);
->                                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->>> drivers/gpio/gpio-loongson-64bit.c:263:15: error: no member named 'of_node' in 'struct gpio_chip'; did you mean 'fwnode'?
->                     lgpio->chip.of_node = np;
->                                 ^~~~~~~
->                                 fwnode
->     include/linux/gpio/driver.h:411:24: note: 'fwnode' declared here
->             struct fwnode_handle    *fwnode;
->                                      ^
->     6 warnings and 1 error generated.
->
->
-> vim +263 drivers/gpio/gpio-loongson-64bit.c
->
->     234	
->     235	static int loongson_gpio_init(
->     236				struct device *dev, struct loongson_gpio_chip *lgpio,
->     237				struct device_node *np, void __iomem *reg_base)
->     238	{
->     239		int ret;
->     240		u32 ngpios;
->     241		struct irq_domain *parent;
->     242		struct gpio_irq_chip *girq;
->     243		struct device_node *irq_parent;
->     244	
->     245		lgpio->reg_base = reg_base;
->     246	
->     247		if (lgpio->chip_data->mode == BIT_CTRL_MODE) {
->     248			ret = bgpio_init(&lgpio->chip, dev, 8,
->     249					LOONGSON_GPIO_IN(lgpio),
->     250					LOONGSON_GPIO_OUT(lgpio), 0,
->     251					LOONGSON_GPIO_OEN(lgpio), NULL, 0);
->     252			if (ret) {
->     253				dev_err(dev, "unable to init generic GPIO\n");
->     254				return ret;
->     255			}
->     256		} else {
->     257			lgpio->chip.direction_input = loongson_gpio_direction_input;
->     258			lgpio->chip.get = loongson_gpio_get;
->     259			lgpio->chip.get_direction = loongson_gpio_get_direction;
->     260			lgpio->chip.direction_output = loongson_gpio_direction_output;
->     261			lgpio->chip.set = loongson_gpio_set;
->     262			lgpio->chip.can_sleep = 0;
->   > 263			lgpio->chip.of_node = np;
->     264			lgpio->chip.parent = dev;
->     265			spin_lock_init(&lgpio->lock);
->     266		}
->     267	
->     268		device_property_read_u32(dev, "ngpios", &ngpios);
->     269	
->     270		lgpio->chip.ngpio = ngpios;
->     271		lgpio->chip.label = lgpio->chip_data->label;
->     272	
->     273		if (lgpio->chip_data->support_irq == true) {
->     274			lgpio->chip.to_irq = loongson_gpio_to_irq;
->     275			irq_parent = of_irq_find_parent(np);
->     276			if (irq_parent)
->     277				parent = irq_find_host(irq_parent);
->     278	
->     279			lgpio->fwnode = of_node_to_fwnode(np);
->     280	
->     281			girq = &lgpio->chip.irq;
->     282			gpio_irq_chip_set_chip(girq, &loongson_gpio_irqchip);
->     283			girq->fwnode = lgpio->fwnode;
->     284			girq->parent_domain = parent;
->     285			girq->child_to_parent_hwirq = loongson_gpio_child_to_parent_hwirq;
->     286			girq->handler = handle_bad_irq;
->     287			girq->default_type = IRQ_TYPE_NONE;
->     288		}
->     289	
->     290		return devm_gpiochip_add_data(dev, &lgpio->chip, lgpio);
->     291	}
->     292	
->
+> 
+>    kernel/trace/trace.c: In function 'trace_create_maxlat_file':
+> >> kernel/trace/trace.c:1725:48: error: 'tracing_max_lat_fops' undeclared (first use in this function); did you mean 'trace_min_max_fops'?
+>     1725 |                                               &tracing_max_lat_fops);
+>          |                                                ^~~~~~~~~~~~~~~~~~~~
+>          |                                                trace_min_max_fops
+>    kernel/trace/trace.c:1725:48: note: each undeclared identifier is reported only once for each function it appears in
+> 
 
+This is not an error introduced by this patch, but the osnoise introduced this.
+tracing_max_lat_fops is used from max latency tracer, hwlat tracer and osnoise
+tracer, but it is defined only when the CONFIG_TRACER_MAX_TRACE and
+CONFIG_HWLAT_TRACER.
+
+commit 424b650f35c7 ("tracing: Fix missing osnoise tracer on max_latency")
+may not enough. We need to add more CONFIG_OSNOISE_TRACER checks like below.
+
+I think it is the time to introduce a shared config CONFIG_MAX_TRACE
+for all those users to simplify the #ifdefs.
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 5cfc95a52bc3..14f18edfe5bc 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -6572,7 +6572,8 @@ tracing_thresh_write(struct file *filp, const char __user *ubuf,
+ 	return ret;
+ }
+ 
+-#if defined(CONFIG_TRACER_MAX_TRACE) || defined(CONFIG_HWLAT_TRACER)
++#if defined(CONFIG_TRACER_MAX_TRACE) || defined(CONFIG_HWLAT_TRACER) \
++	|| defined(CONFIG_OSNOISE_TRACER)
+ 
+ static ssize_t
+ tracing_max_lat_read(struct file *filp, char __user *ubuf,
+@@ -7587,7 +7588,8 @@ static const struct file_operations tracing_thresh_fops = {
+ 	.llseek		= generic_file_llseek,
+ };
+ 
+-#if defined(CONFIG_TRACER_MAX_TRACE) || defined(CONFIG_HWLAT_TRACER)
++#if defined(CONFIG_TRACER_MAX_TRACE) || defined(CONFIG_HWLAT_TRACER) \
++	|| defined(CONFIG_OSNOISE_TRACER)
+ static const struct file_operations tracing_max_lat_fops = {
+ 	.open		= tracing_open_generic,
+ 	.read		= tracing_max_lat_read,
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
