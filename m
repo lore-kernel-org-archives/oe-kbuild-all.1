@@ -1,62 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F87415CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Dec 2022 03:33:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C25AC433D6;
-	Mon,  5 Dec 2022 03:33:10 +0000 (UTC)
-Date: Sun, 4 Dec 2022 22:33:08 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, David Howells <dhowells@redhat.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] trace: Fix some checker warnings
-Message-ID: <20221204223308.22e63bac@rorschach.local.home>
-In-Reply-To: <20221205122948.809cb1dcbc5c0fa7ed61b415@kernel.org>
-References: <166992525941.1716618.13740663757583361463.stgit@warthog.procyon.org.uk>
-	<202212022034.OqPXTS9u-lkp@intel.com>
-	<20221205112236.f99c6104e988aa4f3dd89cd0@kernel.org>
-	<20221204213929.2edc730b@rorschach.local.home>
-	<20221205122948.809cb1dcbc5c0fa7ed61b415@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D34617CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Dec 2022 04:18:25 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id k79so10185410pfd.7
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Dec 2022 20:18:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UzqPnNGw36VuLWg2EJymliVOhlDxnG0AxreG33VazHA=;
+        b=eOYTzni4Zhxcuma9RSPCd3F+Rm4mgIKw+gjVm89TaRE/6nagK5CD3EEmMuxU1t8dNF
+         /oHeAqXqsis+006sHvarL8N+Oqlv1Wm+SJUZ2wyVxfiR2CflKveeChlyHOOwTnKXjL8X
+         NdAb5LfP+LkItT6teaTIb3p2E5ZJScfixILY3Zq7ro34j8d/XKEq8jFqq06bxvl8wFUW
+         AXCxTlzk8XsRpg+3nr9SQlHRUeCLf52Dr2uef7lS6vwLvARM+qkcQ4t3RHuykZf3HRd0
+         QaY9wmAxY2bJ9iBwBZ/c3/bZ0/3A3vDpBIfkDP9Oq6xryHFPGnQonH44BZzjU3LdU1p1
+         OgNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UzqPnNGw36VuLWg2EJymliVOhlDxnG0AxreG33VazHA=;
+        b=XxNUxk0qTFF6kox2dofYfWErwm8pvCuv0oeco6lOrkURhl9MS/ANFb9o6uVJ5b5iQG
+         cY74+l7LtsHIIBASrIXkJQ9YRUFM3zlNU6aVEmFA7vCh7LW3kYA+mt5xqITImvwsm1vi
+         SuAzIApUHxRqYKr/qUZkqAfuSvs9RQ5gIyhmm/cizl9bZOYuf3eZ8HbmUNOmkrTlmdXj
+         XfUnZlcTOhbyqnWP+rHkFe/smMiB2RD9AtBb5mw4+BELS3NED+ofmQixow0mYgiD1GOA
+         oeiOh5qC8DTQn6QK5sMx1uFlexBS6aTv4PMDU8MivJorQu57yoWqUiwyn1VHqizk4QEN
+         Y0fA==
+X-Gm-Message-State: ANoB5pmHtoYu8uQoT5mJH1rN9Oit+GQKyx0Gp1I+gX2R8pBSNgh1pKOJ
+	hP09yhWAEoeg/lFyQe9hQ3M=
+X-Google-Smtp-Source: AA0mqf69N2768Mi9R5BJR1VStSEofSrc28CRlgLRmWW3L0zE/FHXe6N50KF0o2S/nAYmFZijtFnVJQ==
+X-Received: by 2002:a63:e510:0:b0:470:60a5:146d with SMTP id r16-20020a63e510000000b0047060a5146dmr61600765pgh.156.1670213904544;
+        Sun, 04 Dec 2022 20:18:24 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-22.three.co.id. [180.214.232.22])
+        by smtp.gmail.com with ESMTPSA id m17-20020a656a11000000b00478a3079b7esm2489764pgu.19.2022.12.04.20.18.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Dec 2022 20:18:24 -0800 (PST)
+Message-ID: <97e37f71-7748-114f-ab96-7d29d81a4155@gmail.com>
+Date: Mon, 5 Dec 2022 11:18:20 +0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [linux-next:master 10545/12617] htmldocs:
+ Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
+ the link has no caption the label must precede a section header)
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Robert Schlabbach <robert_s@gmx.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202212041959.Y2fRgy9r-lkp@intel.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <202212041959.Y2fRgy9r-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 5 Dec 2022 12:29:48 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
-
-> No, that including defined(CONFIG_FSNOTIFY) :)
-
-Ah I missed that :-)
-
+On 12/4/22 18:52, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   5be860bfc73408bc1a8af9167955e480ecebba84
+> commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744 [10545/12617] media: dvb: add DVB-C2 and DVB-S2X parameter values
+> reproduce:
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6508a50fe84f9858e8b59b53dce3847aaeeab744
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 6508a50fe84f9858e8b59b53dce3847aaeeab744
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
 > 
-> So it must be something like 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
 > 
->   #if defined(CONFIG_TRACER_MAX_TRACE) || defined(CONFIG_HWLAT_TRACER) \
->           || defined(CONFIG_OSNOISE_TRACER)
->   #define USE_MAX_TRACE_OPS
->   #endif
+> All warnings (new ones prefixed by >>):
 > 
->   #if defined(USE_MAX_TRACE_OPS) && defined(CONFIG_FSNOTIFY)
->   #define LATENCY_FS_NOTIFY
->   #endif
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-8-l (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-64 (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: qam-1024 (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: guard-interval-1-64 (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: rolloff-15 (if the link has no caption the label must precede a section header)
+>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: sys-dvbc2 (if the link has no caption the label must precede a section header)
 > 
+> vim +6 Documentation/output/frontend.h.rst
 > 
-> But this introduces a hidden dependency which is not tracked by
-> kconfig. So I think it is better to make those kconfig (non-menu)
 
-Right, that could be done.
+My htmldocs build doesn't catch these warnings above, yet it says there
+are 62 warnings...
 
-> items. (and the question came up, why can't those use (depend on)
-> CONFIG_TRACER_MAX_TRACE instead of introducing the USE_MAX_TRACE_OPS.)
+Looking at the resulting frontend.h.rst, I didn't see any of these new
+labels.
 
-Probably just have OSNOISE and HWLAT select TRACER_MAX_TRACE and just
-use that.
+Cc'ing Akira and Randy to help sorting out.
 
--- Steve
+Thanks anyway.
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
