@@ -1,116 +1,122 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C494B7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Dec 2022 08:24:58 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id w37so9857965pga.5
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Dec 2022 00:24:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8EI2mS0xOxJf/SHT4ujL43EawkVG3OnGp5jpRAvgBTA=;
-        b=emU0LXKfIP1KZ6jPmOAQhxUr3RUHBrb3hijcriGrHgER0leg0Axyv1ONvRgur/fjuj
-         Mfgvnx+fmqnWx8/EsVQOy4d6hC0KrcDX/ADCe1r3q9hDRP9Nt0ZhOmW9WSIkytrAIukc
-         qxtBOGx5PJs1JJv9jhIMIcD2wJ7SCDdI5Corb/M5SShO7jGRdzIlOkCrmhXSiBJg9csd
-         bJGHbHN88sypAUVDbxV6Z9OFDX2u+o+oFZgIw3Z/9neppYqQ8vQxqc//6xJuRbAciug0
-         /3FAG10rH0zCCMqooIORlQNmvhI718InoRcoOEP8D1hIss7iMbt3zfh7CrYUjd5QL9sv
-         S6ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8EI2mS0xOxJf/SHT4ujL43EawkVG3OnGp5jpRAvgBTA=;
-        b=GvxB6FU6JKf1jKPtGn5g715t3IYipWXNM0dz5pzkJI6szsVNk91KPAGAe8ocPmjykY
-         NfJQlWm6LWq52GqFOuzhPCWze5XyqHjwgLC7ACzFVGG2wNG9ycyHq9fLXGq+hF1pp3wt
-         WZOnOLaz2cVTnph8PrTJT10nPB38d5HV6xRatzN4VAkOEhJMf7H5CZO3/cEZEuu9OEGy
-         vykQR8t3G7Zbg2EB7j9kbB8kyoXO/HlB4fsDjSbHeUPLZfsiLQ1XjStsrbOO/CWZ6yTG
-         VRVOEz5KZyrLmZvaJhydYonR98C/Q7CkaF5G3ur6FQgxmeNDZjQuaViFqJxxAshkNQdc
-         Kqzg==
-X-Gm-Message-State: ANoB5plu/4GLUbtu9560IfZU0b7YfL4FUqvi+wBIC6f9rEGRIGOg807m
-	AYEJ9/4LKOgJTy5KVKvwxOk=
-X-Google-Smtp-Source: AA0mqf73STsxXRSUlSxSR4107jRIGDmSeEq3RGvj7lV7uLENrU+1UlDGui6JBzknLvdg6Gw8yjj+rQ==
-X-Received: by 2002:a63:e346:0:b0:478:ac36:8183 with SMTP id o6-20020a63e346000000b00478ac368183mr6036806pgj.153.1670228698242;
-        Mon, 05 Dec 2022 00:24:58 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id h26-20020a63575a000000b0046b2ebb0a52sm7647279pgm.17.2022.12.05.00.24.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 00:24:57 -0800 (PST)
-Message-ID: <dfbf1d59-db49-adf8-8b12-bfdaf22af9d2@gmail.com>
-Date: Mon, 5 Dec 2022 17:24:52 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACC7EB1D;
+	Mon,  5 Dec 2022 08:51:27 +0000 (UTC)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.3ffe.de (Postfix) with ESMTPSA id 278291D08;
+	Mon,  5 Dec 2022 09:45:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1670229907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SeNUztr539lKtOjkDPJXHLKWIhr1Ln9xNj0gAvIEWDo=;
+	b=eHZzTkjLqogN3gV+suNRQjDiUzrbDtAegwFaGE9CWtjjDwHwqA6R0T/yPkZuyydQsyQmOS
+	A0qoInVVcZjZcYD1VZ0g70g5BBpzn6bltAiuiJxdpf1aYZn1AQbZWSe3qjPyhpeQ4xkjS/
+	R8Ubc+u0vEqS3IFdUI7aW54GIDZVLJq6M9Gr9/u6DjJ09F+yjX+I3WxEXSjVybJubCMPGE
+	QpgpAxE2vfKByyc94cIM+TdRjnok7NEwt73SzoQODdwgAsJeCugfKdCY2R/rv8KhB0z3Cb
+	56haCMLnp+xHRagVQPnOBvmgaMCPR5M8NZ09lNNoCgV6fVFv2CsHf4bOC4tX6A==
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [linux-next:master 10545/12617] htmldocs:
- Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
- the link has no caption the label must precede a section header)
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Robert Schlabbach <robert_s@gmx.net>, kernel test robot <lkp@intel.com>
-References: <202212041959.Y2fRgy9r-lkp@intel.com>
- <97e37f71-7748-114f-ab96-7d29d81a4155@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <97e37f71-7748-114f-ab96-7d29d81a4155@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Mon, 05 Dec 2022 09:45:06 +0100
+From: Michael Walle <michael@walle.cc>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Rob Herring <robh+dt@kernel.org>, Frank Rowand
+ <frowand.list@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell() in
+ nvmem_add_cells_from_of()
+In-Reply-To: <202212030011.DQpDmsBb-lkp@intel.com>
+References: <202212030011.DQpDmsBb-lkp@intel.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <a14ed4423ad9f0ce7bd931b33fd94810@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
 
-[-CC: linux-mm]
-
-On Mon, 5 Dec 2022 11:18:20 +0700, Bagas Sanjaya wrote:
-> On 12/4/22 18:52, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   5be860bfc73408bc1a8af9167955e480ecebba84
->> commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744 [10545/12617] media: dvb: add DVB-C2 and DVB-S2X parameter values
->> reproduce:
->>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6508a50fe84f9858e8b59b53dce3847aaeeab744
->>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->>         git fetch --no-tags linux-next master
->>         git checkout 6508a50fe84f9858e8b59b53dce3847aaeeab744
->>         make menuconfig
->>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->>         make htmldocs
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-8-l (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-64 (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: qam-1024 (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: guard-interval-1-64 (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: rolloff-15 (if the link has no caption the label must precede a section header)
->>>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: sys-dvbc2 (if the link has no caption the label must precede a section header)
->>
->> vim +6 Documentation/output/frontend.h.rst
->>
+Am 2022-12-03 09:30, schrieb Dan Carpenter:
+> Hi Michael,
 > 
-> My htmldocs build doesn't catch these warnings above, yet it says there
-> are 62 warnings...
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> Looking at the resulting frontend.h.rst, I didn't see any of these new
-> labels.
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Michael-Walle/nvmem-core-introduce-NVMEM-layouts/20221124-020554
+> patch link:
+> https://lore.kernel.org/r/20221123180151.2160033-11-michael%40walle.cc
+> patch subject: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell()
+> in nvmem_add_cells_from_of()
+> config: i386-randconfig-m021
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 > 
-> Cc'ing Akira and Randy to help sorting out.
-
-JFYI, fixes are queued at:
-
-  - https://patchwork.linuxtv.org/project/linux-media/patch/20221128054303.3124-1-rdunlap@infradead.org/
-  - https://patchwork.linuxtv.org/project/linux-media/patch/2bff9dd2-e4ef-1b10-e64e-3c62849eb3b0@xs4all.nl/
-
-        Thanks, Akira
-
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
 > 
-> Thanks anyway.
+> New smatch warnings:
+> drivers/nvmem/core.c:731 nvmem_add_cells_from_of() warn: possible
+> memory leak of 'cell'
 > 
+> Old smatch warnings:
+> drivers/nvmem/core.c:735 nvmem_add_cells_from_of() warn: possible
+> memory leak of 'cell'
+> 
+> vim +/cell +731 drivers/nvmem/core.c
+> 
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  689  static int
+> nvmem_add_cells_from_of(struct nvmem_device *nvmem)
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  690  {
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  691  	struct device
+> *dev = &nvmem->dev;
+> 7ae6478b304bc0 Srinivas Kandagatla 2021-10-13  692  	struct
+> nvmem_cell_entry *cell;
+> 18f50dbcfd3676 Michael Walle       2022-11-23  693  	struct device_node 
+> *child;
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  694  	const __be32 
+> *addr;
+> 18f50dbcfd3676 Michael Walle       2022-11-23  695  	int len, ret;
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  696
+> 18f50dbcfd3676 Michael Walle       2022-11-23  697
+> 	for_each_child_of_node(dev->of_node, child) {
+> 18f50dbcfd3676 Michael Walle       2022-11-23  698  		struct
+> nvmem_cell_info info = {0};
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  699
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  700  		addr =
+> of_get_property(child, "reg", &len);
+> 0445efacec75b8 Ahmad Fatoum        2021-01-29  701  		if (!addr)
+> 0445efacec75b8 Ahmad Fatoum        2021-01-29  702  			continue;
+> 0445efacec75b8 Ahmad Fatoum        2021-01-29  703  		if (len < 2 *
+> sizeof(u32)) {
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  704  			dev_err(dev,
+> "nvmem: invalid reg on %pOF\n", child);
+> 63879e2964bcee Christophe JAILLET  2021-06-11  705  
+> 			of_node_put(child);
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  706  			return -EINVAL;
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  707  		}
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  708
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  709  		cell =
+> kzalloc(sizeof(*cell), GFP_KERNEL);
+> 63879e2964bcee Christophe JAILLET  2021-06-11  710  		if (!cell) {
+> 63879e2964bcee Christophe JAILLET  2021-06-11  711  
+> 			of_node_put(child);
+> e888d445ac33a5 Bartosz Golaszewski 2018-09-21  712  			return -ENOMEM;
+> 63879e2964bcee Christophe JAILLET  2021-06-11  713  		}
+> 
+> Seems like "cell" is not used any more so this just leaks.
+
+Damn, what a stupid bug from me. Thanks for catching this.
+
+-michael
