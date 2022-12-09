@@ -1,84 +1,68 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9AB33F2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Dec 2022 14:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAED2F3D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Dec 2022 14:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670595556; x=1702131556;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=azl42gVugCEvcs5JlCnQKT+67gF5EUWHRiMEIZB25EU=;
-  b=PRztvf7wVoM2HQXCMwnKUELW3TovVH3074HeRIN70cKhp1eSxZbVh3WS
-   jZAnIkDQ+pxDxtgX/Cha/NArM3fXStcJmDOkPEEOwCLlMHRLZW3zXBl1B
-   q65tQhTUNleWghX10gZcTzRyn0A7fQ9R8HWUL588zb2nSpwQQzJNFJYDQ
-   OvavV0p6odyBzpY03KMR40YuMfXJ0W56fS9nqRbmgr46FMPxGLzD78vu5
-   5qAwCnWRNn60kezu0pXqPYaYHRPFe1ifK8oY4u8h6+XVFkp37h7vDhoOm
-   CY5D7NukgQ9s/stnscoxq3p3z4wOuJTPoZvvKgaq6ZbQiBYd1ds/QgYSF
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="305109156"
+  t=1670596756; x=1702132756;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hRylMPsQJHOK8pB7Zuwq1IsjRcKtHJkBvd6Gto/FKFk=;
+  b=iAUnbiHMINjMy3Bdiyh9gUxmtUaQqWe3zlfx4Vt5EEE7Xojhw6uiuW36
+   wLUJHI7BwnxHreIFKV+Y4xqfUTgUxr7ZKS1LgjlMBxCvpIdCe+ik3rJyU
+   0ncEtbvKmA+P1ImR3Y65g1LOJ71D4WqpYn3tLRopT1t17X3m127rkVoeI
+   Y+SGjS8pKIA+3ArTahCxkq0xIUmQgnIg+3qQI3WweS7NURkoZRH5ZJDf0
+   1kygR+pBH8EfafaEkSYB9vazfd/FGvrkUTIrBBLy11KOq6NCp82ISmPhg
+   PJa9UqBLyZrV4khKI1szAmbQSHgkPd4HZXpR04alhLgiiqt+lx7miu6Pd
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="319332089"
 X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="305109156"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 06:19:16 -0800
+   d="scan'208";a="319332089"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 06:39:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="754043510"
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="649571975"
 X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="754043510"
+   d="scan'208";a="649571975"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2022 06:19:13 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 09 Dec 2022 06:39:14 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p3eDZ-0001t5-0e;
-	Fri, 09 Dec 2022 14:19:13 +0000
-Date: Fri, 9 Dec 2022 22:18:52 +0800
+	id 1p3eWv-0001u1-2g;
+	Fri, 09 Dec 2022 14:39:13 +0000
+Date: Fri, 9 Dec 2022 22:39:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xander Moerkerken <xandermoerkerken@gmail.com>,
-	akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Xander Moerkerken <xander.moerkerken@gmail.com>
-Subject: Re: [PATCH] Added ability to vmalloc executable memory
-Message-ID: <202212092253.UgsxA2Gh-lkp@intel.com>
-References: <20221209131052.64235-1-xander.moerkerken@omron.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_pre_modify 23/29] include/linux/fsnotify.h:33:14:
+ error: implicit declaration of function 'fsnotify_sb_has_watchers'
+Message-ID: <202212092239.oF49jllz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="pFnSbupQd2ljb8E5"
+Content-Type: multipart/mixed; boundary="/j+W4+GywlEQh4vd"
 Content-Disposition: inline
-In-Reply-To: <20221209131052.64235-1-xander.moerkerken@omron.com>
 
 
---pFnSbupQd2ljb8E5
+--/j+W4+GywlEQh4vd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Xander,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.1-rc8 next-20221208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xander-Moerkerken/Added-ability-to-vmalloc-executable-memory/20221209-211212
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20221209131052.64235-1-xander.moerkerken%40omron.com
-patch subject: [PATCH] Added ability to vmalloc executable memory
+tree:   https://github.com/amir73il/linux fan_pre_modify
+head:   90b7623e35a95c9b26dcfb84888f69fab1ab98aa
+commit: 42f4f971729e6929b7cf3c5c059b65fa620953e2 [23/29] fsnotify: optimize the case of no permission marks of any type
 config: powerpc-allnoconfig
 compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/86c4449bb255bd5320d7b260034db7845878bc12
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Xander-Moerkerken/Added-ability-to-vmalloc-executable-memory/20221209-211212
-        git checkout 86c4449bb255bd5320d7b260034db7845878bc12
+        # https://github.com/amir73il/linux/commit/42f4f971729e6929b7cf3c5c059b65fa620953e2
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il fan_pre_modify
+        git checkout 42f4f971729e6929b7cf3c5c059b65fa620953e2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
@@ -86,44 +70,61 @@ reproduce (this is a W=1 build):
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/vmalloc.c: In function '__vmalloc_exec':
->> mm/vmalloc.c:3314:16: error: implicit declaration of function '__vmalloc_node_prot'; did you mean '__vmalloc_node'? [-Werror=implicit-function-declaration]
-    3314 |         return __vmalloc_node_prot(size, 1, gfp_mask, PAGE_KERNEL_EXEC,
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                __vmalloc_node
->> mm/vmalloc.c:3314:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-    3314 |         return __vmalloc_node_prot(size, 1, gfp_mask, PAGE_KERNEL_EXEC,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3315 |                                   NUMA_NO_NODE, __builtin_return_address(0));
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from io_uring/io_uring.c:69:
+   include/linux/fsnotify.h: In function 'fsnotify_name':
+>> include/linux/fsnotify.h:33:14: error: implicit declaration of function 'fsnotify_sb_has_watchers' [-Werror=implicit-function-declaration]
+      33 |         if (!fsnotify_sb_has_watchers(dir->i_sb, mask))
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   io_uring/io_uring.c: In function '__io_submit_flush_completions':
+   io_uring/io_uring.c:1343:40: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+    1343 |         struct io_wq_work_node *node, *prev;
+         |                                        ^~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from io_uring/sync.c:10:
+   include/linux/fsnotify.h: In function 'fsnotify_name':
+>> include/linux/fsnotify.h:33:14: error: implicit declaration of function 'fsnotify_sb_has_watchers' [-Werror=implicit-function-declaration]
+      33 |         if (!fsnotify_sb_has_watchers(dir->i_sb, mask))
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +3314 mm/vmalloc.c
+vim +/fsnotify_sb_has_watchers +33 include/linux/fsnotify.h
 
-  3310	
-  3311	
-  3312	void *__vmalloc_exec(unsigned long size, gfp_t gfp_mask)
-  3313	{
-> 3314		return __vmalloc_node_prot(size, 1, gfp_mask, PAGE_KERNEL_EXEC,
-  3315		                          NUMA_NO_NODE, __builtin_return_address(0));
-  3316	}
-  3317	EXPORT_SYMBOL(__vmalloc_exec);
-  3318	
+    19	
+    20	/*
+    21	 * Notify this @dir inode about a change in a child directory entry.
+    22	 * The directory entry may have turned positive or negative or its inode may
+    23	 * have changed (i.e. renamed over).
+    24	 *
+    25	 * Unlike fsnotify_parent(), the event will be reported regardless of the
+    26	 * FS_EVENT_ON_CHILD mask on the parent inode and will not be reported if only
+    27	 * the child is interested and not the parent.
+    28	 */
+    29	static inline int fsnotify_name(__u32 mask, const void *data, int data_type,
+    30					struct inode *dir, const struct qstr *name,
+    31					u32 cookie)
+    32	{
+  > 33		if (!fsnotify_sb_has_watchers(dir->i_sb, mask))
+    34			return 0;
+    35	
+    36		return fsnotify(mask, data, data_type, dir, name, NULL, cookie);
+    37	}
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---pFnSbupQd2ljb8E5
+--/j+W4+GywlEQh4vd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/powerpc 6.1.0-rc4 Kernel Configuration
+# Linux/powerpc 6.1.0-rc6 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="powerpc-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -1487,4 +1488,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---pFnSbupQd2ljb8E5--
+--/j+W4+GywlEQh4vd--
