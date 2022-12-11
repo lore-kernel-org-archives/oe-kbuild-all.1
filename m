@@ -1,106 +1,109 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8227E1363
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Dec 2022 05:31:21 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id 17so1464460pll.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Dec 2022 21:31:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z6vTvGihZUD6ZwLwPgKHPa+GfczIEiPsQ9GWLGBlels=;
-        b=mYwjZvO8vfqs/z8B/xTKn8erWEJ1qWiRy8OC3llvni0LA7meFiM74AMfPCOawFKgU9
-         XLXISPwZP67SdYUHMSVH0CshgvCkJFTmo+p/+CgoMH4SFVePfQsXbyGwlHc/b9ZIV1Z9
-         eIza4KAel+svqQoeeKjau9ttNzPZJ3s6Gu7kGEO2V74zGeHm89bjTTOJk0Hbwu2/Owi4
-         bmk94YOub3PhMF4SEq7nBN5VOilQUOWWe+KYrYjgWrLQNsvoWLZ3XZ5vLQRZcoIDHhDD
-         CNN9/kaFdE2sMpP3tz8AUU7/qWr5pXge9DqJJXkcTlYSm7yXwLDxweSCTORnDWLvSCKb
-         LN+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z6vTvGihZUD6ZwLwPgKHPa+GfczIEiPsQ9GWLGBlels=;
-        b=xAtPbpYEvRKGQaTmIcXqjWtEGF0jpU633XMIFhvAuRtB2HZEM06eTiWCtuL4zH3vjX
-         LpGud2QfesvsdXcrXWJL6LWa6LqolggkR/KtKUV3qdEtxn/MiriryaWyWQX7HFJKIN1c
-         vDqHm4DuQIg+AJr2tSDFt2HfZOewT3dPNFgx2BWYKXAmtvt6v/oWDNe0Oh2iD4g7kfaL
-         wMExqgM3nTQfYs7Qq3Go1UkvpqBuhdlLneNsCs7BMsIzwssTHPehyWmTOrtdYlXGA5zO
-         xeqh+ZDIbu/4q5sx9tQArABqD7Bj4oy+XlMYXU2FbB00aOCGx0GNz34vv+9balcD2Lah
-         UUbA==
-X-Gm-Message-State: ANoB5plErHJlC1uzkuYVgxAz7gTejzLkBHoHPjCmkME71E00lEf7La5J
-	R8zpoAETzy3fV0AbtCd7w0g=
-X-Google-Smtp-Source: AA0mqf6oalOJMzb3tShfki8wjIKr/gLy4mMu1RvV9fXaLpaV2P7WB5n3RlqGwu2l/dnx9gVZ5L5zHg==
-X-Received: by 2002:a17:90a:e2d1:b0:219:4bdb:92f4 with SMTP id fr17-20020a17090ae2d100b002194bdb92f4mr11539081pjb.15.1670736680978;
-        Sat, 10 Dec 2022 21:31:20 -0800 (PST)
-Received: from debian.me (subs28-116-206-12-36.three.co.id. [116.206.12.36])
-        by smtp.gmail.com with ESMTPSA id k30-20020a17090a4ca100b0020a11217682sm3189190pjh.27.2022.12.10.21.31.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Dec 2022 21:31:20 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-	id 64D7D10452A; Sun, 11 Dec 2022 12:31:15 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Cc: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] Documentation: gpu: vc4: add blank line separator before KUnit code block
-Date: Sun, 11 Dec 2022 12:30:52 +0700
-Message-Id: <20221211053051.18125-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <202212102116.A10vg3jG-lkp@intel.com>
-References: <202212102116.A10vg3jG-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06FE1363
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Dec 2022 06:22:43 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1p4FjJ-006AjA-Hk; Sun, 11 Dec 2022 14:22:30 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sun, 11 Dec 2022 14:22:29 +0800
+Date: Sun, 11 Dec 2022 14:22:29 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: "Chen, Rong A" <rong.a.chen@intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+	"Jason A. Donenfeld" <zx2c4@kernel.org>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: [PATCH] crypto: lib/blake2s - Split up test function to halve stack
+ usage
+Message-ID: <Y5V3JUL+r4k/XrL9@gondor.apana.org.au>
+References: <202211072109.qvrnjNKo-lkp@intel.com>
+ <Y5Flnb8jadyDebx3@gondor.apana.org.au>
+ <d25ac395-4335-be88-9dc5-364f5715554f@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=bagasdotme@gmail.com; h=from:subject; bh=pvBilcpCv4aXZhOeJEGAFfrgfoZtHWn/dmtVyYkJ0t8=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMlTs1n8lXepN9h6b9l4h21q9Y1Zjx9Yb6mZ8pLhU/gMVr8t XRccOkpZGMQ4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCR63aMDJdW+rqEfL7Vv+bRRIOqw8 J8d44t3XbgZdbnAh1+zZQbD54wMkz7LXOxL3ezz0rPg//yz13n/vipkelb+X+553GWquXqLWwA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d25ac395-4335-be88-9dc5-364f5715554f@intel.com>
 
-kernel test robot reports htmldocs warning:
+On Thu, Dec 08, 2022 at 02:37:45PM +0800, Chen, Rong A wrote:
+>
+> Thanks for the information, I checked the result of the fix commit,
+> it reduced the stack frame but the warning still exists:
+> 
+> lib/crypto/blake2s-selftest.c:632:1: warning: the frame size of 1056 bytes
+> is larger than 1024 bytes [-Wframe-larger-than=]
 
-Documentation/gpu/vc4.rst:65: WARNING: Unexpected indentation.
+Sorry, I didn't realise that you could still reproduce it.  I tried
+reproducing it on multiple architectures and failed (all were in
+the 900 range).
 
-The warning is due to missing blank line separator between KUnit mock
-driver sentence and its code block.
+Anyhow, this patch reduces it by half for me so hopefully it should
+put this to rest.
 
-Add the separator to fix the warning.
+---8<---
+Reduce the stack usage further by splitting up the test function.
 
-Link: https://lore.kernel.org/linux-doc/202212102116.A10vg3jG-lkp@intel.com/
-Fixes: 5304c8e6010012 ("Documentation: gpu: vc4: Add KUnit Tests Section")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/vc4.rst | 1 +
- 1 file changed, 1 insertion(+)
+Also squash blocks and unaligned_blocks into one array.
 
-diff --git a/Documentation/gpu/vc4.rst b/Documentation/gpu/vc4.rst
-index a2375f1584e6d9..ec920c4f5bb322 100644
---- a/Documentation/gpu/vc4.rst
-+++ b/Documentation/gpu/vc4.rst
-@@ -62,6 +62,7 @@ integration tests.
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+
+diff --git a/lib/crypto/blake2s-selftest.c b/lib/crypto/blake2s-selftest.c
+index 7d77dea15587..484b89332c83 100644
+--- a/lib/crypto/blake2s-selftest.c
++++ b/lib/crypto/blake2s-selftest.c
+@@ -545,7 +545,7 @@ static const u8 blake2s_testvecs[][BLAKE2S_HASH_SIZE] __initconst = {
+     0xd6, 0x98, 0x6b, 0x07, 0x10, 0x65, 0x52, 0x65, },
+ };
  
- These tests are using a mock driver and can be ran using the
- command::
+-bool __init blake2s_selftest(void)
++static bool __init blake2s_digest_test(void)
+ {
+ 	u8 key[BLAKE2S_KEY_SIZE];
+ 	u8 buf[ARRAY_SIZE(blake2s_testvecs)];
+@@ -589,11 +589,20 @@ bool __init blake2s_selftest(void)
+ 		}
+ 	}
+ 
++	return success;
++}
 +
- 	./tools/testing/kunit/kunit.py run \
- 		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
- 		--cross_compile aarch64-linux-gnu- --arch arm64
-
-base-commit: 612e241fb4bcd98d8ff9da7a795abb86b8ccfe38
++static bool __init blake2s_random_test(void)
++{
++	struct blake2s_state state;
++	bool success = true;
++	int i, l;
++
+ 	for (i = 0; i < 32; ++i) {
+ 		enum { TEST_ALIGNMENT = 16 };
+-		u8 unaligned_block[BLAKE2S_BLOCK_SIZE + TEST_ALIGNMENT - 1]
++		u8 blocks[BLAKE2S_BLOCK_SIZE * 2 + TEST_ALIGNMENT - 1]
+ 					__aligned(TEST_ALIGNMENT);
+-		u8 blocks[BLAKE2S_BLOCK_SIZE * 2];
++		u8 *unaligned_block = blocks + BLAKE2S_BLOCK_SIZE;
+ 		struct blake2s_state state1, state2;
+ 
+ 		get_random_bytes(blocks, sizeof(blocks));
+@@ -630,3 +639,13 @@ bool __init blake2s_selftest(void)
+ 
+ 	return success;
+ }
++
++bool __init blake2s_selftest(void)
++{
++	bool success;
++
++	success = blake2s_digest_test();
++	success &= blake2s_random_test();
++
++	return success;
++}
+Thanks,
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
