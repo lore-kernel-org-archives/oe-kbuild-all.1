@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B07023A3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Dec 2022 07:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214CB23A3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Dec 2022 07:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670915987; x=1702451987;
+  t=1670915994; x=1702451994;
   h=date:from:to:cc:subject:message-id:mime-version:
    in-reply-to;
-  bh=KAhCNlGVwdQi8BUp123AdOk7JKiwwlP0CIs18w2kaeA=;
-  b=dZsb2TejJ6pwIGwzrshJoPINzeJQYPCKAiTRULz7qYzGaEtcXIVYR0an
-   s5Zrfw06u4Z9//5J76UaI3o38lYm5YFmjyL3ar27+vqfC91vGjC0wmQeK
-   f+WFb4QHEAFXZ9ttH3gz+K7BagBYejLhfbmFPBgq09BNUkWMDzNpjzC9C
-   lAda/umMY3oH6rqLM2+guWCRmh9JFHYq0M5G+//+9udjt1m8GgDsX683v
-   lJ2ZzIZ5UEa9leeErw4Y/wpFA3pffwx+OW4qR+/3Rpwzz4KVnvAAiP8h3
-   Umg5QXxQR/vfXgG1JTzF39xs+8Gq/yLxsV6aPdTC07ODdpnw1M0LNH7b4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="316765499"
+  bh=zqDMgtQXnqkvpk2b9FoxSOfx9PTSNuJMB8Mlp3TKJRQ=;
+  b=ELcyYJrn4uddGv0ME2McK12ssFBAH+FKcGqIw2DGe0hf7IWyPq85D7cm
+   vtxKAzmCA6sR+hU7o+tnYp2TH0H5+VB5fYM+tmv2tatWVZZox9d+UZxTR
+   gImwXmFCLexQGkurilvzk+s1TELslelhOG1c6KjtoRiVvWlhrqfP48NEW
+   O+LSJ4ucvnF4LQ1CpUG29HM61w7OOAjHPE9CJe14/G8sHehm8UE2QQTDG
+   7PJX7BZxnY0k2xA9qGbdOWvlN96wI25HWlY7bVmk10nd18GScxdajhvA8
+   Shgk5LvRB4G2Oghm0tXUsD+FW9CAi8eD/h7o96WeGh+e9c8zjSXtiuyEF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="298406376"
 X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
-   d="scan'208";a="316765499"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 23:19:46 -0800
+   d="scan'208";a="298406376"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 23:19:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="648464789"
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="822781309"
 X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
-   d="scan'208";a="648464789"
+   d="scan'208";a="822781309"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 12 Dec 2022 23:19:45 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Dec 2022 23:19:51 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p4zZo-00049v-0z;
-	Tue, 13 Dec 2022 07:19:44 +0000
-Date: Tue, 13 Dec 2022 15:18:30 +0800
+	id 1p4zZu-00049z-3A;
+	Tue, 13 Dec 2022 07:19:50 +0000
+Date: Tue, 13 Dec 2022 15:18:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ming Lei <ming.lei@redhat.com>
 Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH stable 5.4.y/4.19.y] block: unhash blkdev part inode when
- the part is deleted
-Message-ID: <Y5gnRplT8Tll/g+W@0d7994225921>
+Subject: Re: [PATCH stable 4.9.y] block: unhash blkdev part inode when the
+ part is deleted
+Message-ID: <Y5gnSzLa+xEbcbpZ@0d7994225921>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221213071603.1197703-1-ming.lei@redhat.com>
+In-Reply-To: <20221213071655.1197875-1-ming.lei@redhat.com>
 
 Hi,
 
@@ -55,8 +55,8 @@ Thanks for your patch.
 FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
 Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH stable 5.4.y/4.19.y] block: unhash blkdev part inode when the part is deleted
-Link: https://lore.kernel.org/stable/20221213071603.1197703-1-ming.lei%40redhat.com
+Subject: [PATCH stable 4.9.y] block: unhash blkdev part inode when the part is deleted
+Link: https://lore.kernel.org/stable/20221213071655.1197875-1-ming.lei%40redhat.com
 
 The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
