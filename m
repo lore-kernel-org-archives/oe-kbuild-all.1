@@ -1,191 +1,123 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05AA259D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Dec 2022 18:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A12259D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Dec 2022 18:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671214423; x=1702750423;
+  t=1671215023; x=1702751023;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OKeKzKtue5MAbRfgYeCc9eziI1I3GFej7wVUTyJM20g=;
-  b=DJ2kwnXNSgy+OZbHytE/qePt0RhctgN5G4/EV9UKeYFzwl0hReGf0xJA
-   grgjdcWsdozuHYzTbYpXP80VeK8TnbOqSxTZ3FQ+xg20q7Lkt18+MxW3g
-   VDzk4do5qGosAGADLXK5pVoD/wKWCU5k0pjmy7Vcagjb/56f4K1edvNcq
-   BP8dh/5yevjHgCiSWxKP4e8srpv/aP2OUu6gNROgunwqN+W6pngmX9e9G
-   qQFHKVzYeCAnZBRwiiFRv3TxHU9/51/PFu6DhZvkOGDqCCZoANvEO88jt
-   Ne0ZWcc1QJMZ3M1M65O+OIi2/JNSJMARPveMQhu1VXTtq1dmi4manPeyy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="306701298"
+  bh=3N9zZ+OFHseSAH0GQTHTkd8rphxR62YtMqmrL159Bo0=;
+  b=k+lecJpBx+5f4jmVERwTm8bGrGVWWZyojUa9lAEYZF/Tue1H0FOR3mKK
+   SXKK1/BhLl9EqlGxL6KNz31/YTFIJ5K5QLuxcNMR5uAQ27bAeBNnj9OPo
+   5j2HaOFauf64hv9UXr7Jlt/x3S6Aw5k/ExRY9btF/35kDJ/p5bxCxuiXB
+   zviYO05ThrE75afho3LO79geeZb/IqoQlcJxD2PYb00bLgzN/QSN2NiR4
+   Fdnj3Et6gIRUDMmvGkeEO8lwEL3Qhev3QjUW5W02pbb0RfnnN6AFqPAa2
+   8afBQEmlzL+ZjETVbCRQ5giXXb9/DyE6gB3n++QzJM1pQi5OYGqfLGt6+
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="383362814"
 X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="306701298"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 10:13:41 -0800
+   d="scan'208";a="383362814"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 10:23:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="600028572"
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="627622641"
 X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="600028572"
+   d="scan'208";a="627622641"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Dec 2022 10:13:38 -0800
+  by orsmga006.jf.intel.com with ESMTP; 16 Dec 2022 10:23:38 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p6FDF-0007Ks-2M;
-	Fri, 16 Dec 2022 18:13:37 +0000
-Date: Sat, 17 Dec 2022 02:13:25 +0800
+	id 1p6FMv-0007L0-3B;
+	Fri, 16 Dec 2022 18:23:37 +0000
+Date: Sat, 17 Dec 2022 02:23:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>,
-	Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-	Logan Gunthorpe <logang@deltatee.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v2 2/2] PCI: switchtec: Return -EFAULT for copy_to_user()
- errors
-Message-ID: <202212170217.ClAOBcqp-lkp@intel.com>
-References: <20221216162126.207863-3-helgaas@kernel.org>
+To: Eugen Hristev <eugen.hristev@microchip.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	luis.oliveira@synopsys.com,
+	Eugen Hristev <eugen.hristev@microchip.com>
+Subject: Re: [PATCH v5 4/4] media: platform: dwc: Add DW MIPI DPHY Rx driver
+Message-ID: <202212170235.TAQOKjwq-lkp@intel.com>
+References: <20221216143717.1002015-5-eugen.hristev@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="HDowMgrrwwFhvU7T"
+Content-Type: multipart/mixed; boundary="iGtg4TCM6F+nJz+v"
 Content-Disposition: inline
-In-Reply-To: <20221216162126.207863-3-helgaas@kernel.org>
+In-Reply-To: <20221216143717.1002015-5-eugen.hristev@microchip.com>
 
 
---HDowMgrrwwFhvU7T
+--iGtg4TCM6F+nJz+v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Bjorn,
+Hi Eugen,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on helgaas-pci/next]
-[also build test WARNING on helgaas-pci/for-linus linus/master v6.1 next-20221216]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master sailus-media-tree/streams v6.1 next-20221216]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Helgaas/PCI-switchtec-Trivial-cleanups/20221217-002341
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
-patch link:    https://lore.kernel.org/r/20221216162126.207863-3-helgaas%40kernel.org
-patch subject: [PATCH v2 2/2] PCI: switchtec: Return -EFAULT for copy_to_user() errors
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/media-dwc-add-csi2host-driver/20221216-224024
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20221216143717.1002015-5-eugen.hristev%40microchip.com
+patch subject: [PATCH v5 4/4] media: platform: dwc: Add DW MIPI DPHY Rx driver
 config: x86_64-allyesconfig
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/a598bd934af2ccce340a59da1d10a3959b085dd0
+        # https://github.com/intel-lab-lkp/linux/commit/35c9955340fd6d88770ab7d142b7a1d2b5b0d156
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bjorn-Helgaas/PCI-switchtec-Trivial-cleanups/20221217-002341
-        git checkout a598bd934af2ccce340a59da1d10a3959b085dd0
+        git fetch --no-tags linux-review Eugen-Hristev/media-dwc-add-csi2host-driver/20221216-224024
+        git checkout 35c9955340fd6d88770ab7d142b7a1d2b5b0d156
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/pci/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/platform/dwc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pci/switch/switchtec.c: In function 'switchtec_dev_read':
->> drivers/pci/switch/switchtec.c:623:1: warning: label 'out' defined but not used [-Wunused-label]
-     623 | out:
-         | ^~~
+   drivers/media/platform/dwc/dw-csi-plat.c: In function 'dw_csi_probe':
+   drivers/media/platform/dwc/dw-csi-plat.c:541:9: warning: this 'else' clause does not guard... [-Wmisleading-indentation]
+     541 |         else
+         |         ^~~~
+   drivers/media/platform/dwc/dw-csi-plat.c:544:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+     544 |                 goto end;
+         |                 ^~~~
+   In file included from drivers/media/platform/dwc/dw-csi-plat.c:11:
+   At top level:
+>> include/media/dwc/dw-csi-data.h:23:33: warning: 'csis' defined but not used [-Wunused-const-variable=]
+      23 | static const struct pdata_names csis[] = {
+         |                                 ^~~~
 
 
-vim +/out +623 drivers/pci/switch/switchtec.c
+vim +/csis +23 include/media/dwc/dw-csi-data.h
 
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  557  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  558  static ssize_t switchtec_dev_read(struct file *filp, char __user *data,
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  559  				  size_t size, loff_t *off)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  560  {
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  561  	struct switchtec_user *stuser = filp->private_data;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  562  	struct switchtec_dev *stdev = stuser->stdev;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  563  	int rc;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  564  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  565  	if (size < sizeof(stuser->cmd) ||
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  566  	    size > sizeof(stuser->cmd) + sizeof(stuser->data))
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  567  		return -EINVAL;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  568  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  569  	rc = lock_mutex_and_test_alive(stdev);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  570  	if (rc)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  571  		return rc;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  572  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  573  	if (stuser->state == MRPC_IDLE) {
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  574  		mutex_unlock(&stdev->mrpc_mutex);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  575  		return -EBADE;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  576  	}
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  577  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  578  	stuser->read_len = size - sizeof(stuser->return_code);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  579  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  580  	mutex_unlock(&stdev->mrpc_mutex);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  581  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  582  	if (filp->f_flags & O_NONBLOCK) {
-deaa0a8a74d865 Sebastian Andrzej Siewior 2020-03-21  583  		if (!stuser->cmd_done)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  584  			return -EAGAIN;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  585  	} else {
-deaa0a8a74d865 Sebastian Andrzej Siewior 2020-03-21  586  		rc = wait_event_interruptible(stuser->cmd_comp,
-deaa0a8a74d865 Sebastian Andrzej Siewior 2020-03-21  587  					      stuser->cmd_done);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  588  		if (rc < 0)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  589  			return rc;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  590  	}
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  591  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  592  	rc = lock_mutex_and_test_alive(stdev);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  593  	if (rc)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  594  		return rc;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  595  
-1a323bd071dd81 Kelvin Cao                2021-10-14  596  	if (stuser->state == MRPC_IO_ERROR) {
-1a323bd071dd81 Kelvin Cao                2021-10-14  597  		mutex_unlock(&stdev->mrpc_mutex);
-1a323bd071dd81 Kelvin Cao                2021-10-14  598  		return -EIO;
-1a323bd071dd81 Kelvin Cao                2021-10-14  599  	}
-1a323bd071dd81 Kelvin Cao                2021-10-14  600  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  601  	if (stuser->state != MRPC_DONE) {
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  602  		mutex_unlock(&stdev->mrpc_mutex);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  603  		return -EBADE;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  604  	}
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  605  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  606  	rc = copy_to_user(data, &stuser->return_code,
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  607  			  sizeof(stuser->return_code));
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  608  	if (rc) {
-a598bd934af2cc Bjorn Helgaas             2022-12-16  609  		mutex_unlock(&stdev->mrpc_mutex);
-a598bd934af2cc Bjorn Helgaas             2022-12-16  610  		return -EFAULT;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  611  	}
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  612  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  613  	data += sizeof(stuser->return_code);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  614  	rc = copy_to_user(data, &stuser->data,
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  615  			  size - sizeof(stuser->return_code));
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  616  	if (rc) {
-a598bd934af2cc Bjorn Helgaas             2022-12-16  617  		mutex_unlock(&stdev->mrpc_mutex);
-a598bd934af2cc Bjorn Helgaas             2022-12-16  618  		return -EFAULT;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  619  	}
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  620  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  621  	stuser_set_state(stuser, MRPC_IDLE);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  622  
-080b47def5e5e2 Logan Gunthorpe           2017-03-06 @623  out:
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  624  	mutex_unlock(&stdev->mrpc_mutex);
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  625  
-551ec658b69807 Kelvin Cao                2021-10-14  626  	if (stuser->status == SWITCHTEC_MRPC_STATUS_DONE ||
-551ec658b69807 Kelvin Cao                2021-10-14  627  	    stuser->status == SWITCHTEC_MRPC_STATUS_ERROR)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  628  		return size;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  629  	else if (stuser->status == SWITCHTEC_MRPC_STATUS_INTERRUPTED)
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  630  		return -ENXIO;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  631  	else
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  632  		return -EBADMSG;
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  633  }
-080b47def5e5e2 Logan Gunthorpe           2017-03-06  634  
+4724a2dd0be3d5 Luis Oliveira 2022-12-16  22  
+4724a2dd0be3d5 Luis Oliveira 2022-12-16 @23  static const struct pdata_names csis[] = {
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---HDowMgrrwwFhvU7T
+--iGtg4TCM6F+nJz+v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.1.0-rc1 Kernel Configuration
+# Linux/x86_64 6.1.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -6844,7 +6776,6 @@ CONFIG_VIDEO_MUX=y
 #
 # Aspeed media platform drivers
 #
-CONFIG_VIDEO_ASPEED=y
 
 #
 # Atmel media platform drivers
@@ -6859,6 +6790,9 @@ CONFIG_VIDEO_CADENCE_CSI2TX=y
 #
 # Chips&Media media platform drivers
 #
+CONFIG_DWC_MIPI_CSI2_HOST=y
+CONFIG_DWC_MIPI_DPHY_GEN3=y
+CONFIG_DWC_MIPI_TC_DPHY_GEN3=y
 
 #
 # Intel media platform drivers
@@ -6871,6 +6805,10 @@ CONFIG_VIDEO_CAFE_CCIC=y
 
 #
 # Mediatek media platform drivers
+#
+
+#
+# Microchip Technology, Inc. media platform drivers
 #
 
 #
@@ -6937,6 +6875,8 @@ CONFIG_VIDEO_VIMC=y
 CONFIG_VIDEO_VIVID=y
 CONFIG_VIDEO_VIVID_CEC=y
 CONFIG_VIDEO_VIVID_MAX_DEVS=64
+CONFIG_VIDEO_VISL=y
+CONFIG_VISL_DEBUGFS=y
 CONFIG_DVB_TEST_DRIVERS=y
 CONFIG_DVB_VIDTV=y
 
@@ -7013,6 +6953,7 @@ CONFIG_VIDEO_NOON010PC30=y
 CONFIG_VIDEO_OG01A1B=y
 CONFIG_VIDEO_OV02A10=y
 CONFIG_VIDEO_OV08D10=y
+CONFIG_VIDEO_OV08X40=y
 CONFIG_VIDEO_OV13858=y
 CONFIG_VIDEO_OV13B10=y
 CONFIG_VIDEO_OV2640=y
@@ -7020,6 +6961,7 @@ CONFIG_VIDEO_OV2659=y
 CONFIG_VIDEO_OV2680=y
 CONFIG_VIDEO_OV2685=y
 CONFIG_VIDEO_OV2740=y
+CONFIG_VIDEO_OV4689=y
 CONFIG_VIDEO_OV5640=y
 CONFIG_VIDEO_OV5645=y
 CONFIG_VIDEO_OV5647=y
@@ -7044,11 +6986,11 @@ CONFIG_VIDEO_RDACM20=y
 CONFIG_VIDEO_RDACM21=y
 CONFIG_VIDEO_RJ54N1=y
 CONFIG_VIDEO_S5C73M3=y
-CONFIG_VIDEO_S5K4ECGX=y
 CONFIG_VIDEO_S5K5BAF=y
 CONFIG_VIDEO_S5K6A3=y
 CONFIG_VIDEO_S5K6AA=y
 CONFIG_VIDEO_SR030PC30=y
+CONFIG_VIDEO_ST_VGXY61=y
 CONFIG_VIDEO_VS6624=y
 CONFIG_VIDEO_CCS=y
 CONFIG_VIDEO_ET8EK8=y
@@ -7121,6 +7063,7 @@ CONFIG_VIDEO_SAA7110=y
 CONFIG_VIDEO_SAA711X=y
 CONFIG_VIDEO_TC358743=y
 CONFIG_VIDEO_TC358743_CEC=y
+CONFIG_VIDEO_TC358746=y
 CONFIG_VIDEO_TVP514X=y
 CONFIG_VIDEO_TVP5150=y
 CONFIG_VIDEO_TVP7002=y
@@ -10108,6 +10051,10 @@ CONFIG_VIDEO_ATOMISP_LM3554=y
 CONFIG_VIDEO_IPU3_IMGU=y
 CONFIG_VIDEO_MAX96712=y
 CONFIG_STAGING_MEDIA_DEPRECATED=y
+
+#
+# Atmel media platform drivers
+#
 CONFIG_VIDEO_CPIA2=y
 CONFIG_VIDEO_MEYE=y
 CONFIG_VIDEO_SAA7146=y
@@ -13047,4 +12994,4 @@ CONFIG_HYPERV_TESTING=y
 # end of Rust hacking
 # end of Kernel hacking
 
---HDowMgrrwwFhvU7T--
+--iGtg4TCM6F+nJz+v--
