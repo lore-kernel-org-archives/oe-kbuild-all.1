@@ -1,66 +1,66 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1BF8490
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Dec 2022 19:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352A48490
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Dec 2022 20:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671220485; x=1702756485;
+  t=1671222349; x=1702758349;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mfb4YUoY2Sly4PzHzD99W+I92ImaWK6SCgR+muOtpJs=;
-  b=eL9xQpILn+CdVMMiXplvXucAcJyJR010SmzDOwpV8PWBOc8TiKEn8f9L
-   IyJlxfgZuQbSx9DUlq23pBrovTUEh5Ag//7rDPIgyA9mOKHt0AtFc6qG3
-   MN2VCgwhL+/MgO/1XiCyWtpUVzVYpe6DBcmUxv4yTgcSfIcjHZMeMtD+C
-   o52v0gonfhigf1s1UtX0jTv1q1xw5L1L91L3vuSA7qYju/b3d6iJ7QsH8
-   +5654Qat8PD3vR6GMq6eQiTk+WF/9qCE1aY6lFRZRyc14QcwQNBQqIJll
-   TZMUm/gqm5llOl1XyYHizSWaG+yJ2n2nKDV281DgOqKr8GAUbeHLh1CyL
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="306722312"
+  bh=ucpsqwh3GzMylwcn0a/+bZXBXogpGoi7gr5d304Ylgo=;
+  b=CzQUnteIVx9+o0lH9gvjcnngU4gYq4CDVn76wPcV2dIAP8aLN+95LGpn
+   vG0CsGPaCfGYF2KcDUNpq7vFL/V6qzEoIkOaJfVDNmiLwCt20asSSXfeQ
+   BD3ML09BIrPM6/TgoeQ/bDOr0qxYewjln6M/qEA9+E3cUY4MYl6J1QdJe
+   Uih1SITs8n+HICqY+HyqRD0g/BNN5Qx18l6vaDr+TI5hU6SeYyvkOET9u
+   AFNdmTEgyjORMfg8VXcM5p7dZ9qZL+9QVjcJliwo6qwt+oZ3K8l5izUFX
+   z6IfEbHhZu9Jz7fOS+YqIoOs1NDf0B3zZI8zVcmiqJSj9KsHQvEC1iDju
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="302472103"
 X-IronPort-AV: E=Sophos;i="5.96,251,1665471600"; 
-   d="scan'208";a="306722312"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 11:54:42 -0800
+   d="scan'208";a="302472103"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 12:25:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="649927042"
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="774266069"
 X-IronPort-AV: E=Sophos;i="5.96,251,1665471600"; 
-   d="scan'208";a="649927042"
+   d="scan'208";a="774266069"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Dec 2022 11:54:40 -0800
+  by orsmga004.jf.intel.com with ESMTP; 16 Dec 2022 12:25:40 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p6Gn1-0007NG-2c;
-	Fri, 16 Dec 2022 19:54:39 +0000
-Date: Sat, 17 Dec 2022 03:54:35 +0800
+	id 1p6HH2-0007Nq-1J;
+	Fri, 16 Dec 2022 20:25:40 +0000
+Date: Sat, 17 Dec 2022 04:24:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 1107/1172]
- fs/f2fs/super.o: warning: objtool: f2fs_handle_stop()+0x53: sibling call
- from callable instruction with modified stack frame
-Message-ID: <202212170326.EcPalWdg-lkp@intel.com>
+Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 1172/1172]
+ fs/f2fs/segment.o: warning: objtool: dquot_release_reservation_block()+0x3c:
+ sibling call from callable instruction with modified stack frame
+Message-ID: <202212170442.sF62eGlh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="JBL7Oyh6GXxE8CLw"
+Content-Type: multipart/mixed; boundary="5kf5txbQewELo3Ov"
 Content-Disposition: inline
 
 
---JBL7Oyh6GXxE8CLw
+--5kf5txbQewELo3Ov
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
 head:   b9aeb147225616494256fcf913c559afd4088a05
-commit: 744d418bae54d8e6e94be07d22554ffa5f0298cd [1107/1172] f2fs: support recording stop_checkpoint reason into super_block
-config: x86_64-rhel-8.3
+commit: b9aeb147225616494256fcf913c559afd4088a05 [1172/1172] f2fs: reset wait_ms to default if any of the victims have been selected
+config: x86_64-rhel-8.3-kvm
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common upstream-f2fs-stable-linux-4.19.y
-        git checkout 744d418bae54d8e6e94be07d22554ffa5f0298cd
+        git checkout b9aeb147225616494256fcf913c559afd4088a05
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
@@ -71,71 +71,75 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/f2fs/super.c:30:
+   In file included from fs/f2fs/segment.c:20:
    fs/f2fs/f2fs.h: In function 'blkaddr_in_node':
-   fs/f2fs/f2fs.h:2873:37: warning: taking address of packed member of 'struct f2fs_inode' may result in an unaligned pointer value [-Waddress-of-packed-member]
-    2873 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
+   fs/f2fs/f2fs.h:2886:37: warning: taking address of packed member of 'struct f2fs_inode' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    2886 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
          |                                     ^~~~
-   fs/f2fs/f2fs.h:2873:54: warning: taking address of packed member of 'struct direct_node' may result in an unaligned pointer value [-Waddress-of-packed-member]
-    2873 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
+   fs/f2fs/f2fs.h:2886:54: warning: taking address of packed member of 'struct direct_node' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    2886 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
          |                                                      ^~~~
-   In file included from fs/f2fs/super.c:8:
-   fs/f2fs/super.c: At top level:
-   include/linux/module.h:133:13: warning: 'init_module' specifies less restrictive attribute than its target 'init_f2fs_fs': 'cold' [-Wmissing-attributes]
-     133 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   fs/f2fs/super.c:4664:1: note: in expansion of macro 'module_init'
-    4664 | module_init(init_f2fs_fs)
-         | ^~~~~~~~~~~
-   fs/f2fs/super.c:4542:19: note: 'init_module' target declared here
-    4542 | static int __init init_f2fs_fs(void)
-         |                   ^~~~~~~~~~~~
-   In file included from fs/f2fs/super.c:8:
-   include/linux/module.h:139:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'exit_f2fs_fs': 'cold' [-Wmissing-attributes]
-     139 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   fs/f2fs/super.c:4665:1: note: in expansion of macro 'module_exit'
-    4665 | module_exit(exit_f2fs_fs)
-         | ^~~~~~~~~~~
-   fs/f2fs/super.c:4642:20: note: 'cleanup_module' target declared here
-    4642 | static void __exit exit_f2fs_fs(void)
-         |                    ^~~~~~~~~~~~
-   In file included from fs/f2fs/super.c:27:
-   include/linux/zstd.h:798:21: warning: 'ZSTD_skippableHeaderSize' defined but not used [-Wunused-const-variable=]
-     798 | static const size_t ZSTD_skippableHeaderSize = 8;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/zstd.h:796:21: warning: 'ZSTD_frameHeaderSize_max' defined but not used [-Wunused-const-variable=]
-     796 | static const size_t ZSTD_frameHeaderSize_max = ZSTD_FRAMEHEADERSIZE_MAX;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/zstd.h:795:21: warning: 'ZSTD_frameHeaderSize_min' defined but not used [-Wunused-const-variable=]
-     795 | static const size_t ZSTD_frameHeaderSize_min = ZSTD_FRAMEHEADERSIZE_MIN;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/zstd.h:794:21: warning: 'ZSTD_frameHeaderSize_prefix' defined but not used [-Wunused-const-variable=]
-     794 | static const size_t ZSTD_frameHeaderSize_prefix = 5;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/super.o: warning: objtool: f2fs_quota_on()+0x24: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: sanity_check_area_boundary()+0x8e: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: sanity_check_raw_super()+0x32: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: read_raw_super_block()+0x70: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_set_qf_name()+0x42: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_scan_devices()+0x1b0: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_disable_checkpoint()+0x39: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_enable_quotas()+0x61: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: parse_options()+0x823: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_enable_quota_files()+0x54: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_sanity_check_ckpt()+0x113: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_fill_super()+0x13b: sibling call from callable instruction with modified stack frame
-   fs/f2fs/super.o: warning: objtool: f2fs_remount()+0x272: sibling call from callable instruction with modified stack frame
->> fs/f2fs/super.o: warning: objtool: f2fs_handle_stop()+0x53: sibling call from callable instruction with modified stack frame
+   In file included from fs/f2fs/segment.c:23:
+   fs/f2fs/gc.h: At top level:
+   fs/f2fs/gc.h:73:1: warning: alignment 1 of 'struct victim_entry' is less than 8 [-Wpacked-not-aligned]
+      73 | } __packed;
+         | ^
+>> fs/f2fs/segment.o: warning: objtool: dquot_release_reservation_block()+0x3c: sibling call from callable instruction with modified stack frame
+>> fs/f2fs/segment.o: warning: objtool: has_not_enough_free_secs.constprop.0()+0x1c1: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: update_segment_mtime()+0xbd: sibling call from callable instruction with modified stack frame
+>> fs/f2fs/segment.o: warning: objtool: init_min_max_mtime()+0x367: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __insert_discard_tree.constprop.0()+0x106: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __locate_dirty_segment()+0x69d: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __get_segment_type_6()+0x7eb: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: add_discard_addrs()+0x88b: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_issue_discard.isra.0()+0x27c: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __submit_discard_cmd()+0x218: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __issue_discard_cmd_orderly()+0x267: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __issue_discard_cmd()+0x10f: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: issue_discard_thread()+0x904: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __issue_discard_cmd_range.constprop.0()+0x224: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: reset_curseg()+0x16e: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: init_dirty_segmap()+0x58c: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: build_free_segmap()+0x29d: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __f2fs_restore_inmem_curseg()+0xaf: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __remove_dirty_segment()+0x316: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: build_sit_info()+0x7fe: sibling call from callable instruction with modified stack frame
+>> fs/f2fs/segment.o: warning: objtool: dec_valid_block_count()+0x1e3: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: init_free_segmap()+0x4af: sibling call from callable instruction with modified stack frame
+>> fs/f2fs/segment.o: warning: objtool: __set_test_and_free()+0x294: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: get_new_segment()+0xea: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: build_sit_entries()+0x11de: sibling call from callable instruction with modified stack frame
+>> fs/f2fs/segment.o: warning: objtool: inc_valid_block_count.isra.0()+0x6b: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: update_sit_entry()+0xbb: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_need_SSR()+0x106: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_get_unusable_blocks()+0x103: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_clear_prefree_segments()+0x7a5: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: create_discard_cmd_control()+0x4a1: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_invalidate_blocks()+0xb6: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_is_checkpointed_data()+0x109: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: change_curseg()+0x1e6: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: new_curseg()+0x160: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __allocate_new_segment()+0xae: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: __f2fs_save_inmem_curseg()+0xae: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_init_inmem_curseg()+0x96: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_save_inmem_curseg()+0x48: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_restore_inmem_curseg()+0x48: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_trim_fs()+0xc5b: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_allocate_data_block()+0x1c35: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: do_write_page()+0x11f: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_inplace_write_data()+0x2fe: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_do_replace_block()+0x902: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_flush_sit_entries()+0x939: sibling call from callable instruction with modified stack frame
+   fs/f2fs/segment.o: warning: objtool: f2fs_build_segment_manager()+0x6e9: sibling call from callable instruction with modified stack frame
 
 
-objdump-func vmlinux.o f2fs_handle_stop:
+objdump-func vmlinux.o dquot_release_reservation_block:
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---JBL7Oyh6GXxE8CLw
+--5kf5txbQewELo3Ov
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -150,6 +154,7 @@ Content-Disposition: attachment; filename=config
 CONFIG_CC_IS_GCC=y
 CONFIG_GCC_VERSION=110300
 CONFIG_CLANG_VERSION=0
+CONFIG_CONSTRUCTORS=y
 CONFIG_IRQ_WORK=y
 CONFIG_BUILDTIME_EXTABLE_SORT=y
 CONFIG_THREAD_INFO_IN_TASK=y
@@ -279,7 +284,7 @@ CONFIG_CGROUP_WRITEBACK=y
 CONFIG_CGROUP_SCHED=y
 CONFIG_FAIR_GROUP_SCHED=y
 CONFIG_CFS_BANDWIDTH=y
-# CONFIG_RT_GROUP_SCHED is not set
+CONFIG_RT_GROUP_SCHED=y
 CONFIG_CGROUP_PIDS=y
 CONFIG_CGROUP_RDMA=y
 CONFIG_CGROUP_FREEZER=y
@@ -404,6 +409,7 @@ CONFIG_ZONE_DMA32=y
 CONFIG_AUDIT_ARCH=y
 CONFIG_ARCH_SUPPORTS_OPTIMIZED_INLINING=y
 CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
+CONFIG_KASAN_SHADOW_OFFSET=0xdffffc0000000000
 CONFIG_HAVE_INTEL_TXT=y
 CONFIG_X86_64_SMP=y
 CONFIG_ARCH_SUPPORTS_UPROBES=y
@@ -420,7 +426,7 @@ CONFIG_X86_FEATURE_NAMES=y
 CONFIG_X86_X2APIC=y
 CONFIG_X86_MPPARSE=y
 # CONFIG_GOLDFISH is not set
-CONFIG_RETPOLINE=y
+# CONFIG_RETPOLINE is not set
 # CONFIG_INTEL_RDT is not set
 CONFIG_X86_EXTENDED_PLATFORM=y
 # CONFIG_X86_NUMACHIP is not set
@@ -927,7 +933,6 @@ CONFIG_OLD_SIGSUSPEND3=y
 CONFIG_COMPAT_OLD_SIGACTION=y
 CONFIG_COMPAT_32BIT_TIME=y
 CONFIG_HAVE_ARCH_VMAP_STACK=y
-CONFIG_VMAP_STACK=y
 CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
 CONFIG_STRICT_KERNEL_RWX=y
 CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
@@ -1578,21 +1583,7 @@ CONFIG_BRIDGE_EBT_SNAT=m
 CONFIG_BRIDGE_EBT_LOG=m
 CONFIG_BRIDGE_EBT_NFLOG=m
 # CONFIG_BPFILTER is not set
-CONFIG_IP_DCCP=y
-CONFIG_INET_DCCP_DIAG=m
-
-#
-# DCCP CCIDs Configuration
-#
-# CONFIG_IP_DCCP_CCID2_DEBUG is not set
-CONFIG_IP_DCCP_CCID3=y
-# CONFIG_IP_DCCP_CCID3_DEBUG is not set
-CONFIG_IP_DCCP_TFRC_LIB=y
-
-#
-# DCCP Kernel Hacking
-#
-# CONFIG_IP_DCCP_DEBUG is not set
+# CONFIG_IP_DCCP is not set
 CONFIG_IP_SCTP=m
 # CONFIG_SCTP_DBG_OBJCNT is not set
 # CONFIG_SCTP_DEFAULT_COOKIE_HMAC_MD5 is not set
@@ -2344,7 +2335,7 @@ CONFIG_NETCONSOLE=m
 CONFIG_NETCONSOLE_DYNAMIC=y
 CONFIG_NETPOLL=y
 CONFIG_NET_POLL_CONTROLLER=y
-CONFIG_TUN=m
+# CONFIG_TUN is not set
 # CONFIG_TUN_VNET_CROSS_LE is not set
 # CONFIG_VETH is not set
 CONFIG_VIRTIO_NET=m
@@ -5059,7 +5050,7 @@ CONFIG_SECURITYFS=y
 CONFIG_SECURITY_NETWORK=y
 CONFIG_PAGE_TABLE_ISOLATION=y
 CONFIG_SECURITY_NETWORK_XFRM=y
-CONFIG_SECURITY_PATH=y
+# CONFIG_SECURITY_PATH is not set
 CONFIG_INTEL_TXT=y
 CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
 CONFIG_HARDENED_USERCOPY=y
@@ -5069,11 +5060,7 @@ CONFIG_FORTIFY_SOURCE=y
 # CONFIG_SECURITY_SELINUX is not set
 # CONFIG_SECURITY_SMACK is not set
 # CONFIG_SECURITY_TOMOYO is not set
-CONFIG_SECURITY_APPARMOR=y
-CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
-CONFIG_SECURITY_APPARMOR_HASH=y
-CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
-# CONFIG_SECURITY_APPARMOR_DEBUG is not set
+# CONFIG_SECURITY_APPARMOR is not set
 # CONFIG_SECURITY_LOADPIN is not set
 CONFIG_SECURITY_YAMA=y
 CONFIG_INTEGRITY=y
@@ -5083,9 +5070,8 @@ CONFIG_INTEGRITY_TRUSTED_KEYRING=y
 CONFIG_INTEGRITY_AUDIT=y
 # CONFIG_IMA is not set
 # CONFIG_EVM is not set
-CONFIG_DEFAULT_SECURITY_APPARMOR=y
-# CONFIG_DEFAULT_SECURITY_DAC is not set
-CONFIG_DEFAULT_SECURITY="apparmor"
+CONFIG_DEFAULT_SECURITY_DAC=y
+CONFIG_DEFAULT_SECURITY=""
 CONFIG_XOR_BLOCKS=m
 CONFIG_ASYNC_CORE=m
 CONFIG_ASYNC_MEMCPY=m
@@ -5240,7 +5226,7 @@ CONFIG_CRYPTO_SERPENT=m
 CONFIG_CRYPTO_SERPENT_SSE2_X86_64=m
 CONFIG_CRYPTO_SERPENT_AVX_X86_64=m
 CONFIG_CRYPTO_SERPENT_AVX2_X86_64=m
-CONFIG_CRYPTO_SM4=m
+# CONFIG_CRYPTO_SM4 is not set
 CONFIG_CRYPTO_TEA=m
 CONFIG_CRYPTO_TWOFISH=m
 CONFIG_CRYPTO_TWOFISH_COMMON=m
@@ -5409,6 +5395,7 @@ CONFIG_ARCH_HAS_SG_CHAIN=y
 CONFIG_ARCH_HAS_PMEM_API=y
 CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE=y
 CONFIG_ARCH_HAS_UACCESS_MCSAFE=y
+CONFIG_STACKDEPOT=y
 CONFIG_SBITMAP=y
 # CONFIG_STRING_SELFTEST is not set
 
@@ -5435,11 +5422,11 @@ CONFIG_DEBUG_INFO=y
 CONFIG_DEBUG_INFO_DWARF4=y
 # CONFIG_GDB_SCRIPTS is not set
 CONFIG_ENABLE_MUST_CHECK=y
-CONFIG_FRAME_WARN=2048
+CONFIG_FRAME_WARN=8192
 CONFIG_STRIP_ASM_SYMS=y
 # CONFIG_READABLE_ASM is not set
 # CONFIG_UNUSED_SYMBOLS is not set
-# CONFIG_PAGE_OWNER is not set
+CONFIG_PAGE_OWNER=y
 CONFIG_DEBUG_FS=y
 CONFIG_HEADERS_CHECK=y
 CONFIG_DEBUG_SECTION_MISMATCH=y
@@ -5454,7 +5441,7 @@ CONFIG_DEBUG_KERNEL=y
 #
 # Memory Debugging
 #
-# CONFIG_PAGE_EXTENSION is not set
+CONFIG_PAGE_EXTENSION=y
 # CONFIG_DEBUG_PAGEALLOC is not set
 # CONFIG_PAGE_POISONING is not set
 # CONFIG_DEBUG_PAGE_REF is not set
@@ -5473,7 +5460,11 @@ CONFIG_DEBUG_MEMORY_INIT=y
 CONFIG_HAVE_DEBUG_STACKOVERFLOW=y
 CONFIG_DEBUG_STACKOVERFLOW=y
 CONFIG_HAVE_ARCH_KASAN=y
-# CONFIG_KASAN is not set
+CONFIG_KASAN=y
+# CONFIG_KASAN_EXTRA is not set
+# CONFIG_KASAN_OUTLINE is not set
+CONFIG_KASAN_INLINE=y
+# CONFIG_TEST_KASAN is not set
 CONFIG_ARCH_HAS_KCOV=y
 CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_KCOV is not set
@@ -5638,7 +5629,10 @@ CONFIG_BUG_ON_DATA_CORRUPTION=y
 CONFIG_HAVE_ARCH_KGDB=y
 # CONFIG_KGDB is not set
 CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
-# CONFIG_UBSAN is not set
+CONFIG_UBSAN=y
+CONFIG_UBSAN_SANITIZE_ALL=y
+# CONFIG_UBSAN_ALIGNMENT is not set
+# CONFIG_TEST_UBSAN is not set
 CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
 CONFIG_STRICT_DEVMEM=y
 # CONFIG_IO_STRICT_DEVMEM is not set
@@ -5675,4 +5669,4 @@ CONFIG_OPTIMIZE_INLINING=y
 CONFIG_UNWINDER_ORC=y
 # CONFIG_UNWINDER_FRAME_POINTER is not set
 
---JBL7Oyh6GXxE8CLw--
+--5kf5txbQewELo3Ov--
