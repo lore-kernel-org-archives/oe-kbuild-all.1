@@ -1,62 +1,62 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053627E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Dec 2022 17:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8947E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Dec 2022 18:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671384145; x=1702920145;
+  t=1671387747; x=1702923747;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Wk8Yig3ioSNDQIIM+XPHQubhcMG66DJhayzipr1Pg4=;
-  b=UJjT9U5zrXWONmroSqodJoZEmUzn3H+f/rgPk4cu47MqX+f3sClTQpRE
-   5XLybC1FU/pwhQiKN2VxBDiWCFniR3IRXuep4bmdNP/53NIg+4Kyzy3h8
-   456OFILT6X8GZ+Z2gwQ0crF46ONGwGSpzHIKtuKUkhE8VF94XkW/94K4O
-   5q07rj/PQh7xT0U9gGuyn7kTAxmmVmKbh+vAirgjcBdYKPmyJNGuGgFsW
-   de1FVg/37G5hXwCdwf5eltYD1B/E/G/8d30aXBBZ6rS0srJhaNLd3lGHL
-   oC99fVoUfjmIzhvPd9WI20WaZEVKssJWgJrN577488KaJGCBaRET68Eno
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="383563798"
+  bh=84mqIlgPAXwErx2B/WkVTbeFl/0ZpBlqAOKvExP1BQ8=;
+  b=b0j0nU3hc3EAfwaxicC53MI8dOVwDb5nMbPXBPxij5aQpIfqhRi8gz1+
+   J4BW6Q+ryXzcBYWcuBjLEoSL6hvz3jV7L0aRabQ2teOo5F4l2bctYx/SE
+   bycKeUiQYzVqwQ1Z5COKpabXfuzWJU1gce/65XEMHA7JrPRRk9ary/z0a
+   gSfFUSsm1A3ZxwN6Ie8DM6xg+6YFIujFpoTxXJWU3XnFngMF81XELcQLA
+   HDTrSikia62AIc0R4dugkdonFF1UytL14MQp+Ayt6M+tGHOnNT4IM7UMW
+   KJNYK7uRDdOAklplqqU6VMpO+234IynZ3J6w9evzVhCrvw5z+CblFMStV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="316862504"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="383563798"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 09:22:25 -0800
+   d="scan'208";a="316862504"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 10:22:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="682789896"
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="681004858"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="682789896"
+   d="scan'208";a="681004858"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Dec 2022 09:22:22 -0800
+  by orsmga008.jf.intel.com with ESMTP; 18 Dec 2022 10:22:23 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p6xMj-0008Nu-2n;
-	Sun, 18 Dec 2022 17:22:21 +0000
-Date: Mon, 19 Dec 2022 01:21:38 +0800
+	id 1p6yIo-0008Ow-2c;
+	Sun, 18 Dec 2022 18:22:22 +0000
+Date: Mon, 19 Dec 2022 02:22:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
 	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
 	Jens Axboe <axboe@kernel.dk>
-Subject: [ammarfaizi2-block:axboe/linux-block/perf-wip.2 1/14]
- block/blk.h:298:33: sparse: sparse: incorrect type in initializer (different
- base types)
-Message-ID: <202212190110.Uce5AuEb-lkp@intel.com>
+Subject: [ammarfaizi2-block:axboe/linux-block/perf-wip.2 2/14]
+ block/blk-core.c:759:12: sparse: sparse: incorrect type in assignment
+ (different base types)
+Message-ID: <202212190259.Oz6arrxI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="LjJ6jJDSBMeHih1t"
+Content-Type: multipart/mixed; boundary="ooj3wpCuFSZWfLpz"
 Content-Disposition: inline
 
 
---LjJ6jJDSBMeHih1t
+--ooj3wpCuFSZWfLpz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/ammarfaizi2/linux-block axboe/linux-block/perf-wip.2
 head:   53c6dc373fcb6f58ae3dcda07c99fc1e70e1c923
-commit: a377b58a5e225a2a0336956fd2442e8b2f023172 [1/14] block: optimise blk_may_split for normal rw
+commit: 5c577ab91b0cc2c14cc4074fb020a948176c4453 [2/14] block: optimise submit_bio_checks for normal rw
 config: nios2-randconfig-s043-20221218
 compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce:
@@ -64,10 +64,10 @@ reproduce:
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/ammarfaizi2/linux-block/commit/a377b58a5e225a2a0336956fd2442e8b2f023172
+        # https://github.com/ammarfaizi2/linux-block/commit/5c577ab91b0cc2c14cc4074fb020a948176c4453
         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
         git fetch --no-tags ammarfaizi2-block axboe/linux-block/perf-wip.2
-        git checkout a377b58a5e225a2a0336956fd2442e8b2f023172
+        git checkout 5c577ab91b0cc2c14cc4074fb020a948176c4453
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
@@ -77,79 +77,148 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
-   block/blk-merge.c: note: in included file:
->> block/blk.h:298:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t enum req_op @@
-   block/blk.h:298:33: sparse:     expected unsigned int op
-   block/blk.h:298:33: sparse:     got restricted blk_opf_t enum req_op
->> block/blk.h:300:19: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:300:40: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:300:62: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:302:22: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:303:22: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:304:22: sparse: sparse: restricted blk_opf_t degrades to integer
---
-   block/blk-mq.c: note: in included file:
->> block/blk.h:298:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t enum req_op @@
-   block/blk.h:298:33: sparse:     expected unsigned int op
-   block/blk.h:298:33: sparse:     got restricted blk_opf_t enum req_op
->> block/blk.h:300:19: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:300:40: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:300:62: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:302:22: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:303:22: sparse: sparse: restricted blk_opf_t degrades to integer
-   block/blk.h:304:22: sparse: sparse: restricted blk_opf_t degrades to integer
+>> block/blk-core.c:759:12: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t enum req_op @@
+   block/blk-core.c:759:12: sparse:     expected unsigned int op
+   block/blk-core.c:759:12: sparse:     got restricted blk_opf_t enum req_op
+>> block/blk-core.c:760:19: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:760:40: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:760:62: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:762:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:766:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:770:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:775:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:776:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:777:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:778:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:782:22: sparse: sparse: restricted blk_opf_t degrades to integer
+   block/blk-core.c:787:22: sparse: sparse: restricted blk_opf_t degrades to integer
 
-vim +298 block/blk.h
+vim +759 block/blk-core.c
 
-   280	
-   281	ssize_t part_size_show(struct device *dev, struct device_attribute *attr,
-   282			char *buf);
-   283	ssize_t part_stat_show(struct device *dev, struct device_attribute *attr,
-   284			char *buf);
-   285	ssize_t part_inflight_show(struct device *dev, struct device_attribute *attr,
-   286			char *buf);
-   287	ssize_t part_fail_show(struct device *dev, struct device_attribute *attr,
-   288			char *buf);
-   289	ssize_t part_fail_store(struct device *dev, struct device_attribute *attr,
-   290			const char *buf, size_t count);
-   291	ssize_t part_timeout_show(struct device *, struct device_attribute *, char *);
-   292	ssize_t part_timeout_store(struct device *, struct device_attribute *,
-   293					const char *, size_t);
-   294	
-   295	static inline bool bio_may_exceed_limits(struct bio *bio,
-   296						 const struct queue_limits *lim)
-   297	{
- > 298		unsigned int op = bio_op(bio);
-   299	
- > 300		if (op != REQ_OP_READ && op != REQ_OP_WRITE && op != REQ_OP_FLUSH) {
-   301			switch (op) {
-   302			case REQ_OP_DISCARD:
-   303			case REQ_OP_SECURE_ERASE:
-   304			case REQ_OP_WRITE_ZEROES:
-   305				return true; /* non-trivial splitting decisions */
-   306			default:
-   307				break;
-   308			}
-   309		}
-   310	
-   311		/*
-   312		 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
-   313		 * This is a quick and dirty check that relies on the fact that
-   314		 * bi_io_vec[0] is always valid if a bio has data.  The check might
-   315		 * lead to occasional false negatives when bios are cloned, but compared
-   316		 * to the performance impact of cloned bios themselves the loop below
-   317		 * doesn't matter anyway.
-   318		 */
-   319		return lim->chunk_sectors || bio->bi_vcnt != 1 ||
-   320			bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
-   321	}
-   322	
+   702	
+   703	/**
+   704	 * submit_bio_noacct - re-submit a bio to the block device layer for I/O
+   705	 * @bio:  The bio describing the location in memory and on the device.
+   706	 *
+   707	 * This is a version of submit_bio() that shall only be used for I/O that is
+   708	 * resubmitted to lower level drivers by stacking block drivers.  All file
+   709	 * systems and other upper level users of the block layer should use
+   710	 * submit_bio() instead.
+   711	 */
+   712	void submit_bio_noacct(struct bio *bio)
+   713	{
+   714		struct block_device *bdev = bio->bi_bdev;
+   715		struct request_queue *q = bdev_get_queue(bdev);
+   716		blk_status_t status = BLK_STS_IOERR;
+   717		struct blk_plug *plug;
+   718		unsigned op;
+   719	
+   720		might_sleep();
+   721	
+   722		plug = blk_mq_plug(bio);
+   723		if (plug && plug->nowait)
+   724			bio->bi_opf |= REQ_NOWAIT;
+   725	
+   726		/*
+   727		 * For a REQ_NOWAIT based request, return -EOPNOTSUPP
+   728		 * if queue does not support NOWAIT.
+   729		 */
+   730		if ((bio->bi_opf & REQ_NOWAIT) && !bdev_nowait(bdev))
+   731			goto not_supported;
+   732	
+   733		if (should_fail_bio(bio))
+   734			goto end_io;
+   735		bio_check_ro(bio);
+   736		if (!bio_flagged(bio, BIO_REMAPPED)) {
+   737			if (unlikely(bio_check_eod(bio)))
+   738				goto end_io;
+   739			if (bdev->bd_partno && unlikely(blk_partition_remap(bio)))
+   740				goto end_io;
+   741		}
+   742	
+   743		/*
+   744		 * Filter flush bio's early so that bio based drivers without flush
+   745		 * support don't have to worry about them.
+   746		 */
+   747		if (op_is_flush(bio->bi_opf) &&
+   748		    !test_bit(QUEUE_FLAG_WC, &q->queue_flags)) {
+   749			bio->bi_opf &= ~(REQ_PREFLUSH | REQ_FUA);
+   750			if (!bio_sectors(bio)) {
+   751				status = BLK_STS_OK;
+   752				goto end_io;
+   753			}
+   754		}
+   755	
+   756		if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
+   757			bio_clear_polled(bio);
+   758	
+ > 759		op = bio_op(bio);
+ > 760		if (op != REQ_OP_READ && op != REQ_OP_WRITE && op != REQ_OP_FLUSH) {
+   761			switch (op) {
+   762			case REQ_OP_DISCARD:
+   763				if (!bdev_max_discard_sectors(bdev))
+   764					goto not_supported;
+   765				break;
+   766			case REQ_OP_SECURE_ERASE:
+   767				if (!bdev_max_secure_erase_sectors(bdev))
+   768					goto not_supported;
+   769				break;
+   770			case REQ_OP_ZONE_APPEND:
+   771				status = blk_check_zone_append(q, bio);
+   772				if (status != BLK_STS_OK)
+   773					goto end_io;
+   774				break;
+   775			case REQ_OP_ZONE_RESET:
+   776			case REQ_OP_ZONE_OPEN:
+   777			case REQ_OP_ZONE_CLOSE:
+   778			case REQ_OP_ZONE_FINISH:
+   779				if (!bdev_is_zoned(bio->bi_bdev))
+   780					goto not_supported;
+   781				break;
+   782			case REQ_OP_ZONE_RESET_ALL:
+   783				if (!bdev_is_zoned(bio->bi_bdev) ||
+   784				    !blk_queue_zone_resetall(q))
+   785					goto not_supported;
+   786				break;
+   787			case REQ_OP_WRITE_ZEROES:
+   788				if (!q->limits.max_write_zeroes_sectors)
+   789					goto not_supported;
+   790				break;
+   791			default:
+   792				break;
+   793			}
+   794		}
+   795	
+   796		if (blk_throtl_bio(bio))
+   797			return;
+   798	
+   799		blk_cgroup_bio_start(bio);
+   800		blkcg_bio_issue_init(bio);
+   801	
+   802		if (!bio_flagged(bio, BIO_TRACE_COMPLETION)) {
+   803			trace_block_bio_queue(bio);
+   804			/* Now that enqueuing has been traced, we need to trace
+   805			 * completion as well.
+   806			 */
+   807			bio_set_flag(bio, BIO_TRACE_COMPLETION);
+   808		}
+   809		submit_bio_noacct_nocheck(bio);
+   810		return;
+   811	
+   812	not_supported:
+   813		status = BLK_STS_NOTSUPP;
+   814	end_io:
+   815		bio->bi_status = status;
+   816		bio_endio(bio);
+   817	}
+   818	EXPORT_SYMBOL(submit_bio_noacct);
+   819	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---LjJ6jJDSBMeHih1t
+--ooj3wpCuFSZWfLpz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5822,4 +5891,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---LjJ6jJDSBMeHih1t--
+--ooj3wpCuFSZWfLpz--
