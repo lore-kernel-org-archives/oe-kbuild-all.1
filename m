@@ -1,61 +1,61 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509CC7E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Dec 2022 11:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464491117
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Dec 2022 11:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671447730; x=1702983730;
+  t=1671447740; x=1702983740;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J5HtnCxmwKLfglKdPnHprcTFB0SRvm15uZGXBuhXuFY=;
-  b=ElbgPL3mdVEEHsDw1bCwrQHaYYrHyjsRW8ZcNGlhUj+p3XxhUrkV+Ik5
-   57tftnWIkPPc+cncjYZTInU4wDea4sMGgIisz5raUXS86JkKfy0exX08p
-   q7yYg6hOD6xlT0eFmQIt6WkSLJ53PcuNFS0ic8pcsZaA5/pRAKmy5Ua4P
-   BWreyMajtOVxS34/K++BCAoOvn8mYh6xif6oXm7ecmMo61HwcC3vdWdCW
-   BYuhZQUi39cqs+VvP79SMNAhD0jemSdnJep8yteqoBxTDOkyISaDsXpQn
-   KiZHZpDfMOwNPS5h1FODlMOwbG2ymvFFnR4PDVHnPCbE9Ob2NGi/3FBmA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="316959444"
+  bh=/DlRXPA+RZYSd92Bws+1scruw/FArutDdksqU6zCMGQ=;
+  b=AUCYZ7WqrQ4a8UXWWZP9uCqbvNpt1QG69pKi4JeKJv/oPqJAU3ORvwPq
+   vCdzxN36gcEwu3cxXZEzhuDeBtmNi9y+7n1UOxMEYRZ7eWH6sEGe4wQv2
+   Q1THhHNGIpSEagpgvsVxvpDqu1pVyL7YyBUzncldobEc4oLyHyJpcO8bv
+   JrzrgF/xf7YrNoEETB1aQqWGa8DhcAWIJmEDrAY5ulm+iRhPTB3d876kq
+   +ih4NC4bdZi+cKRSjwItCeSZFVDLoPUe0c3Ygiu41r9oCesyPYhxROwGi
+   lE+xm4xc+79XA2Lg79lhsbyWMVx8pdSegyYFnroRyShLUUR/Y0DsYU+aG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="316959447"
 X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
-   d="scan'208";a="316959444"
+   d="scan'208";a="316959447"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2022 03:02:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="681178549"
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="681178550"
 X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
-   d="scan'208";a="681178549"
+   d="scan'208";a="681178550"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 19 Dec 2022 03:02:05 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p7DuG-0008g4-1y;
+	id 1p7DuG-0008g2-1u;
 	Mon, 19 Dec 2022 11:02:04 +0000
-Date: Mon, 19 Dec 2022 19:01:32 +0800
+Date: Mon, 19 Dec 2022 19:01:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com,
 	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 10/15]
- drivers/input/touchscreen/raydium_i2c_ts.c:1160:31: error: 'struct
- dev_pm_info' has no member named 'wakeirq'
-Message-ID: <202212191908.oIUp3FXc-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 7/15]
+ drivers/hid/i2c-hid/i2c-hid-core.c:1027:31: error: 'struct dev_pm_info' has
+ no member named 'wakeirq'
+Message-ID: <202212191841.nrvggkwY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="DVZ2SKEUMzPFwu9q"
+Content-Type: multipart/mixed; boundary="gwuV1mXWuYopv6VH"
 Content-Disposition: inline
 
 
---DVZ2SKEUMzPFwu9q
+--gwuV1mXWuYopv6VH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
 head:   67fe2a5195b32f3dc949e24239ca38f4a452546b
-commit: 993c58bf3fb002269d2428526e8d9ebceee71c8b [10/15] FROMGIT: Input: raydium_ts_i2c - use PM subsystem to manage wake irq
+commit: dc2e326b4d31e60f92a5ad302133aed795c3c9f1 [7/15] FROMGIT: HID: i2c-hid: Use PM subsystem to manage wake irq
 config: m68k-allmodconfig
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
@@ -63,11 +63,11 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
         git fetch --no-tags chrome-os chromeos-5.15
-        git checkout 993c58bf3fb002269d2428526e8d9ebceee71c8b
+        git checkout dc2e326b4d31e60f92a5ad302133aed795c3c9f1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/input/touchscreen/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/hid/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
@@ -77,163 +77,159 @@ Note: the chrome-os/chromeos-5.15 HEAD 67fe2a5195b32f3dc949e24239ca38f4a452546b 
 
 All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/raydium_i2c_ts.c: In function 'raydium_i2c_probe':
->> drivers/input/touchscreen/raydium_i2c_ts.c:1160:31: error: 'struct dev_pm_info' has no member named 'wakeirq'
-    1160 |         if (!client->dev.power.wakeirq)
+   drivers/hid/i2c-hid/i2c-hid-core.c: In function 'i2c_hid_core_probe':
+>> drivers/hid/i2c-hid/i2c-hid-core.c:1027:31: error: 'struct dev_pm_info' has no member named 'wakeirq'
+    1027 |         if (!client->dev.power.wakeirq)
          |                               ^
 
 
-vim +1160 drivers/input/touchscreen/raydium_i2c_ts.c
+vim +1027 drivers/hid/i2c-hid/i2c-hid-core.c
 
-  1031	
-  1032	static int raydium_i2c_probe(struct i2c_client *client,
-  1033				     const struct i2c_device_id *id)
-  1034	{
-  1035		union i2c_smbus_data dummy;
-  1036		struct raydium_data *ts;
-  1037		int error;
-  1038	
-  1039		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-  1040			dev_err(&client->dev,
-  1041				"i2c check functionality error (need I2C_FUNC_I2C)\n");
-  1042			return -ENXIO;
-  1043		}
-  1044	
-  1045		ts = devm_kzalloc(&client->dev, sizeof(*ts), GFP_KERNEL);
-  1046		if (!ts)
-  1047			return -ENOMEM;
-  1048	
-  1049		mutex_init(&ts->sysfs_mutex);
-  1050	
-  1051		ts->client = client;
-  1052		i2c_set_clientdata(client, ts);
-  1053	
-  1054		ts->avdd = devm_regulator_get(&client->dev, "avdd");
-  1055		if (IS_ERR(ts->avdd)) {
-  1056			error = PTR_ERR(ts->avdd);
-  1057			if (error != -EPROBE_DEFER)
-  1058				dev_err(&client->dev,
-  1059					"Failed to get 'avdd' regulator: %d\n", error);
-  1060			return error;
-  1061		}
+   937	
+   938	int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+   939			       u16 hid_descriptor_address, u32 quirks)
+   940	{
+   941		int ret, retries = 0;
+   942		struct i2c_hid *ihid;
+   943		struct hid_device *hid;
+   944	
+   945		dbg_hid("HID probe called for i2c 0x%02x\n", client->addr);
+   946	
+   947		if (!client->irq) {
+   948			dev_err(&client->dev,
+   949				"HID over i2c has not been provided an Int IRQ\n");
+   950			return -EINVAL;
+   951		}
+   952	
+   953		if (client->irq < 0) {
+   954			if (client->irq != -EPROBE_DEFER)
+   955				dev_err(&client->dev,
+   956					"HID over i2c doesn't have a valid IRQ\n");
+   957			return client->irq;
+   958		}
+   959	
+   960		ihid = devm_kzalloc(&client->dev, sizeof(*ihid), GFP_KERNEL);
+   961		if (!ihid)
+   962			return -ENOMEM;
+   963	
+   964		ihid->ops = ops;
+   965	
+   966		ret = i2c_hid_core_power_up(ihid);
+   967		if (ret)
+   968			return ret;
+   969	
+   970		i2c_set_clientdata(client, ihid);
+   971	
+   972		ihid->client = client;
+   973	
+   974		ihid->wHIDDescRegister = cpu_to_le16(hid_descriptor_address);
+   975	
+   976		init_waitqueue_head(&ihid->wait);
+   977		mutex_init(&ihid->reset_lock);
+   978	
+   979		/* we need to allocate the command buffer without knowing the maximum
+   980		 * size of the reports. Let's use HID_MIN_BUFFER_SIZE, then we do the
+   981		 * real computation later. */
+   982		ret = i2c_hid_alloc_buffers(ihid, HID_MIN_BUFFER_SIZE);
+   983		if (ret < 0)
+   984			goto err_powered;
+   985	
+   986		device_enable_async_suspend(&client->dev);
+   987	
+   988		/*
+   989		 * Eve touchpad does not consistently ACK the slave address.
+   990		 * Retry the SMBUS sequence as a mitigation until proper fix
+   991		 * is prepared.
+   992		 * This is a temporary workaround for b/156232671.
+   993		 */
+   994		if (client->addr == EVE_TP_I2C_ADDR)
+   995			retries = EVE_TP_RETRIES;
+   996	
+   997		/* Make sure there is something at this address */
+   998		ret = i2c_smbus_read_byte(client);
+   999		while ((ret < 0) && (retries--)) {
+  1000			dev_err(&client->dev, "no response, retry left %d", retries);
+  1001			msleep(EVE_TP_DELAY_MS);
+  1002			ret = i2c_smbus_read_byte(client);
+  1003		}
+  1004		if (ret < 0) {
+  1005			dev_dbg(&client->dev, "nothing at this address: %d\n", ret);
+  1006			ret = -ENXIO;
+  1007			goto err_powered;
+  1008		}
+  1009	
+  1010		ret = i2c_hid_fetch_hid_descriptor(ihid);
+  1011		if (ret < 0) {
+  1012			dev_err(&client->dev,
+  1013				"Failed to fetch the HID Descriptor\n");
+  1014			goto err_powered;
+  1015		}
+  1016	
+  1017		ret = i2c_hid_init_irq(client);
+  1018		if (ret < 0)
+  1019			goto err_powered;
+  1020	
+  1021		/*
+  1022		 * The wake IRQ should be declared via device tree instead of assuming
+  1023		 * the IRQ can wake the system. This is here for legacy reasons and
+  1024		 * will be removed once the i2c-core supports querying ACPI for wake
+  1025		 * capabilities.
+  1026		 */
+> 1027		if (!client->dev.power.wakeirq)
+  1028			dev_pm_set_wake_irq(&client->dev, client->irq);
+  1029	
+  1030		hid = hid_allocate_device();
+  1031		if (IS_ERR(hid)) {
+  1032			ret = PTR_ERR(hid);
+  1033			goto err_irq;
+  1034		}
+  1035	
+  1036		ihid->hid = hid;
+  1037	
+  1038		hid->driver_data = client;
+  1039		hid->ll_driver = &i2c_hid_ll_driver;
+  1040		hid->dev.parent = &client->dev;
+  1041		hid->bus = BUS_I2C;
+  1042		hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
+  1043		hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
+  1044		hid->product = le16_to_cpu(ihid->hdesc.wProductID);
+  1045	
+  1046		snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
+  1047			 client->name, (u16)hid->vendor, (u16)hid->product);
+  1048		strlcpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
+  1049	
+  1050		ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
+  1051	
+  1052		ret = hid_add_device(hid);
+  1053		if (ret) {
+  1054			if (ret != -ENODEV)
+  1055				hid_err(client, "can't add hid device: %d\n", ret);
+  1056			goto err_mem_free;
+  1057		}
+  1058	
+  1059		hid->quirks |= quirks;
+  1060	
+  1061		return 0;
   1062	
-  1063		ts->vccio = devm_regulator_get(&client->dev, "vccio");
-  1064		if (IS_ERR(ts->vccio)) {
-  1065			error = PTR_ERR(ts->vccio);
-  1066			if (error != -EPROBE_DEFER)
-  1067				dev_err(&client->dev,
-  1068					"Failed to get 'vccio' regulator: %d\n", error);
-  1069			return error;
-  1070		}
-  1071	
-  1072		ts->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-  1073							 GPIOD_OUT_LOW);
-  1074		if (IS_ERR(ts->reset_gpio)) {
-  1075			error = PTR_ERR(ts->reset_gpio);
-  1076			if (error != -EPROBE_DEFER)
-  1077				dev_err(&client->dev,
-  1078					"failed to get reset gpio: %d\n", error);
-  1079			return error;
-  1080		}
-  1081	
-  1082		error = raydium_i2c_power_on(ts);
-  1083		if (error)
-  1084			return error;
-  1085	
-  1086		error = devm_add_action(&client->dev, raydium_i2c_power_off, ts);
-  1087		if (error) {
-  1088			dev_err(&client->dev,
-  1089				"failed to install power off action: %d\n", error);
-  1090			raydium_i2c_power_off(ts);
-  1091			return error;
-  1092		}
-  1093	
-  1094		/* Make sure there is something at this address */
-  1095		if (i2c_smbus_xfer(client->adapter, client->addr, 0,
-  1096				   I2C_SMBUS_READ, 0, I2C_SMBUS_BYTE, &dummy) < 0) {
-  1097			dev_err(&client->dev, "nothing at this address\n");
-  1098			return -ENXIO;
-  1099		}
-  1100	
-  1101		error = raydium_i2c_initialize(ts);
-  1102		if (error) {
-  1103			dev_err(&client->dev, "failed to initialize: %d\n", error);
-  1104			return error;
-  1105		}
-  1106	
-  1107		ts->report_data = devm_kmalloc(&client->dev,
-  1108					       ts->pkg_size, GFP_KERNEL);
-  1109		if (!ts->report_data)
-  1110			return -ENOMEM;
-  1111	
-  1112		ts->input = devm_input_allocate_device(&client->dev);
-  1113		if (!ts->input) {
-  1114			dev_err(&client->dev, "Failed to allocate input device\n");
-  1115			return -ENOMEM;
-  1116		}
-  1117	
-  1118		ts->input->name = "Raydium Touchscreen";
-  1119		ts->input->id.bustype = BUS_I2C;
-  1120	
-  1121		input_set_abs_params(ts->input, ABS_MT_POSITION_X,
-  1122				     0, le16_to_cpu(ts->info.x_max), 0, 0);
-  1123		input_set_abs_params(ts->input, ABS_MT_POSITION_Y,
-  1124				     0, le16_to_cpu(ts->info.y_max), 0, 0);
-  1125		input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->info.x_res);
-  1126		input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->info.y_res);
-  1127	
-  1128		input_set_abs_params(ts->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-  1129		input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-  1130	
-  1131		error = input_mt_init_slots(ts->input, RM_MAX_TOUCH_NUM,
-  1132					    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-  1133		if (error) {
-  1134			dev_err(&client->dev,
-  1135				"failed to initialize MT slots: %d\n", error);
-  1136			return error;
-  1137		}
-  1138	
-  1139		error = input_register_device(ts->input);
-  1140		if (error) {
-  1141			dev_err(&client->dev,
-  1142				"unable to register input device: %d\n", error);
-  1143			return error;
-  1144		}
-  1145	
-  1146		error = devm_request_threaded_irq(&client->dev, client->irq,
-  1147						  NULL, raydium_i2c_irq,
-  1148						  IRQF_ONESHOT, client->name, ts);
-  1149		if (error) {
-  1150			dev_err(&client->dev, "Failed to register interrupt\n");
-  1151			return error;
-  1152		}
-  1153	
-  1154		/*
-  1155		 * The wake IRQ should be declared via device tree instead of assuming
-  1156		 * the IRQ can wake the system. This is here for legacy reasons and
-  1157		 * will be removed once the i2c-core supports querying ACPI for wake
-  1158		 * capabilities.
-  1159		 */
-> 1160		if (!client->dev.power.wakeirq)
-  1161			dev_pm_set_wake_irq(&client->dev, client->irq);
-  1162	
-  1163		error = devm_device_add_group(&client->dev,
-  1164					   &raydium_i2c_attribute_group);
-  1165		if (error) {
-  1166			dev_err(&client->dev, "failed to create sysfs attributes: %d\n",
-  1167				error);
-  1168			return error;
-  1169		}
-  1170	
-  1171		return 0;
-  1172	}
-  1173	
+  1063	err_mem_free:
+  1064		hid_destroy_device(hid);
+  1065	
+  1066	err_irq:
+  1067		free_irq(client->irq, ihid);
+  1068	
+  1069	err_powered:
+  1070		i2c_hid_core_power_down(ihid);
+  1071		i2c_hid_free_buffers(ihid);
+  1072		return ret;
+  1073	}
+  1074	EXPORT_SYMBOL_GPL(i2c_hid_core_probe);
+  1075	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---DVZ2SKEUMzPFwu9q
+--gwuV1mXWuYopv6VH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -11839,4 +11835,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---DVZ2SKEUMzPFwu9q--
+--gwuV1mXWuYopv6VH--
