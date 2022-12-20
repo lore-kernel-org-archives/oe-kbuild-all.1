@@ -1,188 +1,428 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A77A7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Dec 2022 11:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F987E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Dec 2022 11:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671537065; x=1703073065;
+  t=1671537074; x=1703073074;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6UWiZ6MszzMX1Lz0AsoWx0MpX89RpddDxDH/3wPYW0k=;
-  b=c5cx3WNa0EeazdVt/Rw9vdL4Ocdfu8n7Pwo/1rowoeMakwn76RJcg/vv
-   ClBBpbGxE7v2vXcsyJW6JXZ5fi1QqVvomiLeWCPj+G+ek3EhjVFAPPoJp
-   Rh6dxkYQe7X0yo3euQEuI0GyaLC7vzDyoH5zY7ugFEUD1sVUh+p6dkTrO
-   FeymArckzCgoPYnbXQo4dZhBhoh/9IBKRc5JzlfK7PAkj6NjAlJuCo/wp
-   eyauoWckmIndW1+u0+gMT7kHxD0EKRmFFrnQ2u7Lu+paCLHXmqBqdqSOL
-   Pk4xknIVfzUe70zIweZX7cjyRUEvVr9ElAYrlwZKsrFHZ2if5tGs/JkNf
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="299269340"
+  bh=xrElzDK2fqsLLLP+rwkYsNYczYNrsTEwK2nCiU7A8Pc=;
+  b=K0eRJq3CPXL8bKf3VKUm4B8hup4Jr4KdPKlF39/zRMk7uJPDHD7QMwFA
+   FpBkF9c/Orzt4F4ePgZ0ZpNolXoEkNkTp6wkNx3psYjXiyxko/0dsdVd+
+   RCAdGW8jV9URIFRfTu6vxiGRJ+v1hGd6JYu7hvVyZqpPArhyS+yldVhWO
+   R+d5Aligq2Fx2RhGmP0gGl5hSPHa4ADGq7TZe/6hbeFkSq2YX3sQx9aCg
+   CbHQ9w3f9NoClTfzla099WejJQ2CZbcFyejAePTZ9mtjVp4/rAyWH1Vz2
+   0NIqUpXlF1iP4kX3YIfwa+Vu+TLjA9Ok1HU6lfTp5peNFBOHF5JvPpR1a
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="299269354"
 X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
-   d="scan'208";a="299269340"
+   d="scan'208";a="299269354"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 03:51:04 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 03:51:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="644388896"
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="644388889"
 X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
-   d="scan'208";a="644388896"
+   d="scan'208";a="644388889"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 20 Dec 2022 03:51:02 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p7b9B-0009Ry-0b;
+	id 1p7b9B-0009Rw-0V;
 	Tue, 20 Dec 2022 11:51:01 +0000
-Date: Tue, 20 Dec 2022 19:50:15 +0800
+Date: Tue, 20 Dec 2022 19:50:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luca Coelho <luciano.coelho@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH v5 1/2] drm/i915/mtl: limit second scaler
- vertical scaling in ver >= 14
-Message-ID: <202212201953.0ycEG6uL-lkp@intel.com>
-References: <20221220081117.169803-2-luciano.coelho@intel.com>
+To: Chih-En Lin <shiyn.lin@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	John Hubbard <jhubbard@nvidia.com>, Nadav Amit <namit@vmware.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Peter Xu <peterx@redhat.com>,
+	Zach O'Keefe <zokeefe@google.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Xianting Tian <xianting.tian@linux.alibaba.com>,
+	Colin Cross <ccross@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Barry Song <baohua@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Suleiman Souhlal <suleiman@google.com>,
+	Brian Geffon <bgeffon@google.com>
+Subject: Re: [PATCH v3 11/14] mm/migrate_device: Support COW PTE
+Message-ID: <202212201952.tw2h9mXq-lkp@intel.com>
+References: <20221220072743.3039060-12-shiyn.lin@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="lPr0ByuhjC1W8UHL"
+Content-Type: multipart/mixed; boundary="45z5SKaubgCqtHSJ"
 Content-Disposition: inline
-In-Reply-To: <20221220081117.169803-2-luciano.coelho@intel.com>
+In-Reply-To: <20221220072743.3039060-12-shiyn.lin@gmail.com>
 
 
---lPr0ByuhjC1W8UHL
+--45z5SKaubgCqtHSJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Luca,
+Hi Chih-En,
 
 Thank you for the patch! Yet something to improve:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test ERROR on v6.1-rc7]
+[cannot apply to akpm-mm/mm-everything tip/perf/core acme/perf/core linus/master v6.1 v6.1-rc8 next-20221220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Coelho/drm-i915-mtl-handle-some-MTL-scaler-limitations/20221220-162511
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20221220081117.169803-2-luciano.coelho%40intel.com
-patch subject: [Intel-gfx] [PATCH v5 1/2] drm/i915/mtl: limit second scaler vertical scaling in ver >= 14
-config: x86_64-rhel-8.3-func
+url:    https://github.com/intel-lab-lkp/linux/commits/Chih-En-Lin/Introduce-Copy-On-Write-to-Page-Table/20221220-153207
+patch link:    https://lore.kernel.org/r/20221220072743.3039060-12-shiyn.lin%40gmail.com
+patch subject: [PATCH v3 11/14] mm/migrate_device: Support COW PTE
+config: x86_64-rhel-8.3-kselftests
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/d92c5ad60bf90c257eee5583ebc1bab12cde716d
+        # https://github.com/intel-lab-lkp/linux/commit/77cd28466a15d4d3fd3d6f23044a9196d543dba2
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Luca-Coelho/drm-i915-mtl-handle-some-MTL-scaler-limitations/20221220-162511
-        git checkout d92c5ad60bf90c257eee5583ebc1bab12cde716d
+        git fetch --no-tags linux-review Chih-En-Lin/Introduce-Copy-On-Write-to-Page-Table/20221220-153207
+        git checkout 77cd28466a15d4d3fd3d6f23044a9196d543dba2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_atomic_plane.c: In function 'intel_atomic_plane_check_clipping':
->> drivers/gpu/drm/i915/display/intel_atomic_plane.c:918:17: error: implicit declaration of function 'skl_plane_max_scale' [-Werror=implicit-function-declaration]
-     918 |                 skl_plane_max_scale(i915, fb,
-         |                 ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/i915/display/intel_sprite.c: In function 'g4x_sprite_check':
->> drivers/gpu/drm/i915/display/intel_sprite.c:1362:49: error: 'DISPLAY_VER' undeclared (first use in this function)
-    1362 |                                                 DISPLAY_VER,
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_sprite.c:1362:49: note: each undeclared identifier is reported only once for each function it appears in
+   mm/migrate_device.c: In function 'migrate_vma_collect_pmd':
+>> mm/migrate_device.c:109:39: warning: passing argument 2 of 'break_cow_pte_range' makes integer from pointer without a cast [-Wint-conversion]
+     109 |         if (!break_cow_pte_range(vma, pmdp, start, end))
+         |                                       ^~~~
+         |                                       |
+         |                                       pmd_t *
+   In file included from include/linux/migrate.h:5,
+                    from mm/migrate_device.c:9:
+   include/linux/mm.h:1898:67: note: expected 'long unsigned int' but argument is of type 'pmd_t *'
+    1898 | int break_cow_pte_range(struct vm_area_struct *vma, unsigned long start,
+         |                                                     ~~~~~~~~~~~~~~^~~~~
+>> mm/migrate_device.c:109:14: error: too many arguments to function 'break_cow_pte_range'
+     109 |         if (!break_cow_pte_range(vma, pmdp, start, end))
+         |              ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/migrate.h:5,
+                    from mm/migrate_device.c:9:
+   include/linux/mm.h:1898:5: note: declared here
+    1898 | int break_cow_pte_range(struct vm_area_struct *vma, unsigned long start,
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/skl_plane_max_scale +918 drivers/gpu/drm/i915/display/intel_atomic_plane.c
+vim +/break_cow_pte_range +109 mm/migrate_device.c
 
-   887	
-   888	int intel_atomic_plane_check_clipping(struct intel_plane_state *plane_state,
-   889					      struct intel_crtc_state *crtc_state,
-   890					      bool allow_scaling,
-   891					      bool can_position)
-   892	{
-   893		struct drm_i915_private *i915 = to_i915(plane_state->uapi.plane->dev);
-   894		struct drm_framebuffer *fb = plane_state->hw.fb;
-   895		struct drm_rect *src = &plane_state->uapi.src;
-   896		struct drm_rect *dst = &plane_state->uapi.dst;
-   897		const struct drm_rect *clip = &crtc_state->pipe_src;
-   898		unsigned int rotation = plane_state->hw.rotation;
-   899		int hscale, vscale;
-   900		int max_hscale, min_hscale, max_vscale, min_vscale;
-   901	
-   902		if (!fb) {
-   903			plane_state->uapi.visible = false;
-   904			return 0;
-   905		}
-   906	
-   907		/*
-   908		 * At this point we don't really know the HW limitations, so
-   909		 * we just sanitize the values against the maximum supported
-   910		 * scaling.
-   911		 */
-   912		if (!allow_scaling) {
-   913			min_hscale = DRM_PLANE_NO_SCALING;
-   914			max_hscale = DRM_PLANE_NO_SCALING;
-   915			min_vscale = DRM_PLANE_NO_SCALING;
-   916			max_vscale = DRM_PLANE_NO_SCALING;
-   917		} else {
- > 918			skl_plane_max_scale(i915, fb,
-   919					    &max_hscale, &min_hscale,
-   920					    &max_vscale, &min_vscale);
-   921		}
-   922	
-   923		drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
-   924	
-   925		/* Check scaling */
-   926		hscale = drm_rect_calc_hscale(src, dst, min_hscale, max_hscale);
-   927		vscale = drm_rect_calc_vscale(src, dst, min_vscale, max_vscale);
-   928		if (hscale < 0 || vscale < 0) {
-   929			drm_dbg_kms(&i915->drm,
-   930				    "Invalid scaling of plane: hscale 0x%x vscale 0x%x\n",
-   931				    hscale, vscale);
-   932			drm_dbg_kms(&i915->drm,
-   933				    "min_hscale 0x%0x max_hscale 0x%0x min_vscale 0x%0x max_vscale 0x%0x\n",
-   934				    min_hscale, max_hscale, min_vscale, max_vscale);
-   935			drm_rect_debug_print("src: ", src, true);
-   936			drm_rect_debug_print("dst: ", dst, false);
-   937			return -ERANGE;
-   938		}
-   939	
-   940		/*
-   941		 * FIXME: This might need further adjustment for seamless scaling
-   942		 * with phase information, for the 2p2 and 2p1 scenarios.
-   943		 */
-   944		plane_state->uapi.visible = drm_rect_clip_scaled(src, dst, clip);
-   945	
-   946		drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
-   947	
-   948		if (!can_position && plane_state->uapi.visible &&
-   949		    !drm_rect_equals(dst, clip)) {
-   950			drm_dbg_kms(&i915->drm, "Plane must cover entire CRTC\n");
-   951			drm_rect_debug_print("dst: ", dst, false);
-   952			drm_rect_debug_print("clip: ", clip, false);
-   953			return -EINVAL;
-   954		}
-   955	
-   956		/* final plane coordinates will be relative to the plane's pipe */
-   957		drm_rect_translate(dst, -clip->x1, -clip->y1);
-   958	
-   959		return 0;
-   960	}
-   961	
+   > 9	#include <linux/migrate.h>
+    10	#include <linux/mm.h>
+    11	#include <linux/mm_inline.h>
+    12	#include <linux/mmu_notifier.h>
+    13	#include <linux/oom.h>
+    14	#include <linux/pagewalk.h>
+    15	#include <linux/rmap.h>
+    16	#include <linux/swapops.h>
+    17	#include <asm/tlbflush.h>
+    18	#include "internal.h"
+    19	
+    20	static int migrate_vma_collect_skip(unsigned long start,
+    21					    unsigned long end,
+    22					    struct mm_walk *walk)
+    23	{
+    24		struct migrate_vma *migrate = walk->private;
+    25		unsigned long addr;
+    26	
+    27		for (addr = start; addr < end; addr += PAGE_SIZE) {
+    28			migrate->dst[migrate->npages] = 0;
+    29			migrate->src[migrate->npages++] = 0;
+    30		}
+    31	
+    32		return 0;
+    33	}
+    34	
+    35	static int migrate_vma_collect_hole(unsigned long start,
+    36					    unsigned long end,
+    37					    __always_unused int depth,
+    38					    struct mm_walk *walk)
+    39	{
+    40		struct migrate_vma *migrate = walk->private;
+    41		unsigned long addr;
+    42	
+    43		/* Only allow populating anonymous memory. */
+    44		if (!vma_is_anonymous(walk->vma))
+    45			return migrate_vma_collect_skip(start, end, walk);
+    46	
+    47		for (addr = start; addr < end; addr += PAGE_SIZE) {
+    48			migrate->src[migrate->npages] = MIGRATE_PFN_MIGRATE;
+    49			migrate->dst[migrate->npages] = 0;
+    50			migrate->npages++;
+    51			migrate->cpages++;
+    52		}
+    53	
+    54		return 0;
+    55	}
+    56	
+    57	static int migrate_vma_collect_pmd(pmd_t *pmdp,
+    58					   unsigned long start,
+    59					   unsigned long end,
+    60					   struct mm_walk *walk)
+    61	{
+    62		struct migrate_vma *migrate = walk->private;
+    63		struct vm_area_struct *vma = walk->vma;
+    64		struct mm_struct *mm = vma->vm_mm;
+    65		unsigned long addr = start, unmapped = 0;
+    66		spinlock_t *ptl;
+    67		pte_t *ptep;
+    68	
+    69	again:
+    70		if (pmd_none(*pmdp))
+    71			return migrate_vma_collect_hole(start, end, -1, walk);
+    72	
+    73		if (pmd_trans_huge(*pmdp)) {
+    74			struct page *page;
+    75	
+    76			ptl = pmd_lock(mm, pmdp);
+    77			if (unlikely(!pmd_trans_huge(*pmdp))) {
+    78				spin_unlock(ptl);
+    79				goto again;
+    80			}
+    81	
+    82			page = pmd_page(*pmdp);
+    83			if (is_huge_zero_page(page)) {
+    84				spin_unlock(ptl);
+    85				split_huge_pmd(vma, pmdp, addr);
+    86				if (pmd_trans_unstable(pmdp))
+    87					return migrate_vma_collect_skip(start, end,
+    88									walk);
+    89			} else {
+    90				int ret;
+    91	
+    92				get_page(page);
+    93				spin_unlock(ptl);
+    94				if (unlikely(!trylock_page(page)))
+    95					return migrate_vma_collect_skip(start, end,
+    96									walk);
+    97				ret = split_huge_page(page);
+    98				unlock_page(page);
+    99				put_page(page);
+   100				if (ret)
+   101					return migrate_vma_collect_skip(start, end,
+   102									walk);
+   103				if (pmd_none(*pmdp))
+   104					return migrate_vma_collect_hole(start, end, -1,
+   105									walk);
+   106			}
+   107		}
+   108	
+ > 109		if (!break_cow_pte_range(vma, pmdp, start, end))
+   110			return migrate_vma_collect_skip(start, end, walk);
+   111		if (unlikely(pmd_bad(*pmdp)))
+   112			return migrate_vma_collect_skip(start, end, walk);
+   113	
+   114		ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
+   115		arch_enter_lazy_mmu_mode();
+   116	
+   117		for (; addr < end; addr += PAGE_SIZE, ptep++) {
+   118			unsigned long mpfn = 0, pfn;
+   119			struct page *page;
+   120			swp_entry_t entry;
+   121			pte_t pte;
+   122	
+   123			pte = *ptep;
+   124	
+   125			if (pte_none(pte)) {
+   126				if (vma_is_anonymous(vma)) {
+   127					mpfn = MIGRATE_PFN_MIGRATE;
+   128					migrate->cpages++;
+   129				}
+   130				goto next;
+   131			}
+   132	
+   133			if (!pte_present(pte)) {
+   134				/*
+   135				 * Only care about unaddressable device page special
+   136				 * page table entry. Other special swap entries are not
+   137				 * migratable, and we ignore regular swapped page.
+   138				 */
+   139				entry = pte_to_swp_entry(pte);
+   140				if (!is_device_private_entry(entry))
+   141					goto next;
+   142	
+   143				page = pfn_swap_entry_to_page(entry);
+   144				if (!(migrate->flags &
+   145					MIGRATE_VMA_SELECT_DEVICE_PRIVATE) ||
+   146				    page->pgmap->owner != migrate->pgmap_owner)
+   147					goto next;
+   148	
+   149				mpfn = migrate_pfn(page_to_pfn(page)) |
+   150						MIGRATE_PFN_MIGRATE;
+   151				if (is_writable_device_private_entry(entry))
+   152					mpfn |= MIGRATE_PFN_WRITE;
+   153			} else {
+   154				pfn = pte_pfn(pte);
+   155				if (is_zero_pfn(pfn) &&
+   156				    (migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
+   157					mpfn = MIGRATE_PFN_MIGRATE;
+   158					migrate->cpages++;
+   159					goto next;
+   160				}
+   161				page = vm_normal_page(migrate->vma, addr, pte);
+   162				if (page && !is_zone_device_page(page) &&
+   163				    !(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
+   164					goto next;
+   165				else if (page && is_device_coherent_page(page) &&
+   166				    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
+   167				     page->pgmap->owner != migrate->pgmap_owner))
+   168					goto next;
+   169				mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+   170				mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+   171			}
+   172	
+   173			/* FIXME support THP */
+   174			if (!page || !page->mapping || PageTransCompound(page)) {
+   175				mpfn = 0;
+   176				goto next;
+   177			}
+   178	
+   179			/*
+   180			 * By getting a reference on the page we pin it and that blocks
+   181			 * any kind of migration. Side effect is that it "freezes" the
+   182			 * pte.
+   183			 *
+   184			 * We drop this reference after isolating the page from the lru
+   185			 * for non device page (device page are not on the lru and thus
+   186			 * can't be dropped from it).
+   187			 */
+   188			get_page(page);
+   189	
+   190			/*
+   191			 * We rely on trylock_page() to avoid deadlock between
+   192			 * concurrent migrations where each is waiting on the others
+   193			 * page lock. If we can't immediately lock the page we fail this
+   194			 * migration as it is only best effort anyway.
+   195			 *
+   196			 * If we can lock the page it's safe to set up a migration entry
+   197			 * now. In the common case where the page is mapped once in a
+   198			 * single process setting up the migration entry now is an
+   199			 * optimisation to avoid walking the rmap later with
+   200			 * try_to_migrate().
+   201			 */
+   202			if (trylock_page(page)) {
+   203				bool anon_exclusive;
+   204				pte_t swp_pte;
+   205	
+   206				flush_cache_page(vma, addr, pte_pfn(*ptep));
+   207				anon_exclusive = PageAnon(page) && PageAnonExclusive(page);
+   208				if (anon_exclusive) {
+   209					pte = ptep_clear_flush(vma, addr, ptep);
+   210	
+   211					if (page_try_share_anon_rmap(page)) {
+   212						set_pte_at(mm, addr, ptep, pte);
+   213						unlock_page(page);
+   214						put_page(page);
+   215						mpfn = 0;
+   216						goto next;
+   217					}
+   218				} else {
+   219					pte = ptep_get_and_clear(mm, addr, ptep);
+   220				}
+   221	
+   222				migrate->cpages++;
+   223	
+   224				/* Set the dirty flag on the folio now the pte is gone. */
+   225				if (pte_dirty(pte))
+   226					folio_mark_dirty(page_folio(page));
+   227	
+   228				/* Setup special migration page table entry */
+   229				if (mpfn & MIGRATE_PFN_WRITE)
+   230					entry = make_writable_migration_entry(
+   231								page_to_pfn(page));
+   232				else if (anon_exclusive)
+   233					entry = make_readable_exclusive_migration_entry(
+   234								page_to_pfn(page));
+   235				else
+   236					entry = make_readable_migration_entry(
+   237								page_to_pfn(page));
+   238				if (pte_present(pte)) {
+   239					if (pte_young(pte))
+   240						entry = make_migration_entry_young(entry);
+   241					if (pte_dirty(pte))
+   242						entry = make_migration_entry_dirty(entry);
+   243				}
+   244				swp_pte = swp_entry_to_pte(entry);
+   245				if (pte_present(pte)) {
+   246					if (pte_soft_dirty(pte))
+   247						swp_pte = pte_swp_mksoft_dirty(swp_pte);
+   248					if (pte_uffd_wp(pte))
+   249						swp_pte = pte_swp_mkuffd_wp(swp_pte);
+   250				} else {
+   251					if (pte_swp_soft_dirty(pte))
+   252						swp_pte = pte_swp_mksoft_dirty(swp_pte);
+   253					if (pte_swp_uffd_wp(pte))
+   254						swp_pte = pte_swp_mkuffd_wp(swp_pte);
+   255				}
+   256				set_pte_at(mm, addr, ptep, swp_pte);
+   257	
+   258				/*
+   259				 * This is like regular unmap: we remove the rmap and
+   260				 * drop page refcount. Page won't be freed, as we took
+   261				 * a reference just above.
+   262				 */
+   263				page_remove_rmap(page, vma, false);
+   264				put_page(page);
+   265	
+   266				if (pte_present(pte))
+   267					unmapped++;
+   268			} else {
+   269				put_page(page);
+   270				mpfn = 0;
+   271			}
+   272	
+   273	next:
+   274			migrate->dst[migrate->npages] = 0;
+   275			migrate->src[migrate->npages++] = mpfn;
+   276		}
+   277	
+   278		/* Only flush the TLB if we actually modified any entries */
+   279		if (unmapped)
+   280			flush_tlb_range(walk->vma, start, end);
+   281	
+   282		arch_leave_lazy_mmu_mode();
+   283		pte_unmap_unlock(ptep - 1, ptl);
+   284	
+   285		return 0;
+   286	}
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---lPr0ByuhjC1W8UHL
+--45z5SKaubgCqtHSJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.1.0 Kernel Configuration
+# Linux/x86_64 6.1.0-rc7 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -235,7 +475,7 @@ CONFIG_SYSVIPC_SYSCTL=y
 CONFIG_SYSVIPC_COMPAT=y
 CONFIG_POSIX_MQUEUE=y
 CONFIG_POSIX_MQUEUE_SYSCTL=y
-CONFIG_WATCH_QUEUE=y
+# CONFIG_WATCH_QUEUE is not set
 CONFIG_CROSS_MEMORY_ATTACH=y
 # CONFIG_USELIB is not set
 CONFIG_AUDIT=y
@@ -253,6 +493,7 @@ CONFIG_GENERIC_IRQ_MIGRATION=y
 CONFIG_GENERIC_IRQ_INJECTION=y
 CONFIG_HARDIRQS_SW_RESEND=y
 CONFIG_IRQ_DOMAIN=y
+CONFIG_IRQ_SIM=y
 CONFIG_IRQ_DOMAIN_HIERARCHY=y
 CONFIG_GENERIC_MSI_IRQ=y
 CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
@@ -304,8 +545,10 @@ CONFIG_BPF_JIT=y
 CONFIG_BPF_JIT_ALWAYS_ON=y
 CONFIG_BPF_JIT_DEFAULT_ON=y
 CONFIG_BPF_UNPRIV_DEFAULT_OFF=y
-# CONFIG_BPF_PRELOAD is not set
-# CONFIG_BPF_LSM is not set
+CONFIG_USERMODE_DRIVER=y
+CONFIG_BPF_PRELOAD=y
+CONFIG_BPF_PRELOAD_UMD=y
+CONFIG_BPF_LSM=y
 # end of BPF subsystem
 
 CONFIG_PREEMPT_VOLUNTARY_BUILD=y
@@ -338,23 +581,16 @@ CONFIG_CPU_ISOLATION=y
 # RCU Subsystem
 #
 CONFIG_TREE_RCU=y
-CONFIG_RCU_EXPERT=y
+# CONFIG_RCU_EXPERT is not set
 CONFIG_SRCU=y
 CONFIG_TREE_SRCU=y
 CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-# CONFIG_FORCE_TASKS_RUDE_RCU is not set
 CONFIG_TASKS_RUDE_RCU=y
-CONFIG_FORCE_TASKS_TRACE_RCU=y
 CONFIG_TASKS_TRACE_RCU=y
 CONFIG_RCU_STALL_COMMON=y
 CONFIG_RCU_NEED_SEGCBLIST=y
-CONFIG_RCU_FANOUT=64
-CONFIG_RCU_FANOUT_LEAF=16
 CONFIG_RCU_NOCB_CPU=y
 # CONFIG_RCU_NOCB_CPU_DEFAULT_ALL is not set
-# CONFIG_TASKS_TRACE_RCU_READ_MB is not set
 # end of RCU Subsystem
 
 CONFIG_IKCONFIG=y
@@ -400,7 +636,7 @@ CONFIG_PROC_PID_CPUSET=y
 CONFIG_CGROUP_DEVICE=y
 CONFIG_CGROUP_CPUACCT=y
 CONFIG_CGROUP_PERF=y
-# CONFIG_CGROUP_BPF is not set
+CONFIG_CGROUP_BPF=y
 # CONFIG_CGROUP_MISC is not set
 # CONFIG_CGROUP_DEBUG is not set
 CONFIG_SOCK_CGROUP_DATA=y
@@ -424,7 +660,8 @@ CONFIG_RD_XZ=y
 CONFIG_RD_LZO=y
 CONFIG_RD_LZ4=y
 CONFIG_RD_ZSTD=y
-# CONFIG_BOOT_CONFIG is not set
+CONFIG_BOOT_CONFIG=y
+# CONFIG_BOOT_CONFIG_EMBED is not set
 CONFIG_INITRAMFS_PRESERVE_MTIME=y
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
@@ -464,7 +701,7 @@ CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
 CONFIG_KCMP=y
 CONFIG_RSEQ=y
 # CONFIG_DEBUG_RSEQ is not set
-# CONFIG_EMBEDDED is not set
+CONFIG_EMBEDDED=y
 CONFIG_HAVE_PERF_EVENTS=y
 CONFIG_GUEST_PERF_EVENTS=y
 # CONFIG_PC104 is not set
@@ -521,7 +758,7 @@ CONFIG_X86_FEATURE_NAMES=y
 CONFIG_X86_X2APIC=y
 CONFIG_X86_MPPARSE=y
 # CONFIG_GOLDFISH is not set
-# CONFIG_X86_CPU_RESCTRL is not set
+CONFIG_X86_CPU_RESCTRL=y
 CONFIG_X86_EXTENDED_PLATFORM=y
 # CONFIG_X86_NUMACHIP is not set
 # CONFIG_X86_VSMP is not set
@@ -550,11 +787,14 @@ CONFIG_PARAVIRT_CLOCK=y
 CONFIG_INTEL_TDX_GUEST=y
 # CONFIG_MK8 is not set
 # CONFIG_MPSC is not set
-# CONFIG_MCORE2 is not set
+CONFIG_MCORE2=y
 # CONFIG_MATOM is not set
-CONFIG_GENERIC_CPU=y
+# CONFIG_GENERIC_CPU is not set
 CONFIG_X86_INTERNODE_CACHE_SHIFT=6
 CONFIG_X86_L1_CACHE_SHIFT=6
+CONFIG_X86_INTEL_USERCOPY=y
+CONFIG_X86_USE_PPRO_CHECKSUM=y
+CONFIG_X86_P6_NOP=y
 CONFIG_X86_TSC=y
 CONFIG_X86_CMPXCHG64=y
 CONFIG_X86_CMOV=y
@@ -605,7 +845,7 @@ CONFIG_X86_IOPL_IOPERM=y
 CONFIG_MICROCODE=y
 CONFIG_MICROCODE_INTEL=y
 CONFIG_MICROCODE_LATE_LOADING=y
-CONFIG_X86_MSR=m
+CONFIG_X86_MSR=y
 CONFIG_X86_CPUID=y
 CONFIG_X86_5LEVEL=y
 CONFIG_X86_DIRECT_GBPAGES=y
@@ -635,10 +875,10 @@ CONFIG_X86_UMIP=y
 CONFIG_CC_HAS_IBT=y
 # CONFIG_X86_KERNEL_IBT is not set
 CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS=y
-# CONFIG_X86_INTEL_TSX_MODE_OFF is not set
+CONFIG_X86_INTEL_TSX_MODE_OFF=y
 # CONFIG_X86_INTEL_TSX_MODE_ON is not set
-CONFIG_X86_INTEL_TSX_MODE_AUTO=y
-# CONFIG_X86_SGX is not set
+# CONFIG_X86_INTEL_TSX_MODE_AUTO is not set
+CONFIG_X86_SGX=y
 CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 CONFIG_EFI_MIXED=y
@@ -657,7 +897,7 @@ CONFIG_KEXEC_JUMP=y
 CONFIG_PHYSICAL_START=0x1000000
 CONFIG_RELOCATABLE=y
 # CONFIG_RANDOMIZE_BASE is not set
-CONFIG_PHYSICAL_ALIGN=0x200000
+CONFIG_PHYSICAL_ALIGN=0x1000000
 CONFIG_DYNAMIC_MEMORY_LAYOUT=y
 CONFIG_HOTPLUG_CPU=y
 CONFIG_BOOTPARAM_HOTPLUG_CPU0=y
@@ -812,7 +1052,7 @@ CONFIG_X86_SPEEDSTEP_LIB=m
 # CPU Idle
 #
 CONFIG_CPU_IDLE=y
-# CONFIG_CPU_IDLE_GOV_LADDER is not set
+CONFIG_CPU_IDLE_GOV_LADDER=y
 CONFIG_CPU_IDLE_GOV_MENU=y
 # CONFIG_CPU_IDLE_GOV_TEO is not set
 # CONFIG_CPU_IDLE_GOV_HALTPOLL is not set
@@ -867,6 +1107,7 @@ CONFIG_VIRTUALIZATION=y
 CONFIG_KVM=m
 # CONFIG_KVM_WERROR is not set
 CONFIG_KVM_INTEL=m
+# CONFIG_X86_SGX_KVM is not set
 # CONFIG_KVM_AMD is not set
 # CONFIG_KVM_XEN is not set
 CONFIG_AS_AVX512=y
@@ -990,7 +1231,7 @@ CONFIG_HAVE_ARCH_VMAP_STACK=y
 CONFIG_VMAP_STACK=y
 CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
 CONFIG_RANDOMIZE_KSTACK_OFFSET=y
-# CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT is not set
+CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT=y
 CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
 CONFIG_STRICT_KERNEL_RWX=y
 CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
@@ -1010,6 +1251,7 @@ CONFIG_ARCH_SUPPORTS_PAGE_TABLE_CHECK=y
 CONFIG_ARCH_HAS_ELFCORE_COMPAT=y
 CONFIG_ARCH_HAS_PARANOID_L1D_FLUSH=y
 CONFIG_DYNAMIC_SIGFRAME=y
+CONFIG_HAVE_ARCH_NODE_DEV_GROUP=y
 CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
 
 #
@@ -1032,8 +1274,9 @@ CONFIG_MODULE_FORCE_LOAD=y
 CONFIG_MODULE_UNLOAD=y
 # CONFIG_MODULE_FORCE_UNLOAD is not set
 # CONFIG_MODULE_UNLOAD_TAINT_TRACKING is not set
-# CONFIG_MODVERSIONS is not set
-# CONFIG_MODULE_SRCVERSION_ALL is not set
+CONFIG_MODVERSIONS=y
+CONFIG_ASM_MODVERSIONS=y
+CONFIG_MODULE_SRCVERSION_ALL=y
 CONFIG_MODULE_SIG=y
 # CONFIG_MODULE_SIG_FORCE is not set
 CONFIG_MODULE_SIG_ALL=y
@@ -1059,16 +1302,15 @@ CONFIG_BLK_ICQ=y
 CONFIG_BLK_DEV_BSGLIB=y
 CONFIG_BLK_DEV_INTEGRITY=y
 CONFIG_BLK_DEV_INTEGRITY_T10=m
-CONFIG_BLK_DEV_ZONED=y
+# CONFIG_BLK_DEV_ZONED is not set
 CONFIG_BLK_DEV_THROTTLING=y
 # CONFIG_BLK_DEV_THROTTLING_LOW is not set
 CONFIG_BLK_WBT=y
 CONFIG_BLK_WBT_MQ=y
-# CONFIG_BLK_CGROUP_IOLATENCY is not set
+CONFIG_BLK_CGROUP_IOLATENCY=y
 # CONFIG_BLK_CGROUP_IOCOST is not set
 # CONFIG_BLK_CGROUP_IOPRIO is not set
 CONFIG_BLK_DEBUG_FS=y
-CONFIG_BLK_DEBUG_FS_ZONED=y
 # CONFIG_BLK_SED_OPAL is not set
 # CONFIG_BLK_INLINE_ENCRYPTION is not set
 
@@ -1083,7 +1325,6 @@ CONFIG_EFI_PARTITION=y
 CONFIG_BLOCK_COMPAT=y
 CONFIG_BLK_MQ_PCI=y
 CONFIG_BLK_MQ_VIRTIO=y
-CONFIG_BLK_MQ_RDMA=y
 CONFIG_BLK_PM=y
 CONFIG_BLOCK_HOLDER_DEPRECATED=y
 CONFIG_BLK_MQ_STACKING=y
@@ -1101,11 +1342,7 @@ CONFIG_BFQ_GROUP_IOSCHED=y
 CONFIG_PREEMPT_NOTIFIERS=y
 CONFIG_PADATA=y
 CONFIG_ASN1=y
-CONFIG_INLINE_SPIN_UNLOCK_IRQ=y
-CONFIG_INLINE_READ_UNLOCK=y
-CONFIG_INLINE_READ_UNLOCK_IRQ=y
-CONFIG_INLINE_WRITE_UNLOCK=y
-CONFIG_INLINE_WRITE_UNLOCK_IRQ=y
+CONFIG_UNINLINE_SPIN_UNLOCK=y
 CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
 CONFIG_MUTEX_SPIN_ON_OWNER=y
 CONFIG_RWSEM_SPIN_ON_OWNER=y
@@ -1162,7 +1399,7 @@ CONFIG_SLUB=y
 # CONFIG_SLOB is not set
 CONFIG_SLAB_MERGE_DEFAULT=y
 CONFIG_SLAB_FREELIST_RANDOM=y
-# CONFIG_SLAB_FREELIST_HARDENED is not set
+CONFIG_SLAB_FREELIST_HARDENED=y
 # CONFIG_SLUB_STATS is not set
 CONFIG_SLUB_CPU_PARTIAL=y
 # end of SLAB allocator options
@@ -1206,8 +1443,8 @@ CONFIG_HWPOISON_INJECT=m
 CONFIG_ARCH_WANT_GENERAL_HUGETLB=y
 CONFIG_ARCH_WANTS_THP_SWAP=y
 CONFIG_TRANSPARENT_HUGEPAGE=y
-CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y
-# CONFIG_TRANSPARENT_HUGEPAGE_MADVISE is not set
+# CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS is not set
+CONFIG_TRANSPARENT_HUGEPAGE_MADVISE=y
 CONFIG_THP_SWAP=y
 # CONFIG_READ_ONLY_THP_FOR_FS is not set
 CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
@@ -1219,8 +1456,8 @@ CONFIG_CMA=y
 # CONFIG_CMA_DEBUG is not set
 # CONFIG_CMA_DEBUGFS is not set
 # CONFIG_CMA_SYSFS is not set
-CONFIG_CMA_AREAS=19
-# CONFIG_MEM_SOFT_DIRTY is not set
+CONFIG_CMA_AREAS=7
+CONFIG_MEM_SOFT_DIRTY=y
 CONFIG_GENERIC_EARLY_IOREMAP=y
 CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
 CONFIG_PAGE_IDLE_FLAG=y
@@ -1240,24 +1477,33 @@ CONFIG_ARCH_USES_HIGH_VMA_FLAGS=y
 CONFIG_ARCH_HAS_PKEYS=y
 CONFIG_VM_EVENT_COUNTERS=y
 # CONFIG_PERCPU_STATS is not set
-# CONFIG_GUP_TEST is not set
+CONFIG_GUP_TEST=y
 CONFIG_ARCH_HAS_PTE_SPECIAL=y
-CONFIG_SECRETMEM=y
 # CONFIG_ANON_VMA_NAME is not set
-# CONFIG_USERFAULTFD is not set
+CONFIG_USERFAULTFD=y
+CONFIG_HAVE_ARCH_USERFAULTFD_WP=y
+CONFIG_HAVE_ARCH_USERFAULTFD_MINOR=y
+CONFIG_PTE_MARKER=y
+CONFIG_PTE_MARKER_UFFD_WP=y
 # CONFIG_LRU_GEN is not set
 
 #
 # Data Access Monitoring
 #
-# CONFIG_DAMON is not set
+CONFIG_DAMON=y
+CONFIG_DAMON_VADDR=y
+CONFIG_DAMON_PADDR=y
+# CONFIG_DAMON_SYSFS is not set
+CONFIG_DAMON_DBGFS=y
+# CONFIG_DAMON_RECLAIM is not set
+# CONFIG_DAMON_LRU_SORT is not set
 # end of Data Access Monitoring
 # end of Memory Management options
 
 CONFIG_NET=y
-CONFIG_COMPAT_NETLINK_MESSAGES=y
 CONFIG_NET_INGRESS=y
 CONFIG_NET_EGRESS=y
+CONFIG_NET_REDIRECT=y
 CONFIG_SKB_EXTENSIONS=y
 
 #
@@ -1286,9 +1532,8 @@ CONFIG_XFRM_ESP=m
 CONFIG_XFRM_IPCOMP=m
 CONFIG_NET_KEY=m
 CONFIG_NET_KEY_MIGRATE=y
-# CONFIG_SMC is not set
 CONFIG_XDP_SOCKETS=y
-# CONFIG_XDP_SOCKETS_DIAG is not set
+CONFIG_XDP_SOCKETS_DIAG=y
 CONFIG_INET=y
 CONFIG_IP_MULTICAST=y
 CONFIG_IP_ADVANCED_ROUTER=y
@@ -1301,10 +1546,10 @@ CONFIG_IP_PNP=y
 CONFIG_IP_PNP_DHCP=y
 # CONFIG_IP_PNP_BOOTP is not set
 # CONFIG_IP_PNP_RARP is not set
-CONFIG_NET_IPIP=m
-CONFIG_NET_IPGRE_DEMUX=m
-CONFIG_NET_IP_TUNNEL=m
-CONFIG_NET_IPGRE=m
+CONFIG_NET_IPIP=y
+CONFIG_NET_IPGRE_DEMUX=y
+CONFIG_NET_IP_TUNNEL=y
+CONFIG_NET_IPGRE=y
 CONFIG_NET_IPGRE_BROADCAST=y
 CONFIG_IP_MROUTE_COMMON=y
 CONFIG_IP_MROUTE=y
@@ -1313,9 +1558,9 @@ CONFIG_IP_PIMSM_V1=y
 CONFIG_IP_PIMSM_V2=y
 CONFIG_SYN_COOKIES=y
 CONFIG_NET_IPVTI=m
-CONFIG_NET_UDP_TUNNEL=m
-# CONFIG_NET_FOU is not set
-# CONFIG_NET_FOU_IP_TUNNELS is not set
+CONFIG_NET_UDP_TUNNEL=y
+CONFIG_NET_FOU=y
+CONFIG_NET_FOU_IP_TUNNELS=y
 CONFIG_INET_AH=m
 CONFIG_INET_ESP=m
 CONFIG_INET_ESP_OFFLOAD=m
@@ -1323,7 +1568,7 @@ CONFIG_INET_ESP_OFFLOAD=m
 CONFIG_INET_IPCOMP=m
 CONFIG_INET_TABLE_PERTURB_ORDER=16
 CONFIG_INET_XFRM_TUNNEL=m
-CONFIG_INET_TUNNEL=m
+CONFIG_INET_TUNNEL=y
 CONFIG_INET_DIAG=m
 CONFIG_INET_TCP_DIAG=m
 CONFIG_INET_UDP_DIAG=m
@@ -1346,9 +1591,9 @@ CONFIG_TCP_CONG_ILLINOIS=m
 CONFIG_TCP_CONG_DCTCP=m
 # CONFIG_TCP_CONG_CDG is not set
 CONFIG_TCP_CONG_BBR=m
-CONFIG_DEFAULT_CUBIC=y
-# CONFIG_DEFAULT_RENO is not set
-CONFIG_DEFAULT_TCP_CONG="cubic"
+# CONFIG_DEFAULT_CUBIC is not set
+CONFIG_DEFAULT_RENO=y
+CONFIG_DEFAULT_TCP_CONG="reno"
 CONFIG_TCP_MD5SIG=y
 CONFIG_IPV6=y
 CONFIG_IPV6_ROUTER_PREF=y
@@ -1362,24 +1607,29 @@ CONFIG_INET6_IPCOMP=m
 CONFIG_IPV6_MIP6=m
 # CONFIG_IPV6_ILA is not set
 CONFIG_INET6_XFRM_TUNNEL=m
-CONFIG_INET6_TUNNEL=m
+CONFIG_INET6_TUNNEL=y
 CONFIG_IPV6_VTI=m
 CONFIG_IPV6_SIT=m
 CONFIG_IPV6_SIT_6RD=y
 CONFIG_IPV6_NDISC_NODETYPE=y
-CONFIG_IPV6_TUNNEL=m
-CONFIG_IPV6_GRE=m
+CONFIG_IPV6_TUNNEL=y
+CONFIG_IPV6_GRE=y
+CONFIG_IPV6_FOU=y
+CONFIG_IPV6_FOU_TUNNEL=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
-# CONFIG_IPV6_SUBTREES is not set
+CONFIG_IPV6_SUBTREES=y
 CONFIG_IPV6_MROUTE=y
 CONFIG_IPV6_MROUTE_MULTIPLE_TABLES=y
 CONFIG_IPV6_PIMSM_V2=y
-# CONFIG_IPV6_SEG6_LWTUNNEL is not set
+CONFIG_IPV6_SEG6_LWTUNNEL=y
 # CONFIG_IPV6_SEG6_HMAC is not set
+CONFIG_IPV6_SEG6_BPF=y
 # CONFIG_IPV6_RPL_LWTUNNEL is not set
-# CONFIG_IPV6_IOAM6_LWTUNNEL is not set
+CONFIG_IPV6_IOAM6_LWTUNNEL=y
 CONFIG_NETLABEL=y
-# CONFIG_MPTCP is not set
+CONFIG_MPTCP=y
+CONFIG_INET_MPTCP_DIAG=m
+CONFIG_MPTCP_IPV6=y
 CONFIG_NETWORK_SECMARK=y
 CONFIG_NET_PTP_CLASSIFY=y
 CONFIG_NETWORK_PHY_TIMESTAMPING=y
@@ -1445,6 +1695,7 @@ CONFIG_NF_TABLES_INET=y
 CONFIG_NF_TABLES_NETDEV=y
 CONFIG_NFT_NUMGEN=m
 CONFIG_NFT_CT=m
+CONFIG_NFT_FLOW_OFFLOAD=m
 CONFIG_NFT_CONNLIMIT=m
 CONFIG_NFT_LOG=m
 CONFIG_NFT_LIMIT=m
@@ -1464,14 +1715,16 @@ CONFIG_NFT_FIB_INET=m
 # CONFIG_NFT_XFRM is not set
 CONFIG_NFT_SOCKET=m
 # CONFIG_NFT_OSF is not set
-# CONFIG_NFT_TPROXY is not set
-# CONFIG_NFT_SYNPROXY is not set
+CONFIG_NFT_TPROXY=m
+CONFIG_NFT_SYNPROXY=m
 CONFIG_NF_DUP_NETDEV=m
 CONFIG_NFT_DUP_NETDEV=m
 CONFIG_NFT_FWD_NETDEV=m
 CONFIG_NFT_FIB_NETDEV=m
 # CONFIG_NFT_REJECT_NETDEV is not set
-# CONFIG_NF_FLOW_TABLE is not set
+CONFIG_NF_FLOW_TABLE_INET=m
+CONFIG_NF_FLOW_TABLE=m
+# CONFIG_NF_FLOW_TABLE_PROCFS is not set
 CONFIG_NETFILTER_XTABLES=y
 CONFIG_NETFILTER_XTABLES_COMPAT=y
 
@@ -1734,7 +1987,8 @@ CONFIG_BRIDGE_EBT_REDIRECT=m
 CONFIG_BRIDGE_EBT_SNAT=m
 CONFIG_BRIDGE_EBT_LOG=m
 CONFIG_BRIDGE_EBT_NFLOG=m
-# CONFIG_BPFILTER is not set
+CONFIG_BPFILTER=y
+CONFIG_BPFILTER_UMH=m
 # CONFIG_IP_DCCP is not set
 CONFIG_IP_SCTP=m
 # CONFIG_SCTP_DBG_OBJCNT is not set
@@ -1746,7 +2000,6 @@ CONFIG_SCTP_COOKIE_HMAC_SHA1=y
 CONFIG_INET_SCTP_DIAG=m
 # CONFIG_RDS is not set
 CONFIG_TIPC=m
-# CONFIG_TIPC_MEDIA_IB is not set
 CONFIG_TIPC_MEDIA_UDP=y
 CONFIG_TIPC_CRYPTO=y
 CONFIG_TIPC_DIAG=m
@@ -1762,19 +2015,19 @@ CONFIG_L2TP_DEBUGFS=m
 CONFIG_L2TP_V3=y
 CONFIG_L2TP_IP=m
 CONFIG_L2TP_ETH=m
-CONFIG_STP=m
-CONFIG_GARP=m
-CONFIG_MRP=m
+CONFIG_STP=y
+CONFIG_GARP=y
+CONFIG_MRP=y
 CONFIG_BRIDGE=m
 CONFIG_BRIDGE_IGMP_SNOOPING=y
 CONFIG_BRIDGE_VLAN_FILTERING=y
 # CONFIG_BRIDGE_MRP is not set
 # CONFIG_BRIDGE_CFM is not set
 # CONFIG_NET_DSA is not set
-CONFIG_VLAN_8021Q=m
+CONFIG_VLAN_8021Q=y
 CONFIG_VLAN_8021Q_GVRP=y
 CONFIG_VLAN_8021Q_MVRP=y
-CONFIG_LLC=m
+CONFIG_LLC=y
 # CONFIG_LLC2 is not set
 # CONFIG_ATALK is not set
 # CONFIG_X25 is not set
@@ -1800,31 +2053,32 @@ CONFIG_NET_SCH_SFB=m
 CONFIG_NET_SCH_SFQ=m
 CONFIG_NET_SCH_TEQL=m
 CONFIG_NET_SCH_TBF=m
-# CONFIG_NET_SCH_CBS is not set
-# CONFIG_NET_SCH_ETF is not set
-# CONFIG_NET_SCH_TAPRIO is not set
+CONFIG_NET_SCH_CBS=m
+CONFIG_NET_SCH_ETF=m
+CONFIG_NET_SCH_TAPRIO=m
 CONFIG_NET_SCH_GRED=m
 CONFIG_NET_SCH_DSMARK=m
-CONFIG_NET_SCH_NETEM=m
+CONFIG_NET_SCH_NETEM=y
 CONFIG_NET_SCH_DRR=m
 CONFIG_NET_SCH_MQPRIO=m
-# CONFIG_NET_SCH_SKBPRIO is not set
+CONFIG_NET_SCH_SKBPRIO=m
 CONFIG_NET_SCH_CHOKE=m
 CONFIG_NET_SCH_QFQ=m
 CONFIG_NET_SCH_CODEL=m
 CONFIG_NET_SCH_FQ_CODEL=y
-# CONFIG_NET_SCH_CAKE is not set
+CONFIG_NET_SCH_CAKE=m
 CONFIG_NET_SCH_FQ=m
 CONFIG_NET_SCH_HHF=m
 CONFIG_NET_SCH_PIE=m
-# CONFIG_NET_SCH_FQ_PIE is not set
-CONFIG_NET_SCH_INGRESS=m
+CONFIG_NET_SCH_FQ_PIE=m
+CONFIG_NET_SCH_INGRESS=y
 CONFIG_NET_SCH_PLUG=m
-# CONFIG_NET_SCH_ETS is not set
+CONFIG_NET_SCH_ETS=m
 CONFIG_NET_SCH_DEFAULT=y
 # CONFIG_DEFAULT_FQ is not set
 # CONFIG_DEFAULT_CODEL is not set
 CONFIG_DEFAULT_FQ_CODEL=y
+# CONFIG_DEFAULT_FQ_PIE is not set
 # CONFIG_DEFAULT_SFQ is not set
 # CONFIG_DEFAULT_PFIFO_FAST is not set
 CONFIG_DEFAULT_NET_SCH="fq_codel"
@@ -1854,37 +2108,43 @@ CONFIG_NET_EMATCH_NBYTE=m
 CONFIG_NET_EMATCH_U32=m
 CONFIG_NET_EMATCH_META=m
 CONFIG_NET_EMATCH_TEXT=m
-# CONFIG_NET_EMATCH_CANID is not set
+CONFIG_NET_EMATCH_CANID=m
 CONFIG_NET_EMATCH_IPSET=m
-# CONFIG_NET_EMATCH_IPT is not set
+CONFIG_NET_EMATCH_IPT=m
 CONFIG_NET_CLS_ACT=y
 CONFIG_NET_ACT_POLICE=m
 CONFIG_NET_ACT_GACT=m
 CONFIG_GACT_PROB=y
 CONFIG_NET_ACT_MIRRED=m
 CONFIG_NET_ACT_SAMPLE=m
-# CONFIG_NET_ACT_IPT is not set
+CONFIG_NET_ACT_IPT=m
 CONFIG_NET_ACT_NAT=m
 CONFIG_NET_ACT_PEDIT=m
 CONFIG_NET_ACT_SIMP=m
 CONFIG_NET_ACT_SKBEDIT=m
 CONFIG_NET_ACT_CSUM=m
-# CONFIG_NET_ACT_MPLS is not set
+CONFIG_NET_ACT_MPLS=m
 CONFIG_NET_ACT_VLAN=m
 CONFIG_NET_ACT_BPF=m
-# CONFIG_NET_ACT_CONNMARK is not set
-# CONFIG_NET_ACT_CTINFO is not set
+CONFIG_NET_ACT_CONNMARK=m
+CONFIG_NET_ACT_CTINFO=m
 CONFIG_NET_ACT_SKBMOD=m
-# CONFIG_NET_ACT_IFE is not set
+CONFIG_NET_ACT_IFE=m
 CONFIG_NET_ACT_TUNNEL_KEY=m
-# CONFIG_NET_ACT_GATE is not set
-# CONFIG_NET_TC_SKB_EXT is not set
+CONFIG_NET_ACT_CT=m
+CONFIG_NET_ACT_GATE=m
+CONFIG_NET_IFE_SKBMARK=m
+CONFIG_NET_IFE_SKBPRIO=m
+CONFIG_NET_IFE_SKBTCINDEX=m
+CONFIG_NET_TC_SKB_EXT=y
 CONFIG_NET_SCH_FIFO=y
 CONFIG_DCB=y
 CONFIG_DNS_RESOLVER=m
 # CONFIG_BATMAN_ADV is not set
 CONFIG_OPENVSWITCH=m
 CONFIG_OPENVSWITCH_GRE=m
+CONFIG_OPENVSWITCH_VXLAN=m
+CONFIG_OPENVSWITCH_GENEVE=m
 CONFIG_VSOCKETS=m
 CONFIG_VSOCKETS_DIAG=m
 CONFIG_VSOCKETS_LOOPBACK=m
@@ -1893,7 +2153,7 @@ CONFIG_VIRTIO_VSOCKETS=m
 CONFIG_VIRTIO_VSOCKETS_COMMON=m
 CONFIG_NETLINK_DIAG=m
 CONFIG_MPLS=y
-CONFIG_NET_MPLS_GSO=y
+CONFIG_NET_MPLS_GSO=m
 CONFIG_MPLS_ROUTING=m
 CONFIG_MPLS_IPTUNNEL=m
 CONFIG_NET_NSH=y
@@ -1911,6 +2171,7 @@ CONFIG_CGROUP_NET_PRIO=y
 CONFIG_CGROUP_NET_CLASSID=y
 CONFIG_NET_RX_BUSY_POLL=y
 CONFIG_BQL=y
+CONFIG_BPF_STREAM_PARSER=y
 CONFIG_NET_FLOW_LIMIT=y
 
 #
@@ -1935,8 +2196,6 @@ CONFIG_STREAM_PARSER=y
 # CONFIG_MCTP is not set
 CONFIG_FIB_RULES=y
 CONFIG_WIRELESS=y
-CONFIG_WEXT_CORE=y
-CONFIG_WEXT_PROC=y
 CONFIG_CFG80211=m
 # CONFIG_NL80211_TESTMODE is not set
 # CONFIG_CFG80211_DEVELOPER_WARNINGS is not set
@@ -1946,13 +2205,13 @@ CONFIG_CFG80211_USE_KERNEL_REGDB_KEYS=y
 CONFIG_CFG80211_DEFAULT_PS=y
 # CONFIG_CFG80211_DEBUGFS is not set
 CONFIG_CFG80211_CRDA_SUPPORT=y
-CONFIG_CFG80211_WEXT=y
+# CONFIG_CFG80211_WEXT is not set
 CONFIG_MAC80211=m
 CONFIG_MAC80211_HAS_RC=y
 CONFIG_MAC80211_RC_MINSTREL=y
 CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
 CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
-CONFIG_MAC80211_MESH=y
+# CONFIG_MAC80211_MESH is not set
 CONFIG_MAC80211_LEDS=y
 CONFIG_MAC80211_DEBUGFS=y
 # CONFIG_MAC80211_MESSAGE_TRACING is not set
@@ -1965,15 +2224,34 @@ CONFIG_RFKILL_INPUT=y
 CONFIG_NET_9P=y
 CONFIG_NET_9P_FD=y
 CONFIG_NET_9P_VIRTIO=y
-# CONFIG_NET_9P_RDMA is not set
 # CONFIG_NET_9P_DEBUG is not set
 # CONFIG_CAIF is not set
 CONFIG_CEPH_LIB=m
 # CONFIG_CEPH_LIB_PRETTYDEBUG is not set
 CONFIG_CEPH_LIB_USE_DNS_RESOLVER=y
-# CONFIG_NFC is not set
+CONFIG_NFC=m
+# CONFIG_NFC_DIGITAL is not set
+CONFIG_NFC_NCI=m
+# CONFIG_NFC_NCI_SPI is not set
+# CONFIG_NFC_NCI_UART is not set
+# CONFIG_NFC_HCI is not set
+
+#
+# Near Field Communication (NFC) devices
+#
+CONFIG_NFC_VIRTUAL_NCI=m
+# CONFIG_NFC_FDP is not set
+# CONFIG_NFC_PN533_USB is not set
+# CONFIG_NFC_PN533_I2C is not set
+# CONFIG_NFC_MRVL_USB is not set
+# CONFIG_NFC_ST_NCI_I2C is not set
+# CONFIG_NFC_ST_NCI_SPI is not set
+# CONFIG_NFC_NXP_NCI is not set
+# CONFIG_NFC_S3FWRN5_I2C is not set
+# end of Near Field Communication (NFC) devices
+
 CONFIG_PSAMPLE=m
-# CONFIG_NET_IFE is not set
+CONFIG_NET_IFE=m
 CONFIG_LWTUNNEL=y
 CONFIG_LWTUNNEL_BPF=y
 CONFIG_DST_CACHE=y
@@ -1981,6 +2259,7 @@ CONFIG_GRO_CELLS=y
 CONFIG_SOCK_VALIDATE_XMIT=y
 CONFIG_NET_SELFTESTS=y
 CONFIG_NET_SOCK_MSG=y
+CONFIG_NET_DEVLINK=y
 CONFIG_PAGE_POOL=y
 # CONFIG_PAGE_POOL_STATS is not set
 CONFIG_FAILOVER=m
@@ -2096,7 +2375,7 @@ CONFIG_FW_LOADER_USER_HELPER=y
 # CONFIG_FW_LOADER_USER_HELPER_FALLBACK is not set
 # CONFIG_FW_LOADER_COMPRESS is not set
 CONFIG_FW_CACHE=y
-# CONFIG_FW_UPLOAD is not set
+CONFIG_FW_UPLOAD=y
 # end of Firmware loader
 
 CONFIG_ALLOW_DEV_COREDUMP=y
@@ -2198,7 +2477,7 @@ CONFIG_PNP=y
 CONFIG_PNPACPI=y
 CONFIG_BLK_DEV=y
 CONFIG_BLK_DEV_NULL_BLK=m
-CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION=y
+# CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION is not set
 # CONFIG_BLK_DEV_FD is not set
 CONFIG_CDROM=m
 # CONFIG_PARIDE is not set
@@ -2233,14 +2512,12 @@ CONFIG_NVME_MULTIPATH=y
 # CONFIG_NVME_VERBOSE_ERRORS is not set
 # CONFIG_NVME_HWMON is not set
 CONFIG_NVME_FABRICS=m
-# CONFIG_NVME_RDMA is not set
 # CONFIG_NVME_FC is not set
 # CONFIG_NVME_TCP is not set
 # CONFIG_NVME_AUTH is not set
 CONFIG_NVME_TARGET=m
 # CONFIG_NVME_TARGET_PASSTHRU is not set
 CONFIG_NVME_TARGET_LOOP=m
-# CONFIG_NVME_TARGET_RDMA is not set
 CONFIG_NVME_TARGET_FC=m
 # CONFIG_NVME_TARGET_TCP is not set
 # CONFIG_NVME_TARGET_AUTH is not set
@@ -2536,7 +2813,7 @@ CONFIG_MD_RAID0=m
 CONFIG_MD_RAID1=m
 CONFIG_MD_RAID10=m
 CONFIG_MD_RAID456=m
-CONFIG_MD_MULTIPATH=m
+# CONFIG_MD_MULTIPATH is not set
 CONFIG_MD_FAULTY=m
 CONFIG_MD_CLUSTER=m
 # CONFIG_BCACHE is not set
@@ -2576,7 +2853,6 @@ CONFIG_DM_VERITY=m
 CONFIG_DM_SWITCH=m
 CONFIG_DM_LOG_WRITES=m
 CONFIG_DM_INTEGRITY=m
-# CONFIG_DM_ZONED is not set
 CONFIG_DM_AUDIT=y
 CONFIG_TARGET_CORE=m
 CONFIG_TCM_IBLOCK=m
@@ -2603,21 +2879,21 @@ CONFIG_MAC_EMUMOUSEBTN=y
 CONFIG_NETDEVICES=y
 CONFIG_MII=y
 CONFIG_NET_CORE=y
-# CONFIG_BONDING is not set
+CONFIG_BONDING=m
 CONFIG_DUMMY=m
 # CONFIG_WIREGUARD is not set
 # CONFIG_EQUALIZER is not set
 # CONFIG_NET_FC is not set
-# CONFIG_IFB is not set
+CONFIG_IFB=m
 # CONFIG_NET_TEAM is not set
 # CONFIG_MACVLAN is not set
 # CONFIG_IPVLAN is not set
-# CONFIG_VXLAN is not set
-# CONFIG_GENEVE is not set
-# CONFIG_BAREUDP is not set
+CONFIG_VXLAN=y
+CONFIG_GENEVE=y
+CONFIG_BAREUDP=m
 # CONFIG_GTP is not set
-# CONFIG_AMT is not set
-CONFIG_MACSEC=m
+CONFIG_AMT=m
+CONFIG_MACSEC=y
 CONFIG_NETCONSOLE=m
 CONFIG_NETCONSOLE_DYNAMIC=y
 CONFIG_NETPOLL=y
@@ -2627,7 +2903,7 @@ CONFIG_TUN=m
 CONFIG_VETH=m
 CONFIG_VIRTIO_NET=m
 # CONFIG_NLMON is not set
-# CONFIG_NET_VRF is not set
+CONFIG_NET_VRF=y
 # CONFIG_VSOCKMON is not set
 # CONFIG_ARCNET is not set
 CONFIG_ATM_DRIVERS=y
@@ -3101,7 +3377,7 @@ CONFIG_WLAN_VENDOR_ZYDAS=y
 # CONFIG_ZD1211RW is not set
 CONFIG_WLAN_VENDOR_QUANTENNA=y
 # CONFIG_QTNFMAC_PCIE is not set
-CONFIG_MAC80211_HWSIM=m
+# CONFIG_MAC80211_HWSIM is not set
 # CONFIG_USB_NET_RNDIS_WLAN is not set
 # CONFIG_VIRT_WIFI is not set
 # CONFIG_WAN is not set
@@ -3114,7 +3390,7 @@ CONFIG_MAC80211_HWSIM=m
 
 # CONFIG_VMXNET3 is not set
 # CONFIG_FUJITSU_ES is not set
-# CONFIG_NETDEVSIM is not set
+CONFIG_NETDEVSIM=m
 CONFIG_NET_FAILOVER=m
 # CONFIG_ISDN is not set
 
@@ -3201,39 +3477,7 @@ CONFIG_MOUSE_SYNAPTICS_I2C=m
 # CONFIG_INPUT_JOYSTICK is not set
 # CONFIG_INPUT_TABLET is not set
 # CONFIG_INPUT_TOUCHSCREEN is not set
-CONFIG_INPUT_MISC=y
-# CONFIG_INPUT_AD714X is not set
-# CONFIG_INPUT_BMA150 is not set
-# CONFIG_INPUT_E3X0_BUTTON is not set
-# CONFIG_INPUT_PCSPKR is not set
-# CONFIG_INPUT_MMA8450 is not set
-# CONFIG_INPUT_APANEL is not set
-# CONFIG_INPUT_GPIO_BEEPER is not set
-# CONFIG_INPUT_GPIO_DECODER is not set
-# CONFIG_INPUT_GPIO_VIBRA is not set
-# CONFIG_INPUT_ATLAS_BTNS is not set
-# CONFIG_INPUT_ATI_REMOTE2 is not set
-# CONFIG_INPUT_KEYSPAN_REMOTE is not set
-# CONFIG_INPUT_KXTJ9 is not set
-# CONFIG_INPUT_POWERMATE is not set
-# CONFIG_INPUT_YEALINK is not set
-# CONFIG_INPUT_CM109 is not set
-CONFIG_INPUT_UINPUT=y
-# CONFIG_INPUT_PCF8574 is not set
-# CONFIG_INPUT_PWM_BEEPER is not set
-# CONFIG_INPUT_PWM_VIBRA is not set
-# CONFIG_INPUT_GPIO_ROTARY_ENCODER is not set
-# CONFIG_INPUT_DA7280_HAPTICS is not set
-# CONFIG_INPUT_ADXL34X is not set
-# CONFIG_INPUT_IMS_PCU is not set
-# CONFIG_INPUT_IQS269A is not set
-# CONFIG_INPUT_IQS626A is not set
-# CONFIG_INPUT_IQS7222 is not set
-# CONFIG_INPUT_CMA3000 is not set
-# CONFIG_INPUT_IDEAPAD_SLIDEBAR is not set
-# CONFIG_INPUT_DRV260X_HAPTICS is not set
-# CONFIG_INPUT_DRV2665_HAPTICS is not set
-# CONFIG_INPUT_DRV2667_HAPTICS is not set
+# CONFIG_INPUT_MISC is not set
 CONFIG_RMI4_CORE=m
 CONFIG_RMI4_I2C=m
 CONFIG_RMI4_SPI=m
@@ -3296,12 +3540,12 @@ CONFIG_SERIAL_8250_CONSOLE=y
 CONFIG_SERIAL_8250_DMA=y
 CONFIG_SERIAL_8250_PCI=y
 CONFIG_SERIAL_8250_EXAR=y
-CONFIG_SERIAL_8250_NR_UARTS=64
+CONFIG_SERIAL_8250_NR_UARTS=32
 CONFIG_SERIAL_8250_RUNTIME_UARTS=4
 CONFIG_SERIAL_8250_EXTENDED=y
 CONFIG_SERIAL_8250_MANY_PORTS=y
 CONFIG_SERIAL_8250_SHARE_IRQ=y
-# CONFIG_SERIAL_8250_DETECT_IRQ is not set
+CONFIG_SERIAL_8250_DETECT_IRQ=y
 CONFIG_SERIAL_8250_RSA=y
 CONFIG_SERIAL_8250_DWLIB=y
 CONFIG_SERIAL_8250_DW=y
@@ -3688,9 +3932,9 @@ CONFIG_GPIO_ICH=m
 # Virtual GPIO drivers
 #
 # CONFIG_GPIO_AGGREGATOR is not set
-# CONFIG_GPIO_MOCKUP is not set
+CONFIG_GPIO_MOCKUP=m
 # CONFIG_GPIO_VIRTIO is not set
-# CONFIG_GPIO_SIM is not set
+CONFIG_GPIO_SIM=m
 # end of Virtual GPIO drivers
 
 # CONFIG_W1 is not set
@@ -4177,7 +4421,8 @@ CONFIG_MFD_VX855=m
 # end of Multifunction device drivers
 
 # CONFIG_REGULATOR is not set
-CONFIG_RC_CORE=m
+CONFIG_RC_CORE=y
+CONFIG_BPF_LIRC_MODE2=y
 CONFIG_LIRC=y
 CONFIG_RC_MAP=m
 CONFIG_RC_DECODERS=y
@@ -4189,7 +4434,7 @@ CONFIG_IR_RC5_DECODER=m
 CONFIG_IR_RC6_DECODER=m
 # CONFIG_IR_RCMM_DECODER is not set
 CONFIG_IR_SANYO_DECODER=m
-# CONFIG_IR_SHARP_DECODER is not set
+CONFIG_IR_SHARP_DECODER=m
 CONFIG_IR_SONY_DECODER=m
 # CONFIG_IR_XMP_DECODER is not set
 CONFIG_RC_DEVICES=y
@@ -4210,7 +4455,7 @@ CONFIG_IR_SERIAL_TRANSMITTER=y
 # CONFIG_IR_TTUSBIR is not set
 CONFIG_IR_WINBOND_CIR=m
 # CONFIG_RC_ATI_REMOTE is not set
-# CONFIG_RC_LOOPBACK is not set
+CONFIG_RC_LOOPBACK=m
 # CONFIG_RC_XBOX_DVD is not set
 
 #
@@ -4259,15 +4504,18 @@ CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
 # Graphics support
 #
 CONFIG_APERTURE_HELPERS=y
-CONFIG_VIDEO_NOMODESET=y
-# CONFIG_AGP is not set
+CONFIG_AGP=m
+CONFIG_AGP_INTEL=m
+# CONFIG_AGP_SIS is not set
+# CONFIG_AGP_VIA is not set
 CONFIG_INTEL_GTT=m
 CONFIG_VGA_SWITCHEROO=y
 CONFIG_DRM=m
 CONFIG_DRM_MIPI_DSI=y
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
 CONFIG_DRM_KMS_HELPER=m
 # CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS is not set
-# CONFIG_DRM_DEBUG_MODESET_LOCK is not set
+CONFIG_DRM_DEBUG_MODESET_LOCK=y
 CONFIG_DRM_FBDEV_EMULATION=y
 CONFIG_DRM_FBDEV_OVERALLOC=100
 # CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
@@ -4331,13 +4579,12 @@ CONFIG_DRM_I915_FENCE_TIMEOUT=10000
 CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND=250
 CONFIG_DRM_I915_HEARTBEAT_INTERVAL=2500
 CONFIG_DRM_I915_PREEMPT_TIMEOUT=640
-CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE=7500
 CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT=8000
 CONFIG_DRM_I915_STOP_TIMEOUT=100
 CONFIG_DRM_I915_TIMESLICE_DURATION=1
 # end of drm/i915 Profile Guided Optimisation
 
-# CONFIG_DRM_VGEM is not set
+CONFIG_DRM_VGEM=m
 # CONFIG_DRM_VKMS is not set
 # CONFIG_DRM_VMWGFX is not set
 CONFIG_DRM_GMA500=m
@@ -4384,6 +4631,7 @@ CONFIG_DRM_CIRRUS_QEMU=m
 # CONFIG_DRM_SSD130X is not set
 # CONFIG_DRM_LEGACY is not set
 CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
+CONFIG_DRM_NOMODESET=y
 CONFIG_DRM_PRIVACY_SCREEN=y
 
 #
@@ -4402,7 +4650,7 @@ CONFIG_FB_SYS_IMAGEBLIT=m
 # CONFIG_FB_FOREIGN_ENDIAN is not set
 CONFIG_FB_SYS_FOPS=m
 CONFIG_FB_DEFERRED_IO=y
-# CONFIG_FB_MODE_HELPERS is not set
+CONFIG_FB_MODE_HELPERS=y
 CONFIG_FB_TILEBLITTING=y
 
 #
@@ -4426,6 +4674,7 @@ CONFIG_FB_EFI=y
 # CONFIG_FB_RIVA is not set
 # CONFIG_FB_I740 is not set
 # CONFIG_FB_LE80578 is not set
+# CONFIG_FB_INTEL is not set
 # CONFIG_FB_MATROX is not set
 # CONFIG_FB_RADEON is not set
 # CONFIG_FB_ATY128 is not set
@@ -4510,7 +4759,6 @@ CONFIG_LOGO=y
 CONFIG_LOGO_LINUX_CLUT224=y
 # end of Graphics support
 
-# CONFIG_DRM_ACCEL is not set
 # CONFIG_SOUND is not set
 
 #
@@ -4637,7 +4885,7 @@ CONFIG_HID_THRUSTMASTER=m
 CONFIG_HID_WIIMOTE=m
 CONFIG_HID_XINMO=m
 CONFIG_HID_ZEROPLUS=m
-# CONFIG_ZEROPLUS_FF is not set
+CONFIG_ZEROPLUS_FF=y
 CONFIG_HID_ZYDACRON=m
 CONFIG_HID_SENSOR_HUB=y
 CONFIG_HID_SENSOR_CUSTOM_SENSOR=m
@@ -5003,34 +5251,7 @@ CONFIG_LEDS_TRIGGER_AUDIO=m
 # Simple LED drivers
 #
 # CONFIG_ACCESSIBILITY is not set
-CONFIG_INFINIBAND=m
-CONFIG_INFINIBAND_USER_MAD=m
-CONFIG_INFINIBAND_USER_ACCESS=m
-CONFIG_INFINIBAND_USER_MEM=y
-CONFIG_INFINIBAND_ON_DEMAND_PAGING=y
-CONFIG_INFINIBAND_ADDR_TRANS=y
-CONFIG_INFINIBAND_ADDR_TRANS_CONFIGFS=y
-CONFIG_INFINIBAND_VIRT_DMA=y
-# CONFIG_INFINIBAND_EFA is not set
-# CONFIG_INFINIBAND_ERDMA is not set
-# CONFIG_MLX4_INFINIBAND is not set
-# CONFIG_INFINIBAND_MTHCA is not set
-# CONFIG_INFINIBAND_OCRDMA is not set
-# CONFIG_INFINIBAND_USNIC is not set
-# CONFIG_INFINIBAND_RDMAVT is not set
-CONFIG_RDMA_RXE=m
-CONFIG_RDMA_SIW=m
-CONFIG_INFINIBAND_IPOIB=m
-# CONFIG_INFINIBAND_IPOIB_CM is not set
-CONFIG_INFINIBAND_IPOIB_DEBUG=y
-# CONFIG_INFINIBAND_IPOIB_DEBUG_DATA is not set
-CONFIG_INFINIBAND_SRP=m
-CONFIG_INFINIBAND_SRPT=m
-# CONFIG_INFINIBAND_ISER is not set
-# CONFIG_INFINIBAND_ISERT is not set
-# CONFIG_INFINIBAND_RTRS_CLIENT is not set
-# CONFIG_INFINIBAND_RTRS_SERVER is not set
-# CONFIG_INFINIBAND_OPA_VNIC is not set
+# CONFIG_INFINIBAND is not set
 CONFIG_EDAC_ATOMIC_SCRUB=y
 CONFIG_EDAC_SUPPORT=y
 CONFIG_EDAC=y
@@ -5174,11 +5395,8 @@ CONFIG_DMA_VIRTUAL_CHANNELS=y
 CONFIG_DMA_ACPI=y
 # CONFIG_ALTERA_MSGDMA is not set
 CONFIG_INTEL_IDMA64=m
-CONFIG_INTEL_IDXD_BUS=m
-CONFIG_INTEL_IDXD=m
+# CONFIG_INTEL_IDXD is not set
 # CONFIG_INTEL_IDXD_COMPAT is not set
-# CONFIG_INTEL_IDXD_SVM is not set
-# CONFIG_INTEL_IDXD_PERFMON is not set
 CONFIG_INTEL_IOATDMA=m
 # CONFIG_PLX_DMA is not set
 # CONFIG_AMD_PTDMA is not set
@@ -5204,13 +5422,15 @@ CONFIG_DMA_ENGINE_RAID=y
 # DMABUF options
 #
 CONFIG_SYNC_FILE=y
-# CONFIG_SW_SYNC is not set
-# CONFIG_UDMABUF is not set
+CONFIG_SW_SYNC=y
+CONFIG_UDMABUF=y
 # CONFIG_DMABUF_MOVE_NOTIFY is not set
 # CONFIG_DMABUF_DEBUG is not set
 # CONFIG_DMABUF_SELFTESTS is not set
-# CONFIG_DMABUF_HEAPS is not set
+CONFIG_DMABUF_HEAPS=y
 # CONFIG_DMABUF_SYSFS_STATS is not set
+CONFIG_DMABUF_HEAPS_SYSTEM=y
+# CONFIG_DMABUF_HEAPS_CMA is not set
 # end of DMABUF options
 
 CONFIG_DCA=m
@@ -5238,7 +5458,11 @@ CONFIG_VFIO_PCI=m
 # CONFIG_VFIO_PCI_IGD is not set
 CONFIG_VFIO_MDEV=m
 CONFIG_IRQ_BYPASS_MANAGER=m
-# CONFIG_VIRT_DRIVERS is not set
+CONFIG_VIRT_DRIVERS=y
+CONFIG_VMGENID=y
+# CONFIG_VBOXGUEST is not set
+# CONFIG_NITRO_ENCLAVES is not set
+# CONFIG_EFI_SECRET is not set
 CONFIG_VIRTIO_ANCHOR=y
 CONFIG_VIRTIO=y
 CONFIG_VIRTIO_PCI_LIB=y
@@ -5269,7 +5493,25 @@ CONFIG_VHOST_VSOCK=m
 
 # CONFIG_GREYBUS is not set
 # CONFIG_COMEDI is not set
-# CONFIG_STAGING is not set
+CONFIG_STAGING=y
+# CONFIG_PRISM2_USB is not set
+# CONFIG_RTL8192U is not set
+# CONFIG_RTLLIB is not set
+# CONFIG_RTL8723BS is not set
+# CONFIG_R8712U is not set
+# CONFIG_R8188EU is not set
+# CONFIG_RTS5208 is not set
+# CONFIG_VT6655 is not set
+# CONFIG_VT6656 is not set
+# CONFIG_FB_SM750 is not set
+# CONFIG_STAGING_MEDIA is not set
+# CONFIG_LTE_GDM724X is not set
+# CONFIG_FB_TFT is not set
+# CONFIG_KS7010 is not set
+# CONFIG_PI433 is not set
+# CONFIG_FIELDBUS_DEV is not set
+# CONFIG_QLGE is not set
+# CONFIG_VME_BUS is not set
 # CONFIG_CHROME_PLATFORMS is not set
 CONFIG_MELLANOX_PLATFORM=y
 CONFIG_MLXREG_HOTPLUG=m
@@ -5530,7 +5772,7 @@ CONFIG_PWM_LPSS_PLATFORM=m
 #
 # PHY Subsystem
 #
-# CONFIG_GENERIC_PHY is not set
+CONFIG_GENERIC_PHY=y
 # CONFIG_USB_LGM_PHY is not set
 # CONFIG_PHY_CAN_TRANSCEIVER is not set
 
@@ -5617,12 +5859,10 @@ CONFIG_INTEL_TH_PTI=m
 # File systems
 #
 CONFIG_DCACHE_WORD_ACCESS=y
-# CONFIG_VALIDATE_FS_PARSER is not set
+CONFIG_VALIDATE_FS_PARSER=y
 CONFIG_FS_IOMAP=y
 CONFIG_EXT2_FS=m
-CONFIG_EXT2_FS_XATTR=y
-CONFIG_EXT2_FS_POSIX_ACL=y
-CONFIG_EXT2_FS_SECURITY=y
+# CONFIG_EXT2_FS_XATTR is not set
 # CONFIG_EXT3_FS is not set
 CONFIG_EXT4_FS=y
 CONFIG_EXT4_FS_POSIX_ACL=y
@@ -5639,7 +5879,7 @@ CONFIG_XFS_QUOTA=y
 CONFIG_XFS_POSIX_ACL=y
 CONFIG_XFS_RT=y
 CONFIG_XFS_ONLINE_SCRUB=y
-CONFIG_XFS_ONLINE_REPAIR=y
+# CONFIG_XFS_ONLINE_REPAIR is not set
 CONFIG_XFS_DEBUG=y
 CONFIG_XFS_ASSERT_FATAL=y
 CONFIG_GFS2_FS=m
@@ -5662,13 +5902,12 @@ CONFIG_F2FS_FS=m
 CONFIG_F2FS_STAT_FS=y
 CONFIG_F2FS_FS_XATTR=y
 CONFIG_F2FS_FS_POSIX_ACL=y
-CONFIG_F2FS_FS_SECURITY=y
+# CONFIG_F2FS_FS_SECURITY is not set
 # CONFIG_F2FS_CHECK_FS is not set
 # CONFIG_F2FS_FAULT_INJECTION is not set
 # CONFIG_F2FS_FS_COMPRESSION is not set
 CONFIG_F2FS_IOSTAT=y
 # CONFIG_F2FS_UNFAIR_RWSEM is not set
-# CONFIG_ZONEFS_FS is not set
 CONFIG_FS_DAX=y
 CONFIG_FS_DAX_PMD=y
 CONFIG_FS_POSIX_ACL=y
@@ -5751,6 +5990,7 @@ CONFIG_PROC_SYSCTL=y
 CONFIG_PROC_PAGE_MONITOR=y
 CONFIG_PROC_CHILDREN=y
 CONFIG_PROC_PID_ARCH_STATUS=y
+CONFIG_PROC_CPU_RESCTRL=y
 CONFIG_KERNFS=y
 CONFIG_SYSFS=y
 CONFIG_TMPFS=y
@@ -5796,7 +6036,7 @@ CONFIG_SQUASHFS_XZ=y
 # CONFIG_SQUASHFS_EMBEDDED is not set
 CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
 # CONFIG_VXFS_FS is not set
-CONFIG_MINIX_FS=m
+# CONFIG_MINIX_FS is not set
 # CONFIG_OMFS_FS is not set
 # CONFIG_HPFS_FS is not set
 # CONFIG_QNX4FS_FS is not set
@@ -5813,8 +6053,8 @@ CONFIG_PSTORE_DEFLATE_COMPRESS=y
 CONFIG_PSTORE_COMPRESS=y
 CONFIG_PSTORE_DEFLATE_COMPRESS_DEFAULT=y
 CONFIG_PSTORE_COMPRESS_DEFAULT="deflate"
-# CONFIG_PSTORE_CONSOLE is not set
-# CONFIG_PSTORE_PMSG is not set
+CONFIG_PSTORE_CONSOLE=y
+CONFIG_PSTORE_PMSG=y
 # CONFIG_PSTORE_FTRACE is not set
 CONFIG_PSTORE_RAM=m
 # CONFIG_PSTORE_BLK is not set
@@ -5864,7 +6104,6 @@ CONFIG_SUNRPC_BACKCHANNEL=y
 CONFIG_RPCSEC_GSS_KRB5=m
 # CONFIG_SUNRPC_DISABLE_INSECURE_ENCTYPES is not set
 CONFIG_SUNRPC_DEBUG=y
-CONFIG_SUNRPC_XPRT_RDMA=m
 CONFIG_CEPH_FS=m
 # CONFIG_CEPH_FSCACHE is not set
 CONFIG_CEPH_FS_POSIX_ACL=y
@@ -5880,7 +6119,6 @@ CONFIG_CIFS_DEBUG=y
 # CONFIG_CIFS_DEBUG_DUMP_KEYS is not set
 CONFIG_CIFS_DFS_UPCALL=y
 # CONFIG_CIFS_SWN_UPCALL is not set
-# CONFIG_CIFS_SMB_DIRECT is not set
 # CONFIG_CIFS_FSCACHE is not set
 # CONFIG_SMB_SERVER is not set
 CONFIG_SMBFS_COMMON=m
@@ -5888,7 +6126,7 @@ CONFIG_SMBFS_COMMON=m
 # CONFIG_AFS_FS is not set
 CONFIG_9P_FS=y
 CONFIG_9P_FS_POSIX_ACL=y
-# CONFIG_9P_FS_SECURITY is not set
+CONFIG_9P_FS_SECURITY=y
 CONFIG_NLS=y
 CONFIG_NLS_DEFAULT="utf8"
 CONFIG_NLS_CODEPAGE_437=y
@@ -5958,14 +6196,12 @@ CONFIG_TRUSTED_KEYS_TPM=y
 CONFIG_ENCRYPTED_KEYS=y
 # CONFIG_USER_DECRYPTED_DATA is not set
 # CONFIG_KEY_DH_OPERATIONS is not set
-# CONFIG_KEY_NOTIFICATIONS is not set
 # CONFIG_SECURITY_DMESG_RESTRICT is not set
 CONFIG_SECURITY=y
 CONFIG_SECURITYFS=y
 CONFIG_SECURITY_NETWORK=y
-# CONFIG_SECURITY_INFINIBAND is not set
 CONFIG_SECURITY_NETWORK_XFRM=y
-# CONFIG_SECURITY_PATH is not set
+CONFIG_SECURITY_PATH=y
 CONFIG_INTEL_TXT=y
 CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
 CONFIG_HARDENED_USERCOPY=y
@@ -5979,7 +6215,7 @@ CONFIG_FORTIFY_SOURCE=y
 CONFIG_SECURITY_YAMA=y
 # CONFIG_SECURITY_SAFESETID is not set
 # CONFIG_SECURITY_LOCKDOWN_LSM is not set
-# CONFIG_SECURITY_LANDLOCK is not set
+CONFIG_SECURITY_LANDLOCK=y
 CONFIG_INTEGRITY=y
 CONFIG_INTEGRITY_SIGNATURE=y
 CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
@@ -5997,9 +6233,9 @@ CONFIG_IMA_DEFAULT_HASH_SHA1=y
 # CONFIG_IMA_DEFAULT_HASH_SHA512 is not set
 CONFIG_IMA_DEFAULT_HASH="sha1"
 CONFIG_IMA_WRITE_POLICY=y
-# CONFIG_IMA_READ_POLICY is not set
+CONFIG_IMA_READ_POLICY=y
 CONFIG_IMA_APPRAISE=y
-# CONFIG_IMA_ARCH_POLICY is not set
+CONFIG_IMA_ARCH_POLICY=y
 # CONFIG_IMA_APPRAISE_BUILD_POLICY is not set
 CONFIG_IMA_APPRAISE_BOOTPARAM=y
 # CONFIG_IMA_APPRAISE_MODSIG is not set
@@ -6008,7 +6244,7 @@ CONFIG_IMA_TRUSTED_KEYRING=y
 # CONFIG_IMA_LOAD_X509 is not set
 CONFIG_IMA_MEASURE_ASYMMETRIC_KEYS=y
 CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS=y
-# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
+CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT=y
 # CONFIG_IMA_DISABLE_HTABLE is not set
 # CONFIG_EVM is not set
 CONFIG_DEFAULT_SECURITY_DAC=y
@@ -6024,7 +6260,7 @@ CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
 CONFIG_INIT_STACK_NONE=y
 # CONFIG_GCC_PLUGIN_STRUCTLEAK_USER is not set
 # CONFIG_GCC_PLUGIN_STACKLEAK is not set
-# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
+CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
 # CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
 CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
 # CONFIG_ZERO_CALL_USED_REGS is not set
@@ -6075,6 +6311,7 @@ CONFIG_CRYPTO_CRYPTD=y
 CONFIG_CRYPTO_AUTHENC=m
 # CONFIG_CRYPTO_TEST is not set
 CONFIG_CRYPTO_SIMD=y
+CONFIG_CRYPTO_ENGINE=m
 # end of Crypto core or helper
 
 #
@@ -6109,7 +6346,8 @@ CONFIG_CRYPTO_FCRYPT=m
 CONFIG_CRYPTO_KHAZAD=m
 CONFIG_CRYPTO_SEED=m
 CONFIG_CRYPTO_SERPENT=m
-# CONFIG_CRYPTO_SM4_GENERIC is not set
+CONFIG_CRYPTO_SM4=y
+CONFIG_CRYPTO_SM4_GENERIC=y
 CONFIG_CRYPTO_TEA=m
 CONFIG_CRYPTO_TWOFISH=m
 CONFIG_CRYPTO_TWOFISH_COMMON=m
@@ -6272,7 +6510,7 @@ CONFIG_CRYPTO_DEV_QAT_C3XXXVF=m
 CONFIG_CRYPTO_DEV_QAT_C62XVF=m
 CONFIG_CRYPTO_DEV_NITROX=m
 CONFIG_CRYPTO_DEV_NITROX_CNN55XX=m
-# CONFIG_CRYPTO_DEV_VIRTIO is not set
+CONFIG_CRYPTO_DEV_VIRTIO=m
 # CONFIG_CRYPTO_DEV_SAFEXCEL is not set
 # CONFIG_CRYPTO_DEV_AMLOGIC_GXL is not set
 CONFIG_ASYMMETRIC_KEY_TYPE=y
@@ -6313,7 +6551,7 @@ CONFIG_GENERIC_STRNCPY_FROM_USER=y
 CONFIG_GENERIC_STRNLEN_USER=y
 CONFIG_GENERIC_NET_UTILS=y
 CONFIG_CORDIC=m
-# CONFIG_PRIME_NUMBERS is not set
+CONFIG_PRIME_NUMBERS=m
 CONFIG_RATIONAL=y
 CONFIG_GENERIC_PCI_IOMAP=y
 CONFIG_GENERIC_IOMAP=y
@@ -6409,14 +6647,14 @@ CONFIG_DMA_CMA=y
 #
 # Default contiguous memory area size:
 #
-CONFIG_CMA_SIZE_MBYTES=200
+CONFIG_CMA_SIZE_MBYTES=0
 CONFIG_CMA_SIZE_SEL_MBYTES=y
 # CONFIG_CMA_SIZE_SEL_PERCENTAGE is not set
 # CONFIG_CMA_SIZE_SEL_MIN is not set
 # CONFIG_CMA_SIZE_SEL_MAX is not set
 CONFIG_CMA_ALIGNMENT=8
 # CONFIG_DMA_API_DEBUG is not set
-# CONFIG_DMA_MAP_BENCHMARK is not set
+CONFIG_DMA_MAP_BENCHMARK=y
 CONFIG_SGL_ALLOC=y
 CONFIG_CHECK_SIGNATURE=y
 CONFIG_CPUMASK_OFFSTACK=y
@@ -6430,16 +6668,26 @@ CONFIG_CLZ_TAB=y
 CONFIG_IRQ_POLL=y
 CONFIG_MPILIB=y
 CONFIG_SIGNATURE=y
-CONFIG_DIMLIB=y
 CONFIG_OID_REGISTRY=y
 CONFIG_UCS2_STRING=y
 CONFIG_HAVE_GENERIC_VDSO=y
 CONFIG_GENERIC_GETTIMEOFDAY=y
 CONFIG_GENERIC_VDSO_TIME_NS=y
 CONFIG_FONT_SUPPORT=y
-# CONFIG_FONTS is not set
+CONFIG_FONTS=y
 CONFIG_FONT_8x8=y
 CONFIG_FONT_8x16=y
+# CONFIG_FONT_6x11 is not set
+# CONFIG_FONT_7x14 is not set
+# CONFIG_FONT_PEARL_8x8 is not set
+# CONFIG_FONT_ACORN_8x8 is not set
+CONFIG_FONT_MINI_4x6=y
+# CONFIG_FONT_6x10 is not set
+# CONFIG_FONT_10x18 is not set
+# CONFIG_FONT_SUN8x16 is not set
+# CONFIG_FONT_SUN12x22 is not set
+# CONFIG_FONT_TER16x32 is not set
+# CONFIG_FONT_6x8 is not set
 CONFIG_SG_POOL=y
 CONFIG_ARCH_HAS_PMEM_API=y
 CONFIG_MEMREGION=y
@@ -6482,8 +6730,8 @@ CONFIG_DEBUG_MISC=y
 CONFIG_DEBUG_INFO=y
 CONFIG_AS_HAS_NON_CONST_LEB128=y
 # CONFIG_DEBUG_INFO_NONE is not set
-# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
-CONFIG_DEBUG_INFO_DWARF4=y
+CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
+# CONFIG_DEBUG_INFO_DWARF4 is not set
 # CONFIG_DEBUG_INFO_DWARF5 is not set
 # CONFIG_DEBUG_INFO_REDUCED is not set
 # CONFIG_DEBUG_INFO_COMPRESSED is not set
@@ -6564,13 +6812,14 @@ CONFIG_GENERIC_PTDUMP=y
 CONFIG_HAVE_DEBUG_KMEMLEAK=y
 # CONFIG_DEBUG_KMEMLEAK is not set
 # CONFIG_DEBUG_STACK_USAGE is not set
-# CONFIG_SCHED_STACK_END_CHECK is not set
+CONFIG_SCHED_STACK_END_CHECK=y
 CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
 # CONFIG_DEBUG_VM is not set
 # CONFIG_DEBUG_VM_PGTABLE is not set
 CONFIG_ARCH_HAS_DEBUG_VIRTUAL=y
 # CONFIG_DEBUG_VIRTUAL is not set
 CONFIG_DEBUG_MEMORY_INIT=y
+CONFIG_MEMORY_NOTIFIER_ERROR_INJECT=m
 # CONFIG_DEBUG_PER_CPU_MAPS is not set
 CONFIG_HAVE_ARCH_KASAN=y
 CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
@@ -6624,22 +6873,32 @@ CONFIG_SCHEDSTATS=y
 # Lock Debugging (spinlocks, mutexes, etc...)
 #
 CONFIG_LOCK_DEBUGGING_SUPPORT=y
-# CONFIG_PROVE_LOCKING is not set
+CONFIG_PROVE_LOCKING=y
+# CONFIG_PROVE_RAW_LOCK_NESTING is not set
 # CONFIG_LOCK_STAT is not set
-# CONFIG_DEBUG_RT_MUTEXES is not set
-# CONFIG_DEBUG_SPINLOCK is not set
-# CONFIG_DEBUG_MUTEXES is not set
-# CONFIG_DEBUG_WW_MUTEX_SLOWPATH is not set
-# CONFIG_DEBUG_RWSEMS is not set
-# CONFIG_DEBUG_LOCK_ALLOC is not set
+CONFIG_DEBUG_RT_MUTEXES=y
+CONFIG_DEBUG_SPINLOCK=y
+CONFIG_DEBUG_MUTEXES=y
+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
+CONFIG_DEBUG_RWSEMS=y
+CONFIG_DEBUG_LOCK_ALLOC=y
+CONFIG_LOCKDEP=y
+CONFIG_LOCKDEP_BITS=15
+CONFIG_LOCKDEP_CHAINS_BITS=16
+CONFIG_LOCKDEP_STACK_TRACE_BITS=19
+CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
+CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
+# CONFIG_DEBUG_LOCKDEP is not set
 CONFIG_DEBUG_ATOMIC_SLEEP=y
 # CONFIG_DEBUG_LOCKING_API_SELFTESTS is not set
 # CONFIG_LOCK_TORTURE_TEST is not set
-# CONFIG_WW_MUTEX_SELFTEST is not set
+CONFIG_WW_MUTEX_SELFTEST=m
 # CONFIG_SCF_TORTURE_TEST is not set
 # CONFIG_CSD_LOCK_WAIT_DEBUG is not set
 # end of Lock Debugging (spinlocks, mutexes, etc...)
 
+CONFIG_TRACE_IRQFLAGS=y
+CONFIG_TRACE_IRQFLAGS_NMI=y
 # CONFIG_DEBUG_IRQFLAGS is not set
 CONFIG_STACKTRACE=y
 # CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
@@ -6649,22 +6908,22 @@ CONFIG_STACKTRACE=y
 # Debug kernel data structures
 #
 CONFIG_DEBUG_LIST=y
-# CONFIG_DEBUG_PLIST is not set
+CONFIG_DEBUG_PLIST=y
 # CONFIG_DEBUG_SG is not set
 # CONFIG_DEBUG_NOTIFIERS is not set
 CONFIG_BUG_ON_DATA_CORRUPTION=y
 # CONFIG_DEBUG_MAPLE_TREE is not set
 # end of Debug kernel data structures
 
-# CONFIG_DEBUG_CREDENTIALS is not set
+CONFIG_DEBUG_CREDENTIALS=y
 
 #
 # RCU Debugging
 #
-CONFIG_TORTURE_TEST=m
+CONFIG_PROVE_RCU=y
 # CONFIG_RCU_SCALE_TEST is not set
 # CONFIG_RCU_TORTURE_TEST is not set
-CONFIG_RCU_REF_SCALE_TEST=m
+# CONFIG_RCU_REF_SCALE_TEST is not set
 CONFIG_RCU_CPU_STALL_TIMEOUT=60
 CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
 # CONFIG_RCU_TRACE is not set
@@ -6697,22 +6956,23 @@ CONFIG_TRACE_CLOCK=y
 CONFIG_RING_BUFFER=y
 CONFIG_EVENT_TRACING=y
 CONFIG_CONTEXT_SWITCH_TRACER=y
+CONFIG_RING_BUFFER_ALLOW_SWAP=y
+CONFIG_PREEMPTIRQ_TRACEPOINTS=y
 CONFIG_TRACING=y
-CONFIG_GLOBAL_TRACE_BUF_SIZE=1441792
 CONFIG_GENERIC_TRACER=y
 CONFIG_TRACING_SUPPORT=y
 CONFIG_FTRACE=y
-# CONFIG_BOOTTIME_TRACING is not set
+CONFIG_BOOTTIME_TRACING=y
 CONFIG_FUNCTION_TRACER=y
 CONFIG_FUNCTION_GRAPH_TRACER=y
 CONFIG_DYNAMIC_FTRACE=y
 CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
 CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
 CONFIG_DYNAMIC_FTRACE_WITH_ARGS=y
-# CONFIG_FPROBE is not set
+CONFIG_FPROBE=y
 CONFIG_FUNCTION_PROFILER=y
 CONFIG_STACK_TRACER=y
-# CONFIG_IRQSOFF_TRACER is not set
+CONFIG_IRQSOFF_TRACER=y
 CONFIG_SCHED_TRACER=y
 CONFIG_HWLAT_TRACER=y
 # CONFIG_OSNOISE_TRACER is not set
@@ -6720,7 +6980,7 @@ CONFIG_HWLAT_TRACER=y
 # CONFIG_MMIOTRACE is not set
 CONFIG_FTRACE_SYSCALLS=y
 CONFIG_TRACER_SNAPSHOT=y
-# CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP is not set
+CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP=y
 CONFIG_BRANCH_PROFILE_NONE=y
 # CONFIG_PROFILE_ANNOTATED_BRANCHES is not set
 # CONFIG_BLK_DEV_IO_TRACE is not set
@@ -6745,13 +7005,32 @@ CONFIG_RING_BUFFER_BENCHMARK=m
 # CONFIG_FTRACE_SORT_STARTUP_TEST is not set
 # CONFIG_RING_BUFFER_STARTUP_TEST is not set
 # CONFIG_RING_BUFFER_VALIDATE_TIME_DELTAS is not set
-# CONFIG_PREEMPTIRQ_DELAY_TEST is not set
+CONFIG_PREEMPTIRQ_DELAY_TEST=m
 # CONFIG_SYNTH_EVENT_GEN_TEST is not set
 # CONFIG_KPROBE_EVENT_GEN_TEST is not set
 # CONFIG_HIST_TRIGGERS_DEBUG is not set
 # CONFIG_RV is not set
 CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
-# CONFIG_SAMPLES is not set
+CONFIG_SAMPLES=y
+# CONFIG_SAMPLE_AUXDISPLAY is not set
+# CONFIG_SAMPLE_TRACE_EVENTS is not set
+# CONFIG_SAMPLE_TRACE_CUSTOM_EVENTS is not set
+CONFIG_SAMPLE_TRACE_PRINTK=m
+CONFIG_SAMPLE_FTRACE_DIRECT=m
+# CONFIG_SAMPLE_FTRACE_DIRECT_MULTI is not set
+# CONFIG_SAMPLE_TRACE_ARRAY is not set
+# CONFIG_SAMPLE_KOBJECT is not set
+# CONFIG_SAMPLE_KPROBES is not set
+# CONFIG_SAMPLE_HW_BREAKPOINT is not set
+# CONFIG_SAMPLE_FPROBE is not set
+# CONFIG_SAMPLE_KFIFO is not set
+# CONFIG_SAMPLE_LIVEPATCH is not set
+# CONFIG_SAMPLE_CONFIGFS is not set
+# CONFIG_SAMPLE_VFIO_MDEV_MTTY is not set
+# CONFIG_SAMPLE_VFIO_MDEV_MDPY is not set
+# CONFIG_SAMPLE_VFIO_MDEV_MDPY_FB is not set
+# CONFIG_SAMPLE_VFIO_MDEV_MBOCHS is not set
+# CONFIG_SAMPLE_WATCHDOG is not set
 CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
 CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
 CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
@@ -6788,24 +7067,26 @@ CONFIG_UNWINDER_ORC=y
 # Kernel Testing and Coverage
 #
 # CONFIG_KUNIT is not set
-# CONFIG_NOTIFIER_ERROR_INJECTION is not set
+CONFIG_NOTIFIER_ERROR_INJECTION=y
+CONFIG_PM_NOTIFIER_ERROR_INJECT=m
+# CONFIG_NETDEV_NOTIFIER_ERROR_INJECT is not set
 CONFIG_FUNCTION_ERROR_INJECTION=y
 CONFIG_FAULT_INJECTION=y
 # CONFIG_FAILSLAB is not set
 # CONFIG_FAIL_PAGE_ALLOC is not set
 # CONFIG_FAULT_INJECTION_USERCOPY is not set
-CONFIG_FAIL_MAKE_REQUEST=y
+# CONFIG_FAIL_MAKE_REQUEST is not set
 # CONFIG_FAIL_IO_TIMEOUT is not set
 # CONFIG_FAIL_FUTEX is not set
 CONFIG_FAULT_INJECTION_DEBUG_FS=y
-# CONFIG_FAIL_FUNCTION is not set
+CONFIG_FAIL_FUNCTION=y
 # CONFIG_FAIL_MMC_REQUEST is not set
 # CONFIG_FAIL_SUNRPC is not set
 CONFIG_ARCH_HAS_KCOV=y
 CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_KCOV is not set
 CONFIG_RUNTIME_TESTING_MENU=y
-# CONFIG_LKDTM is not set
+CONFIG_LKDTM=y
 # CONFIG_TEST_MIN_HEAP is not set
 # CONFIG_TEST_DIV64 is not set
 # CONFIG_BACKTRACE_SELF_TEST is not set
@@ -6821,34 +7102,34 @@ CONFIG_RUNTIME_TESTING_MENU=y
 # CONFIG_TEST_STRING_HELPERS is not set
 # CONFIG_TEST_STRSCPY is not set
 # CONFIG_TEST_KSTRTOX is not set
-# CONFIG_TEST_PRINTF is not set
-# CONFIG_TEST_SCANF is not set
-# CONFIG_TEST_BITMAP is not set
+CONFIG_TEST_PRINTF=m
+CONFIG_TEST_SCANF=m
+CONFIG_TEST_BITMAP=m
 # CONFIG_TEST_UUID is not set
 # CONFIG_TEST_XARRAY is not set
 # CONFIG_TEST_MAPLE_TREE is not set
 # CONFIG_TEST_RHASHTABLE is not set
 # CONFIG_TEST_SIPHASH is not set
 # CONFIG_TEST_IDA is not set
-# CONFIG_TEST_LKM is not set
-# CONFIG_TEST_BITOPS is not set
-# CONFIG_TEST_VMALLOC is not set
-# CONFIG_TEST_USER_COPY is not set
+CONFIG_TEST_LKM=m
+CONFIG_TEST_BITOPS=m
+CONFIG_TEST_VMALLOC=m
+CONFIG_TEST_USER_COPY=m
 CONFIG_TEST_BPF=m
-# CONFIG_TEST_BLACKHOLE_DEV is not set
+CONFIG_TEST_BLACKHOLE_DEV=m
 # CONFIG_FIND_BIT_BENCHMARK is not set
-# CONFIG_TEST_FIRMWARE is not set
-# CONFIG_TEST_SYSCTL is not set
+CONFIG_TEST_FIRMWARE=y
+CONFIG_TEST_SYSCTL=y
 # CONFIG_TEST_UDELAY is not set
-# CONFIG_TEST_STATIC_KEYS is not set
+CONFIG_TEST_STATIC_KEYS=m
 # CONFIG_TEST_DYNAMIC_DEBUG is not set
-# CONFIG_TEST_KMOD is not set
+CONFIG_TEST_KMOD=m
 # CONFIG_TEST_MEMCAT_P is not set
-# CONFIG_TEST_LIVEPATCH is not set
+CONFIG_TEST_LIVEPATCH=m
 # CONFIG_TEST_MEMINIT is not set
-# CONFIG_TEST_HMM is not set
+CONFIG_TEST_HMM=m
 # CONFIG_TEST_FREE_PAGES is not set
-# CONFIG_TEST_FPU is not set
+CONFIG_TEST_FPU=m
 # CONFIG_TEST_CLOCKSOURCE_WATCHDOG is not set
 CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_MEMTEST is not set
@@ -6860,4 +7141,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---lPr0ByuhjC1W8UHL--
+--45z5SKaubgCqtHSJ--
