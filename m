@@ -1,128 +1,195 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977757E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Dec 2022 05:44:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D2B7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Dec 2022 05:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671601463; x=1703137463;
+  t=1671602053; x=1703138053;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0rCCyf2LIAQoVOjdN9SLpD0OruhGfl4m3WTKyDwiYfI=;
-  b=CbjxbUkOToVyJ/BR2ZPfwCkYb0cI4pqyZFRHEOBYaWbznf0Q+Bo454Yq
-   ICDiRWSRZXWLisD3cI+e+A49tcEsPgIrSLFgawWLxdkwQ3uBvq9OWrqC0
-   ilCOLcDsdPqRymYKb/6wsF44UogFDwLN8rP3g4woeXr2iE0fuow4Ey2o/
-   tzjWZZq+1CXkBNqt8diQYdbvCDTapTPgkhgh56z1GjNBZjfX3Hw/kB+Fs
-   hYyZIACiNhWKGAj2IDVDE9uVLb7hdONfof2Zmsu9W5y0Zd9u/cqxlynQc
-   KfRBdvv9PNuvJu9YJm8QWqmQhnYTpyPQ0j4fU1Fhgzb2kzAS3VO2f4ydS
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="320969115"
+  bh=DbpYtd6JTCQ8cr7EVgvg1o6dk18wsocDdm/xbfjuGQA=;
+  b=BFCU6KPq2Y0S1y5iZHtfizQbmZmZ7j8v4jRSZKUTyYgmnKaEFjXOITki
+   PMNti9gdW2sT9PIp1qkHDnJHfP9GpevjIHvYOQdMqa7tuGut3NhuUzyW7
+   qnULJ9XFe3ZouCmnmgzeNEyXEkVvXGntFisn1Eff2tylwsh3JtvOUEpKk
+   VQgjT1RsnuMEfuE6ZDrmSCE+uGjm5Cfk5y4YIutPTPcQYt5UdcdIMdmd3
+   zaKaJJPIG9ErQ0ZCVx785ejg418P7ikvuHTNRyiSayL3yOL7JHOzvHQyx
+   YWzwpYPrJQBthNfWeMBW+UA+dIcD1MCDM5Bw4/HUkRRTSIjbVogbIhlDM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="321702864"
 X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
-   d="scan'208";a="320969115"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 21:44:12 -0800
+   d="scan'208";a="321702864"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 21:54:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="601371589"
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="775567150"
 X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
-   d="scan'208";a="601371589"
+   d="scan'208";a="775567150"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Dec 2022 21:44:05 -0800
+  by orsmga004.jf.intel.com with ESMTP; 20 Dec 2022 21:54:06 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p7rtd-000A0y-0b;
-	Wed, 21 Dec 2022 05:44:05 +0000
-Date: Wed, 21 Dec 2022 13:43:08 +0800
+	id 1p7s3J-000A1Q-23;
+	Wed, 21 Dec 2022 05:54:05 +0000
+Date: Wed, 21 Dec 2022 13:53:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@google.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-	yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-	David Ahern <dsahern@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Jesper Dangaard Brouer <brouer@redhat.com>,
-	Anatoly Burakov <anatoly.burakov@intel.com>,
-	Alexander Lobakin <alexandr.lobakin@intel.com>,
-	Magnus Karlsson <magnus.karlsson@gmail.com>,
-	Maryam Tahhan <mtahhan@redhat.com>, xdp-hints@xdp-project.net,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 07/17] bpf: XDP metadata RX kfuncs
-Message-ID: <202212211311.e2ZWQLue-lkp@intel.com>
-References: <20221220222043.3348718-8-sdf@google.com>
+To: Siddh Raman Pant <code@siddh.me>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 05/10] drm: Remove usage of deprecated DRM_DEBUG
+Message-ID: <202212211339.ZUrcZYQR-lkp@intel.com>
+References: <0fdcf7a0c9ad77e2d2252cf49fcd5d09952d1b69.1671566741.git.code@siddh.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="D0knq8qPoSyklkMI"
+Content-Type: multipart/mixed; boundary="uAXQfb32QQ6wD3Gb"
 Content-Disposition: inline
-In-Reply-To: <20221220222043.3348718-8-sdf@google.com>
+In-Reply-To: <0fdcf7a0c9ad77e2d2252cf49fcd5d09952d1b69.1671566741.git.code@siddh.me>
 
 
---D0knq8qPoSyklkMI
+--uAXQfb32QQ6wD3Gb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Stanislav,
+Hi Siddh,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on next-20221220]
+[also build test WARNING on linus/master]
+[cannot apply to drm-misc/drm-misc-next v6.1 v6.1-rc8 v6.1-rc7 v6.1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/xdp-hints-via-kfuncs/20221221-110542
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20221220222043.3348718-8-sdf%40google.com
-patch subject: [PATCH bpf-next v5 07/17] bpf: XDP metadata RX kfuncs
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddh-Raman-Pant/drm-Remove-usage-of-deprecated-DRM_-macros/20221221-113133
+patch link:    https://lore.kernel.org/r/0fdcf7a0c9ad77e2d2252cf49fcd5d09952d1b69.1671566741.git.code%40siddh.me
+patch subject: [PATCH 05/10] drm: Remove usage of deprecated DRM_DEBUG
 config: ia64-allyesconfig
 compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f0946bf20669262734baef03ae12ef189c9c9292
+        # https://github.com/intel-lab-lkp/linux/commit/3990929cf97542bbc76cebc444540d0038b9165c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stanislav-Fomichev/xdp-hints-via-kfuncs/20221221-110542
-        git checkout f0946bf20669262734baef03ae12ef189c9c9292
+        git fetch --no-tags linux-review Siddh-Raman-Pant/drm-Remove-usage-of-deprecated-DRM_-macros/20221221-113133
+        git checkout 3990929cf97542bbc76cebc444540d0038b9165c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash kernel/bpf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/verifier.c:2084:5: warning: no previous prototype for 'bpf_dev_bound_kfunc_check' [-Wmissing-prototypes]
-    2084 | int bpf_dev_bound_kfunc_check(struct bpf_verifier_env *env,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_pci.c:34:
+   include/drm/drm_print.h: In function 'drm_legacy_pci_exit':
+>> include/drm/drm_print.h:491:34: warning: 'dev' is used uninitialized [-Wuninitialized]
+     491 |         const struct drm_device *drm_ = (drm);                  \
+         |                                  ^~~~
+   drivers/gpu/drm/drm_pci.c:248:28: note: 'dev' was declared here
+     248 |         struct drm_device *dev, *tmp;
+         |                            ^~~
 
 
-vim +/bpf_dev_bound_kfunc_check +2084 kernel/bpf/verifier.c
+vim +/dev +491 include/drm/drm_print.h
 
-  2083	
-> 2084	int bpf_dev_bound_kfunc_check(struct bpf_verifier_env *env,
-  2085				      struct bpf_prog_aux *prog_aux)
-  2086	{
-  2087		if (!bpf_prog_is_dev_bound(prog_aux)) {
-  2088			verbose(env, "metadata kfuncs require device-bound program\n");
-  2089			return -EINVAL;
-  2090		}
-  2091	
-  2092		if (bpf_prog_is_offloaded(prog_aux)) {
-  2093			verbose(env, "metadata kfuncs can't be offloaded\n");
-  2094			return -EINVAL;
-  2095		}
-  2096	
-  2097		return 0;
-  2098	}
-  2099	
+e820f52577b14c Jim Cromie            2022-09-11  416  
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  417  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  418   * DRM_DEV_DEBUG() - Debug output for generic drm code
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  419   *
+306589856399e1 Douglas Anderson      2021-09-21  420   * NOTE: this is deprecated in favor of drm_dbg_core().
+306589856399e1 Douglas Anderson      2021-09-21  421   *
+091756bbb1a961 Haneen Mohammed       2017-10-17  422   * @dev: device pointer
+091756bbb1a961 Haneen Mohammed       2017-10-17  423   * @fmt: printf() like format string.
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  424   */
+db87086492581c Joe Perches           2018-03-16  425  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+db87086492581c Joe Perches           2018-03-16  426  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  427  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  428   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  429   *
+306589856399e1 Douglas Anderson      2021-09-21  430   * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
+306589856399e1 Douglas Anderson      2021-09-21  431   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  432   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  433   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  434   */
+db87086492581c Joe Perches           2018-03-16  435  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  436  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  437  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  438   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  439   *
+306589856399e1 Douglas Anderson      2021-09-21  440   * NOTE: this is deprecated in favor of drm_dbg_kms().
+306589856399e1 Douglas Anderson      2021-09-21  441   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  442   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  443   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  444   */
+db87086492581c Joe Perches           2018-03-16  445  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  446  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+a18b21929453af Lyude Paul            2018-07-16  447  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  448  /*
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  449   * struct drm_device based logging
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  450   *
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  451   * Prefer drm_device based logging over device or prink based logging.
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  452   */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  453  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  454  /* Helper for struct drm_device based logging. */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  455  #define __drm_printk(drm, level, type, fmt, ...)			\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  456  	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  457  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  458  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  459  #define drm_info(drm, fmt, ...)					\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  460  	__drm_printk((drm), info,, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  461  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  462  #define drm_notice(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  463  	__drm_printk((drm), notice,, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  464  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  465  #define drm_warn(drm, fmt, ...)					\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  466  	__drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  467  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  468  #define drm_err(drm, fmt, ...)					\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  469  	__drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  470  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  471  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  472  #define drm_info_once(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  473  	__drm_printk((drm), info, _once, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  474  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  475  #define drm_notice_once(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  476  	__drm_printk((drm), notice, _once, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  477  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  478  #define drm_warn_once(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  479  	__drm_printk((drm), warn, _once, fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  480  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  481  #define drm_err_once(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  482  	__drm_printk((drm), err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  483  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  484  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  485  #define drm_err_ratelimited(drm, fmt, ...)				\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  486  	__drm_printk((drm), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  487  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  488  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  489  #define drm_dbg_core(drm, fmt, ...)				\
+24eb20345874ac Siddh Raman Pant      2022-12-21  490  ({								\
+24eb20345874ac Siddh Raman Pant      2022-12-21 @491  	const struct drm_device *drm_ = (drm);			\
+24eb20345874ac Siddh Raman Pant      2022-12-21  492  	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_CORE,	\
+24eb20345874ac Siddh Raman Pant      2022-12-21  493  		    fmt, ##__VA_ARGS__);			\
+24eb20345874ac Siddh Raman Pant      2022-12-21  494  })
+24eb20345874ac Siddh Raman Pant      2022-12-21  495  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---D0knq8qPoSyklkMI
+--uAXQfb32QQ6wD3Gb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -541,6 +608,9 @@ CONFIG_LOCK_EVENT_COUNTS=y
 #
 CONFIG_GCOV_KERNEL=y
 # end of GCOV-based kernel profiling
+
+CONFIG_FUNCTION_ALIGNMENT_32B=y
+CONFIG_FUNCTION_ALIGNMENT=32
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -2087,6 +2157,7 @@ CONFIG_BCM47XX_SPROM=y
 CONFIG_TEE_BNXT_FW=y
 CONFIG_FW_CS_DSP=y
 CONFIG_GOOGLE_FIRMWARE=y
+CONFIG_GOOGLE_CBMEM=y
 CONFIG_GOOGLE_COREBOOT_TABLE=y
 CONFIG_GOOGLE_MEMCONSOLE=y
 CONFIG_GOOGLE_MEMCONSOLE_COREBOOT=y
@@ -2436,6 +2507,7 @@ CONFIG_ZRAM_DEF_COMP_LZORLE=y
 CONFIG_ZRAM_DEF_COMP="lzo-rle"
 CONFIG_ZRAM_WRITEBACK=y
 CONFIG_ZRAM_MEMORY_TRACKING=y
+CONFIG_ZRAM_MULTI_COMP=y
 CONFIG_BLK_DEV_LOOP=y
 CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
 CONFIG_BLK_DEV_DRBD=y
@@ -2491,6 +2563,8 @@ CONFIG_TIFM_7XX1=y
 CONFIG_ICS932S401=y
 CONFIG_ATMEL_SSC=y
 CONFIG_ENCLOSURE_SERVICES=y
+CONFIG_SMPRO_ERRMON=y
+CONFIG_SMPRO_MISC=y
 CONFIG_GEHC_ACHC=y
 CONFIG_HI6421V600_IRQ=y
 CONFIG_HP_ILO=y
@@ -4476,6 +4550,7 @@ CONFIG_INPUT_CM109=y
 CONFIG_INPUT_REGULATOR_HAPTIC=y
 CONFIG_INPUT_RETU_PWRBUTTON=y
 CONFIG_INPUT_TPS65218_PWRBUTTON=y
+CONFIG_INPUT_TPS65219_PWRBUTTON=y
 CONFIG_INPUT_AXP20X_PEK=y
 CONFIG_INPUT_TWL4030_PWRBUTTON=y
 CONFIG_INPUT_TWL4030_VIBRA=y
@@ -4568,6 +4643,7 @@ CONFIG_VT_HW_CONSOLE_BINDING=y
 CONFIG_UNIX98_PTYS=y
 CONFIG_LEGACY_PTYS=y
 CONFIG_LEGACY_PTY_COUNT=256
+CONFIG_LEGACY_TIOCSTI=y
 CONFIG_LDISC_AUTOLOAD=y
 
 #
@@ -5465,6 +5541,7 @@ CONFIG_GPIO_CDEV_V1=y
 CONFIG_GPIO_GENERIC=y
 CONFIG_GPIO_REGMAP=y
 CONFIG_GPIO_MAX730X=y
+CONFIG_GPIO_IDIO_16=y
 
 #
 # Memory mapped GPIO drivers
@@ -5619,6 +5696,7 @@ CONFIG_GPIO_VIPERBOARD=y
 # Virtual GPIO drivers
 #
 CONFIG_GPIO_AGGREGATOR=y
+CONFIG_GPIO_LATCH=y
 CONFIG_GPIO_MOCKUP=y
 CONFIG_GPIO_VIRTIO=y
 CONFIG_GPIO_SIM=y
@@ -5790,6 +5868,7 @@ CONFIG_HWMON_DEBUG_CHIP=y
 #
 # Native drivers
 #
+CONFIG_SENSORS_SMPRO=y
 CONFIG_SENSORS_AD7314=y
 CONFIG_SENSORS_AD7414=y
 CONFIG_SENSORS_AD7418=y
@@ -6287,6 +6366,7 @@ CONFIG_BCMA_DEBUG=y
 CONFIG_MFD_CORE=y
 CONFIG_MFD_ACT8945A=y
 CONFIG_MFD_AS3711=y
+CONFIG_MFD_SMPRO=y
 CONFIG_MFD_AS3722=y
 CONFIG_PMIC_ADP5520=y
 CONFIG_MFD_AAT2870_CORE=y
@@ -6330,7 +6410,6 @@ CONFIG_MFD_HI6421_PMIC=y
 CONFIG_MFD_HI6421_SPMI=y
 CONFIG_MFD_HI655X_PMIC=y
 CONFIG_HTC_PASIC3=y
-CONFIG_HTC_I2CPLD=y
 CONFIG_LPC_ICH=y
 CONFIG_LPC_SCH=y
 CONFIG_INTEL_SOC_PMIC=y
@@ -6411,6 +6490,7 @@ CONFIG_MFD_TPS65217=y
 CONFIG_MFD_TI_LP873X=y
 CONFIG_MFD_TI_LP87565=y
 CONFIG_MFD_TPS65218=y
+CONFIG_MFD_TPS65219=y
 CONFIG_MFD_TPS6586X=y
 CONFIG_MFD_TPS65910=y
 CONFIG_MFD_TPS65912=y
@@ -6614,6 +6694,7 @@ CONFIG_REGULATOR_TPS65090=y
 CONFIG_REGULATOR_TPS65132=y
 CONFIG_REGULATOR_TPS65217=y
 CONFIG_REGULATOR_TPS65218=y
+CONFIG_REGULATOR_TPS65219=y
 CONFIG_REGULATOR_TPS6524X=y
 CONFIG_REGULATOR_TPS6586X=y
 CONFIG_REGULATOR_TPS65910=y
@@ -8645,6 +8726,7 @@ CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98927=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98357A=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98373=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_NAU8825=y
+CONFIG_SND_SOC_INTEL_AVS_MACH_PROBE=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT274=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT286=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT298=y
@@ -9341,10 +9423,7 @@ CONFIG_SND_AUDIO_GRAPH_CARD2_CUSTOM_SAMPLE=y
 CONFIG_SND_TEST_COMPONENT=y
 CONFIG_SND_VIRTIO=y
 CONFIG_AC97_BUS=y
-
-#
-# HID support
-#
+CONFIG_HID_SUPPORT=y
 CONFIG_HID=y
 CONFIG_HID_BATTERY_STRENGTH=y
 CONFIG_HIDRAW=y
@@ -9484,6 +9563,11 @@ CONFIG_HID_KUNIT_TEST=y
 # end of Special HID drivers
 
 #
+# HID-BPF support
+#
+# end of HID-BPF support
+
+#
 # USB HID support
 #
 CONFIG_USB_HID=y
@@ -9521,8 +9605,6 @@ CONFIG_SURFACE_KBD=y
 # end of Surface System Aggregator Module HID support
 
 CONFIG_SURFACE_HID_CORE=y
-# end of HID support
-
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
 CONFIG_USB_SUPPORT=y
 CONFIG_USB_COMMON=y
@@ -9582,7 +9664,6 @@ CONFIG_USB_EHCI_HCD_PLATFORM=y
 CONFIG_USB_OXU210HP_HCD=y
 CONFIG_USB_ISP116X_HCD=y
 CONFIG_USB_ISP1362_HCD=y
-CONFIG_USB_FOTG210_HCD=y
 CONFIG_USB_MAX3421_HCD=y
 CONFIG_USB_OHCI_HCD=y
 CONFIG_USB_OHCI_HCD_SPEAR=y
@@ -9655,6 +9736,10 @@ CONFIG_USBIP_VHCI_NR_HCS=1
 CONFIG_USBIP_HOST=y
 CONFIG_USBIP_VUDC=y
 CONFIG_USBIP_DEBUG=y
+
+#
+# USB dual-mode controller drivers
+#
 CONFIG_USB_CDNS_SUPPORT=y
 CONFIG_USB_CDNS_HOST=y
 CONFIG_USB_CDNS3=y
@@ -9666,6 +9751,9 @@ CONFIG_USB_CDNS3_IMX=y
 CONFIG_USB_CDNSP_PCI=y
 CONFIG_USB_CDNSP_GADGET=y
 CONFIG_USB_CDNSP_HOST=y
+CONFIG_USB_FOTG210=y
+CONFIG_USB_FOTG210_HCD=y
+CONFIG_USB_FOTG210_UDC=y
 CONFIG_USB_MTU3=y
 # CONFIG_USB_MTU3_HOST is not set
 # CONFIG_USB_MTU3_GADGET is not set
@@ -9708,6 +9796,7 @@ CONFIG_USB_DWC3_OF_SIMPLE=y
 CONFIG_USB_DWC3_ST=y
 CONFIG_USB_DWC3_QCOM=y
 CONFIG_USB_DWC3_IMX8MP=y
+CONFIG_USB_DWC3_XILINX=y
 CONFIG_USB_DWC3_AM62=y
 CONFIG_USB_DWC2=y
 # CONFIG_USB_DWC2_HOST is not set
@@ -9845,7 +9934,6 @@ CONFIG_KEYSTONE_USB_PHY=y
 CONFIG_NOP_USB_XCEIV=y
 CONFIG_AM335X_CONTROL_USB=y
 CONFIG_AM335X_PHY_USB=y
-CONFIG_USB_GPIO_VBUS=y
 CONFIG_TAHVO_USB=y
 CONFIG_TAHVO_USB_HOST_BY_DEFAULT=y
 CONFIG_USB_ISP1301=y
@@ -9853,7 +9941,6 @@ CONFIG_USB_MV_OTG=y
 CONFIG_USB_TEGRA_PHY=y
 CONFIG_USB_ULPI=y
 CONFIG_USB_ULPI_VIEWPORT=y
-CONFIG_JZ4770_PHY=y
 # end of USB Physical Layer drivers
 
 CONFIG_USB_GADGET=y
@@ -9869,7 +9956,6 @@ CONFIG_U_SERIAL_CONSOLE=y
 # USB Peripheral Controller
 #
 CONFIG_USB_LPC32XX=y
-CONFIG_USB_FOTG210_UDC=y
 CONFIG_USB_GR_UDC=y
 CONFIG_USB_R8A66597=y
 CONFIG_USB_RENESAS_USBHS_UDC=y
@@ -10479,7 +10565,6 @@ CONFIG_RTC_DRV_NTXEC=y
 # on-CPU RTC drivers
 #
 CONFIG_RTC_DRV_ASM9260=y
-CONFIG_RTC_DRV_DAVINCI=y
 CONFIG_RTC_DRV_DIGICOLOR=y
 CONFIG_RTC_DRV_FSL_FTM_ALARM=y
 CONFIG_RTC_DRV_MESON=y
@@ -10553,7 +10638,6 @@ CONFIG_FSL_EDMA=y
 CONFIG_HISI_DMA=y
 CONFIG_IMG_MDC_DMA=y
 CONFIG_INTEL_IDMA64=y
-CONFIG_INTEL_IOP_ADMA=y
 CONFIG_K3_DMA=y
 CONFIG_MCF_EDMA=y
 CONFIG_MILBEAUT_HDMAC=y
@@ -10656,8 +10740,9 @@ CONFIG_UIO_PRUSS=y
 CONFIG_UIO_MF624=y
 CONFIG_UIO_DFL=y
 CONFIG_VFIO=y
-CONFIG_VFIO_VIRQFD=y
+CONFIG_VFIO_CONTAINER=y
 CONFIG_VFIO_NOIOMMU=y
+CONFIG_VFIO_VIRQFD=y
 CONFIG_VFIO_PCI_CORE=y
 CONFIG_VFIO_PCI_MMAP=y
 CONFIG_VFIO_PCI_INTX=y
@@ -10695,7 +10780,9 @@ CONFIG_VDPA_USER=y
 CONFIG_IFCVF=y
 CONFIG_MLX5_VDPA=y
 CONFIG_MLX5_VDPA_NET=y
+CONFIG_MLX5_VDPA_STEERING_DEBUG=y
 CONFIG_VP_VDPA=y
+CONFIG_SNET_VDPA=y
 CONFIG_VHOST_IOTLB=y
 CONFIG_VHOST_RING=y
 CONFIG_VHOST=y
@@ -11607,6 +11694,8 @@ CONFIG_INTEL_IOMMU=y
 CONFIG_INTEL_IOMMU_DEBUGFS=y
 CONFIG_INTEL_IOMMU_DEFAULT_ON=y
 CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON=y
+CONFIG_IOMMUFD=y
+CONFIG_IOMMUFD_TEST=y
 CONFIG_OMAP_IOMMU=y
 CONFIG_OMAP_IOMMU_DEBUG=y
 CONFIG_ROCKCHIP_IOMMU=y
@@ -11763,6 +11852,7 @@ CONFIG_MTK_SVS=y
 # end of MediaTek SoC drivers
 
 CONFIG_POLARFIRE_SOC_SYS_CTRL=y
+CONFIG_WPCM450_SOC=y
 
 #
 # Qualcomm SoC drivers
@@ -11967,6 +12057,9 @@ CONFIG_FXLS8962AF_I2C=y
 CONFIG_FXLS8962AF_SPI=y
 CONFIG_HID_SENSOR_ACCEL_3D=y
 CONFIG_IIO_CROS_EC_ACCEL_LEGACY=y
+CONFIG_IIO_KX022A=y
+CONFIG_IIO_KX022A_SPI=y
+CONFIG_IIO_KX022A_I2C=y
 CONFIG_KXSD9=y
 CONFIG_KXSD9_SPI=y
 CONFIG_KXSD9_I2C=y
@@ -11993,6 +12086,7 @@ CONFIG_STK8BA50=y
 # Analog to digital converters
 #
 CONFIG_AD_SIGMA_DELTA=y
+CONFIG_AD4130=y
 CONFIG_AD7091R5=y
 CONFIG_AD7124=y
 CONFIG_AD7192=y
@@ -12047,6 +12141,7 @@ CONFIG_MAX1027=y
 CONFIG_MAX11100=y
 CONFIG_MAX1118=y
 CONFIG_MAX11205=y
+CONFIG_MAX11410=y
 CONFIG_MAX1241=y
 CONFIG_MAX1363=y
 CONFIG_MAX9611=y
@@ -12054,6 +12149,7 @@ CONFIG_MCP320X=y
 CONFIG_MCP3422=y
 CONFIG_MCP3911=y
 CONFIG_MEDIATEK_MT6360_ADC=y
+CONFIG_MEDIATEK_MT6370_ADC=y
 CONFIG_MEDIATEK_MT6577_AUXADC=y
 CONFIG_MEN_Z188_ADC=y
 CONFIG_MESON_SARADC=y
@@ -12094,6 +12190,7 @@ CONFIG_TI_ADS8688=y
 CONFIG_TI_ADS124S08=y
 CONFIG_TI_ADS131E08=y
 CONFIG_TI_AM335X_ADC=y
+CONFIG_TI_LMP92064=y
 CONFIG_TI_TLC4541=y
 CONFIG_TI_TSC2046=y
 CONFIG_TWL4030_MADC=y
@@ -12107,6 +12204,7 @@ CONFIG_XILINX_AMS=y
 #
 # Analog to digital and digital to analog converters
 #
+CONFIG_AD74115=y
 CONFIG_AD74413R=y
 # end of Analog to digital and digital to analog converters
 
@@ -12263,6 +12361,7 @@ CONFIG_AD9523=y
 #
 CONFIG_ADF4350=y
 CONFIG_ADF4371=y
+CONFIG_ADF4377=y
 CONFIG_ADMV1013=y
 CONFIG_ADMV1014=y
 CONFIG_ADMV4420=y
@@ -12437,6 +12536,7 @@ CONFIG_SENSORS_HMC5843_SPI=y
 CONFIG_SENSORS_RM3100=y
 CONFIG_SENSORS_RM3100_I2C=y
 CONFIG_SENSORS_RM3100_SPI=y
+CONFIG_TI_TMAG5273=y
 CONFIG_YAMAHA_YAS530=y
 # end of Magnetometer sensors
 
@@ -12574,6 +12674,7 @@ CONFIG_TMP007=y
 CONFIG_TMP117=y
 CONFIG_TSYS01=y
 CONFIG_TSYS02D=y
+CONFIG_MAX30208=y
 CONFIG_MAX31856=y
 CONFIG_MAX31865=y
 # end of Temperature sensors
@@ -12817,6 +12918,7 @@ CONFIG_PHY_QCOM_USB_SS=y
 CONFIG_PHY_QCOM_IPQ806X_USB=y
 CONFIG_PHY_MT7621_PCI=y
 CONFIG_PHY_RALINK_USB=y
+CONFIG_PHY_R8A779F0_ETHERNET_SERDES=y
 CONFIG_PHY_RCAR_GEN3_USB3=y
 CONFIG_PHY_ROCKCHIP_DPHY_RX0=y
 CONFIG_PHY_ROCKCHIP_INNO_HDMI=y
@@ -12967,6 +13069,8 @@ CONFIG_FPGA_MGR_ZYNQMP_FPGA=y
 CONFIG_FPGA_MGR_VERSAL_FPGA=y
 CONFIG_FPGA_M10_BMC_SEC_UPDATE=y
 CONFIG_FPGA_MGR_MICROCHIP_SPI=y
+CONFIG_FPGA_MGR_LATTICE_SYSCONFIG=y
+CONFIG_FPGA_MGR_LATTICE_SYSCONFIG_SPI=y
 CONFIG_FSI=y
 CONFIG_FSI_NEW_DEV_NODE=y
 CONFIG_FSI_MASTER_GPIO=y
@@ -13616,7 +13720,6 @@ CONFIG_CRYPTO_MANAGER=y
 CONFIG_CRYPTO_MANAGER2=y
 CONFIG_CRYPTO_USER=y
 CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_GF128MUL=y
 CONFIG_CRYPTO_NULL=y
 CONFIG_CRYPTO_NULL2=y
 CONFIG_CRYPTO_PCRYPT=y
@@ -13898,6 +14001,7 @@ CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
 CONFIG_CRYPTO_LIB_UTILS=y
 CONFIG_CRYPTO_LIB_AES=y
 CONFIG_CRYPTO_LIB_ARC4=y
+CONFIG_CRYPTO_LIB_GF128MUL=y
 CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
 CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
 CONFIG_CRYPTO_LIB_CHACHA=y
@@ -13972,6 +14076,7 @@ CONFIG_TEXTSEARCH_BM=y
 CONFIG_TEXTSEARCH_FSM=y
 CONFIG_BTREE=y
 CONFIG_INTERVAL_TREE=y
+CONFIG_INTERVAL_TREE_SPAN_ITER=y
 CONFIG_XARRAY_MULTI=y
 CONFIG_ASSOCIATIVE_ARRAY=y
 CONFIG_HAS_IOMEM=y
@@ -14254,6 +14359,7 @@ CONFIG_FAIL_MMC_REQUEST=y
 CONFIG_FAIL_SUNRPC=y
 CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 CONFIG_RUNTIME_TESTING_MENU=y
+CONFIG_TEST_DHRY=y
 CONFIG_LKDTM=y
 CONFIG_CPUMASK_KUNIT_TEST=y
 CONFIG_TEST_LIST_SORT=y
@@ -14272,7 +14378,6 @@ CONFIG_ASYNC_RAID6_TEST=y
 CONFIG_TEST_HEXDUMP=y
 CONFIG_STRING_SELFTEST=y
 CONFIG_TEST_STRING_HELPERS=y
-CONFIG_TEST_STRSCPY=y
 CONFIG_TEST_KSTRTOX=y
 CONFIG_TEST_PRINTF=y
 CONFIG_TEST_SCANF=y
@@ -14281,7 +14386,6 @@ CONFIG_TEST_UUID=y
 CONFIG_TEST_XARRAY=y
 CONFIG_TEST_MAPLE_TREE=y
 CONFIG_TEST_RHASHTABLE=y
-CONFIG_TEST_SIPHASH=y
 CONFIG_TEST_IDA=y
 CONFIG_TEST_PARMAN=y
 CONFIG_TEST_LKM=m
@@ -14306,6 +14410,8 @@ CONFIG_MEMCPY_KUNIT_TEST=y
 CONFIG_IS_SIGNED_TYPE_KUNIT_TEST=y
 CONFIG_OVERFLOW_KUNIT_TEST=y
 CONFIG_STACKINIT_KUNIT_TEST=y
+CONFIG_STRSCPY_KUNIT_TEST=y
+CONFIG_SIPHASH_KUNIT_TEST=y
 CONFIG_TEST_UDELAY=y
 CONFIG_TEST_STATIC_KEYS=m
 CONFIG_TEST_DYNAMIC_DEBUG=y
@@ -14325,4 +14431,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---D0knq8qPoSyklkMI--
+--uAXQfb32QQ6wD3Gb--
