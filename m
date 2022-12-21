@@ -1,52 +1,43 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91761365;
-	Tue, 20 Dec 2022 22:40:41 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 84B4C4DDCA;
-	Tue, 20 Dec 2022 22:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1671576034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaMjbYXCAB1pbi4N+U+NGehF3r5cVCO6SVyTsmpw7ww=;
-	b=V42YAehYBCywNM1UQufySKDLW1mVDe7l8mqGWFTRbnlsnKLAST+9UHBh6ENJ22ooblCPHT
-	gaBEHh+UsnUG+cq5p10QzjWZF7WxGv70IkGPIXMTVGjNrJKy3layqgUP+9cZHUUbiQUUFn
-	K/eH+JKW0gsOgmF+YQ6R1eOEvdWN3p4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1671576034;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaMjbYXCAB1pbi4N+U+NGehF3r5cVCO6SVyTsmpw7ww=;
-	b=NvRTujoIjo3aqzAgklxOHfa0hgQf7TvHBWnrNNCvuy69aOVIBZBmvmHalDGacSjDl51KII
-	lEiT89QRNlOYlgCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 745ED1390E;
-	Tue, 20 Dec 2022 22:40:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id YSRdHOI5omNUCwAAMHmgww
-	(envelope-from <jack@suse.cz>); Tue, 20 Dec 2022 22:40:34 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id ECA76A0732; Tue, 20 Dec 2022 23:40:33 +0100 (CET)
-Date: Tue, 20 Dec 2022 23:40:33 +0100
-From: Jan Kara <jack@suse.cz>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Jan Kara <jack@suse.cz>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [jack-fs:for_next 17/20] fs/udf/namei.c:1250:12: warning: stack
- frame size (1536) exceeds limit (1024) in 'udf_rename'
-Message-ID: <20221220224033.sniahpndvlswdghx@quack3>
-References: <202212200558.lK9x1KW0-lkp@intel.com>
- <b41e5a55-397f-4e86-a1aa-8874114f23c7@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8451C17
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Dec 2022 02:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671590261; x=1703126261;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=fqFh9WRIdcZwu6xC+cE5qkJh2a3IarwiQ8SFtG479hY=;
+  b=HoLafM3WT3JZBgAfgnYahqha2FSuexTxnYV15TWSTm8pI78UXW7TroUV
+   p2gR+DsuLdrif/iJdqGpphSl0nY6UMFQY0fQbr+3tvVl/fNdKtDb5DFO3
+   steEergKlLseXqPnPYINlTiTJBW3DcOGUpalzWs2uh7RWNfUH9H/630wb
+   c8eSs9a7ioGgpjQge1viOmdpSxGXnEo9ZZtOkws6cTVmQVqWdRtqbb+hR
+   4VowXC1Cm+09OpW2M8upVh13SUIzD+3Xs4OM/U3ar4cf357dEk/dxOP/X
+   rZD4Ey3/05JJYQq3pMFZTkTXQvZBB95vF70cgFNI43ID5XN+k9o6kGEtM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="321675540"
+X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
+   d="scan'208";a="321675540"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 18:37:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="681867738"
+X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
+   d="scan'208";a="681867738"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 20 Dec 2022 18:37:38 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1p7ozB-0009nb-1k;
+	Wed, 21 Dec 2022 02:37:37 +0000
+Date: Wed, 21 Dec 2022 10:37:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ronak Doshi <doshir@vmware.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net ] vmxnet3: correctly report csum_level for
+ encapsulated packet
+Message-ID: <Y6JxUzQZJ5pV9GBc@416bcb91c936>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,30 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b41e5a55-397f-4e86-a1aa-8874114f23c7@app.fastmail.com>
+In-Reply-To: <20221220202556.24421-1-doshir@vmware.com>
 
-On Tue 20-12-22 22:26:07, Arnd Bergmann wrote:
-> On Mon, Dec 19, 2022, at 22:47, kernel test robot wrote:
-> > tree:   
-> > https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git 
-> > for_next
-> > head:   288b92cc9d904b35f73c8e0b0c99592999702685
-> > commit: e4fefb466e1317384788946a1b81b577e8e730b9 [17/20] udf: Convert 
-> > udf_rename() to new directory iteration code
-> > config: arm-randconfig-r046-20221218
-> > compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 
-> > 98b13979fb05f3ed288a900deb843e7b27589e58)
-> > reproduce (this is a W=1 build):
-> 
-> I see this as well, the problem is clearly the three instances of
-> struct udf_fileident_iter on the stack, each of them containing
-> a 256 character string along with ~100 bytes of other data.
+Hi,
 
-Yep, I'm testing a patch that moves the 256-byte buffer to kmalloc() area
-to reduce the stack usage...
+Thanks for your patch.
 
-								Honza
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH net ] vmxnet3: correctly report csum_level for encapsulated packet
+Link: https://lore.kernel.org/stable/20221220202556.24421-1-doshir%40vmware.com
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
+
+
