@@ -1,44 +1,43 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2BF15A9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Dec 2022 02:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15A215A9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Dec 2022 02:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671676132; x=1703212132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=76/VkurjuvIBKByD3ypW98ReLq16yEpy8QgQ7rhexn0=;
-  b=knypdKS1oBWejpzUyheUhgElyevaPyvaitiPKqP3oyBeq+tlcxjo3aDs
-   xz169giq01Qgo7lR5gYMdZcy/c0TnTsxe0PXMuX0gRSoJ3duhpNmGCzJP
-   5dAN5ZyBnTLdKNOlka76nSJU9MKcguqyQm1gOTf/jJ4GWYKaKxVEfpC3/
-   v8ootcykpLFquq6oWVTrWR+SqXu9WvaExyjXTLFmGHxeVIg0v3MVwAhjf
-   Iq0awcrOd8Lwy/983D46YTAPG0io4y/I8utUM1pEFVLls5nVtWOv0nOTJ
-   rgE9/dbXCsrE6nuMBb98CVi+W0LYoVZAoMB+uce3DC7eRq26RPRCKZsL9
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="347161846"
+  t=1671676134; x=1703212134;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=xrlavxxJX9nRKs80rKe8/VFF61BnAsPPj8kXPRcNo+E=;
+  b=atggnunkNuDpzmGjDvEHTa4C0BIFMbhkQ/mSF1bUKTZwmVneSPJmV+kW
+   fluA6bU4H1rsjfeTKe50EIIWEq1EqerPC9JV2l+Jv9ywHD0CW6MAddYj3
+   oO6UM1YbgRF7jPrrJa65CDojAJmi60EvGWNtgo4Ns56nvpBoa9qd1Mhwx
+   c7YTfeVwSdOQNkHbe1/1EuTIQrs3huN30QZqwDVvCFgMWlsVu5+WzqBrc
+   upDRKcN9WlyMT0hEEknnrZa9AF5Qe5zxjTjaN4J9TH4wz0mqrxSi3LZP1
+   DuTDjGCIQjNtRPiVjJuHGTCe2zKdueFlVrogCbaeKb1xeQG2cw0VEL/d7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="347161849"
 X-IronPort-AV: E=Sophos;i="5.96,264,1665471600"; 
-   d="scan'208";a="347161846"
+   d="scan'208";a="347161849"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 18:28:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="740380095"
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="740380096"
 X-IronPort-AV: E=Sophos;i="5.96,264,1665471600"; 
-   d="scan'208";a="740380095"
+   d="scan'208";a="740380096"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2022 18:28:51 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8BKE-000B8K-1y;
+	id 1p8BKE-000B8M-28;
 	Thu, 22 Dec 2022 02:28:50 +0000
-Date: Thu, 22 Dec 2022 10:27:58 +0800
+Date: Thu, 22 Dec 2022 10:28:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1480/7889] ld.lld: error:
- cannot open
- /opt/cross/clang-98b13979fb/lib/clang/16/lib/linux/libclang_rt.builtins-x86_64.a:
- No such file or directory
-Message-ID: <202212221059.BwuU2N10-lkp@intel.com>
+To: Matthias Kaehlcke <mka@chromium.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] usb: misc: onboard_usb_hub: Don't create platform
+ devices for DT nodes without 'vdd-supply'
+Message-ID: <Y6PAuCsjbX7y3Wrf@416bcb91c936>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,50 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d@changeid>
 
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   360f068dadbea1c60ecb5ccbf196d9166f47cc5e
-commit: f14e5bfb39b776318133e00b8c066ce8a870e9ab [1480/7889] ANDROID: Makefile: add compiler-rt dependency explicitly
-config: arm-randconfig-r046-20221218 (attached as .config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 98b13979fb05f3ed288a900deb843e7b27589e58)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout f14e5bfb39b776318133e00b8c066ce8a870e9ab
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm distclean
+Hi,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> ld.lld: error: cannot open /opt/cross/clang-98b13979fb/lib/clang/16/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> ld.lld: error: cannot open /opt/cross/clang-98b13979fb/lib/clang/16/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
-   clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
-   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:540: scripts_basic] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> ld.lld: error: cannot open /opt/cross/clang-98b13979fb/lib/clang/16/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> ld.lld: error: cannot open /opt/cross/clang-98b13979fb/lib/clang/16/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
-   clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
-   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:540: scripts_basic] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH v2 1/2] usb: misc: onboard_usb_hub: Don't create platform devices for DT nodes without 'vdd-supply'
+Link: https://lore.kernel.org/stable/20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d%40changeid
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
+
+
+
