@@ -1,100 +1,117 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7189915A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Dec 2022 01:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030E115A3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Dec 2022 01:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671759776; x=1703295776;
+  t=1671760377; x=1703296377;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BgBjh53pJvwqocpeY2BPe4Hmk2e/AZkXhxlOSoDDzf0=;
-  b=YsfLu0bf8f29GmbZvGvQpZV5vVFXfoVWNtrh8Lw46DT/+MaGPFYM+58N
-   cJexfL5EU7jKZNrKvwGPJv90wy++631nL4Wi4Zwv0TnqkAQ+A2TSdBJRr
-   J0dg4TY+DXlnpu3yz62Wg2zV35Be0AdjH55ZTG6WeoLDY6arLGggll1Fn
-   1juAmVfbaTSrpMQ0Tp48BUUDUhfKTPJrSef2MJvJ/VyJWKd6shDw+eGC/
-   Sfq/AygAjlRg79PaEkdriAzl7s3A8I4MLp5ZhL3U7zttTxGXs4LHMy8WU
-   dvpsScRj+WgG8rJTn/HAEq+mACGKuf7izFeyjPIy1FmJFiR9XOZAgSE92
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="406495058"
+  bh=gmAETCjhQ3gR4R96X+Nnf5zKkEAKX13d2KLnj1lGwoo=;
+  b=GIERRXeziQ/VVDN0CklU4HfRXFtCw+0MyIGQswZOpMcurmDbeitbivO9
+   /Qo8cIrl24AwL9FwpFqdHZ3CCaF0Km7AbZQW2oxMCGYyIRS4yzQfGZ9PZ
+   VYAw+k4vmWWUuUP6RFK7b6pkYMZLHM6Ztq/LZwDdP7ri7aWidGMe7SwAR
+   VcuKbJh5vrrX3k+ew/180rMs4W+i5eOAE9GFVubsUYASkdHkJX6k6pTWC
+   qrm8ka2rW3coHPWzyrTr8YhvAoD3a+D02OTp62RofUpOgMPUvh2/Uqkym
+   bIAx5jQLOGduo9yvjmvJY4Pqlr/IDcC+Cf7nGTer6oYMqGQajXpL3dVFz
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="318950094"
 X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
-   d="scan'208";a="406495058"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 17:42:55 -0800
+   d="scan'208";a="318950094"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 17:52:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="897391057"
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="740745138"
 X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
-   d="scan'208";a="897391057"
+   d="scan'208";a="740745138"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Dec 2022 17:42:53 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Dec 2022 17:52:53 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8X5I-000CK4-2e;
-	Fri, 23 Dec 2022 01:42:52 +0000
-Date: Fri, 23 Dec 2022 09:42:29 +0800
+	id 1p8XEy-000CKI-2z;
+	Fri, 23 Dec 2022 01:52:52 +0000
+Date: Fri, 23 Dec 2022 09:52:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomas Winkler <tomas.winkler@intel.com>
+To: William Tu <u9012063@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [char-misc-next] mei: gsc_proxy: add gsc proxy driver
-Message-ID: <202212230903.idM0HkVC-lkp@intel.com>
-References: <20221222220214.3688774-1-tomas.winkler@intel.com>
+Subject: Re: [RFC PATCH v7] vmxnet3: Add XDP support.
+Message-ID: <202212230913.RyFNg61P-lkp@intel.com>
+References: <20221222154648.21497-1-u9012063@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="cP4ZBULXBYeEkd+5"
+Content-Type: multipart/mixed; boundary="Vja1tcCCFYqZbp87"
 Content-Disposition: inline
-In-Reply-To: <20221222220214.3688774-1-tomas.winkler@intel.com>
+In-Reply-To: <20221222154648.21497-1-u9012063@gmail.com>
 
 
---cP4ZBULXBYeEkd+5
+--Vja1tcCCFYqZbp87
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tomas,
+Hi William,
 
-Thank you for the patch! Yet something to improve:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.1 next-20221220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[auto build test ERROR on char-misc/char-misc-next]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomas-Winkler/mei-gsc_proxy-add-gsc-proxy-driver/20221223-061121
-patch link:    https://lore.kernel.org/r/20221222220214.3688774-1-tomas.winkler%40intel.com
-patch subject: [char-misc-next] mei: gsc_proxy: add gsc proxy driver
+url:    https://github.com/intel-lab-lkp/linux/commits/William-Tu/vmxnet3-Add-XDP-support/20221222-235718
+patch link:    https://lore.kernel.org/r/20221222154648.21497-1-u9012063%40gmail.com
+patch subject: [RFC PATCH v7] vmxnet3: Add XDP support.
 config: x86_64-allyesconfig
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/bb5638d43ade4e400c5c3ce9e9e589ea0b7ecbe9
+        # https://github.com/intel-lab-lkp/linux/commit/f769328ed45837d074aebd8990d5e8cf8f9faa59
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tomas-Winkler/mei-gsc_proxy-add-gsc-proxy-driver/20221223-061121
-        git checkout bb5638d43ade4e400c5c3ce9e9e589ea0b7ecbe9
+        git fetch --no-tags linux-review William-Tu/vmxnet3-Add-XDP-support/20221222-235718
+        git checkout f769328ed45837d074aebd8990d5e8cf8f9faa59
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/vmxnet3/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/misc/mei/gsc_proxy/mei_gsc_proxy.c:20:10: fatal error: drm/i915_gsc_proxy_mei_interface.h: No such file or directory
-      20 | #include <drm/i915_gsc_proxy_mei_interface.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   drivers/net/vmxnet3/vmxnet3_xdp.c: In function 'vmxnet3_process_xdp':
+>> drivers/net/vmxnet3/vmxnet3_xdp.c:415:13: warning: unused variable 'len' [-Wunused-variable]
+     415 |         int len;
+         |             ^~~
 
 
-vim +20 drivers/misc/mei/gsc_proxy/mei_gsc_proxy.c
+vim +/len +415 drivers/net/vmxnet3/vmxnet3_xdp.c
 
-  > 20	#include <drm/i915_gsc_proxy_mei_interface.h>
-    21	
+   400	
+   401	int
+   402	vmxnet3_process_xdp(struct vmxnet3_adapter *adapter,
+   403			    struct vmxnet3_rx_queue *rq,
+   404			    struct Vmxnet3_RxCompDesc *rcd,
+   405			    struct vmxnet3_rx_buf_info *rbi,
+   406			    struct Vmxnet3_RxDesc *rxd,
+   407			    bool *need_flush)
+   408	{
+   409		struct bpf_prog *xdp_prog;
+   410		dma_addr_t new_dma_addr;
+   411		struct sk_buff *new_skb;
+   412		bool reuse_buf = true;
+   413		bool rxDataRingUsed;
+   414		int ret, act;
+ > 415		int len;
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---cP4ZBULXBYeEkd+5
+--Vja1tcCCFYqZbp87
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2944,6 +2961,8 @@ CONFIG_TIFM_7XX1=y
 CONFIG_ICS932S401=y
 CONFIG_ENCLOSURE_SERVICES=y
 CONFIG_SGI_XP=y
+CONFIG_SMPRO_ERRMON=y
+CONFIG_SMPRO_MISC=y
 CONFIG_HI6421V600_IRQ=y
 CONFIG_HP_ILO=y
 CONFIG_SGI_GRU=y
@@ -3000,7 +3019,6 @@ CONFIG_INTEL_MEI_TXE=y
 CONFIG_INTEL_MEI_GSC=y
 CONFIG_INTEL_MEI_HDCP=y
 CONFIG_INTEL_MEI_PXP=y
-CONFIG_INTEL_MEI_GSC_PROXY=y
 CONFIG_VMWARE_VMCI=y
 CONFIG_GENWQE=y
 CONFIG_GENWQE_PLATFORM_ERROR_RECOVERY=0
@@ -4797,6 +4815,7 @@ CONFIG_INPUT_CM109=y
 CONFIG_INPUT_REGULATOR_HAPTIC=y
 CONFIG_INPUT_RETU_PWRBUTTON=y
 CONFIG_INPUT_TPS65218_PWRBUTTON=y
+CONFIG_INPUT_TPS65219_PWRBUTTON=y
 CONFIG_INPUT_AXP20X_PEK=y
 CONFIG_INPUT_TWL4030_PWRBUTTON=y
 CONFIG_INPUT_TWL4030_VIBRA=y
@@ -5657,6 +5676,7 @@ CONFIG_HWMON_DEBUG_CHIP=y
 #
 CONFIG_SENSORS_ABITUGURU=y
 CONFIG_SENSORS_ABITUGURU3=y
+CONFIG_SENSORS_SMPRO=y
 CONFIG_SENSORS_AD7314=y
 CONFIG_SENSORS_AD7414=y
 CONFIG_SENSORS_AD7418=y
@@ -6090,6 +6110,7 @@ CONFIG_BCMA_DEBUG=y
 CONFIG_MFD_CORE=y
 CONFIG_MFD_ACT8945A=y
 CONFIG_MFD_AS3711=y
+CONFIG_MFD_SMPRO=y
 CONFIG_MFD_AS3722=y
 CONFIG_PMIC_ADP5520=y
 CONFIG_MFD_AAT2870_CORE=y
@@ -6125,7 +6146,6 @@ CONFIG_MFD_MP2629=y
 CONFIG_MFD_HI6421_PMIC=y
 CONFIG_MFD_HI6421_SPMI=y
 CONFIG_HTC_PASIC3=y
-CONFIG_HTC_I2CPLD=y
 CONFIG_MFD_INTEL_QUARK_I2C_GPIO=y
 CONFIG_LPC_ICH=y
 CONFIG_LPC_SCH=y
@@ -6207,6 +6227,7 @@ CONFIG_MFD_TPS65217=y
 CONFIG_MFD_TI_LP873X=y
 CONFIG_MFD_TI_LP87565=y
 CONFIG_MFD_TPS65218=y
+CONFIG_MFD_TPS65219=y
 CONFIG_MFD_TPS6586X=y
 CONFIG_MFD_TPS65910=y
 CONFIG_MFD_TPS65912=y
@@ -6391,6 +6412,7 @@ CONFIG_REGULATOR_TPS65090=y
 CONFIG_REGULATOR_TPS65132=y
 CONFIG_REGULATOR_TPS65217=y
 CONFIG_REGULATOR_TPS65218=y
+CONFIG_REGULATOR_TPS65219=y
 CONFIG_REGULATOR_TPS6524X=y
 CONFIG_REGULATOR_TPS6586X=y
 CONFIG_REGULATOR_TPS65910=y
@@ -13063,4 +13085,4 @@ CONFIG_HYPERV_TESTING=y
 # end of Rust hacking
 # end of Kernel hacking
 
---cP4ZBULXBYeEkd+5--
+--Vja1tcCCFYqZbp87--
