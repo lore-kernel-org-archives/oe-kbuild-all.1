@@ -1,68 +1,68 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3DC2F3B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Dec 2022 14:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7015817F4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Dec 2022 14:56:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671890746; x=1703426746;
+  t=1671893806; x=1703429806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C58huhMVbSv1sDJdhS/3JPUPSTgoj1aSSuy+LxNfrXU=;
-  b=dO5FaS44JQh7IqGyKuRxH/1jmYrbAtSsaW+2n3KQoVIA0OYV/AS9tvSC
-   43xE4dsIXTDtIv4vHFBCbzZsrWN3z7+icSVR1ZlX+uob0LZ7WmW6iLuY7
-   aGq9FQnrNPm8EVuUT8d9/kD/YCcC7JJIt3p2WN2PMIBWWVr9wrKagpS8N
-   xgIl2goNjofO+cPd+uRCcQw0zYJ2OcFvE6XY0aMDji7cA58pq/HrliMq/
-   209ywLMqlN1NaLjZEP7KEA1WZ5EpqIp8GyztvouaYZ2GUucoxUT7AEZ/E
-   5HKzymJP37GSKmmICYY9PgxFywCzPkJzBRq7bQhjqVqY1zWwMgsfMjHhn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="303905036"
+  bh=LinA49h82Yf883ys/AkVvbhIl/vkXZwD91qHFfDGy/s=;
+  b=JO6K2+CROxRr7YbregNyjVlWWqZYr/ZHQ1O/xj/z8GjgCb23zUs03VjE
+   PJfteUkFWMW8IIcXHFe6wfd6mA/0alG6eZSe1qVvHcZay1ceJyYgwmpmm
+   1GsRX3J2vfLCQ9rF1FBMGzkkB5aGsTVBwhHT10Kwxb/CBYRW89yPuyKB9
+   VeKjXJ342pptbyZPo4bW48hmikGt5QRLsa/3eYhJ/n26Xs6ijGsCPqXHJ
+   CvyJ9AAJ/6oVhlcy2KqPIVr6PCIjWJK1sWVd3iUPZgQf8kGwJthiYHS1e
+   WARLd6Qb3drQRaHI3wQIfFZTE1wb0Nd+bEqmP83MUDiOJxDxO3OAPaVyf
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="308152640"
 X-IronPort-AV: E=Sophos;i="5.96,271,1665471600"; 
-   d="scan'208";a="303905036"
+   d="scan'208";a="308152640"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2022 06:05:45 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2022 06:56:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="759600443"
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="759606821"
 X-IronPort-AV: E=Sophos;i="5.96,271,1665471600"; 
-   d="scan'208";a="759600443"
+   d="scan'208";a="759606821"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Dec 2022 06:05:43 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 24 Dec 2022 06:56:43 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p959i-000DPn-1J;
-	Sat, 24 Dec 2022 14:05:42 +0000
-Date: Sat, 24 Dec 2022 22:05:30 +0800
+	id 1p95x4-000DQL-3D;
+	Sat, 24 Dec 2022 14:56:43 +0000
+Date: Sat, 24 Dec 2022 22:55:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 15/16] lib/spdm.c:791:15: error: use of undeclared
- identifier 'SPDM_REQ_ALG_STRUCT_TYPE_DHE'
-Message-ID: <202212242242.izMaKpAb-lkp@intel.com>
+Subject: [l1k:doe 16/16] lib/spdm.c:804:4: error: designator in initializer
+ for scalar type 'struct spdm_req_alg_struct *'
+Message-ID: <202212242219.4KmOKPRl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="zDEeoNBp8Oq2arq0"
+Content-Type: multipart/mixed; boundary="HzsFvVGPQGC9TmFh"
 Content-Disposition: inline
 
 
---zDEeoNBp8Oq2arq0
+--HzsFvVGPQGC9TmFh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/l1k/linux doe
 head:   e6cc41fc7b9706f31a937960f91a495f4844a278
-commit: 060d0cf86e019ac1d2cbb9b29d9b3003183054ec [15/16] spdm: Add support for key exchange
+commit: 5d4d3e90d48a2d1823eed4aab97b4e3246469bb3 [16/16] spdm: Add support for mutual authentication
 config: i386-randconfig-a012-20221219
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/060d0cf86e019ac1d2cbb9b29d9b3003183054ec
+        # https://github.com/l1k/linux/commit/5d4d3e90d48a2d1823eed4aab97b4e3246469bb3
         git remote add l1k https://github.com/l1k/linux
         git fetch --no-tags l1k doe
-        git checkout 060d0cf86e019ac1d2cbb9b29d9b3003183054ec
+        git checkout 5d4d3e90d48a2d1823eed4aab97b4e3246469bb3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
@@ -73,143 +73,152 @@ If you fix the issue, kindly add following tag where applicable
 
 All errors (new ones prefixed by >>):
 
->> lib/spdm.c:791:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_DHE'
+   lib/spdm.c:793:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_DHE'
                    .alg_type = SPDM_REQ_ALG_STRUCT_TYPE_DHE,
                                ^
->> lib/spdm.c:796:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_AEAD'
+   lib/spdm.c:798:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_AEAD'
                    .alg_type = SPDM_REQ_ALG_STRUCT_TYPE_AEAD,
                                ^
->> lib/spdm.c:801:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_KEY_SCHEDULE'
+>> lib/spdm.c:804:4: error: designator in initializer for scalar type 'struct spdm_req_alg_struct *'
+                           .alg_type = SPDM_REQ_ALG_STRUCT_REQ_BASE_ASYM_ALG,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/spdm.c:809:15: error: use of undeclared identifier 'SPDM_REQ_ALG_STRUCT_TYPE_KEY_SCHEDULE'
                    .alg_type = SPDM_REQ_ALG_STRUCT_TYPE_KEY_SCHEDULE,
                                ^
-   3 errors generated.
+   4 errors generated.
 
 
-vim +/SPDM_REQ_ALG_STRUCT_TYPE_DHE +791 lib/spdm.c
+vim +804 lib/spdm.c
 
-   762	
-   763	static int spdm_negotiate_algs(struct spdm_state *spdm_state)
-   764	{
-   765		struct spdm_req_alg_struct *req_alg_struct;
-   766		struct spdm_negotiate_algs_req *req;
-   767		struct spdm_negotiate_algs_rsp *rsp;
-   768		size_t req_sz = sizeof(*req) +
-   769				sizeof(*req_alg_struct) * SPDM_MAX_REQ_ALG_STRUCT;
-   770		size_t rsp_sz = sizeof(*rsp) +
+   764	
+   765	static int spdm_negotiate_algs(struct spdm_state *spdm_state)
+   766	{
+   767		struct spdm_req_alg_struct *req_alg_struct;
+   768		struct spdm_negotiate_algs_req *req;
+   769		struct spdm_negotiate_algs_rsp *rsp;
+   770		size_t req_sz = sizeof(*req) +
    771				sizeof(*req_alg_struct) * SPDM_MAX_REQ_ALG_STRUCT;
-   772		int rc, length, i = 0;
-   773	
-   774		/* Request length shall be <= 128 bytes (SPDM 1.1.0 Table 15) */
-   775		BUILD_BUG_ON(req_sz > 128);
-   776	
-   777		req = kzalloc(req_sz, GFP_KERNEL);
-   778		if (!req)
-   779			return -ENOMEM;
-   780	
-   781		req->code = SPDM_NEGOTIATE_ALGS;
-   782		req->length = cpu_to_le16(req_sz);
-   783		req->measurement_specification = SPDM_MEAS_SPEC_DMTF;
-   784		req->base_asym_algo = cpu_to_le32(SPDM_ASYM_ALGOS);
-   785		req->base_hash_algo = cpu_to_le32(SPDM_HASH_ALGOS);
-   786		if (spdm_state->version >= 0x12)
-   787			req->other_params_support = SPDM_OPAQUE_DATA_FMT_GENERAL;
-   788	
-   789		req_alg_struct = (struct spdm_req_alg_struct *)(req + 1);
-   790		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
- > 791			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_DHE,
-   792			.alg_count = 0x20,
-   793			.alg_supported = cpu_to_le16(SPDM_DHE_ALGOS),
-   794		};
-   795		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
- > 796			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_AEAD,
-   797			.alg_count = 0x20,
-   798			.alg_supported = cpu_to_le16(SPDM_AEAD_ALGOS),
-   799		};
-   800		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
- > 801			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_KEY_SCHEDULE,
-   802			.alg_count = 0x20,
-   803			.alg_supported = cpu_to_le16(SPDM_KEY_SCHEDULE_SPDM),
-   804		};
-   805		req->param1 = i;
-   806		WARN_ON(i > SPDM_MAX_REQ_ALG_STRUCT);
-   807	
-   808		rsp = kzalloc(rsp_sz, GFP_KERNEL);
-   809		if (!rsp) {
-   810			rc = -ENOMEM;
-   811			goto err_free_req;
-   812		}
-   813	
-   814		rc = spdm_exchange(spdm_state, req, req_sz, rsp, rsp_sz);
-   815		if (rc < 0)
-   816			goto err_free_rsp;
-   817	
-   818		length = rc;
-   819		if (length < sizeof(*rsp) ||
-   820		    length < sizeof(*rsp) + rsp->param1 * sizeof(*req_alg_struct)) {
-   821			dev_err(spdm_state->dev, "Truncated algorithms response\n");
-   822			rc = -EIO;
-   823			goto err_free_rsp;
-   824		}
+   772		size_t rsp_sz = sizeof(*rsp) +
+   773				sizeof(*req_alg_struct) * SPDM_MAX_REQ_ALG_STRUCT;
+   774		int rc, length, i = 0;
+   775	
+   776		/* Request length shall be <= 128 bytes (SPDM 1.1.0 Table 15) */
+   777		BUILD_BUG_ON(req_sz > 128);
+   778	
+   779		req = kzalloc(req_sz, GFP_KERNEL);
+   780		if (!req)
+   781			return -ENOMEM;
+   782	
+   783		req->code = SPDM_NEGOTIATE_ALGS;
+   784		req->length = cpu_to_le16(req_sz);
+   785		req->measurement_specification = SPDM_MEAS_SPEC_DMTF;
+   786		req->base_asym_algo = cpu_to_le32(SPDM_ASYM_ALGOS);
+   787		req->base_hash_algo = cpu_to_le32(SPDM_HASH_ALGOS);
+   788		if (spdm_state->version >= 0x12)
+   789			req->other_params_support = SPDM_OPAQUE_DATA_FMT_GENERAL;
+   790	
+   791		req_alg_struct = (struct spdm_req_alg_struct *)(req + 1);
+   792		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
+ > 793			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_DHE,
+   794			.alg_count = 0x20,
+   795			.alg_supported = cpu_to_le16(SPDM_DHE_ALGOS),
+   796		};
+   797		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
+   798			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_AEAD,
+   799			.alg_count = 0x20,
+   800			.alg_supported = cpu_to_le16(SPDM_AEAD_ALGOS),
+   801		};
+   802		if (spdm_state->responder_caps & SPDM_MUT_AUTH_CAP)
+   803			req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
+ > 804				.alg_type = SPDM_REQ_ALG_STRUCT_REQ_BASE_ASYM_ALG,
+   805				.alg_count = 0x20,
+   806				.alg_supported = cpu_to_le16(SPDM_ASYM_ALGOS),
+   807			};
+   808		req_alg_struct[i++] = (struct spdm_req_alg_struct *) {
+   809			.alg_type = SPDM_REQ_ALG_STRUCT_TYPE_KEY_SCHEDULE,
+   810			.alg_count = 0x20,
+   811			.alg_supported = cpu_to_le16(SPDM_KEY_SCHEDULE_SPDM),
+   812		};
+   813		req->param1 = i;
+   814		WARN_ON(i > SPDM_MAX_REQ_ALG_STRUCT);
+   815	
+   816		rsp = kzalloc(rsp_sz, GFP_KERNEL);
+   817		if (!rsp) {
+   818			rc = -ENOMEM;
+   819			goto err_free_req;
+   820		}
+   821	
+   822		rc = spdm_exchange(spdm_state, req, req_sz, rsp, rsp_sz);
+   823		if (rc < 0)
+   824			goto err_free_rsp;
    825	
-   826		/*
-   827		 * If request contained a ReqAlgStruct not supported by responder,
-   828		 * the corresponding RespAlgStruct may be omitted in response.
-   829		 * Calculate the actual response length:
-   830		 */
-   831		rsp_sz = sizeof(*rsp) + rsp->param1 * sizeof(*req_alg_struct);
-   832	
-   833		spdm_state->measurement_hash_alg =
-   834			le32_to_cpu(rsp->measurement_hash_algo);
-   835		spdm_state->base_asym_alg =
-   836			le32_to_cpu(rsp->base_asym_sel) & SPDM_ASYM_ALGOS;
-   837		spdm_state->base_hash_alg =
-   838			le32_to_cpu(rsp->base_hash_sel) & SPDM_HASH_ALGOS;
-   839	
-   840		/* Responder shall select exactly 1 algorithm (SPDM 1.1.0 sec 10.4) */
-   841		if (hweight32(spdm_state->base_asym_alg) != 1 ||
-   842		    hweight32(spdm_state->base_hash_alg) != 1 ||
-   843		    rsp->ext_asym_sel_count != 0 ||
-   844		    rsp->ext_hash_sel_count != 0 ||
-   845		    rsp->param1 > req->param1 ||
-   846		    (spdm_state->responder_caps & SPDM_MEAS_CAP_MASK &&
-   847		     hweight32(spdm_state->measurement_hash_alg) != 1)) {
-   848			dev_err(spdm_state->dev, "Malformed algorithms response\n");
-   849			rc = -EPROTO;
-   850			goto err_free_rsp;
-   851		}
-   852	
-   853		switch (spdm_state->base_asym_alg) {
-   854		case SPDM_ASYM_RSASSA_3072:
-   855			spdm_state->s = 384;
-   856			break;
-   857		case SPDM_ASYM_ECDSA_ECC_NIST_P256:
-   858			spdm_state->s = 64;
-   859			break;
-   860		case SPDM_ASYM_ECDSA_ECC_NIST_P384:
-   861			spdm_state->s = 96;
-   862			break;
-   863		default:
-   864			dev_err(spdm_state->dev, "Unknown asym algorithm\n");
-   865			rc = -EINVAL;
-   866			goto err_free_rsp;
-   867		}
-   868	
-   869		rc = spdm_start_digest(spdm_state, req, req_sz, rsp, rsp_sz);
-   870	
-   871	err_free_rsp:
-   872		kfree(rsp);
-   873	err_free_req:
-   874		kfree(req);
-   875	
-   876		return rc;
-   877	}
+   826		length = rc;
+   827		if (length < sizeof(*rsp) ||
+   828		    length < sizeof(*rsp) + rsp->param1 * sizeof(*req_alg_struct)) {
+   829			dev_err(spdm_state->dev, "Truncated algorithms response\n");
+   830			rc = -EIO;
+   831			goto err_free_rsp;
+   832		}
+   833	
+   834		/*
+   835		 * If request contained a ReqAlgStruct not supported by responder,
+   836		 * the corresponding RespAlgStruct may be omitted in response.
+   837		 * Calculate the actual response length:
+   838		 */
+   839		rsp_sz = sizeof(*rsp) + rsp->param1 * sizeof(*req_alg_struct);
+   840	
+   841		spdm_state->measurement_hash_alg =
+   842			le32_to_cpu(rsp->measurement_hash_algo);
+   843		spdm_state->base_asym_alg =
+   844			le32_to_cpu(rsp->base_asym_sel) & SPDM_ASYM_ALGOS;
+   845		spdm_state->base_hash_alg =
+   846			le32_to_cpu(rsp->base_hash_sel) & SPDM_HASH_ALGOS;
+   847	
+   848		/* Responder shall select exactly 1 algorithm (SPDM 1.1.0 sec 10.4) */
+   849		if (hweight32(spdm_state->base_asym_alg) != 1 ||
+   850		    hweight32(spdm_state->base_hash_alg) != 1 ||
+   851		    rsp->ext_asym_sel_count != 0 ||
+   852		    rsp->ext_hash_sel_count != 0 ||
+   853		    rsp->param1 > req->param1 ||
+   854		    (spdm_state->responder_caps & SPDM_MEAS_CAP_MASK &&
+   855		     hweight32(spdm_state->measurement_hash_alg) != 1)) {
+   856			dev_err(spdm_state->dev, "Malformed algorithms response\n");
+   857			rc = -EPROTO;
+   858			goto err_free_rsp;
+   859		}
+   860	
+   861		switch (spdm_state->base_asym_alg) {
+   862		case SPDM_ASYM_RSASSA_3072:
+   863			spdm_state->s = 384;
+   864			break;
+   865		case SPDM_ASYM_ECDSA_ECC_NIST_P256:
+   866			spdm_state->s = 64;
+   867			break;
+   868		case SPDM_ASYM_ECDSA_ECC_NIST_P384:
+   869			spdm_state->s = 96;
+   870			break;
+   871		default:
+   872			dev_err(spdm_state->dev, "Unknown asym algorithm\n");
+   873			rc = -EINVAL;
+   874			goto err_free_rsp;
+   875		}
+   876	
+   877		rc = spdm_start_digest(spdm_state, req, req_sz, rsp, rsp_sz);
    878	
+   879	err_free_rsp:
+   880		kfree(rsp);
+   881	err_free_req:
+   882		kfree(req);
+   883	
+   884		return rc;
+   885	}
+   886	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---zDEeoNBp8Oq2arq0
+--HzsFvVGPQGC9TmFh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5724,4 +5733,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---zDEeoNBp8Oq2arq0--
+--HzsFvVGPQGC9TmFh--
