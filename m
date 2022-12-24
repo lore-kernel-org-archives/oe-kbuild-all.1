@@ -1,172 +1,125 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A211B17C9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Dec 2022 01:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF72217C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Dec 2022 01:47:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671845848; x=1703381848;
+  t=1671846457; x=1703382457;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rvyEEvub5sjc0eTEG0wG9rzGd9vHZ/1j/aqKHY/05bY=;
-  b=HzUAnmMtl36CeM60EtuCEMMhQNQHUFBdzxu4cBTGArYAqJIQia0fL6R8
-   6y6gHFHSlYCTYyK1A6QbIOKH/uzth2IAFkAziDG+4ALXWFzQBenygig43
-   6Q0LGvO93oN1585MwhlqRU02YB8jCQcLcc+0lFtgS9sGJ8DajiH0NxM6a
-   LyhNk9TlYlN0amO1BJ+Jdh+w8LOpamWMA7O3OH22rWoL1/YTajea8XWBN
-   dRiuQDkMztEAjUz9ObrOXEANeSmowOi/uG0uoarqb8ac6rPLrjcBLeDyJ
-   yIcDEO6tNR1DI36jH26AE/w8GwPM/sGUB6i+oAXRtZKTTy+0PmeP+MIie
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="384786256"
+  bh=uiiA/CXJG0Ie5Ebbx+8pHXsL9/gOgcZdM3hNfV3jSf8=;
+  b=Pe+1IbxxUTEL48E11BGSs11ErfG6eLL2QLgeo+vp2qgpjTxq5qk/4waM
+   vv49v9bSdKUguzIs6Xca2acS4bGioR5oj3w30Wc0497YDGHLZAUfiEDNC
+   knNgPES2CuG8AlzbzyWw1DnN9gM8+o57htMP9sMKGSM9KRHUsb26bgfvm
+   9CafTml0pmXOsQriOe4bXLvlJW9MUnoxUAMYb86a4LhYi0tEHljpixDtI
+   SNZPAU5n16reDBvkWhrV8pnTmGw+2R1r0Zv7ZkkiCW0z8UdE932huMlLn
+   rVSLVc6zqF8bhWuB1yDeUerAKt42HYKuGG6ZXVJsVNhulyMNInvzSKSWY
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="320455571"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="384786256"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 17:37:27 -0800
+   d="scan'208";a="320455571"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 17:47:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="759494033"
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="652260003"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="759494033"
+   d="scan'208";a="652260003"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Dec 2022 17:37:25 -0800
+  by orsmga002.jf.intel.com with ESMTP; 23 Dec 2022 17:47:26 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8tTZ-000D0B-05;
-	Sat, 24 Dec 2022 01:37:25 +0000
-Date: Sat, 24 Dec 2022 09:37:02 +0800
+	id 1p8tdF-000D0p-1P;
+	Sat, 24 Dec 2022 01:47:25 +0000
+Date: Sat, 24 Dec 2022 09:47:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 02/14] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <202212240944.UMqcYmxX-lkp@intel.com>
-References: <20221223233200.26089-3-quic_wcheng@quicinc.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	mturquette@baylibre.com
+Cc: oe-kbuild-all@lists.linux.dev, sboyd@kernel.org, matthias.bgg@gmail.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	angelogioacchino.delregno@collabora.com, wenst@chromium.org,
+	johnson.wang@mediatek.com, miles.chen@mediatek.com,
+	fparent@baylibre.com, chun-jie.chen@mediatek.com,
+	sam.shih@mediatek.com, y.oudjana@protonmail.com,
+	nfraprado@collabora.com, rex-bc.chen@mediatek.com,
+	ryder.lee@kernel.org, daniel@makrotopia.org,
+	jose.exposito89@gmail.com, yangyingliang@huawei.com,
+	pablo.sun@mediatek.com, msp@baylibre.com, weiyi.lu@mediatek.com,
+	ikjn@chromium.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH v2 10/23] clk: mediatek: mt8173: Break down clock drivers
+ and allow module build
+Message-ID: <202212240908.TPdipbru-lkp@intel.com>
+References: <20221223094259.87373-11-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="+sJaqI+WAyl0bRyL"
+Content-Type: multipart/mixed; boundary="3bwDzeFexKr9jLDe"
 Content-Disposition: inline
-In-Reply-To: <20221223233200.26089-3-quic_wcheng@quicinc.com>
+In-Reply-To: <20221223094259.87373-11-angelogioacchino.delregno@collabora.com>
 
 
---+sJaqI+WAyl0bRyL
+--3bwDzeFexKr9jLDe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Wesley,
+Hi AngeloGioacchino,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.1 next-20221220]
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master next-20221220]
+[cannot apply to v6.1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wesley-Cheng/ASoC-Add-SOC-USB-APIs-for-adding-an-USB-backend/20221224-073625
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20221223233200.26089-3-quic_wcheng%40quicinc.com
-patch subject: [RFC PATCH 02/14] ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/clk-mediatek-mt8192-Correctly-unregister-and-free-clocks-on-failure/20221223-174705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20221223094259.87373-11-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 10/23] clk: mediatek: mt8173: Break down clock drivers and allow module build
 config: m68k-allmodconfig
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/68a3f2662ef47598be991a87df84e8f489e9d3cb
+        # https://github.com/intel-lab-lkp/linux/commit/c10b45573221c863575210c6c88e53c24324d3e2
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Wesley-Cheng/ASoC-Add-SOC-USB-APIs-for-adding-an-USB-backend/20221224-073625
-        git checkout 68a3f2662ef47598be991a87df84e8f489e9d3cb
+        git fetch --no-tags linux-review AngeloGioacchino-Del-Regno/clk-mediatek-mt8192-Correctly-unregister-and-free-clocks-on-failure/20221223-174705
+        git checkout c10b45573221c863575210c6c88e53c24324d3e2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/qcom/qdsp6/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> sound/soc/qcom/qdsp6/q6afe.c:1397:5: warning: no previous prototype for 'afe_port_send_usb_dev_param' [-Wmissing-prototypes]
-    1397 | int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/qdsp6/q6afe.c: In function 'q6afe_port_get_from_id':
->> sound/soc/qcom/qdsp6/q6afe.c:1794:26: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1794 |                 cfg_type = AFE_PARAM_ID_CODEC_DMA_CONFIG;
-         |                          ^
-   sound/soc/qcom/qdsp6/q6afe.c:1795:9: note: here
-    1795 |         case AFE_PORT_ID_USB_RX:
-         |         ^~~~
-
-
-vim +/afe_port_send_usb_dev_param +1397 sound/soc/qcom/qdsp6/q6afe.c
-
-  1396	
-> 1397	int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
-  1398	{
-  1399		union afe_port_config *pcfg = &port->port_cfg;
-  1400		struct afe_param_id_usb_audio_dev_params usb_dev;
-  1401		struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
-  1402		struct afe_param_id_usb_audio_svc_interval svc_int;
-  1403		int ret = 0;
-  1404	
-  1405		if (!pcfg) {
-  1406			pr_err("%s: Error, no configuration data\n", __func__);
-  1407			ret = -EINVAL;
-  1408			goto exit;
-  1409		}
-  1410	
-  1411		memset(&usb_dev, 0, sizeof(usb_dev));
-  1412		memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
-  1413	
-  1414		usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-  1415		q6afe_port_set_param_v2(port, &usb_dev,
-  1416						AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
-  1417						AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
-  1418		if (ret) {
-  1419			pr_err("%s: AFE device param cmd failed %d\n",
-  1420				__func__, ret);
-  1421			goto exit;
-  1422		}
-  1423	
-  1424		lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-  1425		lpcm_fmt.endian = pcfg->usb_cfg.endian;
-  1426		ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
-  1427						AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT,
-  1428						AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(lpcm_fmt));
-  1429		if (ret) {
-  1430			pr_err("%s: AFE device param cmd LPCM_FMT failed %d\n",
-  1431				__func__, ret);
-  1432			goto exit;
-  1433		}
-  1434	
-  1435		svc_int.cfg_minor_version =
-  1436			AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-  1437		svc_int.svc_interval = pcfg->usb_cfg.service_interval;
-  1438		ret = q6afe_port_set_param_v2(port, &svc_int,
-  1439						AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL,
-  1440						AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(svc_int));
-  1441		if (ret) {
-  1442			pr_err("%s: AFE device param cmd svc_interval failed %d\n",
-  1443				__func__, ret);
-  1444			ret = -EINVAL;
-  1445			goto exit;
-  1446		}
-  1447	exit:
-  1448		return ret;
-  1449	}
-  1450	
+ERROR: modpost: missing MODULE_LICENSE() in drivers/clk/mediatek/clk-mt8173-mm.o
+>> ERROR: modpost: "mtk_register_reset_controller" [drivers/clk/mediatek/clk-mt8173-infracfg.ko] undefined!
+ERROR: modpost: "mtk_register_reset_controller" [drivers/clk/mediatek/clk-mt8173-pericfg.ko] undefined!
+>> ERROR: modpost: "cg_regs_dummy" [drivers/clk/mediatek/clk-mt8173-img.ko] undefined!
+>> ERROR: modpost: "cg_regs_dummy" [drivers/clk/mediatek/clk-mt8173-vdecsys.ko] undefined!
+>> ERROR: modpost: "cg_regs_dummy" [drivers/clk/mediatek/clk-mt8173-vencsys.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---+sJaqI+WAyl0bRyL
+--3bwDzeFexKr9jLDe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/m68k 6.1.0-rc6 Kernel Configuration
+# Linux/m68k 6.1.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="m68k-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -1811,7 +1764,7 @@ CONFIG_TURRIS_MOX_RWTM=m
 CONFIG_BCM47XX_NVRAM=y
 CONFIG_BCM47XX_SPROM=y
 CONFIG_TEE_BNXT_FW=m
-CONFIG_FW_CS_DSP=m
+CONFIG_CS_DSP=m
 CONFIG_GOOGLE_FIRMWARE=y
 CONFIG_GOOGLE_COREBOOT_TABLE=m
 CONFIG_GOOGLE_MEMCONSOLE=m
@@ -7600,7 +7553,6 @@ CONFIG_SND_SOC_RT1305=m
 CONFIG_SND_SOC_RT1308=m
 CONFIG_SND_SOC_RT1308_SDW=m
 CONFIG_SND_SOC_RT1316_SDW=m
-CONFIG_SND_SOC_RT1318_SDW=m
 CONFIG_SND_SOC_RT5514=m
 CONFIG_SND_SOC_RT5514_SPI=m
 CONFIG_SND_SOC_RT5616=m
@@ -9395,6 +9347,7 @@ CONFIG_CLK_IMX93=m
 #
 CONFIG_INGENIC_CGU_COMMON=y
 CONFIG_INGENIC_CGU_JZ4740=y
+CONFIG_INGENIC_CGU_JZ4755=y
 CONFIG_INGENIC_CGU_JZ4725B=y
 CONFIG_INGENIC_CGU_JZ4760=y
 CONFIG_INGENIC_CGU_JZ4770=y
@@ -9411,6 +9364,7 @@ CONFIG_TI_SYSCON_CLK=m
 # Clock driver for MediaTek SoC
 #
 CONFIG_COMMON_CLK_MEDIATEK=y
+CONFIG_COMMON_CLK_MEDIATEK_FHCTL=y
 CONFIG_COMMON_CLK_MT2701=y
 CONFIG_COMMON_CLK_MT2701_MMSYS=y
 CONFIG_COMMON_CLK_MT2701_IMGSYS=y
@@ -9477,8 +9431,11 @@ CONFIG_COMMON_CLK_MT8167_IMGSYS=y
 CONFIG_COMMON_CLK_MT8167_MFGCFG=y
 CONFIG_COMMON_CLK_MT8167_MMSYS=y
 CONFIG_COMMON_CLK_MT8167_VDECSYS=y
-CONFIG_COMMON_CLK_MT8173=y
-CONFIG_COMMON_CLK_MT8173_MMSYS=y
+CONFIG_COMMON_CLK_MT8173=m
+CONFIG_COMMON_CLK_MT8173_IMGSYS=m
+CONFIG_COMMON_CLK_MT8173_MMSYS=m
+CONFIG_COMMON_CLK_MT8173_VDECSYS=m
+CONFIG_COMMON_CLK_MT8173_VENCSYS=m
 CONFIG_COMMON_CLK_MT8183=y
 CONFIG_COMMON_CLK_MT8183_AUDIOSYS=y
 CONFIG_COMMON_CLK_MT8183_CAMSYS=y
@@ -9523,6 +9480,7 @@ CONFIG_COMMON_CLK_MT8516_AUDSYS=y
 # CONFIG_COMMON_CLK_AXG_AUDIO is not set
 # end of Clock support for Amlogic platforms
 
+CONFIG_MSTAR_MSC313_CPUPLL=y
 CONFIG_MSTAR_MSC313_MPLL=y
 CONFIG_MCHP_CLK_MPFS=y
 CONFIG_COMMON_CLK_PISTACHIO=y
@@ -9572,6 +9530,7 @@ CONFIG_SC_CAMCC_7180=m
 CONFIG_SC_CAMCC_7280=m
 CONFIG_SC_DISPCC_7180=m
 CONFIG_SC_DISPCC_7280=m
+CONFIG_SC_DISPCC_8280XP=m
 CONFIG_SC_GCC_7180=m
 CONFIG_SC_GCC_7280=m
 CONFIG_SC_GCC_8180X=m
@@ -9604,6 +9563,7 @@ CONFIG_SM_DISPCC_6115=m
 CONFIG_SM_DISPCC_6125=m
 CONFIG_SM_DISPCC_8250=m
 CONFIG_SM_DISPCC_6350=m
+CONFIG_SM_DISPCC_6375=m
 CONFIG_SM_DISPCC_8450=m
 CONFIG_SM_GCC_6115=m
 CONFIG_SM_GCC_6125=m
@@ -9613,6 +9573,7 @@ CONFIG_SM_GCC_8150=m
 CONFIG_SM_GCC_8250=m
 CONFIG_SM_GCC_8350=m
 CONFIG_SM_GCC_8450=m
+CONFIG_SM_GCC_8550=m
 CONFIG_SM_GPUCC_6350=m
 CONFIG_SM_GPUCC_8150=m
 CONFIG_SM_GPUCC_8250=m
@@ -12419,4 +12380,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---+sJaqI+WAyl0bRyL--
+--3bwDzeFexKr9jLDe--
