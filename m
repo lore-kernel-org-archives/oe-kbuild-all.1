@@ -1,89 +1,86 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499B133D1;
-	Tue, 27 Dec 2022 17:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5683D84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Dec 2022 17:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672162777; x=1703698777;
+  t=1672162785; x=1703698785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iXEzI4av69k2CrXLGcS2bBNdbRI+OJJOKU8FIUvvwKg=;
-  b=FNdp6tYr7JJ4MlWIjrnIYrkrGpqxQruAe9yvnEM4EI9K62cUIhUIKdXA
-   ABzuEl5+jYQ251BFRx6ebsGqoDA74iMcSXrVAjGcwOQqtpepY3aoMUEIV
-   ChPNATkQwtLaB/aKoDayaIGmIbgYv267kSZss4T165MOJSmEZQhkc9kGp
-   86G4dJysWMOmwFTHqYfRA+9lvLpFvk6ueifiSggAYuv+L/QwWHjTasKYt
-   Yzkno23baWLNvuhiSP/vet8SINpdwA79fjdYfUjv27RddZropPDdJgFAz
-   XjZsUeeGLTSmrVJi5IDdrI28WJDv2wz6ELNPwDF4Zo5G47UzercCOpCXF
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="347932346"
+  bh=JprFn/8C1wW+20bLHKCoGqravHrNH9PLNEC1sdyVAYM=;
+  b=Lyz70fCWlBmGNg8SzPqYt3MgOnPNlCwfRAFcIZM/dzeef97WXFVSnVqv
+   CQcOyF3oDZA7wnG7mUTZ6+g9dIe4F91aD1Gl+WrtnGbPydA8oug5V/y6z
+   Oy0YETV9qwa4x733C5bY1cMmIe0Zymtku7RWFdr+oDq9vbzjCpdHDrpBH
+   mipysOWBUbqEjvHrKiAGR3xpPBwcX7IO6k5jw0Yfnj27nvXWY9mse9Qpz
+   7nRh9hYzrQNgiOCYhmeWCiYjC5NjlPz47tzcCy+F+d1+he7vg5eEexGqH
+   GTObirD/wt8e+iODKM35iLUtUelUXQ55U+0RgwH6jxs/is917Yk7ksXIW
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="319457714"
 X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
-   d="scan'208";a="347932346"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2022 09:39:36 -0800
+   d="scan'208";a="319457714"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2022 09:39:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="898422942"
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="777212633"
 X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
-   d="scan'208";a="898422942"
+   d="scan'208";a="777212633"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Dec 2022 09:39:32 -0800
+  by orsmga004.jf.intel.com with ESMTP; 27 Dec 2022 09:39:32 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pADvI-000F7l-0A;
+	id 1pADvI-000F7p-0H;
 	Tue, 27 Dec 2022 17:39:32 +0000
-Date: Wed, 28 Dec 2022 01:39:17 +0800
+Date: Wed, 28 Dec 2022 01:39:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, Robert Hu <robert.hu@intel.com>,
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
 	Farrah Chen <farrah.chen@intel.com>,
 	Danmei Wei <danmei.wei@intel.com>,
 	Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>
-Subject: [kvm:queue 136/153] arch/x86/kvm/vmx/hyperv.c:4:9: warning: 'pr_fmt'
- macro redefined
-Message-ID: <202212280135.o8R80Mgt-lkp@intel.com>
+Subject: [kvm:queue 136/153] arch/x86/kvm/vmx/hyperv.c:4: warning: "pr_fmt"
+ redefined
+Message-ID: <202212280102.5Qr8kJvb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="lqV1qUgt44uPiBbd"
+Content-Type: multipart/mixed; boundary="0R7i536/E8ZxaQT0"
 Content-Disposition: inline
 
 
---lqV1qUgt44uPiBbd
+--0R7i536/E8ZxaQT0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
 head:   1a4a964e50a929e1229252abb311c7deee806348
 commit: e21d10ee00c530b9a4f992108ca20f4ee78a76d3 [136/153] KVM: x86: Unify pr_fmt to use module name for all KVM modules
-config: x86_64-rhel-8.3-rust
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: x86_64-rhel-8.3-bpf
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/virt/kvm/kvm.git/commit/?id=e21d10ee00c530b9a4f992108ca20f4ee78a76d3
         git remote add kvm https://git.kernel.org/pub/scm/virt/kvm/kvm.git
         git fetch --no-tags kvm queue
         git checkout e21d10ee00c530b9a4f992108ca20f4ee78a76d3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/vmx/hyperv.c:4:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-   #define pr_fmt(fmt) "kvm/hyper-v: " fmt
-           ^
-   arch/x86/kvm/vmx/hyperv.c:2:9: note: previous definition is here
-   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-           ^
-   1 warning generated.
+>> arch/x86/kvm/vmx/hyperv.c:4: warning: "pr_fmt" redefined
+       4 | #define pr_fmt(fmt) "kvm/hyper-v: " fmt
+         | 
+   arch/x86/kvm/vmx/hyperv.c:2: note: this is the location of the previous definition
+       2 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         | 
 
 
 vim +/pr_fmt +4 arch/x86/kvm/vmx/hyperv.c
@@ -102,7 +99,7 @@ vim +/pr_fmt +4 arch/x86/kvm/vmx/hyperv.c
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---lqV1qUgt44uPiBbd
+--0R7i536/E8ZxaQT0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -110,24 +107,21 @@ Content-Disposition: attachment; filename=config
 # Automatically generated file; DO NOT EDIT.
 # Linux/x86_64 6.1.0-rc4 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="clang version 14.0.6 (git://gitmirror/llvm_project f28c006a5895fc0e329fe15fead81e37457cb1d1)"
-CONFIG_GCC_VERSION=0
-CONFIG_CC_IS_CLANG=y
-CONFIG_CLANG_VERSION=140006
-CONFIG_AS_IS_LLVM=y
-CONFIG_AS_VERSION=140006
-CONFIG_LD_VERSION=0
-CONFIG_LD_IS_LLD=y
-CONFIG_LLD_VERSION=140006
-CONFIG_RUST_IS_AVAILABLE=y
+CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
+CONFIG_CC_IS_GCC=y
+CONFIG_GCC_VERSION=110300
+CONFIG_CLANG_VERSION=0
+CONFIG_AS_IS_GNU=y
+CONFIG_AS_VERSION=23900
+CONFIG_LD_IS_BFD=y
+CONFIG_LD_VERSION=23900
+CONFIG_LLD_VERSION=0
 CONFIG_CC_CAN_LINK=y
 CONFIG_CC_CAN_LINK_STATIC=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
-CONFIG_TOOLS_SUPPORT_RELR=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
 CONFIG_PAHOLE_VERSION=123
-CONFIG_CONSTRUCTORS=y
 CONFIG_IRQ_WORK=y
 CONFIG_BUILDTIME_TABLE_SORT=y
 CONFIG_THREAD_INFO_IN_TASK=y
@@ -295,7 +289,7 @@ CONFIG_HAVE_UNSTABLE_SCHED_CLOCK=y
 CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
 CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH=y
 CONFIG_CC_HAS_INT128=y
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough"
+CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
 CONFIG_GCC12_NO_ARRAY_BOUNDS=y
 CONFIG_ARCH_SUPPORTS_INT128=y
 CONFIG_NUMA_BALANCING=y
@@ -396,9 +390,6 @@ CONFIG_PERF_EVENTS=y
 
 CONFIG_SYSTEM_DATA_VERIFICATION=y
 CONFIG_PROFILING=y
-CONFIG_RUST=y
-CONFIG_RUSTC_VERSION_TEXT="rustc 1.62.0 (a8314ef7d 2022-06-27)"
-CONFIG_BINDGEN_VERSION_TEXT="bindgen 0.56.0"
 CONFIG_TRACEPOINTS=y
 # end of General setup
 
@@ -597,11 +588,16 @@ CONFIG_HAVE_LIVEPATCH=y
 CONFIG_LIVEPATCH=y
 # end of Processor type and features
 
+CONFIG_CC_HAS_SLS=y
+CONFIG_CC_HAS_RETURN_THUNK=y
 CONFIG_SPECULATION_MITIGATIONS=y
 CONFIG_PAGE_TABLE_ISOLATION=y
 CONFIG_RETPOLINE=y
+CONFIG_RETHUNK=y
+CONFIG_CPU_UNRET_ENTRY=y
 CONFIG_CPU_IBPB_ENTRY=y
 CONFIG_CPU_IBRS_ENTRY=y
+# CONFIG_SLS is not set
 CONFIG_ARCH_HAS_ADD_PAGES=y
 CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
 
@@ -758,6 +754,7 @@ CONFIG_AMD_NB=y
 # Binary Emulations
 #
 CONFIG_IA32_EMULATION=y
+# CONFIG_X86_X32_ABI is not set
 CONFIG_COMPAT_32=y
 CONFIG_COMPAT=y
 CONFIG_COMPAT_FOR_U64_ALIGNMENT=y
@@ -866,10 +863,7 @@ CONFIG_STACKPROTECTOR=y
 CONFIG_STACKPROTECTOR_STRONG=y
 CONFIG_ARCH_SUPPORTS_LTO_CLANG=y
 CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN=y
-CONFIG_HAS_LTO_CLANG=y
 CONFIG_LTO_NONE=y
-# CONFIG_LTO_CLANG_FULL is not set
-# CONFIG_LTO_CLANG_THIN is not set
 CONFIG_ARCH_SUPPORTS_CFI_CLANG=y
 CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES=y
 CONFIG_HAVE_CONTEXT_TRACKING_USER=y
@@ -942,6 +936,8 @@ CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
 # end of GCOV-based kernel profiling
 
 CONFIG_HAVE_GCC_PLUGINS=y
+CONFIG_GCC_PLUGINS=y
+# CONFIG_GCC_PLUGIN_LATENT_ENTROPY is not set
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -5817,17 +5813,20 @@ CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,
 #
 # Memory initialization
 #
-CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_ENABLER=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
-# CONFIG_INIT_STACK_NONE is not set
-# CONFIG_INIT_STACK_ALL_PATTERN is not set
-CONFIG_INIT_STACK_ALL_ZERO=y
+CONFIG_INIT_STACK_NONE=y
+# CONFIG_GCC_PLUGIN_STRUCTLEAK_USER is not set
+# CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF is not set
+# CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL is not set
+# CONFIG_GCC_PLUGIN_STACKLEAK is not set
 # CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
 # CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
+CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
+# CONFIG_ZERO_CALL_USED_REGS is not set
 # end of Memory initialization
 
 CONFIG_RANDSTRUCT_NONE=y
+# CONFIG_RANDSTRUCT_FULL is not set
+# CONFIG_RANDSTRUCT_PERFORMANCE is not set
 # end of Kernel hardening options
 # end of Security options
 
@@ -6272,14 +6271,16 @@ CONFIG_AS_HAS_NON_CONST_LEB128=y
 CONFIG_DEBUG_INFO_DWARF4=y
 # CONFIG_DEBUG_INFO_DWARF5 is not set
 # CONFIG_DEBUG_INFO_REDUCED is not set
+# CONFIG_DEBUG_INFO_COMPRESSED is not set
 # CONFIG_DEBUG_INFO_SPLIT is not set
 # CONFIG_DEBUG_INFO_BTF is not set
 CONFIG_PAHOLE_HAS_SPLIT_BTF=y
-CONFIG_PAHOLE_HAS_BTF_TAG=y
 # CONFIG_GDB_SCRIPTS is not set
 CONFIG_FRAME_WARN=2048
 CONFIG_STRIP_ASM_SYMS=y
+# CONFIG_READABLE_ASM is not set
 # CONFIG_HEADERS_INSTALL is not set
+CONFIG_DEBUG_SECTION_MISMATCH=y
 CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 CONFIG_OBJTOOL=y
 # CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
@@ -6345,14 +6346,11 @@ CONFIG_DEBUG_MEMORY_INIT=y
 CONFIG_HAVE_ARCH_KASAN=y
 CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
 CONFIG_CC_HAS_KASAN_GENERIC=y
-CONFIG_CC_HAS_KASAN_SW_TAGS=y
 CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
 # CONFIG_KASAN is not set
 CONFIG_HAVE_ARCH_KFENCE=y
 # CONFIG_KFENCE is not set
 CONFIG_HAVE_ARCH_KMSAN=y
-CONFIG_HAVE_KMSAN_COMPILER=y
-# CONFIG_KMSAN is not set
 # end of Memory Debugging
 
 CONFIG_DEBUG_SHIRQ=y
@@ -6497,7 +6495,7 @@ CONFIG_DYNAMIC_EVENTS=y
 CONFIG_PROBE_EVENTS=y
 CONFIG_BPF_KPROBE_OVERRIDE=y
 CONFIG_FTRACE_MCOUNT_RECORD=y
-CONFIG_FTRACE_MCOUNT_USE_OBJTOOL=y
+CONFIG_FTRACE_MCOUNT_USE_CC=y
 CONFIG_TRACING_MAP=y
 CONFIG_SYNTH_EVENTS=y
 CONFIG_HIST_TRIGGERS=y
@@ -6516,28 +6514,7 @@ CONFIG_RING_BUFFER_BENCHMARK=m
 # CONFIG_HIST_TRIGGERS_DEBUG is not set
 # CONFIG_RV is not set
 CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
-CONFIG_SAMPLES=y
-# CONFIG_SAMPLE_AUXDISPLAY is not set
-# CONFIG_SAMPLE_TRACE_EVENTS is not set
-# CONFIG_SAMPLE_TRACE_CUSTOM_EVENTS is not set
-# CONFIG_SAMPLE_TRACE_PRINTK is not set
-# CONFIG_SAMPLE_FTRACE_DIRECT is not set
-# CONFIG_SAMPLE_FTRACE_DIRECT_MULTI is not set
-# CONFIG_SAMPLE_TRACE_ARRAY is not set
-# CONFIG_SAMPLE_KOBJECT is not set
-# CONFIG_SAMPLE_KPROBES is not set
-# CONFIG_SAMPLE_HW_BREAKPOINT is not set
-# CONFIG_SAMPLE_KFIFO is not set
-# CONFIG_SAMPLE_LIVEPATCH is not set
-# CONFIG_SAMPLE_CONFIGFS is not set
-# CONFIG_SAMPLE_VFIO_MDEV_MTTY is not set
-# CONFIG_SAMPLE_VFIO_MDEV_MDPY is not set
-# CONFIG_SAMPLE_VFIO_MDEV_MDPY_FB is not set
-# CONFIG_SAMPLE_VFIO_MDEV_MBOCHS is not set
-# CONFIG_SAMPLE_WATCHDOG is not set
-CONFIG_SAMPLES_RUST=y
-CONFIG_SAMPLE_RUST_MINIMAL=y
-CONFIG_SAMPLE_RUST_HOSTPROGS=y
+# CONFIG_SAMPLES is not set
 CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
 CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
 CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
@@ -6632,9 +6609,7 @@ CONFIG_ARCH_USE_MEMTEST=y
 #
 # Rust hacking
 #
-# CONFIG_RUST_DEBUG_ASSERTIONS is not set
-CONFIG_RUST_OVERFLOW_CHECKS=y
 # end of Rust hacking
 # end of Kernel hacking
 
---lqV1qUgt44uPiBbd--
+--0R7i536/E8ZxaQT0--
