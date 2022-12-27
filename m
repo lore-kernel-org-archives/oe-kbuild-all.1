@@ -1,101 +1,144 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6223239;
-	Tue, 27 Dec 2022 18:31:11 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id m12so3122246qvq.13;
-        Tue, 27 Dec 2022 10:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rS71xZ4HPr7MRbcFAzGlUhLBBLnKXHBQUCJ7VI/xMRw=;
-        b=UKIYX6sTjIrN2dR+vWZ+y7NHzENQOFsbOk19f8o9VqhnPr75D1CkxnDkX9prANvVLr
-         vsuDFBydsdqoPFxGik/5raljx9gSZ7ZUsrZh1uTBFTtcQYZ9KeebJqHOiJvVBagamsWd
-         F33I7QugA5YQy7of8pFxF0wTToAOw5RYuoR46XPZC4fIZaShsFa+12uaNHOr9CBNXkAr
-         cxMfQdXpmlC5Kx+rNeLhIPb39EA1VKzwSnm6j+LDKFUkLKohb5XufBXJ4oeByM7cA/KL
-         LwwNULmgGk0SmfjMwNZuLorgIRcyjYVhL/kxRTrakngH9HNXNrxEJgWwSPjKl0zf9G9E
-         AgrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rS71xZ4HPr7MRbcFAzGlUhLBBLnKXHBQUCJ7VI/xMRw=;
-        b=IspWEmeJ/7IeXJmFwD7KiM+3byyIOVz7VWssLgwGN16YxsaHjziOyRWI8c76Sbi85x
-         Vjqgqyq6l/dYoBzPnBDrxQIf0i8ykjcqm9SREmYEghRY0k1tZuTxOLSfowqWY0PlYgTR
-         gOyPzmX8du3Qjz5qKR3iwpWbhWrmPv3HvyGHQsPEjQY8/cWAcHc/00YiI+PBu3BIZ1Ux
-         8/LVFsCtLMSoQhTLHeCZBwVZgD1rgSuCPNFs+zCKEuNqO7wFMlMmEMqYqjIk1hoMhY0Z
-         EENk0Xfa1DZrZllxVp31A8XZYhw0RbeiZ/+ma9Mq8IjsCOQO8icERzYhbewdLIKGsw4K
-         7/wA==
-X-Gm-Message-State: AFqh2kpY5BEVXISNHwFSsokMR823SBZPqDyyhlsh1Pays6r/itejmbX9
-	KwjyFKvt8mkWb5Fga4cuE6/I4nql7dFp9UTgiTw=
-X-Google-Smtp-Source: AMrXdXs1qjq1O2E0Rnon1S3PAG6bQzt7jJbRRZ9N8svHBY4kIoinjybj2oI6X22rHRVeevwIpdzaONvuDJUuvObBXcI=
-X-Received: by 2002:a05:6214:3906:b0:4c7:1ebf:719f with SMTP id
- nh6-20020a056214390600b004c71ebf719fmr914966qvb.64.1672165870312; Tue, 27 Dec
- 2022 10:31:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00E63239
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Dec 2022 18:59:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF91C433EF;
+	Tue, 27 Dec 2022 18:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1672167557;
+	bh=Qn+m0nFAT9ZNwVVdZj2KPeTzIUkk4H9rkLVFQDo9wrc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pHUBhqoZYHEP5/tYlk7K5eDB4TgiY0PHncPVGLEDNjMG+xKpq/Z7A7IAplTw0Ryed
+	 N2clVCImpG0Up+jfqUP+XxkmZKw1vkKyNWi+0GJ/6ezc6GBZkZ+hk3mwzQ4XULYxPr
+	 JJxCuzTrB8jUzEZ+naBFk8ALQNjmW+D8rWbdEwDNCRZ2Kn8FKf9FJkTa8dGxlOV4t1
+	 HyxP2WRNk+dMZ71ekwN0ad5t4qY/1BgVUW0ZAnexa4kE4d8Xb2Zq5DWQvV2/ZNxhSF
+	 Xw4wYdLc4PKpwumRJzca3uluZ6lfGhum+pjNrYIS8g4HVVT21zB1HBX9oz6ydJwcm2
+	 NhsugiE8qf0xA==
+Date: Tue, 27 Dec 2022 18:59:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for
+ IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
+Message-ID: <Y6tAgP7UoP3aYBjq@spud>
+References: <202212221206.Lt61kYrt-lkp@intel.com>
+ <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202212181140.EAWl7FKx-lkp@intel.com> <3D147284-AF8C-4414-9BE1-C83032B6C15D@gmail.com>
- <Y6dTX2wx/SXlswGC@kadam> <F701A496-22A6-4E3B-B3CB-E5BCF4C30502@gmail.com>
- <C430F7E6-723B-4EA8-BA87-00C84676BD4F@gmail.com> <Y6svZX++B5TYRHBT@kadam>
-In-Reply-To: <Y6svZX++B5TYRHBT@kadam>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 27 Dec 2022 20:30:33 +0200
-Message-ID: <CAHp75Vem0ypV9+3JUrt_mBJU_TQ5yrp-ubk_NV2-ejTZ8Ac4Dg@mail.gmail.com>
-Subject: Re: drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn:
- replace divide condition 'pin / 8' with 'pin >= 8'
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Qingtao Cao <qingtao.cao.au@gmail.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MtaQOvggsNiMCdq7"
+Content-Disposition: inline
+In-Reply-To: <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org>
+
+
+--MtaQOvggsNiMCdq7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 27, 2022 at 7:46 PM Dan Carpenter <error27@gmail.com> wrote:
-> On Sun, Dec 25, 2022 at 12:50:46PM +0100, Andy Shevchenko wrote:
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> kirjoitti 25.12.2022 kell=
-o 12.45:
-> > >>> Dan Carpenter <error27@gmail.com> kirjoitti 24.12.2022 kello 20.30:
-> > >>> On Sat, Dec 24, 2022 at 05:19:27PM +0100, Andy Shevchenko wrote:
-> > >>>> Dan Carpenter <error27@gmail.com> kirjoitti 23.12.2022 kello 11.54=
-:
+Hey Randy,
 
-...
+On Thu, Dec 22, 2022 at 05:00:06PM -0800, Randy Dunlap wrote:
+> On 12/21/22 20:49, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
+> > commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: A=
+dd ARCH_RENESAS kconfig option
+> > date:   6 weeks ago
+> > config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA-0-0
+> > reproduce:
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git/commit/?id=3D8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kerne=
+l/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+> >         # 1. reproduce by kismet
+> >            # install kmax per https://github.com/paulgazz/kmax/blob/mas=
+ter/README.md
+> >            kismet --linux-ksrc=3Dlinux --selectees CONFIG_IOMMU_IO_PGTA=
+BLE_LPAE --selectors CONFIG_IPMMU_VMSA -a=3Driscv
+> >         # 2. reproduce by make
+> >            # save the config file to linux source tree
+> >            cd linux
+> >            make ARCH=3Driscv olddefconfig
+> >=20
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> >=20
+> > kismet warnings: (new ones prefixed by >>)
+> >>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTA=
+BLE_LPAE when selected by IPMMU_VMSA
+> >    .config:4814:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' inv=
+alid for ARCH_MMAP_RND_BITS
+> >   =20
+> >    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+> >      Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_T=
+EST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+> >      Selected by [y]:
+> >      - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy=
+] || COMPILE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+> >=20
+>=20
+> Maybe this:
+>=20
+> ---
+>  drivers/iommu/Kconfig |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff -- a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -32,7 +32,8 @@ config IOMMU_IO_PGTABLE
+>  config IOMMU_IO_PGTABLE_LPAE
+>  	bool "ARMv7/v8 Long Descriptor Format"
+>  	select IOMMU_IO_PGTABLE
+> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> +	depends on ARM || ARM64 || ARCH_RENESAS || \
+> +		(COMPILE_TEST && !GENERIC_ATOMIC64)
+>  	help
+>  	  Enable support for the ARM long descriptor pagetable format.
+>  	  This allocator supports 4K/2M/1G, 16K/32M and 64K/512M page
+>=20
+>=20
+> or is way off?
 
-> > >>>> smatch warnings:
-> > >>>> drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn: replac=
-e divide condition 'pin / 8' with 'pin >=3D 8'
-> > >>>> drivers/gpio/gpio-exar.c:62 exar_offset_to_lvl_addr() warn: replac=
-e divide condition 'pin / 8' with 'pin >=3D 8'
-> > >>>
-> > >>> I don=E2=80=99t think this is a good advice. If we want to limit th=
-at, we need
-> > >>> to check also upper limit. But. The GPIO framework does that. So,
-> > >>> changing / to >=3D is bogus.
-> > >>
-> > >> How is checking pin / 8 not mathematically equivalent to pin >=3D 8?
-> > >
-> > > The point is that semantically the / is better in case this code will=
- ever support more than two banks of pins.
-> >
-> > On top of that it=E2=80=99s paired with pin % 8.
->
-> I noticed that, but it's a common bug though that a lot of people
-> accidentally write if (pin / 8) when if ((pin % 8) =3D=3D 0) is intended.
+Apologies for the radio silence here..
 
-Probably. Here the pin/8 is the correct approach, it shows the bank
-number, where each bank is out of 8 pins.
+Palmer initially sent a workaround and there was some discussion there:
+https://lore.kernel.org/all/20221214180409.7354-1-palmer@rivosinc.com/
+Guo sent a patch too:
+https://lore.kernel.org/linux-riscv/20221215073212.1966823-1-guoren@kernel.=
+org/
 
-> For example:
+I suppose Christmas is doing Christmas things :)
 
-Thanks, but it's unrelated to this case.
+Thanks,
+Conor.
 
---=20
-With Best Regards,
-Andy Shevchenko
+
+--MtaQOvggsNiMCdq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6tAgAAKCRB4tDGHoIJi
+0iNeAP9Qrq4IWyn5TklutoCL8xcd+CsP3xMipIRMbYkPO6qtUgD/THGKBpG4PMl6
+7773RRj2qse2AGe9KxdQlg8x3ZxwngA=
+=OA0L
+-----END PGP SIGNATURE-----
+
+--MtaQOvggsNiMCdq7--
