@@ -1,51 +1,52 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499041C2B;
-	Thu, 29 Dec 2022 09:29:30 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id z16so441788wrw.1;
-        Thu, 29 Dec 2022 01:29:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9621C2B;
+	Thu, 29 Dec 2022 09:59:35 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id bx10so16999151wrb.0;
+        Thu, 29 Dec 2022 01:59:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dQjUzt0TYzPClWLYVG06i7EaST8h2wDOVIpEzBnJCKM=;
-        b=IqTbHq4xT4HYduozrFDpiDA7xJ9I+5OnwguxGsOfY3/321zoGjQt8+6WV4s/5EG1Ao
-         VVPVp6PPpUyzgnG1R5QXST2wikq1yDOK/Qx3/CUd2u5+f6abRfL+Vygdxi3h2OIsR1ZF
-         cWGPdbDZJ5lrSLGF+tgXTMYY9hteZOYzcwx0qoIN/EYJtAet2+xmjRw4pazNK0aXL4Hs
-         JKRFPHCkir35PSkPzwjWdurWmqdhKfLW8nZPy2nlXVs5wdjw0SeLirjyMjagC2cf9iUU
-         m6wrUlN7hEwtsNR12bZ8n4qSV5y4N4QSnmdtnqnq55t952J0IK+Bflia6v1E0uCQgM61
-         7cWw==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bn4HntsaKLTQdip7AHyQp+cV/Iqbq4A7mjOLHD/cq3A=;
+        b=oNoV6KZk4xfXVsu7aVrk5wo+peEUiy1BbGBKo3lLCOD0E8yhWOESElxxmbxXRn2gZq
+         o7HCMd72yLUzNqVSkmedEdhlu7ljV0gjwzdMlVygRedtHlTnXt8m7g3OGVEZGHX8pD9n
+         jyBXCXOIPUxwxgPEDxA3TrLgHBrQ1SKWmwrWhUFjK5Qn74vnHGeBAKMA6l7VI0EVIgME
+         /hrsTPL6CAUI9+mBtDCx+/2j7WGoIuXCV2v7XBZCT5d3N0PGe0xnAHcS8TmkuVjm4gVs
+         Ben8ZnupFVqEfaLUos0aiKcMZfc6jZvtBX3W8gL4eTaoAspNE6RZyG45zSBZl7GWpJkU
+         7cWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dQjUzt0TYzPClWLYVG06i7EaST8h2wDOVIpEzBnJCKM=;
-        b=jwMqdE1p5gHcI2YYS3v7KGwpJ6PtKlJBlYlZzCXsvoWg8qghyT9u6hRHgi5IfM3uRQ
-         ItOYH59UcdRpp5qg4JETtzORfgsMFbJQzHWMzsrIiNC5N9B6gIfbmOmluZhJRwBqoqhd
-         6K2XDFwtmVLb9u4K3jk6ShJpe6M0fTWs4Y9BYYZlSc+PmjSsS+RfyNKSEEp9G5sq5nNu
-         Oavc5rs1KKzm86DnQkmPsbdbg8eo0hLbJaFGjYkXJBvg8kZ6l55Ebaog6F02+QXxoMaM
-         haYSte0dQYmCVMPHhaAYeGQwq0lBlc8EHYXJY7QLMKK+X5LEKT7W38+iyB9REmMZ60XG
-         bO5Q==
-X-Gm-Message-State: AFqh2kojcCotsmgXdHSoCAqCqOZTNoKP2mgJSgF8wVOJPo1/F5pPREGO
-	5xrwz1NmTc8ozj7ZL7tKDZxu8yWp63AyW2Ib
-X-Google-Smtp-Source: AMrXdXvpWbDjkYnrUfS5uRT4UDoc3xE2G3Tlimu2DTpvAxWp+BIGeZObuZyRRKFe3+Mwk7ax6JNEHA==
-X-Received: by 2002:a05:6000:10e:b0:272:4d0b:366b with SMTP id o14-20020a056000010e00b002724d0b366bmr14027014wrx.38.1672306168168;
-        Thu, 29 Dec 2022 01:29:28 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bn4HntsaKLTQdip7AHyQp+cV/Iqbq4A7mjOLHD/cq3A=;
+        b=xy9wzzXwQ2a0T3rRE48TL1dWgqWqnxiGyGxa0KF4T7UZEizdGqYCGxQGimxBIVg5Pt
+         jxXLbDQ5vO8ddiA2k14bta65QyyndGQi8458zIcRtpP1zhYRSMAGpZsWeM+IxYO0t4jI
+         cyNOSmvpc9W0pxq8bv0SrPqd5mjbBYyMBtRcwvDFJnRuJYBGiQU0KBjoS3k3aS6d5m7L
+         1DkdjXTqKKGZR5XvUUWjLdFHzXYZxQlEQsdrD8YXDVucLkeN0IJqf87CEtrNHuKwET8M
+         kWxbJuxrNTzkL6xJVSpiabow9Sk8c8l/1fxSZ30o+nWNY63npZDmlrGftIC6SGxZ6XSv
+         0JmQ==
+X-Gm-Message-State: AFqh2kpO9InPEj0eNj/q10+Zc5O8zQOyijo17xV5GKWJpMH1IKAXSFwG
+	ckEE/xb8U8v5UL3XSm9fgjURW76Wle2Gi22o
+X-Google-Smtp-Source: AMrXdXtLjgq2koux/A/k/d40m6+3n6ZO4eR8ZysvKNvlrc/Vyf3qeNRIG8+dUsh3OPw6Z5m501IOkg==
+X-Received: by 2002:a5d:6910:0:b0:26d:a458:d126 with SMTP id t16-20020a5d6910000000b0026da458d126mr15698071wru.22.1672307973114;
+        Thu, 29 Dec 2022 01:59:33 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c10-20020a5d414a000000b0024242111a27sm17819412wrq.75.2022.12.29.01.29.27
+        by smtp.gmail.com with ESMTPSA id w14-20020adfee4e000000b002422bc69111sm21174791wro.9.2022.12.29.01.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 01:29:27 -0800 (PST)
-Date: Thu, 29 Dec 2022 12:29:24 +0300
+        Thu, 29 Dec 2022 01:59:32 -0800 (PST)
+Date: Thu, 29 Dec 2022 12:59:29 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Joshua Goins <josh@redstrate.com>,
-	linux-input@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jikos@kernel.org,
-	benjamin.tissoires@redhat.com, kurikaesu@users.noreply.github.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: uclogic: Add support for XP-PEN Artist 22R Pro
-Message-ID: <202212261746.hBtGGDW4-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 25/26] drivers/gpu/drm/bridge/panel.c:367
+ devm_drm_panel_bridge_add_typed() error: 'bridge' dereferencing possible
+ ERR_PTR()
+Message-ID: <202212291702.rmA7NAVJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,121 +55,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2068502.VLH7GnMWUR@adrastea>
 
-Hi Joshua,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Goins/HID-uclogic-Add-support-for-XP-PEN-Artist-22R-Pro/20221226-112302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/2068502.VLH7GnMWUR%40adrastea
-patch subject: [PATCH] HID: uclogic: Add support for XP-PEN Artist 22R Pro
-config: i386-randconfig-m021-20221226
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   941aae3263153cea91cb306cc889951486e16634
+commit: 5ea6b17027810ffbdb5bea7d0a2b1d312dd1021c [25/26] drm/panel: Add prepare_prev_first flag to drm_panel
+config: nios2-randconfig-m041-20221228
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/hid/hid-uclogic-params.c:1453 uclogic_params_init_ugee_xppen_pro() warn: variable dereferenced before check 'hdev' (see line 1447)
-drivers/hid/hid-uclogic-params.c:1454 uclogic_params_init_ugee_xppen_pro() warn: possible memory leak of 'buf'
-drivers/hid/hid-uclogic-params.c:1492 uclogic_params_init_ugee_xppen_pro() error: double free of 'buf'
+smatch warnings:
+drivers/gpu/drm/bridge/panel.c:367 devm_drm_panel_bridge_add_typed() error: 'bridge' dereferencing possible ERR_PTR()
 
-Old smatch warnings:
-drivers/hid/hid-uclogic-params.c:1502 uclogic_params_init_ugee_xppen_pro() error: double free of 'buf'
+vim +/bridge +367 drivers/gpu/drm/bridge/panel.c
 
-vim +/hdev +1453 drivers/hid/hid-uclogic-params.c
+89958b7cd9555a Laurent Pinchart 2019-09-04  348  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+67022227ffb1f5 Eric Anholt      2017-07-18  349  						   struct drm_panel *panel,
+67022227ffb1f5 Eric Anholt      2017-07-18  350  						   u32 connector_type)
+67022227ffb1f5 Eric Anholt      2017-07-18  351  {
+67022227ffb1f5 Eric Anholt      2017-07-18  352  	struct drm_bridge **ptr, *bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  353  
+67022227ffb1f5 Eric Anholt      2017-07-18  354  	ptr = devres_alloc(devm_drm_panel_bridge_release, sizeof(*ptr),
+67022227ffb1f5 Eric Anholt      2017-07-18  355  			   GFP_KERNEL);
+67022227ffb1f5 Eric Anholt      2017-07-18  356  	if (!ptr)
+67022227ffb1f5 Eric Anholt      2017-07-18  357  		return ERR_PTR(-ENOMEM);
+67022227ffb1f5 Eric Anholt      2017-07-18  358  
+89958b7cd9555a Laurent Pinchart 2019-09-04  359  	bridge = drm_panel_bridge_add_typed(panel, connector_type);
+67022227ffb1f5 Eric Anholt      2017-07-18  360  	if (!IS_ERR(bridge)) {
+67022227ffb1f5 Eric Anholt      2017-07-18  361  		*ptr = bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  362  		devres_add(dev, ptr);
+67022227ffb1f5 Eric Anholt      2017-07-18  363  	} else {
+67022227ffb1f5 Eric Anholt      2017-07-18  364  		devres_free(ptr);
 
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1436  static int uclogic_params_init_ugee_xppen_pro(struct hid_device *hdev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1437  					      struct uclogic_params *p,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1438  					      const u8 probe_endpoint,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1439  					      const u8 rdesc_init_packet[],
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1440  					      const size_t rdesc_init_size,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1441  					      const u8 rdesc_tablet_arr[],
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1442  					      const size_t rdesc_tablet_size,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1443  					      const u8 rdesc_frame_arr[],
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1444  					      const size_t rdesc_frame_size)
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1445  {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1446  	const size_t str_desc_len = 12;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1447  	struct usb_device *udev = hid_to_usb_dev(hdev);
-                                                                                                 ^^^^
-Dereference.
+return -ENOMEM;
 
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1448  	u8 *buf = kmemdup(rdesc_init_packet, rdesc_init_size, GFP_KERNEL);
+67022227ffb1f5 Eric Anholt      2017-07-18  365  	}
+67022227ffb1f5 Eric Anholt      2017-07-18  366  
+5ea6b17027810f Dave Stevenson   2022-12-05 @367  	bridge->pre_enable_prev_first = panel->prepare_prev_first;
+                                                        ^^^^^^^^^^
 
-Never put functions which can fail in the declaration block.  This
-allocation has no check for NULL (common problem when done in
-declaration block).
-
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1449  	s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1450  	int actual_len, rc;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1451  	u16 resolution;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1452  
-51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1453  	if (hdev == NULL || p == NULL)
-                                                            ^^^^^^^^^^^^
-Checked to late.
-
-51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1454  		return -EINVAL;
-
-Needs a kfree(buf);
-
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1455  
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1456  	rc = usb_interrupt_msg(
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1457  		udev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1458  		usb_sndintpipe(udev, probe_endpoint),
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1459  		buf,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1460  		rdesc_init_size,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1461  		&actual_len,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1462  		USB_CTRL_SET_TIMEOUT);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1463  	kfree(buf);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1464  	if (rc == -EPIPE) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1465  		hid_err(hdev, "broken pipe sending init packet\n");
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1466  		return rc;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1467  	} else if (rc < 0) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1468  		hid_err(hdev, "failed sending init packet: %d\n", rc);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1469  		return rc;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1470  	} else if (actual_len != rdesc_init_size) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1471  		hid_err(hdev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1472  			"failed to transfer complete init packet, only %d bytes sent\n",
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1473  			actual_len);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1474  		return -1;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1475  	}
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1476  
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1477  	rc = uclogic_params_get_str_desc(&buf, hdev, 100, str_desc_len);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1478  	if (rc != str_desc_len) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1479  		if (rc == -EPIPE) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1480  			hid_err(hdev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1481  				"string descriptor with pen parameters not found\n");
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1482  		} else if (rc < 0) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1483  			hid_err(hdev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1484  				"failed retrieving pen parameters: %d\n", rc);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1485  		} else {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1486  			hid_err(hdev,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1487  				"string descriptor with pen parameters has invalid length (got %d, expected %lu)\n",
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1488  				rc,
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1489  				str_desc_len);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1490  			rc = -1;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1491  		}
-51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1492  		kfree(buf);
-
-If uclogic_params_get_str_desc() fails then this is a double free.
-
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1493  		return rc;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1494  	}
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1495  
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1496  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] = get_unaligned_le16(buf + 2);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1497  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] = get_unaligned_le16(buf + 4);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1498  	/* buf + 6 is the number of pad buttons? Its 0x0008 */
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1499  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_PRESSURE_LM] =
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1500  		get_unaligned_le16(buf + 8);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1501  	resolution = get_unaligned_le16(buf + 10);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1502  	kfree(buf);
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1503  	if (resolution == 0) {
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1504  		hid_err(hdev, "resolution of 0 in descriptor string\n");
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1505  		return -1;
-51d8c9b14fc55dc Aren Villanueva 2022-12-25  1506  	}
+5ea6b17027810f Dave Stevenson   2022-12-05  368  
+67022227ffb1f5 Eric Anholt      2017-07-18  369  	return bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  370  }
 
 -- 
 0-DAY CI Kernel Test Service
