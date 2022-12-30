@@ -1,81 +1,78 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ED453A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Dec 2022 22:21:39 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id l29so24949446edj.7
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Dec 2022 14:21:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hle+TDATQIU1Askkn4DbGJTqJ4zXSQMnec43tQ4/jZM=;
-        b=pQjylaZeRgk7uiDrvcyHFI7v06Vkc4qYEz1sL4qhHWKyOG7j3/B4mlriifLexhP5i+
-         7yOyTJsn5HAVPenSBmL0iCVKR1nz7/T441J2DXRAqECS0k2qh2ORq5kxz6nBBLTZVjPp
-         xHTztE1E/QrZpd/dz/LBALd98yiUpQK6OkuaNfYyYXfD58eRk+WJLBo8yIj2LCXqgbz0
-         8Jxw9NXkH0F3GoHYgtzIHgzBMnImtrFzXlD7dmylHROXvkxDXpUFqoQdg6Ma7bn0DLEH
-         CjKDAm+YPD8Nu0q6iXWp+n+8AYghzBtEZNUBhsATebbyQQo1PXT8gaNxcAeZccu+Qgpa
-         eNMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hle+TDATQIU1Askkn4DbGJTqJ4zXSQMnec43tQ4/jZM=;
-        b=L/47WJnR+NZm+Qtp5jNzcqPrMfZmon6rEJR763zhA1YHufM1Gaf1Cd5i7N2GjqBT7F
-         nbBCEzB3Rp8fZP7AHOlvFkqCZfUxC+mP7gXomK7Gww9E7VIHc9LNnNh223E57KyTEb5X
-         1RXuJZyfz63lDslHeNbwzpBsi7RKUVtmXskNddyYolMwmvGewmyPGdt6vqiRqydS8RUZ
-         n3aLhg2PvAEyIKCVyJH9Nu0rDm46e0z1Yp+Xh1D3mHXYWDtwETNIwmCOA6aW4sKYXDHs
-         bbEkhV5Uu45Q1e/lD0swKVUhrJUc/RsSz1pW3qdrreWO101iQ91R0R7o+4xFW+PNw9Pp
-         za/A==
-X-Gm-Message-State: AFqh2kpc3E2zaUWZ4EhJvPcKiKcQE/BXDjzrK35KpCU2O81TUXlNJKFH
-	s8+MG+hi0IfosKreWP0e/zXn7ijh7XWe+cv/1tc=
-X-Google-Smtp-Source: AMrXdXtnCvYktMIZ6BdXm6xSI9y64WwtIfegEr0xSAYsPnxcqa8ZUnuA9r0eLzQ7O6CH3C06/d39LkAOSlUxyS36xbE=
-X-Received: by 2002:a50:ea81:0:b0:45c:a651:8849 with SMTP id
- d1-20020a50ea81000000b0045ca6518849mr3712707edo.209.1672438898126; Fri, 30
- Dec 2022 14:21:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F7353A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Dec 2022 22:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672439102; x=1703975102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yybVRQ8iPIsbqZIGLaIL7MB2xjCclLzuH42lS2c7G5E=;
+  b=YNuaL5poYLT8Opd1HBVwcmMHJy7Z9OpBqSc3ySf4lc35+UCfK2EPn8zd
+   Dd8fS+ONAaOW6ztoZ4W2iZcWGpVSm7yBDyANMmf38QCdoBd/Oeeup5bSD
+   +MSSo8Gu2T+cL4JX58CuiaGlvpO4SrDkbdGf7uuyA1pDp7zCpDzCVYyjb
+   ym6oU3AjRKVGkisJBRsItDrc7IdJmeITMHEr76gEx+3KFO+AkTEIzfSM9
+   L5oA/N2VVww/UfiFv2vq6B3RYydK9jUAz8BC67spZCZb26/cPskWqjiWM
+   4FyTwcxyFdycxOcSSbbQ4kb8xeiTvFWqUrlJu3dIXagj++USEBi5YGP3N
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10576"; a="385694191"
+X-IronPort-AV: E=Sophos;i="5.96,288,1665471600"; 
+   d="scan'208";a="385694191"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2022 14:25:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10576"; a="631620938"
+X-IronPort-AV: E=Sophos;i="5.96,288,1665471600"; 
+   d="scan'208";a="631620938"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 30 Dec 2022 14:24:59 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pBNoA-000ITT-19;
+	Fri, 30 Dec 2022 22:24:58 +0000
+Date: Sat, 31 Dec 2022 06:24:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yu Kuai <yukuai1@huaweicloud.com>, linux-block@vger.kernel.org,
+	shinichiro.kawasaki@wdc.com, hch@infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, yukuai3@huawei.com, yangerkun@huawei.com,
+	yi.zhang@huawei.com
+Subject: Re: [PATCH blktests] dm: add a regression test
+Message-ID: <202212310607.TCNdNAlM-lkp@intel.com>
+References: <20221230065424.19998-1-yukuai1@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221230215942.3241955-1-zenczykowski@gmail.com> <Y69fx1KpwWivqLp0@181616e551cc>
-In-Reply-To: <Y69fx1KpwWivqLp0@181616e551cc>
-From: =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <zenczykowski@gmail.com>
-Date: Fri, 30 Dec 2022 14:21:26 -0800
-Message-ID: <CAHo-Ooxx2qF0i-34H3mCMB99_Uf1ifnw2ivs9z4AHkbSPXsY9Q@mail.gmail.com>
-Subject: Re: [PATCH] usb: storage: de-quirk Seagate Expansion Portable Drive
- SRD00F1 [0bc2:2320]
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221230065424.19998-1-yukuai1@huaweicloud.com>
 
-Mr. Robot,
+Hi Yu,
 
-your rule matching logic appears to be incorrectly implemented.
+Thank you for the patch! Perhaps something to improve:
 
-Regards,
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc1 next-20221226]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-A human.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/dm-add-a-regression-test/20221230-143530
+patch link:    https://lore.kernel.org/r/20221230065424.19998-1-yukuai1%40huaweicloud.com
+patch subject: [PATCH blktests] dm: add a regression test
+reproduce:
+        scripts/spdxcheck.py
 
-On Fri, Dec 30, 2022 at 2:02 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi,
->
-> Thanks for your patch.
->
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
->
-> Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-> Subject: [PATCH] usb: storage: de-quirk Seagate Expansion Portable Drive SRD00F1 [0bc2:2320]
-> Link: https://lore.kernel.org/stable/20221230215942.3241955-1-zenczykowski%40gmail.com
->
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
->
->
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+spdxcheck warnings: (new ones prefixed by >>)
+>> tests/dm/001: 2:27 Invalid License ID: GPL-3.0+
+>> tests/dm/rc: 2:27 Invalid License ID: GPL-3.0+
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
