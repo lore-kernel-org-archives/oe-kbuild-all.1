@@ -1,115 +1,250 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2084.outbound.protection.outlook.com [40.107.6.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19992113
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jan 2023 10:54:26 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pCevy-0008N9-4j; Tue, 03 Jan 2023 11:54:18 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pCevw-003Xhj-J0; Tue, 03 Jan 2023 11:54:16 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pCevv-0004ck-W5; Tue, 03 Jan 2023 11:54:16 +0100
-Message-ID: <97983dd8404782630814a6dada2e863fe914a397.camel@pengutronix.de>
-Subject: Re: ld.lld: error: undefined symbol: devm_ti_sci_get_handle
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 03 Jan 2023 11:54:15 +0100
-In-Reply-To: <77e77c4f-0cde-090d-5918-c1a5f85ea5fb@infradead.org>
-References: <202212222201.6lgWXMZT-lkp@intel.com>
-	 <77e77c4f-0cde-090d-5918-c1a5f85ea5fb@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1+deb11u1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35082113;
+	Tue,  3 Jan 2023 10:56:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TBvhtm+nJBR5kyWKWBhIB8Cd9znua/3VzW1Np8HzEr9dquZjsfIT9vypV7kJVF10ID6uSze0jYnIRqrKnSlakcxrefshrt1tJ3aLdTuwDZ6C5B9SRgDfJ9RZyfxSpobc1n8lsfIIwY+z5GX1jljoA2IHrC/PL+jf4rPUpZ1WsaoCUC4Js8BUu2u0wbVQb7dZhPRc2biC7SvzKU/kl5rr1wFwJDR3ADhWwEl3fcTrOfZP8BQEmSot/VgEivP/HgFrGCNffmK+xrspl1qAiCiIN4peSbKY4zeTHECkKw8P0b7QfMm4kORV/2lNSLpSMHNR71youJHEPviWLL2o4NHZLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KtKwNOr9MbJUREJVch2yjLtjCzXfacn0Srv2WxN/lBY=;
+ b=V0AT0xiBAKigM4oMUDyCoE1GpzuGeCSlUAzUpN/uEVApKKHzb29SO2MBQfqXTG0j1uGrmnSozT6yzlqvAGy4SUkweuT4BMriF3qa8z5pj0P1ihDPiKFc+HlcKXRLJfmH+KSyesql/2NjGpkoVJAhjO4az/d+5eu3aj4GmK4C74F5TIuNKpqwjAhPyTZWlcDIpVnkFRl76eX0bhbZfJ6g8mbuBwAGxhCHIJlLLRV9n27H3YxZGt471bx4PBKAO2yYmKS3/KsMYDVj9AeYX6v7SSYvi+B82+vP4nURCGDYKI/Ds0mH2AG5PKR4q8KtNRPGE6FWiqph16eLQSVl9i0eHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KtKwNOr9MbJUREJVch2yjLtjCzXfacn0Srv2WxN/lBY=;
+ b=apVm4PCXQUXZGwKOV/SylFAbOL2K1poXd0RHVxnK3DSLaO7Jycxi4F0l/brxVqhBiD+Wk2A8MJP+DvtVx3qHpB5Qa+iaPuecTtTe4/+1XshV1YfPG7w3J+kO1oBwYWHLr7nwKp4paeDGjEUqAerv/mJvLbq2CNCNkvOc7UM+03A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
+ by AM9PR04MB7713.eurprd04.prod.outlook.com (2603:10a6:20b:2d4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
+ 2023 10:56:30 +0000
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::19a6:6003:3641:13b2]) by PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::19a6:6003:3641:13b2%7]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
+ 10:56:30 +0000
+Message-ID: <f8646acc-51e2-0461-cc1f-f341b84c9cff@oss.nxp.com>
+Date: Tue, 3 Jan 2023 11:56:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn:
+ missing unwind goto?
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>
+References: <202301031138.wkCMwZin-lkp@intel.com>
+From: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
+In-Reply-To: <202301031138.wkCMwZin-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM9P250CA0028.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21c::33) To PAXPR04MB8703.eurprd04.prod.outlook.com
+ (2603:10a6:102:21e::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8703:EE_|AM9PR04MB7713:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d9e8960-6d73-4e4a-ed48-08daed792ada
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	lNvDGdh36BGSKQ2jJRAwA2r2UR2UUrW4eRVoI++fkGfUBvQufWlJaBQ3alZDtKqVxytsZTYJqVJ7YlBDskSvpU9SCaYMym0p06O9Oxldp7R2hgMA+82V+imBBbdphuXp7EBv7KBEx7e4rM+h/9Aaofh+8ZErAo34PMe0Awxgv4/JaLhw0GC3QjZ3hg0NtFI7O48TpOzVqMLTkFy2s7zoh0++K/ecxxq/xjLS9FO4IXWl7N5AiV6FEAxI7A2u09M5yVP9DPD2z28wLaQnSIqYbJ61aEJyAx6mJhWitTg+ubORCcTon3EN9utb08v5yaREOaguiQO5e1ULXeJiD63qldDWii9puPlgjAkGihvmke0M6LNldwrO0PHiUKcpDMlifM3Ml06xBl+ccb/VDKfze3lXoupatv5GH+aE6NM+Q+lsSEcg87cvGB7xkBEH4vY4pT7FbympvSwDpLZPIiRH0TtiqR4Gcbu2IGfBjiFrthOrSUeSPEfPlVy128aKzJ9Jj3yK2fbGKeofVfO3ulwrkaCoVa/hlL+CGAK9ZVSJzoAUFep7htpwEmElm29v+CErnyTbt3AK74Sp610x+HqQzNwJ1uABwjLCs9l3yqLUgyCle3zZT83Fg2cFoQZF6JdDucmEfzqQ9Ie/w2kRJuw8fQgeaAFoVxK/TwgGsz8NzleuvMub7huN4YSRWhz/bYfY9ElrfV7lF5m7x6oP8ypKsVIe8hA30doL4NdBz+ytOwG68TKa1pAXjg478XFzNqd0cOQDr4PsEsipVFeiGM7Cte4Q9qLevO4mHw07xvsKvFTKnpTE5jzBlEpLdC9DOHSQ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(346002)(376002)(136003)(366004)(451199015)(83380400001)(6512007)(26005)(53546011)(6666004)(6506007)(31696002)(86362001)(38350700002)(38100700002)(2616005)(186003)(478600001)(41300700001)(8676002)(4326008)(2906002)(7416002)(5660300002)(8936002)(966005)(6486002)(52116002)(66556008)(31686004)(66946007)(66476007)(54906003)(316002)(22166006)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dmdvMnV5b0lNTlIwdVRUbk5ta3dDbHBqUlRmc3FZUTEvTUFDZFREK3FUeHUz?=
+ =?utf-8?B?dmJxVVlIRHVvQ0FIZi9tOHFSYW11YmJ0bnVzcjZ1aXZFWXVzUHNNelVlNjhv?=
+ =?utf-8?B?RHVYYlkzWTRkM2FLcXBZYjNreTQrZGl6a1pMVmhZanhtSnZHQWpFMmhkWlhE?=
+ =?utf-8?B?cDBsa3Z5Nm5PZVdSTG9jbjEwZHpJNWl2WmZaL1RmaWZ4VXk4TTBaZEF3QnlH?=
+ =?utf-8?B?czRBVUF2bGNxaDgxS0F1TldoTXpjZW9VS3FOWWRJSlQzbTVrZVpLakc5N0Vr?=
+ =?utf-8?B?Y2haL3BBdHpmWWNpU215b3hOYjQrNnRvYlEzRXBEa1dCazdPK1NyY21rZFlz?=
+ =?utf-8?B?cWVJUEhmS21hUTBpTnNEaEMyQUVIN2dZOEZHMFFSdmpVYmZkSXNhYnYzQWF5?=
+ =?utf-8?B?OGxGNUNld3B1QnUvalk5VW41bE1WSUo4OVJGYitpeE51bFhSU0tVcWRqeERt?=
+ =?utf-8?B?d2J1SFdTSEhmSnJUbWVhZUFMNWZEYWZpZFNWeDdiZWlXQzZMWXpBQVR4dWMw?=
+ =?utf-8?B?ZWtoOXhjYVRHbFV2cGN1S3duYkx4WjNoL0xXMjEyTXh0OXJNRllJVHhPMmZC?=
+ =?utf-8?B?YzhCZFE4VlNaR1pkTjk1amhReHA5OThkR1g3T3JSRUk4SEZZSlE0dmRERE5y?=
+ =?utf-8?B?cHFxWkk3dFJPbW5WY0NiQ1Ywa0g0NE5VeVAxZEVrRVJDQk5IMXhnMU9HMjBn?=
+ =?utf-8?B?NWIyT0tKelltWUZQaFR3OHNEbmlWU3VmWHFEelRaVzNiaFZnZ2hjRnZKVzJq?=
+ =?utf-8?B?TGZ5ZmpTQnFlaURXbk9DNndoWDlwb2oxU1pHZFBZKzdtaHFpRjBGMzdyN2hW?=
+ =?utf-8?B?VDYzTTZsRk9pbncrWHQvek11TW43b2Uxd0tiRHZqUkwxMTNPNSs4Ym10U3VM?=
+ =?utf-8?B?TzA4RTJVanorNUVhV2E1VHRWQkZiVzNnWGFzcit4YnppejBtbGtIWmE0S2Va?=
+ =?utf-8?B?aDZKV3J5ek1yS0hZc0hOcE8yTi9HajhuUlc0Zy9Da3JQT3htdXRxTjhMelFu?=
+ =?utf-8?B?amRBaklrZ3ZZK0l4Q0JpR3VHdi9nMEZWLzR2bGc4N21qK0dwRkliVmdyNDBE?=
+ =?utf-8?B?Q1c2VnNaTkgxbjZKNDNDaXhXUFYxdjliVHBjV0FDRUdsV0hCTEpMYnpwaG85?=
+ =?utf-8?B?bGZhM1FxTW1sbk5xN2pSTDdEUENSSkJyMEs1dFkrNjRidElrWlZNaXlOU3ZE?=
+ =?utf-8?B?QWtRUEtDeGs2T1VwTmEwcVpCVDU4RGV3ZXFXZUF5ZEU0RXhPZGZ5b1dhelhv?=
+ =?utf-8?B?NCtjRmNTZTA5dERxQUdndjBrZEVMQVFXYlpVaVhLTlVjVmU4TFpjYTN2UHho?=
+ =?utf-8?B?enhXY3VCVEo3bDNaV3hzUk5Dd1p0YnFzQlNUeEdvVjBla0paVzdxYlRIb0F3?=
+ =?utf-8?B?aWpwTFkyUlRCQnJIbUlSR0phSVg1bi9PS0N3NFp3QXVkZTVCTFMxNWVuRER1?=
+ =?utf-8?B?V0xoaW1HY0RPYlF3dTRkcU1TNVpmVmY1c2o1M0NHTU15UlRNalNKaExzNWlB?=
+ =?utf-8?B?OHpqWGZxZW1QQjRDSHhkUThTa3N4NmlNR3lpY0ErZ2c1bjZKZCt6VTFBZFc4?=
+ =?utf-8?B?RnZDSEhsYlFGWkdCWXM0SVFHTlptNUF6allGWTBCZGx1QkxmbDVYOXh1ZThR?=
+ =?utf-8?B?bnZpS1ZJc0F1dGszM29mUnI1TWx0dVlXWUtvQzErL0FTUjc4Z0VNOVJPTzVH?=
+ =?utf-8?B?Nnp0Q05xaEVIeVVWSDBYT3Q3QXozMituWkJFSVh2UnYvVXVZWEt0SHoxSENC?=
+ =?utf-8?B?WjlEYnFXa0UzdTZHaWZnNTRENG1FOCs5VjNmYWlKWC9iK0ViVHN2aUx6UStK?=
+ =?utf-8?B?azdsWUYrd0xKNGc1c3BQY3lkMXlUaVZINDl2MmNQOWRzbXl6eFY5aUFldWhG?=
+ =?utf-8?B?dVZ1enhvdnNPL2NZQXpvV2tDTTNUQlQyR3BXb1d4ZFJDTDRLKzVKdjd2Vlc3?=
+ =?utf-8?B?UW1mZWFGZTVFTzJrM2Y4elVPWkxhb1NaampmcURxNC9XUG0rMUdhTDlpVWpU?=
+ =?utf-8?B?bnlxd3FjS3VCRWpuYm5YMU43N2g1cWd2cVYrcGV4VTBKUUJQSTVuU2pYL1ky?=
+ =?utf-8?B?R1J3UmVhSldUalZDTHVzV0l5N05HUzA0UU5GTldXcHNQZ0FnWWxMREVnNXk2?=
+ =?utf-8?B?NkFOSDNPYm9FcXlKbmVxZ3hWckRPNFNzYlhDcW9meTJQcnFYZU4zNE9malY4?=
+ =?utf-8?B?WUE9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d9e8960-6d73-4e4a-ed48-08daed792ada
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 10:56:30.5767
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iUUWmY/vaL1ttpcDbZ2YzQoCCKd6Clz0jW7ScgMUjFIO+lzW9F3zGFEUH/2nEXK9IxFUortN1TvKIaas1k7vNg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7713
 
-On Do, 2022-12-22 at 16:40 -0800, Randy Dunlap wrote:
->=20
-> On 12/22/22 06:45, kernel test robot wrote:
-> > Hi Philipp,
-> >=20
-> > FYI, the error/warning was bisected to this commit, please ignore it if=
- it's irrelevant.
-> >=20
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
-> > commit: a6af504184c981efd253f986e6fc54db57b1d39f reset: ti-sci: Allow b=
-uilding under COMPILE_TEST
-> > date:   8 months ago
-> > config: arm-randconfig-r046-20221222
-> > compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 98=
-b13979fb05f3ed288a900deb843e7b27589e58)
-> > reproduce (this is a W=3D1 build):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wget https://raw.github=
-usercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0chmod +x ~/bin/make.cro=
-ss
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# install arm cross com=
-piling tool for clang build
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# apt-get install binut=
-ils-arm-linux-gnueabi
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# https://git.kernel.or=
-g/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3Da6af504184c981ef=
-d253f986e6fc54db57b1d39f
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git remote add linus ht=
-tps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git fetch --no-tags lin=
-us master
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git checkout a6af504184=
-c981efd253f986e6fc54db57b1d39f
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# save the config file
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mkdir build_dir && cp c=
-onfig build_dir/.config
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0COMPILER_INSTALL_PATH=
-=3D$HOME/0day COMPILER=3Dclang make.cross W=3D1 O=3Dbuild_dir ARCH=3Darm ol=
-ddefconfig
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0COMPILER_INSTALL_PATH=
-=3D$HOME/0day COMPILER=3Dclang make.cross W=3D1 O=3Dbuild_dir ARCH=3Darm SH=
-ELL=3D/bin/bash
-> >=20
-> > If you fix the issue, kindly add following tag where applicable
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> >=20
-> > All errors (new ones prefixed by >>):
-> >=20
-> > > > ld.lld: error: undefined symbol: devm_ti_sci_get_handle
-> > =C2=A0=C2=A0=C2=A0>>> referenced by reset-ti-sci.c:229 (drivers/reset/r=
-eset-ti-sci.c:229)
-> > =C2=A0=C2=A0=C2=A0>>>               reset/reset-ti-sci.o:(ti_sci_reset_=
-probe) in archive drivers/built-in.a
->=20
-> Two (2) patches have been posted for this build error (in chronological o=
-rder):
->=20
-> 2022-10-29:
-> =C2=A0=C2=A0https://lore.kernel.org/lkml/20221030055636.3139-1-rdunlap@in=
-fradead.org/
-> 2022-12-15:
-> =C2=A0=C2=A0https://lore.kernel.org/all/20221215170036.2308972-1-arnd@ker=
-nel.org/
->=20
-> Can someone apply one of them or at least comment on them?
-> Philipp?
+Hi Dan,
 
-Sorry for the delay, I've applied your patch and will send a pull
-request shortly.
-
-regards
-Philipp
+On 1/3/23 09:13, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   69b41ac87e4a664de78a395ff97166f0b2943210
+> commit: cb6d000fcaa6e2ee0e01937364c686690329bf5e media: dw100: Add i.MX8MP dw100 dewarper driver
+> config: ia64-randconfig-m041-20230101
+> compiler: ia64-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
+> smatch warnings:
+> drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn: missing unwind goto?
+> 
+> vim +1574 drivers/media/platform/nxp/dw100/dw100.c
+> 
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1531  static int dw100_probe(struct platform_device *pdev)
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1532  {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1533  	struct dw100_device *dw_dev;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1534  	struct video_device *vfd;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1535  	struct resource *res;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1536  	int ret, irq;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1537
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1538  	dw_dev = devm_kzalloc(&pdev->dev, sizeof(*dw_dev), GFP_KERNEL);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1539  	if (!dw_dev)
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1540  		return -ENOMEM;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1541  	dw_dev->pdev = pdev;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1542
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1543  	ret = devm_clk_bulk_get_all(&pdev->dev, &dw_dev->clks);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1544  	if (ret < 0) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1545  		dev_err(&pdev->dev, "Unable to get clocks: %d\n", ret);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1546  		return ret;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1547  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1548  	dw_dev->num_clks = ret;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1549
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1550  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1551  	dw_dev->mmio = devm_ioremap_resource(&pdev->dev, res);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1552  	if (IS_ERR(dw_dev->mmio))
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1553  		return PTR_ERR(dw_dev->mmio);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1554
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1555  	irq = platform_get_irq(pdev, 0);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1556  	if (irq < 0)
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1557  		return irq;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1558
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1559  	platform_set_drvdata(pdev, dw_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1560
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1561  	pm_runtime_enable(&pdev->dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1562  	ret = pm_runtime_resume_and_get(&pdev->dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1563  	if (ret < 0) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1564  		dev_err(&pdev->dev, "Unable to resume the device: %d\n", ret);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1565  		goto err_pm;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1566  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1567
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1568  	pm_runtime_put_sync(&pdev->dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1569
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1570  	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1571  			       dev_name(&pdev->dev), dw_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1572  	if (ret < 0) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1573  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30 @1574  		return ret;
+> 
+> goto err_pm;
+Indeed, this goto is missing. Thanks.
+Regards,
+  Xavier
+> 
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1575  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1576
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1577  	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1578  	if (ret)
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1579  		goto err_pm;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1580
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1581  	vfd = dw100_init_video_device(dw_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1582
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1583  	dw_dev->m2m_dev = v4l2_m2m_init(&dw100_m2m_ops);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1584  	if (IS_ERR(dw_dev->m2m_dev)) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1585  		dev_err(&pdev->dev, "Failed to init mem2mem device\n");
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1586  		ret = PTR_ERR(dw_dev->m2m_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1587  		goto err_v4l2;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1588  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1589
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1590  	dw_dev->mdev.dev = &pdev->dev;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1591  	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1592  	media_device_init(&dw_dev->mdev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1593  	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1594
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1595  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1596  	if (ret) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1597  		dev_err(&pdev->dev, "Failed to register video device\n");
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1598  		goto err_m2m;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1599  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1600
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1601  	ret = v4l2_m2m_register_media_controller(dw_dev->m2m_dev, vfd,
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1602  						 MEDIA_ENT_F_PROC_VIDEO_SCALER);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1603  	if (ret) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1604  		dev_err(&pdev->dev, "Failed to init mem2mem media controller\n");
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1605  		goto error_v4l2;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1606  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1607
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1608  	ret = media_device_register(&dw_dev->mdev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1609  	if (ret) {
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1610  		dev_err(&pdev->dev, "Failed to register mem2mem media device\n");
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1611  		goto error_m2m_mc;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1612  	}
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1613
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1614  	dw100_debugfs_init(dw_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1615
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1616  	dev_info(&pdev->dev,
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1617  		 "dw100 v4l2 m2m registered as /dev/video%u\n", vfd->num);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1618
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1619  	return 0;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1620
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1621  error_m2m_mc:
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1622  	v4l2_m2m_unregister_media_controller(dw_dev->m2m_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1623  error_v4l2:
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1624  	video_unregister_device(vfd);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1625  err_m2m:
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1626  	v4l2_m2m_release(dw_dev->m2m_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1627  err_v4l2:
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1628  	v4l2_device_unregister(&dw_dev->v4l2_dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1629  err_pm:
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1630  	pm_runtime_disable(&pdev->dev);
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1631
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1632  	return ret;
+> cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1633  }
+> 
