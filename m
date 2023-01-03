@@ -1,115 +1,87 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74FCD8466
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jan 2023 14:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2A68466
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jan 2023 15:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672757346; x=1704293346;
+  t=1672760958; x=1704296958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zgcCduK5tQX/4jjDGb6v9Ur860JNvY8VXzjSGSUHnXc=;
-  b=V4soxbDzMN0tMLZWApFvrVID0P5I5p4U1wSAUqCvRARk7ZJEO1zdlXyt
-   jpq1KElTSyII9K0438LTW1h1L2V6ErY8fehIJPDw4ChUWh7GRMxFRS2Co
-   YdStMyvoxzeusFb6mfcLA5DbDKSOjoUizfllnxmzK9bFS8w6NKWfMWpge
-   4iFxxB8gzeIhAtkjl31OHjXvDzDTmTnfq4PPA9bjlwk3ob41hjv7K5cCR
-   IDj1pZVWeiRau2sgOaeCIozAo5kUZ+NBFuI6K+WJl+CY4C97/1hVr0oKS
-   +9fa9untgXVilb2eH9b86XQLgHcUeIojHgn0iWH+n7xbBfzEr2YiFBkFt
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302046606"
+  bh=pFoRpOnH5+0ln/+tzimgq1ir47qtJ44FkDkWuZhhb1A=;
+  b=CUnOMyisn99SpmDNtQyy4s771W9kTWFAQDXPTk3vOHmYfQoeesqIiWh8
+   0zYHuV92DqIcDYY9jQ/Lv+zPeVvb88QsZo76VwJ1miWYxgyuYXmWVzt/0
+   jMkX0Ar/nK9jvoO3BW+FPeO8I5JulepEoYZs1O9RUTIFy0LkAEWoKCnUX
+   vQxus1nM7qMuyRCztxbmUOrZwvVXGIJED72aEJZpBC4e3zpExPiiBD2Bx
+   KX8+UcWSJvWOR5KNlQ1Vfe1jvQ1b3AGUA5UPnJTMwfeh51xqsJQbgTVrX
+   1FIFbxOqonZMDO5CuWx8TsTby7cXah0N0tVd6qdv8dNImvtTmRxi8MXjn
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="321755475"
 X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="302046606"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 06:49:05 -0800
+   d="scan'208";a="321755475"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 07:49:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="685421843"
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="648253978"
 X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="685421843"
+   d="scan'208";a="648253978"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Jan 2023 06:49:03 -0800
+  by orsmga007.jf.intel.com with ESMTP; 03 Jan 2023 07:49:08 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pCib8-000SMA-0n;
-	Tue, 03 Jan 2023 14:49:02 +0000
-Date: Tue, 3 Jan 2023 22:48:10 +0800
+	id 1pCjXH-000SQN-2r;
+	Tue, 03 Jan 2023 15:49:07 +0000
+Date: Tue, 3 Jan 2023 23:48:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.1.x-imx 14036/18687]
- drivers/base/power/domain.c:635:20: error: 'pm_wq' undeclared
-Message-ID: <202301032223.jpgnfXon-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.1.x-imx 16156/18687]
+ drivers/soc/imx/imx93-blk-ctrl.c:234:35: error: 'SZ_4K' undeclared
+Message-ID: <202301032359.uyhnBFuq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="6Q9ooM8S2HhaL2iw"
+Content-Type: multipart/mixed; boundary="+4he7NG475GIIMjY"
 Content-Disposition: inline
 
 
---6Q9ooM8S2HhaL2iw
+--+4he7NG475GIIMjY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Peng,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
 tree:   https://github.com/Freescale/linux-fslc 5.15-2.1.x-imx
 head:   34103ef81ca9e76eb67da3d21fa054280df5c28e
-commit: c7aa30ff9f1ace2dbacdb6cd2720606e7f74c4c5 [14036/18687] MLK-25894-4 soc: imx: add i.MX93 SRC power domain driver
+commit: 1c3dd14276374d48bfd2a6d41c712cd0bb04163b [16156/18687] LF-6899 soc: imx: imx93-blk-ctrl: restrict register range with access table
 config: arc-randconfig-r043-20230102
 compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/c7aa30ff9f1ace2dbacdb6cd2720606e7f74c4c5
+        # https://github.com/Freescale/linux-fslc/commit/1c3dd14276374d48bfd2a6d41c712cd0bb04163b
         git remote add freescale-fslc https://github.com/Freescale/linux-fslc
         git fetch --no-tags freescale-fslc 5.15-2.1.x-imx
-        git checkout c7aa30ff9f1ace2dbacdb6cd2720606e7f74c4c5
+        git checkout 1c3dd14276374d48bfd2a6d41c712cd0bb04163b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/base/power/ drivers/soc/imx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/soc/imx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/power/domain.c:255:6: warning: no previous prototype for 'pm_genpd_disable_clks' [-Wmissing-prototypes]
-     255 | void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/base/power/domain.c:261:5: warning: no previous prototype for 'pm_genpd_enable_clks' [-Wmissing-prototypes]
-     261 | int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/power/domain.c: In function 'genpd_queue_power_off_work':
->> drivers/base/power/domain.c:635:20: error: 'pm_wq' undeclared (first use in this function)
-     635 |         queue_work(pm_wq, &genpd->power_off_work);
-         |                    ^~~~~
-   drivers/base/power/domain.c:635:20: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/base/power/domain.c: In function 'genpd_dev_pm_qos_notifier':
->> drivers/base/power/domain.c:841:39: error: 'struct dev_pm_info' has no member named 'ignore_children'
-     841 |                 if (!dev || dev->power.ignore_children)
-         |                                       ^
-   drivers/base/power/domain.c: In function 'rtpm_status_str':
->> drivers/base/power/domain.c:3144:23: error: 'struct dev_pm_info' has no member named 'runtime_error'
-    3144 |         if (dev->power.runtime_error)
-         |                       ^
->> drivers/base/power/domain.c:3146:28: error: 'struct dev_pm_info' has no member named 'disable_depth'
-    3146 |         else if (dev->power.disable_depth)
-         |                            ^
->> drivers/base/power/domain.c:3148:28: error: 'struct dev_pm_info' has no member named 'runtime_status'
-    3148 |         else if (dev->power.runtime_status < ARRAY_SIZE(status_lookup))
-         |                            ^
-   drivers/base/power/domain.c:3149:45: error: 'struct dev_pm_info' has no member named 'runtime_status'
-    3149 |                 p = status_lookup[dev->power.runtime_status];
-         |                                             ^
---
-   drivers/base/power/domain_governor.c: In function 'default_suspend_ok':
->> drivers/base/power/domain_governor.c:82:24: error: 'struct dev_pm_info' has no member named 'ignore_children'
-      82 |         if (!dev->power.ignore_children)
-         |                        ^
+   drivers/soc/imx/imx93-blk-ctrl.c: In function 'imx93_blk_ctrl_probe':
+>> drivers/soc/imx/imx93-blk-ctrl.c:234:35: error: 'SZ_4K' undeclared (first use in this function)
+     234 |                 .max_register   = SZ_4K,
+         |                                   ^~~~~
+   drivers/soc/imx/imx93-blk-ctrl.c:234:35: note: each undeclared identifier is reported only once for each function it appears in
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
@@ -118,33 +90,122 @@ Kconfig warnings: (for reference only)
    - SOC_IMX9 [=y] && (ARCH_MXC || COMPILE_TEST [=y])
 
 
-vim +/pm_wq +635 drivers/base/power/domain.c
+vim +/SZ_4K +234 drivers/soc/imx/imx93-blk-ctrl.c
 
-c8f0ea45169c57 Geert Uytterhoeven 2014-11-10  625  
-29e47e2173349e Ulf Hansson        2015-09-02  626  /**
-86e12eac1f7f84 Ulf Hansson        2016-12-08  627   * genpd_queue_power_off_work - Queue up the execution of genpd_power_off().
-a3d09c73492e57 Moritz Fischer     2016-01-27  628   * @genpd: PM domain to power off.
-29e47e2173349e Ulf Hansson        2015-09-02  629   *
-86e12eac1f7f84 Ulf Hansson        2016-12-08  630   * Queue up the execution of genpd_power_off() unless it's already been done
-29e47e2173349e Ulf Hansson        2015-09-02  631   * before.
-29e47e2173349e Ulf Hansson        2015-09-02  632   */
-29e47e2173349e Ulf Hansson        2015-09-02  633  static void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-29e47e2173349e Ulf Hansson        2015-09-02  634  {
-29e47e2173349e Ulf Hansson        2015-09-02 @635  	queue_work(pm_wq, &genpd->power_off_work);
-29e47e2173349e Ulf Hansson        2015-09-02  636  }
-29e47e2173349e Ulf Hansson        2015-09-02  637  
-
-:::::: The code at line 635 was first introduced by commit
-:::::: 29e47e2173349ee06bd339f7753821c720d50923 PM / Domains: Try power off masters in error path of __pm_genpd_poweron()
-
-:::::: TO: Ulf Hansson <ulf.hansson@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+   218	
+   219	static int imx93_blk_ctrl_probe(struct platform_device *pdev)
+   220	{
+   221		struct device *dev = &pdev->dev;
+   222		const struct imx93_blk_ctrl_data *bc_data = of_device_get_match_data(dev);
+   223		const struct imx93_blk_ctrl_domain_data *bus = bc_data->bus;
+   224		struct imx93_blk_ctrl *bc;
+   225		void __iomem *base;
+   226		int i, ret;
+   227	
+   228		struct regmap_config regmap_config = {
+   229			.reg_bits	= 32,
+   230			.val_bits	= 32,
+   231			.reg_stride	= 4,
+   232			.rd_table	= bus->reg_access_table,
+   233			.wr_table	= bus->reg_access_table,
+ > 234			.max_register   = SZ_4K,
+   235		};
+   236	
+   237		bc = devm_kzalloc(dev, sizeof(*bc), GFP_KERNEL);
+   238		if (!bc)
+   239			return -ENOMEM;
+   240	
+   241		bc->dev = dev;
+   242	
+   243		base = devm_platform_ioremap_resource(pdev, 0);
+   244		if (IS_ERR(base))
+   245			return PTR_ERR(base);
+   246	
+   247		bc->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
+   248		if (IS_ERR(bc->regmap))
+   249			return dev_err_probe(dev, PTR_ERR(bc->regmap),
+   250					     "failed to init regmap\n");
+   251	
+   252		bc->domains = devm_kcalloc(dev, bc_data->num_domains + 1,
+   253					   sizeof(struct imx93_blk_ctrl_domain),
+   254					   GFP_KERNEL);
+   255		if (!bc->domains)
+   256			return -ENOMEM;
+   257	
+   258		bc->onecell_data.num_domains = bc_data->num_domains;
+   259		bc->onecell_data.xlate = imx93_blk_ctrl_xlate;
+   260		bc->onecell_data.domains =
+   261			devm_kcalloc(dev, bc_data->num_domains,
+   262				     sizeof(struct generic_pm_domain *), GFP_KERNEL);
+   263		if (!bc->onecell_data.domains)
+   264			return -ENOMEM;
+   265	
+   266		for (i = 0; i < bus->num_clks; i++)
+   267			bc->clks[i].id = bus->clk_names[i];
+   268		bc->num_clks = bus->num_clks;
+   269	
+   270		ret = devm_clk_bulk_get(dev, bc->num_clks, bc->clks);
+   271		if (ret) {
+   272			dev_err_probe(dev, ret, "failed to get bus clock\n");
+   273			return ret;
+   274		}
+   275	
+   276		for (i = 0; i < bc_data->num_domains; i++) {
+   277			const struct imx93_blk_ctrl_domain_data *data = &bc_data->domains[i];
+   278			struct imx93_blk_ctrl_domain *domain = &bc->domains[i];
+   279			int j;
+   280	
+   281			domain->data = data;
+   282	
+   283			for (j = 0; j < data->num_clks; j++)
+   284				domain->clks[j].id = data->clk_names[j];
+   285	
+   286			ret = devm_clk_bulk_get(dev, data->num_clks, domain->clks);
+   287			if (ret) {
+   288				dev_err_probe(dev, ret, "failed to get clock\n");
+   289				goto cleanup_pds;
+   290			}
+   291	
+   292			domain->genpd.name = data->name;
+   293			domain->genpd.power_on = imx93_blk_ctrl_power_on;
+   294			domain->genpd.power_off = imx93_blk_ctrl_power_off;
+   295			domain->bc = bc;
+   296	
+   297			ret = pm_genpd_init(&domain->genpd, NULL, true);
+   298			if (ret) {
+   299				dev_err_probe(dev, ret, "failed to init power domain\n");
+   300				goto cleanup_pds;
+   301			}
+   302	
+   303			bc->onecell_data.domains[i] = &domain->genpd;
+   304		}
+   305	
+   306		pm_runtime_enable(dev);
+   307	
+   308		ret = of_genpd_add_provider_onecell(dev->of_node, &bc->onecell_data);
+   309		if (ret) {
+   310			dev_err_probe(dev, ret, "failed to add power domain provider\n");
+   311			goto cleanup_pds;
+   312		}
+   313	
+   314	
+   315		dev_set_drvdata(dev, bc);
+   316	
+   317		return 0;
+   318	
+   319	cleanup_pds:
+   320		for (i--; i >= 0; i--)
+   321			pm_genpd_remove(&bc->domains[i].genpd);
+   322	
+   323		return ret;
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---6Q9ooM8S2HhaL2iw
+--+4he7NG475GIIMjY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2513,6 +2574,7 @@ CONFIG_BCMA_DRIVER_GMAC_CMN=y
 # Multifunction device drivers
 #
 CONFIG_MFD_CORE=y
+# CONFIG_MFD_ADP5585 is not set
 CONFIG_MFD_ACT8945A=y
 # CONFIG_MFD_AS3711 is not set
 CONFIG_MFD_AS3722=y
@@ -3002,7 +3064,17 @@ CONFIG_DVB_B2C2_FLEXCOP=y
 CONFIG_SMS_SIANO_MDTV=y
 CONFIG_SMS_SIANO_RC=y
 CONFIG_V4L_PLATFORM_DRIVERS=y
+
+#
+# NXP media platform drivers
+#
+CONFIG_VIDEO_IMX8_JPEG=y
 CONFIG_VIDEO_MMP_CAMERA=y
+
+#
+# Amphion drivers
+#
+CONFIG_VIDEO_AMPHION_VPU=y
 # CONFIG_VIDEO_CADENCE is not set
 CONFIG_VIDEO_DAVINCI_VPIF_DISPLAY=y
 CONFIG_VIDEO_DAVINCI_VPIF_CAPTURE=y
@@ -3044,7 +3116,6 @@ CONFIG_VIDEO_ALLEGRO_DVT=y
 CONFIG_VIDEO_CODA=y
 CONFIG_VIDEO_IMX_VDOA=y
 CONFIG_VIDEO_IMX_PXP=y
-CONFIG_VIDEO_IMX8_JPEG=y
 # CONFIG_VIDEO_MEDIATEK_JPEG is not set
 CONFIG_VIDEO_MEDIATEK_VPU=y
 CONFIG_VIDEO_MEDIATEK_MDP=y
@@ -3247,6 +3318,7 @@ CONFIG_VIDEO_MT9V032=y
 CONFIG_VIDEO_MT9V111=y
 # CONFIG_VIDEO_SR030PC30 is not set
 # CONFIG_VIDEO_NOON010PC30 is not set
+# CONFIG_VIDEO_AP1302 is not set
 CONFIG_VIDEO_M5MOLS=y
 CONFIG_VIDEO_MAX9271_LIB=y
 CONFIG_VIDEO_RDACM20=y
@@ -4197,6 +4269,7 @@ CONFIG_LEDS_LP8860=y
 CONFIG_LEDS_PCA955X=y
 CONFIG_LEDS_PCA955X_GPIO=y
 CONFIG_LEDS_PCA963X=y
+# CONFIG_LEDS_PCA995X is not set
 CONFIG_LEDS_WM831X_STATUS=y
 CONFIG_LEDS_DA903X=y
 CONFIG_LEDS_DA9052=y
@@ -5081,6 +5154,7 @@ CONFIG_HI8435=y
 # CONFIG_INGENIC_ADC is not set
 CONFIG_IMX7D_ADC=y
 # CONFIG_IMX8QXP_ADC is not set
+# CONFIG_IMX93_ADC is not set
 # CONFIG_LP8788_ADC is not set
 CONFIG_LPC18XX_ADC=y
 CONFIG_LPC32XX_ADC=y
@@ -5715,6 +5789,7 @@ CONFIG_PHY_CADENCE_SIERRA=y
 CONFIG_PHY_CADENCE_SALVO=y
 # CONFIG_PHY_FSL_IMX8MP_LVDS is not set
 CONFIG_PHY_FSL_IMX8MQ_USB=y
+# CONFIG_PHY_FSL_IMX93_MIPI_DPHY is not set
 # CONFIG_PHY_MIXEL_MIPI_DPHY is not set
 # CONFIG_PHY_SAMSUNG_HDMI_PHY is not set
 # CONFIG_PHY_FSL_IMX_PCIE is not set
@@ -6672,4 +6747,4 @@ CONFIG_TEST_FREE_PAGES=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---6Q9ooM8S2HhaL2iw--
+--+4he7NG475GIIMjY--
