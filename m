@@ -1,186 +1,196 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D23138D;
-	Tue,  3 Jan 2023 08:07:52 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id d17so8887428wrs.2;
-        Tue, 03 Jan 2023 00:07:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1B5138E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jan 2023 08:08:02 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id z8-20020a05600c220800b003d33b0bda11so16108740wml.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Jan 2023 00:08:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YQO0ONCN4ZgZtx9HE+Nsk3Zq7sSG4eK1JNOppC+Lx/M=;
-        b=QDLW1jX26AnzUwefK2H+ja7576rr/JSkW+0K2ljLG+6oZyopCuqAABCXZ3ttcx+kDm
-         rphxzjnPsFyNFkPffo8odV6vt4PbFDc9cqI+u8JDxzKceNO4WgoGsUxREIsnDUc0We7R
-         v0rNKXv8unP0hz2MkdTwrgMe/35vng2kL8cLfRcU0Dfm9/reaRkj9d1dqBGii7+wxkg4
-         lySdvACqMcEwQMj7koxsJKBHZbQ13IVluzaJUKU439TJovDsSQCUQJBhr0XRbaS3LGiz
-         K7kxbtef9AQxASGqRMOZlYH4TmEedLmz0NryAw+5hkJzUmd+KUJDzhEgZC1FwD4lRT45
-         56lQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fPtt+PqO7/eJ9o2x3G9QMOyWUbtViBpnXxIT+kwxqD4=;
+        b=omP4T8iceDSdVamXnCjxjSaoJNwDr4KE94kiBH5lXia/DTSH0QIbpvmXHzTpPsawZD
+         NhIVvN+gx9W+MHqWYN3w6bswNlwgKP+faJdEtNPWSjaM8Q2w5JkLpManQQPop+oTRXxy
+         IsTcNS8KwldoHWyMDPxoTyxfBinL8ak+nlV2WQYK5X6tYJK0oB1KhxVlbgtR0CKivW5v
+         qYXolaPX8RCCiQRnzPiCgYAArsAu3r3XFN9zpjKWSAjw3UwMbgqtXJOK+wUZzq3ADhEr
+         CWlAaMG8i1Fh0P99Ml0+/hIi0UPUKsD9VeCGeEnpRMZMhpvuUOs3+Jup45AO/hhN49mB
+         32JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YQO0ONCN4ZgZtx9HE+Nsk3Zq7sSG4eK1JNOppC+Lx/M=;
-        b=Etxk/FSu5WP7YG5MESBKb8Ks3vYZjw4CXLQTEz9u/9S4+eab5dQHcv2PBW3N3DTRXN
-         4VKCbJLIU8baYupT9ZXl5N60TzmbcQ8U8iCLbWpkNyhB4/mncpnqWk/QLSoY587uu6Xp
-         UP4Y1U7KlHRirUlGF5Yhxiy6fWR1L0PTDZGilpZ6gzalDArod8+a6bqHrX/XCqTg+wJ3
-         oMq6/pr00nVpxg4TooWl7+996nsmdZFQAwJEqKmeFHkQqH9PlMAv3cOcrLnEJWqzkS2q
-         I7/3qmfGH3KqpHZjgZh91yeiCc8cQMrO9a7D3hmNHT2PVSBrh2omVQpMFqyJ7x/mH/jB
-         a6Ag==
-X-Gm-Message-State: AFqh2krWYEhQRman8FQ8EpVLLIwM8dRjkB3c/Nx3j+UuqLU1Kbv7UHe0
-	tTlE4DqecIx7woq36lCS5NW30BxcJGxgMw==
-X-Google-Smtp-Source: AMrXdXtmMg3fso+1Q3zVGl2iFiX51Pj04IeNueZWY1axHYHgHL3dcIYuPR3TZbL9T/xOaJH0CCZjkA==
-X-Received: by 2002:adf:f606:0:b0:28c:1ae0:e67f with SMTP id t6-20020adff606000000b0028c1ae0e67fmr10080656wrp.55.1672733270983;
-        Tue, 03 Jan 2023 00:07:50 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i1-20020adfb641000000b002425787c5easm30768195wre.96.2023.01.03.00.07.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 00:07:50 -0800 (PST)
-Date: Tue, 3 Jan 2023 11:07:45 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sascha Hauer <sha@pengutronix.de>,
-	Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH 3/5] drm/rockchip: vop2: use symmetric function pair
- vop2_{create,destroy}_crtcs
-Message-ID: <202301010414.gzia8KzY-lkp@intel.com>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fPtt+PqO7/eJ9o2x3G9QMOyWUbtViBpnXxIT+kwxqD4=;
+        b=bu5qnV5RBjWzL1IKSky0Kv+4N5bw5Ej5InFfb+G82HLdpG3yyz3PTRas3sbq26tFkQ
+         TFJ/SH7Kj01P+ii40m6RCYxLtjA3Njr+fZawV6TPP1dj/BNdkWoHBD7R4SY+7Eqbc3Gv
+         Czv8yr4fWn6IiddmgGJKsbA+krYb9idX9Cn/vuc1Bm6OT0A4eJHaGipS0cirhS69R+oB
+         OrV6X0YlRh9zNyNwWswMPiDHbNTevZYBxg2BvReU7F2LN1bqVjl/jVB76wrkdA7mauOW
+         x8syg3JxEKiqd5HJ1nQ1Y6jIv6PSakkPHuJW5YBYB/CylYkEfSXUe/hGgva8JmtmIqAF
+         FAZQ==
+X-Gm-Message-State: AFqh2koUXRCxiJxQL4jvVNfhCUx311+rkhDXnQfn1w9IbG8zbpUOgdfF
+	5HA4I/irpVUfi7EBAZSbmy9p+ZwIzw+EzFMf8YYZ1ptUNYFq6A==
+X-Google-Smtp-Source: AMrXdXtRWHjlevoC6i29DlUAEcwW1u2qHtkrFZujzVTCY73dGowZc7I3M4JMFP40OjpGDrM+0vGZaNzoi+KqkEmh6Qg=
+X-Received: by 2002:a05:600c:54e7:b0:3cf:e0ef:1f6c with SMTP id
+ jb7-20020a05600c54e700b003cfe0ef1f6cmr1437359wmb.75.1672733280976; Tue, 03
+ Jan 2023 00:08:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221130140217.3196414-4-michael.riesch@wolfvision.net>
+References: <20221231051954.2038772-1-yoochan1026@gmail.com>
+ <202301020540.wMrbqIkY-lkp@intel.com> <CALQpDLd+eEYv=qkPOoPkRGe5RX2eTgUfj_pp838eDX39Cfke2w@mail.gmail.com>
+In-Reply-To: <CALQpDLd+eEYv=qkPOoPkRGe5RX2eTgUfj_pp838eDX39Cfke2w@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 3 Jan 2023 09:07:50 +0100
+Message-ID: <CAHUa44HpDg39ohLGV73rgswLxQ4J8RV+iRaGGri6aNqhGZspMQ@mail.gmail.com>
+Subject: Re: [PATCH] tee: optee: smc_abi: Fix use-after-free in optee_smc_open
+To: Yoochan Lee <yoochan1026@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+Hi,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch/drm-rockchip-vop2-add-support-for-the-rgb-output-block/20221130-220346
-base:   b7b275e60bcd5f89771e865a8239325f86d9927d
-patch link:    https://lore.kernel.org/r/20221130140217.3196414-4-michael.riesch%40wolfvision.net
-patch subject: [PATCH 3/5] drm/rockchip: vop2: use symmetric function pair vop2_{create,destroy}_crtcs
-config: parisc-randconfig-m031-20221225
-compiler: hppa-linux-gcc (GCC) 12.1.0
+On Mon, Jan 2, 2023 at 1:18 AM Yoochan Lee <yoochan1026@gmail.com> wrote:
+>
+> I fix the errors in the previous patch.
+>
+> From 2046cc19aeaddb5f6fb5e9b1d9a380a116892657 Mon Sep 17 00:00:00 2001
+> From: Yoochan Lee <yoochan1026@gmail.com>
+> Date: Mon, 2 Jan 2023 09:18:23 +0900
+> Subject: [PATCH 2/2] fix errors in previous patch
+>
+> ---
+>  drivers/tee/optee/smc_abi.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+Please fix up the original patch and post it as a v2. By the way, have
+you tried to test this in some way?
 
-New smatch warnings:
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2330 vop2_create_crtcs() error: uninitialized symbol 'possible_crtcs'.
+Thanks,
+Jens
 
-vim +/possible_crtcs +2330 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-
-fb83276e59f2d6 Michael Riesch 2022-11-30  2249  static int vop2_create_crtcs(struct vop2 *vop2)
-604be85547ce4d Andy Yan       2022-04-22  2250  {
-604be85547ce4d Andy Yan       2022-04-22  2251  	const struct vop2_data *vop2_data = vop2->data;
-604be85547ce4d Andy Yan       2022-04-22  2252  	struct drm_device *drm = vop2->drm;
-604be85547ce4d Andy Yan       2022-04-22  2253  	struct device *dev = vop2->dev;
-604be85547ce4d Andy Yan       2022-04-22  2254  	struct drm_plane *plane;
-604be85547ce4d Andy Yan       2022-04-22  2255  	struct device_node *port;
-604be85547ce4d Andy Yan       2022-04-22  2256  	struct vop2_video_port *vp;
-604be85547ce4d Andy Yan       2022-04-22  2257  	int i, nvp, nvps = 0;
-604be85547ce4d Andy Yan       2022-04-22  2258  	int ret;
-604be85547ce4d Andy Yan       2022-04-22  2259  
-604be85547ce4d Andy Yan       2022-04-22  2260  	for (i = 0; i < vop2_data->nr_vps; i++) {
-604be85547ce4d Andy Yan       2022-04-22  2261  		const struct vop2_video_port_data *vp_data;
-604be85547ce4d Andy Yan       2022-04-22  2262  		struct device_node *np;
-604be85547ce4d Andy Yan       2022-04-22  2263  		char dclk_name[9];
-604be85547ce4d Andy Yan       2022-04-22  2264  
-604be85547ce4d Andy Yan       2022-04-22  2265  		vp_data = &vop2_data->vp[i];
-604be85547ce4d Andy Yan       2022-04-22  2266  		vp = &vop2->vps[i];
-604be85547ce4d Andy Yan       2022-04-22  2267  		vp->vop2 = vop2;
-604be85547ce4d Andy Yan       2022-04-22  2268  		vp->id = vp_data->id;
-604be85547ce4d Andy Yan       2022-04-22  2269  		vp->regs = vp_data->regs;
-604be85547ce4d Andy Yan       2022-04-22  2270  		vp->data = vp_data;
-604be85547ce4d Andy Yan       2022-04-22  2271  
-604be85547ce4d Andy Yan       2022-04-22  2272  		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp->id);
-604be85547ce4d Andy Yan       2022-04-22  2273  		vp->dclk = devm_clk_get(vop2->dev, dclk_name);
-604be85547ce4d Andy Yan       2022-04-22  2274  		if (IS_ERR(vp->dclk)) {
-604be85547ce4d Andy Yan       2022-04-22  2275  			drm_err(vop2->drm, "failed to get %s\n", dclk_name);
-604be85547ce4d Andy Yan       2022-04-22  2276  			return PTR_ERR(vp->dclk);
-604be85547ce4d Andy Yan       2022-04-22  2277  		}
-604be85547ce4d Andy Yan       2022-04-22  2278  
-604be85547ce4d Andy Yan       2022-04-22  2279  		np = of_graph_get_remote_node(dev->of_node, i, -1);
-604be85547ce4d Andy Yan       2022-04-22  2280  		if (!np) {
-604be85547ce4d Andy Yan       2022-04-22  2281  			drm_dbg(vop2->drm, "%s: No remote for vp%d\n", __func__, i);
-604be85547ce4d Andy Yan       2022-04-22  2282  			continue;
-604be85547ce4d Andy Yan       2022-04-22  2283  		}
-604be85547ce4d Andy Yan       2022-04-22  2284  		of_node_put(np);
-604be85547ce4d Andy Yan       2022-04-22  2285  
-604be85547ce4d Andy Yan       2022-04-22  2286  		port = of_graph_get_port_by_id(dev->of_node, i);
-604be85547ce4d Andy Yan       2022-04-22  2287  		if (!port) {
-604be85547ce4d Andy Yan       2022-04-22  2288  			drm_err(vop2->drm, "no port node found for video_port%d\n", i);
-604be85547ce4d Andy Yan       2022-04-22  2289  			return -ENOENT;
-604be85547ce4d Andy Yan       2022-04-22  2290  		}
-604be85547ce4d Andy Yan       2022-04-22  2291  
-604be85547ce4d Andy Yan       2022-04-22  2292  		vp->crtc.port = port;
-604be85547ce4d Andy Yan       2022-04-22  2293  		nvps++;
-604be85547ce4d Andy Yan       2022-04-22  2294  	}
-604be85547ce4d Andy Yan       2022-04-22  2295  
-604be85547ce4d Andy Yan       2022-04-22  2296  	nvp = 0;
-604be85547ce4d Andy Yan       2022-04-22  2297  	for (i = 0; i < vop2->registered_num_wins; i++) {
-604be85547ce4d Andy Yan       2022-04-22  2298  		struct vop2_win *win = &vop2->win[i];
-604be85547ce4d Andy Yan       2022-04-22  2299  		u32 possible_crtcs;
-604be85547ce4d Andy Yan       2022-04-22  2300  
-604be85547ce4d Andy Yan       2022-04-22  2301  		if (vop2->data->soc_id == 3566) {
-604be85547ce4d Andy Yan       2022-04-22  2302  			/*
-604be85547ce4d Andy Yan       2022-04-22  2303  			 * On RK3566 these windows don't have an independent
-604be85547ce4d Andy Yan       2022-04-22  2304  			 * framebuffer. They share the framebuffer with smart0,
-604be85547ce4d Andy Yan       2022-04-22  2305  			 * esmart0 and cluster0 respectively.
-604be85547ce4d Andy Yan       2022-04-22  2306  			 */
-604be85547ce4d Andy Yan       2022-04-22  2307  			switch (win->data->phys_id) {
-604be85547ce4d Andy Yan       2022-04-22  2308  			case ROCKCHIP_VOP2_SMART1:
-604be85547ce4d Andy Yan       2022-04-22  2309  			case ROCKCHIP_VOP2_ESMART1:
-604be85547ce4d Andy Yan       2022-04-22  2310  			case ROCKCHIP_VOP2_CLUSTER1:
-604be85547ce4d Andy Yan       2022-04-22  2311  				continue;
-604be85547ce4d Andy Yan       2022-04-22  2312  			}
-604be85547ce4d Andy Yan       2022-04-22  2313  		}
-604be85547ce4d Andy Yan       2022-04-22  2314  
-604be85547ce4d Andy Yan       2022-04-22  2315  		if (win->type == DRM_PLANE_TYPE_PRIMARY) {
-604be85547ce4d Andy Yan       2022-04-22  2316  			vp = find_vp_without_primary(vop2);
-604be85547ce4d Andy Yan       2022-04-22  2317  			if (vp) {
-604be85547ce4d Andy Yan       2022-04-22  2318  				possible_crtcs = BIT(nvp);
-604be85547ce4d Andy Yan       2022-04-22  2319  				vp->primary_plane = win;
-604be85547ce4d Andy Yan       2022-04-22  2320  				nvp++;
-604be85547ce4d Andy Yan       2022-04-22  2321  			} else {
-604be85547ce4d Andy Yan       2022-04-22  2322  				/* change the unused primary window to overlay window */
-604be85547ce4d Andy Yan       2022-04-22  2323  				win->type = DRM_PLANE_TYPE_OVERLAY;
-604be85547ce4d Andy Yan       2022-04-22  2324  			}
-604be85547ce4d Andy Yan       2022-04-22  2325  		}
-604be85547ce4d Andy Yan       2022-04-22  2326  
-604be85547ce4d Andy Yan       2022-04-22  2327  		if (win->type == DRM_PLANE_TYPE_OVERLAY)
-604be85547ce4d Andy Yan       2022-04-22  2328  			possible_crtcs = (1 << nvps) - 1;
-
-What about if win->type is not equal to either DRM_PLANE_TYPE_PRIMARY or
-DRM_PLANE_TYPE_OVERLAY?  That's what the checker is worried about.
-
-604be85547ce4d Andy Yan       2022-04-22  2329  
-604be85547ce4d Andy Yan       2022-04-22 @2330  		ret = vop2_plane_init(vop2, win, possible_crtcs);
-                                                                                                 ^^^^^^^^^^^^^^
-
-604be85547ce4d Andy Yan       2022-04-22  2331  		if (ret) {
-604be85547ce4d Andy Yan       2022-04-22  2332  			drm_err(vop2->drm, "failed to init plane %s: %d\n",
-604be85547ce4d Andy Yan       2022-04-22  2333  				win->data->name, ret);
-604be85547ce4d Andy Yan       2022-04-22  2334  			return ret;
-604be85547ce4d Andy Yan       2022-04-22  2335  		}
-604be85547ce4d Andy Yan       2022-04-22  2336  	}
-604be85547ce4d Andy Yan       2022-04-22  2337  
-604be85547ce4d Andy Yan       2022-04-22  2338  	for (i = 0; i < vop2_data->nr_vps; i++) {
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
-
+>
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index 4fbec2acc255..be662f263f29 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -1103,12 +1103,7 @@ static void optee_smc_release_supp(struct
+> tee_context *ctx)
+>  {
+>   struct optee *optee =3D tee_get_drvdata(ctx->teedev);
+>
+> - optee_release_helper(ctx, optee_close_session_helper);
+> - if (optee->scan_bus_wq) {
+> - destroy_workqueue(optee->scan_bus_wq);
+> - optee->scan_bus_wq =3D NULL;
+> - }
+> - optee_supp_release(&optee->supp);
+> + optee_release_supp(ctx)
+>   kref_put(&optee->refcnt, optee_smc_delete);
+>  }
+>
+> @@ -1116,7 +1111,7 @@ static void optee_smc_release(struct tee_context *c=
+tx)
+>  {
+>   struct optee *optee =3D tee_get_drvdata(ctx->teedev);
+>
+> - optee_release_helper(ctx, optee_close_session_helper);
+> + optee_release(ctx);
+>   kref_put(&optee->refcnt, optee_smc_delete);
+>  }
+>
+> --
+> 2.39.0
+>
+> 2023=EB=85=84 1=EC=9B=94 2=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 6:43, =
+kernel test robot <lkp@intel.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+> >
+> > Hi Yoochan,
+> >
+> > Thank you for the patch! Yet something to improve:
+> >
+> > [auto build test ERROR on linus/master]
+> > [also build test ERROR on v6.2-rc1 next-20221226]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Yoochan-Lee/tee-=
+optee-smc_abi-Fix-use-after-free-in-optee_smc_open/20221231-132046
+> > patch link:    https://lore.kernel.org/r/20221231051954.2038772-1-yooch=
+an1026%40gmail.com
+> > patch subject: [PATCH] tee: optee: smc_abi: Fix use-after-free in optee=
+_smc_open
+> > config: arm-randconfig-c002-20221231
+> > compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project f5=
+700e7b69048de958172fb513b336564e7f8709)
+> > reproduce (this is a W=3D1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
+bin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install arm cross compiling tool for clang build
+> >         # apt-get install binutils-arm-linux-gnueabi
+> >         # https://github.com/intel-lab-lkp/linux/commit/6d3d5f78a2463a5=
+77c1a908cdedda61affba9c01
+> >         git remote add linux-review https://github.com/intel-lab-lkp/li=
+nux
+> >         git fetch --no-tags linux-review Yoochan-Lee/tee-optee-smc_abi-=
+Fix-use-after-free-in-optee_smc_open/20221231-132046
+> >         git checkout 6d3d5f78a2463a577c1a908cdedda61affba9c01
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross =
+W=3D1 O=3Dbuild_dir ARCH=3Darm olddefconfig
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross =
+W=3D1 O=3Dbuild_dir ARCH=3Darm SHELL=3D/bin/bash drivers/tee/optee/
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> drivers/tee/optee/smc_abi.c:1106:2: error: call to undeclared functi=
+on 'optee_release_helper'; ISO C99 and later do not support implicit functi=
+on declarations [-Wimplicit-function-declaration]
+> >            optee_release_helper(ctx, optee_close_session_helper);
+> >            ^
+> >    drivers/tee/optee/smc_abi.c:1106:2: note: did you mean 'optee_releas=
+e_supp'?
+> >    drivers/tee/optee/optee_private.h:258:6: note: 'optee_release_supp' =
+declared here
+> >    void optee_release_supp(struct tee_context *ctx);
+> >         ^
+> >    drivers/tee/optee/smc_abi.c:1119:2: error: call to undeclared functi=
+on 'optee_release_helper'; ISO C99 and later do not support implicit functi=
+on declarations [-Wimplicit-function-declaration]
+> >            optee_release_helper(ctx, optee_close_session_helper);
+> >            ^
+> >    2 errors generated.
+> >
+> >
+> > vim +/optee_release_helper +1106 drivers/tee/optee/smc_abi.c
+> >
+> >   1101
+> >   1102  static void optee_smc_release_supp(struct tee_context *ctx)
+> >   1103  {
+> >   1104          struct optee *optee =3D tee_get_drvdata(ctx->teedev);
+> >   1105
+> > > 1106          optee_release_helper(ctx, optee_close_session_helper);
+> >   1107          if (optee->scan_bus_wq) {
+> >   1108                  destroy_workqueue(optee->scan_bus_wq);
+> >   1109                  optee->scan_bus_wq =3D NULL;
+> >   1110          }
+> >   1111          optee_supp_release(&optee->supp);
+> >   1112          kref_put(&optee->refcnt, optee_smc_delete);
+> >   1113  }
+> >   1114
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://01.org/lkp
