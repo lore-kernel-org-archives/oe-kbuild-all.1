@@ -1,95 +1,99 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E80A107A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jan 2023 22:11:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672956712; x=1704492712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x71Xi0yGYu9hpMRz1DiInztLFe0kxdjmfk9Mtjxn3Rc=;
-  b=IY+kQ22Ri2EIneFtfeLgAB5eS+2l5gFsLfl3Fp5/jchkaOTQmKJRy38Z
-   eXwtg34p4gibmrxvRJGcYsGYqBuEhvgX44haZhZr1158JkYPxw7iJFsfR
-   Lm0SyNTtqetpbr5zqqIuj20rnsFaO0FBTjpXaGOaKBvp3wjYqVXIlwRS0
-   Bz/B0g9Thg1gRSEJTh42NgQWhNwpEZaGH/qEflMD86TN55aYmek39g3cP
-   VCbuXi3WMDycJylKdIZMVvDtHm4M0fU5Yp0lIdH3oBLWZHQRmITdQz4Jj
-   8WHjIoqs8TuXYTwSmQ+CGJJLcg0ebndldFYM4JDWeUHPV5S0sydeuoztJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="322404568"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
-   d="scan'208";a="322404568"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 14:11:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="649115766"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
-   d="scan'208";a="649115766"
-Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 05 Jan 2023 14:11:50 -0800
-Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pDYSj-0002ap-2d;
-	Thu, 05 Jan 2023 22:11:49 +0000
-Date: Fri, 6 Jan 2023 06:11:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.1.x-imx 4586/19702] versioncheck:
- ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
-Message-ID: <202301060656.uZVRaMrY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42C1107A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jan 2023 22:18:58 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id DEFA132007CF;
+	Thu,  5 Jan 2023 17:18:56 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 05 Jan 2023 17:18:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1672957136; x=1673043536; bh=TCaP7y5pzb
+	RmEVCDjX4if25GDRs9o9AP2CCvuXdY0Rc=; b=PIcSr8fYa2Ax3wFTq+g4lz8Egp
+	wYqg/YGdva+cVwXt9uZTfsZxQ27iGq06akBW3eOl9ixhfehTWB3WrkYUFvKlqjGX
+	fkDHxuUKwRqhFU1fJZSEY72aKgS7wK2oGkZR7hPZvBR0TXrRwI0DErsLhfuXL+wq
+	1LLFWpIgTcG0jicVeuyuEbB1QIEb5MjM9WGhT/ubOkKMCkLH0Ecwpw4LJeu0yVym
+	8hYV59utE/civUmOmUnpquSOzbUyoK9wysJUWv9vnspWvw5sfzU5Ag4wm6ReiNln
+	hAHk2M9XwcRNPpdW5VxqeC2pxe4BoWnEcm5XB9ErG77SnAx9MeaFEfDCqnIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1672957136; x=1673043536; bh=TCaP7y5pzbRmEVCDjX4if25GDRs9
+	o9AP2CCvuXdY0Rc=; b=KMsvE1ioZEJTW+IdbA+3wGtpwUfjL4X5vYLLsXNwgRnF
+	kJNW9lSFH1mTj5y2b1o0Pf7/+uQWyAWHH6Tt3czXMXjWK5TPdyOUBX3D1X2xuLah
+	VoopmZ/WCRH2kgGIVVD8aF3Wtz2E1wtxUtfdwq/Ls6K5VKY5EnInSGSxnQhHrZKj
+	Njf8/2KyYFpkQooJ/i7iA4cPqzLRHOkl3u4tqFogRRJPF9lA9ecv/v7+MTio1Lh0
+	9qrlhlSkboVbAeyPPCvPquI0nycez6ygf4E3uP0mHa4LqxzGu0XMO10xmMwYihJE
+	/oTmRbH/NzOFpIh+ovc2x83PqXBVKej9uuxjxn4sAg==
+X-ME-Sender: <xms:0Ey3Y-N9OIa30Ll-O0fn6BQt1edYAiQecStmo9eRbf_bE0ocd_Tpaw>
+    <xme:0Ey3Y8-nYRa5KFIlQKnDj11hBYzEX2cbhtnVcgKH88s73q_5vcRzZMHV920RPpAK0
+    zCC3CIafHqmLRWOldI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdduiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepudeiffeghfdtueeigeeljedvfeeludffkedtkeeuvdeifeefudeiteefffev
+    gfeunecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:0Ey3Y1TFjHCzrZ2JaGGMwVbtgyXn7sd4iaiuXTWXh5qFZMUTRdMWcw>
+    <xmx:0Ey3Y-vojGuC9-6fZRpSlURSXNeCG0jVb64p7noARUjoj6nrMK4aeg>
+    <xmx:0Ey3Y2cSKiNDTsmyL3QQIXUndMdjQUSDDWXZW7HyP2T7YVnjjFE7mg>
+    <xmx:0Ey3Y81ofk1jtNnS7fQq4IK9qdJxpsx_hJ3kTP1jYmHzhwlQlYJZlA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 1B0ECB60086; Thu,  5 Jan 2023 17:18:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <8b50ce1d-59d8-44b6-b330-d2ab56fb85a7@app.fastmail.com>
+In-Reply-To: <202301060326.qh0NHlzm-lkp@intel.com>
+References: <20230105141231.2006353-1-arnd@kernel.org>
+ <202301060326.qh0NHlzm-lkp@intel.com>
+Date: Thu, 05 Jan 2023 23:18:36 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>, "Arnd Bergmann" <arnd@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
+ "Tomasz Figa" <tomasz.figa@gmail.com>,
+ "Chanwoo Choi" <cw00.choi@samsung.com>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, "Alim Akhtar" <alim.akhtar@samsung.com>,
+ "Ajay Kumar" <ajaykumar.rs@samsung.com>,
+ "Pankaj Dubey" <pankaj.dubey@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: samsung: remove s3c24xx specific pll bits
+Content-Type: text/plain
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.1.x-imx
-head:   437f5776f40f2984e94613c7ed9bd81388ec98de
-commit: 68ca439c8f8a7e666b50f49028bc1b7ebad4477b [4586/19702] net:tsn: netlink interface for APP layer to config TSN capability hardware ports
-reproduce:
-        make versioncheck
+On Thu, Jan 5, 2023, at 20:49, kernel test robot wrote:
+> Hi Arnd,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on krzk/for-next]
+> [also build test ERROR on linus/master v6.2-rc2 next-20230105]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>
+>>> drivers/clk/samsung/clk-s3c2410.c:123:9: error: implicit declaration of function 'PLL_S3C2410_MPLL_RATE' [-Werror=implicit-function-declaration]
+>      123 |         PLL_S3C2410_MPLL_RATE(12 * MHZ, 270000000, 127, 1, 1),
+>          |         ^~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+For clarification, the order in the patch series puts this
+patch after the one that removes clk-s3c2410.c, so there should
+be no bisection problem.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j24 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
->> ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+    Arnd
