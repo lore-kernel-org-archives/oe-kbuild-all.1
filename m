@@ -1,122 +1,66 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC927B;
-	Fri,  6 Jan 2023 07:12:33 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id g10so489294wmo.1;
-        Thu, 05 Jan 2023 23:12:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B1s5gp4ISUmFqYQ0nI9T44bNdkPzGnN+vYlbMYXmqGg=;
-        b=mDi+68xqOmfRKhcLE28XGre18i8Lgq1XSrJMaGHZiSpXOrfz6niW4cu6CkJk7oradL
-         bY77//p8R8RwFh6WEsiGxBSfQiEkCNGUi+MMsVi7IWoePeMzvR8a4/5F1tR5MjOHuGKP
-         g9+B6lvNSu68S/4vhub+o/qNIxI1FPnlTjjVG5BnIwSZBtanwu9GigjYhhX00v2HxkFx
-         aFi6BeYkvWvmKe011F5s7YF51ErYyiqVHNYhsGI96RUfNeW01oWGmNkedBRKWFFioRkp
-         IfqHAJMUBLWVJoLYNeZ6sgS8Hfzdlb6wQ6oU9bLjdHnu3oBLoy86lHwB4oB/hBj/ndoz
-         TU1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B1s5gp4ISUmFqYQ0nI9T44bNdkPzGnN+vYlbMYXmqGg=;
-        b=6gMCvyCbfamlg58m2/g/NclQ5RRMQLlDQ72vrd3dJKSwYwK7D9BoHtgX0NU6qG/ZPP
-         bxX/rSLIDn0HxXO51Wgg2iDf/QMRKft+PWymakwxWh7qphw4a7rhOf/Jb3sjDmnJYHHs
-         PG8WP+X4zx1BEf6OPh9ZDWu+UpWuRg+NpZIbCXnaFsKWDN07Sg0npeNOfIQl+AFndxTL
-         3JxcOjLAvxczGFozo9VGEtM01NTW14cz1P1RR33vIDLUEoGJAN1QT/JaTQ9TpBbZrsBu
-         aqh540uxb4zrosEJA+fHIFIxdxkKgiaPSAgSCIYpPN4Nreot3C0IzZdSHgLcCFS6UL92
-         d0WA==
-X-Gm-Message-State: AFqh2krfHExviDQSaHs2twAX0L047v3jJgrSwZbpfRbXsOHteONhvKNH
-	2QSgdDd8Mc/+sz2xMaxsTYcd6o9SauGXMw==
-X-Google-Smtp-Source: AMrXdXsaFWPG2+wY6IZ6M2F7nZIlaCG79f3hhfMed3AywXRPrLKOmcGKl8oh9ErgaMa4r59v9UU0VQ==
-X-Received: by 2002:a05:600c:4e13:b0:3c6:e63d:fcfc with SMTP id b19-20020a05600c4e1300b003c6e63dfcfcmr38195098wmq.35.1672989151258;
-        Thu, 05 Jan 2023 23:12:31 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l11-20020a05600c1d0b00b003d01b84e9b2sm667207wms.27.2023.01.05.23.12.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 23:12:30 -0800 (PST)
-Date: Fri, 6 Jan 2023 10:12:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:tmp/for_baolu_0105 16/23]
- drivers/iommu/iommufd/device.c:174 iommufd_device_get_info() error:
- uninitialized symbol 'rc'.
-Message-ID: <202301060054.XgmLKByO-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C207B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jan 2023 07:32:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1672990355; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=GoX6sahFvLaj/pKTGxEYSA/SV0Z8iTxRNlPOTF/TMgPVoBVhOMiVjl5APinTt+nvQKg3O2M3UONNmbF0d8l3FPSNA0kHAsFuJ74fz5yui0PdoLY7ZMaLvAs5u/TeTYOghl+PLsccgAoffUBXBhLEavCbT/N+bTqz/CVSS/adp+M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1672990355; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=WS/hdy01N0Juv3Ttgo1sNOBbMRgD6F4OxFx94LvmrTs=; 
+	b=J36Khy8nncWCKdpXmKPRNy9KmSlXMPR48kT/5veYaDWuS++cdJ64SqXpMmRds0/+dYaa85xDiBl2dE3j0r/0U65GauaWpB+1U0oUU+dxnj3UG9UtYAVtbiFe1D+QZfCv2uLpZwl63eH/IAibsCQXmvcf8xhyC7W45BzG7rCUN7g=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=siddh.me;
+	spf=pass  smtp.mailfrom=code@siddh.me;
+	dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1672990355;
+	s=zmail; d=siddh.me; i=code@siddh.me;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=WS/hdy01N0Juv3Ttgo1sNOBbMRgD6F4OxFx94LvmrTs=;
+	b=e0fnq40I7zFWKG5ueLuqjBd5HB8GrJgqxKQ/59ff1YuASWMDhJ09QP37lHvRBfE6
+	3oHPJXDp8p3MW/1qIQC0zoXZVZup+ZQwto+PHYBuTC/PxTSd7jsk+qLZKl9ySkWkTNm
+	Q1hV2pm10rPvmLe60m6GHFtRUuADW/Co7CF6F8no=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1672990345371256.09667059009894; Fri, 6 Jan 2023 13:02:25 +0530 (IST)
+Date: Fri, 06 Jan 2023 13:02:25 +0530
+From: Siddh Raman Pant <code@siddh.me>
+To: "kernel test robot" <lkp@intel.com>
+Cc: "maarten lankhorst" <maarten.lankhorst@linux.intel.com>,
+	"maxime ripard" <mripard@kernel.org>,
+	"thomas zimmermann" <tzimmermann@suse.de>,
+	"david airlie" <airlied@gmail.com>,
+	"daniel vetter" <daniel@ffwll.ch>, "simon ser" <contact@emersion.fr>,
+	"jim cromie" <jim.cromie@gmail.com>,
+	"oe-kbuild-all" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"dri-devel" <dri-devel@lists.freedesktop.org>
+Message-ID: <18585fec891.52e321753098.6078461646055436084@siddh.me>
+In-Reply-To: <202301060832.V0LzL1Hg-lkp@intel.com>
+References: <7acc7401b5ad0aec973948822bfa906a9615c43e.1672957022.git.code@siddh.me> <202301060832.V0LzL1Hg-lkp@intel.com>
+Subject: Re: [PATCH v4 01/10] drm/print: Fix and add support for NULL as
+ first argument in drm_* macros
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-tree:   https://github.com/yiliu1765/iommufd.git tmp/for_baolu_0105
-head:   9f612668786f66b0591cfee1b4f4a29770a30311
-commit: 847b9d82e1603373da4103a967b5c18cc975fb6d [16/23] iommufd: Add IOMMU_DEVICE_GET_INFO support
-config: parisc-randconfig-m041-20230105
-compiler: hppa-linux-gcc (GCC) 12.1.0
+On Fri, 06 Jan 2023 06:43:35 +0530, kernel test robot wrote
+> Hi Siddh,
+> 
+> Thank you for the patch! Perhaps something to improve:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+Yes, I sent the rectification as a reply to this patch. [1]
+Reviewers may please take note.
 
-New smatch warnings:
-drivers/iommu/iommufd/device.c:174 iommufd_device_get_info() error: uninitialized symbol 'rc'.
+Thanks,
+Siddh
 
-Old smatch warnings:
-drivers/iommu/iommufd/device.c:774 iommufd_access_rw() error: uninitialized symbol 'rc'.
-
-vim +/rc +174 drivers/iommu/iommufd/device.c
-
-847b9d82e160337 Yi Liu          2022-05-11  136  int iommufd_device_get_info(struct iommufd_ucmd *ucmd)
-847b9d82e160337 Yi Liu          2022-05-11  137  {
-847b9d82e160337 Yi Liu          2022-05-11  138  	struct iommu_device_info *cmd = ucmd->cmd;
-847b9d82e160337 Yi Liu          2022-05-11  139  	struct iommufd_object *obj;
-847b9d82e160337 Yi Liu          2022-05-11  140  	struct iommufd_device *idev;
-847b9d82e160337 Yi Liu          2022-05-11  141  	void *data;
-847b9d82e160337 Yi Liu          2022-05-11  142  	int rc;
-847b9d82e160337 Yi Liu          2022-05-11  143  
-847b9d82e160337 Yi Liu          2022-05-11  144  	if (cmd->flags || cmd->__reserved || !cmd->data_len ||
-847b9d82e160337 Yi Liu          2022-05-11  145  	    cmd->data_len > PAGE_SIZE)
-847b9d82e160337 Yi Liu          2022-05-11  146  		return -EOPNOTSUPP;
-847b9d82e160337 Yi Liu          2022-05-11  147  
-847b9d82e160337 Yi Liu          2022-05-11  148  	obj = iommufd_get_object(ucmd->ictx, cmd->dev_id, IOMMUFD_OBJ_DEVICE);
-847b9d82e160337 Yi Liu          2022-05-11  149  	if (IS_ERR(obj))
-847b9d82e160337 Yi Liu          2022-05-11  150  		return PTR_ERR(obj);
-847b9d82e160337 Yi Liu          2022-05-11  151  
-847b9d82e160337 Yi Liu          2022-05-11  152  	idev = container_of(obj, struct iommufd_device, obj);
-847b9d82e160337 Yi Liu          2022-05-11  153  
-847b9d82e160337 Yi Liu          2022-05-11  154  	data = kzalloc(cmd->data_len, GFP_KERNEL);
-847b9d82e160337 Yi Liu          2022-05-11  155  	if (!data)
-847b9d82e160337 Yi Liu          2022-05-11  156  		goto out_put;
-
-rc = -ENOMEM;
-
-847b9d82e160337 Yi Liu          2022-05-11  157  
-847b9d82e160337 Yi Liu          2022-05-11  158  	rc = iommu_get_hw_info(idev->dev, cmd->out_device_type,
-847b9d82e160337 Yi Liu          2022-05-11  159  			       data, cmd->data_len);
-847b9d82e160337 Yi Liu          2022-05-11  160  	if (rc < 0)
-847b9d82e160337 Yi Liu          2022-05-11  161  		goto out_free_data;
-847b9d82e160337 Yi Liu          2022-05-11  162  
-847b9d82e160337 Yi Liu          2022-05-11  163  	if (copy_to_user((void __user *)cmd->data_ptr, data, cmd->data_len)) {
-847b9d82e160337 Yi Liu          2022-05-11  164  		rc = -EFAULT;
-847b9d82e160337 Yi Liu          2022-05-11  165  		goto out_free_data;
-847b9d82e160337 Yi Liu          2022-05-11  166  	}
-847b9d82e160337 Yi Liu          2022-05-11  167  
-847b9d82e160337 Yi Liu          2022-05-11  168  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-847b9d82e160337 Yi Liu          2022-05-11  169  
-847b9d82e160337 Yi Liu          2022-05-11  170  out_free_data:
-847b9d82e160337 Yi Liu          2022-05-11  171  	kfree(data);
-847b9d82e160337 Yi Liu          2022-05-11  172  out_put:
-847b9d82e160337 Yi Liu          2022-05-11  173  	iommufd_put_object(obj);
-847b9d82e160337 Yi Liu          2022-05-11 @174  	return rc;
-847b9d82e160337 Yi Liu          2022-05-11  175  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+[1] https://lore.kernel.org/all/20230105224018.132302-1-code@siddh.me/
