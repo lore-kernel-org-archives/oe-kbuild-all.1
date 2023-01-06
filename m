@@ -1,42 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA31137F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jan 2023 12:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754CA7E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jan 2023 12:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673006455; x=1704542455;
+  t=1673008280; x=1704544280;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9OrfTSqv+Y5lMR9irh+E6WEIYCxewpLRLVxEOGTCpfQ=;
-  b=MYcGmjwuGiv7kOK/OwIsWEvl9L1P/4WcOjCjWcc0/CjGt5DPOsiavaAf
-   2Pvqasq65pfknESBv3nIqADtxwLRDKJu3yDmIpydsJ289cofpzsRa5QEG
-   UrtKd14bYFzd7mk9Z8n10mc4WKCbVTL22G7r+AckHw1yRbnxIR48GzijB
-   6E4vllaI1+zJz/cXlXo91JmuhQjjqCXqTxTaD65R+CNelcKg5uQ4Gwa/Y
-   5lWt2tRVDmNdxGbnx7PeQt3EdfnRP176Dxd+ryQ591rIq6PVl+OnHUEO8
-   HWi94CTh4NBEIWhEUWbbl61Gke9NvvHCP/vs9M6gnQreSkVwl17alrNYE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="323714475"
+  bh=ZvuykvMpTyU1n1+Cfk9BY9RdWkGV2F79pgp+1EJefho=;
+  b=KIwTa7UWP6UMYqCmsGWhw7fkeP8HO/uGPjpd8JlkCmDxobiCbt6pWSIK
+   Fk87y1WD0oTOjfoxFJO5aa4caKmBi3uYU3seeLfgsxpT4M9taZ9+BnEb9
+   /VqHt8cW9N+udWJDLZHQ7qnugMDbNvCMCQ3Luw50zdeNbViptwUflIUes
+   sk0dsx7CRS76ADtdsw7uUhB/LdN8vdqEvypKwNmR5FwCVz4XKHv6kEUtY
+   Q7b7q4RlYbUcTKDM2gffyl5PqoDhwbEb6KULbvNBme7HsVcfjt/ZYYSAx
+   VFWEY/QETWBAj3v7z7klEFUUAF/nHw0EiY2QaXyk2xn+nTy0QLDmfM7ai
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="324484079"
 X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; 
-   d="scan'208";a="323714475"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 04:00:55 -0800
+   d="scan'208";a="324484079"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 04:31:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="686453876"
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="763509978"
 X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; 
-   d="scan'208";a="686453876"
+   d="scan'208";a="763509978"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jan 2023 04:00:54 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2023 04:31:05 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pDlP3-0003Kc-1E;
-	Fri, 06 Jan 2023 12:00:53 +0000
-Date: Fri, 6 Jan 2023 20:00:23 +0800
+	id 1pDlsH-0003MY-0Y;
+	Fri, 06 Jan 2023 12:31:05 +0000
+Date: Fri, 6 Jan 2023 20:30:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: zouxiaoh <xiaohong.zou@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>
-Subject: [intel-lts:5.15/linux 22/38] versioncheck:
- ./drivers/media/i2c/d4xx.c: 32 linux/version.h not needed.
-Message-ID: <202301061913.7GRIWEMX-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>,
+	Chen Meng J <meng.j.chen@intel.com>
+Subject: [intel-lts:5.15/linux 25/38] versioncheck:
+ ./drivers/media/platform/intel/ipu6-acpi-common.c: 16 linux/version.h not
+ needed.
+Message-ID: <202301062021.roxwE5Zj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,7 +50,7 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
 head:   0a147290ae72ebbeee40d60f97c0748a550f5cd2
-commit: cfb5743695d51c3d275a3646d140336c6e515358 [22/38] media: intel-ipu6: implement new vc solution
+commit: 749d43047fcec4edeff7ac888e732305dab791a3 [25/38] media: i2c: fix allyes build issue
 reproduce:
         make versioncheck
 
@@ -65,15 +67,15 @@ versioncheck warnings: (new ones prefixed by >>)
    ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
    ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
    ./drivers/media/i2c/ar0234.c: 17 linux/version.h not needed.
->> ./drivers/media/i2c/d4xx.c: 32 linux/version.h not needed.
->> ./drivers/media/i2c/hm11b1.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/d4xx.c: 32 linux/version.h not needed.
+   ./drivers/media/i2c/hm11b1.c: 10 linux/version.h not needed.
    ./drivers/media/i2c/imx390.c: 15 linux/version.h not needed.
    ./drivers/media/i2c/lt6911uxc.c: 24 linux/version.h not needed.
->> ./drivers/media/i2c/ov01a10.c: 10 linux/version.h not needed.
->> ./drivers/media/i2c/ov01a1s.c: 10 linux/version.h not needed.
->> ./drivers/media/i2c/ov02c10.c: 10 linux/version.h not needed.
->> ./drivers/media/i2c/ov8856.c: 10 linux/version.h not needed.
->> ./drivers/media/i2c/power_ctrl_logic.c: 9 linux/version.h not needed.
+   ./drivers/media/i2c/ov01a10.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov01a1s.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov02c10.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov8856.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/power_ctrl_logic.c: 9 linux/version.h not needed.
    ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
    ./drivers/media/i2c/ti960-des.c: 11 linux/version.h not needed.
    ./drivers/media/i2c/ti964.c: 11 linux/version.h not needed.
@@ -84,6 +86,7 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/media/pci/intel/ipu-psys.c: 16 linux/version.h not needed.
    ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
    ./drivers/media/pci/intel/ipu6/ipu6-psys.c: 12 linux/version.h not needed.
+>> ./drivers/media/platform/intel/ipu6-acpi-common.c: 16 linux/version.h not needed.
    ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
