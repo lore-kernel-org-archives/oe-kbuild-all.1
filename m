@@ -1,77 +1,82 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A4710E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jan 2023 01:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673054660; x=1704590660;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=l/tJ3H1ZU+EbKo/iOGTJSzE/4zKxIQoPZdlXc4M2xZU=;
-  b=b7AnKuJXZiyGxIAg45aZQ/vNN8qKOOBpekqI1MnMU6/x0Kq7DQ/ATAV7
-   z+RBAzQIlYN/GSnrH2l6DtS5xfpq+2wGGMuAFW9RQi5Xh7z9Y7oDIm3YF
-   GjSJcopnLeR0YWiJygjjt8a1info/FnnvlFv/+28iftN4LkrlwlSrhzhp
-   Of76Y+N/5q4kxT0mytupjhUKjMAz8fZlzdyPQiaurJpWwK7ZWaHqXMwWE
-   R0hCAHn+uvZUKb1zHIaG1Eg2XsLMKRqQzcp/9nznVfaFsCneOAbbXlG7A
-   sCHIe33iXZUsMmEULfWlRaRg961WJkhfC4pJWpYiycA6D6F9vuc9hcu0z
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="310391929"
-X-IronPort-AV: E=Sophos;i="5.96,307,1665471600"; 
-   d="scan'208";a="310391929"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 17:24:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="686649169"
-X-IronPort-AV: E=Sophos;i="5.96,307,1665471600"; 
-   d="scan'208";a="686649169"
-Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jan 2023 17:24:18 -0800
-Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pDxwT-00044M-2H;
-	Sat, 07 Jan 2023 01:24:15 +0000
-Date: Sat, 07 Jan 2023 09:23:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>, Paul E. McKenney <paulmck@kernel.org>
-Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+258 bytes kernel size regression] [i386-tinyconfig]
- [c76feb0d5d] workqueue: Make show_pwq() use run-length encoding
-Message-ID: <63b8c9a8.7l//Gw8ORC56zpoB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BDB10E5;
+	Sat,  7 Jan 2023 01:28:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0328C433F0;
+	Sat,  7 Jan 2023 01:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1673054919;
+	bh=WZ6M2N+DF8HphMp0rPSOPB8R9oUlLA4VMmuxynDPy44=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=H1qX/YeQMNHc6rXMlkgcZqKPX3NniewgHOkWwDyp7yuvsEZk7djjs8OX0dud1LUJx
+	 FyEzFCtCrviUd004IDB9o0JUj3MQ65HaNxXOvZgmSMYukYC/Ftn63SQdTxyJjx0WXs
+	 /bZBoFepu4XkNq9AeoH00sk4qe4YOIpCxycsJ4as=
+Date: Fri, 6 Jan 2023 17:28:37 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+ GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 187/223]
+ mm/nommu.c:547:6: warning: no previous prototype for function
+ 'vma_mas_store'
+Message-Id: <20230106172837.0111dad31ba2fae25a4a9bfb@linux-foundation.org>
+In-Reply-To: <202301062207.zMezwo2P-lkp@intel.com>
+References: <202301062207.zMezwo2P-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Fri, 6 Jan 2023 23:02:44 +0800 kernel test robot <lkp@intel.com> wrote:
 
-FYI, we noticed a +258 bytes kernel size regression due to commit:
+> tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
+> head:   a2765ca8c916591ebc9af48b4e545922c0bd3c3b
+> commit: c9f5ce5be2dfd3e5d5f36cac50b93c86982fcabc [187/223] mmap: convert __vma_adjust() to use vma iterator
+> config: arm-randconfig-r004-20230106
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 8d9828ef5aa9688500657d36cd2aefbe12bbd162)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm cross compiling tool for clang build
+>         # apt-get install binutils-arm-linux-gnueabi
+>         # https://github.com/ammarfaizi2/linux-block/commit/c9f5ce5be2dfd3e5d5f36cac50b93c86982fcabc
+>         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+>         git fetch --no-tags ammarfaizi2-block akpm/mm/mm-unstable
+>         git checkout c9f5ce5be2dfd3e5d5f36cac50b93c86982fcabc
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/nommu.c:547:6: warning: no previous prototype for function 'vma_mas_store' [-Wmissing-prototypes]
+>    void vma_mas_store(struct vm_area_struct *vma, struct ma_state *mas)
+>         ^
 
-commit: c76feb0d5dfdb90b70fa820bb3181142bb01e980 (workqueue: Make show_pwq() use run-length encoding)
-https://git.kernel.org/cgit/linux/kernel/git/tj/wq.git for-next
+Thanks.  I'll do this for now, as a temp thing.
 
-
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-33e3f0a3: workqueue: Add a new flag to spot the potential UAF error
-c76feb0d: workqueue: Make show_pwq() use run-length encoding
-
-+-------------------------+----------+----------+-------+
-|         symbol          | 33e3f0a3 | c76feb0d | delta |
-+-------------------------+----------+----------+-------+
-| bzImage                 | 495872   | 496096   | 224   |
-| nm.t.show_pwq           | 193      | 363      | 170   |
-| nm.t.pr_cont_work_flush | 0        | 45       | 45    |
-| nm.t.pr_cont_work       | 0        | 44       | 44    |
-| nm.D.linux_banner       | 155      | 154      | -1    |
-+-------------------------+----------+----------+-------+
-
-
-
-Thanks
+--- a/mm/nommu.c~mmap-convert-__vma_adjust-to-use-vma-iterator-fix
++++ a/mm/nommu.c
+@@ -544,7 +544,7 @@ static void put_nommu_region(struct vm_r
+ 	__put_nommu_region(region);
+ }
+ 
+-void vma_mas_store(struct vm_area_struct *vma, struct ma_state *mas)
++static void vma_mas_store(struct vm_area_struct *vma, struct ma_state *mas)
+ {
+ 	mas_set_range(mas, vma->vm_start, vma->vm_end - 1);
+ 	mas_store_prealloc(mas, vma);
+_
 
