@@ -1,42 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AFA5221
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jan 2023 20:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4DB5221
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jan 2023 20:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673297834; x=1704833834;
+  t=1673297894; x=1704833894;
   h=date:from:to:cc:subject:message-id:mime-version:
    in-reply-to;
-  bh=WGATvaZKNENAcof5v6X+B1QYZ2YOCfqAWjk4Z+luP/U=;
-  b=MRj3334bcex4qf/oIqZabxjsP8HviAxJXzenPvqxKYaqV3wGCxaJ6Mvp
-   v++cdDh1bj7qdKlXTqxpIdky9WzBIZrJ3DZwtNgshpvJQBNYPErtEHTuB
-   uRSi3g6HojA8BNFnFAURcs3m0yAD+meY/Pq0szbJXoDmISTSc6OKWEr7e
-   aHWluanI8R2WrzmH8NiLhL0fKOuOEb7nWhBB85BFeGhKFTgBIsja+iGT/
-   U9YbPqgjfkwsXFpaANjyq7llFlfUYWBId2gf8mx7qVX4qYIKXSymYgKBm
-   GUaLKADT/FB6IQe9920bAAvfCoFxVYfmrasK00WffLFm9ZONKobi2QzfM
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="302678859"
+  bh=oxaBLBiyy8sDivw/x/aJdQJ4utjCEgcX7oI2CFlquCs=;
+  b=jZl8tTjo24WGdN5PgBi5IBfaWtzk11Kq9NAq5u+pbxns9rVZQ6wYJyUQ
+   I/LLv9/5pZ+B8bYjNe6YxtSkew1l6ue6xuuqeuWOFRlvpOoG4lqeFJCxX
+   oStsGeUxPRK7G3v8TNPH69iCOYe39h3GTEPyU0ouma7CMUY3oE9gWHEUB
+   nDZBRuk29BNr/BGKY8F5VS85R6PYVpe56NMPoyv9B+utRc6V5lXRnV2zd
+   uzycmgapROd4en0GGDxn815zIhP03MyuJsD3yw9UsJkML+89gqHSNpWyZ
+   pnSusSbS/Lgxoea907/Nh79e5wxmYbxXGHRcJDszwdNjd7xmHAYEVqTbW
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="387427895"
 X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; 
-   d="scan'208";a="302678859"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 12:57:14 -0800
+   d="scan'208";a="387427895"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 12:58:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="745500491"
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="780815460"
 X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; 
-   d="scan'208";a="745500491"
+   d="scan'208";a="780815460"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Jan 2023 12:57:13 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Jan 2023 12:58:13 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pEzCi-0007EM-13;
-	Mon, 09 Jan 2023 20:57:12 +0000
-Date: Tue, 10 Jan 2023 04:56:18 +0800
+	id 1pEzDg-0007EQ-1A;
+	Mon, 09 Jan 2023 20:58:12 +0000
+Date: Tue, 10 Jan 2023 04:58:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Liam Howlett <liam.howlett@oracle.com>
 Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] nommu: Fix memory leak in do_mmap() error path
-Message-ID: <Y7x/cidNmLr9QoZV@d82c38c126d2>
+Subject: Re: [PATCH] nommu: Fix do_munmap() error path
+Message-ID: <Y7x/3kkRKM5wWEjX@d82c38c126d2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230109205507.955577-1-Liam.Howlett@oracle.com>
+In-Reply-To: <20230109205708.956103-1-Liam.Howlett@oracle.com>
 
 Hi,
 
@@ -54,8 +54,8 @@ Thanks for your patch.
 FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
 Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH] nommu: Fix memory leak in do_mmap() error path
-Link: https://lore.kernel.org/stable/20230109205507.955577-1-Liam.Howlett%40oracle.com
+Subject: [PATCH] nommu: Fix do_munmap() error path
+Link: https://lore.kernel.org/stable/20230109205708.956103-1-Liam.Howlett%40oracle.com
 
 The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
