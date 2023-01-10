@@ -1,21 +1,43 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1AFA92C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jan 2023 16:32:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA9852F4;
-	Tue, 10 Jan 2023 08:33:24 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.46.95])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 576A23F67D;
-	Tue, 10 Jan 2023 08:32:42 -0800 (PST)
-Date: Tue, 10 Jan 2023 16:32:39 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [mark:arm64/ftrace/per-callsite-ops 4/8]
- kernel/trace/ftrace.c:2505:1: error: conflicting types for
- 'ftrace_find_unique_ops'; have 'struct ftrace_ops *(struct dyn_ftrace *)'
-Message-ID: <Y72TJ3qQuvx3gIOi@FVFF77S0Q05N>
-References: <202301100944.E0mV3kSO-lkp@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191F03209
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jan 2023 16:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673369172; x=1704905172;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=PkhBq/zvP+lRjp86ajagPkVnZzfkI+X9oK4GrUJ4TCI=;
+  b=T7tJHtHsM/kTzmS4NR5+pEqL7k0w4XLVzeiYAocKvMXkcO//+vCkR+b7
+   cLTRCiyTwYnD5yV4+APKFXPUKhNRHQEzNVpt32/bNxVmIJdcLsuRF9sW/
+   FpAiOjUzHDHSJ309J8DPizWbHq1Ht/ENokFeM44NDciLpQroA++7e3I0l
+   VC3JnJFqzp/5w/JigVYIy+kqnDXxoBoAlt4E5UBWuPt6kNCd4odotB7az
+   HNQgd62z38mmy7tGbtAMn4n16lw92l5c8B7nJJwefuiZmGpIYposnDySa
+   sYGoW5nxEoYiJCojaI6yfAd67l8gjcBZyGr94pOdiO3He3eIwVaB1J0sP
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="387649456"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="387649456"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 08:43:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="687625635"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="687625635"
+Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 10 Jan 2023 08:42:59 -0800
+Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pFHiE-0008D5-2P;
+	Tue, 10 Jan 2023 16:42:58 +0000
+Date: Wed, 11 Jan 2023 00:42:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.10.y] io_uring: Fix unsigned 'res' comparison with zero
+ in io_fixup_rw_res()
+Message-ID: <Y72VYW1FaqvbCYKm@d82c38c126d2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -24,51 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202301100944.E0mV3kSO-lkp@intel.com>
+In-Reply-To: <20230110164044.755234-1-harshit.m.mogalapalli@oracle.com>
 
-On Tue, Jan 10, 2023 at 09:04:40AM +0800, kernel test robot wrote:
-> Hi Mark,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/ftrace/per-callsite-ops
-> head:   8f064db83949d4f90fccbda17ef5980695c789df
-> commit: f589df82765a8a167c3ee4385fe2490c934f491f [4/8] ftrace: Add DYNAMIC_FTRACE_WITH_CALL_OPS
-> config: x86_64-rhel-8.3-func
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=f589df82765a8a167c3ee4385fe2490c934f491f
->         git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
->         git fetch --no-tags mark arm64/ftrace/per-callsite-ops
->         git checkout f589df82765a8a167c3ee4385fe2490c934f491f
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/trace/ftrace.c:29:
->    include/linux/ftrace.h:62:50: warning: 'struct dyn_ftrace' declared inside parameter list will not be visible outside of this definition or declaration
->       62 | struct ftrace_ops *ftrace_find_unique_ops(struct dyn_ftrace *rec);
->          |                                                  ^~~~~~~~~~
+Hi,
 
-I think this is the fundamental issue here, since the below two cases:
+Thanks for your patch.
 
-> >> kernel/trace/ftrace.c:2505:1: error: conflicting types for 'ftrace_find_unique_ops'; have 'struct ftrace_ops *(struct dyn_ftrace *)'
->     2505 | ftrace_find_unique_ops(struct dyn_ftrace *rec)
->          | ^~~~~~~~~~~~~~~~~~~~~~
->    In file included from kernel/trace/ftrace.c:29:
->    include/linux/ftrace.h:62:20: note: previous declaration of 'ftrace_find_unique_ops' with type 'struct ftrace_ops *(struct dyn_ftrace *)'
->       62 | struct ftrace_ops *ftrace_find_unique_ops(struct dyn_ftrace *rec);
->          |                    ^~~~~~~~~~~~~~~~~~~~~~
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-... look identical.
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH 5.10.y] io_uring: Fix unsigned 'res' comparison with zero in io_fixup_rw_res()
+Link: https://lore.kernel.org/stable/20230110164044.755234-1-harshit.m.mogalapalli%40oracle.com
 
-I'll move the definition up earlier in <linux/ftrace.h>
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
-Thanks,
-Mark.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
+
+
