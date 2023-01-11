@@ -1,128 +1,139 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78517EF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 08:53:52 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id j7so9297070wrn.9
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 00:53:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A717EF;
+	Wed, 11 Jan 2023 08:54:42 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id o15so10572697wmr.4;
+        Wed, 11 Jan 2023 00:54:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q7ZKXxds+m1ToRjFrL/N+aqre1KgGndrtfTN0CIit8s=;
-        b=XHHHDrQhKlGvPWmc4XNnEMGxL98utCEbip/4LCI7ljniEym7IpDxUK8BxJ+7p5NdCr
-         4BOpTEMGIVYn7IkwE8mgzFcGqFg1zSecStlMS+PktmW8m33h4gAm+RZUtrefkE6Vx2xf
-         Jcg+NiTYrourEiRHiJArQCdj6W7BWafOq7hXvEMM5/qUS35Jm3Rqlkq3rdPlbYEFFNBz
-         lZlf/JqEhvL18r7/2/CuShLPEjQJg5sDuCo/MKJJbg6fdJZu7mDdufy4gGcZkkD1RQY4
-         bJnQA3fHLd9aA6qiurp3X5RAdNMmaJXv/ipWIDgC/PPbGbPoAgdL9z90gOMEuVCnlr5L
-         A9gA==
+        bh=ekHNNp9HmIrz4k3qDc1bNsdu5HAaLGTUTIcVXo5cpcw=;
+        b=TPfvbUN4n1N/aSNjJaEiI6mCaXrr6bKtEl/PJ6oU3t5mJsntaeosbmarafJJTRUyhc
+         JQT4kPVihAOImDBPqWC0AfB4lZRFoB6Q8xgrMfEdMv2UPrCKPzQVwjpA2ShqAeLYlVaQ
+         +Na/zVA5LTlUvtQA5hpHkeDnGsKJGkG0XhRSgYs+yMknaV0jE9Ch1NNXvpPOpu/Q5nj8
+         wFcxJyrXYwfzsQExvb1deKUIE1FuNE6ue1d4TX/JGtv5unVELPoPRt073LxPIa5L/wxG
+         YfZxEcgjllhdcRsd/Z7YQWix2ywY6Dy630vsln/MocasCFFdm8lXX8WIj9vvFdhcLwSH
+         TF7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q7ZKXxds+m1ToRjFrL/N+aqre1KgGndrtfTN0CIit8s=;
-        b=XUqSwyKA12E10ooxKgxq2OB9RSI2eZrugFgpbS3I/TxR+Dag6KMmSvm5U/9m1V7lvJ
-         2uYCTBJCTvQu4zl/MopmRVP8xN3XyEJhyPWBuQMJuwvWvcK902RSJz7LtsbsOGHOiK4q
-         wVfgsXU/eOmXBZ0dQdyqcT5bqDQrDGOQ4DhDAVqqFtoekZIbfhfydd+L9E1UOO9xe097
-         ubQt23XzyPPQidyCL+NxrIyTvAwSJbKMnymRFPKY/Rj2+UTH/7yGtNvf/zIwzzqgw3gw
-         Z8FE+bd/0RHZSW4PCRG7qhtY2SwSnMuj+RXjCpAHRWz4PcVWVcFHkdOxh6eVZ/V2k7I/
-         0zCA==
-X-Gm-Message-State: AFqh2ko7n4i0j6HC1vNbrEqSJ6DxEYue3yp49Jcyt5tI3wtenjvKCtCn
-	DnlVM0UDeRZqy08YtsnzlEVPYg==
-X-Google-Smtp-Source: AMrXdXtSvUw/ROl85qcQG2OnoAkmXrr7Fjq3EFgsOO+Fd8GkN3u1UpW6ueKal3JQWBwXt4G8jDGyrA==
-X-Received: by 2002:a5d:6e8c:0:b0:26b:e7e1:ad03 with SMTP id k12-20020a5d6e8c000000b0026be7e1ad03mr44564208wrz.55.1673427231254;
-        Wed, 11 Jan 2023 00:53:51 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id f3-20020adfdb43000000b00236883f2f5csm13442872wrj.94.2023.01.11.00.53.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 00:53:50 -0800 (PST)
-Message-ID: <1301a59a-9085-c7f5-bc1c-ce09766806a1@linaro.org>
-Date: Wed, 11 Jan 2023 09:53:47 +0100
+        bh=ekHNNp9HmIrz4k3qDc1bNsdu5HAaLGTUTIcVXo5cpcw=;
+        b=midyQOvJq9wpr2awkvL6jRi2XWf9Oq+tQCvJBvfZnGa9XlDMjvaE+lUwp8qAeg0q/m
+         9qUozZjnM0weH0Gt0BCHYVabJJKRfOrIdVDOuFFpcdgYwJNZwjC51OIkK0OAZPEJ4Tcd
+         benNVwWyt+WldRirkq8mkWMiCDZeNnFqA1IMgaS8FVI1uaeClJ2OllMymiyKnntuv7nf
+         wSt/KqtBL+vzygQsnlRpRBwpQ+YqEGqaTKtdpWDIMZu9QCidZu/l9Q/SraGXTc08rEjP
+         AXOe4v0cL51WqcbC80OcR4OQ6WeYNWPEPAJGhZsN7b0M9L/H4d0kyvyzgc9uqBhq1iyg
+         eCrg==
+X-Gm-Message-State: AFqh2koQ1oDu0gbaPtKFNe8//SufCPjL1xD91V6nRwBFsOFNT70bEj7/
+	hz8qfz0XS2rJ9B6fu4pOVtOcTRNPoa8=
+X-Google-Smtp-Source: AMrXdXv7LnELWQ2kfeWeLmNncBIp8eDkcF6aPZkTOPvUktEkbMRrbdRb7f13TSSycdZGMkJQ7EYkEQ==
+X-Received: by 2002:a05:600c:3509:b0:3cf:93de:14e8 with SMTP id h9-20020a05600c350900b003cf93de14e8mr50870959wmq.39.1673427279935;
+        Wed, 11 Jan 2023 00:54:39 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id bg23-20020a05600c3c9700b003d1de805de5sm20166812wmb.16.2023.01.11.00.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 00:54:39 -0800 (PST)
+Date: Wed, 11 Jan 2023 11:54:33 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Trond Myklebust <trond.myklebust@hammerspace.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [trondmy-nfs-2.6:testing 8/17] fs/nfs/read.c:358 nfs_read_folio()
+ warn: variable dereferenced before check 'file' (see line 335)
+Message-ID: <202301111617.RHJxuFNF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH V9 4/5] ASoC: codecs: Aw883xx chip register file, data
- type file and Kconfig Makefile
-To: wangweidong.a@awinic.com, lkp@intel.com
-Cc: 13691752556@139.com, alsa-devel@alsa-project.org, broonie@kernel.org,
- cezary.rojewski@intel.com, ckeepax@opensource.cirrus.com,
- daniel.beer@igorinstitute.com, devicetree@vger.kernel.org,
- flatmax@flatmax.com, james.schulman@cirrus.com, jonathan.albrieux@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, lgirdwood@gmail.com,
- linux-kernel@vger.kernel.org, liweilei@awinic.com, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, perex@perex.cz,
- pierre-louis.bossart@linux.intel.com, povik+lin@cutebit.org,
- rf@opensource.cirrus.com, robh+dt@kernel.org,
- srinivas.kandagatla@linaro.org, steve@sk2.org, tiwai@suse.com,
- yangxiaohua@everest-semi.com, yijiangtao@awinic.com, zhaolei@awinic.com
-References: <202301100233.QuEJ8pyu-lkp@intel.com>
- <20230111020233.4306-1-wangweidong.a@awinic.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230111020233.4306-1-wangweidong.a@awinic.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/01/2023 03:02, wangweidong.a@awinic.com wrote:
-> On 09/01/2023 03:00, kernel test robot wrote:
->> Hi,
-> 
->> Thank you for the patch! Yet something to improve:
-> 
->> [auto build test ERROR on 1f5abbd77e2c1787e74b7c2caffac97def78ba52]
-> 
->> url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-codecs-Add-i2c-and-codec-registration-for-aw883xx-and-their-associated-operation-functions/20230106-113130
->> base:   1f5abbd77e2c1787e74b7c2caffac97def78ba52
->> patch link:    https://lore.kernel.org/r/20230106032835.141918-5-wangweidong.a%40awinic.com
->> patch subject: [PATCH V9 4/5] ASoC: codecs: Aw883xx chip register file, data type file and Kconfig Makefile
->> config: arm64-randconfig-r034-20230109
->> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 8d9828ef5aa9688500657d36cd2aefbe12bbd162)
->> reproduce (this is a W=1 build):
->>        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>        chmod +x ~/bin/make.cross
->>        # install arm64 cross compiling tool for clang build
->>        # apt-get install binutils-aarch64-linux-gnu
->>        # https://github.com/intel-lab-lkp/linux/commit/63bed80c0eacb29f78eb53987b34863bafd48cee
->>        git remote add linux-review https://github.com/intel-lab-lkp/linux
->>        git fetch --no-tags linux-review wangweidong-a-awinic-com/ASoC-codecs-Add-i2c-and-codec-registration-for-aw883xx-and-their-associated-operation-functions/20230106-113130
->>        git checkout 63bed80c0eacb29f78eb53987b34863bafd48cee
->>        # save the config file
->>        mkdir build_dir && cp config build_dir/.config
->>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
-> 
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
-> 
->> All errors (new ones prefixed by >>):
-> 
->>>> ld.lld: error: undefined symbol: crc8_populate_lsb
->>   >>> referenced by aw883xx_bin_parse.c:1049 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1049)
->>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
->> --
->>>> ld.lld: error: undefined symbol: crc8
->>   >>> referenced by aw883xx_bin_parse.c:963 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:963)
->>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
->>   >>> referenced by aw883xx_bin_parse.c:1022 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1022)
->>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
->>   >>> did you mean: crc4
->>   >>> defined in: vmlinux.o
-> 
-> This looks like a false positive. crc8_populate_lsb is defined in the lib/crc8.c file.
-> I also could not reproduce it with GCC.
+tree:   git://git.linux-nfs.org/projects/trondmy/nfs-2.6.git testing
+head:   653d2b50cb73b541465920a748c6b1a1edf240d0
+commit: c87e83b9f933cc75e6c5ce2f99d333713e87cb6f [8/17] NFS: Convert buffered reads to use folios
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-kernel test robot almost does not report false positives, at least not
-in such obvious cases. Chances you get here false positive are so small
-(although possible), that it is much, much more likely your code needs
-fixing.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-Best regards,
-Krzysztof
+smatch warnings:
+fs/nfs/read.c:358 nfs_read_folio() warn: variable dereferenced before check 'file' (see line 335)
+
+vim +/file +358 fs/nfs/read.c
+
+65d023af7f29eb Matthew Wilcox (Oracle  2022-04-29  332) int nfs_read_folio(struct file *file, struct folio *folio)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  333  {
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  334  	struct nfs_readdesc desc;
+c87e83b9f933cc Trond Myklebust         2023-01-03 @335  	struct inode *inode = file_inode(file);
+                                                                                                 ^^^^
+file dereferenced here.
+
+49dee70052b894 Dave Wysochanski        2021-01-28  336  	int ret;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  337  
+c87e83b9f933cc Trond Myklebust         2023-01-03  338  	trace_nfs_aop_readpage(inode, folio);
+91d5b47023b608 Chuck Lever             2006-03-20  339  	nfs_inc_stats(inode, NFSIOS_VFSREADPAGE);
+91d5b47023b608 Chuck Lever             2006-03-20  340  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  341  	/*
+^1da177e4c3f41 Linus Torvalds          2005-04-16  342  	 * Try to flush any pending writes to the file..
+^1da177e4c3f41 Linus Torvalds          2005-04-16  343  	 *
+c87e83b9f933cc Trond Myklebust         2023-01-03  344  	 * NOTE! Because we own the folio lock, there cannot
+^1da177e4c3f41 Linus Torvalds          2005-04-16  345  	 * be any new pending writes generated at this point
+c87e83b9f933cc Trond Myklebust         2023-01-03  346  	 * for this folio (other folios can be written to).
+^1da177e4c3f41 Linus Torvalds          2005-04-16  347  	 */
+c87e83b9f933cc Trond Myklebust         2023-01-03  348  	ret = nfs_wb_folio(inode, folio);
+49dee70052b894 Dave Wysochanski        2021-01-28  349  	if (ret)
+de05a0cc2a2ae1 Trond Myklebust         2007-05-20  350  		goto out_unlock;
+c87e83b9f933cc Trond Myklebust         2023-01-03  351  	if (folio_test_uptodate(folio))
+de05a0cc2a2ae1 Trond Myklebust         2007-05-20  352  		goto out_unlock;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  353  
+49dee70052b894 Dave Wysochanski        2021-01-28  354  	ret = -ESTALE;
+5f004cf2aa8494 Trond Myklebust         2006-09-14  355  	if (NFS_STALE(inode))
+de05a0cc2a2ae1 Trond Myklebust         2007-05-20  356  		goto out_unlock;
+5f004cf2aa8494 Trond Myklebust         2006-09-14  357  
+^1da177e4c3f41 Linus Torvalds          2005-04-16 @358  	if (file == NULL) {
+                                                                    ^^^^^^^^^^^^
+But apparently it can be NULL.
+
+49dee70052b894 Dave Wysochanski        2021-01-28  359  		ret = -EBADF;
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  360  		desc.ctx = nfs_find_open_context(inode, NULL, FMODE_READ);
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  361  		if (desc.ctx == NULL)
+de05a0cc2a2ae1 Trond Myklebust         2007-05-20  362  			goto out_unlock;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  363  	} else
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  364  		desc.ctx = get_nfs_open_context(nfs_file_open_context(file));
+8e0969f0451eaf Trond Myklebust         2006-12-13  365  
+ba512c1bc32321 Dave Wysochanski        2021-06-29  366  	xchg(&desc.ctx->error, 0);
+1e83b173b2663b Dave Wysochanski        2021-01-28  367  	nfs_pageio_init_read(&desc.pgio, inode, false,
+1e83b173b2663b Dave Wysochanski        2021-01-28  368  			     &nfs_async_read_completion_ops);
+1e83b173b2663b Dave Wysochanski        2021-01-28  369  
+c87e83b9f933cc Trond Myklebust         2023-01-03  370  	ret = readpage_async_filler(&desc, folio);
+e0340f16a08d03 Dave Wysochanski        2021-06-29  371  	if (ret)
+e0340f16a08d03 Dave Wysochanski        2021-06-29  372  		goto out;
+1e83b173b2663b Dave Wysochanski        2021-01-28  373  
+b42ad64f5f216d Dave Wysochanski        2021-06-24  374  	nfs_pageio_complete_read(&desc.pgio);
+1e83b173b2663b Dave Wysochanski        2021-01-28  375  	ret = desc.pgio.pg_error < 0 ? desc.pgio.pg_error : 0;
+49dee70052b894 Dave Wysochanski        2021-01-28  376  	if (!ret) {
+c87e83b9f933cc Trond Myklebust         2023-01-03  377  		ret = folio_wait_locked_killable(folio);
+c87e83b9f933cc Trond Myklebust         2023-01-03  378  		if (!folio_test_uptodate(folio) && !ret)
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  379  			ret = xchg(&desc.ctx->error, 0);
+8f54c7a4babf58 Trond Myklebust         2019-08-15  380  	}
+9a9fc1c03315f1 David Howells           2009-04-03  381  out:
+1af7e7f8c12f52 Dave Wysochanski        2021-01-28  382  	put_nfs_open_context(desc.ctx);
+c87e83b9f933cc Trond Myklebust         2023-01-03  383  	trace_nfs_aop_readpage_done(inode, folio, ret);
+49dee70052b894 Dave Wysochanski        2021-01-28  384  	return ret;
+de05a0cc2a2ae1 Trond Myklebust         2007-05-20  385  out_unlock:
+c87e83b9f933cc Trond Myklebust         2023-01-03  386  	folio_unlock(folio);
+c87e83b9f933cc Trond Myklebust         2023-01-03  387  	trace_nfs_aop_readpage_done(inode, folio, ret);
+49dee70052b894 Dave Wysochanski        2021-01-28  388  	return ret;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  389  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
