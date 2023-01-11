@@ -1,100 +1,128 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9B217EF;
-	Wed, 11 Jan 2023 08:48:10 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1673426330; bh=tYUkvP1LL/oKjpBzUtCikUMIK2n3hYe7+3rcbguWTLI=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=jB92gv8ARa5tL/VyJEF/uCMfvl1vtEXMwuAMJ+MMC63FMtUet8XBJLP3KY9UXwe7u
-	 crj5snAwBqlFuMS+Tg4NgOWDTEwk2mJl81z/lGeAJRQ0/GkSWMi0n5JMVz7EkJb2en
-	 3dIorM7Y2WBeYwV6O3Y6GSej5fdPsDMEIbI5b5Gs=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78517EF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 08:53:52 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id j7so9297070wrn.9
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 00:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7ZKXxds+m1ToRjFrL/N+aqre1KgGndrtfTN0CIit8s=;
+        b=XHHHDrQhKlGvPWmc4XNnEMGxL98utCEbip/4LCI7ljniEym7IpDxUK8BxJ+7p5NdCr
+         4BOpTEMGIVYn7IkwE8mgzFcGqFg1zSecStlMS+PktmW8m33h4gAm+RZUtrefkE6Vx2xf
+         Jcg+NiTYrourEiRHiJArQCdj6W7BWafOq7hXvEMM5/qUS35Jm3Rqlkq3rdPlbYEFFNBz
+         lZlf/JqEhvL18r7/2/CuShLPEjQJg5sDuCo/MKJJbg6fdJZu7mDdufy4gGcZkkD1RQY4
+         bJnQA3fHLd9aA6qiurp3X5RAdNMmaJXv/ipWIDgC/PPbGbPoAgdL9z90gOMEuVCnlr5L
+         A9gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7ZKXxds+m1ToRjFrL/N+aqre1KgGndrtfTN0CIit8s=;
+        b=XUqSwyKA12E10ooxKgxq2OB9RSI2eZrugFgpbS3I/TxR+Dag6KMmSvm5U/9m1V7lvJ
+         2uYCTBJCTvQu4zl/MopmRVP8xN3XyEJhyPWBuQMJuwvWvcK902RSJz7LtsbsOGHOiK4q
+         wVfgsXU/eOmXBZ0dQdyqcT5bqDQrDGOQ4DhDAVqqFtoekZIbfhfydd+L9E1UOO9xe097
+         ubQt23XzyPPQidyCL+NxrIyTvAwSJbKMnymRFPKY/Rj2+UTH/7yGtNvf/zIwzzqgw3gw
+         Z8FE+bd/0RHZSW4PCRG7qhtY2SwSnMuj+RXjCpAHRWz4PcVWVcFHkdOxh6eVZ/V2k7I/
+         0zCA==
+X-Gm-Message-State: AFqh2ko7n4i0j6HC1vNbrEqSJ6DxEYue3yp49Jcyt5tI3wtenjvKCtCn
+	DnlVM0UDeRZqy08YtsnzlEVPYg==
+X-Google-Smtp-Source: AMrXdXtSvUw/ROl85qcQG2OnoAkmXrr7Fjq3EFgsOO+Fd8GkN3u1UpW6ueKal3JQWBwXt4G8jDGyrA==
+X-Received: by 2002:a5d:6e8c:0:b0:26b:e7e1:ad03 with SMTP id k12-20020a5d6e8c000000b0026be7e1ad03mr44564208wrz.55.1673427231254;
+        Wed, 11 Jan 2023 00:53:51 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id f3-20020adfdb43000000b00236883f2f5csm13442872wrj.94.2023.01.11.00.53.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jan 2023 00:53:50 -0800 (PST)
+Message-ID: <1301a59a-9085-c7f5-bc1c-ce09766806a1@linaro.org>
+Date: Wed, 11 Jan 2023 09:53:47 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
 Subject: Re: [PATCH V9 4/5] ASoC: codecs: Aw883xx chip register file, data
  type file and Kconfig Makefile
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20230111020233.4306-1-wangweidong.a@awinic.com>
-Date: Wed, 11 Jan 2023 09:38:47 +0100
-Cc: lkp@intel.com,
- 13691752556@139.com,
- Linux-ALSA <alsa-devel@alsa-project.org>,
- Mark Brown <broonie@kernel.org>,
- cezary.rojewski@intel.com,
- ckeepax@opensource.cirrus.com,
- daniel.beer@igorinstitute.com,
- devicetree@vger.kernel.org,
- flatmax@flatmax.com,
- james.schulman@cirrus.com,
- jonathan.albrieux@gmail.com,
- krzysztof.kozlowski+dt@linaro.org,
- lgirdwood@gmail.com,
- linux-kernel@vger.kernel.org,
- liweilei@awinic.com,
- llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev,
- perex@perex.cz,
- pierre-louis.bossart@linux.intel.com,
- rf@opensource.cirrus.com,
- robh+dt@kernel.org,
- srinivas.kandagatla@linaro.org,
- steve@sk2.org,
- tiwai@suse.com,
- yangxiaohua@everest-semi.com,
- yijiangtao@awinic.com,
- zhaolei@awinic.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5EA7B038-9B49-4E5D-8209-8689C0D03071@cutebit.org>
+To: wangweidong.a@awinic.com, lkp@intel.com
+Cc: 13691752556@139.com, alsa-devel@alsa-project.org, broonie@kernel.org,
+ cezary.rojewski@intel.com, ckeepax@opensource.cirrus.com,
+ daniel.beer@igorinstitute.com, devicetree@vger.kernel.org,
+ flatmax@flatmax.com, james.schulman@cirrus.com, jonathan.albrieux@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, lgirdwood@gmail.com,
+ linux-kernel@vger.kernel.org, liweilei@awinic.com, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, perex@perex.cz,
+ pierre-louis.bossart@linux.intel.com, povik+lin@cutebit.org,
+ rf@opensource.cirrus.com, robh+dt@kernel.org,
+ srinivas.kandagatla@linaro.org, steve@sk2.org, tiwai@suse.com,
+ yangxiaohua@everest-semi.com, yijiangtao@awinic.com, zhaolei@awinic.com
 References: <202301100233.QuEJ8pyu-lkp@intel.com>
  <20230111020233.4306-1-wangweidong.a@awinic.com>
-To: wangweidong.a@awinic.com
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230111020233.4306-1-wangweidong.a@awinic.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-> On 11. 1. 2023, at 3:02, wangweidong.a@awinic.com wrote:
->=20
+On 11/01/2023 03:02, wangweidong.a@awinic.com wrote:
 > On 09/01/2023 03:00, kernel test robot wrote:
-
+>> Hi,
+> 
+>> Thank you for the patch! Yet something to improve:
+> 
+>> [auto build test ERROR on 1f5abbd77e2c1787e74b7c2caffac97def78ba52]
+> 
+>> url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-codecs-Add-i2c-and-codec-registration-for-aw883xx-and-their-associated-operation-functions/20230106-113130
+>> base:   1f5abbd77e2c1787e74b7c2caffac97def78ba52
+>> patch link:    https://lore.kernel.org/r/20230106032835.141918-5-wangweidong.a%40awinic.com
+>> patch subject: [PATCH V9 4/5] ASoC: codecs: Aw883xx chip register file, data type file and Kconfig Makefile
+>> config: arm64-randconfig-r034-20230109
+>> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 8d9828ef5aa9688500657d36cd2aefbe12bbd162)
+>> reproduce (this is a W=1 build):
+>>        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>        chmod +x ~/bin/make.cross
+>>        # install arm64 cross compiling tool for clang build
+>>        # apt-get install binutils-aarch64-linux-gnu
+>>        # https://github.com/intel-lab-lkp/linux/commit/63bed80c0eacb29f78eb53987b34863bafd48cee
+>>        git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>        git fetch --no-tags linux-review wangweidong-a-awinic-com/ASoC-codecs-Add-i2c-and-codec-registration-for-aw883xx-and-their-associated-operation-functions/20230106-113130
+>>        git checkout 63bed80c0eacb29f78eb53987b34863bafd48cee
+>>        # save the config file
+>>        mkdir build_dir && cp config build_dir/.config
+>>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+> 
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+> 
 >> All errors (new ones prefixed by >>):
->=20
+> 
 >>>> ld.lld: error: undefined symbol: crc8_populate_lsb
->>>>> referenced by aw883xx_bin_parse.c:1049 =
-(sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1049)
->>>>>              vmlinux.o:(aw883xx_dev_load_acf_check)
+>>   >>> referenced by aw883xx_bin_parse.c:1049 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1049)
+>>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
 >> --
 >>>> ld.lld: error: undefined symbol: crc8
->>>>> referenced by aw883xx_bin_parse.c:963 =
-(sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:963)
->>>>>              vmlinux.o:(aw883xx_dev_load_acf_check)
->>>>> referenced by aw883xx_bin_parse.c:1022 =
-(sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1022)
->>>>>              vmlinux.o:(aw883xx_dev_load_acf_check)
->>>>> did you mean: crc4
->>>>> defined in: vmlinux.o
->=20
-> This looks like a false positive. crc8_populate_lsb is defined in the =
-lib/crc8.c file.
+>>   >>> referenced by aw883xx_bin_parse.c:963 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:963)
+>>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
+>>   >>> referenced by aw883xx_bin_parse.c:1022 (sound/soc/codecs/aw883xx/aw883xx_bin_parse.c:1022)
+>>   >>>               vmlinux.o:(aw883xx_dev_load_acf_check)
+>>   >>> did you mean: crc4
+>>   >>> defined in: vmlinux.o
+> 
+> This looks like a false positive. crc8_populate_lsb is defined in the lib/crc8.c file.
 > I also could not reproduce it with GCC.
 
-Hi,
-
-the issue here would be that it=E2=80=99s possible to select your driver =
-for compilation without
-having selected the CRC8 functions, leading to the linkage error.
-
-You can fix that by adding =E2=80=99select CRC8=E2=80=99 under the =
-Kconfig section of your driver, similarly
-to how the SND_SOC_SIGMADSP symbol selects CRC32.
+kernel test robot almost does not report false positives, at least not
+in such obvious cases. Chances you get here false positive are so small
+(although possible), that it is much, much more likely your code needs
+fixing.
 
 Best regards,
-Martin
-
->=20
-> Best regards,
-> Weidong Wang
+Krzysztof
 
