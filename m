@@ -1,331 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB445366
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jan 2023 05:05:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673499953;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGLbMrbJVQKlT8+rnJOYP46WDNWv5Q4Iw/k8Wmz3d88=;
-	b=VsMAJIX9Rrhfq8oCFxCqHryjoSc0wYbOGmkhkToyIePWPXsQ2fA1bvyicMY+4hmFCc8yjj
-	jNwNK2Vw4HSXtwRCaIFxSfeFZ/VG6rb6UbsZIZppjSSyQD27dg0TyerAG7G/wIL4UQtFcI
-	9vJb9ZgLM0p6dOTQJTonL6S43iH34Os=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-41-xIW7P5vXOAydFe-_9T5zMw-1; Thu, 12 Jan 2023 00:05:52 -0500
-X-MC-Unique: xIW7P5vXOAydFe-_9T5zMw-1
-Received: by mail-pj1-f69.google.com with SMTP id kk14-20020a17090b4a0e00b00226f5087f41so6193969pjb.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 21:05:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3354F366
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jan 2023 05:32:37 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id z4-20020a17090a170400b00226d331390cso19639008pjd.5
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jan 2023 21:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gXZvX83SeBc52XjU1Y6N0bZnckRh8rvbN9PDXBDBT+E=;
+        b=YlK4VmtRv5pPEZ8VK+iArvY/y5aC3QkQRQZLLmZ5O1gta9lmy1BpflBNvxxcMso6+y
+         afYdebZUKUX/zOkkn/iDSxCTdaJGpWUlALlMzmecciY+DX6F+k4IGqkCFL62dexkIbuH
+         ufa6cwO/VWcmg5Q4e7XDPNN4bYNOeLdM6bCr4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uGLbMrbJVQKlT8+rnJOYP46WDNWv5Q4Iw/k8Wmz3d88=;
-        b=4bQ2rLzAnOr7pwhyhDc1TkSI3TC7h0xoJtgitGMyeE7GNb6JZnmlXeJHLvOb6freU1
-         3+klZ4H/gidZJT/RfAVrIrQNHHJ2qqTy1GeA0xHNQBtM017Pw7G8hT3VNYE6bF40VhAe
-         aGKSgESgNxPpr2as87aJNt1WJblGt/Qq9T4uKhCx+VLTEiIhFwX2JxcLB7hrPBWx6Wrn
-         54Zd+Bz3NHu7jionBXF9GYPPAYo8gKLnYSgCW8zJDBqlHzizq73zHdNJdwMHLdSD9mPT
-         IZRvvADbra2ikFumWH5hsvz1IqElqP39buhO6/ijyqCX9oUpMzF8I07LJ532DD2WCgQn
-         3TYQ==
-X-Gm-Message-State: AFqh2ko2JTo1ChCySeAuD3pRWb+Rpg0wWS2Ij33bQ3K/rXxU4XsKCbsq
-	eaxj34wBAD0UHWjvcJev7ahXA3PSju3J2o0oOz4q2bIfeebvVWaI5dzra9koD1w5/bOmtQRvfbI
-	EvuPNWfhI954x/8KJ7rZht7dbyA==
-X-Received: by 2002:a62:f20f:0:b0:566:900d:5ae8 with SMTP id m15-20020a62f20f000000b00566900d5ae8mr64776309pfh.24.1673499951256;
-        Wed, 11 Jan 2023 21:05:51 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvPAN2f3AwYhsLWNNeoNRWtREtFOjfY7xTiYYYU+D52Bfw/a2o5RNDXGQz8AUgvfxoXYu0VSQ==
-X-Received: by 2002:a62:f20f:0:b0:566:900d:5ae8 with SMTP id m15-20020a62f20f000000b00566900d5ae8mr64776289pfh.24.1673499950842;
-        Wed, 11 Jan 2023 21:05:50 -0800 (PST)
-Received: from [10.72.12.200] ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id w1-20020a627b01000000b0058217bbc6f5sm10829653pfc.215.2023.01.11.21.05.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 21:05:50 -0800 (PST)
-Message-ID: <9b20611c-c5e1-ae48-393c-93b1489dc3cf@redhat.com>
-Date: Thu, 12 Jan 2023 13:05:44 +0800
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gXZvX83SeBc52XjU1Y6N0bZnckRh8rvbN9PDXBDBT+E=;
+        b=XO6x8KopQpMfrfmzky6he213Lhe68t0VOB/7TJHHVutji8TNfOToDeVuEPXv4pLebn
+         uWm5wX8MO4mxcCWO7iZnwudqNHHZuwzrTokS6AJWuvC9xrY1AY4WW+qLRKcpbVJNpsol
+         wPzxse1Y9USiVC4isaOnB0xR2eaCxEVjWntZz8SI3CJOKG2VjGlYtTxM2qN830UtP/Nq
+         pGzQoLzpgFSNfb8JIw6/hrUf72YaTa+Qfiwkr8lAy4wy1uElLCDw4KSxHQ3oHTNw8wl3
+         zAO+T2sKzgNt/BAaKO0bfNs92+pcdIl/hUK5tAuzBD9d0+SNujKBv9vlllLsqjqbweps
+         NaaA==
+X-Gm-Message-State: AFqh2kqb6EXrvJMdADpoXgEJ/Hej1s3ZmZfv2icX1K0vJc19wTz7SGol
+	vTedcofRroaN27MY34SJ1m8fnv528q7iMsbH
+X-Google-Smtp-Source: AMrXdXsY6/wvjkH9n4aQV53ZEyylIqjDX4UjL692UNjbUXuUHWBSS5zDlX3hPH4mdHGcT6x5DZ83lA==
+X-Received: by 2002:a17:902:eb4b:b0:194:623e:f401 with SMTP id i11-20020a170902eb4b00b00194623ef401mr229345pli.8.1673501556524;
+        Wed, 11 Jan 2023 21:32:36 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b00192d9b86318sm11086306plp.137.2023.01.11.21.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 21:32:35 -0800 (PST)
+Date: Thu, 12 Jan 2023 14:32:32 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 262/266] mm/zsmalloc.c:224:28: error:
+ variably modified 'size_class' at file scope
+Message-ID: <Y7+bcLR79Z8/iK94@google.com>
+References: <202301120505.al9KVH7B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [ceph-client:testing 17/77] fs/ceph/mds_client.c:218
- parse_reply_info_in() warn: missing unwind goto?
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- Jeff Layton <jlayton@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
- Ilya Dryomov <idryomov@gmail.com>
-References: <202301120708.Xouvfbeb-lkp@intel.com>
-From: Xiubo Li <xiubli@redhat.com>
-In-Reply-To: <202301120708.Xouvfbeb-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202301120505.al9KVH7B-lkp@intel.com>
 
-Thanks Dan,
-
-On 12/01/2023 12:37, Dan Carpenter wrote:
-> tree:   https://github.com/ceph/ceph-client.git testing
-> head:   dd9ed6e7fed7f133e63ecadd3ea5b1140221df0b
-> commit: d77b55b952a06f69cec796b9f675165d8aa6275d [17/77] ceph: fscrypt_auth handling for ceph
-> config: parisc-randconfig-m031-20230110
-> compiler: hppa-linux-gcc (GCC) 12.1.0
->
+On (23/01/12 05:13), kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   8a0b7a30e285f66c8369f9f77c5784d8240ba1b3
+> commit: eab24cc5a373f23bbf7e998c1b3db8bdbb8759d0 [262/266] zsmalloc: make zspage chain size configurable
+> config: parisc64-allyesconfig
+> compiler: hppa64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=eab24cc5a373f23bbf7e998c1b3db8bdbb8759d0
+>         git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+>         git fetch --no-tags akpm-mm mm-unstable
+>         git checkout eab24cc5a373f23bbf7e998c1b3db8bdbb8759d0
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc64 SHELL=/bin/bash
+> 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
->
-> New smatch warnings:
-> fs/ceph/mds_client.c:218 parse_reply_info_in() warn: missing unwind goto?
->
-> vim +218 fs/ceph/mds_client.c
->
-> 2f2dc053404feb Sage Weil        2009-10-06  100  static int parse_reply_info_in(void **p, void *end,
-> 14303d20f3ae3e Sage Weil        2010-12-14  101  			       struct ceph_mds_reply_info_in *info,
-> 12b4629a9fb80f Ilya Dryomov     2013-12-24  102  			       u64 features)
-> 2f2dc053404feb Sage Weil        2009-10-06  103  {
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  104  	int err = 0;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  105  	u8 struct_v = 0;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  106
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  107  	if (features == (u64)-1) {
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  108  		u32 struct_len;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  109  		u8 struct_compat;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  110  		ceph_decode_8_safe(p, end, struct_v, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  111  		ceph_decode_8_safe(p, end, struct_compat, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  112  		/* struct_v is expected to be >= 1. we only understand
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  113  		 * encoding with struct_compat == 1. */
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  114  		if (!struct_v || struct_compat != 1)
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  115  			goto bad;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  116  		ceph_decode_32_safe(p, end, struct_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  117  		ceph_decode_need(p, end, struct_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  118  		end = *p + struct_len;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  119  	}
-> 2f2dc053404feb Sage Weil        2009-10-06  120
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  121  	ceph_decode_need(p, end, sizeof(struct ceph_mds_reply_inode), bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  122  	info->in = *p;
-> 2f2dc053404feb Sage Weil        2009-10-06  123  	*p += sizeof(struct ceph_mds_reply_inode) +
-> 2f2dc053404feb Sage Weil        2009-10-06  124  		sizeof(*info->in->fragtree.splits) *
-> 2f2dc053404feb Sage Weil        2009-10-06  125  		le32_to_cpu(info->in->fragtree.nsplits);
-> 2f2dc053404feb Sage Weil        2009-10-06  126
-> 2f2dc053404feb Sage Weil        2009-10-06  127  	ceph_decode_32_safe(p, end, info->symlink_len, bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  128  	ceph_decode_need(p, end, info->symlink_len, bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  129  	info->symlink = *p;
-> 2f2dc053404feb Sage Weil        2009-10-06  130  	*p += info->symlink_len;
-> 2f2dc053404feb Sage Weil        2009-10-06  131
-> 14303d20f3ae3e Sage Weil        2010-12-14  132  	ceph_decode_copy_safe(p, end, &info->dir_layout,
-> 14303d20f3ae3e Sage Weil        2010-12-14  133  			      sizeof(info->dir_layout), bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  134  	ceph_decode_32_safe(p, end, info->xattr_len, bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  135  	ceph_decode_need(p, end, info->xattr_len, bad);
-> 2f2dc053404feb Sage Weil        2009-10-06  136  	info->xattr_data = *p;
-> 2f2dc053404feb Sage Weil        2009-10-06  137  	*p += info->xattr_len;
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  138
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  139  	if (features == (u64)-1) {
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  140  		/* inline data */
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  141  		ceph_decode_64_safe(p, end, info->inline_version, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  142  		ceph_decode_32_safe(p, end, info->inline_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  143  		ceph_decode_need(p, end, info->inline_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  144  		info->inline_data = *p;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  145  		*p += info->inline_len;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  146  		/* quota */
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  147  		err = parse_reply_info_quota(p, end, info);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  148  		if (err < 0)
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  149  			goto out_bad;
->                                                                          ^^^^^^^^^^^^
->
->
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  150  		/* pool namespace */
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  151  		ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  152  		if (info->pool_ns_len > 0) {
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  153  			ceph_decode_need(p, end, info->pool_ns_len, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  154  			info->pool_ns_data = *p;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  155  			*p += info->pool_ns_len;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  156  		}
-> 245ce991cca55e Jeff Layton      2019-05-29  157
-> 245ce991cca55e Jeff Layton      2019-05-29  158  		/* btime */
-> 245ce991cca55e Jeff Layton      2019-05-29  159  		ceph_decode_need(p, end, sizeof(info->btime), bad);
-> 245ce991cca55e Jeff Layton      2019-05-29  160  		ceph_decode_copy(p, &info->btime, sizeof(info->btime));
-> 245ce991cca55e Jeff Layton      2019-05-29  161
-> 245ce991cca55e Jeff Layton      2019-05-29  162  		/* change attribute */
-> a35ead314e0b92 Jeff Layton      2019-06-06  163  		ceph_decode_64_safe(p, end, info->change_attr, bad);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  164
-> 08796873a5183b Yan, Zheng       2019-01-09  165  		/* dir pin */
-> 08796873a5183b Yan, Zheng       2019-01-09  166  		if (struct_v >= 2) {
-> 08796873a5183b Yan, Zheng       2019-01-09  167  			ceph_decode_32_safe(p, end, info->dir_pin, bad);
-> 08796873a5183b Yan, Zheng       2019-01-09  168  		} else {
-> 08796873a5183b Yan, Zheng       2019-01-09  169  			info->dir_pin = -ENODATA;
-> 08796873a5183b Yan, Zheng       2019-01-09  170  		}
-> 08796873a5183b Yan, Zheng       2019-01-09  171
-> 193e7b37628e97 David Disseldorp 2019-04-18  172  		/* snapshot birth time, remains zero for v<=2 */
-> 193e7b37628e97 David Disseldorp 2019-04-18  173  		if (struct_v >= 3) {
-> 193e7b37628e97 David Disseldorp 2019-04-18  174  			ceph_decode_need(p, end, sizeof(info->snap_btime), bad);
-> 193e7b37628e97 David Disseldorp 2019-04-18  175  			ceph_decode_copy(p, &info->snap_btime,
-> 193e7b37628e97 David Disseldorp 2019-04-18  176  					 sizeof(info->snap_btime));
-> 193e7b37628e97 David Disseldorp 2019-04-18  177  		} else {
-> 193e7b37628e97 David Disseldorp 2019-04-18  178  			memset(&info->snap_btime, 0, sizeof(info->snap_btime));
-> 193e7b37628e97 David Disseldorp 2019-04-18  179  		}
-> 193e7b37628e97 David Disseldorp 2019-04-18  180
-> e7f72952508ac4 Yanhu Cao        2020-08-28  181  		/* snapshot count, remains zero for v<=3 */
-> e7f72952508ac4 Yanhu Cao        2020-08-28  182  		if (struct_v >= 4) {
-> e7f72952508ac4 Yanhu Cao        2020-08-28  183  			ceph_decode_64_safe(p, end, info->rsnaps, bad);
-> e7f72952508ac4 Yanhu Cao        2020-08-28  184  		} else {
-> e7f72952508ac4 Yanhu Cao        2020-08-28  185  			info->rsnaps = 0;
-> e7f72952508ac4 Yanhu Cao        2020-08-28  186  		}
-> e7f72952508ac4 Yanhu Cao        2020-08-28  187
-> d77b55b952a06f Jeff Layton      2020-07-27  188  		if (struct_v >= 5) {
-> d77b55b952a06f Jeff Layton      2020-07-27  189  			u32 alen;
-> d77b55b952a06f Jeff Layton      2020-07-27  190
-> d77b55b952a06f Jeff Layton      2020-07-27  191  			ceph_decode_32_safe(p, end, alen, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  192
-> d77b55b952a06f Jeff Layton      2020-07-27  193  			while (alen--) {
-> d77b55b952a06f Jeff Layton      2020-07-27  194  				u32 len;
-> d77b55b952a06f Jeff Layton      2020-07-27  195
-> d77b55b952a06f Jeff Layton      2020-07-27  196  				/* key */
-> d77b55b952a06f Jeff Layton      2020-07-27  197  				ceph_decode_32_safe(p, end, len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  198  				ceph_decode_skip_n(p, end, len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  199  				/* value */
-> d77b55b952a06f Jeff Layton      2020-07-27  200  				ceph_decode_32_safe(p, end, len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  201  				ceph_decode_skip_n(p, end, len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  202  			}
-> d77b55b952a06f Jeff Layton      2020-07-27  203  		}
-> d77b55b952a06f Jeff Layton      2020-07-27  204
-> d77b55b952a06f Jeff Layton      2020-07-27  205  		/* fscrypt flag -- ignore */
-> d77b55b952a06f Jeff Layton      2020-07-27  206  		if (struct_v >= 6)
-> d77b55b952a06f Jeff Layton      2020-07-27  207  			ceph_decode_skip_8(p, end, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  208
-> d77b55b952a06f Jeff Layton      2020-07-27  209  		info->fscrypt_auth = NULL;
-> d77b55b952a06f Jeff Layton      2020-07-27  210  		info->fscrypt_auth_len = 0;
-> d77b55b952a06f Jeff Layton      2020-07-27  211  		info->fscrypt_file = NULL;
-> d77b55b952a06f Jeff Layton      2020-07-27  212  		info->fscrypt_file_len = 0;
-> d77b55b952a06f Jeff Layton      2020-07-27  213  		if (struct_v >= 7) {
-> d77b55b952a06f Jeff Layton      2020-07-27  214  			ceph_decode_32_safe(p, end, info->fscrypt_auth_len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  215  			if (info->fscrypt_auth_len) {
-> d77b55b952a06f Jeff Layton      2020-07-27  216  				info->fscrypt_auth = kmalloc(info->fscrypt_auth_len, GFP_KERNEL);
-> d77b55b952a06f Jeff Layton      2020-07-27  217  				if (!info->fscrypt_auth)
-> d77b55b952a06f Jeff Layton      2020-07-27 @218  					return -ENOMEM;
->
-> When I scroll down, it turns out that the error labels in this function
-> are just Pointless Do Nothing Gotos.  Smatch tries to ignore this, but
-> the bad: label sets the error code so Smatch marks it as a Do Something
-> label.
->
-> Ideally everything would be converted to direct returns...
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from include/vdso/const.h:5,
+>                     from include/linux/const.h:4,
+>                     from include/linux/list.h:9,
+>                     from include/linux/module.h:12,
+>                     from mm/zsmalloc.c:40:
+> >> mm/zsmalloc.c:122:59: warning: right shift count >= width of type [-Wshift-count-overflow]
+>      122 |         MAX(32, (CONFIG_ZSMALLOC_CHAIN_SIZE << PAGE_SHIFT >> OBJ_INDEX_BITS))
+>          |                                                           ^~
+>    include/uapi/linux/const.h:34:40: note: in definition of macro '__KERNEL_DIV_ROUND_UP'
+>       34 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+>          |                                        ^
+>    mm/zsmalloc.c:122:9: note: in expansion of macro 'MAX'
+>      122 |         MAX(32, (CONFIG_ZSMALLOC_CHAIN_SIZE << PAGE_SHIFT >> OBJ_INDEX_BITS))
+>          |         ^~~
+>    mm/zsmalloc.c:140:59: note: in expansion of macro 'ZS_MIN_ALLOC_SIZE'
+>      140 | #define ZS_SIZE_CLASSES (DIV_ROUND_UP(ZS_MAX_ALLOC_SIZE - ZS_MIN_ALLOC_SIZE, \
+>          |                                                           ^~~~~~~~~~~~~~~~~
+>    mm/zsmalloc.c:224:39: note: in expansion of macro 'ZS_SIZE_CLASSES'
+>      224 |         struct size_class *size_class[ZS_SIZE_CLASSES];
+>          |                                       ^~~~~~~~~~~~~~~
+> >> mm/zsmalloc.c:122:59: warning: right shift count >= width of type [-Wshift-count-overflow]
+>      122 |         MAX(32, (CONFIG_ZSMALLOC_CHAIN_SIZE << PAGE_SHIFT >> OBJ_INDEX_BITS))
+>          |                                                           ^~
+>    include/uapi/linux/const.h:34:40: note: in definition of macro '__KERNEL_DIV_ROUND_UP'
+>       34 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+>          |                                        ^
+>    mm/zsmalloc.c:122:9: note: in expansion of macro 'MAX'
+>      122 |         MAX(32, (CONFIG_ZSMALLOC_CHAIN_SIZE << PAGE_SHIFT >> OBJ_INDEX_BITS))
+>          |         ^~~
+>    mm/zsmalloc.c:140:59: note: in expansion of macro 'ZS_MIN_ALLOC_SIZE'
+>      140 | #define ZS_SIZE_CLASSES (DIV_ROUND_UP(ZS_MAX_ALLOC_SIZE - ZS_MIN_ALLOC_SIZE, \
+>          |                                                           ^~~~~~~~~~~~~~~~~
+>    mm/zsmalloc.c:224:39: note: in expansion of macro 'ZS_SIZE_CLASSES'
+>      224 |         struct size_class *size_class[ZS_SIZE_CLASSES];
+>          |                                       ^~~~~~~~~~~~~~~
+> >> mm/zsmalloc.c:224:28: error: variably modified 'size_class' at file scope
+>      224 |         struct size_class *size_class[ZS_SIZE_CLASSES];
 
-The following patch should fix it:
+Thanks.
 
-diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-index 43a9a17ed9eb..726519b637db 100644
---- a/fs/ceph/mds_client.c
-+++ b/fs/ceph/mds_client.c
-@@ -215,16 +215,20 @@ static int parse_reply_info_in(void **p, void *end,
-                         ceph_decode_32_safe(p, end, 
-info->fscrypt_auth_len, bad);
-                         if (info->fscrypt_auth_len) {
-                                 info->fscrypt_auth = 
-kmalloc(info->fscrypt_auth_len, GFP_KERNEL);
--                               if (!info->fscrypt_auth)
--                                       return -ENOMEM;
-+                               if (!info->fscrypt_auth) {
-+                                       err = -ENOMEM;
-+                                       goto out_bad;
-+                               }
-                                 ceph_decode_copy_safe(p, end, 
-info->fscrypt_auth,
-info->fscrypt_auth_len, bad);
-                         }
-                         ceph_decode_32_safe(p, end, 
-info->fscrypt_file_len, bad);
-                         if (info->fscrypt_file_len) {
-                                 info->fscrypt_file = 
-kmalloc(info->fscrypt_file_len, GFP_KERNEL);
--                               if (!info->fscrypt_file)
--                                       return -ENOMEM;
-+                               if (!info->fscrypt_file) {
-+                                       err = -ENOMEM;
-+                                       goto out_bad;
-+                               }
-                                 ceph_decode_copy_safe(p, end, 
-info->fscrypt_file,
-info->fscrypt_file_len, bad);
-                         }
-
-Thanks
-
-- Xiubo
-
-
->
-> d77b55b952a06f Jeff Layton      2020-07-27  219  				ceph_decode_copy_safe(p, end, info->fscrypt_auth,
-> d77b55b952a06f Jeff Layton      2020-07-27  220  						      info->fscrypt_auth_len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  221  			}
-> d77b55b952a06f Jeff Layton      2020-07-27  222  			ceph_decode_32_safe(p, end, info->fscrypt_file_len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  223  			if (info->fscrypt_file_len) {
-> d77b55b952a06f Jeff Layton      2020-07-27  224  				info->fscrypt_file = kmalloc(info->fscrypt_file_len, GFP_KERNEL);
-> d77b55b952a06f Jeff Layton      2020-07-27  225  				if (!info->fscrypt_file)
-> d77b55b952a06f Jeff Layton      2020-07-27  226  					return -ENOMEM;
-> d77b55b952a06f Jeff Layton      2020-07-27  227  				ceph_decode_copy_safe(p, end, info->fscrypt_file,
-> d77b55b952a06f Jeff Layton      2020-07-27  228  						      info->fscrypt_file_len, bad);
-> d77b55b952a06f Jeff Layton      2020-07-27  229  			}
-> d77b55b952a06f Jeff Layton      2020-07-27  230  		}
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  231  		*p = end;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  232  	} else {
-> d77b55b952a06f Jeff Layton      2020-07-27  233  		/* legacy (unversioned) struct */
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  234  		if (features & CEPH_FEATURE_MDS_INLINE_DATA) {
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  235  			ceph_decode_64_safe(p, end, info->inline_version, bad);
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  236  			ceph_decode_32_safe(p, end, info->inline_len, bad);
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  237  			ceph_decode_need(p, end, info->inline_len, bad);
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  238  			info->inline_data = *p;
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  239  			*p += info->inline_len;
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  240  		} else
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  241  			info->inline_version = CEPH_INLINE_NONE;
-> fb01d1f8b0343f Yan, Zheng       2014-11-14  242
-> fb18a57568c2b8 Luis Henriques   2018-01-05  243  		if (features & CEPH_FEATURE_MDS_QUOTA) {
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  244  			err = parse_reply_info_quota(p, end, info);
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  245  			if (err < 0)
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  246  				goto out_bad;
-> fb18a57568c2b8 Luis Henriques   2018-01-05  247  		} else {
-> fb18a57568c2b8 Luis Henriques   2018-01-05  248  			info->max_bytes = 0;
-> fb18a57568c2b8 Luis Henriques   2018-01-05  249  			info->max_files = 0;
-> fb18a57568c2b8 Luis Henriques   2018-01-05  250  		}
-> fb18a57568c2b8 Luis Henriques   2018-01-05  251
-> 779fe0fb8e1883 Yan, Zheng       2016-03-07  252  		info->pool_ns_len = 0;
-> 779fe0fb8e1883 Yan, Zheng       2016-03-07  253  		info->pool_ns_data = NULL;
-> 5ea5c5e0a7f70b Yan, Zheng       2016-02-14  254  		if (features & CEPH_FEATURE_FS_FILE_LAYOUT_V2) {
-> 5ea5c5e0a7f70b Yan, Zheng       2016-02-14  255  			ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
-> 779fe0fb8e1883 Yan, Zheng       2016-03-07  256  			if (info->pool_ns_len > 0) {
-> 5ea5c5e0a7f70b Yan, Zheng       2016-02-14  257  				ceph_decode_need(p, end, info->pool_ns_len, bad);
-> 779fe0fb8e1883 Yan, Zheng       2016-03-07  258  				info->pool_ns_data = *p;
-> 5ea5c5e0a7f70b Yan, Zheng       2016-02-14  259  				*p += info->pool_ns_len;
-> 779fe0fb8e1883 Yan, Zheng       2016-03-07  260  			}
-> 5ea5c5e0a7f70b Yan, Zheng       2016-02-14  261  		}
-> 08796873a5183b Yan, Zheng       2019-01-09  262
-> 245ce991cca55e Jeff Layton      2019-05-29  263  		if (features & CEPH_FEATURE_FS_BTIME) {
-> 245ce991cca55e Jeff Layton      2019-05-29  264  			ceph_decode_need(p, end, sizeof(info->btime), bad);
-> 245ce991cca55e Jeff Layton      2019-05-29  265  			ceph_decode_copy(p, &info->btime, sizeof(info->btime));
-> a35ead314e0b92 Jeff Layton      2019-06-06  266  			ceph_decode_64_safe(p, end, info->change_attr, bad);
-> 245ce991cca55e Jeff Layton      2019-05-29  267  		}
-> 245ce991cca55e Jeff Layton      2019-05-29  268
-> 08796873a5183b Yan, Zheng       2019-01-09  269  		info->dir_pin = -ENODATA;
-> e7f72952508ac4 Yanhu Cao        2020-08-28  270  		/* info->snap_btime and info->rsnaps remain zero */
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  271  	}
-> 2f2dc053404feb Sage Weil        2009-10-06  272  	return 0;
-> 2f2dc053404feb Sage Weil        2009-10-06  273  bad:
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  274  	err = -EIO;
-> b37fe1f923fb4b Yan, Zheng       2019-01-09  275  out_bad:
-> 2f2dc053404feb Sage Weil        2009-10-06  276  	return err;
-> 2f2dc053404feb Sage Weil        2009-10-06  277  }
->
--- 
-Best Regards,
-
-Xiubo Li (李秀波)
-
-Email: xiubli@redhat.com/xiubli@ibm.com
-Slack: @Xiubo Li
-
+OK, so I think on hppa64 it wants chain-size to be explicitly casted to
+unsigned long. Let me try it and send out a fixup patch.
