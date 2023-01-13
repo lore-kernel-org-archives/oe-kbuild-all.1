@@ -1,145 +1,108 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1BCBA41
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jan 2023 21:26:27 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-12c8312131fso23695539fac.4
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jan 2023 13:26:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nrStFevsF8nwSzFjua9Ts3+pp2fcrAmQzRDTfwMTqh8=;
-        b=f02sY3fRUAey5xjrgRvTqFouZ+76pAMV3r2SuH71PNHI3iWAji9tWG53zEISrR0uRk
-         Dntp5KKBAovAvocH3FsrcLMnLxeT5u5P1L7VFM/+bvEzvQj7LhcV2kDVBeiUgRnFheOY
-         watlWnDFhKF79osuhNQJBjqzBy4rbmlcUAD1vJswagFUEMnwS+MFWY0irD3BquiCnyLW
-         9iNLVWZKi/sBVbOpy/zIitdXrV2kP/tc0/9Mhd0DyIYebajHHbvebhh+Dk38V5iosl+H
-         1bhyvLNoFT3VxBmZEp7B7gAvCvrSw1oKU86mrZ2etysRyzqTjCzQ62K9hwYSWvwPz7K1
-         pMfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nrStFevsF8nwSzFjua9Ts3+pp2fcrAmQzRDTfwMTqh8=;
-        b=zDvUirxc0ID2kDuzIMTihPbf0lH0U5DgKknCT9oarM6k/I4OkUA8ViSD1UGOMRWIw/
-         GIABqAdmZElW3kBM6zmtELHSaVxoCw8iUx3pI/ixxjCAcP0oz3d79bgMCCaWgPPnHfMU
-         YfWRk4c8Y+G25lu+HqTanElu+8H8sjgRQQv7rWTIPq8gXv1H0+duKs2zwHWNFMATMPQx
-         Qm5xjtQBBqa5BATefFcRiIN1EHA/Ggv4GSqfEFJ6jWqZi/tgJ0JMvDJ7wZ3elIKqscX1
-         gj3GjsF1kDxmrILBQDCgbLST+GCjLpTPwSv1mah0KoXeVdqs5hmULzGly8JJK05Z4yxC
-         KbhA==
-X-Gm-Message-State: AFqh2kr8rzi4qyVqG55nAtbBpFVN2yuLw4eiemjPf62ZD/0JjF2mZ6a+
-	MWEQzjdPlwkf/mj/whXcoBM=
-X-Google-Smtp-Source: AMrXdXtQNBuYN16dvWDDNuXCFVemaLMj/x673/6jajYaFQQLKhXjypO36EMjlVhswLTsSpSeTrFLeg==
-X-Received: by 2002:a05:6870:d624:b0:143:5000:9cc9 with SMTP id a36-20020a056870d62400b0014350009cc9mr47215639oaq.22.1673645186542;
-        Fri, 13 Jan 2023 13:26:26 -0800 (PST)
-Received: from ?IPV6:2603:8081:140c:1a00:3f47:8433:ec70:f475? (2603-8081-140c-1a00-3f47-8433-ec70-f475.res6.spectrum.com. [2603:8081:140c:1a00:3f47:8433:ec70:f475])
-        by smtp.gmail.com with ESMTPSA id m11-20020a056820034b00b004f219b998eesm4791414ooe.43.2023.01.13.13.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 13:26:25 -0800 (PST)
-Message-ID: <53e4292f-8fff-a250-69b5-95338a294b6d@gmail.com>
-Date: Fri, 13 Jan 2023 15:26:25 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8FDBA41
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jan 2023 21:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673646978; x=1705182978;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CXVaWSDxfP12UwpQg2mnuuJMqC4kMMgYOCKKNBtzSKc=;
+  b=FnxrhkuQY59cayBbgHKzjmJbwpCxthVbbAnoaWkRA9yPNP+EqVmO8ue2
+   1Qycwp5E+MjZfuZo2lH3nDYH0XPcchXQqYeCXSprODhTCpEkBCjeUon/O
+   rQuuhPA+KBIBBz95ptBTO7bJ+NX/+7X4KpHIk2bAJvVd5U/XkC1hQe4l6
+   IAF0f8qpj7lqvk7YRvnBwzLIgimXN+CIaEnaHP8DW52erRyycjWTRD+NV
+   VOLwEnJZYOE10U+9gdMMw1D92SF5UBpUIGOIEwApPMGGy7FrFMWC4QL89
+   Py3kj3ZwHr2oGhIFuVgQnIKP7Ngx1WF5yy03dzClCtdNWUF1HEcj/4tnX
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="386450051"
+X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
+   d="scan'208";a="386450051"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 13:56:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="726848916"
+X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
+   d="scan'208";a="726848916"
+Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2023 13:56:06 -0800
+Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pGS1t-000BRi-2X;
+	Fri, 13 Jan 2023 21:56:05 +0000
+Date: Sat, 14 Jan 2023 05:55:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Larsson <alexl@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gscrivan@redhat.com, Alexander Larsson <alexl@redhat.com>
+Subject: Re: [PATCH v2 4/6] composefs: Add filesystem implementation
+Message-ID: <202301140549.bJw9MThl-lkp@intel.com>
+References: <ee96ab52b9d2ab58e7b793e34ce5dc956686ada9.1673623253.git.alexl@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH for-next v2 4/6] RDMA-rxe: Isolate mr code from
- atomic_write_reply()
-To: jgg@nvidia.com, linux-rdma@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20230113002116.457324-5-rpearsonhpe@gmail.com>
- <202301131143.CmoyVcul-lkp@intel.com>
-Content-Language: en-US
-From: Bob Pearson <rpearsonhpe@gmail.com>
-In-Reply-To: <202301131143.CmoyVcul-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ee96ab52b9d2ab58e7b793e34ce5dc956686ada9.1673623253.git.alexl@redhat.com>
 
-On 1/12/23 21:43, kernel test robot wrote:
-> Hi Bob,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on bd99ede8ef2dc03e29a181b755ba4f78da2644e6]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bob-Pearson/RDMA-rxe-Cleanup-mr_check_range/20230113-082406
-> base:   bd99ede8ef2dc03e29a181b755ba4f78da2644e6
-> patch link:    https://lore.kernel.org/r/20230113002116.457324-5-rpearsonhpe%40gmail.com
-> patch subject: [PATCH for-next v2 4/6] RDMA-rxe: Isolate mr code from atomic_write_reply()
-> config: powerpc-allmodconfig
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/c7e5c2723da0d6b13e37cbff63dad653e5c8801c
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Bob-Pearson/RDMA-rxe-Cleanup-mr_check_range/20230113-082406
->         git checkout c7e5c2723da0d6b13e37cbff63dad653e5c8801c
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/infiniband/sw/rxe/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from <command-line>:
->    drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_mr_do_atomic_write':
->>> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_870' declared with attribute error: Need native word sized stores/loads for atomicity.
+Hi Alexander,
 
-Jason,
-	Does this mean that powerpc doesn't support u64 as a native type? Perhaps this is
-	why the Fujitsu folks used CONFIG_64BIT in the atomic write patch which seemed a
-	little strange.
-Bob
+Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on fscrypt/fsverity]
+[also build test WARNING on linus/master v6.2-rc3 next-20230113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->      358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |                                             ^
->    include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
->      339 |                         prefix ## suffix();                             \
->          |                         ^~~~~~
->    include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
->      358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ^~~~~~~~~~~~~~~~~~~
->    include/linux/compiler_types.h:361:9: note: in expansion of macro 'compiletime_assert'
->      361 |         compiletime_assert(__native_word(t),                            \
->          |         ^~~~~~~~~~~~~~~~~~
->    arch/powerpc/include/asm/barrier.h:74:9: note: in expansion of macro 'compiletime_assert_atomic_type'
->       74 |         compiletime_assert_atomic_type(*p);                             \
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
->      172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
->          |                                                       ^~~~~~~~~~~~~~~~~~~
->    drivers/infiniband/sw/rxe/rxe_mr.c:605:9: note: in expansion of macro 'smp_store_release'
->      605 |         smp_store_release(vaddr, value);
->          |         ^~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/__compiletime_assert_870 +358 include/linux/compiler_types.h
-> 
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Larsson/fsverity-Export-fsverity_get_digest/20230113-234920
+base:   https://git.kernel.org/pub/scm/fs/fscrypt/fscrypt.git fsverity
+patch link:    https://lore.kernel.org/r/ee96ab52b9d2ab58e7b793e34ce5dc956686ada9.1673623253.git.alexl%40redhat.com
+patch subject: [PATCH v2 4/6] composefs: Add filesystem implementation
+reproduce:
+        make versioncheck
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./fs/composefs/cfs.c: 19 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
