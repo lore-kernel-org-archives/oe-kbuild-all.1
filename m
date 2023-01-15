@@ -1,178 +1,60 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50D1366
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jan 2023 14:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673791742;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uYsStTjUz3WGDaAYUWg24ZE611xTjkecNGKieBDCjA8=;
-	b=g6fblDR8k/8vA1kmjazmjGLGvQ6jyKSqyywyK3bWmixK2pOM7g5UGn2bYbAXGCuKOwB9QC
-	rlZ4shfO/k4kgHecOps+haxH5HN3Kzr0rPpTcHqXMih704g93hVrY8KrrQtb/cU1snwvlL
-	WQKsTmxTICENNFZbUorWLdfh7nVE89I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-Ziwo1vRyNbeAEKupitVnJw-1; Sun, 15 Jan 2023 09:09:00 -0500
-X-MC-Unique: Ziwo1vRyNbeAEKupitVnJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08B351C07543;
-	Sun, 15 Jan 2023 14:09:00 +0000 (UTC)
-Received: from localhost (ovpn-12-229.pek2.redhat.com [10.72.12.229])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16FD640C6EC4;
-	Sun, 15 Jan 2023 14:08:58 +0000 (UTC)
-Date: Sun, 15 Jan 2023 22:08:55 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, linux-mm@kvack.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	urezki@gmail.com, lstoakes@gmail.com, stephen.s.brennan@oracle.com,
-	willy@infradead.org, akpm@linux-foundation.org, hch@infradead.org
-Subject: Re: [PATCH v3 3/7] mm/vmalloc.c: allow vread() to read out
- vm_map_ram areas
-Message-ID: <Y8QI977QBDbuuGW5@fedora>
-References: <20230113031921.64716-4-bhe@redhat.com>
- <202301132345.KVjvHMFq-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFC91366;
+	Sun, 15 Jan 2023 14:14:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73752C433D2;
+	Sun, 15 Jan 2023 14:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1673792069;
+	bh=EvGEQ7u39+taKoDMf5d9jjV5Rwv8HCE3B95mKlhXVr8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zn1rkTI8QJ5BKucDQQcgS71svB8c75bujhU7AyQstnrIj8SMa28y0YtuOeu86DKZc
+	 iysF491gHLjbkzWULrBXHdRKIB6Fa3wdlXtITG+9pao/Bz/bHhql/R83vCvAvO1Eli
+	 EtxONBvJgNIY4GiH9E3S7RvPDmCKuqtUljm9t2+o=
+Date: Sun, 15 Jan 2023 15:14:27 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>
+Subject: Re: [stable:linux-5.15.y 1642/9999] ERROR: Input tree has errors,
+ aborting (use -f to force output)
+Message-ID: <Y8QKQ1XKEZvtmJYc@kroah.com>
+References: <202301150959.RAvfuBjG-lkp@intel.com>
+ <aa73cfb8-99ed-20b4-071c-9858399aee0a@arinc9.com>
+ <CAMhs-H_fykbcZjSQ0LKOmtWMLjekDgUHsJjNNqSvYvbY=wbkHQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202301132345.KVjvHMFq-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMhs-H_fykbcZjSQ0LKOmtWMLjekDgUHsJjNNqSvYvbY=wbkHQ@mail.gmail.com>
 
-Hi Dan,
+On Sun, Jan 15, 2023 at 01:52:58PM +0100, Sergio Paracuellos wrote:
+> On Sun, Jan 15, 2023 at 10:05 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+> >
+> > Sergio, this issue hasn't seem to gone away. If you haven't sent the
+> > patch you mentioned here [1], I think Greg taking your upstream commit
+> > [2] to 5.15.y tree would be the easiest solution.
+> >
+> > [1]:
+> > https://lore.kernel.org/all/CAMhs-H8BLheXBc+BcDH_PKmDg+_bWF9OmiS_grw1mO+RxW+J8Q@mail.gmail.com/
+> > [2]:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/drivers/staging/mt7621-dts/mt7621.dtsi?id=ce835dbd04d7b24f9fd50d9a9c59be46304aaa8a
+> 
+> I forgot I sent [2] at some point :). Yes, taking directly that patch
+> sounds easier.
 
-On 01/14/23 at 10:57am, Dan Carpenter wrote:
-> Hi Baoquan,
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-vmalloc-c-add-used_map-into-vmap_block-to-track-space-of-vmap_block/20230113-112149
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20230113031921.64716-4-bhe%40redhat.com
-> patch subject: [PATCH v3 3/7] mm/vmalloc.c: allow vread() to read out vm_map_ram areas
-> config: i386-randconfig-m021
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> smatch warnings:
-> mm/vmalloc.c:3682 vread() error: we previously assumed 'vm' could be null (see line 3664)
+<formletter>
 
-Thanks for checking this. I went through the code flow again, personally
-think that the issue and risk pointed out could not exist. Please see
-the comment at below.
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-> 
-> vim +/vm +3682 mm/vmalloc.c
-> 
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3630  long vread(char *buf, char *addr, unsigned long count)
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3631  {
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3632  	struct vmap_area *va;
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3633  	struct vm_struct *vm;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3634  	char *vaddr, *buf_start = buf;
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3635  	unsigned long buflen = count;
-> 129dbdf298d7383 Baoquan He              2023-01-13  3636  	unsigned long n, size, flags;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3637  
-> 4aff1dc4fb3a5a3 Andrey Konovalov        2022-03-24  3638  	addr = kasan_reset_tag(addr);
-> 4aff1dc4fb3a5a3 Andrey Konovalov        2022-03-24  3639  
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3640  	/* Don't allow overflow */
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3641  	if ((unsigned long) addr + count < count)
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3642  		count = -(unsigned long) addr;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3643  
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3644  	spin_lock(&vmap_area_lock);
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3645  	va = find_vmap_area_exceed_addr((unsigned long)addr);
-> f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3646  	if (!va)
-> f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3647  		goto finished;
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3648  
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3649  	/* no intersects with alive vmap_area */
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3650  	if ((unsigned long)addr + count <= va->va_start)
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3651  		goto finished;
-> f181234a5a21fd0 Chen Wandun             2021-09-02  3652  
-> f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3653  	list_for_each_entry_from(va, &vmap_area_list, list) {
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3654  		if (!count)
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3655  			break;
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3656  
-> 129dbdf298d7383 Baoquan He              2023-01-13  3657  		vm = va->vm;
-> 129dbdf298d7383 Baoquan He              2023-01-13  3658  		flags = va->flags & VMAP_FLAGS_MASK;
-> 129dbdf298d7383 Baoquan He              2023-01-13  3659  
-> 129dbdf298d7383 Baoquan He              2023-01-13  3660  		if (!vm && !flags)
->                                                                             ^^^
-> vm can be NULL if a flag in VMAP_FLAGS_MASK is set.
-> 
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3661  			continue;
-
-Right, after the 'continue;' line, only two cases could happen when it
-comes here. (vm != null) or (vm->flags & VMAP_RAM) is true.
-
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3662  
-> 129dbdf298d7383 Baoquan He              2023-01-13  3663  		vaddr = (char *) va->va_start;
-> 129dbdf298d7383 Baoquan He              2023-01-13 @3664  		size = vm ? get_vm_area_size(vm) : va_size(va);
->                                                                                ^^
-> 
-> 129dbdf298d7383 Baoquan He              2023-01-13  3665  
-> 129dbdf298d7383 Baoquan He              2023-01-13  3666  		if (addr >= vaddr + size)
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3667  			continue;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3668  		while (addr < vaddr) {
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3669  			if (count == 0)
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3670  				goto finished;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3671  			*buf = '\0';
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3672  			buf++;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3673  			addr++;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3674  			count--;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3675  		}
-> 129dbdf298d7383 Baoquan He              2023-01-13  3676  		n = vaddr + size - addr;
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3677  		if (n > count)
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3678  			n = count;
-> 129dbdf298d7383 Baoquan He              2023-01-13  3679  
-> 129dbdf298d7383 Baoquan He              2023-01-13  3680  		if (flags & VMAP_RAM)
-> 
-> assume VMAP_RAM is not set
-
-OK, then vm is not null.
-> 
-> 129dbdf298d7383 Baoquan He              2023-01-13  3681  			vmap_ram_vread(buf, addr, n, flags);
-> 129dbdf298d7383 Baoquan He              2023-01-13 @3682  		else if (!(vm->flags & VM_IOREMAP))
->                                                                                    ^^^^^^^^^
-> Unchecked dereference.  Should this be "flags" instead of "vm->flags"?
-
-Thus, here, in 'else if', vm is not null. And in this 'else if', we are
-intending to check vm->flags. I don't see issue or risk here. Please
-help check if I miss anything.
-
-Thanks
-Baoquan
-
-> 
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3683  			aligned_vread(buf, addr, n);
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3684  		else /* IOREMAP area is treated as memory hole */
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3685  			memset(buf, 0, n);
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3686  		buf += n;
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3687  		addr += n;
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3688  		count -= n;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3689  	}
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3690  finished:
-> e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3691  	spin_unlock(&vmap_area_lock);
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3692  
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3693  	if (buf == buf_start)
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3694  		return 0;
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3695  	/* zero-fill memory holes */
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3696  	if (buf != buf_start + buflen)
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3697  		memset(buf, 0, buflen - (buf - buf_start));
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3698  
-> d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3699  	return buflen;
-> ^1da177e4c3f415 Linus Torvalds          2005-04-16  3700  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
-
+</formletter>
