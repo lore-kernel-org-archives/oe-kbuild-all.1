@@ -1,66 +1,66 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40936FB7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 19:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ACE6FB7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 20:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673898038; x=1705434038;
+  t=1673899869; x=1705435869;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H3fpg/dqbXNAWoQ9g7cFikkg5IZmS1nhSQG43WIQepo=;
-  b=QD9rbNJt8YZHFf6HovRQWPAX+nt9UDf21Fxu8RV5HDbgt2wGrxRB16Ji
-   3KrjKaPWnbbypZdX7BBNF9+KpRJhw3WUv9vJcJHBO2bRqGLhPYnLVBwVR
-   6WmIhyPZhnuD03/+PyfpJKDarO6G5El125itQNnTndACd9MWg2vHzWjzg
-   Qe5w8HlqHO3e6kLwubkGrS2kDULmX2xi08GoKslavXG038Twx58MFGKis
-   SvjNAUn5Ezg9NIfoV/AmaHr7Md5fVarZ2H2hLgdoTM/VhUnlaZ3pnu+gt
-   kzUE40O8RQZm4CGTUFvAV15aHlCfg4rFhvxpsEWcvkzN6a1/ePeOROXPp
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="322226216"
+  bh=EOvhOjlACSG2eQoXBcjiA4aXiTJoX0unbmsV5z64DIQ=;
+  b=JVBtDDtd2EL/3DIxfTwWR6U3i8dow6BH0HISRNOzyeKzjBE7wywaWMbQ
+   EmjEIjQlM37M+8yUyUbaKuFpAUAlVkK3VQ0AHuf9VWWrr/4q+oyNqDh6Z
+   vbtPIhT+R29DoA4bjkoT+SHxSYNfSEY3uhjjJEP53jtWwRc/+B/Pijqbq
+   DJCrAWIHA+VjyYXV4/KKsWQ9lPAkvX+4FbmryyEa4O1c+tH2QwqTKUoLN
+   hHgEHluqFmnGgOtX/gUwBxiutQfBUR6oDKW+YD3XSJPCQgAt2qpDm6LXS
+   N2skr2vXpdBGkjUwoFo47RJCophcZy4KJ5SCI6AMA5jF69YXCPLp219jJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="351788655"
 X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="322226216"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 11:40:37 -0800
+   d="scan'208";a="351788655"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 12:11:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="659146712"
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="987899107"
 X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="659146712"
+   d="scan'208";a="987899107"
 Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 16 Jan 2023 11:40:34 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 16 Jan 2023 12:11:05 -0800
 Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pHVLN-0000fr-1S;
-	Mon, 16 Jan 2023 19:40:33 +0000
-Date: Tue, 17 Jan 2023 03:40:05 +0800
+	id 1pHVoo-0000h4-2X;
+	Mon, 16 Jan 2023 20:11:01 +0000
+Date: Tue, 17 Jan 2023 04:10:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: Michal Clapinski <mclapinski@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
-Subject: [tip:sched/core 7/28] rseq.c:139:37: error: 'AT_RSEQ_ALIGN'
- undeclared; did you mean 'R_SH_ALIGN'?
-Message-ID: <202301170348.7WLKH1pl-lkp@intel.com>
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: [tip:sched/core 7/7] membarrier_test_impl.h:27:30: error:
+ 'MEMBARRIER_CMD_GET_REGISTRATIONS' undeclared
+Message-ID: <202301170438.2QJF4srx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rsn1rZWe+3/+DXxk"
+Content-Type: multipart/mixed; boundary="i7xEuJLAKgVfaDNo"
 Content-Disposition: inline
 
 
---rsn1rZWe+3/+DXxk
+--i7xEuJLAKgVfaDNo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
 head:   79ba1e607d68178db7d3fe4f6a4aa38f06805e7b
-commit: 03f5c0272d1b59343144e199becc911dae52c37e [7/28] selftests/rseq: Use ELF auxiliary vector for extensible rseq
+commit: d74f87f37672e71457bfcc14eca5eeb1d61b6438 [7/7] selftests/membarrier: Test MEMBARRIER_CMD_GET_REGISTRATIONS
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=03f5c0272d1b59343144e199becc911dae52c37e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=d74f87f37672e71457bfcc14eca5eeb1d61b6438
         git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
         git fetch --no-tags tip sched/core
-        git checkout 03f5c0272d1b59343144e199becc911dae52c37e
+        git checkout d74f87f37672e71457bfcc14eca5eeb1d61b6438
         make O=/tmp/kselftest headers
         make O=/tmp/kselftest -C tools/testing/selftests
 
@@ -69,22 +69,18 @@ If you fix the issue, kindly add following tag where applicable
 
 All errors (new ones prefixed by >>):
 
-   rseq.c: In function 'get_rseq_feature_size':
->> rseq.c:139:37: error: 'AT_RSEQ_ALIGN' undeclared (first use in this function); did you mean 'R_SH_ALIGN'?
-     139 |         auxv_rseq_align = getauxval(AT_RSEQ_ALIGN);
-         |                                     ^~~~~~~~~~~~~
-         |                                     R_SH_ALIGN
-   rseq.c:139:37: note: each undeclared identifier is reported only once for each function it appears in
->> rseq.c:142:44: error: 'AT_RSEQ_FEATURE_SIZE' undeclared (first use in this function); did you mean 'ORIG_RSEQ_FEATURE_SIZE'?
-     142 |         auxv_rseq_feature_size = getauxval(AT_RSEQ_FEATURE_SIZE);
-         |                                            ^~~~~~~~~~~~~~~~~~~~
-         |                                            ORIG_RSEQ_FEATURE_SIZE
+   In file included from membarrier_test_single_thread.c:10:
+   membarrier_test_impl.h: In function 'test_membarrier_get_registrations':
+>> membarrier_test_impl.h:27:30: error: 'MEMBARRIER_CMD_GET_REGISTRATIONS' undeclared (first use in this function)
+      27 |         ret = sys_membarrier(MEMBARRIER_CMD_GET_REGISTRATIONS, 0);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   membarrier_test_impl.h:27:30: note: each undeclared identifier is reported only once for each function it appears in
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---rsn1rZWe+3/+DXxk
+--i7xEuJLAKgVfaDNo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6305,4 +6301,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---rsn1rZWe+3/+DXxk--
+--i7xEuJLAKgVfaDNo--
