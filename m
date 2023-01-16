@@ -1,70 +1,125 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA361C07
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 10:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IwrpYZNXVgDzRnQ/g45MzSz/G3KSC3zVu9IxhxiH5tM=; b=bXceAawuJ0ihE/zTFcq6Zoe/AJ
-	TYg+Fvaw8ns62ThMpgIc0JGruZ0GLgNRY3u3WuhAGo7LfwXD4a8JgiFvv/GHk1FX3WBLfsf48OHyI
-	CcJF09sIyQuxtQEUupXi81A3S4D8nOzTpkT4NfXXCRrfTUyDXddsY/Wl0rNery5Kb9s9tGKM6Zxtf
-	ajVS50m9vkBHzvzlDlusvgrt/FKeRNmXdXwC+u/XbvQCsSScsgv2MAT1u9oMEURMSMoDvG9q7xuGL
-	0Pn5Ir32ABsdi5Bjvyo7Mo8WPdk3Gk7OVOCdgZDOZLrmWDexYl54y/Kqdxfb8gVztz15Ng8HYePn3
-	vguaTssA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36120)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1pHMpM-0004aa-Pd; Mon, 16 Jan 2023 10:34:56 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1pHMpK-0005vo-10; Mon, 16 Jan 2023 10:34:54 +0000
-Date: Mon, 16 Jan 2023 10:34:54 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Pierluigi Passaro <pierluigi.p@variscite.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Pierluigi Passaro <pierluigi.passaro@gmail.com>,
-	"andrew@lunn.ch" <andrew@lunn.ch>,
-	"hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Eran Matityahu <eran.m@variscite.com>,
-	Nate Drude <Nate.D@variscite.com>,
-	Francesco Ferraro <francesco.f@variscite.com>
-Subject: Re: [PATCH] net: mdio: force deassert MDIO reset signal
-Message-ID: <Y8UoTtn8cIc6uzqJ@shell.armlinux.org.uk>
-References: <20230115161006.16431-1-pierluigi.p@variscite.com>
- <202301161653.hbqd7e0q-lkp@intel.com>
- <AM6PR08MB4376E687ED26A7DB0DD5C331FFC19@AM6PR08MB4376.eurprd08.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09FA1C07
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 10:39:33 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-4b718cab0e4so375066987b3.9
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 02:39:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pT5zVdP1q7WWMgp5rWD6QoqMhX3Du9HPTA21jj3sCNg=;
+        b=W3XSoMQ4KHFEP/QBsvqHy0nqH8QG4+i27wpGwbjNk2mt3NiaFiFWlbMbgy+hl4+BqS
+         uuFrE7Kkd8KGuWYEGcuaE4QhSaMfNg/g49FwBfZgxuHT9ykxSleJy5dD3BvcxMMJLe8T
+         EkvLiRdO8unVR+bRVwe9qmex/MU97OSnFz+E8jD9C7CgXqYyRq4h8sMiFqF4vRtyj4IW
+         xsMFMCg4RSMhfc0WXmr7eW0JatxhLnIMFenyoH2AoH6M7pUiMyg6CjVbcJbNT69LT3Sy
+         GIHCac6WPrTyPvKbdtp4BqzIktWwhN+vtJXPjbxBrWEqe6a3oqakkPFrGLa1XjFSAkTR
+         ZmAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pT5zVdP1q7WWMgp5rWD6QoqMhX3Du9HPTA21jj3sCNg=;
+        b=b7413J6x7u040tAgCzvqOJsPbrK15GPFq9a5+gAXiU6mKM2zSmqCJfHTRfjDWsX/Lt
+         WTiVNZN9+fUTfZwcgjmdSdYMGeqSodxP1FK1FP9aluQ+FVyDSnIoX+hATSQPwrbFeTJL
+         qiGJRO7+EKwPMGrpyI/JMYa8VqQQTMX8pytfGGqzKfs65eqGlEAIG4CmLu+bc7YnPSPX
+         8F+fJTiYowhEe2prozr0RC2sborvg2S4Xn2uYeiKtBbDG6PEwDgSbec1kCE4jJfFJuB7
+         MY1OQ7xHLDBab72lTGe2KMyjztSXP/8j794N/u/v9Z6ZSo7HScI5tJpST6f12o0Qnqc5
+         Io2g==
+X-Gm-Message-State: AFqh2kouiQYnm7Uq8ld5BHVB4SGZ0nDvb0h8ks/NJhxynW3vVlFT3H81
+	mnZ3gQ8bgYAOm4qV0JDR65Qqnlt+mPMF2FlMkGOuog==
+X-Google-Smtp-Source: AMrXdXtx8ylqU0A+mRZflre1WrqnSvpTRLH6vRqjYxhjSjYNpUNtgjGL/a57Z+Ihe0QoePyNGXOEknpcleNMEMN6qj8=
+X-Received: by 2002:a81:6ac2:0:b0:4db:1408:a90c with SMTP id
+ f185-20020a816ac2000000b004db1408a90cmr1551631ywc.55.1673865572454; Mon, 16
+ Jan 2023 02:39:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR08MB4376E687ED26A7DB0DD5C331FFC19@AM6PR08MB4376.eurprd08.prod.outlook.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20230113-sockmap-fix-v1-1-d3cad092ee10@cloudflare.com>
+ <202301141018.w4fQc4gd-lkp@intel.com> <87sfgayeg9.fsf@cloudflare.com>
+In-Reply-To: <87sfgayeg9.fsf@cloudflare.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 16 Jan 2023 11:39:21 +0100
+Message-ID: <CANn89iLanM-OJu8hThK__G_gQj0z39Rnj-5Fk=kQEmbhs2OPfA@mail.gmail.com>
+Subject: Re: [PATCH bpf 1/3] bpf, sockmap: Check for any of tcp_bpf_prots when
+ cloning a listener
+To: Jakub Sitnicki <jakub@cloudflare.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, netdev@vger.kernel.org, 
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel-team@cloudflare.com, 
+	John Fastabend <john.fastabend@gmail.com>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
+	syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 16, 2023 at 10:32:38AM +0000, Pierluigi Passaro wrote:
-> The config file used to build this kernel disables CONFIG_GPIOLIB.
-> Is this intentional ?
+On Mon, Jan 16, 2023 at 11:13 AM Jakub Sitnicki <jakub@cloudflare.com> wrote:
+>
+> Hi Dan,
+>
+> On Sat, Jan 14, 2023 at 11:04 AM +03, Dan Carpenter wrote:
+> > Hi Jakub,
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Sitnicki/bpf-sockmap-Check-for-any-of-tcp_bpf_prots-when-cloning-a-listener/20230113-230728
+> > base:   e7895f017b79410bf4591396a733b876dc1e0e9d
+> > patch link:    https://lore.kernel.org/r/20230113-sockmap-fix-v1-1-d3cad092ee10%40cloudflare.com
+> > patch subject: [PATCH bpf 1/3] bpf, sockmap: Check for any of tcp_bpf_prots when cloning a listener
+> > config: i386-randconfig-m021
+> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> >
+> > smatch warnings:
+> > net/ipv4/tcp_bpf.c:644 tcp_bpf_clone() error: buffer overflow 'tcp_bpf_prots' 2 <= 2
+> >
+> > vim +/tcp_bpf_prots +644 net/ipv4/tcp_bpf.c
+> >
+> > 604326b41a6fb9 Daniel Borkmann 2018-10-13  634
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  635  /* If a child got cloned from a listening socket that had tcp_bpf
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  636   * protocol callbacks installed, we need to restore the callbacks to
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  637   * the default ones because the child does not inherit the psock state
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  638   * that tcp_bpf callbacks expect.
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  639   */
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  640  void tcp_bpf_clone(const struct sock *sk, struct sock *newsk)
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  641  {
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  642        struct proto *prot = newsk->sk_prot;
+> > e80251555f0bef Jakub Sitnicki  2020-02-18  643
+> > c2e74657613125 Jakub Sitnicki  2023-01-13 @644        if (tcp_bpf_prots[0] <= prot && prot < tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)])
+> >                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > What?  Also I suspect this might cause a compile error for Clang builds.
+>
+> Can't say I see a problem B-)
+>
+> tcp_bpf_prots is a 2D array:
+>
+> static struct proto tcp_bpf_prots[TCP_BPF_NUM_PROTS][TCP_BPF_NUM_CFGS];
+>
+> ... so tcp_bpf_prots[0] is the base address of the first array, while
+> tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)] is the base address of the
+> array one past the last one.
+>
+> Smatch doesn't seem to graps the 2D array concept here. We can make it
+> happy by being explicit but harder on the eyes:
+>
+>         if (&tcp_bpf_prots[0][0] <= prot && prot < &tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)][0])
+>                 newsk->sk_prot = sk->sk_prot_creator;
+>
+> Clang can do pointer arithmetic on 2D arrays just fine :-)
 
-All configurations should build - and the build bot tries random
-configurations. Your job is to fix the errors / warnings that it
-finds as a result of your patch and submit fixes where appropriate.
-Don't expect the build bot to provide any guidance or answer questions.
+We might add a generic helper to make all this a bit more clear ?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
++#define is_insidevar(PTR, VAR) (                       \
++       ((void *)(PTR) <= (void *)(VAR)) &&             \
++       ((void *)(PTR) <= (void *)(VAR) + sizeof(VAR)))
++
+
+
+...
+
+if (is_insidevar(prot, tcp_bpf_prots))
+     newsk->sk_prot = sk->sk_prot_creator;
