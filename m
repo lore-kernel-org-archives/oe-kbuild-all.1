@@ -1,152 +1,78 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62265EA1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 12:32:21 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id z13so2391274plg.6
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 04:32:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752141FB4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 12:35:26 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id p188so30114099yba.5
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jan 2023 04:35:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jhXVeZj3sO/tuUlaQsdeBNyp/PhhJvgN96rYmKb5i0=;
-        b=pIRuxEOOjHvC13Fw5vC7vy9ty9Uk3lJKccR4rAlq3J68yWTuxFmYr6mjleM12U1os9
-         +ea2Buac1sqiNemABGgtvpxECZIpTZ5cW8fkU+Ug3x8tzTlj/qpfBlf0db3q2fIF4/zJ
-         WX0wrCYbzSwrjmrsqWwakJGddd/DXEl90WA32FxtsAIhzz7278wGV7zThYSONSj3IUez
-         rj7dQHn68WFKgheGfU5Al3BZxEjzV5GHE7wlaSOJUcifpP/ThlKPGnlgWZZI8xWo3ucl
-         pLKOBMMPdryiKA29KktG0eOfVN5vh1qLO96rvhazTliD5J6G1Q9Q9gBtpW5vo5qxFGnz
-         PRUA==
+        bh=/erdhCvJApG5+vMesdd42dNerta3+LyPUExayIGJPz0=;
+        b=itZ+gDDTGwuqBx/tze1RvlEJN6u0EwoKQK0i1czQF/cl/UscOfz6YkJegbygVvnrMp
+         tydo6HMMV5c7DobR3fHke+4bSyEgulQb0Ew+P7FzMYldQrV4/mZU4KB+y/8DCQzvuy7s
+         MUhHh384PCVdpJ3iJPHcLbjwixsAx77cmLWOITqfCSi7LiLAsMmM8lLUqjn9pSBN61xI
+         DOXsOIjgDXJkWQuxmXktlp/jOKVXc/MA8YsG3hX0qt328aaEpUEb2w6iE8J2AKtnxr1Q
+         AhlcJa+r6B1r21bTWW0Vw0yIyTGxaOowB/tOLoCuveWnmUTZ2givnijP1r6RiIBvW8so
+         ZKxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6jhXVeZj3sO/tuUlaQsdeBNyp/PhhJvgN96rYmKb5i0=;
-        b=SQybP2m42I09/ALRSleZUbZQ9/4ddc2tFo9ixhfU2kkz45oJltHuHTqequIDSicGgg
-         1GIhe4wqcCWVuEX+co0o5O+6eKjBI0Z7KlZyCPD7Ch9iIYkWaeB5uxS1B0vo1DORwp60
-         uWhl4E8jGJZqTawREQV7uK/8QKK2nth3bnr0I34BEiMO6MTWTqgisIpyCUWqM0wgBg+h
-         VAhuT9eq7nXO/gS+eUrzT78VTMg5beGIaNic3uG6AlgDdvhIhGHuB1S2sh+CED/Auste
-         56vQX2TnBmQIkAxhxdn2nZun96rOBMrka1LgtZ8MDNZ2wJTNOcOEX4KCdwMGaiFqVSB3
-         z14g==
-X-Gm-Message-State: AFqh2kqdDgcKB1IH0ODtGO15mZP6XtCARP97jkt34OSbqEBUfeqJhMlr
-	umIy/Qmb5aCLaXpl0mxMAt0Oz5oou8abxHtlBRccdw==
-X-Google-Smtp-Source: AMrXdXu3o4PpTxE/H1KZemRNBlTBp4R7zzW6f9SXdERFAFvHV2e8V77Yo57ybKszjl9GCVLJvPSU529Hdi9tujPrdE0=
-X-Received: by 2002:a17:903:2484:b0:194:706a:ad18 with SMTP id
- p4-20020a170903248400b00194706aad18mr735042plw.18.1673872340790; Mon, 16 Jan
- 2023 04:32:20 -0800 (PST)
+        bh=/erdhCvJApG5+vMesdd42dNerta3+LyPUExayIGJPz0=;
+        b=4bvJtFpx3Jw4XzSb8H6yXWoqzDNXNrE3vCCbIkZtaDnNPjavzDx5U5ezflDo/57F5a
+         UHes+qxER3D88YuiAHYbqhFBFWVyX66BO/AuuZYGlwl9Uu1hMq2I1x/k+EBS71GZbccn
+         2FgPmpPPrkdH0aWxYx0u9r+XU8jAXy1mfTvE8a3XIDFmJLYPs6lpj6UF4J4bGmot0g2p
+         A+6azKG92zDdLyOztEOum1QvXsVIrI9Nh+MDNHzZchzAl6htivKPygTd7mJE1PULbBk7
+         M1ILv9hqHuRczNDywOor5AoCgEzCrQrmHMoc33PKkPBPkAkDc7UekzObn9d2sQp76M6X
+         U4gg==
+X-Gm-Message-State: AFqh2kqDVUXOM63/30Wd2VmGUrqHVdGLWkNKfKiD1VgPhFbFhIOCDXEG
+	au0SDhES0Q7ydj0I3pBGvBRlC5haDtk9qNh4lcPJGw==
+X-Google-Smtp-Source: AMrXdXt1WAMrSMDgrFvzDatVwEnbHDFT16F4YV0aLDOnGxfs2CR1LL+5Qr5ImSLTYmxCautE2oqiS8pGzCGYY5jDKcQ=
+X-Received: by 2002:a25:d08d:0:b0:7ca:9b40:72a7 with SMTP id
+ h135-20020a25d08d000000b007ca9b4072a7mr1821610ybg.130.1673872525317; Mon, 16
+ Jan 2023 04:35:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221219234638.3661-4-mike.leach@linaro.org> <202212240621.sgsPYIdK-lkp@intel.com>
-In-Reply-To: <202212240621.sgsPYIdK-lkp@intel.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Mon, 16 Jan 2023 12:32:09 +0000
-Message-ID: <CAJ9a7ViJZre-X563M6tc+_rbi_LRc11z5THRSw3iK6Fxd4SwYw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to
- load files
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	coresight@lists.linaro.org, linux-kernel@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, mathieu.poirier@linaro.org, 
-	suzuki.poulose@arm.com, acme@kernel.org, james.clark@arm.com
+References: <20230110200255.1218738-2-macroalpha82@gmail.com> <202301111039.dxBiLene-lkp@intel.com>
+In-Reply-To: <202301111039.dxBiLene-lkp@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 16 Jan 2023 13:35:13 +0100
+Message-ID: <CACRpkdbvsFDDRt1otJcZ-mPdSBecL0cwDSW92YeBGmmyLXee0A@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+To: kernel test robot <lkp@intel.com>
+Cc: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>, tzimmermann@suse.de, 
+	linux-rockchip@lists.infradead.org, robh+dt@kernel.org, 
+	thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
+	oe-kbuild-all@lists.linux.dev, sam@ravnborg.org, maccraft123mc@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Wed, Jan 11, 2023 at 4:01 AM kernel test robot <lkp@intel.com> wrote:
 
-Thanks for this - I'll fix in next set
+>    126  static inline int
+>    127  drm_of_get_data_lanes_count_ep(const struct device_node *port,
+>    128                                 int port_reg, int reg,
+>    129                                 const unsigned int min,
+>    130                                 const unsigned int max)
+>    131  {
+>    132          return -EINVAL;
+>    133  }
+>  > 134  struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+>    135                                           struct mipi_dsi_device_info *info)
+>    136  {
+>    137          return ERR_PTR(-EINVAL);
+>    138  }
+>    139  #endif
 
-Mike
+This needs to be prefixed "static inline" like the function above, then
+I bet it works.
 
-On Sat, 24 Dec 2022 at 07:16, Dan Carpenter <error27@gmail.com> wrote:
->
-> Hi Mike,
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Leach/coresight-syscfg-Extend-configfs-for-config-load/20221220-074850
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-> patch link:    https://lore.kernel.org/r/20221219234638.3661-4-mike.leach%40linaro.org
-> patch subject: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to load files
-> config: arm-randconfig-m041-20221218
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
->
-> smatch warnings:
-> drivers/hwtracing/coresight/coresight-syscfg-configfs.c:595 cscfg_cfg_load_write() warn: possible memory leak of 'load_descs'
->
-> vim +/load_descs +595 drivers/hwtracing/coresight/coresight-syscfg-configfs.c
->
-> 97b8fd654556b1 Mike Leach 2022-12-19  543  static ssize_t cscfg_cfg_load_write(struct config_item *item, const void *buffer, size_t size)
-> 97b8fd654556b1 Mike Leach 2022-12-19  544  {
-> 97b8fd654556b1 Mike Leach 2022-12-19  545       struct cscfg_fs_load_descs *load_descs = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  546       struct cscfg_load_owner_info *owner_info = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  547       int err = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  548
-> 97b8fd654556b1 Mike Leach 2022-12-19  549       /* ensure we cannot simultaneously load and unload */
-> 97b8fd654556b1 Mike Leach 2022-12-19  550       if (!mutex_trylock(&cfs_mutex))
-> 97b8fd654556b1 Mike Leach 2022-12-19  551               return -EBUSY;
-> 97b8fd654556b1 Mike Leach 2022-12-19  552
-> 97b8fd654556b1 Mike Leach 2022-12-19  553       /* check configfs load / unload ops are permitted */
-> 97b8fd654556b1 Mike Leach 2022-12-19  554       if (!cscfg_fs_load_enabled || unload_owner_info) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  555               err = -EBUSY;
-> 97b8fd654556b1 Mike Leach 2022-12-19  556               goto exit_unlock;
-> 97b8fd654556b1 Mike Leach 2022-12-19  557       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  558
-> 97b8fd654556b1 Mike Leach 2022-12-19  559       if (size > CSCFG_FILE_MAXSIZE) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  560               pr_err("cscfg: Load error - Input file too large.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  561               err = -EINVAL;
-> 97b8fd654556b1 Mike Leach 2022-12-19  562               goto exit_unlock;
-> 97b8fd654556b1 Mike Leach 2022-12-19  563       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  564
-> 97b8fd654556b1 Mike Leach 2022-12-19  565       load_descs = kzalloc(sizeof(struct cscfg_fs_load_descs), GFP_KERNEL);
-> 97b8fd654556b1 Mike Leach 2022-12-19  566       owner_info = kzalloc(sizeof(struct cscfg_load_owner_info), GFP_KERNEL);
-> 97b8fd654556b1 Mike Leach 2022-12-19  567       if (!load_descs || !owner_info) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  568               err = -ENOMEM;
-> 97b8fd654556b1 Mike Leach 2022-12-19  569               goto exit_memfree;
->
-> This exit leaks (will never happen in real life though).
->
-> 97b8fd654556b1 Mike Leach 2022-12-19  570       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  571
-> 97b8fd654556b1 Mike Leach 2022-12-19  572       owner_info->owner_handle = load_descs;
-> 97b8fd654556b1 Mike Leach 2022-12-19  573       owner_info->type = CSCFG_OWNER_CONFIGFS;
-> 97b8fd654556b1 Mike Leach 2022-12-19  574
-> 97b8fd654556b1 Mike Leach 2022-12-19  575       err = cscfg_file_read_buffer(buffer, size, load_descs);
-> 97b8fd654556b1 Mike Leach 2022-12-19  576       if (err) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  577               pr_err("cscfg: Load error - Failed to read input file.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  578               goto exit_memfree;
-> 97b8fd654556b1 Mike Leach 2022-12-19  579       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  580
-> 97b8fd654556b1 Mike Leach 2022-12-19  581       err = cscfg_load_config_sets(load_descs->config_descs, load_descs->feat_descs, owner_info);
-> 97b8fd654556b1 Mike Leach 2022-12-19  582       if (err) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  583               pr_err("cscfg: Load error - Failed to load configuaration file.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  584               goto exit_memfree;
-> 97b8fd654556b1 Mike Leach 2022-12-19  585       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  586
-> 97b8fd654556b1 Mike Leach 2022-12-19  587       mutex_unlock(&cfs_mutex);
-> 97b8fd654556b1 Mike Leach 2022-12-19  588       return size;
-> 97b8fd654556b1 Mike Leach 2022-12-19  589
-> 97b8fd654556b1 Mike Leach 2022-12-19  590  exit_memfree:
-> 97b8fd654556b1 Mike Leach 2022-12-19  591       cscfg_configfs_free_owner_info(owner_info);
-> 97b8fd654556b1 Mike Leach 2022-12-19  592
-> 97b8fd654556b1 Mike Leach 2022-12-19  593  exit_unlock:
-> 97b8fd654556b1 Mike Leach 2022-12-19  594       mutex_unlock(&cfs_mutex);
-> 97b8fd654556b1 Mike Leach 2022-12-19 @595       return err;
-> 97b8fd654556b1 Mike Leach 2022-12-19  596  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://01.org/lkp
->
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Yours,
+Linus Walleij
