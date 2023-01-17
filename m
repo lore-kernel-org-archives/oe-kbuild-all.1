@@ -1,42 +1,23 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F245D532
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 19:11:33 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id y69so835256iof.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 11:11:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7KqTypsImNZmniW91zYe1yhsSZXhDDo+Q5hJ0Ux/67g=;
-        b=UJm5J0133XcPj/n9gOAm6r3L7ghjKGThYDwcs+Zgq7sNkIMIcxWhaNZzVuL50g4xll
-         axzO/2NBWRKO+Z0p4Dtg2gqYPioHnM1gdkcm2UrgwvuSHatKZ6+h4jIoNA5wP4301xq8
-         bX8YgqaO+YX60wmJoloHl/jpzC+5HvvMpLLUA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KqTypsImNZmniW91zYe1yhsSZXhDDo+Q5hJ0Ux/67g=;
-        b=iL+A7gsWRRM9fEVQU/JFJCe6Sv1EO6B9BeUr0T8qpeUwfkV5pkG+rc1HA2xnhinYpB
-         YMVhPcGaQRuYsdtJ85Ly98+KAd+odNQ4AuUrj2FcUrEzLlh4IMm8niU+w/dQWV8C1X9c
-         XxLsblWSkkqnK6DvmUGO/p+47BRahK0eDUO2fx7Uy6hTRZNGoHxPy8axaDDJVq2WxHR8
-         Q2OWIWJ8L6Hq1iwNk4EPm7zew3X6jpdgLElRe7wd6VWdibia3en8nfXQDpuPUS1GKxLR
-         4DF5p4/c2ZFTga9QfaqcL/AqCGHZXrN3Z6L14V4w+OGDBwZsyrP83FwlL1gVvdcRtn9A
-         8vXQ==
-X-Gm-Message-State: AFqh2kpmdlYpsIc22EJGABdY3S7Fpyk332nHBcZlSna3LqTqj+6FcHrc
-	fBOYX0rSBnjsbKfu8fjH3fEZgQ==
-X-Google-Smtp-Source: AMrXdXv06uyeDWiXTa4ZqSisvQmjvagEnrIOsILeZlEu05Jt0IeZXrEA56J9nzCM0i6dIo4ZkDaupA==
-X-Received: by 2002:a6b:8fcd:0:b0:704:d16d:4a59 with SMTP id r196-20020a6b8fcd000000b00704d16d4a59mr422934iod.2.1673982692512;
-        Tue, 17 Jan 2023 11:11:32 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id a7-20020a927f07000000b002eb1137a774sm9328008ild.59.2023.01.17.11.11.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 11:11:31 -0800 (PST)
-Message-ID: <1eed08d1-c100-6ca5-63f3-73487970b08e@linuxfoundation.org>
-Date: Tue, 17 Jan 2023 12:11:30 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AF2D53F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 20:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+	s=smtpout1; t=1673986459;
+	bh=OYhFAr+sZ9bMx5kLoUnKqAkNLmvDquv/DxwJyciMtw4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BWNfMQ5Wf2HQotqzGQWPRw9BiABduwCxGuKUy1T634WWxY7PLpEexdAPQ9EEZ5hY2
+	 Cv0szpxLSASegmjJ/5yZs8bJlzGWY1r/yanmjhWmti0HhPcLIp6hbG8yADugZnhLlR
+	 /A+5z3m2LYAhX94NqlNO2GHL6Ynw5HBgxzghuF+Ky8LkGZCfXLhW8VjN9t7g00wQOt
+	 pPsyIDO9YV+r2awOowjL5/JObrKh8vEmh7UDSq2H2HMfOekGKZLpfP5RQbCe0/aiQp
+	 uUf73AQS6P7lU0XyaedA+qkZil3PvkyHsJ4XZTSHDxnGDxMQ0i3QW0zmaVVWyLOuwN
+	 CxhbNIlzdGnJg==
+Received: from [172.16.0.101] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4NxKqH2CmGzh8w;
+	Tue, 17 Jan 2023 15:14:19 -0500 (EST)
+Message-ID: <378731e7-eec5-44ca-eded-3277792b061e@efficios.com>
+Date: Tue, 17 Jan 2023 15:14:52 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,95 +25,133 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
+ Thunderbird/102.6.0
 Subject: Re: [tip:sched/core 7/28] rseq.c:139:37: error: 'AT_RSEQ_ALIGN'
  undeclared; did you mean 'R_SH_ALIGN'?
 Content-Language: en-US
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Ingo Molnar <mingo@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@kernel.org>
 Cc: kernel test robot <lkp@intel.com>, Shuah Khan <shuah@kernel.org>,
  oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org,
- Peter Zijlstra <peterz@infradead.org>, linux-kselftest@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
+ Peter Zijlstra <peterz@infradead.org>, linux-kselftest@vger.kernel.org
 References: <202301170348.7WLKH1pl-lkp@intel.com>
  <bfa719c3-bd1f-5fc4-40ab-6dc6822b7628@efficios.com>
  <4449d8b5-b7a5-0f09-5b42-7b70ba00f8f6@linuxfoundation.org>
  <Y8ZlKOsN1wGk9tTc@gmail.com>
  <37625f31-6ac2-1f90-d864-e4644820bba3@efficios.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <37625f31-6ac2-1f90-d864-e4644820bba3@efficios.com>
+ <1eed08d1-c100-6ca5-63f3-73487970b08e@linuxfoundation.org>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <1eed08d1-c100-6ca5-63f3-73487970b08e@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 1/17/23 10:44, Mathieu Desnoyers wrote:
-> On 2023-01-17 04:06, Ingo Molnar wrote:
->>
->> * Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->>> On 1/16/23 13:18, Mathieu Desnoyers wrote:
->>>> On 2023-01-16 14:40, kernel test robot wrote:
->>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
->>>>> head:   79ba1e607d68178db7d3fe4f6a4aa38f06805e7b
->>>>> commit: 03f5c0272d1b59343144e199becc911dae52c37e [7/28] selftests/rseq: Use ELF auxiliary vector for extensible rseq
->>>>> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->>>>> reproduce:
->>>>>           # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=03f5c0272d1b59343144e199becc911dae52c37e
->>>>>           git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
->>>>>           git fetch --no-tags tip sched/core
->>>>>           git checkout 03f5c0272d1b59343144e199becc911dae52c37e
->>>>>           make O=/tmp/kselftest headers
->>>>>           make O=/tmp/kselftest -C tools/testing/selftests
->>>>>
->>>>> If you fix the issue, kindly add following tag where applicable
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>
->>>> In order to fix this, I need to change -I../../../../usr/include/ for $(KHDR_INCLUDES) in tools/testing/selftests/rseq/Makefile
->>>>
->>>> I can find 25 odd uses of the same pattern in the kernel selftests. Should I fix them all in one go ?
+On 2023-01-17 14:11, Shuah Khan wrote:
+> On 1/17/23 10:44, Mathieu Desnoyers wrote:
+>> On 2023-01-17 04:06, Ingo Molnar wrote:
 >>>
->>> kselftest build depends on headers installed in the root directory.
+>>> * Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>>
+>>>> On 1/16/23 13:18, Mathieu Desnoyers wrote:
+>>>>> On 2023-01-16 14:40, kernel test robot wrote:
+>>>>>> tree:   
+>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 
+>>>>>> sched/core
+>>>>>> head:   79ba1e607d68178db7d3fe4f6a4aa38f06805e7b
+>>>>>> commit: 03f5c0272d1b59343144e199becc911dae52c37e [7/28] 
+>>>>>> selftests/rseq: Use ELF auxiliary vector for extensible rseq
+>>>>>> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+>>>>>> reproduce:
+>>>>>>           # 
+>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=03f5c0272d1b59343144e199becc911dae52c37e
+>>>>>>           git remote add tip 
+>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+>>>>>>           git fetch --no-tags tip sched/core
+>>>>>>           git checkout 03f5c0272d1b59343144e199becc911dae52c37e
+>>>>>>           make O=/tmp/kselftest headers
+>>>>>>           make O=/tmp/kselftest -C tools/testing/selftests
+>>>>>>
+>>>>>> If you fix the issue, kindly add following tag where applicable
+>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>
+>>>>> In order to fix this, I need to change -I../../../../usr/include/ 
+>>>>> for $(KHDR_INCLUDES) in tools/testing/selftests/rseq/Makefile
+>>>>>
+>>>>> I can find 25 odd uses of the same pattern in the kernel selftests. 
+>>>>> Should I fix them all in one go ?
+>>>>
+>>>> kselftest build depends on headers installed in the root directory.
+>>
+>> By "root directory", do you mean kernel sources root directory or 
+>> build output root directory ?
+>>
+>>>> The main makefile enforces this dependency.
+>>
+>> How ? I figure that tools/testing/selftests/lib.mk overrides 
+>> KHDR_INCLUDES if it is not defined yet:
+>>
+>> ifeq ($(KHDR_INCLUDES),)
+>> KHDR_INCLUDES := -isystem $(top_srcdir)/usr/include
+>> endif
+>>
+>> and selftests makefiles include ../lib.mk.
+>>
+>> This KHDR_INCLUDES can be modified by O=... when built from the kernel 
+>> top level, thus using tools/testing/selftests/Makefile:
+>>
+>> ifneq ($(KBUILD_OUTPUT),)
+>> [...]
+>>    KHDR_INCLUDES := -isystem ${abs_objtree}/usr/include
+>> else
+>> [...]
+>>    KHDR_INCLUDES := -isystem ${abs_srctree}/usr/include
+>> endif
+>>
+>> But it's up to the individual selftests to actually use 
+>> $(KHDR_INCLUDES). In many cases, they hardcode 
+>> -I../../../../usr/include/ which is bogus when the build root (O=...) 
+>> differs from the source root.
+>>
+>>   If this test is being
+>>>> built without installing headers by itself, I think the scripts that
+>>>> build individual tests have to makes sure headers are installed first.
+>>
+>> The headers were previously built by "make O=/tmp/kselftest headers", 
+>> as it should, it's just that the selftest makefile uses a hardcoded 
+>> path that is relative to the source directory, and it appears that 
+>> this pattern is repeated all across the selftests.
+>>
 > 
-> By "root directory", do you mean kernel sources root directory or build output root directory ?
+> selftests Makefile used to install headers and there has been a recent
+> change to have mani Makefile (root) to install it. As a result individual
+> test builds (running make in the test directory) requires header install
+> now.
 > 
->>> The main makefile enforces this dependency.
+> I think the hard-coded includes are a problem and we have to fix them for
+> all cases i.e make O=, individual test builds.
 > 
-> How ? I figure that tools/testing/selftests/lib.mk overrides KHDR_INCLUDES if it is not defined yet:
+> If you are still up for it, please send patch.
+
+Sure.
+
+Now that I dig a bit more, we could try using "-nostdinc" to tell the 
+compiler not to search the standard system directories, but I've noticed 
+that a few selftests depend on userspace library header files found in 
+the build environment.
+
+I'm not sure how we should approach this.
+
+Thoughts ?
+
+Thanks,
+
+Mathieu
+
 > 
-> ifeq ($(KHDR_INCLUDES),)
-> KHDR_INCLUDES := -isystem $(top_srcdir)/usr/include
-> endif
-> 
-> and selftests makefiles include ../lib.mk.
-> 
-> This KHDR_INCLUDES can be modified by O=... when built from the kernel top level, thus using tools/testing/selftests/Makefile:
-> 
-> ifneq ($(KBUILD_OUTPUT),)
-> [...]
->    KHDR_INCLUDES := -isystem ${abs_objtree}/usr/include
-> else
-> [...]
->    KHDR_INCLUDES := -isystem ${abs_srctree}/usr/include
-> endif
-> 
-> But it's up to the individual selftests to actually use $(KHDR_INCLUDES). In many cases, they hardcode -I../../../../usr/include/ which is bogus when the build root (O=...) differs from the source root.
-> 
->   If this test is being
->>> built without installing headers by itself, I think the scripts that
->>> build individual tests have to makes sure headers are installed first.
-> 
-> The headers were previously built by "make O=/tmp/kselftest headers", as it should, it's just that the selftest makefile uses a hardcoded path that is relative to the source directory, and it appears that this pattern is repeated all across the selftests.
+> thanks,
+> -- Shuah
 > 
 
-selftests Makefile used to install headers and there has been a recent
-change to have mani Makefile (root) to install it. As a result individual
-test builds (running make in the test directory) requires header install
-now.
-
-I think the hard-coded includes are a problem and we have to fix them for
-all cases i.e make O=, individual test builds.
-
-If you are still up for it, please send patch.
-
-thanks,
--- Shuah
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
