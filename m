@@ -1,79 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8131FB2;
-	Tue, 17 Jan 2023 08:11:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1070FC433D2;
-	Tue, 17 Jan 2023 08:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673943068;
-	bh=3VeHFq1M6ph27cKYLc0GP6LGGDuQ0Jo6pw/Q7JfWUlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zg+apXeEQJLAaDphQWKt25vRKsSUrgpsCRLBhWX0J0wXZHzWVuSqt5EYGpSeZnVUt
-	 KNk+qD2hyPnWoMFID7YxlT020RaqrNhoFjZo2wBbuCXoUCASoSeP9EUPiuxw/3hwY0
-	 CGrhTyNQwTeewBJXiDQ0+bpyqPvin94BDg/hhK2PpOx+DvatBntxbPLIYQn1KRi2yD
-	 Zecy0SDAE6evuwp+OF44pU6CTuSKjv50uFauNv2K4NK1hA/1Q6X3l7NGapT9dY3VRE
-	 1vzAWff2/2ETRmYXG8qdurDJQjVbIAl6kDLG9FNcKoWmGfU4RcJaHDImrYWcVQw0TY
-	 Qcx1sSF4YT64Q==
-Date: Tue, 17 Jan 2023 16:11:04 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Guenter Roeck <groeck@chromium.org>
-Subject: Re: drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning:
- stack frame size (1040) exceeds limit (1024) in
- 'cros_ec_proto_test_get_sensor_count_legacy'
-Message-ID: <Y8ZYGKpEopzDUbAQ@google.com>
-References: <202301141043.DtsZqxIr-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03261FC2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 09:07:03 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id bk15so16265707ejb.9
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 01:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fu40KvQods0f8+f4pClm3XB2VIfGWpRE1TO7X5DnksY=;
+        b=F337AvHuIwnYmV6Vd1NkpkROLrRrtw3hFucTWByWJwBEdyfpSeSpQl7htMKc5ycrXb
+         jGGq6WYPZbwKGTCn2wFAMccvmGy6+0NlNK1vqTYRv0Wa2BxqeMSu8M0RZ8pD4sj436TK
+         txw73PqxI6pfZLw23NN5Jpf7K8DETEbYVxoz3/+mUO44zZrvJZx/XQzJL7B+bXq0kN2S
+         PA4dk74VsLGMSxTBJ0MqzPejMps8HWRVhPjy397ehx15HyB2pL3IjLru8SF5mVTqCVwr
+         v4Sp+OnJFK95cR24e6KFlLrjaHuAiyYvmSqFffFYOv29Eur9rD0BQ10Z/hvlirUfxQt9
+         gu8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fu40KvQods0f8+f4pClm3XB2VIfGWpRE1TO7X5DnksY=;
+        b=6NIFmBmQ0JXpH0OVKpb1y9OzAPRbu9hnNNXusC2zdnF5eCVEbEPSjk9nDo82dw/7Og
+         +f00dhRp5cF3GDvE8y0UJ72lTLbibBjuVbiZ91EGUlz4G4zrgMTlyOKKfqcS69MakjjC
+         nbmHNa3vbkYNDcffX/kE+739G3XRPussFKNj1HegZIcE645B43HUT9lr4dEhuZN3FU5L
+         wTm+Ur4ws5cC6PkuWDsgCasmM76oM9T2fNKmoL+w44HrsFp204f6o43jn209TyFRat+5
+         npVEqEcKKAX30igVScsIAwez9lKcNfFMO5hpePXLXvEB5WpH2OwSqP27e99SQVs86wW1
+         cuzQ==
+X-Gm-Message-State: AFqh2krIjeGjcDujn8UnkM5zTjwSBc9YL2zZGV7Qjqp+ThYBwiz9/aVe
+	n7QPNEQzykiaR9WYMKSK43I=
+X-Google-Smtp-Source: AMrXdXvWe1xTCoV3Dt1xTDPw5sA577HJxS77ZsddbAWFzuWfnHh+rJlqzPEogdpojkWJ03oLe6HprA==
+X-Received: by 2002:a17:907:d606:b0:86f:b541:cd02 with SMTP id wd6-20020a170907d60600b0086fb541cd02mr2382239ejc.28.1673946421996;
+        Tue, 17 Jan 2023 01:07:01 -0800 (PST)
+Received: from gmail.com (1F2EF7EB.nat.pool.telekom.hu. [31.46.247.235])
+        by smtp.gmail.com with ESMTPSA id k22-20020a1709063fd600b00862497eafb2sm6815655ejj.103.2023.01.17.01.07.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jan 2023 01:07:01 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date: Tue, 17 Jan 2023 10:06:48 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	kernel test robot <lkp@intel.com>, Shuah Khan <shuah@kernel.org>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [tip:sched/core 7/28] rseq.c:139:37: error: 'AT_RSEQ_ALIGN'
+ undeclared; did you mean 'R_SH_ALIGN'?
+Message-ID: <Y8ZlKOsN1wGk9tTc@gmail.com>
+References: <202301170348.7WLKH1pl-lkp@intel.com>
+ <bfa719c3-bd1f-5fc4-40ab-6dc6822b7628@efficios.com>
+ <4449d8b5-b7a5-0f09-5b42-7b70ba00f8f6@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202301141043.DtsZqxIr-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4449d8b5-b7a5-0f09-5b42-7b70ba00f8f6@linuxfoundation.org>
 
-On Sat, Jan 14, 2023 at 10:28:29AM +0800, kernel test robot wrote:
-> Hi Tzung-Bi,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   97ec4d559d939743e8af83628be5af8da610d9dc
-> commit: 33f0fdba6066b504ee0b5f1480b1f93b06050df6 platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
-> date:   6 months ago
-> config: powerpc-allmodconfig
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 8d9828ef5aa9688500657d36cd2aefbe12bbd162)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install powerpc cross compiling tool for clang build
->         # apt-get install binutils-powerpc-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=33f0fdba6066b504ee0b5f1480b1f93b06050df6
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout 33f0fdba6066b504ee0b5f1480b1f93b06050df6
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/platform/chrome/ drivers/staging/media/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack frame size (1040) exceeds limit (1024) in 'cros_ec_proto_test_get_sensor_count_legacy' [-Wframe-larger-than]
->    static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
->                ^
->    140/1040 (13.46%) spills, 900/1040 (86.54%) variables
->    1 warning generated.
 
-This is the 3rd time to see the warning.  I wasn't able to reproduce the
-warning in my environment until I figured out a way by leveraging docker.
+* Shuah Khan <skhan@linuxfoundation.org> wrote:
 
-Anyway, the proposed fix is at [1].
+> On 1/16/23 13:18, Mathieu Desnoyers wrote:
+> > On 2023-01-16 14:40, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+> > > head:   79ba1e607d68178db7d3fe4f6a4aa38f06805e7b
+> > > commit: 03f5c0272d1b59343144e199becc911dae52c37e [7/28] selftests/rseq: Use ELF auxiliary vector for extensible rseq
+> > > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> > > reproduce:
+> > >          # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=03f5c0272d1b59343144e199becc911dae52c37e
+> > >          git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+> > >          git fetch --no-tags tip sched/core
+> > >          git checkout 03f5c0272d1b59343144e199becc911dae52c37e
+> > >          make O=/tmp/kselftest headers
+> > >          make O=/tmp/kselftest -C tools/testing/selftests
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > In order to fix this, I need to change -I../../../../usr/include/ for $(KHDR_INCLUDES) in tools/testing/selftests/rseq/Makefile
+> > 
+> > I can find 25 odd uses of the same pattern in the kernel selftests. Should I fix them all in one go ?
+> 
+> kselftest build depends on headers installed in the root directory.
+> The main makefile enforces this dependency. If this test is being
+> built without installing headers by itself, I think the scripts that
+> build individual tests have to makes sure headers are installed first.
 
-[1]: https://patchwork.kernel.org/project/chrome-platform/patch/20230117080254.2725536-1-tzungbi@kernel.org/.
+Why isn't the Makefile saying anything about it & enforcing it? self-tests 
+are usually self-sufficient to build in the individual directories.
+
+Thanks,
+
+	Ingo
