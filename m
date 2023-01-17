@@ -1,157 +1,121 @@
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AF2D53F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 20:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1673986459;
-	bh=OYhFAr+sZ9bMx5kLoUnKqAkNLmvDquv/DxwJyciMtw4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BWNfMQ5Wf2HQotqzGQWPRw9BiABduwCxGuKUy1T634WWxY7PLpEexdAPQ9EEZ5hY2
-	 Cv0szpxLSASegmjJ/5yZs8bJlzGWY1r/yanmjhWmti0HhPcLIp6hbG8yADugZnhLlR
-	 /A+5z3m2LYAhX94NqlNO2GHL6Ynw5HBgxzghuF+Ky8LkGZCfXLhW8VjN9t7g00wQOt
-	 pPsyIDO9YV+r2awOowjL5/JObrKh8vEmh7UDSq2H2HMfOekGKZLpfP5RQbCe0/aiQp
-	 uUf73AQS6P7lU0XyaedA+qkZil3PvkyHsJ4XZTSHDxnGDxMQ0i3QW0zmaVVWyLOuwN
-	 CxhbNIlzdGnJg==
-Received: from [172.16.0.101] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4NxKqH2CmGzh8w;
-	Tue, 17 Jan 2023 15:14:19 -0500 (EST)
-Message-ID: <378731e7-eec5-44ca-eded-3277792b061e@efficios.com>
-Date: Tue, 17 Jan 2023 15:14:52 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FFED53F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 20:27:57 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-4d13cb4bbffso319094497b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jan 2023 12:27:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kylehuey.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RCGRlXj3rnH7FYaOh9oXmb3IRjz1AWlYFZn8y1kAGXU=;
+        b=RFhS8ISd0LoLFRi8USTqWFTUJ4JePLzy2CiWEePDkCQ30dUvjotDQuzKJwdxP6IddS
+         DiSOm/ghZnsu8gUPon8YSy6ZWmxJt/rniOsvrKcbiwjg2HcbFcdVrsW5PVAn3cPiKm3N
+         0T/ZC6d7ZcJEJDZ8Fq3gAfGkg5oZFL6lUNgPIVuR4spvm+S7qNdVGESPha7Cp4yVPf+Y
+         SwbG677y1bJa0Yf8/NjTm+yO/avAxWunamdGtkQyYWM9YjFWq5wMRBNsHYoptPxMiCvT
+         lrc9m9qv5/XC7reruhiVJSYW+eV80gNZaCmGCB/i3arfJgia+q/XQzRpV3TTqQTStfQr
+         uZTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RCGRlXj3rnH7FYaOh9oXmb3IRjz1AWlYFZn8y1kAGXU=;
+        b=452OGpoks4CskjKto8EdBNpKnmErHaVa3MCD79k4+eSSEoG1pN+NuAg2I1FU7qYyRq
+         kqGjfag5mIzY/3HdhogLrCfa0Ju5BDvsU2Pv4RwYz54gS+zT5puC0NEKD5/x2Vg9j9u9
+         vSzeJ51RnrByI1k0aywf5hpfJj8UlQlO2e5fFRtYgPx2h306GkN3gw8+I7Kf95OSDkOF
+         eXWUObh6jhnoOGqctuLNnnyrIVO92SkblvNB470HH5FExrMdZcO+5T6PPX64AAY84UDX
+         WWOVY86+nLJ9bA4hvD6Fl/koyYlKXerpf7Tye7J4zzS+j6jHJSj5Bw1LBTvucjEckSxF
+         hiwQ==
+X-Gm-Message-State: AFqh2kpg25JE1XTbFgf+vuMXX67BWW0scVowvgQ+fx+sYtum7rks6lcF
+	PV5QkFWlaVG/gzIixidZkNlMsA8KehAe7NbdTBQJTA==
+X-Google-Smtp-Source: AMrXdXs7kBLIIzxFPr6aQX2onukGaF899HTDSBSm3P6ETAZc85MHRsZWxu7xYkHxjh+dUs/sZCAbxry62qIYtlbpMVc=
+X-Received: by 2002:a0d:cc07:0:b0:4af:16a7:5334 with SMTP id
+ o7-20020a0dcc07000000b004af16a75334mr530548ywd.159.1673987276173; Tue, 17 Jan
+ 2023 12:27:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [tip:sched/core 7/28] rseq.c:139:37: error: 'AT_RSEQ_ALIGN'
- undeclared; did you mean 'R_SH_ALIGN'?
-Content-Language: en-US
-To: Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Shuah Khan <shuah@kernel.org>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org,
- Peter Zijlstra <peterz@infradead.org>, linux-kselftest@vger.kernel.org
-References: <202301170348.7WLKH1pl-lkp@intel.com>
- <bfa719c3-bd1f-5fc4-40ab-6dc6822b7628@efficios.com>
- <4449d8b5-b7a5-0f09-5b42-7b70ba00f8f6@linuxfoundation.org>
- <Y8ZlKOsN1wGk9tTc@gmail.com>
- <37625f31-6ac2-1f90-d864-e4644820bba3@efficios.com>
- <1eed08d1-c100-6ca5-63f3-73487970b08e@linuxfoundation.org>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <1eed08d1-c100-6ca5-63f3-73487970b08e@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <202301170752.Y9ZPytWF-lkp@intel.com>
+In-Reply-To: <202301170752.Y9ZPytWF-lkp@intel.com>
+From: Kyle Huey <me@kylehuey.com>
+Date: Tue, 17 Jan 2023 12:27:42 -0800
+Message-ID: <CAP045AomNRW3=gmfFgQ9c7roQVHE74+D5w1g-o72KmdnUntNDQ@mail.gmail.com>
+Subject: Re: [linux-stable-rc:linux-5.15.y 9905/9999] protection_keys.c:undefined
+ reference to `__cpuid_count'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Hansen <dave.hansen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2023-01-17 14:11, Shuah Khan wrote:
-> On 1/17/23 10:44, Mathieu Desnoyers wrote:
->> On 2023-01-17 04:06, Ingo Molnar wrote:
->>>
->>> * Shuah Khan <skhan@linuxfoundation.org> wrote:
->>>
->>>> On 1/16/23 13:18, Mathieu Desnoyers wrote:
->>>>> On 2023-01-16 14:40, kernel test robot wrote:
->>>>>> tree:   
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 
->>>>>> sched/core
->>>>>> head:   79ba1e607d68178db7d3fe4f6a4aa38f06805e7b
->>>>>> commit: 03f5c0272d1b59343144e199becc911dae52c37e [7/28] 
->>>>>> selftests/rseq: Use ELF auxiliary vector for extensible rseq
->>>>>> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->>>>>> reproduce:
->>>>>>           # 
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=03f5c0272d1b59343144e199becc911dae52c37e
->>>>>>           git remote add tip 
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
->>>>>>           git fetch --no-tags tip sched/core
->>>>>>           git checkout 03f5c0272d1b59343144e199becc911dae52c37e
->>>>>>           make O=/tmp/kselftest headers
->>>>>>           make O=/tmp/kselftest -C tools/testing/selftests
->>>>>>
->>>>>> If you fix the issue, kindly add following tag where applicable
->>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>
->>>>> In order to fix this, I need to change -I../../../../usr/include/ 
->>>>> for $(KHDR_INCLUDES) in tools/testing/selftests/rseq/Makefile
->>>>>
->>>>> I can find 25 odd uses of the same pattern in the kernel selftests. 
->>>>> Should I fix them all in one go ?
->>>>
->>>> kselftest build depends on headers installed in the root directory.
->>
->> By "root directory", do you mean kernel sources root directory or 
->> build output root directory ?
->>
->>>> The main makefile enforces this dependency.
->>
->> How ? I figure that tools/testing/selftests/lib.mk overrides 
->> KHDR_INCLUDES if it is not defined yet:
->>
->> ifeq ($(KHDR_INCLUDES),)
->> KHDR_INCLUDES := -isystem $(top_srcdir)/usr/include
->> endif
->>
->> and selftests makefiles include ../lib.mk.
->>
->> This KHDR_INCLUDES can be modified by O=... when built from the kernel 
->> top level, thus using tools/testing/selftests/Makefile:
->>
->> ifneq ($(KBUILD_OUTPUT),)
->> [...]
->>    KHDR_INCLUDES := -isystem ${abs_objtree}/usr/include
->> else
->> [...]
->>    KHDR_INCLUDES := -isystem ${abs_srctree}/usr/include
->> endif
->>
->> But it's up to the individual selftests to actually use 
->> $(KHDR_INCLUDES). In many cases, they hardcode 
->> -I../../../../usr/include/ which is bogus when the build root (O=...) 
->> differs from the source root.
->>
->>   If this test is being
->>>> built without installing headers by itself, I think the scripts that
->>>> build individual tests have to makes sure headers are installed first.
->>
->> The headers were previously built by "make O=/tmp/kselftest headers", 
->> as it should, it's just that the selftest makefile uses a hardcoded 
->> path that is relative to the source directory, and it appears that 
->> this pattern is repeated all across the selftests.
->>
-> 
-> selftests Makefile used to install headers and there has been a recent
-> change to have mani Makefile (root) to install it. As a result individual
-> test builds (running make in the test directory) requires header install
-> now.
-> 
-> I think the hard-coded includes are a problem and we have to fix them for
-> all cases i.e make O=, individual test builds.
-> 
-> If you are still up for it, please send patch.
+On Mon, Jan 16, 2023 at 3:23 PM kernel test robot <lkp@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.15.y
+> head:   5bcc318cb4cd6b13569afdfc6d7b5c8c1f408f06
+> commit: 46aa1557581ff4cc380c3b29ef516f2b15129a4e [9905/9999] selftests/vm/pkeys: Add a regression test for setting PKRU through ptrace
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce:
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=46aa1557581ff4cc380c3b29ef516f2b15129a4e
+>         git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+>         git fetch --no-tags linux-stable-rc linux-5.15.y
+>         git checkout 46aa1557581ff4cc380c3b29ef516f2b15129a4e
+>         make O=/tmp/kselftest headers
+>         make O=/tmp/kselftest -C tools/testing/selftests
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All error/warnings (new ones prefixed by >>):
+>
+>    In file included from pkey-helpers.h:89,
+>                     from protection_keys.c:49:
+>    pkey-x86.h: In function 'cpu_max_xsave_size':
+> >> pkey-x86.h:130:9: warning: implicit declaration of function '__cpuid_count' [-Wimplicit-function-declaration]
+>      130 |         __cpuid_count(XSTATE_CPUID, 0, eax, ebx, ecx, edx);
+>          |         ^~~~~~~~~~~~~
+> >> pkey-x86.h:130:9: warning: 'eax' is used uninitialized [-Wuninitialized]
+>      130 |         __cpuid_count(XSTATE_CPUID, 0, eax, ebx, ecx, edx);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> pkey-x86.h:130:9: warning: 'ebx' is used uninitialized [-Wuninitialized]
+> >> pkey-x86.h:130:9: warning: 'ecx' is used uninitialized [-Wuninitialized]
+> >> pkey-x86.h:130:9: warning: 'edx' is used uninitialized [-Wuninitialized]
+>    /usr/bin/ld: /tmp/cc5xWC2G.o: in function `cpu_max_xsave_size':
+> >> protection_keys.c:(.text+0xff9): undefined reference to `__cpuid_count'
+>    collect2: error: ld returned 1 exit status
+> --
+>    In file included from pkey-helpers.h:89,
+>                     from protection_keys.c:49:
+>    pkey-x86.h: In function 'cpu_max_xsave_size':
+> >> pkey-x86.h:130:9: warning: implicit declaration of function '__cpuid_count' [-Wimplicit-function-declaration]
+>      130 |         __cpuid_count(XSTATE_CPUID, 0, eax, ebx, ecx, edx);
+>          |         ^~~~~~~~~~~~~
+> >> pkey-x86.h:130:9: warning: 'eax' is used uninitialized [-Wuninitialized]
+>      130 |         __cpuid_count(XSTATE_CPUID, 0, eax, ebx, ecx, edx);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> pkey-x86.h:130:9: warning: 'ebx' is used uninitialized [-Wuninitialized]
+> >> pkey-x86.h:130:9: warning: 'ecx' is used uninitialized [-Wuninitialized]
+> >> pkey-x86.h:130:9: warning: 'edx' is used uninitialized [-Wuninitialized]
+>    /usr/bin/ld: /tmp/ccvfRroq.o: in function `cpu_max_xsave_size':
+>    protection_keys.c:(.text+0x124e): undefined reference to `__cpuid_count'
+>    collect2: error: ld returned 1 exit status
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-Sure.
+That can be fixed by cherry-picking
 
-Now that I dig a bit more, we could try using "-nostdinc" to tell the 
-compiler not to search the standard system directories, but I've noticed 
-that a few selftests depend on userspace library header files found in 
-the build environment.
+066b34aa5461 tools: fix ARRAY_SIZE defines in tools and selftests hdrs
+e89908201e25 selftests/vm: remove ARRAY_SIZE define from individual tests
+a23039c7306f selftests: Provide local define of __cpuid_count()
 
-I'm not sure how we should approach this.
+to 5.15. All three of these are small test harness changes.
 
-Thoughts ?
+My apologies, I didn't test *building* the pkeys selftest binary on
+each kernel when I was backporting.
 
-Thanks,
-
-Mathieu
-
-> 
-> thanks,
-> -- Shuah
-> 
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+- Kyle
