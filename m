@@ -1,42 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6392F34
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jan 2023 23:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF88C2F34;
+	Wed, 18 Jan 2023 23:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674083553; x=1705619553;
+  t=1674084801; x=1705620801;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yusK/HH9alb63rTdXo8qzhhaVgGV8z2R6YIOES23UZg=;
-  b=BVpmOx0iSx1l5l7MP2xvg8LyKuuq458sFr7E7VpJUZzogbNs+FACfYJY
-   5dLPj5BYpqhB9W+WRR3IgG07a4TnU8jsQNto3iCumIFLUsMD5j/UCdKGQ
-   MEXSsCn+Z/VxfQ3a+dXpfDLFxlb+N8U9syvhKRLDgOyCPUFf+UZPfB/he
-   JPt9VYN/dIX9yzJgaEAt8yxtMSB3MDD1UlS4TAYkynNZeRn39UZbm8XCy
-   Y6g6RSgPqW/FQ4srIrimjHYNNi+T6l2DiqpWIV6Isw0RI3/e0e/K/pSsr
-   sO1bO3yPvnpPlEL88JnADM80GvLqJAGZ/6P5CnsiMnKaKodvZMcs4Qdfv
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326393968"
+  bh=DuB4F4aJsIU6f0uJdqNQ9DFJRtGMSAUcmAKbN6T1GnE=;
+  b=hqrkP3MTsOmm3I8mVXOXBjZo1Rzk70PjZtM/f8XJAs+XO44lO9II7Ypl
+   mYe6aQTh/1G2hxhrCKiz6/hPMii5We1HmI+Huzn5CNNsH2/sOMvIaKc9f
+   W1Dz2aczYwbY3XxQUgfORPaU/QukiAuaMCHDGuwJB7p3AGdyPbpSCNuMG
+   LCnhBhm1IctrFZLD9NgFoQvG+qIWDUBi/v/0E44dyE8Su5Qwf8p2qN4oP
+   iiZFEAIkK8nJwjm+I0RtJpynee3wRL98YZILtO0D4Q2sMbjaRVqKUlUvL
+   hjjcEg0xLHuMWn+Ijsrc/zECneEOm95nJnSmpcyD9jBZUC0xiEBsCb2fh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327209690"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="326393968"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 15:12:21 -0800
+   d="scan'208";a="327209690"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 15:33:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637466381"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609860042"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="637466381"
+   d="scan'208";a="609860042"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jan 2023 15:12:19 -0800
+  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 15:33:19 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIHbO-0000nm-1q;
-	Wed, 18 Jan 2023 23:12:18 +0000
-Date: Thu, 19 Jan 2023 07:12:10 +0800
+	id 1pIHvi-0000oG-34;
+	Wed, 18 Jan 2023 23:33:18 +0000
+Date: Thu, 19 Jan 2023 07:32:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Michal Suchanek <msuchanek@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>
-Subject: [robh:dt/linus 5/5] drivers/of/platform.c:570:45: warning: passing
- argument 2 of 'snprintf' makes integer from pointer without a cast
-Message-ID: <202301190701.96ltOxwk-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rob Herring <robh@kernel.org>
+Subject: [robh:dt/linus 5/5] drivers/of/platform.c:570:24: warning:
+ incompatible pointer to integer conversion passing 'char[14]' to parameter
+ of type 'unsigned long'
+Message-ID: <202301190745.4S9lZiR2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,99 +51,53 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/linus
 head:   2d681d6a23a14e6507e536605d83e38acfab9018
 commit: 2d681d6a23a14e6507e536605d83e38acfab9018 [5/5] of: Make of framebuffer devices unique
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230119/202301190701.96ltOxwk-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230119/202301190745.4S9lZiR2-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=2d681d6a23a14e6507e536605d83e38acfab9018
         git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
         git fetch --no-tags robh dt/linus
         git checkout 2d681d6a23a14e6507e536605d83e38acfab9018
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/of/ mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/of/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/of/platform.c: In function 'of_platform_default_populate_init':
-   drivers/of/platform.c:570:40: error: passing argument 1 of 'snprintf' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     570 |                         ret = snprintf(buf, "of-display-%d", display_number++);
-         |                                        ^~~
-         |                                        |
-         |                                        char **
-   In file included from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/paravirt_types.h:27,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/of/platform.c:13:
-   include/linux/kernel.h:213:20: note: expected 'char *' but argument is of type 'char **'
-     213 | int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |              ~~~~~~^~~
->> drivers/of/platform.c:570:45: warning: passing argument 2 of 'snprintf' makes integer from pointer without a cast [-Wint-conversion]
-     570 |                         ret = snprintf(buf, "of-display-%d", display_number++);
-         |                                             ^~~~~~~~~~~~~~~
-         |                                             |
-         |                                             char *
-   In file included from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/paravirt_types.h:27,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/of/platform.c:13:
-   include/linux/kernel.h:213:32: note: expected 'size_t' {aka 'long unsigned int'} but argument is of type 'char *'
-     213 | int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |                         ~~~~~~~^~~~
->> drivers/of/platform.c:570:76: warning: passing argument 3 of 'snprintf' makes pointer from integer without a cast [-Wint-conversion]
-     570 |                         ret = snprintf(buf, "of-display-%d", display_number++);
-         |                                                              ~~~~~~~~~~~~~~^~
-         |                                                                            |
-         |                                                                            int
-   In file included from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/paravirt_types.h:27,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/of/platform.c:13:
-   include/linux/kernel.h:213:50: note: expected 'const char *' but argument is of type 'int'
-     213 | int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |                                      ~~~~~~~~~~~~^~~
-   drivers/of/platform.c:573:57: error: passing argument 2 of 'of_platform_device_create' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     573 |                         of_platform_device_create(node, buf, NULL);
-         |                                                         ^~~
-         |                                                         |
-         |                                                         char **
-   drivers/of/platform.c:211:57: note: expected 'const char *' but argument is of type 'char **'
-     211 |                                             const char *bus_id,
-         |                                             ~~~~~~~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+   drivers/of/platform.c:570:19: error: incompatible pointer types passing 'char *[14]' to parameter of type 'char *' [-Werror,-Wincompatible-pointer-types]
+                           ret = snprintf(buf, "of-display-%d", display_number++);
+                                          ^~~
+   include/linux/kernel.h:213:20: note: passing argument to parameter 'buf' here
+   int snprintf(char *buf, size_t size, const char *fmt, ...);
+                      ^
+>> drivers/of/platform.c:570:24: warning: incompatible pointer to integer conversion passing 'char[14]' to parameter of type 'unsigned long' [-Wint-conversion]
+                           ret = snprintf(buf, "of-display-%d", display_number++);
+                                               ^~~~~~~~~~~~~~~
+   include/linux/kernel.h:213:32: note: passing argument to parameter 'size' here
+   int snprintf(char *buf, size_t size, const char *fmt, ...);
+                                  ^
+   drivers/of/platform.c:570:41: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
+                           ret = snprintf(buf, "of-display-%d", display_number++);
+                                                                ^~~~~~~~~~~~~~~~
+   include/linux/kernel.h:213:50: note: passing argument to parameter 'fmt' here
+   int snprintf(char *buf, size_t size, const char *fmt, ...);
+                                                    ^
+   drivers/of/platform.c:573:36: error: incompatible pointer types passing 'char *[14]' to parameter of type 'const char *' [-Werror,-Wincompatible-pointer-types]
+                           of_platform_device_create(node, buf, NULL);
+                                                           ^~~
+   drivers/of/platform.c:216:15: note: passing argument to parameter here
+   EXPORT_SYMBOL(of_platform_device_create);
+                 ^
+   2 warnings and 2 errors generated.
 
 
-vim +/snprintf +570 drivers/of/platform.c
+vim +570 drivers/of/platform.c
 
    515	
    516	static int __init of_platform_default_populate_init(void)
