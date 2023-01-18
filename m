@@ -1,43 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A47F539E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jan 2023 18:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DDA53A7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jan 2023 20:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674066253; x=1705602253;
+  t=1674072435; x=1705608435;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UXswtDu2OcXvYHZMg5iH7n14j4fWUNjLJ3qzG6kTgos=;
-  b=gPILvH36Eu/u+NgjuH9uTRr+uE1EIvWcGpnQ6fblKtBIyhm5GOrwZyym
-   r3ZHsscwfqybAHzOPAoETCQO57b4kMv5A+yN10yDvUXaO/FKfvcbhn6q1
-   5vmNFZs6Ha3kPGqxen2TDeySyNMNatpiqnWjw56LIqxE04CSHo8HLufPU
-   h1Evd1h/2HSHbmaujSAg9yz2c2mRFghG5AMX/byLZSOdhoUvbSAumJqyq
-   TZ48rs4hyOE1Guax4DWdcQ8fBJyZcfi3SF5J36/ICMhqrZXp+2wZ6Q7JV
-   gGcip8i3A6DHabPaAF8waq6EzaJ8Lh5o3/2j38xmkjiZoAbFZoj6uw1yx
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="312939092"
+  bh=Rl/bTkHdW9zTyqrjGASl5hEfl4MD80Xs2cf/+5SXFmM=;
+  b=U37IuYOxDkrypJUbRqYq9SjbAaSH9wgcjroV3yGNSDHNPZSFOovM3DW9
+   gPaIfeh/i7TxX4MCe/xOaJ8bvxmwUDMc0JfMKt0CqQ+QL+bS8Tfcymk5t
+   CnwkdXZOyRB3NUA5xQFRQczfGBr7GgHWfbGRNQ1dteVYgxtvsxKh604T/
+   OXxnDGlFn6mwPCuA8NaE+IDS5964BT8Sx3GtUCRCgp5QjsMRMYKRZ7VJG
+   smL3SP/krzO+b7ywmhaG/P69QXBuNZ3B3wAg/5Z3IZ0nCbOmo9WXcyFEL
+   sVNPb2qUHNLflz3RSc6MDbH5Prk9pY2qL91g1y8kCPoD/HmQYpHw64DsH
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325138631"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="312939092"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 10:24:10 -0800
+   d="scan'208";a="325138631"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 12:07:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690322884"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="748601966"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="690322884"
+   d="scan'208";a="748601966"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Jan 2023 10:24:09 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2023 12:07:13 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pID6W-0000cG-0C;
-	Wed, 18 Jan 2023 18:24:08 +0000
-Date: Thu, 19 Jan 2023 02:23:53 +0800
+	id 1pIEiF-0000fq-2v;
+	Wed, 18 Jan 2023 20:07:11 +0000
+Date: Thu, 19 Jan 2023 04:06:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kalesh Singh <kaleshsingh@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
-Message-ID: <202301190239.a0WaMbq8-lkp@intel.com>
+Subject: arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol
+ '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
+Message-ID: <202301190323.czPbD4jL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,19 +49,19 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
-commit: 879e5ac7b2e4db05799a905b5a07fc9e5dedf651 KVM: arm64: Prepare non-protected nVHE hypervisor stacktrace
+commit: db129d486ebdf4e3168282236f9d9008b42cac7e KVM: arm64: Implement non-protected nVHE hyp stack unwinder
 date:   6 months ago
-config: arm64-randconfig-s053-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190239.a0WaMbq8-lkp@intel.com/config)
+config: arm64-randconfig-s053-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190323.czPbD4jL-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=879e5ac7b2e4db05799a905b5a07fc9e5dedf651
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=db129d486ebdf4e3168282236f9d9008b42cac7e
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 879e5ac7b2e4db05799a905b5a07fc9e5dedf651
+        git checkout db129d486ebdf4e3168282236f9d9008b42cac7e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
@@ -71,17 +71,11 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp/nvhe/stacktrace.c:12:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
+>> arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
 
-vim +/__pcpu_scope_kvm_stacktrace_info +15 arch/arm64/kvm/hyp/nvhe/stacktrace.c
+vim +/__pcpu_scope_kvm_arm_hyp_stack_page +52 arch/arm64/kvm/arm.c
 
-    11	
-    12	DEFINE_PER_CPU(unsigned long [OVERFLOW_STACK_SIZE/sizeof(long)], overflow_stack)
-    13		__aligned(16);
-    14	
-  > 15	DEFINE_PER_CPU(struct kvm_nvhe_stacktrace_info, kvm_stacktrace_info);
-    16	
+  > 52	
 
 -- 
 0-DAY CI Kernel Test Service
