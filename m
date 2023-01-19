@@ -1,42 +1,49 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4102C9C;
-	Thu, 19 Jan 2023 08:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C562C9C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674115846; x=1705651846;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=E/okNHikAAoKVc/CQXihZxFd4TNVN/RlMAbLoqcFGVw=;
-  b=G1eaqb/J3JFHKhlBzubXwE5LrE/DZ6Q7B08otVJ8wXSixfWPdPD5TQxx
-   IE4jD6on56OZL6opGwYU+TThZRrEShGJyJNAsFtI1i5GEeyTXNS/+IcZz
-   Goz/nDqq8is7QHd+dgNjr9fndrTpnHYh9QpDrpy6ovor8wy4ulP8tLxt9
-   1tM78e+Djl20CtRpFwHxU0lMhEXmzFu8G0jzj8lj2CkXhUakeP/18eHWG
-   Do9/QeHjLfQANcpGsVcpR+zgl2UKdOTkh00vq4n0vTA1EMvs1Q/cho2JO
-   STHlVLR7jX9EXlykFgAjvrL1vxWbi1TtNHStceyNLrsCCXqmfaPhXJrjA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="411463848"
+  t=1674116448; x=1705652448;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wmRcxDOyhPJVyfKCgFpTYszbOkVgWxHUYtlq1ySmbR8=;
+  b=cY3Zs1FsfFyZEd+iu/83v5co1EwcoJiAWQUBI3Gaq2ZJQ/Y9+BgaF+7a
+   KWpldiFaDgsCrn4ZXZ6plicNkiZvV74Fie3zTsVW062oV5x0sN5fG3zFX
+   xrxRi3iHp+lXNFTUyO2ILfmE7/JEsXxKun6hIWvG1cWwJokoQiu5qMKJS
+   Y5IxeJ0dhUa1XMu+L0/EPgactPZjX1VbeVAcSnR8cODUGsYzFaHjbyYmi
+   OieJCOeraUBqXzlyJ8wgnIgK2fuK89O2DUBVumGLSDqFoz0RWrI4MkTQo
+   BLNMaGOa6kolAcKnwD2dNwh8cOacVm27XCIwf2KCFGGMEkdtoBdFFei5q
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304910091"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="411463848"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:10:44 -0800
+   d="scan'208";a="304910091"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:20:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692328620"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728562419"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="692328620"
+   d="scan'208";a="728562419"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2023 00:10:42 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 00:20:42 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIQ0P-0001Hc-2K;
-	Thu, 19 Jan 2023 08:10:41 +0000
-Date: Thu, 19 Jan 2023 16:10:02 +0800
+	id 1pIQA5-0001I4-33;
+	Thu, 19 Jan 2023 08:20:41 +0000
+Date: Thu, 19 Jan 2023 16:20:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [akpm-mm:mm-everything 255/354] vmlinux.o: warning: objtool:
- ___ksymtab_gpl+_RNvXs3h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_5NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0:
- data relocation to !ENDBR: _RNvXs3h_NtCs3XUU1alqrUZ_8bindings12bindings...
-Message-ID: <202301191643.lpz6Fy8B-lkp@intel.com>
+To: Jes Sorensen <Jes.Sorensen@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	Andrea Merello <andrea.merello@gmail.com>,
+	Taehee Yoo <ap420073@gmail.com>,
+	Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+	Ping-Ke Shih <pkshih@realtek.com>
+Subject: [linux-next:master 788/6276]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:
+ sparse: invalid assignment: |=
+Message-ID: <202301191616.R33Dvxk4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,236 +53,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-head:   68fafbb62ae6e15ee62a761746da81192f675d53
-commit: 5a9b70092265874cad2791a90a5fabe7744d7653 [255/354] mm: move page->deferred_list to folio->_deferred_list
-config: x86_64-randconfig-r006-20230116 (https://download.01.org/0day-ci/archive/20230119/202301191643.lpz6Fy8B-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aa5c49149a823599764e6953229b028e4bf6e9cc
+commit: 3dfb8e844fa30cceb4b810613e2c35f628eb3e70 [788/6276] wifi: rtl8xxxu: Support new chip RTL8188EU
+config: openrisc-randconfig-s043-20230119 (https://download.01.org/0day-ci/archive/20230119/202301191616.R33Dvxk4-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=5a9b70092265874cad2791a90a5fabe7744d7653
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-everything
-        git checkout 5a9b70092265874cad2791a90a5fabe7744d7653
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3dfb8e844fa30cceb4b810613e2c35f628eb3e70
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3dfb8e844fa30cceb4b810613e2c35f628eb3e70
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/wireless/realtek/rtl8xxxu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse: sparse: invalid assignment: |=
+>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:    left side has type restricted __le16
+>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:    right side has type restricted __le32
 
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12fpregs_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12fpregs_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7fpstateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7fpstateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_3fpuNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_3fpuNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9fpu_guestNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9fpu_guestNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25cpuinfo_x86__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25cpuinfo_x86__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11cpuinfo_x86NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11cpuinfo_x86NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1H_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11entry_stackNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1H_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11entry_stackNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16entry_stack_pageNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16entry_stack_pageNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13x86_io_bitmapNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13x86_io_bitmapNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10tss_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10tss_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9irq_stackNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9irq_stackNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17fixed_percpu_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17fixed_percpu_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13thread_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13thread_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16preempt_notifierNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16preempt_notifierNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10llist_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10llist_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10llist_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10llist_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1S_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32___call_single_node__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1S_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32___call_single_node__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18___call_single_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18___call_single_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18___call_single_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18___call_single_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9lock_listNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9lock_listNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1W_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10lock_chainNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1W_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10lock_chainNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1Y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9held_lockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs1Y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9held_lockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs20_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_36spinlock__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs20_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_36spinlock__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs21_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_22spinlock__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs21_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_22spinlock__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs22_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8rwlock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs22_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8rwlock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs23_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16hlist_nulls_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs23_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16hlist_nulls_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs24_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16hlist_nulls_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs24_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16hlist_nulls_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs25_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16wait_queue_entryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs25_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16wait_queue_entryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs26_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15wait_queue_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs26_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15wait_queue_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs27_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20optimistic_spin_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs27_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20optimistic_spin_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs28_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_5mutexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs28_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_5mutexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs29_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8seqcountNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs29_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8seqcountNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2a_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_21seqcount_raw_spinlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2a_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_21seqcount_raw_spinlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2b_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17seqcount_spinlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2b_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17seqcount_spinlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2c_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15seqcount_rwlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2c_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15seqcount_rwlockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2d_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14seqcount_mutexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2d_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14seqcount_mutexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2e_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16seqcount_latch_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2e_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16seqcount_latch_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2f_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9seqlock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2f_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9seqlock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2g_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15pcpu_group_infoNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2g_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15pcpu_group_infoNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15pcpu_alloc_infoNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15pcpu_alloc_infoNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9page_fragNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9page_fragNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2j_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7rb_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2j_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7rb_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2k_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7rb_rootNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2k_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7rb_rootNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2l_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14rb_root_cachedNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2l_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14rb_root_cachedNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2m_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_42maple_range_64__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2m_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_42maple_range_64__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2n_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_28maple_range_64__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2n_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_28maple_range_64__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2o_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14maple_range_64NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2o_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14maple_range_64NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2p_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15maple_arange_64NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2p_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15maple_arange_64NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11maple_allocNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11maple_allocNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2r_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13maple_topiaryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2r_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13maple_topiaryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2s_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_24maple_tree__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2s_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_24maple_tree__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2t_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10maple_treeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2t_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10maple_treeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2u_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_38maple_node__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2u_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_38maple_node__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2v_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_38maple_node__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2v_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_38maple_node__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2w_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_24maple_node__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2w_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_24maple_node__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2x_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10maple_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2x_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10maple_nodeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10ma_topiaryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10ma_topiaryNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8ma_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8ma_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11ma_wr_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11ma_wr_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2B_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12rw_semaphoreNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2B_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12rw_semaphoreNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16swait_queue_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16swait_queue_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11swait_queueNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11swait_queueNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10completionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10completionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15uprobe_consumerNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15uprobe_consumerNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2G_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14___kernel_timexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2G_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14___kernel_timexNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11old_timex32NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11old_timex32NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20system_time_snapshotNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20system_time_snapshotNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19system_counterval_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19system_counterval_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9debug_objNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9debug_objNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15debug_obj_descrNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15debug_obj_descrNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10timer_listNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10timer_listNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2O_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11work_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2O_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11work_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12delayed_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12delayed_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8rcu_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8rcu_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12execute_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12execute_workNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2S_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10rcu_cblistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2S_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10rcu_cblistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13rcu_segcblistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13rcu_segcblistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11srcu_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11srcu_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14notifier_blockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14notifier_blockNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2W_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20atomic_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2W_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_20atomic_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2X_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_22blocking_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2X_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_22blocking_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2Y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17raw_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2Y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_17raw_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2Z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18srcu_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs2Z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18srcu_notifier_headNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs30_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25arch_uprobe__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs30_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25arch_uprobe__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs31_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25arch_uprobe__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs31_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25arch_uprobe__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs32_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11arch_uprobeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs32_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11arch_uprobeNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs33_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_39uprobe_task__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs33_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_39uprobe_task__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs34_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25uprobe_task__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs34_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25uprobe_task__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs35_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11uprobe_taskNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs35_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11uprobe_taskNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs36_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15return_instanceNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs36_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15return_instanceNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs37_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13uprobes_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs37_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13uprobes_stateNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs38_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12mm_context_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs38_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12mm_context_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs39_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_60page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs39_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_60page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3a_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3a_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3b_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3b_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3c_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3c_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3d_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3d_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3e_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3e_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3f_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_4NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3f_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_4NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3g_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_5__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3g_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_46page__bindgen_ty_1__bindgen_ty_5__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
->> vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_5NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_5NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_6NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_32page__bindgen_ty_1__bindgen_ty_6NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3j_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18page__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3j_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18page__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3k_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18page__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3k_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18page__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3l_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_4pageNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3l_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_4pageNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3m_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_61folio__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3m_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_61folio__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3n_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_47folio__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3n_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_47folio__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3o_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3o_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_1__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3p_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3p_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3r_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_3__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3r_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_3__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3s_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_3__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3s_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_33folio__bindgen_ty_3__bindgen_ty_2NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3t_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_3NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3t_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19folio__bindgen_ty_3NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3u_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_5folioNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3u_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_5folioNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3v_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15page_frag_cacheNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3v_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15page_frag_cacheNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3w_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9vm_regionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3w_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9vm_regionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_28vm_area_struct__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3y_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_28vm_area_struct__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14vm_area_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3z_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14vm_area_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_23mm_struct__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3A_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_23mm_struct__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3B_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9mm_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3B_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9mm_structNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12vma_iteratorNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3C_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12vma_iteratorNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18vm_special_mappingNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3D_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_18vm_special_mappingNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12local_lock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3E_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_12local_lock_tNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9free_areaNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3F_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_9free_areaNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3G_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_6lruvecNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3G_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_6lruvecNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3H_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13per_cpu_pagesNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3H_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13per_cpu_pagesNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16per_cpu_nodestatNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3I_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16per_cpu_nodestatNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_4zoneNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3J_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_4zoneNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7zonerefNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3K_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_7zonerefNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8zonelistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3L_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_8zonelistNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14deferred_splitNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3M_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_14deferred_splitNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11pglist_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3N_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11pglist_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3O_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10mhp_paramsNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3O_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10mhp_paramsNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11mem_sectionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3P_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_11mem_sectionNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15scale_freq_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3Q_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15scale_freq_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15percpu_ref_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3R_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_15percpu_ref_dataNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10percpu_refNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3T_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10percpu_refNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19x86_legacy_featuresNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3U_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_19x86_legacy_featuresNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16x86_platform_opsNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs3V_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_16x86_platform_opsNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs45_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25local_apic__bindgen_ty_20NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs45_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25local_apic__bindgen_ty_20NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs47_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_39local_apic__bindgen_ty_29__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs47_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_39local_apic__bindgen_ty_29__bindgen_ty_1NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs49_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25local_apic__bindgen_ty_29NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs49_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_25local_apic__bindgen_ty_29NtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs4h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10local_apicNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs4h_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_10local_apicNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs4i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13___va_list_tagNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0: data relocation to !ENDBR: _RNvXs4i_NtCs3XUU1alqrUZ_8bindings12bindings_rawNtB6_13___va_list_tagNtNtCs3yuwAp0waWO_4core7default7Default7default+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RINvMs0_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB6_5RangehE8containshECsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RINvMs0_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB6_5RangehE8containshECsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RINvYINtNtNtCs3yuwAp0waWO_4core3ops5range5RangehEINtB6_11RangeBoundshE8containshECsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RINvYINtNtNtCs3yuwAp0waWO_4core3ops5range5RangehEINtB6_11RangeBoundshE8containshECsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE14current_memoryCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE14current_memoryCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE15try_allocate_inCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE15try_allocate_inCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE6new_inCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvMs_NtCsdvv6pRyacSq_5alloc7raw_vecINtB4_6RawVechE6new_inCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write10write_charBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write10write_charBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write10write_charB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write10write_charB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write9write_fmtBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write9write_fmtBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write9write_strBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtB2_5Write9write_strBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write10write_charBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write10write_charBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel3str9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write10write_charB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel3str9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write10write_charB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write9write_fmtBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write9write_fmtBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write9write_strBw_+0x0: data relocation to !ENDBR: _RNvXNtCs3yuwAp0waWO_4core3fmtQNtNtCsfATHBUcknU9_6kernel3str9FormatterNtB2_5Write9write_strBw_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1_NtCs3yuwAp0waWO_4core7convertINtNtNtB7_3ptr6unique6UniquehEINtB5_4IntoINtNtBD_8non_null7NonNullhEE4intoCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs1_NtCs3yuwAp0waWO_4core7convertINtNtNtB7_3ptr6unique6UniquehEINtB5_4IntoINtNtBD_8non_null7NonNullhEE4intoCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1_NtCs3yuwAp0waWO_4core7convertNtNtCsdvv6pRyacSq_5alloc11collections19TryReserveErrorKindINtB5_4IntoNtBA_15TryReserveErrorE4intoCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs1_NtCs3yuwAp0waWO_4core7convertNtNtCsdvv6pRyacSq_5alloc11collections19TryReserveErrorKindINtB5_4IntoNtBA_15TryReserveErrorE4intoCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1_NtCsdvv6pRyacSq_5alloc7raw_vecINtB5_6RawVechENtNtNtCs3yuwAp0waWO_4core3ops4drop4Drop4dropCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs1_NtCsdvv6pRyacSq_5alloc7raw_vecINtB5_6RawVechENtNtNtCs3yuwAp0waWO_4core3ops4drop4Drop4dropCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtB7_5alloc10AllocErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtB7_5alloc10AllocErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtCsdvv6pRyacSq_5alloc11collections15TryReserveErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtCsdvv6pRyacSq_5alloc11collections15TryReserveErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtNtB7_5alloc6layout11LayoutErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs2_NtCs3yuwAp0waWO_4core7convertNtNtNtB7_5alloc6layout11LayoutErrorINtB5_4FromBy_E4fromCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs8_NtCsdvv6pRyacSq_5alloc3vecINtB5_3VechENtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5derefCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXs8_NtCsdvv6pRyacSq_5alloc3vecINtB5_3VechENtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5derefCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsg_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB5_5RangehEINtB5_11RangeBoundshE11start_boundCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXsg_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB5_5RangehEINtB5_11RangeBoundshE11start_boundCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsg_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB5_5RangehEINtB5_11RangeBoundshE9end_boundCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXsg_NtNtCs3yuwAp0waWO_4core3ops5rangeINtB5_5RangehEINtB5_11RangeBoundshE9end_boundCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsk_NtCsdvv6pRyacSq_5alloc3vecINtB5_3VechENtNtNtCs3yuwAp0waWO_4core3ops4drop4Drop4dropCsfATHBUcknU9_6kernel+0x0: data relocation to !ENDBR: _RNvXsk_NtCsdvv6pRyacSq_5alloc3vecINtB5_3VechENtNtNtCs3yuwAp0waWO_4core3ops4drop4Drop4dropCsfATHBUcknU9_6kernel+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_fmtB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel3str12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_fmtB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel3str9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_fmtB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel3str9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_fmtB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel9allocator15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc12alloc_zeroedB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel9allocator15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc12alloc_zeroedB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvYNtNtCsfATHBUcknU9_6kernel9allocator15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc7reallocB6_+0x0: data relocation to !ENDBR: _RNvYNtNtCsfATHBUcknU9_6kernel9allocator15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc7reallocB6_+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCsfATHBUcknU9_6kernel9allocatorNtB2_15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc5alloc+0x0: data relocation to !ENDBR: _RNvXNtCsfATHBUcknU9_6kernel9allocatorNtB2_15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc5alloc+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXNtCsfATHBUcknU9_6kernel9allocatorNtB2_15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc7dealloc+0x0: data relocation to !ENDBR: _RNvXNtCsfATHBUcknU9_6kernel9allocatorNtB2_15KernelAllocatorNtNtNtCs3yuwAp0waWO_4core5alloc6global11GlobalAlloc7dealloc+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+__rust_alloc+0x0: data relocation to !ENDBR: __rust_alloc+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+__rust_dealloc+0x0: data relocation to !ENDBR: __rust_dealloc+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+__rust_realloc+0x0: data relocation to !ENDBR: __rust_realloc+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+__rust_alloc_zeroed+0x0: data relocation to !ENDBR: __rust_alloc_zeroed+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMNtCsfATHBUcknU9_6kernel5errorNtB2_5Error15to_kernel_errno+0x0: data relocation to !ENDBR: _RNvMNtCsfATHBUcknU9_6kernel5errorNtB2_5Error15to_kernel_errno+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs_NtCsfATHBUcknU9_6kernel5errorNtB4_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtBN_5alloc10AllocErrorE4from+0x0: data relocation to !ENDBR: _RNvXs_NtCsfATHBUcknU9_6kernel5errorNtB4_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtBN_5alloc10AllocErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs0_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_3num5error15TryFromIntErrorE4from+0x0: data relocation to !ENDBR: _RNvXs0_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_3num5error15TryFromIntErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_3str5error9Utf8ErrorE4from+0x0: data relocation to !ENDBR: _RNvXs1_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_3str5error9Utf8ErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs2_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtCsdvv6pRyacSq_5alloc11collections15TryReserveErrorE4from+0x0: data relocation to !ENDBR: _RNvXs2_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtCsdvv6pRyacSq_5alloc11collections15TryReserveErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs3_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_5alloc6layout11LayoutErrorE4from+0x0: data relocation to !ENDBR: _RNvXs3_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtNtBO_5alloc6layout11LayoutErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs4_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtBO_3fmt5ErrorE4from+0x0: data relocation to !ENDBR: _RNvXs4_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtNtBO_3fmt5ErrorE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs5_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtBM_10InfallibleE4from+0x0: data relocation to !ENDBR: _RNvXs5_NtCsfATHBUcknU9_6kernel5errorNtB5_5ErrorINtNtCs3yuwAp0waWO_4core7convert4FromNtBM_10InfallibleE4from+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+rust_fmt_argument+0x0: data relocation to !ENDBR: rust_fmt_argument+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings8generate+0x0: data relocation to !ENDBR: _RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings8generate+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvNtCsfATHBUcknU9_6kernel5print11call_printk+0x0: data relocation to !ENDBR: _RNvNtCsfATHBUcknU9_6kernel5print11call_printk+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont+0x0: data relocation to !ENDBR: _RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMs_NtCsfATHBUcknU9_6kernel3strNtB4_4CStr19from_bytes_with_nul+0x0: data relocation to !ENDBR: _RNvMs_NtCsfATHBUcknU9_6kernel3strNtB4_4CStr19from_bytes_with_nul+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs0_NtCsfATHBUcknU9_6kernel3strNtB5_4CStrNtNtCs3yuwAp0waWO_4core3fmt7Display3fmt+0x0: data relocation to !ENDBR: _RNvXs0_NtCsfATHBUcknU9_6kernel3strNtB5_4CStrNtNtCs3yuwAp0waWO_4core3fmt7Display3fmt+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs1_NtCsfATHBUcknU9_6kernel3strNtB5_4CStrNtNtCs3yuwAp0waWO_4core3fmt5Debug3fmt+0x0: data relocation to !ENDBR: _RNvXs1_NtCsfATHBUcknU9_6kernel3strNtB5_4CStrNtNtCs3yuwAp0waWO_4core3fmt5Debug3fmt+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXs8_NtCsfATHBUcknU9_6kernel3strNtB5_12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_str+0x0: data relocation to !ENDBR: _RNvXs8_NtCsfATHBUcknU9_6kernel3strNtB5_12RawFormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_str+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsa_NtCsfATHBUcknU9_6kernel3strNtB5_9FormatterNtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5deref+0x0: data relocation to !ENDBR: _RNvXsa_NtCsfATHBUcknU9_6kernel3strNtB5_9FormatterNtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5deref+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsb_NtCsfATHBUcknU9_6kernel3strNtB5_9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_str+0x0: data relocation to !ENDBR: _RNvXsb_NtCsfATHBUcknU9_6kernel3strNtB5_9FormatterNtNtCs3yuwAp0waWO_4core3fmt5Write9write_str+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMsc_NtCsfATHBUcknU9_6kernel3strNtB5_7CString12try_from_fmt+0x0: data relocation to !ENDBR: _RNvMsc_NtCsfATHBUcknU9_6kernel3strNtB5_7CString12try_from_fmt+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvXsd_NtCsfATHBUcknU9_6kernel3strNtB5_7CStringNtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5deref+0x0: data relocation to !ENDBR: _RNvXsd_NtCsfATHBUcknU9_6kernel3strNtB5_7CStringNtNtNtCs3yuwAp0waWO_4core3ops5deref5Deref5deref+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+_RNvMs_CsfATHBUcknU9_6kernelNtB4_10ThisModule8from_ptr+0x0: data relocation to !ENDBR: _RNvMs_CsfATHBUcknU9_6kernelNtB4_10ThisModule8from_ptr+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+rust_begin_unwind+0x0: data relocation to !ENDBR: rust_begin_unwind+0x0
-   vmlinux.o: warning: objtool: ___ksymtab_gpl+__rg_alloc+0x0: data relocation to !ENDBR: __rg_alloc+0x0
+vim +5198 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 
-
-objdump-func vmlinux.o ___ksymtab_gpl:
+  5110	
+  5111	/*
+  5112	 * Fill in v3 (gen1) specific TX descriptor bits.
+  5113	 * This format is a hybrid between the v1 and v2 formats, only seen
+  5114	 * on 8188eu devices so far.
+  5115	 */
+  5116	void
+  5117	rtl8xxxu_fill_txdesc_v3(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
+  5118				struct ieee80211_tx_info *tx_info,
+  5119				struct rtl8xxxu_txdesc32 *tx_desc, bool sgi,
+  5120				bool short_preamble, bool ampdu_enable, u32 rts_rate)
+  5121	{
+  5122		struct ieee80211_rate *tx_rate = ieee80211_get_tx_rate(hw, tx_info);
+  5123		struct rtl8xxxu_priv *priv = hw->priv;
+  5124		struct device *dev = &priv->udev->dev;
+  5125		u8 *qc = ieee80211_get_qos_ctl(hdr);
+  5126		u8 tid = qc[0] & IEEE80211_QOS_CTL_TID_MASK;
+  5127		u32 rate;
+  5128		u16 rate_flags = tx_info->control.rates[0].flags;
+  5129		u16 seq_number;
+  5130	
+  5131		if (rate_flags & IEEE80211_TX_RC_MCS &&
+  5132		    !ieee80211_is_mgmt(hdr->frame_control))
+  5133			rate = tx_info->control.rates[0].idx + DESC_RATE_MCS0;
+  5134		else
+  5135			rate = tx_rate->hw_value;
+  5136	
+  5137		seq_number = IEEE80211_SEQ_TO_SN(le16_to_cpu(hdr->seq_ctrl));
+  5138	
+  5139		if (ieee80211_is_data(hdr->frame_control)) {
+  5140			rate = DESC_RATE_MCS7; /* TODO: software rate control */
+  5141			tx_desc->txdw5 = cpu_to_le32(rate);
+  5142			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_USE_DRIVER_RATE);
+  5143			/* Data/RTS rate FB limit */
+  5144			tx_desc->txdw5 |= cpu_to_le32(0x0001ff00);
+  5145		}
+  5146	
+  5147		if (rtl8xxxu_debug & RTL8XXXU_DEBUG_TX)
+  5148			dev_info(dev, "%s: TX rate: %d, pkt size %d\n",
+  5149				 __func__, rate, le16_to_cpu(tx_desc->pkt_size));
+  5150	
+  5151		tx_desc->txdw3 = cpu_to_le32((u32)seq_number << TXDESC32_SEQ_SHIFT);
+  5152	
+  5153		if (ampdu_enable && test_bit(tid, priv->tid_tx_operational))
+  5154			tx_desc->txdw2 |= cpu_to_le32(TXDESC40_AGG_ENABLE);
+  5155		else
+  5156			tx_desc->txdw2 |= cpu_to_le32(TXDESC40_AGG_BREAK);
+  5157	
+  5158		if (ieee80211_is_mgmt(hdr->frame_control)) {
+  5159			tx_desc->txdw5 = cpu_to_le32(rate);
+  5160			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_USE_DRIVER_RATE);
+  5161			tx_desc->txdw5 |= cpu_to_le32(6 << TXDESC32_RETRY_LIMIT_SHIFT);
+  5162			tx_desc->txdw5 |= cpu_to_le32(TXDESC32_RETRY_LIMIT_ENABLE);
+  5163		}
+  5164	
+  5165		if (ieee80211_is_data_qos(hdr->frame_control)) {
+  5166			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_QOS);
+  5167	
+  5168			if (conf_is_ht40(&hw->conf)) {
+  5169				tx_desc->txdw4 |= cpu_to_le32(TXDESC_DATA_BW);
+  5170	
+  5171				if (conf_is_ht40_minus(&hw->conf))
+  5172					tx_desc->txdw4 |= cpu_to_le32(TXDESC_PRIME_CH_OFF_UPPER);
+  5173				else
+  5174					tx_desc->txdw4 |= cpu_to_le32(TXDESC_PRIME_CH_OFF_LOWER);
+  5175			}
+  5176		}
+  5177	
+  5178		if (short_preamble)
+  5179			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_SHORT_PREAMBLE);
+  5180	
+  5181		if (sgi)
+  5182			tx_desc->txdw5 |= cpu_to_le32(TXDESC32_SHORT_GI);
+  5183	
+  5184		/*
+  5185		 * rts_rate is zero if RTS/CTS or CTS to SELF are not enabled
+  5186		 */
+  5187		tx_desc->txdw4 |= cpu_to_le32(rts_rate << TXDESC32_RTS_RATE_SHIFT);
+  5188		if (ampdu_enable || (rate_flags & IEEE80211_TX_RC_USE_RTS_CTS)) {
+  5189			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_RTS_CTS_ENABLE);
+  5190			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_HW_RTS_ENABLE);
+  5191		} else if (rate_flags & IEEE80211_TX_RC_USE_CTS_PROTECT) {
+  5192			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_CTS_SELF_ENABLE);
+  5193			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_HW_RTS_ENABLE);
+  5194		}
+  5195	
+  5196		tx_desc->txdw2 |= cpu_to_le32(TXDESC_ANTENNA_SELECT_A |
+  5197					      TXDESC_ANTENNA_SELECT_B);
+> 5198		tx_desc->txdw7 |= cpu_to_le32(TXDESC_ANTENNA_SELECT_C);
+  5199	}
+  5200	
 
 -- 
 0-DAY CI Kernel Test Service
