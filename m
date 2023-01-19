@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF716FC2;
-	Thu, 19 Jan 2023 12:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B052C17CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 12:56:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674131216; x=1705667216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H269WeIV3twGlKdC3pI/QmxkXXeeNvBc5MicwYiQYEc=;
-  b=AHvUeoqXHS0zVMCJGSNGEwAxYMPoISZu2nLHpDOoATW1XTOy80YHtUMT
-   mbdUtfBNIMHTntZnJcbL5BO2OovA/+pBJ0Cb+JGNBxFTdVdfbGg/hJx5I
-   L3ChPk/FfncAPAhvX0Y4yKbIn+3pOKbjBz+ZW2cy05+ihurwbdTDt8oBl
-   UpjP66MoOlcXh0vP56UgZ7NwG54MSuEzP6mOOHtAtCNEGDRUzdisTmuyl
-   J8AEV0uuvhNuUjARiNj40yZjGO/n+TFMfbku6zdkNUax0Fv9KtaWmdv3n
-   5NrWPKG6FxFubIIDYJH411FIQ6cWdKnYzaAnHnMF97jyrVEtQrTQQwUco
+  t=1674133015; x=1705669015;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F9Ppy6UYYEqaF7NzGiug/GmoEajW25uoY1X7n+nYxH4=;
+  b=L7Zc8mAo3pWY0ZZm4DmOxoJVCICecZiTdtMZ0XdTRF/uYsF+8A9j3ObX
+   UP94bzQux3ADwIHDRmf9NmwCjCnL9Atp7CR+zH+LH1vA3Z3jhO3gCg+0g
+   9w7q9zaftcCeLPMrb7UmBirXs/OYjxCltiJ2LjfN/rBiv/1ofdzfjJjaC
+   HLnkO86wO3pbru9bUuSGOW29MO9LOsFyM0FYUWrHc7FXrRUNmz8ON5JIt
+   Btu2k9IY37xladi50eGXhmJsGJ6rjQ+t4SPBDPuS0LKi4PWIMWZ3WjsH8
+   QffK79ydBmjLLISsQqvz5/++mwg1RZErhbSdw9eOnE+ouTsYZlaalLtUh
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="411509851"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="389775335"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="411509851"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 04:26:56 -0800
+   d="scan'208";a="389775335"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 04:56:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="784050177"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="833979123"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="784050177"
+   d="scan'208";a="833979123"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jan 2023 04:26:55 -0800
+  by orsmga005.jf.intel.com with ESMTP; 19 Jan 2023 04:56:51 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIU0H-0001Re-29;
-	Thu, 19 Jan 2023 12:26:49 +0000
-Date: Thu, 19 Jan 2023 20:26:02 +0800
+	id 1pIUTK-0001TA-1Q;
+	Thu, 19 Jan 2023 12:56:50 +0000
+Date: Thu, 19 Jan 2023 20:56:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/2] jbd2: cycled record log on clean journal logging
- area
-Message-ID: <202301192010.lD5VIFC1-lkp@intel.com>
-References: <20230119034600.3431194-2-yi.zhang@huaweicloud.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 5059/29197] versioncheck:
+ ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
+ linux/version.h
+Message-ID: <202301192009.8AEl5FOm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,128 +46,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119034600.3431194-2-yi.zhang@huaweicloud.com>
 
-Hi Zhang,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master v6.2-rc4 next-20230119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/jbd2-cycled-record-log-on-clean-journal-logging-area/20230119-131055
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230119034600.3431194-2-yi.zhang%40huaweicloud.com
-patch subject: [RFC PATCH 1/2] jbd2: cycled record log on clean journal logging area
-config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230119/202301192010.lD5VIFC1-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d06b20c3b83cb41caf3ae4c0fdc0fbae9697dc20
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zhang-Yi/jbd2-cycled-record-log-on-clean-journal-logging-area/20230119-131055
-        git checkout d06b20c3b83cb41caf3ae4c0fdc0fbae9697dc20
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/jbd2/
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   805dd2465b9f044a53299645fb6d90d59a584d75
+commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 [5059/29197] media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> fs/jbd2/recovery.c:330:38: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-                     journal->j_transaction_sequence, journal->j_head);
-                                                      ^~~~~~~~~~~~~~~
-   include/linux/jbd2.h:63:52: note: expanded from macro 'jbd2_debug'
-   #define jbd2_debug(n, fmt, a...)  no_printk(fmt, ##a)
-                                               ~~~    ^
-   include/linux/printk.h:131:17: note: expanded from macro 'no_printk'
-                   printk(fmt, ##__VA_ARGS__);             \
-                          ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +330 fs/jbd2/recovery.c
-
-   277	
-   278	/**
-   279	 * jbd2_journal_recover - recovers a on-disk journal
-   280	 * @journal: the journal to recover
-   281	 *
-   282	 * The primary function for recovering the log contents when mounting a
-   283	 * journaled device.
-   284	 *
-   285	 * Recovery is done in three passes.  In the first pass, we look for the
-   286	 * end of the log.  In the second, we assemble the list of revoke
-   287	 * blocks.  In the third and final pass, we replay any un-revoked blocks
-   288	 * in the log.
-   289	 */
-   290	int jbd2_journal_recover(journal_t *journal)
-   291	{
-   292		int			err, err2;
-   293		journal_superblock_t *	sb;
-   294	
-   295		struct recovery_info	info;
-   296	
-   297		memset(&info, 0, sizeof(info));
-   298		sb = journal->j_superblock;
-   299	
-   300		/*
-   301		 * The journal superblock's s_start field (the current log head)
-   302		 * is always zero if, and only if, the journal was cleanly
-   303		 * unmounted.
-   304		 */
-   305		if (!sb->s_start) {
-   306			jbd2_debug(1, "No recovery required, last transaction %d, head block %u\n",
-   307				  be32_to_cpu(sb->s_sequence), be32_to_cpu(sb->s_head));
-   308			journal->j_transaction_sequence = be32_to_cpu(sb->s_sequence) + 1;
-   309			journal->j_head = be32_to_cpu(sb->s_head);
-   310			return 0;
-   311		}
-   312	
-   313		err = do_one_pass(journal, &info, PASS_SCAN);
-   314		if (!err)
-   315			err = do_one_pass(journal, &info, PASS_REVOKE);
-   316		if (!err)
-   317			err = do_one_pass(journal, &info, PASS_REPLAY);
-   318	
-   319		jbd2_debug(1, "JBD2: recovery, exit status %d, "
-   320			  "recovered transactions %u to %u\n",
-   321			  err, info.start_transaction, info.end_transaction);
-   322		jbd2_debug(1, "JBD2: Replayed %d and revoked %d/%d blocks\n",
-   323			  info.nr_replays, info.nr_revoke_hits, info.nr_revokes);
-   324	
-   325		/* Restart the log at the next transaction ID, thus invalidating
-   326		 * any existing commit records in the log. */
-   327		journal->j_transaction_sequence = ++info.end_transaction;
-   328		journal->j_head = info.head_block;
-   329		jbd2_debug(1, "JBD2: last transaction %d, head block %u\n",
- > 330			  journal->j_transaction_sequence, journal->j_head);
-   331	
-   332		jbd2_journal_clear_revoke(journal);
-   333		err2 = sync_blockdev(journal->j_fs_dev);
-   334		if (!err)
-   335			err = err2;
-   336		/* Make sure all replayed data is on permanent storage */
-   337		if (journal->j_flags & JBD2_BARRIER) {
-   338			err2 = blkdev_issue_flush(journal->j_fs_dev);
-   339			if (!err)
-   340				err = err2;
-   341		}
-   342		return err;
-   343	}
-   344	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   scripts/kconfig/conf  --syncconfig Kconfig
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
