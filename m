@@ -1,168 +1,157 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E5D17CD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 13:12:39 +0000 (UTC)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30JChpCR026835;
-	Thu, 19 Jan 2023 13:12:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=9dD55pyEq2TTC5q4MO1ouTiL5zXt3s3mP+h3Kq+wOWI=;
- b=Jqyh8THMyKGe/8bGROnz6BCK5g86IT0XWyaa58BS59N65nQLy7HEXNgLALTclNVN+fWa
- Ms9dljMaf9BF25aPBSdL8hc8hndzlQptF2KbIYdG/pmY0ywpghnb+yRi5W+x4AePXQRh
- bQ/Qk6/LTBAaBRyr1WhFSj5gSQtV/rX80ZxXntt/UfkFHy+hm8lgMWBcDgtkQ4DSi0MF
- JFOI8kN/79iehKqsQt8h/I5fbs5KSn76Mt16yHKOQZ79S0ndujU/3Cf6/aUAIlh282f/
- sNkIRyA/20wemAVjGLWMDlXO3JWJK44bVj7NxEfkMnSxnENW9LsWr6d5jRbTQULHaP69 rg== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n764crqxb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Jan 2023 13:12:31 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-	by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30J2h9vw008686;
-	Thu, 19 Jan 2023 13:12:29 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3n3m16mw8u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Jan 2023 13:12:29 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30JDCRb440632690
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Jan 2023 13:12:27 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 480CA20043;
-	Thu, 19 Jan 2023 13:12:27 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA43220040;
-	Thu, 19 Jan 2023 13:12:25 +0000 (GMT)
-Received: from [9.109.198.153] (unknown [9.109.198.153])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 19 Jan 2023 13:12:25 +0000 (GMT)
-Message-ID: <b2273730-f885-7658-7ec4-12fb5bfc515b@linux.ibm.com>
-Date: Thu, 19 Jan 2023 18:42:22 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: arch/powerpc/kernel/head_85xx.o: warning: objtool:
- .head.text+0x1a6c: unannotated intra-function call
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Sathvika Vasireddy <sv@linux.ibm.com>
-References: <202301161955.38kK6ksW-lkp@intel.com>
-From: Sathvika Vasireddy <sv@linux.ibm.com>
-In-Reply-To: <202301161955.38kK6ksW-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1WuGtc__JWkc_69ppAANqBx4C9g-hUCC
-X-Proofpoint-GUID: 1WuGtc__JWkc_69ppAANqBx4C9g-hUCC
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDA07470
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 13:38:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674135480; x=1705671480;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ySyofNpnVTMIgOJ+8pzk8zN0os2g96fcCtemuk2n0GA=;
+  b=aD3c1zW7tLDQI7vllXG2IN27CL2K7XkiddafcQ2vF2LgZKWULRexvBQp
+   VWp4e/4ubFnGsZ6p66vi9rP5dUQELNqVwehHSiqnxGgVWZtw7DnR1zJKW
+   229SEKGpq5q1mfl2ABA0vDZ4aUoI9EPSxEvvqMYygD2KHBjP9bUaFvB6W
+   17heXJbgnmsiHQ+o7BoayUf6WMDRpksi6tJ+Ynuha/Gkkt66qDCgm1O+Y
+   MLkZamAL2OSLVZNl1RCuBlOcL5lJjH2uPr9lNMgUpyt/t6hNt/0gYwX7M
+   b9t2IeFbtO2K/pOll9uXGFOxe0D3ksy87Y2EoqFnkkKrUoogCsyyyg7d1
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327361939"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="327361939"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 05:37:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690628317"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="690628317"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 19 Jan 2023 05:37:58 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pIV72-0001Ue-20;
+	Thu, 19 Jan 2023 13:37:52 +0000
+Date: Thu, 19 Jan 2023 21:37:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hardik T Shah <hardik.t.shah@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 5191/29197] versioncheck:
+ ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+Message-ID: <202301192155.O3VacPYm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-19_09,2023-01-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 bulkscore=0 phishscore=0 clxscore=1011
- impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301190103
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   805dd2465b9f044a53299645fb6d90d59a584d75
+commit: d7a49dd5fcce1d2295e1c63f2fbe3802663e4292 [5191/29197] ASoC:Codecs: Add support for SV FPGA SoundWire PDM Codec.
+reproduce:
+        make versioncheck
 
-On 16/01/23 17:25, kernel test robot wrote:
-> Hi Sathvika,
->
-> First bad commit (maybe != root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   5dc4c995db9eb45f6373a956eb1f69460e69e6d4
-> commit: c984aef8c8326035570ff6e01d0ff9e79a5dfa76 objtool/powerpc: Add --mcount specific implementation
-> date:   8 weeks ago
-> config: powerpc-randconfig-c042-20230116
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c984aef8c8326035570ff6e01d0ff9e79a5dfa76
->          git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->          git fetch --no-tags linus master
->          git checkout c984aef8c8326035570ff6e01d0ff9e79a5dfa76
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->>> arch/powerpc/kernel/head_85xx.o: warning: objtool: .head.text+0x1a6c: unannotated intra-function call
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-After annotating symbols with SYM_FUNC_START_LOCAL and SYM_FUNC_END 
-macros, I don't see this warning anymore.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+>> ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+>> ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
-Below diff works for me:
-
-diff --git a/arch/powerpc/kernel/head_85xx.S 
-b/arch/powerpc/kernel/head_85xx.S
-index d438ca74e96c..fdbee1093e2b 100644
---- a/arch/powerpc/kernel/head_85xx.S
-+++ b/arch/powerpc/kernel/head_85xx.S
-@@ -864,7 +864,7 @@ _GLOBAL(load_up_spe)
-   * SPE unavailable trap from kernel - print a message, but let
-   * the task use SPE in the kernel until it returns to user mode.
-   */
--KernelSPE:
-+SYM_FUNC_START_LOCAL(KernelSPE)
-         lwz     r3,_MSR(r1)
-         oris    r3,r3,MSR_SPE@h
-         stw     r3,_MSR(r1)     /* enable use of SPE after return */
-@@ -881,6 +881,7 @@ KernelSPE:
-  #endif
-         .align  4,0
-
-+SYM_FUNC_END(KernelSPE)
-  #endif /* CONFIG_SPE */
-
-  /*
-
->>> arch/powerpc/kvm/booke.o: warning: objtool: kvmppc_fill_pt_regs+0x30: unannotated intra-function call
-
-As an attempt to fix it, I tried expanding ANNOTATE_INTRA_FUNCTION_CALL 
-macro to indicate that the branch target is valid. It then threw another 
-warning (arch/powerpc/kvm/booke.o: warning: objtool: 
-kvmppc_fill_pt_regs+0x38: intra_function_call not a direct call). The 
-below diff just removes the warnings for me, but I'm not very sure if 
-this is the best way to fix the objtool warnings seen with this 
-particular file. Please let me know if there are any better ways to fix it.
-
-diff --git a/arch/powerpc/kvm/booke.c b/arch/powerpc/kvm/booke.c
-index 0dce93ccaadf..b6a413824b98 100644
---- a/arch/powerpc/kvm/booke.c
-+++ b/arch/powerpc/kvm/booke.c
-@@ -917,7 +917,9 @@ static void kvmppc_fill_pt_regs(struct pt_regs *regs)
-         asm("mr %0, 1" : "=r"(r1));
-         asm("mflr %0" : "=r"(lr));
-         asm("mfmsr %0" : "=r"(msr));
-+       asm(".pushsection .discard.intra_function_calls; .long 999f; 
-.popsection; 999:");
-         asm("bl 1f; 1: mflr %0" : "=r"(ip));
-+       asm("nop");
-
-         memset(regs, 0, sizeof(*regs));
-         regs->gpr[1] = r1;
-
-
-
-Thanks,
-Sathvika
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
