@@ -1,49 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9193D8F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 11:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FDF6FC1;
+	Thu, 19 Jan 2023 11:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674126831; x=1705662831;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O9Ppel+iepCFWa6otaPpGVfa9DVKCGM/plTA65MWvdg=;
-  b=fr+UZ78W0BxpRGn55hsZauF9EisInUU9bGVB+z/LVmV/yWy0SNXT+UqB
-   F42ce4VWf+2uHWG494QoISJuTE8P3fgfXH72fqbSLUIJXfjl3bLFjK5Xl
-   YoDLe3MsS+4jwd1muENb8KMydJu7lQLsRaG9L9OmQ+XSejT0hyDP9HLJa
-   BFoI8f5Io/eOCcjh5l0lCtzbbe/cnRzRtBr5S3vGM/ZBDZdTq69XSWnI/
-   OrjLZOH+AnK1eK16reS5OCy0fGEe7OnHZHE1wvQGRMF+9wNQFl0nWD1vL
-   8edcTfAmhg3baZ9/NTCnh1X6/xa5gGXalVGFGITVhgE1UV9cf11d2vPT8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326518919"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="326518919"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:13:50 -0800
+  t=1674128691; x=1705664691;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YRtnYtFiGZV8ZXcVP+uYaDkRamd9MkCVFDOyqvw865s=;
+  b=abNSxKHEfZY+aeRT/q7znm32dhCjxJBXqDkTetMygUxPcUu0N3b8NLot
+   VW5hGaUk2mFdtbH/xVoNXTAKAPxAvwXxvNFcfaX2T5QEDLfVez5p/zP69
+   N7MolmwYVrmwkF+jw8rXwGUbXiq0H/NDx12HvKMr1YaOx7w+fu0iSh/V5
+   fiHMIPWFFsr2+WHyjdHvT75htFw2f17rL/qAnPk2j6JmFs3b0toQOnCnA
+   8C+RmygqSqIaR051OmIV4b8HmKDaoQ4OJZuTxzrAw7Y+pMxWu7Eu9ZUr4
+   MVRzFfC+0VnVrl1wLrKz6jb/md6P4dMJz33EHFJXWbQSpj6agAPUF7/d2
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327338751"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="327338751"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:44:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768183528"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="768183528"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637665016"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="637665016"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2023 03:13:47 -0800
+  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2023 03:44:49 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pISrb-0001P2-00;
-	Thu, 19 Jan 2023 11:13:47 +0000
-Date: Thu, 19 Jan 2023 19:13:35 +0800
+	id 1pITLc-0001Q0-2E;
+	Thu, 19 Jan 2023 11:44:48 +0000
+Date: Thu, 19 Jan 2023 19:44:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keguang Zhang <keguang.zhang@gmail.com>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Keguang Zhang <keguang.zhang@gmail.com>
-Subject: Re: [PATCH 2/2] clk: loongson1: Refactor to add devicetree support
-Message-ID: <202301191914.Rs7JrOPY-lkp@intel.com>
-References: <20230113110738.1505973-3-keguang.zhang@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rt-devel:linux-6.2.y-rt-rebase 14/46]
+ kernel/printk/printk.c:2903:13: warning: unused function
+ 'console_is_usable_unlocked'
+Message-ID: <202301191912.XiWvsFvP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,66 +46,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230113110738.1505973-3-keguang.zhang@gmail.com>
 
-Hi Keguang,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on 1b929c02afd37871d5afb9d498426f83432e71c2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang/dt-bindings-clock-Add-binding-for-Loongson-1-clock-driver/20230113-192017
-base:   1b929c02afd37871d5afb9d498426f83432e71c2
-patch link:    https://lore.kernel.org/r/20230113110738.1505973-3-keguang.zhang%40gmail.com
-patch subject: [PATCH 2/2] clk: loongson1: Refactor to add devicetree support
-config: mips-loongson1b_defconfig (https://download.01.org/0day-ci/archive/20230119/202301191914.Rs7JrOPY-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.2.y-rt-rebase
+head:   bee0efc1fe1add1df7d677cee5a9c4c325196403
+commit: 5342b8e20b15e5fb37e49de2435e62dd00ff20fe [14/46] printk: Bring back the RT bits.
+config: hexagon-randconfig-r041-20230118 (https://download.01.org/0day-ci/archive/20230119/202301191912.XiWvsFvP-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b753dca857d9c85e25ba410fe013b78c7c73ca40
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Keguang-Zhang/dt-bindings-clock-Add-binding-for-Loongson-1-clock-driver/20230113-192017
-        git checkout b753dca857d9c85e25ba410fe013b78c7c73ca40
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=5342b8e20b15e5fb37e49de2435e62dd00ff20fe
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-6.2.y-rt-rebase
+        git checkout 5342b8e20b15e5fb37e49de2435e62dd00ff20fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/printk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/clk/clk-loongson1.c:115:23: warning: no previous prototype for 'ls1x_clk_hw_register_pll' [-Wmissing-prototypes]
-     115 | struct clk_hw *__init ls1x_clk_hw_register_pll(struct device *dev,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-loongson1.c: In function 'ls1x_divider_set_rate':
->> drivers/clk/clk-loongson1.c:186:13: warning: the comparison will always evaluate as 'true' for the address of 'lock' will never be NULL [-Waddress]
-     186 |         if (&divider->lock)
-         |             ^
-   drivers/clk/clk-loongson1.c:28:20: note: 'lock' declared here
-      28 |         spinlock_t lock;        /* protect access to DIV registers */
-         |                    ^~~~
-   drivers/clk/clk-loongson1.c:212:13: warning: the comparison will always evaluate as 'true' for the address of 'lock' will never be NULL [-Waddress]
-     212 |         if (&divider->lock)
-         |             ^
-   drivers/clk/clk-loongson1.c:28:20: note: 'lock' declared here
-      28 |         spinlock_t lock;        /* protect access to DIV registers */
-         |                    ^~~~
-   drivers/clk/clk-loongson1.c: At top level:
->> drivers/clk/clk-loongson1.c:226:23: warning: no previous prototype for 'ls1x_clk_hw_register_divider' [-Wmissing-prototypes]
-     226 | struct clk_hw *__init ls1x_clk_hw_register_divider(struct device *dev,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-loongson1.c:310:34: warning: 'ls1x_divider_match' defined but not used [-Wunused-const-variable=]
-     310 | static const struct of_device_id ls1x_divider_match[] __initconst = {
-         |                                  ^~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-loongson1.c:275:34: warning: 'ls1x_pll_match' defined but not used [-Wunused-const-variable=]
-     275 | static const struct of_device_id ls1x_pll_match[] __initconst = {
-         |                                  ^~~~~~~~~~~~~~
---
-   mipsel-linux-ld: arch/mips/loongson32/common/time.o: in function `plat_time_init':
->> time.c:(.init.text+0x8): undefined reference to `ls1x_clk_init'
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> kernel/printk/printk.c:2903:13: warning: unused function 'console_is_usable_unlocked' [-Wunused-function]
+   static bool console_is_usable_unlocked(struct console *con)
+               ^
+   7 warnings generated.
+
+
+vim +/console_is_usable_unlocked +2903 kernel/printk/printk.c
+
+  2902	
+> 2903	static bool console_is_usable_unlocked(struct console *con)
+  2904	{
+  2905		int cookie;
+  2906		bool ret;
+  2907	
+  2908		cookie = console_srcu_read_lock();
+  2909		ret = console_is_usable(con);
+  2910		console_srcu_read_unlock(cookie);
+  2911	
+  2912		return ret;
+  2913	}
+  2914	
 
 -- 
 0-DAY CI Kernel Test Service
