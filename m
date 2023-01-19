@@ -1,152 +1,117 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB4E6FC2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 11:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674128693; x=1705664693;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zhEoe3d687jKUBos4N880OTX1b6m+V4URPqmMftFSq0=;
-  b=UZA8EJd53v3fAhdfQ+/X4wVDWncmI7DwOE8Ym4xjnXp2J7aXQcbLFfvl
-   kD+qvjENQmRL/jPwWsF3PcI2yCkM72hvygT72OkLPzZKeS6916R+VQxa5
-   c4geI4O++4OeVKSI0tcLOr2Sjm63wJRFQKlet2gcw44c42hvhcxDBTjy7
-   LRXv469vGVZTJgCFXnZ03vZz5COuPFJG0Y8uhx7IvJXStC54Z1xBwpTeY
-   lezPAQD/E2A0hZqpKaUMF6HngHuDvH+oQeZgJF9o1VzXaOK5fPmEFWBt2
-   yAZwRxUDojTK1IaK4s/9ZbZgh/E1jzfOuHj+1v+uoQk8V8NY5OXkT+Mg6
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327338753"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="327338753"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:44:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637665019"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="637665019"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2023 03:44:49 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pITLc-0001Py-29;
-	Thu, 19 Jan 2023 11:44:48 +0000
-Date: Thu, 19 Jan 2023 19:44:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 5054/29197] versioncheck:
- ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-Message-ID: <202301191915.x00kdjwU-lkp@intel.com>
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C946FC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 11:45:25 +0000 (UTC)
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 30JBcVkxD029854, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 30JBcVkxD029854
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+	Thu, 19 Jan 2023 19:38:31 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.9; Thu, 19 Jan 2023 19:38:32 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 19 Jan 2023 19:38:32 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b]) by
+ RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b%5]) with mapi id
+ 15.01.2375.007; Thu, 19 Jan 2023 19:38:32 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: "Jes.Sorensen@gmail.com" <Jes.Sorensen@gmail.com>,
+        "lkp@intel.com"
+	<lkp@intel.com>
+CC: "kvalo@kernel.org" <kvalo@kernel.org>,
+        "linux-mm@kvack.org"
+	<linux-mm@kvack.org>,
+        "andrea.merello@gmail.com" <andrea.merello@gmail.com>,
+        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>,
+        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "ap420073@gmail.com" <ap420073@gmail.com>
+Subject: Re: [linux-next:master 788/6276] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse: sparse: invalid assignment: |=
+Thread-Topic: [linux-next:master 788/6276]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:
+ sparse: invalid assignment: |=
+Thread-Index: AQHZK97xvqqcshDY10uEBjLej9lh4K6lFzOA
+Date: Thu, 19 Jan 2023 11:38:32 +0000
+Message-ID: <a259e397f41fe6f5901cb0527ef2275b8768b394.camel@realtek.com>
+References: <202301191616.R33Dvxk4-lkp@intel.com>
+In-Reply-To: <202301191616.R33Dvxk4-lkp@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.16.17.60]
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzEvMTkg5LiK5Y2IIDA5OjExOjAw?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <729B9EF35E160D429A85F73493FBB8CC@realtek.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   805dd2465b9f044a53299645fb6d90d59a584d75
-commit: 123826108e51794c3922a0f8eba95e0375ffa36b [5054/29197] media: pci: add IPU driver for BXT platform
-reproduce:
-        make versioncheck
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
->> ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
->> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
->> ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
->> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
->> ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+T24gVGh1LCAyMDIzLTAxLTE5IGF0IDE2OjIwICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToNCj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVs
+L2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0IG1hc3Rlcg0KPiBoZWFkOiAgIGFhNWM0OTE0OWE4MjM1
+OTk3NjRlNjk1MzIyOWIwMjhlNGJmNmU5Y2MNCj4gY29tbWl0OiAzZGZiOGU4NDRmYTMwY2NlYjRi
+ODEwNjEzZTJjMzVmNjI4ZWIzZTcwIFs3ODgvNjI3Nl0gd2lmaTogcnRsOHh4eHU6IFN1cHBvcnQg
+bmV3IGNoaXANCj4gUlRMODE4OEVVDQo+IGNvbmZpZzogb3BlbnJpc2MtcmFuZGNvbmZpZy1zMDQz
+LTIwMjMwMTE5ICgNCj4gaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIw
+MjMwMTE5LzIwMjMwMTE5MTYxNi5SMzNEdnhrNC1sa3BAaW50ZWwuY29tL2NvbmZpZykNCj4gY29t
+cGlsZXI6IG9yMWstbGludXgtZ2NjIChHQ0MpIDEyLjEuMA0KPiByZXByb2R1Y2U6DQo+ICAgICAg
+ICAgd2dldCBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaW50ZWwvbGtwLXRlc3Rz
+L21hc3Rlci9zYmluL21ha2UuY3Jvc3MgLU8NCj4gfi9iaW4vbWFrZS5jcm9zcw0KPiAgICAgICAg
+IGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MNCj4gICAgICAgICAjIGFwdC1nZXQgaW5zdGFsbCBz
+cGFyc2UNCj4gICAgICAgICAjIHNwYXJzZSB2ZXJzaW9uOiB2MC42LjQtMzktZ2NlMWE2NzIwLWRp
+cnR5DQo+ICAgICAgICAgIyANCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4
+L2tlcm5lbC9naXQvbmV4dC9saW51eC1uZXh0LmdpdC9jb21taXQvP2lkPTNkZmI4ZTg0NGZhMzBj
+Y2ViNGI4MTA2MTNlMmMzNWY2MjhlYjNlNzANCj4gICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51
+eC1uZXh0IA0KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
+dC9uZXh0L2xpbnV4LW5leHQuZ2l0DQo+ICAgICAgICAgZ2l0IGZldGNoIC0tbm8tdGFncyBsaW51
+eC1uZXh0IG1hc3Rlcg0KPiAgICAgICAgIGdpdCBjaGVja291dCAzZGZiOGU4NDRmYTMwY2NlYjRi
+ODEwNjEzZTJjMzVmNjI4ZWIzZTcwDQo+ICAgICAgICAgIyBzYXZlIHRoZSBjb25maWcgZmlsZQ0K
+PiAgICAgICAgIG1rZGlyIGJ1aWxkX2RpciAmJiBjcCBjb25maWcgYnVpbGRfZGlyLy5jb25maWcN
+Cj4gICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BBVEg9JEhPTUUvMGRheSBDT01QSUxFUj1nY2Mt
+MTIuMS4wIG1ha2UuY3Jvc3MgQz0xIENGPSctZmRpYWdub3N0aWMtDQo+IHByZWZpeCAtRF9fQ0hF
+Q0tfRU5ESUFOX18nIE89YnVpbGRfZGlyIEFSQ0g9b3BlbnJpc2Mgb2xkZGVmY29uZmlnDQo+ICAg
+ICAgICAgQ09NUElMRVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEu
+MCBtYWtlLmNyb3NzIEM9MSBDRj0nLWZkaWFnbm9zdGljLQ0KPiBwcmVmaXggLURfX0NIRUNLX0VO
+RElBTl9fJyBPPWJ1aWxkX2RpciBBUkNIPW9wZW5yaXNjIFNIRUxMPS9iaW4vYmFzaA0KPiBkcml2
+ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1Lw0KPiANCj4gSWYgeW91IGZpeCB0aGUg
+aXNzdWUsIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZyB3aGVyZSBhcHBsaWNhYmxlDQo+ID4gUmVw
+b3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiANCj4gc3BhcnNl
+IHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pDQo+ID4gPiBkcml2ZXJzL25ldC93
+aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1L3J0bDh4eHh1X2NvcmUuYzo1MTk4OjI0OiBzcGFyc2U6
+IHNwYXJzZTogaW52YWxpZA0KPiA+ID4gYXNzaWdubWVudDogfD0NCj4gPiA+IGRyaXZlcnMvbmV0
+L3dpcmVsZXNzL3JlYWx0ZWsvcnRsOHh4eHUvcnRsOHh4eHVfY29yZS5jOjUxOTg6MjQ6IHNwYXJz
+ZTogICAgbGVmdCBzaWRlIGhhcyB0eXBlDQo+ID4gPiByZXN0cmljdGVkIF9fbGUxNg0KPiA+ID4g
+ZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGw4eHh4dS9ydGw4eHh4dV9jb3JlLmM6NTE5
+ODoyNDogc3BhcnNlOiAgICByaWdodCBzaWRlIGhhcyB0eXBlDQo+ID4gPiByZXN0cmljdGVkIF9f
+bGUzMg0KPiANCj4gDQoNClsuLi5dDQoNCj4gICA1MTg0CQkvKg0KPiAgIDUxODUJCSAqIHJ0c19y
+YXRlIGlzIHplcm8gaWYgUlRTL0NUUyBvciBDVFMgdG8gU0VMRiBhcmUgbm90IGVuYWJsZWQNCj4g
+ICA1MTg2CQkgKi8NCj4gICA1MTg3CQl0eF9kZXNjLT50eGR3NCB8PSBjcHVfdG9fbGUzMihydHNf
+cmF0ZSA8PCBUWERFU0MzMl9SVFNfUkFURV9TSElGVCk7DQo+ICAgNTE4OAkJaWYgKGFtcGR1X2Vu
+YWJsZSB8fCAocmF0ZV9mbGFncyAmIElFRUU4MDIxMV9UWF9SQ19VU0VfUlRTX0NUUykpIHsNCj4g
+ICA1MTg5CQkJdHhfZGVzYy0+dHhkdzQgfD0gY3B1X3RvX2xlMzIoVFhERVNDMzJfUlRTX0NUU19F
+TkFCTEUpOw0KPiAgIDUxOTAJCQl0eF9kZXNjLT50eGR3NCB8PSBjcHVfdG9fbGUzMihUWERFU0Mz
+Ml9IV19SVFNfRU5BQkxFKTsNCj4gICA1MTkxCQl9IGVsc2UgaWYgKHJhdGVfZmxhZ3MgJiBJRUVF
+ODAyMTFfVFhfUkNfVVNFX0NUU19QUk9URUNUKSB7DQo+ICAgNTE5MgkJCXR4X2Rlc2MtPnR4ZHc0
+IHw9IGNwdV90b19sZTMyKFRYREVTQzMyX0NUU19TRUxGX0VOQUJMRSk7DQo+ICAgNTE5MwkJCXR4
+X2Rlc2MtPnR4ZHc0IHw9IGNwdV90b19sZTMyKFRYREVTQzMyX0hXX1JUU19FTkFCTEUpOw0KPiAg
+IDUxOTQJCX0NCj4gICA1MTk1CQ0KPiAgIDUxOTYJCXR4X2Rlc2MtPnR4ZHcyIHw9IGNwdV90b19s
+ZTMyKFRYREVTQ19BTlRFTk5BX1NFTEVDVF9BIHwNCj4gICA1MTk3CQkJCQkgICAgICBUWERFU0Nf
+QU5URU5OQV9TRUxFQ1RfQik7DQo+ID4gNTE5OAkJdHhfZGVzYy0+dHhkdzcgfD0gY3B1X3RvX2xl
+MzIoVFhERVNDX0FOVEVOTkFfU0VMRUNUX0MpOw0KDQpJIHNlbmQgYSBwYXRjaCB0byBmaXggdGhp
+cyBbMV0sIGJ1dCBJIGRvbid0IGhhdmUgYSBjYXJkIG9uIGhhbmQsIHNvIG9ubHkgY29tcGlsZSB0
+ZXN0Lg0KVGhlcmVmb3JlLCByZWFsIHRlc3QgaXMgd2VsY29tZS4NCg0KWzFdIGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL2xpbnV4LXdpcmVsZXNzLzIwMjMwMTE5MTEzMTQ2Ljk2NDAtMS1wa3NoaWhA
+cmVhbHRlay5jb20vVC8jdQ0KDQpQaW5nLUtlDQoNCg0K
