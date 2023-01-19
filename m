@@ -1,44 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46F615AD;
-	Thu, 19 Jan 2023 00:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA4015A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 01:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674089787; x=1705625787;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1xdb5ixrOsUzWmHPydI10ogyRQlabzU6bvkXRZlEU/Q=;
-  b=fgb7YbvCjdppl9kDefRUd7dQYwgYhQS4VuY++02JfzHrKypC6hPpTnAt
-   2h0y1YdKVzaV/I3Ar6JO/6A5TZ6moc3XpNcdg/bBcr8q+Hu2NiOluzTmX
-   XVkcaccvgoTiQYNWQUH46KJgmJ25Y8CD/EXmZKL7udE2WOBjUPWBXiiXf
-   F4PASRduhYJcZVGIKDfbNIClYOZTPx4PR33pYzLsvhaZaGDfe/uzPAJ4A
-   0/eeL3FRAHfA4xlSeYdAI2ne8t9WeoSGHNXZlKwnnK7YHWsCfClCWD1gO
-   Oz2V06rVHO7WtgBIDAz5dlow+tKQqJd48d5732ULYXp9FdWLfYecmpv8D
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323836549"
+  t=1674090389; x=1705626389;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BPmuKu3ALXclWFXWYEerlnT/WujFOtJ7HOkbe6NnTqc=;
+  b=E5CALpVwAy9pswO1cwdwysyu9g/HcWjgZc2B0qjp1SBlznOiB/ubu4JL
+   o0SRCLwRHGoSNc0yrTl1RXq56KaTT1dQXGTFOsrqM/eDAvGWkVEMBajA1
+   soT4Q1y2NTBTAXfJb1HsHtrp1GZFvvuJkVSEMHt7TO3LGsOlsoh22t/ON
+   4uyX9LfZ/xpyQ7t1Me7jBtXL2yUja3iy92BtegqWr1LprcPMqR18f7O0q
+   ujVdTq8raPUjO2mrWx7NdK4Sj8OUx1MFRmn2559RNbERmgSKxaMwEeiX7
+   HpzoXLeLMIh6EVT5ekQY+Vw7Asng2Z7dQlDJ7+lz1P66xfcCiHwPSuTQC
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308715841"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="323836549"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 16:56:24 -0800
+   d="scan'208";a="308715841"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 17:06:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="661942528"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767990286"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="661942528"
+   d="scan'208";a="767990286"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2023 16:56:23 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 17:06:24 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIJE6-0000tg-2K;
-	Thu, 19 Jan 2023 00:56:22 +0000
-Date: Thu, 19 Jan 2023 08:55:49 +0800
+	id 1pIJNn-0000vH-1h;
+	Thu, 19 Jan 2023 01:06:23 +0000
+Date: Thu, 19 Jan 2023 09:06:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Suchanek <msuchanek@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rob Herring <robh@kernel.org>
-Subject: [robh:dt/linus 5/5] drivers/of/platform.c:570:19: error:
- incompatible pointer types passing 'char *[14]' to parameter of type 'char
- *'
-Message-ID: <202301190812.uoPlw0Uq-lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+	oleg@redhat.com, ebiederm@xmission.com, akpm@linux-foundation.org,
+	adobriyan@gmail.com, corbet@lwn.net, shuah@kernel.org,
+	Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter
+ for sud configuration
+Message-ID: <202301190817.vjgEwo3J-lkp@intel.com>
+References: <20230118201055.147228-4-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,146 +52,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230118201055.147228-4-gregory.price@memverge.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/linus
-head:   2d681d6a23a14e6507e536605d83e38acfab9018
-commit: 2d681d6a23a14e6507e536605d83e38acfab9018 [5/5] of: Make of framebuffer devices unique
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230119/202301190812.uoPlw0Uq-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Gregory,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc4 next-20230118]
+[cannot apply to tip/core/entry]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
+patch link:    https://lore.kernel.org/r/20230118201055.147228-4-gregory.price%40memverge.com
+patch subject: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
+config: sparc-buildonly-randconfig-r005-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190817.vjgEwo3J-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=2d681d6a23a14e6507e536605d83e38acfab9018
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/linus
-        git checkout 2d681d6a23a14e6507e536605d83e38acfab9018
+        # https://github.com/intel-lab-lkp/linux/commit/bd6833b41ed48c444c09346f695efe229deec2e9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
+        git checkout bd6833b41ed48c444c09346f695efe229deec2e9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash arch/sparc/mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/of/platform.c:570:19: error: incompatible pointer types passing 'char *[14]' to parameter of type 'char *' [-Werror,-Wincompatible-pointer-types]
-                           ret = snprintf(buf, "of-display-%d", display_number++);
-                                          ^~~
-   include/linux/kernel.h:213:20: note: passing argument to parameter 'buf' here
-   int snprintf(char *buf, size_t size, const char *fmt, ...);
-                      ^
-   drivers/of/platform.c:570:24: warning: incompatible pointer to integer conversion passing 'char[14]' to parameter of type 'size_t' (aka 'unsigned int') [-Wint-conversion]
-                           ret = snprintf(buf, "of-display-%d", display_number++);
-                                               ^~~~~~~~~~~~~~~
-   include/linux/kernel.h:213:32: note: passing argument to parameter 'size' here
-   int snprintf(char *buf, size_t size, const char *fmt, ...);
-                                  ^
-   drivers/of/platform.c:570:41: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
-                           ret = snprintf(buf, "of-display-%d", display_number++);
-                                                                ^~~~~~~~~~~~~~~~
-   include/linux/kernel.h:213:50: note: passing argument to parameter 'fmt' here
-   int snprintf(char *buf, size_t size, const char *fmt, ...);
-                                                    ^
->> drivers/of/platform.c:573:36: error: incompatible pointer types passing 'char *[14]' to parameter of type 'const char *' [-Werror,-Wincompatible-pointer-types]
-                           of_platform_device_create(node, buf, NULL);
-                                                           ^~~
-   drivers/of/platform.c:216:15: note: passing argument to parameter here
-   EXPORT_SYMBOL(of_platform_device_create);
-                 ^
-   2 warnings and 2 errors generated.
+   In file included from include/linux/sched.h:31,
+                    from include/linux/mm.h:28,
+                    from arch/sparc/mm/tlb.c:9:
+>> include/linux/syscall_user_dispatch.h:45:5: error: no previous prototype for 'syscall_user_dispatch_get_config' [-Werror=missing-prototypes]
+      45 | int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/syscall_user_dispatch.h:51:5: error: no previous prototype for 'syscall_user_dispatch_set_config' [-Werror=missing-prototypes]
+      51 | int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from include/linux/sched.h:31,
+                    from arch/sparc/mm/init_64.c:11:
+>> include/linux/syscall_user_dispatch.h:45:5: error: no previous prototype for 'syscall_user_dispatch_get_config' [-Werror=missing-prototypes]
+      45 | int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/syscall_user_dispatch.h:51:5: error: no previous prototype for 'syscall_user_dispatch_set_config' [-Werror=missing-prototypes]
+      51 | int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/mm/init_64.c: In function 'arch_hugetlb_valid_size':
+   arch/sparc/mm/init_64.c:355:24: error: variable 'hv_pgsz_idx' set but not used [-Werror=unused-but-set-variable]
+     355 |         unsigned short hv_pgsz_idx;
+         |                        ^~~~~~~~~~~
+   arch/sparc/mm/init_64.c: At top level:
+   arch/sparc/mm/init_64.c:2630:6: error: no previous prototype for 'vmemmap_free' [-Werror=missing-prototypes]
+    2630 | void vmemmap_free(unsigned long start, unsigned long end,
+         |      ^~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +570 drivers/of/platform.c
+vim +/syscall_user_dispatch_get_config +45 include/linux/syscall_user_dispatch.h
 
-   515	
-   516	static int __init of_platform_default_populate_init(void)
-   517	{
-   518		struct device_node *node;
-   519	
-   520		device_links_supplier_sync_state_pause();
-   521	
-   522		if (!of_have_populated_dt())
-   523			return -ENODEV;
-   524	
-   525		if (IS_ENABLED(CONFIG_PPC)) {
-   526			struct device_node *boot_display = NULL;
-   527			struct platform_device *dev;
-   528			int display_number = 1;
-   529			int ret;
-   530	
-   531			/* Check if we have a MacOS display without a node spec */
-   532			if (of_get_property(of_chosen, "linux,bootx-noscreen", NULL)) {
-   533				/*
-   534				 * The old code tried to work out which node was the MacOS
-   535				 * display based on the address. I'm dropping that since the
-   536				 * lack of a node spec only happens with old BootX versions
-   537				 * (users can update) and with this code, they'll still get
-   538				 * a display (just not the palette hacks).
-   539				 */
-   540				dev = platform_device_alloc("bootx-noscreen", 0);
-   541				if (WARN_ON(!dev))
-   542					return -ENOMEM;
-   543				ret = platform_device_add(dev);
-   544				if (WARN_ON(ret)) {
-   545					platform_device_put(dev);
-   546					return ret;
-   547				}
-   548			}
-   549	
-   550			/*
-   551			 * For OF framebuffers, first create the device for the boot display,
-   552			 * then for the other framebuffers. Only fail for the boot display;
-   553			 * ignore errors for the rest.
-   554			 */
-   555			for_each_node_by_type(node, "display") {
-   556				if (!of_get_property(node, "linux,opened", NULL) ||
-   557				    !of_get_property(node, "linux,boot-display", NULL))
-   558					continue;
-   559				dev = of_platform_device_create(node, "of-display", NULL);
-   560				if (WARN_ON(!dev))
-   561					return -ENOMEM;
-   562				boot_display = node;
-   563				break;
-   564			}
-   565	
-   566			for_each_node_by_type(node, "display") {
-   567				char *buf[14];
-   568				if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
-   569					continue;
- > 570				ret = snprintf(buf, "of-display-%d", display_number++);
-   571				if (ret >= sizeof(buf))
-   572					continue;
- > 573				of_platform_device_create(node, buf, NULL);
-   574			}
-   575	
-   576		} else {
-   577			/*
-   578			 * Handle certain compatibles explicitly, since we don't want to create
-   579			 * platform_devices for every node in /reserved-memory with a
-   580			 * "compatible",
-   581			 */
-   582			for_each_matching_node(node, reserved_mem_matches)
-   583				of_platform_device_create(node, NULL, NULL);
-   584	
-   585			node = of_find_node_by_path("/firmware");
-   586			if (node) {
-   587				of_platform_populate(node, NULL, NULL, NULL);
-   588				of_node_put(node);
-   589			}
-   590	
-   591			node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-   592			of_platform_device_create(node, NULL, NULL);
-   593			of_node_put(node);
-   594	
-   595			/* Populate everything else. */
-   596			of_platform_default_populate(NULL, NULL, NULL);
-   597		}
-   598	
-   599		return 0;
-   600	}
-   601	arch_initcall_sync(of_platform_default_populate_init);
-   602	
+    44	
+  > 45	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+    46		void __user *data)
+    47	{
+    48		return -EINVAL;
+    49	}
+    50	
+  > 51	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+    52		void __user *data)
+    53	{
+    54		return -EINVAL;
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
