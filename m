@@ -1,49 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A4215D4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 02:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A20817CD;
+	Thu, 19 Jan 2023 03:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674095977; x=1705631977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G/dmJqT2Xj1iMyfuzcvUrdcL1Qhb/ASAsS90qZQMtJ8=;
-  b=fOCGk3bI+zXZT515dPdiW9FuYQQlrRLMrT3ZuBqjxLJozvdihR5Bv5gn
-   XyEuWDXdXyBMxBnaUC4thUGkZrKw/9/xMwmFdqllHF/EOOxdAkHMNlcNW
-   CiUW/HvdjOe1xPraZyRAmCwZKmcJvZqXAB/fCLBYMdhm5pNw1Z2QP0nSW
-   lXEzgPPC3ZYmCMrB1WyTatpI8n2A9+erZ8KszJgvNGbbtDuIJ5Mc2emXX
-   TY10UWwIyP2SUG+LXaUnSdW5I4VyWPiSloyR99WpbUcZPmAo8cg5uWgCl
-   Sh1l0yyva2hToMKrY7314p4K2f2+fW5jTXznPINkVR8O52iSfD2g4FKpu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323857738"
+  t=1674100473; x=1705636473;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fKnSuL5JDmKqjH3nFy804uYKh7V2Mwa9PISlu/ncOLQ=;
+  b=K0jIwRYWFNVv0NM8WgHHykQmzpF9aGRPSCnDthhzXSjdCNjO5/d3F0+V
+   DCr3kbZPjFpbzMpDVjxkUa625IMaLPck9SN0De2gqffN9NE2DQp53nlls
+   pFt1bzEJYZNib02MR82L5gZkpLSsgQnRJKfo7mv88Bhu3Vy+U0UvJlfWh
+   owrvX7gPk6MBW6JgxEWfFFXUi4D5sNEYXkdl/Un+0gLGUGiqyjYhpls1s
+   nqpYP8O7YAhEECJQXfzXkeKSiqp+JyZH6GZm43yAAgNbWjnTKNnvdyD3/
+   A6ZBNhRWRdifJuWAekmYL6Kene0lncCelIc0tHmwubn2BSSASffb2AJem
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323869391"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="323857738"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 18:39:37 -0800
+   d="scan'208";a="323869391"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 19:54:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692253881"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660043118"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="692253881"
+   d="scan'208";a="660043118"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2023 18:39:32 -0800
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 19:54:31 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIKpq-0000yo-0g;
-	Thu, 19 Jan 2023 02:39:26 +0000
-Date: Thu, 19 Jan 2023 10:39:08 +0800
+	id 1pIM0U-00013O-18;
+	Thu, 19 Jan 2023 03:54:30 +0000
+Date: Thu, 19 Jan 2023 11:53:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
-	oleg@redhat.com, peterz@infradead.org, ebiederm@xmission.com,
-	akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
-	shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter
- for sud configuration
-Message-ID: <202301191010.U5yAKr05-lkp@intel.com>
-References: <20230118201055.147228-4-gregory.price@memverge.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_1 14/27]
+ kernel/bpf/trampoline.c:1330:6: warning: variable 'tr_new' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202301191114.biPXnVOe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,92 +46,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118201055.147228-4-gregory.price@memverge.com>
 
-Hi Gregory,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.2-rc4 next-20230118]
-[cannot apply to tip/core/entry]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
-patch link:    https://lore.kernel.org/r/20230118201055.147228-4-gregory.price%40memverge.com
-patch subject: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230119/202301191010.U5yAKr05-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/bd6833b41ed48c444c09346f695efe229deec2e9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
-        git checkout bd6833b41ed48c444c09346f695efe229deec2e9
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_1
+head:   747784185d106a06b429736196d8817cb2d12a6f
+commit: d1a374a693976022b52761f1d659367447982194 [14/27] bpf: Make single trampolines aware of multi trampolines
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230119/202301191114.biPXnVOe-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=d1a374a693976022b52761f1d659367447982194
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf bpf/tracing_multi_1
+        git checkout d1a374a693976022b52761f1d659367447982194
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/entry/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/entry/syscall_user_dispatch.c:128:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected signed char [usertype] *[assigned] selector @@     got char [noderef] __user *selector @@
-   kernel/entry/syscall_user_dispatch.c:128:33: sparse:     expected signed char [usertype] *[assigned] selector
-   kernel/entry/syscall_user_dispatch.c:128:33: sparse:     got char [noderef] __user *selector
->> kernel/entry/syscall_user_dispatch.c:156:31: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected char [noderef] __user *selector @@     got signed char [usertype] *[addressable] selector @@
-   kernel/entry/syscall_user_dispatch.c:156:31: sparse:     expected char [noderef] __user *selector
-   kernel/entry/syscall_user_dispatch.c:156:31: sparse:     got signed char [usertype] *[addressable] selector
+All warnings (new ones prefixed by >>):
 
-vim +128 kernel/entry/syscall_user_dispatch.c
+>> kernel/bpf/trampoline.c:1330:6: warning: variable 'tr_new' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!bmap_new || !bmap_tmp) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:1362:9: note: uninitialized use occurs here
+           return tr_new;
+                  ^~~~~~
+   kernel/bpf/trampoline.c:1330:2: note: remove the 'if' if its condition is always false
+           if (!bmap_new || !bmap_tmp) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:1330:6: warning: variable 'tr_new' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+           if (!bmap_new || !bmap_tmp) {
+               ^~~~~~~~~
+   kernel/bpf/trampoline.c:1362:9: note: uninitialized use occurs here
+           return tr_new;
+                  ^~~~~~
+   kernel/bpf/trampoline.c:1330:6: note: remove the '||' if its condition is always false
+           if (!bmap_new || !bmap_tmp) {
+               ^~~~~~~~~~~~
+   kernel/bpf/trampoline.c:1315:36: note: initialize the variable 'tr_new' to silence this warning
+           struct bpf_trampoline *tr, *tr_new;
+                                             ^
+                                              = NULL
+   2 warnings generated.
 
-   114	
-   115	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-   116			void __user *data)
-   117	{
-   118		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
-   119		struct syscall_user_dispatch_config config;
-   120	
-   121		if (size != sizeof(struct syscall_user_dispatch_config))
-   122			return -EINVAL;
-   123	
-   124		if (sd->selector) {
-   125			config.mode = PR_SYS_DISPATCH_ON;
-   126			config.offset = sd->offset;
-   127			config.len = sd->len;
- > 128			config.selector = sd->selector;
-   129			config.on_dispatch = sd->on_dispatch;
-   130		} else {
-   131			config.mode = PR_SYS_DISPATCH_OFF;
-   132			config.offset = 0;
-   133			config.len = 0;
-   134			config.selector = NULL;
-   135			config.on_dispatch = false;
-   136		}
-   137		if (copy_to_user(data, &config, sizeof(config)))
-   138			return -EFAULT;
-   139	
-   140		return 0;
-   141	}
-   142	
-   143	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-   144			void __user *data)
-   145	{
-   146		struct syscall_user_dispatch_config config;
-   147		int ret;
-   148	
-   149		if (size != sizeof(struct syscall_user_dispatch_config))
-   150			return -EINVAL;
-   151	
-   152		if (copy_from_user(&config, data, sizeof(config)))
-   153			return -EFAULT;
-   154	
-   155		ret = set_syscall_user_dispatch(config.mode, config.offset, config.len,
- > 156				config.selector);
+
+vim +1330 kernel/bpf/trampoline.c
+
+  1311	
+  1312	static struct bpf_trampoline* check_multi_trampoline(u64 key)
+  1313	{
+  1314		struct btf_bitmap *bmap_tmp, *bmap_new;
+  1315		struct bpf_trampoline *tr, *tr_new;
+  1316		u32 obj_id, btf_id;
+  1317		int err;
+  1318		unsigned long *ip;
+  1319	
+  1320		bpf_trampoline_unpack_key(key, &obj_id, &btf_id);
+  1321		if (obj_id != btf_obj_id(btf_vmlinux))
+  1322			return NULL;
+  1323	
+  1324		tr = in_multi_trampoline(btf_id);
+  1325		if (!tr)
+  1326			return NULL;
+  1327	
+  1328		bmap_new = btf_bitmap_funcs_id(btf_id);
+  1329		bmap_tmp = btf_bitmap_funcs_alloc();
+> 1330		if (!bmap_new || !bmap_tmp) {
+  1331			err = -ENOMEM;
+  1332			goto out;
+  1333		}
+  1334	
+  1335		tr_new = trampoline_multi_split_trampoline(tr, bmap_new);
+  1336		if (IS_ERR(tr_new))
+  1337			goto out;
+  1338	
+  1339		btf_bitmap_funcs_resolve(bmap_new, &ip);
+  1340		tr_new->func.addr = (void*) *ip;
+  1341		kfree(ip);
+  1342	
+  1343		btf_bitmap_copy(bmap_tmp, tr->multi.bmap);
+  1344		btf_bitmap_andnot(tr->multi.bmap, tr->multi.bmap, bmap_new);
+  1345		err = trampoline_multi_reset_bmap(tr);
+  1346		if (err) {
+  1347			tr_new = ERR_PTR(err);
+  1348			goto out_rollback;
+  1349		}
+  1350	
+  1351		err = bpf_trampoline_update(tr_new, true);
+  1352	
+  1353	out_rollback:
+  1354		if (err) {
+  1355			btf_bitmap_copy(tr->multi.bmap, bmap_tmp);
+  1356			bpf_trampoline_free(tr_new);
+  1357			tr_new = ERR_PTR(err);
+  1358		}
+  1359	out:
+  1360		btf_bitmap_free(bmap_new);
+  1361		btf_bitmap_free(bmap_tmp);
+  1362		return tr_new;
+  1363	}
+  1364	
 
 -- 
 0-DAY CI Kernel Test Service
