@@ -1,48 +1,56 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4785EB36;
-	Thu, 19 Jan 2023 19:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBEEB43E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 19:48:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674157694; x=1705693694;
+  t=1674157695; x=1705693695;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=r3frNLJx/8tkQ3XOoDV2BjOvJvEf1oUMfhHDiNIrhmE=;
-  b=Jnhk+kGpLH9k48si1Y96HEgsbGgpH7/IW1NpCk+5VTAkqubdPPrHIzZR
-   1M1/II3HHjdHelDzpkBuoMq7s9Y3FY+2IaVnYqcl3nKi2KnmPVX/Cyojw
-   xTh7+znUCAGbJoIxSjridpd9RlLtXiNajpKa/iopdE+TfFiOBJi0wJQGd
-   1TrDZX/J08GB+NJihKAuOm7GOR+xJtrpSV8Cf9G8UHXPs9bZvzZ0D9ZAo
-   H0hEDSGs88w3YyPg6L1Gjbou4IiXAFD4vZmIPt7NvrzyzYtMkYJGPhFRa
-   It2GziMiihzELYq6o+alCPWktCld4meAHqoFKjVjefff9YhSQIV99ezzs
+  bh=dS5R5RFwuXsctlyU0HLNUqHNVCCKgAon71otDngEy3g=;
+  b=Y5UZ1QjgsUU0p23eZFGterOqIYQaufv9ONX0VFFfPIr+Ny79hqbdi2WS
+   5Zl5pviQnsQcqKpoeTN8SsVsd1wuBJv1uIBdo+B9uNpS20r2Hlj5Yx54l
+   cbN5/bPWcxu5KJu1NNnsdNHcP33mUkDIXcDH/G79+ZuuLtkzHzrhwA4zn
+   UVAYKyGjNLFpXoOIGp9XbbBfBB306g6iPbMcQU1JRW9zlDyjLYN74Nncn
+   NEAU3tns3qKie/0louNkr6tE8eoo60B06iBhR+sAq0jzekDqoovHjkaX1
+   eQ8b+Ra4P8Oz2IhEinEChWLOQitJPZixbQFLJPkW0BBC0bny96JR+zfc3
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324087779"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324087800"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="324087779"
+   d="scan'208";a="324087800"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 11:48:13 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 11:48:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989110098"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989110128"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="989110098"
+   d="scan'208";a="989110128"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 19 Jan 2023 11:48:10 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIatN-0001ng-0v;
+	id 1pIatN-0001ni-14;
 	Thu, 19 Jan 2023 19:48:09 +0000
-Date: Fri, 20 Jan 2023 03:47:22 +0800
+Date: Fri, 20 Jan 2023 03:47:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-	edumazet@google.com, habetsm@gmail.com, ecree.xilinx@gmail.com,
-	Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH net-next 5/7] sfc: obtain device mac address based on
- firmware handle for ef100
-Message-ID: <202301200333.BjjkOStI-lkp@intel.com>
-References: <20230119113140.20208-6-alejandro.lucero-palau@amd.com>
+To: Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+	Mark Pearson <markpearson@lenovo.com>,
+	Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
+ into videodev.ko
+Message-ID: <202301200320.AbLvd1xh-lkp@intel.com>
+References: <20230119130053.111344-7-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,103 +59,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119113140.20208-6-alejandro.lucero-palau@amd.com>
+In-Reply-To: <20230119130053.111344-7-hdegoede@redhat.com>
 
-Hi,
+Hi Hans,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on net-next/master]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc4]
+[cannot apply to media-tree/master pavel-leds/for-next next-20230119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230119-193440
-patch link:    https://lore.kernel.org/r/20230119113140.20208-6-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH net-next 5/7] sfc: obtain device mac address based on firmware handle for ef100
-config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230120/202301200333.BjjkOStI-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
+patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/94535fc2c87743925490d5ce0573b8e9b4b2690c
+        # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230119-193440
-        git checkout 94535fc2c87743925490d5ce0573b8e9b4b2690c
+        git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+        git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/sfc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/sfc/ef100_nic.c:1127:21: warning: unused variable 'net_dev' [-Wunused-variable]
-           struct net_device *net_dev = efx->net_dev;
-                              ^
->> drivers/net/ethernet/sfc/ef100_nic.c:1172:9: warning: variable 'rc' is uninitialized when used here [-Wuninitialized]
-           return rc;
-                  ^~
-   drivers/net/ethernet/sfc/ef100_nic.c:1128:8: note: initialize the variable 'rc' to silence this warning
-           int rc;
-                 ^
-                  = 0
-   2 warnings generated.
-
-
-vim +/net_dev +1127 drivers/net/ethernet/sfc/ef100_nic.c
-
-51b35a454efdcd Edward Cree      2020-07-27  1123  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  1124  int ef100_probe_netdev_pf(struct efx_nic *efx)
-51b35a454efdcd Edward Cree      2020-07-27  1125  {
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  1126  	struct ef100_nic_data *nic_data = efx->nic_data;
-29ec1b27e73990 Edward Cree      2020-07-27 @1127  	struct net_device *net_dev = efx->net_dev;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  1128  	int rc;
-29ec1b27e73990 Edward Cree      2020-07-27  1129  
-6f6838aabff5ea Edward Cree      2022-07-28  1130  	if (!nic_data->grp_mae)
-6f6838aabff5ea Edward Cree      2022-07-28  1131  		return 0;
-6f6838aabff5ea Edward Cree      2022-07-28  1132  
-6f6838aabff5ea Edward Cree      2022-07-28  1133  #ifdef CONFIG_SFC_SRIOV
-67ab160ed08f5b Edward Cree      2022-07-28  1134  	rc = efx_init_struct_tc(efx);
-67ab160ed08f5b Edward Cree      2022-07-28  1135  	if (rc)
-67ab160ed08f5b Edward Cree      2022-07-28  1136  		return rc;
-67ab160ed08f5b Edward Cree      2022-07-28  1137  
-6f6838aabff5ea Edward Cree      2022-07-28  1138  	rc = efx_ef100_get_base_mport(efx);
-6f6838aabff5ea Edward Cree      2022-07-28  1139  	if (rc) {
-6f6838aabff5ea Edward Cree      2022-07-28  1140  		netif_warn(efx, probe, net_dev,
-6f6838aabff5ea Edward Cree      2022-07-28  1141  			   "Failed to probe base mport rc %d; representors will not function\n",
-6f6838aabff5ea Edward Cree      2022-07-28  1142  			   rc);
-f393f2642abb0e Alejandro Lucero 2023-01-19  1143  	} else {
-f393f2642abb0e Alejandro Lucero 2023-01-19  1144  		if (efx_probe_devlink(efx))
-f393f2642abb0e Alejandro Lucero 2023-01-19  1145  			netif_warn(efx, probe, net_dev,
-f393f2642abb0e Alejandro Lucero 2023-01-19  1146  				   "Failed to register devlink\n");
-1542af777ce523 Alejandro Lucero 2023-01-19  1147  		rc = efx_init_mae(efx);
-1542af777ce523 Alejandro Lucero 2023-01-19  1148  		if (rc)
-1542af777ce523 Alejandro Lucero 2023-01-19  1149  			pci_warn(efx->pci_dev,
-1542af777ce523 Alejandro Lucero 2023-01-19  1150  				 "Failed to init MAE rc %d; representors will not function\n",
-1542af777ce523 Alejandro Lucero 2023-01-19  1151  				 rc);
-1542af777ce523 Alejandro Lucero 2023-01-19  1152  		else
-1542af777ce523 Alejandro Lucero 2023-01-19  1153  			efx_ef100_init_reps(efx);
-6f6838aabff5ea Edward Cree      2022-07-28  1154  	}
-67ab160ed08f5b Edward Cree      2022-07-28  1155  
-67ab160ed08f5b Edward Cree      2022-07-28  1156  	rc = efx_init_tc(efx);
-67ab160ed08f5b Edward Cree      2022-07-28  1157  	if (rc) {
-67ab160ed08f5b Edward Cree      2022-07-28  1158  		/* Either we don't have an MAE at all (i.e. legacy v-switching),
-67ab160ed08f5b Edward Cree      2022-07-28  1159  		 * or we do but we failed to probe it.  In the latter case, we
-67ab160ed08f5b Edward Cree      2022-07-28  1160  		 * may not have set up default rules, in which case we won't be
-67ab160ed08f5b Edward Cree      2022-07-28  1161  		 * able to pass any traffic.  However, we don't fail the probe,
-67ab160ed08f5b Edward Cree      2022-07-28  1162  		 * because the user might need to use the netdevice to apply
-67ab160ed08f5b Edward Cree      2022-07-28  1163  		 * configuration changes to fix whatever's wrong with the MAE.
-67ab160ed08f5b Edward Cree      2022-07-28  1164  		 */
-67ab160ed08f5b Edward Cree      2022-07-28  1165  		netif_warn(efx, probe, net_dev, "Failed to probe MAE rc %d\n",
-67ab160ed08f5b Edward Cree      2022-07-28  1166  			   rc);
-9dc0cad203ab57 Edward Cree      2022-09-26  1167  	} else {
-9dc0cad203ab57 Edward Cree      2022-09-26  1168  		net_dev->features |= NETIF_F_HW_TC;
-9dc0cad203ab57 Edward Cree      2022-09-26  1169  		efx->fixed_features |= NETIF_F_HW_TC;
-67ab160ed08f5b Edward Cree      2022-07-28  1170  	}
-6f6838aabff5ea Edward Cree      2022-07-28  1171  #endif
-29ec1b27e73990 Edward Cree      2020-07-27 @1172  	return rc;
-51b35a454efdcd Edward Cree      2020-07-27  1173  }
-51b35a454efdcd Edward Cree      2020-07-27  1174  
+   ld: vmlinux.o: in function `videodev_init':
+>> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
+   ld: vmlinux.o: in function `videodev_exit':
+>> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
 
 -- 
 0-DAY CI Kernel Test Service
