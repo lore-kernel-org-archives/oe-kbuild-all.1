@@ -1,108 +1,103 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF898A922
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 15:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674143464; x=1705679464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0H5YW96PNnkoGhhv0HY5XIr75+SWIeoKVf0ByH/0kdw=;
-  b=MYzjHT6KMJ41dsz0A+GZBr73JpZClYpXkSLf1Eky3xbrio/KxXpwCypI
-   89xzXweNC+9xgMhhwY3VdLMsUKdutc2gPnt+xQ6uIZHoC/lgqGkUwZ0Hi
-   7/aKrEnMDTvwAFRdTTbTz1CUWUnW/xc2CjWJPw9boce+7dQQQkBFF9DrX
-   BfJqHRjVH7oUknDE/lcZkmApdugWXaKaWufg7YKYDX59SszKVrhSrTVMq
-   dy8LPgYt8YeI+Wdhscl40Ayvcb6ESzW5NwcoLdRZnL7m217bktyaOBdAk
-   DZKJa7Ii6OYfI/0xsgnZO/hbuKFR0rjxCNc6pMXXCS6nqf6qwFQl1207V
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="304996514"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="304996514"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 07:51:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="660243140"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="660243140"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jan 2023 07:50:58 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIXBp-0001ai-0n;
-	Thu, 19 Jan 2023 15:50:57 +0000
-Date: Thu, 19 Jan 2023 23:50:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, habetsm@gmail.com,
-	ecree.xilinx@gmail.com,
-	Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH net-next 1/7] sfc: add devlink support for ef100
-Message-ID: <202301192303.3zOqMgPP-lkp@intel.com>
-References: <20230119113140.20208-2-alejandro.lucero-palau@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A5EA922
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 16:09:25 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id x26so1411536qkj.4
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BgnEkrF24X6SgiL6R27Puw6rLHqe/LjIdnxUFsUlSCE=;
+        b=TCja8n01EUldNduZxmd23IrGcLHQSDoZopr2PD2xJ17riFwRUH1PazaRHEvj+DaITJ
+         YM3JbaKm2fcOyGBbJF5uBP4XrO1X2yDnDkCl1D+DccshmzQ+ZOHihMKy0OLlfIklcRMm
+         PGvSleGn6cYRuRHqUa9/HtAjo+sWs6vxjIbDsyVHlBXC7nLTymhilYM2omXMvujWTeux
+         w1PFyFRAyY2rqH0qp+OUcW8UKxFu2VEY7QqURddRCLXyFGqRPb1fvve3zvw5b7gCL19g
+         RnKliscwi7cxTVp0OsyCnBpWUiVEr/WBqRfqcaWrAFBHAX/jPU1LT/uU8XxjDaBcTohm
+         gBkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BgnEkrF24X6SgiL6R27Puw6rLHqe/LjIdnxUFsUlSCE=;
+        b=6uG+R2G4uVJYhnZ3FK8/SFrCjzBRKjxbbOlslzFDgUycBCk+ggnt7t9VGvzWt4MbQ/
+         hFEZf8V82Gx5Hw1EfpEG9TvW3/cd7qzD6MUtqsT+z69hwTpPuCuM6bU9IKRoG3PYJN28
+         8wjHoQpYJ1buVNCmUXqMCwzRph6OhMXaxwAOMjnbpSl+/Yn0cgR5fQaYMwm1kpfeskDD
+         ElrDvhf4V48nPPVvXLyjGJ5rVM1dxQksK54DFiviFefRy4k9xFKLuAResJk59Fi1P36w
+         AvteAo8Yx7waEsVDeYT+HcLi4/0H+x/QDre2qT0rfKvC/M2+HfFAjm+B+bvU5W+RfVHp
+         37xQ==
+X-Gm-Message-State: AFqh2kqHIXXbP+3yhmj6XGRvPI+gftOSEy5j23ItWHwvHLDSkEEW5fqg
+	mzMYWBtVICuuF0zV2aimoB+Oa7xEcRxsg+pE9PI=
+X-Google-Smtp-Source: AMrXdXtJjCU2hs7+F+84WngZpGAXLlrU8kUcLyU03M0YlJ3htDqBM72au+1ajeWRgeBkOSi4F5gkXaJb44LADIMtZuQ=
+X-Received: by 2002:a37:684e:0:b0:6ff:b61f:97f4 with SMTP id
+ d75-20020a37684e000000b006ffb61f97f4mr625062qkc.309.1674144564080; Thu, 19
+ Jan 2023 08:09:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119113140.20208-2-alejandro.lucero-palau@amd.com>
+References: <Y8kJ/BhadFcTkSxr@yujie-X299>
+In-Reply-To: <Y8kJ/BhadFcTkSxr@yujie-X299>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 19 Jan 2023 08:09:13 -0800
+Message-ID: <CAKEwX=PVR3HCBtWkhichkyFKRiPGYD_9xHJEWA8-5mwVRY0aWw@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-hotfixes-unstable 25/30] mm/zsmalloc.c:940:13:
+ warning: unused function 'obj_allocated'
+To: kernel test robot <yujie.liu@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+This bug was detected and fix by Arnd Bergmann:
 
-Thank you for the patch! Perhaps something to improve:
+https://lore.kernel.org/lkml/CAKEwX=OTpY9Wg6YPfADDqeu7FFzciY9o_nNE5dRR3cu_-2ntaw@mail.gmail.com/T/
 
-[auto build test WARNING on net-next/master]
+It is triggered when neither CONFIG_ZPOOL nor CONFIG_COMPACTION is set.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230119-193440
-patch link:    https://lore.kernel.org/r/20230119113140.20208-2-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH net-next 1/7] sfc: add devlink support for ef100
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230119/202301192303.3zOqMgPP-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f393f2642abb0e7536df6f9f08e0d69ecfd5b435
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230119-193440
-        git checkout f393f2642abb0e7536df6f9f08e0d69ecfd5b435
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/net/ethernet/sfc/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/sfc/efx_devlink.c: In function 'efx_fini_devlink':
->> drivers/net/ethernet/sfc/efx_devlink.c:402:37: warning: variable 'devlink_private' set but not used [-Wunused-but-set-variable]
-     402 |                 struct efx_devlink *devlink_private;
-         |                                     ^~~~~~~~~~~~~~~
-
-
-vim +/devlink_private +402 drivers/net/ethernet/sfc/efx_devlink.c
-
-   398	
-   399	void efx_fini_devlink(struct efx_nic *efx)
-   400	{
-   401		if (efx->devlink) {
- > 402			struct efx_devlink *devlink_private;
-   403	
-   404			devlink_private = devlink_priv(efx->devlink);
-   405	
-   406			devlink_unregister(efx->devlink);
-   407			devlink_free(efx->devlink);
-   408			efx->devlink = NULL;
-   409		}
-   410	}
-   411	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On Thu, Jan 19, 2023 at 1:16 AM kernel test robot <yujie.liu@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-hotfixes-unstable
+> head:   4de77094279d6b179bab4314bdca80e6694cfcf0
+> commit: f950c3c5d55be15a74d250edde93e404c6ecd409 [25/30] zsmalloc: fix a race with deferred_handles storing
+> config: hexagon-buildonly-randconfig-r001-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190830.4tstTsgZ-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=f950c3c5d55be15a74d250edde93e404c6ecd409
+>         git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+>         git fetch --no-tags akpm-mm mm-hotfixes-unstable
+>         git checkout f950c3c5d55be15a74d250edde93e404c6ecd409
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <yujie.liu@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> mm/zsmalloc.c:940:13: warning: unused function 'obj_allocated' [-Wunused-function]
+>    static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
+>                ^
+>
+> Please check if it needs to be guarded with a config.
+>
+>
+> vim +/obj_allocated +940 mm/zsmalloc.c
+>
+> 312fcae22703761 Minchan Kim 2015-04-15  939
+> f950c3c5d55be15 Nhat Pham   2023-01-10 @940  static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
+> f950c3c5d55be15 Nhat Pham   2023-01-10  941  {
+> f950c3c5d55be15 Nhat Pham   2023-01-10  942     return obj_tagged(page, obj, phandle, OBJ_ALLOCATED_TAG);
+> f950c3c5d55be15 Nhat Pham   2023-01-10  943  }
+> f950c3c5d55be15 Nhat Pham   2023-01-10  944
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
