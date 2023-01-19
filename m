@@ -1,225 +1,67 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88053A950
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 17:44:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674150252; x=1705686252;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fSk95QAuUTqmlrBucA2/5hj/b+IHKynrjBnK8AFM3A4=;
-  b=K0RpWhZhLjRCr0xBkcH51xWtbc4RZjHQNvwDFMdnF+eQ963C9XbXuOpa
-   LVbusOwDinRfJIIdmhChl6nZ6cF1RGLU9tZJnFEXKt+ZwqS2x+97EXIbP
-   d6zaIZQVnXWGA01C0Z3qM7tSW/SA8jS5eF20kvhTp466OK0kCtWb2vd+U
-   oSaXHHphm9eL0psymZpV5uP4BK+B5Ih5wuGcAtwt2rR4WCfLSJ0vlQYxc
-   BdnH1QyJRuRlNfk8V7O+GotxD4FqK3HVsJpYThh8ln+nY3bM0vRzLJoyw
-   aGEGDVnyJCx0FPLvC26m/8Z5t6+RIXCQpcPRyIFRx7EYtWM1jyrxQRqKi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="308937845"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="308937845"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 09:44:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="728795398"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="728795398"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 09:44:03 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIYxG-0001gi-2j;
-	Thu, 19 Jan 2023 17:44:02 +0000
-Date: Fri, 20 Jan 2023 01:43:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@uclinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3]
- arch/arm/include/asm/glue-cache.h:126:2: error: #error Unknown cache
- maintenance model
-Message-ID: <202301200141.KvEj5eit-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F061CA950
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 18:14:14 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id A550484FB4;
+	Thu, 19 Jan 2023 19:08:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1674151681;
+	bh=Ii12jcDAK7YD6O3XO2bgMykCgwoWVXC+eJf3L5b/ufQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rT03gg7qmKF4tgoVCxoZ0mMHIwBS9kKCM4ZWmMcU5Is06LmNkeeNTJa2cG2ZUAMLr
+	 19+yiqg6p+aTUAI98UQ4QgVBLn0ZK82jWb4jnOp3KotWBalKXRr8qkRlHF+0fb+3a6
+	 BirKgYsMr4MrhRvYaKurqisfvSe+272p/ZNgkJpOAzA2G7LyIPOOqWHXFpN+jlgBxd
+	 49xSa3J+w+cwu6KXcrH4rYwikwUwksBpGKAo8dSv5Wirn/aTGFi/iZ+csktb5gfS69
+	 YhJuoPScJ2M5pYiHzzToD4/b8MU7R0JLYjOrgOnunDQFLv7DV4moNZTIODhsihsVIP
+	 xv880izBaeWGQ==
+Message-ID: <f5f4b504-8e58-2844-fa26-c8896a625794@denx.de>
+Date: Thu, 19 Jan 2023 19:08:00 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [tty:tty-linus 4/7] drivers/tty/serial/stm32-usart.c:804:62:
+ error: 'flags' undeclared
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Johan Hovold <johan@kernel.org>
+References: <202301200130.ttBiTzfO-lkp@intel.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <202301200130.ttBiTzfO-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi Greg,
+On 1/19/23 18:33, kernel test robot wrote:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[...]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   667bf6b32356ac9ee1f89433d919f17ace3bb899
-commit: 667bf6b32356ac9ee1f89433d919f17ace3bb899 [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-c023-20230119 (https://download.01.org/0day-ci/archive/20230120/202301200141.KvEj5eit-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git/commit/?id=667bf6b32356ac9ee1f89433d919f17ace3bb899
-        git remote add gerg-m68knommu https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git
-        git fetch --no-tags gerg-m68knommu armnommu
-        git checkout 667bf6b32356ac9ee1f89433d919f17ace3bb899
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm prepare
+> cc58d0a3f0a475 Erwan Le Ray     2021-10-20  800  	/* Receiver timeout irq for DMA RX */
+> f24771b62a8323 Marek Vasut      2023-01-12  801  	if (stm32_usart_rx_dma_enabled(port) && !stm32_port->throttled) {
+> f24771b62a8323 Marek Vasut      2023-01-12  802  		spin_lock(&port->lock);
+> 6333a485062172 Erwan Le Ray     2021-10-25  803  		size = stm32_usart_receive_chars(port, false);
+> 6333a485062172 Erwan Le Ray     2021-10-25 @804  		uart_unlock_and_check_sysrq_irqrestore(port, flags);
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
++CC Johan
 
-All errors (new ones prefixed by >>):
+This one should be uart_unlock_and_check_sysrq(port); I think . If 
+that's correct, then I'll send a patch.
 
-         |       ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/list.h:11,
-                    from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14:
-   arch/arm/include/asm/barrier.h: At top level:
-   arch/arm/include/asm/barrier.h:9:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-       9 | #if __LINUX_ARM_ARCH__ >= 7 ||          \
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/barrier.h:10:10: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      10 |         (__LINUX_ARM_ARCH__ == 6 && defined(CONFIG_CPU_32v6K))
-         |          ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/barrier.h:18:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      18 | #if __LINUX_ARM_ARCH__ >= 7
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/barrier.h:28:35: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      28 | #elif defined(CONFIG_CPU_XSC3) || __LINUX_ARM_ARCH__ == 6
-         |                                   ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/processor.h:17,
-                    from include/linux/prefetch.h:15,
-                    from arch/arm/include/asm/atomic.h:12,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11:
-   arch/arm/include/asm/vdso/processor.h:10:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      10 | #if __LINUX_ARM_ARCH__ == 6 || defined(CONFIG_ARM_ERRATA_754327)
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/processor.h:107:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     107 | #if __LINUX_ARM_ARCH__ >= 5
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/irqflags.h:16,
-                    from arch/arm/include/asm/atomic.h:14:
-   arch/arm/include/asm/irqflags.h:22:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      22 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/atomic.h:16:
-   arch/arm/include/asm/cmpxchg.h: In function '__xchg':
-   arch/arm/include/asm/cmpxchg.h:35:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      35 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/cmpxchg.h:42:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      42 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/cmpxchg.h: At top level:
-   arch/arm/include/asm/cmpxchg.h:124:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     124 | #if __LINUX_ARM_ARCH__ < 6
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/atomic.h:28:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      28 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/swab.h:19,
-                    from include/uapi/linux/swab.h:8,
-                    from include/linux/swab.h:5,
-                    from arch/arm/include/asm/opcodes.h:86,
-                    from arch/arm/include/asm/bug.h:7,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/rcupdate.h:27:
-   arch/arm/include/uapi/asm/swab.h:27:29: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      27 | #if !defined(__KERNEL__) || __LINUX_ARM_ARCH__ < 6
-         |                             ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/swab.h:21:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      21 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27:
-   arch/arm/include/asm/bitops.h:218:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     218 | #if __LINUX_ARM_ARCH__ < 5
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/thread_info.h:13,
-                    from include/linux/thread_info.h:60:
-   arch/arm/include/asm/fpstate.h:29:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      29 | #if __LINUX_ARM_ARCH__ < 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:740,
-                    from arch/arm/kernel/asm-offsets.c:12:
-   arch/arm/include/asm/uaccess.h:302:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     302 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:404:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     404 | #if __LINUX_ARM_ARCH__ >= 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:10,
-                    from arch/arm/kernel/asm-offsets.c:13:
-   arch/arm/include/asm/io.h:53:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      53 | #if __LINUX_ARM_ARCH__ < 6
-         |     ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/cacheflush.h:12,
-                    from arch/arm/kernel/asm-offsets.c:14:
->> arch/arm/include/asm/glue-cache.h:126:2: error: #error Unknown cache maintenance model
-     126 | #error Unknown cache maintenance model
-         |  ^~~~~
-   In file included from arch/arm/include/asm/cacheflush.h:14:
-   arch/arm/include/asm/cachetype.h:29:5: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      29 | #if __LINUX_ARM_ARCH__ >= 7
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/cachetype.h:34:7: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-      34 | #elif __LINUX_ARM_ARCH__ >= 6
-         |       ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/cacheflush.h:197:7: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     197 | #elif __LINUX_ARM_ARCH__ >= 7 && defined(CONFIG_SMP)
-         |       ^~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/cacheflush.h:199:7: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
-     199 | #elif __LINUX_ARM_ARCH__ == 6 && defined(CONFIG_ARM_ERRATA_411920)
-         |       ^~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:16:
->> arch/arm/include/asm/glue-df.h:96:2: error: #error Unknown data abort handler type
-      96 | #error Unknown data abort handler type
-         |  ^~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:17:
->> arch/arm/include/asm/glue-pf.h:51:2: error: #error Unknown prefetch abort handler type
-      51 | #error Unknown prefetch abort handler type
-         |  ^~~~~
-   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+> 6333a485062172 Erwan Le Ray     2021-10-25  805  		if (size)
+> 6333a485062172 Erwan Le Ray     2021-10-25  806  			tty_flip_buffer_push(tport);
+> 6333a485062172 Erwan Le Ray     2021-10-25  807  	}
 
-
-vim +126 arch/arm/include/asm/glue-cache.h
-
-55bdd694116597 Catalin Marinas 2010-05-21  124  
-753790e713d80b Russell King    2011-02-06  125  #if !defined(_CACHE) && !defined(MULTI_CACHE)
-25985edcedea63 Lucas De Marchi 2011-03-30 @126  #error Unknown cache maintenance model
-753790e713d80b Russell King    2011-02-06  127  #endif
-753790e713d80b Russell King    2011-02-06  128  
-
-:::::: The code at line 126 was first introduced by commit
-:::::: 25985edcedea6396277003854657b5f3cb31a628 Fix common misspellings
-
-:::::: TO: Lucas De Marchi <lucas.demarchi@profusion.mobi>
-:::::: CC: Lucas De Marchi <lucas.demarchi@profusion.mobi>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+[...]
