@@ -1,77 +1,81 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ACA33FB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A2033FB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 09:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674118638; x=1705654638;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=5teKAxvZvZC7w75pdGlK2L+DpUySiQSak7BOJJX77VQ=;
-  b=mBBnkd/uVBH+7yPNsmqKWcsM8Ln5We307F/XCOpW8EVw88iipSE4XRLj
-   007jcq216iVcLQNBICSP3ftTxOl2pQ3VHPnkCjyysqQzovJ1dAeTEdh2e
-   cMUjQuSuP9pep0+EfN3SMom4mJVLUxow182jDefjxEwCMGt9POWzzqBRv
-   OKTeHWVDJji/5jR4ctr1qvxPVVbeE1MRSNgklKbVw2yoctR1ejNBRhtUM
-   YGDA2y5wkjyZ6zgDv9zbBsMAgwuSg7FRGXteMxCNZB57zl14ivMhSzzS9
-   oiJpoC/41xZIHRNS6oXJwjVUJU6A/QB+iXW9UEdNk7IzXYDYwc9MTnGEQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308791292"
+  t=1674119798; x=1705655798;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=988xQcln5Xohd1R2Q8hqL3GWELHB0UrOxJWbXx3R0qo=;
+  b=EMnWGH14sT57/u071mbGnyObWl/aOZzmrCVRFWg+k25eJ9m7EGkMOegu
+   5LMpomunlcqYRf4dnovshWQnu8GXQL+bClbwNI50wde4sfkXe7nofqsHy
+   aR6jO4c5N5oLxbvjcoxGZlXnO3YLcv1K7HfVXNJ7zPUYwvFj2wnYmZV8g
+   hbtJ0Jnm/Iq0dnMwSf+xSLB6LjtCMwb/GHtfH7cVeZ6SW/o7ZuImYtIYM
+   HsDUB1KslbSAG3g7gubh+Vei2GPKLmS9F8TRvVARvsGg7B9fmTz4PRfF+
+   UQKcsxaQoCWKdnifyyxL2DErRC7X65f/OxloUKz9iym3WjD+1CH71mdum
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322923545"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="308791292"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:56:31 -0800
+   d="scan'208";a="322923545"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 01:16:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692337510"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="802563007"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="692337510"
+   d="scan'208";a="802563007"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2023 00:56:30 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2023 01:16:35 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:56:30 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ 15.1.2507.16; Thu, 19 Jan 2023 01:16:35 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 19 Jan 2023 01:16:35 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 00:56:30 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 01:16:35 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:56:29 -0800
+ 15.1.2507.16; Thu, 19 Jan 2023 01:16:34 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aTXJ9sqZuTJKHxc8ZRS5LczOuJXfrmPiCG6rBKQMNHMjBs/5lUqlV6Dv3bm6EVHJJUjjd3DnaBvZJyvu1vSHCJ9pPUByC7Nk3um2OSH3Iar7xjEFiM/VcBxlYNIVvTuvEYQ5GppnzlOhq1baI6XJYnGdUNfSq+Kr2+f3ySSr3vWIvgWmGdPKPj2L1F7wlKzldWMeVagNPQOjO0ZJT2TZQpaDP21LzKkorzSLJK/gFl3K6zDsFYEOpkEl4VBEiNCqJYLkT/joxSHtsByHrNKoYgW2TunmC30ECeCGHVkQocIgCOmjDoOYGY1uGsPlhjGVtBI+tZWJcQ2jB7hiK2HWnA==
+ b=AFPAZNeR4cJjemmlKAqPk+RenT/jyUiObB5bgEh/o9U7jIP0keWU5hRALDEIiMZdVm2++yWpLEiw5GGDwQuzfLpFx7zVLxsmsijfJRExRdelQaMBRNtmS/rDDnt7MoD6PcwqlQnKRmgNKufe+/Ag8EpRULux1fMMg0yvnSK5wQR6yMAH27LskQ/dmJCinX37e/H9v127hkIi2b6LQET+PSt+ZU+onsMuoTPozggJ760W8fnS7VsrpTYQ7yfu0qksVtFIbyop0naJU2NkRIRdIFnn0uLnRQ/9qUyP4hBxRxXH3grN8+x1qsqNIuahB+qV12AeNk3G0L1LNpF7fk/dQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zGfkEYWKBIcR1M142a2SvsYpSEjZOB51NDbSXeEoQ6Q=;
- b=jXv3ti7PJYDmCkBbu5p7V1EJ/h+yxsC4azUjpiFr/Ec63IjqdEg/6cPk8hwu7VMIslUFjOKmsleGfLJ23lMMOK9tSe3iowTUjazKJGDgzUCMUru5Gw4umdiIzYCORq/7nim82h7vxESbm7nEmyCgmd6/KlVY7FpqxUoR8XgkhWQwYmExpc9+77KYijSwsKGbwK6Nr2a/rtqxKt9ArhdMboEK0lD9wvcAFCrwUCdc2KpcCz8AkSve9rzi7HreYDDvIG0oI4UFi8Ewo461azfp5L7bdQwAQtueeNqvEWojnl79/V+7i6vGQG7lvvGO2xGwMjgUKGSuHsaL/da6EnPBTg==
+ bh=HzpQug5F3i0S4Jaa3Z0Ct9qZ9Oite/aXkT9dX4Yv2Pk=;
+ b=lUMi+BVqHiRZhFnsQ/pTS2HoFnv1NjnhmHuQh58BPOgMOiLcnjsoOB/cTLlv0zID+uf9jnfWuoBcvb5JpHm+/oQ4irXrKO3snKAduxM4jX1upCS5Zbgt7rXPuIF4RgLdkV4XzusUeGA6KUOr8CF1A0eSGqMM0lUmB/oGWbDpyy9us4L7PHVNZf8KJaLG/boki4vR1uP0Egri58aaxV5b0c3OrCyzeOqyXwq4GPrgP02GzIAMas2BQrve9hZSj/yhzw64XvAIFrtJGdI87YGPWKWN4ggtCwvMg5Ni8mttxDRqIbwaVIPhlUm4bvSqLLOAfkJgmQt+0ufuOL/+FRrVyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by BY1PR11MB8077.namprd11.prod.outlook.com (2603:10b6:a03:527::20) with
+ by MN2PR11MB4726.namprd11.prod.outlook.com (2603:10b6:208:269::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Thu, 19 Jan
- 2023 08:56:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 09:16:30 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::30e3:a7ab:35ba:93bb]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::30e3:a7ab:35ba:93bb%9]) with mapi id 15.20.6002.013; Thu, 19 Jan 2023
- 08:56:27 +0000
-Date: Thu, 19 Jan 2023 16:54:34 +0800
+ 09:16:30 +0000
+Date: Thu, 19 Jan 2023 17:14:36 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Jingbo Xu <jefflexu@linux.alibaba.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [RFC PATCH 6/6] erofs: enable page cache sharing in fscache mode
-Message-ID: <Y8kFSupdVIrhd1nA@yujie-X299>
+To: Nhat Pham <nphamcs@gmail.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Andrew Morton
+	<akpm@linux-foundation.org>, Linux Memory Management List
+	<linux-mm@kvack.org>
+Subject: [akpm-mm:mm-hotfixes-unstable 25/30] mm/zsmalloc.c:940:13: warning:
+ unused function 'obj_allocated'
+Message-ID: <Y8kJ/BhadFcTkSxr@yujie-X299>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230106125330.55529-7-jefflexu@linux.alibaba.com>
-X-ClientProxiedBy: SG2PR02CA0013.apcprd02.prod.outlook.com
- (2603:1096:3:17::25) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+X-ClientProxiedBy: SGBP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::32)
+ To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,118 +83,91 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BY1PR11MB8077:EE_
-X-MS-Office365-Filtering-Correlation-Id: fea24084-5c80-47b2-21e3-08daf9fb0cd2
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|MN2PR11MB4726:EE_
+X-MS-Office365-Filtering-Correlation-Id: f941fc21-202f-4c41-2823-08daf9fdd9bb
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ah2I00KiGOf1XRWwgBXfmRPlyM2XkyU9srGtH521vwtSMfgp5tlXJvq5wUzCDOtvpNgWIh3/viMQdKexmW3NBvt9jV0xy8OQzAOwDS2Afn7E9VL2FHA1Pd87WlWOc8YGe0NcyKsSwpZI6Ubu7l8ISgUKb2On3EahWO5vBOtHZQY4XHIGmW6Q6CZdNPWVXYeCO6Cjg22ntoqxtO1Bzf6pHQMrgK1g0d6/euD7T1piUMSYA8S66QeqHcys13t26s4BNx/2c9EPnT392mzN30kVCRxMpWN7Y5fyaHNV2clYFNHCMJN86crSCoSWgdJ4Pi4dbuUYBmqdB2wtVRN9E7CbZv5vDwCEXcd9HtKk+orpUs1sAwckPhi0SQOqN4dBlEYJPHWGvZid6T9Tymv3I3RoCk7+NvvcElg3AjJAEFzSxUoxaBB2U8gZsEBbICsCDqLAIdPu5UGEt1F4gGVYVp5U/7Ar0kjBhky9KjtRg8GPoZWaw6nG1Titm7AbT0sb6dK6zIIGo0s1ri9kMaty+sWZufR51f2Ez6Ctkv2RLGbRKwZJt5n1ZY+Yinn24aRCPoUp5wqXyEvbDmIEFkULpy8goPj9mrS1wpqRDEV2SJe/gj/+dCDt2je249lntPg2jIOtU1wHdyS6Fomvlg/lyW8/n72ELZlwXSmnYhUunop3Wl4xIImCmlbw7KZ6KNRXxVGUbUMD7Yqh5fdGlMhMg42QaQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199015)(6512007)(9686003)(66476007)(66556008)(66946007)(186003)(26005)(4326008)(6916009)(8676002)(41300700001)(6666004)(478600001)(966005)(6486002)(316002)(6506007)(86362001)(33716001)(83380400001)(5660300002)(82960400001)(8936002)(38100700002)(2906002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: QvF53zLN7b79oMDpOzkxcSs1cJq4fZSx7s6zTfFT8y/IY8iybqQnVgUWmhoV51CfZ1bygs0hE9Y+khvd0FEF1gjox+c+JknSimO0trCy52HSrUj93I3+HbhhuvIK95t3Nh2b5KuuwHDwwsHTMIrB8TnEQqqziLAXBdrTaJGG14ECKtTuNagnd2JGQQchX341ShpT7S2U0jS5d/Xxbia3JRkNCAch+2OK+dYvJRLb6rv7xtp8ORJSgpiZkX0JkUWCKNgxkHZbfemgknNK44JNGNb6h2mstir2Xxq14/3TZ3HkOR5vRc66yZoI17F4CmEB236ZWbeXCa6HEJSiC33eRDwpOn6EGocoplQgFWVZOll9kq8KnCVYXHS62zmaKBZIAD/6QCcGk8U8iPlENUau9z3p1g5s68QjtDlGkEk/pdweHdPXS9823TUEdh/msBjSiAhyyP+IE4n83ZlarCoAkGVao5097jH/BcHEtwcM1Vya3yU6MTPZATsP3p9A6ZSDIq3l1ZCXL9pFdmHiwOfavYhvExdDf97hYMEQSFL98s8LykLfzIY9VWkShtRkp0vuE4FHFt5SUb0lvoRAF/TKGyZqXRQa9ejfFs78BsucvXPZcjBwExBINlKr/rgWsGt7UXa4jd1QK9BqPUANYeUxu7bFHREuxs/9i45ryH7HCCdk8d8MauCtlnsajZhI0w35ZymjLVdQsafqvVDq5NKExw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199015)(8936002)(33716001)(316002)(5660300002)(86362001)(966005)(6486002)(478600001)(6506007)(2906002)(54906003)(83380400001)(66556008)(66946007)(4326008)(6916009)(8676002)(66476007)(38100700002)(82960400001)(186003)(6512007)(26005)(9686003)(41300700001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uNkll+/nrIHA73AIYkCoCK2KPIJL8WuOrFGbi1VPMp8T0lyrTcmFgpxkWSht?=
- =?us-ascii?Q?TGvyjhyKOIgF8ZTQNNcYvWEOvmhdAQQsaPYJYb7AG/1jrBaAftortAdbg0S5?=
- =?us-ascii?Q?QCpDMBZ1BnpbpyLzOJ0aC/buhznthINDl+FSwivz/JqzY8faoJ1VN3QbqwJ/?=
- =?us-ascii?Q?6IoXYQ5eHs/uUJ986qZzwr4Fu6eUrWvhEpTav6GxM6OLxyoSeA60whpAgW6c?=
- =?us-ascii?Q?hCkGZwlCaxxEv5yVJRpsEFlF3Cresd29x7ygirwQAZvtz7rXgOIF65xc8eY/?=
- =?us-ascii?Q?3NcOvkO7958V1of/JHYe9T9p6xKmsyiwb5a1WUhDsW1RmirSnS41jofXWTs4?=
- =?us-ascii?Q?uuQPXEXvOEB33eVYELlDdcK1o+Jk/GfyTVi2scNJROJ9uQTpBdpBYjRxLX5f?=
- =?us-ascii?Q?8bBNgyZxTU1Ao/Lq/tQ6RVYGR/rMcvCaMgVupNWYbbxM5ME13vJ2HaeVtnYI?=
- =?us-ascii?Q?4HyJsCuwhLcf8LVDc6/uVYIe6wBT8gUyQcC8aZRvrqKxWuJIXmIlZ66x4O1g?=
- =?us-ascii?Q?aeSd0p3B8M0Q2ad0CQ5VYJY2iZvH+bdQYp9I9VqSSFqEqasidVdJbHxR4WWR?=
- =?us-ascii?Q?HYuu/mL00+K5xq3uUKZTD1ESeGtQbkMWK1mD9+GzABoHFxDJcGhQatprVq6F?=
- =?us-ascii?Q?ldocRShQeZzZ81hBx72yXsisIFg0pbAJ9ZJ7k46zE0TI1fHjw5jNJTrFyRou?=
- =?us-ascii?Q?+yCks9ZezLrSl3/gT1JVQgUkqj70HmsiWN3gC/YSD8wJjIAh+omiadLAvb6J?=
- =?us-ascii?Q?KFvgRTzITYHJRvpT+meuMkQ5wWSgleYi59AMqFJX078d8gODe1n6WehYwi8Z?=
- =?us-ascii?Q?kna9oZAg53YbJ3F9V75ur8bso7bz3vCMtR9oFNhs+SkWaWPbHfDrC0THOIWc?=
- =?us-ascii?Q?dOpXohCvLDG+7svPc4+3Pr5g+gm7gpZPkBFH2xzpNAL4wlmt3RhfJTLoiYju?=
- =?us-ascii?Q?/ZNij3qCEYR1l5GrnZdVLX0yBlVpEKgHAxGZcXeZqIMysXVLXIABwTVbkERs?=
- =?us-ascii?Q?u9ZSvBHyogUy4wLizeGZBSAnWnTxelyF137KSIPYOu168sUeSOmcr4MTJn3U?=
- =?us-ascii?Q?22iZ2zzZ2CkKQgcViUsWJ58hnzvFcnYhlIoPnYK8+wyC1Dh1J7evdYru7i9y?=
- =?us-ascii?Q?efY6VI7RFitRlCJnjq7QLtRPVBfi9id9jEZMW0KUnH+XWCV+ftKu55JOq/zD?=
- =?us-ascii?Q?uhf7Xfom6V1Vq/B30Tb9UHzETuhxRTIgN2hmvuNfXhq6widU8OEx1tLoE6sS?=
- =?us-ascii?Q?WnVRlrKHDlPrZeKcfGFYYle1CdKKDmlV/NNv/cprNawLT8FRP6NfdvEgSjOm?=
- =?us-ascii?Q?9XVgkZydag3ipbIWTksCIW+g5RnqQInMHTvIj5gxAoTfwIxsWZIZSOsQ58H+?=
- =?us-ascii?Q?7YbSE6bj+NDWht8MA+71fev7wmtpemmmC/6syDu0FRwuMjkm0AMFWJPrwWam?=
- =?us-ascii?Q?Fkzp6y7EhMGnFsMru/H3PEAA895VcKDeQfGVRgFui/X7cutMkAN1r8DnSVT/?=
- =?us-ascii?Q?ACh3yV40sfg95JKtvMTZDA8KnCJE/N26vy7ZHOYGNP5VxPXtAc6p0F9rBd/L?=
- =?us-ascii?Q?q9yMg9UgQXMIsMeY1SMZeVmQFDZXW6Lgt+xKzY0s?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fea24084-5c80-47b2-21e3-08daf9fb0cd2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nT897sZRVNJHmoXX8CgovZgsyR1HvXPE8JdFCn61lrjH8gWLpvZK+ZYCXBwq?=
+ =?us-ascii?Q?YN3DUVbwiIeX1Vswj3Q09BvebQvVY7Yc/b52QanzORqwPRCVEvZ5631z6GXG?=
+ =?us-ascii?Q?3sjak0dFzcO76eQhVIu4/yU3zpD40QiKSGQqZV2o28ZED3cKwpD/DeOODl2/?=
+ =?us-ascii?Q?4Cn1bHxvPQ6nZxhJb1GVO9U18oGaCbP2KKeqJdNSTisxTF9ZHnaqr0X53gSi?=
+ =?us-ascii?Q?2EEmcdIoG1ofm1okvrea/2tt6in18DHXkuDEOtZNO7+cWa/LpEGr+RyG3nra?=
+ =?us-ascii?Q?KbYCCcrCKAsWwVW3w3nSn63qAGZqRNDYr1x1djC6JYqFkZuuQfgM2m3ilnaD?=
+ =?us-ascii?Q?Q8s4lO9W8XulSFl5YGspCV/OA7lO8X0dI+jdWTMPDXQWNaM7VeGk+ze0tPAB?=
+ =?us-ascii?Q?d212VII4l6tcNZC/onMqCVoJAx0W08oKQ3VNwyVTNo+K5gDRiYOwFTSDiJ4h?=
+ =?us-ascii?Q?FlF5KwDjZhWUuXzehS/YXP9vMza3R4W0SyCx/rGLCERY2Uyf4fw1z+Es+F4O?=
+ =?us-ascii?Q?UY+Q7Cql9V6dH5YT84Djp8KwFJ0r/s5RAyT4CRPllTojQgwzBsM8HZeMR2V2?=
+ =?us-ascii?Q?ZM7JZBV6yXawea7D2XKOMoPAx57oabKo3s0RWUenIZOJkUEIv/GKbP/yskFm?=
+ =?us-ascii?Q?Xs2rSpAUDIkG9cZn59X0Rr1qg7K9B5rxQYcPDrDNIATicu9Y2XQUMND6IoHh?=
+ =?us-ascii?Q?gT52fvOGvfdYFF2CmP0wkmTdBCfJymZMAJ8ylKiZud8MKbWOa4DpSBoKkip7?=
+ =?us-ascii?Q?ZunntqGTwaudH1mnRzfwDmqcPAwPFqJixhotErVGCVzCqARCUzoYnugUeZlw?=
+ =?us-ascii?Q?tyJNWxoq7rNtvyitph68m9ErdNO8QFzmYV/E92Ngx3zlnq4z3HsTGYSD528C?=
+ =?us-ascii?Q?pox4STeKGrAYBO2uwKTj1ev98AEZNmZoQ3cjB9veu4IMMep8dBpj4/QUVNqM?=
+ =?us-ascii?Q?zvCw11N8OMXMP4kh0aKNaFjFLN5sW0/pt58Ydk8DNLceEMbwbsT19RmEiUlu?=
+ =?us-ascii?Q?V3n4YFhW8APF0BUfqJSSZWwi9w5PJbsgFj1g++DaQas6JUgMODe1dvSoKfzV?=
+ =?us-ascii?Q?HehYYogdZD+ictvpw3bd+zrBoff0vkXEIcBA4Xa6jjGp+jJu0i+WbaSvlYl4?=
+ =?us-ascii?Q?Of3N7imC30rvz1MLvPhqN8pjFEo8c7Qscc97UUst9KF0fbnuVUPV2Hac+zzW?=
+ =?us-ascii?Q?S/vcunc2vsW4+MJE4euRhj2Znb837ul522u1AkZt8kKSPucVc28uv5tUFQ8n?=
+ =?us-ascii?Q?KS8095421GLh/RAl2rOqtvELRiGzRlqReuoXzAORyxPt+V2P2+uFn7favSg2?=
+ =?us-ascii?Q?SWA1Ymi4CkvOTitKyhLeKCByt0VzzIHVrx+BrWEr3pXg1/wWmEpZlgv4Jxsu?=
+ =?us-ascii?Q?ViMVJO67Rn6ELP+E75ANYN/bh8Cmvx80gFO5n74Cl1wkCfMKo73SMc3JdZ0O?=
+ =?us-ascii?Q?CZw069P82Q3itmKvBx7q/lAWtCtlU9Tw+n9hTzHfCWw0be5VQkjBaqA0o/oG?=
+ =?us-ascii?Q?JHzKnXKf8wdrSL12E1Shfdgq3s1rQ02AnZmMC0+csgcck4/JXAeXP5WiQJQV?=
+ =?us-ascii?Q?TaVPIqTx/AfdMbBrGVEPZy35eKhBxouJ99hn4OB0?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f941fc21-202f-4c41-2823-08daf9fdd9bb
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 08:56:27.7312
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 09:16:30.3028
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3RBB/83tlCIod2E9cfzeXxlBc+yJpmi5VDCr6tZLbx7QkQ/u8f5rMWecHenlGdo+XrT/GFkWEIB7rPR2AVfazQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8077
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4LF0fcM54QWdHxa0yEO+7ZsB7eQJnUDIlzPCHxnZ/rSEEPiBbd2Xpy6YPFFsn30DbJS4B46a4KjQm/q9nQVJNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4726
 X-OriginatorOrg: intel.com
 
-Hi Jingbo,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on xiang-erofs/dev-test]
-[also build test WARNING on xiang-erofs/dev xiang-erofs/fixes linus/master v6.2-rc4 next-20230118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbo-Xu/erofs-remove-unused-device-mapping-in-the-meta-routine/20230106-205600
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20230106125330.55529-7-jefflexu%40linux.alibaba.com
-patch subject: [RFC PATCH 6/6] erofs: enable page cache sharing in fscache mode
-config: i386-randconfig-a004-20220328 (https://download.01.org/0day-ci/archive/20230119/202301190654.hZ4dPPlb-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-hotfixes-unstable
+head:   4de77094279d6b179bab4314bdca80e6694cfcf0
+commit: f950c3c5d55be15a74d250edde93e404c6ecd409 [25/30] zsmalloc: fix a race with deferred_handles storing
+config: hexagon-buildonly-randconfig-r001-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190830.4tstTsgZ-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/5c565bd6afacc699309e9fc20119d91501a5d3ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jingbo-Xu/erofs-remove-unused-device-mapping-in-the-meta-routine/20230106-205600
-        git checkout 5c565bd6afacc699309e9fc20119d91501a5d3ae
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=f950c3c5d55be15a74d250edde93e404c6ecd409
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch --no-tags akpm-mm mm-hotfixes-unstable
+        git checkout f950c3c5d55be15a74d250edde93e404c6ecd409
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ lib//
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: kernel test robot <yujie.liu@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> fs/erofs/inode.c:244:13: warning: 'erofs_can_share_page_cache' defined but not used [-Wunused-function]
-     244 | static bool erofs_can_share_page_cache(struct inode *inode)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/zsmalloc.c:940:13: warning: unused function 'obj_allocated' [-Wunused-function]
+   static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
+               ^
+
+Please check if it needs to be guarded with a config.
 
 
-Please consider guarding the implementation of erofs_can_share_page_cache with CONFIG_EROFS_FS_ONDEMAND.
+vim +/obj_allocated +940 mm/zsmalloc.c
 
-
-vim +/erofs_can_share_page_cache +244 fs/erofs/inode.c
-
-431339ba90423a0 drivers/staging/erofs/inode.c Gao Xiang 2018-07-26  243  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06 @244  static bool erofs_can_share_page_cache(struct inode *inode)
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  245  {
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  246  	struct erofs_inode *vi = EROFS_I(inode);
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  247  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  248  	/* enable page cache sharing only in share domain mode */
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  249  	if (!erofs_is_fscache_mode(inode->i_sb) ||
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  250  	    !EROFS_SB(inode->i_sb)->domain_id)
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  251  		return false;
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  252  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  253  	if (vi->datalayout != EROFS_INODE_CHUNK_BASED)
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  254  		return false;
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  255  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  256  	/* avoid crossing multi devicces/blobs */
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  257  	if (inode->i_size > 1UL << vi->chunkbits)
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  258  		return false;
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  259  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  260  	/* avoid data leakage in mmap routine */
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  261  	if (EROFS_BLKSIZ % PAGE_SIZE)
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  262  		return false;
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  263  
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  264  	return true;
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  265  }
-5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  266  
+312fcae22703761 Minchan Kim 2015-04-15  939  
+f950c3c5d55be15 Nhat Pham   2023-01-10 @940  static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
+f950c3c5d55be15 Nhat Pham   2023-01-10  941  {
+f950c3c5d55be15 Nhat Pham   2023-01-10  942  	return obj_tagged(page, obj, phandle, OBJ_ALLOCATED_TAG);
+f950c3c5d55be15 Nhat Pham   2023-01-10  943  }
+f950c3c5d55be15 Nhat Pham   2023-01-10  944  
 
 -- 
 0-DAY CI Kernel Test Service
