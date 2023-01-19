@@ -1,42 +1,45 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F0723AE;
-	Thu, 19 Jan 2023 05:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE67257E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 06:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674107858; x=1705643858;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=USLNaz6m8wVCc+3oDPwRr+uHauEXz7g1AirsVpBMpLw=;
-  b=iwqj2TcpatjUX+8+NWij2IjgUyoBUfqF9Ms4Qd1BnBCYOmjPEE5PNe1Y
-   BIf2fEPGVD8tn5Kko+GhfZY+BFx6Su2mDCGZeYxrfKKqd01jTPnsSEXKG
-   vaP/9VEV/MLtdvKpwbTg6GEc9zrxnHSy59teuj63UCsMuiJL4O8U8cVCe
-   MTCOU6rqPcyi0bUmaN8dPYI35mV+Q4KD15UX4QFeFi3/GgnDy3dUx58L3
-   OuUaI+Hxy1ZEEaKeLQfsXGvNKdtXtNYz4wuzhF3tkwV4H2mjF19tUEtLh
-   R59ZETlh7LmE5XNZMWgzhXg+3oN/INB7RznHCjuIiEGRp9/WosjmQYy3y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304890160"
+  t=1674108520; x=1705644520;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lUq9iNvMmqy/WCDoSncz49qRc0gAeU4Olc+uiZi/SlU=;
+  b=HKnApbwl7MEE2QZAFbgV4qbkhrzFiGm2hLJr1+sulAYaAYeux+E9usYE
+   Giv0vlpnGxRccejPB3RI8Dw76iZ9g0Do3s/BbmAH6LD3/QID1E4aycEjj
+   G/l/u/GMbQ3pIChJN5wz2wE806bwxoO1AjvXxydpSFgCzTBFfzGGIAzvt
+   +WXmkxejZtaK+ip6IPWlXpCTeS4k7WeIVIQfblwYBR9xUMC4uob/lrljo
+   EhF+z5u+DmBCjQkTMRDjySvntwHY4UuPmA7lHZ1gnpYGWgzyqfHa6DefC
+   c7QDW9IdEFBin86GPJaBO4mcNSVAZDXfuA3AzNEuxqaNQ/9fudGvKfrch
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="352460958"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="304890160"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 21:57:37 -0800
+   d="scan'208";a="352460958"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 22:08:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637564994"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660078429"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="637564994"
+   d="scan'208";a="660078429"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jan 2023 21:57:36 -0800
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 22:08:36 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pINvb-00019p-14;
-	Thu, 19 Jan 2023 05:57:35 +0000
-Date: Thu, 19 Jan 2023 13:57:19 +0800
+	id 1pIO6G-0001BY-0T;
+	Thu, 19 Jan 2023 06:08:36 +0000
+Date: Thu, 19 Jan 2023 14:07:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_1 26/27] kernel/trace/ftrace.c:5853:5:
- warning: no previous prototype for function 'set_filter_ftrace_direct_multi'
-Message-ID: <202301191328.JE8hBfYZ-lkp@intel.com>
+To: Aditya Kumar Singh <quic_adisi@quicinc.com>, johannes@sipsolutions.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Aditya Kumar Singh <quic_adisi@quicinc.com>
+Subject: Re: [PATCH 1/2] wifi: cfg80211/mac80211: add support for channel
+ switch with MLO
+Message-ID: <202301191402.DoEMde4N-lkp@intel.com>
+References: <20230118151604.1278-2-quic_adisi@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,172 +48,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230118151604.1278-2-quic_adisi@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_1
-head:   747784185d106a06b429736196d8817cb2d12a6f
-commit: 7123e09cc1ac548e8e3baa43005779ae0dc181e0 [26/27] ftrace: Add set_filter_ftrace_direct_multi function
-config: arm-randconfig-r023-20230118 (https://download.01.org/0day-ci/archive/20230119/202301191328.JE8hBfYZ-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+Hi Aditya,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on d0e99511834b6828c960e978d9a8cb6e5731250d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Kumar-Singh/wifi-cfg80211-mac80211-add-support-for-channel-switch-with-MLO/20230118-232151
+base:   d0e99511834b6828c960e978d9a8cb6e5731250d
+patch link:    https://lore.kernel.org/r/20230118151604.1278-2-quic_adisi%40quicinc.com
+patch subject: [PATCH 1/2] wifi: cfg80211/mac80211: add support for channel switch with MLO
+config: loongarch-randconfig-r034-20230118 (https://download.01.org/0day-ci/archive/20230119/202301191402.DoEMde4N-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=7123e09cc1ac548e8e3baa43005779ae0dc181e0
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf bpf/tracing_multi_1
-        git checkout 7123e09cc1ac548e8e3baa43005779ae0dc181e0
+        # https://github.com/intel-lab-lkp/linux/commit/ae87dbc7e6dd83018015e1e624984fd844704159
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Aditya-Kumar-Singh/wifi-cfg80211-mac80211-add-support-for-channel-switch-with-MLO/20230118-232151
+        git checkout ae87dbc7e6dd83018015e1e624984fd844704159
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/trace/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/trace/ftrace.c:46:
-   In file included from kernel/trace/trace_output.h:6:
-   In file included from kernel/trace/trace.h:17:
-   include/linux/trace_events.h:798:5: warning: no previous prototype for function 'bpf_tracing_multi_attach' [-Wmissing-prototypes]
-   int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-       ^
-   include/linux/trace_events.h:798:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-   ^
-   static 
-   kernel/trace/ftrace.c:300:5: warning: no previous prototype for function '__register_ftrace_function' [-Wmissing-prototypes]
-   int __register_ftrace_function(struct ftrace_ops *ops)
-       ^
-   kernel/trace/ftrace.c:300:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __register_ftrace_function(struct ftrace_ops *ops)
-   ^
-   static 
-   kernel/trace/ftrace.c:343:5: warning: no previous prototype for function '__unregister_ftrace_function' [-Wmissing-prototypes]
-   int __unregister_ftrace_function(struct ftrace_ops *ops)
-       ^
-   kernel/trace/ftrace.c:343:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __unregister_ftrace_function(struct ftrace_ops *ops)
-   ^
-   static 
-   kernel/trace/ftrace.c:4010:15: warning: no previous prototype for function 'arch_ftrace_match_adjust' [-Wmissing-prototypes]
-   char * __weak arch_ftrace_match_adjust(char *str, const char *search)
-                 ^
-   kernel/trace/ftrace.c:4010:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   char * __weak arch_ftrace_match_adjust(char *str, const char *search)
-   ^
-   static 
-   kernel/trace/ftrace.c:5862:6: error: call to undeclared function 'check_direct_multi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (check_direct_multi(ops))
-               ^
-   kernel/trace/ftrace.c:5874:14: error: use of undeclared identifier 'direct_mutex'; did you mean 'event_mutex'?
-           mutex_lock(&direct_mutex);
-                       ^~~~~~~~~~~~
-                       event_mutex
-   include/linux/mutex.h:187:44: note: expanded from macro 'mutex_lock'
-   #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-                                              ^
-   kernel/trace/trace.h:1509:21: note: 'event_mutex' declared here
-   extern struct mutex event_mutex;
-                       ^
-   kernel/trace/ftrace.c:5894:8: error: call to undeclared function 'add_direct_functions_hash'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           err = add_direct_functions_hash(hash_add, addr, &free_hash);
-                 ^
-   kernel/trace/ftrace.c:5896:3: error: call to undeclared function 'remove_direct_functions_hash'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   remove_direct_functions_hash(hash_add, addr);
-                   ^
-   kernel/trace/ftrace.c:5900:2: error: call to undeclared function 'remove_direct_functions_hash'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           remove_direct_functions_hash(hash_del, addr);
-           ^
-   kernel/trace/ftrace.c:5909:16: error: use of undeclared identifier 'direct_mutex'; did you mean 'event_mutex'?
-           mutex_unlock(&direct_mutex);
-                         ^~~~~~~~~~~~
-                         event_mutex
-   kernel/trace/trace.h:1509:21: note: 'event_mutex' declared here
-   extern struct mutex event_mutex;
-                       ^
->> kernel/trace/ftrace.c:5853:5: warning: no previous prototype for function 'set_filter_ftrace_direct_multi' [-Wmissing-prototypes]
-   int set_filter_ftrace_direct_multi(struct ftrace_ops *ops, unsigned long *ips,
-       ^
-   kernel/trace/ftrace.c:5853:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int set_filter_ftrace_direct_multi(struct ftrace_ops *ops, unsigned long *ips,
-   ^
-   static 
-   5 warnings and 6 errors generated.
+>> drivers/net/wireless/quantenna/qtnfmac/cfg80211.c:1026:35: error: initialization of 'int (*)(struct wiphy *, struct net_device *, struct cfg80211_csa_settings *, unsigned int)' from incompatible pointer type 'int (*)(struct wiphy *, struct net_device *, struct cfg80211_csa_settings *)' [-Werror=incompatible-pointer-types]
+    1026 |         .channel_switch         = qtnf_channel_switch,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/quantenna/qtnfmac/cfg80211.c:1026:35: note: (near initialization for 'qtn_cfg80211_ops.channel_switch')
+   cc1: some warnings being treated as errors
 
 
-vim +/set_filter_ftrace_direct_multi +5853 kernel/trace/ftrace.c
+vim +1026 drivers/net/wireless/quantenna/qtnfmac/cfg80211.c
 
-  5852	
-> 5853	int set_filter_ftrace_direct_multi(struct ftrace_ops *ops, unsigned long *ips,
-  5854					   unsigned int cnt, unsigned long addr)
-  5855	{
-  5856		struct ftrace_hash *free_hash = NULL, *rollback_hash = NULL;
-  5857		struct ftrace_hash *hash = ops->func_hash->filter_hash;
-  5858		struct ftrace_hash *hash_del = NULL, *hash_add = NULL;
-  5859		struct ftrace_func_entry *entry;
-  5860		int size, i, err = -ENOMEM;
-  5861	
-  5862		if (check_direct_multi(ops))
-  5863			return -EINVAL;
-  5864		if (!(ops->flags & FTRACE_OPS_FL_ENABLED))
-  5865			return -EINVAL;
-  5866	
-  5867		sort(ips, cnt, sizeof(*ips), ips_cmp, NULL);
-  5868	
-  5869		hash_add = alloc_ftrace_hash(FTRACE_HASH_DEFAULT_BITS);
-  5870		hash_del = alloc_ftrace_hash(FTRACE_HASH_DEFAULT_BITS);
-  5871		if (!hash_add || !hash_del)
-  5872			goto out;
-  5873	
-  5874		mutex_lock(&direct_mutex);
-  5875	
-  5876		size = 1 << hash->size_bits;
-  5877		for (i = 0; i < size; i++) {
-  5878			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-  5879				if (bsearch(&entry->ip, ips, cnt, sizeof(*ips), ips_cmp))
-  5880					continue;
-  5881				if (add_hash_entry(hash_del, entry->ip) < 0)
-  5882					goto out_unlock;
-  5883			}
-  5884		}
-  5885	
-  5886		for (i = 0; i < cnt; i++) {
-  5887			entry = ftrace_lookup_ip(hash, ips[i]);
-  5888			if (!entry)
-  5889				continue;
-  5890			if (add_hash_entry(hash_add, entry->ip) < 0)
-  5891				goto out_unlock;
-  5892		}
-  5893	
-  5894		err = add_direct_functions_hash(hash_add, addr, &free_hash);
-  5895		if (err) {
-  5896			remove_direct_functions_hash(hash_add, addr);
-  5897			goto out_unlock;
-  5898		}
-  5899	
-  5900		remove_direct_functions_hash(hash_del, addr);
-  5901	
-  5902		err = ftrace_set_filter_ips(ops, ips, cnt, 0, 1);
-  5903		if (err) {
-  5904			WARN_ON_ONCE(add_direct_functions_hash(hash_del, addr, &rollback_hash));
-  5905			remove_direct_functions_hash(hash_add, addr);
-  5906		}
-  5907	
-  5908	out_unlock:
-  5909		mutex_unlock(&direct_mutex);
-  5910	out:
-  5911		if (free_hash || rollback_hash) {
-  5912			synchronize_rcu_tasks();
-  5913			free_ftrace_hash(free_hash);
-  5914			free_ftrace_hash(rollback_hash);
-  5915		}
-  5916		free_ftrace_hash(hash_add);
-  5917		free_ftrace_hash(hash_del);
-  5918		return err;
-  5919	}
-  5920	
+28b9188483908b Sergey Matyukevich 2018-08-02  1000  
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1001  static struct cfg80211_ops qtn_cfg80211_ops = {
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1002  	.add_virtual_intf	= qtnf_add_virtual_intf,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1003  	.change_virtual_intf	= qtnf_change_virtual_intf,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1004  	.del_virtual_intf	= qtnf_del_virtual_intf,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1005  	.start_ap		= qtnf_start_ap,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1006  	.change_beacon		= qtnf_change_beacon,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1007  	.stop_ap		= qtnf_stop_ap,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1008  	.set_wiphy_params	= qtnf_set_wiphy_params,
+6cd536fe62ef58 Johannes Berg      2020-04-17  1009  	.update_mgmt_frame_registrations =
+6cd536fe62ef58 Johannes Berg      2020-04-17  1010  		qtnf_update_mgmt_frame_registrations,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1011  	.mgmt_tx		= qtnf_mgmt_tx,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1012  	.change_station		= qtnf_change_station,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1013  	.del_station		= qtnf_del_station,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1014  	.get_station		= qtnf_get_station,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1015  	.dump_station		= qtnf_dump_station,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1016  	.add_key		= qtnf_add_key,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1017  	.del_key		= qtnf_del_key,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1018  	.set_default_key	= qtnf_set_default_key,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1019  	.set_default_mgmt_key	= qtnf_set_default_mgmt_key,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1020  	.scan			= qtnf_scan,
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1021  	.connect		= qtnf_connect,
+47b08e75a66988 Sergey Matyukevich 2019-02-05  1022  	.external_auth		= qtnf_external_auth,
+7c04b43984a57b Sergey Matyukevich 2017-07-28  1023  	.disconnect		= qtnf_disconnect,
+278944482b2970 Sergey Matyukevich 2017-07-28  1024  	.dump_survey		= qtnf_dump_survey,
+97883695d596e2 Sergey Matyukevich 2017-07-28  1025  	.get_channel		= qtnf_get_channel,
+b05ee456fd21d7 Igor Mitsyanko     2017-12-19 @1026  	.channel_switch		= qtnf_channel_switch,
+b05ee456fd21d7 Igor Mitsyanko     2017-12-19  1027  	.start_radar_detection	= qtnf_start_radar_detection,
+f1398fd2dd8c77 Vasily Ulyanov     2017-12-19  1028  	.set_mac_acl		= qtnf_set_mac_acl,
+4775ad06b56a15 Sergei Maksimenko  2018-05-31  1029  	.set_power_mgmt		= qtnf_set_power_mgmt,
+0756e913fc020a Mikhail Karpenko   2019-11-13  1030  	.get_tx_power		= qtnf_get_tx_power,
+0756e913fc020a Mikhail Karpenko   2019-11-13  1031  	.set_tx_power		= qtnf_set_tx_power,
+44d09764856f69 Sergey Matyukevich 2020-02-13  1032  	.update_owe_info	= qtnf_update_owe_info,
+28b9188483908b Sergey Matyukevich 2018-08-02  1033  #ifdef CONFIG_PM
+28b9188483908b Sergey Matyukevich 2018-08-02  1034  	.suspend		= qtnf_suspend,
+28b9188483908b Sergey Matyukevich 2018-08-02  1035  	.resume			= qtnf_resume,
+28b9188483908b Sergey Matyukevich 2018-08-02  1036  	.set_wakeup		= qtnf_set_wakeup,
+28b9188483908b Sergey Matyukevich 2018-08-02  1037  #endif
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1038  };
+98f44cb0655cbe Igor Mitsyanko     2017-05-11  1039  
 
 -- 
 0-DAY CI Kernel Test Service
