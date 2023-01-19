@@ -1,44 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549237485;
-	Thu, 19 Jan 2023 15:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAAA7485
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 15:22:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674140636; x=1705676636;
+  t=1674141770; x=1705677770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/jmYwKB/Pimp+tNc+gKNHsoFeVQeHx30ZVEscbUBRrc=;
-  b=JEGbMezy2c+8uvavVtCfm4p184+FlIxNp1Pja8xb/ohXtTFO8kkMdlGJ
-   g+Nhpy549jUmQWiIuO1o7sYl+ymqUHcoLMfj97q9OGxu/XMQIwQgfD63J
-   PPRBasdHxp1D1WzcnzEXc3Za3cauP4uz95oHeSwhXblLK6u639BasTzML
-   vPc0Ddxg8Scof+pDVt7SMtHqbkKuGvG6MehTM35kZ5Z78/y5weKhw8XiO
-   4DPGgagj8mbkoYckUB0i92sFAK++z7EsLnM8DmLoKtVEDungK02DGvwOn
-   gBUCvuvr3eRHiex2YyieqzRAjOA78Zy9eTuD/znUeygCq4SOKds2tOeHD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="326578174"
+  bh=1J1zCXrZSIkAL4qNuf9XlNjl6qhUPIKMi5OP+exNQww=;
+  b=bUW7xdpqM4xdYaJci0eD1sYX/YekHkMirpdXtiO4nWwpXdbxbKkXGuJG
+   mYuGKJSyoio39I4+CPlDeXeRxCdOYY0NrU3E6jsnUkDBjvtK8Ua3z34o0
+   Lp/Tlb6DUkrIbCFZ/WSeOzNOG2Z2cUqwFrRUMn/pTp0fCbCimH5KGXKkN
+   +KQJtYTMtRg4qq6A72h7dpDUqVpK5k6ZV8m36Dl2PhJd4p2Q9n2PIJUIp
+   HY0faluJQGCIyehV81NKYrB10Bf8g97qv0SkMsmpBKTV20y74O8J/D15y
+   LqKwkCm1b/Z3d89inTiiggpKFZS65ZCP4w6qve9Cr/igfAu4N/i8RShJg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="322999674"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="326578174"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:28:57 -0800
+   d="scan'208";a="322999674"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 07:20:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="610083166"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="905560261"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="610083166"
+   d="scan'208";a="905560261"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 19 Jan 2023 06:28:55 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2023 07:19:57 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIVuQ-0001XM-2d;
-	Thu, 19 Jan 2023 14:28:54 +0000
-Date: Thu, 19 Jan 2023 22:28:48 +0800
+	id 1pIWho-0001ZX-19;
+	Thu, 19 Jan 2023 15:19:56 +0000
+Date: Thu, 19 Jan 2023 23:19:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 5458/6276] idma64.c:undefined reference to
- `devm_platform_ioremap_resource'
-Message-ID: <202301192229.wL7iPJxS-lkp@intel.com>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [krzk-github:wip/qcom-rt 85/380]
+ drivers/pci/controller/dwc/pcie-designware.c:733:27: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202301192348.JYHqRRcu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,35 +49,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aa5c49149a823599764e6953229b028e4bf6e9cc
-commit: 4b23603a251d24022f2fa48ee67610eb245a4115 [5458/6276] dmaengine: drivers: Use devm_platform_ioremap_resource()
-config: s390-randconfig-r044-20230119 (https://download.01.org/0day-ci/archive/20230119/202301192229.wL7iPJxS-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4b23603a251d24022f2fa48ee67610eb245a4115
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4b23603a251d24022f2fa48ee67610eb245a4115
+tree:   https://github.com/krzk/linux wip/qcom-rt
+head:   6880445158dd6376c96b5898fa41a7a3f8898b7d
+commit: 3ffee7408c93dd4e2f70e400b6327bae3ec2fc9a [85/380] PCI: dwc: Add DW eDMA engine support
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230119/202301192348.JYHqRRcu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/krzk/linux/commit/3ffee7408c93dd4e2f70e400b6327bae3ec2fc9a
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github wip/qcom-rt
+        git checkout 3ffee7408c93dd4e2f70e400b6327bae3ec2fc9a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/pci/controller/dwc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/dwc/pcie-designware.c:733:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void * @@
+   drivers/pci/controller/dwc/pcie-designware.c:733:27: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/pci/controller/dwc/pcie-designware.c:733:27: sparse:     got void *
+   drivers/pci/controller/dwc/pcie-designware.c:744:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void * @@
+   drivers/pci/controller/dwc/pcie-designware.c:744:27: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/pci/controller/dwc/pcie-designware.c:744:27: sparse:     got void *
 
-   s390x-linux-ld: drivers/dma/idma64.o: in function `idma64_platform_probe':
->> idma64.c:(.text+0x6a): undefined reference to `devm_platform_ioremap_resource'
-   s390x-linux-ld: drivers/dma/qcom/hidma.o: in function `hidma_probe':
-   hidma.c:(.text+0x3e): undefined reference to `devm_ioremap_resource'
-   s390x-linux-ld: hidma.c:(.text+0x96): undefined reference to `devm_ioremap_resource'
+vim +733 drivers/pci/controller/dwc/pcie-designware.c
+
+   723	
+   724	static int dw_pcie_edma_ll_alloc(struct dw_pcie *pci)
+   725	{
+   726		struct dw_edma_region *ll;
+   727		dma_addr_t paddr;
+   728		int i;
+   729	
+   730		for (i = 0; i < pci->edma.ll_wr_cnt; i++) {
+   731			ll = &pci->edma.ll_region_wr[i];
+   732			ll->sz = DMA_LLP_MEM_SIZE;
+ > 733			ll->vaddr = dmam_alloc_coherent(pci->dev, ll->sz,
+   734							&paddr, GFP_KERNEL);
+   735			if (!ll->vaddr)
+   736				return -ENOMEM;
+   737	
+   738			ll->paddr = paddr;
+   739		}
+   740	
+   741		for (i = 0; i < pci->edma.ll_rd_cnt; i++) {
+   742			ll = &pci->edma.ll_region_rd[i];
+   743			ll->sz = DMA_LLP_MEM_SIZE;
+   744			ll->vaddr = dmam_alloc_coherent(pci->dev, ll->sz,
+   745							&paddr, GFP_KERNEL);
+   746			if (!ll->vaddr)
+   747				return -ENOMEM;
+   748	
+   749			ll->paddr = paddr;
+   750		}
+   751	
+   752		return 0;
+   753	}
+   754	
 
 -- 
 0-DAY CI Kernel Test Service
