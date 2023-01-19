@@ -1,80 +1,76 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3112F2F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ACA33FB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674117649; x=1705653649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mu+AyNKALHh8mUXN2k/Ibt921zEhnwL0VPRRX1UiWqY=;
-  b=JI87j875VbQfwKVYh5ZcpJF245DuCCmkPLGLOlTZhE3kAEAQ29goq0cw
-   xdpJabZrHs1TrOwZjWwoAblyPFp7eNrQ37m1gzAycV0aBsjxFP15WDdla
-   qTLV64AlfKmymXcQyDT7D+Vm0GMrOeusXmnKMaIpKE+1bq+XRY7p0P3Pr
-   FvSxMSib0esRE3npOL3kaRjJRTV2pMuwgNlAk+I96mVG8Jv1Ri7F+1K0P
-   U9j9dnsrubz4V/F1w0ndStQQ2I0JLxtzEgzSDSEf6R+e6+neic5vgn+7s
-   EoT7GTachxUPdfF/QQniX0SjDMhR+05Kqb16awchtYUnvog1Gce3zIEj+
+  t=1674118638; x=1705654638;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=5teKAxvZvZC7w75pdGlK2L+DpUySiQSak7BOJJX77VQ=;
+  b=mBBnkd/uVBH+7yPNsmqKWcsM8Ln5We307F/XCOpW8EVw88iipSE4XRLj
+   007jcq216iVcLQNBICSP3ftTxOl2pQ3VHPnkCjyysqQzovJ1dAeTEdh2e
+   cMUjQuSuP9pep0+EfN3SMom4mJVLUxow182jDefjxEwCMGt9POWzzqBRv
+   OKTeHWVDJji/5jR4ctr1qvxPVVbeE1MRSNgklKbVw2yoctR1ejNBRhtUM
+   YGDA2y5wkjyZ6zgDv9zbBsMAgwuSg7FRGXteMxCNZB57zl14ivMhSzzS9
+   oiJpoC/41xZIHRNS6oXJwjVUJU6A/QB+iXW9UEdNk7IzXYDYwc9MTnGEQ
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327305752"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308791292"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="327305752"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:40:48 -0800
+   d="scan'208";a="308791292"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:56:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768132187"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692337510"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="768132187"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2023 00:40:47 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+   d="scan'208";a="692337510"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2023 00:56:30 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:40:47 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.16; Thu, 19 Jan 2023 00:56:30 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:40:46 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 00:40:46 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 00:56:30 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:40:46 -0800
+ 15.1.2507.16; Thu, 19 Jan 2023 00:56:29 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nqmx9HDDSpYTEh32rJPZm+3Y9EJxVrIe8mZLwHopDg+KR1jIaVhwgy2sFddhbmVmJKA9H46MukRXJklgww+Quv737ObSpuEcnZ8hfCeRKHqTmFQ0BfRWFxrdG+AejrhOaVDdJKeIsrh41gwc/w1lbDRanxejUoJb1IGchqdPrXYvJ45g6hjsNRDak7Dd6zV8zBa8MbgtC3SnmSxP3qmG1lu7ceZDcZlkPv7u+kUDwpY7JbKIBSPl9hDJd3faxmngzAQn+d2UPr3t3JbR3LCTsrGshJTkt9VdwKs8FgFb2HTj0gYO02DY1wLVn4jV36J23re9IvzGMqWXlOSkl3J9pA==
+ b=aTXJ9sqZuTJKHxc8ZRS5LczOuJXfrmPiCG6rBKQMNHMjBs/5lUqlV6Dv3bm6EVHJJUjjd3DnaBvZJyvu1vSHCJ9pPUByC7Nk3um2OSH3Iar7xjEFiM/VcBxlYNIVvTuvEYQ5GppnzlOhq1baI6XJYnGdUNfSq+Kr2+f3ySSr3vWIvgWmGdPKPj2L1F7wlKzldWMeVagNPQOjO0ZJT2TZQpaDP21LzKkorzSLJK/gFl3K6zDsFYEOpkEl4VBEiNCqJYLkT/joxSHtsByHrNKoYgW2TunmC30ECeCGHVkQocIgCOmjDoOYGY1uGsPlhjGVtBI+tZWJcQ2jB7hiK2HWnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/QEEbk4J3E5SVNJWpNfbUw7EvBBYdbjWVbuVwf9Yih8=;
- b=ZHgwAPPSN4jqqpPmwK1TPJA2F3tDeOHLjwRomLhgpuwFaLbL/vq2rlNUk6IchzmAon+HafD9F8WYqxpiIttWW/LzwfWonKy3/0yju/Ph0H0kKnrOV1lmROJ6EFUnHY0JFfQq9s7KDJfVeYy5WZhpx9jb6wUoTxDqbifGp+2Uwg6MZErq5E6q/obIbzLTOYwvZmc9KTbB38KoRrubpiEhPhMQ0oZEyZSPNFKvz0M9fNkDxteddW+vlO8OWLO4/W9cP2xxwQl+VTQuBD69vuLa4OzqKh/XajQXbuEHxUxzRuDUSm7mw+unbuDc4UaW1b15ZUSf2yDWyXHm7zU/3E+rHw==
+ bh=zGfkEYWKBIcR1M142a2SvsYpSEjZOB51NDbSXeEoQ6Q=;
+ b=jXv3ti7PJYDmCkBbu5p7V1EJ/h+yxsC4azUjpiFr/Ec63IjqdEg/6cPk8hwu7VMIslUFjOKmsleGfLJ23lMMOK9tSe3iowTUjazKJGDgzUCMUru5Gw4umdiIzYCORq/7nim82h7vxESbm7nEmyCgmd6/KlVY7FpqxUoR8XgkhWQwYmExpc9+77KYijSwsKGbwK6Nr2a/rtqxKt9ArhdMboEK0lD9wvcAFCrwUCdc2KpcCz8AkSve9rzi7HreYDDvIG0oI4UFi8Ewo461azfp5L7bdQwAQtueeNqvEWojnl79/V+7i6vGQG7lvvGO2xGwMjgUKGSuHsaL/da6EnPBTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10) with
+ by BY1PR11MB8077.namprd11.prod.outlook.com (2603:10b6:a03:527::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Thu, 19 Jan
- 2023 08:40:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Thu, 19 Jan
+ 2023 08:56:27 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::30e3:a7ab:35ba:93bb]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::30e3:a7ab:35ba:93bb%9]) with mapi id 15.20.6002.013; Thu, 19 Jan 2023
- 08:40:38 +0000
-Date: Thu, 19 Jan 2023 16:38:44 +0800
+ 08:56:27 +0000
+Date: Thu, 19 Jan 2023 16:54:34 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, nanli2x <nanx.li@intel.com>
-Subject: [intel-lts:5.15/linux 16/16]
- drivers/i2c/busses/i2c-designware-pcidrv.c:69:12: warning: unused function
- 'dw_reg_read'
-Message-ID: <Y8kBlFlmXVDezNNS@yujie-X299>
+To: Jingbo Xu <jefflexu@linux.alibaba.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [RFC PATCH 6/6] erofs: enable page cache sharing in fscache mode
+Message-ID: <Y8kFSupdVIrhd1nA@yujie-X299>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0187.apcprd04.prod.outlook.com
- (2603:1096:4:14::25) To CY5PR11MB6392.namprd11.prod.outlook.com
+In-Reply-To: <20230106125330.55529-7-jefflexu@linux.alibaba.com>
+X-ClientProxiedBy: SG2PR02CA0013.apcprd02.prod.outlook.com
+ (2603:1096:3:17::25) To CY5PR11MB6392.namprd11.prod.outlook.com
  (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,103 +79,118 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SJ2PR11MB7573:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82523279-62cf-4577-7262-08daf9f8d6c9
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BY1PR11MB8077:EE_
+X-MS-Office365-Filtering-Correlation-Id: fea24084-5c80-47b2-21e3-08daf9fb0cd2
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ql6AOVlbe0MNVi9aXqghubQ0FUoFSMjCMKhphPpuSHn8TZH9yfIPAyzlMzg65Q3uT0sD2xlfyprghgjEBebN+wAOpUYa3/lAtoLJ37P5emBKC3Sb2H2A3xn/QnYi8jeaq+YY9Ky7iZb4WR7EF+1uVr3LjvB4OCNADa15X21Kl6FzXqYAxHgyJdSeHWPswSj34YDGocsVLblz+1KhrGa2r2lJp58mHeNz6zJU+pg1dTUKGtoc36Y7hOj3Rm3ozvcB0coRSEm7QhLDfuMBp39hd3rJWKdpIYdVYem/jAjSwM9n/UOgvgHOD8BBRXtwoyl/9oG0XqIQdbPBrm9zobFO91xXpnQL3UB1fxDlDn0hfFiHmH9ncPzG1HvsJ25Qcp9BUWhqoLP/qg/Me0ckHuksObVk0ZA0B0f1cvkp+pr+IdbREHhI1AAetl4HGsKvaaFPWwXblLkWvbVcuEhcpgujEE+5dsllUCyn9tgCMhY5AJ+2O+oMCA+U2sUCVxu+bveDOUffz4NYOD7uivr1JDkgPtsdRdyLKtZ8DUMoMV+QUrHigV3a/Rs0yuZAjO2osm+7TrRVIkOCNQd4c08MfwlJbVq5O2D9ntrkSbur5zynvLjpAqJLBGzYwPKDQJodhC6FGPE6c9wxYV7W+urYTd1z0+XPdLNgbJrQfHrH4xy+mk2RJtgeYcIVZ1VtsfTgc2cWJrPKghz5rjH2KlUaUgS/lQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(346002)(366004)(396003)(376002)(136003)(451199015)(82960400001)(83380400001)(86362001)(41300700001)(38100700002)(8676002)(4326008)(6862004)(2906002)(5660300002)(8936002)(66946007)(66476007)(66556008)(478600001)(9686003)(26005)(6506007)(107886003)(33716001)(186003)(6512007)(6636002)(6666004)(6486002)(316002)(966005);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: ah2I00KiGOf1XRWwgBXfmRPlyM2XkyU9srGtH521vwtSMfgp5tlXJvq5wUzCDOtvpNgWIh3/viMQdKexmW3NBvt9jV0xy8OQzAOwDS2Afn7E9VL2FHA1Pd87WlWOc8YGe0NcyKsSwpZI6Ubu7l8ISgUKb2On3EahWO5vBOtHZQY4XHIGmW6Q6CZdNPWVXYeCO6Cjg22ntoqxtO1Bzf6pHQMrgK1g0d6/euD7T1piUMSYA8S66QeqHcys13t26s4BNx/2c9EPnT392mzN30kVCRxMpWN7Y5fyaHNV2clYFNHCMJN86crSCoSWgdJ4Pi4dbuUYBmqdB2wtVRN9E7CbZv5vDwCEXcd9HtKk+orpUs1sAwckPhi0SQOqN4dBlEYJPHWGvZid6T9Tymv3I3RoCk7+NvvcElg3AjJAEFzSxUoxaBB2U8gZsEBbICsCDqLAIdPu5UGEt1F4gGVYVp5U/7Ar0kjBhky9KjtRg8GPoZWaw6nG1Titm7AbT0sb6dK6zIIGo0s1ri9kMaty+sWZufR51f2Ez6Ctkv2RLGbRKwZJt5n1ZY+Yinn24aRCPoUp5wqXyEvbDmIEFkULpy8goPj9mrS1wpqRDEV2SJe/gj/+dCDt2je249lntPg2jIOtU1wHdyS6Fomvlg/lyW8/n72ELZlwXSmnYhUunop3Wl4xIImCmlbw7KZ6KNRXxVGUbUMD7Yqh5fdGlMhMg42QaQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199015)(6512007)(9686003)(66476007)(66556008)(66946007)(186003)(26005)(4326008)(6916009)(8676002)(41300700001)(6666004)(478600001)(966005)(6486002)(316002)(6506007)(86362001)(33716001)(83380400001)(5660300002)(82960400001)(8936002)(38100700002)(2906002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l/CGzchOe+gVavbF4pyMmYpuM4iUah52tVR7xzBw9mobBWVf13xpoWXjjpWe?=
- =?us-ascii?Q?mcS/8Wu9u5ambi44+SMdrb3RmZITmIkELrgoeBC7tRcOihA3K3eTBEWufFXI?=
- =?us-ascii?Q?9oFdD7wXAVbnrX0pg4tFLKCrjg/x4w2/ACMd2+NsRun7rSKy9ir61UMtKd7r?=
- =?us-ascii?Q?EGEO4GQs9A5eq7JdUD1rBn51Gyl8+bKMAo7fiXL5Fss7wABWwyyyKQQRMcaH?=
- =?us-ascii?Q?maAUb5/k9DEHzWOfEkm3F5hGdc8wvlPbT1CM/Qs475HiScaZWy5U9xkbIvfP?=
- =?us-ascii?Q?RbLql0u7RmruFfpVnmjUw16yfcui1S1za3wb/Tyz/8nj9fEDNLHosnPMnKN5?=
- =?us-ascii?Q?9JaT6g1A63Q9opczZq4W1rUR8nhJyktcYrh+Hnn1Sc8/689VyXLiG/T2sO1w?=
- =?us-ascii?Q?KbcW6i1Po5xI4OI3JEF+9yve/NLQ0iOCrEq/C06OqrXMaT2piNqDJigxURvM?=
- =?us-ascii?Q?kZYfcKbhRczrKBWKdyujSxisd1eoo0paRM4Q/21k7QIaxc48Edc0DN5LrHJX?=
- =?us-ascii?Q?pXdEf04IcHkOTopDfbVrewnR0AlQ07NnCWdGxyrElPdIswFukVQf9NMd4k1w?=
- =?us-ascii?Q?npTrIZ+tKUdMszhHVJNRb5NHXtlXSrPAPvk0jGhfd5Uo6aMQx1tsLYX8K8Zs?=
- =?us-ascii?Q?lUEFugNJmCtv2BCfnQ123yt8orlqBONGjW1TdZq5NHxFCJB7Xi+cGOu7NLgI?=
- =?us-ascii?Q?ROO5lOWOifxVytmiOFPRmZY2LJRVUkTRswZQQP/eqL+04Xj01N9r7tIipZ2i?=
- =?us-ascii?Q?lGS5mL3e7HEbfn/fIszyrLAfJpQkVRa29OFpx6n7KjutLKnN8gafZIT6m8wT?=
- =?us-ascii?Q?jwKFrrweFz8sm9YE4lCRDV9WzmkgV3tdMYx/Rd6nq/cPGSDVCGpZ97P5RoIr?=
- =?us-ascii?Q?Yz7ZLLlfaesPlORdz/VEuVavZ0AogwD7NEnP8Y8DUxLPzuLPlF68grdLe5Br?=
- =?us-ascii?Q?uhkRJEtRgwl0zLkvmiFj7UtwsF2UblAS1kyVcKHx72D2QvOKWp9oFaM/AuSc?=
- =?us-ascii?Q?1eoqauvmeDAuWDLupc7TnpwGOeSAxUpp/nP2mJX059g1rotiQKukRbFqAOEy?=
- =?us-ascii?Q?vyKZvCS832mowbD/5kKT2v0nQvt2TDePs32haFE5J11Ab9wc0lunwkjd6+my?=
- =?us-ascii?Q?yh1PjlW1K8q5Id+ddH2W65IPb9QNkXLF3PQ/dB1rZgMhh8VOeDDHl7BL3oLO?=
- =?us-ascii?Q?u1Du7hK5fvTEyWGYDMhR2jb1yxcycO5pEbohmbc8DkXcMU4qkkMkYWB10Ipc?=
- =?us-ascii?Q?veuuPFes2BHlp2/wZre23/Hk3k57C63uMcurdzjsAY6hYlrF1KMo1K0h3kBm?=
- =?us-ascii?Q?n8zOsxjkGIWD0nhMQUtukMpNuChryqLGbmEsVYxcjCIeVqVb59Skp/OwyysC?=
- =?us-ascii?Q?xG2txx+H6LBikQzRGXaqNpfurgi8Mwe4OnBlcM2QgRGaAEjBv9zTXpXJwfQM?=
- =?us-ascii?Q?i2Iz/RZlJmMhDVD3BAdR7NVzuE2Dnrf8hoxvX08Thyufv5ssM+UxJdSHg56S?=
- =?us-ascii?Q?iGccyVHOKHG6aq6kirKfdLvoz7ll5iCQ8BS7zJ1f0bRSPq7gZ50bxyzU98yw?=
- =?us-ascii?Q?NqJCVSoUqy/2RyuyGe+u7l73oWXTJ+mt08UAwZBo?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82523279-62cf-4577-7262-08daf9f8d6c9
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uNkll+/nrIHA73AIYkCoCK2KPIJL8WuOrFGbi1VPMp8T0lyrTcmFgpxkWSht?=
+ =?us-ascii?Q?TGvyjhyKOIgF8ZTQNNcYvWEOvmhdAQQsaPYJYb7AG/1jrBaAftortAdbg0S5?=
+ =?us-ascii?Q?QCpDMBZ1BnpbpyLzOJ0aC/buhznthINDl+FSwivz/JqzY8faoJ1VN3QbqwJ/?=
+ =?us-ascii?Q?6IoXYQ5eHs/uUJ986qZzwr4Fu6eUrWvhEpTav6GxM6OLxyoSeA60whpAgW6c?=
+ =?us-ascii?Q?hCkGZwlCaxxEv5yVJRpsEFlF3Cresd29x7ygirwQAZvtz7rXgOIF65xc8eY/?=
+ =?us-ascii?Q?3NcOvkO7958V1of/JHYe9T9p6xKmsyiwb5a1WUhDsW1RmirSnS41jofXWTs4?=
+ =?us-ascii?Q?uuQPXEXvOEB33eVYELlDdcK1o+Jk/GfyTVi2scNJROJ9uQTpBdpBYjRxLX5f?=
+ =?us-ascii?Q?8bBNgyZxTU1Ao/Lq/tQ6RVYGR/rMcvCaMgVupNWYbbxM5ME13vJ2HaeVtnYI?=
+ =?us-ascii?Q?4HyJsCuwhLcf8LVDc6/uVYIe6wBT8gUyQcC8aZRvrqKxWuJIXmIlZ66x4O1g?=
+ =?us-ascii?Q?aeSd0p3B8M0Q2ad0CQ5VYJY2iZvH+bdQYp9I9VqSSFqEqasidVdJbHxR4WWR?=
+ =?us-ascii?Q?HYuu/mL00+K5xq3uUKZTD1ESeGtQbkMWK1mD9+GzABoHFxDJcGhQatprVq6F?=
+ =?us-ascii?Q?ldocRShQeZzZ81hBx72yXsisIFg0pbAJ9ZJ7k46zE0TI1fHjw5jNJTrFyRou?=
+ =?us-ascii?Q?+yCks9ZezLrSl3/gT1JVQgUkqj70HmsiWN3gC/YSD8wJjIAh+omiadLAvb6J?=
+ =?us-ascii?Q?KFvgRTzITYHJRvpT+meuMkQ5wWSgleYi59AMqFJX078d8gODe1n6WehYwi8Z?=
+ =?us-ascii?Q?kna9oZAg53YbJ3F9V75ur8bso7bz3vCMtR9oFNhs+SkWaWPbHfDrC0THOIWc?=
+ =?us-ascii?Q?dOpXohCvLDG+7svPc4+3Pr5g+gm7gpZPkBFH2xzpNAL4wlmt3RhfJTLoiYju?=
+ =?us-ascii?Q?/ZNij3qCEYR1l5GrnZdVLX0yBlVpEKgHAxGZcXeZqIMysXVLXIABwTVbkERs?=
+ =?us-ascii?Q?u9ZSvBHyogUy4wLizeGZBSAnWnTxelyF137KSIPYOu168sUeSOmcr4MTJn3U?=
+ =?us-ascii?Q?22iZ2zzZ2CkKQgcViUsWJ58hnzvFcnYhlIoPnYK8+wyC1Dh1J7evdYru7i9y?=
+ =?us-ascii?Q?efY6VI7RFitRlCJnjq7QLtRPVBfi9id9jEZMW0KUnH+XWCV+ftKu55JOq/zD?=
+ =?us-ascii?Q?uhf7Xfom6V1Vq/B30Tb9UHzETuhxRTIgN2hmvuNfXhq6widU8OEx1tLoE6sS?=
+ =?us-ascii?Q?WnVRlrKHDlPrZeKcfGFYYle1CdKKDmlV/NNv/cprNawLT8FRP6NfdvEgSjOm?=
+ =?us-ascii?Q?9XVgkZydag3ipbIWTksCIW+g5RnqQInMHTvIj5gxAoTfwIxsWZIZSOsQ58H+?=
+ =?us-ascii?Q?7YbSE6bj+NDWht8MA+71fev7wmtpemmmC/6syDu0FRwuMjkm0AMFWJPrwWam?=
+ =?us-ascii?Q?Fkzp6y7EhMGnFsMru/H3PEAA895VcKDeQfGVRgFui/X7cutMkAN1r8DnSVT/?=
+ =?us-ascii?Q?ACh3yV40sfg95JKtvMTZDA8KnCJE/N26vy7ZHOYGNP5VxPXtAc6p0F9rBd/L?=
+ =?us-ascii?Q?q9yMg9UgQXMIsMeY1SMZeVmQFDZXW6Lgt+xKzY0s?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fea24084-5c80-47b2-21e3-08daf9fb0cd2
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 08:40:37.8797
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 08:56:27.7312
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yb6dzEesIecS/OjsyS6gCUQkd9zOlxst24nn1uF/DPOlU5rcmPw5ZDcSozuz3koDHPyz+UP1GZSz8N0yz93U0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7573
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3RBB/83tlCIod2E9cfzeXxlBc+yJpmi5VDCr6tZLbx7QkQ/u8f5rMWecHenlGdo+XrT/GFkWEIB7rPR2AVfazQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8077
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   4e26912f977bc8d60339bfcd56a777a08ded493d
-commit: 1ec5959a8f6dbfbb47057317bc935924cd8d6977 [16/16] i2c: Add read and write functions in pcidrv
-config: s390-randconfig-r004-20230118 (https://download.01.org/0day-ci/archive/20230119/202301191334.w0M07yQz-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+Hi Jingbo,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on xiang-erofs/dev-test]
+[also build test WARNING on xiang-erofs/dev xiang-erofs/fixes linus/master v6.2-rc4 next-20230118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbo-Xu/erofs-remove-unused-device-mapping-in-the-meta-routine/20230106-205600
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20230106125330.55529-7-jefflexu%40linux.alibaba.com
+patch subject: [RFC PATCH 6/6] erofs: enable page cache sharing in fscache mode
+config: i386-randconfig-a004-20220328 (https://download.01.org/0day-ci/archive/20230119/202301190654.hZ4dPPlb-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel/linux-intel-lts/commit/1ec5959a8f6dbfbb47057317bc935924cd8d6977
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.15/linux
-        git checkout 1ec5959a8f6dbfbb47057317bc935924cd8d6977
+        # https://github.com/intel-lab-lkp/linux/commit/5c565bd6afacc699309e9fc20119d91501a5d3ae
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jingbo-Xu/erofs-remove-unused-device-mapping-in-the-meta-routine/20230106-205600
+        git checkout 5c565bd6afacc699309e9fc20119d91501a5d3ae
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/i2c/busses/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ lib//
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-designware-pcidrv.c:69:12: warning: unused function 'dw_reg_read' [-Wunused-function]
-   static int dw_reg_read(struct dw_i2c_dev *dev, unsigned int reg, unsigned int *val)
-              ^
->> drivers/i2c/busses/i2c-designware-pcidrv.c:75:12: warning: unused function 'dw_reg_write' [-Wunused-function]
-   static int dw_reg_write(struct dw_i2c_dev *dev, unsigned int reg, unsigned int val)
-              ^
-
-Please note this build test doesn't set CONFIG_PM in the config
+>> fs/erofs/inode.c:244:13: warning: 'erofs_can_share_page_cache' defined but not used [-Wunused-function]
+     244 | static bool erofs_can_share_page_cache(struct inode *inode)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/dw_reg_read +69 drivers/i2c/busses/i2c-designware-pcidrv.c
+Please consider guarding the implementation of erofs_can_share_page_cache with CONFIG_EROFS_FS_ONDEMAND.
 
-fe20ff5c7e9ca7f Dirk Brandewie      2011-10-06  68  
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03 @69  static int dw_reg_read(struct dw_i2c_dev *dev, unsigned int reg, unsigned int *val)
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  70  {
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  71  	*val = readl_relaxed(dev->base + reg);
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  72  	return 0;
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  73  }
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  74  
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03 @75  static int dw_reg_write(struct dw_i2c_dev *dev, unsigned int reg, unsigned int val)
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  76  {
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  77  	writel_relaxed(val, dev->base + reg);
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  78  	return 0;
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  79  }
-1ec5959a8f6dbfb D, Lakshmi Sowjanya 2022-03-03  80  
+
+vim +/erofs_can_share_page_cache +244 fs/erofs/inode.c
+
+431339ba90423a0 drivers/staging/erofs/inode.c Gao Xiang 2018-07-26  243  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06 @244  static bool erofs_can_share_page_cache(struct inode *inode)
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  245  {
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  246  	struct erofs_inode *vi = EROFS_I(inode);
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  247  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  248  	/* enable page cache sharing only in share domain mode */
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  249  	if (!erofs_is_fscache_mode(inode->i_sb) ||
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  250  	    !EROFS_SB(inode->i_sb)->domain_id)
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  251  		return false;
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  252  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  253  	if (vi->datalayout != EROFS_INODE_CHUNK_BASED)
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  254  		return false;
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  255  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  256  	/* avoid crossing multi devicces/blobs */
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  257  	if (inode->i_size > 1UL << vi->chunkbits)
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  258  		return false;
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  259  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  260  	/* avoid data leakage in mmap routine */
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  261  	if (EROFS_BLKSIZ % PAGE_SIZE)
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  262  		return false;
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  263  
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  264  	return true;
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  265  }
+5c565bd6afacc69 fs/erofs/inode.c              Jingbo Xu 2023-01-06  266  
 
 -- 
 0-DAY CI Kernel Test Service
