@@ -1,117 +1,126 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C946FC2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 11:45:25 +0000 (UTC)
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 30JBcVkxD029854, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 30JBcVkxD029854
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-	Thu, 19 Jan 2023 19:38:31 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.9; Thu, 19 Jan 2023 19:38:32 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 19 Jan 2023 19:38:32 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b]) by
- RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b%5]) with mapi id
- 15.01.2375.007; Thu, 19 Jan 2023 19:38:32 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: "Jes.Sorensen@gmail.com" <Jes.Sorensen@gmail.com>,
-        "lkp@intel.com"
-	<lkp@intel.com>
-CC: "kvalo@kernel.org" <kvalo@kernel.org>,
-        "linux-mm@kvack.org"
-	<linux-mm@kvack.org>,
-        "andrea.merello@gmail.com" <andrea.merello@gmail.com>,
-        "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "ap420073@gmail.com" <ap420073@gmail.com>
-Subject: Re: [linux-next:master 788/6276] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse: sparse: invalid assignment: |=
-Thread-Topic: [linux-next:master 788/6276]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:
- sparse: invalid assignment: |=
-Thread-Index: AQHZK97xvqqcshDY10uEBjLej9lh4K6lFzOA
-Date: Thu, 19 Jan 2023 11:38:32 +0000
-Message-ID: <a259e397f41fe6f5901cb0527ef2275b8768b394.camel@realtek.com>
-References: <202301191616.R33Dvxk4-lkp@intel.com>
-In-Reply-To: <202301191616.R33Dvxk4-lkp@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.36.1-2 
-x-originating-ip: [172.16.17.60]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzEvMTkg5LiK5Y2IIDA5OjExOjAw?=
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <729B9EF35E160D429A85F73493FBB8CC@realtek.com>
-Content-Transfer-Encoding: base64
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480116FC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 11:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674129355; x=1705665355;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NpiEzqp0o4rXX/w2fv1KbfrNMpFaj+/uVrqFQw6wgRM=;
+  b=CYWBC6/IEvhsiUijezKbNgN9PFZ/wo0/9829qY7XwfOTmkhYoxiXfcSo
+   oV8coraFJjVh83rX3mWnWkJf8hkMhuAj7voEMAae5vzPCWFn4qibULihE
+   jnPtzUhda1cxif1IKqcxzCwCUKz7iUd8isMZwTVdGC5CujTe4kUs9QHs/
+   Xibmui74evtGzCSVRgbG1Qjc2PRxRbRFgILKwNBLPV/zjR3yoXBvXU1Fl
+   JTcJUbBx8O5bZKrYyK1kLui1bEzvFIFI2BfX5WJdMYaDbxfcNogA9JUhK
+   3G9o6w+hnBNfLvX3BfLtH44K4qpJU85CZ5mb+iPq1RVWYD3PW9WgvyRCD
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="387610943"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="387610943"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:55:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="748893885"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="748893885"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2023 03:55:49 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pITWG-0001QF-2a;
+	Thu, 19 Jan 2023 11:55:48 +0000
+Date: Thu, 19 Jan 2023 19:55:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/compiler_types.h:319:45: error: call to
+ '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON
+ failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
+Message-ID: <202301191953.wurqwk6P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gVGh1LCAyMDIzLTAxLTE5IGF0IDE2OjIwICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToNCj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVs
-L2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0IG1hc3Rlcg0KPiBoZWFkOiAgIGFhNWM0OTE0OWE4MjM1
-OTk3NjRlNjk1MzIyOWIwMjhlNGJmNmU5Y2MNCj4gY29tbWl0OiAzZGZiOGU4NDRmYTMwY2NlYjRi
-ODEwNjEzZTJjMzVmNjI4ZWIzZTcwIFs3ODgvNjI3Nl0gd2lmaTogcnRsOHh4eHU6IFN1cHBvcnQg
-bmV3IGNoaXANCj4gUlRMODE4OEVVDQo+IGNvbmZpZzogb3BlbnJpc2MtcmFuZGNvbmZpZy1zMDQz
-LTIwMjMwMTE5ICgNCj4gaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIw
-MjMwMTE5LzIwMjMwMTE5MTYxNi5SMzNEdnhrNC1sa3BAaW50ZWwuY29tL2NvbmZpZykNCj4gY29t
-cGlsZXI6IG9yMWstbGludXgtZ2NjIChHQ0MpIDEyLjEuMA0KPiByZXByb2R1Y2U6DQo+ICAgICAg
-ICAgd2dldCBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaW50ZWwvbGtwLXRlc3Rz
-L21hc3Rlci9zYmluL21ha2UuY3Jvc3MgLU8NCj4gfi9iaW4vbWFrZS5jcm9zcw0KPiAgICAgICAg
-IGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MNCj4gICAgICAgICAjIGFwdC1nZXQgaW5zdGFsbCBz
-cGFyc2UNCj4gICAgICAgICAjIHNwYXJzZSB2ZXJzaW9uOiB2MC42LjQtMzktZ2NlMWE2NzIwLWRp
-cnR5DQo+ICAgICAgICAgIyANCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4
-L2tlcm5lbC9naXQvbmV4dC9saW51eC1uZXh0LmdpdC9jb21taXQvP2lkPTNkZmI4ZTg0NGZhMzBj
-Y2ViNGI4MTA2MTNlMmMzNWY2MjhlYjNlNzANCj4gICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51
-eC1uZXh0IA0KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC9uZXh0L2xpbnV4LW5leHQuZ2l0DQo+ICAgICAgICAgZ2l0IGZldGNoIC0tbm8tdGFncyBsaW51
-eC1uZXh0IG1hc3Rlcg0KPiAgICAgICAgIGdpdCBjaGVja291dCAzZGZiOGU4NDRmYTMwY2NlYjRi
-ODEwNjEzZTJjMzVmNjI4ZWIzZTcwDQo+ICAgICAgICAgIyBzYXZlIHRoZSBjb25maWcgZmlsZQ0K
-PiAgICAgICAgIG1rZGlyIGJ1aWxkX2RpciAmJiBjcCBjb25maWcgYnVpbGRfZGlyLy5jb25maWcN
-Cj4gICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BBVEg9JEhPTUUvMGRheSBDT01QSUxFUj1nY2Mt
-MTIuMS4wIG1ha2UuY3Jvc3MgQz0xIENGPSctZmRpYWdub3N0aWMtDQo+IHByZWZpeCAtRF9fQ0hF
-Q0tfRU5ESUFOX18nIE89YnVpbGRfZGlyIEFSQ0g9b3BlbnJpc2Mgb2xkZGVmY29uZmlnDQo+ICAg
-ICAgICAgQ09NUElMRVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEu
-MCBtYWtlLmNyb3NzIEM9MSBDRj0nLWZkaWFnbm9zdGljLQ0KPiBwcmVmaXggLURfX0NIRUNLX0VO
-RElBTl9fJyBPPWJ1aWxkX2RpciBBUkNIPW9wZW5yaXNjIFNIRUxMPS9iaW4vYmFzaA0KPiBkcml2
-ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1Lw0KPiANCj4gSWYgeW91IGZpeCB0aGUg
-aXNzdWUsIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZyB3aGVyZSBhcHBsaWNhYmxlDQo+ID4gUmVw
-b3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiANCj4gc3BhcnNl
-IHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pDQo+ID4gPiBkcml2ZXJzL25ldC93
-aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1L3J0bDh4eHh1X2NvcmUuYzo1MTk4OjI0OiBzcGFyc2U6
-IHNwYXJzZTogaW52YWxpZA0KPiA+ID4gYXNzaWdubWVudDogfD0NCj4gPiA+IGRyaXZlcnMvbmV0
-L3dpcmVsZXNzL3JlYWx0ZWsvcnRsOHh4eHUvcnRsOHh4eHVfY29yZS5jOjUxOTg6MjQ6IHNwYXJz
-ZTogICAgbGVmdCBzaWRlIGhhcyB0eXBlDQo+ID4gPiByZXN0cmljdGVkIF9fbGUxNg0KPiA+ID4g
-ZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGw4eHh4dS9ydGw4eHh4dV9jb3JlLmM6NTE5
-ODoyNDogc3BhcnNlOiAgICByaWdodCBzaWRlIGhhcyB0eXBlDQo+ID4gPiByZXN0cmljdGVkIF9f
-bGUzMg0KPiANCj4gDQoNClsuLi5dDQoNCj4gICA1MTg0CQkvKg0KPiAgIDUxODUJCSAqIHJ0c19y
-YXRlIGlzIHplcm8gaWYgUlRTL0NUUyBvciBDVFMgdG8gU0VMRiBhcmUgbm90IGVuYWJsZWQNCj4g
-ICA1MTg2CQkgKi8NCj4gICA1MTg3CQl0eF9kZXNjLT50eGR3NCB8PSBjcHVfdG9fbGUzMihydHNf
-cmF0ZSA8PCBUWERFU0MzMl9SVFNfUkFURV9TSElGVCk7DQo+ICAgNTE4OAkJaWYgKGFtcGR1X2Vu
-YWJsZSB8fCAocmF0ZV9mbGFncyAmIElFRUU4MDIxMV9UWF9SQ19VU0VfUlRTX0NUUykpIHsNCj4g
-ICA1MTg5CQkJdHhfZGVzYy0+dHhkdzQgfD0gY3B1X3RvX2xlMzIoVFhERVNDMzJfUlRTX0NUU19F
-TkFCTEUpOw0KPiAgIDUxOTAJCQl0eF9kZXNjLT50eGR3NCB8PSBjcHVfdG9fbGUzMihUWERFU0Mz
-Ml9IV19SVFNfRU5BQkxFKTsNCj4gICA1MTkxCQl9IGVsc2UgaWYgKHJhdGVfZmxhZ3MgJiBJRUVF
-ODAyMTFfVFhfUkNfVVNFX0NUU19QUk9URUNUKSB7DQo+ICAgNTE5MgkJCXR4X2Rlc2MtPnR4ZHc0
-IHw9IGNwdV90b19sZTMyKFRYREVTQzMyX0NUU19TRUxGX0VOQUJMRSk7DQo+ICAgNTE5MwkJCXR4
-X2Rlc2MtPnR4ZHc0IHw9IGNwdV90b19sZTMyKFRYREVTQzMyX0hXX1JUU19FTkFCTEUpOw0KPiAg
-IDUxOTQJCX0NCj4gICA1MTk1CQ0KPiAgIDUxOTYJCXR4X2Rlc2MtPnR4ZHcyIHw9IGNwdV90b19s
-ZTMyKFRYREVTQ19BTlRFTk5BX1NFTEVDVF9BIHwNCj4gICA1MTk3CQkJCQkgICAgICBUWERFU0Nf
-QU5URU5OQV9TRUxFQ1RfQik7DQo+ID4gNTE5OAkJdHhfZGVzYy0+dHhkdzcgfD0gY3B1X3RvX2xl
-MzIoVFhERVNDX0FOVEVOTkFfU0VMRUNUX0MpOw0KDQpJIHNlbmQgYSBwYXRjaCB0byBmaXggdGhp
-cyBbMV0sIGJ1dCBJIGRvbid0IGhhdmUgYSBjYXJkIG9uIGhhbmQsIHNvIG9ubHkgY29tcGlsZSB0
-ZXN0Lg0KVGhlcmVmb3JlLCByZWFsIHRlc3QgaXMgd2VsY29tZS4NCg0KWzFdIGh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2xpbnV4LXdpcmVsZXNzLzIwMjMwMTE5MTEzMTQ2Ljk2NDAtMS1wa3NoaWhA
-cmVhbHRlay5jb20vVC8jdQ0KDQpQaW5nLUtlDQoNCg0K
+Hi Thomas,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7287904c8771b77b9504f53623bb477065c19a58
+commit: 39cac191ff37939544af80d5d2af6b870fd94c9b arc/mm/highmem: Use generic kmap atomic implementation
+date:   2 years, 2 months ago
+config: arc-randconfig-r013-20230119 (https://download.01.org/0day-ci/archive/20230119/202301191953.wurqwk6P-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=39cac191ff37939544af80d5d2af6b870fd94c9b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 39cac191ff37939544af80d5d2af6b870fd94c9b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/mm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   arch/arc/mm/highmem.c: In function 'kmap_init':
+>> include/linux/compiler_types.h:319:45: error: call to '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
+     319 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:300:25: note: in definition of macro '__compiletime_assert'
+     300 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:319:9: note: in expansion of macro '_compiletime_assert'
+     319 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/highmem.c:69:9: note: in expansion of macro 'BUILD_BUG_ON'
+      69 |         BUILD_BUG_ON(FIX_KMAP_SLOTS > PTRS_PER_PTE);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_242 +319 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  305  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  306  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  307  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  308  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  309  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  310   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  311   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  312   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  313   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  314   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  315   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  316   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  317   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @319  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  320  
+
+:::::: The code at line 319 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
