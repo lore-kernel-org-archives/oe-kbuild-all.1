@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EEE7471
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 14:24:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE6D7485
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 14:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674138259; x=1705674259;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=tJjgtqb/IZGM5ZOL2vox9G1uzXThY7iUk/8piSDEWB0=;
-  b=fCUDyZptpbk6cagaNqsL7n1N+l1HYC6tgney/6MbD8sYzo05hMk2AybL
-   icrbdY+dhgLura2b3Rz1dOwdG9rm0v1UwUzla+WMIHWMSea8fEPCAkj+H
-   +4FthvJ1X51uuqebNdDMkWrvz8i5eL2t7JLHQvazb2vLu7Qhf1pNPssPz
-   ekZeiO0tw42ayNdOBMvohdojY9KEzRkwhWiEKGNb4ndIfkYYFSST4PmRO
-   36/jLhj6U0VhvOru0ytk7ccHh1Rp6gTnEYaTQYV7/6SH9Sn2jSlZO5eGe
-   RaYjmeCZGaim+KMjPCD6QRXZb4CJt13l8fRDNVYRgWiDFlQSeV4xGN8Pt
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326558156"
+  t=1674139208; x=1705675208;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dHj1+QuUpgGxLyqdib/GnLV8X3Skn5bQP3wCL4ydQFc=;
+  b=I9sNuhY/plJYEvQ9aPTe/iENeqCaWW2ego5gVSiMyphg/Z+pIXfBKfx9
+   zF9g+olajPhUlLsT7cti4SswQU2QaLB7hSwUtWQnrhmoauTxz5WGeug/+
+   7ansiRjShfa3krwzqtwKWNanF30AY5grfXE5gC7tWdVgYggQV7+1Z393U
+   R60EzjYJKFtPGahWv4COjSGjVe8s4PwGclvde0jvEbEKTFlmxwStiAaE2
+   AJobW0I30WAVIyuwZplUx5Iu7aN7CinrfMbHjKKZT/cKpUvJSQ/4JH/uV
+   yc6SIRl3PpJtGfB/h0OSbr2ZVXX/9ReJr3a8SOP9rhWIT9AP0/qO9MaXp
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323986948"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="326558156"
+   d="scan'208";a="323986948"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:08:56 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:40:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="610074243"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="610084758"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="610074243"
+   d="scan'208";a="610084758"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 19 Jan 2023 06:08:55 -0800
+  by orsmga003.jf.intel.com with ESMTP; 19 Jan 2023 06:39:55 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIVb4-0001Wm-1N;
-	Thu, 19 Jan 2023 14:08:54 +0000
-Date: Thu, 19 Jan 2023 22:08:23 +0800
+	id 1pIW55-0001Xw-0Y;
+	Thu, 19 Jan 2023 14:39:55 +0000
+Date: Thu, 19 Jan 2023 22:39:06 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Hardik Shah <hardik.t.shah@intel.com>
-Subject: [intel-lts:4.19/android_s 5256/29197] versioncheck:
- ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-Message-ID: <202301192240.sAX4Zvv0-lkp@intel.com>
+To: Jon Moeller <jon.moeller@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 5841/29197] versioncheck:
+ ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
+Message-ID: <202301192232.N6SdoJEz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,7 +48,7 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
 head:   805dd2465b9f044a53299645fb6d90d59a584d75
-commit: c36af003bab3f4722b78a13d335474c853d12bfd [5256/29197] ASoC: add rt700 codec driver
+commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [5841/29197] platform/x86: add sep and socwatch drivers without socperf.
 reproduce:
         make versioncheck
 
@@ -119,6 +119,22 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
    ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
    ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
+>> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
+>> ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
+>> ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
+>> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
+>> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
+>> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
+>> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
    ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
    ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
@@ -143,7 +159,7 @@ versioncheck warnings: (new ones prefixed by >>)
    ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
    ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
    ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
->> ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
+   ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
    ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
    ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
    ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
