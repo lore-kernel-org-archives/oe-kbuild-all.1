@@ -1,42 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD84623AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 04:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BF323AE;
+	Thu, 19 Jan 2023 05:47:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674103594; x=1705639594;
+  t=1674107258; x=1705643258;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LkHwTFvlBOXwohRc0KvxOy6IuIg2CxV2ncIB1zbIDnk=;
-  b=M3+MZKTIl19I7R8ovuJ7G5rPrv4t/8U2cj3sInm9namWE+8iXH8iL2jI
-   AmlfUsDaKgtU8kOeB02FyTwyV+PP1btGeCz3OJwDdIVWpTxS6XAPImtWE
-   //sNeLaIWCeNaIPBBpDhQ5WyOc5f+IrxLRzsLZosECAfaKPWefXL4Tp82
-   99vZuFTFey+2CMmqi0ryv3iJ/vC9KFh2TiIWxe5P2RtV80bT5t8eSX5Bc
-   /Zsy1Fgn/AieAZ1M3rK2DVCM74p6j3A5muqpHgTqjzHOXKvMr/gnBeQRn
-   q0WvMb75VWfz8fGnDoESqZ0wpSwJzRRnPwD9hh8QvRyR9BXAqewPigJnS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327266813"
+  bh=lRAXFhrwES6RtZm6J0tMBAQQrNufPov6iUsv3OLlBJg=;
+  b=YeR0qmVHI2/LwcD/lLI7eqsNppaaEGniJOQ7A5MvtrSuvrIZvABUIYsu
+   237T5ZfoJkbwerjRiFUOgZB8w5Yogb5e/LQXr3syBvDS2xrzqJs79DKGk
+   ybKBuElXa3f8use9zPA6prxrUPhogDONtP8h5jyYR0cwjHF1KvBe8dY7G
+   PGXOvURn5lLTezdww7Ks6UapaVp9LryOa4S0DM3PR50faz50VfgIcmsny
+   JVWEvH7vLeBAuh7wACo7QEC/eMIMu5KvXO+uRmtiIH2twXjGoKXnZEF9z
+   Yht7bI6Sh0Iy4uLwLAgVQShQz1XMbToktQBT9qpnjMMbLtI34SYPViv50
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="352457251"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="327266813"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 20:46:34 -0800
+   d="scan'208";a="352457251"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 21:47:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692281220"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660069786"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="692281220"
+   d="scan'208";a="660069786"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2023 20:46:33 -0800
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 21:47:35 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIMoq-00015u-06;
-	Thu, 19 Jan 2023 04:46:32 +0000
-Date: Thu, 19 Jan 2023 12:45:36 +0800
+	id 1pINlu-00019C-35;
+	Thu, 19 Jan 2023 05:47:34 +0000
+Date: Thu, 19 Jan 2023 13:46:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_1 25/27]
- kernel/trace/ftrace.c:5595:22: warning: variable 'err' set but not used
-Message-ID: <202301191214.ACiV9GxE-lkp@intel.com>
+To: Jiri Pirko <jiri@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpirko-mlxsw:jiri_devel_work_devlink_various 24/25]
+ drivers/net/ethernet/mellanox/mlx5/core/en/devlink.c:60:56: error: expected
+ expression
+Message-ID: <202301191337.LhRjuuRL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +47,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_1
-head:   747784185d106a06b429736196d8817cb2d12a6f
-commit: 553555d3ff275b63f8edf8a7b20861d4a01c8918 [25/27] ftrace: Add add_direct_functions_hash function
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230119/202301191214.ACiV9GxE-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/jpirko/linux_mlxsw jiri_devel_work_devlink_various
+head:   6667b78532ac7d8a8d2f9f05ae37446d6e4adebc
+commit: b935a1680b9e8e039142856f1df72496751a3172 [24/25] net/mlx5e: Move dl_port to struct mlx5e_dev
+config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230119/202301191337.LhRjuuRL-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=553555d3ff275b63f8edf8a7b20861d4a01c8918
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf bpf/tracing_multi_1
-        git checkout 553555d3ff275b63f8edf8a7b20861d4a01c8918
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jpirko/linux_mlxsw/commit/b935a1680b9e8e039142856f1df72496751a3172
+        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
+        git fetch --no-tags jpirko-mlxsw jiri_devel_work_devlink_various
+        git checkout b935a1680b9e8e039142856f1df72496751a3172
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/trace/ftrace.c:299:5: warning: no previous prototype for '__register_ftrace_function' [-Wmissing-prototypes]
-     299 | int __register_ftrace_function(struct ftrace_ops *ops)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ftrace.c:342:5: warning: no previous prototype for '__unregister_ftrace_function' [-Wmissing-prototypes]
-     342 | int __unregister_ftrace_function(struct ftrace_ops *ops)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ftrace.c:4009:15: warning: no previous prototype for 'arch_ftrace_match_adjust' [-Wmissing-prototypes]
-    4009 | char * __weak arch_ftrace_match_adjust(char *str, const char *search)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/ftrace.c: In function 'add_direct_functions_hash':
->> kernel/trace/ftrace.c:5595:22: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    5595 |         int size, i, err;
-         |                      ^~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en/devlink.c:60:56: error: expected expression
+                   dl_port_index = mlx5_esw_vport_to_devlink_port_index(>mdev, 0);
+                                                                        ^
+   1 error generated.
 
 
-vim +/err +5595 kernel/trace/ftrace.c
+vim +60 drivers/net/ethernet/mellanox/mlx5/core/en/devlink.c
 
-  5590	
-  5591	static int add_direct_functions_hash(struct ftrace_hash *hash, unsigned long addr,
-  5592					     struct ftrace_hash **free_hash)
-  5593	{
-  5594		struct ftrace_func_entry *entry, *new;
-> 5595		int size, i, err;
-  5596	
-  5597		/* Make sure requested entries are not already registered.. */
-  5598		size = 1 << hash->size_bits;
-  5599		for (i = 0; i < size; i++) {
-  5600			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-  5601				if (ftrace_find_rec_direct(entry->ip))
-  5602				return -EINVAL;
-  5603			}
-  5604		}
-  5605	
-  5606		/* ... and insert them to direct_functions hash. */
-  5607		err = -ENOMEM;
-  5608		for (i = 0; i < size; i++) {
-  5609			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-  5610				new = ftrace_add_rec_direct(entry->ip, addr, free_hash);
-  5611				if (!new)
-  5612					return -ENOMEM;
-  5613				entry->direct = addr;
-  5614			}
-  5615		}
-  5616		return 0;
-  5617	}
-  5618	
+    39	
+    40	int mlx5e_devlink_port_register(struct mlx5e_dev *mlx5e_dev,
+    41					struct mlx5_core_dev *mdev)
+    42	{
+    43		struct devlink *devlink = priv_to_devlink(mlx5e_dev);
+    44		struct devlink_port_attrs attrs = {};
+    45		struct netdev_phys_item_id ppid = {};
+    46		unsigned int dl_port_index;
+    47	
+    48		if (mlx5_core_is_pf(mdev)) {
+    49			attrs.flavour = DEVLINK_PORT_FLAVOUR_PHYSICAL;
+    50			attrs.phys.port_number = mlx5_get_dev_index(mdev);
+    51			if (MLX5_ESWITCH_MANAGER(mdev)) {
+    52				mlx5e_devlink_get_port_parent_id(mdev, &ppid);
+    53				memcpy(attrs.switch_id.id, ppid.id, ppid.id_len);
+    54				attrs.switch_id.id_len = ppid.id_len;
+    55			}
+    56			dl_port_index = mlx5_esw_vport_to_devlink_port_index(mdev,
+    57									     MLX5_VPORT_UPLINK);
+    58		} else {
+    59			attrs.flavour = DEVLINK_PORT_FLAVOUR_VIRTUAL;
+  > 60			dl_port_index = mlx5_esw_vport_to_devlink_port_index(>mdev, 0);
+    61		}
+    62	
+    63		devlink_port_attrs_set(&mlx5e_dev->dl_port, &attrs);
+    64	
+    65		return devlink_port_register(devlink, &mlx5e_dev->dl_port,
+    66					     dl_port_index);
+    67	}
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
