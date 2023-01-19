@@ -1,178 +1,171 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C562C9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700A533FB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jan 2023 08:28:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674116448; x=1705652448;
+  t=1674116924; x=1705652924;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wmRcxDOyhPJVyfKCgFpTYszbOkVgWxHUYtlq1ySmbR8=;
-  b=cY3Zs1FsfFyZEd+iu/83v5co1EwcoJiAWQUBI3Gaq2ZJQ/Y9+BgaF+7a
-   KWpldiFaDgsCrn4ZXZ6plicNkiZvV74Fie3zTsVW062oV5x0sN5fG3zFX
-   xrxRi3iHp+lXNFTUyO2ILfmE7/JEsXxKun6hIWvG1cWwJokoQiu5qMKJS
-   Y5IxeJ0dhUa1XMu+L0/EPgactPZjX1VbeVAcSnR8cODUGsYzFaHjbyYmi
-   OieJCOeraUBqXzlyJ8wgnIgK2fuK89O2DUBVumGLSDqFoz0RWrI4MkTQo
-   BLNMaGOa6kolAcKnwD2dNwh8cOacVm27XCIwf2KCFGGMEkdtoBdFFei5q
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304910091"
+  bh=8JhiY90NWYlBHfSSfrD0rBPU0B4bk/rCjdQmLZxhBs8=;
+  b=JG3TFZf3GYAwoXsYA3VM7yg/9CHTw0dCH+WuTvbK+/YKM9PVl8Rh9RLJ
+   cP749LvmPCahjwkfKZdgmx/d38/4nyVyoDkrwwFjEFsr8c3tQ/1/f4UXL
+   dCOWxHiETjhGXlSKQ4VNZzGc4sqYk2JnV2wxc3AkLdtyI3HSEfjKr4sD8
+   l3pMJ8Dak3pE+k6dZeWm/dynoe0uUBxzd8DzT8t+myyOQdEGrHmVhlQoh
+   Pw62Ck3Akse+IYycIh+0fmX6ACqakWRRWeF6nnTrDGmbrbH8RMZ6QYDJ7
+   MN1fELYL9YWSa7mL0YONPNBf9NOXIn71zRu2Z6+SbqLd+gB3dTwJr0pUE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="313102184"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="304910091"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:20:45 -0800
+   d="scan'208";a="313102184"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:28:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728562419"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637613071"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="728562419"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 00:20:42 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIQA5-0001I4-33;
-	Thu, 19 Jan 2023 08:20:41 +0000
-Date: Thu, 19 Jan 2023 16:20:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jes Sorensen <Jes.Sorensen@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Andrea Merello <andrea.merello@gmail.com>,
-	Taehee Yoo <ap420073@gmail.com>,
-	Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	Ping-Ke Shih <pkshih@realtek.com>
-Subject: [linux-next:master 788/6276]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:
- sparse: invalid assignment: |=
-Message-ID: <202301191616.R33Dvxk4-lkp@intel.com>
+   d="scan'208";a="637613071"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2023 00:28:41 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 19 Jan 2023 00:28:40 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 00:28:40 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 19 Jan 2023 00:28:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FhM9qchUgya0gxEyb6UBe06mAeT0vLVGUMpMSK/OB7ckN2BOukdgZ9/47xN13ffruD2K7X7LVMQPvMN7Frh2Vzbp8iMmiTAZ9tuMQqY91n5107HqzvsPsShCv4t3G6XQFSfZi9FpuBBo0cThTf0vJL1js7WMeDNGQfo8E1BvLquzs3JHCuojsmvSBX8M6cZJlQR3fALuwnht7U05YJQ/z6dWnJzR8V15TAK1TwFEbGPYsHFo5ug7J6TBMhUCZcXnBP3HGchHzmw2TbEYAFD1aaQsYbZ4NStipRqQtetIELLs4GpMerRm9CZhb4OTY0rfPYR/G8w6xU+TKz3NnK37NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kpw0tdOpmyH8AjlnGhCSlXoYr69v5Ti3LEXOpkoZoZ0=;
+ b=jRcXKjW5y9RqWj/SXa0cguIRf1QCrIMgwCDEZmOqaLwqI5Les6erM5LF5HA9iD/HzubttFjwxkLTVk+gjtV19iWsCzMX4BGHS6Awb0QCzxX6v80gZ9T2J9SQBQpiW73JSJSPqoPpeK2+omGQeRX0+WtexpzoFDYJPiqKww3u7XRk/VUpwRKhy8gSxcG5yZzAxcMLix2/4rMWTlNBFI7fFp0JpG3ijSMeGoGvm6Ih2HwGMudjknE9okYImCmy/AUwJ5o1Ee4M/Z+ZGjQhD1zpLgQyhijHes0SHjZh84nGKWqcQMlTVROQz9WmlKlMTOsOhzPxxT0QKQdewbinbLhRVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by SJ0PR11MB4911.namprd11.prod.outlook.com (2603:10b6:a03:2ad::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 08:28:38 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb%9]) with mapi id 15.20.6002.013; Thu, 19 Jan 2023
+ 08:28:38 +0000
+Date: Thu, 19 Jan 2023 16:26:44 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [rt-devel:linux-6.2.y-rt-rebase 14/46]
+ kernel/printk/printk.c:2903:13: warning: 'console_is_usable_unlocked'
+ defined but not used
+Message-ID: <Y8j+xOTCbdlgI80O@yujie-X299>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2P153CA0029.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::16)
+ To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SJ0PR11MB4911:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9249a17-882c-41c2-dc40-08daf9f72992
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +o0f/o4NKGgVLgFaTf8hN+7xaXchakjHkhekYl7nY1wwSuMFysW9EKVOp8jkwLB8Nl8OpuM1n7Z7XM7Xi0XUv36x3DqjRprfPWgGynYdKGOToWcg3Em/cabbskDvN+raC2pUqOUEk5UMZv2XvDlNERLZVbD3k0QJlkGoPRrTpp8664/FUnHfPUhUlacPi6lCdZpxNOMdAgdfuSLJtYV4ce3VF3VLaLRex/ZeMP3R4fDQDMuTCWd4UNDfl3/pDn7EOgKDkBMh4GSFbCIQS2A1yKaMb9ywfa+4X/hGUvZkICceR9/wfOe53lYCpy//tqSs5gOB4tXtJxu+8mjMb1aAOIoF0EbzKUIfFiZ7Pha/Ol6HUIsKGelcZzZ8gQLOvJn7RI1O/uksMlWETMhVKMxCg/DWx/1nHmrC1zHfjxHfQkVmTTA13fpVOlj5s7yRlj7KbcxWSC5xgCS+wdC659hYs9diWvOdq4/epqjcVCWYWplAkto1aGyDBxTQkfSG7lmCSS1T9ehyX41432tRHaWiumCOUshVXXiHMHEIQrYAX6fXaKYqoIweae+C9ZzIJRW0KTBN/20UEp/ri+l/bnEeE+7hqdUqirPwi/IGzg5XRj3HnOcWk0EYITPFEQCOxGsy5h3L2l0S3lcsjkDmbnfoblUqU6Km+WnJdf6eIPTNV5ppCPV/bdLyXWxhAnRlGlkug96kLuEzUrO/sp69pCVc0Dpn7FahWzDWa4oFqAqgDCvgi2siRR9FafH9GI+VM+DJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(376002)(136003)(346002)(39860400002)(396003)(451199015)(316002)(82960400001)(4326008)(5660300002)(8936002)(38100700002)(41300700001)(6916009)(9686003)(26005)(186003)(6512007)(8676002)(83380400001)(66946007)(66556008)(66476007)(6666004)(33716001)(86362001)(2906002)(6486002)(966005)(6506007)(478600001)(67856001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xg2tF09wu7vhmNGpuZ+EfUkJMdeZKql3G012jHCFCgVPYIfVjm2hmzoMSe5u?=
+ =?us-ascii?Q?RYMn9GmDtzgpY/d/8lAvQFGhk4TjbVhaoV3hjVAf51W39dTgFtExhC0rPvEj?=
+ =?us-ascii?Q?6GEJhB/UYAAeHK/5KS4vCMkZ7TwFtv/Df6GWJZ73159lsRtRMgYi3yzfGVfG?=
+ =?us-ascii?Q?ciEw2ggWncrBg5wZ1oM98T8DdibAQmVSFd89Lrj/i62rSZhti4zCJTT8gtiZ?=
+ =?us-ascii?Q?bQf/nZO9hc+k3Hu/cUhPY30tJTzYSo4K+C36W0VE6dsjWHbzdJdW3fQZyS/S?=
+ =?us-ascii?Q?mY5zmxFYLRj/Qn/2HYYLQsQkdkryUzb/moFJAWBv4LWBYI86k/W9BUL6WOO5?=
+ =?us-ascii?Q?cpWb8sW7KO7y8QRRmY7rTVQxGMoAkQD1wU0QNUl6WFfhFzlsN6CLasqgslX3?=
+ =?us-ascii?Q?CoKd+wv33cIdzsRoRaxJW5thYh7cFGREqhMw7ZBSepnWAeLhWTI/UKurN4a8?=
+ =?us-ascii?Q?E57bwC0V75hR6UJ6ItrYy4n8hjWjdglB8oM1MRP8DPYgq+NGevtoQqLcZY3e?=
+ =?us-ascii?Q?PIBhAPbvbPxG8nPH1ou+N1RyGLylfiFCAGcpdru9XA3MTdo8D8Xkt2B/gIPR?=
+ =?us-ascii?Q?ZoLSzOj9t8hrzYDdNGkm4NEWWuu+46ZBYdrdUCMqqNaocIbwkBdYp6JuuOVh?=
+ =?us-ascii?Q?3wvhhXrsgCfQ4eNi3z0Mep8QFdBDhPmHVfrco7ORWCS4msQK9qjaSCiExzvZ?=
+ =?us-ascii?Q?alTUGaPq7vSXbX9T1W9wVNcEI+8x6CsvlQFQuDWvAECpRIXWk9hHVPo1t6Ej?=
+ =?us-ascii?Q?rlxsj4/i5eKrIuqURWb/atVeVuhkNpwjR4xEppM7913FRGC68rKGTESPHyf5?=
+ =?us-ascii?Q?K2/hTauF9TNb6pHxn9riTv4hg9djR6hhsnLw8R0tR5HwtSL3+05+UGT0hkIV?=
+ =?us-ascii?Q?0rgeSwkFsS8m76mdu87NG8TjpApe/gNY4gPfZPvx0nfWONanBPi0c3lyTh4S?=
+ =?us-ascii?Q?zD+x8IBVeoE3gGqu/GpV/QZBipMPciKrUFTZaixgo65BZHUF9MP1KX4kRTxP?=
+ =?us-ascii?Q?LSU9tX6wOK1M+3qTTrsNSjK+7VA5i/i2JJgKZdowLUm0MYZrAymwnfYtc4Gg?=
+ =?us-ascii?Q?ZZPrjRR49Ft2WJ7Zi+ZLya7PiuYP/feHp/tBL4wIif8lorqWzSvvTL9qdGLE?=
+ =?us-ascii?Q?xEe+Q+Xca8oOViVp/R+gBDrzhK3HVeIiLIU37ivnwu6xQJZb8XqkktJK2ipe?=
+ =?us-ascii?Q?cQ4cfaEvO25FbZTO8RcqV7Q6h0ccluOheBp+kG4cFEr7Id97wMa1/XFEHpca?=
+ =?us-ascii?Q?YTBGKowIeIKom+GflzegQVEmKwSqzSKXPdJMM0+4kO+vjylq+EGuNel6TsA2?=
+ =?us-ascii?Q?MWBHqILl3+YVR0EoMaTu+fL6K+J0mymOEndEsZSSucb4vCJixbSkxibpyaqs?=
+ =?us-ascii?Q?XsdBn2b0t2hrTE4W/xrV1QIvm4jvJSRrohr9NeE+3O90S2p5YEZvKIRZnwaz?=
+ =?us-ascii?Q?w0AbN4BgIsWChZPt/8IssRJJoIaGQ6V1+Eyte+g4NbDE/K1XO++hFrr+LtiH?=
+ =?us-ascii?Q?fr/2X47ZrdMpZ1/+3Kwfee8n5DZsMwLrfATJv17pAZHltDaycYuVX3eOqx+E?=
+ =?us-ascii?Q?DQcQP8x0s0ul5Gme1d4jHqY+pMb0k/FrK4ppt1hE?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9249a17-882c-41c2-dc40-08daf9f72992
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 08:28:38.3105
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CiSw3QiJAbh7iH1oNDACoUhK6Mj55IkRCDrPxR97V3wMbD/viEivyedfIvA7ZAqhDSC4D0DmHvfi9O0eckqY9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4911
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aa5c49149a823599764e6953229b028e4bf6e9cc
-commit: 3dfb8e844fa30cceb4b810613e2c35f628eb3e70 [788/6276] wifi: rtl8xxxu: Support new chip RTL8188EU
-config: openrisc-randconfig-s043-20230119 (https://download.01.org/0day-ci/archive/20230119/202301191616.R33Dvxk4-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3dfb8e844fa30cceb4b810613e2c35f628eb3e70
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 3dfb8e844fa30cceb4b810613e2c35f628eb3e70
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.2.y-rt-rebase
+head:   bee0efc1fe1add1df7d677cee5a9c4c325196403
+commit: 5342b8e20b15e5fb37e49de2435e62dd00ff20fe [14/46] printk: Bring back the RT bits.
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230119/202301191434.kRWtbfc2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=5342b8e20b15e5fb37e49de2435e62dd00ff20fe
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-6.2.y-rt-rebase
+        git checkout 5342b8e20b15e5fb37e49de2435e62dd00ff20fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/wireless/realtek/rtl8xxxu/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/printk/
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: kernel test robot <yujie.liu@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse: sparse: invalid assignment: |=
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:    left side has type restricted __le16
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5198:24: sparse:    right side has type restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +5198 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+>> kernel/printk/printk.c:2903:13: warning: 'console_is_usable_unlocked' defined but not used [-Wunused-function]
+    2903 | static bool console_is_usable_unlocked(struct console *con)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  5110	
-  5111	/*
-  5112	 * Fill in v3 (gen1) specific TX descriptor bits.
-  5113	 * This format is a hybrid between the v1 and v2 formats, only seen
-  5114	 * on 8188eu devices so far.
-  5115	 */
-  5116	void
-  5117	rtl8xxxu_fill_txdesc_v3(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
-  5118				struct ieee80211_tx_info *tx_info,
-  5119				struct rtl8xxxu_txdesc32 *tx_desc, bool sgi,
-  5120				bool short_preamble, bool ampdu_enable, u32 rts_rate)
-  5121	{
-  5122		struct ieee80211_rate *tx_rate = ieee80211_get_tx_rate(hw, tx_info);
-  5123		struct rtl8xxxu_priv *priv = hw->priv;
-  5124		struct device *dev = &priv->udev->dev;
-  5125		u8 *qc = ieee80211_get_qos_ctl(hdr);
-  5126		u8 tid = qc[0] & IEEE80211_QOS_CTL_TID_MASK;
-  5127		u32 rate;
-  5128		u16 rate_flags = tx_info->control.rates[0].flags;
-  5129		u16 seq_number;
-  5130	
-  5131		if (rate_flags & IEEE80211_TX_RC_MCS &&
-  5132		    !ieee80211_is_mgmt(hdr->frame_control))
-  5133			rate = tx_info->control.rates[0].idx + DESC_RATE_MCS0;
-  5134		else
-  5135			rate = tx_rate->hw_value;
-  5136	
-  5137		seq_number = IEEE80211_SEQ_TO_SN(le16_to_cpu(hdr->seq_ctrl));
-  5138	
-  5139		if (ieee80211_is_data(hdr->frame_control)) {
-  5140			rate = DESC_RATE_MCS7; /* TODO: software rate control */
-  5141			tx_desc->txdw5 = cpu_to_le32(rate);
-  5142			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_USE_DRIVER_RATE);
-  5143			/* Data/RTS rate FB limit */
-  5144			tx_desc->txdw5 |= cpu_to_le32(0x0001ff00);
-  5145		}
-  5146	
-  5147		if (rtl8xxxu_debug & RTL8XXXU_DEBUG_TX)
-  5148			dev_info(dev, "%s: TX rate: %d, pkt size %d\n",
-  5149				 __func__, rate, le16_to_cpu(tx_desc->pkt_size));
-  5150	
-  5151		tx_desc->txdw3 = cpu_to_le32((u32)seq_number << TXDESC32_SEQ_SHIFT);
-  5152	
-  5153		if (ampdu_enable && test_bit(tid, priv->tid_tx_operational))
-  5154			tx_desc->txdw2 |= cpu_to_le32(TXDESC40_AGG_ENABLE);
-  5155		else
-  5156			tx_desc->txdw2 |= cpu_to_le32(TXDESC40_AGG_BREAK);
-  5157	
-  5158		if (ieee80211_is_mgmt(hdr->frame_control)) {
-  5159			tx_desc->txdw5 = cpu_to_le32(rate);
-  5160			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_USE_DRIVER_RATE);
-  5161			tx_desc->txdw5 |= cpu_to_le32(6 << TXDESC32_RETRY_LIMIT_SHIFT);
-  5162			tx_desc->txdw5 |= cpu_to_le32(TXDESC32_RETRY_LIMIT_ENABLE);
-  5163		}
-  5164	
-  5165		if (ieee80211_is_data_qos(hdr->frame_control)) {
-  5166			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_QOS);
-  5167	
-  5168			if (conf_is_ht40(&hw->conf)) {
-  5169				tx_desc->txdw4 |= cpu_to_le32(TXDESC_DATA_BW);
-  5170	
-  5171				if (conf_is_ht40_minus(&hw->conf))
-  5172					tx_desc->txdw4 |= cpu_to_le32(TXDESC_PRIME_CH_OFF_UPPER);
-  5173				else
-  5174					tx_desc->txdw4 |= cpu_to_le32(TXDESC_PRIME_CH_OFF_LOWER);
-  5175			}
-  5176		}
-  5177	
-  5178		if (short_preamble)
-  5179			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_SHORT_PREAMBLE);
-  5180	
-  5181		if (sgi)
-  5182			tx_desc->txdw5 |= cpu_to_le32(TXDESC32_SHORT_GI);
-  5183	
-  5184		/*
-  5185		 * rts_rate is zero if RTS/CTS or CTS to SELF are not enabled
-  5186		 */
-  5187		tx_desc->txdw4 |= cpu_to_le32(rts_rate << TXDESC32_RTS_RATE_SHIFT);
-  5188		if (ampdu_enable || (rate_flags & IEEE80211_TX_RC_USE_RTS_CTS)) {
-  5189			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_RTS_CTS_ENABLE);
-  5190			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_HW_RTS_ENABLE);
-  5191		} else if (rate_flags & IEEE80211_TX_RC_USE_CTS_PROTECT) {
-  5192			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_CTS_SELF_ENABLE);
-  5193			tx_desc->txdw4 |= cpu_to_le32(TXDESC32_HW_RTS_ENABLE);
-  5194		}
-  5195	
-  5196		tx_desc->txdw2 |= cpu_to_le32(TXDESC_ANTENNA_SELECT_A |
-  5197					      TXDESC_ANTENNA_SELECT_B);
-> 5198		tx_desc->txdw7 |= cpu_to_le32(TXDESC_ANTENNA_SELECT_C);
-  5199	}
-  5200	
+
+vim +/console_is_usable_unlocked +2903 kernel/printk/printk.c
+
+a8199371afc279 Sergey Senozhatsky        2016-03-17  2902  
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19 @2903  static bool console_is_usable_unlocked(struct console *con)
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2904  {
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2905  	int cookie;
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2906  	bool ret;
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2907  
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2908  	cookie = console_srcu_read_lock();
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2909  	ret = console_is_usable(con);
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2910  	console_srcu_read_unlock(cookie);
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2911  
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2912  	return ret;
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2913  }
+5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2914  
 
 -- 
 0-DAY CI Kernel Test Service
