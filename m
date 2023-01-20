@@ -1,104 +1,78 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3C328E7;
-	Fri, 20 Jan 2023 15:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674227530; x=1705763530;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gDizxFYtcrdcS+pecIKpIZ3JBIK2YM1sC5jvep+VtDQ=;
-  b=Q54iPnH7iELc2vschmBsS+x+uV4P7uEfWz1TutsLsxz8JndQnfRmGKqw
-   J7to3/r9RFGL2Bef5Jbc0ima5Xzt++WSlr0L9xliXjM+28BNoo6W9dqP5
-   7+u5ewD6VwyN63t872reT5btTMSiIzy93PrPpM7i80wjnbbwpui55yNnp
-   muqldnO/ewPZUZ//1OZkTscfaMKxyj8SfhRKhLNWH6T/HMYkNJoecH3VE
-   YioSBIuAEbIaoMFCwNZ1Hn7E409ueWKKr9NMczl3O4/kReMqno/XS6wD2
-   WtFu8Ruy0dNP5Yre0yQmAObkkupmOtS0vyOZBczS42t36PHYe5r/lv8c5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323286313"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="323286313"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:12:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="692884382"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="692884382"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 20 Jan 2023 07:12:07 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIt3m-0002e6-1E;
-	Fri, 20 Jan 2023 15:12:06 +0000
-Date: Fri, 20 Jan 2023 23:11:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Izhar Ameer Shaikh <izhar.ameer.shaikh@xilinx.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Tanmay Shah <tanmay.shah@xilinx.com>,
-	Rajan Vaja <rajan.vaja@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:master 40/773]
- include/linux/firmware/xlnx-zynqmp.h:1124:12: warning: unused function
- 'zynqmp_pm_sec_read_reg'
-Message-ID: <202301202325.4Cm9ujVl-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFE429A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 15:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1FE5C433D2;
+	Fri, 20 Jan 2023 15:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674229421;
+	bh=3s+a21jOuSUozVrGaavCBkqBzcDsMozFYa/XE/2Un+w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=A+K4w7WaLrqkE8kedQFXC+9ojkJFgIrKoGED1GRXp7oI7fD74L0+Gmo6ZbpEPrEqs
+	 Pzckdy11E6CO6NvmVUi1Ixjk5MfHhcvPJnrb+N+yTG1niQDbmPNQuGM/KqaPkXFOOJ
+	 6t01oFLhNMQaLWGtvNCoQ6coeMn9pfxxPB2fq159E2A2K7T/qWY8GH3J4a8mPwi9wX
+	 fOiddFO7PFsQAU02Rcu6ea0b+5VkUcyr6hDJQyef7g4qOZ0175hTH0Ie4g9jDK+w+Y
+	 fl5SUE6EOA8qFgfgnNX+m6/1bbUYB9953uyC/rFQR4/OVZlICx7PHOMSUEh6Z/3CRT
+	 INn/dMnHdO4Ww==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ error27@gmail.com, angelogioacchino.delregno@collabora.com, 
+ linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230120102125.30653-1-peter.ujfalusi@linux.intel.com>
+References: <20230120102125.30653-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: sof-audio: prepare_widgets: Check swidget
+ for NULL on sink failure
+Message-Id: <167422941865.1350653.16158325897991167721.b4-ty@kernel.org>
+Date: Fri, 20 Jan 2023 15:43:38 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12-dev-77e06
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   155ae9648df275d38841cfe45231ba0471baa1cb
-commit: 41adf9b5d9695095fe08233b2d702251b4081609 [40/773] firmware: xilinx: Add support for secure read/write ioctl interface
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230120/202301202325.4Cm9ujVl-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/41adf9b5d9695095fe08233b2d702251b4081609
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx master
-        git checkout 41adf9b5d9695095fe08233b2d702251b4081609
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On Fri, 20 Jan 2023 12:21:25 +0200, Peter Ujfalusi wrote:
+> If the swidget is NULL we skip the preparing of the widget and jump to
+> handle the sink path of the widget.
+> If the prepare fails in this case we would undo the prepare but the swidget
+> is NULL (we skipped the prepare for the widget).
+> 
+> To avoid NULL pointer dereference in this case we must check swidget
+> against NULL pointer once again.
+> 
+> [...]
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Applied to
 
-All warnings (new ones prefixed by >>):
+   broonie/sound.git for-next
 
-   In file included from drivers/spi/spi-zynqmp-gqspi.c:13:
->> include/linux/firmware/xlnx-zynqmp.h:1124:12: warning: unused function 'zynqmp_pm_sec_read_reg' [-Wunused-function]
-   static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
-              ^
->> include/linux/firmware/xlnx-zynqmp.h:1129:12: warning: unused function 'zynqmp_pm_sec_mask_write_reg' [-Wunused-function]
-   static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
-              ^
-   2 warnings generated.
+Thanks!
 
+[1/1] ASoC: SOF: sof-audio: prepare_widgets: Check swidget for NULL on sink failure
+      commit: fb4293600cc651cfe4d48ec489f1d175adf6e2f8
 
-vim +/zynqmp_pm_sec_read_reg +1124 include/linux/firmware/xlnx-zynqmp.h
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-  1123	
-> 1124	static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
-  1125	{
-  1126		return -ENODEV;
-  1127	}
-  1128	
-> 1129	static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
-  1130						u32 mask, u32 value)
-  1131	{
-  1132		return -ENODEV;
-  1133	}
-  1134	
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
