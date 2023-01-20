@@ -1,44 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED73E3209
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 20:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B7E3209
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 20:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674246623; x=1705782623;
+  t=1674246626; x=1705782626;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=myWPsuRDxiUevEa3SMRo8oTZtGtupPh+joNHdiQSyQY=;
-  b=QLWJEF9LL4U12zc6IqabDOdvRYvprB13HijfbrwkyiXlNhanXj7zSYAy
-   nSHfb2oIWt239Rm2PR1nzD2L+N9IoNsLP0iXrcNAk60p9+vYPtCYKIIfh
-   pt/vgkrG1MMHY8dD//5UG0YVld22/suafCt/HgM0kZMY9Al640zfeyrNp
-   fwOa5AMf1uP/SHSXe/YxURLb30ubEatKajd8ov7CmvwTEdd7qALSVxdv6
-   5K43Ugc+ubVz0AC78Z6+kbL8nboC9yjQRoe1DGFtR9CUyKk9+eTh09n5J
-   8OhpB15oWDA2fEReci26iQ5mIjgtM33WRD311ELKD46vl4DA4i1YKVjsd
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="313574081"
+  bh=h8V3tih4FzsV6+RCBJlwsFkxI7Z6Y/xZKHB48lDV4f4=;
+  b=caV/pNkCG27vrOwQJzTnbzSkdohNmLB4Ygv/kjC9A+VKAPVBznw6hSjz
+   jWMB5RyqNW3qY07QG0vO1FO62NGN04Dkqz81gJ5ghokHHc5Yp3Mtabyug
+   2Ebdg83Xpgjlwu3VRFXi4nqbsNtrWEjqbvK6ocF68EHqKXBpgsOCKL6u+
+   RSHMFfoke2mjvzzliyJWGoNjdbIzuXvU++3o3zs8zdum/XSJcHMo6cqB2
+   sGwLc54v9QwWfxTvYPAMll16Xq+BUR34aK+ExwDiCOGIeMOw+97fFNgR+
+   V+iTDZ38ibh0j/8SF1MsAH48JwppTW3tGrO/TliKq4Gaa0D4JZZZfP0bH
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="313574083"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="313574081"
+   d="scan'208";a="313574083"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 12:30:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="660712053"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="660712054"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="660712053"
+   d="scan'208";a="660712054"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 20 Jan 2023 12:30:22 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIy1l-0002uE-1P;
+	id 1pIy1l-0002uH-1h;
 	Fri, 20 Jan 2023 20:30:21 +0000
-Date: Sat, 21 Jan 2023 04:30:15 +0800
+Date: Sat, 21 Jan 2023 04:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10 1/1]
- drivers/usb/gadget/function/f_accessory.c:1088:5: warning: no previous
- prototype for 'acc_ctrlrequest_composite'
-Message-ID: <202301210440.Yozp98mc-lkp@intel.com>
+Subject: [shenki:dev-6.1 60/98] mips-linux-ld: aspeed-sbc.c:undefined
+ reference to `arch_debugfs_dir'
+Message-ID: <202301210418.FWZSfxo7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,65 +46,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android12-5.10
-head:   e12e360999d84e5e56952c6c027803f662567d76
-commit: e12e360999d84e5e56952c6c027803f662567d76 [1/1] ANDROID: usb: f_accessory: Check buffer size when initialised via composite
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301210440.Yozp98mc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://github.com/shenki/linux dev-6.1
+head:   a4cca653c668f2108ca4cbafe596d9ff072a56c8
+commit: 471af484e37d146008f00679e19c83bcfa7c3c25 [60/98] ARM: soc: aspeed: Add secure boot controller support
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301210418.FWZSfxo7-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/e12e360999d84e5e56952c6c027803f662567d76
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android12-5.10
-        git checkout e12e360999d84e5e56952c6c027803f662567d76
+        # https://github.com/shenki/linux/commit/471af484e37d146008f00679e19c83bcfa7c3c25
+        git remote add shenki https://github.com/shenki/linux
+        git fetch --no-tags shenki dev-6.1
+        git checkout 471af484e37d146008f00679e19c83bcfa7c3c25
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/usb/gadget/function/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/gadget/function/f_accessory.c:975:5: warning: no previous prototype for 'acc_ctrlrequest' [-Wmissing-prototypes]
-     975 | int acc_ctrlrequest(struct usb_composite_dev *cdev,
-         |     ^~~~~~~~~~~~~~~
->> drivers/usb/gadget/function/f_accessory.c:1088:5: warning: no previous prototype for 'acc_ctrlrequest_composite' [-Wmissing-prototypes]
-    1088 | int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/f_accessory.c:1441:6: warning: no previous prototype for 'acc_disconnect' [-Wmissing-prototypes]
-    1441 | void acc_disconnect(void)
-         |      ^~~~~~~~~~~~~~
-   drivers/usb/gadget/function/f_accessory.c:1546:5: warning: no previous prototype for 'acc_ctrlrequest_configfs' [-Wmissing-prototypes]
-    1546 | int acc_ctrlrequest_configfs(struct usb_function *f,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/acc_ctrlrequest_composite +1088 drivers/usb/gadget/function/f_accessory.c
-
-  1087	
-> 1088	int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
-  1089				      const struct usb_ctrlrequest *ctrl)
-  1090	{
-  1091		u16 w_length = le16_to_cpu(ctrl->wLength);
-  1092	
-  1093		if (w_length > USB_COMP_EP0_BUFSIZ) {
-  1094			if (ctrl->bRequestType & USB_DIR_IN) {
-  1095				/* Cast away the const, we are going to overwrite on purpose. */
-  1096				__le16 *temp = (__le16 *)&ctrl->wLength;
-  1097	
-  1098				*temp = cpu_to_le16(USB_COMP_EP0_BUFSIZ);
-  1099				w_length = USB_COMP_EP0_BUFSIZ;
-  1100			} else {
-  1101				return -EINVAL;
-  1102			}
-  1103		}
-  1104		return acc_ctrlrequest(cdev, ctrl);
-  1105	}
-  1106	EXPORT_SYMBOL_GPL(acc_ctrlrequest_composite);
-  1107	
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: drivers/soc/aspeed/aspeed-sbc.o: in function `aspeed_sbc_init':
+   aspeed-sbc.c:(.init.text+0x20c): undefined reference to `arch_debugfs_dir'
+>> mips-linux-ld: aspeed-sbc.c:(.init.text+0x210): undefined reference to `arch_debugfs_dir'
 
 -- 
 0-DAY CI Kernel Test Service
