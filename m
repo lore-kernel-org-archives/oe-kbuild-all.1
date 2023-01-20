@@ -1,42 +1,50 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B7E3209
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 20:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BA53209;
+	Fri, 20 Jan 2023 20:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674246626; x=1705782626;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h8V3tih4FzsV6+RCBJlwsFkxI7Z6Y/xZKHB48lDV4f4=;
-  b=caV/pNkCG27vrOwQJzTnbzSkdohNmLB4Ygv/kjC9A+VKAPVBznw6hSjz
-   jWMB5RyqNW3qY07QG0vO1FO62NGN04Dkqz81gJ5ghokHHc5Yp3Mtabyug
-   2Ebdg83Xpgjlwu3VRFXi4nqbsNtrWEjqbvK6ocF68EHqKXBpgsOCKL6u+
-   RSHMFfoke2mjvzzliyJWGoNjdbIzuXvU++3o3zs8zdum/XSJcHMo6cqB2
-   sGwLc54v9QwWfxTvYPAMll16Xq+BUR34aK+ExwDiCOGIeMOw+97fFNgR+
-   V+iTDZ38ibh0j/8SF1MsAH48JwppTW3tGrO/TliKq4Gaa0D4JZZZfP0bH
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="313574083"
+  t=1674246686; x=1705782686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P7Qo7pDtBTeT6nusdsJikwF6Hz1XK2b6WUGvSCudE2U=;
+  b=X01ro+YCSy2zt1GIg++RaXdcXAmAihvVroiLEWzFUoF5alUtyHucwQBr
+   6Fi0JsUS1uh2OieeG1d7s7rdctVsmXa06HP89Q03Ompb+RB4KWhnDKspy
+   +77frr7OUN4WZj5ClonrQWFbNhon0kk3++Pci8HebMGBM+SVqlf00Wt4+
+   PsjLwkP6yVaMJR3GT3/0d8UfHuXaVpi8PQE90FyOtBZd6uEeyJPQc1xdB
+   /Os8lTZXk1EJRh2+Bc/y3woOR2mirEc68SFWi/klx2dV3Nz+lXgnTFrMG
+   Bxmd28ikYYPUm3qzI2yH56bhGgna72GS8y525z5tGVvJmtu/63glbDGXe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390196117"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="313574083"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 12:30:23 -0800
+   d="scan'208";a="390196117"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 12:31:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="660712054"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="989524455"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="660712054"
+   d="scan'208";a="989524455"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Jan 2023 12:30:22 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 12:31:22 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIy1l-0002uH-1h;
-	Fri, 20 Jan 2023 20:30:21 +0000
-Date: Sat, 21 Jan 2023 04:30:14 +0800
+	id 1pIy2j-0002uO-23;
+	Fri, 20 Jan 2023 20:31:21 +0000
+Date: Sat, 21 Jan 2023 04:30:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:dev-6.1 60/98] mips-linux-ld: aspeed-sbc.c:undefined
- reference to `arch_debugfs_dir'
-Message-ID: <202301210418.FWZSfxo7-lkp@intel.com>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: sa8295p-adp: Add max20411 on i2c4
+Message-ID: <202301210451.KgHMjz0A-lkp@intel.com>
+References: <20230119214749.4048933-5-quic_bjorande@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,49 +53,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230119214749.4048933-5-quic_bjorande@quicinc.com>
 
-tree:   https://github.com/shenki/linux dev-6.1
-head:   a4cca653c668f2108ca4cbafe596d9ff072a56c8
-commit: 471af484e37d146008f00679e19c83bcfa7c3c25 [60/98] ARM: soc: aspeed: Add secure boot controller support
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301210418.FWZSfxo7-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+Hi Bjorn,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on robh/for-next broonie-sound/for-next linus/master v6.2-rc4]
+[cannot apply to next-20230120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Andersson/dt-bindings-regulator-Describe-Maxim-MAX20411/20230120-061409
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20230119214749.4048933-5-quic_bjorande%40quicinc.com
+patch subject: [PATCH 4/4] arm64: dts: qcom: sa8295p-adp: Add max20411 on i2c4
+config: arm64-randconfig-r012-20230119 (https://download.01.org/0day-ci/archive/20230121/202301210451.KgHMjz0A-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/shenki/linux/commit/471af484e37d146008f00679e19c83bcfa7c3c25
-        git remote add shenki https://github.com/shenki/linux
-        git fetch --no-tags shenki dev-6.1
-        git checkout 471af484e37d146008f00679e19c83bcfa7c3c25
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/75c5fbc70a2e2cbd360675e2dc0fb001b3ad6fdf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bjorn-Andersson/dt-bindings-regulator-Describe-Maxim-MAX20411/20230120-061409
+        git checkout 75c5fbc70a2e2cbd360675e2dc0fb001b3ad6fdf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `kernel_entry':
-   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
-   mips-linux-ld: drivers/soc/aspeed/aspeed-sbc.o: in function `aspeed_sbc_init':
-   aspeed-sbc.c:(.init.text+0x20c): undefined reference to `arch_debugfs_dir'
->> mips-linux-ld: aspeed-sbc.c:(.init.text+0x210): undefined reference to `arch_debugfs_dir'
+>> Error: arch/arm64/boot/dts/qcom/sa8295p-adp.dts:502.1-16 Label or path pmm8540a_gpios not found
+>> FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
