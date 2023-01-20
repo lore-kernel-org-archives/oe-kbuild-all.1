@@ -1,93 +1,64 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D5917F1;
-	Fri, 20 Jan 2023 10:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674212138; x=1705748138;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K/8OAe5bsvMj1kQ3OooopFLGHD20X+RYJBlEOV+v8K8=;
-  b=ijWWAZpSBDzPn1DOgkEKou/AQGfM6FqOiCK4aqg1zOtjAQxJ38s6uGzK
-   SPCs05g1zZx/OQLjvz+3QhFziItCkg0DC7FdS8XCmt2dCJuWA6S6U535B
-   4hQEpy+Qv8Y84qvqE4JhHxU3R86lb9p9jWCSYXOnR2USNI9pxExB1DxXs
-   1GFmbYtAGTuRMKPEw9H1juhuoiTR5vhh+lTydhSsD+PmemSsA2wTa1/VE
-   s3vXuEgCuG5BkTU71Qe+NYZaf+u5oqG2eecnx1JWAM9uPb6boirL/73Q9
-   +WWlyYmpmdEIvgonvfS7efCuAYdYfxVOoSDFmpwXBYT1h+xlvBuI8iv6c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323243867"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="323243867"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 02:55:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="653754120"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="653754120"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Jan 2023 02:55:01 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIp2u-0002UO-0S;
-	Fri, 20 Jan 2023 10:54:56 +0000
-Date: Fri, 20 Jan 2023 18:54:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Tadeusz Struk <tadeusz.struk@linaro.org>
-Subject: [stable:linux-5.10.y 4228/9999] s390x-linux-ld:
- dw-axi-dmac-platform.c:undefined reference to `devm_ioremap_resource'
-Message-ID: <202301201809.HDefVwZr-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADD517F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 11:02:36 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E4FB6660230B;
+	Fri, 20 Jan 2023 11:02:33 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1674212554;
+	bh=D1HAtBqHAur8JaHevw9CchxdQMYmjJCpCGW+M/tjShU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Eh2gJVEnl9CTANbedBJfnefEqIiZbcki65abJSvaucO6ovmqitxOj07kJ1zSr+pJa
+	 lhIl4WinFUTlp9Wh+weNn7awtx+OCkK7rmwb/o4Suo47ezhavBWi2m6BBMNp2KZGj0
+	 JmsbLQkNmCoWz0051NeYFCJy8DaEgy1O6JhERv/xKIHCPnMsUkp+VlDTnjak+kLOi+
+	 o59D2ddNwTodviyO05AAFrD8+CDS7lRR6T66Jj4I26suiAn2bJQP0OSUM1f8YowvPh
+	 QSbTfDwjfGl+uIUl9aLywgdAEMSK1XmSp8GL6d7XFDLsGg66UVzjh/h1DgfGhXcI8o
+	 JniLx1Wz6bL+A==
+Message-ID: <5ffed624-81e0-ab8c-bf68-84fc700239cc@collabora.com>
+Date: Fri, 20 Jan 2023 12:02:31 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] ASoC: SOF: sof-audio: prepare_widgets: Check swidget for
+ NULL on sink failure
+Content-Language: en-US
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+ error27@gmail.com, linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev
+References: <20230120102125.30653-1-peter.ujfalusi@linux.intel.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230120102125.30653-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   3a9f1b907bc434a91f0d295533d2c7e3758efe92
-commit: 58823a9b097cf36dd59c4d463396e15a5ec4efb7 [4228/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
-config: s390-buildonly-randconfig-r003-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201809.HDefVwZr-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=58823a9b097cf36dd59c4d463396e15a5ec4efb7
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.10.y
-        git checkout 58823a9b097cf36dd59c4d463396e15a5ec4efb7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+Il 20/01/23 11:21, Peter Ujfalusi ha scritto:
+> If the swidget is NULL we skip the preparing of the widget and jump to
+> handle the sink path of the widget.
+> If the prepare fails in this case we would undo the prepare but the swidget
+> is NULL (we skipped the prepare for the widget).
+> 
+> To avoid NULL pointer dereference in this case we must check swidget
+> against NULL pointer once again.
+> 
+> 
+> Fixes: 0ad84b11f2f8 ("ASoC: SOF: sof-audio: skip prepare/unprepare if swidget is NULL")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-All errors (new ones prefixed by >>):
 
-   s390x-linux-ld: drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.o: in function `dw_probe':
-   dw-axi-dmac-platform.c:(.text+0x142): undefined reference to `devm_ioremap_resource'
->> s390x-linux-ld: dw-axi-dmac-platform.c:(.text+0xb7c): undefined reference to `devm_ioremap_resource'
-   s390x-linux-ld: drivers/dma/qcom/hidma.o: in function `hidma_probe':
-   hidma.c:(.text+0x44): undefined reference to `devm_ioremap_resource'
-   s390x-linux-ld: hidma.c:(.text+0x82): undefined reference to `devm_ioremap_resource'
-   s390x-linux-ld: drivers/input/serio/apbps2.o: in function `apbps2_of_probe':
-   apbps2.c:(.text+0x60): undefined reference to `devm_ioremap_resource'
-   s390x-linux-ld: drivers/crypto/ccree/cc_driver.o:cc_driver.c:(.text+0x8bc): more undefined references to `devm_ioremap_resource' follow
-   s390x-linux-ld: drivers/crypto/ccree/cc_debugfs.o: in function `cc_debugfs_init':
-   cc_debugfs.c:(.text+0x136): undefined reference to `debugfs_create_regset32'
-   s390x-linux-ld: cc_debugfs.c:(.text+0x2b4): undefined reference to `debugfs_create_regset32'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
