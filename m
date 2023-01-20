@@ -1,44 +1,49 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351B117C8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 02:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939E017C8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 03:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674182858; x=1705718858;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/KzAjTS4G6i6y2zqmDHDoIbbTnC/2ix6fy2H2gIATVo=;
-  b=gqhYUs38nrlZmMEmacG7g1dDOQKydcy/PC2/+9LHOrOTonYS43gBNbvE
-   SFj4mwKFs1Aww/FgT8qxRBz+4Ge8ssKRns8HrCY0cmrNcH9fB+5kYlpz1
-   oSKnG/d4Qn5Hcgz1GZ7zKwyz9pPubxtzMF1NpYaEhiYLejVo/HYzwglru
-   TC73l7FMjJFTSQdk+aRugRLbXv8S5dtQ/7w8l4+kGYn/c1qo318GT+pLc
-   zWebLJXSshx45xMG577ZnFGEFg5u9OZOKe/7EVzZgrrt0pvpI1M6AShEA
-   NmhCbvC7bT6dwG1gs4y/MJVuuhJbRGAdyxk8lIrMSJkIanEBYRjIrHopZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323184898"
+  t=1674184061; x=1705720061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l+mSYcjCs3VtHdH4MTzk9fTsaIZXQ5VDUn8clsV5ONw=;
+  b=T9loOMUrSlEGJ+vEBRAzPzFV41LYAePfRznOyDu7Eu8ccMgHtfU4W0OE
+   orjdxKWHUVeOY5IAtfIcj6eWBWiDWb7glTFQB4Uq2ECsp9QuHfNWqNzy/
+   evTYHV9/H8jxutqErS6nBqFmrnrvNuQhs3TgmgrQVmSvYLDnmKbuTIRjK
+   e77oLshU7E50Be5IyS9FSm/jiRbQxh97n6NmzXALGhRkUSe8LUMSxKYC3
+   4arnOEm8K8o0SY1RdbSXCDm4evmx1eKMtHAR6WUhNeYWDSaFFJPtTLyQ0
+   avImivNmfDGRovwlq1g/TtspgCxJwk1gJ4L9GfpR6zuqq+H60cm/5HnwR
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="411726041"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="323184898"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 18:47:37 -0800
+   d="scan'208";a="411726041"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 19:07:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="768536482"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="692719398"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="768536482"
+   d="scan'208";a="692719398"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2023 18:47:36 -0800
+  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2023 19:07:37 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIhRH-00026q-1c;
-	Fri, 20 Jan 2023 02:47:35 +0000
-Date: Fri, 20 Jan 2023 10:46:45 +0800
+	id 1pIhke-00027Z-13;
+	Fri, 20 Jan 2023 03:07:36 +0000
+Date: Fri, 20 Jan 2023 11:07:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ofir Bitton <obitton@habana.ai>
-Cc: oe-kbuild-all@lists.linux.dev, Oded Gabbay <ogabbay@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: [ogabbay:habanalabs-next 60/71] htmldocs:
- Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Unexpected
- indentation.
-Message-ID: <202301201050.nZkYhbBo-lkp@intel.com>
+To: Babis Chalios <bchalios@amazon.es>, Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, amit@kernel.org, graf@amazon.de,
+	Jason@zx2c4.com, xmarcalx@amazon.co.uk
+Subject: Re: [PATCH 2/2] virtio-rng: add sysfs entries for leak detection
+Message-ID: <202301201004.z1gRttwb-lkp@intel.com>
+References: <20230119184349.74072-3-bchalios@amazon.es>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,68 +52,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230119184349.74072-3-bchalios@amazon.es>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git habanalabs-next
-head:   f65c5dac2073222b2836f0ca1fcaa989fe36245a
-commit: 0a14c331682f615246a075aa4386317cceceaed0 [60/71] habanalabs: update device status sysfs documentation
+Hi Babis,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.2-rc4 next-20230119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Babis-Chalios/virtio-rng-implement-entropy-leak-feature/20230120-024631
+patch link:    https://lore.kernel.org/r/20230119184349.74072-3-bchalios%40amazon.es
+patch subject: [PATCH 2/2] virtio-rng: add sysfs entries for leak detection
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230120/202301201004.z1gRttwb-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git/commit/?id=0a14c331682f615246a075aa4386317cceceaed0
-        git remote add ogabbay https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git
-        git fetch --no-tags ogabbay habanalabs-next
-        git checkout 0a14c331682f615246a075aa4386317cceceaed0
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/2a801d93b8225555e4cb293a173e2053870cb2d1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Babis-Chalios/virtio-rng-implement-entropy-leak-feature/20230120-024631
+        git checkout 2a801d93b8225555e4cb293a173e2053870cb2d1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/hw_random/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Unexpected indentation.
->> Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-vim +201 Documentation/ABI/testing/sysfs-driver-habanalabs
-
-6457271f64a2b6 Ofir Bitton 2022-08-03  184  
-d91389bc839d72 Oded Gabbay 2019-02-16  185  What:           /sys/class/habanalabs/hl<n>/soft_reset
-d91389bc839d72 Oded Gabbay 2019-02-16  186  Date:           Jan 2019
-d91389bc839d72 Oded Gabbay 2019-02-16  187  KernelVersion:  5.1
-2f8db5a1754416 Oded Gabbay 2021-01-12  188  Contact:        ogabbay@kernel.org
-d91389bc839d72 Oded Gabbay 2019-02-16  189  Description:    Interface to trigger a soft-reset operation for the device.
-d91389bc839d72 Oded Gabbay 2019-02-16  190                  Soft-reset will reset only the compute and DMA engines of the
-d91389bc839d72 Oded Gabbay 2019-02-16  191                  device
-d91389bc839d72 Oded Gabbay 2019-02-16  192  
-d91389bc839d72 Oded Gabbay 2019-02-16  193  What:           /sys/class/habanalabs/hl<n>/soft_reset_cnt
-d91389bc839d72 Oded Gabbay 2019-02-16  194  Date:           Jan 2019
-d91389bc839d72 Oded Gabbay 2019-02-16  195  KernelVersion:  5.1
-2f8db5a1754416 Oded Gabbay 2021-01-12  196  Contact:        ogabbay@kernel.org
-d91389bc839d72 Oded Gabbay 2019-02-16  197  Description:    Displays how many times the device have undergone a soft-reset
-d91389bc839d72 Oded Gabbay 2019-02-16  198                  operation since the driver was loaded
-d91389bc839d72 Oded Gabbay 2019-02-16  199  
-d91389bc839d72 Oded Gabbay 2019-02-16  200  What:           /sys/class/habanalabs/hl<n>/status
-d91389bc839d72 Oded Gabbay 2019-02-16 @201  Date:           Jan 2019
-d91389bc839d72 Oded Gabbay 2019-02-16  202  KernelVersion:  5.1
-2f8db5a1754416 Oded Gabbay 2021-01-12  203  Contact:        ogabbay@kernel.org
-0a14c331682f61 Ofir Bitton 2023-01-10  204  Description:    Status of the card:
-0a14c331682f61 Ofir Bitton 2023-01-10  205                  "operational" - Device is available for work.
-0a14c331682f61 Ofir Bitton 2023-01-10  206                  "in reset" - Device is going through reset, will be available
-0a14c331682f61 Ofir Bitton 2023-01-10  207                          shortly.
-0a14c331682f61 Ofir Bitton 2023-01-10  208                  "disabled" - Device is not usable.
-0a14c331682f61 Ofir Bitton 2023-01-10  209                  "needs reset" - Device is not usable until a hard reset will
-0a14c331682f61 Ofir Bitton 2023-01-10  210                          be initiated.
-0a14c331682f61 Ofir Bitton 2023-01-10  211                  "in device creation" - Device is not available yet, as it is
-0a14c331682f61 Ofir Bitton 2023-01-10  212                          still initializing.
-0a14c331682f61 Ofir Bitton 2023-01-10  213                  "in reset after device release" - Device is going through
-0a14c331682f61 Ofir Bitton 2023-01-10  214                          a compute-reset which is executed after a device release
-0a14c331682f61 Ofir Bitton 2023-01-10  215                          (relevant for Gaudi2 only).
-d91389bc839d72 Oded Gabbay 2019-02-16  216  
-
-:::::: The code at line 201 was first introduced by commit
-:::::: d91389bc839d724cd8df7ca308dde97beca9b0c5 habanalabs: add sysfs and hwmon support
-
-:::::: TO: Oded Gabbay <oded.gabbay@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/hw_random/virtio-rng.c:61:9: sparse: sparse: symbol 'virtrng_sysfs_read' was not declared. Should it be static?
+>> drivers/char/hw_random/virtio-rng.c:76:5: sparse: sparse: symbol 'virtrng_sysfs_mmap' was not declared. Should it be static?
+   drivers/char/hw_random/virtio-rng.c:106:5: sparse: sparse: symbol 'add_fill_on_leak_request' was not declared. Should it be static?
+   drivers/char/hw_random/virtio-rng.c:120:5: sparse: sparse: symbol 'virtrng_fill_on_leak' was not declared. Should it be static?
+   drivers/char/hw_random/virtio-rng.c:141:5: sparse: sparse: symbol 'add_copy_on_leak_request' was not declared. Should it be static?
+   drivers/char/hw_random/virtio-rng.c:160:5: sparse: sparse: symbol 'virtrng_copy_on_leak' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
