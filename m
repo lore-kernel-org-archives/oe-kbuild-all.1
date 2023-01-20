@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F399617D2;
-	Fri, 20 Jan 2023 08:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D70117D7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 09:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674205013; x=1705741013;
+  t=1674206214; x=1705742214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J0EiUqJKyGdo+CBGauw4XBwRy7+EsKkUqFraUhfQ9ak=;
-  b=bWZLOgcPy6iyWsBS3rn6T5rE6LgBFW2jHT6MhHIkhImKSh97HaTW2HqG
-   1n5nmJEZPzWO8V4nOot9ayppwnaRpFWC4K7FNvXdV+XYRWwQEBmdwP7WZ
-   pY/eTdVxwq/+NbZM9bu3hbE+UVGmqW8mUcMR/gbtgXAJ7DlUgczqd4OY7
-   h+e7MYf4M07ZPc6IFlhMy+EcDnug8B0oNQDa1OUqtZCWKZYXxLR/57uZ5
-   2FI3mGcH7xiUNdyo6+Gt32nkpaZ1Uy2oswTi9X6gGSfbSwtSr1IxocUzD
-   P9thyRStWJz9AH0e8w1m8W2dHNEfBSpDg2cB/D04SZS2iGQbFH7dyFIUC
+  bh=DBfYc5lilumwHLmsxbh07u7S3A8VQjEx9Bm0I2++QIA=;
+  b=PwsFSdWjQ9tB5ff8jjCHA+a5KfqE0wvyxJAaRkEKIPXrGV0YG9Q2w+vM
+   lrX3mUSNa6PV65WOljHwItqRfQqEKNgLsNcoFX+bXQkYIrZyWchnD5ZKh
+   kq2wSgpj/qPAFnXudC9mwuH/8iq+mniddrYNH6YC0lg+xRTdPqHhC/qtO
+   O2/tyTb0lvqFDsXAYWRDyNxbSiizwG6HH8CRSalfzZruh4YqrVrKgtlWD
+   zK5mDvjdK8MV/dN95XutmHxq3+y74oklXc0p0rVA/P/EWLhzxJjEDbI7g
+   sTAxC1ryd6W/smZQIgNfi/l7NNlzEGvu1d3Q+E0DN9P2Y2ooi+SJ9SLU/
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327632199"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="390054667"
 X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="327632199"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 00:56:53 -0800
+   d="scan'208";a="390054667"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 01:16:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638094077"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="723892558"
 X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="638094077"
+   d="scan'208";a="723892558"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 20 Jan 2023 00:56:51 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 20 Jan 2023 01:16:52 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pInCc-0002P8-2b;
-	Fri, 20 Jan 2023 08:56:50 +0000
-Date: Fri, 20 Jan 2023 16:56:22 +0800
+	id 1pInW0-0002QQ-01;
+	Fri, 20 Jan 2023 09:16:52 +0000
+Date: Fri, 20 Jan 2023 17:16:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Subject: [madvenka786:orc_v3 20/21] arch/x86/events/intel/pt.c:719:2:
- warning: array index -1 is before the beginning of the array
-Message-ID: <202301201656.DVmzLjlG-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [madvenka786:orc_v3 18/21] arch/arm64/include/asm/module.h:19:8:
+ error: redefinition of 'struct mod_arch_specific'
+Message-ID: <202301201718.RJBIP9MH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,158 +48,73 @@ Content-Disposition: inline
 
 tree:   https://github.com/madvenka786/linux orc_v3
 head:   a0c212ed0823caa5a7ec431d3a5ec07b46964384
-commit: 1fabd84ba1fcc2dffd5d1c9cdb4844f780947738 [20/21] arm64: Miscellaneous changes required for enabling livepatch
-config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230120/202301201656.DVmzLjlG-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+commit: c8b2b82a357707557f60ee6305f6e2cd5d23bde3 [18/21] arm64: Build the kernel with ORC information
+config: arm64-randconfig-r031-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201718.RJBIP9MH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/madvenka786/linux/commit/1fabd84ba1fcc2dffd5d1c9cdb4844f780947738
+        # https://github.com/madvenka786/linux/commit/c8b2b82a357707557f60ee6305f6e2cd5d23bde3
         git remote add madvenka786 https://github.com/madvenka786/linux
         git fetch --no-tags madvenka786 orc_v3
-        git checkout 1fabd84ba1fcc2dffd5d1c9cdb4844f780947738
+        git checkout c8b2b82a357707557f60ee6305f6e2cd5d23bde3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/events/intel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/events/intel/pt.c:27:
-   In file included from arch/x86/events/intel/../perf_event.h:15:
-   In file included from include/linux/perf_event.h:52:
-   include/linux/ftrace.h:119:6: error: expected identifier or '('
-   void ftrace_instruction_pointer_set(struct ftrace_regs *fregs,
-        ^
-   arch/x86/include/asm/ftrace.h:65:2: note: expanded from macro 'ftrace_instruction_pointer_set'
-           do { (fregs)->regs.ip = (_ip); } while (0)
-           ^
-   In file included from arch/x86/events/intel/pt.c:27:
-   In file included from arch/x86/events/intel/../perf_event.h:15:
-   In file included from include/linux/perf_event.h:52:
-   include/linux/ftrace.h:119:6: error: expected identifier or '('
-   arch/x86/include/asm/ftrace.h:65:35: note: expanded from macro 'ftrace_instruction_pointer_set'
-           do { (fregs)->regs.ip = (_ip); } while (0)
-                                            ^
->> arch/x86/events/intel/pt.c:719:2: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-           TOPA_ENTRY(last, -1)->base = topa_pfn(topa);
-           ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:720:2: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-           TOPA_ENTRY(last, -1)->end = 1;
-           ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:769:2: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-           TOPA_ENTRY(topa, -1)->base = page_to_phys(p) >> TOPA_SHIFT;
-           ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:770:2: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-           TOPA_ENTRY(topa, -1)->size = order;
-           ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:773:3: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-                   TOPA_ENTRY(topa, -1)->intr = 1;
-                   ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:774:3: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-                   TOPA_ENTRY(topa, -1)->stop = 1;
-                   ^                ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:1235:3: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-                   TOPA_ENTRY(buf->last, -1)->base = topa_pfn(buf->first);
-                   ^                     ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   arch/x86/events/intel/pt.c:1236:3: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-                   TOPA_ENTRY(buf->last, -1)->end = 1;
-                   ^                     ~~
-   arch/x86/events/intel/pt.c:619:6: note: expanded from macro 'TOPA_ENTRY'
-                   : &topa_to_page(t)->table[(i)])
-                      ^                       ~
-   arch/x86/events/intel/pt.c:596:2: note: array 'table' declared here
-           struct topa_entry       table[TENTS_PER_PAGE];
-           ^
-   8 warnings and 2 errors generated.
+   In file included from include/linux/module.h:32,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:15,
+                    from include/acpi/apei.h:9,
+                    from include/acpi/ghes.h:5,
+                    from include/linux/arm_sdei.h:8,
+                    from arch/arm64/kernel/asm-offsets.c:10:
+>> arch/arm64/include/asm/module.h:19:8: error: redefinition of 'struct mod_arch_specific'
+      19 | struct mod_arch_specific {
+         |        ^~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/module.h:8:
+   include/asm-generic/module.h:10:8: note: originally defined here
+      10 | struct mod_arch_specific
+         |        ^~~~~~~~~~~~~~~~~
+   make[2]: *** [scripts/Makefile.build:118: arch/arm64/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1270: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:231: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +719 arch/x86/events/intel/pt.c
+vim +19 arch/arm64/include/asm/module.h
 
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  690  
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  691  /**
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  692   * topa_insert_table() - insert a ToPA table into a buffer
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  693   * @buf:	 PT buffer that's being extended.
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  694   * @topa:	 New topa table to be inserted.
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  695   *
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  696   * If it's the first table in this buffer, set up buffer's pointers
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  697   * accordingly; otherwise, add a END=1 link entry to @topa to the current
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  698   * "last" table and adjust the last table pointer to @topa.
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  699   */
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  700  static void topa_insert_table(struct pt_buffer *buf, struct topa *topa)
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  701  {
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  702  	struct topa *last = buf->last;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  703  
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  704  	list_add_tail(&topa->list, &buf->tables);
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  705  
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  706  	if (!buf->first) {
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  707  		buf->first = buf->last = buf->cur = topa;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  708  		return;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  709  	}
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  710  
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  711  	topa->offset = last->offset + last->size;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  712  	buf->last = topa;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  713  
-f6d079ce867d67 arch/x86/events/intel/pt.c                Chao Peng          2018-10-24  714  	if (!intel_pt_validate_hw_cap(PT_CAP_topa_multiple_entries))
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  715  		return;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  716  
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  717  	BUG_ON(last->last != TENTS_PER_PAGE - 1);
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  718  
-91feca5e2ecc97 arch/x86/events/intel/pt.c                Alexander Shishkin 2019-08-21 @719  	TOPA_ENTRY(last, -1)->base = topa_pfn(topa);
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  720  	TOPA_ENTRY(last, -1)->end = 1;
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  721  }
-52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  722  
+24af6c4e4e0f6e Ard Biesheuvel           2017-02-21  18  
+24af6c4e4e0f6e Ard Biesheuvel           2017-02-21 @19  struct mod_arch_specific {
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  20  #ifdef CONFIG_ARM64_MODULE_PLTS
+24af6c4e4e0f6e Ard Biesheuvel           2017-02-21  21  	struct mod_plt_sec	core;
+24af6c4e4e0f6e Ard Biesheuvel           2017-02-21  22  	struct mod_plt_sec	init;
+e71a4e1bebaf7f Ard Biesheuvel           2017-06-06  23  
+e71a4e1bebaf7f Ard Biesheuvel           2017-06-06  24  	/* for CONFIG_DYNAMIC_FTRACE */
+3b23e4991fb66f Torsten Duwe             2019-02-08  25  	struct plt_entry	*ftrace_trampolines;
+fd045f6cd98ec4 Ard Biesheuvel           2015-11-24  26  #endif
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  27  #ifdef CONFIG_UNWINDER_ORC
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  28  	unsigned int num_orcs;
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  29  	int *orc_unwind_ip;
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  30  	struct orc_entry *orc_unwind;
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  31  #endif
+c8b2b82a357707 Madhavan T. Venkataraman 2023-01-08  32  };
+fd045f6cd98ec4 Ard Biesheuvel           2015-11-24  33  
 
-:::::: The code at line 719 was first introduced by commit
-:::::: 91feca5e2ecc9752894d57c9a72c2645471929c3 perf/x86/intel/pt: Free up space in a ToPA descriptor
+:::::: The code at line 19 was first introduced by commit
+:::::: 24af6c4e4e0f6e9803bec8dca0f7748afbb2bbf0 arm64: module: split core and init PLT sections
 
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
