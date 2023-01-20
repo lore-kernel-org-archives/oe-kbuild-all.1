@@ -1,47 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228B6256E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 23:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB4B256E;
+	Fri, 20 Jan 2023 23:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674255815; x=1705791815;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f+Y2d5WifdWH1iAgu4lhYlkNGFsn/bMB3NVjAbTRvn0=;
-  b=c0qpu9ktofRaL9dRv0HKrtozxNS9pspsmJNjWaSOx8gNbtG4TnOAylAa
-   D/V3WyJp6grDPudpeSIGpG0ujB/fBp/xPeWS0ESEPtJgBTil4MKYFWI5r
-   nU7YP/dGzHbJfIBy+Bj1dqEbQJKNglboVprG5Y4DUVRT+HO7KylR9rJjM
-   PkcrjlmDGFuZBgioZakvb7oUdOIH41gbAFTF0Y17NZLOmMqD6ys8yFP5S
-   Pg1HAerlImgostrIgkKG86deodXtX/GJl++CEWT7Az3PSaxyj0Uzi7nM5
-   HwKQQS7x6+xd3uqIl9bAHxW0LUg+7rDrPYUV54VAV61MM9vESQpNjdkKm
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309293553"
+  t=1674257074; x=1705793074;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i2Kz2Ki18gYc4Eh9rn7zozY5S7hTLmiNvjzBVfSWqeU=;
+  b=QEGpLCGkID2dDsFSVzpJCblnh5qSSHcv4yiIILOeXkLDTxpjMU/AHX1B
+   t4t4Ct7nm60vlCaGIY47MwchWPUZBAYsf69gg2LTHixHoeC2e/20A12JT
+   KBbnUyqEQWwvvjBn/EbJNR5pNERawf5QKZMp8YZo7iS7ygTyxpExiqWWV
+   MZa+/Rw2TmEKZL9X7HibL7wdh/+JXxaAUM6RwulMZ4df8hyAZZ0OobuSU
+   YlB1+xR27LJb+QGvfFSmitJjLTWjsounRqiewrM4n/PmSKA59+Ief2qJv
+   6Lluu7JAuQ8G5frHfjoS0R7pEPyPprAT4iaCPItETLE14jzrNkRvcE2aH
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="388084177"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="309293553"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 15:03:34 -0800
+   d="scan'208";a="388084177"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 15:24:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="834573078"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610624383"
 X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="834573078"
+   d="scan'208";a="610624383"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 20 Jan 2023 15:03:31 -0800
+  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 15:24:32 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJ0Py-00034u-1a;
-	Fri, 20 Jan 2023 23:03:30 +0000
-Date: Sat, 21 Jan 2023 07:02:41 +0800
+	id 1pJ0kJ-00035m-0B;
+	Fri, 20 Jan 2023 23:24:31 +0000
+Date: Sat, 21 Jan 2023 07:23:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: nick.hawkins@hpe.com, verdun@hpe.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au,
-	linux@armlinux.org.uk, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/5] i2c: hpe: Add GXP SoC I2C Controller
-Message-ID: <202301210607.KSWIWehq-lkp@intel.com>
-References: <20230120190159.23459-2-nick.hawkins@hpe.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/attach_btfid 1/2] net/bpf/test_func_2.c:8:5:
+ warning: no previous prototype for function 'bpf_test_func2_globl'
+Message-ID: <202301210742.Zfz0SOHI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,124 +45,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120190159.23459-2-nick.hawkins@hpe.com>
 
-Hi,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on wsa/i2c/for-next]
-[also build test WARNING on robh/for-next linus/master v6.2-rc4 next-20230120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/nick-hawkins-hpe-com/i2c-hpe-Add-GXP-SoC-I2C-Controller/20230121-030628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-patch link:    https://lore.kernel.org/r/20230120190159.23459-2-nick.hawkins%40hpe.com
-patch subject: [PATCH v3 1/5] i2c: hpe: Add GXP SoC I2C Controller
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301210607.KSWIWehq-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/attach_btfid
+head:   cfc34e8e2edc1d8ab7dde3a065bf708448ee9680
+commit: 52454dab859150561a4e93ff6c98a7d9be86679c [1/2] bpf: Add multiple bpf_test_func functions
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230121/202301210742.Zfz0SOHI-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/944feebf5cf838fc72fae192e832e5fc96d1cad9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review nick-hawkins-hpe-com/i2c-hpe-Add-GXP-SoC-I2C-Controller/20230121-030628
-        git checkout 944feebf5cf838fc72fae192e832e5fc96d1cad9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=52454dab859150561a4e93ff6c98a7d9be86679c
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf bpf/attach_btfid
+        git checkout 52454dab859150561a4e93ff6c98a7d9be86679c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/i2c/busses/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-gxp.c: In function 'gxp_i2c_probe':
->> drivers/i2c/busses/i2c-gxp.c:533:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     533 |         drvdata->engine = ((u32)drvdata->base & 0xf00) >> 8;
-         |                            ^
+>> net/bpf/test_func_2.c:8:5: warning: no previous prototype for function 'bpf_test_func2_globl' [-Wmissing-prototypes]
+   int bpf_test_func2_globl(int a)
+       ^
+   net/bpf/test_func_2.c:8:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_test_func2_globl(int a)
+   ^
+   static 
+   1 warning generated.
+--
+>> net/bpf/test_func_1.c:9:5: warning: no previous prototype for function 'bpf_test_func1_globl' [-Wmissing-prototypes]
+   int bpf_test_func1_globl(struct bpf_prog *prog)
+       ^
+   net/bpf/test_func_1.c:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_test_func1_globl(struct bpf_prog *prog)
+   ^
+   static 
+   1 warning generated.
+--
+>> net/bpf/test_func_3.c:9:5: warning: no previous prototype for function 'bpf_test_func3_globl' [-Wmissing-prototypes]
+   int bpf_test_func3_globl(struct bpf_prog *prog)
+       ^
+   net/bpf/test_func_3.c:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_test_func3_globl(struct bpf_prog *prog)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +533 drivers/i2c/busses/i2c-gxp.c
+vim +/bpf_test_func2_globl +8 net/bpf/test_func_2.c
 
-   499	
-   500	static int gxp_i2c_probe(struct platform_device *pdev)
-   501	{
-   502		struct gxp_i2c_drvdata *drvdata;
-   503		int rc;
-   504		struct i2c_adapter *adapter;
-   505	
-   506		if (!i2c_global_init_done) {
-   507			i2cg_map = syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
-   508								   "hpe,sysreg");
-   509			if (IS_ERR(i2cg_map)) {
-   510				return dev_err_probe(&pdev->dev, IS_ERR(i2cg_map),
-   511						     "failed to map i2cg_handle\n");
-   512			}
-   513	
-   514			/* Disable interrupt */
-   515			regmap_update_bits(i2cg_map, GXP_I2CINTEN, 0x00000FFF, 0);
-   516			i2c_global_init_done = true;
-   517		}
-   518	
-   519		drvdata = devm_kzalloc(&pdev->dev, sizeof(*drvdata),
-   520				       GFP_KERNEL);
-   521		if (!drvdata)
-   522			return -ENOMEM;
-   523	
-   524		platform_set_drvdata(pdev, drvdata);
-   525		drvdata->dev = &pdev->dev;
-   526		init_completion(&drvdata->completion);
-   527	
-   528		drvdata->base = devm_platform_ioremap_resource(pdev, 0);
-   529		if (IS_ERR(drvdata->base))
-   530			return PTR_ERR(drvdata->base);
-   531	
-   532		/* Use physical memory address to determine which I2C engine this is. */
- > 533		drvdata->engine = ((u32)drvdata->base & 0xf00) >> 8;
-   534	
-   535		if (drvdata->engine >= GXP_MAX_I2C_ENGINE) {
-   536			return dev_err_probe(&pdev->dev, -EINVAL, "i2c engine% is unsupported\n",
-   537				drvdata->engine);
-   538		}
-   539	
-   540		rc = platform_get_irq(pdev, 0);
-   541		if (rc < 0)
-   542			return rc;
-   543	
-   544		drvdata->irq = rc;
-   545		rc = devm_request_irq(&pdev->dev, drvdata->irq, gxp_i2c_irq_handler,
-   546				      IRQF_SHARED, gxp_i2c_name[drvdata->engine], drvdata);
-   547		if (rc < 0)
-   548			return dev_err_probe(&pdev->dev, rc, "irq request failed\n");
-   549	
-   550		i2c_parse_fw_timings(&pdev->dev, &drvdata->t, true);
-   551	
-   552		gxp_i2c_init(drvdata);
-   553	
-   554		/* Enable interrupt */
-   555		regmap_update_bits(i2cg_map, GXP_I2CINTEN, BIT(drvdata->engine),
-   556				   BIT(drvdata->engine));
-   557	
-   558		adapter = &drvdata->adapter;
-   559		i2c_set_adapdata(adapter, drvdata);
-   560	
-   561		adapter->owner = THIS_MODULE;
-   562		strscpy(adapter->name, "HPE GXP I2C adapter", sizeof(adapter->name));
-   563		adapter->algo = &gxp_i2c_algo;
-   564		adapter->dev.parent = &pdev->dev;
-   565		adapter->dev.of_node = pdev->dev.of_node;
-   566	
-   567		rc = i2c_add_adapter(adapter);
-   568		if (rc)
-   569			return dev_err_probe(&pdev->dev, rc, "i2c add adapter failed\n");
-   570	
-   571		return 0;
-   572	}
-   573	
+     7	
+   > 8	int bpf_test_func2_globl(int a)
 
 -- 
 0-DAY CI Kernel Test Service
