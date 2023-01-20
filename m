@@ -1,40 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681D5256E;
-	Fri, 20 Jan 2023 14:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990B4BD36
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 14:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674223832; x=1705759832;
+  t=1674225668; x=1705761668;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=ylB8ldRavIGt2wStGcIhC5n8dYKDfFpDMg0krXDJIRc=;
-  b=gikikcThoqGmb7Ny8ryvLrfMBoq8dVBb66OMKX/PasMkHW029euTy94Q
-   TGxaVtCRb5JXqBqJszfIO6TsBslLYlLGRFqBGiWlp5nUjQOzslqAMPEgG
-   UBmJBxoc9x2JhM+DncizWQtTuzbhsNhdK35yeCj10vy/ZrTxbbwwXpiVr
-   taRQ5ZQLBIpUA4i+eC+pcpex5v9k1Cte1LRpbAUFa46UnGVoQtnEISUNO
-   ho16xJ/CUWFrjZH020aUG6r8i9+Uf0Pl+V0iTTP+I6zhJwDRtzkiB5f1D
-   IA01VU1pks2ahv5Na+5CdB2qMQgQNS9cbggO8ZNLVtmV2gNAo7FHwnI+P
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327677956"
+  bh=c9rtX/WM0+a3giQLPc2bq+JDRTb8t/rMpIqNy+XAgas=;
+  b=byQOvUIVRnqyCPSMCymbxlJjxYCVErbLLGgHjvvTha8/EH+Km7aUJB6c
+   SI/3UloDlRK3GqvYN1F+MmJIePmwo54IrORH9AvuvioeadNPbi7S3Na2u
+   /MLMuDEhEBrGnWA2AmD0cgb63YcQD/iSE38w63/yodOeuCy1mgpdcUhF5
+   JVxfBNAneYGtFRLfQHx25kOFy9s00+VWwh50NAhDkfDdt+na9m9enO2Et
+   x2qhlcjBICFHdYKqe5OHXw/anR7Lg0z3/o8Vp6PmWg/SXZdPUj4huJ8Bx
+   B8MSo3ZtjDfgCDfc6hp8LwriIPYuTFASHUMVRSO+rmvMv5jVAo1J3KpF3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="325625982"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="327677956"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 06:10:14 -0800
+   d="scan'208";a="325625982"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 06:41:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638165402"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989413765"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="638165402"
+   d="scan'208";a="989413765"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 20 Jan 2023 06:10:13 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 06:41:06 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIs5k-0002bm-2w;
-	Fri, 20 Jan 2023 14:10:04 +0000
-Date: Fri, 20 Jan 2023 22:09:55 +0800
+	id 1pIsZl-0002dC-22;
+	Fri, 20 Jan 2023 14:41:05 +0000
+Date: Fri, 20 Jan 2023 22:40:42 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: clang-16: error: unknown argument: '-mr10k-cache-barrier=store'
-Message-ID: <202301202253.C1QOcI3X-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hao Li <hao3.li@intel.com>
+Subject: [intel-lts:5.10/dovetail-xenomai 20/207]
+ drivers/clocksource/bcm2835_timer.c:103:25: sparse: sparse: Using plain
+ integer as NULL pointer
+Message-ID: <202301202251.UqGTMXxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,222 +46,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-
-Hi Tiezhu,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d368967cb1039b5c4cccb62b5a4b9468c50cd143
-commit: 048cc2378c2494519d940597629465b3ea44a96f MIPS: SGI-IP22: Remove unnecessary check of GCC option
-date:   1 year, 1 month ago
-config: mips-buildonly-randconfig-r001-20230119 (https://download.01.org/0day-ci/archive/20230120/202301202253.C1QOcI3X-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/dovetail-xenomai
+head:   cf5bf3fab76681ac32341500eb2701aa4b259c1c
+commit: 5531cd3d673cc05b5ae200abc8b45f7f5d0db37c [20/207] clocksource/bcm2835: turn into user-visible MMIO clocksource
+config: openrisc-randconfig-s033-20230119 (https://download.01.org/0day-ci/archive/20230120/202301202251.UqGTMXxx-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips64-linux-gnuabi64
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=048cc2378c2494519d940597629465b3ea44a96f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 048cc2378c2494519d940597629465b3ea44a96f
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel/linux-intel-lts/commit/5531cd3d673cc05b5ae200abc8b45f7f5d0db37c
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/dovetail-xenomai
+        git checkout 5531cd3d673cc05b5ae200abc8b45f7f5d0db37c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/clocksource/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clocksource/bcm2835_timer.c:103:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/clocksource/bcm2835_timer.c:148:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *[assigned] base @@
+   drivers/clocksource/bcm2835_timer.c:148:17: sparse:     expected void *addr
+   drivers/clocksource/bcm2835_timer.c:148:17: sparse:     got void [noderef] __iomem *[assigned] base
+   drivers/clocksource/bcm2835_timer.c: note: in included file (through arch/openrisc/include/asm/io.h, include/linux/clocksource.h, include/linux/clockchips.h):
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
+   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [usertype] value
+   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [usertype]
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
+   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [usertype] value
+   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [usertype]
 
->> clang-16: error: unknown argument: '-mr10k-cache-barrier=store'
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   scripts/sign-file.c:89:14: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
-           while ((e = ERR_get_error_line(&file, &line))) {
-                       ^
-   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:102:9: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
-           while (ERR_get_error_line(&file, &line)) {}
-                  ^
-   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:142:3: warning: 'ENGINE_load_builtin_engines' is deprecated [-Wdeprecated-declarations]
-                   ENGINE_load_builtin_engines();
-                   ^
-   /usr/include/openssl/engine.h:358:1: note: 'ENGINE_load_builtin_engines' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:144:7: warning: 'ENGINE_by_id' is deprecated [-Wdeprecated-declarations]
-                   e = ENGINE_by_id("pkcs11");
-                       ^
-   /usr/include/openssl/engine.h:336:1: note: 'ENGINE_by_id' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:146:7: warning: 'ENGINE_init' is deprecated [-Wdeprecated-declarations]
-                   if (ENGINE_init(e))
-                       ^
-   /usr/include/openssl/engine.h:620:1: note: 'ENGINE_init' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:151:9: warning: 'ENGINE_ctrl_cmd_string' is deprecated [-Wdeprecated-declarations]
-                           ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
-                                ^
-   /usr/include/openssl/engine.h:478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/sign-file.c:153:17: warning: 'ENGINE_load_private_key' is deprecated [-Wdeprecated-declarations]
-                   private_key = ENGINE_load_private_key(e, private_key_name,
-                                 ^
-   /usr/include/openssl/engine.h:637:1: note: 'ENGINE_load_private_key' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:46:14: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
-           while ((e = ERR_get_error_line(&file, &line))) {
-                       ^
-   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
-           while (ERR_get_error_line(&file, &line)) {}
-                  ^
-   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:124:3: warning: 'ENGINE_load_builtin_engines' is deprecated [-Wdeprecated-declarations]
-                   ENGINE_load_builtin_engines();
-                   ^
-   /usr/include/openssl/engine.h:358:1: note: 'ENGINE_load_builtin_engines' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:126:7: warning: 'ENGINE_by_id' is deprecated [-Wdeprecated-declarations]
-                   e = ENGINE_by_id("pkcs11");
-                       ^
-   /usr/include/openssl/engine.h:336:1: note: 'ENGINE_by_id' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:128:7: warning: 'ENGINE_init' is deprecated [-Wdeprecated-declarations]
-                   if (ENGINE_init(e))
-                       ^
-   /usr/include/openssl/engine.h:620:1: note: 'ENGINE_init' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:133:9: warning: 'ENGINE_ctrl_cmd_string' is deprecated [-Wdeprecated-declarations]
-                           ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
-                                ^
-   /usr/include/openssl/engine.h:478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   scripts/extract-cert.c:134:3: warning: 'ENGINE_ctrl_cmd' is deprecated [-Wdeprecated-declarations]
-                   ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
-                   ^
-   /usr/include/openssl/engine.h:450:1: note: 'ENGINE_ctrl_cmd' has been explicitly marked deprecated here
-   OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
-   ^
-   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
-   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
-                                                   ^
-   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
-   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
-                                                      ^
-   7 warnings generated.
-   7 warnings generated.
->> clang-16: error: unknown argument: '-mr10k-cache-barrier=store'
-   make[2]: *** [scripts/Makefile.build:121: kernel/bounds.s] Error 1
-   make[2]: Target 'missing-syscalls' not remade because of errors.
-   make[1]: *** [arch/mips/Makefile:415: archprepare] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:219: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +103 drivers/clocksource/bcm2835_timer.c
+
+    77	
+    78	static int __init bcm2835_timer_init(struct device_node *node)
+    79	{
+    80		void __iomem *base;
+    81		u32 freq;
+    82		int irq, ret;
+    83		struct bcm2835_timer *timer;
+    84		struct clocksource_mmio_regs mmr;
+    85	
+    86		base = of_iomap(node, 0);
+    87		if (!base) {
+    88			pr_err("Can't remap registers\n");
+    89			return -ENXIO;
+    90		}
+    91	
+    92		ret = of_property_read_u32(node, "clock-frequency", &freq);
+    93		if (ret) {
+    94			pr_err("Can't read clock-frequency\n");
+    95			goto err_iounmap;
+    96		}
+    97	
+    98		system_clock = base + REG_COUNTER_LO;
+    99		sched_clock_register(bcm2835_sched_read, 32, freq);
+   100	
+   101		mmr.reg_lower = base + REG_COUNTER_LO;
+   102		mmr.bits_lower = 32;
+ > 103		mmr.reg_upper = 0;
 
 -- 
 0-DAY CI Kernel Test Service
