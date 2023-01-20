@@ -1,48 +1,55 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6B1198
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 02:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692CD17C8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 02:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674182201; x=1705718201;
+  t=1674182204; x=1705718204;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iGWWwcn5Zq4NGOFaYg6XxN+FdKm8ZS4nDFi/IbIcAdo=;
-  b=ce5+uctqD4rlC3KHM8oSX8wkjCShEdwdH87dLREM6U9S6vdik9TnKsJY
-   WowXsemUyKL0Ibp5tYNDcv54oApp/EB7e3VvN9opBUihlvpGiV90rAxP1
-   f1BbjZH5HsLkLKLlrJJ8vpEuZhWGE2BZoarbb4RWu0TjWs8RplXA7QNUx
-   zuSbwktDgH1lf6xnG9kusbVain4wXmj1719EJOtwwAXQac2heykG4PHjP
-   ruM5q6Xy3B3JtpnI4YYtCW+zUHRVQy8B4iaKY5sS5tTvhpkWrjFPuBSZa
-   96YY5ZUBDET+L3rM971CQk662YBfJcXTauviuta4VOviDA4xqzgiBdWWX
+  bh=QV25VNy+PUHs1NMmO++fLDLrHvbJf7SwvJQYpXhsmaE=;
+  b=Td7Ux2tDMTAB+pbDEL2fXgHUe7sKI8rwP2NbCShwxauBkG3uwouKefuf
+   fh3lICF1zuaOaY9nqhVT7V7KjwrBuCv1QBnVQm+5Ucf2qZPC+u34FrRWF
+   NwIj3Nruno33M2o2tTR3C8B+dRhn2vGH/u73uEoIAY0bwjl9UiLdEp7cP
+   gd8v7tHH/+PMJq8Ysn+T4y/piaNt98bBKbIXzGhdmzOasntj7xrw/4TIl
+   rHp99VfOUhO1aN8wTe0QAHUNYs9ddjhNOILhU0Z68Zy23rkXCRYj67rzZ
+   4RIOYgR01B5sK+S8qClElzOFeqGVxNAIuBVRmdWat70hkM+PWloLxmeJd
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323183411"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323183438"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="323183411"
+   d="scan'208";a="323183438"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 18:36:40 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 18:36:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="802919918"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="802919919"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="802919918"
+   d="scan'208";a="802919919"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2023 18:36:36 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIhGd-00026W-0p;
+	id 1pIhGd-00026S-0e;
 	Fri, 20 Jan 2023 02:36:35 +0000
-Date: Fri, 20 Jan 2023 10:36:24 +0800
+Date: Fri, 20 Jan 2023 10:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-	yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com, tj@kernel.org
-Subject: Re: [PATCH bpf-next 4/8] bpf: Enable cpumasks to be queried and used
- as kptrs
-Message-ID: <202301201053.OKCBdOsh-lkp@intel.com>
-References: <20230119235833.2948341-5-void@manifault.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
+	sanju.mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
+	kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
+	sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
+	han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, narmstrong@baylibre.com,
+	khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
+	linus.walleij@linaro.org, daniel@zonque.org,
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org,
+	bjorn.andersson@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 13/13] spi: spi-zynqmp-gqspi: Add parallel memories
+ support in GQSPI driver
+Message-ID: <202301201055.lAt5dcXk-lkp@intel.com>
+References: <20230119185342.2093323-14-amit.kumar-mahapatra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,285 +58,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119235833.2948341-5-void@manifault.com>
+In-Reply-To: <20230119185342.2093323-14-amit.kumar-mahapatra@amd.com>
 
-Hi David,
+Hi Amit,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.2-rc4]
+[cannot apply to broonie-spi/for-next mtd/spi-nor/next next-20230119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Vernet/bpf-Enable-annotating-trusted-nested-pointers/20230120-080139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230119235833.2948341-5-void%40manifault.com
-patch subject: [PATCH bpf-next 4/8] bpf: Enable cpumasks to be queried and used as kptrs
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230120/202301201053.OKCBdOsh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Kumar-Mahapatra/spi-Add-APIs-in-spi-core-to-set-get-spi-chip_select-and-spi-cs_gpiod/20230120-031122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230119185342.2093323-14-amit.kumar-mahapatra%40amd.com
+patch subject: [PATCH v2 13/13] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230120/202301201055.lAt5dcXk-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/11541205c58f2226e5ffbc5967317469d65efac6
+        # https://github.com/intel-lab-lkp/linux/commit/fa597297af8ca9a48050a3907eb5e7541d88f1bd
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Vernet/bpf-Enable-annotating-trusted-nested-pointers/20230120-080139
-        git checkout 11541205c58f2226e5ffbc5967317469d65efac6
+        git fetch --no-tags linux-review Amit-Kumar-Mahapatra/spi-Add-APIs-in-spi-core-to-set-get-spi-chip_select-and-spi-cs_gpiod/20230120-031122
+        git checkout fa597297af8ca9a48050a3907eb5e7541d88f1bd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash kernel/bpf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/cpumask.c:38:21: warning: no previous prototype for 'bpf_cpumask_create' [-Wmissing-prototypes]
-      38 | struct bpf_cpumask *bpf_cpumask_create(void)
-         |                     ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:52:21: warning: no previous prototype for 'bpf_cpumask_acquire' [-Wmissing-prototypes]
-      52 | struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-         |                     ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:58:21: warning: no previous prototype for 'bpf_cpumask_kptr_get' [-Wmissing-prototypes]
-      58 | struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-         |                     ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:76:6: warning: no previous prototype for 'bpf_cpumask_release' [-Wmissing-prototypes]
-      76 | void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:88:5: warning: no previous prototype for 'bpf_cpumask_first' [-Wmissing-prototypes]
-      88 | u32 bpf_cpumask_first(const struct cpumask *cpumask)
-         |     ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:93:5: warning: no previous prototype for 'bpf_cpumask_first_zero' [-Wmissing-prototypes]
-      93 | u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:98:6: warning: no previous prototype for 'bpf_cpumask_set_cpu' [-Wmissing-prototypes]
-      98 | void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:106:6: warning: no previous prototype for 'bpf_cpumask_clear_cpu' [-Wmissing-prototypes]
-     106 | void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:114:6: warning: no previous prototype for 'bpf_cpumask_test_cpu' [-Wmissing-prototypes]
-     114 | bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:122:6: warning: no previous prototype for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-prototypes]
-     122 | bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:130:6: warning: no previous prototype for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-prototypes]
-     130 | bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:138:6: warning: no previous prototype for 'bpf_cpumask_setall' [-Wmissing-prototypes]
-     138 | void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:143:6: warning: no previous prototype for 'bpf_cpumask_clear' [-Wmissing-prototypes]
-     143 | void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:148:6: warning: no previous prototype for 'bpf_cpumask_and' [-Wmissing-prototypes]
-     148 | bool bpf_cpumask_and(struct bpf_cpumask *dst,
-         |      ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:155:6: warning: no previous prototype for 'bpf_cpumask_or' [-Wmissing-prototypes]
-     155 | void bpf_cpumask_or(struct bpf_cpumask *dst,
-         |      ^~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:162:6: warning: no previous prototype for 'bpf_cpumask_xor' [-Wmissing-prototypes]
-     162 | void bpf_cpumask_xor(struct bpf_cpumask *dst,
-         |      ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:169:6: warning: no previous prototype for 'bpf_cpumask_equal' [-Wmissing-prototypes]
-     169 | bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-         |      ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:174:6: warning: no previous prototype for 'bpf_cpumask_intersects' [-Wmissing-prototypes]
-     174 | bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:179:6: warning: no previous prototype for 'bpf_cpumask_subset' [-Wmissing-prototypes]
-     179 | bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:184:6: warning: no previous prototype for 'bpf_cpumask_empty' [-Wmissing-prototypes]
-     184 | bool bpf_cpumask_empty(const struct cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:189:6: warning: no previous prototype for 'bpf_cpumask_full' [-Wmissing-prototypes]
-     189 | bool bpf_cpumask_full(const struct cpumask *cpumask)
-         |      ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:194:6: warning: no previous prototype for 'bpf_cpumask_copy' [-Wmissing-prototypes]
-     194 | void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-         |      ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:199:5: warning: no previous prototype for 'bpf_cpumask_any' [-Wmissing-prototypes]
-     199 | u32 bpf_cpumask_any(const struct cpumask *cpumask)
-         |     ^~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:204:5: warning: no previous prototype for 'bpf_cpumask_any_and' [-Wmissing-prototypes]
-     204 | u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
-         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for 'zynqmp_gqspi_update_stripe' [-Wmissing-prototypes]
+     229 | bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_cpumask_create +38 kernel/bpf/cpumask.c
+vim +/zynqmp_gqspi_update_stripe +229 drivers/spi/spi-zynqmp-gqspi.c
 
-    37	
-  > 38	struct bpf_cpumask *bpf_cpumask_create(void)
-    39	{
-    40		struct bpf_cpumask *cpumask;
-    41	
-    42		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
-    43		if (!cpumask)
-    44			return NULL;
-    45	
-    46		memset(cpumask, 0, sizeof(*cpumask));
-    47		refcount_set(&cpumask->usage, 1);
-    48	
-    49		return cpumask;
-    50	}
-    51	
-  > 52	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-    53	{
-    54		refcount_inc(&cpumask->usage);
-    55		return cpumask;
-    56	}
-    57	
-  > 58	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-    59	{
-    60		struct bpf_cpumask *cpumask;
-    61	
-    62		/* The BPF memory allocator frees memory backing its caches in an RCU
-    63		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
-    64		 * safe to read.
-    65		 */
-    66		rcu_read_lock();
-    67	
-    68		cpumask = READ_ONCE(*cpumaskp);
-    69		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
-    70			cpumask = NULL;
-    71	
-    72		rcu_read_unlock();
-    73		return cpumask;
-    74	}
-    75	
-  > 76	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-    77	{
-    78		if (!cpumask)
-    79			return;
-    80	
-    81		if (refcount_dec_and_test(&cpumask->usage)) {
-    82			migrate_disable();
-    83			bpf_mem_free(&bpf_cpumask_ma, cpumask);
-    84			migrate_enable();
-    85		}
-    86	}
-    87	
-  > 88	u32 bpf_cpumask_first(const struct cpumask *cpumask)
-    89	{
-    90		return cpumask_first(cpumask);
-    91	}
-    92	
-  > 93	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-    94	{
-    95		return cpumask_first_zero(cpumask);
-    96	}
-    97	
-  > 98	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-    99	{
-   100		if (!cpu_valid(cpu))
-   101			return;
-   102	
-   103		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
-   104	}
-   105	
- > 106	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   107	{
-   108		if (!cpu_valid(cpu))
-   109			return;
-   110	
-   111		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
-   112	}
-   113	
- > 114	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-   115	{
-   116		if (!cpu_valid(cpu))
-   117			return false;
-   118	
-   119		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
-   120	}
-   121	
- > 122	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   123	{
-   124		if (!cpu_valid(cpu))
-   125			return false;
-   126	
-   127		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
-   128	}
-   129	
- > 130	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   131	{
-   132		if (!cpu_valid(cpu))
-   133			return false;
-   134	
-   135		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
-   136	}
-   137	
- > 138	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-   139	{
-   140		cpumask_setall((struct cpumask *)cpumask);
-   141	}
-   142	
- > 143	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-   144	{
-   145		cpumask_clear((struct cpumask *)cpumask);
-   146	}
-   147	
- > 148	bool bpf_cpumask_and(struct bpf_cpumask *dst,
-   149			     const struct cpumask *src1,
-   150			     const struct cpumask *src2)
-   151	{
-   152		return cpumask_and((struct cpumask *)dst, src1, src2);
-   153	}
-   154	
- > 155	void bpf_cpumask_or(struct bpf_cpumask *dst,
-   156			    const struct cpumask *src1,
-   157			    const struct cpumask *src2)
-   158	{
-   159		cpumask_or((struct cpumask *)dst, src1, src2);
-   160	}
-   161	
- > 162	void bpf_cpumask_xor(struct bpf_cpumask *dst,
-   163			     const struct cpumask *src1,
-   164			     const struct cpumask *src2)
-   165	{
-   166		cpumask_xor((struct cpumask *)dst, src1, src2);
-   167	}
-   168	
- > 169	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-   170	{
-   171		return cpumask_equal(src1, src2);
-   172	}
-   173	
- > 174	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-   175	{
-   176		return cpumask_intersects(src1, src2);
-   177	}
-   178	
- > 179	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-   180	{
-   181		return cpumask_subset(src1, src2);
-   182	}
-   183	
- > 184	bool bpf_cpumask_empty(const struct cpumask *cpumask)
-   185	{
-   186		return cpumask_empty(cpumask);
-   187	}
-   188	
- > 189	bool bpf_cpumask_full(const struct cpumask *cpumask)
-   190	{
-   191		return cpumask_full(cpumask);
-   192	}
-   193	
- > 194	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-   195	{
-   196		cpumask_copy((struct cpumask *)dst, src);
-   197	}
-   198	
- > 199	u32 bpf_cpumask_any(const struct cpumask *cpumask)
-   200	{
-   201		return cpumask_any(cpumask);
-   202	}
-   203	
- > 204	u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
-   205	{
-   206		return cpumask_any_and(src1, src2);
-   207	}
-   208	
+   221	
+   222	/**
+   223	 * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
+   224	 * @op:	Pointer to mem ops
+   225	 * Return:      Status of the data stripe
+   226	 *
+   227	 * Returns true if data stripe need to be enabled, else returns false
+   228	 */
+ > 229	bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+   230	{
+   231		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
+   232		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
+   233		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
+   234		    op->cmd.opcode ==  SPINOR_OP_SE ||
+   235		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
+   236		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
+   237		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
+   238		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
+   239		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
+   240		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
+   241			return false;
+   242	
+   243		return true;
+   244	}
+   245	
 
 -- 
 0-DAY CI Kernel Test Service
