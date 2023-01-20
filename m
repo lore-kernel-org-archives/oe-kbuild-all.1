@@ -1,73 +1,89 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0157474;
-	Fri, 20 Jan 2023 21:41:51 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-4ff07dae50dso45727527b3.2;
-        Fri, 20 Jan 2023 13:41:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mOYAowSd7KdH13kScqSab02fekUH0oBpoj4QfPYHtOU=;
-        b=obSzTawbgOHAY/jNsW686SIXhdTy7YEp1CcM6JVTU5MzND0BY3RSw+ILQM+ujtNh7Z
-         vQHy7uDMXafbLGj5PcXvi56BlXkY3iqNEc2Qu2h6JgGWUnqyWiaWVkmALsuXIl6yB7zG
-         BDf6s6DuczALhA01QXnNOsjE9Lf4RdUPeOdVvomqTcNwoH3rLMxKy02CRuGwWZZgxwe6
-         ejETJdyb68hgpzfWWKZdBqDXZSlxTqz8MS7BGA8XHSM1y6CaJX0hSpInuX074spj9uD/
-         ckfzVi50cNTjYxBCQfWCzGY+eHa2LNVZz69L4Iq4eTg0T+NxGP+WSQ/SqEBUt66GWVSZ
-         Gv3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mOYAowSd7KdH13kScqSab02fekUH0oBpoj4QfPYHtOU=;
-        b=lADs5lwDMh4BnT4rL772n3rNPeOF9X/JMAyYt2KK4M5WXUd6KUlCnpOgyfE8RBkLJt
-         yxnio6m44ErC9SQreIvX6Xf5iiolO9Ep8dxoK1L7LVY41tT/wf37QX0YJgOwadYbD5e+
-         bm8/Fm/1zPdSyiKV0gYlGy+BVL9CtUmarkBNbHnqOI4jjA5Rr4Pt6vPEiydqd6eq8EEY
-         esfoV2jtqm0prfsNSJLY//CGV5582314GDhSgT8CHufFXWx/WFCcPQYXcu6UyCsWSTgx
-         oIQhMBR2GPnkzlBAvB+iAAd8lzb5/uL2NI6cQWXGrmnWw1KoQFnQMFccJDxreBAqvCOW
-         Ox1Q==
-X-Gm-Message-State: AFqh2kqarnsmJFvQ3dz8RmbuZN36rMAva3/UqeSpP8BdLAdETNkxgHhG
-	chXeCx2up+1k2HgiQI7wgoD4iRZIkjXp41Po3/8=
-X-Google-Smtp-Source: AMrXdXs5hoII1AVkYzBjAEblS9wLMone8oD7aZCaO6dCFaR1LTvUeUtEEe//6jWbZtAjFcCMdmJYpPKSwNduchhu6wc=
-X-Received: by 2002:a81:57d6:0:b0:501:2887:8c8e with SMTP id
- l205-20020a8157d6000000b0050128878c8emr382936ywb.256.1674250910832; Fri, 20
- Jan 2023 13:41:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C817474
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 22:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674252191; x=1705788191;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QYXlMgJUIcide3f1cr2KL/BY26jMUjJCH3xokMlYD7E=;
+  b=NajzJhxEP6ihwOcVYV4Mlyh5HRGR3nX+8vehMTNYAnshT6khBebl0Nkh
+   mQIEVJl0RsO6eke6/LOX27lRXxPh75o1VzHdkGCKc5JG5Vi0TR18G59zZ
+   NesJR3NLlIYDcO+r8YQfjr6PHbkFuaj0hNQv5wuQHLUhOKCH6au3djxVh
+   Mh0zL6+Qw2G2C5Kf5WVFePwiZAKgTPqv2gJMvXkRdd5svWgyYkkC9gpk7
+   AEFJ+QTJFVhN7cj8DTYUNkuZMtO5Xnmt5VVPL4haohqIamojUX4MZEWU4
+   wFYWpNbDfbZ8OEWsksZjhTMeV2t/+BViWn7itDOCNxhPUrTG5Z7DfqY5O
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309280105"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="309280105"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 14:02:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="834557430"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="834557430"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 20 Jan 2023 14:02:28 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pIzSu-00031M-06;
+	Fri, 20 Jan 2023 22:02:28 +0000
+Date: Sat, 21 Jan 2023 06:01:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/attach_btfid 1/2] net/bpf/test_func_2.c:8:5:
+ warning: no previous prototype for 'bpf_test_func2_globl'
+Message-ID: <202301210506.eoJ8o8sU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202301201612.50oSpQHu-lkp@intel.com>
-In-Reply-To: <202301201612.50oSpQHu-lkp@intel.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 20 Jan 2023 22:41:39 +0100
-Message-ID: <CANiq72=UD2Wnx4WgJSeKyL6WGytadG9p0Dt8YHL2cD-0zhsc4Q@mail.gmail.com>
-Subject: Re: [PATCH 4/5] rust: types: implement `ForeignOwnable` for the unit type
-To: kernel test robot <lkp@intel.com>, Yujie Liu <yujie.liu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi kernel test robot, Yujie,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/attach_btfid
+head:   cfc34e8e2edc1d8ab7dde3a065bf708448ee9680
+commit: 52454dab859150561a4e93ff6c98a7d9be86679c [1/2] bpf: Add multiple bpf_test_func functions
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230121/202301210506.eoJ8o8sU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=52454dab859150561a4e93ff6c98a7d9be86679c
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf bpf/attach_btfid
+        git checkout 52454dab859150561a4e93ff6c98a7d9be86679c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/bpf/
 
-On Fri, Jan 20, 2023 at 9:15 AM kernel test robot <lkp@intel.com> wrote:
->
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230120/202301201612.50oSpQHu-lkp@intel.com/config)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Could you please disable `CONFIG_RETPOLINE` and
-`CONFIG_X86_KERNEL_IBT` for the Rust config? (e.g. like in KernelCI
-https://github.com/kernelci/kernelci-core/blob/main/config/core/build-configs.yaml#L410)
+All warnings (new ones prefixed by >>):
 
-We are discussing whether to add a `depends on !` or other approaches
-on the kernel side, which may make that redundant, but meanwhile it
-would be great if you could update the config.
+>> net/bpf/test_func_2.c:8:5: warning: no previous prototype for 'bpf_test_func2_globl' [-Wmissing-prototypes]
+       8 | int bpf_test_func2_globl(int a)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+>> net/bpf/test_func_1.c:9:5: warning: no previous prototype for 'bpf_test_func1_globl' [-Wmissing-prototypes]
+       9 | int bpf_test_func1_globl(struct bpf_prog *prog)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+>> net/bpf/test_func_3.c:9:5: warning: no previous prototype for 'bpf_test_func3_globl' [-Wmissing-prototypes]
+       9 | int bpf_test_func3_globl(struct bpf_prog *prog)
+         |     ^~~~~~~~~~~~~~~~~~~~
 
-Thanks!
 
-Cheers,
-Miguel
+vim +/bpf_test_func2_globl +8 net/bpf/test_func_2.c
+
+     7	
+   > 8	int bpf_test_func2_globl(int a)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
