@@ -1,48 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9217BD00
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 01:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B56117C8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 01:25:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674177276; x=1705713276;
+  t=1674177936; x=1705713936;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5y9wsfR82nKhpSG8Hoxflc8ORWgomjjfcjKYDRm1mqc=;
-  b=kU+pE0HJTg2eI7nFZbzJFgpqTlh3LPV6jw/BQAnsIF9H3fcQnS3NqePi
-   Zbwuj0sP3ls1nYykiKBbEN3gqKRDzc2hzygD3co2v9AFdcCeH8O+VzDcr
-   da0c7cDE9wUWA+24VOygKk3YUDfK7jljoGhY/G6NasROfqydyowNvqt+J
-   1mG/gEGQQUPK0HyX0SkWmdIvjJX4N7m12e4Z+hCAmVb0X5quWkK3QV5xz
-   zPSQShonoRvh+nZ0Gxy6hYZh2FLgTWI359SjxXoEP2lQPfUKsaw2Pd5rf
-   51EV6yrq8UhB83Fj2SHhH+kCVnntcjhhUluvS3kPkPdtAVHWcJfBCqm6D
+  bh=M4LsMrjiwewko2El9282LT8xvci0f+i1gtrjEfFkacQ=;
+  b=NqwpVAxeJR/2ivRrR07oerGNiEQCnoKFA/ARWM1x8Gu3iJQpy6rBMDvX
+   8D9r+G3rnmn1LFFpZQ/UYw6aGbEPo60TRI+2LP/bR4vG+rJiwbjNg0VzN
+   iyI91lEvOLaPQ/igKJ4Fu9gks3b6Lo/al4jou4rrBfZXF1Tj5D+skjDPP
+   UnKm26MqP2eraUAaJWLJ3QXpGyZDp96xJafEqP8QUYJAOJDj7FVG/kQJ4
+   Y8VRio/pGeTsw7MVBmUwCPD2bRV+xt7xA8wBE3b2/H8rjm6AVl2ofKjiC
+   vOPH302ZP+inA/7izuo284l0wi5umokRjM/ccg00bBNQAaZrjCfPm1XMQ
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305847205"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305158454"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="305847205"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 17:14:36 -0800
+   d="scan'208";a="305158454"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 17:25:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="723789273"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989246930"
 X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="723789273"
+   d="scan'208";a="989246930"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Jan 2023 17:14:31 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 19 Jan 2023 17:25:32 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIfzD-00022V-03;
-	Fri, 20 Jan 2023 01:14:31 +0000
-Date: Fri, 20 Jan 2023 09:14:25 +0800
+	id 1pIg9r-00022y-1Z;
+	Fri, 20 Jan 2023 01:25:31 +0000
+Date: Fri, 20 Jan 2023 09:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-	yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com, tj@kernel.org
-Subject: Re: [PATCH bpf-next 1/8] bpf: Enable annotating trusted nested
- pointers
-Message-ID: <202301200957.At49rpzu-lkp@intel.com>
-References: <20230119235833.2948341-2-void@manifault.com>
+To: Babis Chalios <bchalios@amazon.es>, Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, amit@kernel.org, graf@amazon.de,
+	Jason@zx2c4.com, xmarcalx@amazon.co.uk
+Subject: Re: [PATCH 1/2] virtio-rng: implement entropy leak feature
+Message-ID: <202301200941.fE9QkyE3-lkp@intel.com>
+References: <20230119184349.74072-2-bchalios@amazon.es>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,97 +52,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119235833.2948341-2-void@manifault.com>
+In-Reply-To: <20230119184349.74072-2-bchalios@amazon.es>
 
-Hi David,
+Hi Babis,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.2-rc4 next-20230119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Vernet/bpf-Enable-annotating-trusted-nested-pointers/20230120-080139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230119235833.2948341-2-void%40manifault.com
-patch subject: [PATCH bpf-next 1/8] bpf: Enable annotating trusted nested pointers
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230120/202301200957.At49rpzu-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8f6df14342b1be3516f8e21037edf771df851427
+url:    https://github.com/intel-lab-lkp/linux/commits/Babis-Chalios/virtio-rng-implement-entropy-leak-feature/20230120-024631
+patch link:    https://lore.kernel.org/r/20230119184349.74072-2-bchalios%40amazon.es
+patch subject: [PATCH 1/2] virtio-rng: implement entropy leak feature
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230120/202301200941.fE9QkyE3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/686114cbba5005584d458ad44164b4a4b88135f5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Vernet/bpf-Enable-annotating-trusted-nested-pointers/20230120-080139
-        git checkout 8f6df14342b1be3516f8e21037edf771df851427
+        git fetch --no-tags linux-review Babis-Chalios/virtio-rng-implement-entropy-leak-feature/20230120-024631
+        git checkout 686114cbba5005584d458ad44164b4a4b88135f5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash kernel/bpf/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/hw_random/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> kernel/bpf/btf.c:533:5: warning: no previous prototype for 'bpf_find_btf_id' [-Wmissing-prototypes]
-     533 | s32 bpf_find_btf_id(const char *name, u32 kind, struct btf **btf_p)
-         |     ^~~~~~~~~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:6977:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    6977 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7014:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7014 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
-
-
-vim +/bpf_find_btf_id +533 kernel/bpf/btf.c
-
-   532	
- > 533	s32 bpf_find_btf_id(const char *name, u32 kind, struct btf **btf_p)
-   534	{
-   535		struct btf *btf;
-   536		s32 ret;
-   537		int id;
-   538	
-   539		btf = bpf_get_btf_vmlinux();
-   540		if (IS_ERR(btf))
-   541			return PTR_ERR(btf);
-   542		if (!btf)
-   543			return -EINVAL;
-   544	
-   545		ret = btf_find_by_name_kind(btf, name, kind);
-   546		/* ret is never zero, since btf_find_by_name_kind returns
-   547		 * positive btf_id or negative error.
-   548		 */
-   549		if (ret > 0) {
-   550			btf_get(btf);
-   551			*btf_p = btf;
-   552			return ret;
-   553		}
-   554	
-   555		/* If name is not found in vmlinux's BTF then search in module's BTFs */
-   556		spin_lock_bh(&btf_idr_lock);
-   557		idr_for_each_entry(&btf_idr, btf, id) {
-   558			if (!btf_is_module(btf))
-   559				continue;
-   560			/* linear search could be slow hence unlock/lock
-   561			 * the IDR to avoiding holding it for too long
-   562			 */
-   563			btf_get(btf);
-   564			spin_unlock_bh(&btf_idr_lock);
-   565			ret = btf_find_by_name_kind(btf, name, kind);
-   566			if (ret > 0) {
-   567				*btf_p = btf;
-   568				return ret;
-   569			}
-   570			spin_lock_bh(&btf_idr_lock);
-   571			btf_put(btf);
-   572		}
-   573		spin_unlock_bh(&btf_idr_lock);
-   574		return ret;
-   575	}
-   576	
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/hw_random/virtio-rng.c:59:5: sparse: sparse: symbol 'add_fill_on_leak_request' was not declared. Should it be static?
+>> drivers/char/hw_random/virtio-rng.c:73:5: sparse: sparse: symbol 'virtrng_fill_on_leak' was not declared. Should it be static?
+>> drivers/char/hw_random/virtio-rng.c:94:5: sparse: sparse: symbol 'add_copy_on_leak_request' was not declared. Should it be static?
+>> drivers/char/hw_random/virtio-rng.c:113:5: sparse: sparse: symbol 'virtrng_copy_on_leak' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
