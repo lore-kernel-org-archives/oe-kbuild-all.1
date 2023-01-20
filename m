@@ -1,102 +1,85 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F59717E6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 10:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D3417E6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 10:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674209464; x=1705745464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zke/P6VKYbLURYoSo0MzL+Ho/FFPmy06GgD48i/evLY=;
-  b=QrRGUg6JBykPkWbxCMupA+DYViqCmTW7L+mbUnvFfknkDRc0g40RgZnD
-   FFj/QJ0ux5yU0C611ETB20iqi632KTB3eNUfRBLr1vg0q09TvoRuTyaaA
-   K/ejNQ0aTW7je6kFCHkbEWBJ38hpQTvA9OrYuoG86h5S5GzDnFVPSuwff
-   d4GOCsHd9j++A42YbcLIm6ffno+f24l47kOHkG9Hkfhfem5x5wHXuYatT
-   4cM9Cv4B/CbMUHYqkPjns3r7TGPx6Fw7BCkS6OPxfEUMdgsUbiUcRU3Hb
-   Axy0wVGiwlgCKOlLiZUO/1javFANEum8jvgtLJsQDm5v+awgNxAlLm7MR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327641538"
+  t=1674210083; x=1705746083;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5yxAqjfiGWhzAaV5tb1/aoh4K/2VFkiTET4f2w0RHIU=;
+  b=ARD1PP0AuE0wXjPJwjHW/1h2JdudaAgByu+qpYkhI4uyoXjqXl749wV2
+   MA4ffek+9n471du60KFTpWbbZKgYH5gniagzR3OLSOe/DyuXfV8h/Xg7u
+   QWvWuVg3cUQmLbAQpXX4O/hrX3JucVmQ8tADGgTLKPnUg1cEAdffoxZ0T
+   4JsYTvHHuKvAXnDZdobD0I3M9+g82a1bSEWOgs13OBQY61L87zCuVkprq
+   YB71agp2ywwGKqwklS7n/zJF7A7zJEpoU0AjKVjyQEjG+JVC1Aokdbwg3
+   DSV2G2aEyAwKSx6R5+JrR6gGfFB9Vc/XSngxv7DePAzWsCUXxqFgOx4Uq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="326827429"
 X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="327641538"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 02:11:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989358665"
+   d="scan'208";a="326827429"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 02:21:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="723906651"
 X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="989358665"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 02:11:00 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pIoMJ-0002T1-0L;
-	Fri, 20 Jan 2023 10:10:55 +0000
-Date: Fri, 20 Jan 2023 18:10:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: KP Singh <kpsingh@kernel.org>, linux-security-module@vger.kernel.org,
-	bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	jackmanb@google.com, renauld@google.com, paul@paul-moore.com,
-	casey@schaufler-ca.com, song@kernel.org, revest@chromium.org,
-	keescook@chromium.org, KP Singh <kpsingh@kernel.org>
-Subject: Re: [PATCH RESEND bpf-next 3/4] security: Replace indirect LSM hook
- calls with static calls
-Message-ID: <202301201833.YM7Hr62n-lkp@intel.com>
-References: <20230120000818.1324170-4-kpsingh@kernel.org>
+   d="scan'208";a="723906651"
+Received: from karenodx-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.29.156])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 02:21:19 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
+	pierre-louis.bossart@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	error27@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-mm@kvack.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] ASoC: SOF: sof-audio: prepare_widgets: Check swidget for NULL on sink failure
+Date: Fri, 20 Jan 2023 12:21:25 +0200
+Message-Id: <20230120102125.30653-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230120000818.1324170-4-kpsingh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi KP,
+If the swidget is NULL we skip the preparing of the widget and jump to
+handle the sink path of the widget.
+If the prepare fails in this case we would undo the prepare but the swidget
+is NULL (we skipped the prepare for the widget).
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20230120-133309
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230120000818.1324170-4-kpsingh%40kernel.org
-patch subject: [PATCH RESEND bpf-next 3/4] security: Replace indirect LSM hook calls with static calls
-config: arc-randconfig-r043-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201833.YM7Hr62n-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1dfb90849b42d8af6e854cd6ae8cd96d1ebfc50a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20230120-133309
-        git checkout 1dfb90849b42d8af6e854cd6ae8cd96d1ebfc50a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash kernel/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/bpf_lsm.h:12,
-                    from kernel/bpf/syscall.c:31:
->> include/linux/lsm_hooks.h:36:10: fatal error: generated/lsm_count.h: No such file or directory
-      36 | #include <generated/lsm_count.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+To avoid NULL pointer dereference in this case we must check swidget
+against NULL pointer once again.
 
 
-vim +36 include/linux/lsm_hooks.h
+Fixes: 0ad84b11f2f8 ("ASoC: SOF: sof-audio: skip prepare/unprepare if swidget is NULL")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/soc/sof/sof-audio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-    34	
-    35	/* Include the generated MAX_LSM_COUNT */
-  > 36	#include <generated/lsm_count.h>
-    37	
-
+diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
+index f17d405a9da9..2dff3ae25d27 100644
+--- a/sound/soc/sof/sof-audio.c
++++ b/sound/soc/sof/sof-audio.c
+@@ -334,7 +334,8 @@ sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget
+ 			p->walking = false;
+ 			if (ret < 0) {
+ 				/* unprepare the source widget */
+-				if (widget_ops[widget->id].ipc_unprepare && swidget->prepared) {
++				if (widget_ops[widget->id].ipc_unprepare &&
++				    swidget && swidget->prepared) {
+ 					widget_ops[widget->id].ipc_unprepare(swidget);
+ 					swidget->prepared = false;
+ 				}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.0
+
