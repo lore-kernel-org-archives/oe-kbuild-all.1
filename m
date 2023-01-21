@@ -1,160 +1,207 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74453386;
-	Sat, 21 Jan 2023 02:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463B1386
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 02:59:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674268991; x=1705804991;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=aGPiyCWlJjiKpLDmJv1+FSGVCL0IX8RyVZa4nh60bFU=;
-  b=MZ4PGVCmnTm7ry32GpWo/vkZM01edmeRAtkjn0nx1eFyN/Vfd+Mt99/K
-   Rzg7NFm5COd+l4xdy4Wg67gmVH/uXh+OfoMX5tsLoJ1MqwLdr9rcGWPWR
-   mCATX58HqkbcRLjohW2mO1z7O+CTCFt0mEcnB4VRtYnKDsWooxY9161SX
-   0F4Wws+Ow7HW5e8ltdiA1vldG3kc+fMbTYQuo4u2g0ZYq6oAb0dupfXPr
-   v4UnyXdPWHnY1Jq8v69Nbmfrv1Wxr26hrfq155TduT+243bS+oNCZlyG8
-   YkLGluIN4yvYM+MazfSvvIvqmvSoboyxqTHja/g7SOPQoJwFUJI10X9Qd
+  t=1674269985; x=1705805985;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=L7mOwbTRUNWV/bcAS3I1ccKy1rWmRpmTQNd5VEnmKDw=;
+  b=KLstJYn5/5MKnaN6cH2WIUxMKblBRVXTL9Gb5wWOTTyseD8E/8RPyuaH
+   +bae20nyfV8mvwTsiG/9NPUMX96ExecVDYE2toy58yejXUaI9S7O46LZP
+   snAzpI+YNLO7dwyPedqtEi0IkIwv7hZRas9QPPg/9w3erVVIcdqPOLUJU
+   eVNZHz3qsuK9+F3KSqvYX+mwIQWprhZ4zQIPqO6kn8EgWe8pAUnvnPLq8
+   XQuXGLcSSbR1xVdOMQpZMhLRu4AveSvpU8bgJsibV8DLpCN8Bne0RY7/X
+   O3FlqfvHAqCk+DCFqCLr/To2r187VqtNQoYYpC0wOXaQ3hynjiIZFGQHF
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="305420893"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="325789439"
 X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="305420893"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 18:43:10 -0800
+   d="scan'208";a="325789439"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 18:59:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610677382"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="768909887"
 X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="610677382"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 18:43:10 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 18:43:09 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 18:43:09 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 20 Jan 2023 18:43:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ghFHoVw/En365ZJQjRiHvwsJEmEBEj5EpvC5+u5rWMSz4TGu3+rSyeocuawjDSzXXHbS7mZy3bPnNnh+epT1mxAo2i1acmsMnRpF/SrBvp0SSFXOU5mb7pkcgjUc/IVZGjKM/e9ytKH3zrDzwau3hQ57N7K0vL78KF5rK9acoshMwgKb9ajVCe7dZMsy2dN07Ibg9yIxw8+gtUPFMYCFb5J0ZACmefR21wIxgn82YrZK+P8Ul8Mx6V1Mnhb4kCeh1tOHMY4zVqg4zLxO8Q3OakTmtTOO/0UZ7wUNwI5Mu183B3gmdSQ9na8tDtQTzWg1Aw1UF6EjUnO7HU8m1BjT4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dgN4pTq9u+jKdx8YnU5ktDqZzJXkatth3nTjwBlsGdg=;
- b=DE9rSpKV1o9Px4Iuzgz9WCAaIEFa6jqXmGoQEOW3rpLtdlGt/51Fke0XmoK7M2o08WP8Npl1S6OtuFy5s0aGTtlgT6JlETpQvEEhYvUEXpa9B4rWvSMRODyGVNHVXzb2uk1iZ1H3HyyROt0QjRWTKtB7JLjNaQRauR6WNModjgQEfQWNAtIODWvxgvaodrPoyLXfXOD+zeAiPIf7gtfVStX4L/2Jbps1TfOR58e8rHMyhoqgi2kDUVuQcvn1+/TEm7BiuWzLA1+3pob2DFHvQxO/lYmFSg/8nvJFanRY2+bxQ2Qb7YwD794saLK5Z1+QOjmBnXqWBZ1ZFsDUjtsueA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
- by DM4PR11MB6264.namprd11.prod.outlook.com (2603:10b6:8:a5::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6002.28; Sat, 21 Jan 2023 02:43:08 +0000
-Received: from SN6PR11MB3006.namprd11.prod.outlook.com
- ([fe80::6f39:4156:9cd0:daad]) by SN6PR11MB3006.namprd11.prod.outlook.com
- ([fe80::6f39:4156:9cd0:daad%7]) with mapi id 15.20.6002.027; Sat, 21 Jan 2023
- 02:43:07 +0000
-Date: Sat, 21 Jan 2023 10:42:57 +0800
-From: Philip Li <philip.li@intel.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: kernel test robot <lkp@intel.com>, Yujie Liu <yujie.liu@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <llvm@lists.linux.dev>, Alex Gaynor
-	<alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, "Boqun
- Feng" <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>
-Subject: Re: [PATCH 4/5] rust: types: implement `ForeignOwnable` for the unit
- type
-Message-ID: <Y8tRMZAwcl6rb6Jd@rli9-mobl>
-References: <202301201612.50oSpQHu-lkp@intel.com>
- <CANiq72=UD2Wnx4WgJSeKyL6WGytadG9p0Dt8YHL2cD-0zhsc4Q@mail.gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CANiq72=UD2Wnx4WgJSeKyL6WGytadG9p0Dt8YHL2cD-0zhsc4Q@mail.gmail.com>
-X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
- To SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
+   d="scan'208";a="768909887"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2023 18:59:43 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJ46Y-0003IU-1t;
+	Sat, 21 Jan 2023 02:59:42 +0000
+Date: Sat, 21 Jan 2023 10:59:10 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [plbossart-sound:test/soc-core-helper-function 25/25]
+ sound/soc/intel/atom/sst-atom-controls.c:1337:36: error: 'struct
+ snd_soc_dai' has no member named 'playback_widget'
+Message-ID: <202301211010.nB1rGh7f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3006:EE_|DM4PR11MB6264:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ef480fc-8747-408c-837f-08dafb593a34
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D7n/8oDWdqMrGnMzrvjC72zY4y7HnNHHnNz1vNMGdSzpegw8ywJ4K79yT4FmNGtq+gtqk+oHNbxchhbIK06GxlTeGF9Ux6MT9vluNzSgwrD0XplXx1QFr+NcnEthoT6e8TOAmi+qTBbU1+/98zeulBj0FFPImYyZo3SfbWE4GV+NQyLC1WyBgR8n5RHurYpr10Y4kMgrPdEX49gPnicHFCXv4AYDdS7mjz+t3ocZBEgl2l7E0iNM8X+Vvw+7rNoxAhjpk+3CCSTN0i1e3cYPevfyg5QXba46/yaw3PByQyLrVaMMLS+o2r/7lVIyVXr/xn14DgYc3z3uMcuPyWOxxugyPhFzJzTBTA/Jq0mgdpb30pH8VUcdg/WMwnPKGB7AApfIgZh7v3hceXlN2fTYVrIbXDyGk8CDwpeEjZYzwtMsJNHK0yljsRHJCqKunt0droH41M4j3mz30ktL6lgedbLmZP3M/1xhk+ISple1rvpTVPVhcaQswRv23eAR2ySgDWrKzL3Ta3G5pLCloVoxeEe55RP1CmKWNB5fulv/QJFizoscJFc9ireinulUBvl+mo2ijRiHU59hI6FFOe6aETtKYszgELlNXZNxxVlhX5+RWdHqmtPTXSS7LoD00Hghy7h/U8V5FRSafeSoTi4KzMBebM0c3LcynEVHqAkRpKWSY2qLPIIFNtBN1MNzySYmLPDFuxYVZe308TxzUjp6nhYH3FsP7zuIhshQEu2Uc9hl0KTT+kKZB6+m7+1SjB1/
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199015)(33716001)(4744005)(4326008)(6916009)(66556008)(8676002)(478600001)(66946007)(41300700001)(9686003)(66476007)(26005)(6512007)(186003)(2906002)(86362001)(44832011)(83380400001)(53546011)(6506007)(82960400001)(54906003)(6666004)(6486002)(966005)(316002)(5660300002)(8936002)(38100700002)(81973001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3vQEEhLb15WGykUEYiSYm4iwMLe5IEYMmYUHl06tdT95o8r5Lox8ERVmzcTJ?=
- =?us-ascii?Q?ySMpnPsYHVFV30weuOUswwRedFNssQ0vC7S6xy9gYEL0aI/2D4grQx6Du67J?=
- =?us-ascii?Q?sc52ApCFMNXHdhsnj0yYB6wcyM0f3j5k23scV7Hu5hBNK+jcOuDQS18/VP6F?=
- =?us-ascii?Q?OAfUmjbuxU2DBncta0F5cyKYy3l2TVMp5mLXHiKusHU7Q6Mbs0p2nkgUtZua?=
- =?us-ascii?Q?MaSXJHMplrSO7Skbdl0gu/OM1gOkuYRVAcb6K/6Wb+JHSg6IqbxIyO4z0Hgr?=
- =?us-ascii?Q?xUfZd+cOP5NmHhhNs67jv2LeHV+4HSjIqbYSBVvFhl1DRXqjZjwmqLSbZhqQ?=
- =?us-ascii?Q?RlKzh1I0afpmXmk+EplQRzkp6BanXYPjTRjQre0cH9lWHh2MeY+Ycz6VZuft?=
- =?us-ascii?Q?zAJc2dRsKQtJJguR0qs528778HOLQHd2V0H0NQlB1cUCwOFxl9L17H0vxkfs?=
- =?us-ascii?Q?ZHxxL0wMef+shoEc37I69yAeJpp9zXL6ptQlFCCVk6KK2q+15/bkhvKzmYHa?=
- =?us-ascii?Q?QPhweQOdWy8u5pWNd3yNiyBzy0TqAIcoiASvgo441ajUG4Y1XR+MP5razQU5?=
- =?us-ascii?Q?ZNvwq9AqhlDyxchN0qAPfPCB8CwUr8V/MIvuAJe3sePH2dt9neYFGNNP4xyT?=
- =?us-ascii?Q?oY56qL1ath5eID8bMQhwc5AEdzlF5vALq6NSjTZKYi4Qd93U1BrbovdZt655?=
- =?us-ascii?Q?krM+spbaAixRY1Iop8HEkbHJ0oj4ONBIg7rQa5i+M2bDVX7RMIfcni3PaSxb?=
- =?us-ascii?Q?VG7Im6jnYEq4Gk/bSScKzV3TjrYfKdxKgcsIEBn+AJBuSVM/r1k3IpFpggYC?=
- =?us-ascii?Q?kryCOCbTTezunEGLV/TewKSTkF5u5t+OlPTfc2vmlIS49QgdH0EInJbZ7te4?=
- =?us-ascii?Q?27+Sp96hts9uZXSksaSRAM5sU7V4p9zt8W2293C1RiJN7BmZy8lY6WNX7yLT?=
- =?us-ascii?Q?jnMqMZr+/29NnGfqHTXTx3fpp+ygjCw4mlzBATkJDS9qYE4YO4U5if6HzwX5?=
- =?us-ascii?Q?I/dgLM4D2bj94N6MZC0E4cFta20Xu0l3e7jo/Eifjl9g+1zn5Bsam7T1sbct?=
- =?us-ascii?Q?GglAuHI4MEEpbx47l4ZtrjfvMZGnkIVxOCfr0udQB4wmWfH8blfll5LnknQ8?=
- =?us-ascii?Q?QnhPFPPWI84Yputhk84oCAOZEjV9GhxdB3pSxP4SISVdFt0C8LDc75Oc+4fb?=
- =?us-ascii?Q?tKBgLGjSX768Nwaf/t2+84lUf8NeNUVMoxjNo2oS+0YQXJGGMUd4ToMjjcx3?=
- =?us-ascii?Q?9LHyosD19O47Qx4IngxofGyOAbcMi8P/L4iT/7vUwAkjvPhg3hVjj+0ak4Le?=
- =?us-ascii?Q?r5xIr6k7uafxay+Yvp9KMnoB1OM7hLGxckL0M8MaDmr4p3+K8l+XPnOz34tY?=
- =?us-ascii?Q?rDRj2EhI7AOoqi0dWEYK0RUEBEEyW2sb9oYQKmqwYZMh+UIcjOuBH8Q2D1eU?=
- =?us-ascii?Q?vSEtaSY/ntX7YnOxpB+Sr77US2qjygtO66XpHWXfnqLuVDNthsL/TMmlB36e?=
- =?us-ascii?Q?xnDV2gVt6z17HLhBZq6Piq0dtDZc01Dmq2qMBnGxCVSgO5cqNjzOB6EAcPLR?=
- =?us-ascii?Q?GxjP6Apff3dvf3c/RrZb/ubd09GMQ0vqcGYdqU3N?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef480fc-8747-408c-837f-08dafb593a34
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3006.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2023 02:43:07.7277
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DPQC8SktK7h0ADnVdBZ6l3LIx520bpCP0rpc0pfXsZcccXN8K/W6N+Hd01Fi8gdPIJSQq87ptwQaMbWS37h88Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6264
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jan 20, 2023 at 10:41:39PM +0100, Miguel Ojeda wrote:
-> Hi kernel test robot, Yujie,
-> 
-> On Fri, Jan 20, 2023 at 9:15 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230120/202301201612.50oSpQHu-lkp@intel.com/config)
-> 
-> Could you please disable `CONFIG_RETPOLINE` and
-> `CONFIG_X86_KERNEL_IBT` for the Rust config? (e.g. like in KernelCI
+tree:   https://github.com/plbossart/sound test/soc-core-helper-function
+head:   0df4868031fdd5738d8d9d151eac509e1f5a54de
+commit: 0df4868031fdd5738d8d9d151eac509e1f5a54de [25/25] ASoC: soc-dai.h: cleanup Playback/Capture data for snd_soc_dai
+config: x86_64-rhel-8.3-kunit (https://download.01.org/0day-ci/archive/20230121/202301211010.nB1rGh7f-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/plbossart/sound/commit/0df4868031fdd5738d8d9d151eac509e1f5a54de
+        git remote add plbossart-sound https://github.com/plbossart/sound
+        git fetch --no-tags plbossart-sound test/soc-core-helper-function
+        git checkout 0df4868031fdd5738d8d9d151eac509e1f5a54de
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/intel/atom/
 
-Got it Miguel, we will disable them for rust related configs.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-> https://github.com/kernelci/kernelci-core/blob/main/config/core/build-configs.yaml#L410)
-> 
-> We are discussing whether to add a `depends on !` or other approaches
-> on the kernel side, which may make that redundant, but meanwhile it
-> would be great if you could update the config.
+All errors (new ones prefixed by >>):
 
-thanks, we will do it asap.
+   In file included from include/linux/printk.h:566,
+                    from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from sound/soc/intel/atom/sst-atom-controls.c:17:
+   sound/soc/intel/atom/sst-atom-controls.c: In function 'sst_send_pipe_gains':
+>> sound/soc/intel/atom/sst-atom-controls.c:1337:36: error: 'struct snd_soc_dai' has no member named 'playback_widget'
+    1337 |                                 dai->playback_widget->name);
+         |                                    ^~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/intel/atom/sst-atom-controls.c:1336:17: note: in expansion of macro 'dev_dbg'
+    1336 |                 dev_dbg(dai->dev, "Stream name=%s\n",
+         |                 ^~~~~~~
+   sound/soc/intel/atom/sst-atom-controls.c:1338:24: error: 'struct snd_soc_dai' has no member named 'playback_widget'
+    1338 |                 w = dai->playback_widget;
+         |                        ^~
+   In file included from include/linux/printk.h:566,
+                    from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from sound/soc/intel/atom/sst-atom-controls.c:17:
+>> sound/soc/intel/atom/sst-atom-controls.c:1356:36: error: 'struct snd_soc_dai' has no member named 'capture_widget'
+    1356 |                                 dai->capture_widget->name);
+         |                                    ^~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/intel/atom/sst-atom-controls.c:1355:17: note: in expansion of macro 'dev_dbg'
+    1355 |                 dev_dbg(dai->dev, "Stream name=%s\n",
+         |                 ^~~~~~~
+   sound/soc/intel/atom/sst-atom-controls.c:1357:24: error: 'struct snd_soc_dai' has no member named 'capture_widget'
+    1357 |                 w = dai->capture_widget;
+         |                        ^~
 
-> 
-> Thanks!
-> 
-> Cheers,
-> Miguel
-> 
+
+vim +1337 sound/soc/intel/atom/sst-atom-controls.c
+
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1316  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1317  /**
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1318   * sst_send_pipe_gains - send gains for the front-end DAIs
+11013884025044 sound/soc/intel/atom/sst-atom-controls.c Pierre-Louis Bossart 2020-07-01  1319   * @dai: front-end dai
+11013884025044 sound/soc/intel/atom/sst-atom-controls.c Pierre-Louis Bossart 2020-07-01  1320   * @stream: direction
+11013884025044 sound/soc/intel/atom/sst-atom-controls.c Pierre-Louis Bossart 2020-07-01  1321   * @mute: boolean indicating mute status
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1322   *
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1323   * The gains in the pipes connected to the front-ends are muted/unmuted
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1324   * automatically via the digital_mute() DAPM callback. This function sends the
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1325   * gains for the front-end pipes.
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1326   */
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1327  int sst_send_pipe_gains(struct snd_soc_dai *dai, int stream, int mute)
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1328  {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1329  	struct sst_data *drv = snd_soc_dai_get_drvdata(dai);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1330  	struct snd_soc_dapm_widget *w;
+f6cd55a19f3f46 sound/soc/intel/atom/sst-atom-controls.c Pierre-Louis Bossart 2022-05-20  1331  	struct snd_soc_dapm_path *p;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1332  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1333  	dev_dbg(dai->dev, "enter, dai-name=%s dir=%d\n", dai->name, stream);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1334  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1335  	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1336  		dev_dbg(dai->dev, "Stream name=%s\n",
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15 @1337  				dai->playback_widget->name);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1338  		w = dai->playback_widget;
+e63bfd45aba426 sound/soc/intel/atom/sst-atom-controls.c Lars-Peter Clausen   2015-07-26  1339  		snd_soc_dapm_widget_for_each_sink_path(w, p) {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1340  			if (p->connected && !p->connected(w, p->sink))
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1341  				continue;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1342  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1343  			if (p->connect && p->sink->power &&
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1344  					is_sst_dapm_widget(p->sink)) {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1345  				struct sst_ids *ids = p->sink->priv;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1346  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1347  				dev_dbg(dai->dev, "send gains for widget=%s\n",
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1348  						p->sink->name);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1349  				mutex_lock(&drv->lock);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1350  				sst_set_pipe_gain(ids, drv, mute);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1351  				mutex_unlock(&drv->lock);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1352  			}
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1353  		}
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1354  	} else {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1355  		dev_dbg(dai->dev, "Stream name=%s\n",
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15 @1356  				dai->capture_widget->name);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1357  		w = dai->capture_widget;
+e63bfd45aba426 sound/soc/intel/atom/sst-atom-controls.c Lars-Peter Clausen   2015-07-26  1358  		snd_soc_dapm_widget_for_each_source_path(w, p) {
+f5e056e1e46fcb sound/soc/intel/atom/sst-atom-controls.c Colin Ian King       2019-11-19  1359  			if (p->connected && !p->connected(w, p->source))
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1360  				continue;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1361  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1362  			if (p->connect &&  p->source->power &&
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1363  					is_sst_dapm_widget(p->source)) {
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1364  				struct sst_ids *ids = p->source->priv;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1365  
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1366  				dev_dbg(dai->dev, "send gain for widget=%s\n",
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1367  						p->source->name);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1368  				mutex_lock(&drv->lock);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1369  				sst_set_pipe_gain(ids, drv, mute);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1370  				mutex_unlock(&drv->lock);
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1371  			}
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1372  		}
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1373  	}
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1374  	return 0;
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1375  }
+24c8d14192cc63 sound/soc/intel/sst-atom-controls.c      Vinod Koul           2014-10-15  1376  
+
+:::::: The code at line 1337 was first introduced by commit
+:::::: 24c8d14192cc63661ca049b423d7baaa0bbafeb3 ASoC: Intel: mrfld: add DSP core controls
+
+:::::: TO: Vinod Koul <vinod.koul@intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
