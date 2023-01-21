@@ -1,50 +1,54 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5F236E;
-	Sat, 21 Jan 2023 04:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F000397
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 04:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674276178; x=1705812178;
+  t=1674276180; x=1705812180;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MjbzbjiZDXv+mKGfE+rmDazoRKi5ngCxDJGRVWJTC3o=;
-  b=Zag1UA9S9lL564pu5p7nbWB2jBLfOBXdzA5Etc1Re9e/lDvjtBFqkI9K
-   /FA0cLJS57PHNg1IketRlZKJ4WoaYUr3/6iz6BFqBxQshIrMiy2UQCYfe
-   0POynozlC+yLdzjhRzZ1hQ4MPWml7oaeRKlCfOo4YwKZbZmse4984V87X
-   9FD3qFeIx/GReGnDUgeYYSqQq6aG4U5d4RYM4eOGsr4vUSenz1+h+Nrp9
-   urBikSQhh6C4TQt0+PeZwQznXoxGIUgTF2chclUxxhUnE/dv//wmYVDrK
-   Bnd6sAONfpigDQfl1qTj/Kw3XW8RdcTX8T0OAOXrbJOqiLO6pBZLOAgwa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="306117875"
+  bh=arVUT2kp7AxZby4p5kBezOJfzOwcbkW2d3m7DdS4uug=;
+  b=Nszm4R0yvUvW/1c02Fd7PpO3sc6DLeYPL943r1si5MnQm4cXVlb/ZG1M
+   UVUIh1P7Dn+Ljw65XL2TYrjG1l3DV2ENIbNjkHQJ/swK/6tTD1G3OH7YV
+   QlOmc6hbkeG35pSRMGshb3pI7pwaxLG0w9K0gn2LRPRMBGFuZKC5wiHbG
+   sdV+TtxlgeBMNGn70c1lHq1l7+xi7CyhQT+Kr7XsYK9OzOG3dZ/AhRpNd
+   b9jFNt3TZWjzf6kwjasWBUjqiuPyS1vuijg61yKZZWR98AQ++xvRk8Ugg
+   aUr+CMc4CfMhiVirNCKL5R9m7A9Ur4xu/0a05BWS4XdNlRYpUvoCdYOTg
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="306117887"
 X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="306117875"
+   d="scan'208";a="306117887"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 20:42:55 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 20:42:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662767019"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662767035"
 X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="662767019"
+   d="scan'208";a="662767035"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2023 20:42:52 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJ5iN-0003UY-0W;
+	id 1pJ5iN-0003Uc-0g;
 	Sat, 21 Jan 2023 04:42:51 +0000
-Date: Sat, 21 Jan 2023 12:42:41 +0800
+Date: Sat, 21 Jan 2023 12:42:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anjana Hari <quic_ahari@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, jejb@linux.ibm.com,
-	martin.petersen@oracle.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alim.akhtar@samsung.com, avri.altman@wdc.com, bvanassche@acm.org,
-	konrad.dybcio@linaro.org, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_narepall@quicinc.com,
-	quic_nitirawa@quicinc.com, quic_rampraka@quicinc.com,
-	Anjana Hari <quic_ahari@quicinc.com>
-Subject: Re: [PATCH v3 1/1] scsi: ufs: Add hibernation callbacks
-Message-ID: <202301211209.4byNcJjL-lkp@intel.com>
-References: <20230120113321.30433-2-quic_ahari@quicinc.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, davem@davemloft.net,
+	kuba@kernel.org, hawk@kernel.org, pabeni@redhat.com,
+	edumazet@google.com, toke@redhat.com, memxor@gmail.com,
+	alardam@gmail.com, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
+	gospo@broadcom.com, vladimir.oltean@nxp.com, nbd@nbd.name,
+	john@phrozen.org, leon@kernel.org, simon.horman@corigine.com,
+	aelior@marvell.com, christophe.jaillet@wanadoo.fr,
+	ecree.xilinx@gmail.com, mst@redhat.com, bjorn@kernel.org,
+	magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
+	intel-wired-lan@lists.osuosl.org, lorenzo.bianconi@redhat.com
+Subject: Re: [PATCH bpf-next 1/7] netdev-genl: create a simple family for
+ netdev stuff
+Message-ID: <202301211259.eI8T3TMB-lkp@intel.com>
+References: <272fa19f57de2d14e9666b4cd9b1ae8a61a94807.1674234430.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,127 +57,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120113321.30433-2-quic_ahari@quicinc.com>
+In-Reply-To: <272fa19f57de2d14e9666b4cd9b1ae8a61a94807.1674234430.git.lorenzo@kernel.org>
 
-Hi Anjana,
+Hi Lorenzo,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on mkp-scsi/for-next]
-[also build test ERROR on next-20230120]
-[cannot apply to jejb-scsi/for-next linus/master v6.2-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjana-Hari/scsi-ufs-Add-hibernation-callbacks/20230120-193447
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230120113321.30433-2-quic_ahari%40quicinc.com
-patch subject: [PATCH v3 1/1] scsi: ufs: Add hibernation callbacks
-config: riscv-randconfig-r042-20230119 (https://download.01.org/0day-ci/archive/20230121/202301211209.4byNcJjL-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/netdev-genl-create-a-simple-family-for-netdev-stuff/20230121-011957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/272fa19f57de2d14e9666b4cd9b1ae8a61a94807.1674234430.git.lorenzo%40kernel.org
+patch subject: [PATCH bpf-next 1/7] netdev-genl: create a simple family for netdev stuff
+config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230121/202301211259.eI8T3TMB-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/239ad2244616006dd39bc9a5380108435d168a86
+        # https://github.com/intel-lab-lkp/linux/commit/bab8ed890888146e07283e2ae27174b3562b6931
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anjana-Hari/scsi-ufs-Add-hibernation-callbacks/20230120-193447
-        git checkout 239ad2244616006dd39bc9a5380108435d168a86
+        git fetch --no-tags linux-review Lorenzo-Bianconi/netdev-genl-create-a-simple-family-for-netdev-stuff/20230121-011957
+        git checkout bab8ed890888146e07283e2ae27174b3562b6931
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/ufs/core/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/ufs/core/ufshcd.c:10004:8: error: call to undeclared function 'ufshcd_system_suspend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = ufshcd_system_suspend(dev);
-                 ^
->> drivers/ufs/core/ufshcd.c:10017:9: error: call to undeclared function 'ufshcd_system_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return ufshcd_system_resume(dev);
-                  ^
-   drivers/ufs/core/ufshcd.c:10017:9: note: did you mean 'ufshcd_system_restore'?
-   drivers/ufs/core/ufshcd.c:10011:5: note: 'ufshcd_system_restore' declared here
-   int ufshcd_system_restore(struct device *dev)
-       ^
-   drivers/ufs/core/ufshcd.c:10024:9: error: call to undeclared function 'ufshcd_system_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return ufshcd_system_resume(dev);
-                  ^
-   drivers/ufs/core/ufshcd.c:10048:44: warning: shift count >= width of type [-Wshift-count-overflow]
-                   if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   drivers/ufs/core/ufshcd.c:10048:44: warning: shift count >= width of type [-Wshift-count-overflow]
-                   if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                               ^~~~
-   drivers/ufs/core/ufshcd.c:10048:44: warning: shift count >= width of type [-Wshift-count-overflow]
-                   if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   3 warnings and 3 errors generated.
+   net/core/netdev-genl.c: In function 'netdev_nl_dev_fill':
+>> net/core/netdev-genl.c:16:13: warning: unused variable 'err' [-Wunused-variable]
+      16 |         int err;
+         |             ^~~
 
 
-vim +/ufshcd_system_suspend +10004 drivers/ufs/core/ufshcd.c
+vim +/err +16 net/core/netdev-genl.c
 
-  9993	
-  9994		struct ufs_hba *hba = dev_get_drvdata(dev);
-  9995		int ret = 0;
-  9996	
-  9997		/*
-  9998		 * Run time resume the controller to make sure
-  9999		 * the PM work queue threads do not try to resume
- 10000		 * the child (scsi host), which leads to errors as
- 10001		 * the controller is not yet resumed.
- 10002		 */
- 10003		pm_runtime_get_sync(hba->dev);
- 10004		ret = ufshcd_system_suspend(dev);
- 10005		pm_runtime_put_sync(hba->dev);
- 10006	
- 10007		return ret;
- 10008	}
- 10009	EXPORT_SYMBOL_GPL(ufshcd_system_freeze);
- 10010	
- 10011	int ufshcd_system_restore(struct device *dev)
- 10012	{
- 10013	
- 10014		struct ufs_hba *hba = dev_get_drvdata(dev);
- 10015	
- 10016		hba->restore = true;
- 10017		return ufshcd_system_resume(dev);
- 10018	
+    10	
+    11	static int
+    12	netdev_nl_dev_fill(struct net_device *netdev, struct sk_buff *rsp,
+    13			   u32 portid, u32 seq, int flags, u32 cmd)
+    14	{
+    15		void *hdr;
+  > 16		int err;
+    17	
+    18		hdr = genlmsg_put(rsp, portid, seq, &netdev_nl_family, flags, cmd);
+    19		if (!hdr)
+    20			return -EMSGSIZE;
+    21	
+    22		if (nla_put_u32(rsp, NETDEV_A_DEV_IFINDEX, netdev->ifindex) ||
+    23		    nla_put_u64_64bit(rsp, NETDEV_A_DEV_XDP_FEATURES,
+    24				      netdev->xdp_features, NETDEV_A_DEV_PAD)) {
+    25			genlmsg_cancel(rsp, hdr);
+    26			return -EINVAL;
+    27		}
+    28	
+    29		genlmsg_end(rsp, hdr);
+    30	
+    31		return 0;
+    32	}
+    33	
 
 -- 
 0-DAY CI Kernel Test Service
