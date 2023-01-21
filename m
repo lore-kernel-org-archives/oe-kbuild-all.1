@@ -1,33 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D62536E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 04:35:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23477C433D2;
-	Sat, 21 Jan 2023 04:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674275706;
-	bh=K+PsH/ie9YbGDU6HqGSxMqcGq7NKxkFaPR6/RZzw1gg=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=pGJueK4F5CGzer33Yb4UrsF9mgzLY7Yk6s8ySMe2kT/TaLGFdtQREhdXGAQpSsU4w
-	 R9DdlHNtTwQ2wR5iTzRkCmEZc3Nx3cA45/3DU5jILclB6rtJugeg+pl5VmIt4P6j87
-	 gcBLFdcWUnqKa00SqPX+lxa5ibtzIZNsEbkdt/Ga3FSXlaEGCogvZ9yMQOJgB4HTbT
-	 g4Y3SiPZS88hz6o6hKGsO/k48G554A+S6xXFspQ7loU+Ov5NHuM5kUAyICVQbiScqf
-	 ZisgPP1Kk6LKlTNEht05odx97ECRoUR8autpzlHMA0IxADfDmPMsR9XPiMfqqCsy8Z
-	 p9SX3flywOLDg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id BA9F15C155D; Fri, 20 Jan 2023 20:35:05 -0800 (PST)
-Date: Fri, 20 Jan 2023 20:35:05 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/nmitest.2023.01.20a 4/5]
- arch/x86/kernel/nmi.c:441:6: warning: no previous prototype for
- 'set_nmi_torture'
-Message-ID: <20230121043505.GD2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <202301211106.33rvYsWW-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64C536E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 04:42:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674276176; x=1705812176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kCNVyHhNIwA6ePSSurZL/eEV1rQKY6c6i+QOq90+b+E=;
+  b=YcgaxastYfCYcxFAk/65dvPrSoLyWkI/y0SQG68XvuDcfvy7i25O/Ju6
+   Ewz9BKYnm+j3ALtwGTP+aU+7+BrFimcSfVfnhUpCBU6Bgo1r6BCtOt9xo
+   e62hsHGIzV0nkvJ+H0QJnirA9ELUyZrozh5f8aN2eSk7mL9I9uHiQJ+i6
+   EXAkAkYLm2OXvCvBvki8/JMbY57VyuusBNvJTk/d85XRdTxmKaGi7PoQx
+   v8L9DQdcXVa+x3v0sAKbGPWSOV82KNXlFifFRjhQKEkjDHdbg8fh7h71a
+   fIHydOHyajKlapPNqSQId89CX17bEvF2Q7+w/Zb7kBrEJo6CLCW5PA8Ri
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="306117865"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="306117865"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 20:42:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662767018"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="662767018"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2023 20:42:52 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJ5iN-0003Ua-0d;
+	Sat, 21 Jan 2023 04:42:51 +0000
+Date: Sat, 21 Jan 2023 12:42:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anjana Hari <quic_ahari@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, jejb@linux.ibm.com,
+	martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, alim.akhtar@samsung.com,
+	avri.altman@wdc.com, bvanassche@acm.org, konrad.dybcio@linaro.org,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_narepall@quicinc.com, quic_nitirawa@quicinc.com,
+	quic_rampraka@quicinc.com, Anjana Hari <quic_ahari@quicinc.com>
+Subject: Re: [PATCH v3 1/1] scsi: ufs: Add hibernation callbacks
+Message-ID: <202301211209.zKDppcLI-lkp@intel.com>
+References: <20230120113321.30433-2-quic_ahari@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -36,54 +52,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202301211106.33rvYsWW-lkp@intel.com>
+In-Reply-To: <20230120113321.30433-2-quic_ahari@quicinc.com>
 
-On Sat, Jan 21, 2023 at 11:50:25AM +0800, kernel test robot wrote:
-> tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/nmitest.2023.01.20a
-> head:   53e298568bde2c728ee2aac4ac634cca8550a4b4
-> commit: 1f061ebc3647245564abc8b5a47882645af82199 [4/5] x86/nmi: Add a set_nmi_torture() function to control NMI testing
-> config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230121/202301211106.33rvYsWW-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/ammarfaizi2/linux-block/commit/1f061ebc3647245564abc8b5a47882645af82199
->         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
->         git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/nmitest.2023.01.20a
->         git checkout 1f061ebc3647245564abc8b5a47882645af82199
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> arch/x86/kernel/nmi.c:441:6: warning: no previous prototype for 'set_nmi_torture' [-Wmissing-prototypes]
->      441 | void set_nmi_torture(int nmi_delay_in, bool nmi_halt1_in, bool nmi_halt2_in, bool nmi_halt3_in)
->          |      ^~~~~~~~~~~~~~~
+Hi Anjana,
 
-This is a not-for-mainline test commit, so I am not worried about making
-it pretty.  Not yet, anyway.  ;-)
+Thank you for the patch! Yet something to improve:
 
-							Thanx, Paul
+[auto build test ERROR on mkp-scsi/for-next]
+[also build test ERROR on next-20230120]
+[cannot apply to jejb-scsi/for-next linus/master v6.2-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> vim +/set_nmi_torture +441 arch/x86/kernel/nmi.c
-> 
->    439	
->    440	/* Set the test values as desired. */
->  > 441	void set_nmi_torture(int nmi_delay_in, bool nmi_halt1_in, bool nmi_halt2_in, bool nmi_halt3_in)
->    442	{
->    443		WRITE_ONCE(nmi_delay, nmi_delay_in);
->    444		WRITE_ONCE(nmi_halt1, nmi_halt1_in);
->    445		WRITE_ONCE(nmi_halt2, nmi_halt2_in);
->    446		WRITE_ONCE(nmi_halt3, nmi_halt3_in);
->    447		pr_info("%s: Set NMI test parameters nmi_delay=%d nmi_halt1=%d nmi_halt2=%d nmi_halt3=%d\n",
->    448			__func__, nmi_delay, nmi_halt1, nmi_halt2, nmi_halt3);
->    449	}
->    450	EXPORT_SYMBOL_GPL(set_nmi_torture);
->    451	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+url:    https://github.com/intel-lab-lkp/linux/commits/Anjana-Hari/scsi-ufs-Add-hibernation-callbacks/20230120-193447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230120113321.30433-2-quic_ahari%40quicinc.com
+patch subject: [PATCH v3 1/1] scsi: ufs: Add hibernation callbacks
+config: arc-randconfig-r043-20230119 (https://download.01.org/0day-ci/archive/20230121/202301211209.zKDppcLI-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/239ad2244616006dd39bc9a5380108435d168a86
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Anjana-Hari/scsi-ufs-Add-hibernation-callbacks/20230120-193447
+        git checkout 239ad2244616006dd39bc9a5380108435d168a86
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/ufs/core/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/ufs/core/ufshcd.c: In function 'ufshcd_system_freeze':
+>> drivers/ufs/core/ufshcd.c:10004:15: error: implicit declaration of function 'ufshcd_system_suspend'; did you mean 'trace_ufshcd_system_suspend'? [-Werror=implicit-function-declaration]
+   10004 |         ret = ufshcd_system_suspend(dev);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               trace_ufshcd_system_suspend
+   drivers/ufs/core/ufshcd.c: In function 'ufshcd_system_restore':
+>> drivers/ufs/core/ufshcd.c:10017:16: error: implicit declaration of function 'ufshcd_system_resume'; did you mean 'ufshcd_system_restore'? [-Werror=implicit-function-declaration]
+   10017 |         return ufshcd_system_resume(dev);
+         |                ^~~~~~~~~~~~~~~~~~~~
+         |                ufshcd_system_restore
+   cc1: some warnings being treated as errors
+
+
+vim +10004 drivers/ufs/core/ufshcd.c
+
+  9993	
+  9994		struct ufs_hba *hba = dev_get_drvdata(dev);
+  9995		int ret = 0;
+  9996	
+  9997		/*
+  9998		 * Run time resume the controller to make sure
+  9999		 * the PM work queue threads do not try to resume
+ 10000		 * the child (scsi host), which leads to errors as
+ 10001		 * the controller is not yet resumed.
+ 10002		 */
+ 10003		pm_runtime_get_sync(hba->dev);
+ 10004		ret = ufshcd_system_suspend(dev);
+ 10005		pm_runtime_put_sync(hba->dev);
+ 10006	
+ 10007		return ret;
+ 10008	}
+ 10009	EXPORT_SYMBOL_GPL(ufshcd_system_freeze);
+ 10010	
+ 10011	int ufshcd_system_restore(struct device *dev)
+ 10012	{
+ 10013	
+ 10014		struct ufs_hba *hba = dev_get_drvdata(dev);
+ 10015	
+ 10016		hba->restore = true;
+ 10017		return ufshcd_system_resume(dev);
+ 10018	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
