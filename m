@@ -1,50 +1,41 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91260257B;
-	Sat, 21 Jan 2023 13:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0499A2561;
+	Sat, 21 Jan 2023 13:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674306329; x=1705842329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mYPaUET6yMOwGGV2IxKGzIaVsssVsIa9IyUsova1n/0=;
-  b=Yb+6K4T9E7Mnzn7nJcf7lFPcgeaWr+OeD0TuFv8oywwFMYysPcO6wr78
-   xFC0fhXb4YhO42hGFZ1sw9CIZH+wH9/b5ClJRP19q7Ok4lKw2zQoA1u/W
-   GLETlJttLtFj6pV4k637GXZbjIJq33cIft+nhvGC4h19rCxPJkDxiyQa4
-   MWSTaOmaOtL4F6X18L1iTm1Srm3mN2YjuVmoWVKaJQuIs2v+QS8okrlt9
-   Gujp92/rKs88X+UTlDCxjXDM5Tdaxkn5Vx5R8AAvUHnZL3UU84LYCmYej
-   ODQxccemYXTMjpPks5mKdDlJrRMXsUIlw1HOiUc9WATSMMDR97rDrYzFn
+  t=1674307525; x=1705843525;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Eijtwteh1c9Fq9HRrVpAc7YZLSYEtobx3TbvKp4hcV0=;
+  b=MrGpeyOfeFuqCwqdQJDVFELp4Bdc2FmDzHjWSES6ZJspmN22/N26S8/P
+   u8u/9GMIrQJkntrh4PrVI9zn1fMuvvxv7d3X3RU0oJqwshvLFv6yWMFp+
+   1u1U/vPQPOVqGiE12I+xayBu2LX43K3qCMTU6yEY4i6u6xJm0m45kT6Ku
+   yjSLuePmgIsKah6NhqCgAJ7vderR9lT/7Niv95AO0ST95jYnuxpj9wROr
+   /ALJ/rZIpFnYgrO+4Bxg71oS72hvySsjEjbyFqJeMzgOUt8j7ZAjh0dk+
+   P9pSl16pYNxJELYTtOTfEhWLXxwasdwHw1TaWK/Uy09fVdDPMhBFmWlm7
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="412015643"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="323473520"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="412015643"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 05:05:28 -0800
+   d="scan'208";a="323473520"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 05:25:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="654087129"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="769026458"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="654087129"
+   d="scan'208";a="769026458"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Jan 2023 05:05:22 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2023 05:25:23 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJDYf-00045M-1L;
-	Sat, 21 Jan 2023 13:05:21 +0000
-Date: Sat, 21 Jan 2023 21:04:32 +0800
+	id 1pJDs2-00046w-2J;
+	Sat, 21 Jan 2023 13:25:22 +0000
+Date: Sat, 21 Jan 2023 21:24:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, krisman@collabora.com,
-	tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
-	peterz@infradead.org, ebiederm@xmission.com,
-	akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
-	shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v4 2/3] fs/proc/array: Add Syscall User Dispatch to proc
- status
-Message-ID: <202301212030.OheLeUFY-lkp@intel.com>
-References: <20230121102316.331935-3-gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 7/43] drivers/net/ipa/ipa_interrupt.c:165:6: error:
+ redefinition of 'ipa_interrupt_irq_disable'
+Message-ID: <202301212139.IudaFveI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,113 +44,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230121102316.331935-3-gregory.price@memverge.com>
 
-Hi Gregory,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[cannot apply to tip/core/entry]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230121-182401
-patch link:    https://lore.kernel.org/r/20230121102316.331935-3-gregory.price%40memverge.com
-patch subject: [PATCH v4 2/3] fs/proc/array: Add Syscall User Dispatch to proc status
-config: hexagon-randconfig-r016-20230119 (https://download.01.org/0day-ci/archive/20230121/202301212030.OheLeUFY-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   1e98edbf9926b572f1766b48806f35b0427dff32
+commit: 9695c8bd48f808e18eaab940550cf32a41820a89 [7/43] TopGit-driven merge of branches:
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301212139.IudaFveI-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a2cb8440d45e7d3030e7349c7c598971a951e5f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230121-182401
-        git checkout a2cb8440d45e7d3030e7349c7c598971a951e5f2
+        # https://github.com/multipath-tcp/mptcp_net-next/commit/9695c8bd48f808e18eaab940550cf32a41820a89
+        git remote add mptcp https://github.com/multipath-tcp/mptcp_net-next.git
+        git fetch --no-tags mptcp export
+        git checkout 9695c8bd48f808e18eaab940550cf32a41820a89
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/proc/array.c:61:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/proc/array.c:61:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/proc/array.c:61:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/proc/array.c:435:8: error: use of undeclared identifier 'TIF_SYSCALL_USER_DISPATCH'
-                               test_syscall_work(SYSCALL_USER_DISPATCH));
-                               ^
-   include/linux/thread_info.h:168:45: note: expanded from macro 'test_syscall_work'
-           test_ti_thread_flag(current_thread_info(), TIF_##fl)
-                                                      ^
-   <scratch space>:37:1: note: expanded from here
-   TIF_SYSCALL_USER_DISPATCH
-   ^
-   6 warnings and 1 error generated.
+>> drivers/net/ipa/ipa_interrupt.c:165:6: error: redefinition of 'ipa_interrupt_irq_disable'
+     165 | void ipa_interrupt_irq_disable(struct ipa *ipa)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ipa/ipa_interrupt.c:132:6: note: previous definition of 'ipa_interrupt_irq_disable' with type 'void(struct ipa *)'
+     132 | void ipa_interrupt_irq_disable(struct ipa *ipa)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ipa/ipa_interrupt.c:170:6: error: redefinition of 'ipa_interrupt_irq_enable'
+     170 | void ipa_interrupt_irq_enable(struct ipa *ipa)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ipa/ipa_interrupt.c:137:6: note: previous definition of 'ipa_interrupt_irq_enable' with type 'void(struct ipa *)'
+     137 | void ipa_interrupt_irq_enable(struct ipa *ipa)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/TIF_SYSCALL_USER_DISPATCH +435 fs/proc/array.c
+vim +/ipa_interrupt_irq_disable +165 drivers/net/ipa/ipa_interrupt.c
 
-   430	
-   431	static inline void task_syscall_user_dispatch(struct seq_file *m,
-   432							struct task_struct *p)
-   433	{
-   434		seq_put_decimal_ull(m, "\nSyscall_user_dispatch:\t",
- > 435				    test_syscall_work(SYSCALL_USER_DISPATCH));
-   436	}
-   437	
+8e461e1f092b22 Alex Elder     2023-01-04  164  
+9ec9b2a30853ba Caleb Connolly 2023-01-15 @165  void ipa_interrupt_irq_disable(struct ipa *ipa)
+9ec9b2a30853ba Caleb Connolly 2023-01-15  166  {
+9ec9b2a30853ba Caleb Connolly 2023-01-15  167  	disable_irq(ipa->interrupt->irq);
+9ec9b2a30853ba Caleb Connolly 2023-01-15  168  }
+9ec9b2a30853ba Caleb Connolly 2023-01-15  169  
+9ec9b2a30853ba Caleb Connolly 2023-01-15 @170  void ipa_interrupt_irq_enable(struct ipa *ipa)
+9ec9b2a30853ba Caleb Connolly 2023-01-15  171  {
+9ec9b2a30853ba Caleb Connolly 2023-01-15  172  	enable_irq(ipa->interrupt->irq);
+9ec9b2a30853ba Caleb Connolly 2023-01-15  173  }
+9ec9b2a30853ba Caleb Connolly 2023-01-15  174  
+
+:::::: The code at line 165 was first introduced by commit
+:::::: 9ec9b2a30853ba843b70ea16f196e5fe3327be5f net: ipa: disable ipa interrupt during suspend
+
+:::::: TO: Caleb Connolly <caleb.connolly@linaro.org>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
