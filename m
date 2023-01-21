@@ -1,86 +1,69 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288D7361
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 01:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674265061; x=1705801061;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7J6PTzudqg7wBuBvyxU2FxVSRCociPR/AF9fyR8o6G8=;
-  b=PEYN5/JmVxwjuYb6m+E6JKTT1s2VdwAJHc+F+BY/5WI5RJnA+HZPhAlY
-   R0WgmB3poNJed8tPqA9kbjjaz29jWbRA8ESaJx+lCOUfQ3yxkNVjYYqkR
-   677a5zXmYIXgG3pk2IOp1IXkTA0ILQeBqQm5rrzTcYsHme1/Asrl05Fnn
-   ugeEQrhKhhgBa0ums7eUvwQEkruDC5KL/+KfmvKZTgJG9Hfdie/q6hwu8
-   saXQZ87zGvug3y4KFDJuDvFKMTm5Tnvcy7X+Qa5ljDCoeehECD1bXYDp7
-   olO0DpQnvVBv4vQlibn6dxnh+Ncde73KX+eziIbwyEiFbycjhBWGOkPnS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="327016384"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="327016384"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 17:37:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="989594953"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="989594953"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 17:37:38 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJ2p8-0003EE-0w;
-	Sat, 21 Jan 2023 01:37:38 +0000
-Date: Sat, 21 Jan 2023 09:37:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mao Jinlong <quic_jinlmao@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	linux-doc@vger.kernel.org
-Subject: [coresight:next 28/28] htmldocs:
- Documentation/trace/coresight/coresight-tpda.rst:3: WARNING: Title overline
- too short.
-Message-ID: <202301210955.zYxDrLgv-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE95361
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 02:06:28 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id y5-20020a056e021be500b0030bc4f23f0aso4911561ilv.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 18:06:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dd5wNecq6Iwv6f1dG8KNdC3uYkQa6Cax7xeMdbKruNc=;
+        b=SsbSJWoapOoVWFbFTDBwTJg5WlatPNlGum76SaoLiFgPLiCH2yitXE1d+BFGWfrSLa
+         v1Bdb3ymwoGqB270bHl/FDsNadWxiqSj5DoLFQz8Gn0yo+MjKxcbjuqHfESQslLLH4Yx
+         Sj1uQ6gtKDneWz+0oRJgIrJ9E4vbxGsXoM4QhP4htflPeaUI1AFpPoQnu58oqAHhXZO4
+         0hzGu4cTWeylp9TIGZ1VLboo/AS9ejniXgnbfVPHAQ0BipakHvVFNUB/pdMlzjbm6gNe
+         XIpQp85l3g60D/dId9MdcWbBzM90/InBdYsS1Amx5XwxshPmTPEyJvjyq79HFsc+Gqdd
+         03/w==
+X-Gm-Message-State: AFqh2kr7cx7IUbaLQNg+/J1EP10EpUbBeuMOO6+cnN4kb1QWBrpfxjES
+	a8rC7V3a5WvXVHYEqTI44pg2+AVvdcXu4YExxcnKu3qXl7xR
+X-Google-Smtp-Source: AMrXdXuiE0IWVmXxJeCGb0ni2t8km2avjyvmVVncmFvAcPb4QdDuRxSIc/M0BGbQD/iK6SAKylqwiFZkiLM+lWBM9yGzrPrY225N
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a5d:889a:0:b0:6e0:34ee:4e97 with SMTP id
+ d26-20020a5d889a000000b006e034ee4e97mr1273397ioo.38.1674266787394; Fri, 20
+ Jan 2023 18:06:27 -0800 (PST)
+Date: Fri, 20 Jan 2023 18:06:27 -0800
+In-Reply-To: <00000000000073b14905ef2e7401@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001f3d6405f2bc9d28@google.com>
+Subject: Re: [syzbot] BUG: stack guard page was hit in inet6_release
+From: syzbot <syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com>
+To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
+	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
+	error27@gmail.com, hdanton@sina.com, jakub@cloudflare.com, 
+	john.fastabend@gmail.com, kafai@fb.com, kernel-team@cloudflare.com, 
+	kpsingh@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	lkp@intel.com, lmb@cloudflare.com, netdev@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev, pabeni@redhat.com, 
+	songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git next
-head:   758d638667d474ff6b0a9052a8298f04c7ddf62f
-commit: 758d638667d474ff6b0a9052a8298f04c7ddf62f [28/28] Documentation: trace: Add documentation for TPDM and TPDA
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git/commit/?id=758d638667d474ff6b0a9052a8298f04c7ddf62f
-        git remote add coresight https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git
-        git fetch --no-tags coresight next
-        git checkout 758d638667d474ff6b0a9052a8298f04c7ddf62f
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+syzbot has bisected this issue to:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+commit 38207a5e81230d6ffbdd51e5fa5681be5116dcae
+Author: John Fastabend <john.fastabend@gmail.com>
+Date:   Fri Nov 19 18:14:17 2021 +0000
 
-All warnings (new ones prefixed by >>):
+    bpf, sockmap: Attach map progs to psock early for feature probes
 
->> Documentation/trace/coresight/coresight-tpda.rst:3: WARNING: Title overline too short.
->> Documentation/trace/coresight/coresight-tpdm.rst:3: WARNING: Title overline too short.
->> Documentation/trace/coresight/coresight-tpdm.rst:43: WARNING: Document may not end with a transition.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=106884b9480000
+start commit:   c8451c141e07 Merge tag 'acpi-6.2-rc2' of git://git.kernel...
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=126884b9480000
+console output: https://syzkaller.appspot.com/x/log.txt?x=146884b9480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2651619a26b4d687
+dashboard link: https://syzkaller.appspot.com/bug?extid=04c21ed96d861dccc5cd
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a1a692480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1575dc34480000
 
-vim +3 Documentation/trace/coresight/coresight-tpda.rst
+Reported-by: syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com
+Fixes: 38207a5e8123 ("bpf, sockmap: Attach map progs to psock early for feature probes")
 
-     2	
-   > 3	==============================
-     4	The trace performance monitoring and diagnostics aggregator(TPDA).
-     5	==============================
-     6	
-     7	    :Author:   Jinlong Mao <quic_jinlmao@quicinc.com>
-     8	    :Date:     January 2023
-     9	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
