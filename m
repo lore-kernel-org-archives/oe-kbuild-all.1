@@ -1,112 +1,81 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DFC17C2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 08:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674291013; x=1705827013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j2yDgQlT4Ek+Y4bNS+U4KuyZTZvJ7+c5/MlniBsuz/w=;
-  b=JeRykH/PYuAhau6B4C7GTr5ZCqLki3LG3M/g7XSjX5JdXLkBFnLKbowk
-   aVrwk+fs+kCipwzecNodPakn5fA4o7LOijFRxZojZYVmf4uKMtk1aCOaj
-   fjIKF09tHGhiYPrZH2LM3JsZ7KwwzTa0gjLLBUsy0zULRvJ7aGzDtIsrl
-   nQvEg9jE3BSVcb6i/Lwm0uaLF+qgN7iYRbVLF6937J5Vwzta/1x2xLBi9
-   O9MfyrHVU51annHf7ZHnxqN7a81mv98jcO9EwN/ZoqLy1HiUfu8AV9xJj
-   nQlx9nNq74Zlrb+/NrsbulejQYK8yXwqyd8XRAuLG6TUIMT1Md2xmFz26
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390276829"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="390276829"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 00:50:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="803343341"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="803343341"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Jan 2023 00:50:11 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJ9Zi-0003sE-2W;
-	Sat, 21 Jan 2023 08:50:10 +0000
-Date: Sat, 21 Jan 2023 16:49:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thierryreding:for-6.3/work 176/176] drivers/soc/tegra/dce.c:149:23:
- error: implicit declaration of function 'FIELD_PREP'
-Message-ID: <202301211622.MvVmacsc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E5BBD2C;
+	Sat, 21 Jan 2023 10:12:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C1BC433EF;
+	Sat, 21 Jan 2023 10:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674295924;
+	bh=V8MuxpP8Pi4nAo/iKbDQz0IVxXMZzusqzi08ucS3huo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pCEiqGdMg7Kmyme9ku4G6/FgCLG24oj128JxZx9nt4ZpU3Bm+nJ/+6LSWdBEIiAR8
+	 8oHoV3UtyoTETH6bsS88DBX/x+kqSN7Yc8a6leFJhD4sMkDiDdwPwnNYsE5qW1p4Qv
+	 axJjjmL+VDnk4tqX9JyqvEwgO2RZeDToxQJp1JXe6P95/WMp0wQwqHqCv+qxagnvBP
+	 CTgjmTOO0Q/u2Rinqbn3u0IGL03At9NFYFETimbwgOBSyiq3W7AxT2DQAs26d2lzxa
+	 jleAuSZcJG1zk6ykCKoUcND936na5GSsdHjLvxb5RWUJBn0ACSbInX60d3gK4HfRt9
+	 GdCqZZ6MpeSrQ==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Miles Chen <miles.chen@mediatek.com>,
+	kernel test robot <lkp@intel.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [PATCH] mm/sparse: fix "unused function 'pgdat_to_phys'" warning
+Date: Sat, 21 Jan 2023 12:11:51 +0200
+Message-Id: <20230121101151.1703292-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/thierryreding/linux for-6.3/work
-head:   d2f9c8570d9db78d8edc29d02721fa315b564b4f
-commit: d2f9c8570d9db78d8edc29d02721fa315b564b4f [176/176] WIP
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230121/202301211622.MvVmacsc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/thierryreding/linux/commit/d2f9c8570d9db78d8edc29d02721fa315b564b4f
-        git remote add thierryreding https://github.com/thierryreding/linux
-        git fetch --no-tags thierryreding for-6.3/work
-        git checkout d2f9c8570d9db78d8edc29d02721fa315b564b4f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/soc/
+W=1 build with clangs complains:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+mm/sparse.c:347:27: warning: unused function 'pgdat_to_phys' [-Wunused-function]
+static inline phys_addr_t pgdat_to_phys(struct pglist_data *pgdat)
+                             ^
+1 warning generated.
 
-All errors (new ones prefixed by >>):
+pgdat_to_phys() is only used by functions defined when
+CONFIG_MEMORY_HOTREMOVE=y.
 
-   drivers/soc/tegra/dce.c: In function 'tegra_dce_boot_get_version':
->> drivers/soc/tegra/dce.c:149:23: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     149 |         u32 command = FIELD_PREP(DCE_BOOT_CMD_COMMAND, DCE_BOOT_CMD_VERSION);
-         |                       ^~~~~~~~~~
-   drivers/soc/tegra/dce.c: In function 'tegra_dce_irq_callback':
->> drivers/soc/tegra/dce.c:429:16: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
-     429 |         type = FIELD_GET(DCE_IRQ_STATUS_TYPE, value);
-         |                ^~~~~~~~~
-         |                FOLL_GET
-   cc1: some warnings being treated as errors
+Move pgdat_to_phys() under #ifdef CONFIG_MEMORY_HOTREMOVE
+to make clang happy.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/all/202301210155.1E5zABb5-lkp@intel.com
+Signed-off-by: Mike Rapoport <rppt@kernel.org>
+---
+ mm/sparse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-vim +/FIELD_PREP +149 drivers/soc/tegra/dce.c
-
-   146	
-   147	static int tegra_dce_boot_get_version(struct tegra_dce *dce, u32 *version)
-   148	{
- > 149		u32 command = FIELD_PREP(DCE_BOOT_CMD_COMMAND, DCE_BOOT_CMD_VERSION);
-   150		void *msg = (void *)(unsigned long)command;
-   151		unsigned long status;
-   152		int err;
-   153	
-   154		err = mbox_send_message(dce->boot.channel, msg);
-   155		if (err < 0)
-   156			return err;
-   157	
-   158		status = wait_for_completion_timeout(&dce->irq.done, 1000);
-   159		if (status == 0)
-   160			return -ETIMEDOUT;
-   161	
-   162		if (dce->boot.status < 0)
-   163			return dce->boot.status;
-   164	
-   165		*version = dce->boot.status;
-   166	
-   167		return 0;
-   168	}
-   169	
-
+diff --git a/mm/sparse.c b/mm/sparse.c
+index 2779b419ef2a..fb7aeb1899a4 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -318,6 +318,7 @@ size_t mem_section_usage_size(void)
+ 	return sizeof(struct mem_section_usage) + usemap_size();
+ }
+ 
++#ifdef CONFIG_MEMORY_HOTREMOVE
+ static inline phys_addr_t pgdat_to_phys(struct pglist_data *pgdat)
+ {
+ #ifndef CONFIG_NUMA
+@@ -328,7 +329,6 @@ static inline phys_addr_t pgdat_to_phys(struct pglist_data *pgdat)
+ #endif
+ }
+ 
+-#ifdef CONFIG_MEMORY_HOTREMOVE
+ static struct mem_section_usage * __init
+ sparse_early_usemaps_alloc_pgdat_section(struct pglist_data *pgdat,
+ 					 unsigned long size)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.35.1
+
