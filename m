@@ -1,101 +1,91 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD86386;
-	Sat, 21 Jan 2023 03:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674273050; x=1705809050;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=68I7SxyXvr8fAMcxeHG3W/sEMf0MhRxVATCBAaXGtHM=;
-  b=ZJwFHAkRS8XceZV505Vp9jC0O2xAxA8CJxY0YGyRvrudne3GtdAKqcPx
-   nFOgCONnqYg3gZAF+ExSv0l5BH0HsTFiZEyjFC3oUNEMzJj5OhdquAk7I
-   wjNu1tUoRVIeMIFEFr8OuOT0PRSFpP+r/gPZA6Tr2tP7VtKTQUhZLkk4V
-   3v8ktianSxcXciVNtvMAOlW8jftxVTqa4FIzp6aWtuycsfw6z9ADnPTlT
-   X/y/HlkPzjlIPcs78oqQLi8vZiWUDzbQuyqTThs+85UO8b2Vy8TBiak2S
-   G1PIbMhzifBbMMhZOQUAtIUO3ebDsYViQTYylLVObfi2lKvQtGLcyNm2Y
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="353009379"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="353009379"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 19:50:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662757987"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="662757987"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2023 19:50:46 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJ4tx-0003Mq-1h;
-	Sat, 21 Jan 2023 03:50:45 +0000
-Date: Sat, 21 Jan 2023 11:50:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
- warning: unused variable 'c8sectpfe_match'
-Message-ID: <202301211133.ZEO49UV9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7EB390
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 04:00:22 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id jl3so6944899plb.8
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 20:00:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=urXkspJfgxnN/KByKI4sCcihsWMp9loLYCy6P4Twzbw=;
+        b=nBpjEnaymYTcvedQEVC5k0PEqtCt5go7hnBRdrZpsjmhvU6NdyQEWAyB51OjRAYomD
+         Og6ymtWQgeia190Jl9T9abAODsMVTvKgzIu+7gibOsKjgTszBFoQg6Jizv/SJM6AvsXJ
+         z7XrAWMIZrxlIaLLztjDLNc3qxcqMQMblNQzDruMqjb8E4LuxZY7neO9UApAzDZ6reuw
+         UhpF1TYjkRAu4feTV21sgRXHohOTmflvJwz0IcgHf9d2BgHjj3rE4/hzS+FA03TBZvtN
+         ikGQMXQD6WhIeqW5i9382WylJX11W58LZ95WTHWNUQqL8olTju+rcPI28NBOGSWZwQ0I
+         yGWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=urXkspJfgxnN/KByKI4sCcihsWMp9loLYCy6P4Twzbw=;
+        b=wUXyIHuE+xKIN5MgICrilk1SEu8vfb8gkiolvhI9bqyhMYqISWqtmHIo/fWFDadEdv
+         GGLj18UczHVYG3TKWAZaOjebeCNw9rh8vvOBCzO/0uMJsmQ2ymohn1WZlhDRlZPuldqU
+         f9fNBCfE1VWG8uiuU3qhDNR1/MIYL642Jy2PpF6cI0YtLbOwyRyLwTo5V0cMyQEVNV3s
+         I7R0Bwd4mndkc5S8m1xc+NDkVbQgUoVPzTFGwmg5uAtYrnVOc5G2nPWCoRd1xUOmdrvu
+         0YR1dYEM4zl7Xc74wxHmht6S1uuGyd89g3I9dBWu7qGzin8uVowIEZutY32iA/oYfkAH
+         LfWg==
+X-Gm-Message-State: AFqh2kqVrQ5tRTlEq6GXAxLAPFmvzTAsmGZKLZ0LaXCjxPXg7cYNp/TV
+	oV9ykAkRRybm858UJmqATSM=
+X-Google-Smtp-Source: AMrXdXsFl+nYl80RJKSZ/i3pz+vZ3DyYwoWZrOAVx4mNE8HjQA4ecARaOwvmWP9DhbPZiWvTBVqzog==
+X-Received: by 2002:a17:902:c711:b0:194:d662:1a15 with SMTP id p17-20020a170902c71100b00194d6621a15mr6804206plp.0.1674273621902;
+        Fri, 20 Jan 2023 20:00:21 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
+        by smtp.gmail.com with ESMTPSA id j6-20020a170902690600b00192aecb231asm27637492plk.121.2023.01.20.20.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 20:00:21 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+	id 75881104FE7; Sat, 21 Jan 2023 11:00:17 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: CoreSight List <coresight@lists.linaro.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	oe-kbuild-all@lists.linux.dev
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Leo Yan <leo.yan@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mao Jinlong <quic_jinlmao@quicinc.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/2] Documentation: coresight: TPDM-TPDA doc fixes
+Date: Sat, 21 Jan 2023 11:00:12 +0700
+Message-Id: <20230121040015.28139-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <202301210955.zYxDrLgv-lkp@intel.com>
+References: <202301210955.zYxDrLgv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=723; i=bagasdotme@gmail.com; h=from:subject; bh=QLuYy17M0fVRG2ENGhEVNLfzZ/ZWtFSBjJoMLvOW2vc=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnkz0LFGUDmnTiJi+OnihbuLznYM3D0kebbL8ca+E7vvq6 1aqGjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzklygjQ/P7hNYNh6Qrnp/Tj3l16G hcqL4dZ4nGev2JZ79qms1htWFk6NBnrZy48d4MRrOK6HfH9qd2Ts7+67HPVWh5iUJTuIE9LwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro,
+Here are documentation fixes for TPDM and TPDA documentation, as
+reported recently by kernel test robot [1]. The patch description below
+is self-explanatory.
 
-FYI, the error/warning still remains.
+[1]: https://lore.kernel.org/linux-doc/202301210955.zYxDrLgv-lkp@intel.com/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f883675bf6522b52cd75dc3de791680375961769
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
-date:   10 months ago
-config: hexagon-randconfig-r045-20230120 (https://download.01.org/0day-ci/archive/20230121/202301211133.ZEO49UV9-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/st/sti/c8sectpfe/
+Bagas Sanjaya (2):
+  Documentation: coresight: Extend title heading syntax in TPDM and TPDA
+    documentation
+  Documentation: coresight: tpdm: Add dummy comment after sysfs list
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
-   static const struct of_device_id c8sectpfe_match[] = {
-                                    ^
-   1 warning generated.
+ Documentation/trace/coresight/coresight-tpda.rst | 6 +++---
+ Documentation/trace/coresight/coresight-tpdm.rst | 8 +++++---
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
 
-vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
-
-:::::: The code at line 1175 was first introduced by commit
-:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
-
-:::::: TO: Peter Griffin <peter.griffin@linaro.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-
+base-commit: 758d638667d474ff6b0a9052a8298f04c7ddf62f
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+An old man doll... just what I always wanted! - Clara
+
