@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BC28460
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 22:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B147D29AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 22:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674338869; x=1705874869;
+  t=1674341330; x=1705877330;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UZPzm/fMObezqsOqDuyUi6w/Kx7HZnLKocXLBSfr6TM=;
-  b=KF3yqd0tGJEBt3E/LSRG8x7icVH8TmpvCY0Cxy9xns1q1U1JGhFa3fjn
-   YG3WT09iRiT3bChxEN2piHen0hjB2eBgpTLl6vOH28qqRKC9IHpaAWTAE
-   9oiF18M0ibvzugUeUdUTVKf8PuyztImi6e0lwG90yMxfVrPwBFwxZSbiZ
-   FJSpMiJXFmmvskNw70SRLeyI4/umHopFvfvKETyn3MWA3f37giJ1FjD8N
-   6H0r6+MKQNw/C5qQe963s9JlZ1F3soa3boRwlv8QXdFRIS2iDlGvEci5J
-   kAIZqUl2BjNu52q652Xz8n3WTGDIteCCny4FYTKtn+i8Hvk6hvcZeOcFW
+  bh=j1MhCgB/WnOYYlD7hDFxnu//+hizRmNSZgH3VqUiz3M=;
+  b=NRO4zlO1AxB70AMk9T5Mk67WNdfhPm10agzw07CEh5q3ey7f418nxvw8
+   2BTrf+rTqaBqygOrL9lSl/5Xm35SV7lkmTVXt8tN0BA7J0y69xcM3GxSq
+   SJvcZptbC3WCB0DUX2Ft8niD8Rcu1KGTnOgM/wZ95dndM23zHPuGaUpE6
+   fo61SsLtiTLZTTeCSXMk+RDEFZaDIPr5kD9NGrR63o5HeuNfwkuh0N/Mk
+   GCjfIrr6eXIXKb+4WqnDwoNKWS9nzuCj5gst1beCRTEv1kqnNbcJ7gp0R
+   iFlsJkyIft5u470fZpx6OYTdqhIRFD8nbvbcDBhhiuZYt5st7Ra/PQn2e
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="324525340"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="390345695"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="324525340"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 14:07:48 -0800
+   d="scan'208";a="390345695"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 14:48:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="638546907"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="749747623"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="638546907"
+   d="scan'208";a="749747623"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 21 Jan 2023 14:07:47 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2023 14:48:48 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJM1a-0004Wo-2N;
-	Sat, 21 Jan 2023 22:07:46 +0000
-Date: Sun, 22 Jan 2023 06:06:46 +0800
+	id 1pJMfH-0004YA-28;
+	Sat, 21 Jan 2023 22:48:47 +0000
+Date: Sun, 22 Jan 2023 06:47:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1] block/blk-mq.h:303:31: error:
- 'struct task_struct' has no member named 'plug'
-Message-ID: <202301220538.B5Xp7u7K-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to
+ restricted __be32
+Message-ID: <202301220608.62FbzOrd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,141 +46,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   0c8a58469bba51493c04fd3f0ab3ebbd3cd8dfa9
-commit: 0c3d2d04cc77495aa4fa0ec3ddd2f44bc7f534a9 [1/1] ANDROID: make sure all types for hooks are defined in KMI
-config: arm64-randconfig-r021-20230122 (https://download.01.org/0day-ci/archive/20230122/202301220538.B5Xp7u7K-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f67144022885344375ad03593e7a290cc614da34
+commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
+date:   9 months ago
+config: arm-randconfig-s033-20230122 (https://download.01.org/0day-ci/archive/20230122/202301220608.62FbzOrd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15
-        git checkout 0c3d2d04cc77495aa4fa0ec3ddd2f44bc7f534a9
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/video/fbdev/omap/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to restricted __be32
 
-   In file included from block/blk-mq.h:6,
-                    from block/blk.h:12,
-                    from block/vendor_hooks.c:6:
->> block/blk-mq-tag.h:45:43: warning: 'struct blk_mq_alloc_data' declared inside parameter list will not be visible outside of this definition or declaration
-      45 | extern unsigned int blk_mq_get_tag(struct blk_mq_alloc_data *data);
-         |                                           ^~~~~~~~~~~~~~~~~
-   block/blk-mq.h: In function 'blk_mq_plug':
->> block/blk-mq.h:303:31: error: 'struct task_struct' has no member named 'plug'
-     303 |                 return current->plug;
-         |                               ^~
-   In file included from block/blk.h:13:
-   block/blk-mq-sched.h: At top level:
->> block/blk-mq-sched.h:29:55: warning: 'struct elevator_type' declared inside parameter list will not be visible outside of this definition or declaration
-      29 | int blk_mq_init_sched(struct request_queue *q, struct elevator_type *e);
-         |                                                       ^~~~~~~~~~~~~
-   block/blk-mq-sched.h: In function 'blk_mq_sched_allow_merge':
->> block/blk-mq-sched.h:49:19: error: invalid use of undefined type 'struct elevator_queue'
-      49 |         if (e && e->type->ops.allow_merge)
-         |                   ^~
-   block/blk-mq-sched.h:50:25: error: invalid use of undefined type 'struct elevator_queue'
-      50 |                 return e->type->ops.allow_merge(q, rq, bio);
-         |                         ^~
-   block/blk-mq-sched.h: In function 'blk_mq_sched_completed_request':
-   block/blk-mq-sched.h:59:19: error: invalid use of undefined type 'struct elevator_queue'
-      59 |         if (e && e->type->ops.completed_request)
-         |                   ^~
-   block/blk-mq-sched.h:60:18: error: invalid use of undefined type 'struct elevator_queue'
-      60 |                 e->type->ops.completed_request(rq, now);
-         |                  ^~
-   block/blk-mq-sched.h: In function 'blk_mq_sched_requeue_request':
-   block/blk-mq-sched.h:68:51: error: invalid use of undefined type 'struct elevator_queue'
-      68 |         if ((rq->rq_flags & RQF_ELVPRIV) && e && e->type->ops.requeue_request)
-         |                                                   ^~
-   block/blk-mq-sched.h:69:18: error: invalid use of undefined type 'struct elevator_queue'
-      69 |                 e->type->ops.requeue_request(rq);
-         |                  ^~
-   block/blk-mq-sched.h: In function 'blk_mq_sched_has_work':
-   block/blk-mq-sched.h:76:19: error: invalid use of undefined type 'struct elevator_queue'
-      76 |         if (e && e->type->ops.has_work)
-         |                   ^~
-   block/blk-mq-sched.h:77:25: error: invalid use of undefined type 'struct elevator_queue'
-      77 |                 return e->type->ops.has_work(hctx);
-         |                         ^~
-   block/blk.h: At top level:
->> block/blk.h:201:38: warning: 'struct elevator_type' declared inside parameter list will not be visible outside of this definition or declaration
-     201 |                               struct elevator_type *new_e);
-         |                                      ^~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/block.h:36,
-                    from block/vendor_hooks.c:14:
-   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+vim +451 drivers/video/fbdev/omap/lcd_mipid.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  444  
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  445  static int panel_enabled(struct mipid_device *md)
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  446  {
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  447  	u32 disp_status;
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  448  	int enabled;
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  449  
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  450  	mipid_read(md, MIPID_CMD_READ_DISP_STATUS, (u8 *)&disp_status, 4);
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22 @451  	disp_status = __be32_to_cpu(disp_status);
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  452  	enabled = (disp_status & (1 << 17)) && (disp_status & (1 << 10));
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  453  	dev_dbg(&md->spi->dev,
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  454  		"LCD panel %senabled by bootloader (status 0x%04x)\n",
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  455  		enabled ? "" : "not ", disp_status);
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  456  	return enabled;
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  457  }
+66d2f99d0bb5a2 drivers/video/omap/lcd_mipid.c Imre Deak 2009-09-22  458  
 
+:::::: The code at line 451 was first introduced by commit
+:::::: 66d2f99d0bb5a2972fb5c1d88b61169510e540d6 omapfb: add support for MIPI-DCS compatible LCDs
 
-vim +303 block/blk-mq.h
-
-0da73d00ca111a Minwoo Im      2018-07-02  276  
-b49773e7bcf316 Damien Le Moal 2019-07-11  277  /*
-b49773e7bcf316 Damien Le Moal 2019-07-11  278   * blk_mq_plug() - Get caller context plug
-b49773e7bcf316 Damien Le Moal 2019-07-11  279   * @q: request queue
-b49773e7bcf316 Damien Le Moal 2019-07-11  280   * @bio : the bio being submitted by the caller context
-b49773e7bcf316 Damien Le Moal 2019-07-11  281   *
-b49773e7bcf316 Damien Le Moal 2019-07-11  282   * Plugging, by design, may delay the insertion of BIOs into the elevator in
-b49773e7bcf316 Damien Le Moal 2019-07-11  283   * order to increase BIO merging opportunities. This however can cause BIO
-b49773e7bcf316 Damien Le Moal 2019-07-11  284   * insertion order to change from the order in which submit_bio() is being
-b49773e7bcf316 Damien Le Moal 2019-07-11  285   * executed in the case of multiple contexts concurrently issuing BIOs to a
-b49773e7bcf316 Damien Le Moal 2019-07-11  286   * device, even if these context are synchronized to tightly control BIO issuing
-b49773e7bcf316 Damien Le Moal 2019-07-11  287   * order. While this is not a problem with regular block devices, this ordering
-b49773e7bcf316 Damien Le Moal 2019-07-11  288   * change can cause write BIO failures with zoned block devices as these
-b49773e7bcf316 Damien Le Moal 2019-07-11  289   * require sequential write patterns to zones. Prevent this from happening by
-b49773e7bcf316 Damien Le Moal 2019-07-11  290   * ignoring the plug state of a BIO issuing context if the target request queue
-b49773e7bcf316 Damien Le Moal 2019-07-11  291   * is for a zoned block device and the BIO to plug is a write operation.
-b49773e7bcf316 Damien Le Moal 2019-07-11  292   *
-b49773e7bcf316 Damien Le Moal 2019-07-11  293   * Return current->plug if the bio can be plugged and NULL otherwise
-b49773e7bcf316 Damien Le Moal 2019-07-11  294   */
-b49773e7bcf316 Damien Le Moal 2019-07-11  295  static inline struct blk_plug *blk_mq_plug(struct request_queue *q,
-b49773e7bcf316 Damien Le Moal 2019-07-11  296  					   struct bio *bio)
-b49773e7bcf316 Damien Le Moal 2019-07-11  297  {
-b49773e7bcf316 Damien Le Moal 2019-07-11  298  	/*
-b49773e7bcf316 Damien Le Moal 2019-07-11  299  	 * For regular block devices or read operations, use the context plug
-b49773e7bcf316 Damien Le Moal 2019-07-11  300  	 * which may be NULL if blk_start_plug() was not executed.
-b49773e7bcf316 Damien Le Moal 2019-07-11  301  	 */
-b49773e7bcf316 Damien Le Moal 2019-07-11  302  	if (!blk_queue_is_zoned(q) || !op_is_write(bio_op(bio)))
-b49773e7bcf316 Damien Le Moal 2019-07-11 @303  		return current->plug;
-b49773e7bcf316 Damien Le Moal 2019-07-11  304  
-b49773e7bcf316 Damien Le Moal 2019-07-11  305  	/* Zoned block device write operation case: do not plug the BIO */
-b49773e7bcf316 Damien Le Moal 2019-07-11  306  	return NULL;
-b49773e7bcf316 Damien Le Moal 2019-07-11  307  }
-b49773e7bcf316 Damien Le Moal 2019-07-11  308  
-
-:::::: The code at line 303 was first introduced by commit
-:::::: b49773e7bcf316f238f6709ad9e1999dcc3ed433 block: Disable write plugging for zoned block devices
-
-:::::: TO: Damien Le Moal <damien.lemoal@wdc.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+:::::: TO: Imre Deak <imre.deak@nokia.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
