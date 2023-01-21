@@ -1,69 +1,96 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE95361
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 02:06:28 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id y5-20020a056e021be500b0030bc4f23f0aso4911561ilv.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jan 2023 18:06:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dd5wNecq6Iwv6f1dG8KNdC3uYkQa6Cax7xeMdbKruNc=;
-        b=SsbSJWoapOoVWFbFTDBwTJg5WlatPNlGum76SaoLiFgPLiCH2yitXE1d+BFGWfrSLa
-         v1Bdb3ymwoGqB270bHl/FDsNadWxiqSj5DoLFQz8Gn0yo+MjKxcbjuqHfESQslLLH4Yx
-         Sj1uQ6gtKDneWz+0oRJgIrJ9E4vbxGsXoM4QhP4htflPeaUI1AFpPoQnu58oqAHhXZO4
-         0hzGu4cTWeylp9TIGZ1VLboo/AS9ejniXgnbfVPHAQ0BipakHvVFNUB/pdMlzjbm6gNe
-         XIpQp85l3g60D/dId9MdcWbBzM90/InBdYsS1Amx5XwxshPmTPEyJvjyq79HFsc+Gqdd
-         03/w==
-X-Gm-Message-State: AFqh2kr7cx7IUbaLQNg+/J1EP10EpUbBeuMOO6+cnN4kb1QWBrpfxjES
-	a8rC7V3a5WvXVHYEqTI44pg2+AVvdcXu4YExxcnKu3qXl7xR
-X-Google-Smtp-Source: AMrXdXuiE0IWVmXxJeCGb0ni2t8km2avjyvmVVncmFvAcPb4QdDuRxSIc/M0BGbQD/iK6SAKylqwiFZkiLM+lWBM9yGzrPrY225N
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7C0190
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jan 2023 02:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674268786; x=1705804786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kkRU9+v7s3/jgXK0nwbwD2l2LkQPlCkqam5LVNMcsA8=;
+  b=ODrT4E915IEjILUY6xxVSjlgkULwKVS8rtva0BBKVdPto/uZ5Z4Xcecu
+   +NO/vNMZXzSF55aWN6x8NkvtJ6+vwhT5/C8HjFeruh7GkhqlZ4VehaGED
+   NVA3wgKFzeLNyXRwxlNV3bxQQWQ+X/3CfNmjCSJ0eZnUvTVyyjGD2qKa/
+   UyXFq9bi6ENDPp2VjsgwyWSVXZA3Am4V6nN2vr4sSXfkwDqN2er37bHb7
+   XgtW2wzLeonxp64FluDeKpbD5Ni+q1utWPnKOR2WUZ7wT0VueQbJTXiNd
+   a8y9+V2AOB0PD1o/O4v+Bm8bDuwVqhGIsCrBg5FJe2ukTtqYS07bHRxfz
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="327021864"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="327021864"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 18:39:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="749566740"
+X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
+   d="scan'208";a="749566740"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Jan 2023 18:39:42 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJ3nB-0003HQ-2w;
+	Sat, 21 Jan 2023 02:39:41 +0000
+Date: Sat, 21 Jan 2023 10:38:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: sa8295p-adp: Add max20411 on i2c4
+Message-ID: <202301211057.EQa4jBtA-lkp@intel.com>
+References: <20230119214749.4048933-5-quic_bjorande@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:889a:0:b0:6e0:34ee:4e97 with SMTP id
- d26-20020a5d889a000000b006e034ee4e97mr1273397ioo.38.1674266787394; Fri, 20
- Jan 2023 18:06:27 -0800 (PST)
-Date: Fri, 20 Jan 2023 18:06:27 -0800
-In-Reply-To: <00000000000073b14905ef2e7401@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001f3d6405f2bc9d28@google.com>
-Subject: Re: [syzbot] BUG: stack guard page was hit in inet6_release
-From: syzbot <syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com>
-To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
-	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
-	error27@gmail.com, hdanton@sina.com, jakub@cloudflare.com, 
-	john.fastabend@gmail.com, kafai@fb.com, kernel-team@cloudflare.com, 
-	kpsingh@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	lkp@intel.com, lmb@cloudflare.com, netdev@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev, pabeni@redhat.com, 
-	songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119214749.4048933-5-quic_bjorande@quicinc.com>
 
-syzbot has bisected this issue to:
+Hi Bjorn,
 
-commit 38207a5e81230d6ffbdd51e5fa5681be5116dcae
-Author: John Fastabend <john.fastabend@gmail.com>
-Date:   Fri Nov 19 18:14:17 2021 +0000
+I love your patch! Yet something to improve:
 
-    bpf, sockmap: Attach map progs to psock early for feature probes
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on robh/for-next broonie-sound/for-next linus/master v6.2-rc4]
+[cannot apply to next-20230120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=106884b9480000
-start commit:   c8451c141e07 Merge tag 'acpi-6.2-rc2' of git://git.kernel...
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=126884b9480000
-console output: https://syzkaller.appspot.com/x/log.txt?x=146884b9480000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2651619a26b4d687
-dashboard link: https://syzkaller.appspot.com/bug?extid=04c21ed96d861dccc5cd
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a1a692480000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1575dc34480000
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Andersson/dt-bindings-regulator-Describe-Maxim-MAX20411/20230120-061409
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20230119214749.4048933-5-quic_bjorande%40quicinc.com
+patch subject: [PATCH 4/4] arm64: dts: qcom: sa8295p-adp: Add max20411 on i2c4
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230121/202301211057.EQa4jBtA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/75c5fbc70a2e2cbd360675e2dc0fb001b3ad6fdf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bjorn-Andersson/dt-bindings-regulator-Describe-Maxim-MAX20411/20230120-061409
+        git checkout 75c5fbc70a2e2cbd360675e2dc0fb001b3ad6fdf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Reported-by: syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com
-Fixes: 38207a5e8123 ("bpf, sockmap: Attach map progs to psock early for feature probes")
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/qcom/sa8295p-adp.dts:502.1-16 Label or path pmm8540a_gpios not found
+   FATAL ERROR: Syntax error parsing input tree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
