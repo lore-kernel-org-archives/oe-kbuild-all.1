@@ -1,44 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE681629
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 03:06:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6757736B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 04:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674356772; x=1705892772;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=baVItVo7YTQD1JZPevKfW4PCBqOLIXY5TIziHObz3f4=;
-  b=gUf2ZoX3ZSfzuiZzkM0RjbUa4dxyH++wf1HE+G9+QqWKMl7gWVduo014
-   le995xb/jdBvmRO0/8swECHPDTmIHJ8JkI+uw/qu8Ha2quNAkr51nCYiU
-   jmko6zhgRGNWoDBAESw6a4isqHVy/XdGyadrxjGCoSZJntAisp3NZCrTZ
-   0DyQojSPZ0BS35E0SgY8Jsxb2vrhWkhNWpEZYTfJVzmwpoQOtJjsK9ujp
-   Uf1wkLvtqW12jAaGfxcyveERFw5Sa1JrM1aShWT8H9SktU99v9wCs6acY
-   ugVGF2VzPoFGz2XlnHIYFzSQqiEAtcsGPD6ZI5jzzSP2bKcUMyzNvUgTk
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="388221028"
+  t=1674363556; x=1705899556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hX1/RupBQ8tKw19lqmGF4xjyLVLiXH20hy125mIjvuA=;
+  b=Nc92kzqf7fRztTwwzS5uZh/7yBDdK4L5PJ4qjEpCfxQ1fq0Umzri20G4
+   kpuHDTrDNTR0HXKKNPLA/1sSQUU1eG9JPiLh95rIn4qf9R0UqAHwQSnRF
+   eaUYPcZvQuLchzg946GJ3ydaVxoL3QTlKvpi2fcP6FPUvb7zGPPjCsZRS
+   jIh2vuafj9jZYKJdo2n/PiVPveXwUMdwdlgeohTXLBF3yq4x3ixXRkWoh
+   dOBdB48A2jLmWUGoAaNwU2PYjzl1d0XVpl2xgLNdYvPUBoysrdeIH8a3K
+   JTSG5MpQJTcB/EekJv9VlcX95mMW02Awcm4mX6eOeq28opOkDrdHMqMmG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="327134673"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="388221028"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 19:06:12 -0800
+   d="scan'208";a="327134673"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 20:59:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="906392425"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="989832039"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="906392425"
+   d="scan'208";a="989832039"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Jan 2023 19:06:10 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 21 Jan 2023 20:59:14 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJQgM-0004hc-09;
-	Sun, 22 Jan 2023 03:06:10 +0000
-Date: Sun, 22 Jan 2023 11:05:52 +0800
+	id 1pJSRl-0004lQ-23;
+	Sun, 22 Jan 2023 04:59:13 +0000
+Date: Sun, 22 Jan 2023 12:58:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>, netdev@vger.kernel.org,
-	mengyuanlou@net-swift.com
-Cc: oe-kbuild-all@lists.linux.dev, Jiawen Wu <jiawenwu@trustnetic.com>
-Subject: Re: [PATCH net-next 05/10] net: libwx: Allocate Rx and Tx resources
-Message-ID: <202301221047.SBlK8xvt-lkp@intel.com>
-References: <20230118065504.3075474-6-jiawenwu@trustnetic.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 1173/2635]
+ include/linux/compiler_types.h:357:45: error: call to
+ '__compiletime_assert_441' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(*payload) != sizeof(prep->payload.data)
+Message-ID: <202301221234.H6iuQGOF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,226 +48,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118065504.3075474-6-jiawenwu@trustnetic.com>
 
-Hi Jiawen,
+Hi Stephan,
 
-I love your patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-libwx-Add-irq-flow-functions/20230118-154258
-patch link:    https://lore.kernel.org/r/20230118065504.3075474-6-jiawenwu%40trustnetic.com
-patch subject: [PATCH net-next 05/10] net: libwx: Allocate Rx and Tx resources
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230122/202301221047.SBlK8xvt-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   c3d6a9e05fe1bb42a4e0b4498cb1b5d50381de8d
+commit: c1ebba4a034d624cda447cc2e7316a1b87e7d58b [1173/2635] CHROMIUM: LSM: chromiumos security module
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230122/202301221234.H6iuQGOF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/583ee5bbec18cbfb2f88a647db0d8d15457d2b54
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiawen-Wu/net-libwx-Add-irq-flow-functions/20230118-154258
-        git checkout 583ee5bbec18cbfb2f88a647db0d8d15457d2b54
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout c1ebba4a034d624cda447cc2e7316a1b87e7d58b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c: In function 'wx_free_rx_resources':
->> drivers/net/ethernet/wangxun/libwx/wx_lib.c:612:9: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-     612 |         vfree(rx_ring->rx_buffer_info);
-         |         ^~~~~
-         |         kvfree
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c: In function 'wx_setup_rx_resources':
->> drivers/net/ethernet/wangxun/libwx/wx_lib.c:728:35: error: implicit declaration of function 'vmalloc_node'; did you mean 'kvmalloc_node'? [-Werror=implicit-function-declaration]
-     728 |         rx_ring->rx_buffer_info = vmalloc_node(size, numa_node);
-         |                                   ^~~~~~~~~~~~
-         |                                   kvmalloc_node
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c:728:33: warning: assignment to 'struct wx_rx_buffer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     728 |         rx_ring->rx_buffer_info = vmalloc_node(size, numa_node);
-         |                                 ^
->> drivers/net/ethernet/wangxun/libwx/wx_lib.c:730:43: error: implicit declaration of function 'vmalloc'; did you mean 'kvmalloc'? [-Werror=implicit-function-declaration]
-     730 |                 rx_ring->rx_buffer_info = vmalloc(size);
-         |                                           ^~~~~~~
-         |                                           kvmalloc
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c:730:41: warning: assignment to 'struct wx_rx_buffer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     730 |                 rx_ring->rx_buffer_info = vmalloc(size);
-         |                                         ^
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c: In function 'wx_setup_tx_resources':
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c:810:33: warning: assignment to 'struct wx_tx_buffer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     810 |         tx_ring->tx_buffer_info = vmalloc_node(size, numa_node);
-         |                                 ^
-   drivers/net/ethernet/wangxun/libwx/wx_lib.c:812:41: warning: assignment to 'struct wx_tx_buffer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     812 |                 tx_ring->tx_buffer_info = vmalloc(size);
-         |                                         ^
-   cc1: some warnings being treated as errors
+   In file included from <command-line>:
+   security/keys/big_key.c: In function 'big_key_preparse':
+>> include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_441' declared with attribute error: BUILD_BUG_ON failed: sizeof(*payload) != sizeof(prep->payload.data)
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:338:25: note: in definition of macro '__compiletime_assert'
+     338 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:357:9: note: in expansion of macro '_compiletime_assert'
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   security/keys/big_key.c:67:9: note: in expansion of macro 'BUILD_BUG_ON'
+      67 |         BUILD_BUG_ON(sizeof(*payload) != sizeof(prep->payload.data));
+         |         ^~~~~~~~~~~~
 
 
-vim +612 drivers/net/ethernet/wangxun/libwx/wx_lib.c
+vim +/__compiletime_assert_441 +357 include/linux/compiler_types.h
 
-   603	
-   604	/**
-   605	 * wx_free_rx_resources - Free Rx Resources
-   606	 * @rx_ring: ring to clean the resources from
-   607	 *
-   608	 * Free all receive software resources
-   609	 **/
-   610	static void wx_free_rx_resources(struct wx_ring *rx_ring)
-   611	{
- > 612		vfree(rx_ring->rx_buffer_info);
-   613		rx_ring->rx_buffer_info = NULL;
-   614	
-   615		/* if not set, then don't free */
-   616		if (!rx_ring->desc)
-   617			return;
-   618	
-   619		dma_free_coherent(rx_ring->dev, rx_ring->size,
-   620				  rx_ring->desc, rx_ring->dma);
-   621	
-   622		rx_ring->desc = NULL;
-   623	
-   624		if (rx_ring->page_pool) {
-   625			page_pool_destroy(rx_ring->page_pool);
-   626			rx_ring->page_pool = NULL;
-   627		}
-   628	}
-   629	
-   630	/**
-   631	 * wx_free_all_rx_resources - Free Rx Resources for All Queues
-   632	 * @wx: pointer to hardware structure
-   633	 *
-   634	 * Free all receive software resources
-   635	 **/
-   636	static void wx_free_all_rx_resources(struct wx *wx)
-   637	{
-   638		int i;
-   639	
-   640		for (i = 0; i < wx->num_rx_queues; i++)
-   641			wx_free_rx_resources(wx->rx_ring[i]);
-   642	}
-   643	
-   644	/**
-   645	 * wx_free_tx_resources - Free Tx Resources per Queue
-   646	 * @tx_ring: Tx descriptor ring for a specific queue
-   647	 *
-   648	 * Free all transmit software resources
-   649	 **/
-   650	static void wx_free_tx_resources(struct wx_ring *tx_ring)
-   651	{
-   652		vfree(tx_ring->tx_buffer_info);
-   653		tx_ring->tx_buffer_info = NULL;
-   654	
-   655		/* if not set, then don't free */
-   656		if (!tx_ring->desc)
-   657			return;
-   658	
-   659		dma_free_coherent(tx_ring->dev, tx_ring->size,
-   660				  tx_ring->desc, tx_ring->dma);
-   661		tx_ring->desc = NULL;
-   662	}
-   663	
-   664	/**
-   665	 * wx_free_all_tx_resources - Free Tx Resources for All Queues
-   666	 * @wx: pointer to hardware structure
-   667	 *
-   668	 * Free all transmit software resources
-   669	 **/
-   670	static void wx_free_all_tx_resources(struct wx *wx)
-   671	{
-   672		int i;
-   673	
-   674		for (i = 0; i < wx->num_tx_queues; i++)
-   675			wx_free_tx_resources(wx->tx_ring[i]);
-   676	}
-   677	
-   678	void wx_free_resources(struct wx *wx)
-   679	{
-   680		wx_free_isb_resources(wx);
-   681		wx_free_all_rx_resources(wx);
-   682		wx_free_all_tx_resources(wx);
-   683	}
-   684	EXPORT_SYMBOL(wx_free_resources);
-   685	
-   686	static int wx_alloc_page_pool(struct wx_ring *rx_ring)
-   687	{
-   688		int ret = 0;
-   689	
-   690		struct page_pool_params pp_params = {
-   691			.flags = PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
-   692			.order = 0,
-   693			.pool_size = rx_ring->size,
-   694			.nid = dev_to_node(rx_ring->dev),
-   695			.dev = rx_ring->dev,
-   696			.dma_dir = DMA_FROM_DEVICE,
-   697			.offset = 0,
-   698			.max_len = PAGE_SIZE,
-   699		};
-   700	
-   701		rx_ring->page_pool = page_pool_create(&pp_params);
-   702		if (IS_ERR(rx_ring->page_pool)) {
-   703			rx_ring->page_pool = NULL;
-   704			ret = PTR_ERR(rx_ring->page_pool);
-   705		}
-   706	
-   707		return ret;
-   708	}
-   709	
-   710	/**
-   711	 * wx_setup_rx_resources - allocate Rx resources (Descriptors)
-   712	 * @rx_ring: rx descriptor ring (for a specific queue) to setup
-   713	 *
-   714	 * Returns 0 on success, negative on failure
-   715	 **/
-   716	static int wx_setup_rx_resources(struct wx_ring *rx_ring)
-   717	{
-   718		struct device *dev = rx_ring->dev;
-   719		int orig_node = dev_to_node(dev);
-   720		int numa_node = -1;
-   721		int size, ret;
-   722	
-   723		size = sizeof(struct wx_rx_buffer) * rx_ring->count;
-   724	
-   725		if (rx_ring->q_vector)
-   726			numa_node = rx_ring->q_vector->numa_node;
-   727	
- > 728		rx_ring->rx_buffer_info = vmalloc_node(size, numa_node);
-   729		if (!rx_ring->rx_buffer_info)
- > 730			rx_ring->rx_buffer_info = vmalloc(size);
-   731		if (!rx_ring->rx_buffer_info)
-   732			goto err;
-   733	
-   734		/* Round up to nearest 4K */
-   735		rx_ring->size = rx_ring->count * sizeof(union wx_rx_desc);
-   736		rx_ring->size = ALIGN(rx_ring->size, 4096);
-   737	
-   738		set_dev_node(dev, numa_node);
-   739		rx_ring->desc = dma_alloc_coherent(dev, rx_ring->size,
-   740						   &rx_ring->dma, GFP_KERNEL);
-   741		set_dev_node(dev, orig_node);
-   742		rx_ring->desc = dma_alloc_coherent(dev, rx_ring->size,
-   743						   &rx_ring->dma, GFP_KERNEL);
-   744		if (!rx_ring->desc)
-   745			goto err;
-   746	
-   747		ret = wx_alloc_page_pool(rx_ring);
-   748		if (ret < 0) {
-   749			dev_err(rx_ring->dev, "Page pool creation failed: %d\n", ret);
-   750			goto err;
-   751		}
-   752	
-   753		return 0;
-   754	err:
-   755		vfree(rx_ring->rx_buffer_info);
-   756		rx_ring->rx_buffer_info = NULL;
-   757		dev_err(dev, "Unable to allocate memory for the Rx descriptor ring\n");
-   758		return -ENOMEM;
-   759	}
-   760	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @357  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  358  
+
+:::::: The code at line 357 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
