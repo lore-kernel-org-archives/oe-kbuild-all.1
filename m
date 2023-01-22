@@ -1,48 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2642115
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 21:00:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93BA2115
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 21:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674421244; x=1705957244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PQNjpofFpMssJkWxIxJZIPzr371EnJU3297F89kKntQ=;
-  b=XqfqqxEUhlM/my2164johJ6tKFWiZ1uTc8OUVlJsWNrPDQwUk9YttkBT
-   jBlMeGuAhwm8hooSqjiKlYOHxUeDh7OjsCnCOhZPW6WFo/pNSRtvrlk4e
-   +ooK7AhyRJ1B7F8tp4Gb3xOUh6ZicsuSj8gqP0n9sn9nUHjGDNf935733
-   6UwjvAnpL3WL5MloQi4q4bByPhDj2qeNrSb8s4lv7O0GATekhm6N944IN
-   hLjmnZ/Y4lVoi5wNW9XGCmQpHYDdK1g/gmCmRfdfeEiY1H+LEHa3D7SXV
-   RUuGuRp847c/fNgIGQ2UmaeUjo0TDrxb47/Qi3DkC2nJkP1nNabcOj64t
+  t=1674423102; x=1705959102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bGTffgdXP4A8aNDrSF98zysRm+8uRZ3ch5yCbv9lOAU=;
+  b=ErMwSlUVSgNpQOITpXM97Aqq5PdqQP/tT0hAM8JO9SebZq3lykbxFgm5
+   TRxeUFZabSCyajyk22Qb3iW7ZPPc978pP7MDuhUCJ+rIXG751LAsCIK1+
+   vOZ1+aGyWasMXNe7hu8k1hfBpc5Kd7bYv153cKFx9sypMD8UpaZ2rseQ1
+   tPs/cX0erJ4ihlgg257uZpojN9jhpuv1UVnc69bhXUSOqpGPzEiK0r/XG
+   s8Gndj85bMWDgdTebgu6hkzI5wN2z63XGWFknVurbC14Eh4NbvoG3WGdT
+   og51JM0Gwge6hLU8tujzOphkaoqkhdOFr4p7BR+vYPA/FasjgvG7QRbuh
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328030392"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="313837927"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="328030392"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 13:00:43 -0800
+   d="scan'208";a="313837927"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 13:31:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="638925230"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="724823032"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="638925230"
+   d="scan'208";a="724823032"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 22 Jan 2023 13:00:40 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2023 13:31:40 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJhSB-0005FM-0e;
-	Sun, 22 Jan 2023 21:00:39 +0000
-Date: Mon, 23 Jan 2023 05:00:07 +0800
+	id 1pJhwB-0005G0-2d;
+	Sun, 22 Jan 2023 21:31:39 +0000
+Date: Mon, 23 Jan 2023 05:30:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, chinglinyu@google.com,
-	namit@vmware.com, srivatsab@vmware.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, vsirnapalli@vmware.com, tkundu@vmware.com,
-	er.ajay.kaher@gmail.com, Ajay Kaher <akaher@vmware.com>
-Subject: Re: [PATCH 8/8] eventfs: moving tracing/events to eventfs
-Message-ID: <202301230402.yk3757pr-lkp@intel.com>
-References: <1674407228-49109-8-git-send-email-akaher@vmware.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/200-dcp 90/91]
+ drivers/gpu/drm/apple/apple_drv.c:425:39: warning: format '%d' expects
+ argument of type 'int', but argument 4 has type 'long int'
+Message-ID: <202301230545.6EszMlPl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,81 +46,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674407228-49109-8-git-send-email-akaher@vmware.com>
 
-Hi Ajay,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.2-rc5 next-20230120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
-patch link:    https://lore.kernel.org/r/1674407228-49109-8-git-send-email-akaher%40vmware.com
-patch subject: [PATCH 8/8] eventfs: moving tracing/events to eventfs
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20230123/202301230402.yk3757pr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   a2482bcc061b8b8143649c24162ebcaed9af3102
+commit: db981af1f9501e533d9bb90a1a35dce5a08be857 [90/91] drm/apple: Support DCP shutdown and restart
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230123/202301230545.6EszMlPl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/be995c36ba2232edcd4fa64e4581b9a6763c75e6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
-        git checkout be995c36ba2232edcd4fa64e4581b9a6763c75e6
+        # https://github.com/AsahiLinux/linux/commit/db981af1f9501e533d9bb90a1a35dce5a08be857
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/200-dcp
+        git checkout db981af1f9501e533d9bb90a1a35dce5a08be857
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash kernel/trace/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/apple/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace_events.c: In function 'event_create_dir':
->> kernel/trace/trace_events.c:2405:24: warning: variable 'd_events' set but not used [-Wunused-but-set-variable]
-    2405 |         struct dentry *d_events;
-         |                        ^~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:7,
+                    from drivers/gpu/drm/apple/apple_drv.c:11:
+   drivers/gpu/drm/apple/apple_drv.c: In function 'apple_drm_init_dcp':
+>> drivers/gpu/drm/apple/apple_drv.c:425:39: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long int' [-Wformat=]
+     425 |                         dev_warn(dev, "dcp[%d] device link failed:%d\n",
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/gpu/drm/apple/apple_drv.c:425:25: note: in expansion of macro 'dev_warn'
+     425 |                         dev_warn(dev, "dcp[%d] device link failed:%d\n",
+         |                         ^~~~~~~~
+   drivers/gpu/drm/apple/apple_drv.c:425:68: note: format string is defined here
+     425 |                         dev_warn(dev, "dcp[%d] device link failed:%d\n",
+         |                                                                   ~^
+         |                                                                    |
+         |                                                                    int
+         |                                                                   %ld
 
 
-vim +/d_events +2405 kernel/trace/trace_events.c
+vim +425 drivers/gpu/drm/apple/apple_drv.c
 
-ac343da7bc9048 Masami Hiramatsu         2020-09-10  2398  
-1473e4417c79f1 Steven Rostedt           2009-02-24  2399  static int
-7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  2400) event_create_dir(struct dentry *parent, struct trace_event_file *file)
-1473e4417c79f1 Steven Rostedt           2009-02-24  2401  {
-2425bcb9240f8c Steven Rostedt (Red Hat  2015-05-05  2402) 	struct trace_event_call *call = file->event_call;
-ae63b31e4d0e2e Steven Rostedt           2012-05-03  2403  	struct trace_array *tr = file->tr;
-be995c36ba2232 Ajay Kaher               2023-01-22  2404  	struct eventfs_file *ef_subsystem = NULL;
-ae63b31e4d0e2e Steven Rostedt           2012-05-03 @2405  	struct dentry *d_events;
-de7b2973903c6c Mathieu Desnoyers        2014-04-08  2406  	const char *name;
-fd99498989f3b3 Steven Rostedt           2009-02-28  2407  	int ret;
-1473e4417c79f1 Steven Rostedt           2009-02-24  2408  
-6ecc2d1ca39177 Steven Rostedt           2009-02-27  2409  	/*
-6ecc2d1ca39177 Steven Rostedt           2009-02-27  2410  	 * If the trace point header did not define TRACE_SYSTEM
-6ecc2d1ca39177 Steven Rostedt           2009-02-27  2411  	 * then the system would be called "TRACE_SYSTEM".
-6ecc2d1ca39177 Steven Rostedt           2009-02-27  2412  	 */
-ae63b31e4d0e2e Steven Rostedt           2012-05-03  2413  	if (strcmp(call->class->system, TRACE_SYSTEM) != 0) {
-be995c36ba2232 Ajay Kaher               2023-01-22  2414  		ef_subsystem = event_subsystem_dir(tr, call->class->system, file, parent);
-be995c36ba2232 Ajay Kaher               2023-01-22  2415  		if (!ef_subsystem)
-ae63b31e4d0e2e Steven Rostedt           2012-05-03  2416  			return -ENOMEM;
-ae63b31e4d0e2e Steven Rostedt           2012-05-03  2417  	} else
-ae63b31e4d0e2e Steven Rostedt           2012-05-03  2418  		d_events = parent;
-6ecc2d1ca39177 Steven Rostedt           2009-02-27  2419  
-687fcc4aee4567 Steven Rostedt (Red Hat  2015-05-13  2420) 	name = trace_event_name(call);
-be995c36ba2232 Ajay Kaher               2023-01-22  2421  	file->ef = eventfs_add_dir(name, ef_subsystem);
-be995c36ba2232 Ajay Kaher               2023-01-22  2422  	if (IS_ERR(file->ef)) {
-8434dc9340cd2e Steven Rostedt (Red Hat  2015-01-20  2423) 		pr_warn("Could not create tracefs '%s' directory\n", name);
-1473e4417c79f1 Steven Rostedt           2009-02-24  2424  		return -1;
-1473e4417c79f1 Steven Rostedt           2009-02-24  2425  	}
-1473e4417c79f1 Steven Rostedt           2009-02-24  2426  
-9b63776fa3ca96 Steven Rostedt           2012-05-10  2427  	if (call->class->reg && !(call->flags & TRACE_EVENT_FL_IGNORE_ENABLE))
-be995c36ba2232 Ajay Kaher               2023-01-22  2428  		eventfs_add_file("enable", TRACE_MODE_WRITE, file->ef, file,
-620a30e97febc8 Oleg Nesterov            2013-07-31  2429  				  &ftrace_enable_fops);
-1473e4417c79f1 Steven Rostedt           2009-02-24  2430  
+   399	
+   400	static int apple_drm_init_dcp(struct device *dev)
+   401	{
+   402		struct apple_drm_private *apple = dev_get_drvdata(dev);
+   403		struct platform_device *dcp[MAX_COPROCESSORS];
+   404		struct device_node *np;
+   405		u64 timeout;
+   406		int i, ret, num_dcp = 0;
+   407	
+   408		for_each_matching_node(np, apple_dcp_id_tbl) {
+   409			struct device_link *link;
+   410	
+   411			if (!of_device_is_available(np)) {
+   412				of_node_put(np);
+   413				continue;
+   414			}
+   415	
+   416			dcp[num_dcp] = of_find_device_by_node(np);
+   417			of_node_put(np);
+   418			if (!dcp[num_dcp])
+   419				continue;
+   420		
+   421			link = device_link_add(dev, &dcp[num_dcp]->dev,
+   422				     DL_FLAG_PM_RUNTIME | DL_FLAG_AUTOREMOVE_SUPPLIER);
+   423	
+   424			if (IS_ERR(link))
+ > 425				dev_warn(dev, "dcp[%d] device link failed:%d\n",
+   426					 num_dcp, PTR_ERR(link));
+   427	
+   428			ret = apple_probe_per_dcp(dev, &apple->drm, dcp[num_dcp],
+   429						  num_dcp);
+   430			if (ret)
+   431				continue;
+   432	
+   433			ret = dcp_start(dcp[num_dcp]);
+   434			if (ret)
+   435				continue;
+   436	
+   437			num_dcp++;
+   438		}
+   439	
+   440		if (num_dcp < 1)
+   441			return -ENODEV;
+   442	
+   443		timeout = get_jiffies_64() + msecs_to_jiffies(500);
+   444	
+   445		for (i = 0; i < num_dcp; ++i) {
+   446			u64 jiffies = get_jiffies_64();
+   447			u64 wait = time_after_eq64(jiffies, timeout) ?
+   448					   0 :
+   449					   timeout - jiffies;
+   450			ret = dcp_wait_ready(dcp[i], wait);
+   451			/* There is nothing we can do if a dcp/dcpext does not boot
+   452			 * (successfully). Ignoring it should not do any harm now.
+   453			 * Needs to reevaluated whenn adding dcpext support.
+   454			 */
+   455			if (ret)
+   456				dev_warn(dev, "DCP[%d] not ready: %d\n", i, ret);
+   457		}
+   458	
+   459		return 0;
+   460	}
+   461	
 
 -- 
 0-DAY CI Kernel Test Service
