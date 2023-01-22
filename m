@@ -1,44 +1,40 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com (mailrelay3-1.pub.mailoutpod2-cph3.one.com [46.30.211.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6F13D9F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 20:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674418781; x=1705954781;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aVN4WAdVuORrLYzOOlNRUjKcILqDXNLlLBns0F6GjBU=;
-  b=RVYnui5kuMylQNqGNyqvwpTyLAEC3lBnzVp2wHPtjQvz/TQ4xRIhy3dk
-   SBs7/lRk/0w0FH+qNatRLbJaioRCC0+U7B2itjpWH3z6iNn/9k3cVu62e
-   a4sGKRBOjGM3ucgFmhtDZ1dMk3j62bdgHeG6TKHbQzCudpedARYjp6+9j
-   JfVy6olMkodYxRW22mDZHqnBjIWJnlsWTYhhRfl9qp95QtST2QggpsDhd
-   6ApPHXHT0BNugjptVJhhsJ8ILj7atubcF1ciqm3vvXMtSXDgfFUezoOyO
-   qq6mdjD5oOg0WfxUFVdh83Xy4cGNtgSnV7pQVgLuVAGXHaI1ydb0kqNjJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="313831106"
-X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="313831106"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 12:19:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="729953753"
-X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="729953753"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Jan 2023 12:19:38 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJgoT-0005E8-37;
-	Sun, 22 Jan 2023 20:19:37 +0000
-Date: Mon, 23 Jan 2023 04:19:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Bean Huo <beanhuo@micron.com>
-Subject: drivers/ufs/host/ufs-hisi.c:561:34: warning: 'ufs_hisi_of_match'
- defined but not used
-Message-ID: <202301230411.IWKP8ESQ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6558C2115
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 20:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
+	b=ACJ8IOVh/81++WEnvbt+c4axuq6Cc1c3iZNjWANGT1VmLmeoqpilKaryokYxHBKYgdnUkV7ORgucM
+	 rN6FHPzr+Zr04RLkxHd6MhaelGBwN7f3Lf7h7JIzd/xkU2j2RedsYrJVCKj5jF72VRwSifN5iJyS95
+	 TrOWoEZB4cPBHGkaWDmdRq8QgDWCShZBet5BUwryax4aucWP54ZmWIC7o9Zf4pqjNO+iLka1dkWi3A
+	 yXBK3mgyzi7FAbdiUfphfr3WmB1EVvw8iYQy11hZDy9AuwI0ElWzmILTkSKP+PhEMnI4zTlpELvh//
+	 ojqU1USdJmP11qAm6aNx8+y/sPPoWrw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
+	b=2AGnclCTzMCHKpKT9R52s+zkQOOztf7K+7a5PBONUI9VuuP3M6C4rE3Y0uwTyL/EIgkkq4DkHdHa+
+	 UxDMOMSBw==
+X-HalOne-ID: 90edecf1-9a97-11ed-867d-ede074c87fad
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay3 (Halon) with ESMTPSA
+	id 90edecf1-9a97-11ed-867d-ede074c87fad;
+	Sun, 22 Jan 2023 20:58:49 +0000 (UTC)
+Date: Sun, 22 Jan 2023 21:58:48 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+	dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
+Message-ID: <Y82jiIlxn7oG/jIX@ravnborg.org>
+References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
+ <202301220750.HzZm1ZHu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +43,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202301220750.HzZm1ZHu-lkp@intel.com>
 
-Hi Bart,
+Hi all.
 
-First bad commit (maybe != root cause):
+On Sun, Jan 22, 2023 at 07:19:15AM +0800, kernel test robot wrote:
+> Hi Sam,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
+> base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
+> patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
+> patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
+> config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230122/202301220750.HzZm1ZHu-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
+>         git checkout 530d852970d1a75527031a4f23689f89f0a85804
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/gpu/drm/drm_mode_object.c:195:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+>                    DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
+>                    ^
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-commit: dd11376b9f1b73aca3f8c6eb541486bbb6996f05 scsi: ufs: Split the drivers/scsi/ufs directory
-date:   8 months ago
-config: x86_64-buildonly-randconfig-r002-20230123 (https://download.01.org/0day-ci/archive/20230123/202301230411.IWKP8ESQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dd11376b9f1b73aca3f8c6eb541486bbb6996f05
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout dd11376b9f1b73aca3f8c6eb541486bbb6996f05
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/ufs/host/
+For anyone following this. I failed to reproduce the error below using
+the instructions above. It looks like some obscure combination of CONFIG
+options that may be unrelated to this patch.
+allmodconfig, allyesconfig for i386 did not trigger the bug.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+I will get back to this in a few days (maybe first in the weekend), and
+will share my findings.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/ufs/host/ufs-hisi.c:561:34: warning: 'ufs_hisi_of_match' defined but not used [-Wunused-const-variable=]
-     561 | static const struct of_device_id ufs_hisi_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
-
-
-vim +/ufs_hisi_of_match +561 drivers/ufs/host/ufs-hisi.c
-
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  560  
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05 @561  static const struct of_device_id ufs_hisi_of_match[] = {
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  562  	{ .compatible = "hisilicon,hi3660-ufs", .data = &ufs_hba_hi3660_vops },
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  563  	{ .compatible = "hisilicon,hi3670-ufs", .data = &ufs_hba_hi3670_vops },
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  564  	{},
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  565  };
-653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  566  
-
-:::::: The code at line 561 was first introduced by commit
-:::::: 653fcb07d95eda58b72a5e715230b582c4d6d69e scsi: ufs: Add HI3670 SoC UFS driver support
-
-:::::: TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+	Sam
