@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0C87E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 01:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6D17E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 01:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674349380; x=1705885380;
+  t=1674350640; x=1705886640;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r5Rpe4ICxibDm5IkM9eHAfFWJ8gnSolZkHdZjtg3u6I=;
-  b=fRnSeZnTPrupeLmD3eOnbTS3zgL7J8tgdPKE68XFczd69jUtNt+Qjfqt
-   wys9kKeuut6qZTiOOuSkH4qL/9d+MovCIo8eaUfg+VD/W1gFhfJcK9pzC
-   LrWoE+CGhxLa5O10h3fX5SujmrprCOm21Dia4FATFsglk70vYEIjKzjzW
-   l3ZkWaWB0ci+RZrowbpNpnOFbc5UM9kl3mxsZ3yoS6SZ4xH+ZkZIgrKvl
-   SKSRBk3JtS5uZ17JiUiK23dQbBj84S8E36xfjBurJDt7NOq12x/mTk3ZH
-   22zWPitnRDTl5+fv/AX5unFc87QdgaUDQMhBsuZn2Vab5JcJwZZqg2Ifh
+  bh=a2qp4YGhnz9pZiTWQqKciS0QWqa4+IxqE0w7ye8iCSs=;
+  b=P3tEw1Cf93NgJ68AxNHGLxbZtr/OD0ga6ETeA+ktnMS9wYL5Wj/29s2M
+   77DYDEBL6r5POdJXqFjIKwQ22EZl5wUpC3lUuGlTyqf3qnduqXIABuzyN
+   pmEKixs53fCw2p9EXkcMoWN/WWjXAsUz+Zj+Rg9mUwkj9kqU18qha0jMJ
+   46d7Mn84J1AEdfj3FNTiAMR3d2dhk9Hc5MZLPheWZKdwWqL2U/FTHVkkq
+   K9sNbLq6QS2NjbSplBJ9nHezU7twGghxdyNNl3sCCer89V82SRcXrS+Eq
+   J42Du8tfw18GnCLyaIh3Wf+Y3XGsUNyFCWRmEIGcYAuLWc2KtXPFDethz
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="323546150"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="325895117"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="323546150"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 17:03:00 -0800
+   d="scan'208";a="325895117"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 17:23:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="638571796"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="749771661"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="638571796"
+   d="scan'208";a="749771661"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 21 Jan 2023 17:02:58 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2023 17:23:58 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJOl7-0004dM-2R;
-	Sun, 22 Jan 2023 01:02:57 +0000
-Date: Sun, 22 Jan 2023 09:02:32 +0800
+	id 1pJP5S-0004dq-0J;
+	Sun, 22 Jan 2023 01:23:58 +0000
+Date: Sun, 22 Jan 2023 09:23:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:hf-5k-rc4 11/19] lib/dynamic_debug.c:745:8: warning:
+Subject: [jimc:hf-5k-rc4 11/19] lib/dynamic_debug.c:745:8: error:
  incompatible pointer to integer conversion assigning to 'char' from 'char
  *'; dereference with *
-Message-ID: <202301220809.52CTN42M-lkp@intel.com>
+Message-ID: <202301220946.M5GI0hRL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +50,35 @@ Content-Disposition: inline
 tree:   https://github.com/jimc/linux.git hf-5k-rc4
 head:   48929cba46c42bcd6ec804dbf36593d7ba44579d
 commit: 743b6f7cb1c6e9c941453f31df1db33c1479788b [11/19] dyndbg-API: specialize DYNDBG_CLASSMAP_(DEFINE|USE)
-config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20230122/202301220809.52CTN42M-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: riscv-randconfig-r034-20230122 (https://download.01.org/0day-ci/archive/20230122/202301220946.M5GI0hRL-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://github.com/jimc/linux/commit/743b6f7cb1c6e9c941453f31df1db33c1479788b
         git remote add jimc https://github.com/jimc/linux.git
         git fetch --no-tags jimc hf-5k-rc4
         git checkout 743b6f7cb1c6e9c941453f31df1db33c1479788b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/dynamic_debug.c:745:8: warning: incompatible pointer to integer conversion assigning to 'char' from 'char *'; dereference with * [-Wint-conversion]
+>> lib/dynamic_debug.c:745:8: error: incompatible pointer to integer conversion assigning to 'char' from 'char *'; dereference with * [-Wint-conversion]
                            *nl = strchr(instr, '\n');
                                ^ ~~~~~~~~~~~~~~~~~~~
                                  *
->> lib/dynamic_debug.c:745:5: warning: variable 'nl' is uninitialized when used here [-Wuninitialized]
-                           *nl = strchr(instr, '\n');
-                            ^~
-   lib/dynamic_debug.c:731:10: note: initialize the variable 'nl' to silence this warning
-           char *nl;
-                   ^
-                    = NULL
    lib/dynamic_debug.c:1269:6: warning: variable 'totct' set but not used [-Wunused-but-set-variable]
            int totct = 0;
                ^
-   3 warnings generated.
+   1 warning and 1 error generated.
 
 
 vim +745 lib/dynamic_debug.c
