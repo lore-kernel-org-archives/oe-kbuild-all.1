@@ -1,43 +1,48 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CD33C1C;
-	Sun, 22 Jan 2023 19:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2253C1C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 19:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674415719; x=1705951719;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ulwsytVuXIqYkaG7ErwEZYIxX5CJ+kB5FeiME/JeBHo=;
-  b=W5YeHAlmTniMAwdBn3NiTlH2tciEbEe2BWDPwLqvscspcLgEfm3/+8ir
-   lEO//pkujba0/6K39UB4NpObU4lPlp6kL3aGIp5s88EaTvZIDI7d8cgKb
-   yT7uy6QsJk3pqn4f0kuWsmgWCmaXykdvW6Zm8GoAfRLITcvpHfw4x2PMY
-   YaPcidmvLDLw2Uq4yG/AaKc45y+Xrx7Xdkxq8WnWVL1pw1kKmS8Uxx2RV
-   j40lrIPv5rqv/oZ72A+1lUGLgtF1cn/Cs7Vv2A89Ldl32LYl2HksKoaOC
-   WtGtVfKsWOA1ShrKh+N3knEDu8HmzhAqsgNdqQvTm7WIKTeqfkGZJ3jgW
+  t=1674416323; x=1705952323;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BZM7vuH6STT3Ve/rMwCUnlQwbdmg0Mjjxx28NFQhJNU=;
+  b=SqYyBrKEMMSDtr0Rub0p/OENPyWmLWOp1qP0f7qT44iG1DNSboIhykBP
+   cddtLTNrRWlv1o8aKbAgEWTc/vbQLCdOgETo68dXAJFlGd3B9IFF0wxvf
+   Bo5IOAiILkXhPH0/pTQ7lm37KFRP82lHwvgC+6ais2Gdp1PukTSuvJgzO
+   IbSJz0tf195gQWGfY9Ms/n15MQTd+/gsJP4lmM27Q00BAg/mLo1OrPJpm
+   +99mkLWj8++2Gs9KiQMfTXUQUDOvxl3H7cwzVfo1LCH3CdTUzjxj2n8H+
+   /4m0dZCczKarYynO7RRosKR0aEjL4uzvDny3wF7m53t+O7GfVL4PqeENl
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328021416"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328022454"
 X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="328021416"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 11:28:39 -0800
+   d="scan'208";a="328022454"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 11:38:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="835251622"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="724809546"
 X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="835251622"
+   d="scan'208";a="724809546"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jan 2023 11:28:37 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2023 11:38:38 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJg16-0005Ce-2d;
-	Sun, 22 Jan 2023 19:28:36 +0000
-Date: Mon, 23 Jan 2023 03:27:42 +0800
+	id 1pJgAm-0005Cq-3D;
+	Sun, 22 Jan 2023 19:38:36 +0000
+Date: Mon, 23 Jan 2023 03:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: arch/arm/mm/copypage-xscale.c:84:6: warning: no previous prototype
- for function 'xscale_mc_copy_user_highpage'
-Message-ID: <202301230336.JTD7TDdA-lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, chinglinyu@google.com,
+	namit@vmware.com, srivatsab@vmware.com, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, vsirnapalli@vmware.com, tkundu@vmware.com,
+	er.ajay.kaher@gmail.com, Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH 6/8] eventfs: adding eventfs lookup, read, open functions
+Message-ID: <202301230340.oZWnhDJu-lkp@intel.com>
+References: <1674407228-49109-6-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,108 +51,365 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1674407228-49109-6-git-send-email-akaher@vmware.com>
 
-Hi Arnd,
+Hi Ajay,
 
-First bad commit (maybe != root cause):
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-commit: 7036440eab3e2d47a775d4616909f8235488d714 ARM: omap1: enable multiplatform
-date:   8 months ago
-config: arm-randconfig-r046-20230122 (https://download.01.org/0day-ci/archive/20230123/202301230336.JTD7TDdA-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc5 next-20230120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+patch link:    https://lore.kernel.org/r/1674407228-49109-6-git-send-email-akaher%40vmware.com
+patch subject: [PATCH 6/8] eventfs: adding eventfs lookup, read, open functions
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230123/202301230340.oZWnhDJu-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7036440eab3e2d47a775d4616909f8235488d714
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7036440eab3e2d47a775d4616909f8235488d714
+        # https://github.com/intel-lab-lkp/linux/commit/bdfb24dc39f183eda75dc7c6ad54798181ad4a94
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+        git checkout bdfb24dc39f183eda75dc7c6ad54798181ad4a94
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/tracefs/ kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm/mm/copypage-xscale.c:84:6: warning: no previous prototype for function 'xscale_mc_copy_user_highpage' [-Wmissing-prototypes]
-   void xscale_mc_copy_user_highpage(struct page *to, struct page *from,
-        ^
-   arch/arm/mm/copypage-xscale.c:84:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void xscale_mc_copy_user_highpage(struct page *to, struct page *from,
-   ^
-   static 
->> arch/arm/mm/copypage-xscale.c:107:1: warning: no previous prototype for function 'xscale_mc_clear_user_highpage' [-Wmissing-prototypes]
-   xscale_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
-   ^
-   arch/arm/mm/copypage-xscale.c:106:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void
-   ^
-   static 
-   2 warnings generated.
+   fs/tracefs/event_inode.c:48:16: warning: no previous prototype for 'eventfs_create_file' [-Wmissing-prototypes]
+      48 | struct dentry *eventfs_create_file(const char *name, umode_t mode,
+         |                ^~~~~~~~~~~~~~~~~~~
+   fs/tracefs/event_inode.c:117:16: warning: no previous prototype for 'eventfs_create_dir' [-Wmissing-prototypes]
+     117 | struct dentry *eventfs_create_dir(const char *name, umode_t mode,
+         |                ^~~~~~~~~~~~~~~~~~
+>> fs/tracefs/event_inode.c:192:6: warning: no previous prototype for 'eventfs_post_create_dir' [-Wmissing-prototypes]
+     192 | void eventfs_post_create_dir(struct eventfs_file *ef)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/tracefs/event_inode.c:291:5: warning: no previous prototype for 'dcache_dir_open_wrapper' [-Wmissing-prototypes]
+     291 | int dcache_dir_open_wrapper(struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/xscale_mc_copy_user_highpage +84 arch/arm/mm/copypage-xscale.c
+vim +/eventfs_post_create_dir +192 fs/tracefs/event_inode.c
 
-f8f98a9335db4a Russell King    2005-06-08   83  
-063b0a4207e43a Russell King    2008-10-31  @84  void xscale_mc_copy_user_highpage(struct page *to, struct page *from,
-f00a75c094c340 Russell King    2009-10-05   85  	unsigned long vaddr, struct vm_area_struct *vma)
-f8f98a9335db4a Russell King    2005-06-08   86  {
-5472e862de2bc4 Cong Wang       2011-11-25   87  	void *kto = kmap_atomic(to);
-1c9d3df5e88ad7 Richard Purdie  2006-12-30   88  
-c01778001a4f5a Catalin Marinas 2010-09-13   89  	if (!test_and_set_bit(PG_dcache_clean, &from->flags))
-cb9f753a3731f7 Huang Ying      2018-04-05   90  		__flush_dcache_page(page_mapping_file(from), from);
-1c9d3df5e88ad7 Richard Purdie  2006-12-30   91  
-bd31b85960a7fc Thomas Gleixner 2009-07-03   92  	raw_spin_lock(&minicache_lock);
-f8f98a9335db4a Russell King    2005-06-08   93  
-67ece1443174d8 Russell King    2011-07-02   94  	set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
-f8f98a9335db4a Russell King    2005-06-08   95  
-f8f98a9335db4a Russell King    2005-06-08   96  	mc_copy_user_page((void *)COPYPAGE_MINICACHE, kto);
-f8f98a9335db4a Russell King    2005-06-08   97  
-bd31b85960a7fc Thomas Gleixner 2009-07-03   98  	raw_spin_unlock(&minicache_lock);
-063b0a4207e43a Russell King    2008-10-31   99  
-5472e862de2bc4 Cong Wang       2011-11-25  100  	kunmap_atomic(kto);
-f8f98a9335db4a Russell King    2005-06-08  101  }
-f8f98a9335db4a Russell King    2005-06-08  102  
-f8f98a9335db4a Russell King    2005-06-08  103  /*
-f8f98a9335db4a Russell King    2005-06-08  104   * XScale optimised clear_user_page
-f8f98a9335db4a Russell King    2005-06-08  105   */
-303c6443659bc1 Russell King    2008-10-31  106  void
-303c6443659bc1 Russell King    2008-10-31 @107  xscale_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
-f8f98a9335db4a Russell King    2005-06-08  108  {
-5472e862de2bc4 Cong Wang       2011-11-25  109  	void *ptr, *kaddr = kmap_atomic(page);
-c7b68049943079 Arnd Bergmann   2019-08-09  110  	asm volatile("\
-c7b68049943079 Arnd Bergmann   2019-08-09  111  .arch xscale					\n\
-c7b68049943079 Arnd Bergmann   2019-08-09  112  	mov	r1, %2				\n\
-f8f98a9335db4a Russell King    2005-06-08  113  	mov	r2, #0				\n\
-f8f98a9335db4a Russell King    2005-06-08  114  	mov	r3, #0				\n\
-303c6443659bc1 Russell King    2008-10-31  115  1:	mov	ip, %0				\n\
-bc2eca9a682881 Nicolas Pitre   2018-11-09  116  	strd	r2, r3, [%0], #8		\n\
-bc2eca9a682881 Nicolas Pitre   2018-11-09  117  	strd	r2, r3, [%0], #8		\n\
-bc2eca9a682881 Nicolas Pitre   2018-11-09  118  	strd	r2, r3, [%0], #8		\n\
-bc2eca9a682881 Nicolas Pitre   2018-11-09  119  	strd	r2, r3, [%0], #8		\n\
-f8f98a9335db4a Russell King    2005-06-08  120  	mcr	p15, 0, ip, c7, c10, 1		@ clean D line\n\
-f8f98a9335db4a Russell King    2005-06-08  121  	subs	r1, r1, #1			\n\
-f8f98a9335db4a Russell King    2005-06-08  122  	mcr	p15, 0, ip, c7, c6, 1		@ invalidate D line\n\
-303c6443659bc1 Russell King    2008-10-31  123  	bne	1b"
-43ae286b7d4d8c Nicolas Pitre   2008-11-04  124  	: "=r" (ptr)
-43ae286b7d4d8c Nicolas Pitre   2008-11-04  125  	: "0" (kaddr), "I" (PAGE_SIZE / 32)
-303c6443659bc1 Russell King    2008-10-31  126  	: "r1", "r2", "r3", "ip");
-5472e862de2bc4 Cong Wang       2011-11-25  127  	kunmap_atomic(kaddr);
-f8f98a9335db4a Russell King    2005-06-08  128  }
-f8f98a9335db4a Russell King    2005-06-08  129  
-
-:::::: The code at line 84 was first introduced by commit
-:::::: 063b0a4207e43acbeff3d4b09f43e750e0212b48 [ARM] copypage: provide our own copy_user_highpage()
-
-:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+    23	
+    24	/**
+    25	 * eventfs_create_file - create a file in the tracefs filesystem
+    26	 * @name: a pointer to a string containing the name of the file to create.
+    27	 * @mode: the permission that the file should have.
+    28	 * @parent: a pointer to the parent dentry for this file.  This should be a
+    29	 *          directory dentry if set.  If this parameter is NULL, then the
+    30	 *          file will be created in the root of the tracefs filesystem.
+    31	 * @data: a pointer to something that the caller will want to get to later
+    32	 *        on.  The inode.i_private pointer will point to this value on
+    33	 *        the open() call.
+    34	 * @fops: a pointer to a struct file_operations that should be used for
+    35	 *        this file.
+    36	 *
+    37	 * This is the basic "create a file" function for tracefs.  It allows for a
+    38	 * wide range of flexibility in creating a file.
+    39	 *
+    40	 * This function will return a pointer to a dentry if it succeeds.  This
+    41	 * pointer must be passed to the tracefs_remove() function when the file is
+    42	 * to be removed (no automatic cleanup happens if your module is unloaded,
+    43	 * you are responsible here.)  If an error occurs, %NULL will be returned.
+    44	 *
+    45	 * If tracefs is not enabled in the kernel, the value -%ENODEV will be
+    46	 * returned.
+    47	 */
+  > 48	struct dentry *eventfs_create_file(const char *name, umode_t mode,
+    49					   struct dentry *parent, void *data,
+    50					   const struct file_operations *fop,
+    51					   bool anon)
+    52	{
+    53		struct tracefs_inode *ti;
+    54		struct dentry *dentry;
+    55		struct inode *inode;
+    56	
+    57		if (security_locked_down(LOCKDOWN_TRACEFS))
+    58			return NULL;
+    59	
+    60		if (!(mode & S_IFMT))
+    61			mode |= S_IFREG;
+    62	
+    63		if (WARN_ON_ONCE(!S_ISREG(mode)))
+    64			return NULL;
+    65	
+    66		dentry = eventfs_start_creating(name, parent);
+    67	
+    68		if (IS_ERR(dentry))
+    69			return dentry;
+    70	
+    71		inode = tracefs_get_inode(dentry->d_sb);
+    72		if (unlikely(!inode))
+    73			return eventfs_failed_creating(dentry);
+    74	
+    75		inode->i_mode = mode;
+    76		inode->i_fop = fop;
+    77		inode->i_private = data;
+    78	
+    79		ti = get_tracefs(inode);
+    80		ti->flags |= TRACEFS_EVENT_INODE;
+    81	
+    82		if (anon)
+    83			d_instantiate_anon(dentry, inode);
+    84		else
+    85			d_instantiate(dentry, inode);
+    86	
+    87		fsnotify_create(dentry->d_parent->d_inode, dentry);
+    88		return eventfs_end_creating(dentry);
+    89	}
+    90	
+    91	/**
+    92	 * eventfs_create_dir - create a dir in the tracefs filesystem
+    93	 * @name: a pointer to a string containing the name of the file to create.
+    94	 * @mode: the permission that the file should have.
+    95	 * @parent: a pointer to the parent dentry for this file.  This should be a
+    96	 *          directory dentry if set.  If this parameter is NULL, then the
+    97	 *          file will be created in the root of the tracefs filesystem.
+    98	 * @data: a pointer to something that the caller will want to get to later
+    99	 *        on.  The inode.i_private pointer will point to this value on
+   100	 *        the open() call.
+   101	 * @fop: a pointer to a struct file_operations that should be used for
+   102	 *        this dir.
+   103	 * @iop: a pointer to a struct inode_operations that should be used for
+   104	 *        this dir.
+   105	 *
+   106	 * This is the basic "create a dir" function for eventfs.  It allows for a
+   107	 * wide range of flexibility in creating a dir.
+   108	 *
+   109	 * This function will return a pointer to a dentry if it succeeds.  This
+   110	 * pointer must be passed to the tracefs_remove() function when the file is
+   111	 * to be removed (no automatic cleanup happens if your module is unloaded,
+   112	 * you are responsible here.)  If an error occurs, %NULL will be returned.
+   113	 *
+   114	 * If tracefs is not enabled in the kernel, the value -%ENODEV will be
+   115	 * returned.
+   116	 */
+   117	struct dentry *eventfs_create_dir(const char *name, umode_t mode,
+   118					  struct dentry *parent, void *data,
+   119					  const struct file_operations *fop,
+   120					  const struct inode_operations *iop,
+   121					  bool anon)
+   122	{
+   123		struct tracefs_inode *ti;
+   124		struct dentry *dentry;
+   125		struct inode *inode;
+   126	
+   127		if (security_locked_down(LOCKDOWN_TRACEFS))
+   128			return NULL;
+   129	
+   130		WARN_ON(!S_ISDIR(mode));
+   131	
+   132		dentry = eventfs_start_creating(name, parent);
+   133	
+   134		if (IS_ERR(dentry))
+   135			return dentry;
+   136	
+   137		inode = tracefs_get_inode(dentry->d_sb);
+   138		if (unlikely(!inode))
+   139			return eventfs_failed_creating(dentry);
+   140	
+   141		inode->i_mode = mode;
+   142		inode->i_op = iop;
+   143		inode->i_fop = fop;
+   144		inode->i_private = data;
+   145	
+   146		ti = get_tracefs(inode);
+   147		ti->flags |= TRACEFS_EVENT_INODE;
+   148	
+   149		inc_nlink(inode);
+   150		if (anon)
+   151			d_instantiate_anon(dentry, inode);
+   152		else
+   153			d_instantiate(dentry, inode);
+   154		inc_nlink(dentry->d_parent->d_inode);
+   155		fsnotify_mkdir(dentry->d_parent->d_inode, dentry);
+   156		return eventfs_end_creating(dentry);
+   157	}
+   158	
+   159	/**
+   160	 * eventfs_set_ef_status_free - set the ef->status to free
+   161	 * @dentry: dentry who's status to be freed
+   162	 *
+   163	 * eventfs_set_ef_status_free will be called if no more
+   164	 * reference remains
+   165	 */
+   166	void eventfs_set_ef_status_free(struct dentry *dentry)
+   167	{
+   168		struct tracefs_inode *ti_parent;
+   169		struct eventfs_inode *ei_parent;
+   170		struct eventfs_file *ef;
+   171	
+   172		ti_parent = get_tracefs(dentry->d_parent->d_inode);
+   173		if (!ti_parent || !(ti_parent->flags & TRACEFS_EVENT_INODE))
+   174			return;
+   175		ei_parent = ti_parent->private;
+   176	
+   177		list_for_each_entry(ef, &ei_parent->e_top_files, list) {
+   178			if (!strcmp(ef->name, dentry->d_name.name)) {
+   179				ef->created = false;
+   180				ef->dentry = NULL;
+   181				break;
+   182			}
+   183		}
+   184	}
+   185	
+   186	/**
+   187	 * eventfs_post_create_dir - post create dir routine
+   188	 * @eventfs_file: eventfs_file of recently created dir
+   189	 *
+   190	 * Files with-in eventfs dir should know dentry of parent dir
+   191	 */
+ > 192	void eventfs_post_create_dir(struct eventfs_file *ef)
+   193	{
+   194		struct eventfs_file *ef_child;
+   195		struct tracefs_inode *ti;
+   196	
+   197		/* fill parent-child relation */
+   198		list_for_each_entry(ef_child, &ef->ei->e_top_files, list) {
+   199			ef_child->d_parent = ef->dentry;
+   200		}
+   201	
+   202		ti = get_tracefs(ef->dentry->d_inode);
+   203		ti->private = ef->ei;
+   204	}
+   205	
+   206	/**
+   207	 * eventfs_root_lookup - lookup routine to create file/dir
+   208	 * @dir: directory in which lookup to be done
+   209	 * @dentry: file/dir dentry
+   210	 * @flags:
+   211	 *
+   212	 * Used to create dynamic file/dir with-in @dir, search with-in ei
+   213	 * list, if @dentry found go ahead and create the file/dir
+   214	 */
+   215	
+   216	static struct dentry *eventfs_root_lookup(struct inode *dir,
+   217						  struct dentry *dentry,
+   218						  unsigned int flags)
+   219	{
+   220		struct tracefs_inode *ti;
+   221		struct eventfs_inode *ei;
+   222		struct eventfs_file *ef;
+   223		struct dentry *ret = simple_lookup(dir, dentry, flags);
+   224	
+   225		ti = get_tracefs(dir);
+   226		if (!(ti->flags & TRACEFS_EVENT_INODE))
+   227			return NULL;
+   228	
+   229		ei = ti->private;
+   230		list_for_each_entry(ef, &ei->e_top_files, list) {
+   231			if (strcmp(ef->name, dentry->d_name.name))
+   232				continue;
+   233	
+   234			if(ef->created)
+   235				continue;
+   236	
+   237			ef->created = true;
+   238	
+   239			if (ef->ei)
+   240				ef->dentry = eventfs_create_dir(ef->name, ef->mode, ef->d_parent,
+   241								ef->data, ef->fop, ef->iop, 0);
+   242			else
+   243				ef->dentry = eventfs_create_file(ef->name, ef->mode, ef->d_parent,
+   244								 ef->data, ef->fop, 0);
+   245	
+   246			if (IS_ERR_OR_NULL(ef->dentry)) {
+   247					ef->created = false;
+   248			} else {
+   249				if (ef->ei)
+   250					eventfs_post_create_dir(ef);
+   251				ef->dentry->d_fsdata = ef;
+   252				dput(ef->dentry);
+   253			}
+   254			break;
+   255		}
+   256		return ret;
+   257	}
+   258	
+   259	/**
+   260	 * eventfs_release - called to release eventfs file/dir
+   261	 * @inode: inode to be released
+   262	 * @file: file to be released (not used)
+   263	 */
+   264	static int eventfs_release(struct inode *inode, struct file *file)
+   265	{
+   266		struct tracefs_inode *ti;
+   267		struct eventfs_inode *ei;
+   268		struct eventfs_file *ef;
+   269	
+   270		ti = get_tracefs(inode);
+   271		if (!(ti->flags & TRACEFS_EVENT_INODE))
+   272			return -EINVAL;
+   273	
+   274		ei = ti->private;
+   275		list_for_each_entry(ef, &ei->e_top_files, list) {
+   276			if (ef->created)
+   277				dput(ef->dentry);
+   278		}
+   279		return dcache_dir_close(inode, file);
+   280	}
+   281	
+   282	/**
+   283	 * dcache_dir_open_wrapper - eventfs open wrapper
+   284	 * @inode: not used
+   285	 * @file: dir to be opened (to create it's child)
+   286	 *
+   287	 * Used to dynamic create file/dir with-in @file, all the
+   288	 * file/dir will be created. If already created then reference
+   289	 * will be increased
+   290	 */
+ > 291	int dcache_dir_open_wrapper(struct inode *inode, struct file *file)
+   292	{
+   293		struct tracefs_inode *ti;
+   294		struct eventfs_inode *ei;
+   295		struct eventfs_file *ef;
+   296		struct inode *f_inode = file_inode(file);
+   297		struct dentry *dentry = file_dentry(file);
+   298	
+   299		ti = get_tracefs(f_inode);
+   300		if (!(ti->flags & TRACEFS_EVENT_INODE))
+   301			return -EINVAL;
+   302	
+   303		ei = ti->private;
+   304		list_for_each_entry(ef, &ei->e_top_files, list) {
+   305			if (ef->created) {
+   306				dget(ef->dentry);
+   307				continue;
+   308			}
+   309	
+   310			ef->created = true;
+   311	
+   312			inode_lock(dentry->d_inode);
+   313			if (ef->ei) 
+   314				ef->dentry = eventfs_create_dir(ef->name, ef->mode, dentry,
+   315								ef->data, ef->fop, ef->iop, 1);
+   316			else
+   317				ef->dentry = eventfs_create_file(ef->name, ef->mode, dentry,
+   318								 ef->data, ef->fop, 1);
+   319			inode_unlock(dentry->d_inode);
+   320	
+   321			if (IS_ERR_OR_NULL(ef->dentry)) {
+   322				ef->created = false;
+   323			} else {
+   324				if (ef->ei)
+   325					eventfs_post_create_dir(ef);
+   326				ef->dentry->d_fsdata = ef;
+   327			}
+   328		}
+   329		return dcache_dir_open(inode, file);
+   330	}
+   331	
 
 -- 
 0-DAY CI Kernel Test Service
