@@ -1,43 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6D17E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 01:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B767E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 01:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674350640; x=1705886640;
+  t=1674350642; x=1705886642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a2qp4YGhnz9pZiTWQqKciS0QWqa4+IxqE0w7ye8iCSs=;
-  b=P3tEw1Cf93NgJ68AxNHGLxbZtr/OD0ga6ETeA+ktnMS9wYL5Wj/29s2M
-   77DYDEBL6r5POdJXqFjIKwQ22EZl5wUpC3lUuGlTyqf3qnduqXIABuzyN
-   pmEKixs53fCw2p9EXkcMoWN/WWjXAsUz+Zj+Rg9mUwkj9kqU18qha0jMJ
-   46d7Mn84J1AEdfj3FNTiAMR3d2dhk9Hc5MZLPheWZKdwWqL2U/FTHVkkq
-   K9sNbLq6QS2NjbSplBJ9nHezU7twGghxdyNNl3sCCer89V82SRcXrS+Eq
-   J42Du8tfw18GnCLyaIh3Wf+Y3XGsUNyFCWRmEIGcYAuLWc2KtXPFDethz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="325895117"
+  bh=cnz8yG06DXQ0Qw/FLRDzL0+EAUrvuGJQgiZiFOMKY/M=;
+  b=iu8EOtsyZlgNmxO6LIolsHdpIJsgEWKraWHqp5/ocuJmDx/MZmvnpNmN
+   GKbPN9pmsfMweJl5Zopaoa+Hesmf3a3zNxYuyiMEV0IKwUMKCcXWf7oZZ
+   ONeVdrT4QjgRAPwlq3ZJI1n7LBwZ1UhUH5TlEBHQoGlOW5+aT9rzkweUt
+   Xe70fh9K17iN5DrogOTyUMQYcS6t+sUkXfIDvk3CEUhtgDmj0lBslzI5i
+   RFRkNLCvEYL7UF9941feQz6U+zBUh+Md27KEc755ChdDqksQ4bio2JrCW
+   9aFv5KlUCQ472v/e+liJFkqVpONCh0nMYWM+14+bBQ16i7AOO8qGmuLbp
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="325895119"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="325895117"
+   d="scan'208";a="325895119"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 17:23:59 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 17:24:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="749771661"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="749771663"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="749771661"
+   d="scan'208";a="749771663"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2023 17:23:58 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2023 17:23:59 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJP5S-0004dq-0J;
+	id 1pJP5S-0004ds-0M;
 	Sun, 22 Jan 2023 01:23:58 +0000
-Date: Sun, 22 Jan 2023 09:23:06 +0800
+Date: Sun, 22 Jan 2023 09:23:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jimc:hf-5k-rc4 11/19] lib/dynamic_debug.c:745:8: error:
  incompatible pointer to integer conversion assigning to 'char' from 'char
  *'; dereference with *
-Message-ID: <202301220946.M5GI0hRL-lkp@intel.com>
+Message-ID: <202301220945.dkU1VQJ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,21 +50,21 @@ Content-Disposition: inline
 tree:   https://github.com/jimc/linux.git hf-5k-rc4
 head:   48929cba46c42bcd6ec804dbf36593d7ba44579d
 commit: 743b6f7cb1c6e9c941453f31df1db33c1479788b [11/19] dyndbg-API: specialize DYNDBG_CLASSMAP_(DEFINE|USE)
-config: riscv-randconfig-r034-20230122 (https://download.01.org/0day-ci/archive/20230122/202301220946.M5GI0hRL-lkp@intel.com/config)
+config: arm-randconfig-r025-20230122 (https://download.01.org/0day-ci/archive/20230122/202301220945.dkU1VQJ7-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://github.com/jimc/linux/commit/743b6f7cb1c6e9c941453f31df1db33c1479788b
         git remote add jimc https://github.com/jimc/linux.git
         git fetch --no-tags jimc hf-5k-rc4
         git checkout 743b6f7cb1c6e9c941453f31df1db33c1479788b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
