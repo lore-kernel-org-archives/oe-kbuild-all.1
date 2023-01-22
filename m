@@ -1,40 +1,48 @@
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com (mailrelay3-1.pub.mailoutpod2-cph3.one.com [46.30.211.178])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6558C2115
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 20:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
-	b=ACJ8IOVh/81++WEnvbt+c4axuq6Cc1c3iZNjWANGT1VmLmeoqpilKaryokYxHBKYgdnUkV7ORgucM
-	 rN6FHPzr+Zr04RLkxHd6MhaelGBwN7f3Lf7h7JIzd/xkU2j2RedsYrJVCKj5jF72VRwSifN5iJyS95
-	 TrOWoEZB4cPBHGkaWDmdRq8QgDWCShZBet5BUwryax4aucWP54ZmWIC7o9Zf4pqjNO+iLka1dkWi3A
-	 yXBK3mgyzi7FAbdiUfphfr3WmB1EVvw8iYQy11hZDy9AuwI0ElWzmILTkSKP+PhEMnI4zTlpELvh//
-	 ojqU1USdJmP11qAm6aNx8+y/sPPoWrw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
-	b=2AGnclCTzMCHKpKT9R52s+zkQOOztf7K+7a5PBONUI9VuuP3M6C4rE3Y0uwTyL/EIgkkq4DkHdHa+
-	 UxDMOMSBw==
-X-HalOne-ID: 90edecf1-9a97-11ed-867d-ede074c87fad
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay3 (Halon) with ESMTPSA
-	id 90edecf1-9a97-11ed-867d-ede074c87fad;
-	Sun, 22 Jan 2023 20:58:49 +0000 (UTC)
-Date: Sun, 22 Jan 2023 21:58:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
-	dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
-Message-ID: <Y82jiIlxn7oG/jIX@ravnborg.org>
-References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
- <202301220750.HzZm1ZHu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2642115
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 21:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674421244; x=1705957244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PQNjpofFpMssJkWxIxJZIPzr371EnJU3297F89kKntQ=;
+  b=XqfqqxEUhlM/my2164johJ6tKFWiZ1uTc8OUVlJsWNrPDQwUk9YttkBT
+   jBlMeGuAhwm8hooSqjiKlYOHxUeDh7OjsCnCOhZPW6WFo/pNSRtvrlk4e
+   +ooK7AhyRJ1B7F8tp4Gb3xOUh6ZicsuSj8gqP0n9sn9nUHjGDNf935733
+   6UwjvAnpL3WL5MloQi4q4bByPhDj2qeNrSb8s4lv7O0GATekhm6N944IN
+   hLjmnZ/Y4lVoi5wNW9XGCmQpHYDdK1g/gmCmRfdfeEiY1H+LEHa3D7SXV
+   RUuGuRp847c/fNgIGQ2UmaeUjo0TDrxb47/Qi3DkC2nJkP1nNabcOj64t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328030392"
+X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
+   d="scan'208";a="328030392"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 13:00:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="638925230"
+X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
+   d="scan'208";a="638925230"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 22 Jan 2023 13:00:40 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJhSB-0005FM-0e;
+	Sun, 22 Jan 2023 21:00:39 +0000
+Date: Mon, 23 Jan 2023 05:00:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, chinglinyu@google.com,
+	namit@vmware.com, srivatsab@vmware.com, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, vsirnapalli@vmware.com, tkundu@vmware.com,
+	er.ajay.kaher@gmail.com, Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH 8/8] eventfs: moving tracing/events to eventfs
+Message-ID: <202301230402.yk3757pr-lkp@intel.com>
+References: <1674407228-49109-8-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,50 +51,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202301220750.HzZm1ZHu-lkp@intel.com>
+In-Reply-To: <1674407228-49109-8-git-send-email-akaher@vmware.com>
 
-Hi all.
+Hi Ajay,
 
-On Sun, Jan 22, 2023 at 07:19:15AM +0800, kernel test robot wrote:
-> Hi Sam,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-> base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
-> patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
-> patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
-> config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230122/202301220750.HzZm1ZHu-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
->         git checkout 530d852970d1a75527031a4f23689f89f0a85804
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/drm_mode_object.c:195:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->                    DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
->                    ^
+Thank you for the patch! Perhaps something to improve:
 
-For anyone following this. I failed to reproduce the error below using
-the instructions above. It looks like some obscure combination of CONFIG
-options that may be unrelated to this patch.
-allmodconfig, allyesconfig for i386 did not trigger the bug.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc5 next-20230120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I will get back to this in a few days (maybe first in the weekend), and
-will share my findings.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+patch link:    https://lore.kernel.org/r/1674407228-49109-8-git-send-email-akaher%40vmware.com
+patch subject: [PATCH 8/8] eventfs: moving tracing/events to eventfs
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230123/202301230402.yk3757pr-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/be995c36ba2232edcd4fa64e4581b9a6763c75e6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+        git checkout be995c36ba2232edcd4fa64e4581b9a6763c75e6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash kernel/trace/
 
-	Sam
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   kernel/trace/trace_events.c: In function 'event_create_dir':
+>> kernel/trace/trace_events.c:2405:24: warning: variable 'd_events' set but not used [-Wunused-but-set-variable]
+    2405 |         struct dentry *d_events;
+         |                        ^~~~~~~~
+
+
+vim +/d_events +2405 kernel/trace/trace_events.c
+
+ac343da7bc9048 Masami Hiramatsu         2020-09-10  2398  
+1473e4417c79f1 Steven Rostedt           2009-02-24  2399  static int
+7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  2400) event_create_dir(struct dentry *parent, struct trace_event_file *file)
+1473e4417c79f1 Steven Rostedt           2009-02-24  2401  {
+2425bcb9240f8c Steven Rostedt (Red Hat  2015-05-05  2402) 	struct trace_event_call *call = file->event_call;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2403  	struct trace_array *tr = file->tr;
+be995c36ba2232 Ajay Kaher               2023-01-22  2404  	struct eventfs_file *ef_subsystem = NULL;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03 @2405  	struct dentry *d_events;
+de7b2973903c6c Mathieu Desnoyers        2014-04-08  2406  	const char *name;
+fd99498989f3b3 Steven Rostedt           2009-02-28  2407  	int ret;
+1473e4417c79f1 Steven Rostedt           2009-02-24  2408  
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2409  	/*
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2410  	 * If the trace point header did not define TRACE_SYSTEM
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2411  	 * then the system would be called "TRACE_SYSTEM".
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2412  	 */
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2413  	if (strcmp(call->class->system, TRACE_SYSTEM) != 0) {
+be995c36ba2232 Ajay Kaher               2023-01-22  2414  		ef_subsystem = event_subsystem_dir(tr, call->class->system, file, parent);
+be995c36ba2232 Ajay Kaher               2023-01-22  2415  		if (!ef_subsystem)
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2416  			return -ENOMEM;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2417  	} else
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2418  		d_events = parent;
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2419  
+687fcc4aee4567 Steven Rostedt (Red Hat  2015-05-13  2420) 	name = trace_event_name(call);
+be995c36ba2232 Ajay Kaher               2023-01-22  2421  	file->ef = eventfs_add_dir(name, ef_subsystem);
+be995c36ba2232 Ajay Kaher               2023-01-22  2422  	if (IS_ERR(file->ef)) {
+8434dc9340cd2e Steven Rostedt (Red Hat  2015-01-20  2423) 		pr_warn("Could not create tracefs '%s' directory\n", name);
+1473e4417c79f1 Steven Rostedt           2009-02-24  2424  		return -1;
+1473e4417c79f1 Steven Rostedt           2009-02-24  2425  	}
+1473e4417c79f1 Steven Rostedt           2009-02-24  2426  
+9b63776fa3ca96 Steven Rostedt           2012-05-10  2427  	if (call->class->reg && !(call->flags & TRACE_EVENT_FL_IGNORE_ENABLE))
+be995c36ba2232 Ajay Kaher               2023-01-22  2428  		eventfs_add_file("enable", TRACE_MODE_WRITE, file->ef, file,
+620a30e97febc8 Oleg Nesterov            2013-07-31  2429  				  &ftrace_enable_fops);
+1473e4417c79f1 Steven Rostedt           2009-02-24  2430  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
