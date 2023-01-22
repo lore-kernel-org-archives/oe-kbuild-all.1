@@ -1,46 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E3E320F;
-	Sun, 22 Jan 2023 23:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4155320F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 23:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674429829; x=1705965829;
+  t=1674431687; x=1705967687;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7CJQ0jmsEt+dJReSCxVWoW2tGWdndhsW2nRcoMURKAw=;
-  b=npAxR24nR0JeD36R5BZ0rR5ZZrwycjN0iWnbtFl/S7NX+k74y7KE73v4
-   la/N9bvQfOiV9lmqkxtBzZ4/wZyrDAWvTlxj4CqGNdsMiieLvDmlzlT9x
-   gXHaw4+hAiPb53xpbhqL2UWzUZOtnAHtXPrfYsiW4yxcFnoioeYVyVNoJ
-   elkfoUwiRI9axfGl1X2psBUiC9z9k2WtITAd+FXYup7fLf4WsF2Fkssv9
-   HV9lKqJ/34UtvQSeMCPiKFCE4WJ3d0yju7NVSvWWb4iTlOSHhMopCcbn/
-   D1IUdUgxvGwK542PvmwsYbidZNsxKdfcrz/q+2hIKVwLPQsh6JpqTwO1E
+  bh=5HPKJcw+YR9nsSyxnhBw29uLRZ6WzQA1u/WUYCbNySE=;
+  b=foP0uY0DOgGPVzbUvZPHcZhQMjrXy2TtoSoaJFe0hihz6edhoSav+S3y
+   /Ardd+jzoSiVqFU8hn6hLWq9jiC7tVjqFrFhvOnl70FRnMRmZvN1pHvL0
+   hCZGwrP1FPMYkpO1FXglqRGjj1BIjvW5mlofwp9UJbiEvsnWpQVt8bi57
+   6piJgNiCl3gOCj/MeuuGOhVwmFpcqBV8dn8+spSCczYMMm+tNXAWE/aUD
+   thcze0Bkbb35KHj6eAWng+EKxe1TGj9AaOJQfttGlTSP4MTBjQFEylQrw
+   DyjI/UxBlEosqLL0wTwUoKahLrWvC0VQtrS/t/OvmliEZfmBuJcj4U3tt
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="412180924"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="309527525"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="412180924"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 15:23:48 -0800
+   d="scan'208";a="309527525"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 15:54:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="693675428"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="691952305"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="693675428"
+   d="scan'208";a="691952305"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 22 Jan 2023 15:23:45 -0800
+  by orsmga008.jf.intel.com with ESMTP; 22 Jan 2023 15:54:45 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJjge-0005I4-2i;
-	Sun, 22 Jan 2023 23:23:44 +0000
-Date: Mon, 23 Jan 2023 07:23:27 +0800
+	id 1pJkAf-0005Ia-0T;
+	Sun, 22 Jan 2023 23:54:45 +0000
+Date: Mon, 23 Jan 2023 07:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shazad Hussain <quic_shazhuss@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [linux-next:master 5692/6912] drivers/clk/qcom/gcc-sa8775p.c:313:32:
- warning: unused variable 'gcc_parent_map_10'
-Message-ID: <202301230743.Xnut0Zvc-lkp@intel.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pinchartl:drm/compile-test 5/9]
+ drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: warning: passing argument 2 of
+ 'sg_set_page' makes pointer from integer without a cast
+Message-ID: <202301230738.mvObvRxm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,178 +47,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d514392f17fd4d386cfadde7f849d97db4ca1fb0
-commit: 08c51ceb12f7ce2252513a38ad8a8ed26103a4e2 [5692/6912] clk: qcom: add the GCC driver for sa8775p
-config: riscv-randconfig-c006-20230122 (https://download.01.org/0day-ci/archive/20230123/202301230743.Xnut0Zvc-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+Hi Laurent,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git drm/compile-test
+head:   ac2ff1e9fb5162127c092c1f7dc86b4eb7537b09
+commit: 6a2f2488d8ef33515e03ce44633d56c08957b2de [5/9] drm/omap: Enable COMPILE_TEST on all architectures
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230123/202301230738.mvObvRxm-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=08c51ceb12f7ce2252513a38ad8a8ed26103a4e2
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 08c51ceb12f7ce2252513a38ad8a8ed26103a4e2
+        # https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/commit/?id=6a2f2488d8ef33515e03ce44633d56c08957b2de
+        git remote add pinchartl https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
+        git fetch --no-tags pinchartl drm/compile-test
+        git checkout 6a2f2488d8ef33515e03ce44633d56c08957b2de
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/clk/qcom/ drivers/media/platform/verisilicon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/omapdrm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/clk/qcom/gcc-sa8775p.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/clk/qcom/gcc-sa8775p.c:313:32: warning: unused variable 'gcc_parent_map_10' [-Wunused-const-variable]
-   static const struct parent_map gcc_parent_map_10[] = {
-                                  ^
->> drivers/clk/qcom/gcc-sa8775p.c:318:37: warning: unused variable 'gcc_parent_data_10' [-Wunused-const-variable]
-   static const struct clk_parent_data gcc_parent_data_10[] = {
-                                       ^
->> drivers/clk/qcom/gcc-sa8775p.c:333:32: warning: unused variable 'gcc_parent_map_12' [-Wunused-const-variable]
-   static const struct parent_map gcc_parent_map_12[] = {
-                                  ^
->> drivers/clk/qcom/gcc-sa8775p.c:338:37: warning: unused variable 'gcc_parent_data_12' [-Wunused-const-variable]
-   static const struct clk_parent_data gcc_parent_data_12[] = {
-                                       ^
-   17 warnings generated.
+   drivers/gpu/drm/omapdrm/omap_gem.c: In function 'omap_gem_get_sg':
+   drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
+    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
+         |                                         ^~~~~~~~~~~~
+         |                                         pfn_to_page
+>> drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
+    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
+         |                                         ^~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         int
+   In file included from include/linux/dma-mapping.h:10,
+                    from drivers/gpu/drm/omapdrm/omap_gem.c:7:
+   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
+     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
+         |                                                        ~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/gcc_parent_map_10 +313 drivers/clk/qcom/gcc-sa8775p.c
+vim +/sg_set_page +1034 drivers/gpu/drm/omapdrm/omap_gem.c
 
-   312	
- > 313	static const struct parent_map gcc_parent_map_10[] = {
-   314		{ P_PCIE_0_PIPE_CLK, 0 },
-   315		{ P_BI_TCXO, 2 },
-   316	};
-   317	
- > 318	static const struct clk_parent_data gcc_parent_data_10[] = {
-   319		{ .index = DT_PCIE_0_PIPE_CLK },
-   320		{ .index = DT_BI_TCXO },
-   321	};
-   322	
-   323	static const struct parent_map gcc_parent_map_11[] = {
-   324		{ P_PCIE_PHY_AUX_CLK, 1 },
-   325		{ P_BI_TCXO, 2 },
-   326	};
-   327	
-   328	static const struct clk_parent_data gcc_parent_data_11[] = {
-   329		{ .index = DT_PCIE_PHY_AUX_CLK },
-   330		{ .index = DT_BI_TCXO },
-   331	};
-   332	
- > 333	static const struct parent_map gcc_parent_map_12[] = {
-   334		{ P_PCIE_1_PIPE_CLK, 0 },
-   335		{ P_BI_TCXO, 2 },
-   336	};
-   337	
- > 338	static const struct clk_parent_data gcc_parent_data_12[] = {
-   339		{ .index = DT_PCIE_1_PIPE_CLK },
-   340		{ .index = DT_BI_TCXO },
-   341	};
-   342	
+cd5351f4d2b1b8 drivers/staging/omapdrm/omap_gem.c Rob Clark       2011-11-12   982  
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   983  struct sg_table *omap_gem_get_sg(struct drm_gem_object *obj,
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   984  		enum dma_data_direction dir)
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   985  {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   986  	struct omap_gem_object *omap_obj = to_omap_bo(obj);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   987  	dma_addr_t addr;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   988  	struct sg_table *sgt;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   989  	struct scatterlist *sg;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   990  	unsigned int count, len, stride, i;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   991  	int ret;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   992  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   993  	ret = omap_gem_pin(obj, &addr);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   994  	if (ret)
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   995  		return ERR_PTR(ret);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   996  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   997  	mutex_lock(&omap_obj->lock);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   998  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   999  	sgt = omap_obj->sgt;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1000  	if (sgt)
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1001  		goto out;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1002  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1003  	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1004  	if (!sgt) {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1005  		ret = -ENOMEM;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1006  		goto err_unpin;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1007  	}
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1008  
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1009  	if (addr) {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1010  		if (omap_obj->flags & OMAP_BO_TILED_MASK) {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1011  			enum tiler_fmt fmt = gem2fmt(omap_obj->flags);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1012  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1013  			len = omap_obj->width << (int)fmt;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1014  			count = omap_obj->height;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1015  			stride = tiler_stride(fmt, 0);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1016  		} else {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1017  			len = obj->size;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1018  			count = 1;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1019  			stride = 0;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1020  		}
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1021  	} else {
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1022  		count = obj->size >> PAGE_SHIFT;
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1023  	}
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1024  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1025  	ret = sg_alloc_table(sgt, count, GFP_KERNEL);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1026  	if (ret)
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1027  		goto err_free;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1028  
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1029  	/* this must be after omap_gem_pin() to ensure we have pages attached */
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1030  	omap_gem_dma_sync_buffer(obj, dir);
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1031  
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1032  	if (addr) {
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1033  		for_each_sg(sgt->sgl, sg, count, i) {
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19 @1034  			sg_set_page(sg, phys_to_page(addr), len,
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1035  				offset_in_page(addr));
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1036  			sg_dma_address(sg) = addr;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1037  			sg_dma_len(sg) = len;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1038  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1039  			addr += stride;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1040  		}
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1041  	} else {
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1042  		for_each_sg(sgt->sgl, sg, count, i) {
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1043  			sg_set_page(sg, omap_obj->pages[i], PAGE_SIZE, 0);
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1044  			sg_dma_address(sg) = omap_obj->dma_addrs[i];
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1045  			sg_dma_len(sg) =  PAGE_SIZE;
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1046  		}
+1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1047  	}
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1048  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1049  	omap_obj->sgt = sgt;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1050  out:
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1051  	mutex_unlock(&omap_obj->lock);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1052  	return sgt;
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1053  
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1054  err_free:
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1055  	kfree(sgt);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1056  err_unpin:
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1057  	mutex_unlock(&omap_obj->lock);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1058  	omap_gem_unpin(obj);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1059  	return ERR_PTR(ret);
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1060  }
+fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1061  
+
+:::::: The code at line 1034 was first introduced by commit
+:::::: 1948d28db6215d055930f0cbb6e300622ede5931 drm: omapdrm: Support exporting of non-contiguous GEM BOs
+
+:::::: TO: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+:::::: CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 -- 
 0-DAY CI Kernel Test Service
