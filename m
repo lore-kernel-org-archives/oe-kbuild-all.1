@@ -1,43 +1,49 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6502596
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 15:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC9B29B0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 18:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674400953; x=1705936953;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=eOCr3dgAZ+K+kZ7SQMxID34Z543/B59WYGKAyc/mNp0=;
-  b=L0tOLoJhShbgaE2aw2ChIKIDUg7DWPd04wsqP1QmhE04Sd5qIg3rx9ur
-   UXQop0joLghH0sD4C2/lSnuoxF5gm0J+HJwWhuGOvScKOmeiSu3vSNejU
-   uw6Vk1ztD+Ar4VAnFSI8LTfjIr7vdpzYj3ddzH15x1b5+wHa9wrM7XnS2
-   hTpkxqyTEsv9FHhBVWp4/wvqFNX/uZfOqY8nSQ7Bw6y64iCNueSV8y57M
-   cTrLjtEf6UMtdt6iHY1almegQfVmBi/pxji/iQIzhuKwCKa93+YEJ4lon
-   OXaAtHWNIK31ev1vZriVzCs/3ugYyLqBzeT6P2ihP3Rpa1+iAiQjcXSK+
+  t=1674413141; x=1705949141;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZsdBIVJSpwqo9ISApdqTQZhbBMJUyzNjQdS1k1m53l4=;
+  b=doVTVtbmrYDdrtOIBqj9yofCWx77Z204YBfqXhCKcyUf4QRJzEqicQdd
+   06HlKt68lVjuIamwN2w5qVFoFbnQPeGcEzRAHKw33qCof1HtfrgHwt3HH
+   h5IrYj2Fr4gI5olDxinaKOj/QfI+bpIZqY3rXVNo2EavSnvSSO3H0rUKN
+   CN+2Xk7r8cqLN9dmW+nKcBhW8ebULcXGRRmpwuKZdOfDaEXncUemQOsOb
+   ObATmo/tniqFu2m1ZHghkqupkdt7PpQVlPUEeQVLA3UuBXm2jytyeJz6m
+   pOCE+u9ND2NWwevp4gtAe1wAu36xMMLR4GZtOAWrD9pgvHDszB10a+8b8
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="313793632"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="324611374"
 X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="313793632"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 07:22:33 -0800
+   d="scan'208";a="324611374"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 10:45:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="835186742"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="724800909"
 X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="835186742"
+   d="scan'208";a="724800909"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jan 2023 07:22:31 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2023 10:45:37 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJcAw-00054e-1C;
-	Sun, 22 Jan 2023 15:22:30 +0000
-Date: Sun, 22 Jan 2023 23:21:37 +0800
+	id 1pJfLT-0005BY-31;
+	Sun, 22 Jan 2023 18:45:35 +0000
+Date: Mon, 23 Jan 2023 02:45:08 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Suman Anna <s-anna@ti.com>, Tero Kristo <t-kristo@ti.com>
-Subject: [ti:ti-rt-linux-5.10.y 540/9999]
- drivers/rpmsg/virtio_rpmsg_bus.c:893:58: sparse: sparse: incorrect type in
- argument 2 (different base types)
-Message-ID: <202301222319.eyITklCR-lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, chinglinyu@google.com,
+	namit@vmware.com, srivatsab@vmware.com, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, vsirnapalli@vmware.com, tkundu@vmware.com,
+	er.ajay.kaher@gmail.com, Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH 5/8] eventfs: adding functions to create eventfs files
+ and directories
+Message-ID: <202301230242.aRNYHDz2-lkp@intel.com>
+References: <1674407228-49109-5-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,88 +52,186 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1674407228-49109-5-git-send-email-akaher@vmware.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y
-head:   81b9bbe05bd82c315c8ddc77974b1b3031d03bfd
-commit: 7e3ea0d62a4bf0ca04be9bc320d13f564aab0a92 [540/9999] TEMP: rpmsg: add a description field
-config: alpha-randconfig-s033-20230122 (https://download.01.org/0day-ci/archive/20230122/202301222319.eyITklCR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Ajay,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc5 next-20230120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+patch link:    https://lore.kernel.org/r/1674407228-49109-5-git-send-email-akaher%40vmware.com
+patch subject: [PATCH 5/8] eventfs: adding functions to create eventfs files and directories
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230123/202301230242.aRNYHDz2-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-5.10.y
-        git checkout 7e3ea0d62a4bf0ca04be9bc320d13f564aab0a92
+        # https://github.com/intel-lab-lkp/linux/commit/950ac8561471b622eac5555b4a7502bcd8c20663
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+        git checkout 950ac8561471b622eac5555b4a7502bcd8c20663
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/rpmsg/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/tracefs/ kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/rpmsg/virtio_rpmsg_bus.c:893:58: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio32 [usertype] val @@     got unsigned int [usertype] addr @@
-   drivers/rpmsg/virtio_rpmsg_bus.c:893:58: sparse:     expected restricted __virtio32 [usertype] val
-   drivers/rpmsg/virtio_rpmsg_bus.c:893:58: sparse:     got unsigned int [usertype] addr
->> drivers/rpmsg/virtio_rpmsg_bus.c:894:59: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio32 [usertype] val @@     got unsigned int [usertype] flags @@
-   drivers/rpmsg/virtio_rpmsg_bus.c:894:59: sparse:     expected restricted __virtio32 [usertype] val
-   drivers/rpmsg/virtio_rpmsg_bus.c:894:59: sparse:     got unsigned int [usertype] flags
+All warnings (new ones prefixed by >>):
 
-vim +893 drivers/rpmsg/virtio_rpmsg_bus.c
+>> fs/tracefs/event_inode.c:48:16: warning: no previous prototype for 'eventfs_create_file' [-Wmissing-prototypes]
+      48 | struct dentry *eventfs_create_file(const char *name, umode_t mode,
+         |                ^~~~~~~~~~~~~~~~~~~
+>> fs/tracefs/event_inode.c:117:16: warning: no previous prototype for 'eventfs_create_dir' [-Wmissing-prototypes]
+     117 | struct dentry *eventfs_create_dir(const char *name, umode_t mode,
+         |                ^~~~~~~~~~~~~~~~~~
 
-   887	
-   888		if (len == sizeof(*msg)) {
-   889			addr = virtio32_to_cpu(vrp->vdev, msg->addr);
-   890			flags = virtio32_to_cpu(vrp->vdev, msg->flags);
-   891			chinfo.desc[0] = '\0';
-   892		} else if (len == sizeof(*msg_ext)) {
- > 893			addr = virtio32_to_cpu(vrp->vdev, msg_ext->addr);
- > 894			flags = virtio32_to_cpu(vrp->vdev, msg_ext->flags);
-   895			msg_ext->desc[RPMSG_NAME_SIZE - 1] = '\0';
-   896			strncpy(chinfo.desc, msg_ext->desc, sizeof(chinfo.desc));
-   897		} else {
-   898			dev_err(dev, "malformed ns msg (%d)\n", len);
-   899			return -EINVAL;
-   900		}
-   901	
-   902		/*
-   903		 * the name service ept does _not_ belong to a real rpmsg channel,
-   904		 * and is handled by the rpmsg bus itself.
-   905		 * for sanity reasons, make sure a valid rpdev has _not_ sneaked
-   906		 * in somehow.
-   907		 */
-   908		if (rpdev) {
-   909			dev_err(dev, "anomaly: ns ept has an rpdev handle\n");
-   910			return -EINVAL;
-   911		}
-   912	
-   913		/* don't trust the remote processor for null terminating the name */
-   914		msg->name[RPMSG_NAME_SIZE - 1] = '\0';
-   915	
-   916		strncpy(chinfo.name, msg->name, sizeof(chinfo.name));
-   917		chinfo.src = RPMSG_ADDR_ANY;
-   918		chinfo.dst = addr;
-   919	
-   920		dev_info(dev, "%sing channel %s addr 0x%x\n",
-   921			 flags & RPMSG_NS_DESTROY ?
-   922			 "destroy" : "creat", msg->name, chinfo.dst);
-   923	
-   924		if (flags & RPMSG_NS_DESTROY) {
-   925			ret = rpmsg_unregister_device(&vrp->vdev->dev, &chinfo);
-   926			if (ret)
-   927				dev_err(dev, "rpmsg_destroy_channel failed: %d\n", ret);
-   928		} else {
-   929			newch = rpmsg_create_channel(vrp, &chinfo);
-   930			if (!newch)
-   931				dev_err(dev, "rpmsg_create_channel failed\n");
-   932		}
-   933	
-   934		return 0;
-   935	}
-   936	
+
+vim +/eventfs_create_file +48 fs/tracefs/event_inode.c
+
+    23	
+    24	/**
+    25	 * eventfs_create_file - create a file in the tracefs filesystem
+    26	 * @name: a pointer to a string containing the name of the file to create.
+    27	 * @mode: the permission that the file should have.
+    28	 * @parent: a pointer to the parent dentry for this file.  This should be a
+    29	 *          directory dentry if set.  If this parameter is NULL, then the
+    30	 *          file will be created in the root of the tracefs filesystem.
+    31	 * @data: a pointer to something that the caller will want to get to later
+    32	 *        on.  The inode.i_private pointer will point to this value on
+    33	 *        the open() call.
+    34	 * @fops: a pointer to a struct file_operations that should be used for
+    35	 *        this file.
+    36	 *
+    37	 * This is the basic "create a file" function for tracefs.  It allows for a
+    38	 * wide range of flexibility in creating a file.
+    39	 *
+    40	 * This function will return a pointer to a dentry if it succeeds.  This
+    41	 * pointer must be passed to the tracefs_remove() function when the file is
+    42	 * to be removed (no automatic cleanup happens if your module is unloaded,
+    43	 * you are responsible here.)  If an error occurs, %NULL will be returned.
+    44	 *
+    45	 * If tracefs is not enabled in the kernel, the value -%ENODEV will be
+    46	 * returned.
+    47	 */
+  > 48	struct dentry *eventfs_create_file(const char *name, umode_t mode,
+    49					   struct dentry *parent, void *data,
+    50					   const struct file_operations *fop,
+    51					   bool anon)
+    52	{
+    53		struct tracefs_inode *ti;
+    54		struct dentry *dentry;
+    55		struct inode *inode;
+    56	
+    57		if (security_locked_down(LOCKDOWN_TRACEFS))
+    58			return NULL;
+    59	
+    60		if (!(mode & S_IFMT))
+    61			mode |= S_IFREG;
+    62	
+    63		if (WARN_ON_ONCE(!S_ISREG(mode)))
+    64			return NULL;
+    65	
+    66		dentry = eventfs_start_creating(name, parent);
+    67	
+    68		if (IS_ERR(dentry))
+    69			return dentry;
+    70	
+    71		inode = tracefs_get_inode(dentry->d_sb);
+    72		if (unlikely(!inode))
+    73			return eventfs_failed_creating(dentry);
+    74	
+    75		inode->i_mode = mode;
+    76		inode->i_fop = fop;
+    77		inode->i_private = data;
+    78	
+    79		ti = get_tracefs(inode);
+    80		ti->flags |= TRACEFS_EVENT_INODE;
+    81	
+    82		if (anon)
+    83			d_instantiate_anon(dentry, inode);
+    84		else
+    85			d_instantiate(dentry, inode);
+    86	
+    87		fsnotify_create(dentry->d_parent->d_inode, dentry);
+    88		return eventfs_end_creating(dentry);
+    89	}
+    90	
+    91	/**
+    92	 * eventfs_create_dir - create a dir in the tracefs filesystem
+    93	 * @name: a pointer to a string containing the name of the file to create.
+    94	 * @mode: the permission that the file should have.
+    95	 * @parent: a pointer to the parent dentry for this file.  This should be a
+    96	 *          directory dentry if set.  If this parameter is NULL, then the
+    97	 *          file will be created in the root of the tracefs filesystem.
+    98	 * @data: a pointer to something that the caller will want to get to later
+    99	 *        on.  The inode.i_private pointer will point to this value on
+   100	 *        the open() call.
+   101	 * @fop: a pointer to a struct file_operations that should be used for
+   102	 *        this dir.
+   103	 * @iop: a pointer to a struct inode_operations that should be used for
+   104	 *        this dir.
+   105	 *
+   106	 * This is the basic "create a dir" function for eventfs.  It allows for a
+   107	 * wide range of flexibility in creating a dir.
+   108	 *
+   109	 * This function will return a pointer to a dentry if it succeeds.  This
+   110	 * pointer must be passed to the tracefs_remove() function when the file is
+   111	 * to be removed (no automatic cleanup happens if your module is unloaded,
+   112	 * you are responsible here.)  If an error occurs, %NULL will be returned.
+   113	 *
+   114	 * If tracefs is not enabled in the kernel, the value -%ENODEV will be
+   115	 * returned.
+   116	 */
+ > 117	struct dentry *eventfs_create_dir(const char *name, umode_t mode,
+   118					  struct dentry *parent, void *data,
+   119					  const struct file_operations *fop,
+   120					  const struct inode_operations *iop,
+   121					  bool anon)
+   122	{
+   123		struct tracefs_inode *ti;
+   124		struct dentry *dentry;
+   125		struct inode *inode;
+   126	
+   127		if (security_locked_down(LOCKDOWN_TRACEFS))
+   128			return NULL;
+   129	
+   130		WARN_ON(!S_ISDIR(mode));
+   131	
+   132		dentry = eventfs_start_creating(name, parent);
+   133	
+   134		if (IS_ERR(dentry))
+   135			return dentry;
+   136	
+   137		inode = tracefs_get_inode(dentry->d_sb);
+   138		if (unlikely(!inode))
+   139			return eventfs_failed_creating(dentry);
+   140	
+   141		inode->i_mode = mode;
+   142		inode->i_op = iop;
+   143		inode->i_fop = fop;
+   144		inode->i_private = data;
+   145	
+   146		ti = get_tracefs(inode);
+   147		ti->flags |= TRACEFS_EVENT_INODE;
+   148	
+   149		inc_nlink(inode);
+   150		if (anon)
+   151			d_instantiate_anon(dentry, inode);
+   152		else
+   153			d_instantiate(dentry, inode);
+   154		inc_nlink(dentry->d_parent->d_inode);
+   155		fsnotify_mkdir(dentry->d_parent->d_inode, dentry);
+   156		return eventfs_end_creating(dentry);
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
