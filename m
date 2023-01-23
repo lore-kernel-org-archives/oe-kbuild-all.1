@@ -1,43 +1,49 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC127C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 19:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D0F7C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 19:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674501143; x=1706037143;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sLtD0mMwJmm2qsIHDW/glYlnpjBqkPmHOytKwFXJcdQ=;
-  b=BgXCAHOeg7cbX+VL/jzzIxjGuT+iZ0Lbgr07dl46QhPUxGRqcmHiEm9U
-   y/Bkx1M9xLesAOgnhUKcCWPcfW+Jh1otEr+GfHu8Ni8MVFA9Ba2oUrd2I
-   30PXYtqSk1da5A68NSGQhww2CEvifvxMoRxKBc5eIHEZxRGPdYW4CnRQQ
-   tzlmuxDI8vav/qgoft0GnMrof6SwDqF1FNDo4vG6VfysUQNtLWHnX+dsa
-   urTOjpxSmenr5FJmK1EKJZjNNej/cVAkq6VgCA9FtV/WjF3oHnspfSNCm
-   RgP9VJSxCMBo0J5ct3dF/UXklsjhnjzw2m8vbGiK93dDlPeyv9WxdIQp3
+  t=1674501148; x=1706037148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e+2xrBm5Oxa6stADMb/R8rAt5gik8DAnbKt0wQFfI+8=;
+  b=TZVzTMxrIVTyUmZxSLEHoWZ+at+yViyCd8stR8NxaFAF8IXyviljnnVo
+   Aj78Q29WlewhJZaYJ8qMpYqeOUPW26hLBlN0zR5k4z1htI+hbof+Xa1YX
+   IuZyNfwFahoxUwyoLOjcSgzir+MA86tSzfgLKtkcHB2Mlx4Ggb30I4vxC
+   PdhmsGWjzDuNA34w+EicGZkJb1QfwI88c4jGD54uSZXCMBT8BeLg+GDVP
+   ZWdx6O9gs6QivoLoPB68C/99+9T/OSe6651saBDqeG96R64hWuSpgo62d
+   ieNw73NHT0dt5h3ng9cDmUXZsntIKDOMvmZ2jUEMNI0uhgLe6P0J8EJ0M
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323817883"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="390628607"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="323817883"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 11:12:20 -0800
+   d="scan'208";a="390628607"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 11:12:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639308024"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804317588"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="639308024"
+   d="scan'208";a="804317588"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 11:12:19 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2023 11:12:18 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK2Es-0005qB-1l;
-	Mon, 23 Jan 2023 19:12:18 +0000
+	id 1pK2Er-0005q8-2N;
+	Mon, 23 Jan 2023 19:12:17 +0000
 Date: Tue, 24 Jan 2023 03:12:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/200-dcp 90/91] drivers/gpu/drm/apple/dcp.c:526:17:
- error: implicit declaration of function 'devm_apple_rtkit_free'; did you
- mean 'devm_apple_rtkit_init'?
-Message-ID: <202301240356.DxHN10l6-lkp@intel.com>
+To: David Vernet <void@manifault.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
+	yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
+	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com,
+	memxor@gmail.com
+Subject: Re: [PATCH bpf-next v2 3/3] bpf: Use BPF_KFUNC macro at all kfunc
+ definitions
+Message-ID: <202301240259.xwHsyJl4-lkp@intel.com>
+References: <20230123171506.71995-4-void@manifault.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,186 +52,195 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230123171506.71995-4-void@manifault.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/200-dcp
-head:   a2482bcc061b8b8143649c24162ebcaed9af3102
-commit: db981af1f9501e533d9bb90a1a35dce5a08be857 [90/91] drm/apple: Support DCP shutdown and restart
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240356.DxHN10l6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi David,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Vernet/bpf-Add-BPF_KFUNC-macro-for-defining-kfuncs/20230124-011804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230123171506.71995-4-void%40manifault.com
+patch subject: [PATCH bpf-next v2 3/3] bpf: Use BPF_KFUNC macro at all kfunc definitions
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240259.xwHsyJl4-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/db981af1f9501e533d9bb90a1a35dce5a08be857
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/200-dcp
-        git checkout db981af1f9501e533d9bb90a1a35dce5a08be857
+        # https://github.com/intel-lab-lkp/linux/commit/760b15a8e5d45d6e9925d2439e0d052de969b361
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Vernet/bpf-Add-BPF_KFUNC-macro-for-defining-kfuncs/20230124-011804
+        git checkout 760b15a8e5d45d6e9925d2439e0d052de969b361
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/apple/dcp.c: In function 'dcp_crtc_atomic_check':
-   drivers/gpu/drm/apple/dcp.c:198:45: warning: variable 'old_state' set but not used [-Wunused-but-set-variable]
-     198 |         struct drm_plane_state *new_state, *old_state;
-         |                                             ^~~~~~~~~
-   drivers/gpu/drm/apple/dcp.c: In function 'dcp_comp_bind':
->> drivers/gpu/drm/apple/dcp.c:526:17: error: implicit declaration of function 'devm_apple_rtkit_free'; did you mean 'devm_apple_rtkit_init'? [-Werror=implicit-function-declaration]
-     526 |                 devm_apple_rtkit_free(dev, dcp->rtk);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 devm_apple_rtkit_init
-   drivers/gpu/drm/apple/dcp.c: In function 'dcp_runtime_suspend':
-   drivers/gpu/drm/apple/dcp.c:652:23: error: implicit declaration of function 'apple_rtkit_idle'; did you mean 'apple_rtkit_poll'? [-Werror=implicit-function-declaration]
-     652 |                 ret = apple_rtkit_idle(dcp->rtk);
-         |                       ^~~~~~~~~~~~~~~~
-         |                       apple_rtkit_poll
-   cc1: some warnings being treated as errors
+>> kernel/trace/bpf_trace.c:1233: warning: expecting prototype for bpf_lookup_user_key(). Prototype was for BPF_KFUNC() instead
+>> kernel/trace/bpf_trace.c:1282: warning: expecting prototype for bpf_lookup_system_key(). Prototype was for BPF_KFUNC() instead
+>> kernel/trace/bpf_trace.c:1306: warning: expecting prototype for bpf_key_put(). Prototype was for BPF_KFUNC() instead
+>> kernel/trace/bpf_trace.c:1328: warning: expecting prototype for bpf_verify_pkcs7_signature(). Prototype was for BPF_KFUNC() instead
 
 
-vim +526 drivers/gpu/drm/apple/dcp.c
+vim +1233 kernel/trace/bpf_trace.c
 
-   411	
-   412	static int dcp_comp_bind(struct device *dev, struct device *main, void *data)
-   413	{
-   414		struct device_node *panel_np;
-   415		struct apple_dcp *dcp = dev_get_drvdata(dev);
-   416		int ret;
-   417	
-   418		ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(36));
-   419		if (ret)
-   420			return ret;
-   421	
-   422		dcp->coproc_reg = devm_platform_ioremap_resource_byname(to_platform_device(dev), "coproc");
-   423		if (IS_ERR(dcp->coproc_reg))
-   424			return PTR_ERR(dcp->coproc_reg);
-   425	
-   426		dcp->reset = devm_reset_control_array_get_exclusive(dev);
-   427		if (IS_ERR(dcp->reset)) {
-   428			return dev_err_probe(dev, PTR_ERR(dcp->reset),
-   429					     "Failed to get reset control");
-   430		}
-   431	
-   432		if (!show_notch)
-   433			ret = of_property_read_u32(dev->of_node, "apple,notch-height",
-   434						   &dcp->notch_height);
-   435	
-   436		if (dcp->notch_height > MAX_NOTCH_HEIGHT)
-   437			dcp->notch_height = MAX_NOTCH_HEIGHT;
-   438		if (dcp->notch_height > 0)
-   439			dev_info(dev, "Detected display with notch of %u pixel\n", dcp->notch_height);
-   440	
-   441		/* intialize brightness scale to a sensible default to avoid divide by 0*/
-   442		dcp->brightness.scale = 65536;
-   443		panel_np = of_get_compatible_child(dev->of_node, "apple,panel-mini-led");
-   444		if (panel_np)
-   445			dcp->has_mini_led = true;
-   446		else
-   447			panel_np = of_get_compatible_child(dev->of_node, "apple,panel");
-   448	
-   449		if (panel_np) {
-   450			const char height_prop[2][16] = { "adj-height-mm", "height-mm" };
-   451	
-   452			if (of_device_is_available(panel_np)) {
-   453				ret = of_property_read_u32(panel_np, "apple,max-brightness",
-   454							   &dcp->brightness.maximum);
-   455				if (ret)
-   456					dev_err(dev, "Missing property 'apple,max-brightness'\n");
-   457			}
-   458	
-   459			of_property_read_u32(panel_np, "width-mm", &dcp->width_mm);
-   460			/* use adjusted height as long as the notch is hidden */
-   461			of_property_read_u32(panel_np, height_prop[!dcp->notch_height],
-   462					     &dcp->height_mm);
-   463	
-   464			of_node_put(panel_np);
-   465			dcp->connector_type = DRM_MODE_CONNECTOR_eDP;
-   466			INIT_WORK(&dcp->bl_register_wq, dcp_work_register_backlight);
-   467			mutex_init(&dcp->bl_register_mutex);
-   468		} else if (of_property_match_string(dev->of_node, "apple,connector-type", "HDMI-A") >= 0)
-   469			dcp->connector_type = DRM_MODE_CONNECTOR_HDMIA;
-   470		else if (of_property_match_string(dev->of_node, "apple,connector-type", "USB-C") >= 0)
-   471			dcp->connector_type = DRM_MODE_CONNECTOR_USB;
-   472		else
-   473			dcp->connector_type = DRM_MODE_CONNECTOR_Unknown;
-   474	
-   475		/*
-   476		 * Components do not ensure the bind order of sub components but
-   477		 * the piodma device is only used for its iommu. The iommu is fully
-   478		 * initialized by the time dcp_piodma_probe() calls component_add().
-   479		 */
-   480		dcp->piodma = dcp_get_dev(dev, "apple,piodma-mapper");
-   481		if (!dcp->piodma) {
-   482			dev_err(dev, "failed to find piodma\n");
-   483			return -ENODEV;
-   484		}
-   485	
-   486		ret = dcp_get_disp_regs(dcp);
-   487		if (ret) {
-   488			dev_err(dev, "failed to find display registers\n");
-   489			return ret;
-   490		}
-   491	
-   492		dcp->clk = devm_clk_get(dev, NULL);
-   493		if (IS_ERR(dcp->clk))
-   494			return dev_err_probe(dev, PTR_ERR(dcp->clk),
-   495					     "Unable to find clock\n");
-   496	
-   497		ret = of_property_read_u64(dev->of_node, "apple,asc-dram-mask",
-   498					   &dcp->asc_dram_mask);
-   499		if (ret)
-   500			dev_warn(dev, "failed read 'apple,asc-dram-mask': %d\n", ret);
-   501		dev_dbg(dev, "'apple,asc-dram-mask': 0x%011llx\n", dcp->asc_dram_mask);
-   502	
-   503		bitmap_zero(dcp->memdesc_map, DCP_MAX_MAPPINGS);
-   504		// TDOD: mem_desc IDs start at 1, for simplicity just skip '0' entry
-   505		set_bit(0, dcp->memdesc_map);
-   506	
-   507		INIT_WORK(&dcp->vblank_wq, dcp_delayed_vblank);
-   508	
-   509		dcp->swapped_out_fbs =
-   510			(struct list_head)LIST_HEAD_INIT(dcp->swapped_out_fbs);
-   511	
-   512		dcp->rtk = devm_apple_rtkit_init(dev, dcp, "mbox", 0, &rtkit_ops);
-   513		if (IS_ERR(dcp->rtk))
-   514			return dev_err_probe(dev, PTR_ERR(dcp->rtk),
-   515					     "Failed to intialize RTKit");
-   516	
-   517		/* calling pm_runtime_force_resume() is equivalent to pm_runtime_enable
-   518		 * if pm_runtime_force_suspend was not previously called
-   519		 */
-   520		ret = pm_runtime_force_resume(dev);
-   521		if (ret)
-   522			dev_err_probe(dev, ret, "pm_runtime_force_resume failed!\n");
-   523	
-   524		ret = pm_runtime_resume_and_get(dev);
-   525		if (ret) {
- > 526			devm_apple_rtkit_free(dev, dcp->rtk);
-   527			dcp->rtk = NULL;
-   528			return dev_err_probe(dev, ret, "pm_runtime_resume_and_get failed!\n");
-   529		}
-   530	
-   531		pm_runtime_set_autosuspend_delay(dev, 50);
-   532		pm_runtime_use_autosuspend(dev);
-   533	
-   534		/*
-   535		 * On probe, DCP is probably in charge of the boot framebuffer.
-   536		 * Don't suspend it until we get an explicit poweroff request.
-   537		 */
-   538		dcp->awake = true;
-   539	
-   540		/* We are now a client of the DCP/DISP0 genpd, so we can remove the always on flag */
-   541		if (dev->pm_domain) {
-   542			struct generic_pm_domain *genpd = pd_to_genpd(dev->pm_domain);
-   543			genpd->flags &= ~GENPD_FLAG_ALWAYS_ON;
-   544		}
-   545	
-   546		return ret;
-   547	}
-   548	
+f92c1e183604c2 Jiri Olsa     2021-12-08  1205  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1206  #ifdef CONFIG_KEYS
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1207  /**
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1208   * bpf_lookup_user_key - lookup a key by its serial
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1209   * @serial: key handle serial number
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1210   * @flags: lookup-specific flags
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1211   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1212   * Search a key with a given *serial* and the provided *flags*.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1213   * If found, increment the reference count of the key by one, and
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1214   * return it in the bpf_key structure.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1215   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1216   * The bpf_key structure must be passed to bpf_key_put() when done
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1217   * with it, so that the key reference count is decremented and the
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1218   * bpf_key structure is freed.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1219   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1220   * Permission checks are deferred to the time the key is used by
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1221   * one of the available key-specific kfuncs.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1222   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1223   * Set *flags* with KEY_LOOKUP_CREATE, to attempt creating a requested
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1224   * special keyring (e.g. session keyring), if it doesn't yet exist.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1225   * Set *flags* with KEY_LOOKUP_PARTIAL, to lookup a key without waiting
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1226   * for the key construction, and to retrieve uninstantiated keys (keys
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1227   * without data attached to them).
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1228   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1229   * Return: a bpf_key pointer with a valid key pointer if the key is found, a
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1230   *         NULL pointer otherwise.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1231   */
+760b15a8e5d45d David Vernet  2023-01-23  1232  BPF_KFUNC(struct bpf_key *bpf_lookup_user_key(u32 serial, u64 flags))
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1233  {
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1234  	key_ref_t key_ref;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1235  	struct bpf_key *bkey;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1236  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1237  	if (flags & ~KEY_LOOKUP_ALL)
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1238  		return NULL;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1239  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1240  	/*
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1241  	 * Permission check is deferred until the key is used, as the
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1242  	 * intent of the caller is unknown here.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1243  	 */
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1244  	key_ref = lookup_user_key(serial, flags, KEY_DEFER_PERM_CHECK);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1245  	if (IS_ERR(key_ref))
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1246  		return NULL;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1247  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1248  	bkey = kmalloc(sizeof(*bkey), GFP_KERNEL);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1249  	if (!bkey) {
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1250  		key_put(key_ref_to_ptr(key_ref));
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1251  		return NULL;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1252  	}
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1253  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1254  	bkey->key = key_ref_to_ptr(key_ref);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1255  	bkey->has_ref = true;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1256  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1257  	return bkey;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1258  }
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1259  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1260  /**
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1261   * bpf_lookup_system_key - lookup a key by a system-defined ID
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1262   * @id: key ID
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1263   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1264   * Obtain a bpf_key structure with a key pointer set to the passed key ID.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1265   * The key pointer is marked as invalid, to prevent bpf_key_put() from
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1266   * attempting to decrement the key reference count on that pointer. The key
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1267   * pointer set in such way is currently understood only by
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1268   * verify_pkcs7_signature().
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1269   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1270   * Set *id* to one of the values defined in include/linux/verification.h:
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1271   * 0 for the primary keyring (immutable keyring of system keys);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1272   * VERIFY_USE_SECONDARY_KEYRING for both the primary and secondary keyring
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1273   * (where keys can be added only if they are vouched for by existing keys
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1274   * in those keyrings); VERIFY_USE_PLATFORM_KEYRING for the platform
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1275   * keyring (primarily used by the integrity subsystem to verify a kexec'ed
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1276   * kerned image and, possibly, the initramfs signature).
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1277   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1278   * Return: a bpf_key pointer with an invalid key pointer set from the
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1279   *         pre-determined ID on success, a NULL pointer otherwise
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1280   */
+760b15a8e5d45d David Vernet  2023-01-23  1281  BPF_KFUNC(struct bpf_key *bpf_lookup_system_key(u64 id))
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1282  {
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1283  	struct bpf_key *bkey;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1284  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1285  	if (system_keyring_id_check(id) < 0)
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1286  		return NULL;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1287  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1288  	bkey = kmalloc(sizeof(*bkey), GFP_ATOMIC);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1289  	if (!bkey)
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1290  		return NULL;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1291  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1292  	bkey->key = (struct key *)(unsigned long)id;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1293  	bkey->has_ref = false;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1294  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1295  	return bkey;
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1296  }
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1297  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1298  /**
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1299   * bpf_key_put - decrement key reference count if key is valid and free bpf_key
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1300   * @bkey: bpf_key structure
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1301   *
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1302   * Decrement the reference count of the key inside *bkey*, if the pointer
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1303   * is valid, and free *bkey*.
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1304   */
+760b15a8e5d45d David Vernet  2023-01-23  1305  BPF_KFUNC(void bpf_key_put(struct bpf_key *bkey))
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1306  {
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1307  	if (bkey->has_ref)
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1308  		key_put(bkey->key);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1309  
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1310  	kfree(bkey);
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1311  }
+f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1312  
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1313  #ifdef CONFIG_SYSTEM_DATA_VERIFICATION
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1314  /**
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1315   * bpf_verify_pkcs7_signature - verify a PKCS#7 signature
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1316   * @data_ptr: data to verify
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1317   * @sig_ptr: signature of the data
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1318   * @trusted_keyring: keyring with keys trusted for signature verification
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1319   *
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1320   * Verify the PKCS#7 signature *sig_ptr* against the supplied *data_ptr*
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1321   * with keys in a keyring referenced by *trusted_keyring*.
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1322   *
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1323   * Return: 0 on success, a negative value on error.
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1324   */
+760b15a8e5d45d David Vernet  2023-01-23  1325  BPF_KFUNC(int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1326  					 struct bpf_dynptr_kern *sig_ptr,
+760b15a8e5d45d David Vernet  2023-01-23  1327  					 struct bpf_key *trusted_keyring))
+865b0566d8f1a0 Roberto Sassu 2022-09-20 @1328  {
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1329  	int ret;
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1330  
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1331  	if (trusted_keyring->has_ref) {
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1332  		/*
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1333  		 * Do the permission check deferred in bpf_lookup_user_key().
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1334  		 * See bpf_lookup_user_key() for more details.
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1335  		 *
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1336  		 * A call to key_task_permission() here would be redundant, as
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1337  		 * it is already done by keyring_search() called by
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1338  		 * find_asymmetric_key().
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1339  		 */
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1340  		ret = key_validate(trusted_keyring->key);
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1341  		if (ret < 0)
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1342  			return ret;
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1343  	}
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1344  
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1345  	return verify_pkcs7_signature(data_ptr->data,
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1346  				      bpf_dynptr_get_size(data_ptr),
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1347  				      sig_ptr->data,
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1348  				      bpf_dynptr_get_size(sig_ptr),
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1349  				      trusted_keyring->key,
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1350  				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1351  				      NULL);
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1352  }
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1353  #endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
+865b0566d8f1a0 Roberto Sassu 2022-09-20  1354  
 
 -- 
 0-DAY CI Kernel Test Service
