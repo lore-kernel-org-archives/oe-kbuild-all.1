@@ -1,56 +1,42 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2A71391;
-	Mon, 23 Jan 2023 12:37:28 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id q8so8872120wmo.5;
-        Mon, 23 Jan 2023 04:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
-        b=H8lzIkKWxlcdNJtwav8GT1stFUzYMcGkPqXHGDnxjysbQTduMHGUcIsH+2Yf+jyp+N
-         PUxgPwSH9DPoPEjzSft+o1MBWu4qTEyR34/Aw6w15RP5DNQMDmnLZ249ARSMr6ei3pHq
-         Q7+LZFOXiJSKdNE20khovt/IbDUY/rzGxtQZX/1aFWULcDnsRLWsEsamIntOvWLa268I
-         PhkiYfx5c58/a/8/ZwKG22Tzk36w4PVR/Q0pYQpTH3Oo7EZepvR5tmY7epUcmYOGwxDb
-         VJSitu/JHfN8rANPgzm2vhTUrTR5KU/5KKIz5EW8/slmBz5LLpIqRKkygBbjfY+aePNl
-         qqiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
-        b=yMrvHHqsCj5216IrlJ9Y7aAn5Vnwk0tLL5SIl8ucOEm0Aoe0LHwLtKWNIR6alVlmRt
-         U7m2ijT7hi8nDm94OSr8TK85ersuM2XrLXVZhnSOEtUIang2hSTBDScmZC2n9Oyr2vtL
-         2+y+0EIKO8QpP7ThYG6aerTSN5jh1kwq7VH4C5q4LhinjXrUtYjF7l53oWdTqbLFG38m
-         n4i3/ieuPbzL0RwtxmWLOQ5kWJsvXSA88i7DjLiL4lOeflNnShrjEkB2XNxw4/GhDo10
-         ESg59mpDlx4OuDhdiUUHViZLlw15Wqkq+Iid/5af03Pcb35J/rRZQT/ug8/072+IwV4c
-         F41g==
-X-Gm-Message-State: AFqh2koCrRofDlxFDYF0w+J01iZNFEZbRHU5HKFoSe5zHkiccu+7sQHT
-	W+C04QBahTBwainVxmVXGII=
-X-Google-Smtp-Source: AMrXdXuBckxCdly7hZDO+7ioeodPQcu+dNBtTpc63PkAuQuvkJyEdhzQfcozamqg+ceU8OoM64vnNw==
-X-Received: by 2002:a05:600c:2d05:b0:3d0:85b5:33d3 with SMTP id x5-20020a05600c2d0500b003d085b533d3mr22793200wmf.16.1674477446346;
-        Mon, 23 Jan 2023 04:37:26 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fc17-20020a05600c525100b003db1d9553e7sm11742499wmb.32.2023.01.23.04.37.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:37:25 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:37:22 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: Fwd:
- [ammarfaizi2-block:google/android/kernel/common/upstream-f2fs-stable-linux-5.15.y
- 115/361] fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced
- before check 'bio' (see line 995)
-Message-ID: <Y85/gtltbiWCv+jB@kadam>
-References: <Y853lht6nq1emVj6@kadam>
- <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B5C1C2D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 12:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674478389; x=1706014389;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+jyLQ0LtHqp1vO9c+XPe5U+6kePfWaFN7G78fyuLFdE=;
+  b=JH+1Q8mazjZlBTaWF3yoXXrx5i/0tkLC6Wws8OQaRFZKtuNUd/YYhvco
+   O+qpwK6JZSMw7t5xLXLipYFayHvzvxYHN7ujsAjmpTjxq9mXxObesDbv9
+   3nJDY9pHALTcJAdiK3wC3wBB0TUU3C/Q97WvoXc4XdGG9RZQYNEtkB8FX
+   C3SqGz2xqL3p7KPvCKeqCRegFrbO3zWsp55Elii8ZvFuPRnW2W4Mecjzn
+   8ri+66ZOkOVyCsNO7jCw97/nvEiCBdShz+4VXsuA5RkooXDY9nVLpuYkE
+   krQjmaUZdkPi9+Cg25kW/2eIPNONhDaJWf/olvcu8PBhgXKV6qqvDO3ZC
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="306385478"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="306385478"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 04:53:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="639111845"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="639111845"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 04:53:07 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJwJu-0005e4-1e;
+	Mon, 23 Jan 2023 12:53:06 +0000
+Date: Mon, 23 Jan 2023 20:52:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:misc/pfn_valid/v0 1/1] include/linux/mmzone.h:103:56: warning:
+ left-hand operand of comma expression has no effect
+Message-ID: <202301232046.wHmO6mOy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,27 +45,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
 
-On Mon, Jan 23, 2023 at 07:24:17PM +0700, Ammar Faizi wrote:
-> commit e8e3f1a12d05d0aef2c819664890b540dfb055af
-> Author:     Christoph Hellwig <hch@lst.de>
-> AuthorDate: Mon Feb 28 14:41:22 2022 +0200
-> Commit:     Jaegeuk Kim <jaegeuk@kernel.org>
-> CommitDate: Thu Apr 28 15:51:57 2022 -0700
-> 
->     f2fs: don't pass a bio to f2fs_target_device
->     Set the bdev at bio allocation time by changing the f2fs_target_device
->     calling conventions, so that no bio needs to be passed in.
->     Signed-off-by: Christoph Hellwig <hch@lst.de>
->     Reviewed-by: Chao Yu <chao@kernel.org>
->     Link: https://lore.kernel.org/r/20220228124123.856027-2-hch@lst.de
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This link doesn't have the bug.  It seems like it was caused by a merge
-issue.
+Hi Mike,
 
-Simple enough to fix either way.
+First bad commit (maybe != root cause):
 
-regards,
-dan carpenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git misc/pfn_valid/v0
+head:   2cb3404accfc161b66866cd03c42953f57700677
+commit: 2cb3404accfc161b66866cd03c42953f57700677 [1/1] mm, arch: add generic implementation of pfn_valid() for FLATMEM
+config: i386-randconfig-a002-20230123 (https://download.01.org/0day-ci/archive/20230123/202301232046.wHmO6mOy-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=2cb3404accfc161b66866cd03c42953f57700677
+        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
+        git fetch --no-tags rppt misc/pfn_valid/v0
+        git checkout 2cb3404accfc161b66866cd03c42953f57700677
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 prepare
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   In file included from include/linux/memcontrol.h:20,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:13:
+   include/linux/mm.h: In function 'folio_pfn':
+   include/linux/mm.h:1632:41: error: expected expression before ';' token
+    1632 |         return page_to_pfn(&folio->page);
+         |                                         ^
+   include/linux/mm.h:1632:42: error: expected ';' before '}' token
+    1632 |         return page_to_pfn(&folio->page);
+         |                                          ^
+         |                                          ;
+    1633 | }
+         | ~                                         
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from include/linux/crypto.h:20,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/mm.h: In function 'is_longterm_pinnable_page':
+   include/linux/mmzone.h:103:56: error: expected expression before ',' token
+     103 |         get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
+         |                                                        ^
+   include/linux/mm.h:1714:18: note: in expansion of macro 'get_pageblock_migratetype'
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:103:56: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     103 |         get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
+         |                                                        ^
+   include/linux/mm.h:1714:18: note: in expansion of macro 'get_pageblock_migratetype'
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/memcontrol.h:20,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:13:
+   include/linux/mm.h:1714:49: error: expected ')' before ';' token
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |                                                 ^
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from include/linux/crypto.h:20,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/mmzone.h:103:32: note: to match this '('
+     103 |         get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
+         |                                ^
+   include/linux/mm.h:1714:18: note: in expansion of macro 'get_pageblock_migratetype'
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmzone.h:103:9: error: too few arguments to function 'get_pfnblock_flags_mask'
+     103 |         get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:1714:18: note: in expansion of macro 'get_pageblock_migratetype'
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/mmzone.h:18,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from include/linux/crypto.h:20,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/pageblock-flags.h:64:15: note: declared here
+      64 | unsigned long get_pfnblock_flags_mask(const struct page *page,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/asm-offsets.c:115:1: error: expected declaration or statement at end of input
+     115 | }
+         | ^
+   In file included from include/linux/memcontrol.h:20,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:13:
+>> include/linux/mm.h:1714:13: warning: unused variable 'mt' [-Wunused-variable]
+    1714 |         int mt = get_pageblock_migratetype(page);
+         |             ^~
+   arch/x86/kernel/asm-offsets.c:115:1: error: no return statement in function returning non-void [-Werror=return-type]
+     115 | }
+         | ^
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:114: arch/x86/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1298: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +103 include/linux/mmzone.h
+
+e58469bafd0524 Mel Gorman 2014-06-04  101  
+dc4b0caff24d9b Mel Gorman 2014-06-04  102  #define get_pageblock_migratetype(page)					\
+535b81e209219e Wei Yang   2020-08-06 @103  	get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
+dc4b0caff24d9b Mel Gorman 2014-06-04  104  
+
+:::::: The code at line 103 was first introduced by commit
+:::::: 535b81e209219e03f815379746bfd1eeb82d68e5 mm/page_alloc.c: remove unnecessary end_bitidx for [set|get]_pfnblock_flags_mask()
+
+:::::: TO: Wei Yang <richard.weiyang@linux.alibaba.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
