@@ -1,51 +1,54 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC9133C0;
-	Mon, 23 Jan 2023 15:47:01 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id g10so9372741wmo.1;
-        Mon, 23 Jan 2023 07:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2xgEEjXrW2lbu5MpNlLjABQ+7E1/MT4wNU2nwaef9vI=;
-        b=Kt3pT582myGeFi/97kQnKAexk3ywU6roMYBJ2ygVFJim8h+xpOVfdaO41qjzhtJ0Sz
-         zvqhzMxr9C42+GQke42JlIhYWKctrUdtalMd65GrY4/utVq6xQXZAd/hoSQDkQmwKIFZ
-         ihEsobREny3WwDAGu2uksDeQNm7veEaO1C3ep33lBj2ZsP7Lv12JhhQ+pcfwwpabeEwW
-         2RK9g+W+DZLr4PGXF1K/gHYe1lG/Xmu4466x+QsZVfGzA8sqonBZr4FIhCeyDflhrLtI
-         BLcZJWM5PJfIkKmeMM4+voe7yc3FM/Wpx7QfoxtRNmusmuiBERHEgSNQ/J8E68Ya51O2
-         8Q/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2xgEEjXrW2lbu5MpNlLjABQ+7E1/MT4wNU2nwaef9vI=;
-        b=RGmMHDwqV+OUzryRiEqXzXZf3mL8WCKluCuxVBN6Ew0VB4XbnFuCrPMQo9EZDVyddX
-         vfXh1bSbu98eGknChfLPJQ69DwiM70Fv1QSVf50HS+tXTtebTFK1EsLjfFlVk8xjv3fv
-         xCRtiQi0kF4JUzyCLVhcU6/zIoZGy03kcUBGwBKUGXUgnWoFzgCqHED469Mgv3wJmczu
-         QcjdsAtMy4iV8aZPAuIOeuU1Y8IhCTjCqjzRzxBLNwOVm7SJyz6ozrJndChNA5RGSBBG
-         E5z6htav+NippgN5ujwBKKVK1/6exyxomvVQw6D3yPFNIJfyH2l74nG6F8f4mWWlzCg6
-         w/Ug==
-X-Gm-Message-State: AFqh2koCYnQeJGLxDt6PpAo3rvx8apARCdCXAKAKTKnbzBJY78WmnUs6
-	gtQfzUnNtT5y0+8u6Ds5iaQ=
-X-Google-Smtp-Source: AMrXdXt0Nm3pTHNspcprTRWX8uHoMzHpbZY5sB9M/E2IPudxPwZTsKYcte6yCvHiQbF6uESqJuuj1w==
-X-Received: by 2002:a05:600c:35c1:b0:3db:1424:e781 with SMTP id r1-20020a05600c35c100b003db1424e781mr19349102wmq.23.1674488820252;
-        Mon, 23 Jan 2023 07:47:00 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o21-20020a05600c4fd500b003c6f8d30e40sm12223314wmq.31.2023.01.23.07.46.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 07:46:59 -0800 (PST)
-Date: Mon, 23 Jan 2023 18:46:56 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:x86/core 3/3] arch/x86/kernel/static_call.c:98
- __static_call_transform() error: uninitialized symbol 'op'.
-Message-ID: <Y86r8GaOYdvGlPq9@kadam>
-References: <Y853bqEhA5NDC3Ar@kadam>
- <Y86maRy5ILlUBo/9@hirez.programming.kicks-ass.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C674663C4;
+	Mon, 23 Jan 2023 16:19:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674490762; x=1706026762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lmu2v7OpTbu6dqk7bQ9CsXmK8c+nQata6XlQ8c9vCME=;
+  b=fRcHElqMEi/4o2Aenro818D6o3Ist4rPAUDfDu/Tq0xh9PfPVR8j1iWI
+   +j3QX8DGa20u+pVVqwgHG/EMxKhCgePPBnCMnCo5hLGbRbdKDWkEPDfyv
+   Sw5xIEGhZJVP0aTM+FLZY5WcMS0JRZFwDoXhunmmxPnVCIq+bDnI98WjG
+   b6UlZkjTmMK76ACFUUK8wIVpyDG0y3xJM0ZNFW6u/3wJ5tzFM9v/XtZ8T
+   PBZsuV0Rkw3dD++hlC3NQWY6IE+oC0Hgkxqo8sAYYgjaIweiRWU9wCV7G
+   dhqoUmbuLXGIe/j0N+ydHf56n73NX7yRgIa9k1UTJiuSbEnqAXrQKok9/
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327340454"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="327340454"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:19:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663690168"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="663690168"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 08:19:17 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJzXN-0005lU-1V;
+	Mon, 23 Jan 2023 16:19:13 +0000
+Date: Tue, 24 Jan 2023 00:18:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hewitt <christianshewitt@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Benjamin Roszak <benjamin545@gmail.com>
+Subject: Re: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
+Message-ID: <202301240007.NkZA19qq-lkp@intel.com>
+References: <20230123133113.3254659-3-christianshewitt@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,48 +57,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y86maRy5ILlUBo/9@hirez.programming.kicks-ass.net>
+In-Reply-To: <20230123133113.3254659-3-christianshewitt@gmail.com>
 
-On Mon, Jan 23, 2023 at 04:23:21PM +0100, Peter Zijlstra wrote:
-> On Mon, Jan 23, 2023 at 03:02:54PM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-> > head:   700f4c6d925823018a2d09f92de5405065d2ffec
-> > commit: 700f4c6d925823018a2d09f92de5405065d2ffec [3/3] x86/static_call: Add support for Jcc tail-calls
-> > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301211834.noGVyk06-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > 
-> > smatch warnings:
-> > arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
-> > 
-> > vim +/op +98 arch/x86/kernel/static_call.c
-> > 
-> > c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
-> > c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
-> > e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
-> > 3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
-> > 452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
-> > 452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
-> > 700f4c6d925823 Peter Zijlstra  2023-01-20   59  	u8 op, buf[6];
-> > 700f4c6d925823 Peter Zijlstra  2023-01-20   60  
-> > 700f4c6d925823 Peter Zijlstra  2023-01-20   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
-> > 700f4c6d925823 Peter Zijlstra  2023-01-20   62  		type = JCC;
-> > 
-> > Smatch is concerned that type can start as "JCC".
-> 
-> It can't. What's the normal way to shut this kind of warnings up?
-> 
-> Something like BUG_ON(type==JCC); should squash that value I suppose,
-> but it does seems a bit crude.
+Hi Christian,
 
-We could just ignore it.  These are one time only emails.
+Thank you for the patch! Perhaps something to improve:
 
-This code hasn't hit linux-next yet, so I don't have it on my system.
-It may be that using the cross function DB silences the warning.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.2-rc5 next-20230123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230123133113.3254659-3-christianshewitt%40gmail.com
+patch subject: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240007.NkZA19qq-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/498d420e9c7cdc6e694be643c47ee69c8b5b2142
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
+        git checkout 498d420e9c7cdc6e694be643c47ee69c8b5b2142
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/media/meson/vdec/codec_hevc.c: In function 'codec_hevc_set_mpred_mv':
+>> drivers/staging/media/meson/vdec/codec_hevc.c:1002:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
+    1002 |         u32 val;
+         |             ^~~
+
+
+vim +/val +1002 drivers/staging/media/meson/vdec/codec_hevc.c
+
+   990	
+   991	static void codec_hevc_set_mpred_mv(struct amvdec_core *core,
+   992					    struct codec_hevc *hevc,
+   993					    struct hevc_frame *frame,
+   994					    struct hevc_frame *col_frame)
+   995	{
+   996		union rpm_param *param = &hevc->rpm_param;
+   997		u32 lcu_size_log2 = ilog2(hevc->lcu_size);
+   998		u32 mv_mem_unit = lcu_size_log2 == 6 ? 0x200 :
+   999				  lcu_size_log2 == 5 ? 0x80 : 0x20;
+  1000		dma_addr_t col_mv_rd_start_addr, col_mv_rd_ptr, col_mv_rd_end_addr;
+  1001		dma_addr_t mpred_mv_wr_ptr;
+> 1002		u32 val;
+  1003	
+  1004		val = amvdec_read_dos(core, HEVC_MPRED_CURR_LCU);
+  1005	
+  1006		col_mv_rd_start_addr = codec_hevc_get_frame_mv_paddr(hevc, col_frame);
+  1007		mpred_mv_wr_ptr = codec_hevc_get_frame_mv_paddr(hevc, frame) +
+  1008				  (hevc->slice_addr * mv_mem_unit);
+  1009		col_mv_rd_ptr = col_mv_rd_start_addr +
+  1010				(hevc->slice_addr * mv_mem_unit);
+  1011		col_mv_rd_end_addr = col_mv_rd_start_addr +
+  1012				     (hevc->lcu_total * mv_mem_unit);
+  1013	
+  1014		amvdec_write_dos(core, HEVC_MPRED_MV_WR_START_ADDR,
+  1015				 codec_hevc_get_frame_mv_paddr(hevc, frame));
+  1016		amvdec_write_dos(core, HEVC_MPRED_MV_RD_START_ADDR,
+  1017				 col_mv_rd_start_addr);
+  1018	
+  1019		if (param->p.slice_segment_address == 0) {
+  1020			amvdec_write_dos(core, HEVC_MPRED_ABV_START_ADDR,
+  1021					 hevc->workspace_paddr + MPRED_ABV_OFFSET);
+  1022			amvdec_write_dos(core, HEVC_MPRED_MV_WPTR, mpred_mv_wr_ptr);
+  1023			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR,
+  1024					 col_mv_rd_start_addr);
+  1025		} else {
+  1026			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR, col_mv_rd_ptr);
+  1027		}
+  1028	
+  1029		amvdec_write_dos(core, HEVC_MPRED_MV_RD_END_ADDR, col_mv_rd_end_addr);
+  1030	}
+  1031	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
