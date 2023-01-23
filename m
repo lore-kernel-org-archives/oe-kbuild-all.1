@@ -1,42 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398EB7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 20:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C407E2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 20:34:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674505465; x=1706041465;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=c3KZKw6tzJDSQNTFKm2ABedO/TYlo/ud4fzT2ss55MA=;
-  b=PY3k9o3FApYqOi8W8UpiMk/JJHhipRXUuDI73M/c0esxfaYze1K/nBbS
-   iIuXstbW32Ik8uztSPe/T0Sa4tEWkcLoHY/yNA4dIoBCGudWiNeirGEY+
-   9OIhJ10VJSeoBm1GzUjeZ1qXPZIvHyo9HpG0dLeKlKiwjQml4esR35z87
-   UK1n8h36yS0eoIlH10dA8NIf7eGB+insWS8AeND/AY/KKnD6x1gu4rxW1
-   KSfT+4vDXVNisrjxZMypkmiTSuiJBOVWHRxh7EBhvIP1SMvGBRaipbauF
-   BZGyKxTirBZDTlAwwmKuvkQOPKwYksdzJb8aS7o1R2mPR+yzMg0mjq3+i
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353411511"
+  t=1674506064; x=1706042064;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0CPXpFgn+CRuK3wFyrMbt4HCr/wh8pI8j3bocepN1JM=;
+  b=awyELhlTU8/ghOrmGrOJiN1I+iB8LfdtTS/76WtWXNcc5/YCxBodF5Kk
+   AjlGN7Xp7zKhnSfUKdseqIWHuyDXrglgEC0TtPEQqJlk6HQthP/7+X/9R
+   c+UxKwo0VYyt5NeoeZ8slOngy5NjqnkaHPZWXMpg0KNQrBrP0sA4YA+Iw
+   aHUs2+UsZ5fzQKo75C2EbDWGXYkbDVyTCb2StoXOmNcJfzdGHq6y1M5ky
+   bbAzgUILaY/kr79o+6C2LVNL1u2LYLLM3p3Px85JYgE1k0hFQmnXUQyOZ
+   5QRvFLHdRWwfBbD8tPt8cYieI+VQlmzsJ0l5TlPfjlfjAdHhf/Nw7HHWD
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306499590"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="353411511"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 12:24:23 -0800
+   d="scan'208";a="306499590"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 12:34:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990599845"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663812233"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="990599845"
+   d="scan'208";a="663812233"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 12:24:21 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 12:34:22 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK3Ma-0005sG-2b;
-	Mon, 23 Jan 2023 20:24:20 +0000
-Date: Tue, 24 Jan 2023 04:23:42 +0800
+	id 1pK3WH-0005sm-0h;
+	Mon, 23 Jan 2023 20:34:21 +0000
+Date: Tue, 24 Jan 2023 04:34:03 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-devel:master 18/19] drivers/block/pktcdvd.c:49:10:
- fatal error: linux/pktcdvd.h: No such file or directory
-Message-ID: <202301240450.yiHTqTmb-lkp@intel.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android-4.14-q 1/1]
+ drivers/usb/gadget/function/f_accessory.c:1008:5: warning: no previous
+ declaration for 'acc_ctrlrequest_composite'
+Message-ID: <202301240453.JfRh7ner-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,67 +48,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-head:   8e27b1d4225c6a239971725fb12a477f99fc4b64
-commit: 2f34838107c62f78f4cd17f34b744f24d3cc80d5 [18/19] Merge tag 'v6.2-rc5' into renesas-devel
-config: alpha-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240450.yiHTqTmb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android-4.14-q
+head:   6e193ecd7a65f41aabc219c33deccd3152fde14c
+commit: 6e193ecd7a65f41aabc219c33deccd3152fde14c [1/1] ANDROID: usb: f_accessory: Check buffer size when initialised via composite
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240453.JfRh7ner-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?id=2f34838107c62f78f4cd17f34b744f24d3cc80d5
-        git remote add geert-renesas-devel https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
-        git fetch --no-tags geert-renesas-devel master
-        git checkout 2f34838107c62f78f4cd17f34b744f24d3cc80d5
+        # https://github.com/ammarfaizi2/linux-block/commit/6e193ecd7a65f41aabc219c33deccd3152fde14c
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android-4.14-q
+        git checkout 6e193ecd7a65f41aabc219c33deccd3152fde14c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/usb/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/block/pktcdvd.c:49:10: fatal error: linux/pktcdvd.h: No such file or directory
-      49 | #include <linux/pktcdvd.h>
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
+   drivers/usb/gadget/function/f_accessory.c:897:5: warning: no previous declaration for 'acc_ctrlrequest' [-Wmissing-declarations]
+    int acc_ctrlrequest(struct usb_composite_dev *cdev,
+        ^~~~~~~~~~~~~~~
+>> drivers/usb/gadget/function/f_accessory.c:1008:5: warning: no previous declaration for 'acc_ctrlrequest_composite' [-Wmissing-declarations]
+    int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_accessory.c:1335:6: warning: no previous declaration for 'acc_disconnect' [-Wmissing-declarations]
+    void acc_disconnect(void)
+         ^~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_accessory.c:1440:5: warning: no previous declaration for 'acc_ctrlrequest_configfs' [-Wmissing-declarations]
+    int acc_ctrlrequest_configfs(struct usb_function *f,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +49 drivers/block/pktcdvd.c
+vim +/acc_ctrlrequest_composite +1008 drivers/usb/gadget/function/f_accessory.c
 
-4b83e99ee7092d Jens Axboe 2023-01-04  48  
-4b83e99ee7092d Jens Axboe 2023-01-04 @49  #include <linux/pktcdvd.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  50  #include <linux/module.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  51  #include <linux/types.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  52  #include <linux/kernel.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  53  #include <linux/compat.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  54  #include <linux/kthread.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  55  #include <linux/errno.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  56  #include <linux/spinlock.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  57  #include <linux/file.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  58  #include <linux/proc_fs.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  59  #include <linux/seq_file.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  60  #include <linux/miscdevice.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  61  #include <linux/freezer.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  62  #include <linux/mutex.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  63  #include <linux/slab.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  64  #include <linux/backing-dev.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  65  #include <scsi/scsi_cmnd.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  66  #include <scsi/scsi_ioctl.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  67  #include <scsi/scsi.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  68  #include <linux/debugfs.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  69  #include <linux/device.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  70  #include <linux/nospec.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  71  #include <linux/uaccess.h>
-4b83e99ee7092d Jens Axboe 2023-01-04  72  
-
-:::::: The code at line 49 was first introduced by commit
-:::::: 4b83e99ee7092df37a5cf292fde976ebc475ea63 Revert "pktcdvd: remove driver."
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+  1007	
+> 1008	int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
+  1009				      const struct usb_ctrlrequest *ctrl)
+  1010	{
+  1011		u16 w_length = le16_to_cpu(ctrl->wLength);
+  1012	
+  1013		if (w_length > USB_COMP_EP0_BUFSIZ) {
+  1014			if (ctrl->bRequestType & USB_DIR_IN) {
+  1015				/* Cast away the const, we are going to overwrite on purpose. */
+  1016				__le16 *temp = (__le16 *)&ctrl->wLength;
+  1017	
+  1018				*temp = cpu_to_le16(USB_COMP_EP0_BUFSIZ);
+  1019				w_length = USB_COMP_EP0_BUFSIZ;
+  1020			} else {
+  1021				return -EINVAL;
+  1022			}
+  1023		}
+  1024		return acc_ctrlrequest(cdev, ctrl);
+  1025	}
+  1026	EXPORT_SYMBOL_GPL(acc_ctrlrequest_composite);
+  1027	
 
 -- 
 0-DAY CI Kernel Test Service
