@@ -1,52 +1,43 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE0B7C;
-	Mon, 23 Jan 2023 12:04:26 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id z5so10572118wrt.6;
-        Mon, 23 Jan 2023 04:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xjnmOT38exucKpDnBU3ufQTB3PeDS8pOIxods2RkuqU=;
-        b=UUuJSdzFXaxpXgT78bDz8LTpg6wNHB833NRvU1jUgbKWTbM5n9tLmSf1V0MAHV8ikK
-         VWDUnIEdUpt9PvolNOKjWtNfqLzL4+ogWsZVhWbTjQa26Xn1MDH8wvzphBfhUcRcKTx+
-         2qdLuoSOOHJOTv4DQBR8p/YC3uFjlcFKCvmIlcMsvgpQGbi8o5NRiOgArsHTjL/J030I
-         siZ1TC3VtoLx+ZGAp4VqrS378TMzQ0k07GshmhwBp6N5OxBDZ2in3Kw+ajyLYQz7OdqF
-         dFoSzZFGNkuP+yHG0EcndNpGAnvr0WOop34du4EFQlybgLhOpxj1QmiaqQQYkOOjY4yL
-         x5DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xjnmOT38exucKpDnBU3ufQTB3PeDS8pOIxods2RkuqU=;
-        b=OJuNF14q5LBTwv6pcv4JnvjPcsWjadzCRViZxosHBHFKD3q5UR1Jc2+afopyLpNXt2
-         T7GrM0HPrFUc3qNuvMQNiSXBSLcrBIV6siR1A9GC3gu1xcPopPPfxp5m6MtZNZnS3jKR
-         SQB6fpXfyR/ZzziEOvT22za/whIkwYmFFFYZRfhsYTqoXBrxKIS9M61gtIyvipHZmOKt
-         zmbkP5GqOBeVX3bqh9GnmCnF+V7+3NEIagUQlTw7apUvFTHYBV7zF0dKGu0NPYDHM1gs
-         DAVmTgGyUcnRGg8hsaeAeGQc4Dx2w0iUnhT97Vy4XAwdHsAi67Pl6imZoB5melxhC9tA
-         Uk+A==
-X-Gm-Message-State: AFqh2kpFcxV5+/pCXMp9951DVINcKTGmB+yXufpbV6QyAQXkuMnEtbKC
-	YiakzIcqyAkHiB3dh//Dsm9Ua3gdYPg=
-X-Google-Smtp-Source: AMrXdXt9r3PFlHjSFKwd+OygSUaI9ukjcd2mC9i/Q5L3weA7oL+9hWeLk+Fd3hgpYQZVjf/oB+6q3Q==
-X-Received: by 2002:a05:6000:1a8f:b0:2be:3fa7:ab4e with SMTP id f15-20020a0560001a8f00b002be3fa7ab4emr18860225wry.38.1674475464786;
-        Mon, 23 Jan 2023 04:04:24 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q15-20020a5d574f000000b00272c0767b4asm4156681wrw.109.2023.01.23.04.04.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:04:24 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:04:20 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Gabriel Somlo <gsomlo@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jiri Slaby <jirislaby@kernel.org>
-Subject: [tty:tty-next 17/90] drivers/tty/serial/liteuart.c:328
- liteuart_probe() warn: missing unwind goto?
-Message-ID: <Y853xOE+Oat1MQZg@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF37D7C;
+	Mon, 23 Jan 2023 12:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674476530; x=1706012530;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oLWT0oA22lJbZsciU17gqm210t0yQgW2iq4RMVP7j08=;
+  b=aaksvFVAuVL5A9gc79XytMyBzbFWPJqXl5mCYT/oy7N5400CnzEvWuIl
+   dD9sARuKihPvRNVKl3NUKZpJ0bWmopXamQVkokusUs/U2FfEswn9JXV2K
+   j22dzp7jxaeXqceOH0C7wzNEgwbeBIfuKDX3flTuZSHu7zS9V0zZ9ACb0
+   PojsaNbKdCrwRZBg6T6kfGirr+glQrRN66mj+yB/wykmcZglTuzk6kVJj
+   nI3z751M7FLr3biO8AFVqz+tmqDWwJVW6WTq/TygbGfkKzFJJftj7hfNk
+   uqXxYtIcSGMqHglVzYEQpvfZSY3jX+/IyGH/rPhoFF+1LYxI8NA7p7rhd
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="323718733"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="323718733"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 04:22:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="692117335"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="692117335"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 23 Jan 2023 04:22:06 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJvpt-0005dE-3B;
+	Mon, 23 Jan 2023 12:22:05 +0000
+Date: Mon, 23 Jan 2023 20:21:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>
+Subject: drivers/clk/clk-asm9260.c:258:17: warning: variable 'hw' set but not
+ used
+Message-ID: <202301232014.R6MwCVoq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,87 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
-head:   05e2600cb0a4d73b0779cf29512819616252aeeb
-commit: 5602cf99dcdcc0bf8f9a5979b7443fbe46686995 [17/90] serial: liteuart: add IRQ support for the RX path
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301210724.SCRcRjOR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Dmitry,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
+commit: f5290d8e4f0caa81a491448a27dd70e726095d07 clk: asm9260: use parent index to link the reference clock
+date:   4 months ago
+config: arm-randconfig-r046-20230122 (https://download.01.org/0day-ci/archive/20230123/202301232014.R6MwCVoq-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f5290d8e4f0caa81a491448a27dd70e726095d07
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f5290d8e4f0caa81a491448a27dd70e726095d07
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/tty/serial/liteuart.c:328 liteuart_probe() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +328 drivers/tty/serial/liteuart.c
+>> drivers/clk/clk-asm9260.c:258:17: warning: variable 'hw' set but not used [-Wunused-but-set-variable]
+           struct clk_hw *hw, *pll_hw;
+                          ^
+   1 warning generated.
 
-1da81e5562fac8 Filip Kokosinski 2020-10-13  294  static int liteuart_probe(struct platform_device *pdev)
-1da81e5562fac8 Filip Kokosinski 2020-10-13  295  {
-1da81e5562fac8 Filip Kokosinski 2020-10-13  296  	struct liteuart_port *uart;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  297  	struct uart_port *port;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  298  	struct xa_limit limit;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  299  	int dev_id, ret;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  300  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  301  	/* look for aliases; auto-enumerate for free index if not found */
-1da81e5562fac8 Filip Kokosinski 2020-10-13  302  	dev_id = of_alias_get_id(pdev->dev.of_node, "serial");
-1da81e5562fac8 Filip Kokosinski 2020-10-13  303  	if (dev_id < 0)
-1da81e5562fac8 Filip Kokosinski 2020-10-13  304  		limit = XA_LIMIT(0, CONFIG_SERIAL_LITEUART_MAX_PORTS);
-1da81e5562fac8 Filip Kokosinski 2020-10-13  305  	else
-1da81e5562fac8 Filip Kokosinski 2020-10-13  306  		limit = XA_LIMIT(dev_id, dev_id);
-1da81e5562fac8 Filip Kokosinski 2020-10-13  307  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  308  	uart = devm_kzalloc(&pdev->dev, sizeof(struct liteuart_port), GFP_KERNEL);
-1da81e5562fac8 Filip Kokosinski 2020-10-13  309  	if (!uart)
-1da81e5562fac8 Filip Kokosinski 2020-10-13  310  		return -ENOMEM;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  311  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  312  	ret = xa_alloc(&liteuart_array, &dev_id, uart, limit, GFP_KERNEL);
-1da81e5562fac8 Filip Kokosinski 2020-10-13  313  	if (ret)
-1da81e5562fac8 Filip Kokosinski 2020-10-13  314  		return ret;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  315  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  316  	uart->id = dev_id;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  317  	port = &uart->port;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  318  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  319  	/* get membase */
-1da81e5562fac8 Filip Kokosinski 2020-10-13  320  	port->membase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-dd5e90b16cca8a Johan Hovold     2021-11-17  321  	if (IS_ERR(port->membase)) {
-dd5e90b16cca8a Johan Hovold     2021-11-17  322  		ret = PTR_ERR(port->membase);
-dd5e90b16cca8a Johan Hovold     2021-11-17  323  		goto err_erase_id;
-dd5e90b16cca8a Johan Hovold     2021-11-17  324  	}
-1da81e5562fac8 Filip Kokosinski 2020-10-13  325  
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23  326  	ret = platform_get_irq_optional(pdev, 0);
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23  327  	if (ret < 0 && ret != -ENXIO)
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23 @328  		return ret;
 
-Needs to be "goto err_erase_id;"
+vim +/hw +258 drivers/clk/clk-asm9260.c
 
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23  329  	if (ret > 0)
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23  330  		port->irq = ret;
-5602cf99dcdcc0 Gabriel Somlo    2022-11-23  331  
-1da81e5562fac8 Filip Kokosinski 2020-10-13  332  	/* values not from device tree */
-1da81e5562fac8 Filip Kokosinski 2020-10-13  333  	port->dev = &pdev->dev;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  334  	port->iotype = UPIO_MEM;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  335  	port->flags = UPF_BOOT_AUTOCONF;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  336  	port->ops = &liteuart_ops;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  337  	port->fifosize = 16;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  338  	port->type = PORT_UNKNOWN;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  339  	port->line = dev_id;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  340  	spin_lock_init(&port->lock);
-1da81e5562fac8 Filip Kokosinski 2020-10-13  341  
-0f55f89d98c8b3 Ilia Sergachev   2021-11-15  342  	platform_set_drvdata(pdev, port);
-0f55f89d98c8b3 Ilia Sergachev   2021-11-15  343  
-dd5e90b16cca8a Johan Hovold     2021-11-17  344  	ret = uart_add_one_port(&liteuart_driver, &uart->port);
-dd5e90b16cca8a Johan Hovold     2021-11-17  345  	if (ret)
-dd5e90b16cca8a Johan Hovold     2021-11-17  346  		goto err_erase_id;
-dd5e90b16cca8a Johan Hovold     2021-11-17  347  
-dd5e90b16cca8a Johan Hovold     2021-11-17  348  	return 0;
-dd5e90b16cca8a Johan Hovold     2021-11-17  349  
-dd5e90b16cca8a Johan Hovold     2021-11-17  350  err_erase_id:
-dd5e90b16cca8a Johan Hovold     2021-11-17  351  	xa_erase(&liteuart_array, uart->id);
-dd5e90b16cca8a Johan Hovold     2021-11-17  352  
-dd5e90b16cca8a Johan Hovold     2021-11-17  353  	return ret;
-1da81e5562fac8 Filip Kokosinski 2020-10-13  354  }
+   255	
+   256	static void __init asm9260_acc_init(struct device_node *np)
+   257	{
+ > 258		struct clk_hw *hw, *pll_hw;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
