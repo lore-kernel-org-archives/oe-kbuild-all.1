@@ -1,42 +1,42 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0C7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 20:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398EB7C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 20:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674505463; x=1706041463;
+  t=1674505465; x=1706041465;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=Rl4IV5tqaI4iujUMnAyKGgz5G71PYFjlRSIT1oqokc8=;
-  b=ILm6WmuOWsseNuQ2N7VeVd2HuM5WAGOO9uAxMBKRBvZ37TQwtLhbJMU6
-   uk7L9vB1ZTspta0adL+H2xsunKIsGmH3gZ0WHzGI9hmTs5gxV2HQLOEl/
-   +aPz6ITS7aYePhF0Mr1ldtUmW4mItE2W6rJ0YBdv5zdR3msVhGkLAo5nK
-   pyEED8hBjdL0uXKUH8BHvsVrR83oBqbsc4QQc5eVebHBK7H4LXdMWyRIQ
-   I+xRPokjp6+FUaWb5uZ42PU3VzZ34NonFZCkzl67OsJA8idVhZjf4tn5I
-   AnnS54WiWcfrX/2oIvnu6MxjRF/Wyf88f634sB5ykEfuO2DNsCmDJMCTm
+  bh=c3KZKw6tzJDSQNTFKm2ABedO/TYlo/ud4fzT2ss55MA=;
+  b=PY3k9o3FApYqOi8W8UpiMk/JJHhipRXUuDI73M/c0esxfaYze1K/nBbS
+   iIuXstbW32Ik8uztSPe/T0Sa4tEWkcLoHY/yNA4dIoBCGudWiNeirGEY+
+   9OIhJ10VJSeoBm1GzUjeZ1qXPZIvHyo9HpG0dLeKlKiwjQml4esR35z87
+   UK1n8h36yS0eoIlH10dA8NIf7eGB+insWS8AeND/AY/KKnD6x1gu4rxW1
+   KSfT+4vDXVNisrjxZMypkmiTSuiJBOVWHRxh7EBhvIP1SMvGBRaipbauF
+   BZGyKxTirBZDTlAwwmKuvkQOPKwYksdzJb8aS7o1R2mPR+yzMg0mjq3+i
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353411514"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353411511"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="353411514"
+   d="scan'208";a="353411511"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 12:24:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990599844"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990599845"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="990599844"
+   d="scan'208";a="990599845"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 12:24:21 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK3Ma-0005sI-2g;
+	id 1pK3Ma-0005sG-2b;
 	Mon, 23 Jan 2023 20:24:20 +0000
-Date: Tue, 24 Jan 2023 04:23:43 +0800
+Date: Tue, 24 Jan 2023 04:23:42 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
 Subject: [geert-renesas-devel:master 18/19] drivers/block/pktcdvd.c:49:10:
  fatal error: linux/pktcdvd.h: No such file or directory
-Message-ID: <202301240428.nR3yBWOD-lkp@intel.com>
+Message-ID: <202301240450.yiHTqTmb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,8 +49,8 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
 head:   8e27b1d4225c6a239971725fb12a477f99fc4b64
 commit: 2f34838107c62f78f4cd17f34b744f24d3cc80d5 [18/19] Merge tag 'v6.2-rc5' into renesas-devel
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301240428.nR3yBWOD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+config: alpha-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240450.yiHTqTmb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -60,8 +60,8 @@ reproduce (this is a W=1 build):
         git checkout 2f34838107c62f78f4cd17f34b744f24d3cc80d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
