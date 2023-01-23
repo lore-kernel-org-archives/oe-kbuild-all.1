@@ -1,156 +1,177 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AA88829
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 23:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D63A8829;
+	Mon, 23 Jan 2023 23:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674517112; x=1706053112;
+  t=1674518374; x=1706054374;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BL0KE40ebJXBQ5wLEALwSAqTSiRgt9HETelmZgjk12M=;
-  b=NKhhtI3P+EZFUx38fYRCie0mPKEg828ZuEFlxNrynBNf6k48wf45KY14
-   An9SvSNfmgMxgzGdNlEI3s6eY/uJhjUwE7joS7aw1E+nyuHs31rWlvMl7
-   J1ol4RsjTpiHRab4FZhh3PED5l3mlU1ZLcF4ctuyj0hB9QGOR/j9KQ8CI
-   qHXLl8mQkdM9BwpgpmkdmY+ElIROwwnT/djpc8K+Tfni2q9tAcMoSyDi8
-   NJMEj//14rBiIHvfig0h90ERLIDaPI+U4U+p3Otpq7ILE2reyCmuYSAn1
-   ocPUfjv+HTCpjVWVOusQSBaM4YCL8b6AYdcxdweBOn0/4l9IMQCvtGoVP
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QAMUQ1C9nh+0FsG2N/002dB6YDeAObemhBwJPCkLwIw=;
+  b=gbxv5ZJtIJsRiSACq5arM8ns1MOtjSTgKMquouDvNRD6JXRehHiJLbf2
+   uyhgJfWd4UD4TeGxCyZTmgP1A4CgrcmyCHLHgxXzWhr6/LVSNak2yuqnR
+   tKwfBOgOCEw8LfiOAElrSaf6HtRaQ4GVUmA9UkelYijlKyOUPUtJM0mXr
+   1zYATmgIXGWzQUK4M6GnXMvyRmciX81YKJ/Cvkst9TalbarX2HPTawIWr
+   fON+IQmOBQkR6L//emmjrXMS44ATAnDn1mltatsul6VoaIGyTSq492dIT
+   HUMZdzrSt9oaNiduM/+prsDFY52oskDCtLkuSaAd0sFYT8o/6k7ufA7tq
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323881142"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="390698553"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="323881142"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 15:38:31 -0800
+   d="scan'208";a="390698553"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 15:59:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639380552"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694139295"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="639380552"
+   d="scan'208";a="694139295"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 15:38:27 -0800
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 15:59:27 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK6OQ-0005xC-1T;
-	Mon, 23 Jan 2023 23:38:26 +0000
-Date: Tue, 24 Jan 2023 07:38:09 +0800
+	id 1pK6ik-0005xg-39;
+	Mon, 23 Jan 2023 23:59:27 +0000
+Date: Tue, 24 Jan 2023 07:58:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
-	robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
-	dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
-	airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
-	andersson@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_sbillaka@quicinc.com,
-	linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
-	linux-kernel@vger.kernel.org,
-	Kuogee Hsieh <quic_khsieh@quicinc.com>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v1 02/14] drm/msm/dp: add dsc factor into calculation of
- supported bpp
-Message-ID: <202301240748.RCxiAZH1-lkp@intel.com>
-References: <1674498274-6010-3-git-send-email-quic_khsieh@quicinc.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
+	sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
+	tfiga@chromium.org, sebastian.wick@redhat.com, hverkuil@xs4all.nl,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
+	lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
+	jstultz@google.com, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
+Message-ID: <202301240717.tim1ggHo-lkp@intel.com>
+References: <20230123123756.401692-3-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1674498274-6010-3-git-send-email-quic_khsieh@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230123123756.401692-3-christian.koenig@amd.com>
 
-Hi Kuogee,
+Hi Christian,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on next-20230123]
-[also build test WARNING on linus/master v6.2-rc5]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.2-rc5 v6.2-rc4 v6.2-rc3]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on media-tree/master drm-tip/drm-tip linus/master v6.2-rc5]
+[cannot apply to next-20230123]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
-patch link:    https://lore.kernel.org/r/1674498274-6010-3-git-send-email-quic_khsieh%40quicinc.com
-patch subject: [PATCH v1 02/14] drm/msm/dp: add dsc factor into calculation of supported bpp
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240748.RCxiAZH1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230123123756.401692-3-christian.koenig%40amd.com
+patch subject: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
+config: hexagon-randconfig-r032-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240717.tim1ggHo-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/745d7acf9ef8affe996fce2f0658a6d95ac151fd
+        # https://github.com/intel-lab-lkp/linux/commit/adc04dccd892eec7f84c6ec112b48df376172e48
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
-        git checkout 745d7acf9ef8affe996fce2f0658a6d95ac151fd
+        git fetch --no-tags linux-review Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
+        git checkout adc04dccd892eec7f84c6ec112b48df376172e48
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/msm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/usb/uvc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/dp/dp_panel.c: In function 'dp_panel_get_supported_bpp':
->> drivers/gpu/drm/msm/dp/dp_panel.c:125:34: warning: variable 'panel' set but not used [-Wunused-but-set-variable]
-     125 |         struct dp_panel_private *panel;
-         |                                  ^~~~~
+   In file included from drivers/media/usb/uvc/uvc_driver.c:10:
+>> include/linux/dma-heap.h:92:5: warning: no previous prototype for function 'dma_heap_create_device_link' [-Wmissing-prototypes]
+   int dma_heap_create_device_link(struct device *dev, const char *heap)
+       ^
+   include/linux/dma-heap.h:92:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int dma_heap_create_device_link(struct device *dev, const char *heap)
+   ^
+   static 
+>> include/linux/dma-heap.h:97:6: warning: no previous prototype for function 'dma_heap_remove_device_link' [-Wmissing-prototypes]
+   void dma_heap_remove_device_link(struct device *dev)
+        ^
+   include/linux/dma-heap.h:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void dma_heap_remove_device_link(struct device *dev)
+   ^
+   static 
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   8 warnings generated.
 
 
-vim +/panel +125 drivers/gpu/drm/msm/dp/dp_panel.c
+vim +/dma_heap_create_device_link +92 include/linux/dma-heap.h
 
-   120	
-   121	static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
-   122			u32 mode_edid_bpp, u32 mode_pclk_khz)
-   123	{
-   124		struct dp_link_info *link_info;
- > 125		struct dp_panel_private *panel;
-   126		const u32 max_supported_bpp = 30;
-   127		u32 min_supported_bpp = 18;
-   128		u32 bpp = 0, link_bitrate = 0, mode_bitrate;
-   129		s64 rate_fp = 0;
-   130	
-   131		panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
-   132	
-   133		if (dp_panel->dsc_en)
-   134			min_supported_bpp = 24;
-   135	
-   136		bpp = min_t(u32, mode_edid_bpp, max_supported_bpp);
-   137	
-   138		link_info = &dp_panel->link_info;
-   139	
-   140		rate_fp = drm_int2fixp(link_info->num_lanes * link_info->rate * 8);
-   141	
-   142		if (dp_panel->fec_en)
-   143			rate_fp = drm_fixp_div(rate_fp, dp_panel->fec_overhead_fp);
-   144	
-   145		link_bitrate = drm_fixp2int(rate_fp);
-   146	
-   147		for (; bpp > min_supported_bpp; bpp -= 6) {
-   148			if (dp_panel->dsc_en) {
-   149				if (bpp == 30 && !(dp_panel->sink_dsc_caps.color_depth & DP_DSC_10_BPC))
-   150					continue;
-   151				else if (bpp == 24 && !(dp_panel->sink_dsc_caps.color_depth & DP_DSC_8_BPC))
-   152					continue;
-   153	
-   154				mode_bitrate = mode_pclk_khz * DSC_TGT_BPP;
-   155			} else {
-   156				mode_bitrate = mode_pclk_khz * bpp;
-   157			}
-   158	
-   159			if (mode_bitrate <= link_bitrate)
-   160				break;
-   161		}
-   162	
-   163		if (bpp < min_supported_bpp)
-   164			DRM_ERROR("bpp %d is below minimum supported bpp %d\n", bpp,
-   165					min_supported_bpp);
-   166	
-   167		if (dp_panel->dsc_en && bpp != 24 && bpp != 30 && bpp != 36)
-   168			DRM_ERROR("bpp %d is not supported when dsc is enabled\n", bpp);
-   169	
-   170		return bpp;
-   171	}
-   172	
+4ce5c5c0cf31f4 Christian König 2023-01-23   91  
+4ce5c5c0cf31f4 Christian König 2023-01-23  @92  int dma_heap_create_device_link(struct device *dev, const char *heap)
+4ce5c5c0cf31f4 Christian König 2023-01-23   93  {
+4ce5c5c0cf31f4 Christian König 2023-01-23   94  	return 0;
+4ce5c5c0cf31f4 Christian König 2023-01-23   95  }
+4ce5c5c0cf31f4 Christian König 2023-01-23   96  
+4ce5c5c0cf31f4 Christian König 2023-01-23  @97  void dma_heap_remove_device_link(struct device *dev)
+4ce5c5c0cf31f4 Christian König 2023-01-23   98  {
+4ce5c5c0cf31f4 Christian König 2023-01-23   99  }
+4ce5c5c0cf31f4 Christian König 2023-01-23  100  
 
 -- 
 0-DAY CI Kernel Test Service
