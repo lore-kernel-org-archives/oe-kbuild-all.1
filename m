@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17121C14
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 12:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396501C2D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 13:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674478389; x=1706014389;
+  t=1674478989; x=1706014989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qmlx56F8wMOgDAh/Sm4SGFuaqoAqoG2gN0iy+wPlIeI=;
-  b=hugG2gsmutU+6flGhiUKyajsgCNVM8sCxYmikTuFge4XRPIVYZAy/taT
-   tA7PK8uHc0QCAWC1o373GTcZBGxYPNuQOx6l3PFgJCgPit9kuNgirMKsV
-   4fJA4dlkKL47RLaqHkG5glkjEePcJm1aFtlcFuyu3SuUNv6ZyOPFE8IzN
-   2iSE3CHceCYXIAs2CCJUGSZoVt5sSQF1Js7Ze43W1SgHOIymXbGoFEzqC
-   f/N95daRQhKCPCJl4m2X0fA8ZDzQMW+bc3s2eJo9ZBHLJFflqOdCdcmCH
-   tt5yhQuuEf3JUwZExjCE/OgmAuXSz1A74IlieXKLPgM0wBeymvSkJtElH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="323723137"
+  bh=XqzrOacn9vKBFseeoCLFZ6qMxDiDAhlgCPXLHxBywGM=;
+  b=MWDwxajA1aCIBsKNOwna1ealsQsyI39FfSxZ40gvPyczI9dKJ+qJF8cs
+   47gyQVRB29CIIxJBOPmYcCjS5B5brJtkyFu8nixi4GnUlpgdvYcLoZahe
+   UHrvt/0dV/SrbiLv8Ui37eYyxdVxt+5VRTvHUGyYKkEIMK9mmE1V1VRi8
+   F4KFMd5k9t4hLjfdt4vMl1Tpj6Og5Iv2MswoXtoK1R79vWywlV3MGeLGo
+   1D+kTZZTE6xuaqDt922JRhJN5D/onV5ZzUz8dwlmpBtR5no7hrmareVME
+   LFpgqnXIsz25XAhsrwsRDdwIZDra8YY3YNjsT6TZtB41ekO3ls4JBdz1k
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="326068154"
 X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="323723137"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 04:53:09 -0800
+   d="scan'208";a="326068154"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 05:03:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="750308320"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="725027135"
 X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="750308320"
+   d="scan'208";a="725027135"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2023 04:53:07 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 23 Jan 2023 05:03:07 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJwJu-0005e6-1j;
-	Mon, 23 Jan 2023 12:53:06 +0000
-Date: Mon, 23 Jan 2023 20:52:23 +0800
+	id 1pJwTa-0005eK-1z;
+	Mon, 23 Jan 2023 13:03:06 +0000
+Date: Mon, 23 Jan 2023 21:02:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:sched/core 13/54] include/linux/cpuidle.h:121:9: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202301232043.2Wcpl2DK-lkp@intel.com>
+To: Palmer Dabbelt <palmerdabbelt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: arch/csky/include/asm/page.h:6:10: fatal error: asm/setup.h: No such
+ file or directory
+Message-ID: <202301232142.LujwaLQ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,174 +46,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   001c28e57187570e4b5aa4492c7a957fb6d65d7b
-commit: a01353cf1896ea5b8a7bbc5e2b2d38feed8b7aaa [13/54] cpuidle: Fix ct_idle_*() usage
-config: loongarch-randconfig-s031-20230123 (https://download.01.org/0day-ci/archive/20230123/202301232043.2Wcpl2DK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230123-181826
+head:   569c0e5183ad71e231b95cb03d3ac25ba572b6db
+commit: cfe06b3c018bf5b2147e2acdb4bc6791eb5c0546 asm-generic: Remove COMMAND_LINE_SIZE from uapi
+date:   3 hours ago
+config: csky-randconfig-r011-20230123 (https://download.01.org/0day-ci/archive/20230123/202301232142.LujwaLQ8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=a01353cf1896ea5b8a7bbc5e2b2d38feed8b7aaa
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip sched/core
-        git checkout a01353cf1896ea5b8a7bbc5e2b2d38feed8b7aaa
+        # https://github.com/intel-lab-lkp/linux/commit/cfe06b3c018bf5b2147e2acdb4bc6791eb5c0546
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230123-181826
+        git checkout cfe06b3c018bf5b2147e2acdb4bc6791eb5c0546
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:961:70: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:961:70: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:961:70: sparse:    struct task_struct *
-   kernel/sched/rt.c:2411:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2411:25: sparse:    struct task_struct *
-   kernel/sched/rt.c:2411:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1047:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1047:38: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1047:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1592:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1592:31: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1592:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1929:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/rt.c:1929:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/rt.c:1929:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/rt.c:1612:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/rt.c:1612:14: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1612:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1677:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1677:45: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1677:45: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1738:67: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1738:67: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:1738:67: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2093:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2093:40: sparse:     expected struct task_struct *task
-   kernel/sched/rt.c:2093:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2114:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2114:13: sparse:    struct task_struct *
-   kernel/sched/rt.c:2114:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:2462:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2462:54: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:2462:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2464:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2464:40: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2464:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2464:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2464:61: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2464:61: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2315:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2315:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2315:23: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2325:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2325:13: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2325:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2433:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2433:25: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2433:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:1954:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1954:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1954:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1965:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1965:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:1965:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1182:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1182:23: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1309:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1309:38: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:1309:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2174:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/deadline.c:2174:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/deadline.c:2174:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/deadline.c:1839:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:1839:14: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:1839:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:1915:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1915:43: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1915:43: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2478:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2478:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2478:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2480:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2480:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2480:23: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2482:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2482:44: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2482:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2645:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2645:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2645:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->> include/linux/cpuidle.h:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +121 include/linux/cpuidle.h
+   In file included from arch/csky/include/asm/thread_info.h:9,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/csky/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from arch/csky/kernel/asm-offsets.c:4:
+>> arch/csky/include/asm/page.h:6:10: fatal error: asm/setup.h: No such file or directory
+       6 | #include <asm/setup.h>
+         |          ^~~~~~~~~~~~~
+   compilation terminated.
+   make[2]: *** [scripts/Makefile.build:114: arch/csky/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1298: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-   118	
-   119	static __always_inline void ct_cpuidle_enter(void)
-   120	{
- > 121		lockdep_assert_irqs_disabled();
-   122		/*
-   123		 * Idle is allowed to (temporary) enable IRQs. It
-   124		 * will return with IRQs disabled.
-   125		 *
-   126		 * Trace IRQs enable here, then switch off RCU, and have
-   127		 * arch_cpu_idle() use raw_local_irq_enable(). Note that
-   128		 * ct_idle_enter() relies on lockdep IRQ state, so switch that
-   129		 * last -- this is very similar to the entry code.
-   130		 */
-   131		trace_hardirqs_on_prepare();
-   132		lockdep_hardirqs_on_prepare();
-   133		instrumentation_end();
-   134		ct_idle_enter();
-   135		lockdep_hardirqs_on(_RET_IP_);
-   136	}
-   137	
+
+vim +6 arch/csky/include/asm/page.h
+
+013de2d6671d89 Guo Ren 2018-09-05  5  
+013de2d6671d89 Guo Ren 2018-09-05 @6  #include <asm/setup.h>
+013de2d6671d89 Guo Ren 2018-09-05  7  #include <asm/cache.h>
+013de2d6671d89 Guo Ren 2018-09-05  8  #include <linux/const.h>
+013de2d6671d89 Guo Ren 2018-09-05  9  
 
 -- 
 0-DAY CI Kernel Test Service
