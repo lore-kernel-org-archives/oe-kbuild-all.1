@@ -1,38 +1,43 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B56133D8;
-	Mon, 23 Jan 2023 15:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xIM3Eqis0AWL0GAdNIQKrmEW61e6EXinuhOhAd2GUIQ=; b=EmeG6w3pDlKrN5JZ3YnN+PHEoA
-	g+QaxUoOBievcBGzT3096c51rQx4/xe9GMjSqgSNOWb6CGz3sxjqcVI7I6IsaLTBQvbYfb15747lr
-	b1eM/twUa0C2SsCK40eeJfL5HwQanPw7jN0HCy9Jf/RbxlODAopdXL5RW06PuK95J1EainV5xOwXZ
-	AJKZlEN91842MV/Ycmuc0JgZU9gR6eZP5faf6wMNSLD+pShAYYAwx47e6FcsYssKLTmhOHXatpz4H
-	DwVxvZBZyMe1eJviqv+Gsbs8sSD1dAj6fDMb0VKmeZKlaod593i1NKymJ2DjUbn07Gfa/zvlEhasw
-	QPKBHdmQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pJyer-001ZUy-0V;
-	Mon, 23 Jan 2023 15:22:53 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 14F12300327;
-	Mon, 23 Jan 2023 16:23:22 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F3C1F202441DC; Mon, 23 Jan 2023 16:23:21 +0100 (CET)
-Date: Mon, 23 Jan 2023 16:23:21 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:x86/core 3/3] arch/x86/kernel/static_call.c:98
- __static_call_transform() error: uninitialized symbol 'op'.
-Message-ID: <Y86maRy5ILlUBo/9@hirez.programming.kicks-ass.net>
-References: <Y853bqEhA5NDC3Ar@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B4B33D8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 15:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674487648; x=1706023648;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WB8hjZXlQzZ5TwsrQWWdj3L9IZ9SO/zxnZNrA7nTs04=;
+  b=Nipa6Y4VxYU21aheMybP6a2kMJxnjwq0XVli2jnVTqeZmjw9B+6kJCnG
+   dqOXskuh9hidQt5T6gFQJRLQIV4KhFT4JOH1cT9/QhmGoF2Dw31zN0A0j
+   nfS2Lg1bpwUfzr+KPYll5htFBYDHjqJ+dX8RxK3fW8UCsL4qqjBnkhm7P
+   //8J0GS4GuooJdiu/tMR03ZQiMsATKbSCvqviIMEUAcqD+NSPyXfnossN
+   cMbxi5+/PLEZp4pritFe72LIogPU+UI46pteb9qM6554Fp0FMGeihKaNC
+   DxBfnUiucbgNbN64vMhyD/359HZ4O1/nf1fK8jIKVfo3iKmi2WiKluIPr
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="313960013"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="313960013"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 07:27:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="907101545"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="907101545"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 23 Jan 2023 07:27:12 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJyj1-0005iq-2J;
+	Mon, 23 Jan 2023 15:27:11 +0000
+Date: Mon, 23 Jan 2023 23:26:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Slaby <jslaby@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Subject: [jirislaby:devel 45/46] drivers/tty/vt/vt.c:3116:12: error:
+ redefinition of 'vt_console_setup'
+Message-ID: <202301232300.Cz57OAr8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,38 +46,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y853bqEhA5NDC3Ar@kadam>
 
-On Mon, Jan 23, 2023 at 03:02:54PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-> head:   700f4c6d925823018a2d09f92de5405065d2ffec
-> commit: 700f4c6d925823018a2d09f92de5405065d2ffec [3/3] x86/static_call: Add support for Jcc tail-calls
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301211834.noGVyk06-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> smatch warnings:
-> arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
-> 
-> vim +/op +98 arch/x86/kernel/static_call.c
-> 
-> c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
-> c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
-> e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
-> 3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
-> 452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
-> 452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
-> 700f4c6d925823 Peter Zijlstra  2023-01-20   59  	u8 op, buf[6];
-> 700f4c6d925823 Peter Zijlstra  2023-01-20   60  
-> 700f4c6d925823 Peter Zijlstra  2023-01-20   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
-> 700f4c6d925823 Peter Zijlstra  2023-01-20   62  		type = JCC;
-> 
-> Smatch is concerned that type can start as "JCC".
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   4a2144bd7df27b4991fd300f31f4be95537f441b
+commit: a24cce9ceefe6acf098c69635c5cf1a3063dca29 [45/46] vt: check for OOB consoles
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20230123/202301232300.Cz57OAr8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git/commit/?id=a24cce9ceefe6acf098c69635c5cf1a3063dca29
+        git remote add jirislaby https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git
+        git fetch --no-tags jirislaby devel
+        git checkout a24cce9ceefe6acf098c69635c5cf1a3063dca29
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-It can't. What's the normal way to shut this kind of warnings up?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Something like BUG_ON(type==JCC); should squash that value I suppose,
-but it does seems a bit crude.
+All errors (new ones prefixed by >>):
+
+>> drivers/tty/vt/vt.c:3116:12: error: redefinition of 'vt_console_setup'
+    3116 | static int vt_console_setup(struct console *co, char *options)
+         |            ^~~~~~~~~~~~~~~~
+   drivers/tty/vt/vt.c:3030:12: note: previous definition of 'vt_console_setup' with type 'int(struct console *, char *)'
+    3030 | static int vt_console_setup(struct console *co, char *options)
+         |            ^~~~~~~~~~~~~~~~
+   drivers/tty/vt/vt.c:3030:12: warning: 'vt_console_setup' defined but not used [-Wunused-function]
+
+
+vim +/vt_console_setup +3116 drivers/tty/vt/vt.c
+
+^1da177e4c3f41 drivers/char/vt.c   Linus Torvalds 2005-04-16  3115  
+7370a25f9315e7 drivers/tty/vt/vt.c Sven Schnelle  2022-12-09 @3116  static int vt_console_setup(struct console *co, char *options)
+7370a25f9315e7 drivers/tty/vt/vt.c Sven Schnelle  2022-12-09  3117  {
+7370a25f9315e7 drivers/tty/vt/vt.c Sven Schnelle  2022-12-09  3118  	return co->index >= MAX_NR_CONSOLES ? -EINVAL : 0;
+7370a25f9315e7 drivers/tty/vt/vt.c Sven Schnelle  2022-12-09  3119  }
+7370a25f9315e7 drivers/tty/vt/vt.c Sven Schnelle  2022-12-09  3120  
+
+:::::: The code at line 3116 was first introduced by commit
+:::::: 7370a25f9315e732ab7538d6c7e85208176d8fa2 tty/vt: prevent registration of console with invalid number
+
+:::::: TO: Sven Schnelle <svens@linux.ibm.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
