@@ -1,43 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BF9817
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 06:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D00817
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 07:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674456841; x=1705992841;
+  t=1674458042; x=1705994042;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DBrZuLNdZ/t6tCOEtQeotOKAquVCIi5y1AX8csAoNdI=;
-  b=NQxeIw47rqUd0wOMXlA8VbBNwTOU3GBWzOrZAK7z2k6GlQ1URihpOyKk
-   MM0XN80UqLw0TQDxtVcLZD7aEiFNOxRoYVXW64j8PlbRhnS/P+2togG8z
-   QMsv7NlA7bKYmC4Kuw+2I5pw1QW077GSfxnY0EHnVx65RIWgr5jET6Vve
-   oWeyJcvKwtxs4ija9qUAR9Afj8gAjrf7O/iJYcJmbWQC37SGqF3BaiKz1
-   2xvUlJnNfwF08pYuHxpwGZtCOWZYRgVnnQI0JRjIhVNL9I1SCxycbynBx
-   eilhNgV0OOc4JsEY8PoG3mhofK6+MFqvOIOzKCFcdA4bhMTMu/HX1jXe9
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="390485374"
+  bh=W+TNYu/csO8zw7ShJJvyIDkpyVtW4zA1qPuG+TdhvNI=;
+  b=FVfV3N3p7MICo2J5/Yfu8rRzv7CENG+ekUp2NAS26C4W1b1kikJkgddt
+   9l4eFSfk8cFpniicjhb/VOtAPQLg+d80YLYKzuz09Rj209IrB4Z5WJht/
+   2Va5p2387RUAr0E3OHYT8wIJx9GPVWL64eejAtOd586jLpp7LOHAUxbxg
+   Epl8hz8Os/TrgizsMskGS4+hDW6x6fEFQ08H+2XowHCWt3IMrcjV8KW0E
+   sUPOgjAvaypDVyncgPXQt4vwhk/UQ8kapJlBVPwj2T+KOFhRDOkwaxAhH
+   dFWzdtYveUiHjGRUx8yjnyv0xlM3R3ZC9RliavfO40+JVPjQtyqApSnsv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="309560209"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="390485374"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 22:54:01 -0800
+   d="scan'208";a="309560209"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 23:14:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="693735995"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="692032328"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="693735995"
+   d="scan'208";a="692032328"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 22 Jan 2023 22:53:59 -0800
+  by orsmga008.jf.intel.com with ESMTP; 22 Jan 2023 23:14:00 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJqiN-0005To-03;
-	Mon, 23 Jan 2023 06:53:59 +0000
-Date: Mon, 23 Jan 2023 14:53:26 +0800
+	id 1pJr1j-0005UZ-2P;
+	Mon, 23 Jan 2023 07:13:59 +0000
+Date: Mon, 23 Jan 2023 15:13:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.14 26/48]
- drivers/memory/atmel-sdramc.c:62:9: error: implicit declaration of function
+Subject: [sashal-stable:pending-4.14 27/48]
+ drivers/memory/mvebu-devbus.c:297:8: error: implicit declaration of function
  'devm_clk_get_enabled'; did you mean 'devm_clk_get'?
-Message-ID: <202301231417.EFDqGflX-lkp@intel.com>
+Message-ID: <202301231523.kLyH6Vhm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,16 +49,16 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.14
 head:   af839d8756e8b40cb9b53ada292e056f1a75340b
-commit: 02e64d17d36480463a28488d15febf91da208c0b [26/48] memory: atmel-sdramc: Fix missing clk_disable_unprepare in atmel_ramc_probe()
-config: arm-randconfig-r024-20230123 (https://download.01.org/0day-ci/archive/20230123/202301231417.EFDqGflX-lkp@intel.com/config)
+commit: f156d2fd34064ccaaff690e137dbbaae710ce94a [27/48] memory: mvebu-devbus: Fix missing clk_disable_unprepare in mvebu_devbus_probe()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230123/202301231523.kLyH6Vhm-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=02e64d17d36480463a28488d15febf91da208c0b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=f156d2fd34064ccaaff690e137dbbaae710ce94a
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-4.14
-        git checkout 02e64d17d36480463a28488d15febf91da208c0b
+        git checkout f156d2fd34064ccaaff690e137dbbaae710ce94a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
@@ -69,47 +69,82 @@ If you fix the issue, kindly add following tag where applicable
 
 All error/warnings (new ones prefixed by >>):
 
-   drivers/memory/atmel-sdramc.c: In function 'atmel_ramc_probe':
->> drivers/memory/atmel-sdramc.c:62:9: error: implicit declaration of function 'devm_clk_get_enabled'; did you mean 'devm_clk_get'? [-Werror=implicit-function-declaration]
-      clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-            ^~~~~~~~~~~~~~~~~~~~
-            devm_clk_get
->> drivers/memory/atmel-sdramc.c:62:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-          ^
-   drivers/memory/atmel-sdramc.c:68:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-          ^
+   drivers/memory/mvebu-devbus.c: In function 'mvebu_devbus_probe':
+>> drivers/memory/mvebu-devbus.c:297:8: error: implicit declaration of function 'devm_clk_get_enabled'; did you mean 'devm_clk_get'? [-Werror=implicit-function-declaration]
+     clk = devm_clk_get_enabled(&pdev->dev, NULL);
+           ^~~~~~~~~~~~~~~~~~~~
+           devm_clk_get
+>> drivers/memory/mvebu-devbus.c:297:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     clk = devm_clk_get_enabled(&pdev->dev, NULL);
+         ^
    cc1: some warnings being treated as errors
 
 
-vim +62 drivers/memory/atmel-sdramc.c
+vim +297 drivers/memory/mvebu-devbus.c
 
-    53	
-    54	static int atmel_ramc_probe(struct platform_device *pdev)
-    55	{
-    56		const struct at91_ramc_caps *caps;
-    57		struct clk *clk;
-    58	
-    59		caps = of_device_get_match_data(&pdev->dev);
-    60	
-    61		if (caps->has_ddrck) {
-  > 62			clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-    63			if (IS_ERR(clk))
-    64				return PTR_ERR(clk);
-    65		}
-    66	
-    67		if (caps->has_mpddr_clk) {
-    68			clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-    69			if (IS_ERR(clk)) {
-    70				pr_err("AT91 RAMC: couldn't get mpddr clock\n");
-    71				return PTR_ERR(clk);
-    72			}
-    73		}
-    74	
-    75		return 0;
-    76	}
-    77	
+   274	
+   275	static int mvebu_devbus_probe(struct platform_device *pdev)
+   276	{
+   277		struct device *dev = &pdev->dev;
+   278		struct device_node *node = pdev->dev.of_node;
+   279		struct devbus_read_params r;
+   280		struct devbus_write_params w;
+   281		struct devbus *devbus;
+   282		struct resource *res;
+   283		struct clk *clk;
+   284		unsigned long rate;
+   285		int err;
+   286	
+   287		devbus = devm_kzalloc(&pdev->dev, sizeof(struct devbus), GFP_KERNEL);
+   288		if (!devbus)
+   289			return -ENOMEM;
+   290	
+   291		devbus->dev = dev;
+   292		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   293		devbus->base = devm_ioremap_resource(&pdev->dev, res);
+   294		if (IS_ERR(devbus->base))
+   295			return PTR_ERR(devbus->base);
+   296	
+ > 297		clk = devm_clk_get_enabled(&pdev->dev, NULL);
+   298		if (IS_ERR(clk))
+   299			return PTR_ERR(clk);
+   300	
+   301		/*
+   302		 * Obtain clock period in picoseconds,
+   303		 * we need this in order to convert timing
+   304		 * parameters from cycles to picoseconds.
+   305		 */
+   306		rate = clk_get_rate(clk) / 1000;
+   307		devbus->tick_ps = 1000000000 / rate;
+   308	
+   309		dev_dbg(devbus->dev, "Setting timing parameter, tick is %lu ps\n",
+   310			devbus->tick_ps);
+   311	
+   312		if (!of_property_read_bool(node, "devbus,keep-config")) {
+   313			/* Read the Device Tree node */
+   314			err = devbus_get_timing_params(devbus, node, &r, &w);
+   315			if (err < 0)
+   316				return err;
+   317	
+   318			/* Set the new timing parameters */
+   319			if (of_device_is_compatible(node, "marvell,orion-devbus"))
+   320				devbus_orion_set_timing_params(devbus, node, &r, &w);
+   321			else
+   322				devbus_armada_set_timing_params(devbus, node, &r, &w);
+   323		}
+   324	
+   325		/*
+   326		 * We need to create a child device explicitly from here to
+   327		 * guarantee that the child will be probed after the timing
+   328		 * parameters for the bus are written.
+   329		 */
+   330		err = of_platform_populate(node, NULL, NULL, dev);
+   331		if (err < 0)
+   332			return err;
+   333	
+   334		return 0;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
