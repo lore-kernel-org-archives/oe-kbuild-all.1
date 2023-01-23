@@ -1,49 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D0F7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 19:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBC57C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 20:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674501148; x=1706037148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e+2xrBm5Oxa6stADMb/R8rAt5gik8DAnbKt0wQFfI+8=;
-  b=TZVzTMxrIVTyUmZxSLEHoWZ+at+yViyCd8stR8NxaFAF8IXyviljnnVo
-   Aj78Q29WlewhJZaYJ8qMpYqeOUPW26hLBlN0zR5k4z1htI+hbof+Xa1YX
-   IuZyNfwFahoxUwyoLOjcSgzir+MA86tSzfgLKtkcHB2Mlx4Ggb30I4vxC
-   PdhmsGWjzDuNA34w+EicGZkJb1QfwI88c4jGD54uSZXCMBT8BeLg+GDVP
-   ZWdx6O9gs6QivoLoPB68C/99+9T/OSe6651saBDqeG96R64hWuSpgo62d
-   ieNw73NHT0dt5h3ng9cDmUXZsntIKDOMvmZ2jUEMNI0uhgLe6P0J8EJ0M
+  t=1674504203; x=1706040203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bcS4fnIwfmjh7YQV73pqL/LT0kcUTZwDaq/D4F/4kOw=;
+  b=S8hrapbX2Yl4W0tfkB5fzI+/IZOhgafb5kZULMFBDtJVvLwwaHAXbvIw
+   iBfGkupa2hA/wEoITHEW9JjMT5N8xQI+mSnAxCThZiSQy5+DcZqOEybxJ
+   PUBhL7cTc6ILfTP7qNm8Em7wwJcvggehKxthrdRaIaXVxxlLRHGnhNhkq
+   +dUSvdFbfUqmn+mEf0erSroeucFtsVOKGPgdVS1gb2tFPenh3XyXMv/Vt
+   nRBIiKgD6vWhbJbfS8ceTMD64S17wzQWfzx34Jt9urcIlDfcjatMYjU9T
+   RQYuOx7q+pq8dJSrGe2Zh/98QYOHPKP50qnE1I5CkXODnDKXfLxWShPCr
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="390628607"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353405673"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="390628607"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 11:12:27 -0800
+   d="scan'208";a="353405673"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 12:03:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804317588"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="750566759"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="804317588"
+   d="scan'208";a="750566759"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2023 11:12:18 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2023 12:03:21 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK2Er-0005q8-2N;
-	Mon, 23 Jan 2023 19:12:17 +0000
-Date: Tue, 24 Jan 2023 03:12:10 +0800
+	id 1pK32G-0005rU-0u;
+	Mon, 23 Jan 2023 20:03:20 +0000
+Date: Tue, 24 Jan 2023 04:03:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-	yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	memxor@gmail.com
-Subject: Re: [PATCH bpf-next v2 3/3] bpf: Use BPF_KFUNC macro at all kfunc
- definitions
-Message-ID: <202301240259.xwHsyJl4-lkp@intel.com>
-References: <20230123171506.71995-4-void@manifault.com>
+To: Pierluigi Passaro <pierluigi.p@variscite.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [brgl:gpio/for-current 2/2] include/linux/gpio/driver.h:782:68:
+ error: parameter 4 ('lflags') has incomplete type
+Message-ID: <202301240409.tZdm0o0a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,195 +46,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123171506.71995-4-void@manifault.com>
 
-Hi David,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Vernet/bpf-Add-BPF_KFUNC-macro-for-defining-kfuncs/20230124-011804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230123171506.71995-4-void%40manifault.com
-patch subject: [PATCH bpf-next v2 3/3] bpf: Use BPF_KFUNC macro at all kfunc definitions
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240259.xwHsyJl4-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-current
+head:   de5f701724ac1078deaf19ca2aa8dbf4bcd4b04f
+commit: de5f701724ac1078deaf19ca2aa8dbf4bcd4b04f [2/2] gpiolib: fix linker errors when GPIOLIB is disabled
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230124/202301240409.tZdm0o0a-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/760b15a8e5d45d6e9925d2439e0d052de969b361
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Vernet/bpf-Add-BPF_KFUNC-macro-for-defining-kfuncs/20230124-011804
-        git checkout 760b15a8e5d45d6e9925d2439e0d052de969b361
+        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=de5f701724ac1078deaf19ca2aa8dbf4bcd4b04f
+        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+        git fetch --no-tags brgl gpio/for-current
+        git checkout de5f701724ac1078deaf19ca2aa8dbf4bcd4b04f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash kernel/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/bpf_trace.c:1233: warning: expecting prototype for bpf_lookup_user_key(). Prototype was for BPF_KFUNC() instead
->> kernel/trace/bpf_trace.c:1282: warning: expecting prototype for bpf_lookup_system_key(). Prototype was for BPF_KFUNC() instead
->> kernel/trace/bpf_trace.c:1306: warning: expecting prototype for bpf_key_put(). Prototype was for BPF_KFUNC() instead
->> kernel/trace/bpf_trace.c:1328: warning: expecting prototype for bpf_verify_pkcs7_signature(). Prototype was for BPF_KFUNC() instead
+   In file included from include/linux/of_gpio.h:14,
+                    from drivers/net/phy/mdio_bus.c:27:
+>> include/linux/gpio/driver.h:782:68: error: parameter 4 ('lflags') has incomplete type
+     782 |                                             enum gpio_lookup_flags lflags,
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+>> include/linux/gpio/driver.h:779:33: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+     779 | static inline struct gpio_desc *gpiochip_request_own_desc(struct gpio_chip *gc,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/ssb/ssb.h:10,
+                    from include/linux/ssb/ssb_driver_gige.h:5,
+                    from drivers/net/ethernet/broadcom/tg3.c:54:
+>> include/linux/gpio/driver.h:782:68: error: parameter 4 ('lflags') has incomplete type
+     782 |                                             enum gpio_lookup_flags lflags,
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+>> include/linux/gpio/driver.h:783:62: error: parameter 5 ('dflags') has incomplete type
+     783 |                                             enum gpiod_flags dflags)
+         |                                             ~~~~~~~~~~~~~~~~~^~~~~~
+>> include/linux/gpio/driver.h:779:33: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+     779 | static inline struct gpio_desc *gpiochip_request_own_desc(struct gpio_chip *gc,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1233 kernel/trace/bpf_trace.c
+vim +782 include/linux/gpio/driver.h
 
-f92c1e183604c2 Jiri Olsa     2021-12-08  1205  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1206  #ifdef CONFIG_KEYS
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1207  /**
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1208   * bpf_lookup_user_key - lookup a key by its serial
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1209   * @serial: key handle serial number
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1210   * @flags: lookup-specific flags
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1211   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1212   * Search a key with a given *serial* and the provided *flags*.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1213   * If found, increment the reference count of the key by one, and
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1214   * return it in the bpf_key structure.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1215   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1216   * The bpf_key structure must be passed to bpf_key_put() when done
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1217   * with it, so that the key reference count is decremented and the
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1218   * bpf_key structure is freed.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1219   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1220   * Permission checks are deferred to the time the key is used by
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1221   * one of the available key-specific kfuncs.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1222   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1223   * Set *flags* with KEY_LOOKUP_CREATE, to attempt creating a requested
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1224   * special keyring (e.g. session keyring), if it doesn't yet exist.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1225   * Set *flags* with KEY_LOOKUP_PARTIAL, to lookup a key without waiting
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1226   * for the key construction, and to retrieve uninstantiated keys (keys
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1227   * without data attached to them).
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1228   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1229   * Return: a bpf_key pointer with a valid key pointer if the key is found, a
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1230   *         NULL pointer otherwise.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1231   */
-760b15a8e5d45d David Vernet  2023-01-23  1232  BPF_KFUNC(struct bpf_key *bpf_lookup_user_key(u32 serial, u64 flags))
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1233  {
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1234  	key_ref_t key_ref;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1235  	struct bpf_key *bkey;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1236  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1237  	if (flags & ~KEY_LOOKUP_ALL)
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1238  		return NULL;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1239  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1240  	/*
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1241  	 * Permission check is deferred until the key is used, as the
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1242  	 * intent of the caller is unknown here.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1243  	 */
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1244  	key_ref = lookup_user_key(serial, flags, KEY_DEFER_PERM_CHECK);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1245  	if (IS_ERR(key_ref))
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1246  		return NULL;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1247  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1248  	bkey = kmalloc(sizeof(*bkey), GFP_KERNEL);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1249  	if (!bkey) {
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1250  		key_put(key_ref_to_ptr(key_ref));
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1251  		return NULL;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1252  	}
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1253  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1254  	bkey->key = key_ref_to_ptr(key_ref);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1255  	bkey->has_ref = true;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1256  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1257  	return bkey;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1258  }
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1259  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1260  /**
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1261   * bpf_lookup_system_key - lookup a key by a system-defined ID
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1262   * @id: key ID
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1263   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1264   * Obtain a bpf_key structure with a key pointer set to the passed key ID.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1265   * The key pointer is marked as invalid, to prevent bpf_key_put() from
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1266   * attempting to decrement the key reference count on that pointer. The key
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1267   * pointer set in such way is currently understood only by
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1268   * verify_pkcs7_signature().
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1269   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1270   * Set *id* to one of the values defined in include/linux/verification.h:
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1271   * 0 for the primary keyring (immutable keyring of system keys);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1272   * VERIFY_USE_SECONDARY_KEYRING for both the primary and secondary keyring
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1273   * (where keys can be added only if they are vouched for by existing keys
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1274   * in those keyrings); VERIFY_USE_PLATFORM_KEYRING for the platform
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1275   * keyring (primarily used by the integrity subsystem to verify a kexec'ed
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1276   * kerned image and, possibly, the initramfs signature).
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1277   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1278   * Return: a bpf_key pointer with an invalid key pointer set from the
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1279   *         pre-determined ID on success, a NULL pointer otherwise
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1280   */
-760b15a8e5d45d David Vernet  2023-01-23  1281  BPF_KFUNC(struct bpf_key *bpf_lookup_system_key(u64 id))
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1282  {
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1283  	struct bpf_key *bkey;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1284  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1285  	if (system_keyring_id_check(id) < 0)
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1286  		return NULL;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1287  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1288  	bkey = kmalloc(sizeof(*bkey), GFP_ATOMIC);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1289  	if (!bkey)
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1290  		return NULL;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1291  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1292  	bkey->key = (struct key *)(unsigned long)id;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1293  	bkey->has_ref = false;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1294  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1295  	return bkey;
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1296  }
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1297  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1298  /**
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1299   * bpf_key_put - decrement key reference count if key is valid and free bpf_key
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1300   * @bkey: bpf_key structure
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1301   *
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1302   * Decrement the reference count of the key inside *bkey*, if the pointer
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1303   * is valid, and free *bkey*.
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1304   */
-760b15a8e5d45d David Vernet  2023-01-23  1305  BPF_KFUNC(void bpf_key_put(struct bpf_key *bkey))
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20 @1306  {
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1307  	if (bkey->has_ref)
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1308  		key_put(bkey->key);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1309  
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1310  	kfree(bkey);
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1311  }
-f3cf4134c5c6c4 Roberto Sassu 2022-09-20  1312  
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1313  #ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1314  /**
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1315   * bpf_verify_pkcs7_signature - verify a PKCS#7 signature
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1316   * @data_ptr: data to verify
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1317   * @sig_ptr: signature of the data
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1318   * @trusted_keyring: keyring with keys trusted for signature verification
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1319   *
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1320   * Verify the PKCS#7 signature *sig_ptr* against the supplied *data_ptr*
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1321   * with keys in a keyring referenced by *trusted_keyring*.
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1322   *
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1323   * Return: 0 on success, a negative value on error.
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1324   */
-760b15a8e5d45d David Vernet  2023-01-23  1325  BPF_KFUNC(int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1326  					 struct bpf_dynptr_kern *sig_ptr,
-760b15a8e5d45d David Vernet  2023-01-23  1327  					 struct bpf_key *trusted_keyring))
-865b0566d8f1a0 Roberto Sassu 2022-09-20 @1328  {
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1329  	int ret;
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1330  
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1331  	if (trusted_keyring->has_ref) {
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1332  		/*
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1333  		 * Do the permission check deferred in bpf_lookup_user_key().
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1334  		 * See bpf_lookup_user_key() for more details.
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1335  		 *
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1336  		 * A call to key_task_permission() here would be redundant, as
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1337  		 * it is already done by keyring_search() called by
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1338  		 * find_asymmetric_key().
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1339  		 */
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1340  		ret = key_validate(trusted_keyring->key);
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1341  		if (ret < 0)
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1342  			return ret;
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1343  	}
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1344  
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1345  	return verify_pkcs7_signature(data_ptr->data,
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1346  				      bpf_dynptr_get_size(data_ptr),
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1347  				      sig_ptr->data,
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1348  				      bpf_dynptr_get_size(sig_ptr),
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1349  				      trusted_keyring->key,
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1350  				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1351  				      NULL);
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1352  }
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1353  #endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
-865b0566d8f1a0 Roberto Sassu 2022-09-20  1354  
+   778	
+ > 779	static inline struct gpio_desc *gpiochip_request_own_desc(struct gpio_chip *gc,
+   780						    unsigned int hwnum,
+   781						    const char *label,
+ > 782						    enum gpio_lookup_flags lflags,
+ > 783						    enum gpiod_flags dflags)
+   784	{
+   785		/* GPIO can never have been requested */
+   786		WARN_ON(1);
+   787		return ERR_PTR(-ENODEV);
+   788	}
+   789	
 
 -- 
 0-DAY CI Kernel Test Service
