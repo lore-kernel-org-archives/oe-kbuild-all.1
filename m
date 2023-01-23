@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4155320F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jan 2023 23:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4A0624
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 01:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674431687; x=1705967687;
+  t=1674436551; x=1705972551;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5HPKJcw+YR9nsSyxnhBw29uLRZ6WzQA1u/WUYCbNySE=;
-  b=foP0uY0DOgGPVzbUvZPHcZhQMjrXy2TtoSoaJFe0hihz6edhoSav+S3y
-   /Ardd+jzoSiVqFU8hn6hLWq9jiC7tVjqFrFhvOnl70FRnMRmZvN1pHvL0
-   hCZGwrP1FPMYkpO1FXglqRGjj1BIjvW5mlofwp9UJbiEvsnWpQVt8bi57
-   6piJgNiCl3gOCj/MeuuGOhVwmFpcqBV8dn8+spSCczYMMm+tNXAWE/aUD
-   thcze0Bkbb35KHj6eAWng+EKxe1TGj9AaOJQfttGlTSP4MTBjQFEylQrw
-   DyjI/UxBlEosqLL0wTwUoKahLrWvC0VQtrS/t/OvmliEZfmBuJcj4U3tt
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="309527525"
+  bh=Hzu9j5JZouZ7INEtZts0xqLFrUF2O3Wzu678kACYwR0=;
+  b=Qqg/TOOW28EI74ZpEAxjcdeJQ2dKloxseTXJ+EHSF5kHXGI+L16v4m+y
+   fE6S3kgEY6Nh30G/64TIPjkaPqXaJY/dq9lMR3uFagmaCIMQTQTHsMpOs
+   LIDtD+p+7CxpIYMgLxfkFoNFTEwpFOpuLL/pfrstiuv98mojY4FrT8g3g
+   gdPtso6uiePuKEnG+Ju6BU1A1TDyFIq1yIn8XQ5/gkREZKkUsEGDYI+5K
+   lRGcHB+/uAmO/Tp+NOg07cEJEXSql3S72XEFkKmzztVpdtvKry+Qfci0E
+   oxqcIEgvcHtIYzsIg+WYpWs4SipBmbRjddjMCBK/fPG+/7gQzFUchNUfZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="388314894"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="309527525"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 15:54:47 -0800
+   d="scan'208";a="388314894"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 17:15:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="691952305"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="769621110"
 X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="691952305"
+   d="scan'208";a="769621110"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 22 Jan 2023 15:54:45 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2023 17:15:48 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJkAf-0005Ia-0T;
-	Sun, 22 Jan 2023 23:54:45 +0000
-Date: Mon, 23 Jan 2023 07:54:01 +0800
+	id 1pJlR5-0005Ke-2r;
+	Mon, 23 Jan 2023 01:15:47 +0000
+Date: Mon, 23 Jan 2023 09:15:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pinchartl:drm/compile-test 5/9]
- drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: warning: passing argument 2 of
- 'sg_set_page' makes pointer from integer without a cast
-Message-ID: <202301230738.mvObvRxm-lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>
+Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined
+ but not used
+Message-ID: <202301230927.BQK00lgd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,138 +47,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Laurent,
+Hi Robin,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git drm/compile-test
-head:   ac2ff1e9fb5162127c092c1f7dc86b4eb7537b09
-commit: 6a2f2488d8ef33515e03ce44633d56c08957b2de [5/9] drm/omap: Enable COMPILE_TEST on all architectures
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230123/202301230738.mvObvRxm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
+commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
+date:   5 months ago
+config: x86_64-buildonly-randconfig-r001-20230123 (https://download.01.org/0day-ci/archive/20230123/202301230927.BQK00lgd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/commit/?id=6a2f2488d8ef33515e03ce44633d56c08957b2de
-        git remote add pinchartl https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
-        git fetch --no-tags pinchartl drm/compile-test
-        git checkout 6a2f2488d8ef33515e03ce44633d56c08957b2de
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b87d6d7fa405e23478f1e1dff6d66b5a533a5433
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b87d6d7fa405e23478f1e1dff6d66b5a533a5433
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/omapdrm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/omapdrm/omap_gem.c: In function 'omap_gem_get_sg':
-   drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
-    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
-         |                                         ^~~~~~~~~~~~
-         |                                         pfn_to_page
->> drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
-         |                                         ^~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   In file included from include/linux/dma-mapping.h:10,
-                    from drivers/gpu/drm/omapdrm/omap_gem.c:7:
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+>> drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined but not used [-Wunused-const-variable=]
+     946 | static const struct of_device_id ipmmu_of_ids[] = {
+         |                                  ^~~~~~~~~~~~
 
 
-vim +/sg_set_page +1034 drivers/gpu/drm/omapdrm/omap_gem.c
+vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
 
-cd5351f4d2b1b8 drivers/staging/omapdrm/omap_gem.c Rob Clark       2011-11-12   982  
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   983  struct sg_table *omap_gem_get_sg(struct drm_gem_object *obj,
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   984  		enum dma_data_direction dir)
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   985  {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   986  	struct omap_gem_object *omap_obj = to_omap_bo(obj);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   987  	dma_addr_t addr;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   988  	struct sg_table *sgt;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   989  	struct scatterlist *sg;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   990  	unsigned int count, len, stride, i;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   991  	int ret;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   992  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   993  	ret = omap_gem_pin(obj, &addr);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   994  	if (ret)
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   995  		return ERR_PTR(ret);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   996  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   997  	mutex_lock(&omap_obj->lock);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   998  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   999  	sgt = omap_obj->sgt;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1000  	if (sgt)
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1001  		goto out;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1002  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1003  	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1004  	if (!sgt) {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1005  		ret = -ENOMEM;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1006  		goto err_unpin;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1007  	}
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1008  
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1009  	if (addr) {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1010  		if (omap_obj->flags & OMAP_BO_TILED_MASK) {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1011  			enum tiler_fmt fmt = gem2fmt(omap_obj->flags);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1012  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1013  			len = omap_obj->width << (int)fmt;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1014  			count = omap_obj->height;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1015  			stride = tiler_stride(fmt, 0);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1016  		} else {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1017  			len = obj->size;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1018  			count = 1;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1019  			stride = 0;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1020  		}
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1021  	} else {
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1022  		count = obj->size >> PAGE_SHIFT;
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1023  	}
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1024  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1025  	ret = sg_alloc_table(sgt, count, GFP_KERNEL);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1026  	if (ret)
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1027  		goto err_free;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1028  
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1029  	/* this must be after omap_gem_pin() to ensure we have pages attached */
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1030  	omap_gem_dma_sync_buffer(obj, dir);
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1031  
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1032  	if (addr) {
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1033  		for_each_sg(sgt->sgl, sg, count, i) {
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19 @1034  			sg_set_page(sg, phys_to_page(addr), len,
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1035  				offset_in_page(addr));
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1036  			sg_dma_address(sg) = addr;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1037  			sg_dma_len(sg) = len;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1038  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1039  			addr += stride;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1040  		}
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1041  	} else {
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1042  		for_each_sg(sgt->sgl, sg, count, i) {
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1043  			sg_set_page(sg, omap_obj->pages[i], PAGE_SIZE, 0);
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1044  			sg_dma_address(sg) = omap_obj->dma_addrs[i];
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1045  			sg_dma_len(sg) =  PAGE_SIZE;
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1046  		}
-1948d28db6215d drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1047  	}
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1048  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1049  	omap_obj->sgt = sgt;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1050  out:
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1051  	mutex_unlock(&omap_obj->lock);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1052  	return sgt;
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1053  
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1054  err_free:
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1055  	kfree(sgt);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1056  err_unpin:
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1057  	mutex_unlock(&omap_obj->lock);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1058  	omap_gem_unpin(obj);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1059  	return ERR_PTR(ret);
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1060  }
-fe4d0b6317e35a drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1061  
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
+33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
+33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
+33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
+33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
+60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
+60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
+60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
+757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
+757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
+757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
+b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
+b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
+b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
+58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
+58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
+0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
+0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
+0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
+0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
+98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
+98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
+98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
+3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
+b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
+b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
+b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
+3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
+9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
+33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
+33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
+33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
+33f3ac9b511612 Magnus Damm             2017-10-16  995  };
+33f3ac9b511612 Magnus Damm             2017-10-16  996  
 
-:::::: The code at line 1034 was first introduced by commit
-:::::: 1948d28db6215d055930f0cbb6e300622ede5931 drm: omapdrm: Support exporting of non-contiguous GEM BOs
+:::::: The code at line 946 was first introduced by commit
+:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
 
-:::::: TO: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: TO: Magnus Damm <damm+renesas@opensource.se>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
