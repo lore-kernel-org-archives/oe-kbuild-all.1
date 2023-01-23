@@ -1,43 +1,48 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DD5A21
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 07:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7729A21
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jan 2023 07:45:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674459305; x=1705995305;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9u6kgLgJHFhWoV091raryGvZaNLEWviXKdBUt3dVvmg=;
-  b=lNQHpPpHXDWRi2aEneG5yFRsRMbenbZ6PACq8Zk/kmZ1fiPQBSSjz7Nl
-   WM15kmK7GgA2GB2WZU2jruk9Y4q5Xw7jsC4rA3iZQ9hvPW1DpOjVviVpK
-   BMRv2TJgGHZqMSKbzSl1v89Su0cKHyTTTzx3AaxDTveW/pUmj8AWJpCmS
-   yTcCh2mu9cNpMuoJ8+ptvSVu3cjZskSu+++sgxW63Y3F0DRESVO59gnIE
-   07SH6F/IUyf9q9fVJRJMLRnqdk7lYqvG97re22p0/nwoQSz6/LkuZI6le
-   dv0bZZemS0DRXWiLDe1rISW88BysO/XUxp8GX/XP4ZPTaYSNWH+5tXKpr
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="353249230"
-X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="353249230"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 23:35:02 -0800
+  t=1674459925; x=1705995925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KIyndeexdTHv4RNt0zG8sPiItU4fljUQ7URxmJcbYtE=;
+  b=Nlfqa6uqejgMA3SOfxCjS8GvP2FhAcLK9tLfTzTSPSaTzoa+85c/z6Tu
+   BJLyHFmJjYAxo/VQcBIVXSwzICBnXKi76ETvQH5eLpMiOWA2Z7tT7f+fB
+   b4WFSOnJA0etXDXQaYA4NubxGqC/tx9m1geIBzNhIAQ3pFQew3WrmHblj
+   nK4C5oKiRzmiJPLnv3LvxcVeOTLOXkAU92hKzal03kQdNnmF0bRKwMjtY
+   YRvcphggNZvtO6bm8MHidgZIELxXOZ59llpWK4hCJx8HPYA4M20bn3QcA
+   rtTopNfUKy4a921rqVsQo5+Fh82TQ+/LeUdpaL9tNkhDkYoekyU3a6+9z
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="390492211"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="390492211"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 23:45:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="639041052"
-X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="639041052"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="785499743"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="785499743"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 22 Jan 2023 23:35:01 -0800
+  by orsmga004.jf.intel.com with ESMTP; 22 Jan 2023 23:45:00 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJrM4-0005V4-0B;
-	Mon, 23 Jan 2023 07:35:00 +0000
-Date: Mon, 23 Jan 2023 15:34:25 +0800
+	id 1pJrVk-0005VE-0k;
+	Mon, 23 Jan 2023 07:45:00 +0000
+Date: Mon, 23 Jan 2023 15:44:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 38/72]
- drivers/memory/atmel-sdramc.c:62:21: warning: assignment to 'struct clk *'
- from 'int' makes pointer from integer without a cast
-Message-ID: <202301231522.0K8IfRgZ-lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, chinglinyu@google.com,
+	namit@vmware.com, srivatsab@vmware.com, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, vsirnapalli@vmware.com, tkundu@vmware.com,
+	er.ajay.kaher@gmail.com, Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH 2/8] eventfs: adding eventfs dir add functions
+Message-ID: <202301231550.WxxxHvcl-lkp@intel.com>
+References: <1674407228-49109-2-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +51,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1674407228-49109-2-git-send-email-akaher@vmware.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
-head:   63b7af8b6594d0f0bf80efe27747e0470b8ad027
-commit: 3eff8c56965cb20768bd8c93a5e8de24516196f6 [38/72] memory: atmel-sdramc: Fix missing clk_disable_unprepare in atmel_ramc_probe()
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230123/202301231522.0K8IfRgZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=3eff8c56965cb20768bd8c93a5e8de24516196f6
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-4.19
-        git checkout 3eff8c56965cb20768bd8c93a5e8de24516196f6
+Hi Ajay,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc5 next-20230123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+patch link:    https://lore.kernel.org/r/1674407228-49109-2-git-send-email-akaher%40vmware.com
+patch subject: [PATCH 2/8] eventfs: adding eventfs dir add functions
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230123/202301231550.WxxxHvcl-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/db5e58a9349f39590a8fb39f0c3373c4c483e064
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
+        git checkout db5e58a9349f39590a8fb39f0c3373c4c483e064
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/xilinx/ drivers/memory/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/tracefs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/tracefs/event_inode.c:27:31: sparse: sparse: symbol 'eventfs_root_dir_inode_operations' was not declared. Should it be static?
 
-   drivers/memory/atmel-sdramc.c: In function 'atmel_ramc_probe':
-   drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
-      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-         |                       ^~~~~~~~~~~~~~~~~~~~
->> drivers/memory/atmel-sdramc.c:62:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-         |                     ^
-   drivers/memory/atmel-sdramc.c:68:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      68 |                 clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-         |                     ^
-   cc1: some warnings being treated as errors
+vim +/eventfs_root_dir_inode_operations +27 fs/tracefs/event_inode.c
 
-
-vim +62 drivers/memory/atmel-sdramc.c
-
-    53	
-    54	static int atmel_ramc_probe(struct platform_device *pdev)
-    55	{
-    56		const struct at91_ramc_caps *caps;
-    57		struct clk *clk;
-    58	
-    59		caps = of_device_get_match_data(&pdev->dev);
-    60	
-    61		if (caps->has_ddrck) {
-  > 62			clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-    63			if (IS_ERR(clk))
-    64				return PTR_ERR(clk);
-    65		}
-    66	
-    67		if (caps->has_mpddr_clk) {
-    68			clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-    69			if (IS_ERR(clk)) {
-    70				pr_err("AT91 RAMC: couldn't get mpddr clock\n");
-    71				return PTR_ERR(clk);
-    72			}
-    73		}
-    74	
-    75		return 0;
-    76	}
-    77	
+    26	
+  > 27	const struct inode_operations eventfs_root_dir_inode_operations = {
+    28	};
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
