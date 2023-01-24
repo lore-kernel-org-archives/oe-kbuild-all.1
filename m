@@ -1,51 +1,62 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772EA10E9;
-	Tue, 24 Jan 2023 09:32:22 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so12369841wma.1;
-        Tue, 24 Jan 2023 01:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
-        b=Ue4+eLX6HVaTqP4Kk2Tg9pVVne5fjVYrldoh7Ox6otI4hJ4OsHsuAfoGhGHukWnmBG
-         23M3ZrN9urV7/7k6d0kwy+Pt70XGAozHZhUV/fRdM0vXDUUOv0BWZCqmrAxnTcJcy6nz
-         6826XKV2CbNT5t3Y0dpcE8TqgZbRUtnwKJov64spVGuT8lNHBUYPFCNNKz6Rz2AoEIzQ
-         x/N4SuSgFJVVKjE4q9xkEB8kbsQnWPLIwTUDZr7DSq2G75AQyabnctFoqcnBMv80nRZB
-         uxdpAalpbwrIdNaAlp9USTWGF9BhPPFu/nHNYw2KWycUQLiKfn0zFOaJgZpv6sHdpnkG
-         FoOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
-        b=o0dq5s/sU6WNgBMpBMUh1lvoyKI0RFhHMMXHprudfBFfJ8piyfefJ2LTRjLl2/wIG4
-         zxvCmz1YTy18XOl6bwS9E6VG8XGS46RoOBuuefQJBf32XOmvGwxE9wLwOPUNm0iSJHa1
-         X37KakLqIL6QoOvJ3xF/2CGsgt3zr97PMDYN/lM35CDTqTRBdRG/ye06jkwCiHXbQU/I
-         WOGkp0llP57iVwmbKUrITSN4mX0Z8gVtCUvTFpSiPigW0YvWvbP3fBm7lktHB1ImswfJ
-         +rZclP1UajcswkzrX3qHTCkobFxNgScb/ISlHMEVvE/JGMAIQOgwL3Y/qNtE2SuV6zFr
-         c41w==
-X-Gm-Message-State: AFqh2kpKs52h5f1gymww3Yal6oX/m7E+6gzeT6SEHAAzAx80XksaSdWu
-	/GLZqnedxeL14oAx5eI5N4omP3B/XkAIPg==
-X-Google-Smtp-Source: AMrXdXvufRp95MwLy9SZZp8mmyAch1bM7K1uoVp9336veEKUqPIqchN0L5t7xkSAA1oJPJ29pFKfrA==
-X-Received: by 2002:a05:600c:3d06:b0:3da:f945:2354 with SMTP id bh6-20020a05600c3d0600b003daf9452354mr27451415wmb.41.1674552740258;
-        Tue, 24 Jan 2023 01:32:20 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q14-20020adff78e000000b002be07cbefb2sm1731962wrp.18.2023.01.24.01.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 01:32:19 -0800 (PST)
-Date: Tue, 24 Jan 2023 12:32:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
- kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
- statement not indented
-Message-ID: <202301241716.MgPWF6fU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C2110E9;
+	Tue, 24 Jan 2023 09:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674553375; x=1706089375;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HeaXoa9wAMLuHvO4i89p5YmVEi4JDbJhzhRjYfIMEEY=;
+  b=PlYt9ccSt5hijC1G9jyvWUuGDKZtilCK4vh4633/rebBFOclYv8Zkgm7
+   3zIg7LehGVi5KZXPjcwvLkiA1Msmpcg4A2eooy/EoYB2OcWNw45/xuVGw
+   vJpqyQl7IGZDtG4uYmNA6Nf5t+VCmjnkrZiHdjo5w76WVRLil+bljmO6N
+   9bwy+cE6C+YP14EWeuoGsS/HESZza0nAYVEQaQ9DkVa4/FMnDoF5ZViP+
+   gUk+m/Sm2flooJydQqVtJXVCEV/HOuZTFqLlzQlNQnt0kaQyC1E/3ZI3R
+   MUlbxO7vkm5MXy7HJHjzf+ZmmrUs8IzHntmCv9eu2Cq4X981s9e3K+vYB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324934539"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="324934539"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:42:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="655362520"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="655362520"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 01:42:48 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKFpH-0006JI-2r;
+	Tue, 24 Jan 2023 09:42:47 +0000
+Date: Tue, 24 Jan 2023 17:42:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Romanovsky <leon@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	intel-wired-lan@lists.osuosl.org,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, oss-drivers@corigine.com,
+	Paolo Abeni <pabeni@redhat.com>, Raju Rangoju <rajur@chelsio.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Simon Horman <simon.horman@corigine.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Veaceslav Falico <vfalico@gmail.com>
+Subject: Re: [PATCH net-next 10/10] cxgb4: fill IPsec state validation
+ failure reason
+Message-ID: <202301241750.Qpv1Vuj6-lkp@intel.com>
+References: <9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,123 +65,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon@kernel.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.01.19a
-head:   e51eadce38349e7edb506a61e325cc562d49409f
-commit: a5ae869a4ab737494a3c5c167d782b8eab3ba724 [55/61] squash! rcutorture: Add SRCU deadlock scenarios
-config: x86_64-randconfig-m001-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241716.MgPWF6fU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Leon,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
+patch link:    https://lore.kernel.org/r/9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon%40kernel.org
+patch subject: [PATCH net-next 10/10] cxgb4: fill IPsec state validation failure reason
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241750.Qpv1Vuj6-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7eb8edee0c687243325ffd27b20c0f5d429b76f0
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
+        git checkout 7eb8edee0c687243325ffd27b20c0f5d429b76f0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for statement not indented
+All errors (new ones prefixed by >>):
 
-vim +3548 kernel/rcu/rcutorture.c
+>> drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c:263:63: error: too few arguments provided to function-like macro invocation
+                   NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
+                                                                               ^
+   include/linux/netlink.h:127:9: note: macro 'NL_SET_ERR_MSG_MOD' defined here
+   #define NL_SET_ERR_MSG_MOD(extack, msg)                 \
+           ^
+>> drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c:263:3: error: use of undeclared identifier 'NL_SET_ERR_MSG_MOD'
+                   NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
+                   ^
+   2 errors generated.
 
-81fba7e62c82be Paul E. McKenney 2023-01-13  3514  static void rcu_torture_init_srcu_lockdep(void)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3515  {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3516  	int cyclelen;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3517  	int cyclelenmax;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3518  	int deadlock;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3519  	bool err = false;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3520  	int i;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3521  	int j;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3522  	int idx;
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3523  	struct mutex *muts[] = { &mut0, &mut1, &mut2, &mut3, &mut4,
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3524  				 &mut5, &mut6, &mut7, &mut8, &mut9 };
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3525  	struct srcu_struct *srcus[] = { &srcu0, &srcu1, &srcu2, &srcu3, &srcu4,
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3526  					&srcu5, &srcu6, &srcu7, &srcu8, &srcu9 };
-81fba7e62c82be Paul E. McKenney 2023-01-13  3527  	int testtype;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3528  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3529  	if (!test_srcu_lockdep)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3530  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3531  
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3532  	deadlock = test_srcu_lockdep / 1000;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3533  	testtype = (test_srcu_lockdep / 10) % 100;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3534  	cyclelen = test_srcu_lockdep % 10;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3535  	cyclelenmax = min(ARRAY_SIZE(muts), ARRAY_SIZE(srcus));
-81fba7e62c82be Paul E. McKenney 2023-01-13  3536  	WARN_ON_ONCE(ARRAY_SIZE(muts) != ARRAY_SIZE(srcus));
-81fba7e62c82be Paul E. McKenney 2023-01-13  3537  	if (WARN_ONCE(deadlock != !!deadlock,
-81fba7e62c82be Paul E. McKenney 2023-01-13  3538  		      "%s: test_srcu_lockdep=%d and deadlock digit %d must be zero or one.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3539  		      __func__, test_srcu_lockdep, deadlock))
-81fba7e62c82be Paul E. McKenney 2023-01-13  3540  		err = true;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3541  	if (WARN_ONCE(cyclelen <= 0,
-81fba7e62c82be Paul E. McKenney 2023-01-13  3542  		      "%s: test_srcu_lockdep=%d and cycle-length digit %d must be greater than zero.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3543  		      __func__, test_srcu_lockdep, cyclelen))
-81fba7e62c82be Paul E. McKenney 2023-01-13  3544  		err = true;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3545  	if (err)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3546  		goto err_out;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3547  
-a5ae869a4ab737 Paul E. McKenney 2023-01-23 @3548  	for (i = 0; i < cyclelen; i++)
 
-This line looks like it should just be deleted.  The real loops are
-later so i == cyclelen by the time it loops back here.  Should probably
-create a static checker warning for nested loops where the inside loop
-resets the outside iterator to zero.
+vim +263 drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c
 
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3549  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3550  	if (testtype == 0) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3551  		pr_info("%s: test_srcu_lockdep = %05d: SRCU %d-way %sdeadlock.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3552  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
-81fba7e62c82be Paul E. McKenney 2023-01-13  3553  		if (deadlock && cyclelen == 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3554  			pr_info("%s: Expect hang.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3555  		for (i = 0; i < cyclelen; i++) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3556  			j = i + 1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3557  			if (i >= cyclelen - 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3558  				j = deadlock ? 0 : -1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3559  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3560  			if (j >= 0)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3561  				pr_info("%s: srcu_read_lock(%d), synchronize_srcu(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3562  					__func__, i, j, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3563  			else
-81fba7e62c82be Paul E. McKenney 2023-01-13  3564  				pr_info("%s: srcu_read_lock(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3565  					__func__, i, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3566  			idx = srcu_read_lock(srcus[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3567  			if (j >= 0)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3568  				synchronize_srcu(srcus[j]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3569  			srcu_read_unlock(srcus[i], idx);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3570  		}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3571  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3572  	}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3573  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3574  	if (testtype == 1) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3575  		pr_info("%s: test_srcu_lockdep = %05d: SRCU/mutex %d-way %sdeadlock.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3576  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
-81fba7e62c82be Paul E. McKenney 2023-01-13  3577  		for (i = 0; i < cyclelen; i++) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3578  			j = i + 1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3579  			if (i >= cyclelen - 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3580  				j = deadlock ? 0 : -1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3581  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3582  			pr_info("%s: srcu_read_lock(%d), mutex_lock(%d), mutex_unlock(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3583  				__func__, i, i, i, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3584  			idx = srcu_read_lock(srcus[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3585  			mutex_lock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3586  			mutex_unlock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3587  			srcu_read_unlock(srcus[i], idx);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3588  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3589  			if (j >= 0) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3590  				pr_info("%s: mutex_lock(%d), synchronize_srcu(%d), mutex_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3591  					__func__, i, j, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3592  				mutex_lock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3593  				synchronize_srcu(srcus[j]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3594  				mutex_unlock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3595  			}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3596  		}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3597  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3598  	}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3599  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3600  err_out:
-81fba7e62c82be Paul E. McKenney 2023-01-13  3601  	pr_info("%s: test_srcu_lockdep = %05d does nothing.\n", __func__, test_srcu_lockdep);
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3602  	pr_info("%s: test_srcu_lockdep = DTTC.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3603  	pr_info("%s: D: Deadlock if nonzero.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3604  	pr_info("%s: TT: Test number, 0=SRCU, 1=SRCU/mutex.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3605  	pr_info("%s: C: Cycle length.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3606  }
+   224	
+   225	/*
+   226	 * ch_ipsec_xfrm_add_state
+   227	 * returns 0 on success, negative error if failed to send message to FPGA
+   228	 * positive error if FPGA returned a bad response
+   229	 */
+   230	static int ch_ipsec_xfrm_add_state(struct xfrm_state *x,
+   231					   struct netlink_ext_ack *extack)
+   232	{
+   233		struct ipsec_sa_entry *sa_entry;
+   234		int res = 0;
+   235	
+   236		if (x->props.aalgo != SADB_AALG_NONE) {
+   237			NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
+   238			return -EINVAL;
+   239		}
+   240		if (x->props.calgo != SADB_X_CALG_NONE) {
+   241			NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
+   242			return -EINVAL;
+   243		}
+   244		if (x->props.family != AF_INET &&
+   245		    x->props.family != AF_INET6) {
+   246			NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm state offloaded");
+   247			return -EINVAL;
+   248		}
+   249		if (x->props.mode != XFRM_MODE_TRANSPORT &&
+   250		    x->props.mode != XFRM_MODE_TUNNEL) {
+   251			NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm offload");
+   252			return -EINVAL;
+   253		}
+   254		if (x->id.proto != IPPROTO_ESP) {
+   255			NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state offloaded");
+   256			return -EINVAL;
+   257		}
+   258		if (x->encap) {
+   259			NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state not offloaded");
+   260			return -EINVAL;
+   261		}
+   262		if (!x->aead) {
+ > 263			NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
+   264			return -EINVAL;
+   265		}
+   266		if (x->aead->alg_icv_len != 128 &&
+   267		    x->aead->alg_icv_len != 96) {
+   268			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 96b & 128b");
+   269			return -EINVAL;
+   270		}
+   271		if ((x->aead->alg_key_len != 128 + 32) &&
+   272		    (x->aead->alg_key_len != 256 + 32)) {
+   273			NL_SET_ERR_MSG_MOD(extack, "cannot offload xfrm states with AEAD key length other than 128/256 bit");
+   274			return -EINVAL;
+   275		}
+   276		if (x->tfcpad) {
+   277			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
+   278			return -EINVAL;
+   279		}
+   280		if (!x->geniv) {
+   281			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
+   282			return -EINVAL;
+   283		}
+   284		if (strcmp(x->geniv, "seqiv")) {
+   285			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
+   286			return -EINVAL;
+   287		}
+   288		if (x->xso.type != XFRM_DEV_OFFLOAD_CRYPTO) {
+   289			NL_SET_ERR_MSG_MOD(extack, "Unsupported xfrm offload");
+   290			return -EINVAL;
+   291		}
+   292	
+   293		sa_entry = kzalloc(sizeof(*sa_entry), GFP_KERNEL);
+   294		if (!sa_entry) {
+   295			res = -ENOMEM;
+   296			goto out;
+   297		}
+   298	
+   299		sa_entry->hmac_ctrl = ch_ipsec_setauthsize(x, sa_entry);
+   300		if (x->props.flags & XFRM_STATE_ESN)
+   301			sa_entry->esn = 1;
+   302		ch_ipsec_setkey(x, sa_entry);
+   303		x->xso.offload_handle = (unsigned long)sa_entry;
+   304		try_module_get(THIS_MODULE);
+   305	out:
+   306		return res;
+   307	}
+   308	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
