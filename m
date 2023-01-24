@@ -1,62 +1,52 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766FA7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 00:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEABE7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 00:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674520844; x=1706056844;
+  t=1674521434; x=1706057434;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v17R3QyYZCP4T22EmjJYvFeZBPZM3Q8P3+3lMWzi8To=;
-  b=afgZq6JPRUwhQXbijHvfB24kq4TEeVI4qNckxfb88xJQW9MUAAN31B4N
-   G93xWrCMdlGDpafRtZV+8FgtLexw0XvT1iRI0wfNQ2X+fVfTFdxeeeNsR
-   HkQTnt27s61LJcK1YhsAUXn578i+TnXhFACZcIiAzSEZyT68vwMoMBoEt
-   2ehg+A+4lWmexwAXh2s/1zir6qNfCG/2WTVDIS+lUA/Q0AD7+cP6S1ohB
-   WwL8ge5i+70BWZ2mUIgnGzIOMqE+G2Hx8mhLaL0hehqIt2kR0KsQTVeu8
-   CbjOux68v0YU6uHvgdSNqnB8yR6WjydgLf2KaVYBaIvyjfyzDGghNn1gw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="326234811"
+  bh=dZ6BNJabTkYNTaTP/+BuHdFDJceZdO8i1XDRWoUnCP4=;
+  b=Z7lZ3uzqdcLU7IU4h+yJGXK3BW4qfKEXYCk5XhFmZQYvvWiliT5PSdXs
+   MDrQixHjhWDeqXLSOdV9veGFFt9vnrbw7hUykcQLhWPrdWBlIps3gVUkh
+   w+vJgGL9grH5jpXNxPRyREKAa4nLvpytQp7X/Pcp0FR1UnDe7gOCoM4He
+   JcPNPIQMb1x8IFSacFnd6Sz1L0R3NYzTNE9Pq7B988Ua5mDYYCBrbE5KM
+   7J4vcX6hexBSL9W8d6JAR0d/q97zz2aVxCl4AGCmZXHZ2J0Z0zDjovSWH
+   parLe2h1K02A1U85QlkqNSFiX8n7nlfSOZHXKL3LcZ8pYJeN8H+Rtb8Mx
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314102005"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="326234811"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 16:40:35 -0800
+   d="scan'208";a="314102005"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 16:50:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692428776"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990686491"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="692428776"
+   d="scan'208";a="990686491"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 23 Jan 2023 16:40:29 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 16:50:29 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pK7MS-0005zE-2E;
-	Tue, 24 Jan 2023 00:40:28 +0000
-Date: Tue, 24 Jan 2023 08:39:40 +0800
+	id 1pK7W9-0005zY-07;
+	Tue, 24 Jan 2023 00:50:29 +0000
+Date: Tue, 24 Jan 2023 08:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: George Prekas <george@enfabrica.net>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Fenghua Yu <fenghua.yu@intel.com>, Andrei Vagin <avagin@gmail.com>,
-	George Prekas <george@enfabrica.net>
-Subject: Re: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
-Message-ID: <202301240827.j2GJi7v5-lkp@intel.com>
-References: <20230123170419.7292-2-george@enfabrica.net>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+	robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+	dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+	airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
+	andersson@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_sbillaka@quicinc.com,
+	linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+	linux-kernel@vger.kernel.org,
+	Kuogee Hsieh <quic_khsieh@quicinc.com>,
+	freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v1 04/14] drm/msm/dp: correct configure Colorimetry
+ Indicator Field at MISC0
+Message-ID: <202301240836.ik3aytbc-lkp@intel.com>
+References: <1674498274-6010-5-git-send-email-quic_khsieh@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,120 +55,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123170419.7292-2-george@enfabrica.net>
+In-Reply-To: <1674498274-6010-5-git-send-email-quic_khsieh@quicinc.com>
 
-Hi George,
+Hi Kuogee,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on vbabka-slab/for-next]
-[also build test ERROR on linus/master v6.2-rc5 next-20230123]
-[cannot apply to akpm-mm/mm-everything]
+[auto build test WARNING on next-20230123]
+[also build test WARNING on linus/master v6.2-rc5]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.2-rc5 v6.2-rc4 v6.2-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-next
-patch link:    https://lore.kernel.org/r/20230123170419.7292-2-george%40enfabrica.net
-patch subject: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230124/202301240827.j2GJi7v5-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
+patch link:    https://lore.kernel.org/r/1674498274-6010-5-git-send-email-quic_khsieh%40quicinc.com
+patch subject: [PATCH v1 04/14] drm/msm/dp: correct configure Colorimetry Indicator Field at MISC0
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240836.ik3aytbc-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f0d9df4305849ecea4402bc614cadb0dd357da77
+        # https://github.com/intel-lab-lkp/linux/commit/834f569a141af42cb93424c24e7d146f3b88405b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
-        git checkout f0d9df4305849ecea4402bc614cadb0dd357da77
+        git fetch --no-tags linux-review Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
+        git checkout 834f569a141af42cb93424c24e7d146f3b88405b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/msm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/fork.c: In function 'alloc_thread_stack_node':
->> kernel/fork.c:320:9: error: implicit declaration of function 'kmemleak_mark_stack'; did you mean 'kmemleak_no_scan'? [-Werror=implicit-function-declaration]
-     320 |         kmemleak_mark_stack(stack);
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         kmemleak_no_scan
-   kernel/fork.c: At top level:
-   kernel/fork.c:865:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     865 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/msm/dp/dp_panel.c:571: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Mapper function which outputs colorimetry to be used for a
 
 
-vim +320 kernel/fork.c
+vim +571 drivers/gpu/drm/msm/dp/dp_panel.c
 
-   274	
-   275	static int alloc_thread_stack_node(struct task_struct *tsk, int node)
-   276	{
-   277		struct vm_struct *vm;
-   278		void *stack;
-   279		int i;
-   280	
-   281		for (i = 0; i < NR_CACHED_STACKS; i++) {
-   282			struct vm_struct *s;
-   283	
-   284			s = this_cpu_xchg(cached_stacks[i], NULL);
-   285	
-   286			if (!s)
-   287				continue;
-   288	
-   289			/* Reset stack metadata. */
-   290			kasan_unpoison_range(s->addr, THREAD_SIZE);
-   291	
-   292			stack = kasan_reset_tag(s->addr);
-   293	
-   294			/* Clear stale pointers from reused stack. */
-   295			memset(stack, 0, THREAD_SIZE);
-   296	
-   297			if (memcg_charge_kernel_stack(s)) {
-   298				vfree(s->addr);
-   299				return -ENOMEM;
-   300			}
-   301	
-   302			tsk->stack_vm_area = s;
-   303			tsk->stack = stack;
-   304			return 0;
-   305		}
-   306	
-   307		/*
-   308		 * Allocated stacks are cached and later reused by new threads,
-   309		 * so memcg accounting is performed manually on assigning/releasing
-   310		 * stacks to tasks. Drop __GFP_ACCOUNT.
-   311		 */
-   312		stack = __vmalloc_node_range(THREAD_SIZE, THREAD_ALIGN,
-   313					     VMALLOC_START, VMALLOC_END,
-   314					     THREADINFO_GFP & ~__GFP_ACCOUNT,
-   315					     PAGE_KERNEL,
-   316					     0, node, __builtin_return_address(0));
-   317		if (!stack)
-   318			return -ENOMEM;
-   319	
- > 320		kmemleak_mark_stack(stack);
-   321	
-   322		vm = find_vm_area(stack);
-   323		if (memcg_charge_kernel_stack(vm)) {
-   324			vfree(stack);
-   325			return -ENOMEM;
-   326		}
-   327		/*
-   328		 * We can't call find_vm_area() in interrupt context, and
-   329		 * free_thread_stack() can be called in interrupt context,
-   330		 * so cache the vm_struct.
-   331		 */
-   332		tsk->stack_vm_area = vm;
-   333		stack = kasan_reset_tag(stack);
-   334		tsk->stack = stack;
-   335		return 0;
-   336	}
-   337	
+   569	
+   570	/**
+ > 571	 * Mapper function which outputs colorimetry to be used for a
+   572	 * given colorspace value when misc field of MSA is used to
+   573	 * change the colorimetry. Currently only RGB formats have been
+   574	 * added. This API will be extended to YUV once its supported on DP.
+   575	 */
+   576	u8 dp_panel_get_misc_colorimetry_val(struct dp_panel *dp_panel)
+   577	{
+   578		u8 colorimetry;
+   579		u32 colorspace;
+   580		u32 cc;
+   581		struct dp_panel_private *panel;
+   582	
+   583		panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+   584	
+   585		cc = dp_link_get_colorimetry_config(panel->link);
+   586		/*
+   587		 * If there is a non-zero value then compliance test-case
+   588		 * is going on, otherwise we can honor the colorspace setting
+   589		 */
+   590		if (cc)
+   591			return cc;
+   592	
+   593		colorspace = dp_panel->connector->state->colorspace;
+   594		switch (colorspace) {
+   595		case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+   596		case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+   597			colorimetry = 0x7;
+   598			break;
+   599		case DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
+   600			colorimetry = 0x3;
+   601			break;
+   602		case DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
+   603			colorimetry = 0xb;
+   604			break;
+   605		case DRM_MODE_COLORIMETRY_OPRGB:
+   606			colorimetry = 0xc;
+   607			break;
+   608		default:
+   609			colorimetry = 0;
+   610		}
+   611	
+   612		return colorimetry;
+   613	}
+   614	
 
 -- 
 0-DAY CI Kernel Test Service
