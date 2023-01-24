@@ -1,37 +1,37 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E50210F9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB6A10F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674558300; x=1706094300;
+  t=1674558960; x=1706094960;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=u+FzOBKj0QPqSqfYENp7du/NiCKXB3DsBUyRD+FK49U=;
-  b=HUPaJ5ZA4+MUF+z1xAJ9r1mZHldnwvOu29135fTria8JfIhRej/IUlTP
-   peKrbstMi2IpIoAkoVgn4gFCx8O3h/7f+EAkSOM+HQ8eDoftryEBNd62h
-   28Zywf/sNwKWOXwMA3ifraDzNguugISYoFUWM7Gq5aywX9CAM6w98FwKR
-   Rh4dV7XbE9eh3HCAcMWqfo1yqjNJKroWLmBmrF6q+XsypC29NE1ljcJHq
-   Wj4Kb+MDu72b69k8JMAWk93iIC43cQj8DI5HVPSBkZj2fc2mQQNLeN047
-   URWqP4reETR2yo46ejHgeAyBW04kN7W7xyjzrAr+52gYsK5Gxs4zG8MNJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314171051"
+  bh=Gjg+HfkBeuVjZTj6C5ci+xHOXoMLVICSukM3nzPdYbw=;
+  b=FNhq6HubLOeib0RLndFN4NL2wLVYZSdRym0C6aIgwG1N0f97xfHc0uy/
+   kqNXRONH1DgyvV9xdlZ3LdBVl5IehIBrLdBCFbNw+Epe++KL+ddR7Y99U
+   rX/ove8lwnROFRM31p9OLbnBAU8K9JAvoVvMzEle5I9Zn8+Vi70ons90u
+   uhMvSzOc5foW1CLSJe1Ixwfl6hIt6vth7MvC390dSsQRKlTMN1rYp3ot8
+   EltTdOUhatbpeYhfRcJbYw3PZU+pBvkgz/d+Ez0JxsA0hXmu9H9bAFDke
+   L8vDmT9Vz4dXZDSfRlSvLkI7Hmy+QFhG8yIzN+zy3Q7hoKJXaHt2zK1jH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412502379"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="314171051"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:04:59 -0800
+   d="scan'208";a="412502379"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:15:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835924857"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="664035238"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="835924857"
+   d="scan'208";a="664035238"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2023 03:04:51 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 24 Jan 2023 03:15:52 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKH6g-0006Mo-36;
-	Tue, 24 Jan 2023 11:04:50 +0000
-Date: Tue, 24 Jan 2023 19:04:48 +0800
+	id 1pKHHL-0006NM-0z;
+	Tue, 24 Jan 2023 11:15:51 +0000
+Date: Tue, 24 Jan 2023 19:15:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
 	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
@@ -61,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
 Subject: Re: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-Message-ID: <202301241800.pdnow11d-lkp@intel.com>
+Message-ID: <202301241830.KlT5Xcjy-lkp@intel.com>
 References: <20230124084323.1363825-2-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -75,10 +75,10 @@ In-Reply-To: <20230124084323.1363825-2-usama.anjum@collabora.com>
 
 Hi Muhammad,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes linus/master v6.2-rc5 next-20230124]
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes linus/master v6.2-rc5 next-20230124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -87,64 +87,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/user
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
 patch link:    https://lore.kernel.org/r/20230124084323.1363825-2-usama.anjum%40collabora.com
 patch subject: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230124/202301241800.pdnow11d-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230124/202301241830.KlT5Xcjy-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
         git checkout 59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mm_inline.h:9,
-                    from kernel/fork.c:46:
->> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
-     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
-     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:862:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     862 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:957:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
-     957 | int __weak arch_dup_task_struct(struct task_struct *dst,
-         |            ^~~~~~~~~~~~~~~~~~~~
---
    In file included from include/linux/hugetlb.h:14,
-                    from kernel/sysctl.c:46:
->> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
+                    from arch/powerpc/kernel/setup-common.c:37:
+>> include/linux/userfaultfd_k.h:278:5: error: no previous prototype for 'userfaultfd_wp_async' [-Werror=missing-prototypes]
      278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
          |     ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mm_inline.h:9,
-                    from mm/memory.c:44:
->> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
-     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'wp_huge_pmd':
-   mm/memory.c:4824:33: error: implicit declaration of function 'set_pmd_at'; did you mean 'set_pte_at'? [-Werror=implicit-function-declaration]
-    4824 |                                 set_pmd_at(vmf->vma->vm_mm, vmf->address, vmf->pmd,
-         |                                 ^~~~~~~~~~
-         |                                 set_pte_at
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/hugetlb.h:14,
-                    from fs/proc/meminfo.c:6:
->> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
-     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   fs/proc/meminfo.c:22:28: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
-      22 | void __attribute__((weak)) arch_report_meminfo(struct seq_file *m)
-         |                            ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
 vim +/userfaultfd_wp_async +278 include/linux/userfaultfd_k.h
