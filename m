@@ -1,115 +1,84 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C3FA31
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 03:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B747E0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 04:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674531884; x=1706067884;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=llzNk44ai2kUw+bb6PggWcQopKhOjJdBfAbzDb2u3TY=;
-  b=NGmbaCHH1bo1YHsZsB1YGJCqLrib9clogbtw0KV+PFZSQyDQezHNloxH
-   4eSCHH4ug3bqESe6+1MlO/NbNRUeDq+1xCVD53ozmC4QH77fg0RXpVLGq
-   1pWH+2fuhfsWz7buajdm54lC4AgRWd9PUQiiiamY6vHybdG32PIFC6MXq
-   xdHNzL2Z40Tnuf4CTmRVGEyj+S4Y7AFgsL5IHF/R7TYuPDa1RGGbRzSa9
-   +6RuB29saUV2xqxy8+d4hRjYZzZ1NKw2QHt/ttVK+loxGg0uguRVHtK/8
-   Y3ljLlZ9NjHJtm1+0gx3htSy0DWdpyG8Fn3vePrs0oqu+S10Oy3rfE1za
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306577709"
+  t=1674534942; x=1706070942;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yjd2VDW+Qu+W/Qt64F5j7QCCR1XsiqXu7IQh6yn0HNg=;
+  b=NVw4S1Xn5+GaTnEmAme+V5zRAmmIQmZc4AXLpDZYEBCT+4v1t2ebdI0n
+   ADiVLxNjl5IGOYXKcBro3Slrs4i4lr8Sb8nW+3Xt0QhoNsq+i8OF/ppDC
+   qsxnzwpYciUgFyH7YgHyNU5UM9nCsPXn5g+JonP+B5XMrBUdFJHMfLC+p
+   DG1MxAP+ITfDJ1V1ZnhvlEJ0M0l7hfxwYNoc2O0HWWCnx6Brr3jSOT5zW
+   sAwy5FVEmrcn8gTmMfzC57EWKke9RYBWlh2r217p9NiAtHR+/pWurjHpI
+   yXKoSdsQ3BAoO3iBHAiXieXBgYdX0V9U2s+amW5dQuNrmPB/SMQfsZ9ae
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314127273"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="306577709"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 19:44:43 -0800
+   d="scan'208";a="314127273"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 20:35:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="655280246"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694209476"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="655280246"
+   d="scan'208";a="694209476"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Jan 2023 19:44:37 -0800
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 20:35:40 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKAEe-00066K-2B;
-	Tue, 24 Jan 2023 03:44:36 +0000
-Date: Tue, 24 Jan 2023 11:44:22 +0800
+	id 1pKB23-00068a-0v;
+	Tue, 24 Jan 2023 04:35:39 +0000
+Date: Tue, 24 Jan 2023 12:35:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
-	sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
-	tfiga@chromium.org, sebastian.wick@redhat.com, hverkuil@xs4all.nl,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
-	lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
-	jstultz@google.com, laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
-Message-ID: <202301241137.qT2rnQ5T-lkp@intel.com>
-References: <20230123123756.401692-3-christian.koenig@amd.com>
+To: Andi Kleen <ak@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: [intel-tdx:guest-filter-upstream 22/30]
+ arch/x86/coco/tdx/filter.c:21:13: warning: 'filter_overridden' defined but
+ not used
+Message-ID: <202301241209.AiSFYa3n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230123123756.401692-3-christian.koenig@amd.com>
 
-Hi Christian,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on media-tree/master drm-tip/drm-tip linus/master v6.2-rc5]
-[cannot apply to next-20230123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230123123756.401692-3-christian.koenig%40amd.com
-patch subject: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
-config: i386-randconfig-a002-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241137.qT2rnQ5T-lkp@intel.com/config)
+tree:   https://github.com/intel/tdx.git guest-filter-upstream
+head:   2eb6cd239352583e1275ed7d6e772e7bbc0343b0
+commit: c28dbc3cf90d7c85d18cb4a8f79f4a18f5386e91 [22/30] x86/tdx: Add a command line option to add new ACPI tables to the filter
+config: x86_64-randconfig-a004-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241209.AiSFYa3n-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/adc04dccd892eec7f84c6ec112b48df376172e48
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
-        git checkout adc04dccd892eec7f84c6ec112b48df376172e48
+        # https://github.com/intel/tdx/commit/c28dbc3cf90d7c85d18cb4a8f79f4a18f5386e91
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-filter-upstream
+        git checkout c28dbc3cf90d7c85d18cb4a8f79f4a18f5386e91
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/usb/uvc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/coco/tdx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/usb/uvc/uvc_driver.c:10:
->> include/linux/dma-heap.h:92:5: warning: no previous prototype for 'dma_heap_create_device_link' [-Wmissing-prototypes]
-      92 | int dma_heap_create_device_link(struct device *dev, const char *heap)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/dma-heap.h:97:6: warning: no previous prototype for 'dma_heap_remove_device_link' [-Wmissing-prototypes]
-      97 | void dma_heap_remove_device_link(struct device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/coco/tdx/filter.c:21:13: warning: 'filter_overridden' defined but not used [-Wunused-variable]
+      21 | static bool filter_overridden;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +/dma_heap_create_device_link +92 include/linux/dma-heap.h
+vim +/filter_overridden +21 arch/x86/coco/tdx/filter.c
 
-4ce5c5c0cf31f4 Christian König 2023-01-23   91  
-4ce5c5c0cf31f4 Christian König 2023-01-23  @92  int dma_heap_create_device_link(struct device *dev, const char *heap)
-4ce5c5c0cf31f4 Christian König 2023-01-23   93  {
-4ce5c5c0cf31f4 Christian König 2023-01-23   94  	return 0;
-4ce5c5c0cf31f4 Christian König 2023-01-23   95  }
-4ce5c5c0cf31f4 Christian König 2023-01-23   96  
-4ce5c5c0cf31f4 Christian König 2023-01-23  @97  void dma_heap_remove_device_link(struct device *dev)
-4ce5c5c0cf31f4 Christian König 2023-01-23   98  {
-4ce5c5c0cf31f4 Christian König 2023-01-23   99  }
-4ce5c5c0cf31f4 Christian König 2023-01-23  100  
+    19	
+    20	/* Set true if authorize_allow_devs is used */
+  > 21	static bool filter_overridden;
+    22	
 
 -- 
 0-DAY CI Kernel Test Service
