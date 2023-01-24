@@ -1,122 +1,176 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2135.outbound.protection.outlook.com [40.107.114.135])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44238EA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 06:25:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ENU6/Ge1d7absMcbsPUPuACqQ+Tyjtel4gFm2pyAthMCVXMEMWT9cDIjzFG4UJhD8P/pFc8AOPsfdSG+2dHKJ9wjGDFOND9JsxjAykEJWaEJTS0tBpU5ANAMXJzFFF+awizB7J2EBOgYCauvS6ryYeIjW+CF7ArzMU9N1fpod51C1mt0NOdRTzc29/Wzh6ocm4+ifb0pxD455uWNHUj+TsSnHXqqt9p5krRTG2Zu0ysyHm41o8RIAqshTix6ZrjhX3GIPqFPWkQOA4jT/wrUqiGu4r39uefCQvJmbvBf04arGLtvEhXAbPE3MkoOrIP9AXBSjLcJB0kuUCk8l9XDMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PhNtNt2f56rRCcLGJwFzR7Bb7Husk+tYhWQ+BeeauOk=;
- b=j6Z25DTmjXVLqRsiRA3d8uwfheqVvDE/Ah4ANbLZtkrLPqrrXDPZpZEuwqQod+fSel2tF8iDefKaMxm92G7VxqFUbsLKUSPlfuUo5rce87YqhEB/177Xs0eBfIwxYeUXMvclq5fMwH9+hIeii6RNiaebwRBkohQBirywlrZVju7lnRz0mm0rBpTQeJ+fZjkAE7lIFx6kElD55AisahvIcJwzJgvjFOuRNBEjCKw2ERppRhxxa5lX53BmBRwbvbwinL35eq4t1M3LpXhTNs8Q0BiaK07qNEWJ3JYLBylwJiRf80Il65yhf3xme8qjLRRQvRO5exIFVvUL8jCoTguaaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PhNtNt2f56rRCcLGJwFzR7Bb7Husk+tYhWQ+BeeauOk=;
- b=XLE9FfQHLqCW7jlotDVxthvlWMk3mFSIkP6etR/llTx7lR0zaFBkBFVawrNISMOyCJ2RR9wIlx/ZXPFaBZDohAce1JypW9WkraRZkEYt3gkrzP/7Nz2XQvAEaXtrhBhsI51BCTfd+Kf/BMGc7c/ENugSwUOrmkJzSBM9IUv+ZF0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TYCPR01MB11463.jpnprd01.prod.outlook.com (2603:1096:400:389::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
- 2023 06:25:02 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::3cd7:a7b5:ea86:9ae]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::3cd7:a7b5:ea86:9ae%6]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
- 06:25:02 +0000
-Message-ID: <87tu0gsb41.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 09/25] ASoC: rt: use helper function
-In-Reply-To: <202301241201.jBsUFSYu-lkp@intel.com>
-References: <87lelsu1gz.wl-kuninori.morimoto.gx@renesas.com>
-	<202301241201.jBsUFSYu-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 24 Jan 2023 06:25:02 +0000
-X-ClientProxiedBy: TYCPR01CA0191.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::16) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D8A7C;
+	Tue, 24 Jan 2023 06:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674542328; x=1706078328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nCllPZY6zrzrfh4fFvccqk4bgDomrRfcoK4PfShWMzQ=;
+  b=KwR+bIrJ8od/KfJySIUfd5lRGtkmRTNAajbNqPvP6sZ+BcsEgtBxkeA9
+   YjRHpiePxk+J/uFLLqwsAuYhB6RCJNYmEU39t+Z0KQE8LY7BLNfiNiqbC
+   Y/ZriBtPEGRrIRGjHC6XRdOJERIRdHvCNTQWME1QT/uVs87MM65Z9QWbU
+   9H/kD8tWryevzM17tE28vOzRssZ1Huno3Djx/YHFHF9ktB9JiOFV5qySg
+   6pYLCOpCuVj3du0kFN7xXPMBiAmhn7/V4P8tKahxwHOVZn20SOzrceDIw
+   cb/sCo37xD91h/AHPogJw/1QRfpgBexZBv/t3MCvHYxgiJ/Wv2hQVFqeB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388584538"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="388584538"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 22:38:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639475752"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="639475752"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 22:38:43 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKCx8-0006D6-1U;
+	Tue, 24 Jan 2023 06:38:42 +0000
+Date: Tue, 24 Jan 2023 14:38:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Francesco Dolcini <francesco@dolcini.it>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>
+Subject: Re: [PATCH v1 3/4] Bluetooth: hci_mrvl: Add serdev support for
+ 88W8997
+Message-ID: <202301241423.sEVD92vC-lkp@intel.com>
+References: <20230118122817.42466-4-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYCPR01MB11463:EE_
-X-MS-Office365-Filtering-Correlation-Id: 030c7a20-231a-4e19-622e-08dafdd3ba03
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Noa0n7Tw9x9wEabHjR0EMt1Rb8dfrO0NbifQWp8WrnSYKR2pdfXhNTFNYYWHjAw79ch3/bvcgSkQ5Hd8U+m1cQZKBJCbUm70icanDVYl0Z4EiEWAoXMq/mnwfM7HV0eI+wA0UtzG7Rpr807McNqj9syIjM0JexrlCmsXe1wnrjbhg29/MzEmJ3Um/mI+SZrBMYXz6YlME34wWHTnJMPmEYq3iuHyjLn2IFyMLo6Skw0aUUY3rqsaxugutHNoeyogiQ7JPMrfUXs9OwJsectWugJAkrVI9bkkLgPyPQwtkDKMd/qXA7n/VyFwaobr4XM1giMhbVc5ouU/juWZ3DbfARs13HBEAwGX7tgzNVNQAp0x273CfzLVo+TXq0bcOURBCRPFdNBX+ivpcq2mPJ1sdD8Tms/TEWlg5QfQmnWKxGnXfmmlEyUfCOmzcNNctTvcRSXyEP14fCjcCXYKbu5gcFDzzHizskmFF8IKMhEYpEBpHfGT6yyZ7ll0ZVd5ICJH7pmoOCUSQqqkKKm6ZeeO1C7yrOL4cY7hqKL2N4xErFF41UfFGM0oZRm62swsiS4Pes2PlB/iwhhgGLi48lQLq/2vGmLuOyu5iqNlA97r+PyFAjq/ybQQjbohyVkiO+EzV73EVPVf3d/Xyl5M+K6xYaBUpBKeNOyOAhyJIVVbwzrs8v271br+1M/MfGGSk2BpYVCnjCPcSoZVGpHTpVKQxQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(39840400004)(396003)(376002)(366004)(451199015)(4744005)(2616005)(2906002)(8936002)(186003)(52116002)(6512007)(316002)(5660300002)(6486002)(66556008)(4326008)(38350700002)(478600001)(83380400001)(38100700002)(6506007)(41300700001)(66946007)(6916009)(8676002)(86362001)(66476007)(26005)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kXCSMq9RQRYWYo2LOPPKDlzIzzbtTRyqIgOG+MmC1IDXdaVbwXlbuaNs92LA?=
- =?us-ascii?Q?4K22olAiCROTJ+M7oue3Oh+S17gvhXTN6bUxL+SAGKR9L0Pcxlkh9fypyzuz?=
- =?us-ascii?Q?vh9zwZbRw461DAHxYPvZKASpvrYVaNb2GwBKb3vbZ9eSrakzNddSRKYCOfv3?=
- =?us-ascii?Q?HBtMeHhiBbje9IU6FKk0mVMW+7TpvLRw1uCOx3fq5OrXpMLKpkoucCeEJaA+?=
- =?us-ascii?Q?XvMv3onAJZq3t8fF9QGLQ7Pr6gJxF5dDxajpSDlvuL3arIFcfmbc+gpWTWxS?=
- =?us-ascii?Q?wZCjRpWGjU1JZev4RWGbyEGA0ZvGqEAtd1MKwTN8xcMKk9M7egStPuCwm3dN?=
- =?us-ascii?Q?lP9JQnMT4sdvtaAU4wyeJvbgZl2ddaMDe+vGdsGJHhEOYzj7+TmIxZTW7SOG?=
- =?us-ascii?Q?vJFmBb8kITg6Fo3O96GfqS8GSNPUWsdLJWzyItAuUxPokAlTLVpWjgePcfaz?=
- =?us-ascii?Q?gf+YQRvtZpPBEFRgqi17wB8GgydD44U1DpXO5tQU72ZAYvZ5ERLUPV5DKGA0?=
- =?us-ascii?Q?ML+KdC3e5Ro5mOS3V+sj9Q+/9O94b91DMZeCOjD4cSMbdRTVl/WUAKNxvyck?=
- =?us-ascii?Q?keMUSUW0Xwek6oqIpXxY5mvWSTb/vk9WFyzsYw6/YXk5AmuvidfP1qA2Q97F?=
- =?us-ascii?Q?iSLSH/vUlKWICCnICEWBiQW4GeGcaO4JyXNFFv38VOpDOQKpVKpV73XRqP1B?=
- =?us-ascii?Q?n8jbR/RZPSaBvnlzw66ZKdNoCrhWIOQLE2cS0adnWRdNKHkI62qhi+dch4M/?=
- =?us-ascii?Q?NvS5na8jZcZ9DmrvvuvyH3lks9dH8P6fRUtmf54h+f9vCMOUJHCsXjSDOzFp?=
- =?us-ascii?Q?lVVEK96u7P9Ryssh8yDzgObzf/rBgWm8DqrCVtjcBLcTiLiCMNj17LUFeRll?=
- =?us-ascii?Q?WRc8NhqrMdOyQ2+accA0OdVp3JfsY9zPt5ra771AlyTYW1C8KbfK9UHKNVJa?=
- =?us-ascii?Q?iqd26kN5xBinmmwTF3m94nJZUCJrvOq9fheea9H/q3dbxCvALBJhdKdXKb1+?=
- =?us-ascii?Q?88H8DJwghTFuPq277o7kwQ2Mfmt/l1PRoOlyg6OIPuJVblGLyxs1mS9F9MK7?=
- =?us-ascii?Q?wsILUFmc4b2b/hT74kebVoaiE8BiuKHc0Jo/t4CjZLLvpd0Adz4EZCoab1nE?=
- =?us-ascii?Q?O9e3ZOqg9dH5O+PHVOsrlFNq01aWRbQjxuxMnGTkNoTi/ComszvZZDUT8vAp?=
- =?us-ascii?Q?5rpty8VCuvL6SQ50Iw0+kZuRkuIBPdO6NxhRF3Dmfo0erBoM/DfAFWnWNf8h?=
- =?us-ascii?Q?orij2AQF+FUftiDZKhSzDvZO3iTVIUaVUjqQvLEys5/fP9sJgWkg1eAUUn2V?=
- =?us-ascii?Q?/R0neCUjjCquMWtmC4K4AP5R3I6a+kd4sNbgLffILL1Vjs+nuB8Fg6bXDxKn?=
- =?us-ascii?Q?jxxCuA4AVaNySW6wSuz66rAU5C4XpOXtjhAqB9taQNH/G0EGxC/aU90H8Ajm?=
- =?us-ascii?Q?DOKPFOrrKZvQRPFfZGuqLmvUKA3S1Hqm8jCG/GdlA2umuMA5hGK4FZVs5E84?=
- =?us-ascii?Q?QyDtTIFWinz7WTaWeuHueR8rBGX/5tvoEXP9yx2bVZ+rJYTURlXrTtUXfHIg?=
- =?us-ascii?Q?erCBNLwoU5nJq8Nf+pTWZc7SQcfNminPWzHKGDgGvBuR/QwCneSvtYCXrECQ?=
- =?us-ascii?Q?pIyl0V55nWdhWMNbBmXUcOo=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 030c7a20-231a-4e19-622e-08dafdd3ba03
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 06:25:02.7994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S/WZK9HH1p2xcxEnr68IZpR6H2y8dFzZ2YC8MZR/POi5ZeVpRsy7KCpqbxQ7flL6PvfId7Y8o2NNUUPP/EbZEPZKZEFoOmvnfjtr00VrI2hevglyZ+SQdQEkZQPkoaOC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11463
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118122817.42466-4-francesco@dolcini.it>
+
+Hi Francesco,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on bluetooth-next/master bluetooth/master horms-ipvs/master net/master net-next/master linus/master v6.2-rc5 next-20230123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Dolcini/dt-bindings-bluetooth-marvell-add-88W8997-DT-binding/20230118-210919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230118122817.42466-4-francesco%40dolcini.it
+patch subject: [PATCH v1 3/4] Bluetooth: hci_mrvl: Add serdev support for 88W8997
+config: hexagon-randconfig-r021-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241423.sEVD92vC-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/2ae116c8ad209e0bf11559519915e511c44c28be
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Francesco-Dolcini/dt-bindings-bluetooth-marvell-add-88W8997-DT-binding/20230118-210919
+        git checkout 2ae116c8ad209e0bf11559519915e511c44c28be
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/ lib/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/bluetooth/hci_mrvl.c:12:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/bluetooth/hci_mrvl.c:12:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/bluetooth/hci_mrvl.c:12:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/bluetooth/hci_mrvl.c:450:36: warning: unused variable 'mrvl_proto_8997' [-Wunused-const-variable]
+   static const struct hci_uart_proto mrvl_proto_8997 = {
+                                      ^
+   7 warnings generated.
 
 
-Hi
+vim +/mrvl_proto_8997 +450 drivers/bluetooth/hci_mrvl.c
 
->    sound/soc/codecs/rt1318-sdw.c: In function 'rt1318_set_sdw_stream':
->    sound/soc/codecs/rt1318-sdw.c:578:12: error: 'struct snd_soc_dai' has no member named 'stream'
->      578 |         dai->stream[direction].dma_data = stream;
->          |            ^~
+   449	
+ > 450	static const struct hci_uart_proto mrvl_proto_8997 = {
+   451		.id		= HCI_UART_MRVL,
+   452		.name		= "Marvell 8997",
+   453		.init_speed	= 115200,
+   454		.oper_speed	= 3000000,
+   455		.open		= mrvl_open,
+   456		.close		= mrvl_close,
+   457		.flush		= mrvl_flush,
+   458		.set_baudrate   = mrvl_set_baudrate,
+   459		.recv		= mrvl_recv,
+   460		.enqueue	= mrvl_enqueue,
+   461		.dequeue	= mrvl_dequeue,
+   462	};
+   463	
 
-Thank you for reporting.
-I also noticed that [14/25] patch has compile error, too.
-
-I will post v3 patch at 26th.
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
