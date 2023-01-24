@@ -1,62 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600067C;
-	Tue, 24 Jan 2023 08:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF8BED7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 08:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674547254; x=1706083254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xc2SUtCeobW/ezSFCjJCHss3YwaPNlCk6liXkETTUwY=;
-  b=jiP6haUVzmhLZtgxgYRxZXy5v8Zb/OijVAVY/9mng5argdsPyFMeQUWG
-   msC7n9ZHwJhYpK2jiZ2jwP++mt2AFXV60vmHvUaU6DtA4wQW1s9rpAFKa
-   SmI1xnJLHHDsZl2DM/OCRUqwg4XrSJQY+mOMjPbcqdv5n7B1s3cOwK+VY
-   Jx81ALVnffH81BMpcmS8s9ynijbyn3QYn2Mi8n9sEn7boofhKklUakykK
-   BGc2ModED7u01whriQQeG+ysmLN4nmGSS0kYtVI0eJyRK0H4MIpFvYsAT
-   oDB2gcAsa4F97aGkwoqX1LSl7MdS2gG2cCEPq0tdSlTB7CBvte1MGjDg7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324920705"
+  t=1674547256; x=1706083256;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qUGuKaZvBfqjNUIdYqTEL0o9E/zbk6hrDyEdGSTYCv4=;
+  b=TX3s+QTrZxDEGuU5yQouXImC9XJfjIuFJSNczZ8cHBG0HBJpkC9qVEMw
+   4VkUmERov8EXxJglzWuByqu4iwy22qgaXe57LHpwcGI1PoCvKzdRp+XSI
+   /6Rf73gMv+9wZGWPfVXhWLesHFMVwUbJ3GCLhuRt52j3iDseCFXYpEV1q
+   jQBYDX+7/bqijkEWqd3vDmFkp4PRt4MV4mp4vAwGcSHFbNfinjMj6+cjp
+   +q+9UQamJUjNsqav7iXHZE+9vf2+BnfPUTDTQBpAKtx7X8BNasS/B2HMn
+   /0d+4BXlEm9hFsuTLg2UxVpNvdlWXd1bgha+e5NOPJLsAE8lgc4ueCHDg
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324920720"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="324920705"
+   d="scan'208";a="324920720"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 00:00:52 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 00:00:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692510306"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692510300"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="692510306"
+   d="scan'208";a="692510300"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 00:00:46 -0800
+  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 00:00:51 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKEEX-0006Fs-1k;
+	id 1pKEEX-0006Fw-1z;
 	Tue, 24 Jan 2023 08:00:45 +0000
-Date: Tue, 24 Jan 2023 15:59:55 +0800
+Date: Tue, 24 Jan 2023 15:59:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leon@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Veaceslav Falico <vfalico@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jay Vosburgh <j.vosburgh@gmail.com>, oss-drivers@corigine.com,
-	linux-doc@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Andy Gospodarek <andy@greyhouse.net>
-Subject: Re: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec
- state validation failure reason
-Message-ID: <202301241552.GWkgnAH7-lkp@intel.com>
-References: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
+To: Matt Ranostay <mranostay@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-linux-5.10.y 17348/20446]
+ drivers/phy/ti/phy-j721e-wiz.c:731:18: warning: assignment to 'char *' from
+ 'int' makes pointer from integer without a cast
+Message-ID: <202301241512.d5c19xDp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,172 +46,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
 
-Hi Leon,
+Hi Matt,
 
-I love your patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-patch link:    https://lore.kernel.org/r/a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon%40kernel.org
-patch subject: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec state validation failure reason
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241552.GWkgnAH7-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y
+head:   90976f615b7ec6d31eba0db18c5b6844a3371e10
+commit: 00c06b1206b933de1d62b89db8b6846dc885eb5f [17348/20446] phy: ti: phy-j721e-wiz: stop name conflict if multiple serdes are initialized
+config: h8300-buildonly-randconfig-r001-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241512.d5c19xDp-lkp@intel.com/config)
+compiler: h8300-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-        git checkout bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-linux-5.10.y
+        git checkout 00c06b1206b933de1d62b89db8b6846dc885eb5f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/ drivers/net/ethernet/mellanox/mlx5/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/phy/ti/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:276:22: error: use of undeclared identifier 'extackx'; did you mean 'extack'?
-                   NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
-                                      ^~~~~~~
-                                      extack
-   include/linux/netlink.h:128:18: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
-           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
-                           ^
-   include/linux/netlink.h:100:38: note: expanded from macro 'NL_SET_ERR_MSG'
-           struct netlink_ext_ack *__extack = (extack);    \
-                                               ^
-   drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:167:34: note: 'extack' declared here
-                                        struct netlink_ext_ack *extack)
-                                                                ^
-   1 error generated.
+   drivers/phy/ti/phy-j721e-wiz.c: In function 'wiz_phy_en_refclk_register':
+   drivers/phy/ti/phy-j721e-wiz.c:731:20: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=implicit-function-declaration]
+     731 |         clk_name = kzalloc(sz, GFP_KERNEL);
+         |                    ^~~~~~~
+         |                    vzalloc
+>> drivers/phy/ti/phy-j721e-wiz.c:731:18: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     731 |         clk_name = kzalloc(sz, GFP_KERNEL);
+         |                  ^
+   drivers/phy/ti/phy-j721e-wiz.c:743:9: error: implicit declaration of function 'kfree'; did you mean 'vfree'? [-Werror=implicit-function-declaration]
+     743 |         kfree(clk_name);
+         |         ^~~~~
+         |         vfree
+   drivers/phy/ti/phy-j721e-wiz.c: In function 'wiz_mux_clk_register':
+   drivers/phy/ti/phy-j721e-wiz.c:796:22: warning: assignment to 'const char **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     796 |         parent_names = kzalloc((sizeof(char *) * num_parents), GFP_KERNEL);
+         |                      ^
+   cc1: some warnings being treated as errors
 
 
-vim +276 drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+vim +731 drivers/phy/ti/phy-j721e-wiz.c
 
-   164	
-   165	static int mlx5e_xfrm_validate_state(struct mlx5_core_dev *mdev,
-   166					     struct xfrm_state *x,
-   167					     struct netlink_ext_ack *extack)
-   168	{
-   169		if (x->props.aalgo != SADB_AALG_NONE) {
-   170			NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
-   171			return -EINVAL;
-   172		}
-   173		if (x->props.ealgo != SADB_X_EALG_AES_GCM_ICV16) {
-   174			NL_SET_ERR_MSG_MOD(extack, "Only AES-GCM-ICV16 xfrm state may be offloaded");
-   175			return -EINVAL;
-   176		}
-   177		if (x->props.calgo != SADB_X_CALG_NONE) {
-   178			NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
-   179			return -EINVAL;
-   180		}
-   181		if (x->props.flags & XFRM_STATE_ESN &&
-   182		    !(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_ESN)) {
-   183			NL_SET_ERR_MSG_MOD(extack, "Cannot offload ESN xfrm states");
-   184			return -EINVAL;
-   185		}
-   186		if (x->props.family != AF_INET &&
-   187		    x->props.family != AF_INET6) {
-   188			NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm states may be offloaded");
-   189			return -EINVAL;
-   190		}
-   191		if (x->id.proto != IPPROTO_ESP) {
-   192			NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state may be offloaded");
-   193			return -EINVAL;
-   194		}
-   195		if (x->encap) {
-   196			NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state may not be offloaded");
-   197			return -EINVAL;
-   198		}
-   199		if (!x->aead) {
-   200			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without aead");
-   201			return -EINVAL;
-   202		}
-   203		if (x->aead->alg_icv_len != 128) {
-   204			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 128bit");
-   205			return -EINVAL;
-   206		}
-   207		if ((x->aead->alg_key_len != 128 + 32) &&
-   208		    (x->aead->alg_key_len != 256 + 32)) {
-   209			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD key length other than 128/256 bit");
-   210			return -EINVAL;
-   211		}
-   212		if (x->tfcpad) {
-   213			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
-   214			return -EINVAL;
-   215		}
-   216		if (!x->geniv) {
-   217			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
-   218			return -EINVAL;
-   219		}
-   220		if (strcmp(x->geniv, "seqiv")) {
-   221			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
-   222			return -EINVAL;
-   223		}
-   224		switch (x->xso.type) {
-   225		case XFRM_DEV_OFFLOAD_CRYPTO:
-   226			if (!(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_CRYPTO)) {
-   227				NL_SET_ERR_MSG_MOD(extack, "Crypto offload is not supported");
-   228				return -EINVAL;
-   229			}
-   230	
-   231			if (x->props.mode != XFRM_MODE_TRANSPORT &&
-   232			    x->props.mode != XFRM_MODE_TUNNEL) {
-   233				NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm states may be offloaded");
-   234				return -EINVAL;
-   235			}
-   236			break;
-   237		case XFRM_DEV_OFFLOAD_PACKET:
-   238			if (!(mlx5_ipsec_device_caps(mdev) &
-   239			      MLX5_IPSEC_CAP_PACKET_OFFLOAD)) {
-   240				NL_SET_ERR_MSG_MOD(extack, "Packet offload is not supported");
-   241				return -EINVAL;
-   242			}
-   243	
-   244			if (x->props.mode != XFRM_MODE_TRANSPORT) {
-   245				NL_SET_ERR_MSG_MOD(extack, "Only transport xfrm states may be offloaded in packet mode");
-   246				return -EINVAL;
-   247			}
-   248	
-   249			if (x->replay_esn && x->replay_esn->replay_window != 32 &&
-   250			    x->replay_esn->replay_window != 64 &&
-   251			    x->replay_esn->replay_window != 128 &&
-   252			    x->replay_esn->replay_window != 256) {
-   253				NL_SET_ERR_MSG_MOD(extack, "Unsupported replay window size");
-   254				return -EINVAL;
-   255			}
-   256	
-   257			if (!x->props.reqid) {
-   258				NL_SET_ERR_MSG_MOD(extack, "Cannot offload without reqid");
-   259				return -EINVAL;
-   260			}
-   261	
-   262			if (x->lft.hard_byte_limit != XFRM_INF ||
-   263			    x->lft.soft_byte_limit != XFRM_INF) {
-   264				NL_SET_ERR_MSG_MOD(extack, "Device doesn't support limits in bytes");
-   265				return -EINVAL;
-   266			}
-   267	
-   268			if (x->lft.soft_packet_limit >= x->lft.hard_packet_limit &&
-   269			    x->lft.hard_packet_limit != XFRM_INF) {
-   270				/* XFRM stack doesn't prevent such configuration :(. */
-   271				NL_SET_ERR_MSG_MOD(extack, "Hard packet limit must be greater than soft one");
-   272				return -EINVAL;
-   273			}
-   274			break;
-   275		default:
- > 276			NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
-   277			return -EINVAL;
-   278		}
-   279		return 0;
-   280	}
-   281	
+   710	
+   711	static int wiz_phy_en_refclk_register(struct wiz *wiz)
+   712	{
+   713		struct wiz_phy_en_refclk *wiz_phy_en_refclk;
+   714		struct device *dev = wiz->dev;
+   715		struct clk_init_data *init;
+   716		struct clk *clk;
+   717		char *clk_name;
+   718		unsigned int sz;
+   719	
+   720		wiz_phy_en_refclk = devm_kzalloc(dev, sizeof(*wiz_phy_en_refclk), GFP_KERNEL);
+   721		if (!wiz_phy_en_refclk)
+   722			return -ENOMEM;
+   723	
+   724		init = &wiz_phy_en_refclk->clk_data;
+   725	
+   726		init->ops = &wiz_phy_en_refclk_ops;
+   727		init->flags = 0;
+   728	
+   729		sz = strlen(dev_name(dev)) + strlen(output_clk_names[TI_WIZ_PHY_EN_REFCLK]) + 2;
+   730	
+ > 731		clk_name = kzalloc(sz, GFP_KERNEL);
+   732		if (!clk_name)
+   733			return -ENOMEM;
+   734	
+   735		snprintf(clk_name, sz, "%s_%s", dev_name(dev), output_clk_names[TI_WIZ_PHY_EN_REFCLK]);
+   736		init->name = clk_name;
+   737	
+   738		wiz_phy_en_refclk->phy_en_refclk = wiz->phy_en_refclk;
+   739		wiz_phy_en_refclk->hw.init = init;
+   740	
+   741		clk = devm_clk_register(dev, &wiz_phy_en_refclk->hw);
+   742	
+   743		kfree(clk_name);
+   744	
+   745		if (IS_ERR(clk))
+   746			return PTR_ERR(clk);
+   747	
+   748		wiz->output_clks[TI_WIZ_PHY_EN_REFCLK] = clk;
+   749	
+   750		return 0;
+   751	}
+   752	
 
 -- 
 0-DAY CI Kernel Test Service
