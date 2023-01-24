@@ -1,68 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB6A10F9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4DE10F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674558960; x=1706094960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gjg+HfkBeuVjZTj6C5ci+xHOXoMLVICSukM3nzPdYbw=;
-  b=FNhq6HubLOeib0RLndFN4NL2wLVYZSdRym0C6aIgwG1N0f97xfHc0uy/
-   kqNXRONH1DgyvV9xdlZ3LdBVl5IehIBrLdBCFbNw+Epe++KL+ddR7Y99U
-   rX/ove8lwnROFRM31p9OLbnBAU8K9JAvoVvMzEle5I9Zn8+Vi70ons90u
-   uhMvSzOc5foW1CLSJe1Ixwfl6hIt6vth7MvC390dSsQRKlTMN1rYp3ot8
-   EltTdOUhatbpeYhfRcJbYw3PZU+pBvkgz/d+Ez0JxsA0hXmu9H9bAFDke
-   L8vDmT9Vz4dXZDSfRlSvLkI7Hmy+QFhG8yIzN+zy3Q7hoKJXaHt2zK1jH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412502379"
+  t=1674561416; x=1706097416;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ItDgKsmt1v44xmuw6hS70pLKusuDh3owstq/z0cKAh0=;
+  b=OR9P6Mti/F/t0kg9ASHORD25peQ01L4+afA+L1pXJygJrZYZswXF0WIa
+   1wweUYVtEC/MU5qTTi4jhsn4ifgvwIwuDTX4jd6g+xkP0NRQXRj5h6Uec
+   wkIbnAUABpQkSGFOWbR5zYYFkyLsE56NgbQZTqxdcMRU6xxMs0mTEqP7E
+   WTfjbG8yAeExzv10FYOcpGuL/55H9vUEW7JU/9qH7kxpbHHmroLWzNYrR
+   fMlFKhzQSjGA651RTqToIbAIIdbJacKdiKdbxZJA8nzCwx9Dv1HUyjBrM
+   ryPELcRpohHKbUGFscBd5qIZENJLuZNr773M9nmfvWgxQWf3gBg8gajH/
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323972796"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="412502379"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:15:59 -0800
+   d="scan'208";a="323972796"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:56:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="664035238"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="612022551"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="664035238"
+   d="scan'208";a="612022551"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Jan 2023 03:15:52 -0800
+  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2023 03:56:54 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKHHL-0006NM-0z;
-	Tue, 24 Jan 2023 11:15:51 +0000
-Date: Tue, 24 Jan 2023 19:15:10 +0800
+	id 1pKHv3-0006Q2-2v;
+	Tue, 24 Jan 2023 11:56:53 +0000
+Date: Tue, 24 Jan 2023 19:55:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-Message-ID: <202301241830.KlT5Xcjy-lkp@intel.com>
-References: <20230124084323.1363825-2-usama.anjum@collabora.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:hf-5k-rc4 18/19] lib/test_dynamic_debug.c:13:11: warning:
+ 'pr_fmt' macro redefined
+Message-ID: <202301241922.MO57B3GN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,57 +45,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124084323.1363825-2-usama.anjum@collabora.com>
 
-Hi Muhammad,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on shuah-kselftest/fixes linus/master v6.2-rc5 next-20230124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230124084323.1363825-2-usama.anjum%40collabora.com
-patch subject: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230124/202301241830.KlT5Xcjy-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jimc/linux.git hf-5k-rc4
+head:   0b3fc8ac339994de91403db75a445b884c8e63dd
+commit: 12389eb0d15904d817da779d102c72f2c3944579 [18/19] test-dyndbg: tune sub-module behavior
+config: hexagon-randconfig-r021-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241922.MO57B3GN-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
-        git checkout 59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
+        # https://github.com/jimc/linux/commit/12389eb0d15904d817da779d102c72f2c3944579
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc hf-5k-rc4
+        git checkout 12389eb0d15904d817da779d102c72f2c3944579
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/hugetlb.h:14,
-                    from arch/powerpc/kernel/setup-common.c:37:
->> include/linux/userfaultfd_k.h:278:5: error: no previous prototype for 'userfaultfd_wp_async' [-Werror=missing-prototypes]
-     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> lib/test_dynamic_debug.c:13:11: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
+     #define pr_fmt(fmt) "test_dd: " fmt
+             ^
+   include/linux/printk.h:347:9: note: previous definition is here
+   #define pr_fmt(fmt) fmt
+           ^
+   1 warning generated.
 
 
-vim +/userfaultfd_wp_async +278 include/linux/userfaultfd_k.h
+vim +/pr_fmt +13 lib/test_dynamic_debug.c
 
-   277	
- > 278	int userfaultfd_wp_async(struct vm_area_struct *vma)
-   279	{
-   280		return false;
-   281	}
-   282	
+    10	
+    11	/* NB: pr_fmt is often redundant with dyndbg's f-flag. this is shorter */
+    12	#if !defined(TEST_DYNAMIC_DEBUG_SUBMOD)
+  > 13	  #define pr_fmt(fmt) "test_dd: " fmt
+    14	  #define DEBUG	/* enable all prdbgs (plain & class'd) at compiletime */
+    15	#else
+    16	  #define pr_fmt(fmt) "test_dd_submod: " fmt
+    17	#endif
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
