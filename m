@@ -1,46 +1,34 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6729763DF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 14:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674571265; x=1706107265;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LW+kv6TOdMtz0nh46n0wIo2Rr8WZf++Ct0D8mbH2UMs=;
-  b=WOvjXCpkPnTxP4ZfhZnDTj4SLVpBsI6kMC1M5A31ZUxfHs7TyQyv2rOG
-   OZ/iMdacQkyUvGJzXoi8+29pUXeElyjD2J9j7SfR/QfRxmGdWDtm/cAr/
-   g5d1A6lQ0y74uehZS0I9p3LlgpEdz15lRWgEkjZ763DPNJemVduicFxn1
-   zKFV52K2HpxHQ30ZLyF9iDPGJRFRmA23+KOUFhiy+twQFkLLTipZdKVB3
-   gXYa2UzX1pDSiUxzTzgw4ZPWTMjJea/G6JemjiFKZA/zDKZaEbCO+KreZ
-   kCs/T8IXMxuNDvoubvdCXLBcUcnwVhdEY0CD/lSCovcjLkquwiKPKuRx8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324983421"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="324983421"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 06:41:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="725494134"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="725494134"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 06:41:02 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKKTt-0006XM-2h;
-	Tue, 24 Jan 2023 14:41:01 +0000
-Date: Tue, 24 Jan 2023 22:40:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manuel Traut <manuel.traut@mt.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/3 v6] input: pwm-beeper: add feature to set volume level
-Message-ID: <202301242226.E9z7kZKT-lkp@intel.com>
-References: <Y8+9L7UincSjIaD9@mt.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0201F6FA1;
+	Tue, 24 Jan 2023 14:51:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94CEBC433D2;
+	Tue, 24 Jan 2023 14:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674571876;
+	bh=+EjtBiphuV/Px+sKr7Vwnqnqrvwx28Wgvt+iOs1FYw0=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=eot1+LOQhQ+laF+0f6YX63Lq/95Riu2WuMrTMBEfs4FgpKLajkQNdtdaqoJUElL1+
+	 2FwsdOBvvVrhMS08iwS+dmmrVbWT9vbzdeo56BnEGzECkyV9evv9mRWst9pVLRPJC4
+	 nS7O4hgj8zbLLa8zU6QjIhhyQYAb1zaJJ1OVZK+0Mim4VwGalq3Q5XYI5wkWArlzbb
+	 mBU2O0KNRepUmm+f5jkEXUgzanemEzPNHuF4UU4cqG6ksHapmWlIFUL9FCwcdBdL/D
+	 gwVhtDiwqXooftbLTKuS3jyvudHafXvblMdGFhxUarva8QJ740QA1mucO52N0ZVHef
+	 AOlFmdn6x4rwA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 407425C0510; Tue, 24 Jan 2023 06:51:16 -0800 (PST)
+Date: Tue, 24 Jan 2023 06:51:16 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
+ kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
+ statement not indented
+Message-ID: <20230124145116.GH2948950@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <202301241716.MgPWF6fU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,73 +37,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y8+9L7UincSjIaD9@mt.com>
+In-Reply-To: <202301241716.MgPWF6fU-lkp@intel.com>
 
-Hi Manuel,
+On Tue, Jan 24, 2023 at 12:32:14PM +0300, Dan Carpenter wrote:
+> tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.01.19a
+> head:   e51eadce38349e7edb506a61e325cc562d49409f
+> commit: a5ae869a4ab737494a3c5c167d782b8eab3ba724 [55/61] squash! rcutorture: Add SRCU deadlock scenarios
+> config: x86_64-randconfig-m001-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241716.MgPWF6fU-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
+> smatch warnings:
+> kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for statement not indented
+> 
+> vim +3548 kernel/rcu/rcutorture.c
+> 
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3514  static void rcu_torture_init_srcu_lockdep(void)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3515  {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3516  	int cyclelen;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3517  	int cyclelenmax;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3518  	int deadlock;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3519  	bool err = false;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3520  	int i;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3521  	int j;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3522  	int idx;
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3523  	struct mutex *muts[] = { &mut0, &mut1, &mut2, &mut3, &mut4,
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3524  				 &mut5, &mut6, &mut7, &mut8, &mut9 };
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3525  	struct srcu_struct *srcus[] = { &srcu0, &srcu1, &srcu2, &srcu3, &srcu4,
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3526  					&srcu5, &srcu6, &srcu7, &srcu8, &srcu9 };
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3527  	int testtype;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3528  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3529  	if (!test_srcu_lockdep)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3530  		return;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3531  
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3532  	deadlock = test_srcu_lockdep / 1000;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3533  	testtype = (test_srcu_lockdep / 10) % 100;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3534  	cyclelen = test_srcu_lockdep % 10;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3535  	cyclelenmax = min(ARRAY_SIZE(muts), ARRAY_SIZE(srcus));
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3536  	WARN_ON_ONCE(ARRAY_SIZE(muts) != ARRAY_SIZE(srcus));
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3537  	if (WARN_ONCE(deadlock != !!deadlock,
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3538  		      "%s: test_srcu_lockdep=%d and deadlock digit %d must be zero or one.\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3539  		      __func__, test_srcu_lockdep, deadlock))
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3540  		err = true;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3541  	if (WARN_ONCE(cyclelen <= 0,
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3542  		      "%s: test_srcu_lockdep=%d and cycle-length digit %d must be greater than zero.\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3543  		      __func__, test_srcu_lockdep, cyclelen))
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3544  		err = true;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3545  	if (err)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3546  		goto err_out;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3547  
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23 @3548  	for (i = 0; i < cyclelen; i++)
+> 
+> This line looks like it should just be deleted.  The real loops are
+> later so i == cyclelen by the time it loops back here.  Should probably
+> create a static checker warning for nested loops where the inside loop
+> resets the outside iterator to zero.
 
-Thank you for the patch! Perhaps something to improve:
+You are quite right, I intended to have deleted that statement.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.2-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+And the fact that it works is quite coincidental.  Thank you!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manuel-Traut/input-pwm-beeper-add-feature-to-set-volume-level/20230124-191549
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/Y8%2B9L7UincSjIaD9%40mt.com
-patch subject: [PATCH 1/3 v6] input: pwm-beeper: add feature to set volume level
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301242226.E9z7kZKT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/3468440a8e674e649dcf11e23f3fb3d229555e7c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Manuel-Traut/input-pwm-beeper-add-feature-to-set-volume-level/20230124-191549
-        git checkout 3468440a8e674e649dcf11e23f3fb3d229555e7c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/misc/
+							Thanx, Paul
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/misc/pwm-beeper.c:73:62: error: macro "DEVICE_ATTR_RW" passed 4 arguments, but takes just 1
-      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
-         |                                                              ^
-   In file included from include/linux/input.h:19,
-                    from drivers/input/misc/pwm-beeper.c:11:
-   include/linux/device.h:131: note: macro "DEVICE_ATTR_RW" defined here
-     131 | #define DEVICE_ATTR_RW(_name) \
-         | 
-   drivers/input/misc/pwm-beeper.c:73:8: error: type defaults to 'int' in declaration of 'DEVICE_ATTR_RW' [-Werror=implicit-int]
-      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
-         |        ^~~~~~~~~~~~~~
-   drivers/input/misc/pwm-beeper.c:77:10: error: 'dev_attr_volume' undeclared here (not in a function); did you mean 'dev_attr_max_volume'?
-      77 |         &dev_attr_volume.attr,
-         |          ^~~~~~~~~~~~~~~
-         |          dev_attr_max_volume
->> drivers/input/misc/pwm-beeper.c:73:8: warning: 'DEVICE_ATTR_RW' defined but not used [-Wunused-variable]
-      73 | static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
-         |        ^~~~~~~~~~~~~~
-   drivers/input/misc/pwm-beeper.c:54:16: warning: 'volume_store' defined but not used [-Wunused-function]
-      54 | static ssize_t volume_store(struct device *dev,
-         |                ^~~~~~~~~~~~
-   drivers/input/misc/pwm-beeper.c:38:16: warning: 'volume_show' defined but not used [-Wunused-function]
-      38 | static ssize_t volume_show(struct device *dev,
-         |                ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/DEVICE_ATTR_RW +73 drivers/input/misc/pwm-beeper.c
-
-    72	
-  > 73	static DEVICE_ATTR_RW(volume, 0644, volume_show, volume_store);
-    74	static DEVICE_ATTR(max_volume, 0644, max_volume_show, NULL);
-    75	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3549  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3550  	if (testtype == 0) {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3551  		pr_info("%s: test_srcu_lockdep = %05d: SRCU %d-way %sdeadlock.\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3552  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3553  		if (deadlock && cyclelen == 1)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3554  			pr_info("%s: Expect hang.\n", __func__);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3555  		for (i = 0; i < cyclelen; i++) {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3556  			j = i + 1;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3557  			if (i >= cyclelen - 1)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3558  				j = deadlock ? 0 : -1;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3559  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3560  			if (j >= 0)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3561  				pr_info("%s: srcu_read_lock(%d), synchronize_srcu(%d), srcu_read_unlock(%d)\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3562  					__func__, i, j, i);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3563  			else
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3564  				pr_info("%s: srcu_read_lock(%d), srcu_read_unlock(%d)\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3565  					__func__, i, i);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3566  			idx = srcu_read_lock(srcus[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3567  			if (j >= 0)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3568  				synchronize_srcu(srcus[j]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3569  			srcu_read_unlock(srcus[i], idx);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3570  		}
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3571  		return;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3572  	}
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3573  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3574  	if (testtype == 1) {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3575  		pr_info("%s: test_srcu_lockdep = %05d: SRCU/mutex %d-way %sdeadlock.\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3576  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3577  		for (i = 0; i < cyclelen; i++) {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3578  			j = i + 1;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3579  			if (i >= cyclelen - 1)
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3580  				j = deadlock ? 0 : -1;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3581  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3582  			pr_info("%s: srcu_read_lock(%d), mutex_lock(%d), mutex_unlock(%d), srcu_read_unlock(%d)\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3583  				__func__, i, i, i, i);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3584  			idx = srcu_read_lock(srcus[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3585  			mutex_lock(muts[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3586  			mutex_unlock(muts[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3587  			srcu_read_unlock(srcus[i], idx);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3588  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3589  			if (j >= 0) {
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3590  				pr_info("%s: mutex_lock(%d), synchronize_srcu(%d), mutex_unlock(%d)\n",
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3591  					__func__, i, j, i);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3592  				mutex_lock(muts[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3593  				synchronize_srcu(srcus[j]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3594  				mutex_unlock(muts[i]);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3595  			}
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3596  		}
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3597  		return;
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3598  	}
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3599  
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3600  err_out:
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3601  	pr_info("%s: test_srcu_lockdep = %05d does nothing.\n", __func__, test_srcu_lockdep);
+> a5ae869a4ab737 Paul E. McKenney 2023-01-23  3602  	pr_info("%s: test_srcu_lockdep = DTTC.\n", __func__);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3603  	pr_info("%s: D: Deadlock if nonzero.\n", __func__);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3604  	pr_info("%s: TT: Test number, 0=SRCU, 1=SRCU/mutex.\n", __func__);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3605  	pr_info("%s: C: Cycle length.\n", __func__);
+> 81fba7e62c82be Paul E. McKenney 2023-01-13  3606  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+> 
