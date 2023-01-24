@@ -1,180 +1,137 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518ED8F4B;
-	Tue, 24 Jan 2023 18:44:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UDtYHQ7vnws6s94NKip1icPb+AxtajAwLE6QBuIwOWKNY/VDekhe6sH5n5I57pGVSkPXUizOFen+sHv+q4NW4WK4zTWVV4A7dBVzyUntwTcbkphorR0tiKG0lEcsKHuhB8EOL7yB0LWt6c3v9NQtT2e/8TOBP3QKtShQb3VAwQpyUVyzprMRXpZurQLqBFdhY93R7JMMMQd5X+EYqwg9TZrnouHJ8u5xfvCgD3vNYkyF1058//EyamaL/t7zflMSXVAlWWnK2WWpa5/b3iMRI2LeR9psqCWecQo6MiwxST9L8d+24O87toVRx10MnzVS/5FAfagdVwBMwglKn0eUsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7CboyaZ8rsoVnjSaZ0IQ1mL5Z65IzNIVaByJsAYxkks=;
- b=kmGa7cTNuWi6PdBuJMGSSCKH6ZiWSyL2VwYyzvV/of3696ecVelXaimVNy0tBD5XQeqw54yWC20WYRkfRc+o2quNTpmzlDgWAbQKq/+XuVwY2hdc7sytycytYvLTwkaunCpOKxyjPcO9tcYK2NVLcGWOKpm9UPYMmDYWdRkJ2iYGxvgQ5VEuVqeB53j+6JmyZXm+g4vFHp0jiNWiOG8jDjOkUIhvW6dlIjeUDvzt5en+1Z4q0SEI6epzFgADaNNOvJH8Eujf6ueUvnSp4htLF2utLwldDfV9k445h4zbki1vX05LyS9obYYiyq7jm45dMjkA8/8fACE6WPYQyLjd6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7CboyaZ8rsoVnjSaZ0IQ1mL5Z65IzNIVaByJsAYxkks=;
- b=Xuj1+04sJoT35Rx3RfbaMgC1j5CwxWrKoCfZaDc9+dte4U3H5bMUhEuo68fDaiynq0HTIxVaXoEvVEop59EvP30qX3MzvHOljqqUTngwhJ+xv+TNMPPYgoMn6KCH7kpWYDrBXka0DCxvSfhL+dwWMQFen9XMRkG214WEJLqNEnk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA1PR12MB6161.namprd12.prod.outlook.com (2603:10b6:208:3eb::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
- 2023 18:44:10 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::790c:da77:2d05:6098%9]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
- 18:44:10 +0000
-Message-ID: <8537e27a-b565-2618-43d0-b70a1a4390e4@amd.com>
-Date: Tue, 24 Jan 2023 12:44:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH] x86/resctrl: Fix a silly -Wunused-but-set-variable
- warning
-Content-Language: en-US
-To: Borislav Petkov <bp@alien8.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org,
- Reinette Chatre <reinette.chatre@intel.com>
-References: <202301242015.kbzkVteJ-lkp@intel.com> <Y8/XoT23HVXHSY73@zn.tnic>
- <Y9AftBkWXcFflHbm@zn.tnic>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <Y9AftBkWXcFflHbm@zn.tnic>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0104.namprd03.prod.outlook.com
- (2603:10b6:610:cd::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE9F8F4B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 19:24:09 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id s4so14005541qtx.6
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:24:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H02SARdJbOG9xHDyO4rUQCOtJbYpCr4eHoKUBzaYL6Q=;
+        b=C85m29M5lfrN780bOuZp0hcwIYmhYNu3EpCIUC5yO+IBjLEzwdVRSVjTss3vblrmTO
+         QATRwCNI055bWM2lULIfOOg1dTqsEtj7/x7T1aWQXczPgKAwNSvro1yvrqREynp/BY/P
+         KCaRyB+7mmWH8uudnalwE0g3WeJObVQUlFbuEeWGqTCVSunmEBNWkBuLcYyiLF42Vtmy
+         RPulL5QO653p3sT6zUEPCUTuzW7byd4bJ25Zu1OWQrd6lmUoZ5zcCDRim4IH3f+b86bn
+         ouQqN8M07iSpAjiG/YPu8/E92l+z8fEj7WBhCG8QWP3Gxr0Yp1uN7SVASIBkYK1h1+2f
+         wlng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H02SARdJbOG9xHDyO4rUQCOtJbYpCr4eHoKUBzaYL6Q=;
+        b=bD16EmLVnjA3HWvGICHvlFo+swiykQ0QVwc0m50rB5nVn81zfZwvX26SuGnT5uumWI
+         Rp6h4GkvsxbKRr+slYZeqWgx5Z3qjabJ3356PQx2oNPpMIcwJ16Fqtook4PoF2/mgBCH
+         88mS/toA4HbNfEcXaO0WTsOCF3+yZmC/0bpdoeaaJjVxuU3MkK5+O5MECL2ehVKc1w1d
+         JJtHhJQ32CeXAJzeAKTnNaIltmsFREp+sTO6W5uoF8hxA9EAPN1Bp8OIla4Qapk1HEpD
+         WPiEB9WfpvTlLdxHPS16avMW8QLtiZgf/U5fRMWKU/xrW4pNWVgx8/umlJyPohhjO12z
+         T70Q==
+X-Gm-Message-State: AFqh2kodRkMdhq7npVvg8ZDQBz+Za2z7E4tmyMTdZAVS4h8qKmPtQvLb
+	ynpwD9Qr2j/r8T4BWhyqkfLPXGkAjnR7h1OaNt0=
+X-Google-Smtp-Source: AMrXdXslw37tCOS4eF39s7VAH4eqhhJOdfda7JWGinfdntqqz+u1IqaESuA5KlGI4tYZV1Y805Xd6YqiehtmiIrtbbI=
+X-Received: by 2002:ac8:774d:0:b0:3b6:6669:dd20 with SMTP id
+ g13-20020ac8774d000000b003b66669dd20mr850987qtu.93.1674588248442; Tue, 24 Jan
+ 2023 11:24:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB6161:EE_
-X-MS-Office365-Filtering-Correlation-Id: abb0b48c-d7c2-467a-bcef-08dafe3afb4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Kard3BuMuOn1By29ZaiEMPjr0eK+nDJoib8Ha1mQoeh6So/CqZJv2WBexRrl3JzAt7jwh5mI4QX5/tsX52aftLAjh6N9NJcqBLYlquauRaTgSjBbcK2bXc+k2G7zwO1wVYoiNHzcVI+3aGUhTEV7BaOgoyWbWORVe7Nw5hbS8vy8Mc+F51Mr+6ntFPkRtVk52lICBkqm78D/YOgkd7wnpFIjeMIG/6aD+GrI3dIFcjVRoY/lhrZg7Dyg9BbipXV9QHnvuGJZ7rE/roZUI7YhMQhEygx61qvrVUeXtuPdDaKa//Rt9AI7Vk0oufHInnDLCf19AAPEjjNbjDjJ6XarSUFYflJU5YwQiWxrYqEvOtzymqG66OYmzXI9SaA/NZRTpwRnnbkJVARK4XxSjfGkGSrP9YChm2ZYPGEOvZlrxBsNlXBDBnXJjbEWkcu7Rfn4dGXJDuaMhT06gTJg9o+fi6zaoJYpclWNDLvVQws1s3hbqtEJ6v0zS0BQWRdxQHKogz3ZFOjkZ+6H9tNKDiqFBTdj8G60vWPAnwS04Otn3V0sZEVphhnMHFxI0QoWDHBSKe5u+cN21i4dNeB4ZGKd7xH9TaUHWpwXI4OR6NzU/6RZvE6Z93GVQRoR6PvP3BqZschm8Q1/PYrILyNTZaU8E29+asr9fEUwQlrLp1BH/4LJHzRvcyAzwKTm+W+73ksa2ReCXt5rTRTNNr7kzUd3XtNHzH4mP4cGFPfXoRN/Kl40LUy2QiS3IYCD0PjrfkNvOUJ+WhNStNk1kUO9azzXig==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230024)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(451199017)(31686004)(2616005)(3450700001)(2906002)(31696002)(38100700002)(8936002)(5660300002)(6486002)(54906003)(4326008)(8676002)(66476007)(66556008)(41300700001)(966005)(86362001)(6916009)(316002)(26005)(6512007)(186003)(53546011)(83380400001)(66946007)(36756003)(6506007)(478600001)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M2JrSGN3Y0ViWEk3aHRvdVpjdW1ISFh2azE1aUozRW5hR2ljaC9WQlljeXJP?=
- =?utf-8?B?eDZNT3Qwc0NuTVpBc0p0dmFqa1YrcHE5dU5hQ2FjelIxRGRrNlFxaElHS2tV?=
- =?utf-8?B?WVNwYTMyWS94UVMwOTZDeUxHRllMbko2SlIwaEJBWXRDUkdpblJrckwrU2hS?=
- =?utf-8?B?VlE5M3RPbmJKenBYb2NyZCtyMHF5OVBWWk5xTXo4Y1JmV05GeTNQMXJ1a2FS?=
- =?utf-8?B?ZExrRFYrSlQ0eEhzc2lSRnE0TmhtZjNtNkJ5Vm1Va0YraVRBY2tGZk5JNTl2?=
- =?utf-8?B?d1VnZWVJZWUrNVgyL0p5N29KNnRFbCs3Q1ZDR01LanQzS09YWkVnK0UwNzB2?=
- =?utf-8?B?Rm9WNGhBaGQ0emxLUUdrNUVvOUFaQkRjVmtMd1JSWk1MQS81ai9BM3Rhc3FO?=
- =?utf-8?B?VDBCcEdYVTBkWDU3QmF4M2RXUlBaOWFralk4N2U3dGFjVy9HazVwVWxab0pM?=
- =?utf-8?B?OTY1K2gvcnlmMVZOZVFvUlVnZXRkSHU5U3hvZjNiUzFueWxFTWRFWGZ4R25s?=
- =?utf-8?B?a0Rwd045SnNlV1VtWmE4bkRvb3hOTEVlUzduenJ4cFlWK2Y2UkVBYndyWDZK?=
- =?utf-8?B?MWJlUHRUL29xZk15ZTdQeTRKZlovZHYwTzZueXRvaGRBcXZRd0pzVmxLTFdk?=
- =?utf-8?B?bXJ2QUh2MGM5V1U4dHljT3JpUWVHdTIrYXVHTUJHSHNtSjhOZUx0OTJVWkgr?=
- =?utf-8?B?M3RHc1dZT005Si8xbGsxUjlpNURjMEZIdVYyc0kvbW45V0tmZFJxOXI2NUZL?=
- =?utf-8?B?Q2IvU1FSd3lNdnc3eEZRTlpDd3YwanhYUS90REh4V0s2dFhjVFVyaldDZ0Jy?=
- =?utf-8?B?QlNGUUhpb0p6c2NIdWJ5N2FjRzRVWHd2M0VObmxVdittMG1JRVFYbGZrT2xv?=
- =?utf-8?B?Tk9rQzFqL3VNbzlRL0czNHdKSzBENUtVOWplbkYrTWk3QVZ3bXBWN3k1NGcx?=
- =?utf-8?B?dXYrMGNBTDZNMDF0a0NOUGpCZzRQRjhFUk5CWVZQYmJlSWwyUm9ub25xdFhM?=
- =?utf-8?B?cUs4RVNMM2s4UE9ibkxZNktHMExJTmZZa3NlTUV1R3FXdGhZUVlvL3pVMXNl?=
- =?utf-8?B?Mm56ZjB4UUNaMDVndlkwVHhRTGI3WFJpNnRGZGU2UDJuZ2EzcCszbHMvcGRx?=
- =?utf-8?B?K3R0aTkvTkR5QzRZVUc5RUZPbTlXVE5xdVk1eWNMWmxPNnVrb2E1ZTFGbElD?=
- =?utf-8?B?Tzk1Q2RmZGxqSFczL2dBU1JpQndGVXBoWHdTcUlWOVFyb0RZa3NVTFhCNk9t?=
- =?utf-8?B?bVhYWmVzRFNvRWMyaW9hMWJjLzUyNVJ1bSs0SndOYWtVTnVoUFB2OWpEZ0dC?=
- =?utf-8?B?M0ZUYmdhemNZMlhnL1VEdjF3MHRpSWxqbDVXOWdOL0wzaHBYc2JVNmtraGRl?=
- =?utf-8?B?Vk44T29KYWZNWWRJQUVXaGY1ZWxxemk2QkpGandVTnM1V3lGKzVHdjlESnln?=
- =?utf-8?B?WGg5bDNyZVpqRFhCdXNlOVJEVFNvWkpzaWZvUmYzbjQ2dDJWTkQwbzMwWkxR?=
- =?utf-8?B?ZXdFK1JrRHhHbVRPNVR3N09QazFkc2lBclhJRHdPamdhdmJCWWFPOHBoMCtZ?=
- =?utf-8?B?ZGFuTjBVYkdlcDV1eUdRcmJMRjkrMjBiQy9HaXVzQmExb2NEMFlIemowT3lm?=
- =?utf-8?B?bENpb3pGZzlSMlJnYzNNK0h2VkRaTkRCSk83WnJFM2VGWXVGVi9CYzdJVUND?=
- =?utf-8?B?VTIyRVUzc0JCQVloUzltZXlkUldYLzlpVG5uRVVSQVMrRWw4SHpycTcxTFJT?=
- =?utf-8?B?VWJKZ0V4Nll2MmttYjk0R1VheVY0Sy9FUWZYRVF3eEdGeDhxbVBCeXd6b0lU?=
- =?utf-8?B?S1duMUNDQ09FMGpRSm1zb21lcjdXZ3JaeG9oQ0FkSHRMdGVvTHJaZFpFOENI?=
- =?utf-8?B?SUZ2VHN4VjF1bzJiR1I4ODZEMFYydGRvcW92SW95MnpDTGVzcjNyZEx4dEhU?=
- =?utf-8?B?YUZhdUtLdjRpYURWb1FiVHhRR3g2c256LzRJRjFObHF0ZXEzaFBuampJU0R0?=
- =?utf-8?B?dEtZZmNlMXd3YUVjWXBVR1EwaDZVL09SNFgrcHFFM0FKU1pmTGdycmIxMk00?=
- =?utf-8?B?bDE3YXRhemw1ekswcS9nang1WHpHVCtuV3BiVFd2REFySEsyalRFOEl4RXlH?=
- =?utf-8?Q?Gt25PO4V9R1+6vT6Vu8WuJxx4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abb0b48c-d7c2-467a-bcef-08dafe3afb4a
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 18:44:10.5914
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rnkhg16GIKPXC1yoJtzGALPScdMjsNH9Yb/VuY1oxrLsh8GFqjdvDvYRx4be0PPh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6161
+References: <20230124021118.154078-3-nphamcs@gmail.com> <202301241402.CeUdAtDh-lkp@intel.com>
+In-Reply-To: <202301241402.CeUdAtDh-lkp@intel.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 24 Jan 2023 11:23:57 -0800
+Message-ID: <CAKEwX=P0RvicKMEWAzb+48V2Y1Cai8tdMc8oCS0GY8qoiv0g=w@mail.gmail.com>
+Subject: Re: [PATCH v7 2/3] cachestat: implement cachestat syscall
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
+	hannes@cmpxchg.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Boris, Thanks for the fix.
+On Mon, Jan 23, 2023 at 10:49 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Nhat,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+> base:   1440f576022887004f719883acb094e7e0dd4944
+> patch link:    https://lore.kernel.org/r/20230124021118.154078-3-nphamcs%40gmail.com
+> patch subject: [PATCH v7 2/3] cachestat: implement cachestat syscall
+> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241402.CeUdAtDh-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/f902a360bb453bd6885cd89d4f9ad4a40205fd15
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+>         git checkout f902a360bb453bd6885cd89d4f9ad4a40205fd15
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips prepare
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+> --
+> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+> --
+>    scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+>    scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+>    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+>    arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+>       26 | void output_ptreg_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+>       78 | void output_task_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+>       92 | void output_thread_info_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+>      108 | void output_thread_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:136:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+>      136 | void output_thread_fpu_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+>      179 | void output_mm_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+>      213 | void output_sc_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for 'output_signal_defined' [-Wmissing-prototypes]
+>      248 | void output_signal_defined(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:315:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+>      315 | void output_pbe_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:327:6: warning: no previous prototype for 'output_pm_defines' [-Wmissing-prototypes]
+>      327 | void output_pm_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:341:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
+>      341 | void output_kvm_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~
+>    arch/mips/kernel/asm-offsets.c:385:6: warning: no previous prototype for 'output_cps_defines' [-Wmissing-prototypes]
+>      385 | void output_cps_defines(void)
+>          |      ^~~~~~~~~~~~~~~~~~
+> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-Tested-by: Babu Moger <babu.moger@amd.com>
-
-
-On 1/24/23 12:13, Borislav Petkov wrote:
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
->
-> clang correctly complains
->
->   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1456:6: warning: variable \
->      'h' set but not used [-Wunused-but-set-variable]
->           u32 h;
->               ^
->
-> but it can't know whether this use is innocuous or really a problem.
-> There's a reason why those warning switches are behind a W=1 and not
-> enabled by default - yes, one needs to do:
->
->   make W=1 CC=clang HOSTCC=clang arch/x86/kernel/cpu/resctrl/
->
-> with clang 14 in order to trigger it.
->
-> I would normally not take a silly fix like that but this one is simple
-> and doesn't make the code uglier so...
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Link: https://lore.kernel.org/r/202301242015.kbzkVteJ-lkp@intel.com
-> ---
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 5990589f8a21..e2c1599d1b37 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1453,17 +1453,17 @@ static void mon_event_config_read(void *info)
->  {
->  	struct mon_config_info *mon_info = info;
->  	unsigned int index;
-> -	u32 h;
-> +	u64 msrval;
->  
->  	index = mon_event_config_index_get(mon_info->evtid);
->  	if (index == INVALID_CONFIG_INDEX) {
->  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
->  		return;
->  	}
-> -	rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
-> +	rdmsrl(MSR_IA32_EVT_CFG_BASE + index, msrval);
->  
->  	/* Report only the valid event configuration bits */
-> -	mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
-> +	mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
->  }
->  
->  static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
-
--- 
-Thanks
-Babu Moger
-
+I need to add the new syscall to mips' syscall table
+(arch/mips/kernel/syscalls/syscall_n32.tbl etc.)
