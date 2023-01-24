@@ -1,42 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DE410F9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6025D10FC
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 10:44:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1674557092; x=1706093092;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9GN09YTe7MMMKDh6Jjnt9HvPyO8WnTDVLFsKBcAcLXM=;
-  b=VROY7YADC7THQnI2Hoa9a+y7fend3RVRVyxUwiDsMXrWD4Mi74MridoQ
-   EDnnL8Q2OAGXJc6hbTpPiowYvdZzgjE5BvFzR+ENFDjdOcsHtLsjlTXfA
-   +PiBS9fgvylMJ8IuhbU1lsLqrGbjBIQMCBb67w/uWXJGYq1MdSoMZ8Tea
-   sWB7Ks5yoM116PTWioM9NV0daDYa0eSVjCGsFhu94p3HyCxKbQyh77dOz
-   Ad48VPKJ4mZpPtYJvyPF+bxh/QyGd0/Jowbiiz0fFyb+KC9Om49XYIDQI
-   60Ddrjyiuml7vIUaCL8rK9vETob++FtEyvg5TuwrNkBdBKTKlntIeGL+t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328356975"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=siuIgv34vh4LdHQCnOOEukc1+6Z0xUsOP8D+aHrmq6U=;
+  b=EPGFjA41pssFj525qMsFBSwk7qMeJtxkIeVoFEk51ywZnhxNv1tKp5fs
+   7xCdehJuLTkAwury5LqsBTZVLbcLDB/ow0MI1IJGEqFpZKUeAQzzc2W95
+   4ZAh9SLve4pRAUCwgR5/Koc9JB3iyXt0138Snt2e6DApgfxL9paoT1hkt
+   5DvRrYlvWggI7ppOc2qjhHprvs4Mz/1LaZ/rYve/L54s4uWgEnX82FzI6
+   +zBKwjZsDLgBjZFEl1X766DqVfhGAOJgYv8aeppDn+m1dPYPKnyr6XtNm
+   usMB2JHI0KfYwj+g7/Y+fAdaoME7UrWpYYo3+Jd74wJSXZw6JPiTjaxnf
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323961521"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="328356975"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:44:51 -0800
+   d="scan'208";a="323961521"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:44:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="907438513"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694291559"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="907438513"
+   d="scan'208";a="694291559"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2023 02:44:50 -0800
+  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2023 02:44:50 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKGnJ-0006LU-2a;
+	id 1pKGnJ-0006LS-2V;
 	Tue, 24 Jan 2023 10:44:49 +0000
-Date: Tue, 24 Jan 2023 18:43:58 +0800
+Date: Tue, 24 Jan 2023 18:43:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Van Hensbergen <ericvh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, v9fs-developer@lists.sourceforge.net
-Subject: [ericvh-v9fs:ericvh/for-next 4/12] fs/9p/vfs_file.c:590:42: warning:
- 'v9fs_file_vm_ops' defined but not used
-Message-ID: <202301241856.YAPUu0wS-lkp@intel.com>
+To: David Gow <davidgow@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2] kunit: Add "hooks" to call into KUnit when it's
+ built as a module
+Message-ID: <202301241805.ieXjH3yy-lkp@intel.com>
+References: <20230124080350.2275652-1-davidgow@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,48 +47,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230124080350.2275652-1-davidgow@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git ericvh/for-next
-head:   2245aefc0a6f35eb2a9ad0afa8958c3d2fa694ea
-commit: 7cde5b8cea83cb4f289ad3b1183656836b14fa2b [4/12] Consolidate file operations and add readahead and writeback
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20230124/202301241856.YAPUu0wS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi David,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on kees/for-next/pstore]
+[also build test WARNING on kees/for-next/kspp linus/master v6.2-rc5]
+[cannot apply to next-20230124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/kunit-Add-hooks-to-call-into-KUnit-when-it-s-built-as-a-module/20230124-160516
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/20230124080350.2275652-1-davidgow%40google.com
+patch subject: [RFC PATCH v2] kunit: Add "hooks" to call into KUnit when it's built as a module
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241805.ieXjH3yy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git/commit/?id=7cde5b8cea83cb4f289ad3b1183656836b14fa2b
-        git remote add ericvh-v9fs https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git
-        git fetch --no-tags ericvh-v9fs ericvh/for-next
-        git checkout 7cde5b8cea83cb4f289ad3b1183656836b14fa2b
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e72363e2b7988bc87fbe76b2083a2736640d2df9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Gow/kunit-Add-hooks-to-call-into-KUnit-when-it-s-built-as-a-module/20230124-160516
+        git checkout e72363e2b7988bc87fbe76b2083a2736640d2df9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/9p/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash lib/kunit/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> fs/9p/vfs_file.c:590:42: warning: 'v9fs_file_vm_ops' defined but not used [-Wunused-const-variable=]
-     590 | static const struct vm_operations_struct v9fs_file_vm_ops = {
-         |                                          ^~~~~~~~~~~~~~~~
+>> lib/kunit/test.c:26:6: warning: no previous prototype for '__kunit_fail_current_test_impl' [-Wmissing-prototypes]
+      26 | void __kunit_fail_current_test_impl(const char *file, int line, const char *fmt, ...)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/test.c: In function '__kunit_fail_current_test_impl':
+   lib/kunit/test.c:39:9: warning: function '__kunit_fail_current_test_impl' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+      39 |         len = vsnprintf(NULL, 0, fmt, args) + 1;
+         |         ^~~
+   lib/kunit/test.c:47:9: warning: function '__kunit_fail_current_test_impl' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+      47 |         vsnprintf(buffer, len, fmt, args);
+         |         ^~~~~~~~~
 
 
-vim +/v9fs_file_vm_ops +590 fs/9p/vfs_file.c
+vim +/__kunit_fail_current_test_impl +26 lib/kunit/test.c
 
-fb89b45cdfdc8b Dominique Martinet 2014-01-10  588  
-fb89b45cdfdc8b Dominique Martinet 2014-01-10  589  
-7263cebed9fada Aneesh Kumar K.V   2011-02-28 @590  static const struct vm_operations_struct v9fs_file_vm_ops = {
-7263cebed9fada Aneesh Kumar K.V   2011-02-28  591  	.fault = filemap_fault,
-f1820361f83d55 Kirill A. Shutemov 2014-04-07  592  	.map_pages = filemap_map_pages,
-7263cebed9fada Aneesh Kumar K.V   2011-02-28  593  	.page_mkwrite = v9fs_vm_page_mkwrite,
-7263cebed9fada Aneesh Kumar K.V   2011-02-28  594  };
-7263cebed9fada Aneesh Kumar K.V   2011-02-28  595  
-
-:::::: The code at line 590 was first introduced by commit
-:::::: 7263cebed9fadad719063fdc8bba7085cf2c080d fs/9p: Add buffered write support for v9fs.
-
-:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-:::::: CC: Eric Van Hensbergen <ericvh@gmail.com>
+    22	
+    23	/*
+    24	 * Fail the current test and print an error message to the log.
+    25	 */
+  > 26	void __kunit_fail_current_test_impl(const char *file, int line, const char *fmt, ...)
+    27	{
+    28		va_list args;
+    29		int len;
+    30		char *buffer;
+    31	
+    32		if (!current->kunit_test)
+    33			return;
+    34	
+    35		kunit_set_failure(current->kunit_test);
+    36	
+    37		/* kunit_err() only accepts literals, so evaluate the args first. */
+    38		va_start(args, fmt);
+    39		len = vsnprintf(NULL, 0, fmt, args) + 1;
+    40		va_end(args);
+    41	
+    42		buffer = kunit_kmalloc(current->kunit_test, len, GFP_KERNEL);
+    43		if (!buffer)
+    44			return;
+    45	
+    46		va_start(args, fmt);
+    47		vsnprintf(buffer, len, fmt, args);
+    48		va_end(args);
+    49	
+    50		kunit_err(current->kunit_test, "%s:%d: %s", file, line, buffer);
+    51		kunit_kfree(current->kunit_test, buffer);
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
