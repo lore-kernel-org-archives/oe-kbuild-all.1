@@ -1,137 +1,115 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE9F8F4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 19:24:09 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id s4so14005541qtx.6
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H02SARdJbOG9xHDyO4rUQCOtJbYpCr4eHoKUBzaYL6Q=;
-        b=C85m29M5lfrN780bOuZp0hcwIYmhYNu3EpCIUC5yO+IBjLEzwdVRSVjTss3vblrmTO
-         QATRwCNI055bWM2lULIfOOg1dTqsEtj7/x7T1aWQXczPgKAwNSvro1yvrqREynp/BY/P
-         KCaRyB+7mmWH8uudnalwE0g3WeJObVQUlFbuEeWGqTCVSunmEBNWkBuLcYyiLF42Vtmy
-         RPulL5QO653p3sT6zUEPCUTuzW7byd4bJ25Zu1OWQrd6lmUoZ5zcCDRim4IH3f+b86bn
-         ouQqN8M07iSpAjiG/YPu8/E92l+z8fEj7WBhCG8QWP3Gxr0Yp1uN7SVASIBkYK1h1+2f
-         wlng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H02SARdJbOG9xHDyO4rUQCOtJbYpCr4eHoKUBzaYL6Q=;
-        b=bD16EmLVnjA3HWvGICHvlFo+swiykQ0QVwc0m50rB5nVn81zfZwvX26SuGnT5uumWI
-         Rp6h4GkvsxbKRr+slYZeqWgx5Z3qjabJ3356PQx2oNPpMIcwJ16Fqtook4PoF2/mgBCH
-         88mS/toA4HbNfEcXaO0WTsOCF3+yZmC/0bpdoeaaJjVxuU3MkK5+O5MECL2ehVKc1w1d
-         JJtHhJQ32CeXAJzeAKTnNaIltmsFREp+sTO6W5uoF8hxA9EAPN1Bp8OIla4Qapk1HEpD
-         WPiEB9WfpvTlLdxHPS16avMW8QLtiZgf/U5fRMWKU/xrW4pNWVgx8/umlJyPohhjO12z
-         T70Q==
-X-Gm-Message-State: AFqh2kodRkMdhq7npVvg8ZDQBz+Za2z7E4tmyMTdZAVS4h8qKmPtQvLb
-	ynpwD9Qr2j/r8T4BWhyqkfLPXGkAjnR7h1OaNt0=
-X-Google-Smtp-Source: AMrXdXslw37tCOS4eF39s7VAH4eqhhJOdfda7JWGinfdntqqz+u1IqaESuA5KlGI4tYZV1Y805Xd6YqiehtmiIrtbbI=
-X-Received: by 2002:ac8:774d:0:b0:3b6:6669:dd20 with SMTP id
- g13-20020ac8774d000000b003b66669dd20mr850987qtu.93.1674588248442; Tue, 24 Jan
- 2023 11:24:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9F88F4B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 19:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674588438; x=1706124438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TFnVytjys+ZzFR0tBGh761eQ3Ma6dxs9cHYepQoZc/I=;
+  b=m1ABa12DslxWx3IUS8YeGkJ69E6KQxi65nugY5MyXnVDvHMfHJ8fezvI
+   NJ3K7YXUQiH64wG/ZxripzvN8XGfc9KpMvpbn40/xkg71egn7zDum+Xbv
+   1h8mpkD4mXst+4sU2fX65aZmUzpm9nX2yPLFf6SeGEgd2ptZ1pvmZ1rMx
+   FAOn1vsGKh0mNWzHWJB+ZfxG5F7Dx95uGRMlp9LNXxR9gexhq7t0yYOiU
+   xyLxhu5je47inm0DSitJ0Cw5TRHhWeYjtl4Ida6PNN9jZLadVwuyhrNrd
+   KRmQBoILsd2PVbjRWYK78PuTtcfXX05apbU6j+6PqO/UINPvEW81DtzWV
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306737742"
+X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
+   d="scan'208";a="306737742"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 11:27:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="692693341"
+X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
+   d="scan'208";a="692693341"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 11:27:16 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKOwt-0006jA-2L;
+	Tue, 24 Jan 2023 19:27:15 +0000
+Date: Wed, 25 Jan 2023 03:26:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next RFC 10/20] net/kparser: add kParser
+Message-ID: <202301250320.5xyTet53-lkp@intel.com>
+References: <20230124170510.316970-10-jhs@mojatatu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230124021118.154078-3-nphamcs@gmail.com> <202301241402.CeUdAtDh-lkp@intel.com>
-In-Reply-To: <202301241402.CeUdAtDh-lkp@intel.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 24 Jan 2023 11:23:57 -0800
-Message-ID: <CAKEwX=P0RvicKMEWAzb+48V2Y1Cai8tdMc8oCS0GY8qoiv0g=w@mail.gmail.com>
-Subject: Re: [PATCH v7 2/3] cachestat: implement cachestat syscall
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
-	hannes@cmpxchg.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124170510.316970-10-jhs@mojatatu.com>
 
-On Mon, Jan 23, 2023 at 10:49 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Nhat,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
-> base:   1440f576022887004f719883acb094e7e0dd4944
-> patch link:    https://lore.kernel.org/r/20230124021118.154078-3-nphamcs%40gmail.com
-> patch subject: [PATCH v7 2/3] cachestat: implement cachestat syscall
-> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241402.CeUdAtDh-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/f902a360bb453bd6885cd89d4f9ad4a40205fd15
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
->         git checkout f902a360bb453bd6885cd89d4f9ad4a40205fd15
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips prepare
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
-> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
-> --
-> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
-> --
->    scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
->    scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
->    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->    arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
->       26 | void output_ptreg_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
->       78 | void output_task_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
->       92 | void output_thread_info_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
->      108 | void output_thread_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:136:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
->      136 | void output_thread_fpu_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
->      179 | void output_mm_defines(void)
->          |      ^~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
->      213 | void output_sc_defines(void)
->          |      ^~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for 'output_signal_defined' [-Wmissing-prototypes]
->      248 | void output_signal_defined(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:315:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
->      315 | void output_pbe_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:327:6: warning: no previous prototype for 'output_pm_defines' [-Wmissing-prototypes]
->      327 | void output_pm_defines(void)
->          |      ^~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:341:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
->      341 | void output_kvm_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~
->    arch/mips/kernel/asm-offsets.c:385:6: warning: no previous prototype for 'output_cps_defines' [-Wmissing-prototypes]
->      385 | void output_cps_defines(void)
->          |      ^~~~~~~~~~~~~~~~~~
-> >> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+Hi Jamal,
 
-I need to add the new syscall to mips' syscall table
-(arch/mips/kernel/syscalls/syscall_n32.tbl etc.)
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/net-sched-act_api-increase-action-kind-string-length/20230125-010934
+patch link:    https://lore.kernel.org/r/20230124170510.316970-10-jhs%40mojatatu.com
+patch subject: [PATCH net-next RFC 10/20] net/kparser: add kParser
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250320.5xyTet53-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/89890cfe5785baa53d2e7807c96715c394d4cd9c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jamal-Hadi-Salim/net-sched-act_api-increase-action-kind-string-length/20230125-010934
+        git checkout 89890cfe5785baa53d2e7807c96715c394d4cd9c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash net/kparser/ net/sched/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from net/kparser/kparser_condexpr.h:16,
+                    from net/kparser/kparser.h:23,
+                    from net/kparser/kparser_datapath.c:14:
+   net/kparser/kparser_metaextract.h:23:2: error: #error "Cannot determine endianness"
+      23 | #error "Cannot determine endianness"
+         |  ^~~~~
+>> net/kparser/kparser_datapath.c:726:5: warning: no previous prototype for '___kparser_parse' [-Wmissing-prototypes]
+     726 | int ___kparser_parse(const void *obj, void *_hdr, size_t parse_len,
+         |     ^~~~~~~~~~~~~~~~
+
+
+vim +/___kparser_parse +726 net/kparser/kparser_datapath.c
+
+   711	
+   712	/* __kparser_parse(): Function to parse a void * packet buffer using a parser instance key.
+   713	 *
+   714	 * parser: Non NULL kparser_get_parser() returned and cached opaque pointer
+   715	 * referencing a valid parser instance.
+   716	 * _hdr: input packet buffer
+   717	 * parse_len: length of input packet buffer
+   718	 * _metadata: User provided metadata buffer. It must be same as configured
+   719	 * metadata objects in CLI.
+   720	 * metadata_len: Total length of the user provided metadata buffer.
+   721	 *
+   722	 * return: kParser error code as defined in include/uapi/linux/kparser.h
+   723	 *
+   724	 * rcu lock must be held before calling this function.
+   725	 */
+ > 726	int ___kparser_parse(const void *obj, void *_hdr, size_t parse_len,
+   727			     struct sk_buff *skb, void *_metadata, size_t metadata_len)
+   728	{
+   729		return 0;
+   730	}
+   731	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
