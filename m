@@ -1,46 +1,52 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A179D322A;
-	Tue, 24 Jan 2023 23:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B94322A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 23:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674603149; x=1706139149;
+  t=1674603813; x=1706139813;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=j88JmOmcT/SnluuDmc8xEb8YjP08eR0HMySwO24LBbk=;
-  b=hS52VEBuvCPAq/U57GmMXdeD5Cghxz5BiFIl55MRDxIHxLsFIu2MEHBA
-   yMf6f3Nsi5rSBGOtncIYLqfnlCRfihTVZ47g/IJexavgy2TRcsnEInOpT
-   DyG7pNeeaFTEbf69ClTPL9W5cAAGAXrViktwBPy5RNjeXl0zyeMuyg4es
-   GWHhuNDOCFInHm5er2Hjxc82gXzPdtwrJzHpz208cSfi7LukYrkrnecQR
-   l9BSIG2B3D97obbhI/MfCdZbCcQrp+zjUW7lJGJvtvIKWhZbl6NhE5ydx
-   Q3aymi+FXEEBMNMpjCmmiDNYUY3UUwkz/IKCneZfEHVrey8s5cGpLRAsu
+  bh=2d4DLn4Wkq1yGxf176F911BtmoZDFFVhJcdoBSnLFkk=;
+  b=fuqhiYWFPhTd4Z9ggo09VBx4JGpmIK/IvAztweAvjAVmyKtY7DzJJ5vy
+   et0N083wJ5TJugBneUrq4T4m8Jn+ffLSHYbFpcgdulIw5Ldu5dZXq2miP
+   W4U38IawOEQowVzawXYNDTbB97BNeMcwXSrMoWs0/dZO+J0j93EpBoY5X
+   Pso1CjA8SoNA2tibre3i2tteNqNYangLjTNu6XW84pNmRddJHfnp2qS7y
+   QpsDWF/sQtVkbgxh8eXIKqWWf0I8kueBeVVFPrr962ghQz/udTI6Hvfii
+   ymx45l419Fm8cCFXy1RkmbCA63DcowhHkDe3VFo1ZUaLJ+H1tNp6YFv0A
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306792153"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="327695418"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="306792153"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 15:32:28 -0800
+   d="scan'208";a="327695418"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 15:43:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="655609112"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="612219969"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="655609112"
+   d="scan'208";a="612219969"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 15:32:26 -0800
+  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2023 15:43:27 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKSm9-0006s0-0U;
-	Tue, 24 Jan 2023 23:32:25 +0000
-Date: Wed, 25 Jan 2023 07:32:24 +0800
+	id 1pKSwo-0006sW-0K;
+	Tue, 24 Jan 2023 23:43:26 +0000
+Date: Wed, 25 Jan 2023 07:42:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 04/11] staging: rtl8192e: Remove unused variables
- numpacket.. and received_pre..
-Message-ID: <202301250710.9Mt0vvCc-lkp@intel.com>
-References: <c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann@gmail.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-serial@vger.kernel.org,
+	amitkumar.karwar@nxp.com, rohit.fule@nxp.com, sherry.sun@nxp.com,
+	neeraj.sanjaykale@nxp.com
+Subject: Re: [PATCH v1 3/3] Bluetooth: NXP: Add protocol support for NXP
+ Bluetooth chipsets
+Message-ID: <202301250708.mfePhaPV-lkp@intel.com>
+References: <20230124174714.2775680-4-neeraj.sanjaykale@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,157 +55,190 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230124174714.2775680-4-neeraj.sanjaykale@nxp.com>
 
-Hi Philipp,
+Hi Neeraj,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on staging/staging-testing]
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.2-rc5 next-20230124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
-patch link:    https://lore.kernel.org/r/c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann%40gmail.com
-patch subject: [PATCH 04/11] staging: rtl8192e: Remove unused variables numpacket.. and received_pre..
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250710.9Mt0vvCc-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/serdev-Add-method-to-assert-break/20230125-015108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20230124174714.2775680-4-neeraj.sanjaykale%40nxp.com
+patch subject: [PATCH v1 3/3] Bluetooth: NXP: Add protocol support for NXP Bluetooth chipsets
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250708.mfePhaPV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6e636a3b2ef9d90cd6fe7dba2a4acb627f13ba3e
+        # https://github.com/intel-lab-lkp/linux/commit/e5f775c45ec84de38a4cadfb115c488cb44e5943
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
-        git checkout 6e636a3b2ef9d90cd6fe7dba2a4acb627f13ba3e
+        git fetch --no-tags linux-review Neeraj-Sanjay-Kale/serdev-Add-method-to-assert-break/20230125-015108
+        git checkout e5f775c45ec84de38a4cadfb115c488cb44e5943
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/rtl8192e/rtl8192e/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c: In function '_rtl92e_update_received_rate_histogram_stats':
->> drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:1702:13: warning: variable 'preamble_guardinterval' set but not used [-Wunused-but-set-variable]
-    1702 |         u32 preamble_guardinterval;
-         |             ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/bluetooth/btnxp.c:31:
+   drivers/bluetooth/btnxp.c: In function 'nxp_recv_fw_req_v1':
+>> drivers/bluetooth/btnxp.c:707:33: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     707 |                         BT_INFO("FW_Downloaded Successfully: %ld bytes", nxpdev->fw->size);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~
+         |                                                                                    |
+         |                                                                                    size_t {aka unsigned int}
+   include/net/bluetooth/bluetooth.h:242:41: note: in definition of macro 'BT_INFO'
+     242 | #define BT_INFO(fmt, ...)       bt_info(fmt "\n", ##__VA_ARGS__)
+         |                                         ^~~
+   drivers/bluetooth/btnxp.c:707:64: note: format string is defined here
+     707 |                         BT_INFO("FW_Downloaded Successfully: %ld bytes", nxpdev->fw->size);
+         |                                                              ~~^
+         |                                                                |
+         |                                                                long int
+         |                                                              %d
+   drivers/bluetooth/btnxp.c: In function 'nxp_recv_fw_req_v3':
+   drivers/bluetooth/btnxp.c:826:25: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     826 |                 BT_INFO("FW_Downloaded Successfully: %ld bytes", nxpdev->fw->size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~
+         |                                                                            |
+         |                                                                            size_t {aka unsigned int}
+   include/net/bluetooth/bluetooth.h:242:41: note: in definition of macro 'BT_INFO'
+     242 | #define BT_INFO(fmt, ...)       bt_info(fmt "\n", ##__VA_ARGS__)
+         |                                         ^~~
+   drivers/bluetooth/btnxp.c:826:56: note: format string is defined here
+     826 |                 BT_INFO("FW_Downloaded Successfully: %ld bytes", nxpdev->fw->size);
+         |                                                      ~~^
+         |                                                        |
+         |                                                        long int
+         |                                                      %d
 
 
-vim +/preamble_guardinterval +1702 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+vim +707 drivers/bluetooth/btnxp.c
 
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1694  
-77055c56a71bcc drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-09-20  1695  static void _rtl92e_update_received_rate_histogram_stats(
-49aab5fd9df153 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1696  					   struct net_device *dev,
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1697  					   struct rtllib_rx_stats *pstats)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1698  {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1699  	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1700  	u32 rcvType = 1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1701  	u32 rateIndex;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23 @1702  	u32 preamble_guardinterval;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1703  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1704  	if (pstats->bCRC)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1705  		rcvType = 2;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1706  	else if (pstats->bICV)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1707  		rcvType = 3;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1708  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1709  	if (pstats->bShortPreamble)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1710  		preamble_guardinterval = 1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1711  	else
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1712  		preamble_guardinterval = 0;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1713  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1714  	switch (pstats->rate) {
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1715  	case MGN_1M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1716  		rateIndex = 0;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1717  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1718  	case MGN_2M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1719  		rateIndex = 1;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1720  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1721  	case MGN_5_5M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1722  		rateIndex = 2;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1723  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1724  	case MGN_11M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1725  		rateIndex = 3;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1726  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1727  	case MGN_6M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1728  		rateIndex = 4;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1729  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1730  	case MGN_9M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1731  		rateIndex = 5;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1732  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1733  	case MGN_12M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1734  		rateIndex = 6;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1735  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1736  	case MGN_18M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1737  		rateIndex = 7;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1738  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1739  	case MGN_24M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1740  		rateIndex = 8;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1741  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1742  	case MGN_36M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1743  		rateIndex = 9;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1744  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1745  	case MGN_48M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1746  		rateIndex = 10;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1747  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1748  	case MGN_54M:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1749  		rateIndex = 11;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1750  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1751  	case MGN_MCS0:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1752  		rateIndex = 12;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1753  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1754  	case MGN_MCS1:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1755  		rateIndex = 13;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1756  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1757  	case MGN_MCS2:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1758  		rateIndex = 14;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1759  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1760  	case MGN_MCS3:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1761  		rateIndex = 15;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1762  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1763  	case MGN_MCS4:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1764  		rateIndex = 16;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1765  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1766  	case MGN_MCS5:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1767  		rateIndex = 17;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1768  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1769  	case MGN_MCS6:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1770  		rateIndex = 18;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1771  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1772  	case MGN_MCS7:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1773  		rateIndex = 19;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1774  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1775  	case MGN_MCS8:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1776  		rateIndex = 20;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1777  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1778  	case MGN_MCS9:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1779  		rateIndex = 21;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1780  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1781  	case MGN_MCS10:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1782  		rateIndex = 22;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1783  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1784  	case MGN_MCS11:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1785  		rateIndex = 23;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1786  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1787  	case MGN_MCS12:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1788  		rateIndex = 24;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1789  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1790  	case MGN_MCS13:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1791  		rateIndex = 25;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1792  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1793  	case MGN_MCS14:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1794  		rateIndex = 26;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1795  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1796  	case MGN_MCS15:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1797  		rateIndex = 27;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1798  		break;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1799  	default:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1800  		rateIndex = 28;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1801  		break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1802  	}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1803  	priv->stats.received_rate_histogram[0][rateIndex]++;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1804  	priv->stats.received_rate_histogram[rcvType][rateIndex]++;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1805  }
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1806  
+   647	
+   648	/* for legacy chipsets with V1 bootloader */
+   649	static int nxp_recv_fw_req_v1(struct hci_dev *hdev, struct sk_buff *skb)
+   650	{
+   651		struct V1_DATA_REQ *req = skb_pull_data(skb, sizeof(struct V1_DATA_REQ));
+   652		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   653		const struct btnxpuart_data *nxp_data = nxpdev->nxp_data;
+   654		static bool timeout_changed;
+   655		static bool baudrate_changed;
+   656		u32 requested_len;
+   657		static u32 expected_len = HDR_LEN;
+   658		int err;
+   659	
+   660		if (!test_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state))
+   661			return 0;
+   662	
+   663		if (strlen(nxpdev->fw_name) == 0) {
+   664			err = nxp_load_fw_params_for_chip_id(0xffff, hdev);
+   665			if (err < 0)
+   666				return err;
+   667			timeout_changed = false;
+   668			baudrate_changed = false;
+   669			/* If secondary baudrate is not read from
+   670			 * the conf file set default value from nxp_data
+   671			 */
+   672			if (nxpdev->fw_dnld_sec_baudrate == 0)
+   673				nxpdev->fw_dnld_sec_baudrate = nxp_data->fw_dnld_sec_baudrate;
+   674		}
+   675	
+   676		if (nxpdev->fw_dnld_sec_baudrate != nxpdev->current_baudrate) {
+   677			if (!timeout_changed) {
+   678				nxp_send_ack(NXP_ACK_V1, hdev);
+   679				timeout_changed = nxp_fw_change_timeout(hdev, req->len);
+   680				return 0;
+   681			}
+   682			if (!baudrate_changed) {
+   683				nxp_send_ack(NXP_ACK_V1, hdev);
+   684				baudrate_changed = nxp_fw_change_baudrate(hdev, req->len);
+   685				if (baudrate_changed) {
+   686					serdev_device_set_baudrate(nxpdev->serdev,
+   687									nxpdev->fw_dnld_sec_baudrate);
+   688					nxpdev->current_baudrate = nxpdev->fw_dnld_sec_baudrate;
+   689				}
+   690				return 0;
+   691			}
+   692		}
+   693	
+   694		if (!nxpdev->fw) {
+   695			BT_INFO("Request Firmware: %s", nxpdev->fw_name);
+   696			err = request_firmware(&nxpdev->fw, nxpdev->fw_name, &hdev->dev);
+   697			if (err < 0) {
+   698				BT_ERR("Firmware file %s not found", nxpdev->fw_name);
+   699				clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+   700				return err;
+   701			}
+   702		}
+   703	
+   704		if (req && (req->len ^ req->len_comp) == 0xffff) {
+   705			nxp_send_ack(NXP_ACK_V1, hdev);
+   706			if (req->len == 0) {
+ > 707				BT_INFO("FW_Downloaded Successfully: %ld bytes", nxpdev->fw->size);
+   708				clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+   709				wake_up_interruptible(&nxpdev->suspend_wait_q);
+   710				return 0;
+   711			}
+   712			if (req->len & 0x01) {
+   713				/* The CRC did not match at the other end.
+   714				 * That's why the request to re-send.
+   715				 * Simply send the same bytes again.
+   716				 */
+   717				requested_len = nxpdev->fw_sent_bytes;
+   718				BT_ERR("CRC error. Resend %d bytes of FW.", requested_len);
+   719			} else {
+   720				/* Increment offset by number of previous successfully sent bytes */
+   721				nxpdev->fw_dnld_offset += nxpdev->fw_sent_bytes;
+   722				requested_len = req->len;
+   723			}
+   724	
+   725			/* The FW bin file is made up of many blocks of
+   726			 * 16 byte header and payload data chunks. If the
+   727			 * FW has requested a header, read the payload length
+   728			 * info from the header, and then send the header.
+   729			 * In the next iteration, the FW should request the
+   730			 * payload data chunk, which should be equal to the
+   731			 * payload length read from header. If there is a
+   732			 * mismatch, clearly the driver and FW are out of sync,
+   733			 * and we need to re-send the previous header again.
+   734			 */
+   735			if (requested_len == expected_len) {
+   736				if (requested_len == HDR_LEN)
+   737					expected_len = nxp_get_data_len(nxpdev->fw->data +
+   738										nxpdev->fw_dnld_offset);
+   739				else
+   740					expected_len = HDR_LEN;
+   741			} else {
+   742				if (requested_len == HDR_LEN) {
+   743					/* FW download out of sync. Send previous chunk again */
+   744					nxpdev->fw_dnld_offset -= nxpdev->fw_sent_bytes;
+   745					expected_len = HDR_LEN;
+   746				}
+   747			}
+   748	
+   749			if (nxpdev->fw_dnld_offset + requested_len <= nxpdev->fw->size)
+   750				serdev_device_write_buf(nxpdev->serdev,
+   751						nxpdev->fw->data + nxpdev->fw_dnld_offset,
+   752						requested_len);
+   753			nxpdev->fw_sent_bytes = requested_len;
+   754		} else {
+   755			BT_INFO("ERR: Send NAK");
+   756			nxp_send_ack(NXP_NAK_V1, hdev);
+   757		}
+   758		return 0;
+   759	}
+   760	
 
 -- 
 0-DAY CI Kernel Test Service
