@@ -1,42 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4DE10F9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14D0111D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674561416; x=1706097416;
+  t=1674561417; x=1706097417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ItDgKsmt1v44xmuw6hS70pLKusuDh3owstq/z0cKAh0=;
-  b=OR9P6Mti/F/t0kg9ASHORD25peQ01L4+afA+L1pXJygJrZYZswXF0WIa
-   1wweUYVtEC/MU5qTTi4jhsn4ifgvwIwuDTX4jd6g+xkP0NRQXRj5h6Uec
-   wkIbnAUABpQkSGFOWbR5zYYFkyLsE56NgbQZTqxdcMRU6xxMs0mTEqP7E
-   WTfjbG8yAeExzv10FYOcpGuL/55H9vUEW7JU/9qH7kxpbHHmroLWzNYrR
-   fMlFKhzQSjGA651RTqToIbAIIdbJacKdiKdbxZJA8nzCwx9Dv1HUyjBrM
-   ryPELcRpohHKbUGFscBd5qIZENJLuZNr773M9nmfvWgxQWf3gBg8gajH/
+  bh=phCYjbeYeH33D7C/gttd9sta4hen+i8d+oLpv9x6oaU=;
+  b=L5w+Y/PRHsoRvHQwk2gfH2B7HglNqiUbnyTwf9lTsZGiDMX8rd+RphKn
+   qCPtxmEBNBniTncMii2AuVEoIVk+mnVnpq26i9vgxOcP+q6cclKJC2zrB
+   2sbkM71clzCgmHsnLddsAnYmxg9u6mYtIM1JIJbLJt+/iu34oHQkY4NLX
+   muL0iCGF4vhmt44oxRJRPPowIPItRW/0N7Ey+YdEKhgXvwm/dyPmZ8Wta
+   YIB8svrRdP7d1y4ryxKPgyShpD/plqpE6YiisV6vcxjF2bcozgu/TsFJo
+   arZL67JCUTkf5/1XAcIbVjWl+ESPAsan3bp54Zrq2nJMI8mIY+gzjDdJT
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323972796"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412509280"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="323972796"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:56:55 -0800
+   d="scan'208";a="412509280"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:56:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="612022551"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804570487"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="612022551"
+   d="scan'208";a="804570487"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2023 03:56:54 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 24 Jan 2023 03:56:54 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKHv3-0006Q2-2v;
+	id 1pKHv3-0006Q5-2y;
 	Tue, 24 Jan 2023 11:56:53 +0000
-Date: Tue, 24 Jan 2023 19:55:55 +0800
+Date: Tue, 24 Jan 2023 19:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:hf-5k-rc4 18/19] lib/test_dynamic_debug.c:13:11: warning:
- 'pr_fmt' macro redefined
-Message-ID: <202301241922.MO57B3GN-lkp@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: [tip:x86/cache 9/13] arch/x86/kernel/cpu/resctrl/rdtgroup.c:1456:13:
+ warning: variable 'h' set but not used
+Message-ID: <202301241934.L4ops5VY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,48 +48,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git hf-5k-rc4
-head:   0b3fc8ac339994de91403db75a445b884c8e63dd
-commit: 12389eb0d15904d817da779d102c72f2c3944579 [18/19] test-dyndbg: tune sub-module behavior
-config: hexagon-randconfig-r021-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241922.MO57B3GN-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+head:   0a363fb23ee2f7beb08437ad7db86d195878d79f
+commit: dc2a3e857981f859889933cf66ded117d74edff1 [9/13] x86/resctrl: Add interface to read mbm_total_bytes_config
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241934.L4ops5VY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/12389eb0d15904d817da779d102c72f2c3944579
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc hf-5k-rc4
-        git checkout 12389eb0d15904d817da779d102c72f2c3944579
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=dc2a3e857981f859889933cf66ded117d74edff1
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip x86/cache
+        git checkout dc2a3e857981f859889933cf66ded117d74edff1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/cpu/resctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> lib/test_dynamic_debug.c:13:11: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-     #define pr_fmt(fmt) "test_dd: " fmt
-             ^
-   include/linux/printk.h:347:9: note: previous definition is here
-   #define pr_fmt(fmt) fmt
-           ^
-   1 warning generated.
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c: In function 'mon_event_config_read':
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1456:13: warning: variable 'h' set but not used [-Wunused-but-set-variable]
+    1456 |         u32 h;
+         |             ^
 
 
-vim +/pr_fmt +13 lib/test_dynamic_debug.c
+vim +/h +1456 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-    10	
-    11	/* NB: pr_fmt is often redundant with dyndbg's f-flag. this is shorter */
-    12	#if !defined(TEST_DYNAMIC_DEBUG_SUBMOD)
-  > 13	  #define pr_fmt(fmt) "test_dd: " fmt
-    14	  #define DEBUG	/* enable all prdbgs (plain & class'd) at compiletime */
-    15	#else
-    16	  #define pr_fmt(fmt) "test_dd_submod: " fmt
-    17	#endif
-    18	
+  1451	
+  1452	static void mon_event_config_read(void *info)
+  1453	{
+  1454		struct mon_config_info *mon_info = info;
+  1455		unsigned int index;
+> 1456		u32 h;
+  1457	
+  1458		index = mon_event_config_index_get(mon_info->evtid);
+  1459		if (index == INVALID_CONFIG_INDEX) {
+  1460			pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+  1461			return;
+  1462		}
+  1463		rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
+  1464	
+  1465		/* Report only the valid event configuration bits */
+  1466		mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
+  1467	}
+  1468	
 
 -- 
 0-DAY CI Kernel Test Service
