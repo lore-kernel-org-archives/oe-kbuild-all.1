@@ -1,127 +1,112 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A178839
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 15:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC3A8839
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 16:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674575527; x=1706111527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TKXyp6BF4uP7pPnni9emuP3npRkFWBGkn8fJsz8K3gk=;
-  b=i+Om6ZRM0n2BiXIr855FyBYn0hzOqnEwDGj7HA+yjCCEYvvkPnkA0Vb2
-   Tqb9pm8JKHJh2nOIe6hWjOfwxaY4XpfJ5CRJDMwM1UJoz0bSooya88hrD
-   TWspmilRdN8yLMrMxSsY+HgAgOc3rJBpLYA/EqgkiDn0ZyRnKBWGg5fjN
-   B8J0ZTKKZO0BgPUD9Rmnd+JL+poMaB569b3dlxAFMp+4LrXzb5RIlvIT1
-   DBWNGAdq62f4qGsd3Wz3H/R2oGvcl5xR+1mu17kFIlImWCcZEHUJZwW22
-   yCkvu1YJnJ0FpAwsw9gNLfOONlPa9svLfsXNzGceHEFJnuoI3jJPLygHl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="305984965"
+  t=1674576191; x=1706112191;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4siWcjMMycVNx7r69gc//16E+gOhn6Nvano3ZcHJHw0=;
+  b=D1ZY+XWrzRvK+iIW0oUC7GuYRXlp9oQ+Cv6zSh+eMdZFDs+2otO5MaBk
+   70zC6hY3X0/HcPDXx8I9W9COXnZX70FsbUuBB57/FObEKN+/bC3zV3Sor
+   8G/Qk6Tc5wJmCq2ZIxap3nd3cM1h+ttK5obwz3gwdF18Jn2q3xpgMOdMY
+   vRXIVmttZ5+Wk15fS//O14qmLeG7hwzj6w+aoEo9ozHFuaB4sXHTDiYQv
+   AvYQzHsbt2AvfvvQ0mt5Tvc7xLdQPXQNcXRIOqc3kdGKU6qauEyoKFiKl
+   qgMestdEz1gVLaDAMmiYIE7hGj3nxIzElQpD4gSMBomPvT0IZld1YpVJ+
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="325003916"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="305984965"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 07:52:07 -0800
+   d="scan'208";a="325003916"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 08:03:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="750867256"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="664124177"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="750867256"
+   d="scan'208";a="664124177"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Jan 2023 07:52:05 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 24 Jan 2023 08:03:06 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKLaf-0006aC-02;
-	Tue, 24 Jan 2023 15:52:05 +0000
-Date: Tue, 24 Jan 2023 23:51:55 +0800
+	id 1pKLlJ-0006ay-1m;
+	Tue, 24 Jan 2023 16:03:05 +0000
+Date: Wed, 25 Jan 2023 00:02:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
-Message-ID: <202301242323.y0SNS3Fn-lkp@intel.com>
-References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [ammarfaizi2-block:stable/linux-stable-rc/queue/5.15 121/122]
+ drivers/gpu/drm/i915/i915_drv.c:989:34: warning: unused variable 'i915'
+Message-ID: <202301242324.wPzOhX8S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Sam,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
-patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
-patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
-config: nios2-randconfig-r012-20230123 (https://download.01.org/0day-ci/archive/20230124/202301242323.y0SNS3Fn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/ammarfaizi2/linux-block stable/linux-stable-rc/queue/5.15
+head:   7cc9dd6506b6dba986366c8ef94cf8e92a6437d1
+commit: 3fb7d3522949e00f2711942ede083ef73aa2f6be [121/122] drm/i915: Allow switching away via vga-switcheroo if uninitialized
+config: x86_64-rhel-8.3-kunit (https://download.01.org/0day-ci/archive/20230124/202301242324.wPzOhX8S-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-        git checkout 530d852970d1a75527031a4f23689f89f0a85804
+        # https://github.com/ammarfaizi2/linux-block/commit/3fb7d3522949e00f2711942ede083ef73aa2f6be
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block stable/linux-stable-rc/queue/5.15
+        git checkout 3fb7d3522949e00f2711942ede083ef73aa2f6be
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/arm/display/komeda/komeda_dev.c: In function 'komeda_register_show':
->> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:26:37: error: invalid use of undefined type 'struct seq_file'
-      26 |         struct komeda_dev *mdev = sf->private;
-         |                                     ^~
->> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:29:9: error: implicit declaration of function 'seq_puts' [-Werror=implicit-function-declaration]
-      29 |         seq_puts(sf, "\n====== Komeda register dump =========\n");
-         |         ^~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_dev.c: At top level:
->> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:44:1: warning: data definition has no type or storage class
-      44 | DEFINE_SHOW_ATTRIBUTE(komeda_register);
-         | ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:44:1: error: type defaults to 'int' in declaration of 'DEFINE_SHOW_ATTRIBUTE' [-Werror=implicit-int]
->> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:44:1: warning: parameter names (without types) in function declaration
-   drivers/gpu/drm/arm/display/komeda/komeda_dev.c:24:12: warning: 'komeda_register_show' defined but not used [-Wunused-function]
-      24 | static int komeda_register_show(struct seq_file *sf, void *x)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/i915/i915_drv.c: In function 'i915_driver_lastclose':
+>> drivers/gpu/drm/i915/i915_drv.c:989:34: warning: unused variable 'i915' [-Wunused-variable]
+     989 |         struct drm_i915_private *i915 = to_i915(dev);
+         |                                  ^~~~
 
 
-vim +26 drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+vim +/i915 +989 drivers/gpu/drm/i915/i915_drv.c
 
-bd628c1bed7902 james qian wang (Arm Technology China  2019-01-03  23) 
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  24) static int komeda_register_show(struct seq_file *sf, void *x)
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  25) {
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22 @26) 	struct komeda_dev *mdev = sf->private;
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  27) 	int i;
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  28) 
-aefdaa15e54c09 Lowry Li (Arm Technology China         2019-09-17 @29) 	seq_puts(sf, "\n====== Komeda register dump =========\n");
-aefdaa15e54c09 Lowry Li (Arm Technology China         2019-09-17  30) 
-efb46508851874 james qian wang (Arm Technology China  2019-12-12  31) 	pm_runtime_get_sync(mdev->dev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12  32) 
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  33) 	if (mdev->funcs->dump_register)
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  34) 		mdev->funcs->dump_register(mdev, sf);
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  35) 
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  36) 	for (i = 0; i < mdev->n_pipelines; i++)
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  37) 		komeda_pipeline_dump_register(mdev->pipelines[i], sf);
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  38) 
-efb46508851874 james qian wang (Arm Technology China  2019-12-12  39) 	pm_runtime_put(mdev->dev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12  40) 
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  41) 	return 0;
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  42) }
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  43) 
-ef52d5853bf1d0 Qinglang Miao                          2020-09-17 @44  DEFINE_SHOW_ATTRIBUTE(komeda_register);
-7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  45) 
+71386ef9008817 Oscar Mateo           2014-07-24  974  
+0673ad472b9849 Chris Wilson          2016-06-24  975  /**
+0673ad472b9849 Chris Wilson          2016-06-24  976   * i915_driver_lastclose - clean up after all DRM clients have exited
+0673ad472b9849 Chris Wilson          2016-06-24  977   * @dev: DRM device
+0673ad472b9849 Chris Wilson          2016-06-24  978   *
+0673ad472b9849 Chris Wilson          2016-06-24  979   * Take care of cleaning up after all DRM clients have exited.  In the
+0673ad472b9849 Chris Wilson          2016-06-24  980   * mode setting case, we want to restore the kernel's initial mode (just
+0673ad472b9849 Chris Wilson          2016-06-24  981   * in case the last client left us in a bad state).
+0673ad472b9849 Chris Wilson          2016-06-24  982   *
+0673ad472b9849 Chris Wilson          2016-06-24  983   * Additionally, in the non-mode setting case, we'll tear down the GTT
+0673ad472b9849 Chris Wilson          2016-06-24  984   * and DMA structures, since the kernel won't be using them, and clea
+0673ad472b9849 Chris Wilson          2016-06-24  985   * up any GEM state.
+0673ad472b9849 Chris Wilson          2016-06-24  986   */
+0673ad472b9849 Chris Wilson          2016-06-24  987  static void i915_driver_lastclose(struct drm_device *dev)
+0673ad472b9849 Chris Wilson          2016-06-24  988  {
+5df7bd130818df José Roberto de Souza 2021-04-08 @989  	struct drm_i915_private *i915 = to_i915(dev);
+5df7bd130818df José Roberto de Souza 2021-04-08  990  
+0673ad472b9849 Chris Wilson          2016-06-24  991  	intel_fbdev_restore_mode(dev);
+5df7bd130818df José Roberto de Souza 2021-04-08  992  
+0673ad472b9849 Chris Wilson          2016-06-24  993  	vga_switcheroo_process_delayed_switch();
+0673ad472b9849 Chris Wilson          2016-06-24  994  }
+2911a35b2e4eb8 Ben Widawsky          2012-04-05  995  
+
+:::::: The code at line 989 was first introduced by commit
+:::::: 5df7bd130818dfdc9047c2a81b19737d66e55f9a drm/i915: skip display initialization when there is no display
+
+:::::: TO: José Roberto de Souza <jose.souza@intel.com>
+:::::: CC: José Roberto de Souza <jose.souza@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
