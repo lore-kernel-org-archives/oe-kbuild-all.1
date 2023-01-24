@@ -1,46 +1,46 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B00322A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 23:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A179D322A;
+	Tue, 24 Jan 2023 23:32:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674601947; x=1706137947;
+  t=1674603149; x=1706139149;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=05NIQy/Nf+AD6/tSG16DUrJCefVYRfbu8Z3GoAS6jlA=;
-  b=Vz1q6szOtINBb8LhwgKOl/SpK3dPm7H5qZsuAdItHsDGjcTSbVwnkvuO
-   RZJoy0XCweE2udHbJOoC64PyEHrX6+LGpqCVZWg76944Us9aF976nhyyK
-   lRAICvdpyx9VmdoBlqqEKwQyQuHCBL8lDHXlFzJCS4LNO9tVdr8IdHIcY
-   z6ICIsHC5yUi/lqzFbFMy+Mwwh9XgQPJ01HZWeFDy7TTVRPZl1YiJ4LxP
-   AUnfpPwu6TKkJnkkM8cRk9vosyqK5GNtkUR3sCvfkwRI/sZTB6sc4LsdY
-   +UkW5F5pvw7xMWb30ua4w5moxK+1jrHyucGLzpLcOxbMZhmwHeAcboh3V
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306099371"
+  bh=j88JmOmcT/SnluuDmc8xEb8YjP08eR0HMySwO24LBbk=;
+  b=hS52VEBuvCPAq/U57GmMXdeD5Cghxz5BiFIl55MRDxIHxLsFIu2MEHBA
+   yMf6f3Nsi5rSBGOtncIYLqfnlCRfihTVZ47g/IJexavgy2TRcsnEInOpT
+   DyG7pNeeaFTEbf69ClTPL9W5cAAGAXrViktwBPy5RNjeXl0zyeMuyg4es
+   GWHhuNDOCFInHm5er2Hjxc82gXzPdtwrJzHpz208cSfi7LukYrkrnecQR
+   l9BSIG2B3D97obbhI/MfCdZbCcQrp+zjUW7lJGJvtvIKWhZbl6NhE5ydx
+   Q3aymi+FXEEBMNMpjCmmiDNYUY3UUwkz/IKCneZfEHVrey8s5cGpLRAsu
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306792153"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="306099371"
+   d="scan'208";a="306792153"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 15:12:27 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 15:32:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="655603153"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="655609112"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="655603153"
+   d="scan'208";a="655609112"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 15:12:25 -0800
+  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 15:32:26 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKSSm-0006rA-1l;
-	Tue, 24 Jan 2023 23:12:24 +0000
-Date: Wed, 25 Jan 2023 07:11:58 +0800
+	id 1pKSm9-0006s0-0U;
+	Tue, 24 Jan 2023 23:32:25 +0000
+Date: Wed, 25 Jan 2023 07:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>,
-	linux-integrity@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-Message-ID: <202301250706.deGvd0yq-lkp@intel.com>
-References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 04/11] staging: rtl8192e: Remove unused variables
+ numpacket.. and received_pre..
+Message-ID: <202301250710.9Mt0vvCc-lkp@intel.com>
+References: <c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,213 +49,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+In-Reply-To: <c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann@gmail.com>
 
-Hi James,
+Hi Philipp,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-20230124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-patch link:    https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
-patch subject: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session handling code
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250706.deGvd0yq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
+patch link:    https://lore.kernel.org/r/c90c54f7b0e122914d5c02d6849447897a268f16.1674596722.git.philipp.g.hortmann%40gmail.com
+patch subject: [PATCH 04/11] staging: rtl8192e: Remove unused variables numpacket.. and received_pre..
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250710.9Mt0vvCc-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+        # https://github.com/intel-lab-lkp/linux/commit/6e636a3b2ef9d90cd6fe7dba2a4acb627f13ba3e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-        git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+        git fetch --no-tags linux-review Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
+        git checkout 6e636a3b2ef9d90cd6fe7dba2a4acb627f13ba3e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/char/tpm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/rtl8192e/rtl8192e/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
-    1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/tpm/tpm2-sessions.c: In function 'tpm_buf_check_hmac_response':
->> drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame size of 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     831 | }
-         | ^
-   drivers/char/tpm/tpm2-sessions.c: In function 'tpm_buf_fill_hmac_session':
-   drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame size of 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     579 | }
-         | ^
+   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c: In function '_rtl92e_update_received_rate_histogram_stats':
+>> drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:1702:13: warning: variable 'preamble_guardinterval' set but not used [-Wunused-but-set-variable]
+    1702 |         u32 preamble_guardinterval;
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +831 drivers/char/tpm/tpm2-sessions.c
+vim +/preamble_guardinterval +1702 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 
-   676	
-   677	/**
-   678	 * tpm_buf_check_hmac_response() - check the TPM return HMAC for correctness
-   679	 * @buf: the original command buffer (which now contains the response)
-   680	 * @auth: the auth structure allocated by tpm2_start_auth_session()
-   681	 * @rc: the return code from tpm_transmit_cmd
-   682	 *
-   683	 * If @rc is non zero, @buf may not contain an actual return, so @rc
-   684	 * is passed through as the return and the session cleaned up and
-   685	 * de-allocated if required (this is required if
-   686	 * TPM2_SA_CONTINUE_SESSION was not specified as a session flag).
-   687	 *
-   688	 * If @rc is zero, the response HMAC is computed against the returned
-   689	 * @buf and matched to the TPM one in the session area.  If there is a
-   690	 * mismatch, an error is logged and -EINVAL returned.
-   691	 *
-   692	 * The reason for this is that the command issue and HMAC check
-   693	 * sequence should look like:
-   694	 *
-   695	 *	rc = tpm_transmit_cmd(...);
-   696	 *	rc = tpm_buf_check_hmac_response(&buf, auth, rc);
-   697	 *	if (rc)
-   698	 *		...
-   699	 *
-   700	 * Which is easily layered into the current contrl flow.
-   701	 *
-   702	 * Returns: 0 on success or an error.
-   703	 */
-   704	int tpm_buf_check_hmac_response(struct tpm_buf *buf, struct tpm2_auth *auth,
-   705					int rc)
-   706	{
-   707		struct tpm_header *head = (struct tpm_header *)buf->data;
-   708		struct tpm_chip *chip = auth->chip;
-   709		const u8 *s, *p;
-   710		u8 rphash[SHA256_DIGEST_SIZE];
-   711		u32 attrs;
-   712		SHASH_DESC_ON_STACK(desc, sha256_hash);
-   713		u16 tag = be16_to_cpu(head->tag);
-   714		u32 cc = be32_to_cpu(auth->ordinal);
-   715		int parm_len, len, i, handles;
-   716	
-   717		if (auth->session >= TPM_HEADER_SIZE) {
-   718			WARN(1, "tpm session not filled correctly\n");
-   719			goto out;
-   720		}
-   721	
-   722		if (rc != 0)
-   723			/* pass non success rc through and close the session */
-   724			goto out;
-   725	
-   726		rc = -EINVAL;
-   727		if (tag != TPM2_ST_SESSIONS) {
-   728			dev_err(&chip->dev, "TPM: HMAC response check has no sessions tag\n");
-   729			goto out;
-   730		}
-   731	
-   732		i = tpm2_find_cc(chip, cc);
-   733		if (i < 0)
-   734			goto out;
-   735		attrs = chip->cc_attrs_tbl[i];
-   736		handles = (attrs >> TPM2_CC_ATTR_RHANDLE) & 1;
-   737	
-   738		/* point to area beyond handles */
-   739		s = &buf->data[TPM_HEADER_SIZE + handles * 4];
-   740		parm_len = tpm_get_inc_u32(&s);
-   741		p = s;
-   742		s += parm_len;
-   743		/* skip over any sessions before ours */
-   744		for (i = 0; i < auth->session - 1; i++) {
-   745			len = tpm_get_inc_u16(&s);
-   746			s += len + 1;
-   747			len = tpm_get_inc_u16(&s);
-   748			s += len;
-   749		}
-   750		/* TPM nonce */
-   751		len = tpm_get_inc_u16(&s);
-   752		if (s - buf->data + len > tpm_buf_length(buf))
-   753			goto out;
-   754		if (len != SHA256_DIGEST_SIZE)
-   755			goto out;
-   756		memcpy(auth->tpm_nonce, s, len);
-   757		s += len;
-   758		attrs = *s++;
-   759		len = tpm_get_inc_u16(&s);
-   760		if (s - buf->data + len != tpm_buf_length(buf))
-   761			goto out;
-   762		if (len != SHA256_DIGEST_SIZE)
-   763			goto out;
-   764		/*
-   765		 * s points to the HMAC. now calculate comparison, beginning
-   766		 * with rphash
-   767		 */
-   768		desc->tfm = sha256_hash;
-   769		crypto_shash_init(desc);
-   770		/* yes, I know this is now zero, but it's what the standard says */
-   771		crypto_shash_update(desc, (u8 *)&head->return_code,
-   772				    sizeof(head->return_code));
-   773		/* ordinal is already BE */
-   774		crypto_shash_update(desc, (u8 *)&auth->ordinal, sizeof(auth->ordinal));
-   775		crypto_shash_update(desc, p, parm_len);
-   776		crypto_shash_final(desc, rphash);
-   777	
-   778		/* now calculate the hmac */
-   779		hmac_init(desc, auth->session_key, sizeof(auth->session_key)
-   780			  + auth->passphraselen);
-   781		crypto_shash_update(desc, rphash, sizeof(rphash));
-   782		crypto_shash_update(desc, auth->tpm_nonce, sizeof(auth->tpm_nonce));
-   783		crypto_shash_update(desc, auth->our_nonce, sizeof(auth->our_nonce));
-   784		crypto_shash_update(desc, &auth->attrs, 1);
-   785		/* we're done with the rphash, so put our idea of the hmac there */
-   786		hmac_final(desc, auth->session_key, sizeof(auth->session_key)
-   787			   + auth->passphraselen, rphash);
-   788		if (memcmp(rphash, s, SHA256_DIGEST_SIZE) == 0) {
-   789			rc = 0;
-   790		} else {
-   791			dev_err(&auth->chip->dev, "TPM: HMAC check failed\n");
-   792			goto out;
-   793		}
-   794	
-   795		/* now do response decryption */
-   796		if (auth->attrs & TPM2_SA_ENCRYPT) {
-   797			struct scatterlist sg[1];
-   798			SYNC_SKCIPHER_REQUEST_ON_STACK(req, auth->aes);
-   799			DECLARE_CRYPTO_WAIT(wait);
-   800	
-   801			skcipher_request_set_sync_tfm(req, auth->aes);
-   802			skcipher_request_set_callback(req, CRYPTO_TFM_REQ_MAY_SLEEP,
-   803						      crypto_req_done, &wait);
-   804	
-   805			/* need key and IV */
-   806			KDFa(auth->session_key, SHA256_DIGEST_SIZE
-   807			     + auth->passphraselen, "CFB", auth->tpm_nonce,
-   808			     auth->our_nonce, AES_KEYBYTES + AES_BLOCK_SIZE,
-   809			     auth->scratch);
-   810			crypto_sync_skcipher_setkey(auth->aes, auth->scratch, AES_KEYBYTES);
-   811			len = tpm_get_inc_u16(&p);
-   812			sg_init_one(sg, p, len);
-   813			skcipher_request_set_crypt(req, sg, sg, len,
-   814						   auth->scratch + AES_KEYBYTES);
-   815			crypto_wait_req(crypto_skcipher_decrypt(req), &wait);
-   816		}
-   817	
-   818	 out:
-   819		if ((auth->attrs & TPM2_SA_CONTINUE_SESSION) == 0) {
-   820			/* manually close the session if it wasn't consumed */
-   821			if (rc)
-   822				tpm2_flush_context(chip, auth->handle);
-   823			crypto_free_sync_skcipher(auth->aes);
-   824			kfree(auth);
-   825		} else {
-   826			/* reset for next use  */
-   827			auth->session = TPM_HEADER_SIZE;
-   828		}
-   829	
-   830		return rc;
- > 831	}
-   832	EXPORT_SYMBOL(tpm_buf_check_hmac_response);
-   833	
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1694  
+77055c56a71bcc drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-09-20  1695  static void _rtl92e_update_received_rate_histogram_stats(
+49aab5fd9df153 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1696  					   struct net_device *dev,
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1697  					   struct rtllib_rx_stats *pstats)
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1698  {
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1699  	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1700  	u32 rcvType = 1;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1701  	u32 rateIndex;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23 @1702  	u32 preamble_guardinterval;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1703  
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1704  	if (pstats->bCRC)
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1705  		rcvType = 2;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1706  	else if (pstats->bICV)
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1707  		rcvType = 3;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1708  
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1709  	if (pstats->bShortPreamble)
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1710  		preamble_guardinterval = 1;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1711  	else
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1712  		preamble_guardinterval = 0;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1713  
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1714  	switch (pstats->rate) {
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1715  	case MGN_1M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1716  		rateIndex = 0;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1717  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1718  	case MGN_2M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1719  		rateIndex = 1;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1720  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1721  	case MGN_5_5M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1722  		rateIndex = 2;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1723  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1724  	case MGN_11M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1725  		rateIndex = 3;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1726  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1727  	case MGN_6M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1728  		rateIndex = 4;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1729  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1730  	case MGN_9M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1731  		rateIndex = 5;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1732  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1733  	case MGN_12M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1734  		rateIndex = 6;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1735  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1736  	case MGN_18M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1737  		rateIndex = 7;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1738  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1739  	case MGN_24M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1740  		rateIndex = 8;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1741  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1742  	case MGN_36M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1743  		rateIndex = 9;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1744  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1745  	case MGN_48M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1746  		rateIndex = 10;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1747  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1748  	case MGN_54M:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1749  		rateIndex = 11;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1750  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1751  	case MGN_MCS0:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1752  		rateIndex = 12;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1753  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1754  	case MGN_MCS1:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1755  		rateIndex = 13;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1756  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1757  	case MGN_MCS2:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1758  		rateIndex = 14;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1759  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1760  	case MGN_MCS3:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1761  		rateIndex = 15;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1762  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1763  	case MGN_MCS4:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1764  		rateIndex = 16;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1765  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1766  	case MGN_MCS5:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1767  		rateIndex = 17;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1768  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1769  	case MGN_MCS6:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1770  		rateIndex = 18;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1771  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1772  	case MGN_MCS7:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1773  		rateIndex = 19;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1774  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1775  	case MGN_MCS8:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1776  		rateIndex = 20;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1777  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1778  	case MGN_MCS9:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1779  		rateIndex = 21;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1780  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1781  	case MGN_MCS10:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1782  		rateIndex = 22;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1783  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1784  	case MGN_MCS11:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1785  		rateIndex = 23;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1786  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1787  	case MGN_MCS12:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1788  		rateIndex = 24;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1789  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1790  	case MGN_MCS13:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1791  		rateIndex = 25;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1792  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1793  	case MGN_MCS14:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1794  		rateIndex = 26;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1795  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1796  	case MGN_MCS15:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1797  		rateIndex = 27;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1798  		break;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1799  	default:
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1800  		rateIndex = 28;
+526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1801  		break;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1802  	}
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1803  	priv->stats.received_rate_histogram[0][rateIndex]++;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1804  	priv->stats.received_rate_histogram[rcvType][rateIndex]++;
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1805  }
+94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1806  
 
 -- 
 0-DAY CI Kernel Test Service
