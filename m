@@ -1,62 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94045EA4;
-	Tue, 24 Jan 2023 06:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FD1EA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 06:18:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674540528; x=1706076528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FG5wi4nVDwvzoVjFdleOp1NxA/Nr3g/OSssbqc/uBCE=;
-  b=a/496WVgRq6pdzout45c214b2Tcp/2Q+ECyrxTRia3fQQPjv7t6ayK1y
-   bPFxhM7XkKST5EKkSgV2TVZsbaQEnzQZ6BehQgNYVWO1VGzZqSUWlDsPO
-   pRDv0wL/R0X6na+zEUPH3yuhZqrH89DccQFvA/dhJMHZgGnoZ6CgwDyYA
-   ArCRLChhicaPFBizMd3sYnEkHkgPZamwzhNn87VmAj1O1JpdWTfMwoHm2
-   2060vUsoXT4jXUOmFb7EAlIY40CHBfo+T7LdoE9FFHtDwzRR9x5Wl5gZg
-   SYz2pNOuJabO1gP2n1+pv3NzWQdLIJiOpfl3tyOwByG9amYbEl1gKZmyp
+  t=1674541124; x=1706077124;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U1GIFMdHKo15Of7a2DIC/fSfREH20kAWrsBKge+cTYY=;
+  b=jfFwwCLM/R0A+2yBzPoDunCPBWPpn8qJB9Fv7M1paFv7D7orm/W5cR/q
+   YOxBwHWXr/shcubjd9m4Q8XV/NadjdTa4QiW7bpvVhlWNQd7GkmgGQKW4
+   ogur5AfoZ5z2Xqhj33Cueltw0BwumFV1J7PFxeWlaVXCaY+FNI/ILSycf
+   QCE5ukbhU4/qQ4dmFg8KTE1qhYBqCfsQfSnr7vr8k5fKzbGfTtrRTCjk5
+   PRC/7xxmqZGMR2x/4Uo6zMCS32xrDMSg2JH39IgW/SoEj/c72xiLWWkU8
+   iIkR+OLtP0zbdDLwLZrCUjZW+QqbRZNWdVYQf7MwBuVZ+JsFS+TzFO+jY
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309812190"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388582353"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="309812190"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 22:08:47 -0800
+   d="scan'208";a="388582353"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 22:18:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="730568829"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="750718861"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="730568829"
+   d="scan'208";a="750718861"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Jan 2023 22:08:42 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2023 22:18:42 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKCU5-0006Bm-2F;
-	Tue, 24 Jan 2023 06:08:41 +0000
-Date: Tue, 24 Jan 2023 14:07:49 +0800
+	id 1pKCdm-0006CS-02;
+	Tue, 24 Jan 2023 06:18:42 +0000
+Date: Tue, 24 Jan 2023 14:18:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: George Prekas <george@enfabrica.net>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Fenghua Yu <fenghua.yu@intel.com>, Andrei Vagin <avagin@gmail.com>,
-	George Prekas <george@enfabrica.net>
-Subject: Re: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
-Message-ID: <202301241343.blMmgE7L-lkp@intel.com>
-References: <20230123170419.7292-2-george@enfabrica.net>
+To: Eric Van Hensbergen <ericvh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, v9fs-developer@lists.sourceforge.net
+Subject: [ericvh-v9fs:ericvh/for-next 11/12] fs/9p/vfs_file.c:506:28:
+ warning: variable 'v9inode' set but not used
+Message-ID: <202301241454.gOqo4xVk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,134 +45,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123170419.7292-2-george@enfabrica.net>
 
-Hi George,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on vbabka-slab/for-next]
-[also build test ERROR on linus/master v6.2-rc5 next-20230124]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-next
-patch link:    https://lore.kernel.org/r/20230123170419.7292-2-george%40enfabrica.net
-patch subject: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
-config: s390-randconfig-r044-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241343.blMmgE7L-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git ericvh/for-next
+head:   2245aefc0a6f35eb2a9ad0afa8958c3d2fa694ea
+commit: 5cdf58fbef6262fac9937fc9373d6f8b8f80f5fd [11/12] writeback mode fixes
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241454.gOqo4xVk-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/f0d9df4305849ecea4402bc614cadb0dd357da77
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
-        git checkout f0d9df4305849ecea4402bc614cadb0dd357da77
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git/commit/?id=5cdf58fbef6262fac9937fc9373d6f8b8f80f5fd
+        git remote add ericvh-v9fs https://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git
+        git fetch --no-tags ericvh-v9fs ericvh/for-next
+        git checkout 5cdf58fbef6262fac9937fc9373d6f8b8f80f5fd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/kmemleak.c:85:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from mm/kmemleak.c:85:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from mm/kmemleak.c:85:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> mm/kmemleak.c:1244:32: error: incompatible pointer to integer conversion passing 'const void *' to parameter of type 'unsigned long' [-Wint-conversion]
-                   object = find_and_get_object(ptr, 0);
-                                                ^~~
-   mm/kmemleak.c:561:66: note: passing argument to parameter 'ptr' here
-   static struct kmemleak_object *find_and_get_object(unsigned long ptr, int alias)
-                                                                    ^
-   12 warnings and 1 error generated.
+   fs/9p/vfs_file.c: In function 'v9fs_vm_page_mkwrite':
+>> fs/9p/vfs_file.c:506:28: warning: variable 'v9inode' set but not used [-Wunused-but-set-variable]
+     506 |         struct v9fs_inode *v9inode;
+         |                            ^~~~~~~
+   fs/9p/vfs_file.c: At top level:
+   fs/9p/vfs_file.c:564:42: warning: 'v9fs_file_vm_ops' defined but not used [-Wunused-const-variable=]
+     564 | static const struct vm_operations_struct v9fs_file_vm_ops = {
+         |                                          ^~~~~~~~~~~~~~~~
 
 
-vim +1244 mm/kmemleak.c
+vim +/v9inode +506 fs/9p/vfs_file.c
 
-  1233	
-  1234	/**
-  1235	 * kmemleak_mark_stack - mark the allocated object as a kernel stack
-  1236	 *
-  1237	 * @ptr:	pointer to beginning of the object
-  1238	 */
-  1239	void __ref kmemleak_mark_stack(const void *ptr)
-  1240	{
-  1241		struct kmemleak_object *object;
-  1242	
-  1243		if (kmemleak_enabled && ptr && !IS_ERR(ptr)) {
-> 1244			object = find_and_get_object(ptr, 0);
-  1245			if (object) {
-  1246				object->flags |= OBJECT_STACK;
-  1247				put_object(object);
-  1248			}
-  1249		}
-  1250	}
-  1251	
+fb89b45cdfdc8b Dominique Martinet 2014-01-10  502  
+fe6340e2d1f5ef Souptick Joarder   2018-07-17  503  static vm_fault_t
+11bac80004499e Dave Jiang         2017-02-24  504  v9fs_vm_page_mkwrite(struct vm_fault *vmf)
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  505  {
+6b39f6d22fbf67 Aneesh Kumar K.V   2011-02-28 @506  	struct v9fs_inode *v9inode;
+78525c74d9e7d1 David Howells      2021-08-11  507  	struct folio *folio = page_folio(vmf->page);
+11bac80004499e Dave Jiang         2017-02-24  508  	struct file *filp = vmf->vma->vm_file;
+496ad9aa8ef448 Al Viro            2013-01-23  509  	struct inode *inode = file_inode(filp);
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  510  
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  511  
+78525c74d9e7d1 David Howells      2021-08-11  512  	p9_debug(P9_DEBUG_VFS, "folio %p fid %lx\n",
+78525c74d9e7d1 David Howells      2021-08-11  513  		 folio, (unsigned long)filp->private_data);
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  514  
+eb497943fa2158 David Howells      2021-11-02  515  	v9inode = V9FS_I(inode);
+eb497943fa2158 David Howells      2021-11-02  516  
+eb497943fa2158 David Howells      2021-11-02  517  	/* Wait for the page to be written to the cache before we allow it to
+eb497943fa2158 David Howells      2021-11-02  518  	 * be modified.  We then assume the entire page will need writing back.
+eb497943fa2158 David Howells      2021-11-02  519  	 */
+eb497943fa2158 David Howells      2021-11-02  520  #ifdef CONFIG_9P_FSCACHE
+78525c74d9e7d1 David Howells      2021-08-11  521  	if (folio_test_fscache(folio) &&
+78525c74d9e7d1 David Howells      2021-08-11  522  	    folio_wait_fscache_killable(folio) < 0)
+78525c74d9e7d1 David Howells      2021-08-11  523  		return VM_FAULT_NOPAGE;
+eb497943fa2158 David Howells      2021-11-02  524  #endif
+eb497943fa2158 David Howells      2021-11-02  525  
+120c2bcad80c0f Jan Kara           2012-06-12  526  	/* Update file times before taking page lock */
+120c2bcad80c0f Jan Kara           2012-06-12  527  	file_update_time(filp);
+120c2bcad80c0f Jan Kara           2012-06-12  528  
+78525c74d9e7d1 David Howells      2021-08-11  529  	if (folio_lock_killable(folio) < 0)
+eb497943fa2158 David Howells      2021-11-02  530  		return VM_FAULT_RETRY;
+78525c74d9e7d1 David Howells      2021-08-11  531  	if (folio_mapping(folio) != inode->i_mapping)
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  532  		goto out_unlock;
+78525c74d9e7d1 David Howells      2021-08-11  533  	folio_wait_stable(folio);
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  534  
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  535  	return VM_FAULT_LOCKED;
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  536  out_unlock:
+78525c74d9e7d1 David Howells      2021-08-11  537  	folio_unlock(folio);
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  538  	return VM_FAULT_NOPAGE;
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  539  }
+7263cebed9fada Aneesh Kumar K.V   2011-02-28  540  
+
+:::::: The code at line 506 was first introduced by commit
+:::::: 6b39f6d22fbf67cf795c105b4d67c64e9c352ca4 fs/9p: Move writeback fid to v9fs_inode
+
+:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
+:::::: CC: Eric Van Hensbergen <ericvh@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
