@@ -1,42 +1,68 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B400A10F9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 10:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E50210F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 11:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674557692; x=1706093692;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qi+7SW7aoFGfuHzY4VIkPIPzjEn5SEGmt2fD1eqhmhY=;
-  b=ZgvcWQV5rAWGPp5hKg2OHV8YbYeCWoIgrFWx5pRy/XYwX7c9lP9MJsUo
-   nLiHJ2weytVinpEVOHA6XVs36hyhxGEvOEC0MSMbWMnxy/kw9yhkN7nzV
-   AJ4vRp0EWOnT81NwGdGmqigt1ZB1NaBMdrxa2+YOILeIj/IOd1x6aauNc
-   k+e4AtkONmmSW2Tyv/eAxzJmIg7IdSHQ3zOqMSBj3hCOo++04zdAvAo1Y
-   nL9aVLOpXfkgYXUsM1tu55r0b/B21Ic72lhI3XQxIhls0KN1KF/WkB7hl
-   gl2uEw0EaiSdTiCjc/wjbD3T1gNUVDRhVvX9IKWGmg/3jGCt13YuSE5IJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327527135"
+  t=1674558300; x=1706094300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u+FzOBKj0QPqSqfYENp7du/NiCKXB3DsBUyRD+FK49U=;
+  b=HUPaJ5ZA4+MUF+z1xAJ9r1mZHldnwvOu29135fTria8JfIhRej/IUlTP
+   peKrbstMi2IpIoAkoVgn4gFCx8O3h/7f+EAkSOM+HQ8eDoftryEBNd62h
+   28Zywf/sNwKWOXwMA3ifraDzNguugISYoFUWM7Gq5aywX9CAM6w98FwKR
+   Rh4dV7XbE9eh3HCAcMWqfo1yqjNJKroWLmBmrF6q+XsypC29NE1ljcJHq
+   Wj4Kb+MDu72b69k8JMAWk93iIC43cQj8DI5HVPSBkZj2fc2mQQNLeN047
+   URWqP4reETR2yo46ejHgeAyBW04kN7W7xyjzrAr+52gYsK5Gxs4zG8MNJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314171051"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="327527135"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:54:52 -0800
+   d="scan'208";a="314171051"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 03:04:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="907442406"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835924857"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="907442406"
+   d="scan'208";a="835924857"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2023 02:54:51 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2023 03:04:51 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKGx0-0006M0-09;
-	Tue, 24 Jan 2023 10:54:50 +0000
-Date: Tue, 24 Jan 2023 18:54:22 +0800
+	id 1pKH6g-0006Mo-36;
+	Tue, 24 Jan 2023 11:04:50 +0000
+Date: Tue, 24 Jan 2023 19:04:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:dev-6.1 91/98] drivers/hwmon/smpro-hwmon.c:378:2: warning:
- unannotated fall-through between switch labels
-Message-ID: <202301241811.lybp73Qv-lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
+Message-ID: <202301241800.pdnow11d-lkp@intel.com>
+References: <20230124084323.1363825-2-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,69 +71,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230124084323.1363825-2-usama.anjum@collabora.com>
 
-tree:   https://github.com/shenki/linux dev-6.1
-head:   184ecb900ee970854da962d29016b9f7c73f84aa
-commit: 01304d618e60d1fed3a5ab7d724d3069a1c1e9b9 [91/98] hwmon: Add Ampere's Altra smpro-hwmon driver
-config: riscv-randconfig-r042-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241811.lybp73Qv-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+Hi Muhammad,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v6.2-rc5 next-20230124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20230124084323.1363825-2-usama.anjum%40collabora.com
+patch subject: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230124/202301241800.pdnow11d-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/shenki/linux/commit/01304d618e60d1fed3a5ab7d724d3069a1c1e9b9
-        git remote add shenki https://github.com/shenki/linux
-        git fetch --no-tags shenki dev-6.1
-        git checkout 01304d618e60d1fed3a5ab7d724d3069a1c1e9b9
+        # https://github.com/intel-lab-lkp/linux/commit/59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
+        git checkout 59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/hwmon/
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/smpro-hwmon.c:378:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   drivers/hwmon/smpro-hwmon.c:378:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   1 warning generated.
+   In file included from include/linux/mm_inline.h:9,
+                    from kernel/fork.c:46:
+>> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
+     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
+     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:862:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
+     862 | void __init __weak arch_task_cache_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:957:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
+     957 | int __weak arch_dup_task_struct(struct task_struct *dst,
+         |            ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/hugetlb.h:14,
+                    from kernel/sysctl.c:46:
+>> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
+     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mm_inline.h:9,
+                    from mm/memory.c:44:
+>> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
+     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   mm/memory.c: In function 'wp_huge_pmd':
+   mm/memory.c:4824:33: error: implicit declaration of function 'set_pmd_at'; did you mean 'set_pte_at'? [-Werror=implicit-function-declaration]
+    4824 |                                 set_pmd_at(vmf->vma->vm_mm, vmf->address, vmf->pmd,
+         |                                 ^~~~~~~~~~
+         |                                 set_pte_at
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/hugetlb.h:14,
+                    from fs/proc/meminfo.c:6:
+>> include/linux/userfaultfd_k.h:278:5: warning: no previous prototype for 'userfaultfd_wp_async' [-Wmissing-prototypes]
+     278 | int userfaultfd_wp_async(struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   fs/proc/meminfo.c:22:28: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
+      22 | void __attribute__((weak)) arch_report_meminfo(struct seq_file *m)
+         |                            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +378 drivers/hwmon/smpro-hwmon.c
+vim +/userfaultfd_wp_async +278 include/linux/userfaultfd_k.h
 
-   359	
-   360	static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
-   361					u32 attr, int channel)
-   362	{
-   363		const struct smpro_hwmon *hwmon = data;
-   364		unsigned int value;
-   365		int ret;
-   366	
-   367		switch (type) {
-   368		case hwmon_temp:
-   369			switch (attr) {
-   370			case hwmon_temp_input:
-   371			case hwmon_temp_label:
-   372			case hwmon_temp_crit:
-   373				ret = regmap_read(hwmon->regmap, temperature[channel].reg, &value);
-   374				if (ret || value == 0xFFFF)
-   375					return 0;
-   376			break;
-   377			}
- > 378		default:
-   379			break;
-   380		}
-   381	
-   382		return 0444;
-   383	}
-   384	
+   277	
+ > 278	int userfaultfd_wp_async(struct vm_area_struct *vma)
+   279	{
+   280		return false;
+   281	}
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
