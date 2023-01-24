@@ -1,44 +1,62 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0C6A5E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 05:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F10DEA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 05:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674537404; x=1706073404;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Uo0wout2+iBrj/L6YytqnihCb5YljOB25hxK6koSQC8=;
-  b=FhS723D+YvG9+ui/pBfY9tPxR6+HAYBq+r/qoDptM0/XUGbDieAUCKPm
-   coVtzSQt3VcGPYyAPoYnD//ILwTUdQGmPaU8xdKIaTgwu7cDAv6HZFpzJ
-   XcucdLErChP+xEkjhjgrLZJtAmAEu1Bgz8oS5O5b4BHWTZ1Bj+3xbbHvC
-   9Av2ryBdqQUkHpkdY7H1hchUZsBOPCbeW/js12PFN8S67mf5mYUH4WZFK
-   LC77ZVXjbHoCmuzkNhy2OwoZCDvA+UY4RkNjRF6UPNIbaCW4l+TdQOWDs
-   KcCS5NthjW2rF/b8X5Un4VtQ4RdDEWdsknrwT4t3/nu/dturk8UwNXT37
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328317320"
+  t=1674539268; x=1706075268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OzWihTV77CXUJPR2F/JLCAMf2dU1W7zKj6fkn1qeVi4=;
+  b=cEms7jQnE1ViH2/lP6/ElNm7bCcNNqhxr5qEwb6/gYHk3KCtsFpvZvjt
+   cdicfsefA8moqvBttkp+gwVabAuB14Je5LpnTvioCQ3c57izkh+J3Z89w
+   L2ZWEiJadUwbkDZcjBxVdNhurPeFYeUQdPkxotjXB6aevPZM3VFTpTjJl
+   1EeU3nHcRt2OL1RRRC9lXfRD9Tl5RjkZ3mTvjDlI6povMtx5LNUfA8eZM
+   50zOt+vFv/2MXHV9qRekErMUYSfUjEBryJOJdw8QjvKOsrHJ8HQCVvinI
+   ur0wRdODmgcsMAIJlSmdHXGtKwz01FsS/cLUUlIPC/VbO7dxsKOewkNed
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306587577"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="328317320"
+   d="scan'208";a="306587577"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 21:16:43 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 21:47:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835853977"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835859363"
 X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="835853977"
+   d="scan'208";a="835859363"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 Jan 2023 21:16:41 -0800
+  by orsmga005.jf.intel.com with ESMTP; 23 Jan 2023 21:47:42 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKBfk-0006AC-2N;
-	Tue, 24 Jan 2023 05:16:40 +0000
-Date: Tue, 24 Jan 2023 13:16:10 +0800
+	id 1pKC9l-0006Au-0V;
+	Tue, 24 Jan 2023 05:47:41 +0000
+Date: Tue, 24 Jan 2023 13:46:57 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Brandon Brnich <b-brnich@ti.com>,
-	Prasanth Babu Mantena <p-mantena@ti.com>, Andrew Davis <afd@ti.com>
-Subject: [ti:ti-linux-5.10.y 20399/20446]
- drivers/media/platform/chips-media/wave5/wave5-hw.c:122:28: warning: left
- shift count >= width of type
-Message-ID: <202301241310.HZs4qszu-lkp@intel.com>
+To: George Prekas <george@enfabrica.net>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Fenghua Yu <fenghua.yu@intel.com>, Andrei Vagin <avagin@gmail.com>,
+	George Prekas <george@enfabrica.net>
+Subject: Re: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
+Message-ID: <202301241355.ytFzL2p6-lkp@intel.com>
+References: <20230123170419.7292-2-george@enfabrica.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,59 +65,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230123170419.7292-2-george@enfabrica.net>
 
-Hi Nas,
+Hi George,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y
-head:   90976f615b7ec6d31eba0db18c5b6844a3371e10
-commit: 0701e20ef09c97d8bd786ac9489284e8eb5401b7 [20399/20446] wave5: Support 48bit memory address.
-config: h8300-randconfig-r021-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241310.HZs4qszu-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.1.0
+[auto build test WARNING on vbabka-slab/for-next]
+[also build test WARNING on linus/master v6.2-rc5 next-20230123]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-next
+patch link:    https://lore.kernel.org/r/20230123170419.7292-2-george%40enfabrica.net
+patch subject: [PATCH 1/9] mm: kmemleak: properly disable task stack scanning
+config: arc-randconfig-r043-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241355.ytFzL2p6-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-linux-5.10.y
-        git checkout 0701e20ef09c97d8bd786ac9489284e8eb5401b7
+        # https://github.com/intel-lab-lkp/linux/commit/f0d9df4305849ecea4402bc614cadb0dd357da77
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review George-Prekas/mm-kmemleak-properly-disable-task-stack-scanning/20230124-010911
+        git checkout f0d9df4305849ecea4402bc614cadb0dd357da77
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/media/platform/chips-media/wave5/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/chips-media/wave5/wave5-hw.c: In function 'wave5_read_reg_for_mem_addr':
->> drivers/media/platform/chips-media/wave5/wave5-hw.c:122:28: warning: left shift count >= width of type [-Wshift-count-overflow]
-     122 |         addr = ((high_addr << 32) | val);
-         |                            ^~
---
-   drivers/media/platform/chips-media/wave5/wave5-vpu.c: In function 'wave5_vpu_probe':
->> drivers/media/platform/chips-media/wave5/wave5-vpu.c:284:49: warning: right shift count >= width of type [-Wshift-count-overflow]
-     284 |         dev->ext_addr = ((dev->common_mem.daddr >> 32) & 0xFFFF);
-         |                                                 ^~
+   mm/kmemleak.c: In function 'kmemleak_mark_stack':
+>> mm/kmemleak.c:1244:46: warning: passing argument 1 of 'find_and_get_object' makes integer from pointer without a cast [-Wint-conversion]
+    1244 |                 object = find_and_get_object(ptr, 0);
+         |                                              ^~~
+         |                                              |
+         |                                              const void *
+   mm/kmemleak.c:561:66: note: expected 'long unsigned int' but argument is of type 'const void *'
+     561 | static struct kmemleak_object *find_and_get_object(unsigned long ptr, int alias)
+         |                                                    ~~~~~~~~~~~~~~^~~
 
 
-vim +122 drivers/media/platform/chips-media/wave5/wave5-hw.c
+vim +/find_and_get_object +1244 mm/kmemleak.c
 
-   113	
-   114	static dma_addr_t wave5_read_reg_for_mem_addr(struct vpu_instance *inst,
-   115						      unsigned int reg_addr)
-   116	{
-   117		dma_addr_t addr;
-   118		dma_addr_t high_addr = inst->dev->ext_addr;
-   119		u32 val;
-   120	
-   121		val = vpu_read_reg(inst->dev, reg_addr);
- > 122		addr = ((high_addr << 32) | val);
-   123	
-   124		return addr;
-   125	}
-   126	
+  1233	
+  1234	/**
+  1235	 * kmemleak_mark_stack - mark the allocated object as a kernel stack
+  1236	 *
+  1237	 * @ptr:	pointer to beginning of the object
+  1238	 */
+  1239	void __ref kmemleak_mark_stack(const void *ptr)
+  1240	{
+  1241		struct kmemleak_object *object;
+  1242	
+  1243		if (kmemleak_enabled && ptr && !IS_ERR(ptr)) {
+> 1244			object = find_and_get_object(ptr, 0);
+  1245			if (object) {
+  1246				object->flags |= OBJECT_STACK;
+  1247				put_object(object);
+  1248			}
+  1249		}
+  1250	}
+  1251	
 
 -- 
 0-DAY CI Kernel Test Service
