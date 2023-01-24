@@ -1,43 +1,69 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB0F10E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 09:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DBA10F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 10:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674553971; x=1706089971;
+  t=1674554638; x=1706090638;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OuTRdUvURoyRxToZgF00U7bx31QcOMCMmQJxYgLhP5U=;
-  b=HqLa2dWo9nHTv6bcECk7ZEfy7p02GKQkxEazCkrAfM4Chw3uhjXM21Q+
-   hzLC5cu+zk6R56xpzkkaTTDngpO8D3UKgzo4h8FIJsEg1Iyr39XjneZwx
-   apHFl/7OhBMSKEAvlM4jPtDM3hdKS67P95Z7n5j6ZPZpSnXEUyl/NIuug
-   2eoK1i04Ig+dhKFw2tNKIh8O4NKnbcKSxvfGQIfQ6GBiuSpOL4w12oJMJ
-   m0AYoGmllOJMesLj6vP2eEIK7QUcQC2MtAO1P4WdG6Elf/qDCmC+O/c2J
-   fBeL6EitY8BRPVxNRRuj8OqdJRe7nUue2Yyqt6KGzq8pxjyYr+TdB0u/v
+  bh=8mR/uvzv2jV6r7LTK/xqyg4Ig58IGy9kGuy8OKDjYJU=;
+  b=Gdy5cbeNUeFdvemCZIqIT8eP4XDT5q8wEQkbru9F126JJkc1RC1SukKk
+   vuS3SYldyxlMOHur10Ffk94zuwV3GHkz9fVACQ2iYFDWfwA27UaogixSa
+   6zMIc8BC/ACPvuhYTaDjSnU6I/vzFSgVa9J0Nz473e860X90spSXhPxeA
+   ZXkrUqNjrtu3ExfGdohAXMOCTbZvER9KXfu5g9N1Laz0bU7900tPQDOlV
+   RbdrclGRi+XiSt9eslpWkXTG6ozdyPI0kpK3AB4jr6HQFxxqzBQQr16uM
+   yQRcqZYjcX/dvcFPoSxZhOTACNwye2glgNOoEEIr0KKxCSNIA/KUac46N
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324935817"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328351351"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="324935817"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:52:50 -0800
+   d="scan'208";a="328351351"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:03:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639524284"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="786021876"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="639524284"
+   d="scan'208";a="786021876"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 24 Jan 2023 01:52:49 -0800
+  by orsmga004.jf.intel.com with ESMTP; 24 Jan 2023 02:03:49 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKFyy-0006Jg-0e;
-	Tue, 24 Jan 2023 09:52:48 +0000
-Date: Tue, 24 Jan 2023 17:52:25 +0800
+	id 1pKG9c-0006Jw-1l;
+	Tue, 24 Jan 2023 10:03:48 +0000
+Date: Tue, 24 Jan 2023 18:02:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 16/19] mm/util: Refactor account_locked_vm
-Message-ID: <202301241747.9HloKRGF-lkp@intel.com>
-References: <e72f46bd6be4f3e3c85ba6a560201cf23bdb39a9.1674538665.git-series.apopple@nvidia.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v8 3/4] fs/proc/task_mmu: Implement IOCTL to get and/or
+ the clear info about PTEs
+Message-ID: <202301241708.pfzy132a-lkp@intel.com>
+References: <20230124084323.1363825-4-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,87 +72,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e72f46bd6be4f3e3c85ba6a560201cf23bdb39a9.1674538665.git-series.apopple@nvidia.com>
+In-Reply-To: <20230124084323.1363825-4-usama.anjum@collabora.com>
 
-Hi Alistair,
+Hi Muhammad,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on 2241ab53cbb5cdb08a6b2d4688feb13971058f65]
+Thank you for the patch! Perhaps something to improve:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-Introduce-vm_account/20230124-135027
-base:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-patch link:    https://lore.kernel.org/r/e72f46bd6be4f3e3c85ba6a560201cf23bdb39a9.1674538665.git-series.apopple%40nvidia.com
-patch subject: [RFC PATCH 16/19] mm/util: Refactor account_locked_vm
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241747.9HloKRGF-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v6.2-rc5]
+[cannot apply to next-20230124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20230124084323.1363825-4-usama.anjum%40collabora.com
+patch subject: [PATCH v8 3/4] fs/proc/task_mmu: Implement IOCTL to get and/or the clear info about PTEs
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241708.pfzy132a-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c089a7b505673ff339d4e034218c0d1207d26f5e
+        # https://github.com/intel-lab-lkp/linux/commit/8d3b72e0605d479fbc5c2bc6f4ba9ddfecdb9ccb
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alistair-Popple/mm-Introduce-vm_account/20230124-135027
-        git checkout c089a7b505673ff339d4e034218c0d1207d26f5e
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
+        git checkout 8d3b72e0605d479fbc5c2bc6f4ba9ddfecdb9ccb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/iommu/iommufd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/proc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/iommufd/pages.c: In function 'update_mm_locked_vm':
->> drivers/iommu/iommufd/pages.c:846:60: error: incompatible type for argument 3 of '__account_locked_vm'
-     846 |         rc = __account_locked_vm(pages->source_mm, npages, inc,
-         |                                                            ^~~
-         |                                                            |
-         |                                                            bool {aka _Bool}
-   In file included from include/linux/scatterlist.h:8,
-                    from include/linux/iommu.h:10,
-                    from drivers/iommu/iommufd/pages.c:50:
-   include/linux/mm.h:2095:45: note: expected 'struct task_struct *' but argument is of type 'bool' {aka '_Bool'}
-    2095 |                         struct task_struct *task, bool bypass_rlim);
-         |                         ~~~~~~~~~~~~~~~~~~~~^~~~
->> drivers/iommu/iommufd/pages.c:846:14: error: too many arguments to function '__account_locked_vm'
-     846 |         rc = __account_locked_vm(pages->source_mm, npages, inc,
-         |              ^~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2094:5: note: declared here
-    2094 | int __account_locked_vm(struct mm_struct *mm, unsigned long pages,
-         |     ^~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c: In function 'pagemap_scan_pmd_entry':
+   fs/proc/task_mmu.c:1880:14: warning: unused variable 'pmd_wt' [-Wunused-variable]
+    1880 |         bool pmd_wt;
+         |              ^~~~~~
+   fs/proc/task_mmu.c:1876:22: warning: unused variable 'len' [-Wunused-variable]
+    1876 |         unsigned int len;
+         |                      ^~~
+   fs/proc/task_mmu.c: In function 'do_pagemap_cmd':
+>> fs/proc/task_mmu.c:1971:15: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1971 |         vec = (struct page_region *)untagged_addr(arg->vec);
+         |               ^
 
 
-vim +/__account_locked_vm +846 drivers/iommu/iommufd/pages.c
+vim +1971 fs/proc/task_mmu.c
 
-f394576eb11dbc Jason Gunthorpe 2022-11-29  826  
-f394576eb11dbc Jason Gunthorpe 2022-11-29  827  /* This is the accounting method used for compatibility with VFIO */
-f394576eb11dbc Jason Gunthorpe 2022-11-29  828  static int update_mm_locked_vm(struct iopt_pages *pages, unsigned long npages,
-f394576eb11dbc Jason Gunthorpe 2022-11-29  829  			       bool inc, struct pfn_reader_user *user)
-f394576eb11dbc Jason Gunthorpe 2022-11-29  830  {
-f394576eb11dbc Jason Gunthorpe 2022-11-29  831  	bool do_put = false;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  832  	int rc;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  833  
-f394576eb11dbc Jason Gunthorpe 2022-11-29  834  	if (user && user->locked) {
-f394576eb11dbc Jason Gunthorpe 2022-11-29  835  		mmap_read_unlock(pages->source_mm);
-f394576eb11dbc Jason Gunthorpe 2022-11-29  836  		user->locked = 0;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  837  		/* If we had the lock then we also have a get */
-f394576eb11dbc Jason Gunthorpe 2022-11-29  838  	} else if ((!user || !user->upages) &&
-f394576eb11dbc Jason Gunthorpe 2022-11-29  839  		   pages->source_mm != current->mm) {
-f394576eb11dbc Jason Gunthorpe 2022-11-29  840  		if (!mmget_not_zero(pages->source_mm))
-f394576eb11dbc Jason Gunthorpe 2022-11-29  841  			return -EINVAL;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  842  		do_put = true;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  843  	}
-f394576eb11dbc Jason Gunthorpe 2022-11-29  844  
-f394576eb11dbc Jason Gunthorpe 2022-11-29  845  	mmap_write_lock(pages->source_mm);
-f394576eb11dbc Jason Gunthorpe 2022-11-29 @846  	rc = __account_locked_vm(pages->source_mm, npages, inc,
-f394576eb11dbc Jason Gunthorpe 2022-11-29  847  				 pages->source_task, false);
-f394576eb11dbc Jason Gunthorpe 2022-11-29  848  	mmap_write_unlock(pages->source_mm);
-f394576eb11dbc Jason Gunthorpe 2022-11-29  849  
-f394576eb11dbc Jason Gunthorpe 2022-11-29  850  	if (do_put)
-f394576eb11dbc Jason Gunthorpe 2022-11-29  851  		mmput(pages->source_mm);
-f394576eb11dbc Jason Gunthorpe 2022-11-29  852  	return rc;
-f394576eb11dbc Jason Gunthorpe 2022-11-29  853  }
-f394576eb11dbc Jason Gunthorpe 2022-11-29  854  
+  1960	
+  1961	static long do_pagemap_cmd(struct mm_struct *mm, struct pagemap_scan_arg *arg)
+  1962	{
+  1963		unsigned long empty_slots, vec_index = 0;
+  1964		unsigned long __user start, end;
+  1965		unsigned long __start, __end;
+  1966		struct page_region __user *vec;
+  1967		struct pagemap_scan_private p;
+  1968		int ret;
+  1969	
+  1970		start = (unsigned long)untagged_addr(arg->start);
+> 1971		vec = (struct page_region *)untagged_addr(arg->vec);
+  1972		if ((!IS_ALIGNED(start, PAGE_SIZE)) || (!access_ok((void __user *)start, arg->len)))
+  1973			return -EINVAL;
+  1974		if (IS_GET_OP(arg) && ((arg->vec_len == 0) ||
+  1975		    (!access_ok((void __user *)vec, arg->vec_len * sizeof(struct page_region)))))
+  1976			return -ENOMEM;
+  1977		if ((arg->flags & ~PAGEMAP_WP_ENGAGE) || (arg->required_mask & ~PAGEMAP_OP_MASK) ||
+  1978		    (arg->anyof_mask & ~PAGEMAP_OP_MASK) || (arg->excluded_mask & ~PAGEMAP_OP_MASK) ||
+  1979		    (arg->return_mask & ~PAGEMAP_OP_MASK))
+  1980			return -EINVAL;
+  1981		if (IS_GET_OP(arg) && ((!arg->required_mask && !arg->anyof_mask && !arg->excluded_mask) ||
+  1982					!arg->return_mask))
+  1983			return -EINVAL;
+  1984		/* The non-WT flags cannot be obtained if PAGEMAP_WP_ENGAGE is also specified. */
+  1985		if (IS_WP_ENGAGE_OP(arg) && ((arg->required_mask & PAGEMAP_NONWT_OP_MASK) ||
+  1986		    (arg->anyof_mask & PAGEMAP_NONWT_OP_MASK)))
+  1987			return -EINVAL;
+  1988	
+  1989		end = start + arg->len;
+  1990		p.max_pages = arg->max_pages;
+  1991		p.found_pages = 0;
+  1992		p.flags = arg->flags;
+  1993		p.required_mask = arg->required_mask;
+  1994		p.anyof_mask = arg->anyof_mask;
+  1995		p.excluded_mask = arg->excluded_mask;
+  1996		p.return_mask = arg->return_mask;
+  1997		p.prev.len = 0;
+  1998		p.vec_len = (PAGEMAP_WALK_SIZE >> PAGE_SHIFT);
+  1999	
+  2000		if (IS_GET_OP(arg)) {
+  2001			p.vec = kmalloc_array(p.vec_len, sizeof(struct page_region), GFP_KERNEL);
+  2002			if (!p.vec)
+  2003				return -ENOMEM;
+  2004		} else {
+  2005			p.vec = NULL;
+  2006		}
+  2007		__start = __end = start;
+  2008		while (__end < end) {
+  2009			p.vec_index = 0;
+  2010			empty_slots = arg->vec_len - vec_index;
+  2011			if (p.vec_len > empty_slots)
+  2012				p.vec_len = empty_slots;
+  2013	
+  2014			__end = (__start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
+  2015			if (__end > end)
+  2016				__end = end;
+  2017	
+  2018			mmap_read_lock(mm);
+  2019			ret = walk_page_range(mm, __start, __end, &pagemap_scan_ops, &p);
+  2020			mmap_read_unlock(mm);
+  2021			if (!(!ret || ret == -ENOSPC))
+  2022				goto free_data;
+  2023	
+  2024			__start = __end;
+  2025			if (IS_GET_OP(arg) && p.vec_index) {
+  2026				if (copy_to_user(&vec[vec_index], p.vec,
+  2027						 p.vec_index * sizeof(struct page_region))) {
+  2028					ret = -EFAULT;
+  2029					goto free_data;
+  2030				}
+  2031				vec_index += p.vec_index;
+  2032			}
+  2033		}
+  2034		ret = export_prev_to_out(&p, vec, &vec_index);
+  2035		if (!ret)
+  2036			ret = vec_index;
+  2037	free_data:
+  2038		if (IS_GET_OP(arg))
+  2039			kfree(p.vec);
+  2040	
+  2041		return ret;
+  2042	}
+  2043	
 
 -- 
 0-DAY CI Kernel Test Service
