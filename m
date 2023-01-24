@@ -1,68 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D3610FC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 10:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B400A10F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jan 2023 10:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674557098; x=1706093098;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WI/N8dDuCaM5YVFVz7TJ6+nVIPfjf/MOxR1dR63wjdc=;
-  b=DXSWqjKIhgkb2rxRbv8DufBH1jXh+qQ99Qvb2yCLBPQ/vDWgKd1ITqN6
-   cEV0tUNwBzSU1Fb9Lk7EazxskLVfvCIPmJ8g/WxpNSStlOMB0m7FdvIwU
-   RsYd3jkOLIIpDHDxR8tJAGVMrUWKraV/Nf9go5uSKQVLrcwY16bhIbdku
-   DuF2vkeOm5ywelslYJoVHbPQEyMI5SYlLqndvOyOSCUzgm0vgGBpdrYCa
-   Beezx1J54QlsVXZ9905FMGxzxI4lF3MdnrwCAsqDWX1fxis61mR3syqmK
-   LPlWB+4AeZX+k65ILy0Nvlp9NjYuQ1eLvEhNm1ZuGPCzhLwSIPiBwd8NA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323961530"
+  t=1674557692; x=1706093692;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qi+7SW7aoFGfuHzY4VIkPIPzjEn5SEGmt2fD1eqhmhY=;
+  b=ZgvcWQV5rAWGPp5hKg2OHV8YbYeCWoIgrFWx5pRy/XYwX7c9lP9MJsUo
+   nLiHJ2weytVinpEVOHA6XVs36hyhxGEvOEC0MSMbWMnxy/kw9yhkN7nzV
+   AJ4vRp0EWOnT81NwGdGmqigt1ZB1NaBMdrxa2+YOILeIj/IOd1x6aauNc
+   k+e4AtkONmmSW2Tyv/eAxzJmIg7IdSHQ3zOqMSBj3hCOo++04zdAvAo1Y
+   nL9aVLOpXfkgYXUsM1tu55r0b/B21Ic72lhI3XQxIhls0KN1KF/WkB7hl
+   gl2uEw0EaiSdTiCjc/wjbD3T1gNUVDRhVvX9IKWGmg/3jGCt13YuSE5IJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327527135"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="323961530"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:44:58 -0800
+   d="scan'208";a="327527135"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:54:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694291570"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="907442406"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="694291570"
+   d="scan'208";a="907442406"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2023 02:44:50 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2023 02:54:51 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKGnJ-0006LQ-2P;
-	Tue, 24 Jan 2023 10:44:49 +0000
-Date: Tue, 24 Jan 2023 18:43:59 +0800
+	id 1pKGx0-0006M0-09;
+	Tue, 24 Jan 2023 10:54:50 +0000
+Date: Tue, 24 Jan 2023 18:54:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-Message-ID: <202301241804.zHrFxA0L-lkp@intel.com>
-References: <20230124084323.1363825-2-usama.anjum@collabora.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:dev-6.1 91/98] drivers/hwmon/smpro-hwmon.c:378:2: warning:
+ unannotated fall-through between switch labels
+Message-ID: <202301241811.lybp73Qv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,109 +45,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124084323.1363825-2-usama.anjum@collabora.com>
 
-Hi Muhammad,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on shuah-kselftest/fixes linus/master v6.2-rc5 next-20230124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230124084323.1363825-2-usama.anjum%40collabora.com
-patch subject: [PATCH v8 1/4] userfaultfd: Add UFFD WP Async support
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230124/202301241804.zHrFxA0L-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/shenki/linux dev-6.1
+head:   184ecb900ee970854da962d29016b9f7c73f84aa
+commit: 01304d618e60d1fed3a5ab7d724d3069a1c1e9b9 [91/98] hwmon: Add Ampere's Altra smpro-hwmon driver
+config: riscv-randconfig-r042-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241811.lybp73Qv-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230124-164601
-        git checkout 59e98aec663b7ca8fd5f3b3d2a0f17f777f425c4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/shenki/linux/commit/01304d618e60d1fed3a5ab7d724d3069a1c1e9b9
+        git remote add shenki https://github.com/shenki/linux
+        git fetch --no-tags shenki dev-6.1
+        git checkout 01304d618e60d1fed3a5ab7d724d3069a1c1e9b9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/hwmon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: arch/x86/mm/init_32.o: in function `userfaultfd_wp_async':
->> init_32.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: arch/x86/mm/fault.o: in function `userfaultfd_wp_async':
-   fault.c:(.text+0x8cd): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: arch/x86/mm/pgtable.o: in function `userfaultfd_wp_async':
-   pgtable.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: kernel/fork.o: in function `userfaultfd_wp_async':
-   fork.c:(.text+0x5bb): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: kernel/sysctl.o: in function `userfaultfd_wp_async':
-   sysctl.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: kernel/sys.o: in function `userfaultfd_wp_async':
-   sys.c:(.text+0xb5e): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: kernel/events/core.o: in function `userfaultfd_wp_async':
-   core.c:(.text+0x404c): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/filemap.o: in function `userfaultfd_wp_async':
-   filemap.c:(.text+0x7c5): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/page-writeback.o: in function `userfaultfd_wp_async':
-   page-writeback.c:(.text+0xb69): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/folio-compat.o: in function `userfaultfd_wp_async':
-   folio-compat.c:(.text+0xc): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/readahead.o: in function `userfaultfd_wp_async':
-   readahead.c:(.text+0x128): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/swap.o: in function `userfaultfd_wp_async':
-   swap.c:(.text+0x6e5): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/vmscan.o: in function `userfaultfd_wp_async':
-   vmscan.c:(.text+0xf96): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/shmem.o: in function `userfaultfd_wp_async':
-   shmem.c:(.text+0x91): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/util.o: in function `userfaultfd_wp_async':
-   util.c:(.text+0x2b): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/vmstat.o: in function `userfaultfd_wp_async':
-   vmstat.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/compaction.o: in function `userfaultfd_wp_async':
-   compaction.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/workingset.o: in function `userfaultfd_wp_async':
-   workingset.c:(.text+0x181): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/debug.o: in function `userfaultfd_wp_async':
-   debug.c:(.text+0xb9): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/gup.o: in function `userfaultfd_wp_async':
-   gup.c:(.text+0x2ae): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/memory.o: in function `userfaultfd_wp_async':
-   memory.c:(.text+0x737): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mincore.o: in function `userfaultfd_wp_async':
-   mincore.c:(.text+0x149): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mlock.o: in function `userfaultfd_wp_async':
-   mlock.c:(.text+0x90e): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mmap.o: in function `userfaultfd_wp_async':
-   mmap.c:(.text+0x4d8): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mmu_gather.o: in function `userfaultfd_wp_async':
-   mmu_gather.c:(.text+0x29): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mprotect.o: in function `userfaultfd_wp_async':
-   mprotect.c:(.text+0x45): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/mremap.o: in function `userfaultfd_wp_async':
-   mremap.c:(.text+0x36b): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/page_vma_mapped.o: in function `userfaultfd_wp_async':
-   page_vma_mapped.c:(.text+0x28): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/pagewalk.o: in function `userfaultfd_wp_async':
-   pagewalk.c:(.text+0x30d): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/pgtable-generic.o: in function `userfaultfd_wp_async':
-   pgtable-generic.c:(.text+0x0): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/rmap.o: in function `userfaultfd_wp_async':
-   rmap.c:(.text+0x655): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/vmalloc.o: in function `userfaultfd_wp_async':
-   vmalloc.c:(.text+0x1546): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: mm/page_alloc.o: in function `userfaultfd_wp_async':
-   page_alloc.c:(.text+0xdb1): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: fs/splice.o: in function `userfaultfd_wp_async':
-   splice.c:(.text+0x6f8): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
-   ld: security/commoncap.o: in function `userfaultfd_wp_async':
-   commoncap.c:(.text+0x8b): multiple definition of `userfaultfd_wp_async'; arch/x86/kernel/setup.o:setup.c:(.text+0x3): first defined here
+>> drivers/hwmon/smpro-hwmon.c:378:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   drivers/hwmon/smpro-hwmon.c:378:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   1 warning generated.
+
+
+vim +378 drivers/hwmon/smpro-hwmon.c
+
+   359	
+   360	static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
+   361					u32 attr, int channel)
+   362	{
+   363		const struct smpro_hwmon *hwmon = data;
+   364		unsigned int value;
+   365		int ret;
+   366	
+   367		switch (type) {
+   368		case hwmon_temp:
+   369			switch (attr) {
+   370			case hwmon_temp_input:
+   371			case hwmon_temp_label:
+   372			case hwmon_temp_crit:
+   373				ret = regmap_read(hwmon->regmap, temperature[channel].reg, &value);
+   374				if (ret || value == 0xFFFF)
+   375					return 0;
+   376			break;
+   377			}
+ > 378		default:
+   379			break;
+   380		}
+   381	
+   382		return 0444;
+   383	}
+   384	
 
 -- 
 0-DAY CI Kernel Test Service
