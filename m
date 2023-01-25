@@ -1,43 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB023C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 13:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B272823C4;
+	Wed, 25 Jan 2023 13:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674651988; x=1706187988;
+  t=1674652595; x=1706188595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1mqywrJMeeZYtMk3BB+H3FwoqOF0jCFCdHv1yVtRogc=;
-  b=Q3uZSLTKOf5toaMJPD7qMIOIUh0G0FcuT1LcAeLNEtxeCyuzNCPRmdHB
-   qkwd6fyC6Ss8MhIkDugDNzqHjZt7xFwOpJaHjbVYL+qiwCa0ddH/yUn/4
-   Q/AY+twHi2gCaFzlGO+ki1TOxLIpEpJGa4CZCgb9r4bfGC9qGUmHPb8cY
-   9fEeynljT3hLq7jB6TdElUYJv71WBLIdje0OFHhHdqiQngjnoXAqRE8yg
-   2sdzW8NJjVQvwmEJeiuE8eRce8tQYUr5M2RZfAem0uldb407kAUIVD7iO
-   ILVRRbIsqCOXGCCX+zwml11Qqw9f0+mJYvaK+rc2CRGyX9AKcAtKmqzz7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="326577219"
+  bh=7UnPFfUeO/rkvQBxL2H5hpkkooZPIL4FitjEHS7Iop4=;
+  b=WBYbjhsEFF6n2ODlVMWB3UOgreU50doTpen1Jp6BRB8InipOMeDjB6yV
+   99X14A0g4TNfToJX8yz/JhiLCOv+QkVfAlp4tnNkbtVb6pbMeQ3552n+Z
+   SzMutaEpUwBRUhR3iR+DmXsAfcueiuiETtv+/svUQ6PmxZMl34s0DVuPd
+   5WOSyxf2VXsFTqn1G/YW1BzxLucLmQtUCM3HUkTeOSXmRf4iQorHqSLpz
+   P3LQ5Zzosu6iDlOXJdpVWmPDRXgBc00SlQSssocJkyBIQ29iX2yX4EkB+
+   2VLDaboBOBBeYzalCNHZI1BvMrT4aIwJhzLFIIaLi/EhSgYQ/cJGYJNya
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="391055885"
 X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="326577219"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 05:06:13 -0800
+   d="scan'208";a="391055885"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 05:16:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="694728274"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="751187548"
 X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="694728274"
+   d="scan'208";a="751187548"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Jan 2023 05:06:11 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Jan 2023 05:16:33 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKfTf-0007JY-0L;
-	Wed, 25 Jan 2023 13:06:11 +0000
-Date: Wed, 25 Jan 2023 21:05:11 +0800
+	id 1pKfdg-0007K0-0y;
+	Wed, 25 Jan 2023 13:16:32 +0000
+Date: Wed, 25 Jan 2023 21:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 5/13]
- drivers/hid/hid-playstation.c:816: undefined reference to
- `led_mc_calc_color_components'
-Message-ID: <202301252121.lxM3hnvQ-lkp@intel.com>
+To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 7775/7923] include/linux/mm.h:918:23: error: call
+ to undeclared function 'page_to_section'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202301252152.QmVnQfjf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,50 +49,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   56c8a404365f8d4733f82456bea32b4f832e0954
-commit: e1cd3ffe478871deb44f1ce2fbe6a6c8e7e08ab3 [5/13] UPSTREAM: HID: playstation: expose DualSense lightbar through a multi-color LED.
-config: x86_64-randconfig-c022-20230123 (https://download.01.org/0day-ci/archive/20230125/202301252121.lxM3hnvQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9fbee811e479aca2f3523787cae1f46553141b40
+commit: 59c975083d3705f1df1355f90150df6c40360a16 [7775/7923] mm: add folio_estimated_mapcount()
+config: arm-randconfig-r005-20230123 (https://download.01.org/0day-ci/archive/20230125/202301252152.QmVnQfjf-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-5.10
-        git checkout e1cd3ffe478871deb44f1ce2fbe6a6c8e7e08ab3
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=59c975083d3705f1df1355f90150df6c40360a16
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 59c975083d3705f1df1355f90150df6c40360a16
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
+Note: the linux-next/master HEAD 9fbee811e479aca2f3523787cae1f46553141b40 builds fine.
+      It may have been fixed somewhere.
+
 All errors (new ones prefixed by >>):
 
-   ld: drivers/hid/hid-playstation.o: in function `dualsense_lightbar_set_brightness':
->> drivers/hid/hid-playstation.c:816: undefined reference to `led_mc_calc_color_components'
-   ld: drivers/hid/hid-playstation.o: in function `devm_led_classdev_multicolor_register':
->> include/linux/led-class-multicolor.h:74: undefined reference to `devm_led_classdev_multicolor_register_ext'
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+>> include/linux/mm.h:918:23: error: call to undeclared function 'page_to_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return page_mapcount(folio_page(folio, 0));
+                                ^
+   include/linux/page-flags.h:286:30: note: expanded from macro 'folio_page'
+   #define folio_page(folio, n)    nth_page(&(folio)->page, n)
+                                   ^
+   include/linux/mm.h:216:38: note: expanded from macro 'nth_page'
+   #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+                                        ^
+   include/asm-generic/memory_model.h:52:21: note: expanded from macro 'page_to_pfn'
+   #define page_to_pfn __page_to_pfn
+                       ^
+   include/asm-generic/memory_model.h:35:14: note: expanded from macro '__page_to_pfn'
+           int __sec = page_to_section(__pg);                      \
+                       ^
+   include/linux/mm.h:918:23: note: did you mean '__nr_to_section'?
+   include/linux/page-flags.h:286:30: note: expanded from macro 'folio_page'
+   #define folio_page(folio, n)    nth_page(&(folio)->page, n)
+                                   ^
+   include/linux/mm.h:216:38: note: expanded from macro 'nth_page'
+   #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+                                        ^
+   include/asm-generic/memory_model.h:52:21: note: expanded from macro 'page_to_pfn'
+   #define page_to_pfn __page_to_pfn
+                       ^
+   include/asm-generic/memory_model.h:35:14: note: expanded from macro '__page_to_pfn'
+           int __sec = page_to_section(__pg);                      \
+                       ^
+   include/linux/mmzone.h:1843:35: note: '__nr_to_section' declared here
+   static inline struct mem_section *__nr_to_section(unsigned long nr)
+                                     ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+>> include/linux/mm.h:1626:29: error: static declaration of 'page_to_section' follows non-static declaration
+   static inline unsigned long page_to_section(const struct page *page)
+                               ^
+   include/linux/mm.h:918:23: note: previous implicit declaration is here
+           return page_mapcount(folio_page(folio, 0));
+                                ^
+   include/linux/page-flags.h:286:30: note: expanded from macro 'folio_page'
+   #define folio_page(folio, n)    nth_page(&(folio)->page, n)
+                                   ^
+   include/linux/mm.h:216:38: note: expanded from macro 'nth_page'
+   #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+                                        ^
+   include/asm-generic/memory_model.h:52:21: note: expanded from macro 'page_to_pfn'
+   #define page_to_pfn __page_to_pfn
+                       ^
+   include/asm-generic/memory_model.h:35:14: note: expanded from macro '__page_to_pfn'
+           int __sec = page_to_section(__pg);                      \
+                       ^
+   2 errors generated.
+   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +816 drivers/hid/hid-playstation.c
+vim +/page_to_section +918 include/linux/mm.h
 
-   808	
-   809	static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
-   810		enum led_brightness brightness)
-   811	{
-   812		struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-   813		struct dualsense *ds = container_of(mc_cdev, struct dualsense, lightbar);
-   814		uint8_t red, green, blue;
-   815	
- > 816		led_mc_calc_color_components(mc_cdev, brightness);
-   817		red = mc_cdev->subled_info[0].brightness;
-   818		green = mc_cdev->subled_info[1].brightness;
-   819		blue = mc_cdev->subled_info[2].brightness;
-   820	
-   821		dualsense_set_lightbar(ds, red, green, blue);
-   822		return 0;
-   823	}
-   824	
+   915	
+   916	static inline int folio_estimated_mapcount(struct folio *folio)
+   917	{
+ > 918		return page_mapcount(folio_page(folio, 0));
+   919	}
+   920	
 
 -- 
 0-DAY CI Kernel Test Service
