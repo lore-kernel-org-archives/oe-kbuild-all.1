@@ -1,126 +1,94 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62221381
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 07:59:48 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30P7jCEl010113;
-	Wed, 25 Jan 2023 07:59:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=tbmwcRINlEFcXEbMDAVwgpPTxxQYRDQfGvNfRvkTt3g=;
- b=BTkIdnF1fhp4rV5Nvy91YOp7LGNKNxaAHqIU8pXCRBtsnAtStHQBnB7j2NefKo4UkIpA
- JGgClzqrZFK20PWiBVbqtEAEK4tn9BL3eHgONv4hpq5YoXU6b+XIu39L5Nk3CsVlzbf1
- EEfx6ZtOsPgDdrqShU86FvwDomunFLjw9248muWLoDUHnvDgtOmSRpHQzurhtDVZK55/
- H3y2Lpjchd7lDw7xfxJzRQL2F3OJYoPEj1us+5nxTk+grrYbPejuPsmalgdRxRlDeTMr
- KMie9MJoB8aG19QPtBwZ51fr93+omSEW7knfU5HXmJs9uOpuTuvajc/+6Of1zG5E5e05 dQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3najqa9bba-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Jan 2023 07:59:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30P7xZ77010821
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Jan 2023 07:59:35 GMT
-Received: from [10.50.40.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 24 Jan
- 2023 23:59:30 -0800
-Message-ID: <5ca6868c-4e1b-9770-a6e3-d3a961eea757@quicinc.com>
-Date: Wed, 25 Jan 2023 13:29:11 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690D31381;
+	Wed, 25 Jan 2023 08:11:05 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so658937wmb.2;
+        Wed, 25 Jan 2023 00:11:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8sDHnz2X4jKlZi40pxASQBhXqJeasoMyGKYQxA9bpA0=;
+        b=D76ZlgQ5Dq8oV9oaLZqa86dGqCTEFAQtwrvjLGFuuDbcbrLNbdJiuHVJPT4aH0pKJG
+         kf1LpuZ9eLsS6U/ut8X7LB6hZGAVnelXyvm6I+8bnSSTsWM6PF1b7x+340HzDHDTlk3Y
+         fVq45d+z3U7N571zUUUq13nZoWkd3zfxgBnNtTlcwxEK9rdEFzH6luyf2d8zgJduDqM+
+         yNkmEpnQuvHde/fTKZAvH4EKQ4/cy51Wzpq1vMkJImIojuzgYd4XmB5gPjkAgozwrEvq
+         k8IvCXkHKtMiNTdWFva65WHcFILqdPTP/sjVOM+PWewZg69o0eiqkQSh25VPnzQSrPk7
+         7YMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8sDHnz2X4jKlZi40pxASQBhXqJeasoMyGKYQxA9bpA0=;
+        b=jsR9X8RCroFRB/hbVQTXnFqaw4cD6lZClJ4Zoq4oCOM1CxK1yvE0ZA5IkbjZLbimPC
+         EGdn2fkCSm1jzurZYFxz1d+orAH7cDXKXwpWXteOGii9CQI0EfE0/n4tpibdkVucG1qP
+         Me62MJcnRkYpAWaPbGYHCTTcPh6WIbZsP++JRVzXQuAyldm1IcYSJvaXESXgrZefl09B
+         OaettkiQdX0Mh1eUsDjp0wr7fjXBObsQ4vMzX34xROyHB7+sQwxHdnDLN4FMEjFmFakC
+         GlUPxbhexUqFaI3sBsE9VQUoihHrXcSOtLMkOfcuBfx4HxUGXCDyG/qx1vA+jtT+yEbM
+         jrdA==
+X-Gm-Message-State: AFqh2kqjUD7yBILpkq424AgMMFpYtRWUSNDzj2a9WHJ1p2Ke2aIlSaMl
+	Y/H2FqcHJ4Xmo7bD4OSQGNeXeG2R2HrpCQ==
+X-Google-Smtp-Source: AMrXdXvLvmk+e7CCpAMCVatDLnDV1rWjI+W1eNdhnaSXIdHiHuDK2WgOl2cNyyZp7MrRoGtgZGLr+Q==
+X-Received: by 2002:a05:600c:a4d:b0:3db:1d6:16f7 with SMTP id c13-20020a05600c0a4d00b003db01d616f7mr27730831wmq.23.1674634263285;
+        Wed, 25 Jan 2023 00:11:03 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f9-20020a05600c4e8900b003d990372dd5sm1172789wmq.20.2023.01.25.00.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 00:11:02 -0800 (PST)
+Date: Wed, 25 Jan 2023 11:10:58 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
+ kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
+ statement not indented
+Message-ID: <Y9DkEpSWDthHDRGn@kadam>
+References: <202301241716.MgPWF6fU-lkp@intel.com>
+ <Y8+tTlFbtbVMhUNI@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH V0 1/1] soc: qcom: dcc: Add QAD, Cti-trigger and
- Bootconfig support for DCC
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Andy Gross <agross@kernel.org>,
-        "Konrad
- Dybcio" <konrad.dybcio@somainline.org>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Rob Herring
-	<robh+dt@kernel.org>, Alex Elder <elder@ieee.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
-        Sibi Sankar <quic_sibis@quicinc.com>,
-        Rajendra Nayak
-	<quic_rjendra@quicinc.com>, <vkoul@kernel.org>
-References: <8337e5672559b197a13699d2c0ee69f18f6167a6.1673247689.git.quic_schowdhu@quicinc.com>
- <202301092313.RPU8Nsb1-lkp@intel.com>
-From: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-In-Reply-To: <202301092313.RPU8Nsb1-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IIeIRvrTZ3jeEwbgDxBf-4yzTtghF-4g
-X-Proofpoint-ORIG-GUID: IIeIRvrTZ3jeEwbgDxBf-4yzTtghF-4g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-25_04,2023-01-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 spamscore=0 mlxscore=0 clxscore=1011
- impostorscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301250073
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8+tTlFbtbVMhUNI@kadam>
 
+On Tue, Jan 24, 2023 at 01:05:02PM +0300, Dan Carpenter wrote:
+> On Tue, Jan 24, 2023 at 12:32:14PM +0300, Dan Carpenter wrote:
+> > Should probably
+> > create a static checker warning for nested loops where the inside loop
+> > resets the outside iterator to zero.
+> 
+> Done!  I'll test that out tonight.
+> 
+> kernel/rcu/rcutorture.c:3582 rcu_torture_init_srcu_lockdep() warn: re-using outside iterator: 'i'
 
+This check is delightful.  :)  I'm going to send patches for these.
 
-On 1/9/2023 8:58 PM, kernel test robot wrote:
-> Hi Souradeep,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on next-20230109]
-> [cannot apply to clk/clk-next soc/for-next linus/master v6.2-rc3 v6.2-rc2 v6.2-rc1 v6.2-rc3]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/soc-qcom-dcc-Add-QAD-Cti-trigger-and-Bootconfig-support-for-DCC/20230109-181920
-> patch link:    https://lore.kernel.org/r/8337e5672559b197a13699d2c0ee69f18f6167a6.1673247689.git.quic_schowdhu%40quicinc.com
-> patch subject: [PATCH V0 1/1] soc: qcom: dcc: Add QAD, Cti-trigger and Bootconfig support for DCC
-> config: powerpc-allmodconfig
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/887ce0321641a448b3c53ad5e3f5b05a47c83ae9
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Souradeep-Chowdhury/soc-qcom-dcc-Add-QAD-Cti-trigger-and-Bootconfig-support-for-DCC/20230109-181920
->          git checkout 887ce0321641a448b3c53ad5e3f5b05a47c83ae9
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
->>> ERROR: modpost: "xbc_node_get_child" [drivers/soc/qcom/dcc.ko] undefined!
->>> ERROR: modpost: "xbc_node_get_next" [drivers/soc/qcom/dcc.ko] undefined!
->>> ERROR: modpost: "xbc_node_find_value" [drivers/soc/qcom/dcc.ko] undefined!
->>> ERROR: modpost: "xbc_node_get_data" [drivers/soc/qcom/dcc.ko] undefined!
->>> ERROR: modpost: "xbc_node_find_subkey" [drivers/soc/qcom/dcc.ko] undefined!
-> 
+drivers/gpu/drm/msm/adreno/a5xx_gpu.c:95 a5xx_submit_in_rb() warn: re-using outside iterator: 'i'
+drivers/gpu/drm/vc4/vc4_kms.c:561 vc4_ctm_atomic_check() warn: re-using outside iterator: 'i'
+drivers/net/ethernet/cavium/liquidio/lio_ethtool.c:2755 cn23xx_read_csr_reg() warn: re-using outside iterator: 'i'
+drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:936 mvpp2_bm_pool_update_priv_fc() warn: re-using outside iterator: 'i'
+drivers/net/wireless/marvell/mwifiex/11n.c:912 mwifiex_update_ampdu_txwinsize() warn: re-using outside iterator: 'i'
+drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:870 mwifiex_update_ampdu_rxwinsize() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188f.c:1265 rtl8188fu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8723b.c:1168 rtl8723bu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:3298 rtl8xxxu_gen1_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtlwifi/rtl8188ee/phy.c:1989 rtl88e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtlwifi/rtl8192c/phy_common.c:1429 rtl92c_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtlwifi/rtl8192de/phy.c:2294 rtl92d_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtlwifi/rtl8723ae/phy.c:1393 rtl8723e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/net/wireless/realtek/rtlwifi/rtl8723be/phy.c:2321 rtl8723be_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+drivers/staging/media/atomisp/pci/sh_css.c:8538 ia_css_stream_destroy() warn: re-using outside iterator: 'i'
+drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c:1717 PHY_IQCalibrate_8723B() warn: re-using outside iterator: 'i'
+sound/pci/lx6464es/lx_core.c:497 lx_buffer_ask() warn: re-using outside iterator: 'i'
 
-This error is getting thrown again because 'QCOM_DCC' is declared as 
-tristate. Since DCC is using bootconfig apis which belongs to the __init 
-section of the kernel, it can no longer be used as an external module to 
-link with bootconfig apis. Will be changing it to bool in the next 
-version. Thank you.
+regards,
+dan carpenter
+
