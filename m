@@ -1,58 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CEF10ED;
-	Wed, 25 Jan 2023 04:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE7B1102
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 04:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674620524; x=1706156524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NhOPx0gE0BklEYBntjw2S+n2t7urmONIUgn/cw4sNzQ=;
-  b=N7kMwq7wd4OifDaEzAN+VSg1IwEsNIqpM5e/7CiJ+LVQgKgXYyFlmTqg
-   I0TXD4SQMu0TwQTV+6x5tRz/NCYWpKoJ1D/ixYd6E2lLXSQZLCYOG0uP6
-   hbDIjBP8Byx8vk4oD2eqKuSNjRMxAnEo4iSg6DdJM9WHUAnmxpJM0bs/P
-   zUL3ddZ21V4snNvpcxnvLwgOu4Ec0a/LY9+O9w4ybNS24wmPRM7yUWmyX
-   BL/A77W/TwEH+RDhnYZ6fvKQe5GGgXa8gvkBTDsPmVFhJ++OqhYetSPch
-   aPTCgE9bwkmp8uoKTt1LttRbbmn+gdh6U8vniy5J1h/qFzL2GzPwJws18
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310052480"
+  t=1674621764; x=1706157764;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/GspP0PGWxoDUpHRn487463EpSk1GSgBHpPHULKHEx8=;
+  b=LKFnHeCj2cl0nqTTnuIxzpAetvUqHPNjkmW5lj4TC13umVxmE12xL0tw
+   FCoLvO9q+sf4zT9PE6AKjTqJmr5evQQdZLz4ohgLiU40DYvkdE/l4oI5O
+   9Em/7TEC/FouDF/k6zInLjVdgA8zdM4UFP+6i99J3h4/bRIun2iSMHW0L
+   TzpxOg+DQ8swRi5azN8K8gx3CQ/dawOxUx54fMiDFgFQKSdI/Coc3EbCm
+   F+huN8UbuEYmlMI2MfkcpeU9pKAIBmhiNm+72ZN+WLMGkajPP3czjfBKZ
+   Mm/ZW4t+Gk2NXOrxl+mJGNXfkE928ttWWIba37kSkMSmvesdeTQ5Ala0N
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="327736932"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="310052480"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 20:21:48 -0800
+   d="scan'208";a="327736932"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 20:42:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="786312481"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="694612352"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="786312481"
+   d="scan'208";a="694612352"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 24 Jan 2023 20:21:42 -0800
+  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2023 20:42:42 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKXI5-000720-1T;
-	Wed, 25 Jan 2023 04:21:41 +0000
-Date: Wed, 25 Jan 2023 12:20:49 +0800
+	id 1pKXcP-00072S-2Z;
+	Wed, 25 Jan 2023 04:42:41 +0000
+Date: Wed, 25 Jan 2023 12:42:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Suren Baghdasaryan <surenb@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-	jeffv@google.com, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org, cgroups@vger.kernel.org,
-	Hridya Valsaraju <hridya@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
-Message-ID: <202301251234.klClMpZF-lkp@intel.com>
-References: <20230123191728.2928839-4-tjmercier@google.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: [lkp] [+163 bytes kernel size regression] [i386-tinyconfig]
+ [aec9937c0b] x86: enable Data Operand Independent Timing Mode
+Message-ID: <63d0b332.nxvHFCjCbjsG+m8h%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,42 +47,36 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123191728.2928839-4-tjmercier@google.com>
+Content-Transfer-Encoding: 7bit
 
-Hi Mercier",
 
-Thank you for the patch! Yet something to improve:
+FYI, we noticed a +163 bytes kernel size regression due to commit:
 
-[auto build test ERROR on 2241ab53cbb5cdb08a6b2d4688feb13971058f65]
+commit: aec9937c0b0d8be7fa060366d802d95ffa629ffd (x86: enable Data Operand Independent Timing Mode)
+https://git.kernel.org/cgit/linux/kernel/git/ebiggers/linux.git x86-pending
 
-url:    https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/memcg-Track-exported-dma-buffers/20230124-032017
-base:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-patch link:    https://lore.kernel.org/r/20230123191728.2928839-4-tjmercier%40google.com
-patch subject: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
-config: x86_64-randconfig-a016-20230123 (https://download.01.org/0day-ci/archive/20230125/202301251234.klClMpZF-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/41e80f59d1b70691eefc0490e7f1df800cead9f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review T-J-Mercier/memcg-Track-exported-dma-buffers/20230124-032017
-        git checkout 41e80f59d1b70691eefc0490e7f1df800cead9f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
-All errors (new ones prefixed by >>):
+fb6e71db: Merge tag 'nfsd-6.2-5' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+aec9937c: x86: enable Data Operand Independent Timing Mode
 
->> ld.lld: error: undefined symbol: dma_buf_transfer_charge
-   >>> referenced by binder.c:2280 (drivers/android/binder.c:2280)
-   >>>               drivers/android/binder.o:(binder_translate_fd) in archive vmlinux.a
++--------------------------------------+----------+----------+-------+
+|                symbol                | fb6e71db | aec9937c | delta |
++--------------------------------------+----------+----------+-------+
+| bzImage                              | 495872   | 495968   | 96    |
+| nm.t.doitm_parse_cmdline             | 0        | 47       | 47    |
+| nm.T.update_doitm_msr                | 0        | 37       | 37    |
+| nm.T.check_bugs                      | 939      | 971      | 32    |
+| nm.t.cpu_set_bug_bits                | 639      | 659      | 20    |
+| nm.d.__setup_doitm_parse_cmdline     | 0        | 12       | 12    |
+| nm.d.__setup_str_doitm_parse_cmdline | 0        | 6        | 6     |
+| nm.T.identify_secondary_cpu          | 47       | 52       | 5     |
+| nm.W.cpu_show_dodt                   | 0        | 3        | 3     |
+| nm.d.doitm_off                       | 0        | 1        | 1     |
++--------------------------------------+----------+----------+-------+
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+
+Thanks
+
