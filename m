@@ -1,115 +1,78 @@
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9CD257A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 14:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1674655315;
-	bh=mOb5g9Y6fpziO8sZahIkRFgvrUxahBGEJYC92LSBRUQ=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=cw/5flAwvjyXclH1HnW04plVsCkM7xHH59NQ/1KeyhV7uGnsPo33ethpG7IQLAuHw
-	 +xq3MUJcOHgEKpROI/2JygkUuF0zZC4+08WHqmjyRHJ/wpB3VYux0xdQPEq7CzKvkI
-	 Ac3h0lKDTqye55CyIhtrCFMkxkdPAuK7riD3evCE=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 170A11286199;
-	Wed, 25 Jan 2023 09:01:55 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id T3KzLZZsZejS; Wed, 25 Jan 2023 09:01:54 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1674655314;
-	bh=mOb5g9Y6fpziO8sZahIkRFgvrUxahBGEJYC92LSBRUQ=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=pqaz8dlsw2Gjw+sVezF9iVZVJITI5Wb9Y1nxlPIlOZNtjEYZVnmYfb+SCH3SAZvwm
-	 wlxE3SAxfppcF6KXRj0c2d6aowUnmz24azJirsBrMX+ktWM1XnWCQxfkeb1whDV6Fl
-	 /W6TrdMhJRf0Fhvam9rVQ1E2Mb2J7VNw9wMk2Hy4=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 3BC9A1286141;
-	Wed, 25 Jan 2023 09:01:54 -0500 (EST)
-Message-ID: <0c69d737684c5b1232090c1a501198852bf15b9c.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 01/11] tpm: move buffer handling from static inlines
- to real functions
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 25 Jan 2023 09:01:52 -0500
-In-Reply-To: <202301250315.ZgtsNzSm-lkp@intel.com>
-References: <20230124175516.5984-2-James.Bottomley@HansenPartnership.com>
-	 <202301250315.ZgtsNzSm-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690473FE1;
+	Wed, 25 Jan 2023 14:56:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D996C433EF;
+	Wed, 25 Jan 2023 14:56:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674658616;
+	bh=6sSMclZHpHieWRmYj4HaLQzwVSqN9/YPbU2iejiwc+M=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=SikK3Hea/KQmmaeMwpIRuuSvr6F6O0nAchQYQ6KqlBpoZBO+HiyAnyfW//0dEeAWG
+	 hkXUUaSvjLH8xy9DX0oPdC/vEytFyROGUZchQhyWwta4FyRssk82vt5FYSyqxwR4Za
+	 XTJBeknhzV7hba26CXSXYd7y2hpeyA1uLu1s1WL/1o3X6Izeo4il65SDBVq1PZ1vys
+	 JcCL701W2gVYrIkqXvaUr9wImfbHrl2cMHU30I6arhZPWVBBLS2viW4KR5d0nYeQGd
+	 R6bA2mjVnDOAeNVnf/L22ig3d/pcweX4/xJUJyArebwznc4gAuzTUlYfd7lVcujbuR
+	 F/LvAkxGeAOrA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id A97FF5C02BE; Wed, 25 Jan 2023 06:56:55 -0800 (PST)
+Date: Wed, 25 Jan 2023 06:56:55 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
+ kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
+ statement not indented
+Message-ID: <20230125145655.GF2948950@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <202301241716.MgPWF6fU-lkp@intel.com>
+ <Y8+tTlFbtbVMhUNI@kadam>
+ <Y9DkEpSWDthHDRGn@kadam>
+ <Y9DpFTItKK8NkFR0@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9DpFTItKK8NkFR0@kadam>
 
-On Wed, 2023-01-25 at 03:57 +0800, kernel test robot wrote:
-> Hi James,
+On Wed, Jan 25, 2023 at 11:32:21AM +0300, Dan Carpenter wrote:
+> On Wed, Jan 25, 2023 at 11:10:58AM +0300, Dan Carpenter wrote:
+> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188f.c:1265 rtl8188fu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8723b.c:1168 rtl8723bu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:3298 rtl8xxxu_gen1_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtlwifi/rtl8188ee/phy.c:1989 rtl88e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtlwifi/rtl8192c/phy_common.c:1429 rtl92c_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtlwifi/rtl8192de/phy.c:2294 rtl92d_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtlwifi/rtl8723ae/phy.c:1393 rtl8723e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
+> > drivers/net/wireless/realtek/rtlwifi/rtl8723be/phy.c:2321 rtl8723be_phy_iq_calibrate() warn: re-using outside iterator: 'i'
 > 
-> I love your patch! Perhaps something to improve:
+> These are all "false positives" (kind of).  It's 8 copies of code which
+> does:
 > 
-> [auto build test WARNING on char-misc/char-misc-testing]
-> [also build test WARNING on char-misc/char-misc-next char-misc/char-
-> misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-
-> 20230124]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 	for (i = 0; i < 3; i++) {
+> 		...
+> 		if (i == 2) {
+> 			for (i = 0; i < 8; i++)
+> 				foo = bar[i];
+> 		}
+> 	}
 > 
-> url:   
-> https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-> patch link:   
-> https://lore.kernel.org/r/20230124175516.5984-2-James.Bottomley%40HansenPartnership.com
-> patch subject: [PATCH v2 01/11] tpm: move buffer handling from static
-> inlines to real functions
-> config: sparc-allyesconfig
-> (https://download.01.org/0day-ci/archive/20230125/202301250315.ZgtsNz
-> Sm-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget
-> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
->  -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         #
-> https://github.com/intel-lab-lkp/linux/commit/484b879d0bfceec899fea147a76d12f7072d9f23
->         git remote add linux-review
-> https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review James-Bottomley/tpm-move-
-> buffer-handling-from-static-inlines-to-real-functions/20230125-020146
->         git checkout 484b879d0bfceec899fea147a76d12f7072d9f23
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> make.cross W=1 O=build_dir ARCH=sparc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash
-> drivers/char/tpm/
+> So the loop exits with i == 8 instead of i == 3 but that doesn't matter.
+> Ugh...  Did the original author do this deliberately or did it just work
+> by chance?  I really prefer buggy code to code to ugly code.  With buggy
+> code it's a technical matter and easy to fix, but with ugly code that's
+> like a big debate and a social problem...
 > 
-> If you fix the issue, kindly add following tag where applicable
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> > > drivers/char/tpm/tpm-buf.c:46:5: warning: no previous prototype
-> > > for 'tpm_buf_tag' [-Wmissing-prototypes]
->       46 | u16 tpm_buf_tag(struct tpm_buf *buf)
->          |     ^~~~~~~~~~~
+> On the other hand, in this case, I don't think anyone is going to defend
+> the original style from these drivers so I may as well patch it.
 
+Looks suspicious to me!  ;-)
 
-This looks like an initial header got missed in the code motion. 
-However, the fact that nothing broke shows that tpm_buf_tag isn't used
-outside of the tpm-buf.c functions, so I think I can make it static to
-them.
-
-James
-
+							Thanx, Paul
