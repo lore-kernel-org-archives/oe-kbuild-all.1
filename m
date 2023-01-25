@@ -1,43 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EB4A2D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 02:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9324410ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 03:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674614916; x=1706150916;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5mIlqs4luThMmZkHFoB5QjUVLI4n6bToiUtCXIj6Q8o=;
-  b=TRUeYEAYMI64i8zIbIkv2q8CmNT3Iu4TDpPuzuHB6a8larq+IHXmncFl
-   A5ouusEPM29fQ/vvU9j/Th5Z2OUimJ70x/SUGMYwqa2wVVNkBY9h9xjLF
-   pX39NPOTLvC3/jh/XPVieI10wij49oQNBdZXUV7lCtS10i4pwtbDqTJBx
-   7EPwC5CrqNqLfh3vIKc+PpC2lLGWfb9IY/MKLHLSzNqJuZTX0m0rZq1gY
-   flncJSUE3YsuZBJOtpLjDzr7X07Xz2YVMkpWXT4K+pq+ZteWCxlCK/DXt
-   WvbGDTs2E6ziQ4UiLBYt+FJwWurV9UAx20OFdrQz+Ejo18o+c16Z9GeLZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310041085"
+  t=1674617978; x=1706153978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jdvj/XuVKl8bbMan11kRs1epz2KpieNbR051GtFhH/0=;
+  b=kUe+6+xFscqr7ZgpSosO8TRpjagA3hyWhG+BhMG5xzp48jKAqxH4SMcI
+   5yBS72htwSKb5zY0sIur22m00VT3wKS/aJ7yDGFooxgRNWS6ebBFeO6Pz
+   vuRXzq147aEMLr+/g0k22F8W3LQEAkd0LdGPaAOgi20+C9zDxaU1mVBC5
+   b8Xui1ihTsLDgKJ/i4c47w9DUMlPEyUljJDKYAMVxSGG10rl1bhUL+rp8
+   GOILvTM65nQxn/d5KLceAWUkavyJ+sSTDj9gtp1kEz0GDmFxzbvFMebw1
+   IX+p+qOikuMjy8MMeKk/gZZNl2LqF8dpLD7XnU4qPsFAVK8UdfcoaGDKG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="412706270"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="310041085"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 18:48:35 -0800
+   d="scan'208";a="412706270"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 19:39:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="725720508"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="836221421"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="725720508"
+   d="scan'208";a="836221421"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 18:48:34 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2023 19:39:36 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKVpy-0006zV-09;
-	Wed, 25 Jan 2023 02:48:34 +0000
-Date: Wed, 25 Jan 2023 10:48:12 +0800
+	id 1pKWdL-00070y-0p;
+	Wed, 25 Jan 2023 03:39:35 +0000
+Date: Wed, 25 Jan 2023 11:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jamal Hadi Salim <jhs@mojatatu.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next RFC 10/20] net/kparser: add kParser
-Message-ID: <202301251032.zPceteqS-lkp@intel.com>
-References: <20230124170510.316970-10-jhs@mojatatu.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/deprecated/android-4.14-p-release
+ 137/6167] security/commoncap.c:75:5: sparse: sparse: symbol '__cap_capable'
+ was not declared. Should it be static?
+Message-ID: <202301251126.7NYT8Ko2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,143 +47,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124170510.316970-10-jhs@mojatatu.com>
 
-Hi Jamal,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/net-sched-act_api-increase-action-kind-string-length/20230125-010934
-patch link:    https://lore.kernel.org/r/20230124170510.316970-10-jhs%40mojatatu.com
-patch subject: [PATCH net-next RFC 10/20] net/kparser: add kParser
-config: i386-randconfig-r003-20230123 (https://download.01.org/0day-ci/archive/20230125/202301251032.zPceteqS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/89890cfe5785baa53d2e7807c96715c394d4cd9c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jamal-Hadi-Salim/net-sched-act_api-increase-action-kind-string-length/20230125-010934
-        git checkout 89890cfe5785baa53d2e7807c96715c394d4cd9c
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/deprecated/android-4.14-p-release
+head:   0ca5d5ac9152d01b3494fb2efb5390319eb9904a
+commit: 2b02b4ab89b9cba5aec936046d8538962c5142fc [137/6167] ANDROID: net: paranoid: commoncap: Begin to warn users of implicit PARANOID_NETWORK capability grants
+config: i386-randconfig-s002-20230123 (https://download.01.org/0day-ci/archive/20230125/202301251126.7NYT8Ko2-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/2b02b4ab89b9cba5aec936046d8538962c5142fc
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/deprecated/android-4.14-p-release
+        git checkout 2b02b4ab89b9cba5aec936046d8538962c5142fc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/commoncap.c:75:5: sparse: sparse: symbol '__cap_capable' was not declared. Should it be static?
+   security/commoncap.c:474:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got int @@
+   security/commoncap.c:474:31: sparse:     expected restricted __le32 [usertype] magic
+   security/commoncap.c:474:31: sparse:     got int
+   security/commoncap.c:475:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] nsmagic @@     got unsigned int [usertype] @@
+   security/commoncap.c:475:33: sparse:     expected restricted __le32 [usertype] nsmagic
+   security/commoncap.c:475:33: sparse:     got unsigned int [usertype]
+   security/commoncap.c:476:29: sparse: sparse: restricted __le32 degrades to integer
+   security/commoncap.c:477:39: sparse: sparse: invalid assignment: |=
+   security/commoncap.c:477:39: sparse:    left side has type restricted __le32
+   security/commoncap.c:477:39: sparse:    right side has type int
+   security/commoncap.c:479:42: sparse: sparse: cast from restricted __le32
+   security/commoncap.c:1226:41: sparse: sparse: dubious: !x | y
+   security/commoncap.c:1307:27: sparse: sparse: symbol 'capability_hooks' was not declared. Should it be static?
+   security/commoncap.c:75:5: warning: no previous declaration for '__cap_capable' [-Wmissing-declarations]
+    int __cap_capable(const struct cred *cred, struct user_namespace *targ_ns,
+        ^~~~~~~~~~~~~
+   In file included from include/linux/capability.h:16:0,
+                    from security/commoncap.c:10:
+   security/commoncap.c: In function 'cap_prctl_drop':
+   include/uapi/linux/capability.h:372:27: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+                              ^
+   security/commoncap.c:1112:7: note: in expansion of macro 'cap_valid'
+     if (!cap_valid(cap))
+          ^~~~~~~~~
+   security/commoncap.c: In function 'cap_task_prctl':
+   include/uapi/linux/capability.h:372:27: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+                              ^
+   security/commoncap.c:1142:8: note: in expansion of macro 'cap_valid'
+      if (!cap_valid(arg2))
+           ^~~~~~~~~
+   include/uapi/linux/capability.h:372:27: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+    #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+                              ^
+   security/commoncap.c:1226:10: note: in expansion of macro 'cap_valid'
+      if (((!cap_valid(arg3)) | arg4 | arg5))
+             ^~~~~~~~~
 
-   In file included from <command-line>:
->> ./usr/include/linux/kparser.h:149:9: error: unknown type name 'bool'
-     149 |         bool valid_entry;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:154:9: error: unknown type name 'bool'
-     154 |         bool reset_on_encap;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:155:9: error: unknown type name 'bool'
-     155 |         bool overwrite_last;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:156:9: error: unknown type name 'bool'
-     156 |         bool error_on_exceeded;
-         |         ^~~~
->> ./usr/include/linux/kparser.h:198:56: error: C++ style comments are not allowed in ISO C90
-     198 |         enum kparser_metadata_counter_op_type cntr_op; // 3 bit
-         |                                                        ^
-   ./usr/include/linux/kparser.h:198:56: note: (this will be reported only once per input file)
-   ./usr/include/linux/kparser.h:199:9: error: unknown type name 'bool'
-     199 |         bool frame;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:200:9: error: unknown type name 'bool'
-     200 |         bool e_bit;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:235:9: error: unknown type name 'bool'
-     235 |         bool endian;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:250:9: error: unknown type name 'bool'
-     250 |         bool len_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:253:9: error: unknown type name 'bool'
-     253 |         bool cond_exprs_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:259:9: error: unknown type name 'bool'
-     259 |         bool encap;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:260:9: error: unknown type name 'bool'
-     260 |         bool overlay;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:276:9: error: unknown type name 'bool'
-     276 |         bool len_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:283:9: error: unknown type name 'bool'
-     283 |         bool tlvsstdfmt;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:284:9: error: unknown type name 'bool'
-     284 |         bool fixed_start_offset;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:289:9: error: unknown type name 'bool'
-     289 |         bool pad1_enable;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:290:9: error: unknown type name 'bool'
-     290 |         bool padn_enable;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:291:9: error: unknown type name 'bool'
-     291 |         bool eol_enable;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:328:9: error: unknown type name 'bool'
-     328 |         bool exceed_loop_cnt_is_err;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:351:9: error: unknown type name 'bool'
-     351 |         bool get_flags_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:353:9: error: unknown type name 'bool'
-     353 |         bool start_fields_offset_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:355:9: error: unknown type name 'bool'
-     355 |         bool flag_fields_len;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:379:9: error: unknown type name 'bool'
-     379 |         bool overlay_type_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:381:9: error: unknown type name 'bool'
-     381 |         bool cond_exprs_parameterized;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:388:9: error: unknown type name 'bool'
-     388 |         bool is_padding;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:413:9: error: unknown type name 'bool'
-     413 |         bool endian;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:435:9: error: unknown type name 'bool'
-     435 |         bool add_entry;
-         |         ^~~~
-   ./usr/include/linux/kparser.h:646:19: error: unknown type name 'bool'
-     646 | static __inline__ bool kparser_hkey_id_empty(const struct kparser_hkey *key)
-         |                   ^~~~
-   ./usr/include/linux/kparser.h: In function 'kparser_hkey_id_empty':
->> ./usr/include/linux/kparser.h:649:24: error: 'true' undeclared (first use in this function)
-     649 |                 return true;
-         |                        ^~~~
-   ./usr/include/linux/kparser.h:649:24: note: each undeclared identifier is reported only once for each function it appears in
-   ./usr/include/linux/kparser.h: At top level:
-   ./usr/include/linux/kparser.h:653:19: error: unknown type name 'bool'
-     653 | static __inline__ bool kparser_hkey_name_empty(const struct kparser_hkey *key)
-         |                   ^~~~
-   ./usr/include/linux/kparser.h: In function 'kparser_hkey_name_empty':
-   ./usr/include/linux/kparser.h:656:24: error: 'true' undeclared (first use in this function)
-     656 |                 return true;
-         |                        ^~~~
-   ./usr/include/linux/kparser.h: At top level:
-   ./usr/include/linux/kparser.h:661:19: error: unknown type name 'bool'
-     661 | static __inline__ bool kparser_hkey_empty(const struct kparser_hkey *key)
-         |                   ^~~~
-   ./usr/include/linux/kparser.h:666:19: error: unknown type name 'bool'
-     666 | static __inline__ bool kparser_hkey_user_id_invalid(const struct kparser_hkey *key)
-         |                   ^~~~
-   ./usr/include/linux/kparser.h: In function 'kparser_hkey_user_id_invalid':
-   ./usr/include/linux/kparser.h:669:24: error: 'true' undeclared (first use in this function)
-     669 |                 return true;
-         |                        ^~~~
+vim +/__cap_capable +75 security/commoncap.c
+
+    59	
+    60	/**
+    61	 * __cap_capable - Determine whether a task has a particular effective capability
+    62	 * @cred: The credentials to use
+    63	 * @ns:  The user namespace in which we need the capability
+    64	 * @cap: The capability to check for
+    65	 * @audit: Whether to write an audit message or not
+    66	 *
+    67	 * Determine whether the nominated task has the specified capability amongst
+    68	 * its effective set, returning 0 if it does, -ve if it does not.
+    69	 *
+    70	 * NOTE WELL: cap_has_capability() cannot be used like the kernel's capable()
+    71	 * and has_capability() functions.  That is, it has the reverse semantics:
+    72	 * cap_has_capability() returns 0 when a task has a capability, but the
+    73	 * kernel's capable() and has_capability() returns 1 for this case.
+    74	 */
+  > 75	int __cap_capable(const struct cred *cred, struct user_namespace *targ_ns,
+    76			int cap, int audit)
+    77	{
+    78		struct user_namespace *ns = targ_ns;
+    79	
+    80		/* See if cred has the capability in the target user namespace
+    81		 * by examining the target user namespace and all of the target
+    82		 * user namespace's parents.
+    83		 */
+    84		for (;;) {
+    85			/* Do we have the necessary capabilities? */
+    86			if (ns == cred->user_ns)
+    87				return cap_raised(cred->cap_effective, cap) ? 0 : -EPERM;
+    88	
+    89			/*
+    90			 * If we're already at a lower level than we're looking for,
+    91			 * we're done searching.
+    92			 */
+    93			if (ns->level <= cred->user_ns->level)
+    94				return -EPERM;
+    95	
+    96			/* 
+    97			 * The owner of the user namespace in the parent of the
+    98			 * user namespace has all caps.
+    99			 */
+   100			if ((ns->parent == cred->user_ns) && uid_eq(ns->owner, cred->euid))
+   101				return 0;
+   102	
+   103			/*
+   104			 * If you have a capability in a parent user ns, then you have
+   105			 * it over all children user namespaces as well.
+   106			 */
+   107			ns = ns->parent;
+   108		}
+   109	
+   110		/* We never get here */
+   111	}
+   112	
 
 -- 
 0-DAY CI Kernel Test Service
