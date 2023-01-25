@@ -1,36 +1,44 @@
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04B3139F;
-	Wed, 25 Jan 2023 08:45:17 +0000 (UTC)
-Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.88.152])
-	by gnuweeb.org (Postfix) with ESMTPSA id BCCEA81845;
-	Wed, 25 Jan 2023 08:45:07 +0000 (UTC)
-X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-	s=default; t=1674636310;
-	bh=OciI4mUPsQGgzT7kaDOttkQpjgPIeEWTdFoso0WZ4og=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ox4Fk1Ix1oE/th4UqATxeAfT9d9vjz+rYCeeledQXyIXJxN1iNsLiuu+dunw0q2D0
-	 J4n0z/+j85WSMgv1Nr4uRKf5tiq6mL/Pf8VHuj2U6z4G4HMnGwW9IBhNFhpCh64CeO
-	 BdA+Kbtv50sH06inVvfhGUZfFgRj3BBlw+jz3eLAouXvu0VZCAbgAa10ozCAzybHVH
-	 jX22iSoPd19XidanThY9M5occItuH95U4C+uaVjmjdeZ5XPiAi1Q6kSa9ps4sCpX53
-	 cpPHPJbbV+G9pVThAQQaj+jfk+AaFck1BqKVFq75pMeqGGA7lGgI4TsIwHkWQ4bcrC
-	 piQjTCmMZzaHQ==
-Date: Wed, 25 Jan 2023 15:45:03 +0700
-From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
- kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
- statement not indented
-Message-ID: <Y9DsDxJ+8/IpfdqE@biznet-home.integral.gnuweeb.org>
-References: <202301241716.MgPWF6fU-lkp@intel.com>
- <Y8+tTlFbtbVMhUNI@kadam>
- <Y9DkEpSWDthHDRGn@kadam>
- <Y9DpFTItKK8NkFR0@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE871842
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 09:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674638994; x=1706174994;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Iib1gOh8mT+FDy8DZl6H+FgLTsEkN7huold2ibuCi1o=;
+  b=KJELZHHjpfiPlmCXWwpj2ki8P0NDgcoiINnCAUCHccjIHP5oGSadgfQ1
+   3xoiOqrJ1ECm1r2dmweTRPJMDKhs+m3sZ9QKyjgcEXE5SQ1uTiNU5TX4z
+   P/lauKs85pu5CdWxmS3URMeo9YcR7ZIDPB1Q+6DN1NuXP13ORo1eZcKl7
+   cc63PeQGdj50tSZriSePDClxW2McFiSTMkYPaLsliocarMNxVvgB5tm4J
+   bFJTZF/ncSn7uKnZeURlKVqcG6WAo9nGkpM+BzwMrJr0ApDz+f2JgQyqA
+   cMFD9xT7gyajakDIwbGL9YkuyDJpC5suU9vVNBa7s+cmMCqy7C/6lug8L
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310092167"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="310092167"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 01:29:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="804938298"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="804938298"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2023 01:29:52 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKc6J-0007CY-26;
+	Wed, 25 Jan 2023 09:29:51 +0000
+Date: Wed, 25 Jan 2023 17:29:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Kicherer <dev@kicherer.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org
+Subject: [groeck-staging:hwmon-next 40/41] htmldocs:
+ Documentation/hwmon/mc34vr500.rst: WARNING: document isn't included in any
+ toctree
+Message-ID: <202301251734.bFyrYeeG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -39,31 +47,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9DpFTItKK8NkFR0@kadam>
 
-On Wed, Jan 25, 2023 at 11:32:21AM +0300, Dan Carpenter wrote:
-> These are all "false positives" (kind of).  It's 8 copies of code which
-> does:
-> 
-> 	for (i = 0; i < 3; i++) {
-> 		...
-> 		if (i == 2) {
-> 			for (i = 0; i < 8; i++)
-> 				foo = bar[i];
-> 		}
-> 	}
-> 
-> So the loop exits with i == 8 instead of i == 3 but that doesn't matter.
-> Ugh...  Did the original author do this deliberately or did it just work
-> by chance?  I really prefer buggy code to code to ugly code.  With buggy
-> code it's a technical matter and easy to fix, but with ugly code that's
-> like a big debate and a social problem...
-> 
-> On the other hand, in this case, I don't think anyone is going to defend
-> the original style from these drivers so I may as well patch it.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   ecabca1a36d59ec32fa315f3dc2e81784670b25b
+commit: be5d5218ef86618ad7b0cd7abf34550e048944a8 [40/41] docs: hwmon: add docs for the NXP MC34VR500 PMIC
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/commit/?id=be5d5218ef86618ad7b0cd7abf34550e048944a8
+        git remote add groeck-staging https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+        git fetch --no-tags groeck-staging hwmon-next
+        git checkout be5d5218ef86618ad7b0cd7abf34550e048944a8
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Yeah, that pattern doesn't look like intentional. I agree with you.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/hwmon/mc34vr500.rst: WARNING: document isn't included in any toctree
 
 -- 
-Ammar Faizi
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
