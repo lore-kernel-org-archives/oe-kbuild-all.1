@@ -1,124 +1,97 @@
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4DD23C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 12:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB023C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 13:06:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1674651557;
-	bh=1h3KVU06lOoLOdYsLnIUqpA3XQTq9kVXFFNylvoJSj4=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=fLl7cZctumr8AVdN7FmYgB13dp34nE9HVcbzGxjc82nv4AaSZ9Mk/tuyz9rLFq2Ca
-	 hgl4o4Pm61VsA8fF6CKqrQS+JgiWQ5cWZ3Whw53pw/lhE/qxlczQtpXwkSkhiyjE5F
-	 1coOIgSs7XLle+cEOuDkhn/D2uCIbtnkFibEWASk=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id C4FF81285D02;
-	Wed, 25 Jan 2023 07:59:17 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U2IzwpUjJlAo; Wed, 25 Jan 2023 07:59:17 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1674651556;
-	bh=1h3KVU06lOoLOdYsLnIUqpA3XQTq9kVXFFNylvoJSj4=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=KHrbss3JSFUfsu551V5G8E4NYE+iqjoAF+X6M/wwKXS5p99pQQ6ct8GC0ENn7tCVG
-	 SOnz1dlwGMPXlYzoSo1DoH85M7FbgkU+y2ZxYq5to0O5mEwzj8e0TIrQoRXvyJFdY+
-	 RSDI2z8Jky+cBYk7wbj53LHuKzukoP2j4Rjae954=
-Received: from [IPv6:2601:5c4:4302:c21::a774] (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id D87361281E04;
-	Wed, 25 Jan 2023 07:59:15 -0500 (EST)
-Message-ID: <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 25 Jan 2023 07:59:09 -0500
-In-Reply-To: <202301250706.deGvd0yq-lkp@intel.com>
-References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
-	 <202301250706.deGvd0yq-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674651988; x=1706187988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1mqywrJMeeZYtMk3BB+H3FwoqOF0jCFCdHv1yVtRogc=;
+  b=Q3uZSLTKOf5toaMJPD7qMIOIUh0G0FcuT1LcAeLNEtxeCyuzNCPRmdHB
+   qkwd6fyC6Ss8MhIkDugDNzqHjZt7xFwOpJaHjbVYL+qiwCa0ddH/yUn/4
+   Q/AY+twHi2gCaFzlGO+ki1TOxLIpEpJGa4CZCgb9r4bfGC9qGUmHPb8cY
+   9fEeynljT3hLq7jB6TdElUYJv71WBLIdje0OFHhHdqiQngjnoXAqRE8yg
+   2sdzW8NJjVQvwmEJeiuE8eRce8tQYUr5M2RZfAem0uldb407kAUIVD7iO
+   ILVRRbIsqCOXGCCX+zwml11Qqw9f0+mJYvaK+rc2CRGyX9AKcAtKmqzz7
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="326577219"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="326577219"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 05:06:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="694728274"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="694728274"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 25 Jan 2023 05:06:11 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKfTf-0007JY-0L;
+	Wed, 25 Jan 2023 13:06:11 +0000
+Date: Wed, 25 Jan 2023 21:05:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 5/13]
+ drivers/hid/hid-playstation.c:816: undefined reference to
+ `led_mc_calc_color_components'
+Message-ID: <202301252121.lxM3hnvQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
-> Hi James,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on char-misc/char-misc-testing]
-> [also build test WARNING on char-misc/char-misc-next char-misc/char-
-> misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-
-> 20230124]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:   
-> https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-> patch link:   
-> https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
-> patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
-> encrypt/decrypt session handling code
-> config: arc-allyesconfig
-> (https://download.01.org/0day-ci/archive/20230125/202301250706.deGvd0
-> yq-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget
-> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
->  -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         #
-> https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
->         git remote add linux-review
-> https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review James-Bottomley/tpm-move-
-> buffer-handling-from-static-inlines-to-real-functions/20230125-020146
->         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> make.cross W=1 O=build_dir ARCH=arc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/char/tpm/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous
-> prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
->     1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
->          |     ^~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/char/tpm/tpm2-sessions.c: In function
-> 'tpm_buf_check_hmac_response':
-> > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame size
-> > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->      831 | }
->          | ^
->    drivers/char/tpm/tpm2-sessions.c: In function
-> 'tpm_buf_fill_hmac_session':
->    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame size of
-> 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->      579 | }
->          | ^
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   56c8a404365f8d4733f82456bea32b4f832e0954
+commit: e1cd3ffe478871deb44f1ce2fbe6a6c8e7e08ab3 [5/13] UPSTREAM: HID: playstation: expose DualSense lightbar through a multi-color LED.
+config: x86_64-randconfig-c022-20230123 (https://download.01.org/0day-ci/archive/20230125/202301252121.lxM3hnvQ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.10
+        git checkout e1cd3ffe478871deb44f1ce2fbe6a6c8e7e08ab3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Is this a test problem?  I can't see why the code would only blow the
-stack on the arc architecture and not on any other ... does it have
-something funny with on stack crypto structures?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-James
+All errors (new ones prefixed by >>):
 
+   ld: drivers/hid/hid-playstation.o: in function `dualsense_lightbar_set_brightness':
+>> drivers/hid/hid-playstation.c:816: undefined reference to `led_mc_calc_color_components'
+   ld: drivers/hid/hid-playstation.o: in function `devm_led_classdev_multicolor_register':
+>> include/linux/led-class-multicolor.h:74: undefined reference to `devm_led_classdev_multicolor_register_ext'
+
+
+vim +816 drivers/hid/hid-playstation.c
+
+   808	
+   809	static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
+   810		enum led_brightness brightness)
+   811	{
+   812		struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
+   813		struct dualsense *ds = container_of(mc_cdev, struct dualsense, lightbar);
+   814		uint8_t red, green, blue;
+   815	
+ > 816		led_mc_calc_color_components(mc_cdev, brightness);
+   817		red = mc_cdev->subled_info[0].brightness;
+   818		green = mc_cdev->subled_info[1].brightness;
+   819		blue = mc_cdev->subled_info[2].brightness;
+   820	
+   821		dualsense_set_lightbar(ds, red, green, blue);
+   822		return 0;
+   823	}
+   824	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
