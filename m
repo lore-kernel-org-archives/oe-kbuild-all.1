@@ -1,51 +1,46 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AEB1102
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 05:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3051102
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 06:03:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674623567; x=1706159567;
+  t=1674626626; x=1706162626;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i9kh4pjpDmY2kWfdusSrzxSlKzDtAEvxznpXtozkLK4=;
-  b=CX+6v7RZiLGypWtqHDaHOPQgN8bBIPT3+HI2fpyWQG9Av1dWovZ/EMVq
-   Ui2ANbhPl4wJDQax7ovD6bMzY4BpGHOThrTu3v2UNEq1kbGgY22bh9a+y
-   SuFhj1oRuoNYdZ4o/uMQbQXVD72L7RW5mVhabWl1JI5GWWSwI22wHveSs
-   0eMYoMK0PcVAhtlkF0iR5MSHLRBKv+EUJjnj9M/twNXepBv3kqP3BXada
-   I7uklcOK5Z7iCAL6Wn9YP5x7rTnwOetPqH0QS3y8NFHTsbNpfJe9rDug2
-   cDdVZ/F1Io50r4puo8nWgHwkz7idhZGdIYTxIecC7Sn02LX9LYCzziVNl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="328570930"
+  bh=k/+PLowZYVwtAdQHjzair5kZNl5YiNS6TKYVrXA87d4=;
+  b=HHlj+agwj21y6ZLP3HyMT6nHWiCcM3UnJyGIFircK3MHF26NUp5IF0sq
+   LcCTtnfHb7rcoFNdX6L+bHWA8ft9CzOaD/NeOvNo566hwe2E5VgQd8srf
+   kXk/UCtaJpRKTZUVSKPAk5RMth0Y3yzEooddXZVxUriTrL5dW8ufdXCFw
+   m66dBkhbCteXbVbocPjaW5sm0P2klF0G/FTYG67YMUsjbcOT3G/tOUyJL
+   DgwMINIB1KHI51cnFUKeIIX/kMdRfUWkDPyuiokUVF0k87D5wVQwOYy+5
+   pl8+sQ23DE6rh84UlbjWOs0encF8nJcsDCm2AsBma8lica87g+bcE45q7
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="390994532"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="328570930"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 21:12:46 -0800
+   d="scan'208";a="390994532"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 22:03:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="694618374"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="836250608"
 X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="694618374"
+   d="scan'208";a="836250608"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2023 21:12:43 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2023 22:03:44 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKY5S-00073E-0m;
-	Wed, 25 Jan 2023 05:12:42 +0000
-Date: Wed, 25 Jan 2023 13:12:06 +0800
+	id 1pKYsp-00075g-1S;
+	Wed, 25 Jan 2023 06:03:43 +0000
+Date: Wed, 25 Jan 2023 14:03:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Bjorn Andersson <andersson@kernel.org>, Alex Elder <elder@ieee.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
-	Sibi Sankar <quic_sibis@quicinc.com>,
-	Rajendra Nayak <quic_rjendra@quicinc.com>, vkoul@kernel.org,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Subject: Re: [PATCH V2 1/3] soc: qcom: dcc: Add bootconfig support for DCC
-Message-ID: <202301251351.Vmj07n6Z-lkp@intel.com>
-References: <62d98c7d56e752afff5216cfcd42451edb82cb4d.1674531462.git.quic_schowdhu@quicinc.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>,
+	linux-integrity@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
+	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+Message-ID: <202301251326.r0t0nGZc-lkp@intel.com>
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,45 +49,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <62d98c7d56e752afff5216cfcd42451edb82cb4d.1674531462.git.quic_schowdhu@quicinc.com>
+In-Reply-To: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
 
-Hi Souradeep,
+Hi James,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on next-20230123]
-[cannot apply to clk/clk-next soc/for-next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-20230124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/soc-qcom-dcc-Add-bootconfig-support-for-DCC/20230124-115549
-patch link:    https://lore.kernel.org/r/62d98c7d56e752afff5216cfcd42451edb82cb4d.1674531462.git.quic_schowdhu%40quicinc.com
-patch subject: [PATCH V2 1/3] soc: qcom: dcc: Add bootconfig support for DCC
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230125/202301251351.Vmj07n6Z-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/752745566c275592d6d18692bc53886e6e955e94
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+patch link:    https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
+patch subject: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session handling code
+config: i386-randconfig-s002-20230123 (https://download.01.org/0day-ci/archive/20230125/202301251326.r0t0nGZc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Souradeep-Chowdhury/soc-qcom-dcc-Add-bootconfig-support-for-DCC/20230124-115549
-        git checkout 752745566c275592d6d18692bc53886e6e955e94
+        git fetch --no-tags linux-review James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+        git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "xbc_node_get_child" [drivers/soc/qcom/dcc.ko] undefined!
->> ERROR: modpost: "xbc_node_get_next" [drivers/soc/qcom/dcc.ko] undefined!
->> ERROR: modpost: "xbc_node_find_value" [drivers/soc/qcom/dcc.ko] undefined!
->> ERROR: modpost: "xbc_node_get_data" [drivers/soc/qcom/dcc.ko] undefined!
->> ERROR: modpost: "xbc_node_find_subkey" [drivers/soc/qcom/dcc.ko] undefined!
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/tpm/tpm2-sessions.c:1184:5: sparse: sparse: symbol 'tpm2_create_null_primary' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
