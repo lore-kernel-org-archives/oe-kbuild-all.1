@@ -1,133 +1,124 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDA723C4;
-	Wed, 25 Jan 2023 12:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4DD23C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 12:59:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674651311; x=1706187311;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MDLw4SI9AuliqMuFsm+CU5yI64+eZZfEdC5qdusTYOc=;
-  b=ct5G4JGJcA2TqWE10wTEJ+CFpOUH92JE25tYOCbaxE6rx4smWi7bYaaD
-   8/rdu/rSWPdwkt0WbHUaS0apmkl0+5+fVsWgPezgWesWD+hKqnvEKnfgT
-   A0QtT+QgyqhnSj8JXkgka2vSW2ijRdQTu0YIk0ZmcFOVUH1yuCmj4M/Kl
-   Dj17Wiz5wre+v76+/nvzs0lhnpAxGJ2T8vSZjkx0q8APSPdbM0eSCHpqM
-   K0I3g0E27ABQHkiYcBphyOdTpf4WLB/KD5+ln3WtsqrKv8ov/EmaE77ku
-   hTx9FlcCz2la1FDd+mDIYl7ENNZTBa6/3E1KxRvW2WDonWR53QpNVwPsk
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306209624"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="306209624"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 04:55:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="751180484"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="751180484"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Jan 2023 04:55:07 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKfIx-0007JE-0c;
-	Wed, 25 Jan 2023 12:55:07 +0000
-Date: Wed, 25 Jan 2023 20:54:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zach O'Keefe <zokeefe@google.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hugh Dickins <hughd@google.com>, Yang Shi <shy828301@gmail.com>,
-	Zach O'Keefe <zokeefe@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] mm/MADV_COLLAPSE: catch !none !huge !bad pmd lookups
-Message-ID: <202301252033.HoFIRXm4-lkp@intel.com>
-References: <20230125015738.912924-2-zokeefe@google.com>
+	d=hansenpartnership.com; s=20151216; t=1674651557;
+	bh=1h3KVU06lOoLOdYsLnIUqpA3XQTq9kVXFFNylvoJSj4=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=fLl7cZctumr8AVdN7FmYgB13dp34nE9HVcbzGxjc82nv4AaSZ9Mk/tuyz9rLFq2Ca
+	 hgl4o4Pm61VsA8fF6CKqrQS+JgiWQ5cWZ3Whw53pw/lhE/qxlczQtpXwkSkhiyjE5F
+	 1coOIgSs7XLle+cEOuDkhn/D2uCIbtnkFibEWASk=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id C4FF81285D02;
+	Wed, 25 Jan 2023 07:59:17 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id U2IzwpUjJlAo; Wed, 25 Jan 2023 07:59:17 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1674651556;
+	bh=1h3KVU06lOoLOdYsLnIUqpA3XQTq9kVXFFNylvoJSj4=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=KHrbss3JSFUfsu551V5G8E4NYE+iqjoAF+X6M/wwKXS5p99pQQ6ct8GC0ENn7tCVG
+	 SOnz1dlwGMPXlYzoSo1DoH85M7FbgkU+y2ZxYq5to0O5mEwzj8e0TIrQoRXvyJFdY+
+	 RSDI2z8Jky+cBYk7wbj53LHuKzukoP2j4Rjae954=
+Received: from [IPv6:2601:5c4:4302:c21::a774] (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id D87361281E04;
+	Wed, 25 Jan 2023 07:59:15 -0500 (EST)
+Message-ID: <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
+	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 25 Jan 2023 07:59:09 -0500
+In-Reply-To: <202301250706.deGvd0yq-lkp@intel.com>
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+	 <202301250706.deGvd0yq-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125015738.912924-2-zokeefe@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Zach,
+On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
+> Hi James,
+> 
+> I love your patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on char-misc/char-misc-testing]
+> [also build test WARNING on char-misc/char-misc-next char-misc/char-
+> misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-
+> 20230124]
+> [If your patch is applied to the wrong git tree, kindly drop us a
+> note.
+> And when submitting patch, we suggest to use '--base' as documented
+> in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:   
+> https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> patch link:   
+> https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
+> patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
+> encrypt/decrypt session handling code
+> config: arc-allyesconfig
+> (https://download.01.org/0day-ci/archive/20230125/202301250706.deGvd0
+> yq-lkp@intel.com/config)
+> compiler: arceb-elf-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget
+> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
+>  -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         #
+> https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+>         git remote add linux-review
+> https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review James-Bottomley/tpm-move-
+> buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+>         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> make.cross W=1 O=build_dir ARCH=arc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/char/tpm/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous
+> prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
+>     1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/char/tpm/tpm2-sessions.c: In function
+> 'tpm_buf_check_hmac_response':
+> > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame size
+> > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+>      831 | }
+>          | ^
+>    drivers/char/tpm/tpm2-sessions.c: In function
+> 'tpm_buf_fill_hmac_session':
+>    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame size of
+> 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+>      579 | }
+>          | ^
 
-Thank you for the patch! Yet something to improve:
+Is this a test problem?  I can't see why the code would only blow the
+stack on the arc architecture and not on any other ... does it have
+something funny with on stack crypto structures?
 
-[auto build test ERROR on akpm-mm/mm-everything]
+James
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zach-O-Keefe/mm-MADV_COLLAPSE-catch-none-huge-bad-pmd-lookups/20230125-095954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230125015738.912924-2-zokeefe%40google.com
-patch subject: [PATCH 2/2] mm/MADV_COLLAPSE: catch !none !huge !bad pmd lookups
-config: x86_64-randconfig-r025-20230123 (https://download.01.org/0day-ci/archive/20230125/202301252033.HoFIRXm4-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6001eb9a8f1687a1d0b72831d991886106cac37b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zach-O-Keefe/mm-MADV_COLLAPSE-catch-none-huge-bad-pmd-lookups/20230125-095954
-        git checkout 6001eb9a8f1687a1d0b72831d991886106cac37b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> mm/khugepaged.c:972:17: error: passing 'pmd_t **' to parameter of incompatible type 'pmd_t'
-           if (pmd_devmap(pmd))
-                          ^~~
-   arch/x86/include/asm/pgtable.h:254:36: note: passing argument to parameter 'pmd' here
-   static inline int pmd_devmap(pmd_t pmd)
-                                      ^
-   1 error generated.
-
-
-vim +972 mm/khugepaged.c
-
-   945	
-   946	/*
-   947	 * See pmd_trans_unstable() for how the result may change out from
-   948	 * underneath us, even if we hold mmap_lock in read.
-   949	 */
-   950	static int find_pmd_or_thp_or_none(struct mm_struct *mm,
-   951					   unsigned long address,
-   952					   pmd_t **pmd)
-   953	{
-   954		pmd_t pmde;
-   955	
-   956		*pmd = mm_find_pmd(mm, address);
-   957		if (!*pmd)
-   958			return SCAN_PMD_NULL;
-   959	
-   960		pmde = pmdp_get_lockless(*pmd);
-   961	
-   962	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-   963		/* See comments in pmd_none_or_trans_huge_or_clear_bad() */
-   964		barrier();
-   965	#endif
-   966		if (pmd_none(pmde))
-   967			return SCAN_PMD_NONE;
-   968		if (!pmd_present(pmde))
-   969			return SCAN_PMD_NULL;
-   970		if (pmd_trans_huge(pmde))
-   971			return SCAN_PMD_MAPPED;
- > 972		if (pmd_devmap(pmd))
-   973			return SCAN_PMD_NULL;
-   974		if (pmd_bad(pmde))
-   975			return SCAN_PMD_NULL;
-   976		return SCAN_SUCCEED;
-   977	}
-   978	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
