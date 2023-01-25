@@ -1,45 +1,52 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C092C1FB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 11:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE821FB4;
+	Wed, 25 Jan 2023 12:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674646319; x=1706182319;
+  t=1674648782; x=1706184782;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5tiFxHorRsdi6tIY75oJsZOHykFx4JPsLHkuUSRto9Y=;
-  b=i1eTcYLhJgD2tEhliLHkK89S7R3EBjkiTGb7Qj4F+Er9lpgpuAO86u+D
-   woZBhwEnEZ7GkFSo7TvI9r75yDFkNHugdDg33+iapgPXNDSbiYFpA+brp
-   D5XBoRpQPRIGTLsZuXZnBeMiyZfARtQdNbA+SswUv5CGmw+MTS0jb5FHg
-   j1oHFTshwUSva7fWvmN/7RRbgRrZRUBXef1y+jv7yyMc9seTU8BSIi0W9
-   StjzjTVd9AeXpVctQ9U+VBXPI+JEQVZMLW4tVCKasL9UOIAQN2HNsm7kp
-   OZhaEV+0k3Y0zBBCKz5pVwib4F6yDbrtVF7rfNaS9nE5S5A0LxloBq+UZ
+  bh=BlYL5ZWxfpIGJfWCOvZGguBgymIDRUM5a8fZph+HpbU=;
+  b=IVms/xwalWAAxbxSySt4IZtjNoJfVX+X4bN6bFWWFIeJC4tNGsBhus6Y
+   Bv+2jVbRe75jnV0o+m4bmtbRLZcaGpu/aKmB9ifJLs/MYpqRiAXS82j6v
+   2yGtPPHHqWH9vcaEY/JhBdH5KyxGqlswSO9FK7ctcEtjVDUz6MWGAF0lQ
+   TMABESVcDhXcoGhriDVw8iG32Uw5qchAasm6RGwVX0HbF1GTJHd9fz//v
+   ZOxLM86mF/3lzcLlB2y4KYCTNUTt8IVaSEWRKWGYQYruBM80FzwSi4qP+
+   XFh5tmLm9GpeV9g4CS6GoAJU9FXKhubop6iSwOf+7AXcMA4ljDyq4sGG1
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="412766921"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="391044967"
 X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="412766921"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 03:31:59 -0800
+   d="scan'208";a="391044967"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 04:13:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="662477057"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="725833858"
 X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="662477057"
+   d="scan'208";a="725833858"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 25 Jan 2023 03:31:55 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 25 Jan 2023 04:12:57 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKe0S-0007Gm-0t;
-	Wed, 25 Jan 2023 11:31:56 +0000
-Date: Wed, 25 Jan 2023 19:31:47 +0800
+	id 1pKee9-0007He-0L;
+	Wed, 25 Jan 2023 12:12:57 +0000
+Date: Wed, 25 Jan 2023 20:12:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm/ttm: replace busy placement with
- flags v2
-Message-ID: <202301251900.qqxH4BLi-lkp@intel.com>
-References: <20230124125726.13323-5-christian.koenig@amd.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
+	daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, javierm@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [Intel-gfx] [PATCH v2 06/10] drm/fb-helper: Initialize
+ fb-helper's preferred BPP in prepare function
+Message-ID: <202301252016.vm7ksFra-lkp@intel.com>
+References: <20230124134010.30263-7-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,76 +55,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124125726.13323-5-christian.koenig@amd.com>
+In-Reply-To: <20230124134010.30263-7-tzimmermann@suse.de>
 
-Hi Christian,
+Hi Thomas,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test ERROR on 7d3e7f64a42d66ba8da6e7b66a8d85457ef84570]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-ttm-stop-allocating-dummy-resources-during-BO-creation/20230124-205939
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230124125726.13323-5-christian.koenig%40amd.com
-patch subject: [Intel-gfx] [PATCH 5/5] drm/ttm: replace busy placement with flags v2
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230125/202301251900.qqxH4BLi-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Test-for-connectors-before-sending-hotplug-event/20230124-214220
+base:   7d3e7f64a42d66ba8da6e7b66a8d85457ef84570
+patch link:    https://lore.kernel.org/r/20230124134010.30263-7-tzimmermann%40suse.de
+patch subject: [Intel-gfx] [PATCH v2 06/10] drm/fb-helper: Initialize fb-helper's preferred BPP in prepare function
+config: x86_64-randconfig-a014-20230123 (https://download.01.org/0day-ci/archive/20230125/202301252016.vm7ksFra-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/1b5a737f3331c8493708ed779338243cd70dde6a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/70e38534e74e4d12bb02b3b352bba2aed417f541
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-ttm-stop-allocating-dummy-resources-during-BO-creation/20230124-205939
-        git checkout 1b5a737f3331c8493708ed779338243cd70dde6a
+        git fetch --no-tags linux-review Thomas-Zimmermann/drm-client-Test-for-connectors-before-sending-hotplug-event/20230124-214220
+        git checkout 70e38534e74e4d12bb02b3b352bba2aed417f541
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/gma500/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In function 'i915_ttm_placement_from_obj',
-       inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:841:2:
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:25: error: 'places[0].flags' is used uninitialized [-Werror=uninitialized]
-     165 |         places[0].flags |= TTM_PL_FLAG_IDLE;
-         |                         ^~
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:831:26: note: 'places' declared here
-     831 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
-         |                          ^~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/gma500/framebuffer.c:412:44: error: too many arguments to function call, expected 3, have 4
+           drm_fb_helper_prepare(dev, fb_helper, 32, &psb_fb_helper_funcs);
+           ~~~~~~~~~~~~~~~~~~~~~                     ^~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_fb_helper.h:295:20: note: 'drm_fb_helper_prepare' declared here
+   static inline void drm_fb_helper_prepare(struct drm_device *dev,
+                      ^
+>> drivers/gpu/drm/gma500/framebuffer.c:421:46: error: too few arguments to function call, expected 2, have 1
+           ret = drm_fb_helper_initial_config(fb_helper);
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+   include/drm/drm_fb_helper.h:459:19: note: 'drm_fb_helper_initial_config' declared here
+   static inline int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper,
+                     ^
+   2 errors generated.
 
 
-vim +165 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+vim +412 drivers/gpu/drm/gma500/framebuffer.c
 
-   155	
-   156	static void
-   157	i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
-   158				    struct ttm_place *places,
-   159				    struct ttm_placement *placement)
-   160	{
-   161		unsigned int num_allowed = obj->mm.n_placements;
-   162		unsigned int flags = obj->flags;
-   163		unsigned int i;
-   164	
- > 165		places[0].flags |= TTM_PL_FLAG_IDLE;
-   166		i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
-   167					   obj->mm.region, &places[0], obj->bo_offset,
-   168					   obj->base.size, flags);
-   169	
-   170		/* Cache this on object? */
-   171		for (i = 0; i < num_allowed; ++i) {
-   172			i915_ttm_place_from_region(obj->mm.placements[i],
-   173						   &places[i + 1], obj->bo_offset,
-   174						   obj->base.size, flags);
-   175			places[i + 1].flags |= TTM_PL_FLAG_BUSY;
-   176		}
-   177	
-   178		placement->num_placement = num_allowed + 1;
-   179		placement->placement = places;
-   180	}
-   181	
+   397	
+   398	int psb_fbdev_init(struct drm_device *dev)
+   399	{
+   400		struct drm_fb_helper *fb_helper;
+   401		struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+   402		int ret;
+   403	
+   404		fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+   405		if (!fb_helper) {
+   406			dev_err(dev->dev, "no memory\n");
+   407			return -ENOMEM;
+   408		}
+   409	
+   410		dev_priv->fb_helper = fb_helper;
+   411	
+ > 412		drm_fb_helper_prepare(dev, fb_helper, 32, &psb_fb_helper_funcs);
+   413	
+   414		ret = drm_fb_helper_init(dev, fb_helper);
+   415		if (ret)
+   416			goto free;
+   417	
+   418		/* disable all the possible outputs/crtcs before entering KMS mode */
+   419		drm_helper_disable_unused_functions(dev);
+   420	
+ > 421		ret = drm_fb_helper_initial_config(fb_helper);
+   422		if (ret)
+   423			goto fini;
+   424	
+   425		return 0;
+   426	
+   427	fini:
+   428		drm_fb_helper_fini(fb_helper);
+   429	free:
+   430		kfree(fb_helper);
+   431		return ret;
+   432	}
+   433	
 
 -- 
 0-DAY CI Kernel Test Service
