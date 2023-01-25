@@ -1,135 +1,115 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DA04C69
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 13:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9CD257A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 14:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674653972; x=1706189972;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uVNuIPRm9QPwcd4oqZ9GXJlGxWAucFgmjYS9xfDWMt4=;
-  b=E1bJfvnGz74TIAP8bIer8+zNj6rf7Xz/dQNf7u34E2aQrge2CwsFJDNW
-   kp89yQ9AdoifufhDW0wK7JBpHCRu54aWKDIPWH2JUXji0IADNGWhBXyeB
-   UhfCxRs421BHPbkM6cwuF0TAiy3nc9dDoFpSfbFjmo9aROqcqtw9leoMD
-   nVBWpgBszIKp0qUd8xIy6y3Cjea16gfQCbAR8qtqMQt0cpRzX+X0Zaops
-   sFeyhYoPVkN+bK46H2hkrzUzchwdpcXaP3xZvHF5kbE4zgaFAB5Hr7XIX
-   ymZing00hqbS/rWksMYH1oo/zPLxJeF/exupO3iFmBQE5cS1jDbsGH06g
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="314457763"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="314457763"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 05:39:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="639937713"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="639937713"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 25 Jan 2023 05:39:29 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKfzs-0007Km-1U;
-	Wed, 25 Jan 2023 13:39:28 +0000
-Date: Wed, 25 Jan 2023 21:38:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zach O'Keefe <zokeefe@google.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hugh Dickins <hughd@google.com>, Yang Shi <shy828301@gmail.com>,
-	Zach O'Keefe <zokeefe@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] mm/MADV_COLLAPSE: catch !none !huge !bad pmd lookups
-Message-ID: <202301252110.hFYRsbrm-lkp@intel.com>
-References: <20230125015738.912924-2-zokeefe@google.com>
+	d=hansenpartnership.com; s=20151216; t=1674655315;
+	bh=mOb5g9Y6fpziO8sZahIkRFgvrUxahBGEJYC92LSBRUQ=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=cw/5flAwvjyXclH1HnW04plVsCkM7xHH59NQ/1KeyhV7uGnsPo33ethpG7IQLAuHw
+	 +xq3MUJcOHgEKpROI/2JygkUuF0zZC4+08WHqmjyRHJ/wpB3VYux0xdQPEq7CzKvkI
+	 Ac3h0lKDTqye55CyIhtrCFMkxkdPAuK7riD3evCE=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 170A11286199;
+	Wed, 25 Jan 2023 09:01:55 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id T3KzLZZsZejS; Wed, 25 Jan 2023 09:01:54 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1674655314;
+	bh=mOb5g9Y6fpziO8sZahIkRFgvrUxahBGEJYC92LSBRUQ=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=pqaz8dlsw2Gjw+sVezF9iVZVJITI5Wb9Y1nxlPIlOZNtjEYZVnmYfb+SCH3SAZvwm
+	 wlxE3SAxfppcF6KXRj0c2d6aowUnmz24azJirsBrMX+ktWM1XnWCQxfkeb1whDV6Fl
+	 /W6TrdMhJRf0Fhvam9rVQ1E2Mb2J7VNw9wMk2Hy4=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 3BC9A1286141;
+	Wed, 25 Jan 2023 09:01:54 -0500 (EST)
+Message-ID: <0c69d737684c5b1232090c1a501198852bf15b9c.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 01/11] tpm: move buffer handling from static inlines
+ to real functions
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
+	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 25 Jan 2023 09:01:52 -0500
+In-Reply-To: <202301250315.ZgtsNzSm-lkp@intel.com>
+References: <20230124175516.5984-2-James.Bottomley@HansenPartnership.com>
+	 <202301250315.ZgtsNzSm-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125015738.912924-2-zokeefe@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Zach,
+On Wed, 2023-01-25 at 03:57 +0800, kernel test robot wrote:
+> Hi James,
+> 
+> I love your patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on char-misc/char-misc-testing]
+> [also build test WARNING on char-misc/char-misc-next char-misc/char-
+> misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-
+> 20230124]
+> [If your patch is applied to the wrong git tree, kindly drop us a
+> note.
+> And when submitting patch, we suggest to use '--base' as documented
+> in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:   
+> https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> patch link:   
+> https://lore.kernel.org/r/20230124175516.5984-2-James.Bottomley%40HansenPartnership.com
+> patch subject: [PATCH v2 01/11] tpm: move buffer handling from static
+> inlines to real functions
+> config: sparc-allyesconfig
+> (https://download.01.org/0day-ci/archive/20230125/202301250315.ZgtsNz
+> Sm-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget
+> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
+>  -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         #
+> https://github.com/intel-lab-lkp/linux/commit/484b879d0bfceec899fea147a76d12f7072d9f23
+>         git remote add linux-review
+> https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review James-Bottomley/tpm-move-
+> buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+>         git checkout 484b879d0bfceec899fea147a76d12f7072d9f23
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash
+> drivers/char/tpm/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> > > drivers/char/tpm/tpm-buf.c:46:5: warning: no previous prototype
+> > > for 'tpm_buf_tag' [-Wmissing-prototypes]
+>       46 | u16 tpm_buf_tag(struct tpm_buf *buf)
+>          |     ^~~~~~~~~~~
 
-Thank you for the patch! Yet something to improve:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+This looks like an initial header got missed in the code motion. 
+However, the fact that nothing broke shows that tpm_buf_tag isn't used
+outside of the tpm-buf.c functions, so I think I can make it static to
+them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zach-O-Keefe/mm-MADV_COLLAPSE-catch-none-huge-bad-pmd-lookups/20230125-095954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230125015738.912924-2-zokeefe%40google.com
-patch subject: [PATCH 2/2] mm/MADV_COLLAPSE: catch !none !huge !bad pmd lookups
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230125/202301252110.hFYRsbrm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6001eb9a8f1687a1d0b72831d991886106cac37b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zach-O-Keefe/mm-MADV_COLLAPSE-catch-none-huge-bad-pmd-lookups/20230125-095954
-        git checkout 6001eb9a8f1687a1d0b72831d991886106cac37b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+James
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   mm/khugepaged.c: In function 'find_pmd_or_thp_or_none':
->> mm/khugepaged.c:972:24: error: incompatible type for argument 1 of 'pmd_devmap'
-     972 |         if (pmd_devmap(pmd))
-         |                        ^~~
-         |                        |
-         |                        pmd_t **
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from mm/khugepaged.c:4:
-   arch/x86/include/asm/pgtable.h:254:36: note: expected 'pmd_t' but argument is of type 'pmd_t **'
-     254 | static inline int pmd_devmap(pmd_t pmd)
-         |                              ~~~~~~^~~
-
-
-vim +/pmd_devmap +972 mm/khugepaged.c
-
-   945	
-   946	/*
-   947	 * See pmd_trans_unstable() for how the result may change out from
-   948	 * underneath us, even if we hold mmap_lock in read.
-   949	 */
-   950	static int find_pmd_or_thp_or_none(struct mm_struct *mm,
-   951					   unsigned long address,
-   952					   pmd_t **pmd)
-   953	{
-   954		pmd_t pmde;
-   955	
-   956		*pmd = mm_find_pmd(mm, address);
-   957		if (!*pmd)
-   958			return SCAN_PMD_NULL;
-   959	
-   960		pmde = pmdp_get_lockless(*pmd);
-   961	
-   962	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-   963		/* See comments in pmd_none_or_trans_huge_or_clear_bad() */
-   964		barrier();
-   965	#endif
-   966		if (pmd_none(pmde))
-   967			return SCAN_PMD_NONE;
-   968		if (!pmd_present(pmde))
-   969			return SCAN_PMD_NULL;
-   970		if (pmd_trans_huge(pmde))
-   971			return SCAN_PMD_MAPPED;
- > 972		if (pmd_devmap(pmd))
-   973			return SCAN_PMD_NULL;
-   974		if (pmd_bad(pmde))
-   975			return SCAN_PMD_NULL;
-   976		return SCAN_SUCCEED;
-   977	}
-   978	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
