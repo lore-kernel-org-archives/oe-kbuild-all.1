@@ -1,102 +1,124 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2545B1100
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 07:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674630952; x=1706166952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=44OlyVK1Da2TLv8xj0eXULV9HtAjRmmQ/wsfiiqecZU=;
-  b=m+5l80wy/FJlwLpF4X/rDmaDo8nKJ9x3xY6CODNUygwXJMyNvJrJpvt0
-   JcmywcimcSqXaQl3Qt/X6zuS/bO4Agn0H18iCw56G8dvyIUsgduHf1SHY
-   E51/rJzGu7xnI3jSdMLu8gXHTGFCm6Pwnz7lnF1iBuUUm1eoDCR5odTcD
-   b/CpC6skHe2lwZL4oG9KD5g3paRI3+xz/SHzW0TI97hRGT6vbJ48Zpoqm
-   hFNUyw9WZNSLX/xRnp7Qh/WI7wvlwW/7ihxHOtJU6DVmbUwV7ibQQmLOm
-   g8BC0IJkc+4LnHH5HXHRnEe9L4Md8D1ankjE8VdFAnvxPybjlWdUFn4O6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="391002136"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="391002136"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 23:15:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="804909011"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
-   d="scan'208";a="804909011"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Jan 2023 23:15:48 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKa0Z-00078W-2v;
-	Wed, 25 Jan 2023 07:15:47 +0000
-Date: Wed, 25 Jan 2023 15:14:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	oleg@redhat.com, avagin@gmail.com, luto@kernel.org,
-	krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-	shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v6 2/2] ptrace,syscall_user_dispatch: add a getter/setter
- for sud configuration
-Message-ID: <202301251548.C0OCmAX0-lkp@intel.com>
-References: <20230125025126.787431-3-gregory.price@memverge.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AD71381
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 07:27:52 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30P7OXQb005783;
+	Wed, 25 Jan 2023 07:27:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : subject :
+ to : cc : references : in-reply-to : mime-version : message-id :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=FfhVjFCYsJ7dAlAMtp/34XlGJFtHr6re2RiJOsHNLGg=;
+ b=LL+hoXimFDg7XgnRP7HNG7peBxxa4Lk9s/+dlusdxfJ0opDC5BAkOSX9NHf2vFMCBsp1
+ uHzFGGN7pXKFN9EwWQXa8Jx7r8QrBHfXxgpg0YNaE8q8mwOysrHlHS2OKag+5/RQePBe
+ NweMQylOz0IZqwdU+irh4l2HFPhhU1xN916UvUCkYxBhlu6RRyf88JyMUIWB+S/OQSP4
+ KvN09MsYQFnhZuYAOq2chVT0GYL+yh+2X3nz06H68Cit/SXWFdxMtY/Z7rzHI3SXizCy
+ /Vd9hX4b+pyBqsSIIQHMcKRR7IXP0JRZBIa1q3yse7H+xVOYihW9kGVvsYM+8mgAdX/3 jA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3na9vcfxrm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jan 2023 07:27:43 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30P7K44t012765;
+	Wed, 25 Jan 2023 07:27:43 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3na9vcfxr2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jan 2023 07:27:43 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+	by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30P0hr78004576;
+	Wed, 25 Jan 2023 07:27:41 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n87afbg31-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jan 2023 07:27:41 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30P7RcdH43713006
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Jan 2023 07:27:38 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BE1D42004B;
+	Wed, 25 Jan 2023 07:27:38 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0369420043;
+	Wed, 25 Jan 2023 07:27:38 +0000 (GMT)
+Received: from localhost (unknown [9.43.44.248])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 25 Jan 2023 07:27:37 +0000 (GMT)
+Date: Wed, 25 Jan 2023 12:57:35 +0530
+From: "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
+Subject: Re: arch/powerpc/kernel/head_85xx.o: warning: objtool:
+ .head.text+0x1a6c: unannotated intra-function call
+To: kernel test robot <lkp@intel.com>, Sathvika Vasireddy <sv@linux.ibm.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+        oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        npiggin@gmail.com
+References: <202301161955.38kK6ksW-lkp@intel.com>
+	<b2273730-f885-7658-7ec4-12fb5bfc515b@linux.ibm.com>
+In-Reply-To: <b2273730-f885-7658-7ec4-12fb5bfc515b@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125025126.787431-3-gregory.price@memverge.com>
+User-Agent: astroid/4d6b06ad (https://github.com/astroidmail/astroid)
+Message-Id: <1674631223.9e09lbzzb6.naveen@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: diT2iJU4YjmWzYK-pl-jDh7d03PW7NzN
+X-Proofpoint-ORIG-GUID: dVxg2tl4LVOhYt4gQaRSdeIE_d5GI_xr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-25_02,2023-01-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=999 clxscore=1011 spamscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250064
 
-Hi Gregory,
+Sathvika Vasireddy wrote:
+>=20
+>>>> arch/powerpc/kvm/booke.o: warning: objtool: kvmppc_fill_pt_regs+0x30: =
+unannotated intra-function call
+>=20
+> As an attempt to fix it, I tried expanding ANNOTATE_INTRA_FUNCTION_CALL=20
+> macro to indicate that the branch target is valid. It then threw another=20
+> warning (arch/powerpc/kvm/booke.o: warning: objtool:=20
+> kvmppc_fill_pt_regs+0x38: intra_function_call not a direct call). The=20
+> below diff just removes the warnings for me, but I'm not very sure if=20
+> this is the best way to fix the objtool warnings seen with this=20
+> particular file. Please let me know if there are any better ways to fix i=
+t.
+>=20
+> diff --git a/arch/powerpc/kvm/booke.c b/arch/powerpc/kvm/booke.c
+> index 0dce93ccaadf..b6a413824b98 100644
+> --- a/arch/powerpc/kvm/booke.c
+> +++ b/arch/powerpc/kvm/booke.c
+> @@ -917,7 +917,9 @@ static void kvmppc_fill_pt_regs(struct pt_regs *regs)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm("mr %0, 1" : "=3Dr"(r1));
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm("mflr %0" : "=3Dr"(lr));
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm("mfmsr %0" : "=3Dr"(msr))=
+;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm(".pushsection .discard.intra_fu=
+nction_calls; .long 999f;=20
+> .popsection; 999:");
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm("bl 1f; 1: mflr %0" : "=
+=3Dr"(ip));
 
-Thank you for the patch! Perhaps something to improve:
+I don't think you can assume that there won't be anything in between two=20
+asm statements. Does it work if you combine both the above asm=20
+statements into a single one?
 
-[auto build test WARNING on linus/master]
-[cannot apply to tip/core/entry]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-add-a-getter-setter-for-sud-configuration/20230125-115155
-patch link:    https://lore.kernel.org/r/20230125025126.787431-3-gregory.price%40memverge.com
-patch subject: [PATCH v6 2/2] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301251548.C0OCmAX0-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/581ad4d3309b94aafb967b0ca56607436c18127f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-add-a-getter-setter-for-sud-configuration/20230125-115155
-        git checkout 581ad4d3309b94aafb967b0ca56607436c18127f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
->> kernel/entry/syscall_user_dispatch.c:143:13: warning: unused variable 'ret' [-Wunused-variable]
-     143 |         int ret;
-         |             ^~~
+Even if that works, I don't think it is good to expand the macro here. =20
+That asm statement looks to be trying to grab the current nip. I don't=20
+know enough about that code, and someone who knows more about KVM may be=20
+able to help, but it looks like we should be able to simply set 'ip' to=20
+the address of kvmppc_fill_pt_regs()?
 
 
-vim +/ret +143 kernel/entry/syscall_user_dispatch.c
+- Naveen
 
-   138	
-   139	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-   140			void __user *data)
-   141	{
-   142		struct syscall_user_dispatch_config config;
- > 143		int ret;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
