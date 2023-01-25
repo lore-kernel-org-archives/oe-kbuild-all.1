@@ -1,78 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690473FE1;
-	Wed, 25 Jan 2023 14:56:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D996C433EF;
-	Wed, 25 Jan 2023 14:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674658616;
-	bh=6sSMclZHpHieWRmYj4HaLQzwVSqN9/YPbU2iejiwc+M=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=SikK3Hea/KQmmaeMwpIRuuSvr6F6O0nAchQYQ6KqlBpoZBO+HiyAnyfW//0dEeAWG
-	 hkXUUaSvjLH8xy9DX0oPdC/vEytFyROGUZchQhyWwta4FyRssk82vt5FYSyqxwR4Za
-	 XTJBeknhzV7hba26CXSXYd7y2hpeyA1uLu1s1WL/1o3X6Izeo4il65SDBVq1PZ1vys
-	 JcCL701W2gVYrIkqXvaUr9wImfbHrl2cMHU30I6arhZPWVBBLS2viW4KR5d0nYeQGd
-	 R6bA2mjVnDOAeNVnf/L22ig3d/pcweX4/xJUJyArebwznc4gAuzTUlYfd7lVcujbuR
-	 F/LvAkxGeAOrA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A97FF5C02BE; Wed, 25 Jan 2023 06:56:55 -0800 (PST)
-Date: Wed, 25 Jan 2023 06:56:55 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
- kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
- statement not indented
-Message-ID: <20230125145655.GF2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <202301241716.MgPWF6fU-lkp@intel.com>
- <Y8+tTlFbtbVMhUNI@kadam>
- <Y9DkEpSWDthHDRGn@kadam>
- <Y9DpFTItKK8NkFR0@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798476FA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 18:14:40 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id g11so17253401eda.12
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jan 2023 10:14:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ezfgQvWoMwYi/wrVPbQBarXLnM5cDi1r4h1toUfXH6c=;
+        b=cGn+xBZGLUGvEEQSQEj8q7PiKeDnCb14P3MOhmCCN3HhQSOmIsRjhNBB9kLQOgJPtI
+         GZ3CutDFj51OwAyR8zxU2JURtxQbRtWIqvZu3wP4Di9u47Vcx6QSh1pJH4SxN8OQBniG
+         YcphD1DbWFqQSMYnIEjB7qrG4s9fhM/3URZsILyle9KPNXUW/Ie1SfVlA4MevrKHCkm3
+         p3YkCb9f8dmb7utnp3xYktANPPhrv9eJtYKT+P9YEWUI2htA35cEjMp5ImYJvzxExC2F
+         o3R+nMif1e2BDalQApSuF2LB8IhPhh/pLT/Yj9PWnW5F7d/JKd2ZEE5cmwiwDGVKoD+G
+         0iKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ezfgQvWoMwYi/wrVPbQBarXLnM5cDi1r4h1toUfXH6c=;
+        b=DjH9s4N3JsoyowQfBGZe+d0vvxY5yCiuyBHsdTUy7QxY2RvWVlU77ZOiEunJvVH5Na
+         URgZ6Lfs1MJslADQYpDUW3ltoJBHe2pg0fcoV+0r09/CNRP24ocnI+geqpVbHcraEtjn
+         XImC3VcIaJ8NNrt3Q7f3et0NxJaJBjz1P+G3SjxzMNMYg5ZUwZ+zOVb2Hozn28UlTcZ4
+         rUnMw2JEdKt/5X6V9OsGUl3tnP+SwMpOUPPA4gCtLBINAPDSh905WUF5gxrY1hzlSIsw
+         oSD7caky5yy4pfnav9van3Y+fdb8bt3Y+J1Er0MsxJFgaXCzTBxfKWtplknmskatgz+9
+         kMyg==
+X-Gm-Message-State: AFqh2kqJjz4si2HvdcxjHyxKop3CKywQd4zV52Y9lcxJfdPjlsD1xxBD
+	rgxld0frwEKLk7ggS21wYKzjPVaRdbmi2MwOItXiTZOWxJcz66h1
+X-Google-Smtp-Source: AMrXdXuT6xMFHJVZ5QLk/+wQjDgjKjQNWw0t82BBGNsYvY9n1cbbZqP0y0Ny/YOsHABz+zn+gawW9hmxBLs+nRoPRDk=
+X-Received: by 2002:a05:6402:2054:b0:498:216:ee4c with SMTP id
+ bc20-20020a056402205400b004980216ee4cmr4403222edb.29.1674670478499; Wed, 25
+ Jan 2023 10:14:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9DpFTItKK8NkFR0@kadam>
+References: <20230125015738.912924-2-zokeefe@google.com> <202301252110.hFYRsbrm-lkp@intel.com>
+In-Reply-To: <202301252110.hFYRsbrm-lkp@intel.com>
+From: "Zach O'Keefe" <zokeefe@google.com>
+Date: Wed, 25 Jan 2023 10:14:01 -0800
+Message-ID: <CAAa6QmTjn-Lnw9Sj80RCaCWmqehDSdRJVp0923UUTD68jMqoDg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mm/MADV_COLLAPSE: catch !none !huge !bad pmd lookups
+To: kernel test robot <lkp@intel.com>
+Cc: linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Hugh Dickins <hughd@google.com>, Yang Shi <shy828301@gmail.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 25, 2023 at 11:32:21AM +0300, Dan Carpenter wrote:
-> On Wed, Jan 25, 2023 at 11:10:58AM +0300, Dan Carpenter wrote:
-> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188f.c:1265 rtl8188fu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8723b.c:1168 rtl8723bu_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:3298 rtl8xxxu_gen1_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtlwifi/rtl8188ee/phy.c:1989 rtl88e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtlwifi/rtl8192c/phy_common.c:1429 rtl92c_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtlwifi/rtl8192de/phy.c:2294 rtl92d_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtlwifi/rtl8723ae/phy.c:1393 rtl8723e_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> > drivers/net/wireless/realtek/rtlwifi/rtl8723be/phy.c:2321 rtl8723be_phy_iq_calibrate() warn: re-using outside iterator: 'i'
-> 
-> These are all "false positives" (kind of).  It's 8 copies of code which
-> does:
-> 
-> 	for (i = 0; i < 3; i++) {
-> 		...
-> 		if (i == 2) {
-> 			for (i = 0; i < 8; i++)
-> 				foo = bar[i];
-> 		}
-> 	}
-> 
-> So the loop exits with i == 8 instead of i == 3 but that doesn't matter.
-> Ugh...  Did the original author do this deliberately or did it just work
-> by chance?  I really prefer buggy code to code to ugly code.  With buggy
-> code it's a technical matter and easy to fix, but with ugly code that's
-> like a big debate and a social problem...
-> 
-> On the other hand, in this case, I don't think anyone is going to defend
-> the original style from these drivers so I may as well patch it.
-
-Looks suspicious to me!  ;-)
-
-							Thanx, Paul
+Apologies here; shouldn't have overlooked the 4 line change. Will
+follow-up with a v2 here in a second.
