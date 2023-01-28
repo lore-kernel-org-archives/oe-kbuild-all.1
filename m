@@ -1,42 +1,46 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC6F5CA1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8C5CA3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674911792; x=1706447792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SyngPhYnO66Rg7DQotIMO1YTevGcBrNTT8wwIF8c0q0=;
-  b=Il1nNaolMYDAArgnoCik46WhM1h6pItzBbMDJjPBhwGaMLvypksYaMNh
-   qufNOhzQXiYDF0xmZ+uaIJFCydelhaSx6L7svTwJpydsNFwxrJWF9Z/Ds
-   RmJ1hcLzYKe5/ophoKKa9bKOGsLBJSrsp1kzMdIfEGAAfke4OZUtYPTHm
-   FK2EDzJdUC4vW+Pxo7rbddpYGLGxpXrKevOUaTC727dsinRnyeDn9DA6L
-   nmajYrpj3st3efGHRzsHjwLxeMgMEKtCYGAQJ+EXI+w5U80hbIyV5CQ55
-   Cj/R6Esb2akHyxW+G843f0YZ1vTLNRojUC90basDpLX0FAOj4Z+wrcnwJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="324983317"
+  t=1674911794; x=1706447794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xRkizNFLXRZLEBRhpHvIyAhu0m3+jrQc6zYlNa2K1+4=;
+  b=MrxXFTwysEaV1pFYybyMevVbEWZbGAJUSmz1XCjo9Xd2hFPzqqV+woPX
+   oK79oyhX+FRDiGNP/ZWFGuDA4znhEYEZXbK6RTnKCABQK3qaAmY9zSr4T
+   J4HrEbX1RvOHf3FGFMtvEevDIe9inisgOVYxr4hTCdvezqNwrRAqaBpNk
+   OvnNxY2HTozrBdBVrFeEduImDh5Llkq4m/ffahJnyazdQaGFDMk9vmgnx
+   aIZfyD6HyiTCzzB/ml3u7tbEqdPISo9On3778W9AW6V+93Uq3jFpehuoA
+   1hB34hY13ebJ0zOOwqtR5xvRY7OhnD7wLaX1yIOCF2FTmn+uoGW7MhtWB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="329417898"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="324983317"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:31 -0800
+   d="scan'208";a="329417898"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="695857335"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992378494"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="695857335"
+   d="scan'208";a="992378494"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Jan 2023 05:16:30 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 05:16:30 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLl4H-0000fh-2C;
+	id 1pLl4H-0000fb-20;
 	Sat, 28 Jan 2023 13:16:29 +0000
-Date: Sat, 28 Jan 2023 21:15:54 +0800
+Date: Sat, 28 Jan 2023 21:15:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atish Patra <atishp@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <Atish.Patra@wdc.com>
-Subject: [atishp04:kvm_perf_v3 11/17] arch/riscv/kvm/vcpu_sbi_pmu.c:74:15:
- warning: no previous prototype for 'kvm_sbi_ext_pmu_probe'
-Message-ID: <202301282157.72oHsWq1-lkp@intel.com>
+To: Joanne Koong <joannelkoong@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+	martin.lau@kernel.org, ast@kernel.org, netdev@vger.kernel.org,
+	memxor@gmail.com, kernel-team@fb.com,
+	Joanne Koong <joannelkoong@gmail.com>
+Subject: Re: [PATCH v8 bpf-next 3/5] bpf: Add skb dynptrs
+Message-ID: <202301282140.o95DpYWu-lkp@intel.com>
+References: <20230126233439.3739120-4-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,44 +49,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126233439.3739120-4-joannelkoong@gmail.com>
 
-tree:   https://github.com/atishp04/linux kvm_perf_v3
-head:   2eec63451c917a6f806c432cc434e926b9314160
-commit: 63a3885bcafd49eac3d844a4c51a50c722529bd2 [11/17] RISC-V: KVM: Add SBI PMU extension support
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230128/202301282157.72oHsWq1-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+Hi Joanne,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/bpf-Allow-sk_buff-and-xdp_buff-as-valid-kfunc-arg-types/20230128-170947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230126233439.3739120-4-joannelkoong%40gmail.com
+patch subject: [PATCH v8 bpf-next 3/5] bpf: Add skb dynptrs
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301282140.o95DpYWu-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/63a3885bcafd49eac3d844a4c51a50c722529bd2
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 kvm_perf_v3
-        git checkout 63a3885bcafd49eac3d844a4c51a50c722529bd2
+        # https://github.com/intel-lab-lkp/linux/commit/2581b1dec73f18fa2b7302a1a2ecd788b82f3680
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Joanne-Koong/bpf-Allow-sk_buff-and-xdp_buff-as-valid-kfunc-arg-types/20230128-170947
+        git checkout 2581b1dec73f18fa2b7302a1a2ecd788b82f3680
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> arch/riscv/kvm/vcpu_sbi_pmu.c:74:15: warning: no previous prototype for 'kvm_sbi_ext_pmu_probe' [-Wmissing-prototypes]
-      74 | unsigned long kvm_sbi_ext_pmu_probe(struct kvm_vcpu *vcpu)
-         |               ^~~~~~~~~~~~~~~~~~~~~
+>> net/core/filter.c:1866:5: warning: no previous prototype for 'bpf_dynptr_from_skb' [-Wmissing-prototypes]
+    1866 | int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/kvm_sbi_ext_pmu_probe +74 arch/riscv/kvm/vcpu_sbi_pmu.c
+vim +/bpf_dynptr_from_skb +1866 net/core/filter.c
 
-    73	
-  > 74	unsigned long kvm_sbi_ext_pmu_probe(struct kvm_vcpu *vcpu)
-    75	{
-    76		struct kvm_pmu *kvpmu = vcpu_to_pmu(vcpu);
-    77	
-    78		return kvpmu->init_done;
-    79	}
-    80	
+  1865	
+> 1866	int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
+  1867				struct bpf_dynptr_kern *ptr, int is_rdonly)
+  1868	{
+  1869		if (flags) {
+  1870			bpf_dynptr_set_null(ptr);
+  1871			return -EINVAL;
+  1872		}
+  1873	
+  1874		bpf_dynptr_init(ptr, skb, BPF_DYNPTR_TYPE_SKB, 0, skb->len);
+  1875	
+  1876		if (is_rdonly)
+  1877			bpf_dynptr_set_rdonly(ptr);
+  1878	
+  1879		return 0;
+  1880	}
+  1881	
 
 -- 
 0-DAY CI Kernel Test Service
