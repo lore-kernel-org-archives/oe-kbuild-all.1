@@ -1,45 +1,55 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DAC53B9;
-	Sat, 28 Jan 2023 12:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E7953B9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 12:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674909932; x=1706445932;
+  t=1674909942; x=1706445942;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4B1iDhM0pqsAG1u6CYpdDazgo47245B8+/FsjpicWck=;
-  b=UBreepoVl17hsbby+Z8ZuLJ0J8n4tj1Cr61Ijy2DnNDpvu2Q2K9PONBO
-   lTGFUxIS0Vxjst5HRjEG7nI0fGLdiVEWVWn87GDgJeiZFso789OF0rFBU
-   CVhYGWJw3xtQ8Df+/ogqcBUuaqp6pUb4zt1F1IBc8QKsJNHextBVWx2cD
-   DrxpJJ/rqpFmh0jXtLpvyPhjOC4aqxtnaYPEVIGqRivdWUhWrJDdxZ5NY
-   cpv1FqPn3QWtBU3Cmc6UoNTTw5GyVPeXw8Bao+G0O8Yxp/2Bs1yIBSro0
-   LiMzYkSS2vyMI42R/u83rWoo93Y47JuieCmtwX18Yk70zymbgrqDI8Xl5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="354596361"
+  bh=O5WBaJzgPqwEeJyKfKa2dgk9LEXgRCs5k6shDAwh9+E=;
+  b=Wqu46WD03WDNzASUYMv0gzRIfHEaCfRqDuCXETe9PPWsWV42adABDhGB
+   M78QyJeCiiphQxkUoKvhkjRbbrGkeReIz4yyf++gweN+3tjFv/fmd4/31
+   1IFNXsTecByKSZTn7fGruQwaStI64NV+LcdeGK+a5cJm3GGHZAMjyJ+kO
+   KITQQaz0Hke6tidCXE8mWpYwqL6+QQkLAOQ40lGNcGoC/S858YkyXLpWv
+   EU6W1cxlAq5BNJxS8THP/1DZtkYmLJjIascWafYxIkeOoq/mD7jvqLJeD
+   WFv4fyOixQZ8hPWrzgJwHZ+qsPA84hpMUBodLPZe3Csq+XFTbd2eUiD2J
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="329415207"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="354596361"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:45:31 -0800
+   d="scan'208";a="329415207"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:45:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="641022225"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="787501973"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="641022225"
+   d="scan'208";a="787501973"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Jan 2023 04:45:29 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2023 04:45:34 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLkaG-0000eP-1a;
+	id 1pLkaG-0000eR-1i;
 	Sat, 28 Jan 2023 12:45:28 +0000
-Date: Sat, 28 Jan 2023 20:44:38 +0800
+Date: Sat, 28 Jan 2023 20:44:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vinay Gannevaram <quic_vganneva@quicinc.com>, johannes@sipsolutions.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org
-Subject: Re: [PATCH v2] nl80211: Allow authentication frames and set keys on
- NAN interface
-Message-ID: <202301282020.R7v2wcBQ-lkp@intel.com>
-References: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
+To: Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, eric.auger@redhat.com,
+	alex.williamson@redhat.com, cohuck@redhat.com,
+	song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
+	maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
+	saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
+	yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	masahiroy@kernel.org, ndesaulniers@google.com,
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, okaya@kernel.org, harpreet.anand@amd.com,
+	nikhil.agarwal@amd.com
+Subject: Re: [PATCH v6 5/7] cdx: add cdx controller
+Message-ID: <202301282010.JreX4WjQ-lkp@intel.com>
+References: <20230126104630.15493-6-nipun.gupta@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,183 +58,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
+In-Reply-To: <20230126104630.15493-6-nipun.gupta@amd.com>
 
-Hi Vinay,
+Hi Nipun,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.2-rc5]
+[auto build test ERROR on next-20230127]
+[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes robh/for-next joro-iommu/next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/1674845256-4300-1-git-send-email-quic_vganneva%40quicinc.com
-patch subject: [PATCH v2] nl80211: Allow authentication frames and set keys on NAN interface
-config: hexagon-randconfig-r041-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282020.R7v2wcBQ-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
+patch link:    https://lore.kernel.org/r/20230126104630.15493-6-nipun.gupta%40amd.com
+patch subject: [PATCH v6 5/7] cdx: add cdx controller
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230128/202301282010.JreX4WjQ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/954d2dd8f85ced417476083a99011b8920d68161
+        # https://github.com/intel-lab-lkp/linux/commit/f412d73800370b8e51d1be454e651d3c4ff796a8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
-        git checkout 954d2dd8f85ced417476083a99011b8920d68161
+        git fetch --no-tags linux-review Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
+        git checkout f412d73800370b8e51d1be454e651d3c4ff796a8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/wireless/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/cdx/controller/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from net/wireless/nl80211.c:16:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/wireless/nl80211.c:16:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/wireless/nl80211.c:16:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> net/wireless/nl80211.c:1555:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-   net/wireless/nl80211.c:1555:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:1555:2: note: insert 'break;' to avoid fall-through
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-           break; 
-   net/wireless/nl80211.c:12262:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12262:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12262:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   net/wireless/nl80211.c:12322:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12322:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12322:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   net/wireless/nl80211.c:12462:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12462:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12462:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   10 warnings generated.
+   drivers/cdx/controller/cdx_controller.c: In function 'xlnx_cdx_probe':
+>> drivers/cdx/controller/cdx_controller.c:102:20: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+     102 |         cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
+         |                    ^~~~~~~
+>> drivers/cdx/controller/cdx_controller.c:102:18: warning: assignment to 'struct cdx_mcdi *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     102 |         cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
+         |                  ^
+>> drivers/cdx/controller/cdx_controller.c:115:13: warning: assignment to 'struct cdx_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     115 |         cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
+         |             ^
+>> drivers/cdx/controller/cdx_controller.c:131:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+     131 |         kfree(cdx_mcdi);
+         |         ^~~~~
+         |         kvfree
+   cc1: some warnings being treated as errors
 
 
-vim +1555 net/wireless/nl80211.c
+vim +/kzalloc +102 drivers/cdx/controller/cdx_controller.c
 
-fffd0934b9390f Johannes Berg    2009-07-08  1531  
-fffd0934b9390f Johannes Berg    2009-07-08  1532  static int nl80211_key_allowed(struct wireless_dev *wdev)
-fffd0934b9390f Johannes Berg    2009-07-08  1533  {
-fffd0934b9390f Johannes Berg    2009-07-08  1534  	ASSERT_WDEV_LOCK(wdev);
-fffd0934b9390f Johannes Berg    2009-07-08  1535  
-fffd0934b9390f Johannes Berg    2009-07-08  1536  	switch (wdev->iftype) {
-fffd0934b9390f Johannes Berg    2009-07-08  1537  	case NL80211_IFTYPE_AP:
-fffd0934b9390f Johannes Berg    2009-07-08  1538  	case NL80211_IFTYPE_AP_VLAN:
-074ac8df9f93f2 Johannes Berg    2010-09-16  1539  	case NL80211_IFTYPE_P2P_GO:
-ff973af74aa693 Thomas Pedersen  2011-05-03  1540  	case NL80211_IFTYPE_MESH_POINT:
-fffd0934b9390f Johannes Berg    2009-07-08  1541  		break;
-fffd0934b9390f Johannes Berg    2009-07-08  1542  	case NL80211_IFTYPE_ADHOC:
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1543  		if (wdev->u.ibss.current_bss)
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1544  			return 0;
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1545  		return -ENOLINK;
-fffd0934b9390f Johannes Berg    2009-07-08  1546  	case NL80211_IFTYPE_STATION:
-074ac8df9f93f2 Johannes Berg    2010-09-16  1547  	case NL80211_IFTYPE_P2P_CLIENT:
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1548  		if (wdev->connected)
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1549  			return 0;
-fffd0934b9390f Johannes Berg    2009-07-08  1550  		return -ENOLINK;
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1551  	case NL80211_IFTYPE_NAN:
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1552  		if (wiphy_ext_feature_isset(wdev->wiphy,
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1553  					    NL80211_EXT_FEATURE_SECURE_NAN))
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1554  			return 0;
-de4fcbadde68e3 Johannes Berg    2014-10-31 @1555  	case NL80211_IFTYPE_UNSPECIFIED:
-6e0bd6c35b021d Rostislav Lisovy 2014-11-03  1556  	case NL80211_IFTYPE_OCB:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1557  	case NL80211_IFTYPE_MONITOR:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1558  	case NL80211_IFTYPE_P2P_DEVICE:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1559  	case NL80211_IFTYPE_WDS:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1560  	case NUM_NL80211_IFTYPES:
-fffd0934b9390f Johannes Berg    2009-07-08  1561  		return -EINVAL;
-fffd0934b9390f Johannes Berg    2009-07-08  1562  	}
-fffd0934b9390f Johannes Berg    2009-07-08  1563  
-fffd0934b9390f Johannes Berg    2009-07-08  1564  	return 0;
-fffd0934b9390f Johannes Berg    2009-07-08  1565  }
-fffd0934b9390f Johannes Berg    2009-07-08  1566  
+    95	
+    96	static int xlnx_cdx_probe(struct platform_device *pdev)
+    97	{
+    98		struct cdx_controller *cdx;
+    99		struct cdx_mcdi *cdx_mcdi;
+   100		int ret;
+   101	
+ > 102		cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
+   103		if (!cdx_mcdi)
+   104			return -ENOMEM;
+   105	
+   106		/* Store the MCDI ops */
+   107		cdx_mcdi->mcdi_ops = &mcdi_ops;
+   108		/* MCDI FW: Initialize the FW path */
+   109		ret = cdx_mcdi_init(cdx_mcdi);
+   110		if (ret) {
+   111			dev_err_probe(&pdev->dev, ret, "MCDI Initialization failed\n");
+   112			goto mcdi_init_fail;
+   113		}
+   114	
+ > 115		cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
+   116		if (!cdx) {
+   117			ret = -ENOMEM;
+   118			goto cdx_alloc_fail;
+   119		}
+   120		platform_set_drvdata(pdev, cdx);
+   121	
+   122		cdx->dev = &pdev->dev;
+   123		cdx->priv = cdx_mcdi;
+   124		cdx->ops = &cdx_ops;
+   125	
+   126		return 0;
+   127	
+   128	cdx_alloc_fail:
+   129		cdx_mcdi_finish(cdx_mcdi);
+   130	mcdi_init_fail:
+ > 131		kfree(cdx_mcdi);
+   132	
+   133		return ret;
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
