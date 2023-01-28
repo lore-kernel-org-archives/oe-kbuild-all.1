@@ -1,47 +1,53 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34133F7;
-	Sat, 28 Jan 2023 19:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B7D33F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 19:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674932931; x=1706468931;
+  t=1674932937; x=1706468937;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CFk2RwypKPF19OyjjF+RmpNKHF1fwEMpHxULIXClvqA=;
-  b=naFQNtmkoEIw6IpwsGIxmn6ciXoH9lq7vIlcVXaQnzI0805gRuXEZRL7
-   lskEEgfPSWsgdFpGgyknKuI4ap1lwbDfmwvcFQHAzd6G8nDO7FMa8C/Pm
-   V8gYmukn7itsozI1V1IRwEQaGI2rNx89ZPKRxn57VaVnHul3Yygt3JXF9
-   SjDjR+yETVyQVI1DYb9SBbe26R+CYgw+crwmo/DbfEtaH0ceqtTdR3XND
-   fLIHPLaT6wp1OvDVELgIer9s9ZYFp4T4WDOVJ+sXwTflp390KXS17sA6j
-   tBupdF0EftxKm6YFQ1Ow+a01M4WiIsAcI8R+I3gL4qq4ExYYYlJHiO4UD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391879873"
+  bh=jhxyAYLelEfckoe/PbY7Ef4L4nCPXQSheZkRYAjHAEs=;
+  b=fBBiGRmQ9qgkac44fSToAJtLT194iO/nbI3GxgDf+7zmMcoDCqraGGuS
+   Ps+fvfY1tgTso6dneYwUbVSXfCs11wMEXHxqUxojGFME5qK4gpDekredh
+   Uq4xOg4UY9Xnwro7SJNk224eMgGub/w72hj+pklKuF4ckHJkGZD5egG2a
+   Q234igauJ8tEd7izSSq+QFehmyApanOk0Z1F1Tl1Zzf2UhQ1aduh6827N
+   6xEPgkwY8LSo5ZNL0vFST39gAHn0lweU5R47/7x5DdcQX82o9cBvdZhs6
+   Ow5bAgGVTHQBbnMsKSK0jSUk+YsQ7K4xVGe+MVVlu36ucPBktKPQV/Lar
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354634203"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="391879873"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:08:50 -0800
+   d="scan'208";a="354634203"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:08:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="656977886"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="613562517"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="656977886"
+   d="scan'208";a="613562517"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 11:08:48 -0800
+  by orsmga003.jf.intel.com with ESMTP; 28 Jan 2023 11:08:48 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLqZD-00010i-1H;
+	id 1pLqZD-00010e-11;
 	Sat, 28 Jan 2023 19:08:47 +0000
-Date: Sun, 29 Jan 2023 03:07:58 +0800
+Date: Sun, 29 Jan 2023 03:07:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Theodore Tso <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 03/31] ext4: Convert ext4_bio_write_page() to use a folio
-Message-ID: <202301290216.BcfP0oGK-lkp@intel.com>
-References: <20230126202415.1682629-4-willy@infradead.org>
+To: Tejun Heo <tj@kernel.org>, torvalds@linux-foundation.org,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	bristot@redhat.com, vschneid@redhat.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
+	joshdon@google.com, brho@google.com, pjt@google.com,
+	derkling@google.com, haoluo@google.com, dvernet@meta.com,
+	dschatzberg@meta.com, dskarlat@cs.cmu.edu, riel@surriel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, kernel-team@meta.com,
+	Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH 27/30] sched_ext: Implement core-sched support
+Message-ID: <202301290223.0qWZoY9T-lkp@intel.com>
+References: <20230128001639.3510083-28-tj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,41 +56,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126202415.1682629-4-willy@infradead.org>
+In-Reply-To: <20230128001639.3510083-28-tj@kernel.org>
 
-Hi Matthew,
+Hi Tejun,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on next-20230127]
-[cannot apply to tytso-ext4/dev xfs-linux/for-next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
+[auto build test ERROR on linux/master]
+[also build test ERROR on linus/master v6.2-rc5]
+[cannot apply to tip/sched/core tj-cgroup/for-next next-20230127]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/fs-Add-FGP_WRITEBEGIN/20230128-150212
-patch link:    https://lore.kernel.org/r/20230126202415.1682629-4-willy%40infradead.org
-patch subject: [PATCH 03/31] ext4: Convert ext4_bio_write_page() to use a folio
-config: x86_64-randconfig-a013-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290216.BcfP0oGK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/sched-Encapsulate-task-attribute-change-sequence-into-a-helper-macro/20230128-123001
+patch link:    https://lore.kernel.org/r/20230128001639.3510083-28-tj%40kernel.org
+patch subject: [PATCH 27/30] sched_ext: Implement core-sched support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230129/202301290223.0qWZoY9T-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f6e4c5cfaf2ef7b8ee6c5354bbbd5f1ee758746f
+        # https://github.com/intel-lab-lkp/linux/commit/750f973dd349cc5c3df29319b0ffae740738a9d2
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthew-Wilcox-Oracle/fs-Add-FGP_WRITEBEGIN/20230128-150212
-        git checkout f6e4c5cfaf2ef7b8ee6c5354bbbd5f1ee758746f
+        git fetch --no-tags linux-review Tejun-Heo/sched-Encapsulate-task-attribute-change-sequence-into-a-helper-macro/20230128-123001
+        git checkout 750f973dd349cc5c3df29319b0ffae740738a9d2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All error/warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "bio_add_folio" [fs/ext4/ext4.ko] undefined!
+   In file included from kernel/sched/build_policy.c:58:
+>> kernel/sched/ext.c:3349:25: error: initialization of 'int (*)(const struct btf_type *, const struct btf_member *)' from incompatible pointer type 'int (*)(const struct btf_type *, const struct btf_member *, const struct bpf_prog *)' [-Werror=incompatible-pointer-types]
+    3349 |         .check_member = bpf_scx_check_member,
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:3349:25: note: (near initialization for 'bpf_sched_ext_ops.check_member')
+   kernel/sched/ext.c: In function 'scx_bpf_error_bstr':
+>> kernel/sched/ext.c:3906:16: error: variable 'bprintf_data' has initializer but incomplete type
+    3906 |         struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+         |                ^~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:3906:51: error: 'struct bpf_bprintf_data' has no member named 'get_bin_args'
+    3906 |         struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+         |                                                   ^~~~~~~~~~~~
+>> kernel/sched/ext.c:3906:66: warning: excess elements in struct initializer
+    3906 |         struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+         |                                                                  ^~~~
+   kernel/sched/ext.c:3906:66: note: (near initialization for 'bprintf_data')
+>> kernel/sched/ext.c:3906:33: error: storage size of 'bprintf_data' isn't known
+    3906 |         struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+         |                                 ^~~~~~~~~~~~
+>> kernel/sched/ext.c:3927:71: warning: passing argument 4 of 'bpf_bprintf_prepare' makes pointer from integer without a cast [-Wint-conversion]
+    3927 |         ret = bpf_bprintf_prepare(fmt, UINT_MAX, bufs->data, data__sz / 8,
+         |                                                              ~~~~~~~~~^~~
+         |                                                                       |
+         |                                                                       u32 {aka unsigned int}
+   In file included from include/linux/bpf_verifier.h:7,
+                    from kernel/sched/ext.c:3193:
+   include/linux/bpf.h:2800:31: note: expected 'u32 **' {aka 'unsigned int **'} but argument is of type 'u32' {aka 'unsigned int'}
+    2800 |                         u32 **bin_buf, u32 num_args);
+         |                         ~~~~~~^~~~~~~
+>> kernel/sched/ext.c:3936:9: error: too many arguments to function 'bpf_bprintf_cleanup'
+    3936 |         bpf_bprintf_cleanup(&bprintf_data);
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:2801:6: note: declared here
+    2801 | void bpf_bprintf_cleanup(void);
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:3906:33: warning: unused variable 'bprintf_data' [-Wunused-variable]
+    3906 |         struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+         |                                 ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +3349 kernel/sched/ext.c
+
+4c016c2bafb66b Tejun Heo 2023-01-27  3344  
+4c016c2bafb66b Tejun Heo 2023-01-27  3345  struct bpf_struct_ops bpf_sched_ext_ops = {
+4c016c2bafb66b Tejun Heo 2023-01-27  3346  	.verifier_ops = &bpf_scx_verifier_ops,
+4c016c2bafb66b Tejun Heo 2023-01-27  3347  	.reg = bpf_scx_reg,
+4c016c2bafb66b Tejun Heo 2023-01-27  3348  	.unreg = bpf_scx_unreg,
+4c016c2bafb66b Tejun Heo 2023-01-27 @3349  	.check_member = bpf_scx_check_member,
+4c016c2bafb66b Tejun Heo 2023-01-27  3350  	.init_member = bpf_scx_init_member,
+4c016c2bafb66b Tejun Heo 2023-01-27  3351  	.init = bpf_scx_init,
+4c016c2bafb66b Tejun Heo 2023-01-27  3352  	.name = "sched_ext_ops",
+4c016c2bafb66b Tejun Heo 2023-01-27  3353  };
+4c016c2bafb66b Tejun Heo 2023-01-27  3354  
 
 -- 
 0-DAY CI Kernel Test Service
