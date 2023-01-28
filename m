@@ -1,41 +1,42 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F89F6FD7;
-	Sat, 28 Jan 2023 18:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3AE6FD7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:26:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674930408; x=1706466408;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=I3vX1pUQm9R/YDan066kBrNQPJLrTXZ6jPsjpr5GuzU=;
-  b=CsauQmyXXT1CWOcEdO72S7U12xICKre9R0bvkrrbbqf1j54Zoja76dnJ
-   eu3z9J4/MMGpphWVtnd+3uP4A6w4ve67N+MiExF3ywEtO81C+d/YHovTx
-   SV/z/dpwrblW4zfs30Il4sjwAAA+PGSSLcS76vYaW3Ga/wmdR9tAx4iKn
-   nt/UTSUCOlGYiJ3jJDCRxlxkYvCJwdZ/v5XOtgwCVHTbWFs85wKxsSM0K
-   TsuQKKWf+K1cGz3NiNlz6e6R+b3ZJ3SSopJ/r1AIYRvFrakqBagjURbxF
-   1IBl5ThnBRw0GQiDXvGnr0zjvzsQnyKYk7YiliR70TIY3Hj0atzHf7c8f
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="307660935"
+  t=1674930411; x=1706466411;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Nz8GX3QOo82LFTJHTuntX781bnPSCczSWXsrTZiCOQ4=;
+  b=Qn2BEufPWAUt5QPpU3yETXHF3eX7+jequgqyNB12t4ihGss8V90+pF68
+   fRrniCLMClCC5zvMqtBIuTkLPPf6BbHTYIFEN16b3YxvUlyOlkc4EWykY
+   bgjTsKtOohUQpe0MqY4xZy/jLXiSGKx1aqJMwZV0uOLqIXqOUoA1lRXD4
+   4xhZYvylD5RXZllkTj+N4oOGBfdA6O+2hvMyXTZzYa/KxJtqJu1nJlWiT
+   KxgNDen0m66n1Q7N4ipK8mJYr5SkmcQ4mIM/ZTf1Z321FS5Rac0DeFY6U
+   tA1FZW6aFI0wLbYCwsG4CCdEzWprKso1QqpNuUfz0AOUF6YjJY63EuZwj
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="307660936"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="307660935"
+   d="scan'208";a="307660936"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:26:47 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:26:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="613556305"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="613556307"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="613556305"
+   d="scan'208";a="613556307"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 28 Jan 2023 10:26:46 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLpuX-0000z6-26;
+	id 1pLpuX-0000zH-2h;
 	Sat, 28 Jan 2023 18:26:45 +0000
 Date: Sun, 29 Jan 2023 02:26:33 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [tip:x86/tdx 3/7] vmlinux.o: warning: objtool: __tdx_hypercall+0x7f:
- return with modified stack frame
-Message-ID: <202301290255.buUBs99R-lkp@intel.com>
+To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [trace:trace/for-next 19/23] htmldocs:
+ Documentation/trace/histogram.rst:1969: WARNING: Unexpected indentation.
+Message-ID: <202301290253.LU5yIxcJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,101 +46,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-
-Hi Kirill,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/tdx
-head:   8de62af018cc9262649d7688f7eb1409b2d8f594
-commit: c30c4b2555ba93b845559a036293fcaf7ffd2b82 [3/7] x86/tdx: Refactor __tdx_hypercall() to allow pass down more arguments
-config: x86_64-randconfig-a013-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290255.buUBs99R-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=c30c4b2555ba93b845559a036293fcaf7ffd2b82
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip x86/tdx
-        git checkout c30c4b2555ba93b845559a036293fcaf7ffd2b82
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+head:   9f712417e1fc7d3db042941524e59573e02a55c7
+commit: 88238513bb26713ef6d4418bdf1af062fe608bcb [19/23] tracing/histogram: Document variable stacktrace
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/commit/?id=88238513bb26713ef6d4418bdf1af062fe608bcb
+        git remote add trace git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
+        git fetch --no-tags trace trace/for-next
+        git checkout 88238513bb26713ef6d4418bdf1af062fe608bcb
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: __tdx_hypercall+0x7f: return with modified stack frame
-   vmlinux.o: warning: objtool: ibt_selftest+0x14: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: sync_regs+0x27: call to memcpy() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x2d: call to memset() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ibt_selftest+0x1e: return with modified stack frame
+>> Documentation/trace/histogram.rst:1969: WARNING: Unexpected indentation.
+>> Documentation/trace/histogram.rst:1970: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/trace/histogram.rst:2014: WARNING: Definition list ends without a blank line; unexpected unindent.
 
+vim +1969 Documentation/trace/histogram.rst
 
-objdump-func vmlinux.o __tdx_hypercall:
-0000 00000000000052a0 <__tdx_hypercall>:
-0000     52a0:	f3 0f 1e fa          	endbr64
-0004     52a4:	55                   	push   %rbp
-0005     52a5:	48 89 e5             	mov    %rsp,%rbp
-0008     52a8:	41 57                	push   %r15
-000a     52aa:	41 56                	push   %r14
-000c     52ac:	41 55                	push   %r13
-000e     52ae:	41 54                	push   %r12
-0010     52b0:	55                   	push   %rbp
-0011     52b1:	48 89 f8             	mov    %rdi,%rax
-0014     52b4:	48 89 f5             	mov    %rsi,%rbp
-0017     52b7:	4c 8b 50 10          	mov    0x10(%rax),%r10
-001b     52bb:	4c 8b 58 18          	mov    0x18(%rax),%r11
-001f     52bf:	4c 8b 60 20          	mov    0x20(%rax),%r12
-0023     52c3:	4c 8b 68 28          	mov    0x28(%rax),%r13
-0027     52c7:	4c 8b 70 30          	mov    0x30(%rax),%r14
-002b     52cb:	4c 8b 78 38          	mov    0x38(%rax),%r15
-002f     52cf:	50                   	push   %rax
-0030     52d0:	31 c0                	xor    %eax,%eax
-0032     52d2:	b9 00 fc 00 00       	mov    $0xfc00,%ecx
-0037     52d7:	48 f7 c5 02 00 00 00 	test   $0x2,%rbp
-003e     52de:	74 01                	je     52e1 <__tdx_hypercall+0x41>
-0040     52e0:	fb                   	sti
-0041     52e1:	66 0f 01 cc          	tdcall
-0045     52e5:	48 85 c0             	test   %rax,%rax
-0048     52e8:	75 36                	jne    5320 <__tdx_hypercall+0x80>
-004a     52ea:	58                   	pop    %rax
-004b     52eb:	48 f7 c5 01 00 00 00 	test   $0x1,%rbp
-0052     52f2:	74 18                	je     530c <__tdx_hypercall+0x6c>
-0054     52f4:	4c 89 50 10          	mov    %r10,0x10(%rax)
-0058     52f8:	4c 89 58 18          	mov    %r11,0x18(%rax)
-005c     52fc:	4c 89 60 20          	mov    %r12,0x20(%rax)
-0060     5300:	4c 89 68 28          	mov    %r13,0x28(%rax)
-0064     5304:	4c 89 70 30          	mov    %r14,0x30(%rax)
-0068     5308:	4c 89 78 38          	mov    %r15,0x38(%rax)
-006c     530c:	4c 89 d0             	mov    %r10,%rax
-006f     530f:	45 31 d2             	xor    %r10d,%r10d
-0072     5312:	45 31 db             	xor    %r11d,%r11d
-0075     5315:	5d                   	pop    %rbp
-0076     5316:	41 5c                	pop    %r12
-0078     5318:	41 5d                	pop    %r13
-007a     531a:	41 5e                	pop    %r14
-007c     531c:	41 5f                	pop    %r15
-007e     531e:	5d                   	pop    %rbp
-007f     531f:	c3                   	ret
-0080     5320:	e8 00 00 00 00       	call   5325 <__tdx_hypercall+0x85>	5321: R_X86_64_PLT32	__tdx_hypercall_failed-0x4
-0085     5325:	eb f9                	jmp    5320 <__tdx_hypercall+0x80>
-0087     5327:	cc                   	int3
-0088     5328:	cc                   	int3
-0089     5329:	cc                   	int3
-008a     532a:	cc                   	int3
-008b     532b:	cc                   	int3
-008c     532c:	cc                   	int3
-008d     532d:	cc                   	int3
-008e     532e:	cc                   	int3
-008f     532f:	cc                   	int3
+  1949	
+  1950	  # cd /sys/kernel/tracing
+  1951	  # echo 's:block_lat pid_t pid; u64 delta; unsigned long[] stack;' > dynamic_events
+  1952	  # echo 'hist:keys=next_pid:ts=common_timestamp.usecs,st=stacktrace  if prev_state == 2' >> events/sched/sched_switch/trigger
+  1953	  # echo 'hist:keys=prev_pid:delta=common_timestamp.usecs-$ts,s=$st:onmax($delta).trace(block_lat,prev_pid,$delta,$s)' >> events/sched/sched_switch/trigger
+  1954	  # echo 1 > events/synthetic/block_lat/enable
+  1955	  # cat trace
+  1956	
+  1957	  # tracer: nop
+  1958	  #
+  1959	  # entries-in-buffer/entries-written: 2/2   #P:8
+  1960	  #
+  1961	  #                                _-----=> irqs-off/BH-disabled
+  1962	  #                               / _----=> need-resched
+  1963	  #                              | / _---=> hardirq/softirq
+  1964	  #                              || / _--=> preempt-depth
+  1965	  #                              ||| / _-=> migrate-disable
+  1966	  #                              |||| /     delay
+  1967	  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+  1968	  #              | |         |   |||||     |         |
+> 1969	            <idle>-0       [005] d..4.   521.164922: block_lat: pid=0 delta=8322 stack=STACK:
+> 1970	  => __schedule+0x448/0x7b0
+  1971	  => schedule+0x5a/0xb0
+  1972	  => io_schedule+0x42/0x70
+  1973	  => bit_wait_io+0xd/0x60
+  1974	  => __wait_on_bit+0x4b/0x140
+  1975	  => out_of_line_wait_on_bit+0x91/0xb0
+  1976	  => jbd2_journal_commit_transaction+0x1679/0x1a70
+  1977	  => kjournald2+0xa9/0x280
+  1978	  => kthread+0xe9/0x110
+  1979	  => ret_from_fork+0x2c/0x50
+  1980	
+  1981	             <...>-2       [004] d..4.   525.184257: block_lat: pid=2 delta=76 stack=STACK:
+  1982	  => __schedule+0x448/0x7b0
+  1983	  => schedule+0x5a/0xb0
+  1984	  => schedule_timeout+0x11a/0x150
+  1985	  => wait_for_completion_killable+0x144/0x1f0
+  1986	  => __kthread_create_on_node+0xe7/0x1e0
+  1987	  => kthread_create_on_node+0x51/0x70
+  1988	  => create_worker+0xcc/0x1a0
+  1989	  => worker_thread+0x2ad/0x380
+  1990	  => kthread+0xe9/0x110
+  1991	  => ret_from_fork+0x2c/0x50
+  1992	
+  1993	A synthetic event that has a stacktrace field may use it as a key in histogram:
+  1994	
+  1995	  # echo 'hist:delta.buckets=100,stack.stacktrace:sort=delta' > events/synthetic/block_lat/trigger
+  1996	  # cat events/synthetic/block_lat/hist
+  1997	
+  1998	  # event histogram
+  1999	  #
+  2000	  # trigger info: hist:keys=delta.buckets=100,stacktrace:vals=hitcount:sort=delta.buckets=100:size=2048 [active]
+  2001	  #
+  2002	
+  2003	  { delta: ~ 0-99, stacktrace:
+  2004	           event_hist_trigger+0x464/0x480
+  2005	           event_triggers_call+0x52/0xe0
+  2006	           trace_event_buffer_commit+0x193/0x250
+  2007	           trace_event_raw_event_sched_switch+0xfc/0x150
+  2008	           __traceiter_sched_switch+0x41/0x60
+  2009	           __schedule+0x448/0x7b0
+  2010	           schedule_idle+0x26/0x40
+  2011	           cpu_startup_entry+0x19/0x20
+  2012	           start_secondary+0xed/0xf0
+  2013	           secondary_startup_64_no_verify+0xe0/0xeb
+> 2014	  } hitcount:          6
+  2015	  { delta: ~ 0-99, stacktrace:
+  2016	           event_hist_trigger+0x464/0x480
+  2017	           event_triggers_call+0x52/0xe0
+  2018	           trace_event_buffer_commit+0x193/0x250
+  2019	           trace_event_raw_event_sched_switch+0xfc/0x150
+  2020	           __traceiter_sched_switch+0x41/0x60
+  2021	           __schedule+0x448/0x7b0
+  2022	           schedule_idle+0x26/0x40
+  2023	           cpu_startup_entry+0x19/0x20
+  2024	           __pfx_kernel_init+0x0/0x10
+  2025	           arch_call_rest_init+0xa/0x24
+  2026	           start_kernel+0x964/0x98d
+  2027	           secondary_startup_64_no_verify+0xe0/0xeb
+  2028	  } hitcount:          3
+  2029	  { delta: ~ 0-99, stacktrace:
+  2030	           event_hist_trigger+0x464/0x480
+  2031	           event_triggers_call+0x52/0xe0
+  2032	           trace_event_buffer_commit+0x193/0x250
+  2033	           trace_event_raw_event_sched_switch+0xfc/0x150
+  2034	           __traceiter_sched_switch+0x41/0x60
+  2035	           __schedule+0x448/0x7b0
+  2036	           schedule+0x5a/0xb0
+  2037	           worker_thread+0xaf/0x380
+  2038	           kthread+0xe9/0x110
+  2039	           ret_from_fork+0x2c/0x50
+  2040	  } hitcount:          1
+  2041	  { delta: ~ 100-199, stacktrace:
+  2042	           event_hist_trigger+0x464/0x480
+  2043	           event_triggers_call+0x52/0xe0
+  2044	           trace_event_buffer_commit+0x193/0x250
+  2045	           trace_event_raw_event_sched_switch+0xfc/0x150
+  2046	           __traceiter_sched_switch+0x41/0x60
+  2047	           __schedule+0x448/0x7b0
+  2048	           schedule_idle+0x26/0x40
+  2049	           cpu_startup_entry+0x19/0x20
+  2050	           start_secondary+0xed/0xf0
+  2051	           secondary_startup_64_no_verify+0xe0/0xeb
+  2052	  } hitcount:         15
+  2053	  [..]
+  2054	  { delta: ~ 8500-8599, stacktrace:
+  2055	           event_hist_trigger+0x464/0x480
+  2056	           event_triggers_call+0x52/0xe0
+  2057	           trace_event_buffer_commit+0x193/0x250
+  2058	           trace_event_raw_event_sched_switch+0xfc/0x150
+  2059	           __traceiter_sched_switch+0x41/0x60
+  2060	           __schedule+0x448/0x7b0
+  2061	           schedule_idle+0x26/0x40
+  2062	           cpu_startup_entry+0x19/0x20
+  2063	           start_secondary+0xed/0xf0
+  2064	           secondary_startup_64_no_verify+0xe0/0xeb
+  2065	  } hitcount:          1
+  2066	
+  2067	  Totals:
+  2068	      Hits: 89
+  2069	      Entries: 11
+  2070	      Dropped: 0
+  2071	
 
 -- 
 0-DAY CI Kernel Test Service
