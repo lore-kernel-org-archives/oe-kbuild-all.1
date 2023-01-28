@@ -1,43 +1,40 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F633F7;
-	Sat, 28 Jan 2023 19:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779117481;
+	Sat, 28 Jan 2023 20:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674935396; x=1706471396;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eFlt0dTWqnmYysHAAyNP29UYwkWzHS840iyUSaKI5YI=;
-  b=hzSC34Ubp/zVUSChsVjfwvSVr9xKguvSLLQpzF2Nq1pVGf19GW4HhA+w
-   SwSrn27qlHiX7MjE9AIMsA7YB6Ui+OqKyMXhQMcWiS3SNAcfiFd+1jJpS
-   wPa0y/7lDmqaHkzen1i8y/2ZJYWQt1awUF7x+YdoviINvDZZMVlOtCXl0
-   VNtst0/Slklb6nAZQ5M3x+Srm9on8UCl4e4Zt/sqMA9DRv/rQMRw2ECgZ
-   k/AWzEW1G+4us/Jyhk127+B/DJm0YCjSpYP7HCgQXLv4Ek0pH9kNL/GVR
-   zTSewnefYp09uBvXBU4Bh7TQlSiKSt4RLyY7s8pOqBJ8wbpvB8EdMBCXo
+  t=1674937253; x=1706473253;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=dYi/KGzX7zrmeuOySKTsXyC56y+bQOhiQfNJQ1YdHww=;
+  b=OF0gDK8gsmx7Smd1bfbcqgwEw0yQO4erP2HfUXebXdVW4Uo4dE9WulQg
+   KPg5mhcUH0rfbp2EVq0OKCUo2FETlVcI3zEz9Nn1Es/cDH9n7X/N4+Eqf
+   bVRqNodx2ytbECNibnq+W6uGIrsUFWLspHTJABkSJSzavRWCVtvkUoHVP
+   wfmg8uBnEog9BVXFhqU+B4dFl4I4FiFl+hXEzLMM/oFpPFnBJPvj04ZS1
+   fn+bTgGIdZyXS0fobiRsWYz/et++hdYccEtmApambMrjfle8D2qylEJI6
+   nF43KhCTm8lbcN9KMVHnqWTyUuDMZ6dp0d/dds5RqFB7QhGMaY33ySp6I
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413548373"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325024478"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="413548373"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:49:56 -0800
+   d="scan'208";a="325024478"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 12:20:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732231778"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="656987233"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="732231778"
+   d="scan'208";a="656987233"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 11:49:55 -0800
+  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 12:20:51 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLrCv-000137-1J;
-	Sat, 28 Jan 2023 19:49:49 +0000
-Date: Sun, 29 Jan 2023 03:49:19 +0800
+	id 1pLrgw-00014c-1R;
+	Sat, 28 Jan 2023 20:20:50 +0000
+Date: Sun, 29 Jan 2023 04:19:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_sbi_nested_v1 35/52]
- arch/riscv/kvm/aia_aplic.c:264:6: warning: variable 'inject' is used
- uninitialized whenever 'if' condition is true
-Message-ID: <202301290307.OaC4P0U7-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [PATCH 1/2] powerpc/64: Set default CPU in Kconfig
+Message-ID: <202301290419.dQs7GOB5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,109 +44,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
-head:   d04f10f89dd06562a982bfad9f8eac0569204d60
-commit: d215844ff37ecccad7be31db0b38cc9a12927a2c [35/52] RISC-V: KVM: Add in-kernel emulation of AIA APLIC
-config: riscv-randconfig-r014-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290307.OaC4P0U7-lkp@intel.com/config)
+In-Reply-To: <76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy@csgroup.eu>
+References: <76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy@csgroup.eu>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+Hi Christophe,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-boot-Don-t-always-pass-mcpu-powerpc-when-building-32-bit-uImage/20230125-154021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH 1/2] powerpc/64: Set default CPU in Kconfig
+config: powerpc-xes_mpc85xx_defconfig (https://download.01.org/0day-ci/archive/20230129/202301290419.dQs7GOB5-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/avpatel/linux/commit/d215844ff37ecccad7be31db0b38cc9a12927a2c
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_sbi_nested_v1
-        git checkout d215844ff37ecccad7be31db0b38cc9a12927a2c
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/1e2fdbde0affc94f36013e1a2ff5fbeb20457b69
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christophe-Leroy/powerpc-boot-Don-t-always-pass-mcpu-powerpc-when-building-32-bit-uImage/20230125-154021
+        git checkout 1e2fdbde0affc94f36013e1a2ff5fbeb20457b69
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kvm/aia_aplic.c:264:6: warning: variable 'inject' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/aia_aplic.c:303:6: note: uninitialized use occurs here
-           if (inject)
-               ^~~~~~
-   arch/riscv/kvm/aia_aplic.c:264:2: note: remove the 'if' if its condition is always false
-           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/aia_aplic.c:252:13: note: initialize the variable 'inject' to silence this warning
-           bool inject, ie;
-                      ^
-                       = 0
-   1 warning generated.
-
-
-vim +264 arch/riscv/kvm/aia_aplic.c
-
-   248	
-   249	int kvm_riscv_aia_aplic_inject(struct kvm *kvm, u32 source, bool level)
-   250	{
-   251		u32 target;
-   252		bool inject, ie;
-   253		unsigned long flags;
-   254		struct aplic_irq *irqd;
-   255		struct aplic *aplic = kvm->arch.aia.aplic_state;
-   256	
-   257		if (!aplic || !source || (aplic->nr_irqs <= source))
-   258			return -ENODEV;
-   259		irqd = &aplic->irqs[source];
-   260		ie = (aplic->domaincfg & APLIC_DOMAINCFG_IE) ? true : false;
-   261	
-   262		raw_spin_lock_irqsave(&irqd->lock, flags);
-   263	
- > 264		if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-   265			goto skip_unlock;
-   266	
-   267		switch (irqd->sourcecfg & APLIC_SOURCECFG_SM_MASK) {
-   268		case APLIC_SOURCECFG_SM_EDGE_RISE:
-   269			if (level && !(irqd->state & APLIC_IRQ_STATE_INPUT) &&
-   270			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   271				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   272			break;
-   273		case APLIC_SOURCECFG_SM_EDGE_FALL:
-   274			if (!level && (irqd->state & APLIC_IRQ_STATE_INPUT) &&
-   275			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   276				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   277			break;
-   278		case APLIC_SOURCECFG_SM_LEVEL_HIGH:
-   279			if (level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   280				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   281			break;
-   282		case APLIC_SOURCECFG_SM_LEVEL_LOW:
-   283			if (!level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   284				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   285			break;
-   286		}
-   287	
-   288		if (level)
-   289			irqd->state |= APLIC_IRQ_STATE_INPUT;
-   290		else
-   291			irqd->state &= ~APLIC_IRQ_STATE_INPUT;
-   292	
-   293		inject = false;
-   294		target = irqd->target;
-   295		if (ie && (irqd->state & APLIC_IRQ_STATE_ENPEND)) {
-   296			irqd->state &= ~APLIC_IRQ_STATE_PENDING;
-   297			inject = true;
-   298		}
-   299	
-   300	skip_unlock:
-   301		raw_spin_unlock_irqrestore(&irqd->lock, flags);
-   302	
-   303		if (inject)
-   304			aplic_inject_msi(kvm, source, target);
-   305	
-   306		return 0;
-   307	}
-   308	
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   clang-16: error: unsupported argument '-me500' to option '-Wa,'
+>> error: unknown target CPU '8540'
+   note: valid target CPU values are: generic, 440, 450, 601, 602, 603, 603e, 603ev, 604, 604e, 620, 630, g3, 7400, g4, 7450, g4+, 750, 8548, 970, g5, a2, e500, e500mc, e5500, power3, pwr3, power4, pwr4, power5, pwr5, power5x, pwr5x, power6, pwr6, power6x, pwr6x, power7, pwr7, power8, pwr8, power9, pwr9, power10, pwr10, powerpc, ppc, ppc32, powerpc64, ppc64, powerpc64le, ppc64le, future
+   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
+   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1285: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
