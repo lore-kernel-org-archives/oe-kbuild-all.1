@@ -1,46 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8C5CA3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA35CA1;
+	Sat, 28 Jan 2023 13:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674911794; x=1706447794;
+  t=1674911796; x=1706447796;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xRkizNFLXRZLEBRhpHvIyAhu0m3+jrQc6zYlNa2K1+4=;
-  b=MrxXFTwysEaV1pFYybyMevVbEWZbGAJUSmz1XCjo9Xd2hFPzqqV+woPX
-   oK79oyhX+FRDiGNP/ZWFGuDA4znhEYEZXbK6RTnKCABQK3qaAmY9zSr4T
-   J4HrEbX1RvOHf3FGFMtvEevDIe9inisgOVYxr4hTCdvezqNwrRAqaBpNk
-   OvnNxY2HTozrBdBVrFeEduImDh5Llkq4m/ffahJnyazdQaGFDMk9vmgnx
-   aIZfyD6HyiTCzzB/ml3u7tbEqdPISo9On3778W9AW6V+93Uq3jFpehuoA
-   1hB34hY13ebJ0zOOwqtR5xvRY7OhnD7wLaX1yIOCF2FTmn+uoGW7MhtWB
+  bh=KRmd5MYbEcOfghc67ZmOtkZNFZ09ey2vz+tgilfcqtw=;
+  b=mCSIWxToMxoKnITRHJAXsqwQOipi4fatRr9dxhjskmE6hyZoVP1Hlot/
+   KiuRU6JhMmeQksZUStI/Ew06RaYjGLB88AnZmus5qYBlvZjm6vYrTBS0h
+   A1wn7IjPrezvEJpIKDWqXVUdXqgboFdvT3eY+7E9akV2z9f22cLkS88W2
+   cASXAeVDhRagh9Sq4aRHAMV74YFNnJgYvz1GJXrhC7aE96ET/i8F7U9BR
+   NV8l9BFkLXVdHfgZnJyQgqBnUIWcP1CiDh3yzy4MuFtHfqkdKTm5jQjEb
+   eE5sfAr/iU28f3uNhnA0JTzP7TriW7WyByaDDbg0nlgBkwGpUCGyNTV8S
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="329417898"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="324983318"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="329417898"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:32 -0800
+   d="scan'208";a="324983318"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992378494"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="695857334"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="992378494"
+   d="scan'208";a="695857334"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 05:16:30 -0800
+  by orsmga001.jf.intel.com with ESMTP; 28 Jan 2023 05:16:30 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLl4H-0000fb-20;
+	id 1pLl4H-0000fZ-1u;
 	Sat, 28 Jan 2023 13:16:29 +0000
-Date: Sat, 28 Jan 2023 21:15:53 +0800
+Date: Sat, 28 Jan 2023 21:15:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
-	martin.lau@kernel.org, ast@kernel.org, netdev@vger.kernel.org,
-	memxor@gmail.com, kernel-team@fb.com,
-	Joanne Koong <joannelkoong@gmail.com>
-Subject: Re: [PATCH v8 bpf-next 3/5] bpf: Add skb dynptrs
-Message-ID: <202301282140.o95DpYWu-lkp@intel.com>
-References: <20230126233439.3739120-4-joannelkoong@gmail.com>
+To: Vinay Gannevaram <quic_vganneva@quicinc.com>, johannes@sipsolutions.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v2] nl80211: Allow authentication frames and set keys on
+ NAN interface
+Message-ID: <202301282105.N0kd49zG-lkp@intel.com>
+References: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,61 +48,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126233439.3739120-4-joannelkoong@gmail.com>
+In-Reply-To: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
 
-Hi Joanne,
+Hi Vinay,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.2-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/bpf-Allow-sk_buff-and-xdp_buff-as-valid-kfunc-arg-types/20230128-170947
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230126233439.3739120-4-joannelkoong%40gmail.com
-patch subject: [PATCH v8 bpf-next 3/5] bpf: Add skb dynptrs
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301282140.o95DpYWu-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/1674845256-4300-1-git-send-email-quic_vganneva%40quicinc.com
+patch subject: [PATCH v2] nl80211: Allow authentication frames and set keys on NAN interface
+config: mips-buildonly-randconfig-r005-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282105.N0kd49zG-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2581b1dec73f18fa2b7302a1a2ecd788b82f3680
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/954d2dd8f85ced417476083a99011b8920d68161
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Joanne-Koong/bpf-Allow-sk_buff-and-xdp_buff-as-valid-kfunc-arg-types/20230128-170947
-        git checkout 2581b1dec73f18fa2b7302a1a2ecd788b82f3680
+        git fetch --no-tags linux-review Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
+        git checkout 954d2dd8f85ced417476083a99011b8920d68161
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/wireless/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:1866:5: warning: no previous prototype for 'bpf_dynptr_from_skb' [-Wmissing-prototypes]
-    1866 | int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
-         |     ^~~~~~~~~~~~~~~~~~~
+>> net/wireless/nl80211.c:1555:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           case NL80211_IFTYPE_UNSPECIFIED:
+           ^
+   net/wireless/nl80211.c:1555:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           case NL80211_IFTYPE_UNSPECIFIED:
+           ^
+           __attribute__((fallthrough)); 
+   net/wireless/nl80211.c:1555:2: note: insert 'break;' to avoid fall-through
+           case NL80211_IFTYPE_UNSPECIFIED:
+           ^
+           break; 
+   net/wireless/nl80211.c:12262:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   net/wireless/nl80211.c:12262:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           default:
+           ^
+           __attribute__((fallthrough)); 
+   net/wireless/nl80211.c:12262:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   net/wireless/nl80211.c:12322:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   net/wireless/nl80211.c:12322:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           default:
+           ^
+           __attribute__((fallthrough)); 
+   net/wireless/nl80211.c:12322:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   net/wireless/nl80211.c:12462:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   net/wireless/nl80211.c:12462:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           default:
+           ^
+           __attribute__((fallthrough)); 
+   net/wireless/nl80211.c:12462:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   4 warnings generated.
 
 
-vim +/bpf_dynptr_from_skb +1866 net/core/filter.c
+vim +1555 net/wireless/nl80211.c
 
-  1865	
-> 1866	int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
-  1867				struct bpf_dynptr_kern *ptr, int is_rdonly)
-  1868	{
-  1869		if (flags) {
-  1870			bpf_dynptr_set_null(ptr);
-  1871			return -EINVAL;
-  1872		}
-  1873	
-  1874		bpf_dynptr_init(ptr, skb, BPF_DYNPTR_TYPE_SKB, 0, skb->len);
-  1875	
-  1876		if (is_rdonly)
-  1877			bpf_dynptr_set_rdonly(ptr);
-  1878	
-  1879		return 0;
-  1880	}
-  1881	
+fffd0934b9390f Johannes Berg    2009-07-08  1531  
+fffd0934b9390f Johannes Berg    2009-07-08  1532  static int nl80211_key_allowed(struct wireless_dev *wdev)
+fffd0934b9390f Johannes Berg    2009-07-08  1533  {
+fffd0934b9390f Johannes Berg    2009-07-08  1534  	ASSERT_WDEV_LOCK(wdev);
+fffd0934b9390f Johannes Berg    2009-07-08  1535  
+fffd0934b9390f Johannes Berg    2009-07-08  1536  	switch (wdev->iftype) {
+fffd0934b9390f Johannes Berg    2009-07-08  1537  	case NL80211_IFTYPE_AP:
+fffd0934b9390f Johannes Berg    2009-07-08  1538  	case NL80211_IFTYPE_AP_VLAN:
+074ac8df9f93f2 Johannes Berg    2010-09-16  1539  	case NL80211_IFTYPE_P2P_GO:
+ff973af74aa693 Thomas Pedersen  2011-05-03  1540  	case NL80211_IFTYPE_MESH_POINT:
+fffd0934b9390f Johannes Berg    2009-07-08  1541  		break;
+fffd0934b9390f Johannes Berg    2009-07-08  1542  	case NL80211_IFTYPE_ADHOC:
+7b0a0e3c3a8826 Johannes Berg    2022-04-14  1543  		if (wdev->u.ibss.current_bss)
+7b0a0e3c3a8826 Johannes Berg    2022-04-14  1544  			return 0;
+7b0a0e3c3a8826 Johannes Berg    2022-04-14  1545  		return -ENOLINK;
+fffd0934b9390f Johannes Berg    2009-07-08  1546  	case NL80211_IFTYPE_STATION:
+074ac8df9f93f2 Johannes Berg    2010-09-16  1547  	case NL80211_IFTYPE_P2P_CLIENT:
+7b0a0e3c3a8826 Johannes Berg    2022-04-14  1548  		if (wdev->connected)
+7b0a0e3c3a8826 Johannes Berg    2022-04-14  1549  			return 0;
+fffd0934b9390f Johannes Berg    2009-07-08  1550  		return -ENOLINK;
+954d2dd8f85ced Vinay Gannevaram 2023-01-28  1551  	case NL80211_IFTYPE_NAN:
+954d2dd8f85ced Vinay Gannevaram 2023-01-28  1552  		if (wiphy_ext_feature_isset(wdev->wiphy,
+954d2dd8f85ced Vinay Gannevaram 2023-01-28  1553  					    NL80211_EXT_FEATURE_SECURE_NAN))
+954d2dd8f85ced Vinay Gannevaram 2023-01-28  1554  			return 0;
+de4fcbadde68e3 Johannes Berg    2014-10-31 @1555  	case NL80211_IFTYPE_UNSPECIFIED:
+6e0bd6c35b021d Rostislav Lisovy 2014-11-03  1556  	case NL80211_IFTYPE_OCB:
+de4fcbadde68e3 Johannes Berg    2014-10-31  1557  	case NL80211_IFTYPE_MONITOR:
+de4fcbadde68e3 Johannes Berg    2014-10-31  1558  	case NL80211_IFTYPE_P2P_DEVICE:
+de4fcbadde68e3 Johannes Berg    2014-10-31  1559  	case NL80211_IFTYPE_WDS:
+de4fcbadde68e3 Johannes Berg    2014-10-31  1560  	case NUM_NL80211_IFTYPES:
+fffd0934b9390f Johannes Berg    2009-07-08  1561  		return -EINVAL;
+fffd0934b9390f Johannes Berg    2009-07-08  1562  	}
+fffd0934b9390f Johannes Berg    2009-07-08  1563  
+fffd0934b9390f Johannes Berg    2009-07-08  1564  	return 0;
+fffd0934b9390f Johannes Berg    2009-07-08  1565  }
+fffd0934b9390f Johannes Berg    2009-07-08  1566  
 
 -- 
 0-DAY CI Kernel Test Service
