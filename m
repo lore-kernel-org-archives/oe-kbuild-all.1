@@ -1,58 +1,59 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C8633F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6267C33F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674932273; x=1706468273;
+  t=1674932275; x=1706468275;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RjSzj603NNwrtXbFuo4/idkfWRdGyQzkcIKtdJ9tF2w=;
-  b=JW64m28Qvvi9vVvnEjOmAv3qF5bEbLb4gSkM+yOuhKAqicodJtRcHq3v
-   yV4ZpahFwF1xsgxip6XS0wITA8tlcagu5oozfC0cq+W6Sj9wWZcHK0RMN
-   HCm0aIIeb+jlJqsxwCZ2Fr5sMh1ntqNurKWJJptBJ/vGLYTX8UPSjD30V
-   fRLAVKVLu19Pl5b//UJBwjRV/i7KJ1zmbDd2yyEu7HPw6+3ziT6LszvOz
-   2yFWM0fLkvQM8hNTDmCFior32WufD2j3lGPxpen17C3AP8OnnaB07zjHA
-   wPXFal2gKV85SXH/f2d5Y8vPim+1/Pk7sQJEmxWiUvWDrW0i7I7Xwb4jQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325015341"
+  bh=C/Fj/U8MY72zX0xzMfuMhE7ROEG03cf3gcA25/GnMq4=;
+  b=EV5CGLQ6qUOwY/iG52PT8XmU2E/mw8IJpVzgWEh78d8Krh/uEzboKpn1
+   3Bll3+atQj/KZh17ICwlqI4HxqPzv68RvMB+ErTM6BDz9xDXKccE1EXeE
+   3jSvrQPGNFrqHUS4H/Z9n4PCKsT27UNhiyanOVGfQIAsYiLngZ6NOYPXZ
+   c0Ktj4UNU6Y1CcUoBU0qjqd5lpAEiglrzBe1oSkRMvJKutAhXl5frdRZz
+   FBCP7/Tq0vxg2ZYXzjtsskBZF2QZxQU5K1h1jexnhLvNXPtz12XZdpEpW
+   81ETMJRB1VPGtaddrD8w++GzcbpFQ81GGoHAJMn46Mi11QU1cEoAesgnU
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325015349"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="325015341"
+   d="scan'208";a="325015349"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:57:52 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:57:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="771960926"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="771960911"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="771960926"
+   d="scan'208";a="771960911"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2023 10:57:47 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLqOZ-00010C-00;
-	Sat, 28 Jan 2023 18:57:47 +0000
-Date: Sun, 29 Jan 2023 02:57:37 +0800
+	id 1pLqOY-000109-2z;
+	Sat, 28 Jan 2023 18:57:46 +0000
+Date: Sun, 29 Jan 2023 02:57:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cormier <jcormier@criticallink.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <robert.foss@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
+To: Guillaume Ranquet <granquet@baylibre.com>,
+	Vinod Koul <vkoul@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael Williamson <michael.williamson@criticallink.com>,
-	Bob Duke <bduke@criticallink.com>,
-	Jonathan Cormier <jcormier@criticallink.com>
-Subject: Re: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for
- polled HPD status.
-Message-ID: <202301290252.zgcWeegX-lkp@intel.com>
-References: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
+	David Airlie <airlied@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>, CK Hu <ck.hu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	mac.shen@mediatek.com, linux-phy@lists.infradead.org,
+	Guillaume Ranquet <granquet@baylibre.com>,
+	devicetree@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	stuart.lee@mediatek.com
+Subject: Re: [PATCH v5 3/3] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+Message-ID: <202301290245.KWRXz5OS-lkp@intel.com>
+References: <20220919-v5-3-cfb0e5ad29b2@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,62 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
+In-Reply-To: <20220919-v5-3-cfb0e5ad29b2@baylibre.com>
 
-Hi Jonathan,
+Hi Guillaume,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on 93f875a8526a291005e7f38478079526c843cbec]
+[auto build test ERROR on e2f86c02fdc96ca29ced53221a3cbf50aa6f8b49]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
-base:   93f875a8526a291005e7f38478079526c843cbec
-patch link:    https://lore.kernel.org/r/20230125-tfp410_i2c-v1-4-66a4d4e390b7%40criticallink.com
-patch subject: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for polled HPD status.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301290252.zgcWeegX-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Ranquet/dt-bindings-phy-mediatek-hdmi-phy-Add-mt8195-compatible/20230128-160522
+base:   e2f86c02fdc96ca29ced53221a3cbf50aa6f8b49
+patch link:    https://lore.kernel.org/r/20220919-v5-3-cfb0e5ad29b2%40baylibre.com
+patch subject: [PATCH v5 3/3] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+config: arm-buildonly-randconfig-r005-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290245.KWRXz5OS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/c4659fa4c02b62087c095ca99978e5eac8b490de
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/2cc45518a7fd551117426c770070d93acb31166e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
-        git checkout c4659fa4c02b62087c095ca99978e5eac8b490de
+        git fetch --no-tags linux-review Guillaume-Ranquet/dt-bindings-phy-mediatek-hdmi-phy-Add-mt8195-compatible/20230128-160522
+        git checkout 2cc45518a7fd551117426c770070d93acb31166e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/gpu/drm/bridge/ti-tfp410.c: In function 'tfp410_connector_detect':
->> drivers/gpu/drm/bridge/ti-tfp410.c:111:13: warning: unused variable 'val' [-Wunused-variable]
-     111 |         u32 val;
-         |             ^~~
-
-
-vim +/val +111 drivers/gpu/drm/bridge/ti-tfp410.c
-
-   106	
-   107	static enum drm_connector_status
-   108	tfp410_connector_detect(struct drm_connector *connector, bool force)
-   109	{
-   110		struct tfp410 *dvi = drm_connector_to_tfp410(connector);
- > 111		u32 val;
-   112		unsigned int ret;
-   113	
-   114		if (dvi->i2c) {
-   115			ret = regmap_test_bits(dvi->regmap, TFP410_REG_CTL_2_MODE, TFP410_BIT_HTPLG);
-   116			if (ret < 0)
-   117				dev_err(dvi->dev, "%s failed to read HTPLG bit : %d\n", __func__, ret);
-   118			else
-   119				return ret ? connector_status_connected : connector_status_disconnected;
-   120		}
-   121	
-   122		return drm_bridge_detect(dvi->next_bridge);
-   123	}
-   124	
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
