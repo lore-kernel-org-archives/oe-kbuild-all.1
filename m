@@ -1,42 +1,48 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F5A2F47;
-	Sat, 28 Jan 2023 17:03:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AC16FAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 17:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674925426; x=1706461426;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Oz5Qitx6MIN8m1O+Y6EpEtV7KVwZAu7xdxkF/oTRkeg=;
-  b=OoscvK810AjCFNqy+n/b39CNc+5s7NWgV3wi6bZ2KxLtzoLhL5BnEK5B
-   wQIRHO48uk/RT2jt/olOfCnI5A+ceW44eZle8WJzygtL2/wise58zGNIX
-   q8lGInZZzKACAhREl2eC16zFB2EDmJTNpTi1z+BY7Osc+Pqr3JbxhKJhA
-   wetu42W8eVKKt6D/1Vhp06j7dRDLKC1xZZKYpryo/NEagVZWyIJAalpYG
-   EgqrL+wk8xzWu+w9EL8a6JhRoKsv34GO9tGIpdeKQhO7lfMhzBG3NZIfn
-   ZbZgTBwdFSlN4YOzRD5OJ0XWmS9RwOmtD1DK450YNqV2v1G5P2yJZrg6r
+  t=1674926087; x=1706462087;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6tTRMsYGt6H6KUiFaird/wqszdo9PWRL7bOVgLw4bH8=;
+  b=LGEhpOqUdz/s/9EXFFmD/rau1lw5gE0YQTSCq3n7lPELlH4cLyCBPZsX
+   Q0wAB5qBl/p2MGQ3WdRmx4a7aQILMalZIF6199JGlFvwgzkQZTQYJXrAP
+   0ZULW9G2EGWODmuWtogQLjxo2+ZgY2PNVD+h+gTsc2QAMi56VVfPoiTSg
+   4sTK2zLSlNWoIrpyrlZlzGS7to3siabLaQNHacmA2GbesU1bESWK4beAJ
+   vn1z4v+VVbfE13WuIxuPVcxRxjk0JJ5oBIyyvhbPsXlfVclZXLxl1Iz1n
+   BInk0uEjiQsZzZga6Xc7ngdaVB45NGkkLDX38YjYNQCTJ+oKeg6pUR+rU
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="328597089"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="310932503"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="328597089"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 09:03:46 -0800
+   d="scan'208";a="310932503"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 09:14:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="771942295"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732208707"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="771942295"
+   d="scan'208";a="732208707"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2023 09:03:44 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 09:14:44 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLocB-0000w1-2S;
-	Sat, 28 Jan 2023 17:03:43 +0000
-Date: Sun, 29 Jan 2023 01:03:36 +0800
+	id 1pLomp-0000wP-35;
+	Sat, 28 Jan 2023 17:14:43 +0000
+Date: Sun, 29 Jan 2023 01:13:56 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: net/mac80211/he.c:158:33: warning: taking address of packed member
- 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value
-Message-ID: <202301290013.VifWSWdY-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs: Convert writepage_t callback to pass a folio
+Message-ID: <202301290130.frg9YGk5-lkp@intel.com>
+References: <20230126201255.1681189-2-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,236 +51,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-net/mac80211/he.c: 158:33: warning: taking address of packed member
- 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 160:12: warning: taking address of packed member
- 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 169:34: warning: taking address of packed member
- 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 171:13: warning: taking address of packed member
- 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 186:34: warning: taking address of packed member
- 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
- in an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 188:13: warning: taking address of packed member
- 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
- in an unaligned pointer value [-Waddress-of-packed-member]
+In-Reply-To: <20230126201255.1681189-2-willy@infradead.org>
 
-TO: Wen Gong <wgong@codeaurora.org>
-CC: Johannes Berg <johannes.berg@intel.com>
+Hi Matthew,
 
-Hi Wen,
+I love your patch! Yet something to improve:
 
-FYI, the error/warning still remains.
+[auto build test ERROR on next-20230125]
+[cannot apply to tytso-ext4/dev akpm-mm/mm-everything cifs/for-next mszeredi-fuse/for-next xfs-linux/for-next trondmy-nfs/linux-next hubcap/for-next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git queue/5.15
-head:   efa1f8bff26d9cd24223252db137b5080c6cfa97
-commit: 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6 mac80211: reduce peer HE MCS/NSS to own capabilities
-date:   2 years ago
-config: mips-loongson2k_defconfig (https://download.01.org/0day-ci/archive/20230129/202301290013.VifWSWdY-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/fs-Convert-writepage_t-callback-to-pass-a-folio/20230128-112951
+patch link:    https://lore.kernel.org/r/20230126201255.1681189-2-willy%40infradead.org
+patch subject: [PATCH 1/2] fs: Convert writepage_t callback to pass a folio
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230129/202301290130.frg9YGk5-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips64el-linux-gnuabi64
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus linux-stable-rc/queue/5.15
-        git checkout 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
+        # https://github.com/intel-lab-lkp/linux/commit/19e834de445f5d3a390fff94320e71e8077ce632
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Wilcox-Oracle/fs-Convert-writepage_t-callback-to-pass-a-folio/20230128-112951
+        git checkout 19e834de445f5d3a390fff94320e71e8077ce632
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/ipv4/ net/ipv6/ net/mac80211/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash fs/gfs2/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/mac80211/he.c:9:
-   In file included from net/mac80211/ieee80211_i.h:16:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/net/checksum.h:22:
-   arch/mips/include/asm/checksum.h:161:9: error: unsupported inline asm: input with type 'unsigned long' matching output with type '__wsum' (aka 'unsigned int')
-           : "0" ((__force unsigned long)daddr),
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/mac80211/he.c:9:
-   In file included from net/mac80211/ieee80211_i.h:30:
-   In file included from include/net/mac80211.h:22:
-   In file included from include/net/codel.h:48:
-   In file included from include/net/inet_ecn.h:9:
-   In file included from include/net/inet_sock.h:22:
-   In file included from include/net/sock.h:61:
-   include/linux/poll.h:142:27: warning: division by zero is undefined [-Wdivision-by-zero]
-                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-                                           ^~~~~~~~~
-   include/linux/poll.h:140:32: note: expanded from macro 'M'
-   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
-           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-                                                            ^ ~~~~~~~~~
-   include/linux/poll.h:142:39: warning: division by zero is undefined [-Wdivision-by-zero]
-                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-                                                       ^~~~~~~~~
-   include/linux/poll.h:140:32: note: expanded from macro 'M'
-   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
-           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-                                                            ^ ~~~~~~~~~
->> net/mac80211/he.c:158:33: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:159:12: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &he_cap->he_mcs_nss_supp.rx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:160:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:161:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &he_cap->he_mcs_nss_supp.tx_mcs_80);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:169:34: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:170:13: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.rx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:171:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:172:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.tx_mcs_160);
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:174:29: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:175:29: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:186:34: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:187:13: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:188:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:189:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:191:29: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:192:29: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   18 warnings and 1 error generated.
+   fs/gfs2/log.c: In function 'gfs2_ail1_start_one':
+>> fs/gfs2/log.c:143:55: error: passing argument 3 of 'write_cache_pages' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     143 |                 ret = write_cache_pages(mapping, wbc, __gfs2_writepage, mapping);
+         |                                                       ^~~~~~~~~~~~~~~~
+         |                                                       |
+         |                                                       int (*)(struct page *, struct writeback_control *, void *)
+   In file included from fs/gfs2/log.c:20:
+   include/linux/writeback.h:375:66: note: expected 'writepage_t' {aka 'int (*)(struct folio *, struct writeback_control *, void *)'} but argument is of type 'int (*)(struct page *, struct writeback_control *, void *)'
+     375 |                       struct writeback_control *wbc, writepage_t writepage,
+         |                                                      ~~~~~~~~~~~~^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +158 net/mac80211/he.c
+vim +/write_cache_pages +143 fs/gfs2/log.c
 
-   105	
-   106	void
-   107	ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
-   108					  struct ieee80211_supported_band *sband,
-   109					  const u8 *he_cap_ie, u8 he_cap_len,
-   110					  const struct ieee80211_he_6ghz_capa *he_6ghz_capa,
-   111					  struct sta_info *sta)
-   112	{
-   113		struct ieee80211_sta_he_cap *he_cap = &sta->sta.he_cap;
-   114		struct ieee80211_sta_he_cap own_he_cap = sband->iftype_data->he_cap;
-   115		struct ieee80211_he_cap_elem *he_cap_ie_elem = (void *)he_cap_ie;
-   116		u8 he_ppe_size;
-   117		u8 mcs_nss_size;
-   118		u8 he_total_size;
-   119		bool own_160, peer_160, own_80p80, peer_80p80;
-   120	
-   121		memset(he_cap, 0, sizeof(*he_cap));
-   122	
-   123		if (!he_cap_ie || !ieee80211_get_he_sta_cap(sband))
-   124			return;
-   125	
-   126		/* Make sure size is OK */
-   127		mcs_nss_size = ieee80211_he_mcs_nss_size(he_cap_ie_elem);
-   128		he_ppe_size =
-   129			ieee80211_he_ppe_size(he_cap_ie[sizeof(he_cap->he_cap_elem) +
-   130							mcs_nss_size],
-   131					      he_cap_ie_elem->phy_cap_info);
-   132		he_total_size = sizeof(he_cap->he_cap_elem) + mcs_nss_size +
-   133				he_ppe_size;
-   134		if (he_cap_len < he_total_size)
-   135			return;
-   136	
-   137		memcpy(&he_cap->he_cap_elem, he_cap_ie, sizeof(he_cap->he_cap_elem));
-   138	
-   139		/* HE Tx/Rx HE MCS NSS Support Field */
-   140		memcpy(&he_cap->he_mcs_nss_supp,
-   141		       &he_cap_ie[sizeof(he_cap->he_cap_elem)], mcs_nss_size);
-   142	
-   143		/* Check if there are (optional) PPE Thresholds */
-   144		if (he_cap->he_cap_elem.phy_cap_info[6] &
-   145		    IEEE80211_HE_PHY_CAP6_PPE_THRESHOLD_PRESENT)
-   146			memcpy(he_cap->ppe_thres,
-   147			       &he_cap_ie[sizeof(he_cap->he_cap_elem) + mcs_nss_size],
-   148			       he_ppe_size);
-   149	
-   150		he_cap->has_he = true;
-   151	
-   152		sta->cur_max_bandwidth = ieee80211_sta_cap_rx_bw(sta);
-   153		sta->sta.bandwidth = ieee80211_sta_cur_vht_bw(sta);
-   154	
-   155		if (sband->band == NL80211_BAND_6GHZ && he_6ghz_capa)
-   156			ieee80211_update_from_he_6ghz_capa(he_6ghz_capa, sta);
-   157	
- > 158		ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
- > 159					      &he_cap->he_mcs_nss_supp.rx_mcs_80,
- > 160					      &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
- > 161					      &he_cap->he_mcs_nss_supp.tx_mcs_80);
-   162	
-   163		own_160 = own_he_cap.he_cap_elem.phy_cap_info[0] &
-   164			  IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   165		peer_160 = he_cap->he_cap_elem.phy_cap_info[0] &
-   166			   IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   167	
-   168		if (peer_160 && own_160) {
- > 169			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
-   170						      &he_cap->he_mcs_nss_supp.rx_mcs_160,
- > 171						      &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
- > 172						      &he_cap->he_mcs_nss_supp.tx_mcs_160);
-   173		} else if (peer_160 && !own_160) {
-   174			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
- > 175			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
-   176			he_cap->he_cap_elem.phy_cap_info[0] &=
-   177				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   178		}
-   179	
-   180		own_80p80 = own_he_cap.he_cap_elem.phy_cap_info[0] &
-   181			    IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   182		peer_80p80 = he_cap->he_cap_elem.phy_cap_info[0] &
-   183			     IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   184	
-   185		if (peer_80p80 && own_80p80) {
- > 186			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
-   187						      &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
- > 188						      &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
-   189						      &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-   190		} else if (peer_80p80 && !own_80p80) {
-   191			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
-   192			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-   193			he_cap->he_cap_elem.phy_cap_info[0] &=
-   194				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   195		}
-   196	}
-   197	
+95ecbd0f162fc0 Andreas Gruenbacher     2023-01-19   91  
+ddacfaf76dd620 Steven Whitehouse       2006-10-03   92  /**
+c551f66c5dfefd Lee Jones               2021-03-30   93   * gfs2_ail1_start_one - Start I/O on a transaction
+c551f66c5dfefd Lee Jones               2021-03-30   94   * @sdp: The superblock
+4667a0ec328678 Steven Whitehouse       2011-04-18   95   * @wbc: The writeback control structure
+c551f66c5dfefd Lee Jones               2021-03-30   96   * @tr: The transaction to start I/O on
+c551f66c5dfefd Lee Jones               2021-03-30   97   * @plug: The block plug currently active
+ddacfaf76dd620 Steven Whitehouse       2006-10-03   98   */
+ddacfaf76dd620 Steven Whitehouse       2006-10-03   99  
+4f1de018215fb5 Steven Whitehouse       2011-04-26  100  static int gfs2_ail1_start_one(struct gfs2_sbd *sdp,
+4667a0ec328678 Steven Whitehouse       2011-04-18  101  			       struct writeback_control *wbc,
+17d77684088510 Bob Peterson            2021-02-18  102  			       struct gfs2_trans *tr, struct blk_plug *plug)
+d6a079e82efd5f Dave Chinner            2011-03-11  103  __releases(&sdp->sd_ail_lock)
+d6a079e82efd5f Dave Chinner            2011-03-11  104  __acquires(&sdp->sd_ail_lock)
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  105  {
+5ac048bb7ea6e8 Steven Whitehouse       2011-03-30  106  	struct gfs2_glock *gl = NULL;
+4667a0ec328678 Steven Whitehouse       2011-04-18  107  	struct address_space *mapping;
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  108  	struct gfs2_bufdata *bd, *s;
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  109  	struct buffer_head *bh;
+b1676cbb11153b Bob Peterson            2019-11-13  110  	int ret = 0;
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  111  
+16ca9412d80181 Benjamin Marzinski      2013-04-05  112  	list_for_each_entry_safe_reverse(bd, s, &tr->tr_ail1_list, bd_ail_st_list) {
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  113  		bh = bd->bd_bh;
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  114  
+16ca9412d80181 Benjamin Marzinski      2013-04-05  115  		gfs2_assert(sdp, bd->bd_tr == tr);
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  116  
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  117  		if (!buffer_busy(bh)) {
+30fe70a85a909a Bob Peterson            2019-11-13  118  			if (buffer_uptodate(bh)) {
+30fe70a85a909a Bob Peterson            2019-11-13  119  				list_move(&bd->bd_ail_st_list,
+30fe70a85a909a Bob Peterson            2019-11-13  120  					  &tr->tr_ail2_list);
+30fe70a85a909a Bob Peterson            2019-11-13  121  				continue;
+30fe70a85a909a Bob Peterson            2019-11-13  122  			}
+036330c914365f Bob Peterson            2019-04-10  123  			if (!cmpxchg(&sdp->sd_log_error, 0, -EIO)) {
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  124  				gfs2_io_error_bh(sdp, bh);
+69511080bd6efd Bob Peterson            2019-02-12  125  				gfs2_withdraw_delayed(sdp);
+9e1a9ecd13b9bb Andreas Gruenbacher     2018-06-07  126  			}
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  127  		}
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  128  
+30fe70a85a909a Bob Peterson            2019-11-13  129  		if (gfs2_withdrawn(sdp)) {
+30fe70a85a909a Bob Peterson            2019-11-13  130  			gfs2_remove_from_ail(bd);
+30fe70a85a909a Bob Peterson            2019-11-13  131  			continue;
+30fe70a85a909a Bob Peterson            2019-11-13  132  		}
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  133  		if (!buffer_dirty(bh))
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  134  			continue;
+5ac048bb7ea6e8 Steven Whitehouse       2011-03-30  135  		if (gl == bd->bd_gl)
+5ac048bb7ea6e8 Steven Whitehouse       2011-03-30  136  			continue;
+5ac048bb7ea6e8 Steven Whitehouse       2011-03-30  137  		gl = bd->bd_gl;
+16ca9412d80181 Benjamin Marzinski      2013-04-05  138  		list_move(&bd->bd_ail_st_list, &tr->tr_ail1_list);
+11551cf15ecc17 Matthew Wilcox (Oracle  2022-12-15  139) 		mapping = bh->b_folio->mapping;
+4f1de018215fb5 Steven Whitehouse       2011-04-26  140  		if (!mapping)
+4f1de018215fb5 Steven Whitehouse       2011-04-26  141  			continue;
+d6a079e82efd5f Dave Chinner            2011-03-11  142  		spin_unlock(&sdp->sd_ail_lock);
+95ecbd0f162fc0 Andreas Gruenbacher     2023-01-19 @143  		ret = write_cache_pages(mapping, wbc, __gfs2_writepage, mapping);
+17d77684088510 Bob Peterson            2021-02-18  144  		if (need_resched()) {
+17d77684088510 Bob Peterson            2021-02-18  145  			blk_finish_plug(plug);
+17d77684088510 Bob Peterson            2021-02-18  146  			cond_resched();
+17d77684088510 Bob Peterson            2021-02-18  147  			blk_start_plug(plug);
+17d77684088510 Bob Peterson            2021-02-18  148  		}
+d6a079e82efd5f Dave Chinner            2011-03-11  149  		spin_lock(&sdp->sd_ail_lock);
+4e79e3f08e576a Bob Peterson            2020-11-12  150  		if (ret == -ENODATA) /* if a jdata write into a new hole */
+4e79e3f08e576a Bob Peterson            2020-11-12  151  			ret = 0; /* ignore it */
+b1676cbb11153b Bob Peterson            2019-11-13  152  		if (ret || wbc->nr_to_write <= 0)
+4667a0ec328678 Steven Whitehouse       2011-04-18  153  			break;
+b1676cbb11153b Bob Peterson            2019-11-13  154  		return -EBUSY;
+4667a0ec328678 Steven Whitehouse       2011-04-18  155  	}
+4f1de018215fb5 Steven Whitehouse       2011-04-26  156  
+b1676cbb11153b Bob Peterson            2019-11-13  157  	return ret;
+4667a0ec328678 Steven Whitehouse       2011-04-18  158  }
+ddacfaf76dd620 Steven Whitehouse       2006-10-03  159  
 
 -- 
 0-DAY CI Kernel Test Service
