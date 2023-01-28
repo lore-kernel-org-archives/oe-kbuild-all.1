@@ -1,186 +1,130 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFBB3214
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 08:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4AF199
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 08:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674893845; x=1706429845;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=spM3AE0alRjjB//gXGhV1W5htvQfvEZ2ffYkRQxojPU=;
-  b=c+RE6Y3pnUetE7rlKc8tuh4QfTKalrFfg2S+KQ4xEBmImGxVwralAvhA
-   WK/iw64t0Oao89dblllWq/ymboZZHmXnyjIPSPG/FPVxr7h8QghdOh7qy
-   ceq9kxs+ltw2T8g8OjsOfu8yWOmNxATjOjncJ9sGUcfv5t/r5/rSwElS4
-   iQcysEpODynXF5gkMQvcMjJ4/q41rkz6MzomGOhiZn8iqzp9vZrVKyr7j
-   sgwzrW8YpexY1dHM0fxWGI9C9p8ZQFywQZmDQI4UBedVkIoiXh8H53TkJ
-   rXCBA4DG/36QCfj/nhFI/FLD51BUKLhzaRJ49ARn90QyCgvS1XhgrsZiI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="413495706"
+  t=1674895046; x=1706431046;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cWUHMzGqepqPSXKZ9SuHXnAObjfKvoGh+wANs5Wh5vY=;
+  b=I3U61yNt8z/FW7gsG9sZNFdtSaNv/j+CaxttxUS9dOKpGTijmx3n5aFc
+   Rz4fmcPE8zpG4wEy/AIlr7ygrOjPE5+SuOadhdfUxBRcNhk51/o+7yBvb
+   EUC8pTQUjV8IVpTTmkEi4bxBXUJAdcu+dVPHkwC6xkBjQP6ZoiEagpLm9
+   KGBf7tQAISWJrpci/ZHD0qvoKFvbz24i16B1VX8iVms8lBR9A2O35MreG
+   LB176Za+3sDAhxtZpLOR1e2L5vsvGs2TbRL3uJGM9LZ1S8FEqcAF3VHcr
+   d48fMgMaQoQVJxxN/vNKZxMffqBDy6ip+nAV6dw+PCnfxtGtbsQsQW2vR
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315229708"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="413495706"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 00:17:24 -0800
+   d="scan'208";a="315229708"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 00:37:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="992339212"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="663556617"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="992339212"
+   d="scan'208";a="663556617"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 00:17:23 -0800
+  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 00:37:24 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLgOo-0000W9-2H;
-	Sat, 28 Jan 2023 08:17:22 +0000
-Date: Sat, 28 Jan 2023 16:16:27 +0800
+	id 1pLgiB-0000WX-0Z;
+	Sat, 28 Jan 2023 08:37:23 +0000
+Date: Sat, 28 Jan 2023 16:37:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grant Seltzer <grantseltzer@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
-	grantseltzer@gmail.com
-Subject: Re: [PATCH bpf-next] Add support for tracing programs in BPF_PROG_RUN
-Message-ID: <202301281606.OPSk1bci-lkp@intel.com>
-References: <20230127214353.628551-1-grantseltzer@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-nomadik:ux500-sound 1/5]
+ sound/soc/samsung/s3c24xx-i2s.c:436:56: error: passing argument 4 of
+ 'samsung_asoc_dma_platform_register' from incompatible pointer type
+Message-ID: <202301281624.uV0BG9Do-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230127214353.628551-1-grantseltzer@gmail.com>
 
-Hi Grant,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Grant-Seltzer/Add-support-for-tracing-programs-in-BPF_PROG_RUN/20230128-130222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230127214353.628551-1-grantseltzer%40gmail.com
-patch subject: [PATCH bpf-next] Add support for tracing programs in BPF_PROG_RUN
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230128/202301281606.OPSk1bci-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git ux500-sound
+head:   b65694eef136170ab7bac3d1f351b7d41fda5167
+commit: 7310aaadf8ec3701122d4d856d1a8ca497f94582 [1/5] ASoC: samsung: remove DMA filter function and data
+config: microblaze-randconfig-r022-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281624.uV0BG9Do-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/990088d6233eb15a4a42a83a998f47432305d4d7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Grant-Seltzer/Add-support-for-tracing-programs-in-BPF_PROG_RUN/20230128-130222
-        git checkout 990088d6233eb15a4a42a83a998f47432305d4d7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git/commit/?id=7310aaadf8ec3701122d4d856d1a8ca497f94582
+        git remote add linusw-nomadik https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git
+        git fetch --no-tags linusw-nomadik ux500-sound
+        git checkout 7310aaadf8ec3701122d4d856d1a8ca497f94582
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash net/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash sound/soc/codecs/ sound/soc/samsung/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/bpf/test_run.c: In function 'bpf_prog_test_run_tracing':
->> net/bpf/test_run.c:818:30: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     818 |         u16 side_effect = 0, ret = 0;
-         |                              ^~~
->> net/bpf/test_run.c:818:13: warning: variable 'side_effect' set but not used [-Wunused-but-set-variable]
-     818 |         u16 side_effect = 0, ret = 0;
-         |             ^~~~~~~~~~~
+   sound/soc/samsung/s3c24xx-i2s.c: In function 's3c24xx_iis_dev_probe':
+>> sound/soc/samsung/s3c24xx-i2s.c:436:56: error: passing argument 4 of 'samsung_asoc_dma_platform_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     436 |                                                  "tx", "rx", NULL);
+         |                                                        ^~~~
+         |                                                        |
+         |                                                        char *
+   In file included from sound/soc/samsung/s3c24xx-i2s.c:21:
+   sound/soc/samsung/dma.h:17:55: note: expected 'struct device *' but argument is of type 'char *'
+      17 |                                        struct device *dma_dev);
+         |                                        ~~~~~~~~~~~~~~~^~~~~~~
+>> sound/soc/samsung/s3c24xx-i2s.c:435:15: error: too many arguments to function 'samsung_asoc_dma_platform_register'
+     435 |         ret = samsung_asoc_dma_platform_register(&pdev->dev, NULL,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/samsung/dma.h:15:5: note: declared here
+      15 | int samsung_asoc_dma_platform_register(struct device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/ret +818 net/bpf/test_run.c
+vim +/samsung_asoc_dma_platform_register +436 sound/soc/samsung/s3c24xx-i2s.c
 
-990088d6233eb1 Grant Seltzer          2023-01-27  812  
-da00d2f117a08f KP Singh               2020-03-04  813  int bpf_prog_test_run_tracing(struct bpf_prog *prog,
-da00d2f117a08f KP Singh               2020-03-04  814  			      const union bpf_attr *kattr,
-da00d2f117a08f KP Singh               2020-03-04  815  			      union bpf_attr __user *uattr)
-da00d2f117a08f KP Singh               2020-03-04  816  {
-d923021c2ce12a Yonghong Song          2020-06-30  817  	struct bpf_fentry_test_t arg = {};
-3d08b6f29cf33a KP Singh               2020-03-04 @818  	u16 side_effect = 0, ret = 0;
-990088d6233eb1 Grant Seltzer          2023-01-27  819  	int b = 2, err = -EFAULT, current_cpu;
-990088d6233eb1 Grant Seltzer          2023-01-27  820  
-990088d6233eb1 Grant Seltzer          2023-01-27  821  	void __user *ctx_in = u64_to_user_ptr(kattr->test.ctx_in);
-990088d6233eb1 Grant Seltzer          2023-01-27  822  	__u32 ctx_size_in = kattr->test.ctx_size_in;
-990088d6233eb1 Grant Seltzer          2023-01-27  823  	struct bpf_tracing_test_run_info info;
-990088d6233eb1 Grant Seltzer          2023-01-27  824  	int cpu = kattr->test.cpu;
-da00d2f117a08f KP Singh               2020-03-04  825  
-b530e9e1063ed2 Toke Høiland-Jørgensen 2022-03-09  826  	if (kattr->test.flags || kattr->test.cpu || kattr->test.batch_size)
-1b4d60ec162f82 Song Liu               2020-09-25  827  		return -EINVAL;
-1b4d60ec162f82 Song Liu               2020-09-25  828  
-da00d2f117a08f KP Singh               2020-03-04  829  	switch (prog->expected_attach_type) {
-da00d2f117a08f KP Singh               2020-03-04  830  	case BPF_TRACE_FENTRY:
-da00d2f117a08f KP Singh               2020-03-04  831  	case BPF_TRACE_FEXIT:
-faeb2dce084aff Alexei Starovoitov     2019-11-14  832  		if (bpf_fentry_test1(1) != 2 ||
-faeb2dce084aff Alexei Starovoitov     2019-11-14  833  		    bpf_fentry_test2(2, 3) != 5 ||
-faeb2dce084aff Alexei Starovoitov     2019-11-14  834  		    bpf_fentry_test3(4, 5, 6) != 15 ||
-faeb2dce084aff Alexei Starovoitov     2019-11-14  835  		    bpf_fentry_test4((void *)7, 8, 9, 10) != 34 ||
-faeb2dce084aff Alexei Starovoitov     2019-11-14  836  		    bpf_fentry_test5(11, (void *)12, 13, 14, 15) != 65 ||
-d923021c2ce12a Yonghong Song          2020-06-30  837  		    bpf_fentry_test6(16, (void *)17, 18, 19, (void *)20, 21) != 111 ||
-d923021c2ce12a Yonghong Song          2020-06-30  838  		    bpf_fentry_test7((struct bpf_fentry_test_t *)0) != 0 ||
-d923021c2ce12a Yonghong Song          2020-06-30  839  		    bpf_fentry_test8(&arg) != 0)
-da00d2f117a08f KP Singh               2020-03-04  840  			goto out;
-da00d2f117a08f KP Singh               2020-03-04  841  		break;
-3d08b6f29cf33a KP Singh               2020-03-04  842  	case BPF_MODIFY_RETURN:
-3d08b6f29cf33a KP Singh               2020-03-04  843  		ret = bpf_modify_return_test(1, &b);
-3d08b6f29cf33a KP Singh               2020-03-04  844  		if (b != 2)
-3d08b6f29cf33a KP Singh               2020-03-04  845  			side_effect = 1;
-3d08b6f29cf33a KP Singh               2020-03-04  846  		break;
-da00d2f117a08f KP Singh               2020-03-04  847  	default:
-da00d2f117a08f KP Singh               2020-03-04  848  		goto out;
-a25ecd9d1e6024 Colin Ian King         2019-11-18  849  	}
-da00d2f117a08f KP Singh               2020-03-04  850  
-990088d6233eb1 Grant Seltzer          2023-01-27  851  	/* doesn't support data_in/out, ctx_out, duration, or repeat */
-990088d6233eb1 Grant Seltzer          2023-01-27  852  	if (kattr->test.data_in || kattr->test.data_out ||
-990088d6233eb1 Grant Seltzer          2023-01-27  853  	    kattr->test.ctx_out || kattr->test.duration ||
-990088d6233eb1 Grant Seltzer          2023-01-27  854  	    kattr->test.repeat || kattr->test.batch_size)
-990088d6233eb1 Grant Seltzer          2023-01-27  855  		return -EINVAL;
-990088d6233eb1 Grant Seltzer          2023-01-27  856  
-990088d6233eb1 Grant Seltzer          2023-01-27  857  	if (ctx_size_in < prog->aux->max_ctx_offset ||
-990088d6233eb1 Grant Seltzer          2023-01-27  858  	    ctx_size_in > MAX_BPF_FUNC_ARGS * sizeof(u64))
-990088d6233eb1 Grant Seltzer          2023-01-27  859  		return -EINVAL;
-990088d6233eb1 Grant Seltzer          2023-01-27  860  
-990088d6233eb1 Grant Seltzer          2023-01-27  861  	if ((kattr->test.flags & BPF_F_TEST_RUN_ON_CPU) == 0 && cpu != 0)
-990088d6233eb1 Grant Seltzer          2023-01-27  862  		return -EINVAL;
-990088d6233eb1 Grant Seltzer          2023-01-27  863  
-990088d6233eb1 Grant Seltzer          2023-01-27  864  	if (ctx_size_in) {
-990088d6233eb1 Grant Seltzer          2023-01-27  865  		info.ctx = memdup_user(ctx_in, ctx_size_in);
-990088d6233eb1 Grant Seltzer          2023-01-27  866  		if (IS_ERR(info.ctx))
-990088d6233eb1 Grant Seltzer          2023-01-27  867  			return PTR_ERR(info.ctx);
-990088d6233eb1 Grant Seltzer          2023-01-27  868  	} else {
-990088d6233eb1 Grant Seltzer          2023-01-27  869  		info.ctx = NULL;
-990088d6233eb1 Grant Seltzer          2023-01-27  870  	}
-3d08b6f29cf33a KP Singh               2020-03-04  871  
-da00d2f117a08f KP Singh               2020-03-04  872  	err = 0;
-990088d6233eb1 Grant Seltzer          2023-01-27  873  	info.prog = prog;
-990088d6233eb1 Grant Seltzer          2023-01-27  874  
-990088d6233eb1 Grant Seltzer          2023-01-27  875  	current_cpu = get_cpu();
-990088d6233eb1 Grant Seltzer          2023-01-27  876  	if ((kattr->test.flags & BPF_F_TEST_RUN_ON_CPU) == 0 ||
-990088d6233eb1 Grant Seltzer          2023-01-27  877  	    cpu == current_cpu) {
-990088d6233eb1 Grant Seltzer          2023-01-27  878  		__bpf_prog_test_run_tracing(&info);
-990088d6233eb1 Grant Seltzer          2023-01-27  879  	} else if (cpu >= nr_cpu_ids || !cpu_online(cpu)) {
-990088d6233eb1 Grant Seltzer          2023-01-27  880  		/* smp_call_function_single() also checks cpu_online()
-990088d6233eb1 Grant Seltzer          2023-01-27  881  		 * after csd_lock(). However, since cpu is from user
-990088d6233eb1 Grant Seltzer          2023-01-27  882  		 * space, let's do an extra quick check to filter out
-990088d6233eb1 Grant Seltzer          2023-01-27  883  		 * invalid value before smp_call_function_single().
-990088d6233eb1 Grant Seltzer          2023-01-27  884  		 */
-990088d6233eb1 Grant Seltzer          2023-01-27  885  		err = -ENXIO;
-990088d6233eb1 Grant Seltzer          2023-01-27  886  	} else {
-990088d6233eb1 Grant Seltzer          2023-01-27  887  		err = smp_call_function_single(cpu, __bpf_prog_test_run_tracing,
-990088d6233eb1 Grant Seltzer          2023-01-27  888  					       &info, 1);
-990088d6233eb1 Grant Seltzer          2023-01-27  889  	}
-990088d6233eb1 Grant Seltzer          2023-01-27  890  	put_cpu();
-990088d6233eb1 Grant Seltzer          2023-01-27  891  
-990088d6233eb1 Grant Seltzer          2023-01-27  892  	if (!err &&
-990088d6233eb1 Grant Seltzer          2023-01-27  893  	    copy_to_user(&uattr->test.retval, &info.retval, sizeof(u32)))
-990088d6233eb1 Grant Seltzer          2023-01-27  894  		err = -EFAULT;
-990088d6233eb1 Grant Seltzer          2023-01-27  895  
-990088d6233eb1 Grant Seltzer          2023-01-27  896  	kfree(info.ctx);
-990088d6233eb1 Grant Seltzer          2023-01-27  897  
-da00d2f117a08f KP Singh               2020-03-04  898  out:
-da00d2f117a08f KP Singh               2020-03-04  899  	trace_bpf_test_finish(&err);
-da00d2f117a08f KP Singh               2020-03-04  900  	return err;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  901  }
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  902  
+5642ddff274172 sound/soc/samsung/s3c24xx-i2s.c Kuninori Morimoto  2013-03-21  422  
+fdca21ad460320 sound/soc/samsung/s3c24xx-i2s.c Bill Pemberton     2012-12-07  423  static int s3c24xx_iis_dev_probe(struct platform_device *pdev)
+f0fba2ad1b6b53 sound/soc/s3c24xx/s3c24xx-i2s.c Liam Girdwood      2010-03-17  424  {
+87b132bc0315fd sound/soc/samsung/s3c24xx-i2s.c Vasily Khoruzhick  2014-06-23  425  	struct resource *res;
+5d3c1f633ea298 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-11-02  426  	int ret;
+87b132bc0315fd sound/soc/samsung/s3c24xx-i2s.c Vasily Khoruzhick  2014-06-23  427  
+b73cbd7b1c2d47 sound/soc/samsung/s3c24xx-i2s.c Yang Yingliang     2021-06-16  428  	s3c24xx_i2s.regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+c479163a1b6ab4 sound/soc/samsung/s3c24xx-i2s.c Wei Yongjun        2015-04-16  429  	if (IS_ERR(s3c24xx_i2s.regs))
+c479163a1b6ab4 sound/soc/samsung/s3c24xx-i2s.c Wei Yongjun        2015-04-16  430  		return PTR_ERR(s3c24xx_i2s.regs);
+87b132bc0315fd sound/soc/samsung/s3c24xx-i2s.c Vasily Khoruzhick  2014-06-23  431  
+8999390e40abe8 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-08-04  432  	s3c24xx_i2s_pcm_stereo_out.addr = res->start + S3C2410_IISFIFO;
+8999390e40abe8 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-08-04  433  	s3c24xx_i2s_pcm_stereo_in.addr = res->start + S3C2410_IISFIFO;
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  434  
+6c9473c55e7bb9 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-11-02 @435  	ret = samsung_asoc_dma_platform_register(&pdev->dev, NULL,
+0f928c19b646f6 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2019-02-14 @436  						 "tx", "rx", NULL);
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  437  	if (ret) {
+6c9473c55e7bb9 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-11-02  438  		dev_err(&pdev->dev, "Failed to register the DMA: %d\n", ret);
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  439  		return ret;
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  440  	}
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  441  
+73f5dfc68316be sound/soc/samsung/s3c24xx-i2s.c Marek Szyprowski   2016-10-27  442  	ret = devm_snd_soc_register_component(&pdev->dev,
+73f5dfc68316be sound/soc/samsung/s3c24xx-i2s.c Marek Szyprowski   2016-10-27  443  			&s3c24xx_i2s_component, &s3c24xx_i2s_dai, 1);
+7253e354e712d2 sound/soc/samsung/s3c24xx-i2s.c Tushar Behera      2014-05-21  444  	if (ret)
+6c9473c55e7bb9 sound/soc/samsung/s3c24xx-i2s.c Sylwester Nawrocki 2016-11-02  445  		dev_err(&pdev->dev, "Failed to register the DAI\n");
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  446  
+a08485d8fdf6f6 sound/soc/samsung/s3c24xx-i2s.c Padmavathi Venna   2012-12-07  447  	return ret;
+f0fba2ad1b6b53 sound/soc/s3c24xx/s3c24xx-i2s.c Liam Girdwood      2010-03-17  448  }
+f0fba2ad1b6b53 sound/soc/s3c24xx/s3c24xx-i2s.c Liam Girdwood      2010-03-17  449  
+
+:::::: The code at line 436 was first introduced by commit
+:::::: 0f928c19b646f6af39ccf7481a546e5da616bb78 ASoC: samsung: Specify DMA channel names through custom DMA config
+
+:::::: TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
