@@ -1,40 +1,46 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779117481;
-	Sat, 28 Jan 2023 20:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A879B7486;
+	Sat, 28 Jan 2023 20:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674937253; x=1706473253;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=dYi/KGzX7zrmeuOySKTsXyC56y+bQOhiQfNJQ1YdHww=;
-  b=OF0gDK8gsmx7Smd1bfbcqgwEw0yQO4erP2HfUXebXdVW4Uo4dE9WulQg
-   KPg5mhcUH0rfbp2EVq0OKCUo2FETlVcI3zEz9Nn1Es/cDH9n7X/N4+Eqf
-   bVRqNodx2ytbECNibnq+W6uGIrsUFWLspHTJABkSJSzavRWCVtvkUoHVP
-   wfmg8uBnEog9BVXFhqU+B4dFl4I4FiFl+hXEzLMM/oFpPFnBJPvj04ZS1
-   fn+bTgGIdZyXS0fobiRsWYz/et++hdYccEtmApambMrjfle8D2qylEJI6
-   nF43KhCTm8lbcN9KMVHnqWTyUuDMZ6dp0d/dds5RqFB7QhGMaY33ySp6I
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325024478"
+  t=1674937254; x=1706473254;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dFBhob8MHmzXu757sCnUaQFuD2W3tXJKuMR8SGgfwVc=;
+  b=k1cZ9hnfzJ7q7z2tkQQTeCCRFFrnMfGEPkWVqscKqeJjUyF0MCmEN9ba
+   zihI6mFxkYTSzNbVLHwKCbupcNLTO3ftow+DvPa2p2HtMpGNWPJh886sW
+   dR/U41YfI70i8EG+59bI7MSFCiPGz7b4qHkitDru5296WaqIOiuHvSksH
+   N1qxjOPkCTaikHXxaP6tTu4qOuqRhCe2KqO8O0MZbqXuggBM817qPbNxi
+   jhi8hMVCrVewsi+Tz1bwSMMtsPoBA/BPt3Ir74D3tzlq1iI7cVJuScuIb
+   lYW+aoNnrerxWOfpAp2T/qOSu9MdcSO+yfZbIJPDm2Sk3kpFRfdsdf0+y
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="307672348"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="325024478"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 12:20:52 -0800
+   d="scan'208";a="307672348"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 12:20:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="656987233"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="727051089"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="656987233"
+   d="scan'208";a="727051089"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 12:20:51 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2023 12:20:51 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLrgw-00014c-1R;
+	id 1pLrgw-00014a-1L;
 	Sat, 28 Jan 2023 20:20:50 +0000
-Date: Sun, 29 Jan 2023 04:19:57 +0800
+Date: Sun, 29 Jan 2023 04:19:58 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH 1/2] powerpc/64: Set default CPU in Kconfig
-Message-ID: <202301290419.dQs7GOB5-lkp@intel.com>
+To: "GuoRui.Yu" <GuoRui.Yu@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, konrad.wilk@oracle.com,
+	linux-coco@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, GuoRui.Yu@linux.alibaba.com,
+	robin.murphy@arm.com
+Subject: Re: [PATCH 4/4] cc-swiotlb: Allow set swiotlb watermark from cmdline
+Message-ID: <202301290417.n1KMDPQt-lkp@intel.com>
+References: <20230128083254.86012-5-GuoRui.Yu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,59 +49,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230128083254.86012-5-GuoRui.Yu@linux.alibaba.com>
 
-In-Reply-To: <76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy@csgroup.eu>
-References: <76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy@csgroup.eu>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+Hi GuoRui.Yu",
 
-Hi Christophe,
+Thank you for the patch! Perhaps something to improve:
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v6.2-rc5 next-20230127]
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on joro-iommu/next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.2-rc5 next-20230127]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-boot-Don-t-always-pass-mcpu-powerpc-when-building-32-bit-uImage/20230125-154021
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/76c11197b058193dcb8e8b26adffba09cfbdab11.1674632329.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH 1/2] powerpc/64: Set default CPU in Kconfig
-config: powerpc-xes_mpc85xx_defconfig (https://download.01.org/0day-ci/archive/20230129/202301290419.dQs7GOB5-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/GuoRui-Yu/swiotlb-Add-a-new-cc-swiotlb-implementation-for-Confidential-VMs/20230128-181154
+patch link:    https://lore.kernel.org/r/20230128083254.86012-5-GuoRui.Yu%40linux.alibaba.com
+patch subject: [PATCH 4/4] cc-swiotlb: Allow set swiotlb watermark from cmdline
+config: nios2-buildonly-randconfig-r002-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290417.n1KMDPQt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/1e2fdbde0affc94f36013e1a2ff5fbeb20457b69
+        # https://github.com/intel-lab-lkp/linux/commit/fcbd538c875f5f1086682829671935d7155e4029
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christophe-Leroy/powerpc-boot-Don-t-always-pass-mcpu-powerpc-when-building-32-bit-uImage/20230125-154021
-        git checkout 1e2fdbde0affc94f36013e1a2ff5fbeb20457b69
+        git fetch --no-tags linux-review GuoRui-Yu/swiotlb-Add-a-new-cc-swiotlb-implementation-for-Confidential-VMs/20230128-181154
+        git checkout fcbd538c875f5f1086682829671935d7155e4029
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash kernel/dma/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   clang-16: error: unsupported argument '-me500' to option '-Wa,'
->> error: unknown target CPU '8540'
-   note: valid target CPU values are: generic, 440, 450, 601, 602, 603, 603e, 603ev, 604, 604e, 620, 630, g3, 7400, g4, 7450, g4+, 750, 8548, 970, g5, a2, e500, e500mc, e5500, power3, pwr3, power4, pwr4, power5, pwr5, power5x, pwr5x, power6, pwr6, power6x, pwr6x, power7, pwr7, power8, pwr8, power9, pwr9, power10, pwr10, powerpc, ppc, ppc32, powerpc64, ppc64, powerpc64le, ppc64le, future
-   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1285: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   kernel/dma/cc-swiotlb.c: In function 'swiotlb_bounce':
+   kernel/dma/cc-swiotlb.c:200:32: warning: variable 'tlb_end' set but not used [-Wunused-but-set-variable]
+     200 |         phys_addr_t orig_addr, tlb_end, slot_start, slot_end = tlb_addr ;
+         |                                ^~~~~~~
+   In file included from kernel/dma/cc-swiotlb.c:13:
+   kernel/dma/cc-swiotlb.c: In function 'cc_populate_pages':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:530:9: note: in expansion of macro 'printk'
+     530 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:530:16: note: in expansion of macro 'KERN_INFO'
+     530 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   kernel/dma/cc-swiotlb.c:411:9: note: in expansion of macro 'pr_info'
+     411 |         pr_info("bounce buffer size adjusted to %luMB", size >> 20);
+         |         ^~~~~~~
+   kernel/dma/cc-swiotlb.c: At top level:
+   kernel/dma/cc-swiotlb.c:524:13: warning: no previous prototype for 'swiotlb_hint_cpus' [-Wmissing-prototypes]
+     524 | void __init swiotlb_hint_cpus(int cpus) {}
+         |             ^~~~~~~~~~~~~~~~~
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
