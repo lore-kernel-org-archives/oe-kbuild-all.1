@@ -1,146 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C209F5CA1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:46:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674913600;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OnWLal2NxQnGf3pRQ9fvHZZFlIom2ggk+6Bw3pxljoo=;
-	b=AwOEE2DvKG0o1mj9FI1h3r8vrohjbc9mdT+LFBXSNEDweYi/PxvkoTKLFRdWBSgPP0KlFt
-	oXLKkfJwY+39X4vtJgWfH+QezL4POX8i0qNi72GNMmEcYuzldNiVYG0NKd1iH36x3/7UbH
-	A6e/5oob9WxEMwjZLELdfDS1phTGt/A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-668-wJzg_nRPN7GKXH31oNMiBw-1; Sat, 28 Jan 2023 08:46:35 -0500
-X-MC-Unique: wJzg_nRPN7GKXH31oNMiBw-1
-Received: by mail-ed1-f72.google.com with SMTP id v8-20020a056402348800b0049e1913bd43so5387416edc.20
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 05:46:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OnWLal2NxQnGf3pRQ9fvHZZFlIom2ggk+6Bw3pxljoo=;
-        b=CPHafpNhkZF0cFB+EKFmDAp3rVPRw/h+XDMa3D/JOThsi9FSUBfsEJDv3QQv6QpAYG
-         cGGqc6pTPlG9z+zeWpOkNyjiWeOBY6JgsGOKFtmJVxDWlLl6PA1xp1BS2GxLgIv2ewwK
-         RmQ61Z91r/VnGvBW5EZe07G2ne3QxQyO/XiJ935ASpQ5gMQojvpGBk/ACsWbYsxjZGH+
-         MjDR9qDLgTsiUVA+JQgNoQjlIWi41I3mKqX40WjrS97hpo442kwi/N2quvOueH6WGGat
-         e052kZJ+1TArSMGtdJfXGues4tVN7bLSKRrpsP0omEbOixqT69ByXrXqhxUxeLAP9ToA
-         B1Jg==
-X-Gm-Message-State: AO0yUKUbs06yVSA+0jc4FXwY5Fpzp8c09mL6bXdgXNUy6vUbX3+IQw4E
-	S4hW1EbflBG0kE2B+i0dQizfQy8Icdruk/AoEKK8x+7/rvcEbVKAvtqBkDj8qxnXhMXyZkaUdJt
-	bYLD7BxzFZ1E4kB8ULVAY1J7agA==
-X-Received: by 2002:a17:906:e8c:b0:878:762b:d8fc with SMTP id p12-20020a1709060e8c00b00878762bd8fcmr8958232ejf.28.1674913594685;
-        Sat, 28 Jan 2023 05:46:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set8JiGNYmwm+QzlGg7STAT5nhbxMmuBeZ39NXLwCHxhMfKk4gWfvoF27XN9vqZb/BXzHB+uQaA==
-X-Received: by 2002:a17:906:e8c:b0:878:762b:d8fc with SMTP id p12-20020a1709060e8c00b00878762bd8fcmr8958203ejf.28.1674913594368;
-        Sat, 28 Jan 2023 05:46:34 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t1-20020a170906268100b0087be1055f83sm2077279ejc.206.2023.01.28.05.46.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Jan 2023 05:46:33 -0800 (PST)
-Message-ID: <d5d0bdb1-3d49-2179-7aa7-08c8bf849ee7@redhat.com>
-Date: Sat, 28 Jan 2023 14:46:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF2E5CA1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674914254; x=1706450254;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZgFUd75cinrUG2/6cnV8lK2KW7ZBDOQvLRfeoZVlKSY=;
+  b=JkSEB6+aYnb0tTjAaTFZnRvsIhfKSPmn2yZDIWDjOHAS+miuRnyJhUQm
+   MomFQ9ufvSaFhsZ3gfSy+uxp0a87sHmOcOMasekW5rOdrOjTq3Qn0VVYW
+   0OWwEVaY3S2OxmlXWx1SD4iEGF+x753wc7aqk27KnzROfGlOUfFf05nAy
+   1BNSUEiKv659VV708epGmKIiv8G3d3YDLZlZDu46v9Spk8mrIfIb5lbGc
+   +byNcBsrD4tDwT8TyTajAf1BEnixWnFReLOCDzULcUPJ4Mek/wUi90h+Y
+   f6gdkgfE0E4mAaNSHVAtZNOQlrXYark6UixckcK5S8mxadjiMtJM39c8F
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391845480"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="391845480"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:57:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837477221"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="837477221"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 28 Jan 2023 05:57:32 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pLlhz-0000iP-1I;
+	Sat, 28 Jan 2023 13:57:31 +0000
+Date: Sat, 28 Jan 2023 21:56:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Felix Fietkau <nbd@nbd.name>
+Subject: [nbd168-wireless:mt76 35/36]
+ drivers/net/wireless/mediatek/mt76/mac80211.c:1732:32: warning: unused
+ variable 'stats'
+Message-ID: <202301282117.MzkVqsAi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
- enable/disable the privacy LED if present
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: kernel test robot <lkp@intel.com>, Mark Gross <mgross@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Daniel Scally <djrscally@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
- Kate Hsuan <hpa@redhat.com>, Mark Pearson <markpearson@lenovo.com>,
- Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
-References: <20230127203729.10205-2-hdegoede@redhat.com>
- <202301281534.9Z8xRsrX-lkp@intel.com>
- <17f5f57e-0003-2b6b-bfaa-18b03a6d1874@redhat.com>
- <Y9UmYOJI3zvpne09@pendragon.ideasonboard.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y9UmYOJI3zvpne09@pendragon.ideasonboard.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://github.com/nbd168/wireless mt76
+head:   6d672228aa610d9b8f3d8b277f5b95b05dc2c66a
+commit: aff9d1f4e5ad02de773bf800e6af49e57adf7d25 [35/36] wifi: mt76: enable page_pool stats
+config: i386-randconfig-c001-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282117.MzkVqsAi-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/nbd168/wireless/commit/aff9d1f4e5ad02de773bf800e6af49e57adf7d25
+        git remote add nbd168-wireless https://github.com/nbd168/wireless
+        git fetch --no-tags nbd168-wireless mt76
+        git checkout aff9d1f4e5ad02de773bf800e6af49e57adf7d25
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/mediatek/mt76/
 
-On 1/28/23 14:42, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> On Sat, Jan 28, 2023 at 10:41:15AM +0100, Hans de Goede wrote:
->> On 1/28/23 08:35, kernel test robot wrote:
->>> Hi Hans,
->>>
->>> I love your patch! Yet something to improve:
->>>
->>> [auto build test ERROR on linus/master]
->>> [also build test ERROR on v6.2-rc5]
->>> [cannot apply to media-tree/master]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
->>> patch link:    https://lore.kernel.org/r/20230127203729.10205-2-hdegoede%40redhat.com
->>> patch subject: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present
->>> config: riscv-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281534.9Z8xRsrX-lkp@intel.com/config)
->>> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
->>> reproduce (this is a W=1 build):
->>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>         chmod +x ~/bin/make.cross
->>>         # install riscv cross compiling tool for clang build
->>>         # apt-get install binutils-riscv64-linux-gnu
->>>         # https://github.com/intel-lab-lkp/linux/commit/000ccec1824b3256e3fc1a94079bb953f19faab5
->>>         git remote add linux-review https://github.com/intel-lab-lkp/linux
->>>         git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
->>>         git checkout 000ccec1824b3256e3fc1a94079bb953f19faab5
->>>         # save the config file
->>>         mkdir build_dir && cp config build_dir/.config
->>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
->>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/v4l2-core/
->>>
->>> If you fix the issue, kindly add following tag where applicable
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:20: error: call to undeclared function 'led_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->>>            sd->privacy_led = led_get(sd->dev, "privacy-led");
->>>                              ^
->>>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:18: error: incompatible integer to pointer conversion assigning to 'struct led_classdev *' from 'int' [-Wint-conversion]
->>>            sd->privacy_led = led_get(sd->dev, "privacy-led");
->>>                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>    2 errors generated.
->>
->> As mentioned in the cover-letter this series depends on this immutable-branch:
->>
->> https://lore.kernel.org/platform-driver-x86/Y9QGcA+9nlmOOy2d@google.com/
->>
->> That branch not being present in the base used by LKP is what is causing this
->> error.
-> 
-> The --base argument to git-format-patch will record the base commit ID
-> in the cover letter, that can possibly help bots getting it right.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks I was not aware of the --base argument, that is useful to know.
+All warnings (new ones prefixed by >>):
 
-Regards,
+   drivers/net/wireless/mediatek/mt76/mac80211.c: In function 'mt76_ethtool_page_pool_stats':
+   drivers/net/wireless/mediatek/mt76/mac80211.c:1732:16: error: variable 'stats' has initializer but incomplete type
+    1732 |         struct page_pool_stats stats = {};
+         |                ^~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mac80211.c:1732:32: error: storage size of 'stats' isn't known
+    1732 |         struct page_pool_stats stats = {};
+         |                                ^~~~~
+   drivers/net/wireless/mediatek/mt76/mac80211.c:1736:17: error: implicit declaration of function 'page_pool_get_stats'; did you mean 'page_pool_put_page'? [-Werror=implicit-function-declaration]
+    1736 |                 page_pool_get_stats(dev->q_rx[i].page_pool, &stats);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 page_pool_put_page
+>> drivers/net/wireless/mediatek/mt76/mac80211.c:1732:32: warning: unused variable 'stats' [-Wunused-variable]
+    1732 |         struct page_pool_stats stats = {};
+         |                                ^~~~~
+   cc1: some warnings being treated as errors
 
-Hans
 
+vim +/stats +1732 drivers/net/wireless/mediatek/mt76/mac80211.c
+
+  1729	
+  1730	void mt76_ethtool_page_pool_stats(struct mt76_dev *dev, u64 *data, int *index)
+  1731	{
+> 1732		struct page_pool_stats stats = {};
+  1733		int i;
+  1734	
+  1735		mt76_for_each_q_rx(dev, i)
+  1736			page_pool_get_stats(dev->q_rx[i].page_pool, &stats);
+  1737	
+  1738		page_pool_ethtool_stats_get(data, &stats);
+  1739		*index += page_pool_ethtool_stats_get_count();
+  1740	}
+  1741	EXPORT_SYMBOL_GPL(mt76_ethtool_page_pool_stats);
+  1742	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
