@@ -1,41 +1,55 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20572570
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 07:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8272570
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 07:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674890063; x=1706426063;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=atefpNtY17E9LVpYSxCv+VPF+1rEkRnr86d0kwCPXco=;
-  b=ix76oqfg7Ty93X6NpvoBnP//Zh+FkXR49sp5UfFXbd4k4LFpkk53KPmZ
-   8uZeXwQOxSXmBvcoIXl37DrEhllSSgm0ExnODjcWPfdAwJ/TsPpIMtNH1
-   gsF4cD6vNuKnKYVVctKfqTytGoma/u1I9ZBoGVYbI/KJfyhRbe2dZOQeb
-   RWjRMozrMfYDYku85qre7HIsMnuM9lGWZFh4ferB00pczo9mgQ07nFqAD
-   ZPTdTavFnZxl7XP5wvL2E+Ou/G/tdXvmNNfabvlLWFEoYnF20NMYKWMEG
-   butGDqe2mMkP1vXYGw27n3JIUv3Z3FVF5A5Pp/ZnvpeidMjFgC8DqyuQD
+  t=1674890728; x=1706426728;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bBDwQWuILdGbSqDjOuULlrnqbX7XKFkvjxkQmUDj2Zo=;
+  b=I7UPOHXEl1DKePya8tpCmk81hgSv1cRKA0KDWSfDmcGzmHofaSTNYAXu
+   GNodpcswDYxNQaqhp69eAO7WmhDg+Jx8cJ4EF6SnDvMucEntUvrJvuhFm
+   W3r2lpXF6RoBCkCaiaZkHDaow/lvZjNvDVM/h5366H4tCj3CSg9z6ireL
+   CUJ/XEF2IN/OkVuNHcth77Yz2W4YPfZKFlfEeWi2laTMsNJZWBix+8zrU
+   OBqkv+YmSKf/yibxGTxRwPqfSH0S1oyf/qlMtzHytUGkb1o+GxywyvRNM
+   KM3bb0FJlWun7D6+yOS2edUD5FgOhrYobDRSyTm8kxg2gccqonpi0ZvfK
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="389650129"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315225915"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="389650129"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:14:22 -0800
+   d="scan'208";a="315225915"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:25:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="837401950"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="663539347"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="837401950"
+   d="scan'208";a="663539347"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Jan 2023 23:14:21 -0800
+  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2023 23:25:22 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLfPo-0000TV-1b;
-	Sat, 28 Jan 2023 07:14:20 +0000
-Date: Sat, 28 Jan 2023 15:14:14 +0800
+	id 1pLfaS-0000U3-33;
+	Sat, 28 Jan 2023 07:25:20 +0000
+Date: Sat, 28 Jan 2023 15:24:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/io_uring.c:2932:40: error: variable 'prev' set but not used
-Message-ID: <202301281505.Y1qiPCDf-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <mgross@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Kate Hsuan <hpa@redhat.com>, Mark Pearson <markpearson@lenovo.com>,
+	Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+Subject: Re: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED
+ class device for the privacy LED
+Message-ID: <202301281537.fKVHsgf4-lkp@intel.com>
+References: <20230127203729.10205-4-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,74 +58,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230127203729.10205-4-hdegoede@redhat.com>
 
-Hi Jens,
+Hi Hans,
 
-First bad commit (maybe != root cause):
+I love your patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5af6ce7049365952f7f023155234fe091693ead1
-commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate directory
-date:   6 months ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20230128/202301281505.Y1qiPCDf-lkp@intel.com/config)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc5]
+[cannot apply to media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+patch link:    https://lore.kernel.org/r/20230127203729.10205-4-hdegoede%40redhat.com
+patch subject: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED class device for the privacy LED
+config: i386-randconfig-r004-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281537.fKVHsgf4-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ed29b0b4fd835b058ddd151c49d021e28d631ee6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ed29b0b4fd835b058ddd151c49d021e28d631ee6
+        # https://github.com/intel-lab-lkp/linux/commit/d71a1bce9c9ea0bd5b98920b2d72a5b0a36ca19d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+        git checkout d71a1bce9c9ea0bd5b98920b2d72a5b0a36ca19d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   io_uring/io_uring.c: In function '__io_submit_flush_completions':
->> io_uring/io_uring.c:2932:40: error: variable 'prev' set but not used [-Werror=unused-but-set-variable]
-    2932 |         struct io_wq_work_node *node, *prev;
-         |                                        ^~~~
-   cc1: all warnings being treated as errors
+   In file included from drivers/platform/x86/intel/int3472/discrete.c:17:
+>> drivers/platform/x86/intel/int3472/common.h:107:40: error: field 'lookup' has incomplete type
+     107 |                 struct led_lookup_data lookup;
+         |                                        ^~~~~~
+--
+   In file included from drivers/platform/x86/intel/int3472/led.c:7:
+>> drivers/platform/x86/intel/int3472/common.h:107:40: error: field 'lookup' has incomplete type
+     107 |                 struct led_lookup_data lookup;
+         |                                        ^~~~~~
+   drivers/platform/x86/intel/int3472/led.c: In function 'skl_int3472_register_pled':
+>> drivers/platform/x86/intel/int3472/led.c:57:9: error: implicit declaration of function 'led_add_lookup'; did you mean 'd_can_lookup'? [-Werror=implicit-function-declaration]
+      57 |         led_add_lookup(&int3472->pled.lookup);
+         |         ^~~~~~~~~~~~~~
+         |         d_can_lookup
+   drivers/platform/x86/intel/int3472/led.c: In function 'skl_int3472_unregister_pled':
+>> drivers/platform/x86/intel/int3472/led.c:71:9: error: implicit declaration of function 'led_remove_lookup' [-Werror=implicit-function-declaration]
+      71 |         led_remove_lookup(&int3472->pled.lookup);
+         |         ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/prev +2932 io_uring/io_uring.c
+vim +/lookup +107 drivers/platform/x86/intel/int3472/common.h
 
-7a743e225b2a9da fs/io_uring.c Pavel Begunkov 2020-03-03  2928  
-c450178d9be9dc4 fs/io_uring.c Pavel Begunkov 2021-09-08  2929  static void __io_submit_flush_completions(struct io_ring_ctx *ctx)
-a141dd896f544df fs/io_uring.c Jens Axboe     2021-08-12  2930  	__must_hold(&ctx->uring_lock)
-905c172f32c56f0 fs/io_uring.c Pavel Begunkov 2021-02-10  2931  {
-6f33b0bc4ea43f5 fs/io_uring.c Pavel Begunkov 2021-09-24 @2932  	struct io_wq_work_node *node, *prev;
-cd0ca2e048dc0dd fs/io_uring.c Pavel Begunkov 2021-08-09  2933  	struct io_submit_state *state = &ctx->submit_state;
-905c172f32c56f0 fs/io_uring.c Pavel Begunkov 2021-02-10  2934  
-3d4aeb9f98058c3 fs/io_uring.c Pavel Begunkov 2021-11-10  2935  	if (state->flush_cqes) {
-79ebeaee8a21a00 fs/io_uring.c Jens Axboe     2021-08-10  2936  		spin_lock(&ctx->completion_lock);
-6f33b0bc4ea43f5 fs/io_uring.c Pavel Begunkov 2021-09-24  2937  		wq_list_for_each(node, prev, &state->compl_reqs) {
-6f33b0bc4ea43f5 fs/io_uring.c Pavel Begunkov 2021-09-24  2938  			struct io_kiocb *req = container_of(node, struct io_kiocb,
-6f33b0bc4ea43f5 fs/io_uring.c Pavel Begunkov 2021-09-24  2939  						    comp_list);
-5182ed2e332e8e1 fs/io_uring.c Pavel Begunkov 2021-06-26  2940  
-f43de1f88841d59 fs/io_uring.c Pavel Begunkov 2022-06-15  2941  			if (!(req->flags & REQ_F_CQE_SKIP))
-91ef75a7db0d085 fs/io_uring.c Pavel Begunkov 2022-06-15  2942  				__io_fill_cqe_req(ctx, req);
-905c172f32c56f0 fs/io_uring.c Pavel Begunkov 2021-02-10  2943  		}
-3d4aeb9f98058c3 fs/io_uring.c Pavel Begunkov 2021-11-10  2944  
-905c172f32c56f0 fs/io_uring.c Pavel Begunkov 2021-02-10  2945  		io_commit_cqring(ctx);
-79ebeaee8a21a00 fs/io_uring.c Jens Axboe     2021-08-10  2946  		spin_unlock(&ctx->completion_lock);
-905c172f32c56f0 fs/io_uring.c Pavel Begunkov 2021-02-10  2947  		io_cqring_ev_posted(ctx);
-3d4aeb9f98058c3 fs/io_uring.c Pavel Begunkov 2021-11-10  2948  		state->flush_cqes = false;
-3d4aeb9f98058c3 fs/io_uring.c Pavel Begunkov 2021-11-10  2949  	}
-5182ed2e332e8e1 fs/io_uring.c Pavel Begunkov 2021-06-26  2950  
-1cce17aca621c38 fs/io_uring.c Pavel Begunkov 2021-09-24  2951  	io_free_batch_list(ctx, state->compl_reqs.first);
-6f33b0bc4ea43f5 fs/io_uring.c Pavel Begunkov 2021-09-24  2952  	INIT_WQ_LIST(&state->compl_reqs);
-7a743e225b2a9da fs/io_uring.c Pavel Begunkov 2020-03-03  2953  }
-7a743e225b2a9da fs/io_uring.c Pavel Begunkov 2020-03-03  2954  
-
-:::::: The code at line 2932 was first introduced by commit
-:::::: 6f33b0bc4ea43f5c5ce7b7c9ab66051f80837862 io_uring: use slist for completion batching
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+    80	
+    81	struct int3472_discrete_device {
+    82		struct acpi_device *adev;
+    83		struct device *dev;
+    84		struct acpi_device *sensor;
+    85		const char *sensor_name;
+    86	
+    87		const struct int3472_sensor_config *sensor_config;
+    88	
+    89		struct int3472_gpio_regulator {
+    90			char regulator_name[GPIO_REGULATOR_NAME_LENGTH];
+    91			char supply_name[GPIO_REGULATOR_SUPPLY_NAME_LENGTH];
+    92			struct gpio_desc *gpio;
+    93			struct regulator_dev *rdev;
+    94			struct regulator_desc rdesc;
+    95		} regulator;
+    96	
+    97		struct int3472_gpio_clock {
+    98			struct clk *clk;
+    99			struct clk_hw clk_hw;
+   100			struct clk_lookup *cl;
+   101			struct gpio_desc *ena_gpio;
+   102			u32 frequency;
+   103		} clock;
+   104	
+   105		struct int3472_pled {
+   106			struct led_classdev classdev;
+ > 107			struct led_lookup_data lookup;
+   108			char name[INT3472_LED_MAX_NAME_LEN];
+   109			struct gpio_desc *gpio;
+   110		} pled;
+   111	
+   112		unsigned int ngpios; /* how many GPIOs have we seen */
+   113		unsigned int n_sensor_gpios; /* how many have we mapped to sensor */
+   114		struct gpiod_lookup_table gpios;
+   115	};
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
