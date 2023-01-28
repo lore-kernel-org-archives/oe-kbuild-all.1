@@ -1,43 +1,53 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB26FBB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7058A6FBB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674929148; x=1706465148;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aWElL4mTcw6PG+RptVIr/LLhqiAvFdEzqRjqfko6t4k=;
-  b=dNcH+bUDUAoninlsNzhNxsl6U9u1BEMxE3jmyFb2v+eJqwEyFj8Y+zf4
-   +KKksS850lGPGOrjx26CQVvDRGIYX5quVmMZqlmyDUP05vuZpGtnNWyml
-   +PUxIIMbCmhswoGB/IfiXWV70E9R8Nnw7vTZP+5G5uwb0vMjm1EzA0gxF
-   eJWFBhktVOiovSAGC5EtcUQH0iuHDlJs1gmHe9vp+HdvFE8qGShlEqT1s
-   kmqBywhd98ScorwclagqEMq8OONKUiT6kDqEAyd64tj+TXFnhbZ9+PhUY
-   uz/YmwLURiF0SqZqVqGNZp5cXZTK6dtk+c4ejWSrCcHvAjD0UMmmCV6Vn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315271205"
+  t=1674929158; x=1706465158;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bAxv/HDPrQB7TY+fjZG3z8MOiTvycXwCcAJ/hwcQLo4=;
+  b=hdepsNZ6k9j1r4mcOc6HVrvdDG/as+3rVhsx6kwkkS/Ajq6LuaV/17mo
+   uYA2TjXGvyL9M6YGdcJ0RXSn8J8NWC6yAWltwoLC/hmZ86B+FTMvdTaRM
+   a55v+Lts7EsBKV5tfxNgY/mQ1iOoqAVplicvfaFlVdZ3/aKlCf2uKpZeq
+   uqn/EPg0CB4Z/W7gRgLIItrIaeniIfThkTS+yqjwk833vZ5KzmA/k+VGz
+   Q4VzwxsC3hZJwYfCNGAIB2SfP9R/QnvNgVFS2ZoCcnZUofa+e8Mk/AuEZ
+   zhD1vi475jaCshaECyyJGfsAF0hyZE7MgTGSzzZY7iBmITMr/uqqeXiqS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="310937460"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="315271205"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:05:48 -0800
+   d="scan'208";a="310937460"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:05:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="665605687"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752340114"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="665605687"
+   d="scan'208";a="752340114"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Jan 2023 10:05:46 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 10:05:50 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLpaD-0000yG-0T;
+	id 1pLpaD-0000yI-0X;
 	Sat, 28 Jan 2023 18:05:45 +0000
-Date: Sun, 29 Jan 2023 02:05:31 +0800
+Date: Sun, 29 Jan 2023 02:05:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: cookie.c:(.text+0x564): multiple definition of
- `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first
- defined here
-Message-ID: <202301290259.ug4IOoGC-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>, torvalds@linux-foundation.org,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	bristot@redhat.com, vschneid@redhat.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
+	joshdon@google.com, brho@google.com, pjt@google.com,
+	derkling@google.com, haoluo@google.com, dvernet@meta.com,
+	dschatzberg@meta.com, dskarlat@cs.cmu.edu, riel@surriel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, kernel-team@meta.com,
+	Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH 23/30] sched_ext: Add cgroup support
+Message-ID: <202301290107.J4Eavi26-lkp@intel.com>
+References: <20230128001639.3510083-24-tj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,160 +56,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230128001639.3510083-24-tj@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
-head:   3d043be5ab6ba8f9103bf6e4fe555f9d094e5b2c
-commit: 9588973ddc5527f751cae5e1a3e895538d935b4b vmalloc: introduce register_text_tail_vm()
-date:   10 hours ago
-config: arm-randconfig-r023-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290259.ug4IOoGC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Tejun,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master v6.2-rc5]
+[cannot apply to tip/sched/core tj-cgroup/for-next next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/sched-Encapsulate-task-attribute-change-sequence-into-a-helper-macro/20230128-123001
+patch link:    https://lore.kernel.org/r/20230128001639.3510083-24-tj%40kernel.org
+patch subject: [PATCH 23/30] sched_ext: Add cgroup support
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230129/202301290107.J4Eavi26-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9588973ddc5527f751cae5e1a3e895538d935b4b
+        # https://github.com/intel-lab-lkp/linux/commit/6f861617cb846291559a9d0bfe60a9c1ca20f406
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
-        git checkout 9588973ddc5527f751cae5e1a3e895538d935b4b
+        git fetch --no-tags linux-review Tejun-Heo/sched-Encapsulate-task-attribute-change-sequence-into-a-helper-macro/20230128-123001
+        git checkout 6f861617cb846291559a9d0bfe60a9c1ca20f406
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/io.h:994,
-                    from arch/arm/include/asm/io.h:416,
-                    from include/linux/io.h:13,
-                    from arch/arm/include/asm/cachetype.h:85,
-                    from arch/arm/include/asm/cacheflush.h:14,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/pagemap.h:11,
-                    from include/linux/netfs.h:19,
-                    from include/linux/fscache.h:18,
-                    from include/linux/fscache-cache.h:17,
-                    from fs/fscache/internal.h:15,
-                    from fs/fscache/cache.c:11:
->> include/linux/vmalloc.h:141:6: warning: no previous prototype for 'register_text_tail_vm' [-Wmissing-prototypes]
-     141 | void register_text_tail_vm(unsigned long start, unsigned long end)
+   In file included from kernel/sched/sched.h:3404,
+                    from kernel/sched/core.c:85:
+>> kernel/sched/ext.h:182:48: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     182 | static inline int scx_cgroup_can_attach(struct cgroup_taskset *tset) { return 0; }
+         |                                                ^~~~~~~~~~~~~~
+   kernel/sched/ext.h:185:52: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     185 | static inline void scx_cgroup_cancel_attach(struct cgroup_taskset *tset) {}
+         |                                                    ^~~~~~~~~~~~~~
+   kernel/sched/core.c:7006:6: warning: no previous prototype for '__setscheduler_prio' [-Wmissing-prototypes]
+    7006 | void __setscheduler_prio(struct task_struct *p, int prio)
+         |      ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from kernel/sched/sched.h:3404,
+                    from kernel/sched/fair.c:55:
+>> kernel/sched/ext.h:182:48: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     182 | static inline int scx_cgroup_can_attach(struct cgroup_taskset *tset) { return 0; }
+         |                                                ^~~~~~~~~~~~~~
+   kernel/sched/ext.h:185:52: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     185 | static inline void scx_cgroup_cancel_attach(struct cgroup_taskset *tset) {}
+         |                                                    ^~~~~~~~~~~~~~
+   kernel/sched/fair.c:5937:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+    5937 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:12361:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   12361 | void free_fair_sched_group(struct task_group *tg) { }
          |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:12363:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   12363 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:12368:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   12368 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:12370:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   12370 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
-   arm-linux-gnueabi-ld: fs/fscache/cookie.o: in function `register_text_tail_vm':
->> cookie.c:(.text+0x564): multiple definition of `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first defined here
-   arm-linux-gnueabi-ld: fs/fscache/io.o: in function `register_text_tail_vm':
-   io.c:(.text+0x4f4): multiple definition of `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first defined here
-   arm-linux-gnueabi-ld: fs/fscache/main.o: in function `register_text_tail_vm':
-   main.c:(.text+0x0): multiple definition of `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first defined here
-   arm-linux-gnueabi-ld: fs/fscache/volume.o: in function `register_text_tail_vm':
-   volume.c:(.text+0x550): multiple definition of `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first defined here
-   arm-linux-gnueabi-ld: fs/fscache/proc.o: in function `register_text_tail_vm':
-   proc.c:(.text+0x0): multiple definition of `register_text_tail_vm'; fs/fscache/cache.o:cache.c:(.text+0x1b0): first defined here
---
-   In file included from include/asm-generic/io.h:994,
-                    from arch/arm/include/asm/io.h:416,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/arm/include/asm/hardirq.h:10,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/drm/drm_util.h:35,
-                    from include/drm/drm_connector.h:32,
-                    from include/drm/drm_modes.h:33,
-                    from include/drm/drm_crtc.h:32,
-                    from include/drm/drm_atomic.h:31,
-                    from drivers/gpu/drm/tilcdc/tilcdc_plane.c:7:
->> include/linux/vmalloc.h:141:6: error: no previous prototype for 'register_text_tail_vm' [-Werror=missing-prototypes]
-     141 | void register_text_tail_vm(unsigned long start, unsigned long end)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from include/asm-generic/io.h:994,
-                    from arch/arm/include/asm/io.h:416,
-                    from include/linux/io.h:13,
-                    from arch/arm/include/asm/cachetype.h:85,
-                    from arch/arm/include/asm/cacheflush.h:14,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from drivers/usb/gadget/function/f_mass_storage.c:171:
->> include/linux/vmalloc.h:141:6: warning: no previous prototype for 'register_text_tail_vm' [-Wmissing-prototypes]
-     141 | void register_text_tail_vm(unsigned long start, unsigned long end)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/f_mass_storage.c: In function 'invalidate_sub':
-   drivers/usb/gadget/function/f_mass_storage.c:929:25: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
-     929 |         unsigned long   rc;
-         |                         ^~
---
-   In file included from include/asm-generic/io.h:994,
-                    from arch/arm/include/asm/io.h:416,
-                    from include/linux/io.h:13,
-                    from arch/arm/include/asm/cachetype.h:85,
-                    from arch/arm/include/asm/cacheflush.h:14,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from drivers/usb/gadget/function/f_fs.c:17:
->> include/linux/vmalloc.h:141:6: warning: no previous prototype for 'register_text_tail_vm' [-Wmissing-prototypes]
-     141 | void register_text_tail_vm(unsigned long start, unsigned long end)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:253,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5:
-   In function 'fortify_memcpy_chk',
-       inlined from '__ffs_func_bind_do_os_desc' at drivers/usb/gadget/function/f_fs.c:3002:3:
-   include/linux/fortify-string.h:413:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
-     413 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   arm-linux-gnueabi-ld: drivers/usb/gadget/function/storage_common.o: in function `register_text_tail_vm':
->> storage_common.c:(.text+0x7e0): multiple definition of `register_text_tail_vm'; drivers/usb/gadget/function/f_mass_storage.o:f_mass_storage.c:(.text+0x3284): first defined here
---
-   arm-linux-gnueabi-ld: drivers/gpu/drm/i2c/ch7006_mode.o: in function `register_text_tail_vm':
->> ch7006_mode.c:(.text+0xa0): multiple definition of `register_text_tail_vm'; drivers/gpu/drm/i2c/ch7006_drv.o:ch7006_drv.c:(.text+0x830): first defined here
---
-   arm-linux-gnueabi-ld: fs/ext2/dir.o: in function `register_text_tail_vm':
->> dir.c:(.text+0x5ac): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/file.o: in function `register_text_tail_vm':
-   file.c:(.text+0x7c): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/ialloc.o: in function `register_text_tail_vm':
-   ialloc.c:(.text+0x220): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/inode.o: in function `register_text_tail_vm':
-   inode.c:(.text+0x1138): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/ioctl.o: in function `register_text_tail_vm':
-   ioctl.c:(.text+0x0): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/namei.o: in function `register_text_tail_vm':
-   namei.c:(.text+0x5ae): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/super.o: in function `register_text_tail_vm':
-   super.c:(.text+0x450): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
-   arm-linux-gnueabi-ld: fs/ext2/symlink.o: in function `register_text_tail_vm':
-   symlink.c:(.text+0x0): multiple definition of `register_text_tail_vm'; fs/ext2/balloc.o:balloc.c:(.text+0x34c): first defined here
---
-   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_reg.o: in function `register_text_tail_vm':
->> analogix_dp_reg.c:(.text+0x50): multiple definition of `register_text_tail_vm'; drivers/gpu/drm/bridge/analogix/analogix_dp_core.o:analogix_dp_core.c:(.text+0x188c): first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.o: in function `register_text_tail_vm':
-   analogix-i2c-dptx.c:(.text+0x1c4): multiple definition of `register_text_tail_vm'; drivers/gpu/drm/bridge/analogix/analogix_dp_core.o:analogix_dp_core.c:(.text+0x188c): first defined here
---
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mxsfb/mxsfb_kms.o: in function `register_text_tail_vm':
->> mxsfb_kms.c:(.text+0x70c): multiple definition of `register_text_tail_vm'; drivers/gpu/drm/mxsfb/mxsfb_drv.o:mxsfb_drv.c:(.text+0xb2): first defined here
---
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mxsfb/lcdif_kms.o: in function `register_text_tail_vm':
->> lcdif_kms.c:(.text+0x4f6): multiple definition of `register_text_tail_vm'; drivers/gpu/drm/mxsfb/lcdif_drv.o:lcdif_drv.c:(.text+0x370): first defined here
-..
+   In file included from kernel/sched/sched.h:3404,
+                    from kernel/sched/build_policy.c:36:
+>> kernel/sched/ext.h:182:48: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     182 | static inline int scx_cgroup_can_attach(struct cgroup_taskset *tset) { return 0; }
+         |                                                ^~~~~~~~~~~~~~
+   kernel/sched/ext.h:185:52: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+     185 | static inline void scx_cgroup_cancel_attach(struct cgroup_taskset *tset) {}
+         |                                                    ^~~~~~~~~~~~~~
+
+
+vim +182 kernel/sched/ext.h
+
+   170	
+   171	#ifdef CONFIG_EXT_GROUP_SCHED
+   172	int scx_tg_online(struct task_group *tg);
+   173	void scx_tg_offline(struct task_group *tg);
+   174	int scx_cgroup_can_attach(struct cgroup_taskset *tset);
+   175	void scx_move_task(struct task_struct *p);
+   176	void scx_cgroup_finish_attach(void);
+   177	void scx_cgroup_cancel_attach(struct cgroup_taskset *tset);
+   178	void scx_group_set_weight(struct task_group *tg, unsigned long cgrp_weight);
+   179	#else	/* CONFIG_EXT_GROUP_SCHED */
+   180	static inline int scx_tg_online(struct task_group *tg) { return 0; }
+   181	static inline void scx_tg_offline(struct task_group *tg) {}
+ > 182	static inline int scx_cgroup_can_attach(struct cgroup_taskset *tset) { return 0; }
 
 -- 
 0-DAY CI Kernel Test Service
