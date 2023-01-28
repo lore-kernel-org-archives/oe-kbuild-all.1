@@ -1,47 +1,47 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43CA3232;
-	Sat, 28 Jan 2023 12:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA02353AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 12:03:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674907410; x=1706443410;
+  t=1674907411; x=1706443411;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i0RFEKNFj77Bsg83J8YNF+pxSWojES57fmybMH++WWs=;
-  b=icMkUGOQ5WDcDmAi/PZcXW3STMA4jJKQPE/lDy1DvW30Z48iCvSrIKUs
-   1kg+pXNLLY8KVlVSuVILm1Ox2vC1Lt8rIOcdnSLa9rCBwDxI67gxvx/E6
-   hSEn2jY40BHZKf5nED5TeCBsaBS3PV4iFY6HFxxvRWqlNQusYmBsOmTbs
-   lpGIQNtImuCGyhFKOJzVwYDiaeWkbZF69PAvupV9c3ZolLxmUgTM3FnjP
-   QnJiNU4ydH4c0BmlOTL28PW8Q90LIExA/La8bN5qqAm+f4rD6sc/RJYot
-   NgICLYhQ9ubxF239XiyKFkdPFGb1bStOhM/SrKIA4Bnlpznxnjq7p5j4W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="354593380"
+  bh=g0nYUyAl0keLEWY5bIHOgRjp4TZCidbtA0BM2hVWcKk=;
+  b=ZG92p1zJo/4AGPoGXojMpoggshL7xuDOGFc/+LrbqOFvlVzzVmxxrhD8
+   9aqxRAl/gUe6sdCFb8fZ/01TViHioJN73WWrgvPHx84QEGETYzIkJXgYS
+   Gunvrd/dQ3r4Kr4YgIP/Qbt5WvH5BkfsIYsii93tReZ0Mpcn9ZUIJ8YVt
+   NjIH0jdQVaI/s3/km/o8AVcjQ8akuBvopD3h+1buDbVU9rE4JDX2xbgXV
+   QoMhjW472shJWjR9rBFCkAJJe/7SfKtncPFFM9HSOg+O5AHHu0Zb8Em80
+   XGtFCPaswNh4tNBagN1AeOCpFJtx/YrrZeK9QEN6EkI5WJZbeDbd0AXq6
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="354593395"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="354593380"
+   d="scan'208";a="354593395"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:03:30 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:03:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="656917221"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="656917222"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="656917221"
+   d="scan'208";a="656917222"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 04:03:28 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLjvb-0000cr-1Y;
+	id 1pLjvb-0000cn-1O;
 	Sat, 28 Jan 2023 12:03:27 +0000
-Date: Sat, 28 Jan 2023 20:03:22 +0800
+Date: Sat, 28 Jan 2023 20:03:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "GuoRui.Yu" <GuoRui.Yu@linux.alibaba.com>, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, konrad.wilk@oracle.com,
-	linux-coco@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, GuoRui.Yu@linux.alibaba.com,
-	robin.murphy@arm.com
-Subject: Re: [PATCH 2/4] swiotlb: Add a new cc-swiotlb implementation for
- Confidential VMs
-Message-ID: <202301281925.XYfOkJnF-lkp@intel.com>
-References: <20230128083254.86012-3-GuoRui.Yu@linux.alibaba.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	oleg@redhat.com, avagin@gmail.com, luto@kernel.org,
+	krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+	shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <202301281932.AtpbMlh9-lkp@intel.com>
+References: <20230126190645.18341-2-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,99 +50,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230128083254.86012-3-GuoRui.Yu@linux.alibaba.com>
+In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 
-Hi GuoRui.Yu",
+Hi Gregory,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on joro-iommu/next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.2-rc5 next-20230127]
+[auto build test WARNING on linus/master]
+[also build test WARNING on tip/core/entry v6.2-rc5 next-20230127]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/GuoRui-Yu/swiotlb-Add-a-new-cc-swiotlb-implementation-for-Confidential-VMs/20230128-181154
-patch link:    https://lore.kernel.org/r/20230128083254.86012-3-GuoRui.Yu%40linux.alibaba.com
-patch subject: [PATCH 2/4] swiotlb: Add a new cc-swiotlb implementation for Confidential VMs
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281925.XYfOkJnF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
+patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230128/202301281932.AtpbMlh9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9345d2c75b5994cec46ad0abf12f01ed91742e81
+        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review GuoRui-Yu/swiotlb-Add-a-new-cc-swiotlb-implementation-for-Confidential-VMs/20230128-181154
-        git checkout 9345d2c75b5994cec46ad0abf12f01ed91742e81
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash kernel/dma/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/entry/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   kernel/dma/cc-swiotlb.c: In function 'swiotlb_bounce':
->> kernel/dma/cc-swiotlb.c:174:32: warning: variable 'tlb_end' set but not used [-Wunused-but-set-variable]
-     174 |         phys_addr_t orig_addr, tlb_end, slot_start, slot_end = tlb_addr ;
-         |                                ^~~~~~~
-   kernel/dma/cc-swiotlb.c: At top level:
->> kernel/dma/cc-swiotlb.c:492:13: warning: no previous prototype for 'swiotlb_hint_cpus' [-Wmissing-prototypes]
-     492 | void __init swiotlb_hint_cpus(int cpus) {}
-         |             ^~~~~~~~~~~~~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
+   kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+>> kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
+     147 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/tlb_end +174 kernel/dma/cc-swiotlb.c
+vim +/config +114 kernel/entry/syscall_user_dispatch.c
 
-   167	
-   168	/*
-   169	 * Bounce: copy the swiotlb buffer from or back to the original dma location
-   170	 */
-   171	void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size,
-   172				   enum dma_data_direction dir)
-   173	{
- > 174		phys_addr_t orig_addr, tlb_end, slot_start, slot_end = tlb_addr ;
-   175		struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-   176		struct io_tlb_slot *slot;
-   177		unsigned long pfn;
-   178		void *backing_addr;
-   179		size_t alloc_size;
-   180	
-   181		slot = xa_find_after(mem->mapping, (unsigned long*)&slot_end, ULONG_MAX, XA_PRESENT);
-   182		if (!slot) {
-   183			dev_WARN_ONCE(dev, 1, "TLB buffer not found.\n");
-   184			return;
-   185		}
-   186	
-   187		orig_addr = slot->orig_addr;
-   188		alloc_size = slot->alloc_size;
-   189		slot_start = slot_end - slot->orig_size;
-   190		tlb_end = tlb_addr + size;
-   191	
-   192		pfn = PFN_DOWN(orig_addr);
-   193		if (PageHighMem(pfn_to_page(pfn))) {
-   194			dev_WARN_ONCE(dev, 1, "Unexpected high memory.\n");
-   195			return;
-   196		}
-   197	
-   198		if (size > alloc_size) {
-   199			dev_WARN_ONCE(dev, 1,
-   200				"Buffer overflow detected. Allocation size: %zu. Mapping size: %zu.\n",
-   201				alloc_size, size);
-   202			size = alloc_size;
-   203		}
-   204	
-   205		backing_addr = slot->va + (tlb_addr - slot_start);
-   206	
-   207		if (dir == DMA_TO_DEVICE) {
-   208			memcpy(backing_addr, phys_to_virt(orig_addr), size);
-   209		} else {
-   210			memcpy(phys_to_virt(orig_addr), backing_addr, size);
-   211		}
-   212	}
-   213	
+   109	
+   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   111			void __user *data)
+   112	{
+   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+ > 114		struct syscall_user_dispatch_config config;
+   115	
+   116		if (size != sizeof(struct syscall_user_dispatch_config))
+   117			return -EINVAL;
+   118	
+   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
+   120			config.mode = PR_SYS_DISPATCH_ON;
+   121		else
+   122			config.mode = PR_SYS_DISPATCH_OFF;
+   123	
+   124		config.offset = sd->offset;
+   125		config.len = sd->len;
+   126		config.selector = sd->selector;
+   127	
+   128		if (copy_to_user(data, &config, sizeof(config)))
+   129			return -EFAULT;
+   130	
+   131		return 0;
+   132	}
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
