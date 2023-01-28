@@ -1,48 +1,43 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DEC33F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 19:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F633F7;
+	Sat, 28 Jan 2023 19:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674935393; x=1706471393;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ks8NPG/0wNzB8QAK/WMNQrtn0BmzV/O50xmmaQ8aYiE=;
-  b=oJj3J4GEEjlLkHQpDq/SRuSeGUMOGl0aQjLVfrnWOD7P0d9iEV51km0n
-   PkCGGPtm5uWwZeEUqyYwdHcz889u+eQVsopmlmVSmh8trHj9oXQl/mxRB
-   ShLw1pwIJu3kXgTzd1vMo36Pxdlfx4rzVXEYC40o8V8aMPcdGPcRTBHHt
-   acAf5f5UlVXTZMwrlj94cseypJGa83BKY4iNEdHFeAogLP9TqJV5LZQpA
-   TYKpX6Em9ksHoYVXcK28ehZlUnA/B/rVTOQGgrikwYpTubVahOl88ZcPN
-   dySD2HybNgujxxM6Pj1+Dlsc+HrJyQdXAm1oO+vD7NdyZn4Pt6Zkhu3EW
+  t=1674935396; x=1706471396;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eFlt0dTWqnmYysHAAyNP29UYwkWzHS840iyUSaKI5YI=;
+  b=hzSC34Ubp/zVUSChsVjfwvSVr9xKguvSLLQpzF2Nq1pVGf19GW4HhA+w
+   SwSrn27qlHiX7MjE9AIMsA7YB6Ui+OqKyMXhQMcWiS3SNAcfiFd+1jJpS
+   wPa0y/7lDmqaHkzen1i8y/2ZJYWQt1awUF7x+YdoviINvDZZMVlOtCXl0
+   VNtst0/Slklb6nAZQ5M3x+Srm9on8UCl4e4Zt/sqMA9DRv/rQMRw2ECgZ
+   k/AWzEW1G+4us/Jyhk127+B/DJm0YCjSpYP7HCgQXLv4Ek0pH9kNL/GVR
+   zTSewnefYp09uBvXBU4Bh7TQlSiKSt4RLyY7s8pOqBJ8wbpvB8EdMBCXo
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413548363"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413548373"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="413548363"
+   d="scan'208";a="413548373"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:49:53 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:49:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732231775"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732231778"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="732231775"
+   d="scan'208";a="732231778"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 11:49:50 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 11:49:55 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLrCv-000135-17;
+	id 1pLrCv-000137-1J;
 	Sat, 28 Jan 2023 19:49:49 +0000
-Date: Sun, 29 Jan 2023 03:49:18 +0800
+Date: Sun, 29 Jan 2023 03:49:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
-	luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
-	corbet@lwn.net, shuah@kernel.org,
-	Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <202301290302.CSHz4zLe-lkp@intel.com>
-References: <20230126190645.18341-2-gregory.price@memverge.com>
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:riscv_sbi_nested_v1 35/52]
+ arch/riscv/kvm/aia_aplic.c:264:6: warning: variable 'inject' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202301290307.OaC4P0U7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,91 +46,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 
-Hi Gregory,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on tip/core/entry v6.2-rc5 next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
-patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230129/202301290302.CSHz4zLe-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
+head:   d04f10f89dd06562a982bfad9f8eac0569204d60
+commit: d215844ff37ecccad7be31db0b38cc9a12927a2c [35/52] RISC-V: KVM: Add in-kernel emulation of AIA APLIC
+config: riscv-randconfig-r014-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290307.OaC4P0U7-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/avpatel/linux/commit/d215844ff37ecccad7be31db0b38cc9a12927a2c
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_sbi_nested_v1
+        git checkout d215844ff37ecccad7be31db0b38cc9a12927a2c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
->> kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
-     114 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
->> kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
-     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
-         |                            ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
-     114 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
-   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
-     137 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
-     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
-         |                            ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
-     137 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
-     147 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> arch/riscv/kvm/aia_aplic.c:264:6: warning: variable 'inject' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/aia_aplic.c:303:6: note: uninitialized use occurs here
+           if (inject)
+               ^~~~~~
+   arch/riscv/kvm/aia_aplic.c:264:2: note: remove the 'if' if its condition is always false
+           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/aia_aplic.c:252:13: note: initialize the variable 'inject' to silence this warning
+           bool inject, ie;
+                      ^
+                       = 0
+   1 warning generated.
 
 
-vim +114 kernel/entry/syscall_user_dispatch.c
+vim +264 arch/riscv/kvm/aia_aplic.c
 
-   109	
-   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-   111			void __user *data)
-   112	{
-   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
- > 114		struct syscall_user_dispatch_config config;
-   115	
- > 116		if (size != sizeof(struct syscall_user_dispatch_config))
-   117			return -EINVAL;
-   118	
-   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
-   120			config.mode = PR_SYS_DISPATCH_ON;
-   121		else
-   122			config.mode = PR_SYS_DISPATCH_OFF;
-   123	
-   124		config.offset = sd->offset;
-   125		config.len = sd->len;
-   126		config.selector = sd->selector;
-   127	
-   128		if (copy_to_user(data, &config, sizeof(config)))
-   129			return -EFAULT;
-   130	
-   131		return 0;
-   132	}
-   133	
+   248	
+   249	int kvm_riscv_aia_aplic_inject(struct kvm *kvm, u32 source, bool level)
+   250	{
+   251		u32 target;
+   252		bool inject, ie;
+   253		unsigned long flags;
+   254		struct aplic_irq *irqd;
+   255		struct aplic *aplic = kvm->arch.aia.aplic_state;
+   256	
+   257		if (!aplic || !source || (aplic->nr_irqs <= source))
+   258			return -ENODEV;
+   259		irqd = &aplic->irqs[source];
+   260		ie = (aplic->domaincfg & APLIC_DOMAINCFG_IE) ? true : false;
+   261	
+   262		raw_spin_lock_irqsave(&irqd->lock, flags);
+   263	
+ > 264		if (irqd->sourcecfg & APLIC_SOURCECFG_D)
+   265			goto skip_unlock;
+   266	
+   267		switch (irqd->sourcecfg & APLIC_SOURCECFG_SM_MASK) {
+   268		case APLIC_SOURCECFG_SM_EDGE_RISE:
+   269			if (level && !(irqd->state & APLIC_IRQ_STATE_INPUT) &&
+   270			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
+   271				irqd->state |= APLIC_IRQ_STATE_PENDING;
+   272			break;
+   273		case APLIC_SOURCECFG_SM_EDGE_FALL:
+   274			if (!level && (irqd->state & APLIC_IRQ_STATE_INPUT) &&
+   275			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
+   276				irqd->state |= APLIC_IRQ_STATE_PENDING;
+   277			break;
+   278		case APLIC_SOURCECFG_SM_LEVEL_HIGH:
+   279			if (level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
+   280				irqd->state |= APLIC_IRQ_STATE_PENDING;
+   281			break;
+   282		case APLIC_SOURCECFG_SM_LEVEL_LOW:
+   283			if (!level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
+   284				irqd->state |= APLIC_IRQ_STATE_PENDING;
+   285			break;
+   286		}
+   287	
+   288		if (level)
+   289			irqd->state |= APLIC_IRQ_STATE_INPUT;
+   290		else
+   291			irqd->state &= ~APLIC_IRQ_STATE_INPUT;
+   292	
+   293		inject = false;
+   294		target = irqd->target;
+   295		if (ie && (irqd->state & APLIC_IRQ_STATE_ENPEND)) {
+   296			irqd->state &= ~APLIC_IRQ_STATE_PENDING;
+   297			inject = true;
+   298		}
+   299	
+   300	skip_unlock:
+   301		raw_spin_unlock_irqrestore(&irqd->lock, flags);
+   302	
+   303		if (inject)
+   304			aplic_inject_msi(kvm, source, target);
+   305	
+   306		return 0;
+   307	}
+   308	
 
 -- 
 0-DAY CI Kernel Test Service
