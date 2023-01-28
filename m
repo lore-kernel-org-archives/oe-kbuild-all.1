@@ -1,43 +1,47 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B1517CD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 02:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED0817CD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 03:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674874516; x=1706410516;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=7+Mc2omHcntn2HcQV50bUQTth25WOoEsYDN9xxW+Py4=;
-  b=jk6DhptLhZbLzYn8Gxa2qaeuoYbmEnzPJZF6RKfqUpkK6bwOAt/4RpUP
-   ccprcc8QMX/cUaP7+pHBo1wBme/PGLsAkYJ+KGzlswWeHJBFfq4OGdA76
-   eulChNrCLiJN1jvnbr9bzGdC6XQll0gwQIDprkD04lENynvNSnyDtJJib
-   lr+86TQrk3Rzaq1zl/b5/LNGvADAgdMWOvNHV2o3wnTQLLAeOhDAbWNFx
-   rD8CAopUoyBgiWbQtBDG8EmbOWtIC+CC++tixtc3aqd2cEViL9y5bzq9n
-   5YA5bu/8g1x9eJpOUvmvxZ13KQBe8oHIgZpilRa7cEEFI8DCZi82UPALV
+  t=1674877519; x=1706413519;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h32LmsvSZfjCKQsuylyirI79cTR32P8MwDTfo/7mPRw=;
+  b=JrU8I7cU+xFINPjbFaTY7QwabmIecwzKtHUUEpEQzhxXpiT2W5Hj5Ley
+   Tz2F9Hv7kgfnA9fdI3gzlcIc+zqKJQQzU9b4mtfJZsLH2DicSNCf7M2f6
+   uXVW20wsnook2MWgdDbvYmFjMR0y7LRw3Z4Ux3id/LJkl7yElV7C4mT0D
+   39Fuya1nOnkQTxinCtFTcLj0R4MnCOau07xtaVwXnP/ch3fJFAD6hozpV
+   WmWZgPwv5QFGaBafskZxBFBQ/nmTYHAJqyVxVG2gXnCaPEnjJ1TSuZYqk
+   5n6HFm58o2TWovewHcZ1q7JeqmX/PDa+0FIRavA1zXuKlO7sOV+lDjoka
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="413475563"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="324951609"
 X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="413475563"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 18:55:16 -0800
+   d="scan'208";a="324951609"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 19:45:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="992283153"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="837363096"
 X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="992283153"
+   d="scan'208";a="837363096"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Jan 2023 18:55:15 -0800
+  by orsmga005.jf.intel.com with ESMTP; 27 Jan 2023 19:45:16 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLbN4-0000L2-0h;
-	Sat, 28 Jan 2023 02:55:14 +0000
-Date: Sat, 28 Jan 2023 10:54:24 +0800
+	id 1pLc9T-0000Mx-2S;
+	Sat, 28 Jan 2023 03:45:15 +0000
+Date: Sat, 28 Jan 2023 11:45:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tom Saeger <tom.saeger@oracle.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5.15 fix build id for arm64 5/5] sh: define
- RUNTIME_DISCARD_EXIT
-Message-ID: <Y9SOYOaNnbb7zMDW@904499574ff1>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:for-6.3/cxl-ram-region 14/18]
+ drivers/cxl/core/region.c:1479:21: warning: variable 'rc' set but not used
+Message-ID: <202301281148.CS4njyXr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +50,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4ce08524259cc3f1a0eff588aeb5ce6b7105630c.1674851705.git.tom.saeger@oracle.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
+head:   a7cf664d7e997ac36b0f466af2e2be33464ab598
+commit: d5c71004c2cb69354ab7f1bb9b0a33ae9f7edf9d [14/18] cxl/region: Refactor attach_target() for autodiscovery
+config: alpha-randconfig-r024-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281148.CS4njyXr-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=d5c71004c2cb69354ab7f1bb9b0a33ae9f7edf9d
+        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+        git fetch --no-tags cxl for-6.3/cxl-ram-region
+        git checkout d5c71004c2cb69354ab7f1bb9b0a33ae9f7edf9d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/cxl/core/
 
-Thanks for your patch.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH 5.15 fix build id for arm64 5/5] sh: define RUNTIME_DISCARD_EXIT
-Link: https://lore.kernel.org/stable/4ce08524259cc3f1a0eff588aeb5ce6b7105630c.1674851705.git.tom.saeger%40oracle.com
+   drivers/cxl/core/region.c: In function 'store_targetN':
+>> drivers/cxl/core/region.c:1479:21: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+    1479 |                 int rc;
+         |                     ^~
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+
+vim +/rc +1479 drivers/cxl/core/region.c
+
+  1469	
+  1470	static size_t store_targetN(struct cxl_region *cxlr, const char *buf, int pos,
+  1471				    size_t len)
+  1472	{
+  1473		int rc;
+  1474	
+  1475		if (sysfs_streq(buf, "\n"))
+  1476			rc = detach_target(cxlr, pos);
+  1477		else {
+  1478			struct device *dev;
+> 1479			int rc;
+  1480	
+  1481			dev = bus_find_device_by_name(&cxl_bus_type, NULL, buf);
+  1482			if (!dev)
+  1483				return -ENODEV;
+  1484	
+  1485			if (!is_endpoint_decoder(dev)) {
+  1486				rc = -EINVAL;
+  1487				goto out;
+  1488			}
+  1489	
+  1490			rc = attach_target(cxlr, to_cxl_endpoint_decoder(dev), pos,
+  1491					   TASK_INTERRUPTIBLE);
+  1492	out:
+  1493			put_device(dev);
+  1494		}
+  1495	
+  1496		if (rc < 0)
+  1497			return rc;
+  1498		return len;
+  1499	}
+  1500	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
