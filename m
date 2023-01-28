@@ -1,55 +1,58 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216056FDC;
-	Sat, 28 Jan 2023 18:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C8633F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 18:57:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674930414; x=1706466414;
+  t=1674932273; x=1706468273;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=H34/gJbDq4+JIR5uFeM8higdX76HQfP4/UQEFCIjdP4=;
-  b=awWCGFWssOFoTmz59ue+Ko5IYjM7EvCYKdB//2+A8BOvrJ6oiwY9moYx
-   5DpP/v7kgjW2PCKyhodUZBwnuDBN0mg+brw/eEaRebZjYS3eRgX5+l8oq
-   sw7U96+wz0hSMXbKR96G+qenSIMxrrVa8kGmuSBb61d1hEcLZC4age8EN
-   TmC2D11TBC6NvWruGvnRuPCDSSF6QsicRpm+gOkZwEa6IoPcAae1XUJMI
-   Bun29BJsyOL/o9StV+ub0Ey8jv7LN/hxZNfPhTAeC09GpJ5XqVOt0dgkw
-   6Cl6sGis4J0lR5izgFqdBAPZSa6IhL2C6i4g9zX1osVu1xrniEodL9Rzk
+  bh=RjSzj603NNwrtXbFuo4/idkfWRdGyQzkcIKtdJ9tF2w=;
+  b=JW64m28Qvvi9vVvnEjOmAv3qF5bEbLb4gSkM+yOuhKAqicodJtRcHq3v
+   yV4ZpahFwF1xsgxip6XS0wITA8tlcagu5oozfC0cq+W6Sj9wWZcHK0RMN
+   HCm0aIIeb+jlJqsxwCZ2Fr5sMh1ntqNurKWJJptBJ/vGLYTX8UPSjD30V
+   fRLAVKVLu19Pl5b//UJBwjRV/i7KJ1zmbDd2yyEu7HPw6+3ziT6LszvOz
+   2yFWM0fLkvQM8hNTDmCFior32WufD2j3lGPxpen17C3AP8OnnaB07zjHA
+   wPXFal2gKV85SXH/f2d5Y8vPim+1/Pk7sQJEmxWiUvWDrW0i7I7Xwb4jQ
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="306969665"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325015341"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="306969665"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:26:53 -0800
+   d="scan'208";a="325015341"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:57:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992421344"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="771960926"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="992421344"
+   d="scan'208";a="771960926"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 10:26:46 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2023 10:57:47 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLpuX-0000z9-2G;
-	Sat, 28 Jan 2023 18:26:45 +0000
-Date: Sun, 29 Jan 2023 02:26:22 +0800
+	id 1pLqOZ-00010C-00;
+	Sat, 28 Jan 2023 18:57:47 +0000
+Date: Sun, 29 Jan 2023 02:57:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, eric.auger@redhat.com,
-	alex.williamson@redhat.com, cohuck@redhat.com,
-	song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-	maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-	saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-	yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
-	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-	masahiroy@kernel.org, ndesaulniers@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, okaya@kernel.org,
-	harpreet.anand@amd.com, nikhil.agarwal@amd.com
-Subject: Re: [PATCH v6 5/7] cdx: add cdx controller
-Message-ID: <202301290233.80xUAwYL-lkp@intel.com>
-References: <20230126104630.15493-6-nipun.gupta@amd.com>
+To: Jonathan Cormier <jcormier@criticallink.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <robert.foss@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michael Williamson <michael.williamson@criticallink.com>,
+	Bob Duke <bduke@criticallink.com>,
+	Jonathan Cormier <jcormier@criticallink.com>
+Subject: Re: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for
+ polled HPD status.
+Message-ID: <202301290252.zgcWeegX-lkp@intel.com>
+References: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,205 +61,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126104630.15493-6-nipun.gupta@amd.com>
+In-Reply-To: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
 
-Hi Nipun,
+Hi Jonathan,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on next-20230127]
-[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes robh/for-next joro-iommu/next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 93f875a8526a291005e7f38478079526c843cbec]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-patch link:    https://lore.kernel.org/r/20230126104630.15493-6-nipun.gupta%40amd.com
-patch subject: [PATCH v6 5/7] cdx: add cdx controller
-config: powerpc-buildonly-randconfig-r004-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290233.80xUAwYL-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
+base:   93f875a8526a291005e7f38478079526c843cbec
+patch link:    https://lore.kernel.org/r/20230125-tfp410_i2c-v1-4-66a4d4e390b7%40criticallink.com
+patch subject: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for polled HPD status.
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301290252.zgcWeegX-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/f412d73800370b8e51d1be454e651d3c4ff796a8
+        # https://github.com/intel-lab-lkp/linux/commit/c4659fa4c02b62087c095ca99978e5eac8b490de
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-        git checkout f412d73800370b8e51d1be454e651d3c4ff796a8
+        git fetch --no-tags linux-review Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
+        git checkout c4659fa4c02b62087c095ca99978e5eac8b490de
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/cdx/controller/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cdx/controller/cdx_controller.c:102:13: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-                      ^
->> drivers/cdx/controller/cdx_controller.c:102:11: error: incompatible integer to pointer conversion assigning to 'struct cdx_mcdi *' from 'int' [-Wint-conversion]
-           cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cdx/controller/cdx_controller.c:115:6: error: incompatible integer to pointer conversion assigning to 'struct cdx_controller *' from 'int' [-Wint-conversion]
-           cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cdx/controller/cdx_controller.c:131:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           kfree(cdx_mcdi);
-           ^
-   drivers/cdx/controller/cdx_controller.c:141:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           kfree(cdx);
-           ^
-   5 errors generated.
---
->> drivers/cdx/controller/mcdi.c:272:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           CDX_POPULATE_DWORD_7(hdr[0],
-           ^
-   drivers/cdx/controller/bitfield.h:72:30: note: expanded from macro 'CDX_POPULATE_DWORD_7'
-   #define CDX_POPULATE_DWORD_7 CDX_POPULATE_DWORD
-                                ^
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
->> drivers/cdx/controller/mcdi.c:635:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           respseq = CDX_DWORD_FIELD(outbuf[0], MCDI_HEADER_SEQ);
-                     ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   drivers/cdx/controller/mcdi.c:692:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           respcmd = CDX_DWORD_FIELD(outbuf[0], MCDI_HEADER_CODE);
-                     ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   3 errors generated.
---
->> drivers/cdx/controller/mcdi_functions.c:25:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return MCDI_DWORD(outbuf, CDX_BUS_ENUM_BUSES_OUT_BUS_COUNT);
-                  ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
->> drivers/cdx/controller/mcdi_functions.c:35:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           MCDI_SET_DWORD(inbuf, CDX_BUS_ENUM_DEVICES_IN_BUS, bus_num);
-           ^
-   drivers/cdx/controller/mcdi.h:221:2: note: expanded from macro 'MCDI_SET_DWORD'
-           CDX_POPULATE_DWORD_1(*_MCDI_DWORD(_buf, _field), CDX_DWORD, _value)
-           ^
-   drivers/cdx/controller/bitfield.h:84:2: note: expanded from macro 'CDX_POPULATE_DWORD_1'
-           CDX_POPULATE_DWORD_2(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   drivers/cdx/controller/bitfield.h:82:2: note: expanded from macro 'CDX_POPULATE_DWORD_2'
-           CDX_POPULATE_DWORD_3(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:45:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return MCDI_DWORD(outbuf, CDX_BUS_ENUM_DEVICES_OUT_DEVICE_COUNT);
-                  ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:59:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           MCDI_SET_DWORD(inbuf, CDX_BUS_GET_DEVICE_CONFIG_IN_BUS, bus_num);
-           ^
-   drivers/cdx/controller/mcdi.h:221:2: note: expanded from macro 'MCDI_SET_DWORD'
-           CDX_POPULATE_DWORD_1(*_MCDI_DWORD(_buf, _field), CDX_DWORD, _value)
-           ^
-   drivers/cdx/controller/bitfield.h:84:2: note: expanded from macro 'CDX_POPULATE_DWORD_1'
-           CDX_POPULATE_DWORD_2(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   drivers/cdx/controller/bitfield.h:82:2: note: expanded from macro 'CDX_POPULATE_DWORD_2'
-           CDX_POPULATE_DWORD_3(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:73:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           req_id = MCDI_DWORD(outbuf, CDX_BUS_GET_DEVICE_CONFIG_OUT_REQUESTER_ID);
-                    ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   5 errors generated.
+   drivers/gpu/drm/bridge/ti-tfp410.c: In function 'tfp410_connector_detect':
+>> drivers/gpu/drm/bridge/ti-tfp410.c:111:13: warning: unused variable 'val' [-Wunused-variable]
+     111 |         u32 val;
+         |             ^~~
 
 
-vim +/kzalloc +102 drivers/cdx/controller/cdx_controller.c
+vim +/val +111 drivers/gpu/drm/bridge/ti-tfp410.c
 
-    95	
-    96	static int xlnx_cdx_probe(struct platform_device *pdev)
-    97	{
-    98		struct cdx_controller *cdx;
-    99		struct cdx_mcdi *cdx_mcdi;
-   100		int ret;
-   101	
- > 102		cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-   103		if (!cdx_mcdi)
-   104			return -ENOMEM;
-   105	
-   106		/* Store the MCDI ops */
-   107		cdx_mcdi->mcdi_ops = &mcdi_ops;
-   108		/* MCDI FW: Initialize the FW path */
-   109		ret = cdx_mcdi_init(cdx_mcdi);
-   110		if (ret) {
-   111			dev_err_probe(&pdev->dev, ret, "MCDI Initialization failed\n");
-   112			goto mcdi_init_fail;
-   113		}
-   114	
- > 115		cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-   116		if (!cdx) {
-   117			ret = -ENOMEM;
-   118			goto cdx_alloc_fail;
-   119		}
-   120		platform_set_drvdata(pdev, cdx);
+   106	
+   107	static enum drm_connector_status
+   108	tfp410_connector_detect(struct drm_connector *connector, bool force)
+   109	{
+   110		struct tfp410 *dvi = drm_connector_to_tfp410(connector);
+ > 111		u32 val;
+   112		unsigned int ret;
+   113	
+   114		if (dvi->i2c) {
+   115			ret = regmap_test_bits(dvi->regmap, TFP410_REG_CTL_2_MODE, TFP410_BIT_HTPLG);
+   116			if (ret < 0)
+   117				dev_err(dvi->dev, "%s failed to read HTPLG bit : %d\n", __func__, ret);
+   118			else
+   119				return ret ? connector_status_connected : connector_status_disconnected;
+   120		}
    121	
-   122		cdx->dev = &pdev->dev;
-   123		cdx->priv = cdx_mcdi;
-   124		cdx->ops = &cdx_ops;
-   125	
-   126		return 0;
-   127	
-   128	cdx_alloc_fail:
-   129		cdx_mcdi_finish(cdx_mcdi);
-   130	mcdi_init_fail:
- > 131		kfree(cdx_mcdi);
-   132	
-   133		return ret;
-   134	}
-   135	
+   122		return drm_bridge_detect(dvi->next_bridge);
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
