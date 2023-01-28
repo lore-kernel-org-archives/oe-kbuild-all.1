@@ -1,45 +1,56 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA35CA1;
-	Sat, 28 Jan 2023 13:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591895CA1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 13:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674911796; x=1706447796;
+  t=1674911799; x=1706447799;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KRmd5MYbEcOfghc67ZmOtkZNFZ09ey2vz+tgilfcqtw=;
-  b=mCSIWxToMxoKnITRHJAXsqwQOipi4fatRr9dxhjskmE6hyZoVP1Hlot/
-   KiuRU6JhMmeQksZUStI/Ew06RaYjGLB88AnZmus5qYBlvZjm6vYrTBS0h
-   A1wn7IjPrezvEJpIKDWqXVUdXqgboFdvT3eY+7E9akV2z9f22cLkS88W2
-   cASXAeVDhRagh9Sq4aRHAMV74YFNnJgYvz1GJXrhC7aE96ET/i8F7U9BR
-   NV8l9BFkLXVdHfgZnJyQgqBnUIWcP1CiDh3yzy4MuFtHfqkdKTm5jQjEb
-   eE5sfAr/iU28f3uNhnA0JTzP7TriW7WyByaDDbg0nlgBkwGpUCGyNTV8S
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="324983318"
+  bh=0TzqwAy/JUoCO7vvHgXEKHAl+hzKvugTYfXk24kmtaE=;
+  b=iIbMVYCO8V/SdfaK6C6vL2z925Xf4NHQ8DRm3dKCUU9ClbmAU3OtOAlr
+   XWSkac6gjMKKOKnfukr3GsXNZaVfk3c8mlCPecQNwFjlOa0lklWNmw9bU
+   H0E1h87OqGQ0xBcK7fdum6gmlNgEH5Fex4OdEVw9HgrFjbhT7Ue/q9mWS
+   pT1hO4oYjuTrEF9b/3UmaNsNpHaTKKRJfBG+3tuEM4u3oldtxAEij3blh
+   TKk/b/jRyvnYAHcy4mervtmlQuzKveL160KPXDbuAmcH7Evrc6nX6DK4I
+   E6BUAuk5pVdjsAw1zsIoIJTrD/j/RbntNKl6CSkrc48ysZpqvXQUFbOHH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="324983336"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="324983318"
+   d="scan'208";a="324983336"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:32 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 05:16:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="695857334"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="695857337"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="695857334"
+   d="scan'208";a="695857337"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 28 Jan 2023 05:16:30 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLl4H-0000fZ-1u;
+	id 1pLl4H-0000fd-24;
 	Sat, 28 Jan 2023 13:16:29 +0000
-Date: Sat, 28 Jan 2023 21:15:51 +0800
+Date: Sat, 28 Jan 2023 21:15:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vinay Gannevaram <quic_vganneva@quicinc.com>, johannes@sipsolutions.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org
-Subject: Re: [PATCH v2] nl80211: Allow authentication frames and set keys on
- NAN interface
-Message-ID: <202301282105.N0kd49zG-lkp@intel.com>
-References: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
+To: Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, eric.auger@redhat.com,
+	alex.williamson@redhat.com, cohuck@redhat.com,
+	song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
+	maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
+	saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
+	yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	masahiroy@kernel.org, ndesaulniers@google.com,
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, okaya@kernel.org, harpreet.anand@amd.com,
+	nikhil.agarwal@amd.com
+Subject: Re: [PATCH v6 4/7] cdx: add MCDI protocol interface for firmware
+ interaction
+Message-ID: <202301282114.C7j3UG9O-lkp@intel.com>
+References: <20230126104630.15493-5-nipun.gupta@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,128 +59,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674845256-4300-1-git-send-email-quic_vganneva@quicinc.com>
+In-Reply-To: <20230126104630.15493-5-nipun.gupta@amd.com>
 
-Hi Vinay,
+Hi Nipun,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.2-rc5]
+[auto build test WARNING on next-20230127]
+[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes robh/for-next joro-iommu/next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/1674845256-4300-1-git-send-email-quic_vganneva%40quicinc.com
-patch subject: [PATCH v2] nl80211: Allow authentication frames and set keys on NAN interface
-config: mips-buildonly-randconfig-r005-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282105.N0kd49zG-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/954d2dd8f85ced417476083a99011b8920d68161
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vinay-Gannevaram/nl80211-Allow-authentication-frames-and-set-keys-on-NAN-interface/20230128-145815
-        git checkout 954d2dd8f85ced417476083a99011b8920d68161
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/wireless/
+url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
+patch link:    https://lore.kernel.org/r/20230126104630.15493-5-nipun.gupta%40amd.com
+patch subject: [PATCH v6 4/7] cdx: add MCDI protocol interface for firmware interaction
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> net/wireless/nl80211.c:1555:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-   net/wireless/nl80211.c:1555:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:1555:2: note: insert 'break;' to avoid fall-through
-           case NL80211_IFTYPE_UNSPECIFIED:
-           ^
-           break; 
-   net/wireless/nl80211.c:12262:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12262:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12262:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   net/wireless/nl80211.c:12322:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12322:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12322:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   net/wireless/nl80211.c:12462:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   net/wireless/nl80211.c:12462:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   net/wireless/nl80211.c:12462:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   4 warnings generated.
-
-
-vim +1555 net/wireless/nl80211.c
-
-fffd0934b9390f Johannes Berg    2009-07-08  1531  
-fffd0934b9390f Johannes Berg    2009-07-08  1532  static int nl80211_key_allowed(struct wireless_dev *wdev)
-fffd0934b9390f Johannes Berg    2009-07-08  1533  {
-fffd0934b9390f Johannes Berg    2009-07-08  1534  	ASSERT_WDEV_LOCK(wdev);
-fffd0934b9390f Johannes Berg    2009-07-08  1535  
-fffd0934b9390f Johannes Berg    2009-07-08  1536  	switch (wdev->iftype) {
-fffd0934b9390f Johannes Berg    2009-07-08  1537  	case NL80211_IFTYPE_AP:
-fffd0934b9390f Johannes Berg    2009-07-08  1538  	case NL80211_IFTYPE_AP_VLAN:
-074ac8df9f93f2 Johannes Berg    2010-09-16  1539  	case NL80211_IFTYPE_P2P_GO:
-ff973af74aa693 Thomas Pedersen  2011-05-03  1540  	case NL80211_IFTYPE_MESH_POINT:
-fffd0934b9390f Johannes Berg    2009-07-08  1541  		break;
-fffd0934b9390f Johannes Berg    2009-07-08  1542  	case NL80211_IFTYPE_ADHOC:
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1543  		if (wdev->u.ibss.current_bss)
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1544  			return 0;
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1545  		return -ENOLINK;
-fffd0934b9390f Johannes Berg    2009-07-08  1546  	case NL80211_IFTYPE_STATION:
-074ac8df9f93f2 Johannes Berg    2010-09-16  1547  	case NL80211_IFTYPE_P2P_CLIENT:
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1548  		if (wdev->connected)
-7b0a0e3c3a8826 Johannes Berg    2022-04-14  1549  			return 0;
-fffd0934b9390f Johannes Berg    2009-07-08  1550  		return -ENOLINK;
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1551  	case NL80211_IFTYPE_NAN:
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1552  		if (wiphy_ext_feature_isset(wdev->wiphy,
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1553  					    NL80211_EXT_FEATURE_SECURE_NAN))
-954d2dd8f85ced Vinay Gannevaram 2023-01-28  1554  			return 0;
-de4fcbadde68e3 Johannes Berg    2014-10-31 @1555  	case NL80211_IFTYPE_UNSPECIFIED:
-6e0bd6c35b021d Rostislav Lisovy 2014-11-03  1556  	case NL80211_IFTYPE_OCB:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1557  	case NL80211_IFTYPE_MONITOR:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1558  	case NL80211_IFTYPE_P2P_DEVICE:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1559  	case NL80211_IFTYPE_WDS:
-de4fcbadde68e3 Johannes Berg    2014-10-31  1560  	case NUM_NL80211_IFTYPES:
-fffd0934b9390f Johannes Berg    2009-07-08  1561  		return -EINVAL;
-fffd0934b9390f Johannes Berg    2009-07-08  1562  	}
-fffd0934b9390f Johannes Berg    2009-07-08  1563  
-fffd0934b9390f Johannes Berg    2009-07-08  1564  	return 0;
-fffd0934b9390f Johannes Berg    2009-07-08  1565  }
-fffd0934b9390f Johannes Berg    2009-07-08  1566  
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/cdx/controller/mcdi.c: 20 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
