@@ -1,102 +1,186 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5162F26
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 08:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CC5199;
+	Sat, 28 Jan 2023 08:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1674895051; x=1706431051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qyNA4niPdG/h93zquZAa4yOEfNEJjZjTIFf8xN03ODQ=;
-  b=HDu4b35lh9tK8R1sSvDW9m6o6ZT+NzGyajOiEnT2ngGuZVcV5gNEmoa/
-   ixeZosuSfeJW04smknoAm78mm6hxDvTZTKFl/hTzriqK2Nh1aiN5FefBN
-   /KUblvIe3vdsdInqUf+pdVH+OIR3oRTlRranb3apv2LOtJxy6GoeTZ2k0
-   seykmQMTeQsDypNRLuFNGHg3lmxdGGIi5SKE+8oZDr0HoHKJC6WrgvDas
-   vTwg5ZlM3RJcU+QREnTgxfAba8xmJHPipkCL3kV/5TVLAj9qQNfA5tX/2
-   brcg/VUx+ZeHDPuIfiXkeHteMhMIvGWtPQ7nlwuD8cC15txQzlaO/5e8m
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=DISRV7v/oTwHpYIjTRlE+uOwvlFszaNIrQuxT+Up7mI=;
+  b=CquwjS2mzqr+1MZEBUdI6Snks4Rq0Li5j3rsLXQPT0ZhicQ2kmpYMqLh
+   JjgV4lR5NRIsfM9OyiyEqn0dlRwfOlA27+/Ez2PHs6lhWYGqK/B6n/hXx
+   dLsQRdBxQ90+mGCWxou9ssRGWZFC/rl0G1PIMwTWO8rLQKlyH4FQaAw6r
+   wgw2tn7v4yF2dDo4sAeXZtWwjHABPWtnB0nqbpDWzujNc1P1reT8mlhJl
+   xN6hP5dLGpH+5q0LMM0wyDnsX9562ksvT+WUtZOrchlkQwLRGSgl14vYj
+   RV9isOLUD3sxlDY553e5iQ0VNsDx/Mo3E1tXnbjc5zAA9DzrSRrvIj1w4
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315229716"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="327292358"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="315229716"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 00:37:31 -0800
+   d="scan'208";a="327292358"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 00:37:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="663556633"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="806096747"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="663556633"
+   d="scan'208";a="806096747"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 00:37:29 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2023 00:37:29 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLgiB-0000Wb-0q;
+	id 1pLgiB-0000Wd-12;
 	Sat, 28 Jan 2023 08:37:23 +0000
-Date: Sat, 28 Jan 2023 16:37:08 +0800
+Date: Sat, 28 Jan 2023 16:37:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:for-6.3/cxl-ram-region 17/18] drivers/cxl/port.c:47: undefined
- reference to `cxl_add_to_region'
-Message-ID: <202301281643.cInr5zLC-lkp@intel.com>
+To: Grant Seltzer <grantseltzer@gmail.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
+	grantseltzer@gmail.com
+Subject: Re: [PATCH bpf-next] Add support for tracing programs in BPF_PROG_RUN
+Message-ID: <202301281621.DfTZgf4X-lkp@intel.com>
+References: <20230127214353.628551-1-grantseltzer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230127214353.628551-1-grantseltzer@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
-head:   a7cf664d7e997ac36b0f466af2e2be33464ab598
-commit: 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f [17/18] cxl/region: Add region autodiscovery
-config: ia64-randconfig-m041-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281643.cInr5zLC-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Hi Grant,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Grant-Seltzer/Add-support-for-tracing-programs-in-BPF_PROG_RUN/20230128-130222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230127214353.628551-1-grantseltzer%40gmail.com
+patch subject: [PATCH bpf-next] Add support for tracing programs in BPF_PROG_RUN
+config: i386-randconfig-a012-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281621.DfTZgf4X-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
-        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
-        git fetch --no-tags cxl for-6.3/cxl-ram-region
-        git checkout 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
+        # https://github.com/intel-lab-lkp/linux/commit/990088d6233eb15a4a42a83a998f47432305d4d7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Grant-Seltzer/Add-support-for-tracing-programs-in-BPF_PROG_RUN/20230128-130222
+        git checkout 990088d6233eb15a4a42a83a998f47432305d4d7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ia64-linux-ld: drivers/cxl/port.o: in function `discover_region':
->> drivers/cxl/port.c:47: undefined reference to `cxl_add_to_region'
+>> net/bpf/test_run.c:818:23: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           u16 side_effect = 0, ret = 0;
+                                ^
+>> net/bpf/test_run.c:818:6: warning: variable 'side_effect' set but not used [-Wunused-but-set-variable]
+           u16 side_effect = 0, ret = 0;
+               ^
+   2 warnings generated.
 
 
-vim +47 drivers/cxl/port.c
+vim +/ret +818 net/bpf/test_run.c
 
-    32	
-    33	static int discover_region(struct device *dev, void *data)
-    34	{
-    35		const unsigned long flags = CXL_DECODER_F_ENABLE | CXL_DECODER_F_AUTO;
-    36		struct cxl_endpoint_decoder *cxled;
-    37	
-    38		if (!is_endpoint_decoder(dev))
-    39			return 0;
-    40	
-    41		cxled = to_cxl_endpoint_decoder(dev);
-    42		if ((cxled->cxld.flags & flags) != flags)
-    43			return 0;
-    44	
-    45		cxl_add_to_region(cxled);
-    46	
-  > 47		return 0;
-    48	}
-    49	
+990088d6233eb1 Grant Seltzer          2023-01-27  812  
+da00d2f117a08f KP Singh               2020-03-04  813  int bpf_prog_test_run_tracing(struct bpf_prog *prog,
+da00d2f117a08f KP Singh               2020-03-04  814  			      const union bpf_attr *kattr,
+da00d2f117a08f KP Singh               2020-03-04  815  			      union bpf_attr __user *uattr)
+da00d2f117a08f KP Singh               2020-03-04  816  {
+d923021c2ce12a Yonghong Song          2020-06-30  817  	struct bpf_fentry_test_t arg = {};
+3d08b6f29cf33a KP Singh               2020-03-04 @818  	u16 side_effect = 0, ret = 0;
+990088d6233eb1 Grant Seltzer          2023-01-27  819  	int b = 2, err = -EFAULT, current_cpu;
+990088d6233eb1 Grant Seltzer          2023-01-27  820  
+990088d6233eb1 Grant Seltzer          2023-01-27  821  	void __user *ctx_in = u64_to_user_ptr(kattr->test.ctx_in);
+990088d6233eb1 Grant Seltzer          2023-01-27  822  	__u32 ctx_size_in = kattr->test.ctx_size_in;
+990088d6233eb1 Grant Seltzer          2023-01-27  823  	struct bpf_tracing_test_run_info info;
+990088d6233eb1 Grant Seltzer          2023-01-27  824  	int cpu = kattr->test.cpu;
+da00d2f117a08f KP Singh               2020-03-04  825  
+b530e9e1063ed2 Toke Høiland-Jørgensen 2022-03-09  826  	if (kattr->test.flags || kattr->test.cpu || kattr->test.batch_size)
+1b4d60ec162f82 Song Liu               2020-09-25  827  		return -EINVAL;
+1b4d60ec162f82 Song Liu               2020-09-25  828  
+da00d2f117a08f KP Singh               2020-03-04  829  	switch (prog->expected_attach_type) {
+da00d2f117a08f KP Singh               2020-03-04  830  	case BPF_TRACE_FENTRY:
+da00d2f117a08f KP Singh               2020-03-04  831  	case BPF_TRACE_FEXIT:
+faeb2dce084aff Alexei Starovoitov     2019-11-14  832  		if (bpf_fentry_test1(1) != 2 ||
+faeb2dce084aff Alexei Starovoitov     2019-11-14  833  		    bpf_fentry_test2(2, 3) != 5 ||
+faeb2dce084aff Alexei Starovoitov     2019-11-14  834  		    bpf_fentry_test3(4, 5, 6) != 15 ||
+faeb2dce084aff Alexei Starovoitov     2019-11-14  835  		    bpf_fentry_test4((void *)7, 8, 9, 10) != 34 ||
+faeb2dce084aff Alexei Starovoitov     2019-11-14  836  		    bpf_fentry_test5(11, (void *)12, 13, 14, 15) != 65 ||
+d923021c2ce12a Yonghong Song          2020-06-30  837  		    bpf_fentry_test6(16, (void *)17, 18, 19, (void *)20, 21) != 111 ||
+d923021c2ce12a Yonghong Song          2020-06-30  838  		    bpf_fentry_test7((struct bpf_fentry_test_t *)0) != 0 ||
+d923021c2ce12a Yonghong Song          2020-06-30  839  		    bpf_fentry_test8(&arg) != 0)
+da00d2f117a08f KP Singh               2020-03-04  840  			goto out;
+da00d2f117a08f KP Singh               2020-03-04  841  		break;
+3d08b6f29cf33a KP Singh               2020-03-04  842  	case BPF_MODIFY_RETURN:
+3d08b6f29cf33a KP Singh               2020-03-04  843  		ret = bpf_modify_return_test(1, &b);
+3d08b6f29cf33a KP Singh               2020-03-04  844  		if (b != 2)
+3d08b6f29cf33a KP Singh               2020-03-04  845  			side_effect = 1;
+3d08b6f29cf33a KP Singh               2020-03-04  846  		break;
+da00d2f117a08f KP Singh               2020-03-04  847  	default:
+da00d2f117a08f KP Singh               2020-03-04  848  		goto out;
+a25ecd9d1e6024 Colin Ian King         2019-11-18  849  	}
+da00d2f117a08f KP Singh               2020-03-04  850  
+990088d6233eb1 Grant Seltzer          2023-01-27  851  	/* doesn't support data_in/out, ctx_out, duration, or repeat */
+990088d6233eb1 Grant Seltzer          2023-01-27  852  	if (kattr->test.data_in || kattr->test.data_out ||
+990088d6233eb1 Grant Seltzer          2023-01-27  853  	    kattr->test.ctx_out || kattr->test.duration ||
+990088d6233eb1 Grant Seltzer          2023-01-27  854  	    kattr->test.repeat || kattr->test.batch_size)
+990088d6233eb1 Grant Seltzer          2023-01-27  855  		return -EINVAL;
+990088d6233eb1 Grant Seltzer          2023-01-27  856  
+990088d6233eb1 Grant Seltzer          2023-01-27  857  	if (ctx_size_in < prog->aux->max_ctx_offset ||
+990088d6233eb1 Grant Seltzer          2023-01-27  858  	    ctx_size_in > MAX_BPF_FUNC_ARGS * sizeof(u64))
+990088d6233eb1 Grant Seltzer          2023-01-27  859  		return -EINVAL;
+990088d6233eb1 Grant Seltzer          2023-01-27  860  
+990088d6233eb1 Grant Seltzer          2023-01-27  861  	if ((kattr->test.flags & BPF_F_TEST_RUN_ON_CPU) == 0 && cpu != 0)
+990088d6233eb1 Grant Seltzer          2023-01-27  862  		return -EINVAL;
+990088d6233eb1 Grant Seltzer          2023-01-27  863  
+990088d6233eb1 Grant Seltzer          2023-01-27  864  	if (ctx_size_in) {
+990088d6233eb1 Grant Seltzer          2023-01-27  865  		info.ctx = memdup_user(ctx_in, ctx_size_in);
+990088d6233eb1 Grant Seltzer          2023-01-27  866  		if (IS_ERR(info.ctx))
+990088d6233eb1 Grant Seltzer          2023-01-27  867  			return PTR_ERR(info.ctx);
+990088d6233eb1 Grant Seltzer          2023-01-27  868  	} else {
+990088d6233eb1 Grant Seltzer          2023-01-27  869  		info.ctx = NULL;
+990088d6233eb1 Grant Seltzer          2023-01-27  870  	}
+3d08b6f29cf33a KP Singh               2020-03-04  871  
+da00d2f117a08f KP Singh               2020-03-04  872  	err = 0;
+990088d6233eb1 Grant Seltzer          2023-01-27  873  	info.prog = prog;
+990088d6233eb1 Grant Seltzer          2023-01-27  874  
+990088d6233eb1 Grant Seltzer          2023-01-27  875  	current_cpu = get_cpu();
+990088d6233eb1 Grant Seltzer          2023-01-27  876  	if ((kattr->test.flags & BPF_F_TEST_RUN_ON_CPU) == 0 ||
+990088d6233eb1 Grant Seltzer          2023-01-27  877  	    cpu == current_cpu) {
+990088d6233eb1 Grant Seltzer          2023-01-27  878  		__bpf_prog_test_run_tracing(&info);
+990088d6233eb1 Grant Seltzer          2023-01-27  879  	} else if (cpu >= nr_cpu_ids || !cpu_online(cpu)) {
+990088d6233eb1 Grant Seltzer          2023-01-27  880  		/* smp_call_function_single() also checks cpu_online()
+990088d6233eb1 Grant Seltzer          2023-01-27  881  		 * after csd_lock(). However, since cpu is from user
+990088d6233eb1 Grant Seltzer          2023-01-27  882  		 * space, let's do an extra quick check to filter out
+990088d6233eb1 Grant Seltzer          2023-01-27  883  		 * invalid value before smp_call_function_single().
+990088d6233eb1 Grant Seltzer          2023-01-27  884  		 */
+990088d6233eb1 Grant Seltzer          2023-01-27  885  		err = -ENXIO;
+990088d6233eb1 Grant Seltzer          2023-01-27  886  	} else {
+990088d6233eb1 Grant Seltzer          2023-01-27  887  		err = smp_call_function_single(cpu, __bpf_prog_test_run_tracing,
+990088d6233eb1 Grant Seltzer          2023-01-27  888  					       &info, 1);
+990088d6233eb1 Grant Seltzer          2023-01-27  889  	}
+990088d6233eb1 Grant Seltzer          2023-01-27  890  	put_cpu();
+990088d6233eb1 Grant Seltzer          2023-01-27  891  
+990088d6233eb1 Grant Seltzer          2023-01-27  892  	if (!err &&
+990088d6233eb1 Grant Seltzer          2023-01-27  893  	    copy_to_user(&uattr->test.retval, &info.retval, sizeof(u32)))
+990088d6233eb1 Grant Seltzer          2023-01-27  894  		err = -EFAULT;
+990088d6233eb1 Grant Seltzer          2023-01-27  895  
+990088d6233eb1 Grant Seltzer          2023-01-27  896  	kfree(info.ctx);
+990088d6233eb1 Grant Seltzer          2023-01-27  897  
+da00d2f117a08f KP Singh               2020-03-04  898  out:
+da00d2f117a08f KP Singh               2020-03-04  899  	trace_bpf_test_finish(&err);
+da00d2f117a08f KP Singh               2020-03-04  900  	return err;
+1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  901  }
+1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  902  
 
 -- 
 0-DAY CI Kernel Test Service
