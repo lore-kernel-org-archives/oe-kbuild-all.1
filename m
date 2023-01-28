@@ -1,102 +1,99 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5A0849C;
-	Sat, 28 Jan 2023 21:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745468BF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 21:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674942836; x=1706478836;
+  t=1674942838; x=1706478838;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l7oU3DJF0JNzMtot3i3RGBhQ/tTptATyWLIXXM7b4k0=;
-  b=lknFEVbbHkktQ7tlCb8qjgXHsikTDwckb87x4tOG+6qGAzDczMTtw7p/
-   58roh/xdqxtPVdt2GoAsQ73sTr4hqU/hNbIufXuw1Xy30bzLAdoIaaL57
-   1zZ+qzci/K0HNXW4hGB3ouwKkTrO/bTP0jhFP2jYIu+UEkutsbRdYwyap
-   GM9UJ9inK3kmwLinVCYpShef4ikiboYvbhD4L3ljPncO/TL+9OeMVdGGG
-   NP4dCmZqVCQjtYklcBAh+rb6Rh3vlU1OEfIAi1zVZludJDTbYzpduDbUp
-   jWE5MEoKwrF1/0G5wuGaIIwr7FCy1z0Euii/dxZHs9HqEbwAzNh+OSqWU
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="329467404"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7JjnrQQWp+kN26DZzJ0mVdFYAjkwO83r09SH1uaPITg=;
+  b=VEBwCQeYFavygVqdmkLs8HXoHM2KZmf2+VKXUV8hfyppQ3UdEsFLKNx2
+   wfLgt4EinXHUJZEzHBlzd05sm1ZcsyDbQjmLPVmUNVQh38YalMJMWVgcJ
+   +vK23/yHm4rjyCuIDgGxUz2d4UiFPSA1eJOYYrjkAcD7vh8RCvClvt4Le
+   xXc+BSK6ohS0RGTsHsao07Cbso+GLn14Ro585W+POuomU8VHlhGFleC+Z
+   7bIvHHCCF6/+6QysIBytdnn8mbvhOzpHvFkZcY+oPHlRFb0avf6mvZbN5
+   a6GZ7g69eU8K8V9zsEzuNYfxN/y0J9Wd6wiG4WJKwZUY+p2FThqckza3P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="329467406"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="329467404"
+   d="scan'208";a="329467406"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 13:53:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752368319"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752368320"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="752368319"
+   d="scan'208";a="752368320"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 13:53:54 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLt90-00018u-05;
+	id 1pLt90-00018w-0E;
 	Sat, 28 Jan 2023 21:53:54 +0000
-Date: Sun, 29 Jan 2023 05:53:14 +0800
+Date: Sun, 29 Jan 2023 05:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/2] PM: domains: Skip disabling unused domains if
- provider has sync_state
-Message-ID: <202301290508.UGRbj8v8-lkp@intel.com>
-References: <20230127104054.895129-1-abel.vesa@linaro.org>
+To: Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bilbao@vt.edu,
+	Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add process magic-number translation
+Message-ID: <202301290537.kO9rsBjm-lkp@intel.com>
+References: <20230125181840.3007341-1-carlos.bilbao@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230127104054.895129-1-abel.vesa@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230125181840.3007341-1-carlos.bilbao@amd.com>
 
-Hi Abel,
+Hi Carlos,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.2-rc5 next-20230127]
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on next-20230127]
+[cannot apply to linus/master v6.2-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/soc-qcom-rmphpd-Call-the-genpd-unused-power-off-sync-state-callback/20230128-180808
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230127104054.895129-1-abel.vesa%40linaro.org
-patch subject: [RFC PATCH v2 1/2] PM: domains: Skip disabling unused domains if provider has sync_state
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230129/202301290508.UGRbj8v8-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a550a6ee3e0da4ce9e716305c628afa9a9d22362
+url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Bilbao/docs-sp_SP-Add-process-magic-number-translation/20230128-103013
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20230125181840.3007341-1-carlos.bilbao%40amd.com
+patch subject: [PATCH] docs/sp_SP: Add process magic-number translation
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/386e4549b53d3e7f381ad80c954a1e783aedf1c6
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Abel-Vesa/soc-qcom-rmphpd-Call-the-genpd-unused-power-off-sync-state-callback/20230128-180808
-        git checkout a550a6ee3e0da4ce9e716305c628afa9a9d22362
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/misc/mei/
+        git fetch --no-tags linux-review Carlos-Bilbao/docs-sp_SP-Add-process-magic-number-translation/20230128-103013
+        git checkout 386e4549b53d3e7f381ad80c954a1e783aedf1c6
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/misc/mei/pci-me.c:17:
->> include/linux/pm_domain.h:419:15: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
-   static inline genpd_power_off_unused_sync_state(struct device *dev) {}
-   ~~~~~~~~~~~~~ ^
->> include/linux/pm_domain.h:419:70: error: non-void function does not return a value [-Werror,-Wreturn-type]
-   static inline genpd_power_off_unused_sync_state(struct device *dev) {}
-                                                                        ^
-   2 errors generated.
+>> Documentation/translations/sp_SP/process/magic-number.rst:16: WARNING: Inline emphasis start-string without end-string.
 
+vim +16 Documentation/translations/sp_SP/process/magic-number.rst
 
-vim +/int +419 include/linux/pm_domain.h
-
-   418	
- > 419	static inline genpd_power_off_unused_sync_state(struct device *dev) {}
-   420	#endif /* CONFIG_PM_GENERIC_DOMAINS_OF */
-   421	
+    15	
+  > 16	Es una muy buena idea proteger las estructuras de datos del kernel con
+    17	números mágicos. Esto le permite verificar en tiempo de ejecución si (a)
+    18	una estructura ha sido manipulada, o (b) ha pasado la estructura incorrecta
+    19	a una rutina. Esto último es especialmente útil --- particularmente cuando
+    20	pasa punteros a estructuras a través de un puntero void *. El código tty,
+    21	por ejemplo, hace esto con frecuencia para pasar información específica del
+    22	driver y líneas de estructuras específicas de protocolo de un lado al
+    23	otro.
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
