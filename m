@@ -1,43 +1,48 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A33E5CBA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 16:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926C75CBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 16:02:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674921717; x=1706457717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z6cZHyrmQ8FRifBdV4xL7gV3g7/G+O2zQRcuXqOKBl0=;
-  b=bpzvgff2vG+fk1zszwRqkFv6bzf1Ai/lHW2BwG/e5W81of2IRHduhS13
-   nVOxsSTsJZpW6Dq2g95cxS7qkECs6GZt7mAFVJD2P498Y0p0XwN2toWp9
-   bwVjfzoI4VB4CCrrqgkmdNg6PdeJZ6Z1mDrm7LmlKu6VNmJgvkr6oVV2L
-   tdlbZqnHXJZsOX5mBhCKdwG7/29vDd4FWCzGU+H/SvE94AKy/0kra9uM8
-   aRl5AnqcXywnDWcHf4hi77667rzGCDu45mZfafDjN6xmOntSebnRQotV5
-   ByP4PAcULz5XeL8LJ4tWf/iDW63FfdjvNY1R7voJffIGw5SfQlQSPNNck
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354612613"
+  t=1674921720; x=1706457720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mDZ+x21iwuL/L0OLLk1RjPwQJdiPzcmQYtfCMtrysy4=;
+  b=IKqVceuhbJg/g9cTjSJqbUXCelvnPiNsAFJLlU4rUeGo/ZpmfdZ/eAUE
+   DwnKyE0XvBnpKHi1WUHAIWp6skxUbv268c+BjNpOI5Es7h6D57+QqY3Fl
+   mbM3jS6v4q7txzj3bfJ1JatkuUB+HnqeWw4XrX4roWAqnAnmfExneJRQ5
+   4fO1Ltct/T7nxzdz4c4MuJzgtEnczODS+yvZCfj04ll9QTS14XbNZvw37
+   2ywnRF9VX2+lUiP3u6MWawPt/2eFfUKUu3I9ozOFn2HNo/dSSluTvbHwY
+   O1uJpCQ1Vy2oaEPM6nGoHZ+c+j2RgGBn0j4Viubg0Vq/gyR863bTMb6r+
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354612615"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="354612613"
+   d="scan'208";a="354612615"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 08:01:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837496571"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837496576"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="837496571"
+   d="scan'208";a="837496576"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 28 Jan 2023 08:01:40 -0800
+  by orsmga005.jf.intel.com with ESMTP; 28 Jan 2023 08:01:39 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLne7-0000rn-0a;
+	id 1pLne7-0000rl-0U;
 	Sat, 28 Jan 2023 16:01:39 +0000
-Date: Sun, 29 Jan 2023 00:01:05 +0800
+Date: Sun, 29 Jan 2023 00:01:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: include/linux/vmalloc.h:143: multiple definition of
- `register_text_tail_vm';
- drivers/mfd/wm8994-core.o:include/linux/vmalloc.h:143: first defined here
-Message-ID: <202301282341.ooayeduo-lkp@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linuxarm@huawei.com
+Subject: Re: [PATCH] cxl/pci: Set the device timestamp
+Message-ID: <202301282342.2ZTowY3a-lkp@intel.com>
+References: <20230126180458.5145-1-Jonathan.Cameron@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,206 +51,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126180458.5145-1-Jonathan.Cameron@huawei.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
-head:   3d043be5ab6ba8f9103bf6e4fe555f9d094e5b2c
-commit: 9588973ddc5527f751cae5e1a3e895538d935b4b vmalloc: introduce register_text_tail_vm()
-date:   8 hours ago
-config: arm-randconfig-r046-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282341.ooayeduo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+Hi Jonathan,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on 172738bbccdb4ef76bdd72fc72a315c741c39161]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-pci-Set-the-device-timestamp/20230128-152300
+base:   172738bbccdb4ef76bdd72fc72a315c741c39161
+patch link:    https://lore.kernel.org/r/20230126180458.5145-1-Jonathan.Cameron%40huawei.com
+patch subject: [PATCH] cxl/pci: Set the device timestamp
+config: powerpc-randconfig-s032-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282342.2ZTowY3a-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9588973ddc5527f751cae5e1a3e895538d935b4b
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f36cca050cf662048001b7b7686040270e4a8c00
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
-        git checkout 9588973ddc5527f751cae5e1a3e895538d935b4b
+        git fetch --no-tags linux-review Jonathan-Cameron/cxl-pci-Set-the-device-timestamp/20230128-152300
+        git checkout f36cca050cf662048001b7b7686040270e4a8c00
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/cxl/core/mbox.c:834:18: sparse: sparse: cast to non-scalar
+   drivers/cxl/core/mbox.c:834:18: sparse: sparse: cast from non-scalar
+>> drivers/cxl/core/mbox.c:874:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] timestamp @@     got unsigned long long [usertype] ts @@
+   drivers/cxl/core/mbox.c:874:22: sparse:     expected restricted __le64 [usertype] timestamp
+   drivers/cxl/core/mbox.c:874:22: sparse:     got unsigned long long [usertype] ts
 
-   arm-linux-gnueabi-ld: drivers/mfd/wm8994-irq.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/mfd/wm8994-core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/mfd/wm8994-regmap.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/mfd/wm8994-core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/mfd/da9063-irq.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/mfd/da9063-core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/mfd/da9063-i2c.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/mfd/da9063-core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/mfd/pcf50633-irq.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/mfd/pcf50633-core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/nfc/nxp-nci/firmware.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nfc/nxp-nci/core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/nfc/s3fwrn5/firmware.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nfc/s3fwrn5/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nfc/s3fwrn5/nci.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nfc/s3fwrn5/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nfc/s3fwrn5/phy_common.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nfc/s3fwrn5/core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/dma-buf/st-dma-fence-unwrap.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/dma-buf/st-dma-fence-chain.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/misc/lkdtm/heap.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/misc/lkdtm/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/misc/lkdtm/perms.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/misc/lkdtm/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/misc/lkdtm/usercopy.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/misc/lkdtm/core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/scsi/hosts.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_ioctl.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsicam.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_error.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_lib.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_lib_dma.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_scan.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_sysfs.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_devinfo.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_debugfs.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_trace.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_logging.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_pm.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/scsi/scsi_dh.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/scsi/scsi.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/nvme/target/configfs.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/admin-cmd.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/fabrics-cmd.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/discovery.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/io-cmd-file.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/io-cmd-bdev.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/passthru.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/zns.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/fabrics-cmd-auth.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/nvme/target/auth.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/nvme/target/core.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/cmd.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/cmdresp.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/debugfs.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/ethtool.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/main.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/rx.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/tx.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/firmware.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/libertas/mesh.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/libertas/cfg.o:include/linux/vmalloc.h:143: first defined here
---
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/init.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/cfp.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/cmdevt.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/util.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/txrx.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/wmm.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/11n.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/11ac.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/11n_aggr.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/11n_rxreorder.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/scan.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/join.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_ioctl.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_cmd.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/uap_cmd.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/ie.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_cmdresp.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_event.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/uap_event.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_tx.o: in function `register_text_tail_vm':
->> include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/sta_rx.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/uap_txrx.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/cfg80211.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/ethtool.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/11h.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/tdls.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-   arm-linux-gnueabi-ld: drivers/net/wireless/marvell/mwifiex/debugfs.o: in function `register_text_tail_vm':
-   include/linux/vmalloc.h:143: multiple definition of `register_text_tail_vm'; drivers/net/wireless/marvell/mwifiex/main.o:include/linux/vmalloc.h:143: first defined here
-..
+vim +874 drivers/cxl/core/mbox.c
 
-
-vim +143 include/linux/vmalloc.h
-
-   131	
-   132	#ifdef CONFIG_MMU
-   133	extern void __init vmalloc_init(void);
-   134	extern unsigned long vmalloc_nr_pages(void);
-   135	void register_text_tail_vm(unsigned long start, unsigned long end);
-   136	#else
-   137	static inline void vmalloc_init(void)
-   138	{
-   139	}
-   140	static inline unsigned long vmalloc_nr_pages(void) { return 0; }
-   141	void register_text_tail_vm(unsigned long start, unsigned long end)
-   142	{
- > 143	}
-   144	#endif
-   145	
+   861	
+   862	int cxl_set_timestamp(struct cxl_dev_state *cxlds, u64 ts)
+   863	{
+   864		struct cxl_mbox_cmd mbox_cmd;
+   865		struct cxl_mbox_set_timestamp_in pi;
+   866	
+   867		/*
+   868		 * Command is optional and functionality should not be affected if
+   869		 * the command is not available.
+   870		 */
+   871		if (!test_bit(CXL_MEM_COMMAND_ID_SET_TIMESTAMP, cxlds->enabled_cmds))
+   872			return 0;
+   873	
+ > 874		pi.timestamp = ts;
+   875		mbox_cmd = (struct cxl_mbox_cmd) {
+   876			.opcode = CXL_MBOX_OP_SET_TIMESTAMP,
+   877			.size_in = sizeof(pi),
+   878			.payload_in = &pi,
+   879		};
+   880	
+   881		return cxl_internal_send_cmd(cxlds, &mbox_cmd);
+   882	}
+   883	EXPORT_SYMBOL_NS_GPL(cxl_set_timestamp, CXL);
+   884	
 
 -- 
 0-DAY CI Kernel Test Service
