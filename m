@@ -1,54 +1,55 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82592570
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 07:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8D52570;
+	Sat, 28 Jan 2023 07:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674890730; x=1706426730;
+  t=1674891327; x=1706427327;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eDXPzbDiWfsbEwXkYaH34SmQGKn8//5UxGIVNNo7RcU=;
-  b=IH//ZbjhgJq3d9Dw6ZBGyuGxPitojL7VS1cdD16Flh5TdTJg10WOyQi1
-   cK/w262CleWo8JWxA4Y+GVPjh3oEz67skjsB7zcp09AaeQyxX4xhgyr8o
-   bNpbH8H18W1ptwz11efZpV1jIxYgdCd6TAx8pJdr7zocLVe6GLQTg7/QY
-   j1UiuE0TaiHfu3xV6XX0YBAMqagX8eaGoSJckGUpGCkXUOgQ42OuuAZFl
-   xvvvqVyVNiPYKTUZGjXCuh461BAJd5K6/H62mjktHs8KxOmwvzNHJues4
-   lpcIw/H/kN6EQl09t0JOEI5RJCrhxyh9rqdYzWBYTXMbvL4+KtDBstJib
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315225925"
+  bh=2IGlG08LzZjsRh15w/36FW5g5Yh+zOPUK0S/8aQnkuw=;
+  b=O/jIBXMcgrmq+QldnnX17bkkgWZ8VoXMwLlvF6R1Xdo6pLDSr/RIWG8m
+   n3l9RrrxitpuFxwtR7TBU5pzHAur2yoRCrPlKxm3KuN+g3H2lGrcR446M
+   qhFCZa0rxSiOmIPBmzYapCaJDWkPrjuwL+WCORQDZ9JwGlLhsVj5G60e9
+   Wmj4F0EdrQNhMi69UsOAUGIMe39PZ6RLEJ5afisoFspdp3JuOZqCK0qtI
+   K7ugtvO9XQTKtVFl6ydx8xJMQTdZfK8ztU2Ubcabf+G98op/PBaBFMrcg
+   la1ZeKbdyZrlZ4zzpykxC6p4Zn9MxuNSikgKFX+WKosYuGFdJ0a97c90n
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315226502"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="315225925"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:25:30 -0800
+   d="scan'208";a="315226502"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:35:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="663539356"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="771853680"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="663539356"
+   d="scan'208";a="771853680"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2023 23:25:22 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2023 23:35:22 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLfaS-0000U6-36;
-	Sat, 28 Jan 2023 07:25:20 +0000
-Date: Sat, 28 Jan 2023 15:24:41 +0800
+	id 1pLfk9-0000UT-0d;
+	Sat, 28 Jan 2023 07:35:21 +0000
+Date: Sat, 28 Jan 2023 15:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <max.byungchul.park@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
-Subject: Re: [PATCH v8 05/25] dept: Tie to Lockdep and IRQ tracing
-Message-ID: <202301281551.sSDuxg0O-lkp@intel.com>
-References: <1674782358-25542-6-git-send-email-max.byungchul.park@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <mgross@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Kate Hsuan <hpa@redhat.com>, Mark Pearson <markpearson@lenovo.com>,
+	Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
+ enable/disable the privacy LED if present
+Message-ID: <202301281534.9Z8xRsrX-lkp@intel.com>
+References: <20230127203729.10205-2-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,153 +58,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674782358-25542-6-git-send-email-max.byungchul.park@gmail.com>
+In-Reply-To: <20230127203729.10205-2-hdegoede@redhat.com>
 
-Hi Byungchul,
+Hi Hans,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc5 next-20230127]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc5]
+[cannot apply to media-tree/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230128-102456
-patch link:    https://lore.kernel.org/r/1674782358-25542-6-git-send-email-max.byungchul.park%40gmail.com
-patch subject: [PATCH v8 05/25] dept: Tie to Lockdep and IRQ tracing
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281551.sSDuxg0O-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+patch link:    https://lore.kernel.org/r/20230127203729.10205-2-hdegoede%40redhat.com
+patch subject: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present
+config: riscv-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281534.9Z8xRsrX-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/aed5169e3b6767146ee602447fcf75b4c734d2db
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/000ccec1824b3256e3fc1a94079bb953f19faab5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230128-102456
-        git checkout aed5169e3b6767146ee602447fcf75b4c734d2db
+        git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+        git checkout 000ccec1824b3256e3fc1a94079bb953f19faab5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/v4l2-core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:22,
-                    from include/linux/irqflags.h:16,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:89,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/parisc/kernel/asm-offsets.c:18:
-   arch/parisc/include/asm/bitops.h: In function 'set_bit':
->> arch/parisc/include/asm/bitops.h:27:9: error: implicit declaration of function '_atomic_spin_lock_irqsave'; did you mean '__atomic_is_lock_free'? [-Werror=implicit-function-declaration]
-      27 |         _atomic_spin_lock_irqsave(addr, flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         __atomic_is_lock_free
->> arch/parisc/include/asm/bitops.h:29:9: error: implicit declaration of function '_atomic_spin_unlock_irqrestore' [-Werror=implicit-function-declaration]
-      29 |         _atomic_spin_unlock_irqrestore(addr, flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/parisc/include/asm/bitops.h:204:
-   include/asm-generic/bitops/lock.h: In function 'arch_test_and_set_bit_lock':
->> include/asm-generic/bitops/lock.h:28:15: error: implicit declaration of function 'arch_atomic_long_fetch_or_acquire' [-Werror=implicit-function-declaration]
-      28 |         old = arch_atomic_long_fetch_or_acquire(mask, (atomic_long_t *)p);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/asm-generic/bitops/lock.h:28:56: error: 'atomic_long_t' undeclared (first use in this function); did you mean 'atomic_t'?
-      28 |         old = arch_atomic_long_fetch_or_acquire(mask, (atomic_long_t *)p);
-         |                                                        ^~~~~~~~~~~~~
-         |                                                        atomic_t
-   include/asm-generic/bitops/lock.h:28:56: note: each undeclared identifier is reported only once for each function it appears in
->> include/asm-generic/bitops/lock.h:28:71: error: expected expression before ')' token
-      28 |         old = arch_atomic_long_fetch_or_acquire(mask, (atomic_long_t *)p);
-         |                                                                       ^
-   include/asm-generic/bitops/lock.h: In function 'arch_clear_bit_unlock':
->> include/asm-generic/bitops/lock.h:44:9: error: implicit declaration of function 'arch_atomic_long_fetch_andnot_release' [-Werror=implicit-function-declaration]
-      44 |         arch_atomic_long_fetch_andnot_release(BIT_MASK(nr), (atomic_long_t *)p);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/lock.h:44:62: error: 'atomic_long_t' undeclared (first use in this function); did you mean 'atomic_t'?
-      44 |         arch_atomic_long_fetch_andnot_release(BIT_MASK(nr), (atomic_long_t *)p);
-         |                                                              ^~~~~~~~~~~~~
-         |                                                              atomic_t
-   include/asm-generic/bitops/lock.h:44:77: error: expected expression before ')' token
-      44 |         arch_atomic_long_fetch_andnot_release(BIT_MASK(nr), (atomic_long_t *)p);
-         |                                                                             ^
-   include/asm-generic/bitops/lock.h: In function 'arch___clear_bit_unlock':
->> include/asm-generic/bitops/lock.h:66:9: error: implicit declaration of function 'arch_atomic_long_set_release' [-Werror=implicit-function-declaration]
-      66 |         arch_atomic_long_set_release((atomic_long_t *)p, old);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/lock.h:66:39: error: 'atomic_long_t' undeclared (first use in this function); did you mean 'atomic_t'?
-      66 |         arch_atomic_long_set_release((atomic_long_t *)p, old);
-         |                                       ^~~~~~~~~~~~~
-         |                                       atomic_t
-   include/asm-generic/bitops/lock.h:66:54: error: expected expression before ')' token
-      66 |         arch_atomic_long_set_release((atomic_long_t *)p, old);
-         |                                                      ^
-   include/asm-generic/bitops/lock.h: In function 'arch_clear_bit_unlock_is_negative_byte':
-   include/asm-generic/bitops/lock.h:86:60: error: 'atomic_long_t' undeclared (first use in this function); did you mean 'atomic_t'?
-      86 |         old = arch_atomic_long_fetch_andnot_release(mask, (atomic_long_t *)p);
-         |                                                            ^~~~~~~~~~~~~
-         |                                                            atomic_t
-   include/asm-generic/bitops/lock.h:86:75: error: expected expression before ')' token
-      86 |         old = arch_atomic_long_fetch_andnot_release(mask, (atomic_long_t *)p);
-         |                                                                           ^
-   In file included from include/linux/atomic.h:81:
-   include/linux/atomic/atomic-long.h: At top level:
->> include/linux/atomic/atomic-long.h:539:1: warning: conflicting types for 'arch_atomic_long_set_release'; have 'void(atomic_long_t *, long int)' {aka 'void(atomic_t *, long int)'}
-     539 | arch_atomic_long_set_release(atomic_long_t *v, long i)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-long.h:539:1: error: static declaration of 'arch_atomic_long_set_release' follows non-static declaration
-   include/asm-generic/bitops/lock.h:66:9: note: previous implicit declaration of 'arch_atomic_long_set_release' with type 'void(atomic_long_t *, long int)' {aka 'void(atomic_t *, long int)'}
-      66 |         arch_atomic_long_set_release((atomic_long_t *)p, old);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-long.h:809:1: error: conflicting types for 'arch_atomic_long_fetch_andnot_release'; have 'long int(long int,  atomic_long_t *)' {aka 'long int(long int,  atomic_t *)'}
-     809 | arch_atomic_long_fetch_andnot_release(long i, atomic_long_t *v)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/lock.h:44:9: note: previous implicit declaration of 'arch_atomic_long_fetch_andnot_release' with type 'int()'
-      44 |         arch_atomic_long_fetch_andnot_release(BIT_MASK(nr), (atomic_long_t *)p);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-long.h:833:1: error: conflicting types for 'arch_atomic_long_fetch_or_acquire'; have 'long int(long int,  atomic_long_t *)' {aka 'long int(long int,  atomic_t *)'}
-     833 | arch_atomic_long_fetch_or_acquire(long i, atomic_long_t *v)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/lock.h:28:15: note: previous implicit declaration of 'arch_atomic_long_fetch_or_acquire' with type 'int()'
-      28 |         old = arch_atomic_long_fetch_or_acquire(mask, (atomic_long_t *)p);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/parisc/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1298: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/media/v4l2-core/v4l2-subdev.c:1124:20: error: call to undeclared function 'led_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           sd->privacy_led = led_get(sd->dev, "privacy-led");
+                             ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:1124:18: error: incompatible integer to pointer conversion assigning to 'struct led_classdev *' from 'int' [-Wint-conversion]
+           sd->privacy_led = led_get(sd->dev, "privacy-led");
+                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +27 arch/parisc/include/asm/bitops.h
+vim +/led_get +1124 drivers/media/v4l2-core/v4l2-subdev.c
 
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  14  
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  15  /* See http://marc.theaimsgroup.com/?t=108826637900003 for discussion
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  16   * on use of volatile and __*_bit() (set/clear/change):
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  17   *	*_bit() want use of volatile.
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  18   *	__*_bit() are "relaxed" and don't use spinlock or volatile.
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  19   */
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  20  
-a366064c3ff46c include/asm-parisc/bitops.h      Grant Grundler 2005-10-21  21  static __inline__ void set_bit(int nr, volatile unsigned long * addr)
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  22  {
-208151bfb70fb7 arch/parisc/include/asm/bitops.h Helge Deller   2020-06-14  23  	unsigned long mask = BIT_MASK(nr);
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  24  	unsigned long flags;
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  25  
-208151bfb70fb7 arch/parisc/include/asm/bitops.h Helge Deller   2020-06-14  26  	addr += BIT_WORD(nr);
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16 @27  	_atomic_spin_lock_irqsave(addr, flags);
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  28  	*addr |= mask;
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16 @29  	_atomic_spin_unlock_irqrestore(addr, flags);
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  30  }
-^1da177e4c3f41 include/asm-parisc/bitops.h      Linus Torvalds 2005-04-16  31  
+  1120	
+  1121	int v4l2_subdev_get_privacy_led(struct v4l2_subdev *sd)
+  1122	{
+  1123	#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> 1124		sd->privacy_led = led_get(sd->dev, "privacy-led");
+  1125		if (IS_ERR(sd->privacy_led) && PTR_ERR(sd->privacy_led) != -ENOENT)
+  1126			return dev_err_probe(sd->dev, PTR_ERR(sd->privacy_led), "getting privacy LED\n");
+  1127	
+  1128		if (!IS_ERR_OR_NULL(sd->privacy_led)) {
+  1129			mutex_lock(&sd->privacy_led->led_access);
+  1130			led_sysfs_disable(sd->privacy_led);
+  1131			led_trigger_remove(sd->privacy_led);
+  1132			led_set_brightness(sd->privacy_led, 0);
+  1133			mutex_unlock(&sd->privacy_led->led_access);
+  1134		}
+  1135	#endif
+  1136		return 0;
+  1137	}
+  1138	EXPORT_SYMBOL_GPL(v4l2_subdev_get_privacy_led);
+  1139	
 
 -- 
 0-DAY CI Kernel Test Service
