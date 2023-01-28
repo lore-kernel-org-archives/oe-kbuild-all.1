@@ -1,217 +1,136 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAF43C0B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 09:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674898230; x=1706434230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U72XuZly3Iu4fc1HHUfpwce/DIyiZRJ7N299SwsNygI=;
-  b=Ee7MOh6odlW8IqAr0e/6z5iHOaTCBHBmQJWq8Ey+pbiAzsBDUa2UDel3
-   WcVgZYCik67YRg+JZMJbmztPAwM44m9t4+Wlj765UzYjUrBnAtYPmQGF8
-   6h1djU8XrDEFCCDS0xZWGqEd3rHm9qUcl5L+DJOHRvOdLEq7R56MlQjpR
-   x4q3gMpGIuPLJYOsqIB2Oh7yLRhTy6T4tTxIcb3VDFM3BqWaXkqK47SVs
-   DaRBrsEve1kDlqYABsHABhCKLsXIAcgB/WOJvZUk1cqJIfgqNqr42Ha9V
-   /FMGVgIsel9w6hEqMMcRj0FvIVeqPKUJcFGBJkJ9IrYT0f/GmIEwe9ir7
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="329405274"
-X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="329405274"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 01:30:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="665530690"
-X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="665530690"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Jan 2023 01:30:25 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pLhXU-0000Yf-2R;
-	Sat, 28 Jan 2023 09:30:24 +0000
-Date: Sat, 28 Jan 2023 17:29:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v6 12/14] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-Message-ID: <202301281752.6gSopuWh-lkp@intel.com>
-References: <20230125212608.1860251-13-scgl@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1FA3C24
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 09:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1674898879;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k/+dGwbz0zDWDEkIhYFWgOukr6XgocaommysHbGNBvs=;
+	b=FNNu0H7nIxeb/ZDoL76lgYmPyrW1R9/98RCkSvTBArNwU8+WwgSbjwH4urVn5ypNYvqhSz
+	K6OVxPXzEROQCsGCLFmeyJZ3qcdXidxyG+Ig3l+i1er1poWrCcg3omj19cX4Ez6u3CD1NS
+	U++oCrWXm89bY/s3oM9yP/Q0k0Uw/Jo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-570-NisZfRgrNwKPXNWpX8QZ0Q-1; Sat, 28 Jan 2023 04:41:18 -0500
+X-MC-Unique: NisZfRgrNwKPXNWpX8QZ0Q-1
+Received: by mail-ej1-f72.google.com with SMTP id sc9-20020a1709078a0900b0086910fdf624so4756353ejc.13
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 01:41:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/+dGwbz0zDWDEkIhYFWgOukr6XgocaommysHbGNBvs=;
+        b=j3BL27KM9DDRKOaUGE/Par3hhE4eWrQBH6xNrQGGKT3PwXNAQRw6KOoeC3Lxl0a5Oq
+         k2Zq/Apm4M6F6PiBPUzhpjlpO/lKPBy3qjRA3Hof4n9Wu7BiuKX2aHO3CPuyTvglZ4+j
+         xf3lz5oYMIlzaVwbzqMsmTjUa9g1vmGzR8XiCDhCcagu8b3F9g7GAa8UoTFajbv/VPrc
+         jwEErsisn7sitGSbPMmZbehIGpBtGTOT6FVB62bTiK+ATfKSBaBfWq8C8D0Wejl+wj5Q
+         MMkXaCd7WvtbUs1HMklgVoT5NuWySZ7qIfFdoJ27kDYA+jf8cSZ9M/DPVS/XAyuI0JrX
+         7Jhg==
+X-Gm-Message-State: AFqh2krSsnZrecLmNalf1btN/4Zh/5Kt4yNrWp3ykSpeZY0f0LqBInpr
+	s7VS1TlZjnmMomwJaxYZIUBq1149656p4FY0KmlIUO3nj1YjK3ssJZtI0WY098t4CCo5/BgymyV
+	TYVTOFjJsLP1rA+T1ZhGMmD9xxw==
+X-Received: by 2002:a05:6402:189:b0:499:376e:6b27 with SMTP id r9-20020a056402018900b00499376e6b27mr44119998edv.5.1674898877121;
+        Sat, 28 Jan 2023 01:41:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvkr8z/9KKq2AYlcjqdBULj9zqbIQz12ZEaKsbRqhQk9ARLEd7wxrB+TnsmtMDNVq2t+/Hisg==
+X-Received: by 2002:a05:6402:189:b0:499:376e:6b27 with SMTP id r9-20020a056402018900b00499376e6b27mr44119972edv.5.1674898876844;
+        Sat, 28 Jan 2023 01:41:16 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id l11-20020aa7d94b000000b004954c90c94bsm3709340eds.6.2023.01.28.01.41.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Jan 2023 01:41:16 -0800 (PST)
+Message-ID: <17f5f57e-0003-2b6b-bfaa-18b03a6d1874@redhat.com>
+Date: Sat, 28 Jan 2023 10:41:15 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125212608.1860251-13-scgl@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
+ enable/disable the privacy LED if present
+To: kernel test robot <lkp@intel.com>, Mark Gross <mgross@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+ Mark Pearson <markpearson@lenovo.com>, Andy Yeh <andy.yeh@intel.com>,
+ Hao Yao <hao.yao@intel.com>
+References: <20230127203729.10205-2-hdegoede@redhat.com>
+ <202301281534.9Z8xRsrX-lkp@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <202301281534.9Z8xRsrX-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Janis,
+Hi,
 
-Thank you for the patch! Yet something to improve:
+On 1/28/23 08:35, kernel test robot wrote:
+> Hi Hans,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.2-rc5]
+> [cannot apply to media-tree/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+> patch link:    https://lore.kernel.org/r/20230127203729.10205-2-hdegoede%40redhat.com
+> patch subject: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present
+> config: riscv-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281534.9Z8xRsrX-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/000ccec1824b3256e3fc1a94079bb953f19faab5
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+>         git checkout 000ccec1824b3256e3fc1a94079bb953f19faab5
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/v4l2-core/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:20: error: call to undeclared function 'led_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            sd->privacy_led = led_get(sd->dev, "privacy-led");
+>                              ^
+>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:18: error: incompatible integer to pointer conversion assigning to 'struct led_classdev *' from 'int' [-Wint-conversion]
+>            sd->privacy_led = led_get(sd->dev, "privacy-led");
+>                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    2 errors generated.
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on lwn/docs-next linus/master]
-[cannot apply to kvms390/next kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As mentioned in the cover-letter this series depends on this immutable-branch:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Janis-Schoetterl-Glausch/KVM-s390-selftest-memop-Pass-mop_desc-via-pointer/20230128-132603
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230125212608.1860251-13-scgl%40linux.ibm.com
-patch subject: [PATCH v6 12/14] KVM: s390: Extend MEM_OP ioctl by storage key checked cmpxchg
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281752.6gSopuWh-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6e6b3d99b9978a70b148b989d46b039feda3a3c3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Janis-Schoetterl-Glausch/KVM-s390-selftest-memop-Pass-mop_desc-via-pointer/20230128-132603
-        git checkout 6e6b3d99b9978a70b148b989d46b039feda3a3c3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+https://lore.kernel.org/platform-driver-x86/Y9QGcA+9nlmOOy2d@google.com/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+That branch not being present in the base used by LKP is what is causing this
+error.
 
-All errors (new ones prefixed by >>):
+Regards,
 
-   arch/s390/kvm/gaccess.c: In function 'cmpxchg_guest_abs_with_key':
->> arch/s390/kvm/gaccess.c:1217:23: error: implicit declaration of function 'cmpxchg_user_key'; did you mean 'copy_to_user_key'? [-Werror=implicit-function-declaration]
-    1217 |                 ret = cmpxchg_user_key((u8 *)hva, &old, *old_addr, new, access_key);
-         |                       ^~~~~~~~~~~~~~~~
-         |                       copy_to_user_key
-   cc1: some warnings being treated as errors
+Hans
 
-
-vim +1217 arch/s390/kvm/gaccess.c
-
-  1163	
-  1164	/**
-  1165	 * cmpxchg_guest_abs_with_key() - Perform cmpxchg on guest absolute address.
-  1166	 * @kvm: Virtual machine instance.
-  1167	 * @gpa: Absolute guest address of the location to be changed.
-  1168	 * @len: Operand length of the cmpxchg, required: 1 <= len <= 16. Providing a
-  1169	 *       non power of two will result in failure.
-  1170	 * @old_addr: Pointer to old value. If the location at @gpa contains this value,
-  1171	 *            the exchange will succeed. After calling cmpxchg_guest_abs_with_key()
-  1172	 *            *@old_addr contains the value at @gpa before the attempt to
-  1173	 *            exchange the value.
-  1174	 * @new: The value to place at @gpa.
-  1175	 * @access_key: The access key to use for the guest access.
-  1176	 * @success: output value indicating if an exchange occurred.
-  1177	 *
-  1178	 * Atomically exchange the value at @gpa by @new, if it contains *@old.
-  1179	 * Honors storage keys.
-  1180	 *
-  1181	 * Return: * 0: successful exchange
-  1182	 *         * a program interruption code indicating the reason cmpxchg could
-  1183	 *           not be attempted
-  1184	 *         * -EINVAL: address misaligned or len not power of two
-  1185	 *         * -EAGAIN: transient failure (len 1 or 2)
-  1186	 *         * -EOPNOTSUPP: read-only memslot (should never occur)
-  1187	 */
-  1188	int cmpxchg_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, int len,
-  1189				       __uint128_t *old_addr, __uint128_t new,
-  1190				       u8 access_key, bool *success)
-  1191	{
-  1192		gfn_t gfn = gpa >> PAGE_SHIFT;
-  1193		struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
-  1194		bool writable;
-  1195		hva_t hva;
-  1196		int ret;
-  1197	
-  1198		if (!IS_ALIGNED(gpa, len))
-  1199			return -EINVAL;
-  1200	
-  1201		hva = gfn_to_hva_memslot_prot(slot, gfn, &writable);
-  1202		if (kvm_is_error_hva(hva))
-  1203			return PGM_ADDRESSING;
-  1204		/*
-  1205		 * Check if it's a read-only memslot, even though that cannot occur
-  1206		 * since those are unsupported.
-  1207		 * Don't try to actually handle that case.
-  1208		 */
-  1209		if (!writable)
-  1210			return -EOPNOTSUPP;
-  1211	
-  1212		hva += offset_in_page(gpa);
-  1213		switch (len) {
-  1214		case 1: {
-  1215			u8 old;
-  1216	
-> 1217			ret = cmpxchg_user_key((u8 *)hva, &old, *old_addr, new, access_key);
-  1218			*success = !ret && old == *old_addr;
-  1219			*old_addr = old;
-  1220			break;
-  1221		}
-  1222		case 2: {
-  1223			u16 old;
-  1224	
-  1225			ret = cmpxchg_user_key((u16 *)hva, &old, *old_addr, new, access_key);
-  1226			*success = !ret && old == *old_addr;
-  1227			*old_addr = old;
-  1228			break;
-  1229		}
-  1230		case 4: {
-  1231			u32 old;
-  1232	
-  1233			ret = cmpxchg_user_key((u32 *)hva, &old, *old_addr, new, access_key);
-  1234			*success = !ret && old == *old_addr;
-  1235			*old_addr = old;
-  1236			break;
-  1237		}
-  1238		case 8: {
-  1239			u64 old;
-  1240	
-  1241			ret = cmpxchg_user_key((u64 *)hva, &old, *old_addr, new, access_key);
-  1242			*success = !ret && old == *old_addr;
-  1243			*old_addr = old;
-  1244			break;
-  1245		}
-  1246		case 16: {
-  1247			__uint128_t old;
-  1248	
-  1249			ret = cmpxchg_user_key((__uint128_t *)hva, &old, *old_addr, new, access_key);
-  1250			*success = !ret && old == *old_addr;
-  1251			*old_addr = old;
-  1252			break;
-  1253		}
-  1254		default:
-  1255			return -EINVAL;
-  1256		}
-  1257		mark_page_dirty_in_slot(kvm, slot, gfn);
-  1258		/*
-  1259		 * Assume that the fault is caused by protection, either key protection
-  1260		 * or user page write protection.
-  1261		 */
-  1262		if (ret == -EFAULT)
-  1263			ret = PGM_PROTECTION;
-  1264		return ret;
-  1265	}
-  1266	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
