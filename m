@@ -1,44 +1,47 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BFF23CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 05:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932B123A2;
+	Sat, 28 Jan 2023 05:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674883164; x=1706419164;
+  t=1674883761; x=1706419761;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=imUqG8sbhmker0SioIaovpU5QLtTcEPs1fEifLvcDgI=;
-  b=LgQvMYaGIuH4BzTYrDkP454WIyH4i6PdjLlNSqotflWFogu3rZgT8/QG
-   hPHDUwlBADj0EIE3CuiGV/ZjIMM4bRYQHx3Rk34ZAgrcjv5H4lONCaMMB
-   iCFoRAnyu/aONFvtwfoyWDv4z1VLoVkMctFOFjbFZWBFsJSJ9fiI0trMS
-   2MbUJHx7c+WxFZbZdugx4Mntpu+JqyG1c6qJYBtV8fHBT71RAYNd0y+yt
-   xgwjXeNEVysIjPn5lbmw8A/vzs0YOP893Jk0q80ARKziuUSVFwdpyHgLM
-   jOQdDV9pjo9q5JBvV2jUp5hnbrTxAFmTGXfvIEuYUNyazbMaCsWEHcbY9
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="391818199"
+  bh=X0ptAT0cfSbvY5VVygGFU65u81HaZhs6kcj4hMF8xSw=;
+  b=AMQWu4F1aGRP3/yQh8cHL9PV/58FHqEoyMfvyOn+noMIQkqkMtTHoC31
+   sFfTqzt0mbXKKb3NimKTdtkgYhM5OMWcpzwt6pdaGefg7MaBbtkupyAvn
+   8//PRUjXKTlqBGJRXptd8U5H8aiDkpPgCknebkeO4ELKvJwlGt8cEjrUn
+   hLOpkj3c0l/R66cckYA8Rad/PVKVQ6RMHWJZdMPGa3MG9nJOmbuZCrIbM
+   gCOJG8XosAawD/bXMxxesv1ePdd8gWIog/JgUJGL4EgEQRIdvHaI2lXts
+   ERZ/cXUvntrci8NbGeyuIOwQjl0sBnr3MOLEnGIID+4qvX1Xwwyx6h5CG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="310887870"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="391818199"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 21:19:20 -0800
+   d="scan'208";a="310887870"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 21:29:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="992311960"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="693952255"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="992311960"
+   d="scan'208";a="693952255"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Jan 2023 21:19:18 -0800
+  by orsmga008.jf.intel.com with ESMTP; 27 Jan 2023 21:29:18 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLdcT-0000Pn-1x;
-	Sat, 28 Jan 2023 05:19:17 +0000
-Date: Sat, 28 Jan 2023 13:18:21 +0800
+	id 1pLdm9-0000Pt-24;
+	Sat, 28 Jan 2023 05:29:17 +0000
+Date: Sat, 28 Jan 2023 13:28:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajnesh Kanwal <rkanwal@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <Atish.Patra@wdc.com>,
-	Atish Patra <atishp@rivosinc.com>
-Subject: [atishp04:dev/atishp/kvm_aptee_guest_rfc 97/109]
- include/linux/io.h:89:24: error: implicit declaration of function
- 'ioremap_driver_hardened_np'; did you mean 'ioremap_driver_hardened_uc'?
-Message-ID: <202301281300.upMfqnl2-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:for-6.3/cxl-ram-region 17/18] drivers/cxl/core/region.c:2404:6:
+ warning: variable 'rc' is used uninitialized whenever 'if' condition is true
+Message-ID: <202301281313.kVrIreUj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,278 +51,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/atishp04/linux dev/atishp/kvm_aptee_guest_rfc
-head:   adf357593cff6780e32553a751d6cb7bb88dd6a6
-commit: 0a94986ec599af4753ae09044918266401a266c3 [97/109] pci: iomap: Mark ioremap shared when the device is authorized.
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281300.upMfqnl2-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
+head:   a7cf664d7e997ac36b0f466af2e2be33464ab598
+commit: 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f [17/18] cxl/region: Add region autodiscovery
+config: i386-randconfig-a012-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281313.kVrIreUj-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/0a94986ec599af4753ae09044918266401a266c3
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 dev/atishp/kvm_aptee_guest_rfc
-        git checkout 0a94986ec599af4753ae09044918266401a266c3
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
+        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+        git fetch --no-tags cxl for-6.3/cxl-ram-region
+        git checkout 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cxl/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:10,
-                    from include/linux/kernel.h:29,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from arch/mips/include/asm/cpu-type.h:12,
-                    from arch/mips/include/asm/timex.h:19,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/compat.h:10,
-                    from arch/mips/kernel/asm-offsets.c:12:
-   include/linux/seqlock.h: In function '__seqprop_assert':
->> include/asm-generic/percpu.h:31:40: error: implicit declaration of function 'raw_smp_processor_id' [-Werror=implicit-function-declaration]
-      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/lockdep.h:611:9: note: in expansion of macro 'WARN_ON_ONCE'
-     611 |         WARN_ON_ONCE(IS_ENABLED(CONFIG_PREEMPT_COUNT)   &&              \
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:119:18: note: in expansion of macro 'READ_ONCE'
-     119 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:31:25: note: in expansion of macro 'per_cpu_offset'
-      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                         ^~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:44:53: note: in expansion of macro '__my_cpu_offset'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:119:29: note: in expansion of macro 'raw_cpu_ptr'
-     119 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:138:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     138 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:320:41: note: in expansion of macro 'this_cpu_generic_read'
-     320 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:507:41: note: in expansion of macro '__pcpu_size_call_return'
-     507 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:584:50: note: in expansion of macro 'this_cpu_read'
-     584 | #define __lockdep_enabled       (debug_locks && !this_cpu_read(lockdep_recursion))
-         |                                                  ^~~~~~~~~~~~~
-   include/linux/lockdep.h:612:22: note: in expansion of macro '__lockdep_enabled'
-     612 |                      __lockdep_enabled                  &&              \
-         |                      ^~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:269:9: note: in expansion of macro 'lockdep_assert_preemption_disabled'
-     269 |         lockdep_assert_preemption_disabled();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/topology.h:36,
-                    from include/linux/gfp.h:8,
-                    from include/linux/xarray.h:15,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/io.h:13,
-                    from arch/mips/include/asm/mips-cps.h:11,
-                    from arch/mips/include/asm/smp-ops.h:16,
-                    from arch/mips/include/asm/smp.h:21,
-                    from include/linux/smp.h:113:
-   include/linux/topology.h: In function 'cpu_smt_mask':
->> arch/mips/include/asm/topology.h:18:51: error: 'cpu_sibling_map' undeclared (first use in this function)
-      18 | #define topology_sibling_cpumask(cpu)           (&cpu_sibling_map[cpu])
-         |                                                   ^~~~~~~~~~~~~~~
-   include/linux/topology.h:239:16: note: in expansion of macro 'topology_sibling_cpumask'
-     239 |         return topology_sibling_cpumask(cpu);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/topology.h:18:51: note: each undeclared identifier is reported only once for each function it appears in
-      18 | #define topology_sibling_cpumask(cpu)           (&cpu_sibling_map[cpu])
-         |                                                   ^~~~~~~~~~~~~~~
-   include/linux/topology.h:239:16: note: in expansion of macro 'topology_sibling_cpumask'
-     239 |         return topology_sibling_cpumask(cpu);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/topology.h:237:54: warning: parameter 'cpu' set but not used [-Wunused-but-set-parameter]
-     237 | static inline const struct cpumask *cpu_smt_mask(int cpu)
-         |                                                  ~~~~^~~
-   include/linux/io.h: In function 'pci_remap_cfgspace':
->> include/linux/io.h:89:24: error: implicit declaration of function 'ioremap_driver_hardened_np'; did you mean 'ioremap_driver_hardened_uc'? [-Werror=implicit-function-declaration]
-      89 |                 return ioremap_driver_hardened_np(offset, size) ?:
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        ioremap_driver_hardened_uc
->> include/linux/io.h:89:66: warning: pointer/integer type mismatch in conditional expression
-      89 |                 return ioremap_driver_hardened_np(offset, size) ?:
-         |                                                                  ^
-   arch/mips/include/asm/smp.h: At top level:
->> arch/mips/include/asm/smp.h:28:19: error: static declaration of 'raw_smp_processor_id' follows non-static declaration
-      28 | static inline int raw_smp_processor_id(void)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:31:40: note: previous implicit declaration of 'raw_smp_processor_id' with type 'int()'
-      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/lockdep.h:611:9: note: in expansion of macro 'WARN_ON_ONCE'
-     611 |         WARN_ON_ONCE(IS_ENABLED(CONFIG_PREEMPT_COUNT)   &&              \
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:119:18: note: in expansion of macro 'READ_ONCE'
-     119 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:31:25: note: in expansion of macro 'per_cpu_offset'
-      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                         ^~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:44:53: note: in expansion of macro '__my_cpu_offset'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:119:29: note: in expansion of macro 'raw_cpu_ptr'
-     119 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:138:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     138 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:320:41: note: in expansion of macro 'this_cpu_generic_read'
-     320 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:507:41: note: in expansion of macro '__pcpu_size_call_return'
-     507 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:584:50: note: in expansion of macro 'this_cpu_read'
-     584 | #define __lockdep_enabled       (debug_locks && !this_cpu_read(lockdep_recursion))
-         |                                                  ^~~~~~~~~~~~~
-   include/linux/lockdep.h:612:22: note: in expansion of macro '__lockdep_enabled'
-     612 |                      __lockdep_enabled                  &&              \
-         |                      ^~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:269:9: note: in expansion of macro 'lockdep_assert_preemption_disabled'
-     269 |         lockdep_assert_preemption_disabled();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      26 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      78 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      92 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-     108 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:136:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     136 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     179 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     213 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for 'output_signal_defined' [-Wmissing-prototypes]
-     248 | void output_signal_defined(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:315:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     315 | void output_pbe_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:327:6: warning: no previous prototype for 'output_pm_defines' [-Wmissing-prototypes]
-     327 | void output_pm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:341:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     341 | void output_kvm_defines(void)
+   drivers/cxl/core/region.c:1772:7: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+                   int rc;
+                       ^
+   drivers/cxl/core/region.c:1775:7: warning: variable 'rc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                   if (!dev)
+                       ^~~~
+   drivers/cxl/core/region.c:1789:6: note: uninitialized use occurs here
+           if (rc < 0)
+               ^~
+   drivers/cxl/core/region.c:1775:3: note: remove the 'if' if its condition is always true
+                   if (!dev)
+                   ^~~~~~~~~
+   drivers/cxl/core/region.c:1766:8: note: initialize the variable 'rc' to silence this warning
+           int rc;
+                 ^
+                  = 0
+>> drivers/cxl/core/region.c:2404:6: warning: variable 'rc' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (p->state >= CXL_CONFIG_INTERLEAVE_ACTIVE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/region.c:2461:17: note: uninitialized use occurs here
+           return ERR_PTR(rc);
+                          ^~
+   drivers/cxl/core/region.c:2404:2: note: remove the 'if' if its condition is always false
+           if (p->state >= CXL_CONFIG_INTERLEAVE_ACTIVE) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/region.c:2387:8: note: initialize the variable 'rc' to silence this warning
+           int rc;
+                 ^
+                  = 0
+   3 warnings generated.
 
 
-vim +89 include/linux/io.h
+vim +2404 drivers/cxl/core/region.c
 
-    71	
-    72	#ifdef CONFIG_PCI
-    73	/*
-    74	 * The PCI specifications (Rev 3.0, 3.2.5 "Transaction Ordering and
-    75	 * Posting") mandate non-posted configuration transactions. This default
-    76	 * implementation attempts to use the ioremap_np() API to provide this
-    77	 * on arches that support it, and falls back to ioremap() on those that
-    78	 * don't. Overriding this function is deprecated; arches that properly
-    79	 * support non-posted accesses should implement ioremap_np() instead, which
-    80	 * this default implementation can then use to return mappings compliant with
-    81	 * the PCI specification.
-    82	 */
-    83	#ifndef pci_remap_cfgspace
-    84	#define pci_remap_cfgspace pci_remap_cfgspace
-    85	static inline void __iomem *pci_remap_cfgspace(struct device *dev,
-    86						       phys_addr_t offset, size_t size)
-    87	{
-    88		if (dev_is_authorized(dev)) {
-  > 89			return ioremap_driver_hardened_np(offset, size) ?:
-    90				       ioremap_driver_hardened(offset, size);
-    91		}
-    92	
-    93		return ioremap_np(offset, size) ?: ioremap(offset, size);
-    94	}
-    95	#endif
-    96	#endif
-    97	
+  2376	
+  2377	/* Establish an empty region covering the given HPA range */
+  2378	static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
+  2379						   struct cxl_endpoint_decoder *cxled)
+  2380	{
+  2381		struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
+  2382		struct cxl_port *port = cxlrd_to_port(cxlrd);
+  2383		struct range *hpa = &cxled->cxld.hpa_range;
+  2384		struct cxl_region_params *p;
+  2385		struct cxl_region *cxlr;
+  2386		struct resource *res;
+  2387		int rc;
+  2388	
+  2389		do {
+  2390			cxlr = __create_region(cxlrd, cxled->mode,
+  2391					       atomic_read(&cxlrd->region_id));
+  2392		} while (IS_ERR(cxlr) && PTR_ERR(cxlr) == -EBUSY);
+  2393	
+  2394		if (IS_ERR(cxlr)) {
+  2395			dev_err(cxlmd->dev.parent,
+  2396				"%s:%s: %s failed assign region: %ld\n",
+  2397				dev_name(&cxlmd->dev), dev_name(&cxled->cxld.dev),
+  2398				__func__, PTR_ERR(cxlr));
+  2399			return cxlr;
+  2400		}
+  2401	
+  2402		down_write(&cxl_region_rwsem);
+  2403		p = &cxlr->params;
+> 2404		if (p->state >= CXL_CONFIG_INTERLEAVE_ACTIVE) {
+  2405			dev_err(cxlmd->dev.parent,
+  2406				"%s:%s: %s autodiscovery interrupted\n",
+  2407				dev_name(&cxlmd->dev), dev_name(&cxled->cxld.dev),
+  2408				__func__);
+  2409			goto err_intr;
+  2410		}
+  2411	
+  2412		set_bit(CXL_REGION_F_AUTO, &cxlr->flags);
+  2413	
+  2414		res = kmalloc(sizeof(*res), GFP_KERNEL);
+  2415		if (!res) {
+  2416			rc = -ENOMEM;
+  2417			goto err_res;
+  2418		}
+  2419	
+  2420		*res = DEFINE_RES_MEM_NAMED(hpa->start, range_len(hpa),
+  2421					    dev_name(&cxlr->dev));
+  2422		rc = insert_resource(cxlrd->res, res);
+  2423		if (rc) {
+  2424			dev_dbg(cxlmd->dev.parent, "%s:%s: %s resource conflict: %d\n",
+  2425				dev_name(&cxlmd->dev), dev_name(&cxled->cxld.dev),
+  2426				__func__, rc);
+  2427			goto err_insert;
+  2428		}
+  2429	
+  2430		p->res = res;
+  2431		p->interleave_ways = cxled->cxld.interleave_ways;
+  2432		p->interleave_granularity = cxled->cxld.interleave_granularity;
+  2433		p->state = CXL_CONFIG_INTERLEAVE_ACTIVE;
+  2434		/*
+  2435		 * unregister_region() is now enabled and @res does not need
+  2436		 * separate cleanup
+  2437		 */
+  2438	
+  2439		rc = sysfs_update_group(&cxlr->dev.kobj, get_cxl_region_target_group());
+  2440		if (rc)
+  2441			goto err_sysfs;
+  2442	
+  2443		dev_dbg(cxlmd->dev.parent, "%s:%s: %s %s res: %pr iw: %d ig: %d\n",
+  2444			dev_name(&cxlmd->dev), dev_name(&cxled->cxld.dev), __func__,
+  2445			dev_name(&cxlr->dev), p->res, p->interleave_ways,
+  2446			p->interleave_granularity);
+  2447	
+  2448		/* ...to match put_device() in cxl_add_to_region() */
+  2449		get_device(&cxlr->dev);
+  2450		up_write(&cxl_region_rwsem);
+  2451	
+  2452		return cxlr;
+  2453	
+  2454	err_insert:
+  2455		kfree(res);
+  2456	err_res:
+  2457	err_sysfs:
+  2458	err_intr:
+  2459		up_write(&cxl_region_rwsem);
+  2460		devm_release_action(port->uport, unregister_region, cxlr);
+  2461		return ERR_PTR(rc);
+  2462	}
+  2463	
 
 -- 
 0-DAY CI Kernel Test Service
