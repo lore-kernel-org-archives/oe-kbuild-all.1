@@ -1,43 +1,48 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1654133F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 19:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DEC33F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 19:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674933530; x=1706469530;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j/Kn147JzbeeIHlWX+HHCUFQJHl46PLLFA0zI37g0Rc=;
-  b=OEC2Ix7sw/nFsf5vM/P90CNotPOUXgVb3JuY5BUmNmdInJo3GpjkqtsF
-   M/guvMa8EQouOGpchnyXp5AEVYclDyQSgJeGYtaIlC2lk3cph9kisBmtl
-   hOQE2nC+qDIej2xTuR6tSIFr0Ptfs89MOEF0NmmRwLGrvfDxmt4kcrhV4
-   cgcqAQ9qXxb6jfpvjtZwxjOKv29FIxmyn/Eee5OYuQ0iAiDsxnk4LQRQI
-   71p1VHw89MFtY/W5/u8PUU/pfVv9RggB9W6DUqTFFEi26KlcjJ1Q/5jLe
-   pjcWO2EnhtgK20zZCiEPLK9hDmZ+J1BxGmjyF2yXvCIwUzRz7u/teWn/f
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391880961"
+  t=1674935393; x=1706471393;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ks8NPG/0wNzB8QAK/WMNQrtn0BmzV/O50xmmaQ8aYiE=;
+  b=oJj3J4GEEjlLkHQpDq/SRuSeGUMOGl0aQjLVfrnWOD7P0d9iEV51km0n
+   PkCGGPtm5uWwZeEUqyYwdHcz889u+eQVsopmlmVSmh8trHj9oXQl/mxRB
+   ShLw1pwIJu3kXgTzd1vMo36Pxdlfx4rzVXEYC40o8V8aMPcdGPcRTBHHt
+   acAf5f5UlVXTZMwrlj94cseypJGa83BKY4iNEdHFeAogLP9TqJV5LZQpA
+   TYKpX6Em9ksHoYVXcK28ehZlUnA/B/rVTOQGgrikwYpTubVahOl88ZcPN
+   dySD2HybNgujxxM6Pj1+Dlsc+HrJyQdXAm1oO+vD7NdyZn4Pt6Zkhu3EW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413548363"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="391880961"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:18:49 -0800
+   d="scan'208";a="413548363"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:49:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="787562333"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732231775"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="787562333"
+   d="scan'208";a="732231775"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2023 11:18:48 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 11:49:50 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLqit-00011G-2n;
-	Sat, 28 Jan 2023 19:18:47 +0000
-Date: Sun, 29 Jan 2023 03:18:19 +0800
+	id 1pLrCv-000135-17;
+	Sat, 28 Jan 2023 19:49:49 +0000
+Date: Sun, 29 Jan 2023 03:49:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6546/6550]
- arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for
- 'kvm_hyp_events_enable_early'
-Message-ID: <202301290349.oa107FA6-lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
+	luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
+	corbet@lwn.net, shuah@kernel.org,
+	Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <202301290302.CSHz4zLe-lkp@intel.com>
+References: <20230126190645.18341-2-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +51,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   b5a5282ca964178e46d1adb96ea1c3341303e94b
-commit: 605d8f6940c38faeaa0aa91a8c793d1d8cd5eab5 [6546/6550] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301290349.oa107FA6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Gregory,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on tip/core/entry v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
+patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230129/202301290302.CSHz4zLe-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-6.1
-        git checkout 605d8f6940c38faeaa0aa91a8c793d1d8cd5eab5
+        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-         |                           ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-         |                           ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for 'kvm_hyp_events_enable_early' [-Wmissing-prototypes]
-     204 | bool kvm_hyp_events_enable_early(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:239:6: warning: no previous prototype for 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
-     239 | void kvm_hyp_init_events_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:271:5: warning: no previous prototype for 'kvm_hyp_init_events' [-Wmissing-prototypes]
-     271 | int kvm_hyp_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
+>> kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+>> kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
+     147 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/kvm_hyp_events_enable_early +204 arch/arm64/kvm/hyp_events.c
+vim +114 kernel/entry/syscall_user_dispatch.c
 
-   203	
- > 204	bool kvm_hyp_events_enable_early(void)
-   205	{
-   206		char *token, *buf = early_events;
-   207		bool enabled = false;
-   208	
-   209		while (true) {
-   210			token = strsep(&buf, ",");
-   211	
-   212			if (!token)
-   213				break;
-   214	
-   215			if (*token) {
-   216				struct hyp_event *event;
-   217				int ret;
-   218	
-   219				event = find_hyp_event(token);
-   220				if (event) {
-   221					ret = enable_hyp_event(event, true);
-   222					if (ret)
-   223						pr_warn("Couldn't enable hyp event %s:%d\n",
-   224							token, ret);
-   225					else
-   226						enabled = true;
-   227				} else {
-   228					pr_warn("Couldn't find hyp event %s\n", token);
-   229				}
-   230			}
-   231	
-   232			if (buf)
-   233				*(buf - 1) = ',';
-   234		}
-   235	
-   236		return enabled;
-   237	}
-   238	
+   109	
+   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   111			void __user *data)
+   112	{
+   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+ > 114		struct syscall_user_dispatch_config config;
+   115	
+ > 116		if (size != sizeof(struct syscall_user_dispatch_config))
+   117			return -EINVAL;
+   118	
+   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
+   120			config.mode = PR_SYS_DISPATCH_ON;
+   121		else
+   122			config.mode = PR_SYS_DISPATCH_OFF;
+   123	
+   124		config.offset = sd->offset;
+   125		config.len = sd->len;
+   126		config.selector = sd->selector;
+   127	
+   128		if (copy_to_user(data, &config, sizeof(config)))
+   129			return -EFAULT;
+   130	
+   131		return 0;
+   132	}
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
