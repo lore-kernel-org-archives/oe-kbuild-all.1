@@ -1,54 +1,59 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF89A5CBA;
-	Sat, 28 Jan 2023 15:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4545CBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 15:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674919244; x=1706455244;
+  t=1674919844; x=1706455844;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MTadVaHuNSrAWek3uXcZTKVCMsw+1O+SvEEAAMoi1tI=;
-  b=WN2OHnT/4n99/Zetkpm7ULPgLJfCCqzfl+VVqazMgMPxMN3lZHalOUA0
-   9aoc5PW7LOr0Sjo3iEzemBRuLDvuFJ4IX+T1/lmIlZdOklxiMGNIr80c/
-   dE0QtoJybethO6B0CTdmNMbc/wKlCQ04NlMtIG5jqV3yIuV9pENUHq1l3
-   /8tjSE5K1POfw/App3/NJXy+6GLVyFmR+QF2/9nQ+PsjiRXeYeSYgqqZe
-   a/jMyBbbztXpIas7I5dxMoZsxblqDJfBNDsojBY+ZagFW3EmTBtMV0pbz
-   CYf8+y8FyLQA34IAk33rvWaTMkOaoiN0wnYiWb1R+C3hLB31Hzd4U+CSi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="324992082"
+  bh=qynek6zoefEm+bgckY3vlCkUxIOmlSiLUfKkdp0MrNA=;
+  b=W/9503yEMTSP45eBvmqe5nXiN3cnUyr/176DaCw+15T+Uj2QHPuC4Ujm
+   JH14Ni6D4qoxE76y5XNDoT/zOhjl4ErcD1Zx7ff8mrww9gL9lIkPQgBfG
+   2I4+UBXWy/NylMjgOCpX1I048j5tCFPafmiC2HuwAeRmIkMPeCmYzTrCO
+   Y7LC+actFNHhdsf+Uk6r2c8H6xVTp60icExTZvY54Zj2/VNjAMgDG2/Wl
+   smpLJDUdAm96Y58I8YtESBnqbk91Nvce44XpYWFrfPxNzy8eR29Vsk+W2
+   3EsO6vEnLPmtLGNqNsa0doJMVrwGVQmlY0RXgHLk34sCULGQgVhNe62Ms
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391853988"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="324992082"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 07:20:43 -0800
+   d="scan'208";a="391853988"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 07:30:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="665580238"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837491300"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="665580238"
+   d="scan'208";a="837491300"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Jan 2023 07:20:38 -0800
+  by orsmga005.jf.intel.com with ESMTP; 28 Jan 2023 07:30:38 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLn0P-0000q9-27;
-	Sat, 28 Jan 2023 15:20:37 +0000
-Date: Sat, 28 Jan 2023 23:19:53 +0800
+	id 1pLnA5-0000qX-2w;
+	Sat, 28 Jan 2023 15:30:37 +0000
+Date: Sat, 28 Jan 2023 23:30:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Waiman Long <longman@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Phil Auld <pauld@redhat.com>, linux-kernel@vger.kernel.org,
-	Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3] sched: Store restrict_cpus_allowed_ptr() call state
-Message-ID: <202301282334.C5NLDEZd-lkp@intel.com>
-References: <20230127015527.466367-1-longman@redhat.com>
+To: Guillaume Ranquet <granquet@baylibre.com>,
+	Vinod Koul <vkoul@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>, CK Hu <ck.hu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	mac.shen@mediatek.com, linux-phy@lists.infradead.org,
+	Guillaume Ranquet <granquet@baylibre.com>,
+	devicetree@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	stuart.lee@mediatek.com
+Subject: Re: [PATCH v5 3/3] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+Message-ID: <202301282319.Z1Kqm6bN-lkp@intel.com>
+References: <20220919-v5-3-cfb0e5ad29b2@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,277 +62,198 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230127015527.466367-1-longman@redhat.com>
+In-Reply-To: <20220919-v5-3-cfb0e5ad29b2@baylibre.com>
 
-Hi Waiman,
+Hi Guillaume,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/master tip/auto-latest linux/master linus/master v6.2-rc5 next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on e2f86c02fdc96ca29ced53221a3cbf50aa6f8b49]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/sched-Store-restrict_cpus_allowed_ptr-call-state/20230128-155441
-patch link:    https://lore.kernel.org/r/20230127015527.466367-1-longman%40redhat.com
-patch subject: [PATCH v3] sched: Store restrict_cpus_allowed_ptr() call state
-config: hexagon-randconfig-r041-20230124 (https://download.01.org/0day-ci/archive/20230128/202301282334.C5NLDEZd-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Ranquet/dt-bindings-phy-mediatek-hdmi-phy-Add-mt8195-compatible/20230128-160522
+base:   e2f86c02fdc96ca29ced53221a3cbf50aa6f8b49
+patch link:    https://lore.kernel.org/r/20220919-v5-3-cfb0e5ad29b2%40baylibre.com
+patch subject: [PATCH v5 3/3] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+config: arc-randconfig-r043-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282319.Z1Kqm6bN-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/25582b263f75c0348a967ce5da36c1f87fd5d175
+        # https://github.com/intel-lab-lkp/linux/commit/2cc45518a7fd551117426c770070d93acb31166e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Waiman-Long/sched-Store-restrict_cpus_allowed_ptr-call-state/20230128-155441
-        git checkout 25582b263f75c0348a967ce5da36c1f87fd5d175
+        git fetch --no-tags linux-review Guillaume-Ranquet/dt-bindings-phy-mediatek-hdmi-phy-Add-mt8195-compatible/20230128-160522
+        git checkout 2cc45518a7fd551117426c770070d93acb31166e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/bpf/ kernel/sched/ net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/phy/mediatek/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:9:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/sched/core.c:9:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/sched/core.c:9:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> kernel/sched/core.c:3021:9: error: no member named 'user_cpu_ptr' in 'struct task_struct'; did you mean 'user_cpus_ptr'?
-           if (p->user_cpu_ptr &&
-                  ^~~~~~~~~~~~
-                  user_cpus_ptr
-   include/linux/sched.h:830:15: note: 'user_cpus_ptr' declared here
-           cpumask_t                       *user_cpus_ptr;
-                                            ^
-   kernel/sched/core.c:3022:32: error: no member named 'user_cpu_ptr' in 'struct task_struct'; did you mean 'user_cpus_ptr'?
-               !cpumask_and(new_mask, p->user_cpu_ptr, subset_mask)) {
-                                         ^~~~~~~~~~~~
-                                         user_cpus_ptr
-   include/linux/sched.h:830:15: note: 'user_cpus_ptr' declared here
-           cpumask_t                       *user_cpus_ptr;
-                                            ^
->> kernel/sched/core.c:3091:33: error: expected '}'
-                   .new_mask  = cpu_possible_mask;
-                                                 ^
-   kernel/sched/core.c:3090:31: note: to match this '{'
-           struct affinity_context ac = {
-                                        ^
->> kernel/sched/core.c:3092:3: error: expected expression
-                   .flags     = SCA_CLR_RESTRICT,
-                   ^
->> kernel/sched/core.c:3097:2: error: expected identifier or '('
-           if (!data_race(p->cpus_allowed_restricted))
-           ^
->> kernel/sched/core.c:3104:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-           ret = __sched_setaffinity(p, &ac);
-           ^
-           int
->> kernel/sched/core.c:3104:28: error: use of undeclared identifier 'p'
-           ret = __sched_setaffinity(p, &ac);
-                                     ^
->> kernel/sched/core.c:3104:32: error: use of undeclared identifier 'ac'
-           ret = __sched_setaffinity(p, &ac);
-                                         ^
-   kernel/sched/core.c:3105:2: error: expected identifier or '('
-           WARN_ON_ONCE(ret);
-           ^
-   include/asm-generic/bug.h:180:33: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                   ^
-   include/asm-generic/bug.h:166:29: note: expanded from macro 'WARN_ON'
-   #define WARN_ON(condition) ({                                           \
-                               ^
->> kernel/sched/core.c:3105:2: error: expected ')'
-   include/asm-generic/bug.h:180:33: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                   ^
-   include/asm-generic/bug.h:166:29: note: expanded from macro 'WARN_ON'
-   #define WARN_ON(condition) ({                                           \
-                               ^
-   kernel/sched/core.c:3105:2: note: to match this '('
-   include/asm-generic/bug.h:180:33: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                   ^
-   include/asm-generic/bug.h:166:28: note: expanded from macro 'WARN_ON'
-   #define WARN_ON(condition) ({                                           \
-                              ^
->> kernel/sched/core.c:3106:1: error: extraneous closing brace ('}')
-   }
-   ^
-   6 warnings and 11 errors generated.
+   In file included from include/linux/bits.h:6,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:22,
+                    from drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:6:
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c: In function 'mtk_hdmi_pll_calc':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:299:20: note: in expansion of macro 'BIT'
+     299 |         if ((pcw / BIT(32)) > 1) {
+         |                    ^~~
+>> drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:299:18: warning: division by zero [-Wdiv-by-zero]
+     299 |         if ((pcw / BIT(32)) > 1) {
+         |                  ^
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:301:27: note: in expansion of macro 'BIT'
+     301 |         } else if ((pcw / BIT(32)) == 1) {
+         |                           ^~~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:301:25: warning: division by zero [-Wdiv-by-zero]
+     301 |         } else if ((pcw / BIT(32)) == 1) {
+         |                         ^
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:303:36: note: in expansion of macro 'BIT'
+     303 |                 fbkdiv_low = pcw % BIT(32);
+         |                                    ^~~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:303:34: warning: division by zero [-Wdiv-by-zero]
+     303 |                 fbkdiv_low = pcw % BIT(32);
+         |                                  ^
 
 
-vim +3021 kernel/sched/core.c
+vim +299 drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
 
-  2986	
-  2987	/*
-  2988	 * Change a given task's CPU affinity to the intersection of its current
-  2989	 * affinity mask and @subset_mask, writing the resulting mask to @new_mask.
-  2990	 * The cpus_allowed_restricted bit is set to indicate to a later
-  2991	 * relax_compatible_cpus_allowed_ptr() call to relax the cpumask.
-  2992	 *
-  2993	 * If the resulting mask is empty, leave the affinity unchanged and return
-  2994	 * -EINVAL.
-  2995	 */
-  2996	static int restrict_cpus_allowed_ptr(struct task_struct *p,
-  2997					     struct cpumask *new_mask,
-  2998					     const struct cpumask *subset_mask)
-  2999	{
-  3000		struct affinity_context ac = {
-  3001			.new_mask  = new_mask,
-  3002			.flags     = 0,
-  3003		};
-  3004		struct rq_flags rf;
-  3005		struct rq *rq;
-  3006		int err;
-  3007	
-  3008		rq = task_rq_lock(p, &rf);
-  3009		p->cpus_allowed_restricted = 1;
-  3010	
-  3011		/*
-  3012		 * Forcefully restricting the affinity of a deadline task is
-  3013		 * likely to cause problems, so fail and noisily override the
-  3014		 * mask entirely.
-  3015		 */
-  3016		if (task_has_dl_policy(p) && dl_bandwidth_enabled()) {
-  3017			err = -EPERM;
-  3018			goto err_unlock;
-  3019		}
-  3020	
-> 3021		if (p->user_cpu_ptr &&
-> 3022		    !cpumask_and(new_mask, p->user_cpu_ptr, subset_mask)) {
-  3023			err = -EINVAL;
-  3024			goto err_unlock;
-  3025		}
-  3026	
-  3027		return __set_cpus_allowed_ptr_locked(p, &ac, rq, &rf);
-  3028	
-  3029	err_unlock:
-  3030		task_rq_unlock(rq, p, &rf);
-  3031		return err;
-  3032	}
-  3033	
-  3034	/*
-  3035	 * Restrict the CPU affinity of task @p so that it is a subset of
-  3036	 * task_cpu_possible_mask(). If the resulting mask is empty, we warn
-  3037	 * and walk up the cpuset hierarchy until we find a suitable mask.
-  3038	 */
-  3039	void force_compatible_cpus_allowed_ptr(struct task_struct *p)
-  3040	{
-  3041		cpumask_var_t new_mask;
-  3042		const struct cpumask *override_mask = task_cpu_possible_mask(p);
-  3043	
-  3044		alloc_cpumask_var(&new_mask, GFP_KERNEL);
-  3045	
-  3046		/*
-  3047		 * __migrate_task() can fail silently in the face of concurrent
-  3048		 * offlining of the chosen destination CPU, so take the hotplug
-  3049		 * lock to ensure that the migration succeeds.
-  3050		 */
-  3051		cpus_read_lock();
-  3052		if (!cpumask_available(new_mask))
-  3053			goto out_set_mask;
-  3054	
-  3055		if (!restrict_cpus_allowed_ptr(p, new_mask, override_mask))
-  3056			goto out_free_mask;
-  3057	
-  3058		/*
-  3059		 * We failed to find a valid subset of the affinity mask for the
-  3060		 * task, so override it based on its cpuset hierarchy.
-  3061		 */
-  3062		cpuset_cpus_allowed(p, new_mask);
-  3063		override_mask = new_mask;
-  3064	
-  3065	out_set_mask:
-  3066		if (printk_ratelimit()) {
-  3067			printk_deferred("Overriding affinity for process %d (%s) to CPUs %*pbl\n",
-  3068					task_pid_nr(p), p->comm,
-  3069					cpumask_pr_args(override_mask));
-  3070		}
-  3071	
-  3072		WARN_ON(set_cpus_allowed_ptr(p, override_mask));
-  3073	out_free_mask:
-  3074		cpus_read_unlock();
-  3075		free_cpumask_var(new_mask);
-  3076	}
-  3077	
-  3078	static int
-  3079	__sched_setaffinity(struct task_struct *p, struct affinity_context *ctx);
-  3080	
-  3081	/*
-  3082	 * Restore the affinity of a task @p which was previously restricted by a
-  3083	 * call to force_compatible_cpus_allowed_ptr().
-  3084	 *
-  3085	 * It is the caller's responsibility to serialise this with any calls to
-  3086	 * force_compatible_cpus_allowed_ptr(@p).
-  3087	 */
-  3088	void relax_compatible_cpus_allowed_ptr(struct task_struct *p)
-  3089	{
-> 3090		struct affinity_context ac = {
-> 3091			.new_mask  = cpu_possible_mask;
-> 3092			.flags     = SCA_CLR_RESTRICT,
-  3093		};
-  3094		int ret;
-  3095	
-  3096		/* Return if no previous force_compatible_cpus_allowed_ptr() call */
-> 3097		if (!data_race(p->cpus_allowed_restricted))
-  3098			return;
-  3099	
-  3100		/*
-  3101		 * Try to restore the old affinity mask with __sched_setaffinity().
-  3102		 * Cpuset masking will be done there too.
-  3103		 */
-> 3104		ret = __sched_setaffinity(p, &ac);
-> 3105		WARN_ON_ONCE(ret);
-> 3106	}
-  3107	
+   211	
+   212	static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+   213						 unsigned long rate, unsigned long parent_rate)
+   214	{
+   215		int i = 0;
+   216		int ret;
+   217		u64 tmds_clk;
+   218		u64 pixel_clk;
+   219		/* pll input source frequency */
+   220		u64 da_hdmitx21_ref_ck;
+   221		/* ICO output clk */
+   222		u64 ns_hdmipll_ck;
+   223		/* source clk for Display digital */
+   224		u64 ad_hdmipll_pixel_ck;
+   225		u64 pcw;
+   226		u32 fbkdiv_low;
+   227		u8 digital_div;
+   228		u8 txprediv;
+   229		u8 txposdiv;
+   230		u8 fbkdiv_high;
+   231		u8 posdiv1;
+   232		u8 posdiv2;
+   233		/* prediv is always 1 */
+   234		u8 prediv = 1;
+   235		/* fbkdiv_hs3 is always 1 */
+   236		u8 fbkdiv_hs3 = 1;
+   237		u8 txpredivs[4] = { 2, 4, 6, 12 };
+   238	
+   239		pixel_clk = rate;
+   240		tmds_clk = pixel_clk;
+   241	
+   242		if (tmds_clk < 25000000 || tmds_clk > 594000000)
+   243			return -EINVAL;
+   244	
+   245		if (tmds_clk >= 340000000)
+   246			hdmi_phy->tmds_over_340M = true;
+   247		else
+   248			hdmi_phy->tmds_over_340M = false;
+   249	
+   250		/* in Hz */
+   251		da_hdmitx21_ref_ck = 26000000UL;
+   252	
+   253		/*  TXPOSDIV stage treatment:
+   254		 *	0M  <  TMDS clk  < 54M		  /8
+   255		 *	54M <= TMDS clk  < 148.35M    /4
+   256		 *	148.35M <=TMDS clk < 296.7M   /2
+   257		 *	296.7 <=TMDS clk <= 594M	  /1
+   258		 */
+   259		if (tmds_clk < 54000000UL)
+   260			txposdiv = 8;
+   261		else if (tmds_clk >= 54000000UL && tmds_clk < 148350000UL)
+   262			txposdiv = 4;
+   263		else if (tmds_clk >= 148350000UL && tmds_clk < 296700000UL)
+   264			txposdiv = 2;
+   265		else if (tmds_clk >= 296700000UL && tmds_clk <= 594000000UL)
+   266			txposdiv = 1;
+   267		else
+   268			return -EINVAL;
+   269	
+   270		/* calculate txprediv: can be 2, 4, 6, 12
+   271		 * ICO clk = 5*TMDS_CLK*TXPOSDIV*TXPREDIV
+   272		 * ICO clk constraint: 5G =< ICO clk <= 12G
+   273		 */
+   274		for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
+   275			ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
+   276			if (ns_hdmipll_ck >= 5000000000UL &&
+   277			    ns_hdmipll_ck <= 12000000000UL)
+   278				break;
+   279		}
+   280		if (i == (ARRAY_SIZE(txpredivs) - 1) &&
+   281		    (ns_hdmipll_ck < 5000000000UL || ns_hdmipll_ck > 12000000000UL)) {
+   282			return -EINVAL;
+   283		}
+   284		if (i == ARRAY_SIZE(txpredivs))
+   285			return -EINVAL;
+   286	
+   287		txprediv = txpredivs[i];
+   288	
+   289		/* PCW calculation: FBKDIV
+   290		 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
+   291		 * RG_HDMITXPLL_FBKDIV[32:0]:
+   292		 * [32,24] 9bit integer, [23,0]:24bit fraction
+   293		 */
+   294		pcw = ns_hdmipll_ck;
+   295		pcw = pcw << PCW_DECIMAL_WIDTH;
+   296		pcw = pcw / da_hdmitx21_ref_ck;
+   297		pcw = pcw / fbkdiv_hs3;
+   298	
+ > 299		if ((pcw / BIT(32)) > 1) {
+   300			return -EINVAL;
+   301		} else if ((pcw / BIT(32)) == 1) {
+   302			fbkdiv_high = 1;
+   303			fbkdiv_low = pcw % BIT(32);
+   304		} else {
+   305			fbkdiv_high = 0;
+   306			fbkdiv_low = pcw;
+   307		}
+   308	
+   309		/* posdiv1:
+   310		 * posdiv1 stage treatment according to color_depth:
+   311		 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
+   312		 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
+   313		 */
+   314		posdiv1 = 10;
+   315		posdiv2 = 1;
+   316		ad_hdmipll_pixel_ck = (ns_hdmipll_ck / 10) / 1;
+   317	
+   318		/* Digital clk divider, max /32 */
+   319		digital_div = ad_hdmipll_pixel_ck / pixel_clk;
+   320		if (!(digital_div <= 32 && digital_div >= 1))
+   321			return -EINVAL;
+   322	
+   323		mtk_hdmi_pll_set_hw(hw, prediv, fbkdiv_high, fbkdiv_low,
+   324					  fbkdiv_hs3, posdiv1, posdiv2, txprediv,
+   325					  txposdiv, digital_div);
+   326		if (ret)
+   327			return -EINVAL;
+   328	
+   329		return 0;
+   330	}
+   331	
 
 -- 
 0-DAY CI Kernel Test Service
