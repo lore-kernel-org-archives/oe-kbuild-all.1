@@ -1,48 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5945CBA;
-	Sat, 28 Jan 2023 16:11:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2979D5CBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 16:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674922304; x=1706458304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qYGwK1HZEbiArGQa1pglPHRTaIsgkEtoJTEebkjcE1A=;
-  b=dDCdJ9d96C4EIR9y3/WAjytTeOMlOrrA0GiTMTNk5BPpu5SqzPSWLHW2
-   oQwPfD0DYmcdWieq9EGwoOaDSZBHfOur9eIMiRVFCoqHxvm6/lMWAl267
-   mapCxafFxL551eKYFcIsGp8Z0S1orakw0cbfCjY5mJTg/JUkjeLoCm5v8
-   5KFOPiQBjjagVicp4UtYLRP9LIYEhtzw9YrntfeTwDGiGVK8uFhpjp+hi
-   0CY3y/ior2tSZMSBx0KrJwiR3jj+72gDtx0vEfUv1yyZfrYiQcGiHgcuF
-   /8p+tfGLLyPlL1zvnSkh3AhqP1iLLRVzAToP5AMbuUZ6gZAn3IKSMJzia
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315258376"
+  t=1674922963; x=1706458963;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pSQx8VK/IlIygW6uMVw13xahMd+8i+Z0EYtQ3T+050E=;
+  b=FhOJyPEK1lje18n4G+9Q7cNJFqcSo0nlPwmRxqewHubPyzRkA95cz2Np
+   GmjR5fI1VVDWvJATYn7dwb5am2myWZyq1Jxi3y3dXw6+jR6zDF/MruiWa
+   glIo7r5ujEi0FYh6HuRaP1o91L9snW3bZPBCoB3RIei6DUuKYQ2rgrwtU
+   TNIxfznYB3Egr/Fq23G0OTjXJiIPzwVKGaQzgRWIMDnto1RG4cV6sBCf9
+   WibDd2fnNN8ulQ4YLXEBPSOjA+hUb/RmKFmhR27FtoVMWeCpwFuYC5pqC
+   +VBGPP+LMZuSoDRJHGHxEt3rwoxtj6RE9sgte6FT6FyC3f8kDBqSaz/gY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325000215"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="315258376"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 08:11:44 -0800
+   d="scan'208";a="325000215"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 08:22:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="665587079"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="771936482"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="665587079"
+   d="scan'208";a="771936482"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Jan 2023 08:11:40 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2023 08:22:41 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLnnn-0000sr-2d;
-	Sat, 28 Jan 2023 16:11:39 +0000
-Date: Sun, 29 Jan 2023 00:11:27 +0800
+	id 1pLnyS-0000td-1V;
+	Sat, 28 Jan 2023 16:22:40 +0000
+Date: Sun, 29 Jan 2023 00:21:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
-	peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
-	tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
-	Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <202301290021.499W0wlW-lkp@intel.com>
-References: <20230126190645.18341-2-gregory.price@memverge.com>
+To: Song Liu <song@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: mm/nommu.c:384:6: error: conflicting types for 'execmem_free'; have
+ 'void(const void *)'
+Message-ID: <202301290036.glTq1nEA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,94 +45,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 
-Hi Gregory,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on tip/core/entry v6.2-rc5 next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
-patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
-config: x86_64-randconfig-a013-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290021.499W0wlW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
+head:   3d043be5ab6ba8f9103bf6e4fe555f9d094e5b2c
+commit: ea859943bf7b6df33f026f0304403ec3b89c99b0 vmalloc: introduce execmem_alloc, execmem_free, and execmem_fill
+date:   8 hours ago
+config: arm-randconfig-r023-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290036.glTq1nEA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
+        # https://github.com/intel-lab-lkp/linux/commit/ea859943bf7b6df33f026f0304403ec3b89c99b0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
+        git fetch --no-tags linux-review Song-Liu/module-replace-module_layout-with-module_memory/20230128-155809
+        git checkout ea859943bf7b6df33f026f0304403ec3b89c99b0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> kernel/entry/syscall_user_dispatch.c:114:38: error: variable has incomplete type 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                                               ^
-   kernel/entry/syscall_user_dispatch.c:114:9: note: forward declaration of 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                  ^
->> kernel/entry/syscall_user_dispatch.c:116:14: error: invalid application of 'sizeof' to an incomplete type 'struct syscall_user_dispatch_config'
-           if (size != sizeof(struct syscall_user_dispatch_config))
-                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/entry/syscall_user_dispatch.c:114:9: note: forward declaration of 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                  ^
-   kernel/entry/syscall_user_dispatch.c:137:38: error: variable has incomplete type 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                                               ^
-   kernel/entry/syscall_user_dispatch.c:137:9: note: forward declaration of 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                  ^
-   kernel/entry/syscall_user_dispatch.c:139:14: error: invalid application of 'sizeof' to an incomplete type 'struct syscall_user_dispatch_config'
-           if (size != sizeof(struct syscall_user_dispatch_config))
-                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/entry/syscall_user_dispatch.c:137:9: note: forward declaration of 'struct syscall_user_dispatch_config'
-           struct syscall_user_dispatch_config config;
-                  ^
-   4 errors generated.
+>> mm/nommu.c:384:6: error: conflicting types for 'execmem_free'; have 'void(const void *)'
+     384 | void execmem_free(const void *addr) { }
+         |      ^~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:994,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from include/linux/cgroup.h:26,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from mm/nommu.c:23:
+   include/linux/vmalloc.h:159:6: note: previous declaration of 'execmem_free' with type 'void(void *)'
+     159 | void execmem_free(void *addr);
+         |      ^~~~~~~~~~~~
 
 
-vim +114 kernel/entry/syscall_user_dispatch.c
+vim +384 mm/nommu.c
 
-   109	
-   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-   111			void __user *data)
-   112	{
-   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
- > 114		struct syscall_user_dispatch_config config;
-   115	
- > 116		if (size != sizeof(struct syscall_user_dispatch_config))
-   117			return -EINVAL;
-   118	
-   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
-   120			config.mode = PR_SYS_DISPATCH_ON;
-   121		else
-   122			config.mode = PR_SYS_DISPATCH_OFF;
-   123	
-   124		config.offset = sd->offset;
-   125		config.len = sd->len;
-   126		config.selector = sd->selector;
-   127	
-   128		if (copy_to_user(data, &config, sizeof(config)))
-   129			return -EFAULT;
-   130	
-   131		return 0;
-   132	}
-   133	
+   383	
+ > 384	void execmem_free(const void *addr) { }
+   385	
 
 -- 
 0-DAY CI Kernel Test Service
