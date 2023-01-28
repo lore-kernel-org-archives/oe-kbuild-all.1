@@ -1,47 +1,61 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D43A3C0B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 09:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C583C0B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 09:19:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674897569; x=1706433569;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GVkFWyIFZyRuaRyCHcCfTgVVzC0XccS2Uz+UtiUvK3A=;
-  b=ktGjQw3ybKe8VB4bqho71cc6sXfRiUISyNk+FYVVkq7oBdheZhXHy3XO
-   H0PO3Hb34AFl/P07RpFkimUkAmSY8qMzsyN3/3DlBsJ3v9RcYN5liuG3E
-   hVlJK9h9KOW+hVOPl1F8/iwEko8TlSAR4FatHaMNxY36TWfkJlh/Loy1i
-   NkXGWPPVUr9GAUCEaNzyGPI4SUJpZt+7Hqt+KYvj2I2BoBbp/y4uO/+aC
-   dEfJTTrdgiTuqTJRWJ1cbd2X7amFOpF9Z0zOdYLk98BGGwCntXutQUjk0
-   Km6y905euFbZdm2V8W4CS8Zil3oW0lkVg4u6IBTqoni6IfK9CQCxxXgcm
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="391831892"
+  t=1674897571; x=1706433571;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JiB3hWFAHtJf+8GoAtoOh5k442MaipNvp4k7d5/JH9U=;
+  b=bxhZiHJBlGiWZLZl1qWVoUhMweXUziXczhnpm1eL0eOHXos1ByHVRoID
+   IaaaKiRJ2CDW2heSonLyKsib8rbiysdTlWKmSJfmMpsdUgd/Yy2v9PSD2
+   +I7GdbK35kkO4FnCKn1hWAr0Fod1+oecl3ZAF+llMZwUjfFBrLNwukofH
+   C+GmYXvPqFlsp3Mv7SFcR141/ahyHLgg7DKPj9m0fOzQUthMX9lZePOue
+   RJioq0+vX07DY2MlIvHktTXnRYQ6XelYU4xTnwZ5WSs1Y0OteadeU8d3E
+   UEx5W/78v/WB7Q1pVffbsXHZYAok8Zj49hMlghg3imCeELf67ej6VyAdB
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="391831895"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="391831892"
+   d="scan'208";a="391831895"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 01:19:27 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 01:19:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="693985708"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="693985714"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="693985708"
+   d="scan'208";a="693985714"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 28 Jan 2023 01:19:25 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLhMq-0000Y9-1P;
+	id 1pLhMq-0000Y5-1H;
 	Sat, 28 Jan 2023 09:19:24 +0000
-Date: Sat, 28 Jan 2023 17:19:07 +0800
+Date: Sat, 28 Jan 2023 17:19:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:for-6.3/cxl-ram-region 17/18] ERROR: modpost:
- "cxl_add_to_region" [drivers/cxl/cxl_port.ko] undefined!
-Message-ID: <202301281707.ZLMJGwlz-lkp@intel.com>
+To: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	alberto.dassatti@heig-vd.ch
+Cc: oe-kbuild-all@lists.linux.dev, xxm@rock-chips.com,
+	wenrui.li@rock-chips.com, rick.wertenbroek@heig-vd.ch,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mikko Kovanen <mikko.kovanen@aavamobile.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH 7/8] PCI: rockchip: Fixed legacy IRQ generation for
+ endpoint
+Message-ID: <202301281758.YRZrsGZ9-lkp@intel.com>
+References: <20230126135049.708524-8-rick.wertenbroek@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,31 +64,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126135049.708524-8-rick.wertenbroek@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
-head:   a7cf664d7e997ac36b0f466af2e2be33464ab598
-commit: 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f [17/18] cxl/region: Add region autodiscovery
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230128/202301281707.ZLMJGwlz-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+Hi Rick,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on linus/master v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rick-Wertenbroek/PCI-rockchip-Removed-writes-to-unused-registers/20230128-155300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20230126135049.708524-8-rick.wertenbroek%40gmail.com
+patch subject: [PATCH 7/8] PCI: rockchip: Fixed legacy IRQ generation for endpoint
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281758.YRZrsGZ9-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
-        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
-        git fetch --no-tags cxl for-6.3/cxl-ram-region
-        git checkout 3c6c8594f9a2bcb4af19bc8de669ed43834b8d7f
+        # https://github.com/intel-lab-lkp/linux/commit/53e861f3393ad4ebae5f2e133f4783b919036e19
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rick-Wertenbroek/PCI-rockchip-Removed-writes-to-unused-registers/20230128-155300
+        git checkout 53e861f3393ad4ebae5f2e133f4783b919036e19
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/pci/controller/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "is_endpoint_decoder" [drivers/cxl/cxl_port.ko] undefined!
->> ERROR: modpost: "cxl_add_to_region" [drivers/cxl/cxl_port.ko] undefined!
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_assert_intx':
+>> drivers/pci/controller/pcie-rockchip-ep.c:334:12: warning: variable 'msg_code' set but not used [-Wunused-but-set-variable]
+     334 |         u8 msg_code;
+         |            ^~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:333:13: warning: unused variable 'status' [-Wunused-variable]
+     333 |         u32 status;
+         |             ^~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:332:13: warning: unused variable 'offset' [-Wunused-variable]
+     332 |         u32 offset;
+         |             ^~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:331:13: warning: unused variable 'r' [-Wunused-variable]
+     331 |         u32 r = ep->max_regions - 1;
+         |             ^
+   drivers/pci/controller/pcie-rockchip-ep.c:330:31: warning: unused variable 'rockchip' [-Wunused-variable]
+     330 |         struct rockchip_pcie *rockchip = &ep->rockchip;
+         |                               ^~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_probe':
+   drivers/pci/controller/pcie-rockchip-ep.c:538:13: warning: unused variable 'cfg' [-Wunused-variable]
+     538 |         u32 cfg;
+         |             ^~~
+
+
+vim +/msg_code +334 drivers/pci/controller/pcie-rockchip-ep.c
+
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  326  
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  327  static void rockchip_pcie_ep_assert_intx(struct rockchip_pcie_ep *ep, u8 fn,
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  328  					 u8 intx, bool is_asserted)
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  329  {
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  330  	struct rockchip_pcie *rockchip = &ep->rockchip;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  331  	u32 r = ep->max_regions - 1;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  332  	u32 offset;
+c577f4a5a08bb9 drivers/pci/controller/pcie-rockchip-ep.c Colin Ian King   2019-03-30  333  	u32 status;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09 @334  	u8 msg_code;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  335  
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  336  	intx &= 3;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  337  	if (is_asserted) {
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  338  		ep->irq_pending |= BIT(intx);
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  339  		msg_code = ROCKCHIP_PCIE_MSG_CODE_ASSERT_INTA + intx;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  340  	} else {
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  341  		ep->irq_pending &= ~BIT(intx);
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  342  		msg_code = ROCKCHIP_PCIE_MSG_CODE_DEASSERT_INTA + intx;
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  343  	}
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  344  
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  345  	if (is_asserted) {
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  346  		rockchip_pcie_write(&ep->rockchip,
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  347  			PCIE_CLIENT_INT_IN_ASSERT | PCIE_CLIENT_INT_PEND_ST_PEND,
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  348  			PCIE_CLIENT_LEGACY_INT_CTRL);
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  349  	} else {
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  350  		rockchip_pcie_write(&ep->rockchip,
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  351  			PCIE_CLIENT_INT_IN_DEASSERT | PCIE_CLIENT_INT_PEND_ST_NORMAL,
+53e861f3393ad4 drivers/pci/controller/pcie-rockchip-ep.c Rick Wertenbroek 2023-01-26  352  			PCIE_CLIENT_LEGACY_INT_CTRL);
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  353  	}
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  354  }
+cf590b07839133 drivers/pci/host/pcie-rockchip-ep.c       Shawn Lin        2018-05-09  355  
 
 -- 
 0-DAY CI Kernel Test Service
