@@ -1,45 +1,48 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE9E3232;
-	Sat, 28 Jan 2023 11:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B3453AB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 11:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674906811; x=1706442811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v56gkPCfVmp/5J0sTIEWbfckxqrXa5C8j87HJqOVgQA=;
-  b=e0DfkXeYxPhkERCC0I6UZzivxRcxm2Erf4wvr/3I3xjJFDuVz6/OSvi9
-   8h2sGubwDa3Hj/rxFJU287A2rfJVGV/F0tOJreuzBLHeolAOaLVyKp+nH
-   dvi/w/cn2JySWv839vfWhyFJuuLzWtIkLDIsxH3FFcvOxAprF6E4SF27t
-   vK3z+VOmtxqVWfnJV/PkZue0jazmPizcFJw0KM/g9MuhqJOPjkEb1p7q6
-   tqn+bB7kns+knMDecPOjDPYw/R63jO9MJhFbqUhWM7lvFYO/cTc0E48PN
-   1ZNM4LpYvPKh3YWan+w8ThPU3oUJgOoW2qX7m/J6otRkQIjfXHHHNRsUb
+  t=1674906814; x=1706442814;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gUJ+YhFqnsQb2G9YyEizXJMAk1PB8hp4qX7vUYQYUJo=;
+  b=gSyXJmPgkIixngK9kv2FftWQI7WCZBJxVbG25l8jRKqmmchoo9VA4gPE
+   rueEd35JgGy84QHbsl5pMIspCu1LuH6UNSWOF8vd3XUlszUNCKuRdsvqM
+   O1LWlVHDx2SksFzK2TOOI6HdMdQnuLLEWngHtGeZnkt5BwLYMoEBKwbLw
+   Hyc1hZZ5TmJ7/viHMoHwM02/CvbWCqhi6dsGNibfhE/f/o8JiQ5zmZBdE
+   +J7tG/ESe//ZJv4EM36Kx2MJkbXMdVCPMBXR2FyLbpiEqnHH9bszrGf1H
+   AvsFvrCwardhl0EgFEErWgOw/YAYjqH33xn5/GUKPACKrIAp+KbAc4ABr
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="329412099"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="329412101"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="329412099"
+   d="scan'208";a="329412101"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 03:53:30 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 03:53:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="992368716"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="992368744"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="992368716"
+   d="scan'208";a="992368744"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 03:53:27 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 03:53:32 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLjlv-0000cP-06;
+	id 1pLjlv-0000cT-0W;
 	Sat, 28 Jan 2023 11:53:27 +0000
-Date: Sat, 28 Jan 2023 19:52:54 +0800
+Date: Sat, 28 Jan 2023 19:52:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
-	kevin.tian@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, yi.l.liu@intel.com,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] iommufd/device: Make hwpt_list list_add/del symmetric
-Message-ID: <202301281943.Jdvwci2p-lkp@intel.com>
-References: <25b3b85b03fc2a7968c476b0533f451acecdfd13.1674872884.git.nicolinc@nvidia.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:for-6.3/cxl-ram-region 16/18] lib/stackinit_kunit.c:34:13:
+ error: conflicting types for 'range_contains'; have 'bool(char *, size_t,
+  char *, size_t)' {aka '_Bool(char *, unsigned int,  char *, unsigned int)'}
+Message-ID: <202301281924.bar72HY6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,117 +51,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25b3b85b03fc2a7968c476b0533f451acecdfd13.1674872884.git.nicolinc@nvidia.com>
 
-Hi Nicolin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on v6.2-rc5]
-[also build test WARNING on linus/master next-20230127]
-[cannot apply to joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolin-Chen/iommufd-Add-devices_users-to-track-the-hw_pagetable-usage-by-device/20230128-150429
-patch link:    https://lore.kernel.org/r/25b3b85b03fc2a7968c476b0533f451acecdfd13.1674872884.git.nicolinc%40nvidia.com
-patch subject: [PATCH 2/3] iommufd/device: Make hwpt_list list_add/del symmetric
-config: x86_64-randconfig-a011-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281943.Jdvwci2p-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
+head:   a7cf664d7e997ac36b0f466af2e2be33464ab598
+commit: b879b3c78181c4a89c4a15d6cd7fc75cb1a353a6 [16/18] kernel/range: Uplevel the cxl subsystem's range_contains() helper
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230128/202301281924.bar72HY6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4d48fdd86375f6d888bbcf830a10c48720008955
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nicolin-Chen/iommufd-Add-devices_users-to-track-the-hw_pagetable-usage-by-device/20230128-150429
-        git checkout 4d48fdd86375f6d888bbcf830a10c48720008955
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=b879b3c78181c4a89c4a15d6cd7fc75cb1a353a6
+        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+        git fetch --no-tags cxl for-6.3/cxl-ram-region
+        git checkout b879b3c78181c4a89c4a15d6cd7fc75cb1a353a6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/iommufd/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iommu/iommufd/device.c:279:23: warning: variable 'hwpt' is uninitialized when used here [-Wuninitialized]
-           lockdep_assert_held(&hwpt->ioas->mutex);
-                                ^~~~
-   include/linux/lockdep.h:319:33: note: expanded from macro 'lockdep_assert_held'
-           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-                                          ^
-   include/linux/lockdep.h:286:47: note: expanded from macro 'lockdep_is_held'
-   #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-                                                          ^~~~
-   include/linux/lockdep.h:313:32: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                         ^~~~
-   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   drivers/iommu/iommufd/device.c:276:35: note: initialize the variable 'hwpt' to silence this warning
-           struct iommufd_hw_pagetable *hwpt;
-                                            ^
-                                             = NULL
-   1 warning generated.
+>> lib/stackinit_kunit.c:34:13: error: conflicting types for 'range_contains'; have 'bool(char *, size_t,  char *, size_t)' {aka '_Bool(char *, unsigned int,  char *, unsigned int)'}
+      34 | static bool range_contains(char *haystack_start, size_t haystack_size,
+         |             ^~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/page.h:21,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:21,
+                    from lib/stackinit_kunit.c:14:
+   include/linux/range.h:16:20: note: previous definition of 'range_contains' with type 'bool(struct range *, struct range *)' {aka '_Bool(struct range *, struct range *)'}
+      16 | static inline bool range_contains(struct range *r1, struct range *r2)
+         |                    ^~~~~~~~~~~~~~
 
 
-vim +/hwpt +279 drivers/iommu/iommufd/device.c
+vim +34 lib/stackinit_kunit.c
 
-   267	
-   268	/*
-   269	 * When automatically managing the domains we search for a compatible domain in
-   270	 * the iopt and if one is found use it, otherwise create a new domain.
-   271	 * Automatic domain selection will never pick a manually created domain.
-   272	 */
-   273	static int iommufd_device_auto_get_domain(struct iommufd_device *idev,
-   274						  struct iommufd_ioas *ioas)
-   275	{
-   276		struct iommufd_hw_pagetable *hwpt;
-   277		int rc;
-   278	
- > 279		lockdep_assert_held(&hwpt->ioas->mutex);
-   280	
-   281		/*
-   282		 * There is no differentiation when domains are allocated, so any domain
-   283		 * that is willing to attach to the device is interchangeable with any
-   284		 * other.
-   285		 */
-   286		list_for_each_entry(hwpt, &ioas->hwpt_list, hwpt_item) {
-   287			if (!hwpt->auto_domain)
-   288				continue;
-   289	
-   290			rc = iommufd_device_do_attach(idev, hwpt);
-   291	
-   292			/*
-   293			 * -EINVAL means the domain is incompatible with the device.
-   294			 * Other error codes should propagate to userspace as failure.
-   295			 * Success means the domain is attached.
-   296			 */
-   297			if (rc == -EINVAL)
-   298				continue;
-   299			return rc;
-   300		}
-   301	
-   302		hwpt = iommufd_hw_pagetable_alloc(idev->ictx, ioas, idev->dev);
-   303		if (IS_ERR(hwpt))
-   304			return PTR_ERR(hwpt);
-   305		hwpt->auto_domain = true;
-   306	
-   307		rc = iommufd_device_do_attach(idev, hwpt);
-   308		if (rc)
-   309			goto out_abort;
-   310	
-   311		iommufd_object_finalize(idev->ictx, &hwpt->obj);
-   312		return 0;
-   313	
-   314	out_abort:
-   315		iommufd_object_abort_and_destroy(idev->ictx, &hwpt->obj);
-   316		return rc;
-   317	}
-   318	
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  33  
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23 @34  static bool range_contains(char *haystack_start, size_t haystack_size,
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  35  			   char *needle_start, size_t needle_size)
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  36  {
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  37  	if (needle_start >= haystack_start &&
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  38  	    needle_start + needle_size <= haystack_start + haystack_size)
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  39  		return true;
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  40  	return false;
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  41  }
+50ceaa95ea0970 lib/test_stackinit.c Kees Cook 2019-01-23  42  
+
+:::::: The code at line 34 was first introduced by commit
+:::::: 50ceaa95ea09703722b30b4afa617c972071cd7f lib: Introduce test_stackinit module
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
