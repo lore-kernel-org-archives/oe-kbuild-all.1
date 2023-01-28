@@ -1,55 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E7953B9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 12:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353B453B9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 12:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674909942; x=1706445942;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O5WBaJzgPqwEeJyKfKa2dgk9LEXgRCs5k6shDAwh9+E=;
-  b=Wqu46WD03WDNzASUYMv0gzRIfHEaCfRqDuCXETe9PPWsWV42adABDhGB
-   M78QyJeCiiphQxkUoKvhkjRbbrGkeReIz4yyf++gweN+3tjFv/fmd4/31
-   1IFNXsTecByKSZTn7fGruQwaStI64NV+LcdeGK+a5cJm3GGHZAMjyJ+kO
-   KITQQaz0Hke6tidCXE8mWpYwqL6+QQkLAOQ40lGNcGoC/S858YkyXLpWv
-   EU6W1cxlAq5BNJxS8THP/1DZtkYmLJjIascWafYxIkeOoq/mD7jvqLJeD
-   WFv4fyOixQZ8hPWrzgJwHZ+qsPA84hpMUBodLPZe3Csq+XFTbd2eUiD2J
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="329415207"
+  t=1674910531; x=1706446531;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gooteXtjNENo6Q+X5EvZxEsIBpvk11GsyEQPxW2JA/g=;
+  b=I71RSLJONJzfNK47CAiLkbBO+2uwOVFmgXqbSWnMYdDSCqwzX9orzJbq
+   aJWN41OxtZvF8h5QNYJ8y8TV/kfknVZSW/HEqqKKDW9/2WgZ46aeP2DoU
+   5TR/Q4/0ILLBM6zp/d9/v8eaAxdRoLeBobS1Mlnzu+BH4grTQnjTxuBPg
+   aRullRY9GXlM9TwwAI6IChX4aMwsCDn2qN6Zc/NTqAYLc3NzMD00PH48Q
+   K+WszFORkudr4dJu0MTU0lNrW7C+BAr1ZCmD0wRWfrY05hoXNsFaZEWsu
+   0grYodLSQL+0Dhc0E1PO5VH+c23IBZ8OCLbEK5NLqlOM8BRSEAPQ7gUn3
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="328574890"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="329415207"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:45:41 -0800
+   d="scan'208";a="328574890"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:55:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="787501973"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992375549"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="787501973"
+   d="scan'208";a="992375549"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2023 04:45:34 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 04:55:29 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLkaG-0000eR-1i;
-	Sat, 28 Jan 2023 12:45:28 +0000
-Date: Sat, 28 Jan 2023 20:44:39 +0800
+	id 1pLkjw-0000es-2c;
+	Sat, 28 Jan 2023 12:55:28 +0000
+Date: Sat, 28 Jan 2023 20:55:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, eric.auger@redhat.com,
-	alex.williamson@redhat.com, cohuck@redhat.com,
-	song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-	maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-	saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-	yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
-	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-	masahiroy@kernel.org, ndesaulniers@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, okaya@kernel.org, harpreet.anand@amd.com,
-	nikhil.agarwal@amd.com
-Subject: Re: [PATCH v6 5/7] cdx: add cdx controller
-Message-ID: <202301282010.JreX4WjQ-lkp@intel.com>
-References: <20230126104630.15493-6-nipun.gupta@amd.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/core 5/10]
+ kernel/trace/trace_preemptirq.c:103:9: error: implicit declaration of
+ function 'trace'; did you mean 'notrace'?
+Message-ID: <202301282055.i3hqtrHw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,100 +46,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126104630.15493-6-nipun.gupta@amd.com>
 
-Hi Nipun,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on next-20230127]
-[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes robh/for-next joro-iommu/next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-patch link:    https://lore.kernel.org/r/20230126104630.15493-6-nipun.gupta%40amd.com
-patch subject: [PATCH v6 5/7] cdx: add cdx controller
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230128/202301282010.JreX4WjQ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   be06c7d02443a4ce151434fed1ca2c9502f6816d
+commit: 013918b05da9a651cba310028d94101abecaaf7b [5/10] tracing, preempt: Squash _rcuidle tracing
+config: arm64-randconfig-r001-20230123 (https://download.01.org/0day-ci/archive/20230128/202301282055.i3hqtrHw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f412d73800370b8e51d1be454e651d3c4ff796a8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-        git checkout f412d73800370b8e51d1be454e651d3c4ff796a8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=013918b05da9a651cba310028d94101abecaaf7b
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue sched/core
+        git checkout 013918b05da9a651cba310028d94101abecaaf7b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/cdx/controller/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/cdx/controller/cdx_controller.c: In function 'xlnx_cdx_probe':
->> drivers/cdx/controller/cdx_controller.c:102:20: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-     102 |         cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-         |                    ^~~~~~~
->> drivers/cdx/controller/cdx_controller.c:102:18: warning: assignment to 'struct cdx_mcdi *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     102 |         cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-         |                  ^
->> drivers/cdx/controller/cdx_controller.c:115:13: warning: assignment to 'struct cdx_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     115 |         cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-         |             ^
->> drivers/cdx/controller/cdx_controller.c:131:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-     131 |         kfree(cdx_mcdi);
+   kernel/trace/trace_preemptirq.c: In function 'trace_preempt_on':
+>> kernel/trace/trace_preemptirq.c:103:9: error: implicit declaration of function 'trace'; did you mean 'notrace'? [-Werror=implicit-function-declaration]
+     103 |         trace(preempt_enable)(a0, a1);
          |         ^~~~~
-         |         kvfree
+         |         notrace
+>> kernel/trace/trace_preemptirq.c:103:15: error: 'preempt_enable' undeclared (first use in this function); did you mean 'perf_pmu_enable'?
+     103 |         trace(preempt_enable)(a0, a1);
+         |               ^~~~~~~~~~~~~~
+         |               perf_pmu_enable
+   kernel/trace/trace_preemptirq.c:103:15: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/trace/trace_preemptirq.c: In function 'trace_preempt_off':
+>> kernel/trace/trace_preemptirq.c:109:15: error: 'preempt_disable' undeclared (first use in this function); did you mean 'perf_pmu_disable'?
+     109 |         trace(preempt_disable)(a0, a1);
+         |               ^~~~~~~~~~~~~~~
+         |               perf_pmu_disable
    cc1: some warnings being treated as errors
 
 
-vim +/kzalloc +102 drivers/cdx/controller/cdx_controller.c
+vim +103 kernel/trace/trace_preemptirq.c
 
-    95	
-    96	static int xlnx_cdx_probe(struct platform_device *pdev)
-    97	{
-    98		struct cdx_controller *cdx;
-    99		struct cdx_mcdi *cdx_mcdi;
-   100		int ret;
-   101	
- > 102		cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-   103		if (!cdx_mcdi)
-   104			return -ENOMEM;
-   105	
-   106		/* Store the MCDI ops */
-   107		cdx_mcdi->mcdi_ops = &mcdi_ops;
-   108		/* MCDI FW: Initialize the FW path */
-   109		ret = cdx_mcdi_init(cdx_mcdi);
-   110		if (ret) {
-   111			dev_err_probe(&pdev->dev, ret, "MCDI Initialization failed\n");
-   112			goto mcdi_init_fail;
-   113		}
-   114	
- > 115		cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-   116		if (!cdx) {
-   117			ret = -ENOMEM;
-   118			goto cdx_alloc_fail;
-   119		}
-   120		platform_set_drvdata(pdev, cdx);
-   121	
-   122		cdx->dev = &pdev->dev;
-   123		cdx->priv = cdx_mcdi;
-   124		cdx->ops = &cdx_ops;
-   125	
-   126		return 0;
-   127	
-   128	cdx_alloc_fail:
-   129		cdx_mcdi_finish(cdx_mcdi);
-   130	mcdi_init_fail:
- > 131		kfree(cdx_mcdi);
-   132	
-   133		return ret;
-   134	}
-   135	
+   100	
+   101	void trace_preempt_on(unsigned long a0, unsigned long a1)
+   102	{
+ > 103		trace(preempt_enable)(a0, a1);
+   104		tracer_preempt_on(a0, a1);
+   105	}
+   106	
+   107	void trace_preempt_off(unsigned long a0, unsigned long a1)
+   108	{
+ > 109		trace(preempt_disable)(a0, a1);
 
 -- 
 0-DAY CI Kernel Test Service
