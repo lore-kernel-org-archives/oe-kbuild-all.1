@@ -1,46 +1,46 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEDE17F1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 12:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22243360
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 12:32:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674994331; x=1706530331;
+  t=1674995531; x=1706531531;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=In6EFK3n5kPcdfNi3Fdf65JlIPPEIT4F0GieQf6G1sI=;
-  b=AgrsSasegCfcEqgQzr1Etrd/+tRDmQpf0/sFOrqFpuXHTjQRSrSR4Yuv
-   Lstdr1Vieau1RotVayAU7hvpfxoF0bLXeuhvZG+Kc8KzEjOuPgKRFeIO+
-   E3W52i3Bc4Pjyy1dtRrVqZ4zOxrQZdUvYcbAkZiRA3xY8ZfbwEEIf5Aq3
-   rmLudp1WIsSWV/6Dew+yvaZFszO3uJWKcvGO5Dv1OPX8tYYcK93DSRx/w
-   ry51oWfKBGaLG5m49JNT4AfcLiQJ6iQmJsa5Ox79tADJYWBsSuKZ2SGb4
-   1EOaa8sVdvO9DcLJ8lqITym77318hYQXi5NDa47o8U+/dGCJo/3m8t2Y7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413610277"
+  bh=U2Q/poVrU8PriaR4JV0F2JPgSzVzAjS0z5cdLc1JvSY=;
+  b=GTOEoUTFc4GoWvpts3CT23qWZAJF6YCuJ80HwDNMSIoYEODcj1wSCa5D
+   f02OLhXCqvoCcvUr0YQn37PNP7mB3w4Uk3d/MtZVXR+rkTkrDTTmfpu4Y
+   i4lFXYxDWxoAvhaFN2sRNq3vOf8NPbdRJko+OjGR9Sg+KIDVBNAYTTB24
+   QrFLrO8p+eMDmNdfeBR0N+r2HSWwKeU1cqZKBpo31nFFam9zSF6N9LSch
+   pbL3sGJ1WVMLDY4AwKy5GV2UCA0C7ZmYVURhZy9SnKMVO0sjJJse7A1zO
+   GDNdjmshpBcmp5ZXPOdhclX99wDnIJnIiH1jvkcVL9+zZ3cv4JUWOZnQy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354705646"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="413610277"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:12:10 -0800
+   d="scan'208";a="354705646"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:32:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752515787"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837683970"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="752515787"
+   d="scan'208";a="837683970"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2023 04:12:07 -0800
+  by orsmga005.jf.intel.com with ESMTP; 29 Jan 2023 04:32:07 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM6XW-0002n6-2B;
-	Sun, 29 Jan 2023 12:12:06 +0000
-Date: Sun, 29 Jan 2023 20:11:25 +0800
+	id 1pM6qt-0002nZ-05;
+	Sun, 29 Jan 2023 12:32:07 +0000
+Date: Sun, 29 Jan 2023 20:32:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, bfoster@redhat.com,
-	willy@infradead.org, linux-api@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
-Message-ID: <202301292044.JVAnbg9W-lkp@intel.com>
-References: <20230126175356.1582123-3-nphamcs@gmail.com>
+To: Vadim Fedorenko <vfedorenko@novek.ru>, Vadim Fedorenko <vadfed@fb.com>,
+	Aya Levin <ayal@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Gal Pressman <gal@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH net v3 2/2] mlx5: fix possible ptp queue fifo
+ use-after-free
+Message-ID: <202301292055.CXz5AB3g-lkp@intel.com>
+References: <20230126010206.13483-3-vfedorenko@novek.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,83 +49,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126175356.1582123-3-nphamcs@gmail.com>
+In-Reply-To: <20230126010206.13483-3-vfedorenko@novek.ru>
 
-Hi Nhat,
+Hi Vadim,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
+[auto build test ERROR on net/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
-base:   1440f576022887004f719883acb094e7e0dd4944
-patch link:    https://lore.kernel.org/r/20230126175356.1582123-3-nphamcs%40gmail.com
-patch subject: [PATCH v8 2/3] cachestat: implement cachestat syscall
-config: s390-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292044.JVAnbg9W-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce:
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/mlx5-fix-skb-leak-while-fifo-resync-and-push/20230128-120805
+patch link:    https://lore.kernel.org/r/20230126010206.13483-3-vfedorenko%40novek.ru
+patch subject: [PATCH net v3 2/2] mlx5: fix possible ptp queue fifo use-after-free
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20230129/202301292055.CXz5AB3g-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/a05ffdcecfe9ac147066fb8472e6fb75491d0eed
+        # https://github.com/intel-lab-lkp/linux/commit/2516a9785583b92ac82262a813203de696096ccd
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
-        git checkout a05ffdcecfe9ac147066fb8472e6fb75491d0eed
+        git fetch --no-tags linux-review Vadim-Fedorenko/mlx5-fix-skb-leak-while-fifo-resync-and-push/20230128-120805
+        git checkout 2516a9785583b92ac82262a813203de696096ccd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
->> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
-   mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +4075 mm/filemap.c
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c: In function 'mlx5e_ptp_skb_fifo_ts_cqe_resync':
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:97:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+      97 |         if (skb_cc > skb_id || PTP_WQE_CTR2IDX(ptpsq->skb_fifo_pc) < skb_id)
+         |         ^~
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:99:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+      99 |                 return false;
+         |                 ^~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:93:25: warning: unused variable 'skb' [-Wunused-variable]
+      93 |         struct sk_buff *skb;
+         |                         ^~~
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:92:37: warning: unused variable 'hwts' [-Wunused-variable]
+      92 |         struct skb_shared_hwtstamps hwts = {};
+         |                                     ^~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c: At top level:
+>> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:102:9: error: expected identifier or '(' before 'while'
+     102 |         while (skb_cc != skb_id && (skb = mlx5e_skb_fifo_pop(&ptpsq->skb_fifo))) {
+         |         ^~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:110:9: error: expected identifier or '(' before 'if'
+     110 |         if (!skb)
+         |         ^~
+>> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:113:9: error: expected identifier or '(' before 'return'
+     113 |         return true;
+         |         ^~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:114:1: error: expected identifier or '(' before '}' token
+     114 | }
+         | ^
 
-  4037	
-  4038	#ifdef CONFIG_CACHESTAT_SYSCALL
-  4039	/*
-  4040	 * The cachestat(5) system call.
-  4041	 *
-  4042	 * cachestat() returns the page cache statistics of a file in the
-  4043	 * bytes range specified by `off` and `len`: number of cached pages,
-  4044	 * number of dirty pages, number of pages marked for writeback,
-  4045	 * number of evicted pages, and number of recently evicted pages.
-  4046	 *
-  4047	 * An evicted page is a page that is previously in the page cache
-  4048	 * but has been evicted since. A page is recently evicted if its last
-  4049	 * eviction was recent enough that its reentry to the cache would
-  4050	 * indicate that it is actively being used by the system, and that
-  4051	 * there is memory pressure on the system.
-  4052	 *
-  4053	 * `off` and `len` must be non-negative integers. If `len` > 0,
-  4054	 * the queried range is [`off`, `off` + `len`]. If `len` == 0,
-  4055	 * we will query in the range from `off` to the end of the file.
-  4056	 *
-  4057	 * `cstat_version` is an unsigned integer indicating the specific version
-  4058	 * of the cachestat struct. It must be at least 1, and does not exceed the
-  4059	 * latest version number (which is currently 1). For now, user should
-  4060	 * just pass 1.
-  4061	 *
-  4062	 * The `flags` argument is unused for now, but is included for future
-  4063	 * extensibility. User should pass 0 (i.e no flag specified).
-  4064	 *
-  4065	 * Because the status of a page can change after cachestat() checks it
-  4066	 * but before it returns to the application, the returned values may
-  4067	 * contain stale information.
-  4068	 *
-  4069	 * return values:
-  4070	 *  zero    - success
-  4071	 *  -EFAULT - cstat points to an illegal address
-  4072	 *  -EINVAL - invalid arguments
-  4073	 *  -EBADF	- invalid file descriptor
-  4074	 */
-> 4075	SYSCALL_DEFINE6(cachestat, unsigned int, fd, off_t, off, size_t, len,
+
+vim +102 drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c
+
+    88	
+    89	static bool mlx5e_ptp_skb_fifo_ts_cqe_resync(struct mlx5e_ptpsq *ptpsq, u16 skb_cc,
+    90						     u16 skb_id, int budget)
+    91	{
+    92		struct skb_shared_hwtstamps hwts = {};
+    93		struct sk_buff *skb;
+    94	
+    95		ptpsq->cq_stats->resync_event++;
+    96	
+    97		if (skb_cc > skb_id || PTP_WQE_CTR2IDX(ptpsq->skb_fifo_pc) < skb_id)
+    98			pr_err_ratelimited("mlx5e: out-of-order ptp cqe\n");
+    99			return false;
+   100		}
+   101	
+ > 102		while (skb_cc != skb_id && (skb = mlx5e_skb_fifo_pop(&ptpsq->skb_fifo))) {
+   103			hwts.hwtstamp = mlx5e_skb_cb_get_hwts(skb)->cqe_hwtstamp;
+   104			skb_tstamp_tx(skb, &hwts);
+   105			ptpsq->cq_stats->resync_cqe++;
+   106			napi_consume_skb(skb, budget);
+   107			skb_cc = PTP_WQE_CTR2IDX(ptpsq->skb_fifo_cc);
+   108		}
+   109	
+ > 110		if (!skb)
+   111			return false;
+   112	
+ > 113		return true;
+ > 114	}
+   115	
 
 -- 
 0-DAY CI Kernel Test Service
