@@ -1,47 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69BB15D1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 01:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AF8BD03;
+	Sun, 29 Jan 2023 01:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674955685; x=1706491685;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0Pf51/oAUaJshmIVcADxYnuxpSq3l3LnzVUDIQaSaQA=;
-  b=c4t8W1oaWZQu7ZHVRSkkBrsJzG8haZr6LrywA4UIbwSGDqzPZOCWL2RC
-   7LiIqqEKBKeugEzmW51zvzXfxA/rRVc10yAKMRRNmiYNkUKkrNBrP0YgK
-   p8SXqMz8TAukf8U9+gBOnmeyujGo0sznowyXWGj+ywLFbePcrBrPgwfyF
-   RPucAbQkxYQqEtSZQ0anJ3KnUCOtU6PeqPPQgE6kHVYI8CXVE5Oo0JqhP
-   YKbx68P4GGyXGVInIbG4F4JbdUYMm157V4XPVB3hnQvhm7qMLq7G7YPZG
-   vIPFzBd+QkVD+yunK/J1z7pBXwYmE5/R5O2yCxnWhBwX1lRg4pw/U17Ry
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325046617"
+  t=1674956885; x=1706492885;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=IfwC1uDezLs5r3oeEaBU+BWXPbPb1AaUTM0P8REO6Kw=;
+  b=fq3c4/JXP/RWHARk3UyDE0me/TLsmszkA35ltOSwnxTNHv9XRWSigDam
+   gI6jzJs24fwiiG4YTV9nK0nJ5NXSDtcMrMY/YR7DBuThOEuzyKPr8P/ty
+   KK25PmG9483WKJh40XIxVIPv4gdb4MEtC7hrXjVRrhk031q1Z3DXypX9G
+   1NEmd6o7So8aV54ZHiNONhYuwvGX4z20trjbOBWjwQQ74a5YuBFmuLlKD
+   cO/O3FqLav4tf3e+RimCsmafhWEsVxNvOOv0ElaKMC7rESv2uHO8fMFI5
+   JN4tAAIZs1K46pghZv8GkD2QUylNJdbJ+o6H8ATB/3J9LaCple8xsMRhp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391911442"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="325046617"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 17:28:04 -0800
+   d="scan'208";a="391911442"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 17:48:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="727093825"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752398158"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="727093825"
+   d="scan'208";a="752398158"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2023 17:28:01 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 17:48:02 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLwUD-0001J0-0i;
-	Sun, 29 Jan 2023 01:28:01 +0000
-Date: Sun, 29 Jan 2023 09:27:21 +0800
+	id 1pLwna-0001Ka-0T;
+	Sun, 29 Jan 2023 01:48:02 +0000
+Date: Sun, 29 Jan 2023 09:47:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Patrik Jakobsson <pjakobsson@suse.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] fbdev: Fix invalid page access after closing deferred
- I/O devices
-Message-ID: <202301290917.puRyNsug-lkp@intel.com>
-References: <20230127165834.11387-1-tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [ammarfaizi2-block:paulmck/linux-rcu/peterz.2023.01.26a 67/68]
+ vmlinux.o: warning: objtool: sched_clock+0x4: call to
+ __SCT__pv_sched_clock() leaves .noinstr.text section
+Message-ID: <202301290940.V1kdUGkz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +45,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230127165834.11387-1-tiwai@suse.de>
 
-Hi Takashi,
+CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: "Paul E. McKenney" <paulmck@kernel.org>
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.2-rc5 next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Iwai/fbdev-Fix-invalid-page-access-after-closing-deferred-I-O-devices/20230128-180330
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230127165834.11387-1-tiwai%40suse.de
-patch subject: [PATCH] fbdev: Fix invalid page access after closing deferred I/O devices
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230129/202301290917.puRyNsug-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/peterz.2023.01.26a
+head:   f9588508f16615daf50ae4e3e16f40b6be874154
+commit: a154b2be84be9d2bb446f91236b690de7ebcc401 [67/68] x86: Mark sched_clock() noinstr
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230129/202301290940.V1kdUGkz-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f28e22b16f34068d07913fa5d4fb2c9683aa8dc4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Takashi-Iwai/fbdev-Fix-invalid-page-access-after-closing-deferred-I-O-devices/20230128-180330
-        git checkout f28e22b16f34068d07913fa5d4fb2c9683aa8dc4
+        # https://github.com/ammarfaizi2/linux-block/commit/a154b2be84be9d2bb446f91236b690de7ebcc401
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/peterz.2023.01.26a
+        git checkout a154b2be84be9d2bb446f91236b690de7ebcc401
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/video/fbdev/core/fbmem.c: In function 'fb_release':
->> drivers/video/fbdev/core/fbmem.c:1456:17: error: 'struct fb_info' has no member named 'fbdefio'
-    1456 |         if (info->fbdefio)
-         |                 ^~
+   vmlinux.o: warning: objtool: sync_regs+0x23: call to memcpy() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x25: call to memset() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: sched_clock+0x4: call to __SCT__pv_sched_clock() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_enter+0x76: call to __kasan_check_write() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_exit+0x4b: call to __kasan_check_write() leaves .noinstr.text section
 
 
-vim +1456 drivers/video/fbdev/core/fbmem.c
-
-  1447	
-  1448	static int
-  1449	fb_release(struct inode *inode, struct file *file)
-  1450	__acquires(&info->lock)
-  1451	__releases(&info->lock)
-  1452	{
-  1453		struct fb_info * const info = file->private_data;
-  1454	
-  1455		lock_fb_info(info);
-> 1456		if (info->fbdefio)
-  1457			fb_deferred_io_release(info);
-  1458		if (info->fbops->fb_release)
-  1459			info->fbops->fb_release(info,1);
-  1460		module_put(info->fbops->owner);
-  1461		unlock_fb_info(info);
-  1462		put_fb_info(info);
-  1463		return 0;
-  1464	}
-  1465	
+objdump-func vmlinux.o sched_clock:
+0000 0000000000001a80 <sched_clock>:
+0000     1a80:	f3 0f 1e fa          	endbr64
+0004     1a84:	e9 00 00 00 00       	jmp    1a89 <sched_clock+0x9>	1a85: R_X86_64_PLT32	__SCT__pv_sched_clock-0x4
+0009     1a89:	cc                   	int3
+000a     1a8a:	cc                   	int3
+000b     1a8b:	cc                   	int3
+000c     1a8c:	cc                   	int3
+000d     1a8d:	cc                   	int3
+000e     1a8e:	cc                   	int3
+000f     1a8f:	cc                   	int3
 
 -- 
 0-DAY CI Kernel Test Service
