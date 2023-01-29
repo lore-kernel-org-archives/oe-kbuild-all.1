@@ -1,46 +1,55 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22243360
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 12:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E3C23A3;
+	Sun, 29 Jan 2023 15:45:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674995531; x=1706531531;
+  t=1675007119; x=1706543119;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U2Q/poVrU8PriaR4JV0F2JPgSzVzAjS0z5cdLc1JvSY=;
-  b=GTOEoUTFc4GoWvpts3CT23qWZAJF6YCuJ80HwDNMSIoYEODcj1wSCa5D
-   f02OLhXCqvoCcvUr0YQn37PNP7mB3w4Uk3d/MtZVXR+rkTkrDTTmfpu4Y
-   i4lFXYxDWxoAvhaFN2sRNq3vOf8NPbdRJko+OjGR9Sg+KIDVBNAYTTB24
-   QrFLrO8p+eMDmNdfeBR0N+r2HSWwKeU1cqZKBpo31nFFam9zSF6N9LSch
-   pbL3sGJ1WVMLDY4AwKy5GV2UCA0C7ZmYVURhZy9SnKMVO0sjJJse7A1zO
-   GDNdjmshpBcmp5ZXPOdhclX99wDnIJnIiH1jvkcVL9+zZ3cv4JUWOZnQy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354705646"
+  bh=p2RdTQucMPsqY9ei0+xyGrvmPIuH/RoSUq8cglhTrrE=;
+  b=LA50t3AFYEhdqDarfsi+kiiGRvELVzQi8CpDjhV466Q32XBTFM+tzdzm
+   XRNPDpE++Bd+wA9Me7F0kCyDLS2Ug/SRRtSR5Iyvwfhgh9A6VTOleyBBn
+   fWfZpH9sajcm0rP9+S1gQ/OnHUDR4rj16kt9Dvia3dvZQ5HHE0E/ke/5V
+   Tq/CUkqzNurGDDr/THwuPWtfwk8jK58uAgJ43ufddRKvcFcKsf0108Uc8
+   k6EZmwBGe5mN7uxn7skmatH4d8lvT+6b0uq0KzdfR2oSSxYI7tKg+ZdVO
+   32lnJ+ySfEkxzgrT39Pi/FJfAw5YcMz9h0hynBz0Y2qxzsTbWiAMU4U51
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="413625480"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="354705646"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:32:10 -0800
+   d="scan'208";a="413625480"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 07:45:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837683970"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="694295964"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="837683970"
+   d="scan'208";a="694295964"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 29 Jan 2023 04:32:07 -0800
+  by orsmga008.jf.intel.com with ESMTP; 29 Jan 2023 07:45:13 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM6qt-0002nZ-05;
-	Sun, 29 Jan 2023 12:32:07 +0000
-Date: Sun, 29 Jan 2023 20:32:03 +0800
+	id 1pM9rk-0002u2-1k;
+	Sun, 29 Jan 2023 15:45:12 +0000
+Date: Sun, 29 Jan 2023 23:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vfedorenko@novek.ru>, Vadim Fedorenko <vadfed@fb.com>,
-	Aya Levin <ayal@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>, Gal Pressman <gal@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net v3 2/2] mlx5: fix possible ptp queue fifo
- use-after-free
-Message-ID: <202301292055.CXz5AB3g-lkp@intel.com>
-References: <20230126010206.13483-3-vfedorenko@novek.ru>
+To: Leon Romanovsky <leon@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Leon Romanovsky <leonro@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+	bridge@lists.linux-foundation.org,
+	Eric Dumazet <edumazet@google.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>, netdev@vger.kernel.org,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Paolo Abeni <pabeni@redhat.com>, Roopa Prabhu <roopa@nvidia.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net-next v1] netlink: provide an ability to set default
+ extack message
+Message-ID: <202301292309.r5KzfyUp-lkp@intel.com>
+References: <d4843760219f20367c27472f084bd8aa729cf321.1674995155.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,94 +58,355 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126010206.13483-3-vfedorenko@novek.ru>
+In-Reply-To: <d4843760219f20367c27472f084bd8aa729cf321.1674995155.git.leon@kernel.org>
 
-Hi Vadim,
+Hi Leon,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on net/master]
+[auto build test ERROR on net-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/mlx5-fix-skb-leak-while-fifo-resync-and-push/20230128-120805
-patch link:    https://lore.kernel.org/r/20230126010206.13483-3-vfedorenko%40novek.ru
-patch subject: [PATCH net v3 2/2] mlx5: fix possible ptp queue fifo use-after-free
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20230129/202301292055.CXz5AB3g-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/netlink-provide-an-ability-to-set-default-extack-message/20230129-203242
+patch link:    https://lore.kernel.org/r/d4843760219f20367c27472f084bd8aa729cf321.1674995155.git.leon%40kernel.org
+patch subject: [PATCH net-next v1] netlink: provide an ability to set default extack message
+config: s390-randconfig-r021-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292309.r5KzfyUp-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2516a9785583b92ac82262a813203de696096ccd
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/f0b11fb09eb6708058858b0cf95d1fec34eba956
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vadim-Fedorenko/mlx5-fix-skb-leak-while-fifo-resync-and-push/20230128-120805
-        git checkout 2516a9785583b92ac82262a813203de696096ccd
+        git fetch --no-tags linux-review Leon-Romanovsky/netlink-provide-an-ability-to-set-default-extack-message/20230129-203242
+        git checkout f0b11fb09eb6708058858b0cf95d1fec34eba956
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash net/bridge/ net/dsa/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c: In function 'mlx5e_ptp_skb_fifo_ts_cqe_resync':
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:97:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-      97 |         if (skb_cc > skb_id || PTP_WQE_CTR2IDX(ptpsq->skb_fifo_pc) < skb_id)
-         |         ^~
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:99:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-      99 |                 return false;
-         |                 ^~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:93:25: warning: unused variable 'skb' [-Wunused-variable]
-      93 |         struct sk_buff *skb;
-         |                         ^~~
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:92:37: warning: unused variable 'hwts' [-Wunused-variable]
-      92 |         struct skb_shared_hwtstamps hwts = {};
-         |                                     ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c: At top level:
->> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:102:9: error: expected identifier or '(' before 'while'
-     102 |         while (skb_cc != skb_id && (skb = mlx5e_skb_fifo_pop(&ptpsq->skb_fifo))) {
-         |         ^~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:110:9: error: expected identifier or '(' before 'if'
-     110 |         if (!skb)
-         |         ^~
->> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:113:9: error: expected identifier or '(' before 'return'
-     113 |         return true;
-         |         ^~~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c:114:1: error: expected identifier or '(' before '}' token
-     114 | }
-         | ^
+   In file included from net/bridge/br_switchdev.c:4:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from net/bridge/br_switchdev.c:4:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from net/bridge/br_switchdev.c:4:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> net/bridge/br_switchdev.c:107:3: error: called object type 'char[9]' is not a function or function pointer
+                   NL_SET_ERR_MSG_WEAK_MOD(extack,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:140:32: note: expanded from macro 'NL_SET_ERR_MSG_WEAK_MOD'
+                   NL_SET_ERR_MSG_MOD((extack), (msg));    \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/netlink.h:128:47: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
+           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/netlink.h:99:30: note: expanded from macro 'NL_SET_ERR_MSG'
+           static const char __msg[] = msg;                \
+                                       ^~~
+   net/bridge/br_switchdev.c:117:3: error: called object type 'char[9]' is not a function or function pointer
+                   NL_SET_ERR_MSG_WEAK_MOD(extack,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:140:32: note: expanded from macro 'NL_SET_ERR_MSG_WEAK_MOD'
+                   NL_SET_ERR_MSG_MOD((extack), (msg));    \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/netlink.h:128:47: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
+           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/netlink.h:99:30: note: expanded from macro 'NL_SET_ERR_MSG'
+           static const char __msg[] = msg;                \
+                                       ^~~
+   12 warnings and 2 errors generated.
+--
+   In file included from net/dsa/master.c:9:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from net/dsa/master.c:9:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from net/dsa/master.c:9:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> net/dsa/master.c:467:3: error: called object type 'char[11]' is not a function or function pointer
+                   NL_SET_ERR_MSG_WEAK_MOD(extack, "CPU port failed to join LAG");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:140:32: note: expanded from macro 'NL_SET_ERR_MSG_WEAK_MOD'
+                   NL_SET_ERR_MSG_MOD((extack), (msg));    \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/netlink.h:128:47: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
+           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/netlink.h:99:30: note: expanded from macro 'NL_SET_ERR_MSG'
+           static const char __msg[] = msg;                \
+                                       ^~~
+   12 warnings and 1 error generated.
+--
+   In file included from net/dsa/slave.c:8:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from net/dsa/slave.c:8:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from net/dsa/slave.c:8:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> net/dsa/slave.c:2695:5: error: called object type 'char[11]' is not a function or function pointer
+                                   NL_SET_ERR_MSG_WEAK_MOD(extack, "Offloading not supported");
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:140:32: note: expanded from macro 'NL_SET_ERR_MSG_WEAK_MOD'
+                   NL_SET_ERR_MSG_MOD((extack), (msg));    \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/netlink.h:128:47: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
+           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/netlink.h:99:30: note: expanded from macro 'NL_SET_ERR_MSG'
+           static const char __msg[] = msg;                \
+                                       ^~~
+   12 warnings and 1 error generated.
 
 
-vim +102 drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c
+vim +107 net/bridge/br_switchdev.c
 
-    88	
-    89	static bool mlx5e_ptp_skb_fifo_ts_cqe_resync(struct mlx5e_ptpsq *ptpsq, u16 skb_cc,
-    90						     u16 skb_id, int budget)
-    91	{
-    92		struct skb_shared_hwtstamps hwts = {};
-    93		struct sk_buff *skb;
+    72	
+    73	/* Flags that can be offloaded to hardware */
+    74	#define BR_PORT_FLAGS_HW_OFFLOAD (BR_LEARNING | BR_FLOOD | BR_PORT_MAB | \
+    75					  BR_MCAST_FLOOD | BR_BCAST_FLOOD | BR_PORT_LOCKED | \
+    76					  BR_HAIRPIN_MODE | BR_ISOLATED | BR_MULTICAST_TO_UNICAST)
+    77	
+    78	int br_switchdev_set_port_flag(struct net_bridge_port *p,
+    79				       unsigned long flags,
+    80				       unsigned long mask,
+    81				       struct netlink_ext_ack *extack)
+    82	{
+    83		struct switchdev_attr attr = {
+    84			.orig_dev = p->dev,
+    85		};
+    86		struct switchdev_notifier_port_attr_info info = {
+    87			.attr = &attr,
+    88		};
+    89		int err;
+    90	
+    91		mask &= BR_PORT_FLAGS_HW_OFFLOAD;
+    92		if (!mask)
+    93			return 0;
     94	
-    95		ptpsq->cq_stats->resync_event++;
-    96	
-    97		if (skb_cc > skb_id || PTP_WQE_CTR2IDX(ptpsq->skb_fifo_pc) < skb_id)
-    98			pr_err_ratelimited("mlx5e: out-of-order ptp cqe\n");
-    99			return false;
-   100		}
-   101	
- > 102		while (skb_cc != skb_id && (skb = mlx5e_skb_fifo_pop(&ptpsq->skb_fifo))) {
-   103			hwts.hwtstamp = mlx5e_skb_cb_get_hwts(skb)->cqe_hwtstamp;
-   104			skb_tstamp_tx(skb, &hwts);
-   105			ptpsq->cq_stats->resync_cqe++;
-   106			napi_consume_skb(skb, budget);
-   107			skb_cc = PTP_WQE_CTR2IDX(ptpsq->skb_fifo_cc);
-   108		}
-   109	
- > 110		if (!skb)
-   111			return false;
-   112	
- > 113		return true;
- > 114	}
-   115	
+    95		attr.id = SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS;
+    96		attr.u.brport_flags.val = flags;
+    97		attr.u.brport_flags.mask = mask;
+    98	
+    99		/* We run from atomic context here */
+   100		err = call_switchdev_notifiers(SWITCHDEV_PORT_ATTR_SET, p->dev,
+   101					       &info.info, extack);
+   102		err = notifier_to_errno(err);
+   103		if (err == -EOPNOTSUPP)
+   104			return 0;
+   105	
+   106		if (err) {
+ > 107			NL_SET_ERR_MSG_WEAK_MOD(extack,
+   108						"bridge flag offload is not supported");
+   109			return -EOPNOTSUPP;
+   110		}
+   111	
+   112		attr.id = SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS;
+   113		attr.flags = SWITCHDEV_F_DEFER;
+   114	
+   115		err = switchdev_port_attr_set(p->dev, &attr, extack);
+   116		if (err) {
+   117			NL_SET_ERR_MSG_WEAK_MOD(extack,
+   118						"error setting offload flag on port");
+   119			return err;
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
