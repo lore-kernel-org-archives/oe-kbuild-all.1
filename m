@@ -1,43 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48DC2F3A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 18:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BE2182;
+	Sun, 29 Jan 2023 18:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675016361; x=1706552361;
+  t=1675017022; x=1706553022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XT3vhFebtmiUqYAREzfL1U9PpCdM8HidgUNtdvGWWsE=;
-  b=HKB8bnFXFAh9gXRCpHTqHMIO1uUWEvIh0HrgUbkGDq/St4mDTu+P7JJ7
-   GpHhYuXQO2kkBUwoSCMSFdgr4AzQFmKNp2Xm/9YnahRsqMMm53b7Xx2bS
-   s8Fm/hm+xd2oEmp9nZ0AMwAbfQKp54wP5LgF8UaPcNd+iecpiaMmT2KRV
-   lQOiuR9SLjFzxmKtP7fpFAji9qG5UYKeI/PhA3Hto8He+iJM6e21azqui
-   2fkdn7iu89swfTBxEoep85CyhVTgZBDWaZcDLn69JkV+qwFKwoB7Tut94
-   cdlzK78LwkfMhpmAwYs+8U19ZEGdxbHfZmSnVakR8c+xFWD18mEaBmxv/
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="354733827"
+  bh=J/edoHyyrnNXO4lt2VGl45UhgRZ+2VH1J8JkDJN/KY4=;
+  b=FjYHZo5Zoa1QTObjeSrrI/Dov0JGBbWDLcrzruUYffRvNGi6VMwtWSoL
+   s7R5tz4WTlP2z0GlDbWvyzoYwqlh/Ea3iLxz7wb/fJQVRe6qiz5DFtceE
+   dUKoqf1Ddfibjf1AbX9XEci4L4ZhvJGFrKgUBH/UK4I2uRQydZ3wDTvqa
+   AbUQ1z+q+TVABbF3r4g82DoYZiYYfEghv8aYqacr9oUulZUFgEpf218O1
+   RP0D6fqM05j5AubKYCNSSh9gN2Pg9hhXRFsODgfx/D5g6ndpma6vqop1Z
+   QpmLM7p0TwbB9SQB0TuMYoDcWvbR1KDfSpOwnjHWgSAPK8UDRUpYmVIHS
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="413641315"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="354733827"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 10:19:21 -0800
+   d="scan'208";a="413641315"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 10:30:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="665836618"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="727262454"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="665836618"
+   d="scan'208";a="727262454"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Jan 2023 10:19:19 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2023 10:30:20 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMCGt-00030U-0H;
-	Sun, 29 Jan 2023 18:19:19 +0000
-Date: Mon, 30 Jan 2023 02:18:55 +0800
+	id 1pMCRX-000313-1p;
+	Sun, 29 Jan 2023 18:30:19 +0000
+Date: Mon, 30 Jan 2023 02:29:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qais Yousef <qyousef@layalina.io>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [qais-yousef:uclamp-spare-capacity-fixes 4/6]
- kernel/sched/fair.c:12689:2: error: unterminated argument list invoking
- macro "if"
-Message-ID: <202301300258.OTKAa8oG-lkp@intel.com>
+ kernel/sched/fair.c:7460:28: warning: '&&' within '||'
+Message-ID: <202301300236.utI2BPtE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,8 +49,8 @@ Content-Disposition: inline
 tree:   https://github.com/qais-yousef/linux uclamp-spare-capacity-fixes
 head:   a3ceff1a59cb681052ff29d3e21c89ec8927d620
 commit: eb7cae7d9708a8bd005b137d0a6b3532e286686b [4/6] sched/uclamp: Set max_spare_cap_cpu even if max_spare_cap is 0
-config: loongarch-randconfig-r035-20230129 (https://download.01.org/0day-ci/archive/20230130/202301300258.OTKAa8oG-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230130/202301300236.utI2BPtE-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -61,151 +60,272 @@ reproduce (this is a W=1 build):
         git checkout eb7cae7d9708a8bd005b137d0a6b3532e286686b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:6071:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    6071 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'find_energy_efficient_cpu':
->> kernel/sched/fair.c:12689:2: error: unterminated argument list invoking macro "if"
-   12689 | }
-         |  ^
->> kernel/sched/fair.c:12690: error: expected '(' at end of input
-   kernel/sched/fair.c:7459:32: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-    7459 |                         } else if ((fits > max_fits) ||
-         |                                ^~
-   kernel/sched/fair.c:7459:32: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
-   kernel/sched/fair.c:7459:25: error: expected declaration or statement at end of input
-    7459 |                         } else if ((fits > max_fits) ||
-         |                         ^
-   kernel/sched/fair.c:7459:25: error: expected declaration or statement at end of input
-   kernel/sched/fair.c:7398:27: warning: unused variable 'max_fits' [-Wunused-variable]
-    7398 |                 int fits, max_fits = -1;
-         |                           ^~~~~~~~
-   kernel/sched/fair.c:7397:31: warning: unused variable 'base_energy' [-Wunused-variable]
-    7397 |                 unsigned long base_energy;
-         |                               ^~~~~~~~~~~
-   kernel/sched/fair.c:7396:21: warning: unused variable 'max_spare_cap_cpu' [-Wunused-variable]
-    7396 |                 int max_spare_cap_cpu = -1;
-         |                     ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7393:42: warning: unused variable 'max_spare_cap' [-Wunused-variable]
-    7393 |                 unsigned long cur_delta, max_spare_cap = -1UL;
-         |                                          ^~~~~~~~~~~~~
-   kernel/sched/fair.c:7393:31: warning: unused variable 'cur_delta' [-Wunused-variable]
-    7393 |                 unsigned long cur_delta, max_spare_cap = -1UL;
-         |                               ^~~~~~~~~
-   kernel/sched/fair.c:7459:25: error: expected declaration or statement at end of input
-    7459 |                         } else if ((fits > max_fits) ||
-         |                         ^
->> kernel/sched/fair.c:7386:17: error: label 'unlock' used but not defined
-    7386 |                 goto unlock;
-         |                 ^~~~
-   kernel/sched/fair.c:7362:23: warning: unused variable 'prev_thermal_cap' [-Wunused-variable]
-    7362 |         unsigned long prev_thermal_cap = 0;
-         |                       ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7361:23: warning: unused variable 'best_thermal_cap' [-Wunused-variable]
-    7361 |         unsigned long best_thermal_cap = 0;
-         |                       ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7360:29: warning: unused variable 'best_fits' [-Wunused-variable]
-    7360 |         int prev_fits = -1, best_fits = -1;
-         |                             ^~~~~~~~~
-   kernel/sched/fair.c:7359:18: warning: unused variable 'best_energy_cpu' [-Wunused-variable]
-    7359 |         int cpu, best_energy_cpu, target = -1;
-         |                  ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7355:47: warning: unused variable 'best_delta' [-Wunused-variable]
-    7355 |         unsigned long prev_delta = ULONG_MAX, best_delta = ULONG_MAX;
-         |                                               ^~~~~~~~~~
-   kernel/sched/fair.c:7355:23: warning: unused variable 'prev_delta' [-Wunused-variable]
-    7355 |         unsigned long prev_delta = ULONG_MAX, best_delta = ULONG_MAX;
-         |                       ^~~~~~~~~~
-   kernel/sched/fair.c: At top level:
->> kernel/sched/fair.c:796:22: warning: 'task_h_load' used but never defined
-     796 | static unsigned long task_h_load(struct task_struct *p);
-         |                      ^~~~~~~~~~~
-   kernel/sched/fair.c:4275:12: warning: 'newidle_balance' declared 'static' but never defined [-Wunused-function]
-    4275 | static int newidle_balance(struct rq *this_rq, struct rq_flags *rf);
-         |            ^~~~~~~~~~~~~~~
->> kernel/sched/fair.c:4978:1: warning: 'wakeup_preempt_entity' used but never defined
-    4978 | wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se);
-         | ^~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:6277:13: warning: 'set_next_buddy' used but never defined
-    6277 | static void set_next_buddy(struct sched_entity *se);
-         |             ^~~~~~~~~~~~~~
->> kernel/sched/fair.c:6587:1: warning: 'find_idlest_group' used but never defined
-    6587 | find_idlest_group(struct sched_domain *sd, struct task_struct *p, int this_cpu);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7352:12: warning: 'find_energy_efficient_cpu' defined but not used [-Wunused-function]
-    7352 | static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7180:22: warning: 'cpu_util_without' defined but not used [-Wunused-function]
-    7180 | static unsigned long cpu_util_without(int cpu, struct task_struct *p)
-         |                      ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7001:12: warning: 'select_idle_sibling' defined but not used [-Wunused-function]
-    7001 | static int select_idle_sibling(struct task_struct *p, int prev, int target)
-         |            ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6566:12: warning: 'wake_affine' defined but not used [-Wunused-function]
-    6566 | static int wake_affine(struct sched_domain *sd, struct task_struct *p,
-         |            ^~~~~~~~~~~
-   kernel/sched/fair.c:6471:12: warning: 'wake_wide' defined but not used [-Wunused-function]
-    6471 | static int wake_wide(struct task_struct *p)
-         |            ^~~~~~~~~
-   kernel/sched/fair.c:6437:13: warning: 'record_wakee' defined but not used [-Wunused-function]
-    6437 | static void record_wakee(struct task_struct *p)
-         |             ^~~~~~~~~~~~
-   kernel/sched/fair.c:6414:22: warning: 'cpu_runnable_without' defined but not used [-Wunused-function]
-    6414 | static unsigned long cpu_runnable_without(struct rq *rq, struct task_struct *p)
-         |                      ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6391:22: warning: 'cpu_load_without' defined but not used [-Wunused-function]
-    6391 | static unsigned long cpu_load_without(struct rq *rq, struct task_struct *p)
-         |                      ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6284:13: warning: 'dequeue_task_fair' defined but not used [-Wunused-function]
-    6284 | static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6191:1: warning: 'enqueue_task_fair' defined but not used [-Wunused-function]
-    6191 | enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5063:1: warning: 'entity_tick' defined but not used [-Wunused-function]
-    5063 | entity_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr, int queued)
-         | ^~~~~~~~~~~
-   kernel/sched/fair.c:5038:13: warning: 'put_prev_entity' defined but not used [-Wunused-function]
-    5038 | static void put_prev_entity(struct cfs_rq *cfs_rq, struct sched_entity *prev)
-         |             ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:4988:1: warning: 'pick_next_entity' defined but not used [-Wunused-function]
-    4988 | pick_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *curr)
-         | ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:4940:1: warning: 'set_next_entity' defined but not used [-Wunused-function]
-    4940 | set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:4244:13: warning: 'remove_entity_load_avg' defined but not used [-Wunused-function]
-    4244 | static void remove_entity_load_avg(struct sched_entity *se)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:4009:13: warning: 'migrate_se_pelt_lag' defined but not used [-Wunused-function]
-    4009 | static void migrate_se_pelt_lag(struct sched_entity *se) {}
-         |             ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:3196:13: warning: 'task_tick_numa' defined but not used [-Wunused-function]
-    3196 | static void task_tick_numa(struct rq *rq, struct task_struct *curr)
-         |             ^~~~~~~~~~~~~~
-   kernel/sched/fair.c:937:13: warning: 'update_curr_fair' defined but not used [-Wunused-function]
-     937 | static void update_curr_fair(struct rq *rq)
-         |             ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:7461:59: error: expected ')'
+                                      (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
+                                                                                         ^
+   kernel/sched/fair.c:7460:8: note: to match this '('
+                                      ((fits == max_fits) &&
+                                      ^
+>> kernel/sched/fair.c:7460:28: warning: '&&' within '||' [-Wlogical-op-parentheses]
+                                      ((fits == max_fits) &&
+                                       ~~~~~~~~~~~~~~~~~~~^~
+   kernel/sched/fair.c:7460:28: note: place parentheses around the '&&' expression to silence this warning
+                                      ((fits == max_fits) &&
+                                                          ^
+                                       (
+   kernel/sched/fair.c:7471:3: error: expected ')'
+                   }
+                   ^
+   kernel/sched/fair.c:7459:14: note: to match this '('
+                           } else if ((fits > max_fits) ||
+                                     ^
+   kernel/sched/fair.c:7471:3: error: expected statement
+                   }
+                   ^
+   1 warning and 3 errors generated.
 
 
-vim +/if +12689 kernel/sched/fair.c
+vim +7460 kernel/sched/fair.c
 
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra 2011-10-25  12688  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra 2011-10-25 @12689  }
-
-:::::: The code at line 12689 was first introduced by commit
-:::::: 029632fbb7b7c9d85063cc9eb470de6c54873df3 sched: Make separate sched*.c translation units
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+  7312	
+  7313	/*
+  7314	 * find_energy_efficient_cpu(): Find most energy-efficient target CPU for the
+  7315	 * waking task. find_energy_efficient_cpu() looks for the CPU with maximum
+  7316	 * spare capacity in each performance domain and uses it as a potential
+  7317	 * candidate to execute the task. Then, it uses the Energy Model to figure
+  7318	 * out which of the CPU candidates is the most energy-efficient.
+  7319	 *
+  7320	 * The rationale for this heuristic is as follows. In a performance domain,
+  7321	 * all the most energy efficient CPU candidates (according to the Energy
+  7322	 * Model) are those for which we'll request a low frequency. When there are
+  7323	 * several CPUs for which the frequency request will be the same, we don't
+  7324	 * have enough data to break the tie between them, because the Energy Model
+  7325	 * only includes active power costs. With this model, if we assume that
+  7326	 * frequency requests follow utilization (e.g. using schedutil), the CPU with
+  7327	 * the maximum spare capacity in a performance domain is guaranteed to be among
+  7328	 * the best candidates of the performance domain.
+  7329	 *
+  7330	 * In practice, it could be preferable from an energy standpoint to pack
+  7331	 * small tasks on a CPU in order to let other CPUs go in deeper idle states,
+  7332	 * but that could also hurt our chances to go cluster idle, and we have no
+  7333	 * ways to tell with the current Energy Model if this is actually a good
+  7334	 * idea or not. So, find_energy_efficient_cpu() basically favors
+  7335	 * cluster-packing, and spreading inside a cluster. That should at least be
+  7336	 * a good thing for latency, and this is consistent with the idea that most
+  7337	 * of the energy savings of EAS come from the asymmetry of the system, and
+  7338	 * not so much from breaking the tie between identical CPUs. That's also the
+  7339	 * reason why EAS is enabled in the topology code only for systems where
+  7340	 * SD_ASYM_CPUCAPACITY is set.
+  7341	 *
+  7342	 * NOTE: Forkees are not accepted in the energy-aware wake-up path because
+  7343	 * they don't have any useful utilization data yet and it's not possible to
+  7344	 * forecast their impact on energy consumption. Consequently, they will be
+  7345	 * placed by find_idlest_cpu() on the least loaded CPU, which might turn out
+  7346	 * to be energy-inefficient in some use-cases. The alternative would be to
+  7347	 * bias new tasks towards specific types of CPUs first, or to try to infer
+  7348	 * their util_avg from the parent task, but those heuristics could hurt
+  7349	 * other use-cases too. So, until someone finds a better way to solve this,
+  7350	 * let's keep things simple by re-using the existing slow path.
+  7351	 */
+  7352	static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu)
+  7353	{
+  7354		struct cpumask *cpus = this_cpu_cpumask_var_ptr(select_rq_mask);
+  7355		unsigned long prev_delta = ULONG_MAX, best_delta = ULONG_MAX;
+  7356		unsigned long p_util_min = uclamp_is_used() ? uclamp_eff_value(p, UCLAMP_MIN) : 0;
+  7357		unsigned long p_util_max = uclamp_is_used() ? uclamp_eff_value(p, UCLAMP_MAX) : 1024;
+  7358		struct root_domain *rd = this_rq()->rd;
+  7359		int cpu, best_energy_cpu, target = -1;
+  7360		int prev_fits = -1, best_fits = -1;
+  7361		unsigned long best_thermal_cap = 0;
+  7362		unsigned long prev_thermal_cap = 0;
+  7363		struct sched_domain *sd;
+  7364		struct perf_domain *pd;
+  7365		struct energy_env eenv;
+  7366	
+  7367		rcu_read_lock();
+  7368		pd = rcu_dereference(rd->pd);
+  7369		if (!pd || READ_ONCE(rd->overutilized))
+  7370			goto unlock;
+  7371	
+  7372		/*
+  7373		 * Energy-aware wake-up happens on the lowest sched_domain starting
+  7374		 * from sd_asym_cpucapacity spanning over this_cpu and prev_cpu.
+  7375		 */
+  7376		sd = rcu_dereference(*this_cpu_ptr(&sd_asym_cpucapacity));
+  7377		while (sd && !cpumask_test_cpu(prev_cpu, sched_domain_span(sd)))
+  7378			sd = sd->parent;
+  7379		if (!sd)
+  7380			goto unlock;
+  7381	
+  7382		target = prev_cpu;
+  7383	
+  7384		sync_entity_load_avg(&p->se);
+  7385		if (!uclamp_task_util(p, p_util_min, p_util_max))
+  7386			goto unlock;
+  7387	
+  7388		eenv_task_busy_time(&eenv, p, prev_cpu);
+  7389	
+  7390		for (; pd; pd = pd->next) {
+  7391			unsigned long util_min = p_util_min, util_max = p_util_max;
+  7392			unsigned long cpu_cap, cpu_thermal_cap, util;
+  7393			unsigned long cur_delta, max_spare_cap = -1UL;
+  7394			unsigned long rq_util_min, rq_util_max;
+  7395			unsigned long prev_spare_cap = -1UL;
+  7396			int max_spare_cap_cpu = -1;
+  7397			unsigned long base_energy;
+  7398			int fits, max_fits = -1;
+  7399	
+  7400			cpumask_and(cpus, perf_domain_span(pd), cpu_online_mask);
+  7401	
+  7402			if (cpumask_empty(cpus))
+  7403				continue;
+  7404	
+  7405			/* Account thermal pressure for the energy estimation */
+  7406			cpu = cpumask_first(cpus);
+  7407			cpu_thermal_cap = arch_scale_cpu_capacity(cpu);
+  7408			cpu_thermal_cap -= arch_scale_thermal_pressure(cpu);
+  7409	
+  7410			eenv.cpu_cap = cpu_thermal_cap;
+  7411			eenv.pd_cap = 0;
+  7412	
+  7413			for_each_cpu(cpu, cpus) {
+  7414				eenv.pd_cap += cpu_thermal_cap;
+  7415	
+  7416				if (!cpumask_test_cpu(cpu, sched_domain_span(sd)))
+  7417					continue;
+  7418	
+  7419				if (!cpumask_test_cpu(cpu, p->cpus_ptr))
+  7420					continue;
+  7421	
+  7422				util = cpu_util_next(cpu, p, cpu);
+  7423				cpu_cap = capacity_of(cpu);
+  7424	
+  7425				/*
+  7426				 * Skip CPUs that cannot satisfy the capacity request.
+  7427				 * IOW, placing the task there would make the CPU
+  7428				 * overutilized. Take uclamp into account to see how
+  7429				 * much capacity we can get out of the CPU; this is
+  7430				 * aligned with sched_cpu_util().
+  7431				 */
+  7432				if (uclamp_is_used()) {
+  7433					if (!uclamp_rq_is_idle(cpu_rq(cpu))) {
+  7434						/*
+  7435						 * Open code uclamp_rq_util_with() except for
+  7436						 * the clamp() part. Ie: apply max aggregation
+  7437						 * only. util_fits_cpu() logic requires to
+  7438						 * operate on non clamped util but must use the
+  7439						 * max-aggregated uclamp_{min, max}.
+  7440						 */
+  7441						rq_util_min = uclamp_rq_get(cpu_rq(cpu), UCLAMP_MIN);
+  7442						rq_util_max = uclamp_rq_get(cpu_rq(cpu), UCLAMP_MAX);
+  7443	
+  7444						util_min = max(rq_util_min, p_util_min);
+  7445						util_max = max(rq_util_max, p_util_max);
+  7446					}
+  7447				}
+  7448	
+  7449				fits = util_fits_cpu(util, util_min, util_max, cpu);
+  7450				if (!fits)
+  7451					continue;
+  7452	
+  7453				lsub_positive(&cpu_cap, util);
+  7454	
+  7455				if (cpu == prev_cpu) {
+  7456					/* Always use prev_cpu as a candidate. */
+  7457					prev_spare_cap = cpu_cap;
+  7458					prev_fits = fits;
+  7459				} else if ((fits > max_fits) ||
+> 7460					   ((fits == max_fits) &&
+  7461					   (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
+  7462					/*
+  7463					 * Find the CPU with the maximum spare capacity
+  7464					 * among the remaining CPUs in the performance
+  7465					 * domain.
+  7466					 */
+  7467					max_spare_cap = cpu_cap;
+  7468					max_spare_cap_cpu = cpu;
+  7469					max_fits = fits;
+  7470				}
+  7471			}
+  7472	
+  7473			if (max_spare_cap_cpu < 0 && prev_spare_cap == -1UL)
+  7474				continue;
+  7475	
+  7476			eenv_pd_busy_time(&eenv, cpus, p);
+  7477			/* Compute the 'base' energy of the pd, without @p */
+  7478			base_energy = compute_energy(&eenv, pd, cpus, p, -1);
+  7479	
+  7480			/* Evaluate the energy impact of using prev_cpu. */
+  7481			if (prev_spare_cap != -1UL) {
+  7482				prev_delta = compute_energy(&eenv, pd, cpus, p,
+  7483							    prev_cpu);
+  7484				/* CPU utilization has changed */
+  7485				if (prev_delta < base_energy)
+  7486					goto unlock;
+  7487				prev_delta -= base_energy;
+  7488				prev_thermal_cap = cpu_thermal_cap;
+  7489				best_delta = min(best_delta, prev_delta);
+  7490			}
+  7491	
+  7492			/* Evaluate the energy impact of using max_spare_cap_cpu. */
+  7493			if (max_spare_cap_cpu >= 0 &&
+  7494			    (max_spare_cap > prev_spare_cap || prev_spare_cap == -1UL)) {
+  7495				/* Current best energy cpu fits better */
+  7496				if (max_fits < best_fits)
+  7497					continue;
+  7498	
+  7499				/*
+  7500				 * Both don't fit performance hint (i.e. uclamp_min)
+  7501				 * but best energy cpu has better capacity.
+  7502				 */
+  7503				if ((max_fits < 0) &&
+  7504				    (cpu_thermal_cap <= best_thermal_cap))
+  7505					continue;
+  7506	
+  7507				cur_delta = compute_energy(&eenv, pd, cpus, p,
+  7508							   max_spare_cap_cpu);
+  7509				/* CPU utilization has changed */
+  7510				if (cur_delta < base_energy)
+  7511					goto unlock;
+  7512				cur_delta -= base_energy;
+  7513	
+  7514				/*
+  7515				 * Both fit for the task but best energy cpu has lower
+  7516				 * energy impact.
+  7517				 */
+  7518				if ((max_fits > 0) && (best_fits > 0) &&
+  7519				    (cur_delta >= best_delta))
+  7520					continue;
+  7521	
+  7522				best_delta = cur_delta;
+  7523				best_energy_cpu = max_spare_cap_cpu;
+  7524				best_fits = max_fits;
+  7525				best_thermal_cap = cpu_thermal_cap;
+  7526			}
+  7527		}
+  7528		rcu_read_unlock();
+  7529	
+  7530		if ((best_fits > prev_fits) ||
+  7531		    ((best_fits > 0) && (best_delta < prev_delta)) ||
+  7532		    ((best_fits < 0) && (best_thermal_cap > prev_thermal_cap)))
+  7533			target = best_energy_cpu;
+  7534	
+  7535		return target;
+  7536	
+  7537	unlock:
+  7538		rcu_read_unlock();
+  7539	
+  7540		return target;
+  7541	}
+  7542	
 
 -- 
 0-DAY CI Kernel Test Service
