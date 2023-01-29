@@ -1,44 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195CE17D9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 10:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A99817F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 11:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674988146; x=1706524146;
+  t=1674990006; x=1706526006;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JlSTbgK0HOQEbxgZtJrW0sdOaJmigDWciWOaN9E/tok=;
-  b=f2S2sGdMgFu+t2oZuK8fwrsw2sIxp6en8ITeRKeuz8Rm5hVemyEwq3lh
-   pG9qhZwtsJ/mK4bMRqjG10CEzMj1+eHvU+gUAxcFo3qVRDtR+/WGXp/ca
-   vdIzDzGN8EDruyraP8MFdL6iI99s8jIOAIygW8Cf4XToe8mLfFIWu85iF
-   rcVDLz4XbH1PEKo+LrZe3KcM1nv6SgXmihOTT7w6oG2CFyvqe/1lmYN2g
-   scWVmPGR6AtXJuOTXF5/kmDaD5KGhmHyxaUaj4Ua+E67A3hsFKUHisgAt
-   csQYQFv6kfY2aXvT+yWYCjm494hYOS8n/sM7TN8BUFmVkHfrexbVcyk2+
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315342380"
+  bh=qdQzrQ09WBXOQWZmzWKzTzvTZDl0nopJwO2+AGf5DDs=;
+  b=aeS0E2/uBXb3aT3m+d/TzqvTkeFxVjh0YWW5+o3kWvvMryC0+XjelMm+
+   rKDvSxfZA6lTRSP13S1MP/7BHDxPqdcbzcgrMJAWEQEX3m+BSiiJmbPKM
+   4FBcT7P5AD76vM92erY6NDF1L3YrqsBs/IFEm2q8SePkCFP2HAhpjgOe+
+   w4NEYmf9jh6M/YnrEZn180GhsnTXCDzaAoV3DMZg/xwHf/t+c/tujgw8m
+   0yfPG75Acu4tNLK/JhsbfxHRITDgwT2/vb0sNmO5TmTysyf+h8b8BBbdF
+   dwF0wUt9V30Omn0F7+kRBAjmHcO2svZypycoxI9KfjIpbExb9onqC0ep7
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="326056691"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="315342380"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 02:29:05 -0800
+   d="scan'208";a="326056691"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 03:00:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="787696227"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="665755473"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="787696227"
+   d="scan'208";a="665755473"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 29 Jan 2023 02:29:03 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jan 2023 03:00:04 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM4vm-0002iQ-0z;
-	Sun, 29 Jan 2023 10:29:02 +0000
-Date: Sun, 29 Jan 2023 18:28:55 +0800
+	id 1pM5Pn-0002jR-1Y;
+	Sun, 29 Jan 2023 11:00:03 +0000
+Date: Sun, 29 Jan 2023 18:59:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Schmitz <schmitzmic@gmail.com>
-Subject: drivers/block/paride/epia.c:183:59: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202301291805.K0QIVz4B-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:randconfig-6.3-next 44/235]
+ include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing
+ between 129 and 4294967295 bytes at offsets 992 and 864 overlaps between 1
+ and 4294967167 bytes at offset 992
+Message-ID: <202301291813.fW1bPrjt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,206 +48,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Geert,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c96618275234ad03d44eafe9f8844305bb44fda4
-commit: 30b5e6ef4a32ea4985b99200e06d6660a69f9246 m68k: atari: Make Atari ROM port I/O write macros return void
-date:   8 months ago
-config: m68k-randconfig-s052-20230129 (https://download.01.org/0day-ci/archive/20230129/202301291805.K0QIVz4B-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.3-next
+head:   e1ff6e29c348f48dfcdb7f879d52a823c859a65d
+commit: 15964c18d4b03d88e5ade84ca8ee502b30466a1e [44/235] Kbuild: rework warnings
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291813.fW1bPrjt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=30b5e6ef4a32ea4985b99200e06d6660a69f9246
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 30b5e6ef4a32ea4985b99200e06d6660a69f9246
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/commit/?id=15964c18d4b03d88e5ade84ca8ee502b30466a1e
+        git remote add arnd-playground https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git
+        git fetch --no-tags arnd-playground randconfig-6.3-next
+        git checkout 15964c18d4b03d88e5ade84ca8ee502b30466a1e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/block/paride/ drivers/comedi/drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/crypto/bcm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/block/paride/epia.c:183:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/epia.c:183:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/epia.c:183:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/epia.c:183:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/epia.c: note: in included file (through arch/m68k/include/asm/io.h):
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
---
->> drivers/block/paride/bpck.c:182:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/bpck.c:182:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/bpck.c:182:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/bpck.c:182:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/bpck.c: note: in included file (through arch/m68k/include/asm/io.h):
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   drivers/block/paride/bpck.c:323:72: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/bpck.c:323:72: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/bpck.c:323:72: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/bpck.c:323:72: sparse: sparse: cast to restricted __le16
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
---
->> drivers/block/paride/kbic.c:58:21: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/kbic.c:58:21: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/kbic.c:58:21: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/kbic.c:58:21: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:156:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:157:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:159:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:160:48: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:179:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:179:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:179:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c:179:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/kbic.c: note: in included file (through arch/m68k/include/asm/io.h):
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
---
->> drivers/block/paride/dstr.c:145:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/dstr.c:145:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/dstr.c:145:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/dstr.c:145:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/dstr.c: note: in included file (through arch/m68k/include/asm/io.h):
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
---
->> drivers/block/paride/on26.c:221:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/on26.c:221:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/on26.c:221:59: sparse: sparse: cast to restricted __le16
->> drivers/block/paride/on26.c:221:59: sparse: sparse: cast to restricted __le16
-   drivers/block/paride/on26.c: note: in included file (through arch/m68k/include/asm/io.h):
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
---
->> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
+All warnings (new ones prefixed by >>):
 
-vim +183 drivers/block/paride/epia.c
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from arch/arm64/include/asm/arch_timer.h:18,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from arch/arm64/include/asm/stat.h:12,
+                    from include/linux/stat.h:6,
+                    from include/linux/module.h:13,
+                    from drivers/crypto/bcm/cipher.c:7:
+   drivers/crypto/bcm/cipher.c: In function 'ahash_hmac_setkey':
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing between 129 and 4294967295 bytes at offsets 992 and 864 overlaps between 1 and 4294967167 bytes at offset 992 [-Wrestrict]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:585:9: note: in expansion of macro '__underlying_memcpy'
+     585 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:630:26: note: in expansion of macro '__fortify_memcpy_chk'
+     630 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/bcm/cipher.c:2400:17: note: in expansion of macro 'memcpy'
+    2400 |                 memcpy(ctx->opad, ctx->ipad, blocksize);
+         |                 ^~~~~~
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing between 129 and 4294967295 bytes at offsets 992 and 864 overlaps between 1 and 4294967167 bytes at offset 992 [-Wrestrict]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:585:9: note: in expansion of macro '__underlying_memcpy'
+     585 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:630:26: note: in expansion of macro '__fortify_memcpy_chk'
+     630 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/bcm/cipher.c:2400:17: note: in expansion of macro 'memcpy'
+    2400 |                 memcpy(ctx->opad, ctx->ipad, blocksize);
+         |                 ^~~~~~
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  139  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  140          switch (pi->mode) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  141  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  142          case 0: w0(0x81); w2(1); w2(3); w0(0xc1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  143                  ph = 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  144                  for (k=0;k<count;k++) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  145                          w2(2+ph); a = r1();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  146                          w2(4+ph); b = r1();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  147                          buf[k] = j44(a,b);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  148                          ph = 1 - ph;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  149                  } 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  150                  w0(0); w2(4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  151                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  152  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  153          case 1: w0(0x91); w2(1); w0(0x10); w2(3); 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  154                  w0(0x51); w2(5); w0(0xd1); 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  155                  ph = 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  156                  for (k=0;k<count;k++) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  157                          w2(4+ph);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  158                          a = r1(); b = r2();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  159                          buf[k] = j53(a,b);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  160                          ph = 1 - ph;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  161                  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  162                  w0(0); w2(4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  163                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  164  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  165          case 2: w0(0x89); w2(1); w2(0x23); w2(0x21); 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  166                  ph = 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  167                  for (k=0;k<count;k++) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  168                          w2(0x24+ph);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  169                          buf[k] = r0();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  170                          ph = 1 - ph;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  171                  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  172                  w2(6); w2(4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  173                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  174  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  175          case 3: if (count > 512) WR(0x84,3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  176  		w3(0); w2(0x24);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  177                  for (k=0;k<count;k++) buf[k] = r4();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  178                  w2(4); WR(0x84,0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  179                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  180  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  181          case 4: if (count > 512) WR(0x84,3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  182  		w3(0); w2(0x24);
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @183  		for (k=0;k<count/2;k++) ((u16 *)buf)[k] = r4w();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  184                  w2(4); WR(0x84,0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  185                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  186  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  187          case 5: if (count > 512) WR(0x84,3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  188  		w3(0); w2(0x24);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  189                  for (k=0;k<count/4;k++) ((u32 *)buf)[k] = r4l();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  190                  w2(4); WR(0x84,0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  191                  break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  192  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  193          }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  194  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  195  
 
-:::::: The code at line 183 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +/__builtin_memcpy +57 include/linux/fortify-string.h
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
