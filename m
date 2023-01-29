@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BE2182;
-	Sun, 29 Jan 2023 18:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BA328EA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 18:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675017022; x=1706553022;
+  t=1675017023; x=1706553023;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J/edoHyyrnNXO4lt2VGl45UhgRZ+2VH1J8JkDJN/KY4=;
-  b=FjYHZo5Zoa1QTObjeSrrI/Dov0JGBbWDLcrzruUYffRvNGi6VMwtWSoL
-   s7R5tz4WTlP2z0GlDbWvyzoYwqlh/Ea3iLxz7wb/fJQVRe6qiz5DFtceE
-   dUKoqf1Ddfibjf1AbX9XEci4L4ZhvJGFrKgUBH/UK4I2uRQydZ3wDTvqa
-   AbUQ1z+q+TVABbF3r4g82DoYZiYYfEghv8aYqacr9oUulZUFgEpf218O1
-   RP0D6fqM05j5AubKYCNSSh9gN2Pg9hhXRFsODgfx/D5g6ndpma6vqop1Z
-   QpmLM7p0TwbB9SQB0TuMYoDcWvbR1KDfSpOwnjHWgSAPK8UDRUpYmVIHS
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="413641315"
+  bh=yiBoK+NOF4bMtFaeDRm0qn3zL8wXuApq4xyHi0MQUz4=;
+  b=CZEHhLbr35TEv6sBXkjoGgTBg4JY4ZSB/ThNU4x/nMNwSNQ1o5W/roYs
+   ZRhY+PH5SGd72Mi9PtNH0mYqkUG3VGRLhucM+RXni6s5NTs3i+KvxYVLU
+   olxpf5/x/7K5ZaFX1NaitZHmxmF6OzG0nM3dL3+zHYWVz4gfAufuqvzL7
+   l00u4yjhZOIVKOAPmhF75dXXyHhobMF6gxFkW1YoM7E8xdF2eM2DJ8KR3
+   7CQ5W8qLFImxieMOGmG3pga2gf9xSddASy2FVlaDga5Y9yNLWD/P+9jLg
+   m6OafruMgw/WjrU17XO3iZksJT/HgpSaLDzT0jECM3f9eujN7+br+Ky0n
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="389800523"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="413641315"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 10:30:21 -0800
+   d="scan'208";a="389800523"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 10:30:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="727262454"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="696167982"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="727262454"
+   d="scan'208";a="696167982"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2023 10:30:20 -0800
+  by orsmga001.jf.intel.com with ESMTP; 29 Jan 2023 10:30:20 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMCRX-000313-1p;
+	id 1pMCRX-000310-1W;
 	Sun, 29 Jan 2023 18:30:19 +0000
-Date: Mon, 30 Jan 2023 02:29:25 +0800
+Date: Mon, 30 Jan 2023 02:29:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qais Yousef <qyousef@layalina.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [qais-yousef:uclamp-spare-capacity-fixes 4/6]
- kernel/sched/fair.c:7460:28: warning: '&&' within '||'
-Message-ID: <202301300236.utI2BPtE-lkp@intel.com>
+ kernel/sched/fair.c:7461:86: error: expected ')' before '{' token
+Message-ID: <202301300225.m7XdwzyV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,51 +49,46 @@ Content-Disposition: inline
 tree:   https://github.com/qais-yousef/linux uclamp-spare-capacity-fixes
 head:   a3ceff1a59cb681052ff29d3e21c89ec8927d620
 commit: eb7cae7d9708a8bd005b137d0a6b3532e286686b [4/6] sched/uclamp: Set max_spare_cap_cpu even if max_spare_cap is 0
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230130/202301300236.utI2BPtE-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20230130/202301300225.m7XdwzyV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/qais-yousef/linux/commit/eb7cae7d9708a8bd005b137d0a6b3532e286686b
         git remote add qais-yousef https://github.com/qais-yousef/linux
         git fetch --no-tags qais-yousef uclamp-spare-capacity-fixes
         git checkout eb7cae7d9708a8bd005b137d0a6b3532e286686b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/sched/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c:7461:59: error: expected ')'
-                                      (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
-                                                                                         ^
-   kernel/sched/fair.c:7460:8: note: to match this '('
-                                      ((fits == max_fits) &&
-                                      ^
->> kernel/sched/fair.c:7460:28: warning: '&&' within '||' [-Wlogical-op-parentheses]
-                                      ((fits == max_fits) &&
-                                       ~~~~~~~~~~~~~~~~~~~^~
-   kernel/sched/fair.c:7460:28: note: place parentheses around the '&&' expression to silence this warning
-                                      ((fits == max_fits) &&
-                                                          ^
-                                       (
-   kernel/sched/fair.c:7471:3: error: expected ')'
-                   }
-                   ^
-   kernel/sched/fair.c:7459:14: note: to match this '('
-                           } else if ((fits > max_fits) ||
-                                     ^
-   kernel/sched/fair.c:7471:3: error: expected statement
-                   }
-                   ^
-   1 warning and 3 errors generated.
+   kernel/sched/fair.c: In function 'find_energy_efficient_cpu':
+>> kernel/sched/fair.c:7461:86: error: expected ')' before '{' token
+    7461 |                                    (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
+         |                                                                                      ^~
+         |                                                                                      )
+   kernel/sched/fair.c:7460:36: note: to match this '('
+    7460 |                                    ((fits == max_fits) &&
+         |                                    ^
+   kernel/sched/fair.c:7470:26: error: expected ')' before '}' token
+    7470 |                         }
+         |                          ^
+         |                          )
+    7471 |                 }
+         |                 ~         
+   kernel/sched/fair.c:7459:35: note: to match this '('
+    7459 |                         } else if ((fits > max_fits) ||
+         |                                   ^
+>> kernel/sched/fair.c:7471:17: error: expected expression before '}' token
+    7471 |                 }
+         |                 ^
 
 
-vim +7460 kernel/sched/fair.c
+vim +7461 kernel/sched/fair.c
 
   7312	
   7313	/*
@@ -243,8 +238,8 @@ vim +7460 kernel/sched/fair.c
   7457					prev_spare_cap = cpu_cap;
   7458					prev_fits = fits;
   7459				} else if ((fits > max_fits) ||
-> 7460					   ((fits == max_fits) &&
-  7461					   (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
+  7460					   ((fits == max_fits) &&
+> 7461					   (cpu_cap > max_spare_cap || max_spare_cap == -1UL) {
   7462					/*
   7463					 * Find the CPU with the maximum spare capacity
   7464					 * among the remaining CPUs in the performance
@@ -254,7 +249,7 @@ vim +7460 kernel/sched/fair.c
   7468					max_spare_cap_cpu = cpu;
   7469					max_fits = fits;
   7470				}
-  7471			}
+> 7471			}
   7472	
   7473			if (max_spare_cap_cpu < 0 && prev_spare_cap == -1UL)
   7474				continue;
