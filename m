@@ -1,259 +1,125 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716C4BD0F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 03:14:10 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id 143so5539206pgg.6
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jan 2023 19:14:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CZWIfOEaYPhJKU3uAxkJJryS3uLGTPx1f0G7P/O8xfA=;
-        b=WNpfUUtjioQ7kbQwRs/e5HS06UBNyLnUU0Z2Dqk6FvQXeD+YPMQ0e/7WbavugqWBM7
-         vV9QWqu3mzPmSWNoKc+1MB416Cf7pgoK79SLKEXJyKnrFBGr4T2gcL//iutBQRQHro3u
-         3Z14uzkYY71/OxXqz14+KUhYBrSOIuELkL7Pj70hkSANuG9dxnAqyJeeenMc91n5XJ8d
-         wtdFzTI/Dqs9Az60aiA4d3NVMZNOohY8ibEdbaZEbj9QeGnDvdCt7Gp5ASMNkm6pyRmd
-         U/zmJcUwUxUgUlSSuKOBAPEotuVdwsI2mt3L0djcAuNumJ84jO22eVsf05WXkJGTT3vj
-         4ukA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CZWIfOEaYPhJKU3uAxkJJryS3uLGTPx1f0G7P/O8xfA=;
-        b=N4ik241psVnP4dT7GQ4osOPWhRhGcLS9oLqgCsy1f2QvCDaLDorTwsPeMGpkAvjz1p
-         hFr394UohGQCbp3n7V0R338+kipJC/4pZUsSUisZ92VBEispqg/1RzNj3YdhpDqeBQzp
-         tdbQSvOKtoOvWETBr6LnekZvHaEfq96vdTDkCD3Iws15HnmG6xK0yOlvsW9VxPh/nP/W
-         kJ60nctGZ66KFJVLT5ksN63YDx0D0f4XL6MmY4Ejq7S4Vmf8S1cnqxxRaO472YOyhzDf
-         fjUdblRvGeTDoNW4QGn+0Pzp3ax4y/Ix3z1EIWb2bswftZI7nwyIRyOE0qtZrF37aodV
-         9PhQ==
-X-Gm-Message-State: AO0yUKX9zvNzwYD3sKp+9os/TlmuF/ImMVYnbExTafYu6YSdKxRHotZB
-	7VdbmhQ0MLRFvW2aaCjZye4=
-X-Google-Smtp-Source: AK7set8It5HDkuU/IH+p/AnTbUXdQClIONT4vEI41tjUgkq31bcodnJSex2RmdNoFV0piIjoj0hEBQ==
-X-Received: by 2002:a05:6a00:2301:b0:593:98cb:e6f6 with SMTP id h1-20020a056a00230100b0059398cbe6f6mr3557449pfh.9.1674962049726;
-        Sat, 28 Jan 2023 19:14:09 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-76.three.co.id. [180.214.233.76])
-        by smtp.gmail.com with ESMTPSA id s23-20020a056a00179700b0058a0e61136asm4932972pfg.66.2023.01.28.19.14.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Jan 2023 19:14:09 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-	id 2D27C1030A1; Sun, 29 Jan 2023 10:14:04 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] tracing/histogram: Wrap remaining shell snippets in code blocks
-Date: Sun, 29 Jan 2023 10:14:02 +0700
-Message-Id: <20230129031402.47420-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <202301290253.LU5yIxcJ-lkp@intel.com>
-References: <202301290253.LU5yIxcJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9097A17C3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 03:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674962469; x=1706498469;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QFuodtrry3mZer45IEJCJsV2lM8flb6JFEvB1HrUf68=;
+  b=QK7NeH0ei+MDDLAvM6t6yVm3tzoZ1+QdBEvqEZ5hbyXF2oSVf2cmACdw
+   JtZfmPrHXBUUL4BBzmG8fm59wKbKwIJhLen+fEP79O9erFc2X6oSeA2yO
+   VCgjvi4lccW5wroN6sU1Wa1eSwvhfOeyaeeMV3FRoS4dla0akElM/BIwt
+   zXLtqEtdrRGSNUz4pxqNuxR63V7GQRVhmdshgVq9WzXsuSi8VGhOQba/r
+   S29JruGrAVAmRO+r9BfTwa/RhVXqM+u9ucIEjO1Y9AkhlE2aJ9DUYJS0V
+   c7Sx29q4MoqyiyTGLmbA5vpRE8ejw5UciRdgLlIVMFe0aP9PLky79mOqL
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="327376061"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="327376061"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 19:21:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="694148063"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="694148063"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 28 Jan 2023 19:21:07 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pLyFe-0001Og-0v;
+	Sun, 29 Jan 2023 03:21:06 +0000
+Date: Sun, 29 Jan 2023 11:20:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	David Girault <david.girault@qorvo.com>
+Subject: [sschmidt-wpan-next:master 8/9] net/mac802154/scan.c:422:43: sparse:
+ sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202301291108.uQEw8WLv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9477; i=bagasdotme@gmail.com; h=from:subject; bh=eozoBhTf5UehsPlfrwO8Lxlu62cib0XpQG2AKe/JQHA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlXn5RkFWoGmWhlvHDZNeFA2Z/g3vrElVbxT2Sn5fXW5n8J DOPpKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwESMBBgZXu+RKsv54vv1iXEtW3SjgH zI4hUz/zrdVDvnmf/w9O5rqgx/eBzihX/vNN58/kaiCsPp9G0mF5MPbLyrblDPEzad0f4RPwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Most shell command snippets (echo/cat) and their output are already in
-literal code blocks. However a few still isn't wrapped, in which the
-htmldocs output is ugly.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sschmidt/wpan-next.git master
+head:   622bd6ea90086beb98ac439edd7d57de73d1d6f9
+commit: 3accf4762734a69ebd03cba989249c78ac7dfc7e [8/9] mac802154: Handle basic beaconing
+config: openrisc-randconfig-s041-20230129 (https://download.01.org/0day-ci/archive/20230129/202301291108.uQEw8WLv-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sschmidt/wpan-next.git/commit/?id=3accf4762734a69ebd03cba989249c78ac7dfc7e
+        git remote add sschmidt-wpan-next https://git.kernel.org/pub/scm/linux/kernel/git/sschmidt/wpan-next.git
+        git fetch --no-tags sschmidt-wpan-next master
+        git checkout 3accf4762734a69ebd03cba989249c78ac7dfc7e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash net/mac802154/
 
-Wrap the remaining unwrapped snippets, while also fix recent kernel test
-robot warnings.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Link: https://lore.kernel.org/linux-doc/202301290253.LU5yIxcJ-lkp@intel.com/
-Fixes: 88238513bb2671 ("tracing/histogram: Document variable stacktrace")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/histogram.rst | 93 ++++++++++++++++---------------
- 1 file changed, 47 insertions(+), 46 deletions(-)
+sparse warnings: (new ones prefixed by >>)
+>> net/mac802154/scan.c:422:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] pan_id @@
+   net/mac802154/scan.c:422:43: sparse:     expected unsigned short [usertype] val
+   net/mac802154/scan.c:422:43: sparse:     got restricted __le16 [usertype] pan_id
+>> net/mac802154/scan.c:422:43: sparse: sparse: cast from restricted __le16
+>> net/mac802154/scan.c:422:43: sparse: sparse: cast from restricted __le16
+>> net/mac802154/scan.c:423:50: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le64 [usertype] extended_addr @@
+   net/mac802154/scan.c:423:50: sparse:     expected unsigned long long [usertype] val
+   net/mac802154/scan.c:423:50: sparse:     got restricted __le64 [usertype] extended_addr
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
+>> net/mac802154/scan.c:423:50: sparse: sparse: cast from restricted __le64
 
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 5c391328b9bb41..8e95295e39b65c 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -1864,7 +1864,7 @@ A histogram can now be defined for the new synthetic event::
- The above shows the latency "lat" in a power of 2 grouping.
- 
- Like any other event, once a histogram is enabled for the event, the
--output can be displayed by reading the event's 'hist' file.
-+output can be displayed by reading the event's 'hist' file::
- 
-   # cat /sys/kernel/debug/tracing/events/synthetic/wakeup_latency/hist
- 
-@@ -1911,7 +1911,7 @@ output can be displayed by reading the event's 'hist' file.
- 
- 
- The latency values can also be grouped linearly by a given size with
--the ".buckets" modifier and specify a size (in this case groups of 10).
-+the ".buckets" modifier and specify a size (in this case groups of 10)::
- 
-   # echo 'hist:keys=pid,prio,lat.buckets=10:sort=lat' >> \
-         /sys/kernel/debug/tracing/events/synthetic/wakeup_latency/trigger
-@@ -1945,7 +1945,7 @@ the ".buckets" modifier and specify a size (in this case groups of 10).
- 
- To save stacktraces, create a synthetic event with a field of type "unsigned long[]"
- or even just "long[]". For example, to see how long a task is blocked in an
--uninterruptible state:
-+uninterruptible state::
- 
-   # cd /sys/kernel/tracing
-   # echo 's:block_lat pid_t pid; u64 delta; unsigned long[] stack;' > dynamic_events
-@@ -1990,7 +1990,8 @@ uninterruptible state:
-   => kthread+0xe9/0x110
-   => ret_from_fork+0x2c/0x50
- 
--A synthetic event that has a stacktrace field may use it as a key in histogram:
-+A synthetic event that has a stacktrace field may use it as a key in
-+histogram::
- 
-   # echo 'hist:delta.buckets=100,stack.stacktrace:sort=delta' > events/synthetic/block_lat/trigger
-   # cat events/synthetic/block_lat/hist
-@@ -2183,11 +2184,11 @@ The following commonly-used handler.action pairs are available:
-               wakeup_new_test($testpid) if comm=="cyclictest"' >> \
-               /sys/kernel/debug/tracing/events/sched/sched_wakeup_new/trigger
- 
--    Or, equivalently, using the 'trace' keyword syntax:
-+    Or, equivalently, using the 'trace' keyword syntax::
- 
--    # echo 'hist:keys=$testpid:testpid=pid:onmatch(sched.sched_wakeup_new).\
--            trace(wakeup_new_test,$testpid) if comm=="cyclictest"' >> \
--            /sys/kernel/debug/tracing/events/sched/sched_wakeup_new/trigger
-+      # echo 'hist:keys=$testpid:testpid=pid:onmatch(sched.sched_wakeup_new).\
-+              trace(wakeup_new_test,$testpid) if comm=="cyclictest"' >> \
-+              /sys/kernel/debug/tracing/events/sched/sched_wakeup_new/trigger
- 
-     Creating and displaying a histogram based on those events is now
-     just a matter of using the fields and new synthetic event in the
-@@ -2320,48 +2321,48 @@ The following commonly-used handler.action pairs are available:
-     resulting latency, stored in wakeup_lat, exceeds the current
-     maximum latency, a snapshot is taken.  As part of the setup, all
-     the scheduler events are also enabled, which are the events that
--    will show up in the snapshot when it is taken at some point:
-+    will show up in the snapshot when it is taken at some point::
- 
--    # echo 1 > /sys/kernel/debug/tracing/events/sched/enable
-+      # echo 1 > /sys/kernel/debug/tracing/events/sched/enable
- 
--    # echo 'hist:keys=pid:ts0=common_timestamp.usecs \
--            if comm=="cyclictest"' >> \
--            /sys/kernel/debug/tracing/events/sched/sched_waking/trigger
-+      # echo 'hist:keys=pid:ts0=common_timestamp.usecs \
-+              if comm=="cyclictest"' >> \
-+              /sys/kernel/debug/tracing/events/sched/sched_waking/trigger
- 
--    # echo 'hist:keys=next_pid:wakeup_lat=common_timestamp.usecs-$ts0: \
--            onmax($wakeup_lat).save(next_prio,next_comm,prev_pid,prev_prio, \
--	    prev_comm):onmax($wakeup_lat).snapshot() \
--	    if next_comm=="cyclictest"' >> \
--	    /sys/kernel/debug/tracing/events/sched/sched_switch/trigger
-+      # echo 'hist:keys=next_pid:wakeup_lat=common_timestamp.usecs-$ts0: \
-+              onmax($wakeup_lat).save(next_prio,next_comm,prev_pid,prev_prio, \
-+	      prev_comm):onmax($wakeup_lat).snapshot() \
-+	      if next_comm=="cyclictest"' >> \
-+	      /sys/kernel/debug/tracing/events/sched/sched_switch/trigger
- 
-     When the histogram is displayed, for each bucket the max value
-     and the saved values corresponding to the max are displayed
-     following the rest of the fields.
- 
-     If a snapshot was taken, there is also a message indicating that,
--    along with the value and event that triggered the global maximum:
-+    along with the value and event that triggered the global maximum::
- 
--    # cat /sys/kernel/debug/tracing/events/sched/sched_switch/hist
--      { next_pid:       2101 } hitcount:        200
--	max:         52  next_prio:        120  next_comm: cyclictest \
--        prev_pid:          0  prev_prio:        120  prev_comm: swapper/6
-+      # cat /sys/kernel/debug/tracing/events/sched/sched_switch/hist
-+        { next_pid:       2101 } hitcount:        200
-+	  max:         52  next_prio:        120  next_comm: cyclictest \
-+          prev_pid:          0  prev_prio:        120  prev_comm: swapper/6
- 
--      { next_pid:       2103 } hitcount:       1326
--	max:        572  next_prio:         19  next_comm: cyclictest \
--        prev_pid:          0  prev_prio:        120  prev_comm: swapper/1
-+        { next_pid:       2103 } hitcount:       1326
-+	  max:        572  next_prio:         19  next_comm: cyclictest \
-+          prev_pid:          0  prev_prio:        120  prev_comm: swapper/1
- 
--      { next_pid:       2102 } hitcount:       1982 \
--	max:         74  next_prio:         19  next_comm: cyclictest \
--        prev_pid:          0  prev_prio:        120  prev_comm: swapper/5
-+        { next_pid:       2102 } hitcount:       1982 \
-+	  max:         74  next_prio:         19  next_comm: cyclictest \
-+          prev_pid:          0  prev_prio:        120  prev_comm: swapper/5
- 
--    Snapshot taken (see tracing/snapshot).  Details:
--	triggering value { onmax($wakeup_lat) }:        572	\
--	triggered by event with key: { next_pid:       2103 }
-+      Snapshot taken (see tracing/snapshot).  Details:
-+	  triggering value { onmax($wakeup_lat) }:        572	\
-+	  triggered by event with key: { next_pid:       2103 }
- 
--    Totals:
--        Hits: 3508
--        Entries: 3
--        Dropped: 0
-+      Totals:
-+          Hits: 3508
-+          Entries: 3
-+          Dropped: 0
- 
-     In the above case, the event that triggered the global maximum has
-     the key with next_pid == 2103.  If you look at the bucket that has
-@@ -2439,15 +2440,15 @@ The following commonly-used handler.action pairs are available:
-     $cwnd variable.  If the value has changed, a snapshot is taken.
-     As part of the setup, all the scheduler and tcp events are also
-     enabled, which are the events that will show up in the snapshot
--    when it is taken at some point:
-+    when it is taken at some point::
- 
--    # echo 1 > /sys/kernel/debug/tracing/events/sched/enable
--    # echo 1 > /sys/kernel/debug/tracing/events/tcp/enable
-+      # echo 1 > /sys/kernel/debug/tracing/events/sched/enable
-+      # echo 1 > /sys/kernel/debug/tracing/events/tcp/enable
- 
--    # echo 'hist:keys=dport:cwnd=snd_cwnd: \
--            onchange($cwnd).save(snd_wnd,srtt,rcv_wnd): \
--	    onchange($cwnd).snapshot()' >> \
--	    /sys/kernel/debug/tracing/events/tcp/tcp_probe/trigger
-+      # echo 'hist:keys=dport:cwnd=snd_cwnd: \
-+              onchange($cwnd).save(snd_wnd,srtt,rcv_wnd): \
-+	      onchange($cwnd).snapshot()' >> \
-+	      /sys/kernel/debug/tracing/events/tcp/tcp_probe/trigger
- 
-     When the histogram is displayed, for each bucket the tracked value
-     and the saved values corresponding to that value are displayed
-@@ -2470,10 +2471,10 @@ The following commonly-used handler.action pairs are available:
-       { dport:        443 } hitcount:        211
- 	changed:         10  snd_wnd:      26960  srtt:      17379  rcv_wnd:      28800
- 
--    Snapshot taken (see tracing/snapshot).  Details::
-+      Snapshot taken (see tracing/snapshot).  Details:
- 
--        triggering value { onchange($cwnd) }:         10
--        triggered by event with key: { dport:         80 }
-+          triggering value { onchange($cwnd) }:         10
-+          triggered by event with key: { dport:         80 }
- 
-       Totals:
-           Hits: 414
+vim +422 net/mac802154/scan.c
 
-base-commit: 9f712417e1fc7d3db042941524e59573e02a55c7
+   395	
+   396	int mac802154_send_beacons_locked(struct ieee802154_sub_if_data *sdata,
+   397					  struct cfg802154_beacon_request *request)
+   398	{
+   399		struct ieee802154_local *local = sdata->local;
+   400	
+   401		ASSERT_RTNL();
+   402	
+   403		if (mac802154_is_beaconing(local))
+   404			mac802154_stop_beacons_locked(local, sdata);
+   405	
+   406		/* Store beaconing parameters */
+   407		rcu_assign_pointer(local->beacon_req, request);
+   408	
+   409		set_bit(IEEE802154_IS_BEACONING, &local->ongoing);
+   410	
+   411		memset(&local->beacon, 0, sizeof(local->beacon));
+   412		local->beacon.mhr.fc.type = IEEE802154_FC_TYPE_BEACON;
+   413		local->beacon.mhr.fc.security_enabled = 0;
+   414		local->beacon.mhr.fc.frame_pending = 0;
+   415		local->beacon.mhr.fc.ack_request = 0;
+   416		local->beacon.mhr.fc.intra_pan = 0;
+   417		local->beacon.mhr.fc.dest_addr_mode = IEEE802154_NO_ADDRESSING;
+   418		local->beacon.mhr.fc.version = IEEE802154_2003_STD;
+   419		local->beacon.mhr.fc.source_addr_mode = IEEE802154_EXTENDED_ADDRESSING;
+   420		atomic_set(&request->wpan_dev->bsn, -1);
+   421		local->beacon.mhr.source.mode = IEEE802154_ADDR_LONG;
+ > 422		local->beacon.mhr.source.pan_id = cpu_to_le16(request->wpan_dev->pan_id);
+ > 423		local->beacon.mhr.source.extended_addr = cpu_to_le64(request->wpan_dev->extended_addr);
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
