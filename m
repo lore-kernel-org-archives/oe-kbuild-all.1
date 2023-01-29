@@ -1,54 +1,45 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F007ABD39
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 08:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9704317D9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 09:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674982626; x=1706518626;
+  t=1674985683; x=1706521683;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vUENpV2Ql4/NmK32XqXLrro2vbJXFlGGqekRc82vJ/0=;
-  b=RzKgxw258kn7uiUdjGekjeNRLUWzkjXBR4woXHy1tMGEY5TNe/5JPyXp
-   394TFNsUtyFkgF0epnzWb0D9C9yBtqbL38ezzBB3LwnVX8mPuVpsIufp8
-   qTHJORhJrzUXTF4NKlLQS2ECaSWr2HL16c/y4dvrK2Nqg27atOIC+m49n
-   IyhA7SK208Br6IMhivkSiIcImQAaA61QJbynP3fVFJMdj/sdsDzjX1MVP
-   qtR8WIAuJHzfdsgK48WTyDBSDRa2zYu3q7GeNU/fiLMSty4fY9bs7Y7Na
-   N5ZldGiqeVfcWE5SDUz6RpetWLXkZ3e32J+EZigiH3l2PxjvoNXtzAsxK
+  bh=TP0zpb9R5uK7bNYIk1uNAfZNOdPTZzcFV0KLQLxMD44=;
+  b=SWsROLd/u+9LNZVsf1OO9sEygiHLmaR8hgp2ZRd50izFm4ZV5ypSnA/d
+   LRRQUCHSvHmvvrPgpgu6muakoCLrpjAfoVDQUBN8ZVtogDTknVoxYqcKl
+   xUbUxWJchIOezgAhG7ItLvjA0nT1sd2Fqu9cNa2bO8+gUmI1mh4JgGjkK
+   ngAi1tV7VgD9AgaQReBGugfCSqaa/ECPNQ1BO3/pwc0etJEUAXN3VZ3d8
+   DNT580k5tXLiRfpDO2JJEEpF5oc5J4vr18XihNLHgZu4YZMtGTzPTVkXx
+   W/hM9xBtSpTVTFUQ6WxpHAfYXbUnAXXqOmmvOysNILxGy5ZOe0sititv+
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315335869"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315339542"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="315335869"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 00:57:06 -0800
+   d="scan'208";a="315339542"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 01:48:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="665736856"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="641217818"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="665736856"
+   d="scan'208";a="641217818"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Jan 2023 00:56:57 -0800
+  by orsmga006.jf.intel.com with ESMTP; 29 Jan 2023 01:47:59 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM3Ue-0002dm-2U;
-	Sun, 29 Jan 2023 08:56:56 +0000
-Date: Sun, 29 Jan 2023 16:56:55 +0800
+	id 1pM4I2-0002gE-2b;
+	Sun, 29 Jan 2023 09:47:58 +0000
+Date: Sun, 29 Jan 2023 17:47:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <max.byungchul.park@gmail.com>,
+To: Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com, markgross@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jdelvare@suse.com, linux@roeck-us.net,
+	platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
-Subject: Re: [PATCH v8 05/25] dept: Tie to Lockdep and IRQ tracing
-Message-ID: <202301291601.7591xziv-lkp@intel.com>
-References: <1674782358-25542-6-git-send-email-max.byungchul.park@gmail.com>
+Subject: Re: [PATCH 5/5] platform/x86: dell-ddv: Add hwmon support
+Message-ID: <202301291705.JVYNKBnd-lkp@intel.com>
+References: <20230126194021.381092-6-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,105 +48,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674782358-25542-6-git-send-email-max.byungchul.park@gmail.com>
+In-Reply-To: <20230126194021.381092-6-W_Armin@gmx.de>
 
-Hi Byungchul,
+Hi Armin,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc5]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.2-rc5 next-20230127]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230128-102456
-patch link:    https://lore.kernel.org/r/1674782358-25542-6-git-send-email-max.byungchul.park%40gmail.com
-patch subject: [PATCH v8 05/25] dept: Tie to Lockdep and IRQ tracing
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291601.7591xziv-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-dell-ddv-Add-support-for-interface-version-3/20230128-153324
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230126194021.381092-6-W_Armin%40gmx.de
+patch subject: [PATCH 5/5] platform/x86: dell-ddv: Add hwmon support
+config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20230129/202301291705.JVYNKBnd-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/aed5169e3b6767146ee602447fcf75b4c734d2db
+        # https://github.com/intel-lab-lkp/linux/commit/36be415c22eab400b1546b2c5a6737b28e847774
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230128-102456
-        git checkout aed5169e3b6767146ee602447fcf75b4c734d2db
+        git fetch --no-tags linux-review Armin-Wolf/platform-x86-dell-ddv-Add-support-for-interface-version-3/20230128-153324
+        git checkout 36be415c22eab400b1546b2c5a6737b28e847774
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/ethernet/microchip/vcap/ drivers/platform/chrome/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/platform/chrome/cros_ec_proto_test.c: In function 'cros_ec_proto_test_get_sensor_count_xfer_error':
->> drivers/platform/chrome/cros_ec_proto_test.c:2528:1: warning: the frame size of 2072 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    2528 | }
-         | ^
-   drivers/platform/chrome/cros_ec_proto_test.c: In function 'cros_ec_proto_test_get_sensor_count_normal':
-   drivers/platform/chrome/cros_ec_proto_test.c:2488:1: warning: the frame size of 2072 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    2488 | }
-         | ^
-   drivers/platform/chrome/cros_ec_proto_test.c: In function 'cros_ec_proto_test_get_sensor_count_legacy':
-   drivers/platform/chrome/cros_ec_proto_test.c:2593:1: warning: the frame size of 2136 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    2593 | }
-         | ^
-   drivers/platform/chrome/cros_ec_proto_test.c: In function 'cros_ec_proto_test_check_features_not_cached':
-   drivers/platform/chrome/cros_ec_proto_test.c:2443:1: warning: the frame size of 2056 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    2443 | }
-         | ^
---
-   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:2882:
-   drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c: In function 'vcap_api_next_lookup_advanced_test':
->> drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:1955:1: warning: the frame size of 2240 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    1955 | }
-         | ^
-
-
-vim +2528 drivers/platform/chrome/cros_ec_proto_test.c
-
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2489  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2490  static void cros_ec_proto_test_get_sensor_count_xfer_error(struct kunit *test)
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2491  {
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2492  	struct cros_ec_proto_test_priv *priv = test->priv;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2493  	struct cros_ec_device *ec_dev = &priv->ec_dev;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2494  	struct ec_xfer_mock *mock;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2495  	int ret;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2496  	struct cros_ec_dev ec;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2497  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2498  	ec_dev->max_request = 0xff;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2499  	ec_dev->max_response = 0xee;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2500  	ec.ec_dev = ec_dev;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2501  	ec.dev = ec_dev->dev;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2502  	ec.cmd_offset = 0;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2503  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2504  	/* For EC_CMD_MOTION_SENSE_CMD. */
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2505  	{
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2506  		mock = cros_kunit_ec_xfer_mock_addx(test, -EPROTO, EC_RES_SUCCESS, 0);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2507  		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2508  	}
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2509  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2510  	ret = cros_ec_get_sensor_count(&ec);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2511  	KUNIT_EXPECT_EQ(test, ret, -EPROTO);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2512  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2513  	/* For EC_CMD_MOTION_SENSE_CMD. */
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2514  	{
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2515  		struct ec_params_motion_sense *data;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2516  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2517  		mock = cros_kunit_ec_xfer_mock_next();
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2518  		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2519  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2520  		KUNIT_EXPECT_EQ(test, mock->msg.version, 1);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2521  		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_MOTION_SENSE_CMD);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2522  		KUNIT_EXPECT_EQ(test, mock->msg.insize, sizeof(struct ec_response_motion_sense));
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2523  		KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(*data));
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2524  
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2525  		data = (struct ec_params_motion_sense *)mock->i_data;
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2526  		KUNIT_EXPECT_EQ(test, data->cmd, MOTIONSENSE_CMD_DUMP);
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2527  	}
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22 @2528  }
-33f0fdba6066b5 Tzung-Bi Shih 2022-06-22  2529  
+>> ERROR: modpost: "__umoddi3" [drivers/platform/x86/dell/dell-wmi-ddv.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/platform/x86/dell/dell-wmi-ddv.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
