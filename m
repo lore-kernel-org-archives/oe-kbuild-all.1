@@ -1,45 +1,46 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A17917F1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 11:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEDE17F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 12:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674992469; x=1706528469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ix9sPj7+2IMdYW50mRCoytICUDn4AOz3xH8QsMmc0kY=;
-  b=b1pf3zosyEVWXimiaeCjK71II/sYodJz8anZ+rU4C9DcrzqgP4Ur/fCt
-   sI+/fcH+AlgtmkwJxxDL8e2uq/dALeEcht2ku87tPnadguPjFatsCaAjn
-   a2pxUGwRc+GlahUbmCsPIgqM1QePsZWflDGVhYl8oQUAvY6C2YdW1V3at
-   M90BSFfOdBc/NAIb68Ex54BxQY5a9tW0sJdVwf+iQmkPEAvkG33iNRC04
-   iJsdHpk61Ee5jkFCivlXDoHmWok+NxlkU4+PQ5HQH5wBJZVUuzUtUnXMw
-   FomgVqVXH0emsZYU6NvjcqCMxioNSuoM4Gy+EAl1MW7lHfD0ZOIidQQY1
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="326059666"
+  t=1674994331; x=1706530331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=In6EFK3n5kPcdfNi3Fdf65JlIPPEIT4F0GieQf6G1sI=;
+  b=AgrsSasegCfcEqgQzr1Etrd/+tRDmQpf0/sFOrqFpuXHTjQRSrSR4Yuv
+   Lstdr1Vieau1RotVayAU7hvpfxoF0bLXeuhvZG+Kc8KzEjOuPgKRFeIO+
+   E3W52i3Bc4Pjyy1dtRrVqZ4zOxrQZdUvYcbAkZiRA3xY8ZfbwEEIf5Aq3
+   rmLudp1WIsSWV/6Dew+yvaZFszO3uJWKcvGO5Dv1OPX8tYYcK93DSRx/w
+   ry51oWfKBGaLG5m49JNT4AfcLiQJ6iQmJsa5Ox79tADJYWBsSuKZ2SGb4
+   1EOaa8sVdvO9DcLJ8lqITym77318hYQXi5NDa47o8U+/dGCJo/3m8t2Y7
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413610277"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="326059666"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 03:41:08 -0800
+   d="scan'208";a="413610277"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:12:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="613719918"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752515787"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="613719918"
+   d="scan'208";a="752515787"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 29 Jan 2023 03:41:06 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2023 04:12:07 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM63V-0002m2-2G;
-	Sun, 29 Jan 2023 11:41:05 +0000
-Date: Sun, 29 Jan 2023 19:40:39 +0800
+	id 1pM6XW-0002n6-2B;
+	Sun, 29 Jan 2023 12:12:06 +0000
+Date: Sun, 29 Jan 2023 20:11:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Piyush Mehta <piyush.mehta@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Manish Narani <manish.narani@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS_2022.1_update 404/1124]
- drivers/usb/dwc3/dwc3-xilinx.c:508:6: warning: no previous prototype for
- 'dwc3_xilinx_wakeup_capable'
-Message-ID: <202301291956.7mRsLiyf-lkp@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, bfoster@redhat.com,
+	willy@infradead.org, linux-api@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
+Message-ID: <202301292044.JVAnbg9W-lkp@intel.com>
+References: <20230126175356.1582123-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +49,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126175356.1582123-3-nphamcs@gmail.com>
 
-Hi Piyush,
+Hi Nhat,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-head:   5da20470af455bc588357712b64603b06e4edf42
-commit: db6b55a74c709a27fdf6d175f890568dc8945424 [404/1124] usb: dwc3: Added remote wake-up in xilinx glue driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291956.7mRsLiyf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230126175356.1582123-3-nphamcs%40gmail.com
+patch subject: [PATCH v8 2/3] cachestat: implement cachestat syscall
+config: s390-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292044.JVAnbg9W-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/db6b55a74c709a27fdf6d175f890568dc8945424
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS_2022.1_update
-        git checkout db6b55a74c709a27fdf6d175f890568dc8945424
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/a05ffdcecfe9ac147066fb8472e6fb75491d0eed
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
+        git checkout a05ffdcecfe9ac147066fb8472e6fb75491d0eed
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/usb/dwc3/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
+>> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
+   mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
 
->> drivers/usb/dwc3/dwc3-xilinx.c:508:6: warning: no previous prototype for 'dwc3_xilinx_wakeup_capable' [-Wmissing-prototypes]
-     508 | void dwc3_xilinx_wakeup_capable(struct device *dev, bool wakeup)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +4075 mm/filemap.c
 
-
-vim +/dwc3_xilinx_wakeup_capable +508 drivers/usb/dwc3/dwc3-xilinx.c
-
-   506	
-   507	/* xilinx feature support functions */
- > 508	void dwc3_xilinx_wakeup_capable(struct device *dev, bool wakeup)
-   509	{
-   510		struct device_node *node = of_node_get(dev->parent->of_node);
-   511	
-   512		/* check for valid parent node */
-   513		while (node) {
-   514			if (of_device_is_compatible(node, "xlnx,zynqmp-dwc3") ||
-   515			    of_device_is_compatible(node, "xlnx,versal-dwc3"))
-   516				break;
-   517	
-   518			/* get the next parent node */
-   519			node = of_get_next_parent(node);
-   520		}
-   521	
-   522		if (node) {
-   523			struct platform_device *pdev_parent;
-   524			struct dwc3_xlnx *priv_data;
-   525	
-   526			pdev_parent = of_find_device_by_node(node);
-   527			priv_data = platform_get_drvdata(pdev_parent);
-   528	
-   529			/* Set wakeup capable as true or false */
-   530			priv_data->wakeup_capable = wakeup;
-   531	
-   532			/* Allow D3 state if wakeup capable only */
-   533			priv_data->enable_d3_suspend = wakeup;
-   534		}
-   535	}
-   536	
+  4037	
+  4038	#ifdef CONFIG_CACHESTAT_SYSCALL
+  4039	/*
+  4040	 * The cachestat(5) system call.
+  4041	 *
+  4042	 * cachestat() returns the page cache statistics of a file in the
+  4043	 * bytes range specified by `off` and `len`: number of cached pages,
+  4044	 * number of dirty pages, number of pages marked for writeback,
+  4045	 * number of evicted pages, and number of recently evicted pages.
+  4046	 *
+  4047	 * An evicted page is a page that is previously in the page cache
+  4048	 * but has been evicted since. A page is recently evicted if its last
+  4049	 * eviction was recent enough that its reentry to the cache would
+  4050	 * indicate that it is actively being used by the system, and that
+  4051	 * there is memory pressure on the system.
+  4052	 *
+  4053	 * `off` and `len` must be non-negative integers. If `len` > 0,
+  4054	 * the queried range is [`off`, `off` + `len`]. If `len` == 0,
+  4055	 * we will query in the range from `off` to the end of the file.
+  4056	 *
+  4057	 * `cstat_version` is an unsigned integer indicating the specific version
+  4058	 * of the cachestat struct. It must be at least 1, and does not exceed the
+  4059	 * latest version number (which is currently 1). For now, user should
+  4060	 * just pass 1.
+  4061	 *
+  4062	 * The `flags` argument is unused for now, but is included for future
+  4063	 * extensibility. User should pass 0 (i.e no flag specified).
+  4064	 *
+  4065	 * Because the status of a page can change after cachestat() checks it
+  4066	 * but before it returns to the application, the returned values may
+  4067	 * contain stale information.
+  4068	 *
+  4069	 * return values:
+  4070	 *  zero    - success
+  4071	 *  -EFAULT - cstat points to an illegal address
+  4072	 *  -EINVAL - invalid arguments
+  4073	 *  -EBADF	- invalid file descriptor
+  4074	 */
+> 4075	SYSCALL_DEFINE6(cachestat, unsigned int, fd, off_t, off, size_t, len,
 
 -- 
 0-DAY CI Kernel Test Service
