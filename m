@@ -1,46 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D51217C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 06:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A5D15A2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 06:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674974094; x=1706510094;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JBVSW09m4oCTd6bOXWl3/8kb708D4wokFFHySa6TEVs=;
-  b=kB4P8Qg8lc2DNWBkHc7ZxMlwyoVTAnlG9rXBFUGNS+4xCgUMTE1/MlXV
-   ndzEUfP0nn3mWPJa7sLtb0nn9grRN1MeiwtjOdmNShr9owXPfSkTmGHuq
-   Kkzt4WpobOkindWQnzYctF1ffArVCufkqBlfNKcql2I/ZtjyNyfjTtO2B
-   jJTsNux48MmofVpfMRMtbKSyaOwjqFzOdRdovAlwzqC9ZE8q2zpaeB/N9
-   qD+rLF2DPizqjQC0bZfrwFnTEl/7dI9rkmE4ocrNfN/aeHCGCK3Hfi5xZ
-   0f9Ytx/MkYCxpH7d7x65K2c5habb39ec0j7jmi3MuUiU/YVs+7owCYsdg
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413588254"
+  t=1674975293; x=1706511293;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d/orxxeMdfbyAmMY6FUU8+qP3RUDB6RuZDMjC+TSrzc=;
+  b=Rqnyk8QAeL4X32Zz1kKEtSLPggl5Vs99v2C0egh92p1rPzC1e/+xwHdr
+   4zh5P7T9CByUddnA9qJ5QAi2yYuuS8b2lNtLGiGCoJDzsHKiA5f2EH+X+
+   Ss5H9r/AgrKACtf5WRU06FgWxb+U+UJw+CVRgCxTeFWvEL2ypKZFzOeDH
+   o46K1m49sD1eCncX/eE5HeICqvZok6oBoWAcj0PEDVt8eQi8yBzjR15bO
+   gq5h7KGfHNHpY2ZAF+g1vEkWAUhfyvKF1uBV0OoKXV/PbkzEbk5aEUO85
+   EMO7Gcwm8nFgF53s3i1dvLL1xY94E8wnG5aMtX8fQAAT64o7HhiyMAhhG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="354681517"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="413588254"
+   d="scan'208";a="354681517"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 22:34:52 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 22:54:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="663747832"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="663750597"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="663747832"
+   d="scan'208";a="663750597"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 22:34:50 -0800
+  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 22:54:50 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM1H7-0002Ws-1Y;
-	Sun, 29 Jan 2023 06:34:49 +0000
-Date: Sun, 29 Jan 2023 14:34:11 +0800
+	id 1pM1aU-0002Xg-0m;
+	Sun, 29 Jan 2023 06:54:50 +0000
+Date: Sun, 29 Jan 2023 14:54:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Felix.Kuehling@amd.com,
-	Jonathan.Kim@amd.com
-Subject: Re: [PATCH 07/32] drm/amdgpu: add gfx9.4.1 hw debug mode enable and
- disable calls
-Message-ID: <202301291457.nbbgmBEG-lkp@intel.com>
-References: <20230125195401.4183544-8-jonathan.kim@amd.com>
+To: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>
+Subject: [steev:sc8280xp-next-20230127 61/68]
+ drivers/firmware/qcom_scm.c:273: warning: expecting prototype for
+ qcom_scm_call_atomic(). Prototype was for __qcom_scm_call_atomic() instead
+Message-ID: <202301291431.YozLGxxV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,149 +46,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125195401.4183544-8-jonathan.kim@amd.com>
 
-Hi Jonathan,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on linus/master v6.2-rc5]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230125195401.4183544-8-jonathan.kim%40amd.com
-patch subject: [PATCH 07/32] drm/amdgpu: add gfx9.4.1 hw debug mode enable and disable calls
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291457.nbbgmBEG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/steev/linux sc8280xp-next-20230127
+head:   e10708dcf38b3f2af28016c15153c8561a654db1
+commit: b802e56385fbc4a4f05ffffeb31a699e18c8e698 [61/68] firmware: qcom_scm: Export SCM call functions
+config: arm-randconfig-r046-20230129 (https://download.01.org/0day-ci/archive/20230129/202301291431.YozLGxxV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/3983dc0f35ebf17452f97c096b866e38c98318db
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
-        git checkout 3983dc0f35ebf17452f97c096b866e38c98318db
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/steev/linux/commit/b802e56385fbc4a4f05ffffeb31a699e18c8e698
+        git remote add steev https://github.com/steev/linux
+        git fetch --no-tags steev sc8280xp-next-20230127
+        git checkout b802e56385fbc4a4f05ffffeb31a699e18c8e698
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/firmware/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c: In function 'suspend_resume_compute_scheduler':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c:312:53: warning: implicit conversion from 'enum amd_hw_ip_block_type' to 'enum amd_ip_block_type' [-Wenum-conversion]
-     312 |         return amdgpu_device_ip_wait_for_idle(adev, GC_HWIP);
-         |                                                     ^~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:36,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:64,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c:26:
-   At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
-      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c:343: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * restore_dbg_reisters is ignored here but is a general interface requirement
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c:369: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * keep_trap_enabled is ignored here but is a general interface requirement
+>> drivers/firmware/qcom_scm.c:273: warning: expecting prototype for qcom_scm_call_atomic(). Prototype was for __qcom_scm_call_atomic() instead
 
 
-vim +312 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+vim +273 drivers/firmware/qcom_scm.c
 
-   281	
-   282	/*
-   283	 * Helper used to suspend/resume gfx pipe for image post process work to set
-   284	 * barrier behaviour.
-   285	 */
-   286	static int suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool suspend)
-   287	{
-   288		int i, r = 0;
-   289	
-   290		for (i = 0; i < adev->gfx.num_compute_rings; i++) {
-   291			struct amdgpu_ring *ring = &adev->gfx.compute_ring[i];
-   292	
-   293			if (!(ring && ring->sched.thread))
-   294				continue;
-   295	
-   296			/* stop secheduler and drain ring. */
-   297			if (suspend) {
-   298				drm_sched_stop(&ring->sched, NULL);
-   299				r = amdgpu_fence_wait_empty(ring);
-   300				if (r)
-   301					goto out;
-   302			} else {
-   303				drm_sched_start(&ring->sched, false);
-   304			}
-   305		}
-   306	
-   307	out:
-   308		/* return on resume or failure to drain rings. */
-   309		if (!suspend || r)
-   310			return r;
-   311	
- > 312		return amdgpu_device_ip_wait_for_idle(adev, GC_HWIP);
-   313	}
-   314	
-   315	static void set_barrier_auto_waitcnt(struct amdgpu_device *adev, bool enable_waitcnt)
-   316	{
-   317		uint32_t data;
-   318	
-   319		WRITE_ONCE(adev->barrier_has_auto_waitcnt, enable_waitcnt);
-   320	
-   321		if (!down_read_trylock(&adev->reset_domain->sem))
-   322			return;
-   323	
-   324		amdgpu_amdkfd_suspend(adev, false);
-   325	
-   326		if (suspend_resume_compute_scheduler(adev, true))
-   327			goto out;
-   328	
-   329		data = RREG32(SOC15_REG_OFFSET(GC, 0, mmSQ_CONFIG));
-   330		data = REG_SET_FIELD(data, SQ_CONFIG, DISABLE_BARRIER_WAITCNT,
-   331							enable_waitcnt ? 0 : 1);
-   332		WREG32(SOC15_REG_OFFSET(GC, 0, mmSQ_CONFIG), data);
-   333	
-   334	out:
-   335		suspend_resume_compute_scheduler(adev, false);
-   336	
-   337		amdgpu_amdkfd_resume(adev, false);
-   338	
-   339		up_read(&adev->reset_domain->sem);
-   340	}
-   341	
-   342	/**
- > 343	 * restore_dbg_reisters is ignored here but is a general interface requirement
-   344	 * for devices that support GFXOFF and where the RLC save/restore list
-   345	 * does not support hw registers for debugging i.e. the driver has to manually
-   346	 * initialize the debug mode registers after it has disabled GFX off during the
-   347	 * debug session.
-   348	 */
-   349	static uint32_t kgd_arcturus_enable_debug_trap(struct amdgpu_device *adev,
-   350					bool restore_dbg_registers,
-   351					uint32_t vmid)
-   352	{
-   353		mutex_lock(&adev->grbm_idx_mutex);
-   354	
-   355		kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
-   356	
-   357		set_barrier_auto_waitcnt(adev, true);
-   358	
-   359		WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
-   360	
-   361		kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
-   362	
-   363		mutex_unlock(&adev->grbm_idx_mutex);
-   364	
-   365		return 0;
-   366	}
-   367	
+b802e56385fbc4 Maximilian Luz 2023-01-27  259  
+9a434cee773ae1 Elliot Berman  2020-01-07  260  /**
+9a434cee773ae1 Elliot Berman  2020-01-07  261   * qcom_scm_call_atomic() - atomic variation of qcom_scm_call()
+b802e56385fbc4 Maximilian Luz 2023-01-27  262   * @dev:	Device. Depending on the command and number of arguments, this
+b802e56385fbc4 Maximilian Luz 2023-01-27  263   *		is optional.
+9a434cee773ae1 Elliot Berman  2020-01-07  264   * @desc:	Descriptor structure containing arguments and return values
+9a434cee773ae1 Elliot Berman  2020-01-07  265   * @res:	Structure containing results from SMC/HVC call
+9a434cee773ae1 Elliot Berman  2020-01-07  266   *
+9a434cee773ae1 Elliot Berman  2020-01-07  267   * Sends a command to the SCM and waits for the command to finish processing.
+9a434cee773ae1 Elliot Berman  2020-01-07  268   * This can be called in atomic context.
+9a434cee773ae1 Elliot Berman  2020-01-07  269   */
+b802e56385fbc4 Maximilian Luz 2023-01-27  270  static int __qcom_scm_call_atomic(struct device *dev,
+9a434cee773ae1 Elliot Berman  2020-01-07  271  				  const struct qcom_scm_desc *desc,
+9a434cee773ae1 Elliot Berman  2020-01-07  272  				  struct qcom_scm_res *res)
+9a434cee773ae1 Elliot Berman  2020-01-07 @273  {
+9a434cee773ae1 Elliot Berman  2020-01-07  274  	switch (__get_convention()) {
+9a434cee773ae1 Elliot Berman  2020-01-07  275  	case SMC_CONVENTION_ARM_32:
+9a434cee773ae1 Elliot Berman  2020-01-07  276  	case SMC_CONVENTION_ARM_64:
+9a434cee773ae1 Elliot Berman  2020-01-07  277  		return scm_smc_call(dev, desc, res, true);
+9a434cee773ae1 Elliot Berman  2020-01-07  278  	case SMC_CONVENTION_LEGACY:
+9a434cee773ae1 Elliot Berman  2020-01-07  279  		return scm_legacy_call_atomic(dev, desc, res);
+9a434cee773ae1 Elliot Berman  2020-01-07  280  	default:
+9a434cee773ae1 Elliot Berman  2020-01-07  281  		pr_err("Unknown current SCM calling convention.\n");
+9a434cee773ae1 Elliot Berman  2020-01-07  282  		return -EINVAL;
+9a434cee773ae1 Elliot Berman  2020-01-07  283  	}
+9a434cee773ae1 Elliot Berman  2020-01-07  284  }
+9a434cee773ae1 Elliot Berman  2020-01-07  285  
+
+:::::: The code at line 273 was first introduced by commit
+:::::: 9a434cee773ae15309ac225f27551b5492618e4a firmware: qcom_scm: Dynamically support SMCCC and legacy conventions
+
+:::::: TO: Elliot Berman <eberman@codeaurora.org>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
