@@ -1,44 +1,46 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22038BD12
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 04:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68E815A7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jan 2023 05:12:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674965564; x=1706501564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2gbhL4C0dsuascfNB2Cf58aoG5ppAOxbOutSsyOfwpE=;
-  b=K4XsJV/9cvicxytMP7wTNKzPwK/3Pl1HpnQXMwrGbOoXG7qlCsk4+1R9
-   TWGqzgy90tqpWzpgfnxMwWmnElFW8alrsIitCtWsiA0YxAXBFmKlG7bSI
-   l0xv75QEa5mkYDH1IPfrO5vaxMmQq6jtzX57d4ujsidNXPexa2qtKJF8z
-   hcWo768yhgO+7t+S5dMUisfBNsGK9iUOTYy18FG5XcaA3/ZCYMRxk7FoF
-   9l8a6PofY8DgePmuXbDfVfa2gFSB6TAOgklCR32U/pil1oscPUfVBO8mB
-   Q6OUBYgkvI1OApffdtkk0uFbpSfk2Ar8jecuQXNFeWHZpfwbbGMcHGwIz
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="310982873"
+  t=1674969167; x=1706505167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z13zcVVLBQ5KnhMvyN6O7PTmY7wxwKK0EOWVtTqiuog=;
+  b=dAvVNgzsJzP2aKRI0AmKvZsuF40k267iAyCCr63aQZJpq4c6l/T9qQOH
+   pkgEPp19srwsoviDtYKt1NK99+PzNnpIxqPClDyYrl2bLXO+nrE8CHz9K
+   EpcD4JPqnY5MT9Ja8kLf9VsfMQ7S60Xqx1uNZwBWK7cw/ExRCU2ENuxDI
+   nUfpuA5zrs/s5EHi9P2Qm1V0WG+j2t8wHgq5IGLio8BLuFW9ZjdmM4rU6
+   8euaOZ4qiUFrGCUvZscMdHSA1Fn6x4NzCJtVlVTGBAhoLJwsBkfzbjGu+
+   Z9OnLf8wmMYz+eUThR08uhHK0oPpjl0u+xnUuW/HEhVkmoDi6MTkpz8nO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="326034985"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="310982873"
+   d="scan'208";a="326034985"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 20:12:43 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 21:12:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752416786"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752424808"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="752416786"
+   d="scan'208";a="752424808"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 20:12:41 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 21:12:44 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLz3Y-0002SM-2K;
-	Sun, 29 Jan 2023 04:12:40 +0000
-Date: Sun, 29 Jan 2023 12:11:41 +0800
+	id 1pLzzf-0002Tm-2N;
+	Sun, 29 Jan 2023 05:12:43 +0000
+Date: Sun, 29 Jan 2023 13:12:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Aswath Govindraju <a-govindraju@ti.com>
-Subject: drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol
- 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
-Message-ID: <202301291241.d3xh6GiJ-lkp@intel.com>
+To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Felix.Kuehling@amd.com,
+	Jonathan.Kim@amd.com
+Subject: Re: [PATCH 06/32] drm/amdgpu: add gfx9 hw debug mode enable and
+ disable calls
+Message-ID: <202301291257.PRqg0VpG-lkp@intel.com>
+References: <20230125195401.4183544-7-jonathan.kim@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,47 +49,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230125195401.4183544-7-jonathan.kim@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c96618275234ad03d44eafe9f8844305bb44fda4
-commit: 0651a730924b172476f67c7c6e01e898f84cd8f3 gpio: davinci: Add support for system suspend/resume PM
-date:   6 months ago
-config: arm64-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230129/202301291241.d3xh6GiJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0651a730924b172476f67c7c6e01e898f84cd8f3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0651a730924b172476f67c7c6e01e898f84cd8f3
+Hi Jonathan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on linus/master v6.2-rc5]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230125195401.4183544-7-jonathan.kim%40amd.com
+patch subject: [PATCH 06/32] drm/amdgpu: add gfx9 hw debug mode enable and disable calls
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291257.PRqg0VpG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/11bb8b2034cd92b687a2d5461298cc72d720d5c9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
+        git checkout 11bb8b2034cd92b687a2d5461298cc72d720d5c9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpio/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/davinci_gpio_dev_pm_ops +704 drivers/gpio/gpio-davinci.c
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:694: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * restore_dbg_reisters is ignored here but is a general interface requirement
+   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c:718: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * keep_trap_enabled is ignored here but is a general interface requirement
 
-   699	
-   700	DEFINE_SIMPLE_DEV_PM_OPS(davinci_gpio_dev_pm_ops, davinci_gpio_suspend,
-   701				 davinci_gpio_resume);
-   702	
-   703	static const struct of_device_id davinci_gpio_ids[] = {
- > 704		{ .compatible = "ti,keystone-gpio", keystone_gpio_get_irq_chip},
-   705		{ .compatible = "ti,am654-gpio", keystone_gpio_get_irq_chip},
-   706		{ .compatible = "ti,dm6441-gpio", davinci_gpio_get_irq_chip},
-   707		{ /* sentinel */ },
-   708	};
-   709	MODULE_DEVICE_TABLE(of, davinci_gpio_ids);
-   710	
+
+vim +694 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+
+   692	
+   693	/**
+ > 694	 * restore_dbg_reisters is ignored here but is a general interface requirement
+   695	 * for devices that support GFXOFF and where the RLC save/restore list
+   696	 * does not support hw registers for debugging i.e. the driver has to manually
+   697	 * initialize the debug mode registers after it has disabled GFX off during the
+   698	 * debug session.
+   699	 */
+   700	uint32_t kgd_gfx_v9_enable_debug_trap(struct amdgpu_device *adev,
+   701					bool restore_dbg_registers,
+   702					uint32_t vmid)
+   703	{
+   704		mutex_lock(&adev->grbm_idx_mutex);
+   705	
+   706		kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
+   707	
+   708		WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
+   709	
+   710		kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
+   711	
+   712		mutex_unlock(&adev->grbm_idx_mutex);
+   713	
+   714		return 0;
+   715	}
+   716	
 
 -- 
 0-DAY CI Kernel Test Service
