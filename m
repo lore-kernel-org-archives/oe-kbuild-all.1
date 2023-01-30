@@ -1,115 +1,95 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34A717D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 09:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675071543; x=1706607543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MXFSf/8swx646UWqQM1CQtJwTYfaEwldJmyARfIu89s=;
-  b=FwsuJVfIYRioHXCeerii3h1XygRKJ+mAvKZjEP0b5juLwWTSCE29J8ws
-   AHj8OXIL20X917ygFtfX9sgmj31RRHEC0fcBQDfauY9ReMvQcolCJCbaK
-   AaEsLBzvWQHUWCyzb9mB5IW4x3xjJsImv85X4TL9fjGKh55y5PrNdz2IE
-   jJIWjq+bWVZ+05q59SNulJ6AtuHAo2boMF0Cb8lZxiejOGmfKvc3GrO1h
-   rNaaE6pbecqH1dcogxv4Fk40KxxsNlAev1z+alR27uhYq6GZAwboD9TIT
-   PfigRm9t/DYAPm3v0Mo3YhlC6nDLH8WYiwlTx6DRHqubCBeCx+wEmsIU+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="327533316"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="327533316"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 01:38:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="664028539"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="664028539"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2023 01:38:57 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMQcq-0003XQ-2W;
-	Mon, 30 Jan 2023 09:38:56 +0000
-Date: Mon, 30 Jan 2023 17:38:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 1/62]
- drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function
- 'devm_clk_get_enabled'
-Message-ID: <202301301717.9jSNTLan-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B1517D9;
+	Mon, 30 Jan 2023 10:06:40 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3D4395C012C;
+	Mon, 30 Jan 2023 05:06:40 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Mon, 30 Jan 2023 05:06:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1675073200; x=1675159600; bh=DzCynmJzDJ
+	BsJr4TPTwVJFXYpQYfrCi6entST/qT0lo=; b=HreAV8/dz/Osn8r5rU0CQmFCeB
+	dxCjKnkA1XkQ/feo3wdhQy3CfwqwarGRTjMb+UULSwV9WAS6lEh5bRe5VMwT27YT
+	0IrQ9b1JasVJ47ZmyQF8ZtgdC510+Vx5DA2MXbgebHkxcOROGOYcTwPSXw50WR7F
+	TuxCqPRthpzrZSkWChH8uTWN3CJINGL49h46V8aI/31BXb2MzS/oAnYYqpcrckKd
+	lVcor8JvngZ8SKE+uI/YkDfVD4+6u5HABQNmRVW4QK36VDpg8ch5RKXc3Zu4v+su
+	4JMdDOm+ik7H9ShSidGWHpZ3RgnMe+u3jKK0qd1DL/boxiPxQ/12FsY5y0NA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1675073200; x=1675159600; bh=DzCynmJzDJBsJr4TPTwVJFXYpQYf
+	rCi6entST/qT0lo=; b=g7gyNDo7PWY6mJkGsHEQmqKozXaO5GebOnFT1FODitar
+	KBKNvZq0/DmhC2jZY6cXRMhw4XJvsPcyB2YawHQQ429EkKoL1F7GBGuq55LaCzDy
+	W5SUQqrIyHgUIK9ZlqkQIIdnT9O91BWPias+c7yLzrooFb7rnUpw5PaVa9cWizfS
+	8mj6T1U7s7UYmyQn0X0YxHSQYHthDAVzGbqgbq6XAf1zoPk2vm9bHRYDEkjKNVqe
+	TohaoELNMRVSEapT3YRevjWI9xSl1AM50vyU5PiEWYdYx6ocgcpZN1kO545YzppF
+	uYw1cEtBD3Q2wfAPoHyOXDbzFEmo8QKpRLp7uG+nQQ==
+X-ME-Sender: <xms:sJbXYziIViw5SLi14qPIXVNqZZRg2D1rirBL3qm4Tm8aJcDY1CXhCw>
+    <xme:sJbXYwBs0AqlalZqC0oF0Vk_7SyiHvKbyeuUu1hD95HghBPUTk9kWJpKk6nAC7Wne
+    OO5raXDfJYe2skA8W8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepueejfeefvdefhedtgfdtkeekfeelgeduteejgeetvdeiudeivdeuuddufeei
+    iefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgpdhgihhthhhusg
+    drtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:sJbXYzFUJmNCbKgJMH-54yqCYARQyjwJMpCZO9RTWAaq25MeUJ8JYA>
+    <xmx:sJbXYwRLBQfjva6YCwErnxHimRlXS8rukTXhCi4LFtr3Ag2vzHH4vw>
+    <xmx:sJbXYwxNmpo-fYMxlYagru55yvIwgEMvwooNK7KuBBAfPxkcNzSiOA>
+    <xmx:sJbXY6tceBmiau9ObecTycfhCceRjuHEuJ1F1K9eUVmT4JCpe5ssKw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id EC90FB60086; Mon, 30 Jan 2023 05:06:39 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <7c25f24f-4acf-404e-88d0-65b55c017f34@app.fastmail.com>
+In-Reply-To: <202301300732.QfTDtiab-lkp@intel.com>
+References: <202301300732.QfTDtiab-lkp@intel.com>
+Date: Mon, 30 Jan 2023 11:06:20 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "Vinod Koul" <vkoul@kernel.org>,
+ "Hans de Goede" <hdegoede@redhat.com>
+Subject: Re: error: Undefined temporary symbol .LBB5_-1
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
-head:   6c45fd8472ed235c0a8d400ca5733f12301560f3
-commit: e1532c254dadae5209ed94dbbf8b3be753336456 [1/62] memory: atmel-sdramc: Fix missing clk_disable_unprepare in atmel_ramc_probe()
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230130/202301301717.9jSNTLan-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=e1532c254dadae5209ed94dbbf8b3be753336456
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-4.19
-        git checkout e1532c254dadae5209ed94dbbf8b3be753336456
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+On Mon, Jan 30, 2023, at 00:48, kernel test robot wrote:
+> Hi Christophe,
+>
+> FYI, the error/warning still remains.
+>
+> tree:   
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+> master
+> head:   6d796c50f84ca79f1722bb131799e5a5710c4700
+> commit: a9f17d0c0778dd971dc9770fa0a2085a41d8c5e4 phy: ti: tusb1210: Fix 
+> an error handling path in tusb1210_probe()
+> date:   10 months ago
+> config: arm-randconfig-r006-20230130 
+> (https://download.01.org/0day-ci/archive/20230130/202301300732.QfTDtiab-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 
+> 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+I reported this as a clang-16 regression, the tusb code looks fine:
 
-All errors (new ones prefixed by >>):
+https://github.com/llvm/llvm-project/issues/60346
 
-   drivers/memory/atmel-sdramc.c: In function 'atmel_ramc_probe':
->> drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
-      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/atmel-sdramc.c:62:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-         |                     ^
-   drivers/memory/atmel-sdramc.c:68:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      68 |                 clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-         |                     ^
-   cc1: some warnings being treated as errors
-
-
-vim +/devm_clk_get_enabled +62 drivers/memory/atmel-sdramc.c
-
-    53	
-    54	static int atmel_ramc_probe(struct platform_device *pdev)
-    55	{
-    56		const struct at91_ramc_caps *caps;
-    57		struct clk *clk;
-    58	
-    59		caps = of_device_get_match_data(&pdev->dev);
-    60	
-    61		if (caps->has_ddrck) {
-  > 62			clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
-    63			if (IS_ERR(clk))
-    64				return PTR_ERR(clk);
-    65		}
-    66	
-    67		if (caps->has_mpddr_clk) {
-    68			clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
-    69			if (IS_ERR(clk)) {
-    70				pr_err("AT91 RAMC: couldn't get mpddr clock\n");
-    71				return PTR_ERR(clk);
-    72			}
-    73		}
-    74	
-    75		return 0;
-    76	}
-    77	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+     Arnd
