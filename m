@@ -1,90 +1,178 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A773746A;
-	Mon, 30 Jan 2023 19:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675105939; x=1706641939;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=cWtOhNiaAObZW4YCs4abp4gyC90HqLq97l8kJYhGTxM=;
-  b=IxqvvxlQykKCAo3Bqut5Yy+bhZhx3I9J86tMzvVRVhN/ecZNIlpweqa7
-   5s5F2DNTdjwB18Gv6XjxAnkdyu6rBh8e56l0N5PQgTdoaNf41W4tON+CP
-   dUavVCXZjub/TTMFe/r8EDuORk6tBGvmAkHwoz9D9m7uDyNzN/dPXd8zl
-   77h3gIt+kND1qeLtmkVghC8n+C36ZuUuRKup6a0XHFWFlQNfKT/oDeUND
-   uhXVsKsFv+nvFGxg5WqcYehe3Pd2AmNGded6C9c99BVRuh9itTP8bn6K9
-   KWTUT3ZpM1AqCNNRZ4jbRcN1/AeK+gUnrM5cvoigj+4B+TdlqRNZ+NBxj
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="311271791"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="311271791"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 11:12:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="838074627"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="838074627"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2023 11:12:17 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMZZh-0003qc-01;
-	Mon, 30 Jan 2023 19:12:17 +0000
-Date: Tue, 31 Jan 2023 03:12:04 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Implement workaround for CDCLK PLL
- disable/enable
-Message-ID: <202301310350.jHMcPi8m-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13BF746A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 19:26:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 221F6C433EF;
+	Mon, 30 Jan 2023 19:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675106774;
+	bh=lRZ5OVWT+Zp7FtdYJktwP5tF3IeDF4JhM7kcYMebbJc=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=JSBJNS6KJ1dnGaSEIQVukZniLyy2xgOtddeWqy4XvslXRFuK/zGiCItTLHhepXmIm
+	 +v/dm1aV3cN/K1CG6unClogggaqAhtmLHuJA2B6InLp//EUEVkFolUwBJmpT3kgVVP
+	 ZTFVojcIIuCbT4u9mjUCp9I9rhwP9t6XLntJpEVKAwlpN0zUqYQANFmujmwxIw5miP
+	 wegIwhRl7y7xcXffGB0DyX65HOlRCrUbbcBmC35otvXX10mJNkC2yd3n/P3YESVZRs
+	 FKqr2nmrvNu18fP6i0yJqTzm/E9U4N9e5nDJ+129aZynbZyQXBpm1R2Q5RxH1XGLlR
+	 DV2X2+PXADDLA==
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 081DF27C0054;
+	Mon, 30 Jan 2023 14:26:13 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Mon, 30 Jan 2023 14:26:13 -0500
+X-ME-Sender: <xms:1BnYY1WW4cUzSOAuW2D4Dpz8BGwAdb-iLdCNYHXa57v07I1W7zRDnA>
+    <xme:1BnYY1l8b4LuWxSZTVMIn-62w8hrBeR2EM9ZJKTHgmaKACPijICq9YMni2hX-FUbA
+    pzbahqUVWDzT0-rysY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddguddvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeeh
+    udegtdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudej
+    tddvgedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusg
+    druggv
+X-ME-Proxy: <xmx:1BnYYxZAnHr9NGG5dA9I7_LOTXlGX3-9kcAA5aMXHuSfBIGpl0L_vQ>
+    <xmx:1BnYY4V5RgOoAY-wE-cFdgX1KAmsw1JGblhUDsrNh0Dg3hjiIk4Y0w>
+    <xmx:1BnYY_n_Dk812Nxg4u5jWy6Y_4oRAIR8Z3nRcp93y7hDnYAyJiTFOg>
+    <xmx:1RnYY9Y6ZauAj5u2ekP8rYyadaVKTYF-F0dh_u005nD0vBlGir5APQ>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 384ACB60086; Mon, 30 Jan 2023 14:26:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-106-gfe3ab13a96-fm-20230124.001-gfe3ab13a
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <7973405f-3d17-4556-af45-792c8edbc391@app.fastmail.com>
+In-Reply-To: 
+ <OS0PR01MB59220EFDE43A39D61FC73E2786D39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <202301301054.KVvGA5XO-lkp@intel.com>
+ <OS0PR01MB59220EFDE43A39D61FC73E2786D39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Date: Mon, 30 Jan 2023 20:25:52 +0100
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Biju Das" <biju.das.jz@bp.renesas.com>,
+ "kernel test robot" <lkp@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>
+Cc: "Paul Gazzillo" <paul@pgazz.com>,
+ "Necip Fazil Yildiran" <fazilyildiran@gmail.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies detected
+ for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
+Content-Type: text/plain
 
-In-Reply-To: <20230130135836.12738-1-stanislav.lisovskiy@intel.com>
-References: <20230130135836.12738-1-stanislav.lisovskiy@intel.com>
-TO: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-TO: intel-gfx@lists.freedesktop.org
+On Mon, Jan 30, 2023, at 19:54, Biju Das wrote:
+> Hi all,
+>
+>> Subject: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies
+>> detected for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
+>> 
+>> tree:
+>> head:   c52c9acc415eb6ff54f658492f8c53da0fc3528a
+>> commit: c52c9acc415eb6ff54f658492f8c53da0fc3528a [35/35] xhci: host: Add
+>> Renesas RZ/V2M SoC support
+>>         git remote add usb
+>>         git fetch --no-tags usb usb-next
+>>         git checkout c52c9acc415eb6ff54f658492f8c53da0fc3528a
+>>         # 1. reproduce by kismet
+>>            # install kmax per
+>>            kismet --linux-ksrc=linux --selectees CONFIG_USB_RZV2M_USB3DRD --
+>> selectors CONFIG_USB_XHCI_RZV2M -a=csky
+>>         # 2. reproduce by make
+>>            # save the config file to linux source tree
+>>            cd linux
+>>            make ARCH=csky olddefconfig
+>> 
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> 
+>> kismet warnings: (new ones prefixed by >>)
+>> >> kismet: WARNING: unmet direct dependencies detected for USB_RZV2M_USB3DRD
+>> when selected by USB_XHCI_RZV2M
+>>    .config:4492:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid
+>> for ARCH_MMAP_RND_BITS
+>> 
+>>    WARNING: unmet direct dependencies detected for USB_RZV2M_USB3DRD
+>>      Depends on [n]: USB_SUPPORT [=y] && USB_GADGET [=n] && (ARCH_R9A09G011
+>> [=n] || COMPILE_TEST [=y])
+>>      Selected by [y]:
+>>      - USB_XHCI_RZV2M [=y] && USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD
+>> [=y] && USB_XHCI_PLATFORM [=y] && (ARCH_R9A09G011 [=n] || COMPILE_TEST [=y])
+>
+> I have investigated this issue, 
+>
+> Just for testing, I have reverted Arnd's patch[1] and then done the 
+> below changes 
+> which is fixing unmet dependencies reported by the bot.
+>
+> Looks like USB_RZV2M_USB3DRD should depend upon both USB and 
+> USB_GADGET. Previously
+> It depends only on USB_GADGET.
+>
+> Also the USB3DRD driver should be in "driver/usb/renesas_usb3drd" 
+> directory instead
+> of "driver/usb/gadget/udc" as both HOST and device ctrlr need this 
+> driver.
+>
+> So not sure, 
+>
+> 1) Use Arnd's patch for fixing this issue
+>
+> 2) Use the changes from [2]
+>
+> Or
+>
+> 3) Arnd's changes + changes from [2].
+>
+> Please let me know.
+>
+> [2]
+> diff --git a/drivers/usb/renesas_usb3drd/Kconfig 
+> b/drivers/usb/renesas_usb3drd/Kconfig
+> new file mode 100644
+> index 000000000000..6205d815d283
+> --- /dev/null
+> +++ b/drivers/usb/renesas_usb3drd/Kconfig
+> @@ -0,0 +1,14 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +config USB_RZV2M_USB3DRD
+> +	tristate 'Renesas USB3.1 DRD controller'
+> +	depends on (USB || USB_GADGET) 
+> +	depends on ARCH_R9A09G011 || COMPILE_TEST
+> +	default USB_XHCI_RZV2M
+> +	default USB_RENESAS_USB3
+> +	help
+> +	   Renesas USB3.1 DRD controller is a USB DRD controller
+> +	   that supports both host and device switching.
+> +
+> +	   Say "y" to link the driver statically, or "m" to build a
+> +	   dynamically linked module called "rzv2m_usb3drd".
 
-Hi Stanislav,
+I found yet another regression, and I don't think any of the above
+fully address this. Let me try to come up with a better fix that
+also addresses this one:
 
-Thank you for the patch! Yet something to improve:
+arm-linux-gnueabi-ld: drivers/usb/host/xhci-rzv2m.o: in function `xhci_rzv2m_init_quirk':
+xhci-rzv2m.c:(.text+0x20): undefined reference to `rzv2m_usb3drd_reset'
+arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o: in function `handle_ext_role_switch_states':
+renesas_usb3.c:(.text+0x3148): undefined reference to `rzv2m_usb3drd_reset'
+arm-linux-gnueabi-ld: renesas_usb3.c:(.text+0x31b8): undefined reference to `rzv2m_usb3drd_reset'
+arm-linux-gnueabi-ld: renesas_usb3.c:(.text+0x3338): undefined reference to `rzv2m_usb3drd_reset'
+arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o: in function `renesas_usb3_start':
+renesas_usb3.c:(.text+0x36b8): undefined reference to `rzv2m_usb3drd_reset'
+arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o:renesas_usb3.c:(.text+0x3764): more undefined references to `rzv2m_usb3drd_reset' follow
 
-[auto build test ERROR on drm-tip/drm-tip]
+The main problem here is that the xhci-platform driver has reverse
+dependencies on the soc specific portions, unlike drivers elsewhere
+that handle this by having a soc specific driver that calls into
+the more generic code library.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Lisovskiy/drm-i915-Implement-workaround-for-CDCLK-PLL-disable-enable/20230130-220112
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230130135836.12738-1-stanislav.lisovskiy%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915: Implement workaround for CDCLK PLL disable/enable
-config: riscv-randconfig-r024-20230130 (https://download.01.org/0day-ci/archive/20230131/202301310350.jHMcPi8m-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/cc7224639fed7ecf93932d5e2458f5fbf1ebc0bf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stanislav-Lisovskiy/drm-i915-Implement-workaround-for-CDCLK-PLL-disable-enable/20230130-220112
-        git checkout cc7224639fed7ecf93932d5e2458f5fbf1ebc0bf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: vmlinux.a(drivers/media/dvb-frontends/bcm3510.o):(function bcm3510_attach: .text+0x3c): relocation R_RISCV_HI20 out of range: 531352 is not in [-524288, 524287]; references kmalloc_caches
-   >>> referenced by bcm3510.c:798 (drivers/media/dvb-frontends/bcm3510.c:798)
-   >>> defined in vmlinux.a(mm/slab_common.o)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+      Arnd
