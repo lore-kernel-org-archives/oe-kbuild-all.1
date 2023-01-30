@@ -1,100 +1,67 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38AD8467
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 22:03:26 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id v23so13144299plo.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 14:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BQY9unmzOV7TCZ96aU2p1l97OntyBK2gZGuBkFiwM9A=;
-        b=kQ5/LBE4EPmy0MTjOLRhc7F+4NC2emrrWOeOsFIdDMoM6TY4QMWar6RfJKJvMjsYxf
-         5aGron06eS18nyIgvaYuvNjXzAW9psgcktCwJlm6XwmaTc2k/ECsXNAjasvPiENdvkMM
-         8sWFPzniRelG8krBvqHTNtdpxdqNSjGrONOHCYImQ/iZHfiMly0NDoypeYmfSQqYs+Kd
-         XE+DisN7vEDdePh/OQQ0v/6WCUY9QKF0yPRien8ylSn4Qu5UUYxciPC/mPumeOjcqHDc
-         Zr3x8WTqi23teJmdjv3iwTSuCfbzkUgswKW1D/epr7IQYPSoPbVVYVXwRVkMzFUzNtp/
-         nqRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BQY9unmzOV7TCZ96aU2p1l97OntyBK2gZGuBkFiwM9A=;
-        b=csF0zPRj81etRXPOHuIxCXovTiezaLphLehdw3XkZZ6fS5KvvweYoDONCEl4sHVAHs
-         ji/Cbrg/JzTY1W2C30yeUcmqqtTalqwh1InyTVOD145xiwbOjjJ9zVMEvmnHceVKGWY6
-         DhYlKbiuQHXXXhSUkHzHspx+SR2A5lSbBgCnPLFTj88xFo2o3jFb54Nq1gCGii4yM5cS
-         H3kXZQaOO2bw8DgBWgMRPW3+E+DPv7nDejdj5gThmhWfj9WxMm5W5mogE5RlFAbTQpFg
-         xD5JGPmCJ54ic5wkZhIAFlMJ0LdTH6CsS7sLSupsofk23wwDNQxXUcB+Crx54w46yc8+
-         qhOw==
-X-Gm-Message-State: AO0yUKVesesUpYmdccSlXIuvqQucatkb3QHI5iO/cPTr0q6fr3k9ZUVM
-	Wl12ekx2AF4JogNohCOkOpJLhSNgGDiZeAsdxOQUog==
-X-Google-Smtp-Source: AK7set/bVllA+pXLc5bfi4Hr1MjNdTVvmsxv0RI7/gPQMOGYUc7EXoUGxxPyg9Z429Lxw5P7MYpHCt7QsgZFWpVdr5U=
-X-Received: by 2002:a17:90a:9c1:b0:22c:816f:3203 with SMTP id
- 59-20020a17090a09c100b0022c816f3203mr1221685pjo.28.1675116206022; Mon, 30 Jan
- 2023 14:03:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBDF8467
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 22:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675116811; x=1706652811;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Ion2rKDlFD4u8kASATPD8U4gUW8PKTG9lyDZg49MS4s=;
+  b=RZYkYA376Y3/7vLs4H4ywNhsPEUAo35ReLQnLT6DaTpFFicbENw9h6tA
+   sAOaBfeNSZWvVUW1hM0BSNpQelnldg1zWtTvhrVsjkph6vhJL4yk/abL/
+   LCbHNygzwHLoVLwwIas/5agFUcLWDkxLtHxPAw+ZepzACUOqFWJoJCYIw
+   BmXHOY/HedJYWbXjaKkEnIEz32xk8Aheb50raNxSc8lXmqPj7pSW9/Hmd
+   pwo1vfwgYMzn9N5AU4aNQh00QGrpjpMQ/yl/h9r6rixVGk0REQ/HhOPrt
+   FYyX49YfuUTODhAaeORNQYGY7OtNCjaXGO1/nE69QcyYwvFUZe4H3cLlG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392235140"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="392235140"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 14:13:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="772701792"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="772701792"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2023 14:13:26 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pMcOu-0003vY-2J;
+	Mon, 30 Jan 2023 22:13:20 +0000
+Date: Tue, 31 Jan 2023 06:13:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Natalia Petrova <n.petrova@fintech.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] i40e: Add checking for null for nlmsg_find_attr()
+Message-ID: <Y9hA+Y3db2AQYvP+@904499574ff1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230118-v4-v4t-lld-16-v1-1-e3d9a00ae47c@kernel.org>
- <202301310149.euWWUSrD-lkp@intel.com> <a40df1e3-ed92-4662-bb9e-106becce63d7@app.fastmail.com>
-In-Reply-To: <a40df1e3-ed92-4662-bb9e-106becce63d7@app.fastmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 30 Jan 2023 14:03:14 -0800
-Message-ID: <CAKwvOd=GbixTFko8aGzPQiq8QBtDY0ZZncHKag-gjsgqUM_diA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Tom Rix <trix@redhat.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230130221106.19267-1-n.petrova@fintech.ru>
 
-On Mon, Jan 30, 2023 at 10:19 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Mon, Jan 30, 2023, at 19:10, kernel test robot wrote:
-> > Hi Nathan,
-> >
-> > I love your patch! Perhaps something to improve:
-> >
-> > [auto build test WARNING on 5dc4c995db9eb45f6373a956eb1f69460e69e6d4]
-> >
-> > url:
-> > https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/ARM-Allow-pre-ARMv5-builds-with-ld-lld-16-0-0-and-newer/20230119-032402
-> > base:   5dc4c995db9eb45f6373a956eb1f69460e69e6d4
-> >>> arch/arm/mach-sa1100/pm.c:122:12: warning: no previous prototype for function 'sa11x0_pm_init' [-Wmissing-prototypes]
-> >    int __init sa11x0_pm_init(void)
-> >               ^
-> >    arch/arm/mach-sa1100/pm.c:122:1: note: declare 'static' if the
-> > function is not intended to be used outside of this translation unit
-> >    int __init sa11x0_pm_init(void)
-> >    ^
-> >    static
-> >    1 warning generated.
-> > --
->
->
-> For refernece, these are all known problems, the patch just allowed
-> the code to be built by clang/lld when that was previously not
-> possible.
->
-> After the 6.3 merge window, we can probably go through the much
-> smaller set of board files are address most of the W=1 warnings that
-> were previously overwhelming.
+Hi,
 
-Yeah! I've filed
-https://github.com/ClangBuiltLinux/continuous-integration2/issues/509
-too so that we can wire up an ARMv4 test in our CI as well.
+Thanks for your patch.
 
->
->       Arnd
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH v2] i40e: Add checking for null for nlmsg_find_attr()
+Link: https://lore.kernel.org/stable/20230130221106.19267-1-n.petrova%40fintech.ru
 
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
-Thanks,
-~Nick Desaulniers
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
+
+
