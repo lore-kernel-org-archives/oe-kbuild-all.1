@@ -1,105 +1,121 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8866F6AA3;
-	Mon, 30 Jan 2023 17:17:50 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id be8so12318574plb.7;
-        Mon, 30 Jan 2023 09:17:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LAyqow/UTkUmtGFouNCCxZg1VuXYo0fNe8XAXhOMaWg=;
-        b=XYuXFtbGkv3FLZvpTUR2MBP73UcfXwA1WTu/JgANaKhFN3JvR2VtJMT403HmdkupHu
-         +WVw6H1bfSpZsQfZm3OPH5gJsdTqNUV9YRaruRODOkch61Nfbcff0p4cRUCDmHRx2QF+
-         XvvgwdBLABMEXTZtm6hjTewHUhzwN8sff5sepFveOlcJCuSbK8GLHH0cMDtK/I33vFuU
-         pyo+R3QT6s8s9B9UePinpIBYe6FY2qopkxHbRxtEWksxOFQSmW78TCY2sb+6zyE/JOqX
-         uowhNSeUkSLzTeWrMNCPPwtIKPQo1MKC26/gy913PqGqvOrCRHxlh1OsYqeZlypajkln
-         PoWw==
-X-Gm-Message-State: AO0yUKXDxQp9V0t+pOxushCbSvOHYH8CGG//Z8N/QOEYh5pvMP78PUMB
-	ymnlx5FXuzb4YxV+zb+bJN0=
-X-Google-Smtp-Source: AK7set+EenxbQVuuFBPO3sAvTSgFOhBBOXkxXsXjo/MKy4bDCAeOJoDjb3ecb28FgCt8chh9Kkm+1A==
-X-Received: by 2002:a17:902:c94a:b0:196:88b8:8612 with SMTP id i10-20020a170902c94a00b0019688b88612mr5093895pla.25.1675099069706;
-        Mon, 30 Jan 2023 09:17:49 -0800 (PST)
-Received: from ?IPV6:2620:15c:211:201:5016:3bcd:59fe:334b? ([2620:15c:211:201:5016:3bcd:59fe:334b])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902da8600b0019601f98550sm8075811plx.132.2023.01.30.09.17.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jan 2023 09:17:48 -0800 (PST)
-Message-ID: <86d54cb0-3f94-13f2-e597-0209493254c9@acm.org>
-Date: Mon, 30 Jan 2023 09:17:46 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA916AA3;
+	Mon, 30 Jan 2023 18:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675102280; x=1706638280;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gXD0R29Ib6o2ty6I1G9sKFWkOOk8CVk6fMR1Zb5Z1wU=;
+  b=KU/ghU1BbI5bBf1R3tMLXHaeMGKs+FYYSn/RM8Iibc/m3q5bJzvrKvPD
+   YLX4J7mxP39wJ1RWiy7SieI+ZcpjarMSrqWulyhv0kFUrx0jPZ3KmRstD
+   oALJqVUakPbXEvuKN7OnB//aqry/AiCK3Wq3NY5/V2cqrbr31YfoqFvet
+   TtQyapfegMG9NCiSjSFQdrEzXzYtKGhB0aUggczZwHeak3rJuwKsDdet0
+   q0PghiKqf+cVl30TWDvuaDqZ/uQXWuxLMFsYM5ckozZGzKRjYtJ7q7OFV
+   y5f26o2GBz8qGKE8EDtgv4R0Iz+w/BGpvmhTI/GVXNdSNGkf4aexRZPsS
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="327651845"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
+   d="scan'208";a="327651845"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 10:11:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="694653248"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
+   d="scan'208";a="694653248"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 30 Jan 2023 10:11:15 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pMYcc-0003oA-20;
+	Mon, 30 Jan 2023 18:11:14 +0000
+Date: Tue, 31 Jan 2023 02:10:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>, linux@armlinux.org.uk,
+	arnd@arndb.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ndesaulniers@google.com, trix@redhat.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] ARM: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
+Message-ID: <202301310149.euWWUSrD-lkp@intel.com>
+References: <20230118-v4-v4t-lld-16-v1-1-e3d9a00ae47c@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [bvanassche:block-small-segments 10/13] block/blk.h:343
- bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
- be null (see line 340)
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <202301292052.ofpUPNlC-lkp@intel.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <202301292052.ofpUPNlC-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118-v4-v4t-lld-16-v1-1-e3d9a00ae47c@kernel.org>
 
-On 1/30/23 03:36, Dan Carpenter wrote:
-> tree:   https://github.com/bvanassche/linux block-small-segments
-> head:   c776ad1c2e1e0afaefb3ef5f1710dc3886f5348f
-> commit: b91c4a42d14ad8bfd74387c10c8c21db9fb2b998 [10/13] block: Add support for filesystem requests and small segments
-> config: m68k-randconfig-m041-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292052.ofpUPNlC-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> smatch warnings:
-> block/blk.h:343 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 340)
-> 
-> vim +343 block/blk.h
-> 
-> c55ddd9082f757 Christoph Hellwig 2022-07-27  323  static inline bool bio_may_exceed_limits(struct bio *bio,
-> aa261f20589d89 Bart Van Assche   2022-10-25  324  					 const struct queue_limits *lim)
-> abd45c159df5fc Jens Axboe        2021-10-13  325  {
-> abd45c159df5fc Jens Axboe        2021-10-13  326  	switch (bio_op(bio)) {
-> abd45c159df5fc Jens Axboe        2021-10-13  327  	case REQ_OP_DISCARD:
-> abd45c159df5fc Jens Axboe        2021-10-13  328  	case REQ_OP_SECURE_ERASE:
-> abd45c159df5fc Jens Axboe        2021-10-13  329  	case REQ_OP_WRITE_ZEROES:
-> abd45c159df5fc Jens Axboe        2021-10-13  330  		return true; /* non-trivial splitting decisions */
-> abd45c159df5fc Jens Axboe        2021-10-13  331  	default:
-> abd45c159df5fc Jens Axboe        2021-10-13  332  		break;
-> abd45c159df5fc Jens Axboe        2021-10-13  333  	}
-> abd45c159df5fc Jens Axboe        2021-10-13  334
-> abd45c159df5fc Jens Axboe        2021-10-13  335  	/*
-> b91c4a42d14ad8 Bart Van Assche   2022-09-27  336  	 * Check whether bio splitting should be performed. This check may
-> b91c4a42d14ad8 Bart Van Assche   2022-09-27  337  	 * trigger the bio splitting code even if splitting is not necessary.
-> abd45c159df5fc Jens Axboe        2021-10-13  338  	 */
-> b91c4a42d14ad8 Bart Van Assche   2022-09-27  339  	if (blk_queue_sub_page_limits(lim) &&
-> b91c4a42d14ad8 Bart Van Assche   2022-09-27 @340  	    bio->bi_io_vec && bio->bi_io_vec->bv_len > lim->max_segment_size)
->                                                              ^^^^^^^^^^^^^^
-> Check for NULL
-> 
-> b91c4a42d14ad8 Bart Van Assche   2022-09-27  341  		return true;
-> c55ddd9082f757 Christoph Hellwig 2022-07-27  342  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
-> abd45c159df5fc Jens Axboe        2021-10-13 @343  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
->                                                                  ^^^^^^^^^^^^^^^^
-> Unchecked dereference
-> 
-> abd45c159df5fc Jens Axboe        2021-10-13  344  }
+Hi Nathan,
 
-Hi Dan,
+I love your patch! Perhaps something to improve:
 
-I think in this case the unchecked dereference is safe.
-bio->bi_vcnt == 1 implies that bio->bi_io_vec is not NULL.
+[auto build test WARNING on 5dc4c995db9eb45f6373a956eb1f69460e69e6d4]
 
-Thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/ARM-Allow-pre-ARMv5-builds-with-ld-lld-16-0-0-and-newer/20230119-032402
+base:   5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+patch link:    https://lore.kernel.org/r/20230118-v4-v4t-lld-16-v1-1-e3d9a00ae47c%40kernel.org
+patch subject: [PATCH] ARM: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
+config: arm-shannon_defconfig (https://download.01.org/0day-ci/archive/20230131/202301310149.euWWUSrD-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/197c1476db190ad6d2afe14bc0f90de0e82f63b6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nathan-Chancellor/ARM-Allow-pre-ARMv5-builds-with-ld-lld-16-0-0-and-newer/20230119-032402
+        git checkout 197c1476db190ad6d2afe14bc0f90de0e82f63b6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-sa1100/ drivers/gpio/ drivers/video/fbdev/
 
-Bart.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> arch/arm/mach-sa1100/pm.c:122:12: warning: no previous prototype for function 'sa11x0_pm_init' [-Wmissing-prototypes]
+   int __init sa11x0_pm_init(void)
+              ^
+   arch/arm/mach-sa1100/pm.c:122:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __init sa11x0_pm_init(void)
+   ^
+   static 
+   1 warning generated.
+--
+>> drivers/gpio/gpio-sa1100.c:309:13: warning: no previous prototype for function 'sa1100_init_gpio' [-Wmissing-prototypes]
+   void __init sa1100_init_gpio(void)
+               ^
+   drivers/gpio/gpio-sa1100.c:309:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init sa1100_init_gpio(void)
+   ^
+   static 
+   1 warning generated.
+--
+>> drivers/video/fbdev/sa1100fb.c:1219:12: warning: no previous prototype for function 'sa1100fb_init' [-Wmissing-prototypes]
+   int __init sa1100fb_init(void)
+              ^
+   drivers/video/fbdev/sa1100fb.c:1219:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __init sa1100fb_init(void)
+   ^
+   static 
+   1 warning generated.
 
 
+vim +/sa11x0_pm_init +122 arch/arm/mach-sa1100/pm.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  121  
+7fea1ba58e61c1 Shawn Guo      2012-04-26 @122  int __init sa11x0_pm_init(void)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
