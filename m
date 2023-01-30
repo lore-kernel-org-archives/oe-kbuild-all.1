@@ -1,124 +1,115 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D63E79D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 20:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EDE79D5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 20:14:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675109138; x=1706645138;
+  t=1675109672; x=1706645672;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VKb8R11OxfLcejF5LTOBSiutJwK4R//zzesvOaGRsQs=;
-  b=F3PwK1r43BCWGzbsN5njN96AsghrKEP40lcyRjsZGNS5SIWocFs/IrhB
-   UkFeFOV+2NJ2RVs5zEm+/cIMapU+Fl+x7YTSku5lf8vAbzGRIcLIdTGGZ
-   Kkfr4Cgj9w1IuKJIfHmsHc1Uf/PBzFRdsOb3gYWum5IHAj3NdGLS+FoYk
-   hM1jepavKhUIH4PUgmlv0UHEACK1TYPLGA+lW8bcJwOKixZ9GB/j/RiXR
-   BhBGmO8dW6FsOo0hIz/DHDiRxy8kkC1JTobLE8qm780woBjEgljRRB3+z
-   +cCxwSc/wV4CdTwEGmEr7xh1kgMOgFZmf3xkCLaJBc0rtS57jhR4gy0oy
+   mime-version:in-reply-to;
+  bh=4Ms+hu3CYdYzlkJaLug3KmwicPx4jhzjOekkjRORy2A=;
+  b=kMJxLOze69Ld/IXPAqgdpV3sO3djzPyK4NoUrG8gkq2NVmDNlyhNReP9
+   Y5E0SKYVZBoqHx5Xq8LIZxWSx2/n8QCfPmD8i54hs/J3YkP8/D0v8jotn
+   wctBSusY7qngM2vE/3Cp74IvRS/0FsCjfgbPtr8ykyjeirxkCNJiWSsqg
+   AHoGoCcc9DmmtLSirH+GCvQQrMpbuPJQSJQxEpL9XpvJVzBaD4SP5Udt/
+   Aq8LezrS79og9ngKxDOXMdc7qFY7HUlc3sP9dziB707lro6qBqUtzilkj
+   9ZC90wewlg8GIiLEV3xkRqB2Nf4OSShirHn+tkfbTFO896xdK6eKsp5Ky
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="315621831"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="413881895"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="315621831"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 12:04:23 -0800
+   d="scan'208";a="413881895"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 12:14:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="993012432"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="838089883"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="993012432"
+   d="scan'208";a="838089883"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Jan 2023 12:04:19 -0800
+  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2023 12:14:19 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMaO2-0003sM-0g;
-	Mon, 30 Jan 2023 20:04:18 +0000
-Date: Tue, 31 Jan 2023 04:03:28 +0800
+	id 1pMaXi-0003sg-1o;
+	Mon, 30 Jan 2023 20:14:18 +0000
+Date: Tue, 31 Jan 2023 04:13:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Brian Starkey <brian.starkey@arm.com>,
-	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-	Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 6/6] drm/debugfs: Make the struct drm_debugfs_entry
- independent of DRM device
-Message-ID: <202301310330.jVo5mu9t-lkp@intel.com>
-References: <20230130123008.287141-7-mcanal@igalia.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de, balbi@kernel.org,
+	kieran.bingham@ideasonboard.com, torleiv@huddly.com,
+	stern@rowland.harvard.edu,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 03/11] usb: gadget: uvc: Allow definition of XUs in
+ configfs
+Message-ID: <202301310439.qAxkvKBD-lkp@intel.com>
+References: <20230130093443.25644-4-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230130123008.287141-7-mcanal@igalia.com>
+In-Reply-To: <20230130093443.25644-4-dan.scally@ideasonboard.com>
 
-Hi Maíra,
+Hi Daniel,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip next-20230130]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.2-rc6]
+[auto build test WARNING on usb/usb-linus]
+[also build test WARNING on westeri-thunderbolt/next linus/master v6.2-rc6 next-20230130]
+[cannot apply to usb/usb-testing usb/usb-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-debugfs-Introduce-wrapper-for-debugfs-list/20230130-203549
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230130123008.287141-7-mcanal%40igalia.com
-patch subject: [PATCH v2 6/6] drm/debugfs: Make the struct drm_debugfs_entry independent of DRM device
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230131/202301310330.jVo5mu9t-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/2b098c9687b25368fa4a9e128963a13723aace67
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+patch link:    https://lore.kernel.org/r/20230130093443.25644-4-dan.scally%40ideasonboard.com
+patch subject: [PATCH v3 03/11] usb: gadget: uvc: Allow definition of XUs in configfs
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/c1a147d5dfd26ea76a1d054efc3a184dec36061b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ma-ra-Canal/drm-debugfs-Introduce-wrapper-for-debugfs-list/20230130-203549
-        git checkout 2b098c9687b25368fa4a9e128963a13723aace67
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/
+        git fetch --no-tags linux-review Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+        git checkout c1a147d5dfd26ea76a1d054efc3a184dec36061b
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_gem_vram_helper.c: In function 'drm_vram_mm_debugfs':
->> drivers/gpu/drm/drm_gem_vram_helper.c:961:40: error: 'struct drm_debugfs_entry' has no member named 'dev'
-     961 |         struct drm_vram_mm *vmm = entry->dev->vram_mm;
-         |                                        ^~
+>> Documentation/ABI/testing/configfs-usb-gadget-uvc:120: WARNING: Malformed table.
 
+vim +120 Documentation/ABI/testing/configfs-usb-gadget-uvc
 
-vim +961 drivers/gpu/drm/drm_gem_vram_helper.c
-
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  953  
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  954  /*
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  955   * struct drm_vram_mm
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  956   */
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  957  
-6454c853ce9fa8 Maíra Canal       2023-01-30  958  static int drm_vram_mm_debugfs(struct seq_file *m, struct drm_device *dev, void *data)
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  959  {
-6fd80729f14e3f Maíra Canal       2022-12-19  960  	struct drm_debugfs_entry *entry = m->private;
-6fd80729f14e3f Maíra Canal       2022-12-19 @961  	struct drm_vram_mm *vmm = entry->dev->vram_mm;
-9de59bc201496f Dave Airlie       2020-08-04  962  	struct ttm_resource_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  963  	struct drm_printer p = drm_seq_file_printer(m);
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  964  
-9de59bc201496f Dave Airlie       2020-08-04  965  	ttm_resource_manager_debug(man, &p);
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  966  	return 0;
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  967  }
-6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  968  
+   118	
+   119	What:		/config/usb-gadget/gadget/functions/uvc.name/control/extensions/name
+ > 120	Date:		Nov 2022
+   121	KernelVersion:	6.1
+   122	Description:	Extension Unit (XU) Descriptor
+   123	
+   124			bLength, bUnitID and iExtension are read-only. All others are
+   125			read-write.
+   126	
+   127			===============		========================================
+   128			bLength			size of the descriptor in bytes
+   129			bUnitID			non-zero ID of this unit
+   130			guidExtensionCode	Vendor-specific code identifying the XU
+   131			bNumControls		number of controls in this XU
+   132			bNrInPins		number of input pins for this unit
+   133			baSourceID		list of the IDs of the units or terminals
+   134						to which this XU is connected
+   135			bControlSize		size of the bmControls field in bytes
+   136			bmControls		list of bitmaps detailing which vendor
+   137						specific controls are supported
+   138			iExtension		index of a string descriptor that describes
+   139						this extension unit
+   140			===============		========================================
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
