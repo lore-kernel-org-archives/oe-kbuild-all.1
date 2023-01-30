@@ -1,53 +1,58 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715B13D70;
-	Mon, 30 Jan 2023 16:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7393D71
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 16:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1675096156; x=1706632156;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uOmtD6DCGmXjAqhlbykYDDLsIlNqsOOlSUyaWVTsLu8=;
-  b=FOvTT9jJGOsKQPRiwwKgBGdsIpHBKpRtrcOU5cEvo26rRi6C7vUAfPIt
-   mpY3jXgciAdYqWozUNQE6D/6z7AN3tAVCTGYrvvF8XmmG12nhUSz6/sF3
-   jPLOa8cBxKaOOwWjfdlbeASLyJhZjveQcsbmnN4AZxoRfO2uEZj1I11Vx
-   Ji2IbwsxuZN1Av1+e8/aeJxqyKnyFrubxz8PKmi3i+yO/ci7J1aNsVEqa
-   Qd4zjDPmu1MCAQtQ/UJ2/V/QMmQJ22R3uNtYexRTbVhsxpqn0Rd1+LRs6
-   T2bJkaD627qDFmPrxdlJQdOH6B0ufDtVlnV/cbuTxYovyR815+9vaYqXv
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="328879382"
+  bh=F1ULbSw1MBsHWcGX+HC4GSetpggTnGdsHsr0Ru7tKp4=;
+  b=BAkYIP56U9LPtkvy9ucLDypaLXX++Km8LfFEDRgRJPGpsgEB5Q7HVNbG
+   AoSf8S0TjBbkrY3bc4iAwyTDg/zIcLyW/nDS+mLekvXVfvPsVFuGK+blZ
+   EICMbmGQELePuohuJFwFWNxriBbX8NnxvIAHrYdoB2XyWseD3YK0abRhV
+   tW0NoPVxO1uCN4ykr7ov9038abTOKczj1K4iLOJMvSg/3IkY+yZ13lEmw
+   cqck4iG+HOZ0PbqFxfDHA/1twz9Uj3nXSZgChDqguZ6q9LVr+z8Oxs2LF
+   FJ1y0katU3HZ6qFtlUL9YMwk01NEGAxI1qYWAly2bDEtvqqUbFRA3z3lC
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="329715487"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="328879382"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 08:29:14 -0800
+   d="scan'208";a="329715487"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 08:29:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="664153599"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="772570775"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="664153599"
+   d="scan'208";a="772570775"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2023 08:29:09 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2023 08:29:08 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMX1o-0003kM-2p;
+	id 1pMX1o-0003kE-0N;
 	Mon, 30 Jan 2023 16:29:08 +0000
-Date: Tue, 31 Jan 2023 00:28:17 +0800
+Date: Tue, 31 Jan 2023 00:28:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	will@kernel.org, catalin.marinas@arm.com, mark.rutland@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Mark Brown <broonie@kernel.org>, James Clark <james.clark@arm.com>,
-	Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Suzuki Poulose <suzuki.poulose@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
-Message-ID: <202301310047.b5iv9hM8-lkp@intel.com>
-References: <20230123125956.1350336-6-anshuman.khandual@arm.com>
+To: Xiangsheng Hou <xiangsheng.hou@mediatek.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Chuanhong Guo <gch981213@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Xiangsheng Hou <xiangsheng.hou@mediatek.com>,
+	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, benliang.zhao@mediatek.com,
+	bin.zhang@mediatek.com
+Subject: Re: [RESEND PATCH v5 07/10] dt-bindings: mtd: Split ECC engine with
+ rawnand controller
+Message-ID: <202301310056.ZF1Yst4B-lkp@intel.com>
+References: <20230130030656.12127-8-xiangsheng.hou@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,73 +61,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123125956.1350336-6-anshuman.khandual@arm.com>
+In-Reply-To: <20230130030656.12127-8-xiangsheng.hou@mediatek.com>
 
-Hi Anshuman,
+Hi Xiangsheng,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on tip/perf/core acme/perf/core linus/master v6.2-rc6 next-20230130]
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on robh/for-next mtd/mtd/next mtd/mtd/fixes linus/master v6.2-rc6 next-20230130]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230123125956.1350336-6-anshuman.khandual%40arm.com
-patch subject: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
-config: arm64-randconfig-r016-20230130 (https://download.01.org/0day-ci/archive/20230131/202301310047.b5iv9hM8-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/0deba04ac45f8632b8579cb5cbf908b9f4428402
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiangsheng-Hou/spi-mtk-snfi-Change-default-page-format-to-setup-default-setting/20230130-111021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20230130030656.12127-8-xiangsheng.hou%40mediatek.com
+patch subject: [RESEND PATCH v5 07/10] dt-bindings: mtd: Split ECC engine with rawnand controller
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/f3a5f8d573b8be1d7a10224f0e10a699d9a0ea09
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
-        git checkout 0deba04ac45f8632b8579cb5cbf908b9f4428402
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
+        git fetch --no-tags linux-review Xiangsheng-Hou/spi-mtk-snfi-Change-default-page-format-to-setup-default-setting/20230130-111021
+        git checkout f3a5f8d573b8be1d7a10224f0e10a699d9a0ea09
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:15:
-   In file included from include/linux/kvm_host.h:45:
-   In file included from arch/arm64/include/asm/kvm_host.h:36:
-   In file included from include/kvm/arm_pmu.h:11:
->> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
-   static inline bool has_branch_stack(struct perf_event *event);
-                      ^
-   arch/arm64/include/asm/perf_event.h:284:16: note: used here
-           WARN_ON_ONCE(!has_branch_stack(event));
-                         ^
-   1 warning generated.
---
-   In file included from arch/arm64/kernel/asm-offsets.c:15:
-   In file included from include/linux/kvm_host.h:45:
-   In file included from arch/arm64/include/asm/kvm_host.h:36:
-   In file included from include/kvm/arm_pmu.h:11:
->> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
-   static inline bool has_branch_stack(struct perf_event *event);
-                      ^
-   arch/arm64/include/asm/perf_event.h:284:16: note: used here
-           WARN_ON_ONCE(!has_branch_stack(event));
-                         ^
-   1 warning generated.
-
-
-vim +/has_branch_stack +280 arch/arm64/include/asm/perf_event.h
-
-   279	
- > 280	static inline bool has_branch_stack(struct perf_event *event);
-   281	
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/mtk-nand.txt
 
 -- 
 0-DAY CI Kernel Test Service
