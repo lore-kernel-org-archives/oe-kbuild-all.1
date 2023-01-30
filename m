@@ -1,43 +1,48 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591783C13
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 15:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC973C13
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 16:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675094289; x=1706630289;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V5TlcdQiTVQuKqv37IS4HDmcXVCJY+auKk6lSFEhJEw=;
-  b=LIjbpOpPRaTaeniue0hV9tD1tgyvqg0/peEjEeUfdbEB1w3aRe60T6FC
-   gDvsN4NUrAUSOaCTEJ2PDCLJsEkgCNoSHmFi/+JDJbslK9v1cIakEOz6l
-   BNK0kDEyK0dsfHwHsokxIVTuJFzPYaAoD7wsXS82B9iodFhI4PQhP3/TZ
-   unaMbbregrJ1Zs5h3uryZDhVwnb5D+wCbxF7FNL7oZg2e8ghO8faK+D00
-   3iDHV0qD3L72Dmfn59aE5RIiWGAvOZIDfhj+7DTSPh0E+h3VN65GWoK88
-   xKZbB1TqQsiLXtXzP6CLCm4laikSGws5DIQHzBTGvdhQv5HmucMDZXwXr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392137377"
+  t=1675095031; x=1706631031;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qP/xji/U4WCjQ8ujBJU9lFncC+QI6BbWZ3144OxqwM4=;
+  b=gEQcs9SZYMFTr7Cm2U+3fDpAq9QQBbrcYwcjXQ9mnyducAHK0rLghVI3
+   Fe92ySFX1tXtDT7DHq5zk7WigDrE24Qoq1mBhxXa5M53XPt5tgTU77q5f
+   WJokWgxfCdsuTeqR7X1EMrOvW62oHH61T51RskjyrHj8ooCAbss/xPdWd
+   WSCZiq0NSmSzXVW8+WHYUfGlC5nfln5XfdRmTqYhUnx3T97Mtva9yx/CR
+   q5bUjErWOGbWTK9ngLfEW2+sTN/YGIwjp1F3nLQ97EhEGTUuHll+k6fWV
+   z5rxVQI/GFxmfBHHLiIYP9E4LngF6zYkeWJbTt1EpAdUQdDMPssvwVbXZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="307942407"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="392137377"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 07:58:08 -0800
+   d="scan'208";a="307942407"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 08:08:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909551154"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="641597691"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="909551154"
+   d="scan'208";a="641597691"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jan 2023 07:58:07 -0800
+  by orsmga006.jf.intel.com with ESMTP; 30 Jan 2023 08:08:08 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMWXm-0003ic-2k;
-	Mon, 30 Jan 2023 15:58:06 +0000
-Date: Mon, 30 Jan 2023 23:57:08 +0800
+	id 1pMWhT-0003jS-1L;
+	Mon, 30 Jan 2023 16:08:07 +0000
+Date: Tue, 31 Jan 2023 00:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:file_build_id 1/4] include/linux/buildid.h:31: multiple
- definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31:
- first defined here
-Message-ID: <202301302307.6rxyizoj-lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de, balbi@kernel.org,
+	kieran.bingham@ideasonboard.com, torleiv@huddly.com,
+	stern@rowland.harvard.edu,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 06/11] usb: gadget: configfs: Support arbitrary string
+ descriptors
+Message-ID: <202301302344.mwzUOCim-lkp@intel.com>
+References: <20230130093443.25644-7-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,74 +51,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230130093443.25644-7-dan.scally@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git file_build_id
-head:   19769e82685efd26d7714d6f12601da7e48086e8
-commit: 39dec2be008ec7c98f7ea818bc2c0f15a3586ef2 [1/4] mm: Store build id in file object
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230130/202301302307.6rxyizoj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Daniel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-linus]
+[also build test WARNING on westeri-thunderbolt/next linus/master v6.2-rc6 next-20230130]
+[cannot apply to usb/usb-testing usb/usb-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+patch link:    https://lore.kernel.org/r/20230130093443.25644-7-dan.scally%40ideasonboard.com
+patch subject: [PATCH v3 06/11] usb: gadget: configfs: Support arbitrary string descriptors
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230130/202301302344.mwzUOCim-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=39dec2be008ec7c98f7ea818bc2c0f15a3586ef2
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf file_build_id
-        git checkout 39dec2be008ec7c98f7ea818bc2c0f15a3586ef2
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/452304e81fac1427f314a4b0beef8561ef4ebf17
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+        git checkout 452304e81fac1427f314a4b0beef8561ef4ebf17
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/usb/gadget/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/isofs/inode.o: in function `build_id_init':
->> include/linux/buildid.h:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/inode.o: in function `build_id_free':
->> include/linux/buildid.h:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
-   ld: fs/isofs/dir.o: in function `build_id_init':
->> include/linux/buildid.h:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/dir.o: in function `build_id_free':
->> include/linux/buildid.h:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
-   ld: fs/isofs/util.o: in function `build_id_init':
-   fs/isofs/util.c:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/util.o: in function `build_id_free':
-   fs/isofs/util.c:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
-   ld: fs/isofs/rock.o: in function `build_id_init':
->> include/linux/buildid.h:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/rock.o: in function `build_id_free':
->> include/linux/buildid.h:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
-   ld: fs/isofs/export.o: in function `build_id_init':
->> include/linux/buildid.h:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/export.o: in function `build_id_free':
->> include/linux/buildid.h:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
-   ld: fs/isofs/joliet.o: in function `build_id_init':
-   fs/isofs/joliet.c:31: multiple definition of `build_id_init'; fs/isofs/namei.o:include/linux/buildid.h:31: first defined here
-   ld: fs/isofs/joliet.o: in function `build_id_free':
-   fs/isofs/joliet.c:32: multiple definition of `build_id_free'; fs/isofs/namei.o:include/linux/buildid.h:32: first defined here
---
-   ld: block/bfq-wf2q.o: in function `build_id_init':
->> include/linux/buildid.h:31: multiple definition of `build_id_init'; block/bfq-iosched.o:include/linux/buildid.h:31: first defined here
-   ld: block/bfq-wf2q.o: in function `build_id_free':
->> include/linux/buildid.h:32: multiple definition of `build_id_free'; block/bfq-iosched.o:include/linux/buildid.h:32: first defined here
-   ld: block/bfq-cgroup.o: in function `build_id_init':
-   block/bfq-cgroup.c:31: multiple definition of `build_id_init'; block/bfq-iosched.o:include/linux/buildid.h:31: first defined here
-   ld: block/bfq-cgroup.o: in function `build_id_free':
-   block/bfq-cgroup.c:32: multiple definition of `build_id_free'; block/bfq-iosched.o:include/linux/buildid.h:32: first defined here
+   drivers/usb/gadget/configfs.c: In function 'gadget_string_s_store':
+>> drivers/usb/gadget/configfs.c:811:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     811 |         int ret;
+         |             ^~~
 
 
-vim +31 include/linux/buildid.h
+vim +/ret +811 drivers/usb/gadget/configfs.c
 
-    25	
-    26	#ifdef CONFIG_FILE_BUILD_ID
-    27	void __init build_id_init(void);
-    28	void build_id_free(struct build_id *bid);
-    29	int vma_get_build_id(struct vm_area_struct *vma, struct build_id **bidp);
-    30	#else
-  > 31	void __init build_id_init(void) { }
-  > 32	void build_id_free(struct build_id *bid) { }
-    33	#endif /* CONFIG_FILE_BUILD_ID */
-    34	
+   805	
+   806	static ssize_t gadget_string_s_store(struct config_item *item, const char *page,
+   807					     size_t len)
+   808	{
+   809		struct gadget_string *string = to_gadget_string(item);
+   810		int size = min(sizeof(string->string), len + 1);
+ > 811		int ret;
+   812	
+   813		if (len > USB_MAX_STRING_LEN)
+   814			return -EINVAL;
+   815	
+   816		ret = strscpy(string->string, page, size);
+   817		return len;
+   818	}
+   819	CONFIGFS_ATTR(gadget_string_, s);
+   820	
 
 -- 
 0-DAY CI Kernel Test Service
