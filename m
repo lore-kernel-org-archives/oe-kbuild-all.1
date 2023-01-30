@@ -1,43 +1,48 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE32CBD17
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 08:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1228817D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 09:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675069077; x=1706605077;
+  t=1675071542; x=1706607542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uAHYEUFxyDqW8laPpB/XPdEk+LiDRG970zraNaPQX4o=;
-  b=fP2TE60BD3k8jGdC3sc2NpbIufC2wybvbNwSbIyywFIitH9+d9V7EgY0
-   r/K2MfHuubZGbuxRg9K0gSzHlB2J0Ff66TojDbwTVpvppOQNOtB5xd33V
-   kwM6Z4I1HPYgHugWjfNmkq2CFAHpZz8bZqSF2JExbD6tkPou5Rn3Inaas
-   q2kyDxFJsBgIMwtuJg0ywioj7YMZH6VNVGVJ+68RD4/Gexc7RWjBWaq3V
-   MMzYIof/rSD9lpsEBhLAi6BEPY6dLA9A6EuDGJzFFelanR5w8FijTxLbz
-   le1n3OaTRrwTScEI6c+W5PDU9C0s7HA9hEWDt1biclI9//8BreblnRzyQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="326175551"
+  bh=Y2/OAZ7d/VGTWmtYqK8QAE7OItpSaFHKA4xGwooqWkQ=;
+  b=Pll+nz2Q1Wlwxzng8vEJQ05s9IdKNu33s4bqzpqeFOadZ/NFSzy92qsM
+   1i2An54/K7VljDggjTj5Xb1zwGb4D2fRYX0a3pGO0dlG8HZNYoAD60t8S
+   vYox6rwz45KaSplOgofTT6kRQ/+l6c9OG1k8mAL2Ypp/wqxjGqJJ0YesG
+   /QqcuXAI5d7ieBHWKrJdofTIJ7u+DDCc3Xo+sTRV8ZLs2FBnEk7+BcmNs
+   w5d+Vmjs+6PPZXcMlC7MBpDgEocmh7Rn/aSxHUCC3tph00l9fWbdM6h2P
+   w3XAtww9+VOLmDwBOdV9WP3ggyqt56MCdvREjCWyH5LFysKMH4jgRpk5f
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="327533318"
 X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="326175551"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 00:57:57 -0800
+   d="scan'208";a="327533318"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 01:39:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="665999067"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="664028538"
 X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="665999067"
+   d="scan'208";a="664028538"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jan 2023 00:57:56 -0800
+  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2023 01:38:57 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMPz9-0003W4-2G;
-	Mon, 30 Jan 2023 08:57:55 +0000
-Date: Mon, 30 Jan 2023 16:57:27 +0800
+	id 1pMQcq-0003XO-2Q;
+	Mon, 30 Jan 2023 09:38:56 +0000
+Date: Mon, 30 Jan 2023 17:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:misc/pfn_valid/v0 3/3]
- include/asm-generic/memory_model.h:23:19: error: static declaration of
- 'pfn_valid' follows non-static declaration
-Message-ID: <202301301652.IA2S05jq-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Tony Krowiak <akrowiak@linux.ibm.com>
+Subject: [linux-next:master 6402/9183] kismet: WARNING: unmet direct
+ dependencies detected for VFIO_MDEV when selected by SAMPLE_VFIO_MDEV_MTTY
+Message-ID: <202301301722.6fghRppL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,73 +52,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git misc/pfn_valid/v0
-head:   070224895280d442d59cdb72b30160402af90439
-commit: 070224895280d442d59cdb72b30160402af90439 [3/3] mm, arch: add generic implementation of pfn_valid() for FLATMEM
-config: arm-randconfig-r015-20230130 (https://download.01.org/0day-ci/archive/20230130/202301301652.IA2S05jq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=070224895280d442d59cdb72b30160402af90439
-        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
-        git fetch --no-tags rppt misc/pfn_valid/v0
-        git checkout 070224895280d442d59cdb72b30160402af90439
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm prepare
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ae0c77e1bc6963c67c6c09e8c72959fcb1ed8d5f
+commit: 8bf8c5ee1f3863d944c1d8c29335f0c790b4f851 [6402/9183] vfio-mdev: turn VFIO_MDEV into a selectable symbol
+config: csky-kismet-CONFIG_VFIO_MDEV-CONFIG_SAMPLE_VFIO_MDEV_MTTY-0-0 (https://download.01.org/0day-ci/archive/20230130/202301301722.6fghRppL-lkp@intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8bf8c5ee1f3863d944c1d8c29335f0c790b4f851
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 8bf8c5ee1f3863d944c1d8c29335f0c790b4f851
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_VFIO_MDEV --selectors CONFIG_SAMPLE_VFIO_MDEV_MTTY -a=csky
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=csky olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm/include/asm/memory.h:389,
-                    from arch/arm/include/asm/page.h:163,
-                    from arch/arm/include/asm/thread_info.h:14,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/arm/kernel/asm-offsets.c:11:
->> include/asm-generic/memory_model.h:23:19: error: static declaration of 'pfn_valid' follows non-static declaration
-      23 | static inline int pfn_valid(unsigned long pfn)
-         |                   ^~~~~~~~~
-   arch/arm/include/asm/page.h:160:12: note: previous declaration of 'pfn_valid' with type 'int(long unsigned int)'
-     160 | extern int pfn_valid(unsigned long);
-         |            ^~~~~~~~~
-   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1298: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/pfn_valid +23 include/asm-generic/memory_model.h
-
-    17	
-    18	#define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
-    19	#define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
-    20					 ARCH_PFN_OFFSET)
-    21	
-    22	#ifndef pfn_valid
-  > 23	static inline int pfn_valid(unsigned long pfn)
-    24	{
-    25		/* avoid <linux/mm.h> include hell */
-    26		extern unsigned long max_mapnr;
-    27		unsigned long pfn_offset = ARCH_PFN_OFFSET;
-    28	
-    29		return pfn >= pfn_offset && pfn < max_mapnr;
-    30	}
-    31	#define pfn_valid pfn_valid
-    32	#endif
-    33	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for VFIO_MDEV when selected by SAMPLE_VFIO_MDEV_MTTY
+   .config:4726:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   
+   WARNING: unmet direct dependencies detected for VFIO_MDEV
+     Depends on [n]: VFIO [=n]
+     Selected by [y]:
+     - SAMPLE_VFIO_MDEV_MTTY [=y] && SAMPLES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
