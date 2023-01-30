@@ -1,44 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10A028E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 14:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F557323D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 14:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675089967; x=1706625967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YgowaJgvhfMdwK5CTwfzXDYqbeauxrvDImqmBhcLmCA=;
-  b=QZYidm3G/h5u1uXh08Ph20aRHes01t9naX4fHCtu4t9iVEWy5PWvHBgB
-   Ver8iF/9ZpEp1JFvvwvucvArBA+CyJMnylrl8ZSnP6gU43pMSmRZFGlFv
-   Ou7C2EJpGJevVOL8I+gK/Puti4VJ988TY93n+DVJ2Y/mYAU1GDn+6R3r3
-   qIefnWPJUmC6QW91prRr4qCTtoS574R2w0IfPkmK924P0TAl/ItWh9UsF
-   KG+T02ITjHbP2ftZeIqatQezKPdGC8T0bWQhTcX201IhFbb0y54kMh36z
-   hUDLHxkJYFQzlF9XG+LNYzhNUcrnYn6Oqm89iCYb032HJlCVg/H5RXdid
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="311192089"
+  t=1675090568; x=1706626568;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HOglHh4Rvjibz9O//rh2/JK+FybY90BWwIdozpyXjLA=;
+  b=RFCnZQtiopHaEOKxHEBFXNxmdSQ1qyXzRhjPmluurGNzEdQs8jLNoqgQ
+   9yP2E2pIQ+oQUScKUMl+ehbNQTXoVLKmlY0TE+eR4rm4PzBrTj5p8nj39
+   1DvWyUzNQtjjILWR0/glZcpYf1iCJogJd2j9Zm6bduWFZgYnXMCnhA1Z7
+   uh9PK5NDZD9Oe2nf1hWPPoshVOa2JWidiSpaWam2lLBGkpWpMhlIW15ql
+   fS+F/+XCmsp5qGoCPDmldUPf69ZFHHHcKwFSfi/s95fyUhFrYMuRzVrnQ
+   qLZgEFOL9+/X1O3eHwQ2LkXvmB5e98/nRhFFg6RUCtaHOx232LY+UON8t
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="307225499"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="311192089"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 06:46:07 -0800
+   d="scan'208";a="307225499"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 06:56:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="727526120"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="837991288"
 X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="727526120"
+   d="scan'208";a="837991288"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Jan 2023 06:46:05 -0800
+  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2023 06:56:06 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMVQ5-0003go-0m;
-	Mon, 30 Jan 2023 14:46:05 +0000
-Date: Mon, 30 Jan 2023 22:45:15 +0800
+	id 1pMVZl-0003h4-1J;
+	Mon, 30 Jan 2023 14:56:05 +0000
+Date: Mon, 30 Jan 2023 22:55:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/4] staging: vc04_services: Drop remnants of custom
- logging
-Message-ID: <202301302201.y7J5pYI0-lkp@intel.com>
-References: <20230118115810.21979-5-umang.jain@ideasonboard.com>
+Subject: [sashal-stable:pending-4.19 34/62]
+ drivers/mmc/host/sdhci-esdhc-imx.c:1166:31: error: implicit declaration of
+ function 'cqhci_readl'; did you mean 'sdhci_readl'?
+Message-ID: <202301302244.gMHam0L2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,148 +46,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118115810.21979-5-umang.jain@ideasonboard.com>
 
-Hi Umang,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next next-20230130]
-[cannot apply to staging/staging-linus linus/master v6.2-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/staging-vc04_services-vchiq_core-Drop-custom-logging/20230118-203726
-patch link:    https://lore.kernel.org/r/20230118115810.21979-5-umang.jain%40ideasonboard.com
-patch subject: [RFC PATCH 4/4] staging: vc04_services: Drop remnants of custom logging
-config: loongarch-randconfig-r035-20230129 (https://download.01.org/0day-ci/archive/20230130/202301302201.y7J5pYI0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   6c45fd8472ed235c0a8d400ca5733f12301560f3
+commit: 30f3bbabc75bfa914204127757a4b3dfd0a88921 [34/62] mmc: sdhci-esdhc-imx: clear pending interrupt and halt cqhci
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230130/202301302244.gMHam0L2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/953bb4f9c58d3809d113fdc739f6e38e51f4096f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Umang-Jain/staging-vc04_services-vchiq_core-Drop-custom-logging/20230118-203726
-        git checkout 953bb4f9c58d3809d113fdc739f6e38e51f4096f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=30f3bbabc75bfa914204127757a4b3dfd0a88921
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-4.19
+        git checkout 30f3bbabc75bfa914204127757a4b3dfd0a88921
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/mmc/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.o: in function `.LFB3579':
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2033: undefined reference to `vchiq_sync_log_level'
->> loongarch64-linux-ld: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2033: undefined reference to `vchiq_sync_log_level'
->> loongarch64-linux-ld: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2033: undefined reference to `vchiq_sync_log_level'
+   drivers/mmc/host/sdhci-esdhc-imx.c: In function 'sdhci_esdhc_imx_hwinit':
+>> drivers/mmc/host/sdhci-esdhc-imx.c:1166:31: error: implicit declaration of function 'cqhci_readl'; did you mean 'sdhci_readl'? [-Werror=implicit-function-declaration]
+    1166 |                         tmp = cqhci_readl(cq_host, CQHCI_IS);
+         |                               ^~~~~~~~~~~
+         |                               sdhci_readl
+   drivers/mmc/host/sdhci-esdhc-imx.c:1166:52: error: 'CQHCI_IS' undeclared (first use in this function)
+    1166 |                         tmp = cqhci_readl(cq_host, CQHCI_IS);
+         |                                                    ^~~~~~~~
+   drivers/mmc/host/sdhci-esdhc-imx.c:1166:52: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/mmc/host/sdhci-esdhc-imx.c:1167:25: error: implicit declaration of function 'cqhci_writel'; did you mean 'sdhci_writel'? [-Werror=implicit-function-declaration]
+    1167 |                         cqhci_writel(cq_host, tmp, CQHCI_IS);
+         |                         ^~~~~~~~~~~~
+         |                         sdhci_writel
+>> drivers/mmc/host/sdhci-esdhc-imx.c:1168:47: error: 'CQHCI_HALT' undeclared (first use in this function)
+    1168 |                         cqhci_writel(cq_host, CQHCI_HALT, CQHCI_CTL);
+         |                                               ^~~~~~~~~~
+>> drivers/mmc/host/sdhci-esdhc-imx.c:1168:59: error: 'CQHCI_CTL' undeclared (first use in this function)
+    1168 |                         cqhci_writel(cq_host, CQHCI_HALT, CQHCI_CTL);
+         |                                                           ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2033 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+vim +1166 drivers/mmc/host/sdhci-esdhc-imx.c
 
-  1994	
-  1995	/* Called by the sync thread */
-  1996	static int
-  1997	sync_func(void *v)
-  1998	{
-  1999		struct vchiq_state *state = v;
-  2000		struct vchiq_shared_state *local = state->local;
-  2001		struct vchiq_header *header =
-  2002			(struct vchiq_header *)SLOT_DATA_FROM_INDEX(state,
-  2003				state->remote->slot_sync);
-  2004	
-  2005		while (1) {
-  2006			struct vchiq_service *service;
-  2007			int msgid, size;
-  2008			int type;
-  2009			unsigned int localport, remoteport;
-  2010	
-  2011			remote_event_wait(&state->sync_trigger_event, &local->sync_trigger);
-  2012	
-  2013			/* Ensure that reads don't overtake the remote_event_wait. */
-  2014			rmb();
-  2015	
-  2016			msgid = header->msgid;
-  2017			size = header->size;
-  2018			type = VCHIQ_MSG_TYPE(msgid);
-  2019			localport = VCHIQ_MSG_DSTPORT(msgid);
-  2020			remoteport = VCHIQ_MSG_SRCPORT(msgid);
-  2021	
-  2022			service = find_service_by_port(state, localport);
-  2023	
-  2024			if (!service) {
-  2025				dev_err(state->dev,
-  2026					"%d: sf %s@%pK (%d->%d) - invalid/closed service %d",
-  2027					state->id, msg_type_str(type), header,
-  2028					remoteport, localport, localport);
-  2029				release_message_sync(state, header);
-  2030				continue;
-  2031			}
-  2032	
-> 2033			if (vchiq_sync_log_level >= LOGLEVEL_DEBUG) {
-  2034				int svc_fourcc;
-  2035	
-  2036				svc_fourcc = service
-  2037					? service->base.fourcc
-  2038					: VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
-  2039				dev_dbg(state->dev,
-  2040					"Rcvd Msg %s from %c%c%c%c s:%d d:%d len:%d",
-  2041					msg_type_str(type), VCHIQ_FOURCC_AS_4CHARS(svc_fourcc),
-  2042					remoteport, localport, size);
-  2043				if (size > 0)
-  2044					vchiq_log_dump_mem("Rcvd", 0, header->data, min(16, size));
-  2045			}
-  2046	
-  2047			switch (type) {
-  2048			case VCHIQ_MSG_OPENACK:
-  2049				if (size >= sizeof(struct vchiq_openack_payload)) {
-  2050					const struct vchiq_openack_payload *payload =
-  2051						(struct vchiq_openack_payload *)
-  2052						header->data;
-  2053					service->peer_version = payload->version;
-  2054				}
-  2055				dev_info(state->dev, "%d: sf OPENACK@%pK,%x (%d->%d) v:%d",
-  2056					 state->id, header, size, remoteport, localport,
-  2057					 service->peer_version);
-  2058				if (service->srvstate == VCHIQ_SRVSTATE_OPENING) {
-  2059					service->remoteport = remoteport;
-  2060					set_service_state(service, VCHIQ_SRVSTATE_OPENSYNC);
-  2061					service->sync = 1;
-  2062					complete(&service->remove_event);
-  2063				}
-  2064				release_message_sync(state, header);
-  2065				break;
-  2066	
-  2067			case VCHIQ_MSG_DATA:
-  2068				dev_dbg(state->dev, "%d: sf DATA@%pK,%x (%d->%d)",
-  2069					state->id, header, size, remoteport, localport);
-  2070	
-  2071				if ((service->remoteport == remoteport) &&
-  2072				    (service->srvstate == VCHIQ_SRVSTATE_OPENSYNC)) {
-  2073					if (make_service_callback(service, VCHIQ_MESSAGE_AVAILABLE, header,
-  2074								  NULL) == -EAGAIN)
-  2075						dev_err(state->dev,
-  2076							"synchronous callback to service %d returns -EAGAIN",
-  2077							localport);
-  2078				}
-  2079				break;
-  2080	
-  2081			default:
-  2082				dev_err(state->dev, "%d: sf unexpected msgid %x@%pK,%x",
-  2083					state->id, msgid, header, size);
-  2084				release_message_sync(state, header);
-  2085				break;
-  2086			}
-  2087	
-  2088			vchiq_service_put(service);
-  2089		}
-  2090	
-  2091		return 0;
-  2092	}
-  2093	
+  1090	
+  1091	static void sdhci_esdhc_imx_hwinit(struct sdhci_host *host)
+  1092	{
+  1093		struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+  1094		struct pltfm_imx_data *imx_data = sdhci_pltfm_priv(pltfm_host);
+  1095		struct cqhci_host *cq_host = host->mmc->cqe_private;
+  1096		int tmp;
+  1097	
+  1098		if (esdhc_is_usdhc(imx_data)) {
+  1099			/*
+  1100			 * The imx6q ROM code will change the default watermark
+  1101			 * level setting to something insane.  Change it back here.
+  1102			 */
+  1103			writel(ESDHC_WTMK_DEFAULT_VAL, host->ioaddr + ESDHC_WTMK_LVL);
+  1104	
+  1105			/*
+  1106			 * ROM code will change the bit burst_length_enable setting
+  1107			 * to zero if this usdhc is chosen to boot system. Change
+  1108			 * it back here, otherwise it will impact the performance a
+  1109			 * lot. This bit is used to enable/disable the burst length
+  1110			 * for the external AHB2AXI bridge. It's useful especially
+  1111			 * for INCR transfer because without burst length indicator,
+  1112			 * the AHB2AXI bridge does not know the burst length in
+  1113			 * advance. And without burst length indicator, AHB INCR
+  1114			 * transfer can only be converted to singles on the AXI side.
+  1115			 */
+  1116			writel(readl(host->ioaddr + SDHCI_HOST_CONTROL)
+  1117				| ESDHC_BURST_LEN_EN_INCR,
+  1118				host->ioaddr + SDHCI_HOST_CONTROL);
+  1119	
+  1120			/*
+  1121			 * erratum ESDHC_FLAG_ERR004536 fix for MX6Q TO1.2 and MX6DL
+  1122			 * TO1.1, it's harmless for MX6SL
+  1123			 */
+  1124			writel(readl(host->ioaddr + 0x6c) & ~BIT(7),
+  1125				host->ioaddr + 0x6c);
+  1126	
+  1127			/* disable DLL_CTRL delay line settings */
+  1128			writel(0x0, host->ioaddr + ESDHC_DLL_CTRL);
+  1129	
+  1130			if (imx_data->socdata->flags & ESDHC_FLAG_STD_TUNING) {
+  1131				tmp = readl(host->ioaddr + ESDHC_TUNING_CTRL);
+  1132				tmp |= ESDHC_STD_TUNING_EN |
+  1133					ESDHC_TUNING_START_TAP_DEFAULT;
+  1134				if (imx_data->boarddata.tuning_start_tap) {
+  1135					tmp &= ~ESDHC_TUNING_START_TAP_MASK;
+  1136					tmp |= imx_data->boarddata.tuning_start_tap;
+  1137				}
+  1138	
+  1139				if (imx_data->boarddata.tuning_step) {
+  1140					tmp &= ~ESDHC_TUNING_STEP_MASK;
+  1141					tmp |= imx_data->boarddata.tuning_step
+  1142						<< ESDHC_TUNING_STEP_SHIFT;
+  1143				}
+  1144				writel(tmp, host->ioaddr + ESDHC_TUNING_CTRL);
+  1145			} else if (imx_data->socdata->flags & ESDHC_FLAG_MAN_TUNING) {
+  1146				/*
+  1147				 * ESDHC_STD_TUNING_EN may be configed in bootloader
+  1148				 * or ROM code, so clear this bit here to make sure
+  1149				 * the manual tuning can work.
+  1150				 */
+  1151				tmp = readl(host->ioaddr + ESDHC_TUNING_CTRL);
+  1152				tmp &= ~ESDHC_STD_TUNING_EN;
+  1153				writel(tmp, host->ioaddr + ESDHC_TUNING_CTRL);
+  1154			}
+  1155	
+  1156			/*
+  1157			 * On i.MX8MM, we are running Dual Linux OS, with 1st Linux using SD Card
+  1158			 * as rootfs storage, 2nd Linux using eMMC as rootfs storage. We let the
+  1159			 * the 1st linux configure power/clock for the 2nd Linux.
+  1160			 *
+  1161			 * When the 2nd Linux is booting into rootfs stage, we let the 1st Linux
+  1162			 * to destroy the 2nd linux, then restart the 2nd linux, we met SDHCI dump.
+  1163			 * After we clear the pending interrupt and halt CQCTL, issue gone.
+  1164			 */
+  1165			if (cq_host) {
+> 1166				tmp = cqhci_readl(cq_host, CQHCI_IS);
+> 1167				cqhci_writel(cq_host, tmp, CQHCI_IS);
+> 1168				cqhci_writel(cq_host, CQHCI_HALT, CQHCI_CTL);
+  1169			}
+  1170		}
+  1171	}
+  1172	
 
 -- 
 0-DAY CI Kernel Test Service
