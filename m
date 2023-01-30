@@ -1,43 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0023820E1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 10:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675075803; x=1706611803;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ePsH3c1bFgToe3/QKHTslftXeO8bV+ysGR2OHez72Og=;
-  b=IGDObFEG5Jy8PMfHJt523xHQicmzdDxEsiyyq7U1zKATD99AmPyJ+8dR
-   elJ3YpEO3qTVg1Tgwu75DwCyg03bExEATdLVywMBARTKIDtkzLWLT3/bt
-   w563H9StTSXlRCy/EkZNpx7sj8pJoMpdJh4FMc6qWpbWKG6YCpw4I0/wZ
-   0SzqaS8ZDoMYu9M+VyucukcxS9RIgC4GvGm7EWAmGme4hPGP5jOnNedDF
-   U/ItuqI7M3OQind6Xsd7BLfI3A+C50k93vJ8kCykotvBb2mEC+8j2eW9i
-   8/NpJdxSqKFmaGvvEc/qkpg3iFa1hBSsEc/au8hANkI7ucmBptnX4PI+w
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307873285"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="307873285"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 02:50:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="657413176"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="657413176"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 30 Jan 2023 02:50:01 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMRjc-0003Zi-0F;
-	Mon, 30 Jan 2023 10:50:00 +0000
-Date: Mon, 30 Jan 2023 18:49:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/3] mmc: sdhci-of-dwcmshc: Add runtime PM support
-Message-ID: <202301301851.mZZD4srv-lkp@intel.com>
-References: <1675064285-25425-3-git-send-email-shawn.lin@rock-chips.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9C020E3;
+	Mon, 30 Jan 2023 11:36:54 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so9793785wma.1;
+        Mon, 30 Jan 2023 03:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WrDarnPGmbqJpI2Ac5e9NiskrYFVtk1vocykkxl03TA=;
+        b=fmose3yisLnV0z75yGmMRo+SHWEObqm1qMiZWQAU6gBkDn2G2FZTBpGXcij3DepaGq
+         yCi1xfBnHZxn/8BHYK/GtaUXhC7qMsHRcMXAZp6Z7uk3Hrn9LjlQuauVSn1mSz64Adds
+         P4+MDvZ7on8qHq47MIP6zjovshGfaEeT8TZPknt4qhtIOXBNL+FaxYgV/3pnmpMOqgHs
+         pDuPrdRt/ryojzFQhx8juuCtuT+E273eAjS/4EWKsAm38G/InsJ9DzQKhUEbXYA/K3ii
+         PYvGhjKpMkk11F5Q78cvc59lyr2E4tVQjdVsaJkXvQdVon4u3ceZcXmtLCcSMNBDnnCN
+         ly9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WrDarnPGmbqJpI2Ac5e9NiskrYFVtk1vocykkxl03TA=;
+        b=DStye5c/HRop24OD+j4GrNTlJUB18TEMMt2kW5xMkInaNi2NU3qpiIpC4bes1aM+kt
+         /y+saQyNIZF8k3B3rxgOl2/+WlZX8zFKLdLTU+FEiOFtV5ShkQo+UOKbY9AQDBErgtxA
+         hjPUathcKyQIfTLovGLxKfgjYL4w9SCrZH1bCTffTen712pIi4R/zg/CBSrS4AtoThHu
+         ZAjxcatNQ2BRmj3edX9KLHiIJa5sXh2KdjXKka/wPe7vLKmiwQ/hqKjW3+sIH8nbGw6U
+         691OYZMjQ8XyJtIqKAAh49M5+mJEWUjgQjwxSR+cGzs0DnWj38xZRRzMl3fscoaS0fnF
+         uglw==
+X-Gm-Message-State: AO0yUKVoykx6qP7K9X987mcX6Z1pwrg90ulXUQjObv3ftf4oCXWKrhdS
+	muV3zDuP/yW73052GEL0bbfnpIobBi0=
+X-Google-Smtp-Source: AK7set81f1p3fMSH49wXPweF7pJc2Tdrb/p8VDwUbxvLqfJxPLX4SlbGOenX7k/imqMr9OSIGz6O0A==
+X-Received: by 2002:a05:600c:3197:b0:3dc:496f:ad56 with SMTP id s23-20020a05600c319700b003dc496fad56mr7914670wmp.14.1675078612887;
+        Mon, 30 Jan 2023 03:36:52 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w8-20020a05600c2a0800b003db06224953sm13286745wme.41.2023.01.30.03.36.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 03:36:52 -0800 (PST)
+Date: Mon, 30 Jan 2023 14:36:49 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:block-small-segments 10/13] block/blk.h:343
+ bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
+ be null (see line 340)
+Message-ID: <202301292052.ofpUPNlC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,73 +52,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1675064285-25425-3-git-send-email-shawn.lin@rock-chips.com>
 
-Hi Shawn,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2-rc6 next-20230130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/mmc-sdhci-of-dwcmshc-Update-DLL-and-pre-change-delay-for-rockchip-platform/20230130-154508
-patch link:    https://lore.kernel.org/r/1675064285-25425-3-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH 2/3] mmc: sdhci-of-dwcmshc: Add runtime PM support
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230130/202301301851.mZZD4srv-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d1d3d5eccfcbf25cd2517e1b7c0833dda42faff3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shawn-Lin/mmc-sdhci-of-dwcmshc-Update-DLL-and-pre-change-delay-for-rockchip-platform/20230130-154508
-        git checkout d1d3d5eccfcbf25cd2517e1b7c0833dda42faff3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/mmc/host/
+tree:   https://github.com/bvanassche/linux block-small-segments
+head:   c776ad1c2e1e0afaefb3ef5f1710dc3886f5348f
+commit: b91c4a42d14ad8bfd74387c10c8c21db9fb2b998 [10/13] block: Add support for filesystem requests and small segments
+config: m68k-randconfig-m041-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292052.ofpUPNlC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+block/blk.h:343 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 340)
 
-   In file included from include/linux/device.h:25,
-                    from include/linux/acpi.h:15,
-                    from drivers/mmc/host/sdhci-of-dwcmshc.c:10:
->> drivers/mmc/host/sdhci-of-dwcmshc.c:681:28: error: 'dwcmshc_suspend' undeclared here (not in a function)
-     681 |         SET_RUNTIME_PM_OPS(dwcmshc_suspend, dwcmshc_resume, NULL)
-         |                            ^~~~~~~~~~~~~~~
-   include/linux/pm.h:337:28: note: in definition of macro 'RUNTIME_PM_OPS'
-     337 |         .runtime_suspend = suspend_fn, \
-         |                            ^~~~~~~~~~
-   drivers/mmc/host/sdhci-of-dwcmshc.c:681:9: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
-     681 |         SET_RUNTIME_PM_OPS(dwcmshc_suspend, dwcmshc_resume, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
->> drivers/mmc/host/sdhci-of-dwcmshc.c:681:45: error: 'dwcmshc_resume' undeclared here (not in a function); did you mean 'dwcmshc_remove'?
-     681 |         SET_RUNTIME_PM_OPS(dwcmshc_suspend, dwcmshc_resume, NULL)
-         |                                             ^~~~~~~~~~~~~~
-   include/linux/pm.h:338:27: note: in definition of macro 'RUNTIME_PM_OPS'
-     338 |         .runtime_resume = resume_fn, \
-         |                           ^~~~~~~~~
-   drivers/mmc/host/sdhci-of-dwcmshc.c:681:9: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
-     681 |         SET_RUNTIME_PM_OPS(dwcmshc_suspend, dwcmshc_resume, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
+vim +343 block/blk.h
 
+c55ddd9082f757 Christoph Hellwig 2022-07-27  323  static inline bool bio_may_exceed_limits(struct bio *bio,
+aa261f20589d89 Bart Van Assche   2022-10-25  324  					 const struct queue_limits *lim)
+abd45c159df5fc Jens Axboe        2021-10-13  325  {
+abd45c159df5fc Jens Axboe        2021-10-13  326  	switch (bio_op(bio)) {
+abd45c159df5fc Jens Axboe        2021-10-13  327  	case REQ_OP_DISCARD:
+abd45c159df5fc Jens Axboe        2021-10-13  328  	case REQ_OP_SECURE_ERASE:
+abd45c159df5fc Jens Axboe        2021-10-13  329  	case REQ_OP_WRITE_ZEROES:
+abd45c159df5fc Jens Axboe        2021-10-13  330  		return true; /* non-trivial splitting decisions */
+abd45c159df5fc Jens Axboe        2021-10-13  331  	default:
+abd45c159df5fc Jens Axboe        2021-10-13  332  		break;
+abd45c159df5fc Jens Axboe        2021-10-13  333  	}
+abd45c159df5fc Jens Axboe        2021-10-13  334  
+abd45c159df5fc Jens Axboe        2021-10-13  335  	/*
+b91c4a42d14ad8 Bart Van Assche   2022-09-27  336  	 * Check whether bio splitting should be performed. This check may
+b91c4a42d14ad8 Bart Van Assche   2022-09-27  337  	 * trigger the bio splitting code even if splitting is not necessary.
+abd45c159df5fc Jens Axboe        2021-10-13  338  	 */
+b91c4a42d14ad8 Bart Van Assche   2022-09-27  339  	if (blk_queue_sub_page_limits(lim) &&
+b91c4a42d14ad8 Bart Van Assche   2022-09-27 @340  	    bio->bi_io_vec && bio->bi_io_vec->bv_len > lim->max_segment_size)
+                                                            ^^^^^^^^^^^^^^
+Check for NULL
 
-vim +/dwcmshc_suspend +681 drivers/mmc/host/sdhci-of-dwcmshc.c
+b91c4a42d14ad8 Bart Van Assche   2022-09-27  341  		return true;
+c55ddd9082f757 Christoph Hellwig 2022-07-27  342  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
+abd45c159df5fc Jens Axboe        2021-10-13 @343  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
+                                                                ^^^^^^^^^^^^^^^^
+Unchecked dereference
 
-   677	
-   678	static const struct dev_pm_ops dwcmshc_pmops = {
-   679		SET_SYSTEM_SLEEP_PM_OPS(dwcmshc_runtime_suspend,
-   680					dwcmshc_runtime_resume)
- > 681		SET_RUNTIME_PM_OPS(dwcmshc_suspend, dwcmshc_resume, NULL)
-   682	};
-   683	
+abd45c159df5fc Jens Axboe        2021-10-13  344  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
