@@ -1,178 +1,157 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2090.outbound.protection.outlook.com [40.107.117.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8711936E;
-	Mon, 30 Jan 2023 05:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675056292; x=1706592292;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6+zRfQ55SMJPNjqhp/luiBL1qxHZmhox2zrzAKZljDY=;
-  b=Urqj/7donco6uuPO/toyC+4YnI8WpoEgSd8NEqgfbYnX2GfSFz5ELDzy
-   wOpbZzp2pqLcOpn1cIE8ONMfaqhAjF0S4SRt0Z9y0og/0Z6SJUn8eRMPZ
-   YT9mNs3VHXm7e39GaIk+5O+Hf2L7oi4qFB94T3rS2uRFCuZcMLOo/LJaF
-   5D6rDHm8sClQLfaImlboPZWGKgNSAz8OvJcntudHKrGEgypuOZ2ZcrOEu
-   GBZr05ElsnwAtV69SZFDuThyYsur8XP+nEH1linvhZf2ZaPSP1M86iw2+
-   2ny9w/oFRSoq6TNeYGjTUBGlAIaj3hrQFggYSM5VYgmWxPypjYQyR2naE
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="325174122"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="325174122"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 21:24:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="732565447"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
-   d="scan'208";a="732565447"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Jan 2023 21:24:49 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMMeu-0003PK-1m;
-	Mon, 30 Jan 2023 05:24:48 +0000
-Date: Mon, 30 Jan 2023 13:23:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Haijun Liu <haijun.liu@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>,
-	Ricardo Martinez <ricardo.martinez@linux.intel.com>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>
-Subject: include/asm-generic/io.h:464:31: error: performing pointer
- arithmetic on a null pointer has undefined behavior
-Message-ID: <202301301307.sAxDJudh-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE0F644
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jan 2023 07:17:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UCOtMxv4wCNX8sGOZutlTboL4vFPvy03gS33aPARd0PfywvEKIuARaXRabIdfQehBRyjw7Nj+dW/210EgidtQgujiNadVi41jhbo4FysFsoy7NJNr+On7Ox4ni7wAd2SbM6JiCJLvTzVjN5pCC4axapq+OcDKkpQLH96mtYWlM88DfL/oQeVgK+Y5jh/6pSivd4rfNGDohGhEgJwQmYtMcT21MQoY50AZFrPyvW9MadvuVMh9ziGHM6zlaG8XlVcKnQc3Rw1bJXxSHXz4TxarjEYKc5d4sTXlK8Oie4ONhL1RWfqdRPFsJtv7mSr9+XDSY8GecAaKxV5kx/2cu731g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HRFdudie+/8HvMFhWOGDyq8xYE06nvz0ISG25mYyQFE=;
+ b=BNZJZrvJOAkFbz+ZDqHfjilbVe8HFPNHl+6GC4jsofeGzcYHXjwkfYg9y96ttsj/9VS2djcehrKZD8odXInmJSwhAvusrfPXceHtzVLKR3fMOH4gwTBdH4EPHEXzEd/RodYCKCSC2bJ5oaHT7Z4EkETU3pBZn+KLGKGvmf0tC7ucoRvCTczxP+2M1j3N+c1xVvtTHlovwekHQIj0zLl2qtOPQOzTizVXPHH7YTtzjf2A6lorHfRtMFPvCYwTYPKwdO32s12xjljx/Awcgh3UbbnuEcF+pr6JZrnKG1Lmto+goPTMsK4WbItvAHuvTq6pFIIrR+nHKpPIfPJUwm7pMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HRFdudie+/8HvMFhWOGDyq8xYE06nvz0ISG25mYyQFE=;
+ b=lwYMwEzGIdfL/wTHSIJsSw8DO0RD2effTVMA4b5mYXC7/yxnH/HnUyCW3FQXH78exjnVWVcOlJXTduEAALzkSq44Qw1O+u78fJ2f/wls8Ain3msLmK5n1hdeA0aFKd6bbnlCxq5z0sJt+O4CuoowKxJlt+F29rzh6/KznBX8Uq0=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB8387.jpnprd01.prod.outlook.com (2603:1096:604:16d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.20; Mon, 30 Jan
+ 2023 07:16:59 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e%8]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
+ 07:16:57 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: kernel test robot <lkp@intel.com>
+CC: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+	<fazilyildiran@gmail.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies
+ detected for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
+Thread-Topic: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies
+ detected for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
+Thread-Index: AQHZNFRzWGTdb9Qh20GbjjeGaxR0fa62i/xQ
+Date: Mon, 30 Jan 2023 07:16:57 +0000
+Message-ID:
+ <OS0PR01MB5922363553F69FF265A052CA86D39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <202301301054.KVvGA5XO-lkp@intel.com>
+In-Reply-To: <202301301054.KVvGA5XO-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB8387:EE_
+x-ms-office365-filtering-correlation-id: 3d265b87-eba3-4904-607c-08db0291f92b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ o9Nute3D6resN6vb9GEGbydjD/xCCPBu0Fad4DZ1RHZvv/7mxolKZEcGUBW+yVufpFusHvaX+p2OftCClVlanWekVFKhiTqqduUNsqqnCt36BkNlyuSRPCTZlvaxnnfnSvSgLe938miwsAy6YHAyjSVJRYT6uNgY1KFOY8O3/ciLRvpibT9WgxaFoQb55Cy673HKekTvsqKwkWSItt5BOgL3ToCdxdl1ypR08IpufwAA0bUfYBXKBCyKDen5zTT2Juwl9ZmCyEVTNwhJf2bdFP9XX1+1hhUxyEE2iUXRIWCJVAXbKhSyyaZBDLlIQd+VmCwHBhiV+2jlOr4GYbDP//U4DRt04nVx4Qu0ciS35t2El/nLB3omnvXNwR0aUzCUdjrCryGcdbgkUh7AYSgo6siUrhbyqzQQwtZtCPYQH5ZlGxr8WBoLRDz27aKjUsog6+zpeMDNk87XYQ6YSAHHfF3WcNYmEhEMPFrO4F+EjS9U4votWHYoDFaccsEnvjM5LhYfHUhLlaxji5xOJ1pzjzK7kGOVynU5qVpN7h4789JBF9geyt2sG6Dv72r6oVLZj2YaM4+m5kcVUX16yNtqAZnpejqu/76w1WFdXS7I38ZO5hq7Nzs3D3XqI22PSZQkBtpBzV21tuejPDxcAesrfnDPzKFs9nwLAIZOKVD8oI/r0OkR71Hcchq3fWPaCLVwGECClHLPQSCimb9Vksh7AQ==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(346002)(366004)(396003)(376002)(136003)(451199018)(33656002)(26005)(54906003)(71200400001)(38070700005)(7696005)(316002)(2906002)(38100700002)(9686003)(186003)(478600001)(66476007)(66446008)(8676002)(6916009)(6506007)(55016003)(66556008)(76116006)(64756008)(66946007)(52536014)(122000001)(86362001)(5660300002)(41300700001)(4326008)(83380400001)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?xtmS3dXOCWowVG+T/03DPHkLwzWFNfEVsCSZyafylweZd/EW0wJlyAlGC9aR?=
+ =?us-ascii?Q?lHl6VVh731lf4wPQ/O4EFxX6jkWuBgJMLuTON50yblb7KZNMp5QaUCoemkEf?=
+ =?us-ascii?Q?n1qGIN83iWnUmdwH2T9KaQKM3xZUO4JL7rdWYvyHF4twHnJah1N8d5NUrSLa?=
+ =?us-ascii?Q?zmlml71GJ8caULSAvUpi00gOe0PYJppIx/okCtycevlc/NlSkJ3zGCypU9Bw?=
+ =?us-ascii?Q?1/tRNSsOFw5z52lmKXgpdwDTZD4kALkkT6JwwfJjIt64K1uFVo4+bCdHQug4?=
+ =?us-ascii?Q?e7OJUtQ2d4mfDyDtk6gdcAaIVR7Bn+22vQz2+j+EnH23ISg+Kf2fZCBbx9WF?=
+ =?us-ascii?Q?rvxKIJaCxjLxuJiGGTcZujvK75wZMQQtcaWRv/aY4LG/tgquAT+zKskPEO4t?=
+ =?us-ascii?Q?WPcBQbn4ultL92zA/KujrCyxeQbBfw6MZsEL6rgPsknrsfp3no39TWaWLyYf?=
+ =?us-ascii?Q?SKeWg/ZFEIzloe7lmkUH8YlvKdl4ruPhDWGG1alETLF8c4acdehcaxAb2x+N?=
+ =?us-ascii?Q?5izGjRIsR0S0GUOGEGbq3uaJOelSbw4rRH+z+AXn2SogNlef5Brcwreebs3m?=
+ =?us-ascii?Q?x0fH4+Qq4HDLLcv8RuEiSxp8O1EfDEBqLBt+BgS81XNV64HJES80N9ncld6u?=
+ =?us-ascii?Q?MF43ky27VOvWm0KVH4Z5FiN0YfGYiEmPxxdBVGTxuEc9n4/Eu1WU2IDlsu3G?=
+ =?us-ascii?Q?RP8OCdeDLWLF6BoPohQt3FllBQSusIj6555ddfcodDYBXRbCs16iATtc3dqq?=
+ =?us-ascii?Q?rtj0xJUe1Mk/WEYAO6z2k17sjOusIGiLzGQymtVJQvKapsMDaZ6d1rhVyy8g?=
+ =?us-ascii?Q?0KpsxuZx03zlqqx0JVfljB+Xe0Uxn5f/I8oBGcNN/Nz9NvbqxnQc26MmxlHE?=
+ =?us-ascii?Q?MOVbsl0Ut1Fot/ZJVDYrcmxsr23kfQbRCK7FQgs8cEz5le8EI0Yykws9Wl6H?=
+ =?us-ascii?Q?coBY4HtfW4BSdUjs+as5gB7W6mWAhasCHcSoSoPHVViidfkgE3nmrHQbkRsS?=
+ =?us-ascii?Q?TAol0dkX+WUpeX7Dv4ycoRFRS+LM27isc8WzSRaYvh6X6dCZO6SNYZc7wKHD?=
+ =?us-ascii?Q?Cdr+cRptYSgFnctGr2qOEYpNkZYJr76s5nwey59RgFvuOpZwo6x/jCpXWR8J?=
+ =?us-ascii?Q?cdh03lpTULjTqwHGzvbA+zlO7NRtpaZ2Quyg+/7vjwcJk+kM+2Q71E1jTgP4?=
+ =?us-ascii?Q?Un+MmWzfr928Z92UPHVEc7JVD5iQ/HvQceuK0J28SQVTK2+qUSWIDMHhccOy?=
+ =?us-ascii?Q?MwDjaGf9D8aolVKjt5jiLtDap98+JOLHTlDun5xA3lhFYO6DfEkhl49LQdz7?=
+ =?us-ascii?Q?/8rDD7yGBPZ0vVYuss/PHWG3yznzTrL0NuI6Gh+RW3kL00mVMF8OnU7yELaH?=
+ =?us-ascii?Q?uJFkC/W0+N4Lpne1EWvc/80abuM7hN5c5sQFuwTraD+p1JeR5EiogLtYWZBM?=
+ =?us-ascii?Q?E3Rq7zIpfrjVdgmc5wT950eLg5X9EnndDLs8AS8E/VVOEmPJLIElCWV30cvF?=
+ =?us-ascii?Q?5hDFuaq26H5gaiMhPg50POXOL+HhioWEJjeStY5VRrP5+/etBV+URMYIeWI0?=
+ =?us-ascii?Q?/DneZOkWjoirw0svef8QE7GKGUdkSzrzdmPVpIi4zLootrwzgBuMFC4OEWr4?=
+ =?us-ascii?Q?ZQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Haijun,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6d796c50f84ca79f1722bb131799e5a5710c4700
-commit: 13e920d93e37fcaef4a9309515798a3cae9dcf19 net: wwan: t7xx: Add core components
-date:   9 months ago
-config: s390-randconfig-r025-20230129 (https://download.01.org/0day-ci/archive/20230130/202301301307.sAxDJudh-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=13e920d93e37fcaef4a9309515798a3cae9dcf19
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 13e920d93e37fcaef4a9309515798a3cae9dcf19
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/wwan/t7xx/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/wwan/t7xx/t7xx_pci.c:22:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
->> include/asm-generic/io.h:464:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/net/wwan/t7xx/t7xx_pci.c:22:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/net/wwan/t7xx/t7xx_pci.c:22:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   12 errors generated.
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d265b87-eba3-4904-607c-08db0291f92b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2023 07:16:57.6315
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hxwArIeMSihnap4zlVtUH7+m9Nzr/ncEufZM4BJiHS59WNNDF74VSQmKqye+ssEJRCpsEMBA0W2kbHTBBDNnEAB5WZUXgCWasp8PKML7LAc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8387
 
 
-vim +464 include/asm-generic/io.h
+Hi lkp@intel.com,
 
-3f7e212df82ca0 Arnd Bergmann  2009-05-13  450  
-9216efafc52ff9 Thierry Reding 2014-10-01  451  /*
-9216efafc52ff9 Thierry Reding 2014-10-01  452   * {in,out}{b,w,l}() access little endian I/O. {in,out}{b,w,l}_p() can be
-9216efafc52ff9 Thierry Reding 2014-10-01  453   * implemented on hardware that needs an additional delay for I/O accesses to
-9216efafc52ff9 Thierry Reding 2014-10-01  454   * take effect.
-9216efafc52ff9 Thierry Reding 2014-10-01  455   */
-9216efafc52ff9 Thierry Reding 2014-10-01  456  
-f009c89df79abe John Garry     2020-03-28  457  #if !defined(inb) && !defined(_inb)
-f009c89df79abe John Garry     2020-03-28  458  #define _inb _inb
-214ba3584b2e2c Stafford Horne 2020-07-26  459  static inline u8 _inb(unsigned long addr)
-9216efafc52ff9 Thierry Reding 2014-10-01  460  {
-87fe2d543f8173 Sinan Kaya     2018-04-05  461  	u8 val;
-87fe2d543f8173 Sinan Kaya     2018-04-05  462  
-87fe2d543f8173 Sinan Kaya     2018-04-05  463  	__io_pbr();
-87fe2d543f8173 Sinan Kaya     2018-04-05 @464  	val = __raw_readb(PCI_IOBASE + addr);
-abbbbc83a210e9 Will Deacon    2019-02-22  465  	__io_par(val);
-87fe2d543f8173 Sinan Kaya     2018-04-05  466  	return val;
-9216efafc52ff9 Thierry Reding 2014-10-01  467  }
-9216efafc52ff9 Thierry Reding 2014-10-01  468  #endif
-9216efafc52ff9 Thierry Reding 2014-10-01  469  
+> Subject: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies
+> detected for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
+>=20
+>         git fetch --no-tags usb usb-next
+>         git checkout c52c9acc415eb6ff54f658492f8c53da0fc3528a
+>         # 1. reproduce by kismet
+>            # install kmax per
+>=20
+>            kismet --linux-ksrc=3Dlinux --selectees CONFIG_USB_RZV2M_USB3D=
+RD --
+> selectors CONFIG_USB_XHCI_RZV2M -a=3Dcsky
+>         # 2. reproduce by make
+>            # save the config file to linux source tree
+>            cd linux
+>            make ARCH=3Dcsky olddefconfig
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>=20
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for USB_RZV2M_USB3=
+DRD
+> when selected by USB_XHCI_RZV2M
+>    .config:4492:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' inval=
+id
 
-:::::: The code at line 464 was first introduced by commit
-:::::: 87fe2d543f817300e13f0ea683f38c122737856e io: change inX() to have their own IO barrier overrides
+Looks like this config from kismet is wrong. Can you please fix it and try?
 
-:::::: TO: Sinan Kaya <okaya@codeaurora.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+Cheers,
+Biju
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> for ARCH_MMAP_RND_BITS
+>=20
+>    WARNING: unmet direct dependencies detected for USB_RZV2M_USB3DRD
+>      Depends on [n]: USB_SUPPORT [=3Dy] && USB_GADGET [=3Dn] && (ARCH_R9A=
+09G011
+> [=3Dn] || COMPILE_TEST [=3Dy])
+>      Selected by [y]:
+>      - USB_XHCI_RZV2M [=3Dy] && USB_SUPPORT [=3Dy] && USB [=3Dy] && USB_X=
+HCI_HCD
+> [=3Dy] && USB_XHCI_PLATFORM [=3Dy] && (ARCH_R9A09G011 [=3Dn] || COMPILE_T=
+EST [=3Dy])
+>=20
