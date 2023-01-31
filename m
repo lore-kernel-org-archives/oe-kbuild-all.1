@@ -1,42 +1,30 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127B48C04
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 15:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675177830; x=1706713830;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vQLxou1869NSedWHSAE1jp/iuH4hJMt7uLe7LJAphR0=;
-  b=f8wwpUY/C7o6oDW8jGjcasJUyP8/kHXQarM8W51Pj4XZFKPJxBGVw5Vp
-   irZoYA8LlQYcVApp4y5jhQ/g4zWTYVHbnRmg+UWqIEKPmjb8j5oEzFCPu
-   W9d9GOQENBbZ3YtxQQeRghs5oRK5oH+1uusemBbW2C58ZjF1JWTYvsAcz
-   lrQGi7yxMZPNGOA+5EuDRvHJKYpEdNO5OOJGPp8E6JBLGxCV8GsIc+PuV
-   NPkUMlQkydgkIZ+E7rskl0SeCKn1hKEKAsuF6Clf1P1KuMCXopasNs4I6
-   tj1C1ItkKA1YESR/MgMP+nvdqrXdm9mu01tW92mDL4Ena7NEeJo0DcyeD
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="307519809"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="307519809"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 07:09:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="696845629"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="696845629"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 31 Jan 2023 07:09:56 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMsGi-0004Ui-0i;
-	Tue, 31 Jan 2023 15:09:56 +0000
-Date: Tue, 31 Jan 2023 23:09:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hverkuil-media-tree:cx18 1/1]
- drivers/media/pci/cx18/cx18-fileops.c:681:38: warning: unused variable 'buf'
-Message-ID: <202301312204.QmOJckDC-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8328C04;
+	Tue, 31 Jan 2023 15:19:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93531C433D2;
+	Tue, 31 Jan 2023 15:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675178369;
+	bh=R7MRKH92+BcxDHB0UXCf4d671vCDR0/6DYFMi0daeoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h+eFVERnwW6onaLDCwawJoVuQlSjOd0KP8G10NVceNo+KTvXiMlRp82dwbGX8bBiH
+	 fDJCg4ZfsL/+7pxlxj9mUWZ994i4EdV8ElvDCgRmlhEcscwKRmrxGGV21UClUzcpal
+	 Sy/JzUE0z2V7Z4BpYs9wzk5n/JpLvK4oT6hbLwAmO9dcgKnDyvjfwmYHFbpVUXROiO
+	 5h7jNv6/rRASTiTGss1y8w5AchNs75/+DXnze+wSBelgoPtcrx+evLkmY6h1JGydKT
+	 /c6hRdiva35F7S1M7ZNPFxiXuRFAgmI4yFltvhLeJCi6P3vW4Ht2EpzxkJL/IV7ZOI
+	 TGjOheb9f7i9w==
+Date: Tue, 31 Jan 2023 23:19:26 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Guenter Roeck <groeck@chromium.org>
+Subject: Re: drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning:
+ stack frame size (1040) exceeds limit (1024) in
+ 'cros_ec_proto_test_get_sensor_count_legacy'
+Message-ID: <Y9kxfi4jtEN6YMe0@google.com>
+References: <202301311846.Y75Dbssa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,64 +33,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202301311846.Y75Dbssa-lkp@intel.com>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git cx18
-head:   dd156b1eb732069a1ec81273e9ea3e8dbe9c350d
-commit: dd156b1eb732069a1ec81273e9ea3e8dbe9c350d [1/1] wip
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230131/202301312204.QmOJckDC-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
-        git fetch --no-tags hverkuil-media-tree cx18
-        git checkout dd156b1eb732069a1ec81273e9ea3e8dbe9c350d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/
+On Tue, Jan 31, 2023 at 06:22:29PM +0800, kernel test robot wrote:
+> Hi Tzung-Bi,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   22b8077d0fcec86c6ed0e0fce9f7e7e5a4c2d56a
+> commit: 33f0fdba6066b504ee0b5f1480b1f93b06050df6 platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
+> date:   7 months ago
+> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230131/202301311846.Y75Dbssa-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install powerpc cross compiling tool for clang build
+>         # apt-get install binutils-powerpc-linux-gnu
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=33f0fdba6066b504ee0b5f1480b1f93b06050df6
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 33f0fdba6066b504ee0b5f1480b1f93b06050df6
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/steering/ drivers/platform/chrome/ drivers/staging/media/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack frame size (1040) exceeds limit (1024) in 'cros_ec_proto_test_get_sensor_count_legacy' [-Wframe-larger-than]
+>    static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
+>                ^
+>    140/1040 (13.46%) spills, 900/1040 (86.54%) variables
+>    1 warning generated.
+> 
+> 
+> vim +/cros_ec_proto_test_get_sensor_count_legacy +2530 drivers/platform/chrome/cros_ec_proto_test.c
+> 
+>   2529	
+> > 2530	static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
+>   2531	{
+>   2532		struct cros_ec_proto_test_priv *priv = test->priv;
+>   2533		struct cros_ec_device *ec_dev = &priv->ec_dev;
+>   2534		struct ec_xfer_mock *mock;
+>   2535		int ret, i;
+>   2536		struct cros_ec_dev ec;
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+The issue has been fixed in linux-next by [1].
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/pci/cx18/cx18-fileops.c: In function 'cx18_vb_timeout':
->> drivers/media/pci/cx18/cx18-fileops.c:681:38: warning: unused variable 'buf' [-Wunused-variable]
-     681 |         struct cx18_videobuf_buffer *buf;
-         |                                      ^~~
-
-
-vim +/buf +681 drivers/media/pci/cx18/cx18-fileops.c
-
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  677  
-162e6376ac5844 drivers/media/pci/cx18/cx18-fileops.c   Kees Cook    2017-10-24  678  void cx18_vb_timeout(struct timer_list *t)
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  679  {
-162e6376ac5844 drivers/media/pci/cx18/cx18-fileops.c   Kees Cook    2017-10-24  680  	struct cx18_stream *s = from_timer(s, t, vb_timeout);
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06 @681  	struct cx18_videobuf_buffer *buf;
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  682  	unsigned long flags;
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  683  
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  684  	/* Return all of the buffers in error state, so the vbi/vid inode
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  685  	 * can return from blocking.
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  686  	 */
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  687  	spin_lock_irqsave(&s->vb_lock, flags);
-dd156b1eb73206 drivers/media/pci/cx18/cx18-fileops.c   Hans Verkuil 2023-01-31  688  #if 0
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  689  	while (!list_empty(&s->vb_capture)) {
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  690  		buf = list_entry(s->vb_capture.next,
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  691  			struct cx18_videobuf_buffer, vb.queue);
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  692  		list_del(&buf->vb.queue);
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  693  		buf->vb.state = VIDEOBUF_ERROR;
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  694  		wake_up(&buf->vb.done);
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  695  	}
-dd156b1eb73206 drivers/media/pci/cx18/cx18-fileops.c   Hans Verkuil 2023-01-31  696  #endif
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  697  	spin_unlock_irqrestore(&s->vb_lock, flags);
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  698  }
-b7101de3fff596 drivers/media/video/cx18/cx18-fileops.c Steven Toth  2011-04-06  699  
-
-:::::: The code at line 681 was first introduced by commit
-:::::: b7101de3fff596b35e45cd9fb7007caa07e97c9a [media] cx18: mmap() support for raw YUV video capture
-
-:::::: TO: Steven Toth <stoth@kernellabs.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/commit/?h=for-next&id=6514bac4a321daaf2fdf3a116a644c77e4908f20
