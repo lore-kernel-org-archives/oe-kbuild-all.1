@@ -1,46 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B07233E7;
-	Tue, 31 Jan 2023 11:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F42433E7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 12:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675166095; x=1706702095;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ou7PMp5acdV7RgjsgZCydhFDy8bgWAyFGa1btEiHIfo=;
-  b=S2ep36UCTqiGLbOtyAwSU8E3FuovUUwpoKq0cULFJ8SryjeyWUJWLr8K
-   YD/h5f3eDQ5wuRrJFf+bTS7YP2Ryhe91hn7F2JEPkQc74vz3DNS8IxozV
-   kROPJqnrrOl/N6Dn8et8aemURGcTYvLLJxNwvDyxJC5Maf/sWSjs6u7+N
-   mNDOIRH0uuHZPGIaLxKRJLMA5zR7O2/8DJd8sDGaq7asq+RcgGgCQXmA1
-   IdHEXrKuZokNflwuv3T/Ex2tuIfOYAuq3FtYZNwovNqO6WcMq4xlKbkHx
-   kJmehnJUt3RBaCoUqeiFZHm67fQCbf9GOCVBIB79g+k1Nu/3gqrudY2jR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="414035237"
+  t=1675166696; x=1706702696;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m6yimzeU8lC+kMOeLFbJ6X5ctGHuJ9CIrX08X9/wh+o=;
+  b=MB3+z/h7BHrPsWBOpWILxa/bdMYosONJOBKCY6Kz5jO+PN7GnnLbu7cK
+   x5CAFi/Fd9uR9tWIZx7TaHpVIHYvcRTfsS04mjA1Jl+Ti8B0o8kVsXFMu
+   JhumuQxuIxdXJClSJQPVE1gYW8EMtruFoync5uZ6jnppIUhjZH/nmmEqX
+   rKV4PPgviwutTtK1jsbfmTLOVN7mE30zqIQZq6QlPQ4gIBDLYyOfl/9+w
+   Cy2byCVqqEFv3orI5f+puYzDxAeaJvI+GcFiZSF1rxDL7ANTYCBf37xik
+   5jM2ZO1Y1G3rvtqffPQtm7oUIkm6TOzeaOjTR5jz6sEK+NxuBdTgSuQVy
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="308166427"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="414035237"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 03:54:54 -0800
+   d="scan'208";a="308166427"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 04:04:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="641951844"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909883361"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="641951844"
+   d="scan'208";a="909883361"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 31 Jan 2023 03:54:52 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 04:04:52 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMpDv-0004PO-16;
-	Tue, 31 Jan 2023 11:54:51 +0000
-Date: Tue, 31 Jan 2023 19:54:13 +0800
+	id 1pMpNb-0004Pi-24;
+	Tue, 31 Jan 2023 12:04:51 +0000
+Date: Tue, 31 Jan 2023 20:04:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5:
- warning: stack frame size (1072) exceeds limit (1024) in
- 'saa7146_enable_overlay'
-Message-ID: <202301311905.1FjIpgOK-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 12/12] acl: remove posix acl handlers
+Message-ID: <202301311947.dXUqGsyN-lkp@intel.com>
+References: <20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,67 +46,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6@kernel.org>
 
-Hi Hans,
+Hi Christian,
 
-First bad commit (maybe != root cause):
+I love your patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22b8077d0fcec86c6ed0e0fce9f7e7e5a4c2d56a
-commit: e33fdb5a02490059e2f48ced2c038c8a46c6476d media: saa7146: deprecate hexium_gemini/orion, mxb and ttpci
-date:   5 months ago
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230131/202301311905.1FjIpgOK-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+[auto build test ERROR on 1b929c02afd37871d5afb9d498426f83432e71c2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/xattr-simplify-listxattr-helpers/20230125-193230
+base:   1b929c02afd37871d5afb9d498426f83432e71c2
+patch link:    https://lore.kernel.org/r/20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6%40kernel.org
+patch subject: [PATCH 12/12] acl: remove posix acl handlers
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230131/202301311947.dXUqGsyN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e33fdb5a02490059e2f48ced2c038c8a46c6476d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e33fdb5a02490059e2f48ced2c038c8a46c6476d
+        # https://github.com/intel-lab-lkp/linux/commit/e85a197723c6dd4770a12ded9ea9cae44c75a2c3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-Brauner/xattr-simplify-listxattr-helpers/20230125-193230
+        git checkout e85a197723c6dd4770a12ded9ea9cae44c75a2c3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/steering/ drivers/staging/media/deprecated/saa7146/common/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/fuse/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5: warning: stack frame size (1072) exceeds limit (1024) in 'saa7146_enable_overlay' [-Wframe-larger-than]
-   int saa7146_enable_overlay(struct saa7146_fh *fh)
-       ^
-   257/1072 (23.97%) spills, 815/1072 (76.03%) variables
-   1 warning generated.
+>> fs/fuse/xattr.c:239:10: error: 'posix_acl_access_xattr_handler' undeclared here (not in a function); did you mean 'posix_acl_xattr_header'?
+     239 |         &posix_acl_access_xattr_handler,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |          posix_acl_xattr_header
+>> fs/fuse/xattr.c:240:10: error: 'posix_acl_default_xattr_handler' undeclared here (not in a function); did you mean 'posix_acl_xattr_header'?
+     240 |         &posix_acl_default_xattr_handler,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |          posix_acl_xattr_header
 
 
-vim +/saa7146_enable_overlay +648 drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c
+vim +239 fs/fuse/xattr.c
 
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  647  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16 @648  int saa7146_enable_overlay(struct saa7146_fh *fh)
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  649  {
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  650  	struct saa7146_dev *dev = fh->dev;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  651  	struct saa7146_vv *vv = dev->vv_data;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  652  
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  653  	saa7146_set_window(dev, vv->ov.win.w.width, vv->ov.win.w.height, vv->ov.win.field);
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  654  	saa7146_set_position(dev, vv->ov.win.w.left, vv->ov.win.w.top, vv->ov.win.w.height, vv->ov.win.field, vv->ov_fmt->pixelformat);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  655  	saa7146_set_output_format(dev, vv->ov_fmt->trans);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  656  	saa7146_set_clipping_rect(fh);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  657  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  658  	/* enable video dma1 */
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  659  	saa7146_write(dev, MC1, (MASK_06 | MASK_22));
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  660  	return 0;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  661  }
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  662  
-
-:::::: The code at line 648 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+60bcc88ad185d51 Seth Forshee      2016-08-29  237  
+60bcc88ad185d51 Seth Forshee      2016-08-29  238  const struct xattr_handler *fuse_acl_xattr_handlers[] = {
+60bcc88ad185d51 Seth Forshee      2016-08-29 @239  	&posix_acl_access_xattr_handler,
+60bcc88ad185d51 Seth Forshee      2016-08-29 @240  	&posix_acl_default_xattr_handler,
+60bcc88ad185d51 Seth Forshee      2016-08-29  241  	&fuse_xattr_handler,
+60bcc88ad185d51 Seth Forshee      2016-08-29  242  	NULL
+60bcc88ad185d51 Seth Forshee      2016-08-29  243  };
+e45b2546e23c2d1 Eric W. Biederman 2018-05-04  244  
 
 -- 
 0-DAY CI Kernel Test Service
