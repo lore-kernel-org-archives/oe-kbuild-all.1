@@ -1,43 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F42433E7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 12:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D096ADE;
+	Tue, 31 Jan 2023 13:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675166696; x=1706702696;
+  t=1675170497; x=1706706497;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=m6yimzeU8lC+kMOeLFbJ6X5ctGHuJ9CIrX08X9/wh+o=;
-  b=MB3+z/h7BHrPsWBOpWILxa/bdMYosONJOBKCY6Kz5jO+PN7GnnLbu7cK
-   x5CAFi/Fd9uR9tWIZx7TaHpVIHYvcRTfsS04mjA1Jl+Ti8B0o8kVsXFMu
-   JhumuQxuIxdXJClSJQPVE1gYW8EMtruFoync5uZ6jnppIUhjZH/nmmEqX
-   rKV4PPgviwutTtK1jsbfmTLOVN7mE30zqIQZq6QlPQ4gIBDLYyOfl/9+w
-   Cy2byCVqqEFv3orI5f+puYzDxAeaJvI+GcFiZSF1rxDL7ANTYCBf37xik
-   5jM2ZO1Y1G3rvtqffPQtm7oUIkm6TOzeaOjTR5jz6sEK+NxuBdTgSuQVy
+  bh=mD8r3+fVNKe8Ndn0hyY+3k5+gHYLHphYebsYm2ZS3xE=;
+  b=LF1gvnxrHJE5RQlzBYeDRAl1bBe0ZTgiVgK5tgV6GMNaeENblePzfElt
+   RwSdhqVwwOzo94I3ToMaUMh8GGdjBdmYtHxetzfjd2JrV9MVUY/Kv1jHH
+   dEuv4LoyXgBfCs5L0tCvlGUdDybHoqv4QvVkYWGSjBKgBCMXrFYpCv/ge
+   7eIqy5ZPRn8kSLr1lHkgA7Kijhc2WafnVYZxQRhyRzVxylxcGK8HqKevo
+   ANfppRaA5tRTN0x1rFvGvGl7mNCvdx5L3ELpLXTI2z/xGh11QG40Dd2ne
+   6sibaKckMwkevA28yC3iWuRmxoTN0RfgBswCh9KiLH5bu+TGiVI6eJmRU
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="308166427"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="307490593"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="308166427"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 04:04:53 -0800
+   d="scan'208";a="307490593"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 05:05:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909883361"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="807118322"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="909883361"
+   d="scan'208";a="807118322"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 04:04:52 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2023 05:05:53 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMpNb-0004Pi-24;
-	Tue, 31 Jan 2023 12:04:51 +0000
-Date: Tue, 31 Jan 2023 20:04:36 +0800
+	id 1pMqKe-0004RW-2q;
+	Tue, 31 Jan 2023 13:05:52 +0000
+Date: Tue, 31 Jan 2023 21:05:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 12/12] acl: remove posix acl handlers
-Message-ID: <202301311947.dXUqGsyN-lkp@intel.com>
-References: <20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6@kernel.org>
+To: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gt: Add sysfs RAPL PL1 interface
+Message-ID: <202301312135.zxf6axNP-lkp@intel.com>
+References: <20230131062550.11901-1-sujaritha.sundaresan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,55 +47,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6@kernel.org>
+In-Reply-To: <20230131062550.11901-1-sujaritha.sundaresan@intel.com>
 
-Hi Christian,
+Hi Sujaritha,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test ERROR on 1b929c02afd37871d5afb9d498426f83432e71c2]
+[auto build test ERROR on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/xattr-simplify-listxattr-helpers/20230125-193230
-base:   1b929c02afd37871d5afb9d498426f83432e71c2
-patch link:    https://lore.kernel.org/r/20230125-fs-acl-remove-generic-xattr-handlers-v1-12-6cf155b492b6%40kernel.org
-patch subject: [PATCH 12/12] acl: remove posix acl handlers
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230131/202301311947.dXUqGsyN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sujaritha-Sundaresan/drm-i915-gt-Add-sysfs-RAPL-PL1-interface/20230131-152446
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230131062550.11901-1-sujaritha.sundaresan%40intel.com
+patch subject: [Intel-gfx] [PATCH v2] drm/i915/gt: Add sysfs RAPL PL1 interface
+config: i386-randconfig-a012-20230130 (https://download.01.org/0day-ci/archive/20230131/202301312135.zxf6axNP-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e85a197723c6dd4770a12ded9ea9cae44c75a2c3
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/562c57549ee00ea298f9023380d44526d6d68921
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-Brauner/xattr-simplify-listxattr-helpers/20230125-193230
-        git checkout e85a197723c6dd4770a12ded9ea9cae44c75a2c3
+        git fetch --no-tags linux-review Sujaritha-Sundaresan/drm-i915-gt-Add-sysfs-RAPL-PL1-interface/20230131-152446
+        git checkout 562c57549ee00ea298f9023380d44526d6d68921
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/fuse/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> fs/fuse/xattr.c:239:10: error: 'posix_acl_access_xattr_handler' undeclared here (not in a function); did you mean 'posix_acl_xattr_header'?
-     239 |         &posix_acl_access_xattr_handler,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |          posix_acl_xattr_header
->> fs/fuse/xattr.c:240:10: error: 'posix_acl_default_xattr_handler' undeclared here (not in a function); did you mean 'posix_acl_xattr_header'?
-     240 |         &posix_acl_default_xattr_handler,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |          posix_acl_xattr_header
+>> drivers/gpu/drm/i915/gt/intel_rps.c:2217:6: error: variable 'rapl' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+           if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_drv.h:565:33: note: expanded from macro 'IS_METEORLAKE'
+   #define IS_METEORLAKE(dev_priv) IS_PLATFORM(dev_priv, INTEL_METEORLAKE)
+                                   ^
+   drivers/gpu/drm/i915/gt/intel_rps.c:2220:9: note: uninitialized use occurs here
+           return rapl;
+                  ^~~~
+   drivers/gpu/drm/i915/gt/intel_rps.c:2217:2: note: remove the 'if' if its condition is always true
+           if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/intel_rps.c:2209:10: note: initialize the variable 'rapl' to silence this warning
+           u32 rapl;
+                   ^
+                    = 0
+   1 error generated.
 
 
-vim +239 fs/fuse/xattr.c
+vim +2217 drivers/gpu/drm/i915/gt/intel_rps.c
 
-60bcc88ad185d51 Seth Forshee      2016-08-29  237  
-60bcc88ad185d51 Seth Forshee      2016-08-29  238  const struct xattr_handler *fuse_acl_xattr_handlers[] = {
-60bcc88ad185d51 Seth Forshee      2016-08-29 @239  	&posix_acl_access_xattr_handler,
-60bcc88ad185d51 Seth Forshee      2016-08-29 @240  	&posix_acl_default_xattr_handler,
-60bcc88ad185d51 Seth Forshee      2016-08-29  241  	&fuse_xattr_handler,
-60bcc88ad185d51 Seth Forshee      2016-08-29  242  	NULL
-60bcc88ad185d51 Seth Forshee      2016-08-29  243  };
-e45b2546e23c2d1 Eric W. Biederman 2018-05-04  244  
+  2204	
+  2205	u32 intel_rps_read_rapl_pl1(struct intel_rps *rps)
+  2206	{
+  2207		struct drm_i915_private *i915 = rps_to_i915(rps);
+  2208		u32 rapl_pl1;
+  2209		u32 rapl;
+  2210	
+  2211		if (IS_METEORLAKE(i915))
+  2212			rapl_pl1 = intel_uncore_read(rps_to_gt(rps)->uncore, MTL_RAPL_PL1_FREQ_LIMIT);
+  2213		else if (IS_XEHPSDV(i915))
+  2214			rapl_pl1  = intel_uncore_read(rps_to_gt(rps)->uncore, XEHPSDV_RAPL_PL1_FREQ_LIMIT);
+  2215	
+  2216	
+> 2217		if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+  2218			rapl = REG_FIELD_GET(RAPL_PL1_FREQ_LIMIT_MASK, rapl_pl1);
+  2219	
+  2220		return rapl;
+  2221	}
+  2222	
 
 -- 
 0-DAY CI Kernel Test Service
