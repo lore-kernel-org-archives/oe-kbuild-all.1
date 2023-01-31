@@ -1,43 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44752A92D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 19:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F6CA92D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 19:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675192165; x=1706728165;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mZeMhoZr9IEMISmWq8DhGXUCbJJTi+iD0S+/4KNRzw8=;
-  b=TgzlYtSbwr7Lnq4pn2ht6Yo/3iaIEuHo4i1nZ0iWs67EEF2cSuYuXMth
-   5eR8x0bthLAQqLda2T5dGsswCZKU5zlgYUowiq3l7wnz/Q0NVBdYhsCs+
-   PyNdANL6DzkRfhmCM6/xkvEGhna4bHxw1/X75o8jkbuCg7nZXZE1RFl3J
-   ntw0/yXFEbrAp44kzXoAq7x+tnKWFFjn7PInOdt/w935S5iT7gboufY+D
-   T+GOm4gKpMm6VsLKUgoQ1JHiR0E2cg/jEP/SoA+XEqOFvkYt3YxKzwVT6
-   sFkmKlnJLAbew5njI1/JDLW3mdG8AKaaxRdUMv6Kr+kRyGJ5ZWKC2jgDP
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="315893086"
+  t=1675192825; x=1706728825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4eEAXkCsMiRzEm5Yn2joG4NPrqKqRgO+NgUHqn/u2ak=;
+  b=RiPh6MuR1OaohiANvArVfZNUsN1BTonq2es2iZSxIfMx0h0ahuuuTRth
+   a8kzEBzOg4Lo8KThR4LlD7JOKTjY4EVYYUaWPCK1jlYcV1JHKN/z+Zrw5
+   r/tWUGRcMUXBIAbMkJy//GDaTzZqDcx/unQi85Fj9EDKCdF7abHaI6gkq
+   6QmmQio0p2sMLrzHxEU2DYb2B3A1lNGj4xmrJ0lzr1EI6hkgN2yxUG2kT
+   ol62qTZ8vEhL9YG+mF2Ub6qWd0Rf1FyA2M+jo2dFbQfb/zClxMkyNHAJe
+   by6LyaRjsXjDTh9XilAjGMn4FXDOs268Z0BcxcS5+p2AmUBkJ94Ind5Ma
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="308276528"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="315893086"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 11:09:23 -0800
+   d="scan'208";a="308276528"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 11:20:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="807240597"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="658011492"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="807240597"
+   d="scan'208";a="658011492"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2023 11:09:22 -0800
+  by orsmga007.jf.intel.com with ESMTP; 31 Jan 2023 11:20:22 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMw0P-0004eI-0V;
-	Tue, 31 Jan 2023 19:09:21 +0000
-Date: Wed, 1 Feb 2023 03:08:52 +0800
+	id 1pMwB3-0004eY-1T;
+	Tue, 31 Jan 2023 19:20:21 +0000
+Date: Wed, 1 Feb 2023 03:19:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ng Khai Wen <khai.wen.ng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:5.10/preempt-rt 10974/29702]
- drivers/media/i2c/imx390.c:439:9: warning: ISO C90 forbids mixed
- declarations and code
-Message-ID: <202302010341.9LtFihxW-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Taniya Das <quic_tdas@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH 2/2] clk: qcom: gpucc-sdm845: fix clk_dis_wait being
+ programmed for CX GDSC
+Message-ID: <202302010346.2R8hxnlM-lkp@intel.com>
+References: <20230131092432.122711-2-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,136 +54,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230131092432.122711-2-dmitry.baryshkov@linaro.org>
 
-Hi Ng,
+Hi Dmitry,
 
-FYI, the error/warning still remains.
+I love your patch! Yet something to improve:
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
-head:   32e6f493fd5e5c8cadd5b628aac19f8e64db0f33
-commit: 2def42a616c1ceec2eb739c6befb6af42f6ee22c [10974/29702] Fix compile issue
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302010341.9LtFihxW-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master v6.2-rc6 next-20230131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/clk-qcom-gpucc-sdm845-fix-clk_dis_wait-being-programmed-for-CX-GDSC/20230131-172656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230131092432.122711-2-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH 2/2] clk: qcom: gpucc-sdm845: fix clk_dis_wait being programmed for CX GDSC
+config: arm-randconfig-r046-20230130 (https://download.01.org/0day-ci/archive/20230201/202302010346.2R8hxnlM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/2def42a616c1ceec2eb739c6befb6af42f6ee22c
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/preempt-rt
-        git checkout 2def42a616c1ceec2eb739c6befb6af42f6ee22c
+        # https://github.com/intel-lab-lkp/linux/commit/8222d81144cbdf9b51ffe1ffc61e16b471456329
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/clk-qcom-gpucc-sdm845-fix-clk_dis_wait-being-programmed-for-CX-GDSC/20230131-172656
+        git checkout 8222d81144cbdf9b51ffe1ffc61e16b471456329
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/imx390.c: In function 'get_hblank':
-   drivers/media/i2c/imx390.c:422:13: warning: unused variable 'pixel_clk' [-Wunused-variable]
-     422 |         u64 pixel_clk;
-         |             ^~~~~~~~~
-   drivers/media/i2c/imx390.c:421:13: warning: unused variable 'pixel_rate' [-Wunused-variable]
-     421 |         u64 pixel_rate;
-         |             ^~~~~~~~~~
-   drivers/media/i2c/imx390.c: In function 'imx390_exposure_raw_set':
->> drivers/media/i2c/imx390.c:439:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     439 |         struct imx390_reg exposure_array[] = {
-         |         ^~~~~~
-   drivers/media/i2c/imx390.c:429:13: warning: unused variable 'err' [-Wunused-variable]
-     429 |         int err = 0;
-         |             ^~~
-   drivers/media/i2c/imx390.c: In function 'imx390_set_ctrl':
-   drivers/media/i2c/imx390.c:502:13: warning: unused variable 'val' [-Wunused-variable]
-     502 |         u32 val;
-         |             ^~~
-   drivers/media/i2c/imx390.c:500:13: warning: unused variable 'exposure_max' [-Wunused-variable]
-     500 |         s64 exposure_max;
-         |             ^~~~~~~~~~~~
-   drivers/media/i2c/imx390.c: In function 'imx390_init_controls':
-   drivers/media/i2c/imx390.c:542:33: warning: unused variable 'cfg' [-Wunused-variable]
-     542 |         struct v4l2_ctrl_config cfg = { 0 };
-         |                                 ^~~
-   drivers/media/i2c/imx390.c:540:13: warning: unused variable 'exposure_max' [-Wunused-variable]
-     540 |         s64 exposure_max;
-         |             ^~~~~~~~~~~~
-   drivers/media/i2c/imx390.c:538:28: warning: unused variable 'client' [-Wunused-variable]
-     538 |         struct i2c_client *client = v4l2_get_subdevdata(&imx390->sd);
-         |                            ^~~~~~
-   drivers/media/i2c/imx390.c: At top level:
->> drivers/media/i2c/imx390.c:941:13: warning: no previous prototype for 'imx390_threaded_irq_fn' [-Wmissing-prototypes]
-     941 | irqreturn_t imx390_threaded_irq_fn(int irq, void *dev_id)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx390.c:402:12: warning: 'imx390_update_digital_gain' defined but not used [-Wunused-function]
-     402 | static int imx390_update_digital_gain(struct imx390 *imx390, u32 d_gain)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx390.c:340:12: warning: 'imx390_gain_raw_set' defined but not used [-Wunused-function]
-     340 | static int imx390_gain_raw_set(struct imx390 *self, u16 gain)
-         |            ^~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx390.c: In function 'get_pixel_rate':
-   drivers/media/i2c/imx390.c:411:16: warning: 'pixel_rate' is used uninitialized [-Wuninitialized]
-     411 |         return pixel_rate;
-         |                ^~~~~~~~~~
-   drivers/media/i2c/imx390.c:410:13: note: 'pixel_rate' was declared here
-     410 |         u64 pixel_rate;
-         |             ^~~~~~~~~~
-   drivers/media/i2c/imx390.c: In function 'get_hblank':
-   drivers/media/i2c/imx390.c:424:16: warning: 'hblank' is used uninitialized [-Wuninitialized]
-     424 |         return hblank;
-         |                ^~~~~~
-   drivers/media/i2c/imx390.c:420:13: note: 'hblank' was declared here
-     420 |         u64 hblank;
-         |             ^~~~~~
+>> drivers/clk/qcom/gpucc-sdm845.c:122:10: error: 'struct gdsc' has no member named 'clk_dis_wait'; did you mean 'clk_dis_wait_val'?
+     122 |         .clk_dis_wait = 0x8,
+         |          ^~~~~~~~~~~~
+         |          clk_dis_wait_val
 
 
-vim +439 drivers/media/i2c/imx390.c
+vim +122 drivers/clk/qcom/gpucc-sdm845.c
 
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  426  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  427  static int imx390_exposure_raw_set(struct imx390 *self, u32 exp)
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  428  {
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  429  	int err = 0;
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  430  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  431  	/* This should never be called in HDR mode but we'll put check
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  432  	 * in to be safe.
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  433  	 */
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  434  	if (imx390_is_hdr(self))
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  435  		return 0;
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  436  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  437  	imx390_group_hold_enable(self, 1);
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  438  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01 @439  	struct imx390_reg exposure_array[] = {
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  440  		/* 20 bit value 0xc, 0xd, 0xe */
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  441  		{IMX390_REG_SHS1, exp & 0xff},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  442  		{IMX390_REG_SHS1 + 1, (exp & 0xff00) >> 8},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  443  		{IMX390_REG_SHS1 + 2, (exp & 0xf0000) >> 16},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  444  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  445  		/* 20 bit value  0x10, 0x11, 0x12 */
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  446  		{IMX390_REG_SHS2, exp & 0xff},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  447  		{IMX390_REG_SHS2 + 1, (exp & 0xff00) >> 8},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  448  		{IMX390_REG_SHS2 + 2, (exp & 0xf0000) >> 16},
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  449  	};
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  450  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  451  	const struct imx390_reg_list exp_list = {
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  452  		.num_of_regs = ARRAY_SIZE(exposure_array),
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  453  		.regs = exposure_array,
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  454  	};
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  455  
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  456  	/* True means to print the register values. This is a small
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  457  	 * table so it's OK.
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  458  	 */
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  459  	imx390_write_reg_list(self, &exp_list);
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  460  	imx390_group_hold_enable(self, 0);
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  461  	return 0;
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  462  }
-1aafb1e0df5527 Ng Khai Wen 2021-07-01  463  
-
-:::::: The code at line 439 was first introduced by commit
-:::::: 1aafb1e0df5527884ad5ccb67ec95414df4d85f7 Add IPU driver
-
-:::::: TO: Ng Khai Wen <khai.wen.ng@intel.com>
-:::::: CC: Pan, Kris <kris.pan@intel.com>
+   118	
+   119	static struct gdsc gpu_cx_gdsc = {
+   120		.gdscr = 0x106c,
+   121		.gds_hw_ctrl = 0x1540,
+ > 122		.clk_dis_wait = 0x8,
+   123		.pd = {
+   124			.name = "gpu_cx_gdsc",
+   125		},
+   126		.pwrsts = PWRSTS_OFF_ON,
+   127		.flags = VOTABLE,
+   128	};
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
