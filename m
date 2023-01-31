@@ -1,124 +1,141 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AE18C10
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 15:37:00 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pMsQZ-00005l-Dn; Tue, 31 Jan 2023 16:20:07 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pMsQZ-001igC-Fs; Tue, 31 Jan 2023 16:20:06 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pMsQX-00HMbM-Vg; Tue, 31 Jan 2023 16:20:05 +0100
-Date: Tue, 31 Jan 2023 16:20:05 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lee Jones <lee.jones@linaro.org>, Lee Jones <lee@kernel.org>
-Subject: Re: [lee-mfd:for-mfd-next 36/37] drivers/mmc/host/tmio_mmc.c:141:12:
- error: no member named 'enable' in 'struct mfd_cell'
-Message-ID: <20230131152005.6wy5vbzzcouiofee@pengutronix.de>
-References: <202301312253.oUVq9cys-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D7E8C15
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 15:53:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675180386; x=1706716386;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ul30YowJ/hdgvarujvqemzj4xp48ISoRMAjzYZ6+Ks4=;
+  b=KEKX41lRVWmH21uy9eZSMOEtxa8afPoMrgyCz3A+L9dJIPaReLQ3lXx7
+   PqT9/wpMchA2WAbtTagg/rHqpBGojjrOcIS/xcgo+h+9CJC0eLeTUJFrw
+   Nn/sAWAx2uAMRfPQp7KhJVoeyASG9qkqXhe/bz3LY0l2WKacMRs4iJJ/9
+   2MvsArmddKv4UDPGHyPU3OE3TNrKrH+bBixTWo48r47fRXlmm1MpyKCfu
+   1wGbwjWvNJfE7ajZoLkMLsYFOpYyMhGb3wLz4aKcc0urzRdQsRLubQVa/
+   TxB9zuydZEQlvPm2hEtY3OtIXhE791DYmKRJgaec9vTN0ETcEZQ0r8WKM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="329983900"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
+   d="scan'208";a="329983900"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 07:53:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909953990"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
+   d="scan'208";a="909953990"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 07:52:59 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pMswM-0004WY-1B;
+	Tue, 31 Jan 2023 15:52:58 +0000
+Date: Tue, 31 Jan 2023 23:52:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v9 2/3] fs/proc/task_mmu: Implement IOCTL to get and/or
+ the clear info about PTEs
+Message-ID: <202301312359.8WtBkSkQ-lkp@intel.com>
+References: <20230131083257.3302830-3-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vwjathqydnubcy3a"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202301312253.oUVq9cys-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230131083257.3302830-3-usama.anjum@collabora.com>
+
+Hi Muhammad,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on shuah-kselftest/fixes]
+[also build test ERROR on linus/master v6.2-rc6 next-20230131]
+[cannot apply to shuah-kselftest/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230131-163537
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git fixes
+patch link:    https://lore.kernel.org/r/20230131083257.3302830-3-usama.anjum%40collabora.com
+patch subject: [PATCH v9 2/3] fs/proc/task_mmu: Implement IOCTL to get and/or the clear info about PTEs
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230131/202301312359.8WtBkSkQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/11677b6b7fda958031115ea40aa219fc32c7dea4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230131-163537
+        git checkout 11677b6b7fda958031115ea40aa219fc32c7dea4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   fs/proc/task_mmu.c: In function 'pagemap_scan_pmd_entry':
+>> fs/proc/task_mmu.c:1927:17: error: implicit declaration of function 'uffd_wp_range' [-Werror=implicit-function-declaration]
+    1927 |                 uffd_wp_range(walk->mm, vma, start, addr - start, true);
+         |                 ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
---vwjathqydnubcy3a
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +/uffd_wp_range +1927 fs/proc/task_mmu.c
 
-Hello,
+  1915	
+  1916		pte = pte_offset_map_lock(vma->vm_mm, pmd, start, &ptl);
+  1917		if (IS_GET_OP(p)) {
+  1918			for (addr = start; addr < end; pte++, addr += PAGE_SIZE) {
+  1919				ret = pagemap_scan_output(!is_pte_uffd_wp(*pte), vma->vm_file,
+  1920							  pte_present(*pte), is_swap_pte(*pte), p, addr, 1);
+  1921				if (ret)
+  1922					break;
+  1923			}
+  1924		}
+  1925		pte_unmap_unlock(pte - 1, ptl);
+  1926		if ((!ret || ret == -ENOSPC) && IS_WP_ENGAGE_OP(p) && (addr - start))
+> 1927			uffd_wp_range(walk->mm, vma, start, addr - start, true);
+  1928	
+  1929		cond_resched();
+  1930		return ret;
+  1931	}
+  1932	
 
-On Tue, Jan 31, 2023 at 10:48:48PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-m=
-fd-next
-> head:   a561a980c024193e342b6878f62e02ff9d018285
-> commit: 78e7ccec94380519919267670174cbf1711b7963 [36/37] mfd: Remove .ena=
-ble() and .disable() callbacks
-> config: hexagon-randconfig-r041-20230130 (https://download.01.org/0day-ci=
-/archive/20230131/202301312253.oUVq9cys-lkp@intel.com/config)
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196=
-ca3278f78c6e19246e54ab0ecb364e37d66a)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/com=
-mit/?id=3D78e7ccec94380519919267670174cbf1711b7963
->         git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kerne=
-l/git/lee/mfd.git
->         git fetch --no-tags lee-mfd for-mfd-next
->         git checkout 78e7ccec94380519919267670174cbf1711b7963
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dhexagon olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dhexagon SHELL=3D/bin/bash drivers/mmc/host/ drive=
-rs/video/fbdev/
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All errors (new ones prefixed by >>):
->=20
-> [...]
-> >> drivers/mmc/host/tmio_mmc.c:186:12: error: no member named 'disable' i=
-n 'struct mfd_cell'
->            if (cell->disable)
->                ~~~~  ^
-
-This driver doesn't exist in next any more (commit ecb92c1f4752). So I'm
-unsure what to do here.
-
-The obvious (to me) options are:
-
- a) ignore the problem
- b) merge ecb92c1f4752 into mfd before applying "mfd: Remove .enable()
-    and .disable() callbacks"
- c) drop "mfd: Remove .enable() and .disable() callbacks" for now and
-    reapply when ecb92c1f4752 is in Linus' tree (variant of b))
-
-Lee, what's your take here?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---vwjathqydnubcy3a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPZMaIACgkQwfwUeK3K
-7Ak5Ggf9FY4MIZnNjmJs1PVawSIY2mnjyQ+0uS2AiGSmZrMRXUO9GJ50wBUPy2Wx
-Mf4poXR8bw0J+A7uU1XzPUH071US0R3mmrysNDZlk1Vwn3a2styDb3U0RgrDa0Km
-YXuEoFov9VXTFFZS4RSfIAuEMGJUdjPkPfMXNpbfq55+/CIpNXLGIVUEIYHB4KBs
-5RJWpeMTEGc9uTQKUNIYd9qowYDvYOjd3DWhJbZPP8rGdxrJV52/61YY+Wf8Cqo3
-e9/IguW7osvPP/8A6N/jNZr9tPMzSfHW+wc/LxhC2wjE7MSCJo9F3pwhOJY3fC1u
-fpBNyXra9kKsNigy2XxAOJyXfOd80A==
-=6mw0
------END PGP SIGNATURE-----
-
---vwjathqydnubcy3a--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
