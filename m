@@ -1,44 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1F7373
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 01:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAECD373
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 01:32:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675127548; x=1706663548;
+  t=1675128749; x=1706664749;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VlNAMiZ21EJGEkaNHVF3aHXOSiRjUop66burlfmSlQk=;
-  b=Ns8QL4rs4romAMQIc8R4fxkPLYbVpM817+SBtdV7LCeYpLz0VIRgF1MN
-   bJ8wZzFnRD5fspML28MVQpZRCDWlSKJ3TkImsL7HSyDHta8XaJlCadyq0
-   2+aLL8/fXGsBwvgcBQh2If+42y/I9oZOQWRDDXF/WVGSzESWEJ38pQAqh
-   t+BkefIKGg0O6snpaLnlH0QhGzUI2bV7P2zWO8QzaREYPg7BX/DxOCeCR
-   FtxgL6lw/qxppgQkgolJKpDieOcLSwzD90OfS35ccpytjLZRxmq5AMccT
-   1Fo8agn+m/SDOanupsUSBpawlGtzhXgNK2vsa+GVXn1HmSyBf4WxMGbo3
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392270812"
+  bh=DVVUHCJkdlHzN/Qyr7qxovz+HaTSVvu46IWwTF8US/o=;
+  b=Wqt2wN+M7CUJBLEBSBX8xnn6aNFlxdFj81NTAcFk90WeXlewXQ8w8Hpr
+   l1qSzxKRA/2Z8JOEkci2YYAKYOMNFjDjb59pLjGhHjT3fQBAlv6CiwYGq
+   bUX1kvKi7P0u7Hj0tvp6WsedOJCtHMRjzmcMhw17wXDzbLGMiEPjcun4l
+   oA6n77NK6UThB/bt/K8H2mlDBDX/nZvKNaKajqFwqQHuDiLN02addKj3F
+   uTp9dZWTXkJ5at/O/SeEMuAFIU/jQEzPpAL3dpXaOORUVQJ3MLUHH3R3D
+   UjnBj0y9R9pbYdklpXaPbYS9TEIavxEnmdSWBSncKiCRx0paopXkl8crl
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="413940591"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="392270812"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 17:12:28 -0800
+   d="scan'208";a="413940591"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 17:32:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="664293489"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="806918190"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="664293489"
+   d="scan'208";a="806918190"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2023 17:12:26 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2023 17:32:27 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMfCE-00041q-0c;
-	Tue, 31 Jan 2023 01:12:26 +0000
-Date: Tue, 31 Jan 2023 09:11:36 +0800
+	id 1pMfVb-00042z-0g;
+	Tue, 31 Jan 2023 01:32:27 +0000
+Date: Tue, 31 Jan 2023 09:32:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: [linux-next:master 7027/9183] ftrace-ops.c:undefined reference to
- `__udivdi3'
-Message-ID: <202301310939.TAgCOEZb-lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: include/linux/compiler_types.h:328:45: error: call to
+ '__compiletime_assert_313' declared with attribute error: BUILD_BUG_ON
+ failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+Message-ID: <202301310917.6nTxesL9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,28 +48,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ae0c77e1bc6963c67c6c09e8c72959fcb1ed8d5f
-commit: b56c68f705cad0cff61fbe132c66ced2c737c65c [7027/9183] ftrace: Add sample with custom ops
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230131/202301310939.TAgCOEZb-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Vineet,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d796c50f84ca79f1722bb131799e5a5710c4700
+commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
+date:   1 year, 5 months ago
+config: arc-randconfig-r002-20230131 (https://download.01.org/0day-ci/archive/20230131/202301310917.6nTxesL9-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b56c68f705cad0cff61fbe132c66ced2c737c65c
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b56c68f705cad0cff61fbe132c66ced2c737c65c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9820ff76f95fa26d33e412254a89cd65b23142d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d9820ff76f95fa26d33e412254a89cd65b23142d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   ld: samples/ftrace/ftrace-ops.o: in function `ftrace_ops_sample_init':
->> ftrace-ops.c:(.init.text+0x368): undefined reference to `__udivdi3'
+   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
+      35 | long __init arc_get_mem_sz(void)
+         |             ^~~~~~~~~~~~~~
+   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
+      88 | void __init setup_arch_memory(void)
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/arc/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_313' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
+     309 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/init.c:194:9: note: in expansion of macro 'BUILD_BUG_ON'
+     194 |         BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_313 +328 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
