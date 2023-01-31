@@ -1,42 +1,44 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1213AA92D;
-	Tue, 31 Jan 2023 19:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A86A940
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 19:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675194625; x=1706730625;
+  t=1675194627; x=1706730627;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vg19oyt7lt0xXsV2RfNpMhmUOnUvypBgr0BqOLACqFw=;
-  b=Jpbj+13HBmlkNCh/2gpj43wGV4xu13lcsd1RYwkiCCeOTsVp8U6CqWGx
-   YpneQnlHSretG8PFeXY0pOu3k5xZW41qWau1EPY9PYdM6QTg2qCEi6ISQ
-   RqwTgh+0GkmtdKx6xzq07Hyi94yaGIRjEvj00Lp9zcGWq8zgH73/n/9se
-   FhwlmUtKG4hOgcty11wSecCS5+EULGtDXmsAY1XAHRvvWtPDjuUW6iHVI
-   /37UgcRh5vqbEWrlbrL5Rwo4fCzWOrVQ2HW4aUY3HuL5bfW88aN6F8uPM
-   020GF+hSXsdjJe1PJ0tOob0MVy+UrPNKXSdkDyI5yTdp57x/1t2OrunY1
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="308283602"
+  bh=bGiEvmtbpZzqrKClcnl8WctqCaTfjoD+/CK/Govaa8k=;
+  b=RvqVzhXLhvDO8vLbiOikfk7ddW7o6ptw01AF1SLm/qoexKT5+h3KlkgJ
+   5ETS9/gYuA0L6IwpQT6UHHdNahHudPkSLtSuewgruqU3pC0rYVpN8jXIb
+   zeARAbZ/vWcuoE0HKhkUUuZT4RphbVq6Ed9JoQTEfeiBvUuA8pvvMng/Z
+   eSvaagt1nP/BjQozzP7pqg4AFFzn7AIa5zrp+AkP/QiB/QP8599LDUcsH
+   MigZQlqq3fenaAddJX8UyG1NX2hxVstMdIPAy9d/xhgoAkVlS/i63dz91
+   X/XaLhq/KqlUjeFUlc4/9ligjWrzdZZm/VOHPHL5FquSLbpCGoNITKO6K
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="308283605"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="308283602"
+   d="scan'208";a="308283605"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 11:50:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="733249606"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="733249613"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="733249606"
+   d="scan'208";a="733249613"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 31 Jan 2023 11:50:23 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMwe6-0004fO-13;
+	id 1pMwe6-0004fQ-1E;
 	Tue, 31 Jan 2023 19:50:22 +0000
-Date: Wed, 1 Feb 2023 03:50:02 +0800
+Date: Wed, 1 Feb 2023 03:50:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:core/softirq 8/8] kernel/rcu/tree_nocb.h:954:18:
- error: too few arguments to function call, expected 2, have 1
-Message-ID: <202302010309.ecdK08hE-lkp@intel.com>
+To: Wanhui Sun <wanhui.sun@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chen Meng J <meng.j.chen@intel.com>, Meng Wei <wei.meng@intel.com>
+Subject: [intel-lts:5.10/preempt-rt 10959/29702]
+ drivers/media/v4l2-core/v4l2-subdev.c:1027:1: warning: the frame size of
+ 1356 bytes is larger than 1024 bytes
+Message-ID: <202302010341.DZXN2ye6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,127 +48,186 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/softirq
-head:   d0bf4e7eda39329deaa144785a22906dfec65c94
-commit: d0bf4e7eda39329deaa144785a22906dfec65c94 [8/8] softirq,rcu: Use softirq_needs_break()
-config: x86_64-randconfig-a015-20230130 (https://download.01.org/0day-ci/archive/20230201/202302010309.ecdK08hE-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Wanhui,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
+head:   32e6f493fd5e5c8cadd5b628aac19f8e64db0f33
+commit: f13978177f8c57c155d53df5f2df60f519e82e4a [10959/29702] v4l: subdev: Add support for sub-streams
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230201/202302010341.DZXN2ye6-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=d0bf4e7eda39329deaa144785a22906dfec65c94
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue core/softirq
-        git checkout d0bf4e7eda39329deaa144785a22906dfec65c94
+        # https://github.com/intel/linux-intel-lts/commit/f13978177f8c57c155d53df5f2df60f519e82e4a
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/preempt-rt
+        git checkout f13978177f8c57c155d53df5f2df60f519e82e4a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/v4l2-core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/rcu/tree.c:4830:
->> kernel/rcu/tree_nocb.h:954:18: error: too few arguments to function call, expected 2, have 1
-           rcu_do_batch(rdp);
-           ~~~~~~~~~~~~    ^
-   kernel/rcu/tree.c:2180:13: note: 'rcu_do_batch' declared here
-   static void rcu_do_batch(struct softirq_action *h, struct rcu_data *rdp)
-               ^
-   1 error generated.
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from drivers/media/v4l2-core/v4l2-subdev.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1250:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1250 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1236:27: note: 'mem_section' declared here
+    1236 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_link_validate':
+>> drivers/media/v4l2-core/v4l2-subdev.c:1027:1: warning: the frame size of 1356 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1027 | }
+         | ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_ATMEL_SOC_PDC
+   Depends on [n]: SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m] && HAS_DMA [=n]
+   Selected by [m]:
+   - SND_ATMEL_SOC_SSC [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m]
+   - SND_ATMEL_SOC_SSC_PDC [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m] && ATMEL_SSC [=m]
 
 
-vim +954 kernel/rcu/tree_nocb.h
+vim +1027 drivers/media/v4l2-core/v4l2-subdev.c
 
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  917  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  918  /*
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  919   * Invoke any ready callbacks from the corresponding no-CBs CPU,
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  920   * then, if there are no more, wait for more to appear.
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  921   */
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  922  static void nocb_cb_wait(struct rcu_data *rdp)
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  923  {
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  924  	struct rcu_segcblist *cblist = &rdp->cblist;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  925  	unsigned long cur_gp_seq;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  926  	unsigned long flags;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  927  	bool needwake_state = false;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  928  	bool needwake_gp = false;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  929  	bool can_sleep = true;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  930  	struct rcu_node *rnp = rdp->mynode;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  931  
-8d970396469734 Frederic Weisbecker 2021-11-23  932  	do {
-8d970396469734 Frederic Weisbecker 2021-11-23  933  		swait_event_interruptible_exclusive(rdp->nocb_cb_wq,
-8d970396469734 Frederic Weisbecker 2021-11-23  934  						    nocb_cb_wait_cond(rdp));
-8d970396469734 Frederic Weisbecker 2021-11-23  935  
-8d970396469734 Frederic Weisbecker 2021-11-23  936  		// VVV Ensure CB invocation follows _sleep test.
-8d970396469734 Frederic Weisbecker 2021-11-23  937  		if (smp_load_acquire(&rdp->nocb_cb_sleep)) { // ^^^
-8d970396469734 Frederic Weisbecker 2021-11-23  938  			WARN_ON(signal_pending(current));
-8d970396469734 Frederic Weisbecker 2021-11-23  939  			trace_rcu_nocb_wake(rcu_state.name, rdp->cpu, TPS("WokeEmpty"));
-8d970396469734 Frederic Weisbecker 2021-11-23  940  		}
-8d970396469734 Frederic Weisbecker 2021-11-23  941  	} while (!nocb_cb_can_run(rdp));
-8d970396469734 Frederic Weisbecker 2021-11-23  942  
-8d970396469734 Frederic Weisbecker 2021-11-23  943  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  944  	local_irq_save(flags);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  945  	rcu_momentary_dyntick_idle();
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  946  	local_irq_restore(flags);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  947  	/*
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  948  	 * Disable BH to provide the expected environment.  Also, when
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  949  	 * transitioning to/from NOCB mode, a self-requeuing callback might
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  950  	 * be invoked from softirq.  A short grace period could cause both
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  951  	 * instances of this callback would execute concurrently.
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  952  	 */
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  953  	local_bh_disable();
-dfcb27540213e8 Frederic Weisbecker 2021-05-19 @954  	rcu_do_batch(rdp);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  955  	local_bh_enable();
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  956  	lockdep_assert_irqs_enabled();
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  957  	rcu_nocb_lock_irqsave(rdp, flags);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  958  	if (rcu_segcblist_nextgp(cblist, &cur_gp_seq) &&
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  959  	    rcu_seq_done(&rnp->gp_seq, cur_gp_seq) &&
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  960  	    raw_spin_trylock_rcu_node(rnp)) { /* irqs already disabled. */
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  961  		needwake_gp = rcu_advance_cbs(rdp->mynode, rdp);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  962  		raw_spin_unlock_rcu_node(rnp); /* irqs remain disabled. */
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  963  	}
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  964  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  965  	if (rcu_segcblist_test_flags(cblist, SEGCBLIST_OFFLOADED)) {
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  966  		if (!rcu_segcblist_test_flags(cblist, SEGCBLIST_KTHREAD_CB)) {
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  967  			rcu_segcblist_set_flags(cblist, SEGCBLIST_KTHREAD_CB);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  968  			if (rcu_segcblist_test_flags(cblist, SEGCBLIST_KTHREAD_GP))
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  969  				needwake_state = true;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  970  		}
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  971  		if (rcu_segcblist_ready_cbs(cblist))
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  972  			can_sleep = false;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  973  	} else {
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  974  		/*
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  975  		 * De-offloading. Clear our flag and notify the de-offload worker.
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  976  		 * We won't touch the callbacks and keep sleeping until we ever
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  977  		 * get re-offloaded.
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  978  		 */
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  979  		WARN_ON_ONCE(!rcu_segcblist_test_flags(cblist, SEGCBLIST_KTHREAD_CB));
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  980  		rcu_segcblist_clear_flags(cblist, SEGCBLIST_KTHREAD_CB);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  981  		if (!rcu_segcblist_test_flags(cblist, SEGCBLIST_KTHREAD_GP))
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  982  			needwake_state = true;
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  983  	}
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  984  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  985  	WRITE_ONCE(rdp->nocb_cb_sleep, can_sleep);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  986  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  987  	if (rdp->nocb_cb_sleep)
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  988  		trace_rcu_nocb_wake(rcu_state.name, rdp->cpu, TPS("CBSleep"));
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  989  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  990  	rcu_nocb_unlock_irqrestore(rdp, flags);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  991  	if (needwake_gp)
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  992  		rcu_gp_kthread_wake();
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  993  
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  994  	if (needwake_state)
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  995  		swake_up_one(&rdp->nocb_state_wq);
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  996  }
-dfcb27540213e8 Frederic Weisbecker 2021-05-19  997  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   907  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   908  int v4l2_subdev_link_validate(struct media_link *link)
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   909  {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   910  	struct v4l2_subdev *sink;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   911  	struct v4l2_subdev_route sink_routes[LINK_VALIDATE_ROUTES];
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   912  	struct v4l2_subdev_routing sink_routing = {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   913  		.routes = sink_routes,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   914  		.num_routes = ARRAY_SIZE(sink_routes),
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   915  	};
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   916  	struct v4l2_subdev_route src_routes[LINK_VALIDATE_ROUTES];
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   917  	struct v4l2_subdev_routing src_routing = {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   918  		.routes = src_routes,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   919  		.num_routes = ARRAY_SIZE(src_routes),
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   920  	};
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   921  	unsigned int i, j;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   922  	int rval;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   923  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   924  	sink = media_entity_to_v4l2_subdev(link->sink->entity);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   925  	if (!sink)
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   926  		return -EINVAL;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   927  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   928  	if (!(link->sink->flags & MEDIA_PAD_FL_MULTIPLEX &&
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   929  		link->source->flags & MEDIA_PAD_FL_MULTIPLEX))
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   930  		return v4l2_subdev_link_validate_one(link, link->source, 0,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   931  						     link->sink, 0);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   932  	/*
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   933  	 * multiplex link cannot proceed without route information.
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   934  	 */
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   935  	rval = v4l2_subdev_call(sink, pad, get_routing, &sink_routing);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   936  	if (rval) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   937  		dev_err(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   938  			"error %d in get_routing() on %s, sink pad %u\n", rval,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   939  			sink->entity.name, link->sink->index);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   940  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   941  		return rval;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   942  	}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   943  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   944  	rval = v4l2_subdev_call(media_entity_to_v4l2_subdev(
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   945  					link->source->entity),
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   946  				pad, get_routing, &src_routing);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   947  	if (rval) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   948  		dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   949  			"error %d in get_routing() on %s, source pad %u\n",
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   950  			rval, sink->entity.name, link->source->index);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   951  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   952  		return rval;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   953  	}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   954  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   955  	dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   956  		"validating multiplexed link \"%s\":%u -> \"%s\":%u; %u/%u routes\n",
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   957  		link->source->entity->name, link->source->index,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   958  		sink->entity.name, link->sink->index,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   959  		src_routing.num_routes, sink_routing.num_routes);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   960  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   961  	for (i = 0; i < sink_routing.num_routes; i++) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   962  		/* Get the first active route for the sink pad. */
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   963  		if (sink_routes[i].sink_pad != link->sink->index ||
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   964  		    !(sink_routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   965  			dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   966  				"skipping sink route %u/%u -> %u/%u[%u]\n",
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   967  				sink_routes[i].sink_pad,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   968  				sink_routes[i].sink_stream,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   969  				sink_routes[i].source_pad,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   970  				sink_routes[i].source_stream,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   971  				(bool)(sink_routes[i].flags
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   972  				       & V4L2_SUBDEV_ROUTE_FL_ACTIVE));
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   973  			continue;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   974  		}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   975  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   976  		/*
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   977  		 * Get the corresponding route for the source pad.
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   978  		 * It's ok for the source pad to have routes active
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   979  		 * where the sink pad does not, but the routes that
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   980  		 * are active on the source pad have to be active on
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   981  		 * the sink pad as well.
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   982  		 */
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   983  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   984  		for (j = 0; j < src_routing.num_routes; j++) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   985  			if (src_routes[j].source_pad == link->source->index &&
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   986  			    src_routes[j].source_stream
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   987  			    == sink_routes[i].sink_stream)
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   988  				break;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   989  		}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   990  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   991  		if (j == src_routing.num_routes) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   992  			dev_err(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   993  				"no corresponding source found.\n");
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   994  			return -EINVAL;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   995  		}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   996  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   997  		/* The source route must be active. */
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   998  		if (!(src_routes[j].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   999  			dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1000  				"source route not active\n");
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1001  			return -EINVAL;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1002  		}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1003  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1004  		dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1005  			"validating link \"%s\": %u/%u => \"%s\" %u/%u\n",
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1006  			link->source->entity->name, src_routes[j].source_pad,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1007  			src_routes[j].source_stream, sink->entity.name,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1008  			sink_routes[i].sink_pad, sink_routes[i].sink_stream);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1009  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1010  		rval = v4l2_subdev_link_validate_one(
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1011  			link, link->source, src_routes[j].source_stream,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1012  			link->sink, sink_routes[i].sink_stream);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1013  		if (rval) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1014  			dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1015  				"error %d in link validation\n", rval);
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1016  			return rval;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1017  		}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1018  	}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1019  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1020  	if (i < sink_routing.num_routes) {
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1021  		dev_dbg(sink->entity.graph_obj.mdev->dev,
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1022  			"not all sink routes verified; out of source routes\n");
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1023  		return -EINVAL;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1024  	}
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1025  
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1026  	return 0;
+e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13 @1027  }
+8227c92b696884 drivers/media/video/v4l2-subdev.c     Sakari Ailus     2011-10-10  1028  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+9b02cbb3ede89b drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart 2015-04-24  1029  
 
-:::::: The code at line 954 was first introduced by commit
-:::::: dfcb27540213e8061ecffacd4bd8ed54a310a7b0 rcu/nocb: Start moving nocb code to its own plugin file
+:::::: The code at line 1027 was first introduced by commit
+:::::: e822d33e27dd00bb200f0e9db1811231554ce03c v4l: Take routing info into account in link validation
 
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+:::::: TO: wu xia <xia.wu@intel.com>
+:::::: CC: Pan, Kris <kris.pan@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
