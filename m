@@ -1,105 +1,124 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BC67EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 08:15:15 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 4D78B85999;
-	Tue, 31 Jan 2023 09:08:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1675152493;
-	bh=ZjruaiARydxGmR8c0MYehApPMEOv4WrRoRSQMc8ElpY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VL3knvx4P8u+OeKXRWQTeGPL0nFazbMH6g05hUl81iTBD7re9NM+WnSy183Ez4ogs
-	 uyyHvJPd1tY+l/qVhrNyIs8J8FIZjc4z2e8nk3DVCxO7nNSrXSopMFZ+tAXgxQNXi+
-	 /F4SBVRxqnZ5D9QDzQIL9YwAZFCnCz/PJveLVg+mQPB484avbU+PSGeMmjkHs/JvBZ
-	 P1fukkdhBkT4Nf2kpLlnWQDHmJFp/XNbmC/zVjTBccwdk/WdJar2BGtgY8JXrI2bhC
-	 r4dK7SIN38KWeGuzwiWykG3CatIAI1SKo149YL3Er/c2jGJy1qS5MU7r5R3WtUlma/
-	 x5eFJoW5Y43GQ==
-Message-ID: <e4fbc658-e6c4-a44e-4dcf-2d1e6c82b11c@denx.de>
-Date: Tue, 31 Jan 2023 09:08:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFBA808;
+	Tue, 31 Jan 2023 09:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675156909; x=1706692909;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=opn69J4iM1+P9WhjabZqaC6A/nQZgyY/XD8pHDrsmp0=;
+  b=Ohv5ZbhI3rcuUwzCvDpUcfP4S9rWhDWRzVjlCsQUs5Lzu542aK6VEn92
+   a9FoIjmAckXaQvZnPAjYgORzLyYZyfiCBRwDJ815g8RYXWs4BxBpTSgCq
+   yvfJORsG4OhQ3G813/0BqiQ+mqlLAMaUmxBVOame2uDefeBPahQtvAPUA
+   Jcn0Zg+sZ4r+kvlbc47qQRh/tNcm5rQ2kds8tINsUGaDBffp54ztPPRbt
+   exbTMWgegMLdVyBKQIXbwLyatf3Lr1VhymMdWaZzwHHcfhj1XLnD1D1Jr
+   GyPcumyf5eCeOmmOqfa9UrwUZUVDkOXo0O9UERmiXYdFGWueJXqixn6Hs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="327809669"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="327809669"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 01:21:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="657807963"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="657807963"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 31 Jan 2023 01:21:47 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pMmpm-0004L0-2w;
+	Tue, 31 Jan 2023 09:21:46 +0000
+Date: Tue, 31 Jan 2023 17:21:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gt: Add sysfs RAPL PL1 interface
+Message-ID: <202301311720.VOyrcus2-lkp@intel.com>
+References: <20230131062550.11901-1-sujaritha.sundaresan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [linux-stable-rc:linux-5.15.y 9007/9999]
- drivers/extcon/extcon-usbc-tusb320.c:19: warning: expecting prototype for
- drivers/extcon/extcon-tusb320.c(). Prototype was for TUSB320_REG8() instead
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Alvin_=c5=a0ipraga?= <alsi@bang-olufsen.dk>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sasha Levin <sashal@kernel.org>,
- "Chen, Rong A" <rong.a.chen@intel.com>
-References: <202301311547.ZhYEzT9x-lkp@intel.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <202301311547.ZhYEzT9x-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131062550.11901-1-sujaritha.sundaresan@intel.com>
 
-On 1/31/23 08:29, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.15.y
-> head:   5605d15db0225e49efaa8f83e03f78a8bee3bb5d
-> commit: ac067e75c4c2a80c617326ad5c4a8754b16f5079 [9007/9999] extcon: usbc-tusb320: Add USB TYPE-C support
-> config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230131/202301311547.ZhYEzT9x-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=ac067e75c4c2a80c617326ad5c4a8754b16f5079
->          git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
->          git fetch --no-tags linux-stable-rc linux-5.15.y
->          git checkout ac067e75c4c2a80c617326ad5c4a8754b16f5079
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/extcon/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/extcon/extcon-usbc-tusb320.c:19: warning: expecting prototype for drivers/extcon/extcon-tusb320.c(). Prototype was for TUSB320_REG8() instead
-> 
-> 
-> vim +19 drivers/extcon/extcon-usbc-tusb320.c
-> 
->      18	
->    > 19	#define TUSB320_REG8				0x8
->      20	#define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
->      21	#define TUSB320_REG8_CURRENT_MODE_ADVERTISE_USB	0x0
->      22	#define TUSB320_REG8_CURRENT_MODE_ADVERTISE_15A	0x1
->      23	#define TUSB320_REG8_CURRENT_MODE_ADVERTISE_30A	0x2
->      24	#define TUSB320_REG8_CURRENT_MODE_DETECT	GENMASK(5, 4)
->      25	#define TUSB320_REG8_CURRENT_MODE_DETECT_DEF	0x0
->      26	#define TUSB320_REG8_CURRENT_MODE_DETECT_MED	0x1
->      27	#define TUSB320_REG8_CURRENT_MODE_DETECT_ACC	0x2
->      28	#define TUSB320_REG8_CURRENT_MODE_DETECT_HI	0x3
->      29	#define TUSB320_REG8_ACCESSORY_CONNECTED	GENMASK(3, 2)
->      30	#define TUSB320_REG8_ACCESSORY_CONNECTED_NONE	0x0
->      31	#define TUSB320_REG8_ACCESSORY_CONNECTED_AUDIO	0x4
->      32	#define TUSB320_REG8_ACCESSORY_CONNECTED_ACC	0x5
->      33	#define TUSB320_REG8_ACCESSORY_CONNECTED_DEBUG	0x6
->      34	#define TUSB320_REG8_ACTIVE_CABLE_DETECTION	BIT(0)
->      35	
+Hi Sujaritha,
 
-This should be fixed upstream already by commit:
+Thank you for the patch! Perhaps something to improve:
 
-08099ecd92162 ("extcon: usbc-tusb320: fix kernel-doc warning")
+[auto build test WARNING on drm-tip/drm-tip]
 
-Based on similar discussion around the same report in next:
-[linux-next:master 2262/4736] drivers/extcon/extcon-usbc-tusb320.c:19: 
-warning: expecting prototype for drivers/extcon/extcon-tusb320.c(). 
-Prototype was for TUSB320_REG8() instead
+url:    https://github.com/intel-lab-lkp/linux/commits/Sujaritha-Sundaresan/drm-i915-gt-Add-sysfs-RAPL-PL1-interface/20230131-152446
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230131062550.11901-1-sujaritha.sundaresan%40intel.com
+patch subject: [Intel-gfx] [PATCH v2] drm/i915/gt: Add sysfs RAPL PL1 interface
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230131/202301311720.VOyrcus2-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/562c57549ee00ea298f9023380d44526d6d68921
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sujaritha-Sundaresan/drm-i915-gt-Add-sysfs-RAPL-PL1-interface/20230131-152446
+        git checkout 562c57549ee00ea298f9023380d44526d6d68921
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gt/intel_rps.c:2217:6: warning: variable 'rapl' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_drv.h:565:33: note: expanded from macro 'IS_METEORLAKE'
+   #define IS_METEORLAKE(dev_priv) IS_PLATFORM(dev_priv, INTEL_METEORLAKE)
+                                   ^
+   drivers/gpu/drm/i915/gt/intel_rps.c:2220:9: note: uninitialized use occurs here
+           return rapl;
+                  ^~~~
+   drivers/gpu/drm/i915/gt/intel_rps.c:2217:2: note: remove the 'if' if its condition is always true
+           if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/intel_rps.c:2209:10: note: initialize the variable 'rapl' to silence this warning
+           u32 rapl;
+                   ^
+                    = 0
+   1 warning generated.
+
+
+vim +2217 drivers/gpu/drm/i915/gt/intel_rps.c
+
+  2204	
+  2205	u32 intel_rps_read_rapl_pl1(struct intel_rps *rps)
+  2206	{
+  2207		struct drm_i915_private *i915 = rps_to_i915(rps);
+  2208		u32 rapl_pl1;
+  2209		u32 rapl;
+  2210	
+  2211		if (IS_METEORLAKE(i915))
+  2212			rapl_pl1 = intel_uncore_read(rps_to_gt(rps)->uncore, MTL_RAPL_PL1_FREQ_LIMIT);
+  2213		else if (IS_XEHPSDV(i915))
+  2214			rapl_pl1  = intel_uncore_read(rps_to_gt(rps)->uncore, XEHPSDV_RAPL_PL1_FREQ_LIMIT);
+  2215	
+  2216	
+> 2217		if (IS_METEORLAKE(i915) || IS_XEHPSDV(i915))
+  2218			rapl = REG_FIELD_GET(RAPL_PL1_FREQ_LIMIT_MASK, rapl_pl1);
+  2219	
+  2220		return rapl;
+  2221	}
+  2222	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
