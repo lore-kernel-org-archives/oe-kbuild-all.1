@@ -1,69 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D7E8C15
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 15:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AFF8C15
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 16:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675180386; x=1706716386;
+  t=1675181044; x=1706717044;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ul30YowJ/hdgvarujvqemzj4xp48ISoRMAjzYZ6+Ks4=;
-  b=KEKX41lRVWmH21uy9eZSMOEtxa8afPoMrgyCz3A+L9dJIPaReLQ3lXx7
-   PqT9/wpMchA2WAbtTagg/rHqpBGojjrOcIS/xcgo+h+9CJC0eLeTUJFrw
-   Nn/sAWAx2uAMRfPQp7KhJVoeyASG9qkqXhe/bz3LY0l2WKacMRs4iJJ/9
-   2MvsArmddKv4UDPGHyPU3OE3TNrKrH+bBixTWo48r47fRXlmm1MpyKCfu
-   1wGbwjWvNJfE7ajZoLkMLsYFOpYyMhGb3wLz4aKcc0urzRdQsRLubQVa/
-   TxB9zuydZEQlvPm2hEtY3OtIXhE791DYmKRJgaec9vTN0ETcEZQ0r8WKM
+  bh=rPmI8NFTKFtV4xhsN35E9c3s3k7pVuZjYYwYdF5DF30=;
+  b=LDMKGYSusNQu7dWju4CxvYi7Q8F2k8+TRE8RGANfkMbWOQ2RkCV9TcMf
+   y4SR2c3M0HeSA6Mg2ynbqjkjfim7W3PXAeUGvNKMRF9yU1xNNwXUZjGCP
+   0drPfjrohTgKy5Lr3vPnKiIniDMNEq94zJAube1T4nKsmtEH3yMBJCmDQ
+   m5FeOK5LOzkrus83sHPR3CAFPFbopmBxd8nN5UlKzx874IO4sxmBsRkUR
+   kOWHrqoIwq5O2fShtplNrefAgxlCtsHkwjKfpfKcvBXI7ehevkdj0Xnk0
+   GQP1FmYaCN/96bnHsslF2ITg41sRCFtextKDGSiEGrn5pz9EpJuddAJM+
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="329983900"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="326539388"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="329983900"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 07:53:05 -0800
+   d="scan'208";a="326539388"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 08:03:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909953990"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="733164535"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="909953990"
+   d="scan'208";a="733164535"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 07:52:59 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 31 Jan 2023 08:02:59 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMswM-0004WY-1B;
-	Tue, 31 Jan 2023 15:52:58 +0000
-Date: Tue, 31 Jan 2023 23:52:26 +0800
+	id 1pMt62-0004XC-2w;
+	Tue, 31 Jan 2023 16:02:58 +0000
+Date: Wed, 1 Feb 2023 00:02:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v9 2/3] fs/proc/task_mmu: Implement IOCTL to get and/or
- the clear info about PTEs
-Message-ID: <202301312359.8WtBkSkQ-lkp@intel.com>
-References: <20230131083257.3302830-3-usama.anjum@collabora.com>
+To: Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: Re: [PATCH 2/2] docs/mm: remove useless markup
+Message-ID: <202301312351.WrB0VfS9-lkp@intel.com>
+References: <20230129075018.207678-3-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,69 +48,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131083257.3302830-3-usama.anjum@collabora.com>
+In-Reply-To: <20230129075018.207678-3-rppt@kernel.org>
 
-Hi Muhammad,
+Hi Mike,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on shuah-kselftest/fixes]
-[also build test ERROR on linus/master v6.2-rc6 next-20230131]
-[cannot apply to shuah-kselftest/next]
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.2-rc6]
+[cannot apply to akpm-mm/mm-everything next-20230131]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230131-163537
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git fixes
-patch link:    https://lore.kernel.org/r/20230131083257.3302830-3-usama.anjum%40collabora.com
-patch subject: [PATCH v9 2/3] fs/proc/task_mmu: Implement IOCTL to get and/or the clear info about PTEs
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20230131/202301312359.8WtBkSkQ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/11677b6b7fda958031115ea40aa219fc32c7dea4
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/docs-admin-guide-mm-remove-useless-markup/20230129-155123
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20230129075018.207678-3-rppt%40kernel.org
+patch subject: [PATCH 2/2] docs/mm: remove useless markup
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/379db4d59bd650ce02960ca6a4ee2e7d3846452e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-Add-UFFD-WP-Async-support/20230131-163537
-        git checkout 11677b6b7fda958031115ea40aa219fc32c7dea4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        git fetch --no-tags linux-review Mike-Rapoport/docs-admin-guide-mm-remove-useless-markup/20230129-155123
+        git checkout 379db4d59bd650ce02960ca6a4ee2e7d3846452e
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'pagemap_scan_pmd_entry':
->> fs/proc/task_mmu.c:1927:17: error: implicit declaration of function 'uffd_wp_range' [-Werror=implicit-function-declaration]
-    1927 |                 uffd_wp_range(walk->mm, vma, start, addr - start, true);
-         |                 ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/uffd_wp_range +1927 fs/proc/task_mmu.c
-
-  1915	
-  1916		pte = pte_offset_map_lock(vma->vm_mm, pmd, start, &ptl);
-  1917		if (IS_GET_OP(p)) {
-  1918			for (addr = start; addr < end; pte++, addr += PAGE_SIZE) {
-  1919				ret = pagemap_scan_output(!is_pte_uffd_wp(*pte), vma->vm_file,
-  1920							  pte_present(*pte), is_swap_pte(*pte), p, addr, 1);
-  1921				if (ret)
-  1922					break;
-  1923			}
-  1924		}
-  1925		pte_unmap_unlock(pte - 1, ptl);
-  1926		if ((!ret || ret == -ENOSPC) && IS_WP_ENGAGE_OP(p) && (addr - start))
-> 1927			uffd_wp_range(walk->mm, vma, start, addr - start, true);
-  1928	
-  1929		cond_resched();
-  1930		return ret;
-  1931	}
-  1932	
+>> Warning: Documentation/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+>> Documentation/mm/physical_memory.rst:61: WARNING: undefined label: page_migration (if the link has no caption the label must precede a section header)
+>> Documentation/translations/zh_CN/mm/hmm.rst:251: WARNING: undefined label: page_migration (if the link has no caption the label must precede a section header)
 
 -- 
 0-DAY CI Kernel Test Service
