@@ -1,42 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BFF62D;
-	Tue, 31 Jan 2023 03:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545DF629
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 04:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675134274; x=1706670274;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=K7k4V9ziyiPHEtmBVYm4bJh0+QahmBc2W9qwtRY0f4Q=;
-  b=euD2R/FtrxWDWLUWChtXUe+IyrH9u2/tvxDw4GqUoeav6K9pelrnJzvt
-   u2Eyf7b8PG0jB0MIbEKLww1buyfEuutJ/c8HMtZcUUWGdDvpv1VOjcUAB
-   l32pXSvMEW6pbwAWuvzKcYway/W4ww2f42eGTCr5kVoA5Ri6qW5u8L9bA
-   xVTbPjCRiHMtoVawkbf97aISBMwTf7eAj0BMjlibTE3w6rXfEuIvawJyn
-   iguN3H6rwlHoxsORI5m9bbb/xKEe3cpDzd/KzL0lRqIlm9nrRA8sfGb0+
-   V2Pvj4NGZ+cyFLeBk3fJeuCffLzL20n1nVWBV6by8Y9ZTN/CzGXDOuBEU
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="355061037"
+  t=1675139196; x=1706675196;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P4fz89K79fqbWFa1/hpbn1TcgTw8ED1hotLhYJ06UZ8=;
+  b=EhbhB/v4uqctmj2hhgzCOR2tdYfYxnlIcdKkxOR7gKy++OWalJgf0rqG
+   FFmTRkmMD5/pVbLi8sXM6OtS6SMnUCExV0+DKE9uTZXYhJXqRXCHUEZjk
+   jhdNLJcUj+MGmqDtcE0KgnU42xft06exv8O8BGbuQmc9cSDeb98aZ/1A0
+   wA3uncy2OOYvPkYCkUe45Z0jNWw57HiIWfEY2xB72+IysDp0u/ZknqTiX
+   H91FjFLlDDcPOKCvVCMw0e9QNDi4I9qyZHuUdFCVmUQQsarUSv+gcsuO3
+   k40M1783NmRj4BhSFh0XsPEhM5h6E5JCsFXBf36IjilPrgMzTrqJyxisk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="326409837"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="355061037"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 19:04:33 -0800
+   d="scan'208";a="326409837"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 20:26:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="838192602"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="772809032"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="838192602"
+   d="scan'208";a="772809032"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2023 19:04:31 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2023 20:26:34 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMgwh-00046I-02;
-	Tue, 31 Jan 2023 03:04:31 +0000
-Date: Tue, 31 Jan 2023 11:03:54 +0800
+	id 1pMiE5-00049S-1R;
+	Tue, 31 Jan 2023 04:26:33 +0000
+Date: Tue, 31 Jan 2023 12:25:58 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [peterz-queue:sched/core-staging 9/10] vmlinux.o: warning: objtool:
- local_clock+0x63: call to ftrace_likely_update() leaves .noinstr.text
- section
-Message-ID: <202301311002.f22hJ1vG-lkp@intel.com>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>
+Subject: [tip:x86/tdx 3/7] arch/x86/coco/tdx/tdcall.o: warning: objtool:
+ __tdx_hypercall+0x7b: return with modified stack frame
+Message-ID: <202301311257.jasMtEiE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,192 +47,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: Peter Zijlstra <peterz@infradead.org>
+Hi Kirill,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core-staging
-head:   464fa8e861277b168333fb5de5d8a4cf609c84c7
-commit: 8fa36b65741cddd0cc83f285bdedba46415fc5a9 [9/10] sched/clock: Make local_clock() noinstr
-config: x86_64-randconfig-r013-20230130 (https://download.01.org/0day-ci/archive/20230131/202301311002.f22hJ1vG-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/tdx
+head:   8de62af018cc9262649d7688f7eb1409b2d8f594
+commit: c30c4b2555ba93b845559a036293fcaf7ffd2b82 [3/7] x86/tdx: Refactor __tdx_hypercall() to allow pass down more arguments
+config: x86_64-randconfig-a012-20221107 (https://download.01.org/0day-ci/archive/20230131/202301311257.jasMtEiE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=8fa36b65741cddd0cc83f285bdedba46415fc5a9
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue sched/core-staging
-        git checkout 8fa36b65741cddd0cc83f285bdedba46415fc5a9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=c30c4b2555ba93b845559a036293fcaf7ffd2b82
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip x86/tdx
+        git checkout c30c4b2555ba93b845559a036293fcaf7ffd2b82
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: ftrace_likely_update+0x67b: call to __stack_chk_fail() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memset+0x34: call to __memset() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memmove+0x54: call to __memmove() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memcpy+0x54: call to __memcpy() with UACCESS enabled
-   vmlinux.o: warning: objtool: kvm_spurious_fault+0x1c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x8b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x53: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x33: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: native_sched_clock+0x7c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_start+0x74: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0x8c: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: local_clock+0x63: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x45: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x42: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x47: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_nmi_enter+0x40: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_enter+0x3c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_enter+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
+>> arch/x86/coco/tdx/tdcall.o: warning: objtool: __tdx_hypercall+0x7b: return with modified stack frame
 
 
-objdump-func vmlinux.o local_clock:
-0000 0000000000004480 <local_clock>:
-0000     4480:	f3 0f 1e fa          	endbr64
-0004     4484:	55                   	push   %rbp
-0005     4485:	41 57                	push   %r15
-0007     4487:	41 56                	push   %r14
-0009     4489:	41 54                	push   %r12
-000b     448b:	53                   	push   %rbx
-000c     448c:	eb 1b                	jmp    44a9 <local_clock+0x29>
-000e     448e:	e8 00 00 00 00       	call   4493 <local_clock+0x13>	448f: R_X86_64_PLT32	sched_clock-0x4
-0013     4493:	48 89 c3             	mov    %rax,%rbx
-0016     4496:	48 03 1d 00 00 00 00 	add    0x0(%rip),%rbx        # 449d <local_clock+0x1d>	4499: R_X86_64_PC32	__sched_clock_offset-0x4
-001d     449d:	48 89 d8             	mov    %rbx,%rax
-0020     44a0:	5b                   	pop    %rbx
-0021     44a1:	41 5c                	pop    %r12
-0023     44a3:	41 5e                	pop    %r14
-0025     44a5:	41 5f                	pop    %r15
-0027     44a7:	5d                   	pop    %rbp
-0028     44a8:	c3                   	ret
-0029     44a9:	f3 0f 1e fa          	endbr64
-002d     44ad:	65 ff 05 00 00 00 00 	incl   %gs:0x0(%rip)        # 44b4 <local_clock+0x34>	44b0: R_X86_64_PC32	pcpu_hot+0x4
-0034     44b4:	49 c7 c7 00 00 00 00 	mov    $0x0,%r15	44b7: R_X86_64_32S	.data..percpu..shared_aligned+0x16c0
-003b     44bb:	65 4c 03 3d 00 00 00 00 	add    %gs:0x0(%rip),%r15        # 44c3 <local_clock+0x43>	44bf: R_X86_64_PC32	this_cpu_off-0x4
-0043     44c3:	45 31 e4             	xor    %r12d,%r12d
-0046     44c6:	e8 00 00 00 00       	call   44cb <local_clock+0x4b>	44c7: R_X86_64_PLT32	sched_clock-0x4
-004b     44cb:	49 89 c6             	mov    %rax,%r14
-004e     44ce:	4d 2b 37             	sub    (%r15),%r14
-0051     44d1:	4c 89 f6             	mov    %r14,%rsi
-0054     44d4:	48 c1 ee 3f          	shr    $0x3f,%rsi
-0058     44d8:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	44db: R_X86_64_32S	_ftrace_annotated_branch+0x46aa0
-005f     44df:	31 d2                	xor    %edx,%edx
-0061     44e1:	31 c9                	xor    %ecx,%ecx
-0063     44e3:	e8 00 00 00 00       	call   44e8 <local_clock+0x68>	44e4: R_X86_64_PLT32	ftrace_likely_update-0x4
-0068     44e8:	4d 85 f6             	test   %r14,%r14
-006b     44eb:	4d 0f 48 f4          	cmovs  %r12,%r14
-006f     44ef:	49 8b 4f 08          	mov    0x8(%r15),%rcx
-0073     44f3:	49 8b 47 10          	mov    0x10(%r15),%rax
-0077     44f7:	48 8b 15 00 00 00 00 	mov    0x0(%rip),%rdx        # 44fe <local_clock+0x7e>	44fa: R_X86_64_PC32	.data..read_mostly+0x1344
-007e     44fe:	48 8d 1c 0a          	lea    (%rdx,%rcx,1),%rbx
-0082     4502:	49 01 de             	add    %rbx,%r14
-0085     4505:	48 89 de             	mov    %rbx,%rsi
-0088     4508:	48 29 c6             	sub    %rax,%rsi
-008b     450b:	48 85 f6             	test   %rsi,%rsi
-008e     450e:	48 0f 4e d8          	cmovle %rax,%rbx
-0092     4512:	48 01 d1             	add    %rdx,%rcx
-0095     4515:	48 81 c1 40 42 0f 00 	add    $0xf4240,%rcx
-009c     451c:	48 89 c2             	mov    %rax,%rdx
-009f     451f:	48 29 ca             	sub    %rcx,%rdx
-00a2     4522:	48 85 d2             	test   %rdx,%rdx
-00a5     4525:	48 0f 4f c8          	cmovg  %rax,%rcx
-00a9     4529:	4c 89 f2             	mov    %r14,%rdx
-00ac     452c:	48 29 da             	sub    %rbx,%rdx
-00af     452f:	48 85 d2             	test   %rdx,%rdx
-00b2     4532:	49 0f 4f de          	cmovg  %r14,%rbx
-00b6     4536:	48 39 cb             	cmp    %rcx,%rbx
-00b9     4539:	48 0f 49 d9          	cmovns %rcx,%rbx
-00bd     453d:	31 ed                	xor    %ebp,%ebp
-00bf     453f:	31 f6                	xor    %esi,%esi
-00c1     4541:	f0 49 0f b1 5f 10    	lock cmpxchg %rbx,0x10(%r15)
-00c7     4547:	41 0f 95 c6          	setne  %r14b
-00cb     454b:	40 0f 94 c5          	sete   %bpl
-00cf     454f:	40 0f 95 c6          	setne  %sil
-00d3     4553:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	4556: R_X86_64_32S	_ftrace_annotated_branch+0x46ad0
-00da     455a:	31 d2                	xor    %edx,%edx
-00dc     455c:	31 c9                	xor    %ecx,%ecx
-00de     455e:	e8 00 00 00 00       	call   4563 <local_clock+0xe3>	455f: R_X86_64_PLT32	ftrace_likely_update-0x4
-00e3     4563:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	4566: R_X86_64_32S	_ftrace_annotated_branch+0x46b00
-00ea     456a:	89 ee                	mov    %ebp,%esi
-00ec     456c:	ba 01 00 00 00       	mov    $0x1,%edx
-00f1     4571:	31 c9                	xor    %ecx,%ecx
-00f3     4573:	e8 00 00 00 00       	call   4578 <local_clock+0xf8>	4574: R_X86_64_PLT32	ftrace_likely_update-0x4
-00f8     4578:	45 84 f6             	test   %r14b,%r14b
-00fb     457b:	0f 85 45 ff ff ff    	jne    44c6 <local_clock+0x46>
-0101     4581:	65 ff 0d 00 00 00 00 	decl   %gs:0x0(%rip)        # 4588 <local_clock+0x108>	4584: R_X86_64_PC32	pcpu_hot+0x4
-0108     4588:	e9 10 ff ff ff       	jmp    449d <local_clock+0x1d>
-010d     458d:	cc                   	int3
-010e     458e:	cc                   	int3
-010f     458f:	cc                   	int3
-0110     4590:	cc                   	int3
-0111     4591:	cc                   	int3
-0112     4592:	cc                   	int3
-0113     4593:	cc                   	int3
-0114     4594:	cc                   	int3
-0115     4595:	cc                   	int3
-0116     4596:	cc                   	int3
-0117     4597:	cc                   	int3
-0118     4598:	cc                   	int3
-0119     4599:	cc                   	int3
-011a     459a:	cc                   	int3
-011b     459b:	cc                   	int3
-011c     459c:	cc                   	int3
-011d     459d:	cc                   	int3
-011e     459e:	cc                   	int3
-011f     459f:	cc                   	int3
-0120     45a0:	cc                   	int3
-0121     45a1:	cc                   	int3
-0122     45a2:	cc                   	int3
-0123     45a3:	cc                   	int3
-0124     45a4:	cc                   	int3
-0125     45a5:	cc                   	int3
-0126     45a6:	cc                   	int3
-0127     45a7:	cc                   	int3
-0128     45a8:	cc                   	int3
-0129     45a9:	cc                   	int3
-012a     45aa:	cc                   	int3
-012b     45ab:	cc                   	int3
-012c     45ac:	cc                   	int3
-012d     45ad:	cc                   	int3
-012e     45ae:	cc                   	int3
-012f     45af:	cc                   	int3
-0130     45b0:	cc                   	int3
-0131     45b1:	cc                   	int3
-0132     45b2:	cc                   	int3
-0133     45b3:	cc                   	int3
-0134     45b4:	cc                   	int3
-0135     45b5:	cc                   	int3
-0136     45b6:	cc                   	int3
-0137     45b7:	cc                   	int3
-0138     45b8:	cc                   	int3
-0139     45b9:	cc                   	int3
-013a     45ba:	cc                   	int3
-013b     45bb:	cc                   	int3
-013c     45bc:	cc                   	int3
-013d     45bd:	cc                   	int3
-013e     45be:	cc                   	int3
-013f     45bf:	cc                   	int3
+objdump-func vmlinux.o __tdx_hypercall:
+0000 0000000000004c40 <__tdx_hypercall>:
+0000     4c40:	55                   	push   %rbp
+0001     4c41:	48 89 e5             	mov    %rsp,%rbp
+0004     4c44:	41 57                	push   %r15
+0006     4c46:	41 56                	push   %r14
+0008     4c48:	41 55                	push   %r13
+000a     4c4a:	41 54                	push   %r12
+000c     4c4c:	55                   	push   %rbp
+000d     4c4d:	48 89 f8             	mov    %rdi,%rax
+0010     4c50:	48 89 f5             	mov    %rsi,%rbp
+0013     4c53:	4c 8b 50 10          	mov    0x10(%rax),%r10
+0017     4c57:	4c 8b 58 18          	mov    0x18(%rax),%r11
+001b     4c5b:	4c 8b 60 20          	mov    0x20(%rax),%r12
+001f     4c5f:	4c 8b 68 28          	mov    0x28(%rax),%r13
+0023     4c63:	4c 8b 70 30          	mov    0x30(%rax),%r14
+0027     4c67:	4c 8b 78 38          	mov    0x38(%rax),%r15
+002b     4c6b:	50                   	push   %rax
+002c     4c6c:	31 c0                	xor    %eax,%eax
+002e     4c6e:	b9 00 fc 00 00       	mov    $0xfc00,%ecx
+0033     4c73:	48 f7 c5 02 00 00 00 	test   $0x2,%rbp
+003a     4c7a:	74 01                	je     4c7d <__tdx_hypercall+0x3d>
+003c     4c7c:	fb                   	sti
+003d     4c7d:	66 0f 01 cc          	tdcall
+0041     4c81:	48 85 c0             	test   %rax,%rax
+0044     4c84:	75 36                	jne    4cbc <__tdx_hypercall+0x7c>
+0046     4c86:	58                   	pop    %rax
+0047     4c87:	48 f7 c5 01 00 00 00 	test   $0x1,%rbp
+004e     4c8e:	74 18                	je     4ca8 <__tdx_hypercall+0x68>
+0050     4c90:	4c 89 50 10          	mov    %r10,0x10(%rax)
+0054     4c94:	4c 89 58 18          	mov    %r11,0x18(%rax)
+0058     4c98:	4c 89 60 20          	mov    %r12,0x20(%rax)
+005c     4c9c:	4c 89 68 28          	mov    %r13,0x28(%rax)
+0060     4ca0:	4c 89 70 30          	mov    %r14,0x30(%rax)
+0064     4ca4:	4c 89 78 38          	mov    %r15,0x38(%rax)
+0068     4ca8:	4c 89 d0             	mov    %r10,%rax
+006b     4cab:	45 31 d2             	xor    %r10d,%r10d
+006e     4cae:	45 31 db             	xor    %r11d,%r11d
+0071     4cb1:	5d                   	pop    %rbp
+0072     4cb2:	41 5c                	pop    %r12
+0074     4cb4:	41 5d                	pop    %r13
+0076     4cb6:	41 5e                	pop    %r14
+0078     4cb8:	41 5f                	pop    %r15
+007a     4cba:	5d                   	pop    %rbp
+007b     4cbb:	c3                   	ret
+007c     4cbc:	e8 00 00 00 00       	call   4cc1 <__tdx_hypercall+0x81>	4cbd: R_X86_64_PLT32	__tdx_hypercall_failed-0x4
+0081     4cc1:	eb f9                	jmp    4cbc <__tdx_hypercall+0x7c>
+0083     4cc3:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+008d     4ccd:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+0097     4cd7:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00a1     4ce1:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00ab     4ceb:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00b5     4cf5:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00bf     4cff:	90                   	nop
 
 -- 
 0-DAY CI Kernel Test Service
