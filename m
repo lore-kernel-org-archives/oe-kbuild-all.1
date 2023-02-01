@@ -1,47 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF8A8802;
-	Wed,  1 Feb 2023 18:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C268483
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 18:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675274712; x=1706810712;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o0Z655HtuO5myBzjOa1xZ+wMK4znPKAfOzEZFZhUmKg=;
-  b=MeMTz8JOlfAdLqK9P4gmQgI5GUKXoq9A47ZDsO9/7jjnrpyht5ZvQLv9
-   t0Jtp72GfkSC5lYoQt3LmZNsGU09GgrSbqysv60PJDdwQpOQH04AyqvCj
-   xrgsLNBcgsbTQD3XGb5lTmRHfS7nBYCxnxL1DOcjTsFgU6RezXVEsr9U4
-   RAEmTdgGN6MF1pnN9tRWdr9xRf6BH4gtVfEuiq7MBVemRAY35ONHi9yq/
-   15z0P2jJNuoORCubaZPi80sEvB+E5mHyuIOxdoafXZJnH5jGdF1w9NRTR
-   ktFBlIgJR1nyIdfW+mcAD/xcIjF+NU248j9JNikXbqODzAUP/9lz1tzp4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="390615850"
+  t=1675275502; x=1706811502;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JV1tVlLQWTtSlYYwr7IOEPPszYyLxF/c2IO0CE+KVgE=;
+  b=daEvHftOmUgG92Hj4afFtH3GiNT+Kj7PE4mjMbhLWLAyZE4Ah9S5gEJC
+   OU0iXRFtA+1Fx8hLeyPq90fVfAzP2dOvbJyBp1Pr73tNxvWpM4xzVtaOy
+   9Hw49jzl0c30t8yaqt6FWNjBj8s7J0YT7vY3JqaByYTlWNMpiBPeJN+wQ
+   sZQuwuPj7FUO5HCtDvRMMyEWMZzVuFGi/9pWW3qbsVidk/jAeBd3CaGaS
+   fVmdlGywzR253csMNki0WVMqEHJeb+Rftk8FOoX2vL80RUYkkLgC9kHyK
+   XJOKS6MzVl9gVcrWtyA88+IZWSZS7G9GOQ1QeCALgpezQ4/BOMkYx8+QW
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="414434321"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="390615850"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 10:04:10 -0800
+   d="scan'208";a="414434321"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 10:13:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="788972328"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="664966508"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="788972328"
+   d="scan'208";a="664966508"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Feb 2023 10:03:41 -0800
+  by orsmga002.jf.intel.com with ESMTP; 01 Feb 2023 10:13:41 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNHSO-0005fI-1e;
-	Wed, 01 Feb 2023 18:03:40 +0000
-Date: Thu, 2 Feb 2023 02:02:55 +0800
+	id 1pNHc4-0005fn-2j;
+	Wed, 01 Feb 2023 18:13:40 +0000
+Date: Thu, 2 Feb 2023 02:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: mingzhe.zou@easystack.cn, colyli@suse.de,
-	andrea.tomassetti-opensource@devo.com, bcache@lists.ewheeler.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kent.overstreet@gmail.com, linux-bcache@vger.kernel.org,
-	zoumingzhe@qq.com, Dongsheng Yang <dongsheng.yang@easystack.cn>,
-	mingzhe <mingzhe.zou@easystack.cn>
-Subject: Re: [PATCH 3/3] bcache: support overlay bcache
-Message-ID: <202302020147.4HT8cQF3-lkp@intel.com>
-References: <20230201065202.17610-3-mingzhe.zou@easystack.cn>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
+Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3 8/25]
+ fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn'
+ makes pointer from integer without a cast
+Message-ID: <202302020226.XF4SDEoW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,117 +46,378 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201065202.17610-3-mingzhe.zou@easystack.cn>
 
-Hi,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2-rc6 next-20230201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230201-145421
-patch link:    https://lore.kernel.org/r/20230201065202.17610-3-mingzhe.zou%40easystack.cn
-patch subject: [PATCH 3/3] bcache: support overlay bcache
-config: x86_64-randconfig-a014-20230130 (https://download.01.org/0day-ci/archive/20230202/202302020147.4HT8cQF3-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3
+head:   ac3cfb78163256f2febd47ebd017d9f5b75820dd
+commit: a1d2a5262341eafc84074a0688f37fe4020cd65f [8/25] ARC: mm: Make virt_to_pfn() a static inline
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302020226.XF4SDEoW-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/785b6ea709e3008e2df009d5555c80db709e6d5f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230201-145421
-        git checkout 785b6ea709e3008e2df009d5555c80db709e6d5f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=a1d2a5262341eafc84074a0688f37fe4020cd65f
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3
+        git checkout a1d2a5262341eafc84074a0688f37fe4020cd65f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/md/bcache/super.c:1475:34: error: implicit declaration of function 'part_to_dev' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                           ^
->> drivers/md/bcache/super.c:1475:62: error: member reference type 'int' is not a pointer
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
->> drivers/md/bcache/super.c:1475:52: error: no member named 'bd_part' in 'struct block_device'
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                                       ~~~~  ^
-   drivers/md/bcache/super.c:2403:34: error: implicit declaration of function 'part_to_dev' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                           ^
-   drivers/md/bcache/super.c:2403:62: error: member reference type 'int' is not a pointer
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
-   drivers/md/bcache/super.c:2403:52: error: no member named 'bd_part' in 'struct block_device'
-           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-                                                       ~~~~  ^
-   6 errors generated.
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/namei.h:5,
+                    from fs/cifs/dfs.c:6:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/smb2pdu.c:18:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/smb2pdu.c: In function 'smb2_reconnect':
+   fs/cifs/smb2pdu.c:350:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+     350 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/pagemap.h:8,
+                    from fs/cifs/smb1ops.c:8:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/smb1ops.c: In function 'check2ndT2':
+   fs/cifs/smb1ops.c:284:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+     284 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/cifssmb.c:17:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/cifssmb.c: In function 'SMBOldQFSInfo':
+   fs/cifs/cifssmb.c:4594:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+    4594 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/smb2file.c:9:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/smb2file.c: In function 'smb2_push_mandatory_locks':
+   fs/cifs/smb2file.c:371:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+     371 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/cifsacl.c:11:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/cifsacl.c: In function 'parse_sid':
+   fs/cifs/cifsacl.c:1189:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+    1189 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from include/linux/mm_types_task.h:16,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from fs/cifs/cifsfs.c:13:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/cifsfs.c: In function 'cifs_init_request_bufs':
+   fs/cifs/cifsfs.c:1589:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+    1589 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from arch/arc/include/asm/page.h:137,
+                    from arch/arc/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/connect.c:8:
+   fs/cifs/cifsglob.h: In function 'cifs_sg_set_buf':
+>> fs/cifs/cifsglob.h:2217:48: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                                ^~~~
+         |                                                |
+         |                                                long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   fs/cifs/cifsglob.h:2217:35: note: in expansion of macro 'virt_to_page'
+    2217 |                 sg_set_page(sg++, virt_to_page(addr), buflen, off);
+         |                                   ^~~~~~~~~~~~
+   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+   during RTL pass: mach
+   fs/cifs/connect.c: In function 'reconn_set_ipaddr_from_hostname':
+   fs/cifs/connect.c:129:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9642
+     129 | }
+         | ^
+   0x59b7d9 arc_ifcvt
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:9642
+   0xdeaf74 arc_reorg
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/config/arc/arc.cc:8424
+   0xaaab69 execute
+   	/tmp/build-crosstools-gcc-12.1.0-binutils-2.38/gcc/gcc-12.1.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+..
 
 
-vim +/part_to_dev +1475 drivers/md/bcache/super.c
+vim +/virt_to_pfn +2217 fs/cifs/cifsglob.h
 
-  1453	
-  1454	static int register_bdev(struct cache_sb *sb, struct cache_sb_disk *sb_disk,
-  1455					 struct block_device *bdev,
-  1456					 struct cached_dev *dc)
-  1457	{
-  1458		const char *err = "cannot allocate memory";
-  1459		struct cache_set *c;
-  1460		int ret = -ENOMEM;
-  1461	
-  1462		memcpy(&dc->sb, sb, sizeof(struct cache_sb));
-  1463		dc->bdev = bdev;
-  1464		dc->bdev->bd_holder = dc;
-  1465		dc->sb_disk = sb_disk;
-  1466	
-  1467		if (cached_dev_init(dc, sb->block_size << 9))
-  1468			goto err;
-  1469	
-  1470		err = "error creating kobject";
-  1471		if (kobject_add(&dc->disk.kobj, bdev_kobj(bdev), "bcache_bdev"))
-  1472			goto err;
-  1473	
-  1474		err = "error creating lagacy sysfs link";
-> 1475		ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
-  1476					       &dc->disk.kobj, "bcache");
-  1477		if (ret && ret != -EEXIST) {
-  1478			pr_err("Couldn't create lagacy disk sysfs ->bcache");
-  1479			goto err;
-  1480		}
-  1481	
-  1482		if (bch_cache_accounting_add_kobjs(&dc->accounting, &dc->disk.kobj))
-  1483			goto err;
-  1484	
-  1485		pr_info("registered backing device %pg\n", dc->bdev);
-  1486	
-  1487		list_add(&dc->list, &uncached_devices);
-  1488		/* attach to a matched cache set if it exists */
-  1489		list_for_each_entry(c, &bch_cache_sets, list)
-  1490			bch_cached_dev_attach(dc, c, NULL);
-  1491	
-  1492		if (BDEV_STATE(&dc->sb) == BDEV_STATE_NONE ||
-  1493		    BDEV_STATE(&dc->sb) == BDEV_STATE_STALE) {
-  1494			err = "failed to run cached device";
-  1495			ret = bch_cached_dev_run(dc);
-  1496			if (ret)
-  1497				goto err;
-  1498		}
-  1499	
-  1500		return 0;
-  1501	err:
-  1502		pr_notice("error %pg: %s\n", dc->bdev, err);
-  1503		bcache_device_stop(&dc->disk);
-  1504		return ret;
-  1505	}
-  1506	
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2194  
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2195  /* We can not use the normal sg_set_buf() as we will sometimes pass a
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2196   * stack object as buf.
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2197   */
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2198  static inline struct scatterlist *cifs_sg_set_buf(struct scatterlist *sg,
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2199  						  const void *buf,
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2200  						  unsigned int buflen)
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2201  {
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2202  	unsigned long addr = (unsigned long)buf;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2203  	unsigned int off = offset_in_page(addr);
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2204  
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2205  	addr &= PAGE_MASK;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2206  	if (unlikely(is_vmalloc_addr((void *)addr))) {
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2207  		do {
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2208  			unsigned int len = min_t(unsigned int, buflen, PAGE_SIZE - off);
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2209  
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2210  			sg_set_page(sg++, vmalloc_to_page((void *)addr), len, off);
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2211  
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2212  			off = 0;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2213  			addr += PAGE_SIZE;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2214  			buflen -= len;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2215  		} while (buflen);
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2216  	} else {
+f7f291e14dde32 Paulo Alcantara 2022-12-11 @2217  		sg_set_page(sg++, virt_to_page(addr), buflen, off);
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2218  	}
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2219  	return sg;
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2220  }
+f7f291e14dde32 Paulo Alcantara 2022-12-11  2221  
+
+:::::: The code at line 2217 was first introduced by commit
+:::::: f7f291e14dde32a07b1f0aa06921d28f875a7b54 cifs: fix oops during encryption
+
+:::::: TO: Paulo Alcantara <pc@cjr.nz>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
