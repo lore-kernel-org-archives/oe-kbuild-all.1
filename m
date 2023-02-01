@@ -1,44 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26812F5B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 13:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C745C2F5E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 13:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675258590; x=1706794590;
+  t=1675258591; x=1706794591;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jMpFUSivbxQlKS/MKuG0l+vIWu5CVA395Kq19ZJc9EI=;
-  b=PzlWIkoPT2gU5SP/T1pArltbdKimvqRV2ljDwAS8JK5EGh/kKp1FOs+2
-   c+MO3XKSkZw2eZldBsYPOSujcLME8mlKbjKipsT/Y/Dib0QXTBHOxZ/EB
-   O6DBndcb3Y4Nl0MRhx+UE0pieW4xYXVqbRIfRX9DHXWoTk1U/55XVr75G
-   NAAtjtl/RWHCVTe/qQnKAXXNQhTQuu9fsylVK2moPTSkMGuIV0hx9CyMA
-   +QbVUI/FqX23BZqSPxHzP+ye4uAWR3cUC+5u7QMKYRBohk1mmSvSOsJMj
-   u+d0qTYd8uqiRhr8b8/7EJbyPEBhWbVS6/lbP4xXIKU/BeB6lGd9HU2Pf
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="325842931"
+  bh=uLqL2bctvHOJKvWRhlv3K2vVHsVETIGXDpz82PZw6j0=;
+  b=URqpUtsMcdnkKn1jCZURYvWOzvZ0SMIkRu/W3+ZiwEoYFzM3K1HuDCEG
+   ZVDvPIv14YeTFGC0UgIGhJkzHYhOIZokA85fFlSjyj7zuYaE1ikNT4oqR
+   Hpii/53Txd87kkJQ6HbwxX4jaw+bF70pbvOEYr7cOHZOCt0YdiE/7pklZ
+   fe/D2hQ0emQXPevsDG9+raOMUSxSHk5JsR2VGNNFCjOFd2BrJyxiS2Zvy
+   0jAsh76iKjp8ODfoYtUF1mZcNkyAn86kJeNIMaOkEILV/aHzJ2PoFpII6
+   hBzjfivR1fx2T1MrXGVVNmldXMZD7RvKPZlo4qhDlAViLvJvKJNuiVt+B
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="308483041"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="325842931"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:36:30 -0800
+   d="scan'208";a="308483041"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:36:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="697250333"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="788888307"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="697250333"
+   d="scan'208";a="788888307"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Feb 2023 05:36:28 -0800
+  by orsmga004.jf.intel.com with ESMTP; 01 Feb 2023 05:36:28 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNDHn-0005TH-2f;
+	id 1pNDHn-0005TF-2Y;
 	Wed, 01 Feb 2023 13:36:27 +0000
 Date: Wed, 1 Feb 2023 21:35:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/iov-cifs 2/13]
- fs/netfs/iterator.c:65:66: sparse: sparse: incorrect type in argument 5
- (different base types)
-Message-ID: <202302012158.eK6uvMkU-lkp@intel.com>
+To: Gaosheng Cui <cuigaosheng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-stable-rc:queue/4.19 1/66]
+ drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function
+ 'devm_clk_get_enabled'
+Message-ID: <202302012152.IA9WllvH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,88 +48,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-cifs
-head:   418842b957d86e37f2eafde039bb92623962ee19
-commit: d6a8d826e443d9da9c2585088abc3be9b7cc66d6 [2/13] netfs: Add a function to extract a UBUF or IOVEC into a BVEC iterator
-config: sparc-randconfig-s043-20230129 (https://download.01.org/0day-ci/archive/20230201/202302012158.eK6uvMkU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
+head:   923e939ad273761d537bc8b4e314e7fbac1d975d
+commit: e283c92e9ef8852a075bed84d3427a0704159f9c [1/66] memory: atmel-sdramc: Fix missing clk_disable_unprepare in atmel_ramc_probe()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230201/202302012152.IA9WllvH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/ammarfaizi2/linux-block/commit/d6a8d826e443d9da9c2585088abc3be9b7cc66d6
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/iov-cifs
-        git checkout d6a8d826e443d9da9c2585088abc3be9b7cc66d6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=e283c92e9ef8852a075bed84d3427a0704159f9c
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/4.19
+        git checkout e283c92e9ef8852a075bed84d3427a0704159f9c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash fs/netfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> fs/netfs/iterator.c:65:66: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted iov_iter_extraction_t [usertype] extraction_flags @@     got unsigned int extract_flags @@
-   fs/netfs/iterator.c:65:66: sparse:     expected restricted iov_iter_extraction_t [usertype] extraction_flags
-   fs/netfs/iterator.c:65:66: sparse:     got unsigned int extract_flags
+All errors (new ones prefixed by >>):
 
-vim +65 fs/netfs/iterator.c
+   drivers/memory/atmel-sdramc.c: In function 'atmel_ramc_probe':
+>> drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
+      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/memory/atmel-sdramc.c:62:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
+         |                     ^
+   drivers/memory/atmel-sdramc.c:68:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      68 |                 clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
+         |                     ^
+   cc1: some warnings being treated as errors
 
-    13	
-    14	/**
-    15	 * netfs_extract_user_iter - Extract the pages from a user iterator into a bvec
-    16	 * @orig: The original iterator
-    17	 * @orig_len: The amount of iterator to copy
-    18	 * @new: The iterator to be set up
-    19	 * @extract_flags: Flags to qualify the request
-    20	 *
-    21	 * Extract the page fragments from the given amount of the source iterator and
-    22	 * build up a second iterator that refers to all of those bits.  This allows
-    23	 * the original iterator to disposed of.
-    24	 *
-    25	 * @extract_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA be
-    26	 * allowed on the pages extracted.
-    27	 *
-    28	 * On success, the number of elements in the bvec is returned, the original
-    29	 * iterator will have been advanced by the amount extracted.
-    30	 *
-    31	 * The iov_iter_extract_mode() function should be used to query how cleanup
-    32	 * should be performed.
-    33	 */
-    34	ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
-    35					struct iov_iter *new, unsigned int extract_flags)
-    36	{
-    37		struct bio_vec *bv = NULL;
-    38		struct page **pages;
-    39		unsigned int cur_npages;
-    40		unsigned int max_pages;
-    41		unsigned int npages = 0;
-    42		unsigned int i;
-    43		ssize_t ret;
-    44		size_t count = orig_len, offset, len;
-    45		size_t bv_size, pg_size;
-    46	
-    47		if (WARN_ON_ONCE(!iter_is_ubuf(orig) && !iter_is_iovec(orig)))
-    48			return -EIO;
-    49	
-    50		max_pages = iov_iter_npages(orig, INT_MAX);
-    51		bv_size = array_size(max_pages, sizeof(*bv));
-    52		bv = kvmalloc(bv_size, GFP_KERNEL);
-    53		if (!bv)
-    54			return -ENOMEM;
-    55	
-    56		/* Put the page list at the end of the bvec list storage.  bvec
-    57		 * elements are larger than page pointers, so as long as we work
-    58		 * 0->last, we should be fine.
-    59		 */
-    60		pg_size = array_size(max_pages, sizeof(*pages));
-    61		pages = (void *)bv + bv_size - pg_size;
-    62	
-    63		while (count && npages < max_pages) {
-    64			ret = iov_iter_extract_pages(orig, &pages, count,
-  > 65						     max_pages - npages, extract_flags,
+
+vim +/devm_clk_get_enabled +62 drivers/memory/atmel-sdramc.c
+
+    53	
+    54	static int atmel_ramc_probe(struct platform_device *pdev)
+    55	{
+    56		const struct at91_ramc_caps *caps;
+    57		struct clk *clk;
+    58	
+    59		caps = of_device_get_match_data(&pdev->dev);
+    60	
+    61		if (caps->has_ddrck) {
+  > 62			clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
+    63			if (IS_ERR(clk))
+    64				return PTR_ERR(clk);
+    65		}
+    66	
+    67		if (caps->has_mpddr_clk) {
+    68			clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
+    69			if (IS_ERR(clk)) {
+    70				pr_err("AT91 RAMC: couldn't get mpddr clock\n");
+    71				return PTR_ERR(clk);
+    72			}
+    73		}
+    74	
+    75		return 0;
+    76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
