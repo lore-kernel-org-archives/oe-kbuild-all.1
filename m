@@ -1,53 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D3E63B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 16:11:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B837B2F2B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 16:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675267889; x=1706803889;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1WRzhheT0far4uWXe5/27l5EWuUFvZB4LXQCLYYjMl4=;
-  b=a1tHRK2ptw5CFpt8vjvczBweJ7gou26iszdkKK4Rw4SSwUpy+KT5FkNN
-   N1EqSr0q32UuOTF1binOMsbp5Y17lz/7o++53ZhX+vQCdb6q6Nm6Ab8DW
-   weoUgBNycR0rjeSovLasNrL+c81GMOGoZroLkFpj+yJTlNUOkz2JxHQ+u
-   bF9sGWVqnXPNKlR47kCgdAsmGqNGGT5fHUCObNL+1hN7D1NX+30p4nLWc
-   cQuLTING77PbEY8GQoD9c7AomzSwAKIsaGrcMlb3sPqTKUXcOU6K51MdJ
-   uhLgPMwSDEQNR2kYYjRbK8CICjV/COrtSMIhPd0V//A/03O/hXQrRhGxW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="392762615"
+  t=1675269050; x=1706805050;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lnEfeZNjdAcXltwiUQowUg0sxKYN52nmWrYGQuVjz1E=;
+  b=ghWRA6RV/ENQfBQXg/hmCkpP/qLHT4YWpGlj4zPC+zt0bp3SoVJTg3HJ
+   agdDl0awQR1692HP7PoyYvVcfP+BbBDY9njgKq68W6I3V97HveQ5Q0oLX
+   Gx8gML+D2KrBy8FWq8tVtlNv5J4ep95+1jIJ9GTGpIWkzci8PjFeFsqjB
+   MHG0bG2FEFhjPLmkax5X5slK1pxfPxW87vPldUWeLnHd+KzW2C8mcBbBW
+   /icDqBaUJdj/zX6vt4FfRuBi/+QyPdMybPOa1i/m0oo74n92UcQaKMSKK
+   5/ktlslubnHcqmxxuM9n5kxdWus/cuyq1dj53m1Xwf4SyNTDAXEkaekCA
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="392771483"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="392762615"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 08:10:38 -0800
+   d="scan'208";a="392771483"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 08:30:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="664918209"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733624921"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="664918209"
+   d="scan'208";a="733624921"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 01 Feb 2023 08:10:33 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2023 08:30:36 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNFgu-0005Z7-2i;
-	Wed, 01 Feb 2023 16:10:32 +0000
-Date: Thu, 2 Feb 2023 00:09:41 +0800
+	id 1pNG0J-0005a4-18;
+	Wed, 01 Feb 2023 16:30:35 +0000
+Date: Thu, 2 Feb 2023 00:30:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
-	krzysztof.kozlowski+dt@linaro.org, agross@kernel.org,
-	andersson@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
-	robh+dt@kernel.org, quic_plai@quicinc.com, bgoswami@quicinc.com,
-	srinivas.kandagatla@linaro.org, quic_rohkumar@quicinc.com,
-	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, swboyd@chromium.org,
-	judyhsiao@chromium.org, devicetree@vger.kernel.org,
-	konrad.dybcio@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: Re: [PATCH 08/14] ASoC: q6dsp: q6apm-dai: Add open/free compress DAI
- callbacks
-Message-ID: <202302012337.pC5Q3lLy-lkp@intel.com>
-References: <20230201134947.1638197-9-quic_mohs@quicinc.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pinchartl:drm/compile-test 5/10]
+ drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: error: implicit declaration of
+ function 'phys_to_page'; did you mean 'pfn_to_page'?
+Message-ID: <202302020058.ADW2Yb7k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,113 +46,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201134947.1638197-9-quic_mohs@quicinc.com>
 
-Hi Mohammad,
+Hi Laurent,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on next-20230201]
-[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.2-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230201134947.1638197-9-quic_mohs%40quicinc.com
-patch subject: [PATCH 08/14] ASoC: q6dsp: q6apm-dai: Add open/free compress DAI callbacks
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302012337.pC5Q3lLy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git drm/compile-test
+head:   316f541f6872b3dd6eb7d7bf216656c76f74cc2a
+commit: 6a2f2488d8ef33515e03ce44633d56c08957b2de [5/10] drm/omap: Enable COMPILE_TEST on all architectures
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302020058.ADW2Yb7k-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/78a6016e006a8e405679fd335940ee710416c43f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
-        git checkout 78a6016e006a8e405679fd335940ee710416c43f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/commit/?id=6a2f2488d8ef33515e03ce44633d56c08957b2de
+        git remote add pinchartl https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
+        git fetch --no-tags pinchartl drm/compile-test
+        git checkout 6a2f2488d8ef33515e03ce44633d56c08957b2de
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/qcom/qdsp6/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/qcom/qdsp6/q6apm-dai.c:135:6: warning: no previous prototype for 'event_handler_compr' [-Wmissing-prototypes]
-     135 | void event_handler_compr(uint32_t opcode, uint32_t token,
-         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/omapdrm/omap_gem.c: In function 'omap_gem_get_sg':
+>> drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
+    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
+         |                                         ^~~~~~~~~~~~
+         |                                         pfn_to_page
+   drivers/gpu/drm/omapdrm/omap_gem.c:1034:41: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
+    1034 |                         sg_set_page(sg, phys_to_page(addr), len,
+         |                                         ^~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         int
+   In file included from include/linux/dma-mapping.h:10,
+                    from drivers/gpu/drm/omapdrm/omap_gem.c:7:
+   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
+     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
+         |                                                        ~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/event_handler_compr +135 sound/soc/qcom/qdsp6/q6apm-dai.c
+vim +1034 drivers/gpu/drm/omapdrm/omap_gem.c
 
-   134	
- > 135	void event_handler_compr(uint32_t opcode, uint32_t token,
-   136					uint32_t *payload, void *priv)
-   137	{
-   138		struct q6apm_dai_rtd *prtd = priv;
-   139		struct snd_compr_stream *substream = prtd->cstream;
-   140		unsigned long flags;
-   141		uint32_t wflags = 0;
-   142		uint64_t avail;
-   143		uint32_t bytes_written, bytes_to_write;
-   144		bool is_last_buffer = false;
-   145	
-   146		switch (opcode) {
-   147		case APM_CLIENT_EVENT_CMD_EOS_DONE:
-   148			spin_lock_irqsave(&prtd->lock, flags);
-   149			if (prtd->notify_on_drain) {
-   150				snd_compr_drain_notify(prtd->cstream);
-   151				prtd->notify_on_drain = false;
-   152			} else {
-   153				prtd->state = Q6APM_STREAM_STOPPED;
-   154			}
-   155			spin_unlock_irqrestore(&prtd->lock, flags);
-   156			break;
-   157		case APM_CLIENT_EVENT_DATA_WRITE_DONE:
-   158			spin_lock_irqsave(&prtd->lock, flags);
-   159			bytes_written = token >> APM_WRITE_TOKEN_LEN_SHIFT;
-   160			prtd->copied_total += bytes_written;
-   161			snd_compr_fragment_elapsed(substream);
-   162	
-   163			if (prtd->state != Q6APM_STREAM_RUNNING) {
-   164				spin_unlock_irqrestore(&prtd->lock, flags);
-   165				break;
-   166			}
-   167	
-   168			avail = prtd->bytes_received - prtd->bytes_sent;
-   169	
-   170			if (avail > prtd->pcm_count) {
-   171				bytes_to_write = prtd->pcm_count;
-   172			} else {
-   173				if (substream->partial_drain || prtd->notify_on_drain)
-   174					is_last_buffer = true;
-   175				bytes_to_write = avail;
-   176			}
-   177	
-   178			if (bytes_to_write) {
-   179				if (substream->partial_drain && is_last_buffer)
-   180					wflags |= APM_LAST_BUFFER_FLAG;
-   181	
-   182				q6apm_write_async_compr(prtd->graph,
-   183							bytes_to_write, 0, 0, wflags);
-   184	
-   185				prtd->bytes_sent += bytes_to_write;
-   186	
-   187				if (prtd->notify_on_drain && is_last_buffer)
-   188					audioreach_shared_memory_send_eos(prtd->graph);
-   189			}
-   190	
-   191			spin_unlock_irqrestore(&prtd->lock, flags);
-   192			break;
-   193		default:
-   194			break;
-   195		}
-   196	}
-   197	
+cd5351f4d2b1b88 drivers/staging/omapdrm/omap_gem.c Rob Clark       2011-11-12   982  
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   983  struct sg_table *omap_gem_get_sg(struct drm_gem_object *obj,
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19   984  		enum dma_data_direction dir)
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   985  {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   986  	struct omap_gem_object *omap_obj = to_omap_bo(obj);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   987  	dma_addr_t addr;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   988  	struct sg_table *sgt;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   989  	struct scatterlist *sg;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   990  	unsigned int count, len, stride, i;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   991  	int ret;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   992  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   993  	ret = omap_gem_pin(obj, &addr);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   994  	if (ret)
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   995  		return ERR_PTR(ret);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   996  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   997  	mutex_lock(&omap_obj->lock);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   998  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19   999  	sgt = omap_obj->sgt;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1000  	if (sgt)
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1001  		goto out;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1002  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1003  	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1004  	if (!sgt) {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1005  		ret = -ENOMEM;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1006  		goto err_unpin;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1007  	}
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1008  
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1009  	if (addr) {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1010  		if (omap_obj->flags & OMAP_BO_TILED_MASK) {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1011  			enum tiler_fmt fmt = gem2fmt(omap_obj->flags);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1012  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1013  			len = omap_obj->width << (int)fmt;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1014  			count = omap_obj->height;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1015  			stride = tiler_stride(fmt, 0);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1016  		} else {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1017  			len = obj->size;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1018  			count = 1;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1019  			stride = 0;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1020  		}
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1021  	} else {
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1022  		count = obj->size >> PAGE_SHIFT;
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1023  	}
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1024  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1025  	ret = sg_alloc_table(sgt, count, GFP_KERNEL);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1026  	if (ret)
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1027  		goto err_free;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1028  
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1029  	/* this must be after omap_gem_pin() to ensure we have pages attached */
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1030  	omap_gem_dma_sync_buffer(obj, dir);
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1031  
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1032  	if (addr) {
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1033  		for_each_sg(sgt->sgl, sg, count, i) {
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19 @1034  			sg_set_page(sg, phys_to_page(addr), len,
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1035  				offset_in_page(addr));
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1036  			sg_dma_address(sg) = addr;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1037  			sg_dma_len(sg) = len;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1038  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1039  			addr += stride;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1040  		}
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1041  	} else {
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1042  		for_each_sg(sgt->sgl, sg, count, i) {
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1043  			sg_set_page(sg, omap_obj->pages[i], PAGE_SIZE, 0);
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1044  			sg_dma_address(sg) = omap_obj->dma_addrs[i];
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1045  			sg_dma_len(sg) =  PAGE_SIZE;
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1046  		}
+1948d28db6215d0 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2022-01-19  1047  	}
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1048  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1049  	omap_obj->sgt = sgt;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1050  out:
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1051  	mutex_unlock(&omap_obj->lock);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1052  	return sgt;
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1053  
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1054  err_free:
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1055  	kfree(sgt);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1056  err_unpin:
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1057  	mutex_unlock(&omap_obj->lock);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1058  	omap_gem_unpin(obj);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1059  	return ERR_PTR(ret);
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1060  }
+fe4d0b6317e35a9 drivers/gpu/drm/omapdrm/omap_gem.c Ivaylo Dimitrov 2021-11-19  1061  
+
+:::::: The code at line 1034 was first introduced by commit
+:::::: 1948d28db6215d055930f0cbb6e300622ede5931 drm: omapdrm: Support exporting of non-contiguous GEM BOs
+
+:::::: TO: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+:::::: CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 -- 
 0-DAY CI Kernel Test Service
