@@ -1,119 +1,140 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AA963B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 15:15:14 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id be12so6764248edb.4
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 01 Feb 2023 07:15:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKcD/zDARR0ET8GDXucrQ586p1EZyc/trnwGgWqi5oM=;
-        b=UNvI8KAlb1PeQQTsF/6w1pZ0C36wdH+yiGj8bP1bem/hCAcaJOM/nE7ucQiIIsRBwY
-         rqtp2QIG/OrrPjr2NX7bTvR2H6DfxHFwlGVO2g/FdDLws8yAfsNiFQpcmQzYByIu32Ed
-         p1wCa4CSnyD3nw6sDu+pewrKZa+8JX184CH99a75W0nzWEHCaau6Ak++1zVUdiqyK3f+
-         t+OxDVJvT6Nb0Ot7ANLlt084gp9wEov6ZGd6D7K37LFWKDmBV4j0hMR2TNmbhhoQsQJP
-         74Vcj6qNZEUT7CDXuBJ9+c521drz49X7juopPmmR9kUeIiOTtqmxFjRoS6jYhnTT1TuS
-         5GwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKcD/zDARR0ET8GDXucrQ586p1EZyc/trnwGgWqi5oM=;
-        b=Wh5uSFn9BXVzilAlGGtTwziSDBAGgysqDTL8mwV358BWP0aA1GFUgohe8aeA8hmWpp
-         SsbXlvlrjarPcIUd2QNHa63yMZvV6D4ykiSiFYL0L5aYq76Pte5EY8lEjtj0hXFTViSg
-         rebaOgWt22I146+RmX6aEDKjaD0KH8c62QFOjTJJrP3+UMq2V1ntZFlNe2rVVpp3TUvv
-         WOyvaDCG6MdOG5cObR5x9uo7d4JupKQwair36MUQXnE2+pANtbwYH5kKxkEjk92qMj1T
-         XZLy6TlZVN+K6n+QN8Ba+bNmmbQYnSTapLKvDdSFNij2CePUD/liQyJPVGNIrV39f21u
-         GFfg==
-X-Gm-Message-State: AO0yUKWx8wbB3/45C3ORk/M0pM8IUJyhQzIEl+o6zirYXz7juw/6McU2
-	w+zyZ4dD2u4M9OA3UVkftSLb3xwae//JXDaY9jbcSw==
-X-Google-Smtp-Source: AK7set8Sqpf7IQKI8pCxzgiefm4DEzyA6FF6UcZXLNTZNnDOHduTVAL3Dj7gPRjuCIZZHhxAewq7V1amgnQUE4iiCRY=
-X-Received: by 2002:a50:f60f:0:b0:4a2:27c2:aa9a with SMTP id
- c15-20020a50f60f000000b004a227c2aa9amr741605edn.61.1675264512617; Wed, 01 Feb
- 2023 07:15:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1319863C5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 15:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675264716; x=1706800716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bya2bwfL249v1sNpczAShDDQseCz+uJqoT8yJ25i2ko=;
+  b=SwoIiNazJElYTPIosFzt9pNfI/1ve/HyZUUNG2jo702JCysNREBgU9uX
+   MFhnwSsDUunPTYvehnTSXXlzf4r3J+sBRnlTC4pfuzAZ3f2lW7A8B5VFj
+   3RRVx1xE9iJyyrg5OLS11h2xKXhueb0AGTWdjOZXF8x2T7WD8zT0d6i+6
+   ViUrn2n97oBsBBHlhhYZPL9OlRz5q3RSbGKYyQyiIjdPHugTIwrDkWO07
+   Azt5QDahffCXgLrFZ7SHIa1H7IoxDrlZGCROVT9MippZe634jkKaVw2mF
+   QangNfquMCYc68vegN97ZSb4CVUmd83V74DE8OvXaFz6K6xTWGDEQAKH9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="355502925"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="355502925"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 07:18:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="642457124"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="642457124"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 01 Feb 2023 07:18:31 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNEsY-0005Wv-1m;
+	Wed, 01 Feb 2023 15:18:30 +0000
+Date: Wed, 1 Feb 2023 23:18:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+	krzysztof.kozlowski+dt@linaro.org, agross@kernel.org,
+	andersson@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+	robh+dt@kernel.org, quic_plai@quicinc.com, bgoswami@quicinc.com,
+	srinivas.kandagatla@linaro.org, quic_rohkumar@quicinc.com,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, swboyd@chromium.org,
+	judyhsiao@chromium.org, devicetree@vger.kernel.org,
+	konrad.dybcio@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: Re: [PATCH 04/14] ASoC: q6dsp: audioreach: Add support for compress
+ offload commands
+Message-ID: <202302012309.BtyJn8FN-lkp@intel.com>
+References: <20230201134947.1638197-5-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230131153816.21709-1-bchihi@baylibre.com> <202302011058.17Vvc1pN-lkp@intel.com>
- <17072296-c1fb-1e82-65fd-26b448167087@linaro.org>
-In-Reply-To: <17072296-c1fb-1e82-65fd-26b448167087@linaro.org>
-From: Balsam CHIHI <bchihi@baylibre.com>
-Date: Wed, 1 Feb 2023 16:14:36 +0100
-Message-ID: <CAGuA+opm_oM-BdHgcnj09C_6oT4WSbu8-v2QnzmERUiNQD4rUQ@mail.gmail.com>
-Subject: Re: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage
- Thermal Sensor driver
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: kernel test robot <lkp@intel.com>, daniel.lezcano@linaro.org, 
-	angelogioacchino.delregno@collabora.com, rafael@kernel.org, amitk@kernel.org, 
-	rui.zhang@intel.com, matthias.bgg@gmail.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, rdunlap@infradead.org, 
-	ye.xingchen@zte.com.cn, p.zabel@pengutronix.de, oe-kbuild-all@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	devicetree@vger.kernel.org, khilman@baylibre.com, james.lo@mediatek.com, 
-	rex-bc.chen@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201134947.1638197-5-quic_mohs@quicinc.com>
 
-Hi Krzysztof,
+Hi Mohammad,
 
-On Wed, Feb 1, 2023 at 8:47 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 01/02/2023 04:09, kernel test robot wrote:
-> > Hi Balsam,
-> >
-> > Thank you for the patch! Yet something to improve:
-> >
-> >
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
-> > base:   the 4th patch of https://lore.kernel.org/r/20230124131717.128660-5-bchihi%40baylibre.com
-> > patch link:    https://lore.kernel.org/r/20230131153816.21709-1-bchihi%40baylibre.com
-> > patch subject: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage Thermal Sensor driver
-> > config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011058.17Vvc1pN-lkp@intel.com/config)
-> > compiler: s390-linux-gcc (GCC) 12.1.0
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://github.com/intel-lab-lkp/linux/commit/5646ebf6f10ff0fc60c04d8c57523f7c44526b41
-> >         git remote add linux-review https://github.com/intel-lab-lkp/linux
-> >         git fetch --no-tags linux-review UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
-> >         git checkout 5646ebf6f10ff0fc60c04d8c57523f7c44526b41
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> drivers/thermal/mediatek/lvts_thermal.c:20:10: fatal error: dt-bindings/thermal/mediatek,lvts-thermal.h: No such file or directory
-> >       20 | #include <dt-bindings/thermal/mediatek,lvts-thermal.h>
-> >          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> So here is your driver... and you decided not only to make reviewers
-> life more difficult, but also to fail all automated tools.
->
-> No, that's not how patchsets should be sent. You have here clear
-> dependency, you cannot send them separately.
+Thank you for the patch! Perhaps something to improve:
 
-I'm sorry, I'll be careful next time.
-I apologize for breaking the series.
-I will take into account the new change requests in the next full
-v13 the series.
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on next-20230201]
+[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Best regards,
-> Krzysztof
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230201134947.1638197-5-quic_mohs%40quicinc.com
+patch subject: [PATCH 04/14] ASoC: q6dsp: audioreach: Add support for compress offload commands
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302012309.BtyJn8FN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6a2982489303bcf32b927da80e4baffae58437e0
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
+        git checkout 6a2982489303bcf32b927da80e4baffae58437e0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/qcom/qdsp6/
 
-Best regards,
-Balsam
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/qcom/qdsp6/audioreach.c:1262:5: warning: no previous prototype for 'audioreach_send_u32_param' [-Wmissing-prototypes]
+    1262 | int audioreach_send_u32_param(struct q6apm *apm, struct audioreach_module *module,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/audioreach_send_u32_param +1262 sound/soc/qcom/qdsp6/audioreach.c
+
+  1261	
+> 1262	int audioreach_send_u32_param(struct q6apm *apm, struct audioreach_module *module,
+  1263				      uint32_t param_id, uint32_t param_val)
+  1264	{
+  1265		struct apm_module_param_data *param_data;
+  1266		struct gpr_pkt *pkt;
+  1267		uint32_t *param;
+  1268		int rc, payload_size;
+  1269		void *p;
+  1270	
+  1271		payload_size = sizeof(uint32_t) + APM_MODULE_PARAM_DATA_SIZE;
+  1272		p = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
+  1273		if (IS_ERR(p))
+  1274			return -ENOMEM;
+  1275	
+  1276		pkt = p;
+  1277		p = p + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
+  1278	
+  1279		param_data = p;
+  1280		param_data->module_instance_id = module->instance_id;
+  1281		param_data->error_code = 0;
+  1282		param_data->param_id = param_id;
+  1283		param_data->param_size = payload_size - APM_MODULE_PARAM_DATA_SIZE;
+  1284	
+  1285		p = p + APM_MODULE_PARAM_DATA_SIZE;
+  1286		param = p;
+  1287		*param = param_val;
+  1288		rc = q6apm_send_cmd_sync(apm, pkt, 0);
+  1289	
+  1290		kfree(pkt);
+  1291	
+  1292		return rc;
+  1293	}
+  1294	EXPORT_SYMBOL_GPL(audioreach_send_u32_param);
+  1295	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
