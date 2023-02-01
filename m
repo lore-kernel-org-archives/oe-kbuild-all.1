@@ -1,43 +1,47 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1569E882A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 20:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35308882A;
+	Wed,  1 Feb 2023 21:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675284531; x=1706820531;
+  t=1675287596; x=1706823596;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NwUCdEm+MrLvte34IFeX98qAR9ZoLwGjhN4HkK3VoXM=;
-  b=QRJUwe8xUMI6sgjzfcek6gY/lNeESd/GyqropS+F3CnSNtmablWkkQqX
-   h7kufdZWJWW435qovwL2Dc0x3z2DxKfVOcQA2SBLLqjnJ+iK0V4Fn+bNe
-   b1xWGzE42dqIeDs/rDLY4bFo7h/PmwGjV3FBodtcJ9MjN/Bd8KXG1yZ9D
-   E5xFBC5prnrMkaBI0BCjEbs0KZIgZus9O7Uwt/xmGAMg4LPzVEcuQ6M/+
-   /78SlqOBjFukLSaKr2ZH7aPWC3broAt8yOfUMMhBCjZ5ZiSuNQWXP4REi
-   NS74uOMh4N/bY3GYZNptnxNbil+M7s0TpFL2ciQ+9bjYCd874y0NRhQbP
+  bh=E349jM/kwjl5HlI8qq0f7Mh0xl5qabzrVNPAGr8GscQ=;
+  b=c+Bef0z95Yc/ubBjjwkD/Sl0rhk6ShTy9TI+l+262bT4l1iBq5LDpX1n
+   jxeggZB3MSVMYoh7wDTk81h6h/O80bJmi+c1lKsgCqhpfRdZLGBNuST0w
+   JqwyOeY3K45Uf5qk637Gv4B4GdfX7DL78jPMERkUUpeYfUyiq6ZVMOAQx
+   ODzXKuAROy7LpIHtmveRX9Q4uWX5CeJ+8WH9b5a+2SgT3pHg8VQEGvrPW
+   txj/X4dljBiWBhlBdRj+j/RcWud2FxgdduI+AYVh3p1Trq01e/3qDhRPx
+   SMw2Y2UBoliu0kymjMfDJ+l5pQD2yPeXI1GB7CCJ7FeLN3Uf3K5xGAqWD
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316270989"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308624047"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="316270989"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 12:48:50 -0800
+   d="scan'208";a="308624047"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:39:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="773581055"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="614998243"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="773581055"
+   d="scan'208";a="614998243"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Feb 2023 12:48:49 -0800
+  by orsmga003.jf.intel.com with ESMTP; 01 Feb 2023 13:39:51 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNK2C-0005nM-2V;
-	Wed, 01 Feb 2023 20:48:48 +0000
-Date: Thu, 2 Feb 2023 04:48:07 +0800
+	id 1pNKpa-0005pm-1X;
+	Wed, 01 Feb 2023 21:39:50 +0000
+Date: Thu, 2 Feb 2023 05:39:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7] module: replace module_layout with module_memory
-Message-ID: <202302020405.o3ufOxHl-lkp@intel.com>
-References: <20230201184422.2932156-1-song@kernel.org>
+To: mingzhe.zou@easystack.cn, colyli@suse.de,
+	andrea.tomassetti-opensource@devo.com, bcache@lists.ewheeler.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kent.overstreet@gmail.com, linux-bcache@vger.kernel.org,
+	zoumingzhe@qq.com, Dongsheng Yang <dongsheng.yang@easystack.cn>,
+	mingzhe <mingzhe.zou@easystack.cn>
+Subject: Re: [PATCH 3/3] bcache: support overlay bcache
+Message-ID: <202302020507.y0NPeWHf-lkp@intel.com>
+References: <20230201065202.17610-3-mingzhe.zou@easystack.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,91 +50,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201184422.2932156-1-song@kernel.org>
+In-Reply-To: <20230201065202.17610-3-mingzhe.zou@easystack.cn>
 
-Hi Song,
+Hi,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on mcgrof/modules-next]
-[also build test WARNING on tip/x86/core arm64/for-next/core deller-parisc/for-next powerpc/next powerpc/fixes s390/features linus/master v6.2-rc6]
-[cannot apply to hch-configfs/for-next vgupta-arc/for-next vgupta-arc/for-curr]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc6 next-20230201]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/module-replace-module_layout-with-module_memory/20230202-024537
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-patch link:    https://lore.kernel.org/r/20230201184422.2932156-1-song%40kernel.org
-patch subject: [PATCH v7] module: replace module_layout with module_memory
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302020405.o3ufOxHl-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230201-145421
+patch link:    https://lore.kernel.org/r/20230201065202.17610-3-mingzhe.zou%40easystack.cn
+patch subject: [PATCH 3/3] bcache: support overlay bcache
+config: riscv-randconfig-r042-20230130 (https://download.01.org/0day-ci/archive/20230202/202302020507.y0NPeWHf-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/570cd7f4fdd5c3f5a642609730e9b9ca6db669f3
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/785b6ea709e3008e2df009d5555c80db709e6d5f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Song-Liu/module-replace-module_layout-with-module_memory/20230202-024537
-        git checkout 570cd7f4fdd5c3f5a642609730e9b9ca6db669f3
+        git fetch --no-tags linux-review mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230201-145421
+        git checkout 785b6ea709e3008e2df009d5555c80db709e6d5f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/ kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/powerpc/kernel/module_32.c: In function 'do_plt_call':
->> arch/powerpc/kernel/module_32.c:166:32: warning: passing argument 1 of 'within_module_init' makes integer from pointer without a cast [-Wint-conversion]
-     166 |         if (within_module_init(location, mod))
-         |                                ^~~~~~~~
-         |                                |
-         |                                void *
-   In file included from arch/powerpc/kernel/module_32.c:9:
-   include/linux/module.h:622:53: note: expected 'long unsigned int' but argument is of type 'void *'
-     622 | static inline bool within_module_init(unsigned long addr,
-         |                                       ~~~~~~~~~~~~~~^~~~
+>> drivers/md/bcache/super.c:1475:34: error: call to undeclared function 'part_to_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                           ^
+   drivers/md/bcache/super.c:1475:62: error: member reference type 'int' is not a pointer
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   drivers/md/bcache/super.c:1475:52: error: no member named 'bd_part' in 'struct block_device'
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                                       ~~~~  ^
+   drivers/md/bcache/super.c:2403:34: error: call to undeclared function 'part_to_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                           ^
+   drivers/md/bcache/super.c:2403:62: error: member reference type 'int' is not a pointer
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   drivers/md/bcache/super.c:2403:52: error: no member named 'bd_part' in 'struct block_device'
+           ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+                                                       ~~~~  ^
+   6 errors generated.
 
 
-vim +/within_module_init +166 arch/powerpc/kernel/module_32.c
+vim +/part_to_dev +1475 drivers/md/bcache/super.c
 
-   155	
-   156	/* Set up a trampoline in the PLT to bounce us to the distant function */
-   157	static uint32_t do_plt_call(void *location,
-   158				    Elf32_Addr val,
-   159				    const Elf32_Shdr *sechdrs,
-   160				    struct module *mod)
-   161	{
-   162		struct ppc_plt_entry *entry;
-   163	
-   164		pr_debug("Doing plt for call to 0x%x at 0x%x\n", val, (unsigned int)location);
-   165		/* Init, or core PLT? */
- > 166		if (within_module_init(location, mod))
-   167			entry = (void *)sechdrs[mod->arch.core_plt_section].sh_addr;
-   168		else
-   169			entry = (void *)sechdrs[mod->arch.init_plt_section].sh_addr;
-   170	
-   171		/* Find this entry, or if that fails, the next avail. entry */
-   172		while (entry->jump[0]) {
-   173			if (entry_matches(entry, val)) return (uint32_t)entry;
-   174			entry++;
-   175		}
-   176	
-   177		if (patch_instruction(&entry->jump[0], ppc_inst(PPC_RAW_LIS(_R12, PPC_HA(val)))))
-   178			return 0;
-   179		if (patch_instruction(&entry->jump[1], ppc_inst(PPC_RAW_ADDI(_R12, _R12, PPC_LO(val)))))
-   180			return 0;
-   181		if (patch_instruction(&entry->jump[2], ppc_inst(PPC_RAW_MTCTR(_R12))))
-   182			return 0;
-   183		if (patch_instruction(&entry->jump[3], ppc_inst(PPC_RAW_BCTR())))
-   184			return 0;
-   185	
-   186		pr_debug("Initialized plt for 0x%x at %p\n", val, entry);
-   187		return (uint32_t)entry;
-   188	}
-   189	
+  1453	
+  1454	static int register_bdev(struct cache_sb *sb, struct cache_sb_disk *sb_disk,
+  1455					 struct block_device *bdev,
+  1456					 struct cached_dev *dc)
+  1457	{
+  1458		const char *err = "cannot allocate memory";
+  1459		struct cache_set *c;
+  1460		int ret = -ENOMEM;
+  1461	
+  1462		memcpy(&dc->sb, sb, sizeof(struct cache_sb));
+  1463		dc->bdev = bdev;
+  1464		dc->bdev->bd_holder = dc;
+  1465		dc->sb_disk = sb_disk;
+  1466	
+  1467		if (cached_dev_init(dc, sb->block_size << 9))
+  1468			goto err;
+  1469	
+  1470		err = "error creating kobject";
+  1471		if (kobject_add(&dc->disk.kobj, bdev_kobj(bdev), "bcache_bdev"))
+  1472			goto err;
+  1473	
+  1474		err = "error creating lagacy sysfs link";
+> 1475		ret = sysfs_create_link_nowarn(&part_to_dev(bdev->bd_part)->kobj,
+  1476					       &dc->disk.kobj, "bcache");
+  1477		if (ret && ret != -EEXIST) {
+  1478			pr_err("Couldn't create lagacy disk sysfs ->bcache");
+  1479			goto err;
+  1480		}
+  1481	
+  1482		if (bch_cache_accounting_add_kobjs(&dc->accounting, &dc->disk.kobj))
+  1483			goto err;
+  1484	
+  1485		pr_info("registered backing device %pg\n", dc->bdev);
+  1486	
+  1487		list_add(&dc->list, &uncached_devices);
+  1488		/* attach to a matched cache set if it exists */
+  1489		list_for_each_entry(c, &bch_cache_sets, list)
+  1490			bch_cached_dev_attach(dc, c, NULL);
+  1491	
+  1492		if (BDEV_STATE(&dc->sb) == BDEV_STATE_NONE ||
+  1493		    BDEV_STATE(&dc->sb) == BDEV_STATE_STALE) {
+  1494			err = "failed to run cached device";
+  1495			ret = bch_cached_dev_run(dc);
+  1496			if (ret)
+  1497				goto err;
+  1498		}
+  1499	
+  1500		return 0;
+  1501	err:
+  1502		pr_notice("error %pg: %s\n", dc->bdev, err);
+  1503		bcache_device_stop(&dc->disk);
+  1504		return ret;
+  1505	}
+  1506	
 
 -- 
 0-DAY CI Kernel Test Service
