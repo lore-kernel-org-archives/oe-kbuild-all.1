@@ -1,264 +1,113 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209B080F;
-	Wed,  1 Feb 2023 07:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675236496; x=1706772496;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NVZy1yN3menuLCDwawETeI1gdhzzBc96J45uZDahNK8=;
-  b=KM3L3HxK5ehvMu8mlp/40Sdv//ldt9o1tHY5ED5GUec9aUTGXxrZRn6O
-   BhZ62c/9GHzpurIsUqi9Mfp2yp6n36zSpPvpjwWuT+AbGhLlVqn5tDxye
-   iVFhhGjGfxJLXD2jryZzLq1JMRZuxZijzdIU5ELO4mekwoqBaisqyoLi5
-   xVqOp0iXEoc0ugS4dU+kUcWzVKF4kf1tVrXcMC3bZPnyul6XoyMKQ16FX
-   Cq/xlT/CJUkBQXlxSuWOS6pLPJFY0h++2pFhByqKEd/rinpm/ta/8ZC42
-   bNgnMQ17LRPwxypGnZzSncFNINPSU8B2movNswJE7COlCmJpEe0UZvYbb
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="392650522"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="392650522"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 23:28:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="666822957"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="666822957"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 31 Jan 2023 23:28:13 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pN7XQ-0005D8-1P;
-	Wed, 01 Feb 2023 07:28:12 +0000
-Date: Wed, 1 Feb 2023 15:27:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	mhiramat@kernel.org, Florent Revest <revest@chromium.org>,
-	Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing
- function entry and exit.
-Message-ID: <202302011530.7vm4O8Ro-lkp@intel.com>
-References: <167518178446.336834.4654027409699647726.stgit@mhiramat.roam.corp.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B05680F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 07:47:47 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id m14so15936196wrg.13
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 23:47:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BOAVtoDyGjZY+SIS62M9gmEfmVp9hRVMK35KqE9GNqU=;
+        b=yC6P8rtKjMfxlizxYDpk/d0n8PxtFwRcGFMaE/6ViJqIJOj/ZHYf3WLGPgGl8ysq4a
+         9swcZrxrknGTH151pyA9IrCK7HPQUL0v0KNlojJl1fnTWRqqGmesLejCsdamaiiPCpux
+         rlXTfZD5lOwZA9WXaPe+CBBfaee1rr8mbsNM4aup2KO2LFd8HWOAkYXMfzOMcFMQax/t
+         XZvdqqYRtnJLyRn5D7q/4qDlIdJEj1KzoM4jjFFhwNje9X7+w+TKN0oCQaYWMdG1m1nb
+         BumzLKtdCVc66ch0kTVrWTCH5pedCpmkwU+/IeLIRtSMeHGWUu7dq79p/j+AKnOsbqcX
+         r/qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOAVtoDyGjZY+SIS62M9gmEfmVp9hRVMK35KqE9GNqU=;
+        b=gJTHFINW+LHeLxTBuPuCzui+nDZKH/dXSGQZRZgDCPkuEaFaZrWDmzWJiZPcMu2pxr
+         hZI/CxWBg6vxKiLRuSnFz5MAHZPtfg+FgLuxHxFFpQf+v9Q2XHAXF6QTwJAUKQ8UkXnS
+         4/6ILatk2bo5akAgEiUFeh+yOR8YT6ChkTqRYUsnGIX+6jGUIZW/StMHn15IvqOSN//i
+         46FT0igYocBlwJ9VkwBIjY0AMDZLNx55ST8Onnpwdge6LohNiJjOWCpkmXXzM3ER0eec
+         H0DCwM2Txthm4lpl04kKCYmg9xhcQemoNLF8FWa407oW850ov5oFTwbOkEAtqkhk143T
+         rCbw==
+X-Gm-Message-State: AO0yUKV+e7ZIB7C2A10KrskxfKfJLIbe0/0yDezeXpDoa2bbnVrQJJ6V
+	eeZ8UJ3+P85qWv9apTMjdZRKLw==
+X-Google-Smtp-Source: AK7set8nqFHJYo7a4eebozO/03eyo/4ffYBLaond3yaQAHgnPDfYSecbma2ZGvil1SD9M2ZBXsqNJQ==
+X-Received: by 2002:a5d:6906:0:b0:2bf:b7e3:7c82 with SMTP id t6-20020a5d6906000000b002bfb7e37c82mr1277533wru.57.1675237666253;
+        Tue, 31 Jan 2023 23:47:46 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id e10-20020a5d500a000000b002be0b1e556esm16331729wrt.59.2023.01.31.23.47.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Jan 2023 23:47:45 -0800 (PST)
+Message-ID: <17072296-c1fb-1e82-65fd-26b448167087@linaro.org>
+Date: Wed, 1 Feb 2023 08:47:43 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <167518178446.336834.4654027409699647726.stgit@mhiramat.roam.corp.google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage
+ Thermal Sensor driver
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, bchihi@baylibre.com,
+ daniel.lezcano@linaro.org, angelogioacchino.delregno@collabora.com,
+ rafael@kernel.org, amitk@kernel.org, rui.zhang@intel.com,
+ matthias.bgg@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, rdunlap@infradead.org,
+ ye.xingchen@zte.com.cn, p.zabel@pengutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ khilman@baylibre.com, james.lo@mediatek.com, rex-bc.chen@mediatek.com
+References: <20230131153816.21709-1-bchihi@baylibre.com>
+ <202302011058.17Vvc1pN-lkp@intel.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <202302011058.17Vvc1pN-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Masami,
+On 01/02/2023 04:09, kernel test robot wrote:
+> Hi Balsam,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> 
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+> base:   the 4th patch of https://lore.kernel.org/r/20230124131717.128660-5-bchihi%40baylibre.com
+> patch link:    https://lore.kernel.org/r/20230131153816.21709-1-bchihi%40baylibre.com
+> patch subject: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage Thermal Sensor driver
+> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011058.17Vvc1pN-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/5646ebf6f10ff0fc60c04d8c57523f7c44526b41
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+>         git checkout 5646ebf6f10ff0fc60c04d8c57523f7c44526b41
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> drivers/thermal/mediatek/lvts_thermal.c:20:10: fatal error: dt-bindings/thermal/mediatek,lvts-thermal.h: No such file or directory
+>       20 | #include <dt-bindings/thermal/mediatek,lvts-thermal.h>
+>          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Thank you for the patch! Perhaps something to improve:
+So here is your driver... and you decided not only to make reviewers
+life more difficult, but also to fail all automated tools.
 
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master shuah-kselftest/next shuah-kselftest/fixes linus/master v6.2-rc6]
-[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+No, that's not how patchsets should be sent. You have here clear
+dependency, you cannot send them separately.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/167518178446.336834.4654027409699647726.stgit%40mhiramat.roam.corp.google.com
-patch subject: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing function entry and exit.
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230201/202302011530.7vm4O8Ro-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/90de2b114484f12e2645d2beb964b7d230c9c705
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
-        git checkout 90de2b114484f12e2645d2beb964b7d230c9c705
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
+Best regards,
+Krzysztof
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> kernel/trace/trace_probe.c:394:32: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
-                   if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
-                                                ^  ~~~~~~~~~~~~~~~
-   kernel/trace/trace_probe.c:394:32: note: use '|' for a bitwise operation
-                   if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
-                                                ^~
-                                                |
-   1 warning generated.
-
-
-vim +394 kernel/trace/trace_probe.c
-
-   374	
-   375	/* Recursive argument parser */
-   376	static int
-   377	parse_probe_arg(char *arg, const struct fetch_type *type,
-   378			struct fetch_insn **pcode, struct fetch_insn *end,
-   379			unsigned int flags, int offs)
-   380	{
-   381		struct fetch_insn *code = *pcode;
-   382		unsigned long param;
-   383		int deref = FETCH_OP_DEREF;
-   384		long offset = 0;
-   385		char *tmp;
-   386		int ret = 0;
-   387	
-   388		switch (arg[0]) {
-   389		case '$':
-   390			ret = parse_probe_vars(arg + 1, type, code, flags, offs);
-   391			break;
-   392	
-   393		case '%':	/* named register */
- > 394			if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
-   395				/* eprobe and fprobe do not handle registers */
-   396				trace_probe_log_err(offs, BAD_VAR);
-   397				break;
-   398			}
-   399			ret = regs_query_register_offset(arg + 1);
-   400			if (ret >= 0) {
-   401				code->op = FETCH_OP_REG;
-   402				code->param = (unsigned int)ret;
-   403				ret = 0;
-   404			} else
-   405				trace_probe_log_err(offs, BAD_REG_NAME);
-   406			break;
-   407	
-   408		case '@':	/* memory, file-offset or symbol */
-   409			if (isdigit(arg[1])) {
-   410				ret = kstrtoul(arg + 1, 0, &param);
-   411				if (ret) {
-   412					trace_probe_log_err(offs, BAD_MEM_ADDR);
-   413					break;
-   414				}
-   415				/* load address */
-   416				code->op = FETCH_OP_IMM;
-   417				code->immediate = param;
-   418			} else if (arg[1] == '+') {
-   419				/* kprobes don't support file offsets */
-   420				if (flags & TPARG_FL_KERNEL) {
-   421					trace_probe_log_err(offs, FILE_ON_KPROBE);
-   422					return -EINVAL;
-   423				}
-   424				ret = kstrtol(arg + 2, 0, &offset);
-   425				if (ret) {
-   426					trace_probe_log_err(offs, BAD_FILE_OFFS);
-   427					break;
-   428				}
-   429	
-   430				code->op = FETCH_OP_FOFFS;
-   431				code->immediate = (unsigned long)offset;  // imm64?
-   432			} else {
-   433				/* uprobes don't support symbols */
-   434				if (!(flags & TPARG_FL_KERNEL)) {
-   435					trace_probe_log_err(offs, SYM_ON_UPROBE);
-   436					return -EINVAL;
-   437				}
-   438				/* Preserve symbol for updating */
-   439				code->op = FETCH_NOP_SYMBOL;
-   440				code->data = kstrdup(arg + 1, GFP_KERNEL);
-   441				if (!code->data)
-   442					return -ENOMEM;
-   443				if (++code == end) {
-   444					trace_probe_log_err(offs, TOO_MANY_OPS);
-   445					return -EINVAL;
-   446				}
-   447				code->op = FETCH_OP_IMM;
-   448				code->immediate = 0;
-   449			}
-   450			/* These are fetching from memory */
-   451			if (++code == end) {
-   452				trace_probe_log_err(offs, TOO_MANY_OPS);
-   453				return -EINVAL;
-   454			}
-   455			*pcode = code;
-   456			code->op = FETCH_OP_DEREF;
-   457			code->offset = offset;
-   458			break;
-   459	
-   460		case '+':	/* deref memory */
-   461		case '-':
-   462			if (arg[1] == 'u') {
-   463				deref = FETCH_OP_UDEREF;
-   464				arg[1] = arg[0];
-   465				arg++;
-   466			}
-   467			if (arg[0] == '+')
-   468				arg++;	/* Skip '+', because kstrtol() rejects it. */
-   469			tmp = strchr(arg, '(');
-   470			if (!tmp) {
-   471				trace_probe_log_err(offs, DEREF_NEED_BRACE);
-   472				return -EINVAL;
-   473			}
-   474			*tmp = '\0';
-   475			ret = kstrtol(arg, 0, &offset);
-   476			if (ret) {
-   477				trace_probe_log_err(offs, BAD_DEREF_OFFS);
-   478				break;
-   479			}
-   480			offs += (tmp + 1 - arg) + (arg[0] != '-' ? 1 : 0);
-   481			arg = tmp + 1;
-   482			tmp = strrchr(arg, ')');
-   483			if (!tmp) {
-   484				trace_probe_log_err(offs + strlen(arg),
-   485						    DEREF_OPEN_BRACE);
-   486				return -EINVAL;
-   487			} else {
-   488				const struct fetch_type *t2 = find_fetch_type(NULL, flags);
-   489	
-   490				*tmp = '\0';
-   491				ret = parse_probe_arg(arg, t2, &code, end, flags, offs);
-   492				if (ret)
-   493					break;
-   494				if (code->op == FETCH_OP_COMM ||
-   495				    code->op == FETCH_OP_DATA) {
-   496					trace_probe_log_err(offs, COMM_CANT_DEREF);
-   497					return -EINVAL;
-   498				}
-   499				if (++code == end) {
-   500					trace_probe_log_err(offs, TOO_MANY_OPS);
-   501					return -EINVAL;
-   502				}
-   503				*pcode = code;
-   504	
-   505				code->op = deref;
-   506				code->offset = offset;
-   507			}
-   508			break;
-   509		case '\\':	/* Immediate value */
-   510			if (arg[1] == '"') {	/* Immediate string */
-   511				ret = __parse_imm_string(arg + 2, &tmp, offs + 2);
-   512				if (ret)
-   513					break;
-   514				code->op = FETCH_OP_DATA;
-   515				code->data = tmp;
-   516			} else {
-   517				ret = str_to_immediate(arg + 1, &code->immediate);
-   518				if (ret)
-   519					trace_probe_log_err(offs + 1, BAD_IMM);
-   520				else
-   521					code->op = FETCH_OP_IMM;
-   522			}
-   523			break;
-   524		}
-   525		if (!ret && code->op == FETCH_OP_NOP) {
-   526			/* Parsed, but do not find fetch method */
-   527			trace_probe_log_err(offs, BAD_FETCH_ARG);
-   528			ret = -EINVAL;
-   529		}
-   530		return ret;
-   531	}
-   532	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
