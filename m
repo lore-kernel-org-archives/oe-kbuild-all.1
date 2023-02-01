@@ -1,44 +1,53 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B570663B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 16:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D3E63B3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 16:11:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675267859; x=1706803859;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dWSY9fEBL/ggeoC893bZr3NSrJvYj++33stbG0a2AUQ=;
-  b=ZLbX9p44WiAL/x6TvN+cuo/tV1S4yNMZaiW/GDuYV3LhEINHMctqJwAu
-   tHiuFcAW3yVafsNPn1R+8hhrwfXFp86DZ+wRipTOTGhy/5G95+Xmsetj1
-   KpRHGR+segGt5PB3mGRRqokhcsU1ovENpHdanYWO48lMmne2bRxkYPGsl
-   +Zvvtvc8hBltVuph3S+nac6sQQzNV0PCBlMM9/R5pKiIXeprI0ogmZiOU
-   zHOXuIZvo/KGBHjFIPw8jsBQITfH8dvF7/YrvOW8pODa/qJPiWhvIbBDL
-   fk8jzcf0cFWe/ZTjppzWFkEnpLEVfMApL7w4dizsNBouFLAgeSbZTpR8B
+  t=1675267889; x=1706803889;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1WRzhheT0far4uWXe5/27l5EWuUFvZB4LXQCLYYjMl4=;
+  b=a1tHRK2ptw5CFpt8vjvczBweJ7gou26iszdkKK4Rw4SSwUpy+KT5FkNN
+   N1EqSr0q32UuOTF1binOMsbp5Y17lz/7o++53ZhX+vQCdb6q6Nm6Ab8DW
+   weoUgBNycR0rjeSovLasNrL+c81GMOGoZroLkFpj+yJTlNUOkz2JxHQ+u
+   bF9sGWVqnXPNKlR47kCgdAsmGqNGGT5fHUCObNL+1hN7D1NX+30p4nLWc
+   cQuLTING77PbEY8GQoD9c7AomzSwAKIsaGrcMlb3sPqTKUXcOU6K51MdJ
+   uhLgPMwSDEQNR2kYYjRbK8CICjV/COrtSMIhPd0V//A/03O/hXQrRhGxW
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330319885"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="392762615"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="330319885"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 08:10:38 -0800
+   d="scan'208";a="392762615"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 08:10:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="658369621"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="664918209"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="658369621"
+   d="scan'208";a="664918209"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 01 Feb 2023 08:10:33 -0800
+  by orsmga002.jf.intel.com with ESMTP; 01 Feb 2023 08:10:33 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNFgu-0005Z9-2p;
+	id 1pNFgu-0005Z7-2i;
 	Wed, 01 Feb 2023 16:10:32 +0000
-Date: Thu, 2 Feb 2023 00:09:42 +0800
+Date: Thu, 2 Feb 2023 00:09:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gaosheng Cui <cuigaosheng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-stable-rc:queue/4.19 2/66]
- drivers/memory/mvebu-devbus.c:297:15: error: implicit declaration of
- function 'devm_clk_get_enabled'
-Message-ID: <202302020048.ZsmUJDHo-lkp@intel.com>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+	krzysztof.kozlowski+dt@linaro.org, agross@kernel.org,
+	andersson@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+	robh+dt@kernel.org, quic_plai@quicinc.com, bgoswami@quicinc.com,
+	srinivas.kandagatla@linaro.org, quic_rohkumar@quicinc.com,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, swboyd@chromium.org,
+	judyhsiao@chromium.org, devicetree@vger.kernel.org,
+	konrad.dybcio@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: Re: [PATCH 08/14] ASoC: q6dsp: q6apm-dai: Add open/free compress DAI
+ callbacks
+Message-ID: <202302012337.pC5Q3lLy-lkp@intel.com>
+References: <20230201134947.1638197-9-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,104 +56,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230201134947.1638197-9-quic_mohs@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
-head:   923e939ad273761d537bc8b4e314e7fbac1d975d
-commit: b02522d25ad5cbfe50424dd99a85f5486f407fa6 [2/66] memory: mvebu-devbus: Fix missing clk_disable_unprepare in mvebu_devbus_probe()
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230202/202302020048.ZsmUJDHo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Mohammad,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on next-20230201]
+[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230201134947.1638197-9-quic_mohs%40quicinc.com
+patch subject: [PATCH 08/14] ASoC: q6dsp: q6apm-dai: Add open/free compress DAI callbacks
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302012337.pC5Q3lLy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=b02522d25ad5cbfe50424dd99a85f5486f407fa6
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/4.19
-        git checkout b02522d25ad5cbfe50424dd99a85f5486f407fa6
+        # https://github.com/intel-lab-lkp/linux/commit/78a6016e006a8e405679fd335940ee710416c43f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mohammad-Rafi-Shaik/ALSA-compress-Update-compress-set-params-for-gapless-playback/20230201-215622
+        git checkout 78a6016e006a8e405679fd335940ee710416c43f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/qcom/qdsp6/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/memory/mvebu-devbus.c: In function 'mvebu_devbus_probe':
->> drivers/memory/mvebu-devbus.c:297:15: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
-     297 |         clk = devm_clk_get_enabled(&pdev->dev, NULL);
-         |               ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/mvebu-devbus.c:297:13: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     297 |         clk = devm_clk_get_enabled(&pdev->dev, NULL);
-         |             ^
-   cc1: some warnings being treated as errors
+>> sound/soc/qcom/qdsp6/q6apm-dai.c:135:6: warning: no previous prototype for 'event_handler_compr' [-Wmissing-prototypes]
+     135 | void event_handler_compr(uint32_t opcode, uint32_t token,
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/devm_clk_get_enabled +297 drivers/memory/mvebu-devbus.c
+vim +/event_handler_compr +135 sound/soc/qcom/qdsp6/q6apm-dai.c
 
-   274	
-   275	static int mvebu_devbus_probe(struct platform_device *pdev)
-   276	{
-   277		struct device *dev = &pdev->dev;
-   278		struct device_node *node = pdev->dev.of_node;
-   279		struct devbus_read_params r;
-   280		struct devbus_write_params w;
-   281		struct devbus *devbus;
-   282		struct resource *res;
-   283		struct clk *clk;
-   284		unsigned long rate;
-   285		int err;
-   286	
-   287		devbus = devm_kzalloc(&pdev->dev, sizeof(struct devbus), GFP_KERNEL);
-   288		if (!devbus)
-   289			return -ENOMEM;
-   290	
-   291		devbus->dev = dev;
-   292		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   293		devbus->base = devm_ioremap_resource(&pdev->dev, res);
-   294		if (IS_ERR(devbus->base))
-   295			return PTR_ERR(devbus->base);
-   296	
- > 297		clk = devm_clk_get_enabled(&pdev->dev, NULL);
-   298		if (IS_ERR(clk))
-   299			return PTR_ERR(clk);
-   300	
-   301		/*
-   302		 * Obtain clock period in picoseconds,
-   303		 * we need this in order to convert timing
-   304		 * parameters from cycles to picoseconds.
-   305		 */
-   306		rate = clk_get_rate(clk) / 1000;
-   307		devbus->tick_ps = 1000000000 / rate;
-   308	
-   309		dev_dbg(devbus->dev, "Setting timing parameter, tick is %lu ps\n",
-   310			devbus->tick_ps);
-   311	
-   312		if (!of_property_read_bool(node, "devbus,keep-config")) {
-   313			/* Read the Device Tree node */
-   314			err = devbus_get_timing_params(devbus, node, &r, &w);
-   315			if (err < 0)
-   316				return err;
-   317	
-   318			/* Set the new timing parameters */
-   319			if (of_device_is_compatible(node, "marvell,orion-devbus"))
-   320				devbus_orion_set_timing_params(devbus, node, &r, &w);
-   321			else
-   322				devbus_armada_set_timing_params(devbus, node, &r, &w);
-   323		}
-   324	
-   325		/*
-   326		 * We need to create a child device explicitly from here to
-   327		 * guarantee that the child will be probed after the timing
-   328		 * parameters for the bus are written.
-   329		 */
-   330		err = of_platform_populate(node, NULL, NULL, dev);
-   331		if (err < 0)
-   332			return err;
-   333	
-   334		return 0;
-   335	}
-   336	
+   134	
+ > 135	void event_handler_compr(uint32_t opcode, uint32_t token,
+   136					uint32_t *payload, void *priv)
+   137	{
+   138		struct q6apm_dai_rtd *prtd = priv;
+   139		struct snd_compr_stream *substream = prtd->cstream;
+   140		unsigned long flags;
+   141		uint32_t wflags = 0;
+   142		uint64_t avail;
+   143		uint32_t bytes_written, bytes_to_write;
+   144		bool is_last_buffer = false;
+   145	
+   146		switch (opcode) {
+   147		case APM_CLIENT_EVENT_CMD_EOS_DONE:
+   148			spin_lock_irqsave(&prtd->lock, flags);
+   149			if (prtd->notify_on_drain) {
+   150				snd_compr_drain_notify(prtd->cstream);
+   151				prtd->notify_on_drain = false;
+   152			} else {
+   153				prtd->state = Q6APM_STREAM_STOPPED;
+   154			}
+   155			spin_unlock_irqrestore(&prtd->lock, flags);
+   156			break;
+   157		case APM_CLIENT_EVENT_DATA_WRITE_DONE:
+   158			spin_lock_irqsave(&prtd->lock, flags);
+   159			bytes_written = token >> APM_WRITE_TOKEN_LEN_SHIFT;
+   160			prtd->copied_total += bytes_written;
+   161			snd_compr_fragment_elapsed(substream);
+   162	
+   163			if (prtd->state != Q6APM_STREAM_RUNNING) {
+   164				spin_unlock_irqrestore(&prtd->lock, flags);
+   165				break;
+   166			}
+   167	
+   168			avail = prtd->bytes_received - prtd->bytes_sent;
+   169	
+   170			if (avail > prtd->pcm_count) {
+   171				bytes_to_write = prtd->pcm_count;
+   172			} else {
+   173				if (substream->partial_drain || prtd->notify_on_drain)
+   174					is_last_buffer = true;
+   175				bytes_to_write = avail;
+   176			}
+   177	
+   178			if (bytes_to_write) {
+   179				if (substream->partial_drain && is_last_buffer)
+   180					wflags |= APM_LAST_BUFFER_FLAG;
+   181	
+   182				q6apm_write_async_compr(prtd->graph,
+   183							bytes_to_write, 0, 0, wflags);
+   184	
+   185				prtd->bytes_sent += bytes_to_write;
+   186	
+   187				if (prtd->notify_on_drain && is_last_buffer)
+   188					audioreach_shared_memory_send_eos(prtd->graph);
+   189			}
+   190	
+   191			spin_unlock_irqrestore(&prtd->lock, flags);
+   192			break;
+   193		default:
+   194			break;
+   195		}
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
