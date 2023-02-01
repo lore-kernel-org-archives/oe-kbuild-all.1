@@ -1,55 +1,44 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DECD658
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 03:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5D7E5;
+	Wed,  1 Feb 2023 04:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675221648; x=1706757648;
+  t=1675224783; x=1706760783;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PH2OX5Teu6wMvMOs/pvq1Zt3+cHl034fiVKX4vm9w5M=;
-  b=iT3U5J9IvQIWBY0lomUt1Wat4az1/il1f6gfIQ1rfaNrjAmSzpKQWUwN
-   tR6B8Mlc8AfKIsy2yJ3Ej3YEPq+mSRME92AN6Mv/gltYipY+gWhfekl8W
-   DJv6A7TEjl4ie5JAtyPA4XYY/iQ1erunAaZ5FD9nlTYGbUHIdIOv7BRGV
-   MTb2iVGB+aRB7Ppzv9x+SosSSYAuMHXJpHaTQMKFWcB/KH3xqDlqWWHSd
-   WhrMWOx4u0pdGnqDcOqYq5vHfz2CrY2/4fHmSwKK5wJEqYJ/GBNrPgitC
-   LGu0onNG+xX7+5+C+qfTeYlcJr2dndknUuyANtlT9A5BCxMaHuA5MQwEw
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="390394174"
+  bh=AzFXkKZspu1LTGX7uHNgR84FKsqjBYy1uQUuqwlv2SM=;
+  b=Bm6vnsy7RbDTaQh8oTxSWWgEVblTT88mg7Dr2q0urZcfu9rUHLOODHZd
+   gk6ZPJumqjKUNB6SOE+Pz+ZElRRDFWl7EHbDBJtltl5aryNxRsGs/vWAl
+   ZZ0i40ZRQu9foBcB2I9TZveqdAB6DTh6emEX2t9+2QZJErRadYmdr4DnY
+   T9KmSg5nPVcSmpGgX72i9v0vRmJwJQs34qI0Aed1iXZ7hGMF0jVe/M75+
+   l+A/wdXc2q3yexa2QSe5LTo2FMd+v76vNgtFQkmDNh90w9ZWNPlyup6SI
+   8iZHL07aOLtcMHzB6/WBMG3ADYyb5QhSqjF0hnsQDpls4vNh5Wa0h4Nsk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="390403785"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="390394174"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 19:20:47 -0800
+   d="scan'208";a="390403785"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 20:11:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910153130"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="753478700"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="910153130"
+   d="scan'208";a="753478700"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 19:20:41 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 31 Jan 2023 20:11:43 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pN3fs-0004zn-2z;
-	Wed, 01 Feb 2023 03:20:40 +0000
-Date: Wed, 1 Feb 2023 11:19:55 +0800
+	id 1pN4TG-00052w-2Y;
+	Wed, 01 Feb 2023 04:11:42 +0000
+Date: Wed, 1 Feb 2023 12:10:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <max.byungchul.park@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
-Subject: Re: [PATCH v9 07/25] dept: Apply sdt_might_sleep_{start,end}() to
- wait_for_completion()/complete()
-Message-ID: <202302011107.Qs35wciq-lkp@intel.com>
-References: <1675154394-25598-8-git-send-email-max.byungchul.park@gmail.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v9 10/16] dm-verity: consume root hash digest and
+ signature data via LSM hook
+Message-ID: <202302011153.Xnz2WjMM-lkp@intel.com>
+References: <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,103 +47,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1675154394-25598-8-git-send-email-max.byungchul.park@gmail.com>
+In-Reply-To: <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
 
-Hi Byungchul,
+Hi Fan,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc6 next-20230131]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on device-mapper-dm/for-next]
+[also build test WARNING on axboe-block/for-next lwn/docs-next linus/master v6.2-rc6 next-20230131]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
-patch link:    https://lore.kernel.org/r/1675154394-25598-8-git-send-email-max.byungchul.park%40gmail.com
-patch subject: [PATCH v9 07/25] dept: Apply sdt_might_sleep_{start,end}() to wait_for_completion()/complete()
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011107.Qs35wciq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20230131-070059
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/1675119451-23180-11-git-send-email-wufan%40linux.microsoft.com
+patch subject: [RFC PATCH v9 10/16] dm-verity: consume root hash digest and signature data via LSM hook
+config: arm64-randconfig-r025-20230130 (https://download.01.org/0day-ci/archive/20230201/202302011153.Xnz2WjMM-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4773cd9b4e467e974a08cfcd690019b170f2e123
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/f782f147bd864b6e3fc14d28daa4780a7aab80e6
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
-        git checkout 4773cd9b4e467e974a08cfcd690019b170f2e123
+        git fetch --no-tags linux-review Fan-Wu/security-add-ipe-lsm/20230131-070059
+        git checkout f782f147bd864b6e3fc14d28daa4780a7aab80e6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/scsi/qla2xxx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/qla2xxx/qla_dfs.c: In function 'qla2x00_dfs_tgt_port_database_show':
->> drivers/scsi/qla2xxx/qla_dfs.c:227:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     227 | }
-         | ^
+   In file included from drivers/md/dm-verity-target.c:19:
+>> drivers/md/dm-verity-verify-sig.h:38:5: warning: no previous prototype for function 'verity_verify_root_hash' [-Wmissing-prototypes]
+   int verity_verify_root_hash(struct block_device *bdev, const void *data,
+       ^
+   drivers/md/dm-verity-verify-sig.h:38:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int verity_verify_root_hash(struct block_device *bdev, const void *data,
+   ^
+   static 
+   1 warning generated.
 
 
-vim +227 drivers/scsi/qla2xxx/qla_dfs.c
+vim +/verity_verify_root_hash +38 drivers/md/dm-verity-verify-sig.h
 
-36c7845282eef0 Quinn Tran       2016-02-04  174  
-c423437e3ff41b Himanshu Madhani 2017-03-15  175  static int
-c423437e3ff41b Himanshu Madhani 2017-03-15  176  qla2x00_dfs_tgt_port_database_show(struct seq_file *s, void *unused)
-c423437e3ff41b Himanshu Madhani 2017-03-15  177  {
-c423437e3ff41b Himanshu Madhani 2017-03-15  178  	scsi_qla_host_t *vha = s->private;
-c423437e3ff41b Himanshu Madhani 2017-03-15  179  	struct qla_hw_data *ha = vha->hw;
-4e5a05d1ecd92c Arun Easi        2020-09-03  180  	struct gid_list_info *gid_list;
-c423437e3ff41b Himanshu Madhani 2017-03-15  181  	dma_addr_t gid_list_dma;
-c423437e3ff41b Himanshu Madhani 2017-03-15  182  	fc_port_t fc_port;
-4e5a05d1ecd92c Arun Easi        2020-09-03  183  	char *id_iter;
-c423437e3ff41b Himanshu Madhani 2017-03-15  184  	int rc, i;
-c423437e3ff41b Himanshu Madhani 2017-03-15  185  	uint16_t entries, loop_id;
-c423437e3ff41b Himanshu Madhani 2017-03-15  186  
-c423437e3ff41b Himanshu Madhani 2017-03-15  187  	seq_printf(s, "%s\n", vha->host_str);
-c423437e3ff41b Himanshu Madhani 2017-03-15  188  	gid_list = dma_alloc_coherent(&ha->pdev->dev,
-c423437e3ff41b Himanshu Madhani 2017-03-15  189  				      qla2x00_gid_list_size(ha),
-c423437e3ff41b Himanshu Madhani 2017-03-15  190  				      &gid_list_dma, GFP_KERNEL);
-c423437e3ff41b Himanshu Madhani 2017-03-15  191  	if (!gid_list) {
-83548fe2fcbb78 Quinn Tran       2017-06-02  192  		ql_dbg(ql_dbg_user, vha, 0x7018,
-c423437e3ff41b Himanshu Madhani 2017-03-15  193  		       "DMA allocation failed for %u\n",
-c423437e3ff41b Himanshu Madhani 2017-03-15  194  		       qla2x00_gid_list_size(ha));
-c423437e3ff41b Himanshu Madhani 2017-03-15  195  		return 0;
-c423437e3ff41b Himanshu Madhani 2017-03-15  196  	}
-c423437e3ff41b Himanshu Madhani 2017-03-15  197  
-c423437e3ff41b Himanshu Madhani 2017-03-15  198  	rc = qla24xx_gidlist_wait(vha, gid_list, gid_list_dma,
-c423437e3ff41b Himanshu Madhani 2017-03-15  199  				  &entries);
-c423437e3ff41b Himanshu Madhani 2017-03-15  200  	if (rc != QLA_SUCCESS)
-c423437e3ff41b Himanshu Madhani 2017-03-15  201  		goto out_free_id_list;
-c423437e3ff41b Himanshu Madhani 2017-03-15  202  
-4e5a05d1ecd92c Arun Easi        2020-09-03  203  	id_iter = (char *)gid_list;
-c423437e3ff41b Himanshu Madhani 2017-03-15  204  
-c423437e3ff41b Himanshu Madhani 2017-03-15  205  	seq_puts(s, "Port Name	Port ID		Loop ID\n");
-c423437e3ff41b Himanshu Madhani 2017-03-15  206  
-c423437e3ff41b Himanshu Madhani 2017-03-15  207  	for (i = 0; i < entries; i++) {
-4e5a05d1ecd92c Arun Easi        2020-09-03  208  		struct gid_list_info *gid =
-4e5a05d1ecd92c Arun Easi        2020-09-03  209  			(struct gid_list_info *)id_iter;
-c423437e3ff41b Himanshu Madhani 2017-03-15  210  		loop_id = le16_to_cpu(gid->loop_id);
-c423437e3ff41b Himanshu Madhani 2017-03-15  211  		memset(&fc_port, 0, sizeof(fc_port_t));
-c423437e3ff41b Himanshu Madhani 2017-03-15  212  
-c423437e3ff41b Himanshu Madhani 2017-03-15  213  		fc_port.loop_id = loop_id;
-c423437e3ff41b Himanshu Madhani 2017-03-15  214  
-c423437e3ff41b Himanshu Madhani 2017-03-15  215  		rc = qla24xx_gpdb_wait(vha, &fc_port, 0);
-c423437e3ff41b Himanshu Madhani 2017-03-15  216  		seq_printf(s, "%8phC  %02x%02x%02x  %d\n",
-c423437e3ff41b Himanshu Madhani 2017-03-15  217  			   fc_port.port_name, fc_port.d_id.b.domain,
-c423437e3ff41b Himanshu Madhani 2017-03-15  218  			   fc_port.d_id.b.area, fc_port.d_id.b.al_pa,
-c423437e3ff41b Himanshu Madhani 2017-03-15  219  			   fc_port.loop_id);
-4e5a05d1ecd92c Arun Easi        2020-09-03  220  		id_iter += ha->gid_list_info_size;
-c423437e3ff41b Himanshu Madhani 2017-03-15  221  	}
-c423437e3ff41b Himanshu Madhani 2017-03-15  222  out_free_id_list:
-c423437e3ff41b Himanshu Madhani 2017-03-15  223  	dma_free_coherent(&ha->pdev->dev, qla2x00_gid_list_size(ha),
-c423437e3ff41b Himanshu Madhani 2017-03-15  224  			  gid_list, gid_list_dma);
-c423437e3ff41b Himanshu Madhani 2017-03-15  225  
-c423437e3ff41b Himanshu Madhani 2017-03-15  226  	return 0;
-c423437e3ff41b Himanshu Madhani 2017-03-15 @227  }
-c423437e3ff41b Himanshu Madhani 2017-03-15  228  
+    37	
+  > 38	int verity_verify_root_hash(struct block_device *bdev, const void *data,
+    39				    size_t data_len, const void *sig_data,
+    40				    size_t sig_len)
+    41	{
+    42		return 0;
+    43	}
+    44	
 
 -- 
 0-DAY CI Kernel Test Service
