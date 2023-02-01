@@ -1,263 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32DA2588;
-	Wed,  1 Feb 2023 12:42:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FF2C4339B;
-	Wed,  1 Feb 2023 12:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675255372;
-	bh=0tVxqwP6J5RK2m0oIF5Emx6bU3NkR94XMmYH6CF4uN0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=C7F/d+ZJPppJsPzMmOITBjEUzwMUgB9cMJJO4lTW0ee/+7RJrpWHjrdOvx6RnFdV9
-	 uQE05KT6R48p52Hfp09r3RrRcz9WpLjwBnOShxkfs0HMbnPoUTLdt9/aAmf6mXVcKO
-	 lvXP8NtCOl+eKs8bP8s7dpAwHbZkTG60h8VaRysrzmICBDuOoOjXlfU13ke78lYTl/
-	 +cTIYqAetA8mXHPxY/KCKxGQSPMn2kcHyeRtkyFmFNQM9B8rVkNy3LUB81bxXRJwTl
-	 SHcPWDByb0ZY3vY1HquhPmHyc+H9Zq2pbKXdMuXxlubT07XhlPXj2F5V/lyyirtshA
-	 WvETGWyDf3dQw==
-Date: Wed, 1 Feb 2023 21:42:48 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Steven Rostedt
- <rostedt@goodmis.org>, Florent Revest <revest@chromium.org>, Mark Rutland
- <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing
- function entry and exit.
-Message-Id: <20230201214248.c88dbeb75018a57f03650e42@kernel.org>
-In-Reply-To: <202302011530.7vm4O8Ro-lkp@intel.com>
-References: <167518178446.336834.4654027409699647726.stgit@mhiramat.roam.corp.google.com>
-	<202302011530.7vm4O8Ro-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB02C2F32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 13:05:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675256730; x=1706792730;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1ezy7vzV4A+mQkaS59I0Os4yOVb8/Gz4isjpFiZSdb8=;
+  b=FxpJn5kVbeWQRegMNBJ55hWkNxhF9McQoYBzFyaoSKeddDjO0Mq8C8i1
+   zKRtqrHU8I4ye8ia8m/uNXDZHyVgyNYNcUcnwRbJSY2Zw9F7MOqbAFpAy
+   5gQANq5y62eQb+SBCSh+C0tJO0lKDr4C1O6MzoXxybn+Ugs8cE8lLjS8D
+   uqEo1HXuru1klnMshSLnx3o2m4oVbAQg7TrnP4onnhQudLLBbuGpZ4mc7
+   GKBRI1zGZ0Vo24gUbCOxCWzMixo1otTVRc3INYeA5BS66juoBsBFve2ZH
+   UEa254EedH5sC9ep04WTA8OKFVszI1YJfOQAGUXG/WdfOeuef1HqlHGPA
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="329426794"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="329426794"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:05:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="993685455"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="993685455"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2023 05:05:27 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNCnm-0005Ry-2J;
+	Wed, 01 Feb 2023 13:05:26 +0000
+Date: Wed, 1 Feb 2023 21:05:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jack@suse.cz, Ye Bin <yebin10@huawei.com>
+Subject: Re: [PATCH 2/5] ext4: introudce helper for jounral recover handle
+Message-ID: <202302012039.pe8277UH-lkp@intel.com>
+References: <20230201114651.4090446-3-yebin@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201114651.4090446-3-yebin@huaweicloud.com>
 
-On Wed, 1 Feb 2023 15:27:49 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Ye,
 
-> Hi Masami,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on bpf-next/master]
-> [also build test WARNING on bpf/master shuah-kselftest/next shuah-kselftest/fixes linus/master v6.2-rc6]
-> [cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/167518178446.336834.4654027409699647726.stgit%40mhiramat.roam.corp.google.com
-> patch subject: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing function entry and exit.
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230201/202302011530.7vm4O8Ro-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/90de2b114484f12e2645d2beb964b7d230c9c705
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
->         git checkout 90de2b114484f12e2645d2beb964b7d230c9c705
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/trace/trace_probe.c:394:32: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
->                    if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
->                                                 ^  ~~~~~~~~~~~~~~~
->    kernel/trace/trace_probe.c:394:32: note: use '|' for a bitwise operation
->                    if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
->                                                 ^~
->                                                 |
+Thank you for the patch! Perhaps something to improve:
 
-Oops, thanks! this is an actual bug.
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on linus/master v6.2-rc6 next-20230201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Let me fix it and update.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/jbd2-introduce-callback-for-recovery-journal/20230201-192400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230201114651.4090446-3-yebin%40huaweicloud.com
+patch subject: [PATCH 2/5] ext4: introudce helper for jounral recover handle
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302012039.pe8277UH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/316c2a97e3b3629813acbac07b6a03d836a00fa1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ye-Bin/jbd2-introduce-callback-for-recovery-journal/20230201-192400
+        git checkout 316c2a97e3b3629813acbac07b6a03d836a00fa1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/
 
-Thanks!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
->    1 warning generated.
-> 
-> 
-> vim +394 kernel/trace/trace_probe.c
-> 
->    374	
->    375	/* Recursive argument parser */
->    376	static int
->    377	parse_probe_arg(char *arg, const struct fetch_type *type,
->    378			struct fetch_insn **pcode, struct fetch_insn *end,
->    379			unsigned int flags, int offs)
->    380	{
->    381		struct fetch_insn *code = *pcode;
->    382		unsigned long param;
->    383		int deref = FETCH_OP_DEREF;
->    384		long offset = 0;
->    385		char *tmp;
->    386		int ret = 0;
->    387	
->    388		switch (arg[0]) {
->    389		case '$':
->    390			ret = parse_probe_vars(arg + 1, type, code, flags, offs);
->    391			break;
->    392	
->    393		case '%':	/* named register */
->  > 394			if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
->    395				/* eprobe and fprobe do not handle registers */
->    396				trace_probe_log_err(offs, BAD_VAR);
->    397				break;
->    398			}
->    399			ret = regs_query_register_offset(arg + 1);
->    400			if (ret >= 0) {
->    401				code->op = FETCH_OP_REG;
->    402				code->param = (unsigned int)ret;
->    403				ret = 0;
->    404			} else
->    405				trace_probe_log_err(offs, BAD_REG_NAME);
->    406			break;
->    407	
->    408		case '@':	/* memory, file-offset or symbol */
->    409			if (isdigit(arg[1])) {
->    410				ret = kstrtoul(arg + 1, 0, &param);
->    411				if (ret) {
->    412					trace_probe_log_err(offs, BAD_MEM_ADDR);
->    413					break;
->    414				}
->    415				/* load address */
->    416				code->op = FETCH_OP_IMM;
->    417				code->immediate = param;
->    418			} else if (arg[1] == '+') {
->    419				/* kprobes don't support file offsets */
->    420				if (flags & TPARG_FL_KERNEL) {
->    421					trace_probe_log_err(offs, FILE_ON_KPROBE);
->    422					return -EINVAL;
->    423				}
->    424				ret = kstrtol(arg + 2, 0, &offset);
->    425				if (ret) {
->    426					trace_probe_log_err(offs, BAD_FILE_OFFS);
->    427					break;
->    428				}
->    429	
->    430				code->op = FETCH_OP_FOFFS;
->    431				code->immediate = (unsigned long)offset;  // imm64?
->    432			} else {
->    433				/* uprobes don't support symbols */
->    434				if (!(flags & TPARG_FL_KERNEL)) {
->    435					trace_probe_log_err(offs, SYM_ON_UPROBE);
->    436					return -EINVAL;
->    437				}
->    438				/* Preserve symbol for updating */
->    439				code->op = FETCH_NOP_SYMBOL;
->    440				code->data = kstrdup(arg + 1, GFP_KERNEL);
->    441				if (!code->data)
->    442					return -ENOMEM;
->    443				if (++code == end) {
->    444					trace_probe_log_err(offs, TOO_MANY_OPS);
->    445					return -EINVAL;
->    446				}
->    447				code->op = FETCH_OP_IMM;
->    448				code->immediate = 0;
->    449			}
->    450			/* These are fetching from memory */
->    451			if (++code == end) {
->    452				trace_probe_log_err(offs, TOO_MANY_OPS);
->    453				return -EINVAL;
->    454			}
->    455			*pcode = code;
->    456			code->op = FETCH_OP_DEREF;
->    457			code->offset = offset;
->    458			break;
->    459	
->    460		case '+':	/* deref memory */
->    461		case '-':
->    462			if (arg[1] == 'u') {
->    463				deref = FETCH_OP_UDEREF;
->    464				arg[1] = arg[0];
->    465				arg++;
->    466			}
->    467			if (arg[0] == '+')
->    468				arg++;	/* Skip '+', because kstrtol() rejects it. */
->    469			tmp = strchr(arg, '(');
->    470			if (!tmp) {
->    471				trace_probe_log_err(offs, DEREF_NEED_BRACE);
->    472				return -EINVAL;
->    473			}
->    474			*tmp = '\0';
->    475			ret = kstrtol(arg, 0, &offset);
->    476			if (ret) {
->    477				trace_probe_log_err(offs, BAD_DEREF_OFFS);
->    478				break;
->    479			}
->    480			offs += (tmp + 1 - arg) + (arg[0] != '-' ? 1 : 0);
->    481			arg = tmp + 1;
->    482			tmp = strrchr(arg, ')');
->    483			if (!tmp) {
->    484				trace_probe_log_err(offs + strlen(arg),
->    485						    DEREF_OPEN_BRACE);
->    486				return -EINVAL;
->    487			} else {
->    488				const struct fetch_type *t2 = find_fetch_type(NULL, flags);
->    489	
->    490				*tmp = '\0';
->    491				ret = parse_probe_arg(arg, t2, &code, end, flags, offs);
->    492				if (ret)
->    493					break;
->    494				if (code->op == FETCH_OP_COMM ||
->    495				    code->op == FETCH_OP_DATA) {
->    496					trace_probe_log_err(offs, COMM_CANT_DEREF);
->    497					return -EINVAL;
->    498				}
->    499				if (++code == end) {
->    500					trace_probe_log_err(offs, TOO_MANY_OPS);
->    501					return -EINVAL;
->    502				}
->    503				*pcode = code;
->    504	
->    505				code->op = deref;
->    506				code->offset = offset;
->    507			}
->    508			break;
->    509		case '\\':	/* Immediate value */
->    510			if (arg[1] == '"') {	/* Immediate string */
->    511				ret = __parse_imm_string(arg + 2, &tmp, offs + 2);
->    512				if (ret)
->    513					break;
->    514				code->op = FETCH_OP_DATA;
->    515				code->data = tmp;
->    516			} else {
->    517				ret = str_to_immediate(arg + 1, &code->immediate);
->    518				if (ret)
->    519					trace_probe_log_err(offs + 1, BAD_IMM);
->    520				else
->    521					code->op = FETCH_OP_IMM;
->    522			}
->    523			break;
->    524		}
->    525		if (!ret && code->op == FETCH_OP_NOP) {
->    526			/* Parsed, but do not find fetch method */
->    527			trace_probe_log_err(offs, BAD_FETCH_ARG);
->    528			ret = -EINVAL;
->    529		}
->    530		return ret;
->    531	}
->    532	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+All warnings (new ones prefixed by >>):
 
+>> fs/ext4/ext4_jbd2.c:399:6: warning: no previous prototype for 'ext4_replay_end_callback' [-Wmissing-prototypes]
+     399 | void ext4_replay_end_callback(struct journal_s *journal)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ext4_replay_end_callback +399 fs/ext4/ext4_jbd2.c
+
+   398	
+ > 399	void ext4_replay_end_callback(struct journal_s *journal)
+   400	{
+   401		kfree(journal->j_replay_private_data);
+   402		journal->j_replay_private_data = NULL;
+   403		journal->j_replay_callback = NULL;
+   404		journal->j_replay_end_callback = NULL;
+   405	}
+   406	
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
