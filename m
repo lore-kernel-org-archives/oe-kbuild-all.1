@@ -1,174 +1,263 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8762582
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 12:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675253670; x=1706789670;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cE+cLNAyV4b6aq/dBlGT8jrUCZO9/iBOFhYmJ4u2C1I=;
-  b=VIvZ4chBjeeY4EjIEXZOAYxo9iEZO5iDrRIHouWVQE9r5jQKlz8fyp1j
-   pLcTMxsbjqjjKdp0L3b3Qa4v6Yj5O1ec8Yc5sODCElqwy4nh5d05xDGww
-   Ra0lJw4BAfRKd/JMAEqQyYQPZKSoGMFuetO+Ko+RzbuyBSrncF5KvFOQ3
-   yJFoI+mKr7ARlED2DkGaMTwtEJG5NcgIR5CzO1EWWsXC91nDN/a5oYhAI
-   u9Cjh++pdHI8MqJ9MBt6eeYaH6kYFuYc0DGCHBLnRctZ+MWna7aHSTQ6u
-   oLTuGgjKqeFay2clQatz3R5kzmw6SFTW+JIMQKl41QdLAdm7EBKUO/J3s
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="325826429"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="325826429"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 04:14:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="993670359"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="993670359"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2023 04:14:25 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNC0O-0005Po-2x;
-	Wed, 01 Feb 2023 12:14:24 +0000
-Date: Wed, 1 Feb 2023 20:14:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Clark Wang <xiaoning.wang@nxp.com>, peppe.cavallaro@st.com,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, mcoquelin.stm32@gmail.com, linux@armlinux.org.uk,
-	andrew@lunn.ch, hkallweit1@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com
-Subject: Re: [PATCH V2 1/2] net: phylink: add a function to resume phy alone
- to fix resume issue with WoL enabled
-Message-ID: <202302012009.TmS9IEE9-lkp@intel.com>
-References: <20230201103837.3258752-1-xiaoning.wang@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32DA2588;
+	Wed,  1 Feb 2023 12:42:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FF2C4339B;
+	Wed,  1 Feb 2023 12:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675255372;
+	bh=0tVxqwP6J5RK2m0oIF5Emx6bU3NkR94XMmYH6CF4uN0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=C7F/d+ZJPppJsPzMmOITBjEUzwMUgB9cMJJO4lTW0ee/+7RJrpWHjrdOvx6RnFdV9
+	 uQE05KT6R48p52Hfp09r3RrRcz9WpLjwBnOShxkfs0HMbnPoUTLdt9/aAmf6mXVcKO
+	 lvXP8NtCOl+eKs8bP8s7dpAwHbZkTG60h8VaRysrzmICBDuOoOjXlfU13ke78lYTl/
+	 +cTIYqAetA8mXHPxY/KCKxGQSPMn2kcHyeRtkyFmFNQM9B8rVkNy3LUB81bxXRJwTl
+	 SHcPWDByb0ZY3vY1HquhPmHyc+H9Zq2pbKXdMuXxlubT07XhlPXj2F5V/lyyirtshA
+	 WvETGWyDf3dQw==
+Date: Wed, 1 Feb 2023 21:42:48 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Steven Rostedt
+ <rostedt@goodmis.org>, Florent Revest <revest@chromium.org>, Mark Rutland
+ <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing
+ function entry and exit.
+Message-Id: <20230201214248.c88dbeb75018a57f03650e42@kernel.org>
+In-Reply-To: <202302011530.7vm4O8Ro-lkp@intel.com>
+References: <167518178446.336834.4654027409699647726.stgit@mhiramat.roam.corp.google.com>
+	<202302011530.7vm4O8Ro-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230201103837.3258752-1-xiaoning.wang@nxp.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Clark,
+On Wed, 1 Feb 2023 15:27:49 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-I love your patch! Perhaps something to improve:
+> Hi Masami,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on bpf-next/master]
+> [also build test WARNING on bpf/master shuah-kselftest/next shuah-kselftest/fixes linus/master v6.2-rc6]
+> [cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/167518178446.336834.4654027409699647726.stgit%40mhiramat.roam.corp.google.com
+> patch subject: [PATCH v2 09/10] tracing/probes: Add fprobe events for tracing function entry and exit.
+> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230201/202302011530.7vm4O8Ro-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/90de2b114484f12e2645d2beb964b7d230c9c705
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Masami-Hiramatsu-Google/fprobe-Pass-entry_data-to-handlers/20230201-001911
+>         git checkout 90de2b114484f12e2645d2beb964b7d230c9c705
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/trace/trace_probe.c:394:32: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+>                    if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
+>                                                 ^  ~~~~~~~~~~~~~~~
+>    kernel/trace/trace_probe.c:394:32: note: use '|' for a bitwise operation
+>                    if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
+>                                                 ^~
+>                                                 |
 
-[auto build test WARNING on net-next/master]
-[also build test WARNING on net/master linus/master v6.2-rc6 next-20230201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Oops, thanks! this is an actual bug.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Clark-Wang/net-stmmac-resume-phy-separately-before-calling-stmmac_hw_setup/20230201-184223
-patch link:    https://lore.kernel.org/r/20230201103837.3258752-1-xiaoning.wang%40nxp.com
-patch subject: [PATCH V2 1/2] net: phylink: add a function to resume phy alone to fix resume issue with WoL enabled
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302012009.TmS9IEE9-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6df0562fc6133175ff3932188af0d9126858c42c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Clark-Wang/net-stmmac-resume-phy-separately-before-calling-stmmac_hw_setup/20230201-184223
-        git checkout 6df0562fc6133175ff3932188af0d9126858c42c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
+Let me fix it and update.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Thanks!
 
-All warnings (new ones prefixed by >>):
+>    1 warning generated.
+> 
+> 
+> vim +394 kernel/trace/trace_probe.c
+> 
+>    374	
+>    375	/* Recursive argument parser */
+>    376	static int
+>    377	parse_probe_arg(char *arg, const struct fetch_type *type,
+>    378			struct fetch_insn **pcode, struct fetch_insn *end,
+>    379			unsigned int flags, int offs)
+>    380	{
+>    381		struct fetch_insn *code = *pcode;
+>    382		unsigned long param;
+>    383		int deref = FETCH_OP_DEREF;
+>    384		long offset = 0;
+>    385		char *tmp;
+>    386		int ret = 0;
+>    387	
+>    388		switch (arg[0]) {
+>    389		case '$':
+>    390			ret = parse_probe_vars(arg + 1, type, code, flags, offs);
+>    391			break;
+>    392	
+>    393		case '%':	/* named register */
+>  > 394			if (flags & (TPARG_FL_TPOINT || TPARG_FL_FPROBE)) {
+>    395				/* eprobe and fprobe do not handle registers */
+>    396				trace_probe_log_err(offs, BAD_VAR);
+>    397				break;
+>    398			}
+>    399			ret = regs_query_register_offset(arg + 1);
+>    400			if (ret >= 0) {
+>    401				code->op = FETCH_OP_REG;
+>    402				code->param = (unsigned int)ret;
+>    403				ret = 0;
+>    404			} else
+>    405				trace_probe_log_err(offs, BAD_REG_NAME);
+>    406			break;
+>    407	
+>    408		case '@':	/* memory, file-offset or symbol */
+>    409			if (isdigit(arg[1])) {
+>    410				ret = kstrtoul(arg + 1, 0, &param);
+>    411				if (ret) {
+>    412					trace_probe_log_err(offs, BAD_MEM_ADDR);
+>    413					break;
+>    414				}
+>    415				/* load address */
+>    416				code->op = FETCH_OP_IMM;
+>    417				code->immediate = param;
+>    418			} else if (arg[1] == '+') {
+>    419				/* kprobes don't support file offsets */
+>    420				if (flags & TPARG_FL_KERNEL) {
+>    421					trace_probe_log_err(offs, FILE_ON_KPROBE);
+>    422					return -EINVAL;
+>    423				}
+>    424				ret = kstrtol(arg + 2, 0, &offset);
+>    425				if (ret) {
+>    426					trace_probe_log_err(offs, BAD_FILE_OFFS);
+>    427					break;
+>    428				}
+>    429	
+>    430				code->op = FETCH_OP_FOFFS;
+>    431				code->immediate = (unsigned long)offset;  // imm64?
+>    432			} else {
+>    433				/* uprobes don't support symbols */
+>    434				if (!(flags & TPARG_FL_KERNEL)) {
+>    435					trace_probe_log_err(offs, SYM_ON_UPROBE);
+>    436					return -EINVAL;
+>    437				}
+>    438				/* Preserve symbol for updating */
+>    439				code->op = FETCH_NOP_SYMBOL;
+>    440				code->data = kstrdup(arg + 1, GFP_KERNEL);
+>    441				if (!code->data)
+>    442					return -ENOMEM;
+>    443				if (++code == end) {
+>    444					trace_probe_log_err(offs, TOO_MANY_OPS);
+>    445					return -EINVAL;
+>    446				}
+>    447				code->op = FETCH_OP_IMM;
+>    448				code->immediate = 0;
+>    449			}
+>    450			/* These are fetching from memory */
+>    451			if (++code == end) {
+>    452				trace_probe_log_err(offs, TOO_MANY_OPS);
+>    453				return -EINVAL;
+>    454			}
+>    455			*pcode = code;
+>    456			code->op = FETCH_OP_DEREF;
+>    457			code->offset = offset;
+>    458			break;
+>    459	
+>    460		case '+':	/* deref memory */
+>    461		case '-':
+>    462			if (arg[1] == 'u') {
+>    463				deref = FETCH_OP_UDEREF;
+>    464				arg[1] = arg[0];
+>    465				arg++;
+>    466			}
+>    467			if (arg[0] == '+')
+>    468				arg++;	/* Skip '+', because kstrtol() rejects it. */
+>    469			tmp = strchr(arg, '(');
+>    470			if (!tmp) {
+>    471				trace_probe_log_err(offs, DEREF_NEED_BRACE);
+>    472				return -EINVAL;
+>    473			}
+>    474			*tmp = '\0';
+>    475			ret = kstrtol(arg, 0, &offset);
+>    476			if (ret) {
+>    477				trace_probe_log_err(offs, BAD_DEREF_OFFS);
+>    478				break;
+>    479			}
+>    480			offs += (tmp + 1 - arg) + (arg[0] != '-' ? 1 : 0);
+>    481			arg = tmp + 1;
+>    482			tmp = strrchr(arg, ')');
+>    483			if (!tmp) {
+>    484				trace_probe_log_err(offs + strlen(arg),
+>    485						    DEREF_OPEN_BRACE);
+>    486				return -EINVAL;
+>    487			} else {
+>    488				const struct fetch_type *t2 = find_fetch_type(NULL, flags);
+>    489	
+>    490				*tmp = '\0';
+>    491				ret = parse_probe_arg(arg, t2, &code, end, flags, offs);
+>    492				if (ret)
+>    493					break;
+>    494				if (code->op == FETCH_OP_COMM ||
+>    495				    code->op == FETCH_OP_DATA) {
+>    496					trace_probe_log_err(offs, COMM_CANT_DEREF);
+>    497					return -EINVAL;
+>    498				}
+>    499				if (++code == end) {
+>    500					trace_probe_log_err(offs, TOO_MANY_OPS);
+>    501					return -EINVAL;
+>    502				}
+>    503				*pcode = code;
+>    504	
+>    505				code->op = deref;
+>    506				code->offset = offset;
+>    507			}
+>    508			break;
+>    509		case '\\':	/* Immediate value */
+>    510			if (arg[1] == '"') {	/* Immediate string */
+>    511				ret = __parse_imm_string(arg + 2, &tmp, offs + 2);
+>    512				if (ret)
+>    513					break;
+>    514				code->op = FETCH_OP_DATA;
+>    515				code->data = tmp;
+>    516			} else {
+>    517				ret = str_to_immediate(arg + 1, &code->immediate);
+>    518				if (ret)
+>    519					trace_probe_log_err(offs + 1, BAD_IMM);
+>    520				else
+>    521					code->op = FETCH_OP_IMM;
+>    522			}
+>    523			break;
+>    524		}
+>    525		if (!ret && code->op == FETCH_OP_NOP) {
+>    526			/* Parsed, but do not find fetch method */
+>    527			trace_probe_log_err(offs, BAD_FETCH_ARG);
+>    528			ret = -EINVAL;
+>    529		}
+>    530		return ret;
+>    531	}
+>    532	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-   drivers/net/phy/phylink.c: In function 'phylink_start':
->> drivers/net/phy/phylink.c:1949:12: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
-    1949 |         if (pl->phydev)
-         |            ^
-
-
-vim +/else +1949 drivers/net/phy/phylink.c
-
-7b3b0e89bcf3ac Russell King   2019-05-28  1887  
-8796c8923d9c42 Russell King   2017-12-01  1888  /**
-8796c8923d9c42 Russell King   2017-12-01  1889   * phylink_start() - start a phylink instance
-8796c8923d9c42 Russell King   2017-12-01  1890   * @pl: a pointer to a &struct phylink returned from phylink_create()
-8796c8923d9c42 Russell King   2017-12-01  1891   *
-8796c8923d9c42 Russell King   2017-12-01  1892   * Start the phylink instance specified by @pl, configuring the MAC for the
-8796c8923d9c42 Russell King   2017-12-01  1893   * desired link mode(s) and negotiation style. This should be called from the
-8796c8923d9c42 Russell King   2017-12-01  1894   * network device driver's &struct net_device_ops ndo_open() method.
-8796c8923d9c42 Russell King   2017-12-01  1895   */
-9525ae83959b60 Russell King   2017-07-25  1896  void phylink_start(struct phylink *pl)
-9525ae83959b60 Russell King   2017-07-25  1897  {
-5c05c1dbb17729 Russell King   2020-04-23  1898  	bool poll = false;
-5c05c1dbb17729 Russell King   2020-04-23  1899  
-8b874514c11d6f Russell King   2017-12-15  1900  	ASSERT_RTNL();
-9525ae83959b60 Russell King   2017-07-25  1901  
-17091180b1521e Ioana Ciornei  2019-05-28  1902  	phylink_info(pl, "configuring for %s/%s link mode\n",
-24cf0e693bb50a Russell King   2019-12-11  1903  		     phylink_an_mode_str(pl->cur_link_an_mode),
-9525ae83959b60 Russell King   2017-07-25  1904  		     phy_modes(pl->link_config.interface));
-9525ae83959b60 Russell King   2017-07-25  1905  
-aeeb2e8fdefdd5 Antoine Tenart 2018-09-19  1906  	/* Always set the carrier off */
-43de61959b9992 Ioana Ciornei  2019-05-28  1907  	if (pl->netdev)
-aeeb2e8fdefdd5 Antoine Tenart 2018-09-19  1908  		netif_carrier_off(pl->netdev);
-aeeb2e8fdefdd5 Antoine Tenart 2018-09-19  1909  
-9525ae83959b60 Russell King   2017-07-25  1910  	/* Apply the link configuration to the MAC when starting. This allows
-9525ae83959b60 Russell King   2017-07-25  1911  	 * a fixed-link to start with the correct parameters, and also
-cc1122b00d624e Colin Ian King 2018-03-01  1912  	 * ensures that we set the appropriate advertisement for Serdes links.
-4c0d6d3a7a81fc Russell King   2020-03-30  1913  	 *
-4c0d6d3a7a81fc Russell King   2020-03-30  1914  	 * Restart autonegotiation if using 802.3z to ensure that the link
-85b43945cf7587 Russell King   2017-12-01  1915  	 * parameters are properly negotiated.  This is necessary for DSA
-85b43945cf7587 Russell King   2017-12-01  1916  	 * switches using 802.3z negotiation to ensure they see our modes.
-85b43945cf7587 Russell King   2017-12-01  1917  	 */
-4c0d6d3a7a81fc Russell King   2020-03-30  1918  	phylink_mac_initial_config(pl, true);
-85b43945cf7587 Russell King   2017-12-01  1919  
-aa729c439441aa Russell King   2021-11-30  1920  	phylink_enable_and_run_resolve(pl, PHYLINK_DISABLE_STOPPED);
-9525ae83959b60 Russell King   2017-07-25  1921  
-24cf0e693bb50a Russell King   2019-12-11  1922  	if (pl->cfg_link_an_mode == MLO_AN_FIXED && pl->link_gpio) {
-7b3b0e89bcf3ac Russell King   2019-05-28  1923  		int irq = gpiod_to_irq(pl->link_gpio);
-7b3b0e89bcf3ac Russell King   2019-05-28  1924  
-7b3b0e89bcf3ac Russell King   2019-05-28  1925  		if (irq > 0) {
-7b3b0e89bcf3ac Russell King   2019-05-28  1926  			if (!request_irq(irq, phylink_link_handler,
-7b3b0e89bcf3ac Russell King   2019-05-28  1927  					 IRQF_TRIGGER_RISING |
-7b3b0e89bcf3ac Russell King   2019-05-28  1928  					 IRQF_TRIGGER_FALLING,
-7b3b0e89bcf3ac Russell King   2019-05-28  1929  					 "netdev link", pl))
-7b3b0e89bcf3ac Russell King   2019-05-28  1930  				pl->link_irq = irq;
-7b3b0e89bcf3ac Russell King   2019-05-28  1931  			else
-7b3b0e89bcf3ac Russell King   2019-05-28  1932  				irq = 0;
-7b3b0e89bcf3ac Russell King   2019-05-28  1933  		}
-7b3b0e89bcf3ac Russell King   2019-05-28  1934  		if (irq <= 0)
-5c05c1dbb17729 Russell King   2020-04-23  1935  			poll = true;
-5c05c1dbb17729 Russell King   2020-04-23  1936  	}
-5c05c1dbb17729 Russell King   2020-04-23  1937  
-5c05c1dbb17729 Russell King   2020-04-23  1938  	switch (pl->cfg_link_an_mode) {
-5c05c1dbb17729 Russell King   2020-04-23  1939  	case MLO_AN_FIXED:
-5c05c1dbb17729 Russell King   2020-04-23  1940  		poll |= pl->config->poll_fixed_state;
-5c05c1dbb17729 Russell King   2020-04-23  1941  		break;
-5c05c1dbb17729 Russell King   2020-04-23  1942  	case MLO_AN_INBAND:
-7137e18f6f889a Russell King   2020-07-21  1943  		if (pl->pcs)
-7137e18f6f889a Russell King   2020-07-21  1944  			poll |= pl->pcs->poll;
-5c05c1dbb17729 Russell King   2020-04-23  1945  		break;
-7b3b0e89bcf3ac Russell King   2019-05-28  1946  	}
-5c05c1dbb17729 Russell King   2020-04-23  1947  	if (poll)
-9cd00a8aa42e44 Russell King   2018-05-10  1948  		mod_timer(&pl->link_poll, jiffies + HZ);
-9525ae83959b60 Russell King   2017-07-25 @1949  	if (pl->phydev)
-6df0562fc61331 Clark Wang     2023-02-01  1950  		if (!pl->mac_resume_phy_separately)
-9525ae83959b60 Russell King   2017-07-25  1951  			phy_start(pl->phydev);
-6df0562fc61331 Clark Wang     2023-02-01  1952  		else
-6df0562fc61331 Clark Wang     2023-02-01  1953  			pl->mac_resume_phy_separately = false;
-c7fa7f567cab65 Arseny Solokha 2019-07-24  1954  	if (pl->sfp_bus)
-c7fa7f567cab65 Arseny Solokha 2019-07-24  1955  		sfp_upstream_start(pl->sfp_bus);
-9525ae83959b60 Russell King   2017-07-25  1956  }
-9525ae83959b60 Russell King   2017-07-25  1957  EXPORT_SYMBOL_GPL(phylink_start);
-9525ae83959b60 Russell King   2017-07-25  1958  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
