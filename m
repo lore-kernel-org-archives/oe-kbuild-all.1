@@ -1,42 +1,55 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD9F7E5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 03:20:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DECD658
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 03:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675221643; x=1706757643;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NUjEbu4t670BS1/uBQ7t8bl9herTyXHQ/P7QU5IUNgw=;
-  b=k7cYTzroDz+L4YIfeIvi0rkCpnoa6a/NovOmPnz5B0eipcHMHfen8GYg
-   M6i1hftd7bgidpcBIBNWsBYvI5M2ZQXe4jVDq/T6ipUW0it7sOpEZADCH
-   3zzBOpC4zlc1xfEmZoBHGa40688GL1l5mMe3iqmdmpsrqXgH3QuonCBz/
-   jicLu+TOgSS0FZGncixlQbR23MsodU+Os8OJIj2+4pYGT0ppBe1ZmfAUT
-   CT1A/tBD+0OdNadKxHLA7VDh0zQlhAdnSxTWAvUXxCXnanmWcIdJojMiH
-   Dirt1tooG/5ZgGvwqrGo/ugy2pSm6rX9ECYyfoaaTRA8u+AByzOqydFg3
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="390394160"
+  t=1675221648; x=1706757648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PH2OX5Teu6wMvMOs/pvq1Zt3+cHl034fiVKX4vm9w5M=;
+  b=iT3U5J9IvQIWBY0lomUt1Wat4az1/il1f6gfIQ1rfaNrjAmSzpKQWUwN
+   tR6B8Mlc8AfKIsy2yJ3Ej3YEPq+mSRME92AN6Mv/gltYipY+gWhfekl8W
+   DJv6A7TEjl4ie5JAtyPA4XYY/iQ1erunAaZ5FD9nlTYGbUHIdIOv7BRGV
+   MTb2iVGB+aRB7Ppzv9x+SosSSYAuMHXJpHaTQMKFWcB/KH3xqDlqWWHSd
+   WhrMWOx4u0pdGnqDcOqYq5vHfz2CrY2/4fHmSwKK5wJEqYJ/GBNrPgitC
+   LGu0onNG+xX7+5+C+qfTeYlcJr2dndknUuyANtlT9A5BCxMaHuA5MQwEw
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="390394174"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="390394160"
+   d="scan'208";a="390394174"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 19:20:42 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 19:20:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910153103"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910153130"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="910153103"
+   d="scan'208";a="910153130"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 19:20:41 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pN3ft-0004zz-05;
-	Wed, 01 Feb 2023 03:20:41 +0000
-Date: Wed, 1 Feb 2023 11:19:54 +0800
+	id 1pN3fs-0004zn-2z;
+	Wed, 01 Feb 2023 03:20:40 +0000
+Date: Wed, 1 Feb 2023 11:19:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:arch-cpu-idle-dead-noreturn 1/1]
- arch/ia64/kernel/process.c:231:1: warning: 'noreturn' function does return
-Message-ID: <202302011113.OLlUCmky-lkp@intel.com>
+To: Byungchul Park <max.byungchul.park@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
+Subject: Re: [PATCH v9 07/25] dept: Apply sdt_might_sleep_{start,end}() to
+ wait_for_completion()/complete()
+Message-ID: <202302011107.Qs35wciq-lkp@intel.com>
+References: <1675154394-25598-8-git-send-email-max.byungchul.park@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,61 +58,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1675154394-25598-8-git-send-email-max.byungchul.park@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git arch-cpu-idle-dead-noreturn
-head:   4705aa679062b6b63e36f46a6f02854a67bb586f
-commit: 4705aa679062b6b63e36f46a6f02854a67bb586f [1/1] cpu: Make arch_cpu_idle_dead() __noreturn
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230201/202302011113.OLlUCmky-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Hi Byungchul,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc6 next-20230131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
+patch link:    https://lore.kernel.org/r/1675154394-25598-8-git-send-email-max.byungchul.park%40gmail.com
+patch subject: [PATCH v9 07/25] dept: Apply sdt_might_sleep_{start,end}() to wait_for_completion()/complete()
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011107.Qs35wciq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=4705aa679062b6b63e36f46a6f02854a67bb586f
-        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
-        git fetch --no-tags jpoimboe arch-cpu-idle-dead-noreturn
-        git checkout 4705aa679062b6b63e36f46a6f02854a67bb586f
+        # https://github.com/intel-lab-lkp/linux/commit/4773cd9b4e467e974a08cfcd690019b170f2e123
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
+        git checkout 4773cd9b4e467e974a08cfcd690019b170f2e123
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash arch/ia64/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/scsi/qla2xxx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   arch/ia64/kernel/process.c:156:1: warning: no previous prototype for 'console_print' [-Wmissing-prototypes]
-     156 | console_print(const char *s)
-         | ^~~~~~~~~~~~~
-   arch/ia64/kernel/process.c:162:1: warning: no previous prototype for 'do_notify_resume_user' [-Wmissing-prototypes]
-     162 | do_notify_resume_user(sigset_t *unused, struct sigscratch *scr, long in_syscall)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/ia64/kernel/process.c:404:17: warning: no previous prototype for 'ia64_clone' [-Wmissing-prototypes]
-     404 | asmlinkage long ia64_clone(unsigned long clone_flags, unsigned long stack_start,
-         |                 ^~~~~~~~~~
-   arch/ia64/kernel/process.c:558:1: warning: no previous prototype for 'cpu_halt' [-Wmissing-prototypes]
-     558 | cpu_halt (void)
-         | ^~~~~~~~
-   arch/ia64/kernel/process.c: In function 'arch_cpu_idle_dead':
->> arch/ia64/kernel/process.c:231:1: warning: 'noreturn' function does return
-     231 | }
+   drivers/scsi/qla2xxx/qla_dfs.c: In function 'qla2x00_dfs_tgt_port_database_show':
+>> drivers/scsi/qla2xxx/qla_dfs.c:227:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     227 | }
          | ^
 
 
-vim +/noreturn +231 arch/ia64/kernel/process.c
+vim +227 drivers/scsi/qla2xxx/qla_dfs.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  227  
-91d591c387af34 Thomas Gleixner 2013-03-21  228  void arch_cpu_idle_dead(void)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  229  {
-91d591c387af34 Thomas Gleixner 2013-03-21  230  	play_dead();
-0888f06ac99f99 Ingo Molnar     2006-12-22 @231  }
-1e185b97b43640 Kenneth W Chen  2005-11-15  232  
-
-:::::: The code at line 231 was first introduced by commit
-:::::: 0888f06ac99f993df2bb4c479f5b9306dafe154f [PATCH] sched: fix bad missed wakeups in the i386, x86_64, ia64, ACPI and APM idle code
-
-:::::: TO: Ingo Molnar <mingo@elte.hu>
-:::::: CC: Linus Torvalds <torvalds@woody.osdl.org>
+36c7845282eef0 Quinn Tran       2016-02-04  174  
+c423437e3ff41b Himanshu Madhani 2017-03-15  175  static int
+c423437e3ff41b Himanshu Madhani 2017-03-15  176  qla2x00_dfs_tgt_port_database_show(struct seq_file *s, void *unused)
+c423437e3ff41b Himanshu Madhani 2017-03-15  177  {
+c423437e3ff41b Himanshu Madhani 2017-03-15  178  	scsi_qla_host_t *vha = s->private;
+c423437e3ff41b Himanshu Madhani 2017-03-15  179  	struct qla_hw_data *ha = vha->hw;
+4e5a05d1ecd92c Arun Easi        2020-09-03  180  	struct gid_list_info *gid_list;
+c423437e3ff41b Himanshu Madhani 2017-03-15  181  	dma_addr_t gid_list_dma;
+c423437e3ff41b Himanshu Madhani 2017-03-15  182  	fc_port_t fc_port;
+4e5a05d1ecd92c Arun Easi        2020-09-03  183  	char *id_iter;
+c423437e3ff41b Himanshu Madhani 2017-03-15  184  	int rc, i;
+c423437e3ff41b Himanshu Madhani 2017-03-15  185  	uint16_t entries, loop_id;
+c423437e3ff41b Himanshu Madhani 2017-03-15  186  
+c423437e3ff41b Himanshu Madhani 2017-03-15  187  	seq_printf(s, "%s\n", vha->host_str);
+c423437e3ff41b Himanshu Madhani 2017-03-15  188  	gid_list = dma_alloc_coherent(&ha->pdev->dev,
+c423437e3ff41b Himanshu Madhani 2017-03-15  189  				      qla2x00_gid_list_size(ha),
+c423437e3ff41b Himanshu Madhani 2017-03-15  190  				      &gid_list_dma, GFP_KERNEL);
+c423437e3ff41b Himanshu Madhani 2017-03-15  191  	if (!gid_list) {
+83548fe2fcbb78 Quinn Tran       2017-06-02  192  		ql_dbg(ql_dbg_user, vha, 0x7018,
+c423437e3ff41b Himanshu Madhani 2017-03-15  193  		       "DMA allocation failed for %u\n",
+c423437e3ff41b Himanshu Madhani 2017-03-15  194  		       qla2x00_gid_list_size(ha));
+c423437e3ff41b Himanshu Madhani 2017-03-15  195  		return 0;
+c423437e3ff41b Himanshu Madhani 2017-03-15  196  	}
+c423437e3ff41b Himanshu Madhani 2017-03-15  197  
+c423437e3ff41b Himanshu Madhani 2017-03-15  198  	rc = qla24xx_gidlist_wait(vha, gid_list, gid_list_dma,
+c423437e3ff41b Himanshu Madhani 2017-03-15  199  				  &entries);
+c423437e3ff41b Himanshu Madhani 2017-03-15  200  	if (rc != QLA_SUCCESS)
+c423437e3ff41b Himanshu Madhani 2017-03-15  201  		goto out_free_id_list;
+c423437e3ff41b Himanshu Madhani 2017-03-15  202  
+4e5a05d1ecd92c Arun Easi        2020-09-03  203  	id_iter = (char *)gid_list;
+c423437e3ff41b Himanshu Madhani 2017-03-15  204  
+c423437e3ff41b Himanshu Madhani 2017-03-15  205  	seq_puts(s, "Port Name	Port ID		Loop ID\n");
+c423437e3ff41b Himanshu Madhani 2017-03-15  206  
+c423437e3ff41b Himanshu Madhani 2017-03-15  207  	for (i = 0; i < entries; i++) {
+4e5a05d1ecd92c Arun Easi        2020-09-03  208  		struct gid_list_info *gid =
+4e5a05d1ecd92c Arun Easi        2020-09-03  209  			(struct gid_list_info *)id_iter;
+c423437e3ff41b Himanshu Madhani 2017-03-15  210  		loop_id = le16_to_cpu(gid->loop_id);
+c423437e3ff41b Himanshu Madhani 2017-03-15  211  		memset(&fc_port, 0, sizeof(fc_port_t));
+c423437e3ff41b Himanshu Madhani 2017-03-15  212  
+c423437e3ff41b Himanshu Madhani 2017-03-15  213  		fc_port.loop_id = loop_id;
+c423437e3ff41b Himanshu Madhani 2017-03-15  214  
+c423437e3ff41b Himanshu Madhani 2017-03-15  215  		rc = qla24xx_gpdb_wait(vha, &fc_port, 0);
+c423437e3ff41b Himanshu Madhani 2017-03-15  216  		seq_printf(s, "%8phC  %02x%02x%02x  %d\n",
+c423437e3ff41b Himanshu Madhani 2017-03-15  217  			   fc_port.port_name, fc_port.d_id.b.domain,
+c423437e3ff41b Himanshu Madhani 2017-03-15  218  			   fc_port.d_id.b.area, fc_port.d_id.b.al_pa,
+c423437e3ff41b Himanshu Madhani 2017-03-15  219  			   fc_port.loop_id);
+4e5a05d1ecd92c Arun Easi        2020-09-03  220  		id_iter += ha->gid_list_info_size;
+c423437e3ff41b Himanshu Madhani 2017-03-15  221  	}
+c423437e3ff41b Himanshu Madhani 2017-03-15  222  out_free_id_list:
+c423437e3ff41b Himanshu Madhani 2017-03-15  223  	dma_free_coherent(&ha->pdev->dev, qla2x00_gid_list_size(ha),
+c423437e3ff41b Himanshu Madhani 2017-03-15  224  			  gid_list, gid_list_dma);
+c423437e3ff41b Himanshu Madhani 2017-03-15  225  
+c423437e3ff41b Himanshu Madhani 2017-03-15  226  	return 0;
+c423437e3ff41b Himanshu Madhani 2017-03-15 @227  }
+c423437e3ff41b Himanshu Madhani 2017-03-15  228  
 
 -- 
 0-DAY CI Kernel Test Service
