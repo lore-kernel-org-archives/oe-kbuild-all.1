@@ -1,48 +1,46 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705B933FA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 19:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B6333FA;
+	Wed,  1 Feb 2023 19:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675278950; x=1706814950;
+  t=1675279610; x=1706815610;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qUn91Yoz8Yg2m3couikOrAFCjGFevfgvmBr+dnLp7Bs=;
-  b=CURC4Q5c9t4ADAxVrc6cQR6hij6psznMtw/w2vnY8hBD7HnxNEDc3+AP
-   shJ8eFyQEjdjtMn199Nz1/UaX9h8ChylFji6KdkrxhDL0DUXOA1D75IQe
-   MgZb5WqyZUAAhAHorXiUsCZaCVNNa5wt/qtG3DSURmWqVbi195QqWMqbK
-   PsH+1F0+VAFWsDBv9yzf5cpOYzzXgCmpZiw0GbWgZV+DIl1o/f8H8NTVn
-   xSymyXx/Fc8NKZt5tEVKRGaBtBsfzYD9GwtctYBnOq+2ju3Di5DDX6mcc
-   yhAQQFNgeS/7f/o0tKYSj3/gFqOnX3/ZJelWojWo+Gipq5BASifz/c98F
+  bh=b+R9TM/vpJIqxsOgEi13czSzFWw8gYCA5ybDpq8DRJ4=;
+  b=W1ww4e2bKZmYGZ76ueEhX8nAH4xj99zQLCBrYBfb/QFJfbXv6hd2lugB
+   1lomfX4gQTk7Jjau6sS38uvEzpDLoNo9w5+TVDBDOCwxrWEDGShav+yvk
+   9u+M+oEzYgbflb6dZItzwgZK+EtW3P7S4suVneeG3ePQKzaQRcAdXQYgY
+   FrOOiNoYI1FsM0nGwJK7eV9dI/u0qtuYO4pXbuaKhQ1g555dTvf+Wa9lc
+   SHSf+2TDYRvgp37gWMa6o3w1ZUs4WXJMay0NKzVhYo2peBhgHVmVwIcAg
+   NWtrKNvcD2iPkSmjQOw5L8kFq0nW/bet8rBoJ1nnXIFQbXaivBlyS6idj
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="329539248"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308591978"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="329539248"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 11:15:50 -0800
+   d="scan'208";a="308591978"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 11:26:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733694309"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="614955875"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="733694309"
+   d="scan'208";a="614955875"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2023 11:15:46 -0800
+  by orsmga003.jf.intel.com with ESMTP; 01 Feb 2023 11:26:46 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNIa9-0005jv-1z;
-	Wed, 01 Feb 2023 19:15:45 +0000
-Date: Thu, 2 Feb 2023 03:15:20 +0800
+	id 1pNIko-0005kR-0D;
+	Wed, 01 Feb 2023 19:26:46 +0000
+Date: Thu, 2 Feb 2023 03:26:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, habetsm.xilinx@gmail.com,
-	ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-	jiri@nvidia.com, Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH v4 net-next 7/8] sfc: add support for devlink
- port_function_hw_addr_get in ef100
-Message-ID: <202302020326.IUUr19ny-lkp@intel.com>
-References: <20230131145822.36208-8-alejandro.lucero-palau@amd.com>
+To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, jack@suse.cz,
+	Ye Bin <yebin10@huawei.com>
+Subject: Re: [PATCH 2/5] ext4: introudce helper for jounral recover handle
+Message-ID: <202302020346.Oh31U8Zk-lkp@intel.com>
+References: <20230201114651.4090446-3-yebin@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,46 +49,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131145822.36208-8-alejandro.lucero-palau@amd.com>
+In-Reply-To: <20230201114651.4090446-3-yebin@huaweicloud.com>
 
-Hi,
+Hi Ye,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on net-next/master]
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on linus/master v6.2-rc6 next-20230201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-patch link:    https://lore.kernel.org/r/20230131145822.36208-8-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v4 net-next 7/8] sfc: add support for devlink port_function_hw_addr_get in ef100
-config: ia64-randconfig-c031-20230129 (https://download.01.org/0day-ci/archive/20230202/202302020326.IUUr19ny-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/jbd2-introduce-callback-for-recovery-journal/20230201-192400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230201114651.4090446-3-yebin%40huaweicloud.com
+patch subject: [PATCH 2/5] ext4: introudce helper for jounral recover handle
+config: i386-randconfig-a013-20230130 (https://download.01.org/0day-ci/archive/20230202/202302020346.Oh31U8Zk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/11c7bb1c959cd61c59ee9a12872d4e5afd4352c9
+        # https://github.com/intel-lab-lkp/linux/commit/316c2a97e3b3629813acbac07b6a03d836a00fa1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-        git checkout 11c7bb1c959cd61c59ee9a12872d4e5afd4352c9
+        git fetch --no-tags linux-review Ye-Bin/jbd2-introduce-callback-for-recovery-journal/20230201-192400
+        git checkout 316c2a97e3b3629813acbac07b6a03d836a00fa1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ext4/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ia64-linux-ld: drivers/net/ethernet/sfc/ef100_nic.o: in function `ef100_remove':
-   ef100_nic.c:(.text+0x2f02): undefined reference to `efx_ef100_fini_reps'
-   ia64-linux-ld: ef100_nic.c:(.text+0x2f12): undefined reference to `efx_fini_mae'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `ef100_set_devlink_port':
-   efx_devlink.c:(.text+0x32): undefined reference to `efx_mae_lookup_mport'
-   ia64-linux-ld: efx_devlink.c:(.text+0x72): undefined reference to `efx_mae_get_mport'
-   ia64-linux-ld: efx_devlink.c:(.text+0xa2): undefined reference to `ef100_mport_on_local_intf'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `efx_devlink_port_addr_get':
->> efx_devlink.c:(.text+0x212): undefined reference to `ef100_mport_on_local_intf'
->> ia64-linux-ld: efx_devlink.c:(.text+0x2c2): undefined reference to `ef100_mport_is_vf'
+>> fs/ext4/ext4_jbd2.c:399:6: warning: no previous prototype for function 'ext4_replay_end_callback' [-Wmissing-prototypes]
+   void ext4_replay_end_callback(struct journal_s *journal)
+        ^
+   fs/ext4/ext4_jbd2.c:399:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void ext4_replay_end_callback(struct journal_s *journal)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/ext4_replay_end_callback +399 fs/ext4/ext4_jbd2.c
+
+   398	
+ > 399	void ext4_replay_end_callback(struct journal_s *journal)
+   400	{
+   401		kfree(journal->j_replay_private_data);
+   402		journal->j_replay_private_data = NULL;
+   403		journal->j_replay_callback = NULL;
+   404		journal->j_replay_end_callback = NULL;
+   405	}
+   406	
 
 -- 
 0-DAY CI Kernel Test Service
