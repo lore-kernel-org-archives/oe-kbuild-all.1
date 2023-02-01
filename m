@@ -1,43 +1,54 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A38EAD29
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Jan 2023 23:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E3A7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 00:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675208132; x=1706744132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H8s7Cy90Ys5eALQFCiwgz+qSIT3LLR6+se67arA2Pbg=;
-  b=hI2yu1Qlw3fdYOYz8gtgIA/5th9Rnupy4ckVmSzI0IQbcsRUTqlBHDjD
-   QFnOZ+srm9TQGvR75zTKvOv4V9+z6QGHGy7X6qS15Z8K8FjbgliG91pUx
-   8nSEycJWRAxR8fmV5H7g7DByY5cKRo+o6RozQW/kPxfuE+bGag2mjlAYO
-   xBWy8xV8EHtc4262IFkjoGIAjqc7KltW/W11fkyoX4LxLAjgv0Y8vVDdn
-   2Q8ORwLrLKkMrsQa2qsOtDNYm4IQq0NE1OQDg2jvau2XGH4XUo387Btz8
-   IDXAd4t4851GV+lb+PKu/Rtu8hzhY7MqRKUdAmjAmsajAu4oCWyJBM0vc
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="392544871"
+  t=1675210596; x=1706746596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oGcc5GCEMxGvL5mm0PL0tfMmHHnzeThTjrhfqHsD/iI=;
+  b=icNvq+hdpgt/QFwpkL6o9p2nr/2MTVQVhjxiZ5TafBAKLPvQN4E+kX4X
+   Kt33AU/mQTWm5xam6xNVzzlha3BkKAJGMIbegPsEPJKBN9sW12ueVy4l0
+   Ts4TvxCDMgpsFjDaSu17Jw0UlW/pOTZcHGOUPT4891h1I6aMPZU9xlP07
+   /O3xJ+EW1GqGah94HygIo31qlMBDn9WzntMdiCb1TiPINrqp58QRoYV4B
+   2kAqZ0oZl7XdTlVGPD6UX2CrXnLSxVFfzOrAdavdvKauTTs7bOk/n/KLK
+   w+BhzC4TjdYCjYLqX0V/43CNyRnM/DwgNdmpBZQ5EtSulMed+BuX/ue/d
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="330108533"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="392544871"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 15:35:31 -0800
+   d="scan'208";a="330108533"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 16:16:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="658078413"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="838579710"
 X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="658078413"
+   d="scan'208";a="838579710"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 31 Jan 2023 15:35:30 -0800
+  by orsmga005.jf.intel.com with ESMTP; 31 Jan 2023 16:16:32 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pN09x-0004ne-2M;
-	Tue, 31 Jan 2023 23:35:29 +0000
-Date: Wed, 1 Feb 2023 07:35:18 +0800
+	id 1pN0ne-0004pS-39;
+	Wed, 01 Feb 2023 00:16:30 +0000
+Date: Wed, 1 Feb 2023 08:15:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 371/371]
- include/linux/kvm_host.h:429:9: error: implicit declaration of function
- 'perf_event_guest_enter_exit'
-Message-ID: <202302010721.u5U0qGW8-lkp@intel.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>, Conor Dooley <conor@kernel.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-efi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: [PATCH v3 2/6] riscv: Rework kasan population functions
+Message-ID: <202302010819.RAsjyv6V-lkp@intel.com>
+References: <20230125082333.1577572-3-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,139 +57,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230125082333.1577572-3-alexghiti@rivosinc.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   236af3da84d067f3af446ccf2211937cd9ddc42f
-commit: 236af3da84d067f3af446ccf2211937cd9ddc42f [371/371] perf, KVM: introduce software event on enter/exit to/from guest
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302010721.u5U0qGW8-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+Hi Alexandre,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc6 next-20230131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
+patch link:    https://lore.kernel.org/r/20230125082333.1577572-3-alexghiti%40rivosinc.com
+patch subject: [PATCH v3 2/6] riscv: Rework kasan population functions
+config: riscv-randconfig-r006-20230201 (https://download.01.org/0day-ci/archive/20230201/202302010819.RAsjyv6V-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/236af3da84d067f3af446ccf2211937cd9ddc42f
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 236af3da84d067f3af446ccf2211937cd9ddc42f
+        # https://github.com/intel-lab-lkp/linux/commit/c18726e8d14edbd59ec19854b4eb06d83fff716f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
+        git checkout c18726e8d14edbd59ec19854b4eb06d83fff716f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/mips/kernel/asm-offsets.c:24:
-   include/linux/kvm_host.h: In function 'guest_context_enter_irqoff':
->> include/linux/kvm_host.h:429:9: error: implicit declaration of function 'perf_event_guest_enter_exit' [-Werror=implicit-function-declaration]
-     429 |         perf_event_guest_enter_exit(true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:10,
-                    from include/linux/kernel.h:29,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from arch/mips/include/asm/cpu-type.h:12,
-                    from arch/mips/include/asm/timex.h:19,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/compat.h:10,
-                    from arch/mips/kernel/asm-offsets.c:12:
-   include/linux/kvm_host.h: In function 'mmu_invalidate_retry_gfn':
-   include/linux/kvm_host.h:1987:69: error: 'INVALID_GPA' undeclared (first use in this function); did you mean 'INVALID_GID'?
-    1987 |                 if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-         |                                                                     ^~~~~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/kvm_host.h:1987:21: note: in expansion of macro 'WARN_ON_ONCE'
-    1987 |                 if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-         |                     ^~~~~~~~~~~~
-   include/linux/kvm_host.h:1987:69: note: each undeclared identifier is reported only once for each function it appears in
-    1987 |                 if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-         |                                                                     ^~~~~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/kvm_host.h:1987:21: note: in expansion of macro 'WARN_ON_ONCE'
-    1987 |                 if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-         |                     ^~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c: At top level:
-   arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      26 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      78 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      92 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-     108 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:136:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     136 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     179 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     213 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for 'output_signal_defined' [-Wmissing-prototypes]
-     248 | void output_signal_defined(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:315:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     315 | void output_pbe_defines(void)
+>> arch/riscv/mm/kasan_init.c:442:6: warning: no previous prototype for 'create_tmp_mapping' [-Wmissing-prototypes]
+     442 | void create_tmp_mapping(void)
          |      ^~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:327:6: warning: no previous prototype for 'output_pm_defines' [-Wmissing-prototypes]
-     327 | void output_pm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:341:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     341 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/mips/kernel/asm-offsets.c:385:6: warning: no previous prototype for 'output_cps_defines' [-Wmissing-prototypes]
-     385 | void output_cps_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/mips/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1298: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
 
 
-vim +/perf_event_guest_enter_exit +429 include/linux/kvm_host.h
+vim +/create_tmp_mapping +442 arch/riscv/mm/kasan_init.c
 
-   418	
-   419	/*
-   420	 * Enter guest context and enter an RCU extended quiescent state.
-   421	 *
-   422	 * Between guest_context_enter_irqoff() and guest_context_exit_irqoff() it is
-   423	 * unsafe to use any code which may directly or indirectly use RCU, tracing
-   424	 * (including IRQ flag tracing), or lockdep. All code in this period must be
-   425	 * non-instrumentable.
-   426	 */
-   427	static __always_inline void guest_context_enter_irqoff(void)
-   428	{
- > 429		perf_event_guest_enter_exit(true);
-   430		/*
-   431		 * KVM does not hold any references to rcu protected data when it
-   432		 * switches CPU into a guest mode. In fact switching to a guest mode
-   433		 * is very similar to exiting to userspace from rcu point of view. In
-   434		 * addition CPU may stay in a guest mode for quite a long time (up to
-   435		 * one time slice). Lets treat guest mode as quiescent state, just like
-   436		 * we do with user-mode execution.
-   437		 */
-   438		if (!context_tracking_guest_enter()) {
-   439			instrumentation_begin();
-   440			rcu_virt_note_context_switch();
-   441			instrumentation_end();
-   442		}
-   443	}
-   444	
+   441	
+ > 442	void create_tmp_mapping(void)
+   443	{
+   444		void *ptr;
+   445		p4d_t *base_p4d;
+   446	
+   447		/*
+   448		 * We need to clean the early mapping: this is hard to achieve "in-place",
+   449		 * so install a temporary mapping like arm64 and x86 do.
+   450		 */
+   451		memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(pgd_t) * PTRS_PER_PGD);
+   452	
+   453		/* Copy the last p4d since it is shared with the kernel mapping. */
+   454		if (pgtable_l5_enabled) {
+   455			ptr = (p4d_t *)pgd_page_vaddr(*pgd_offset_k(KASAN_SHADOW_END));
+   456			memcpy(tmp_p4d, ptr, sizeof(p4d_t) * PTRS_PER_P4D);
+   457			set_pgd(&tmp_pg_dir[pgd_index(KASAN_SHADOW_END)],
+   458				pfn_pgd(PFN_DOWN(__pa(tmp_p4d)), PAGE_TABLE));
+   459			base_p4d = tmp_p4d;
+   460		} else {
+   461			base_p4d = (p4d_t *)tmp_pg_dir;
+   462		}
+   463	
+   464		/* Copy the last pud since it is shared with the kernel mapping. */
+   465		if (pgtable_l4_enabled) {
+   466			ptr = (pud_t *)p4d_page_vaddr(*(base_p4d + p4d_index(KASAN_SHADOW_END)));
+   467			memcpy(tmp_pud, ptr, sizeof(pud_t) * PTRS_PER_PUD);
+   468			set_p4d(&base_p4d[p4d_index(KASAN_SHADOW_END)],
+   469				pfn_p4d(PFN_DOWN(__pa(tmp_pud)), PAGE_TABLE));
+   470		}
+   471	}
+   472	
 
 -- 
 0-DAY CI Kernel Test Service
