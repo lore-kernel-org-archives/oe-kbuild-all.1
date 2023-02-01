@@ -1,93 +1,119 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3078A63B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 14:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675263514; x=1706799514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y7lIjMgMVtPV5bm6OW/RddCvD8S3NDjqYUBxTdcVV5w=;
-  b=oAvhkJPyBeNkg0NeDeSoM5sy5dWFGsgjREPE2c5Dvvzae7hh/R/GMwb4
-   rqcpeY4II0Y160K1bJkG5aVfI0995bo2aKQo1+qK5BSUMOXUqHRfuk16N
-   EJGwClD9BLDmnDyaP/RTEbBL2PNbTB1Ddk5B7QlS66R8MRBzz2VdIV+0/
-   HcigVnI1iYEhGrHhRIAD+wxNeDhMv8vhuCW238T9V2EhCjYJOnbU81g3I
-   cot1e5aWj0MD29QsTFKHHVJzseSo30565Av4sEdzm+HvF6UWdMIUedSIa
-   IH1HyvQJ5ArVlmc2raNrsjf8NKkyEVIXA87XqkBekJv9H/zRmDKHZ9+hR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308502808"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="308502808"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 06:58:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="910343874"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="910343874"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Feb 2023 06:58:30 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNEZB-0005Vw-2Y;
-	Wed, 01 Feb 2023 14:58:29 +0000
-Date: Wed, 1 Feb 2023 22:57:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, habetsm.xilinx@gmail.com,
-	ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-	jiri@nvidia.com, Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH v4 net-next 5/8] sfc: add devlink port support for ef100
-Message-ID: <202302012256.duJZ1JQ7-lkp@intel.com>
-References: <20230131145822.36208-6-alejandro.lucero-palau@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AA963B3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 15:15:14 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id be12so6764248edb.4
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 01 Feb 2023 07:15:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WKcD/zDARR0ET8GDXucrQ586p1EZyc/trnwGgWqi5oM=;
+        b=UNvI8KAlb1PeQQTsF/6w1pZ0C36wdH+yiGj8bP1bem/hCAcaJOM/nE7ucQiIIsRBwY
+         rqtp2QIG/OrrPjr2NX7bTvR2H6DfxHFwlGVO2g/FdDLws8yAfsNiFQpcmQzYByIu32Ed
+         p1wCa4CSnyD3nw6sDu+pewrKZa+8JX184CH99a75W0nzWEHCaau6Ak++1zVUdiqyK3f+
+         t+OxDVJvT6Nb0Ot7ANLlt084gp9wEov6ZGd6D7K37LFWKDmBV4j0hMR2TNmbhhoQsQJP
+         74Vcj6qNZEUT7CDXuBJ9+c521drz49X7juopPmmR9kUeIiOTtqmxFjRoS6jYhnTT1TuS
+         5GwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WKcD/zDARR0ET8GDXucrQ586p1EZyc/trnwGgWqi5oM=;
+        b=Wh5uSFn9BXVzilAlGGtTwziSDBAGgysqDTL8mwV358BWP0aA1GFUgohe8aeA8hmWpp
+         SsbXlvlrjarPcIUd2QNHa63yMZvV6D4ykiSiFYL0L5aYq76Pte5EY8lEjtj0hXFTViSg
+         rebaOgWt22I146+RmX6aEDKjaD0KH8c62QFOjTJJrP3+UMq2V1ntZFlNe2rVVpp3TUvv
+         WOyvaDCG6MdOG5cObR5x9uo7d4JupKQwair36MUQXnE2+pANtbwYH5kKxkEjk92qMj1T
+         XZLy6TlZVN+K6n+QN8Ba+bNmmbQYnSTapLKvDdSFNij2CePUD/liQyJPVGNIrV39f21u
+         GFfg==
+X-Gm-Message-State: AO0yUKWx8wbB3/45C3ORk/M0pM8IUJyhQzIEl+o6zirYXz7juw/6McU2
+	w+zyZ4dD2u4M9OA3UVkftSLb3xwae//JXDaY9jbcSw==
+X-Google-Smtp-Source: AK7set8Sqpf7IQKI8pCxzgiefm4DEzyA6FF6UcZXLNTZNnDOHduTVAL3Dj7gPRjuCIZZHhxAewq7V1amgnQUE4iiCRY=
+X-Received: by 2002:a50:f60f:0:b0:4a2:27c2:aa9a with SMTP id
+ c15-20020a50f60f000000b004a227c2aa9amr741605edn.61.1675264512617; Wed, 01 Feb
+ 2023 07:15:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131145822.36208-6-alejandro.lucero-palau@amd.com>
+References: <20230131153816.21709-1-bchihi@baylibre.com> <202302011058.17Vvc1pN-lkp@intel.com>
+ <17072296-c1fb-1e82-65fd-26b448167087@linaro.org>
+In-Reply-To: <17072296-c1fb-1e82-65fd-26b448167087@linaro.org>
+From: Balsam CHIHI <bchihi@baylibre.com>
+Date: Wed, 1 Feb 2023 16:14:36 +0100
+Message-ID: <CAGuA+opm_oM-BdHgcnj09C_6oT4WSbu8-v2QnzmERUiNQD4rUQ@mail.gmail.com>
+Subject: Re: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage
+ Thermal Sensor driver
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: kernel test robot <lkp@intel.com>, daniel.lezcano@linaro.org, 
+	angelogioacchino.delregno@collabora.com, rafael@kernel.org, amitk@kernel.org, 
+	rui.zhang@intel.com, matthias.bgg@gmail.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, rdunlap@infradead.org, 
+	ye.xingchen@zte.com.cn, p.zabel@pengutronix.de, oe-kbuild-all@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	devicetree@vger.kernel.org, khilman@baylibre.com, james.lo@mediatek.com, 
+	rex-bc.chen@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Krzysztof,
 
-Thank you for the patch! Yet something to improve:
+On Wed, Feb 1, 2023 at 8:47 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 01/02/2023 04:09, kernel test robot wrote:
+> > Hi Balsam,
+> >
+> > Thank you for the patch! Yet something to improve:
+> >
+> >
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+> > base:   the 4th patch of https://lore.kernel.org/r/20230124131717.128660-5-bchihi%40baylibre.com
+> > patch link:    https://lore.kernel.org/r/20230131153816.21709-1-bchihi%40baylibre.com
+> > patch subject: [PATCH v12] thermal: drivers: mediatek: Add the Low Voltage Thermal Sensor driver
+> > config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011058.17Vvc1pN-lkp@intel.com/config)
+> > compiler: s390-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://github.com/intel-lab-lkp/linux/commit/5646ebf6f10ff0fc60c04d8c57523f7c44526b41
+> >         git remote add linux-review https://github.com/intel-lab-lkp/linux
+> >         git fetch --no-tags linux-review UPDATE-20230131-234122/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+> >         git checkout 5646ebf6f10ff0fc60c04d8c57523f7c44526b41
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >>> drivers/thermal/mediatek/lvts_thermal.c:20:10: fatal error: dt-bindings/thermal/mediatek,lvts-thermal.h: No such file or directory
+> >       20 | #include <dt-bindings/thermal/mediatek,lvts-thermal.h>
+> >          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> So here is your driver... and you decided not only to make reviewers
+> life more difficult, but also to fail all automated tools.
+>
+> No, that's not how patchsets should be sent. You have here clear
+> dependency, you cannot send them separately.
 
-[auto build test ERROR on net-next/master]
+I'm sorry, I'll be careful next time.
+I apologize for breaking the series.
+I will take into account the new change requests in the next full
+v13 the series.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-patch link:    https://lore.kernel.org/r/20230131145822.36208-6-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v4 net-next 5/8] sfc: add devlink port support for ef100
-config: ia64-randconfig-c031-20230129 (https://download.01.org/0day-ci/archive/20230201/202302012256.duJZ1JQ7-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b74c06500aff0021c9aaa6edf390252c3e5de2cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-        git checkout b74c06500aff0021c9aaa6edf390252c3e5de2cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+>
+> Best regards,
+> Krzysztof
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   ia64-linux-ld: drivers/net/ethernet/sfc/ef100_nic.o: in function `ef100_remove':
-   ef100_nic.c:(.text+0x2e82): undefined reference to `efx_ef100_fini_reps'
-   ia64-linux-ld: ef100_nic.c:(.text+0x2e92): undefined reference to `efx_fini_mae'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `ef100_set_devlink_port':
->> efx_devlink.c:(.text+0x32): undefined reference to `efx_mae_lookup_mport'
->> ia64-linux-ld: efx_devlink.c:(.text+0x72): undefined reference to `efx_mae_get_mport'
->> ia64-linux-ld: efx_devlink.c:(.text+0xa2): undefined reference to `ef100_mport_on_local_intf'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best regards,
+Balsam
