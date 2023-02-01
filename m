@@ -1,54 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F517E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 02:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF02622
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 02:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675218526; x=1706754526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=toLA3/CCNOUSAf7uhabNH7zDl/Gt2MCQkgKD0DBBBzQ=;
-  b=CyqTowoo7gb046XOHOKKvP7o7WhsFhbjJy8tcX+8838I9/yEaoAKeGmk
-   GbS0i7HhuSz0eQFbSbKv2sD+oLXDspGzwGbZfstkd4TxfqFyUKXlgQPYO
-   Gig0QxUeaoRU1xdPNd5LzhlcXu+0WKxuQFXFuUau5wr0v+7MQMtaFU/SD
-   K6Gx5nsUMHtMVLNDOUIDNKS6HwCfvo2/jPTF7R9K3xFwk89QoNbCDsFXr
-   Kip0LusrdRWCPZ4ZzQVI/j8AwLrxeMDwwKXcU3yU1phD7OFAnmmo4h4EY
-   7ujGYy9EZXJ3u/0XJdIeZ/R0UL7jkuPrEkkPBc2sGA3UIvDzA0etDGk/y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="315989759"
+  t=1675219781; x=1706755781;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aJCnY2bON9DiQxdaCrn+THpLXVd9yMlW4ezrucIR220=;
+  b=Uh8/qxeSjeQcdwM4aFvuhKJsxk1JpxVgV3HdeV5kL/0+YFeYhdb9JJHg
+   b09MrA1s+4UbAAkWNt+8oWrMBsQPeMdVH7z4w/TTIrX+B0G5QpO1g39zQ
+   nKA01rBh2CZV63viorfntXm6ssl/8k1YuLpzei6Rjw4fW+1JsJjnqxdbb
+   1CH+MF9GgXOSnmz+6juep2crkaaupHyupPyXBvLFDaSyZxrGIq3mTCTfD
+   Vx+mvW7RhQ9VD5/KiIa8/pmTqM3Vq0BSB41YFwbQcGtL9KJW01zRhRcbj
+   taHDnr5ynyZ0r6oqcU+eHrlpM6TU6cmjujJwMDNKM0XtjZIlMRA3oct0e
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="390390429"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="315989759"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 18:28:45 -0800
+   d="scan'208";a="390390429"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 18:49:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="614685237"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="773239375"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="614685237"
+   d="scan'208";a="773239375"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 31 Jan 2023 18:28:38 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2023 18:49:39 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pN2rV-0004wA-1F;
-	Wed, 01 Feb 2023 02:28:37 +0000
-Date: Wed, 1 Feb 2023 10:28:30 +0800
+	id 1pN3Bq-0004x4-08;
+	Wed, 01 Feb 2023 02:49:38 +0000
+Date: Wed, 1 Feb 2023 10:48:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <max.byungchul.park@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
-Subject: Re: [PATCH v9 05/25] dept: Tie to Lockdep and IRQ tracing
-Message-ID: <202302011038.V1juoXv1-lkp@intel.com>
-References: <1675154394-25598-6-git-send-email-max.byungchul.park@gmail.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:sched/rt-throttle.jan31 3/3] kernel/sched/rt.c:1092:54:
+ error: 'struct sched_rt_entity' has no member named 'parent'
+Message-ID: <202302011014.Cwo78avk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,102 +45,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1675154394-25598-6-git-send-email-max.byungchul.park@gmail.com>
 
-Hi Byungchul,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc6 next-20230131]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
-patch link:    https://lore.kernel.org/r/1675154394-25598-6-git-send-email-max.byungchul.park%40gmail.com
-patch subject: [PATCH v9 05/25] dept: Tie to Lockdep and IRQ tracing
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011038.V1juoXv1-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/rt-throttle.jan31
+head:   a0977d3c9221b1872073fc4b1756ca0c3b9f464b
+commit: a0977d3c9221b1872073fc4b1756ca0c3b9f464b [3/3] sched/rt: Keep throttled rt_rqs on the runqueue
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230201/202302011014.Cwo78avk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ee619b0e7faff81e8b794e2adcdf9102d5bc83e8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
-        git checkout ee619b0e7faff81e8b794e2adcdf9102d5bc83e8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=a0977d3c9221b1872073fc4b1756ca0c3b9f464b
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern sched/rt-throttle.jan31
+        git checkout a0977d3c9221b1872073fc4b1756ca0c3b9f464b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/iommu/ drivers/scsi/qla2xxx/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/io-pgtable-arm.c:12:
-   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
-   include/linux/atomic/atomic-arch-fallback.h:60:32: error: implicit declaration of function 'arch_cmpxchg64'; did you mean 'arch_cmpxchg'? [-Werror=implicit-function-declaration]
-      60 | #define arch_cmpxchg64_relaxed arch_cmpxchg64
-         |                                ^~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:1968:9: note: in expansion of macro 'arch_cmpxchg64_relaxed'
-    1968 |         arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-arm.c:330:15: note: in expansion of macro 'cmpxchg64_relaxed'
-     330 |         old = cmpxchg64_relaxed(ptep, curr, new);
-         |               ^~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_do_selftests':
->> drivers/iommu/io-pgtable-arm.c:1296:1: warning: the frame size of 1088 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1296 | }
-         | ^
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c: In function 'update_curr_rt':
+>> kernel/sched/rt.c:1092:54: error: 'struct sched_rt_entity' has no member named 'parent'
+    1092 |                                 if (!tbefore && rt_se->parent)
+         |                                                      ^~
+   kernel/sched/rt.c:1093:41: error: implicit declaration of function 'adjust_cg_throt_update' [-Werror=implicit-function-declaration]
+    1093 |                                         adjust_cg_throt_update(rt_se->parent, true);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:1093:69: error: 'struct sched_rt_entity' has no member named 'parent'
+    1093 |                                         adjust_cg_throt_update(rt_se->parent, true);
+         |                                                                     ^~
+   kernel/sched/rt.c: At top level:
+   kernel/sched/rt.c:1341:13: warning: conflicting types for 'adjust_cg_throt_update'; have 'void(struct sched_rt_entity *, bool)' {aka 'void(struct sched_rt_entity *, _Bool)'}
+    1341 | static void adjust_cg_throt_update(struct sched_rt_entity *rt_se, bool throt)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:1341:13: error: static declaration of 'adjust_cg_throt_update' follows non-static declaration
+   kernel/sched/rt.c:1093:41: note: previous implicit declaration of 'adjust_cg_throt_update' with type 'void(struct sched_rt_entity *, bool)' {aka 'void(struct sched_rt_entity *, _Bool)'}
+    1093 |                                         adjust_cg_throt_update(rt_se->parent, true);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c: In function 'adjust_cg_throt_update':
+   kernel/sched/rt.c:1346:27: error: 'struct sched_rt_entity' has no member named 'parent'
+    1346 |         if (!myq || !rt_se->parent)
+         |                           ^~
+   kernel/sched/rt.c:1349:22: error: 'struct sched_rt_entity' has no member named 'parent'
+    1349 |         rt_se = rt_se->parent;
+         |                      ^~
+   kernel/sched/rt.c:1358:32: error: 'struct rt_rq' has no member named 'nr_cg_throttled'; did you mean 'rt_cg_throttled'?
+    1358 |                         rt_rq->nr_cg_throttled++;
+         |                                ^~~~~~~~~~~~~~~
+         |                                rt_cg_throttled
+   kernel/sched/rt.c:1360:32: error: 'struct rt_rq' has no member named 'nr_cg_throttled'; did you mean 'rt_cg_throttled'?
+    1360 |                         rt_rq->nr_cg_throttled--;
+         |                                ^~~~~~~~~~~~~~~
+         |                                rt_cg_throttled
+   kernel/sched/rt.c: In function '__delist_rt_entity':
+   kernel/sched/rt.c:1379:9: error: 'rt_rq' undeclared (first use in this function)
+    1379 |         rt_rq->rt_se_running--;
+         |         ^~~~~
+   kernel/sched/rt.c:1379:9: note: each undeclared identifier is reported only once for each function it appears in
+   At top level:
+   kernel/sched/rt.c:1341:13: warning: 'adjust_cg_throt_update' defined but not used [-Wunused-function]
+    1341 | static void adjust_cg_throt_update(struct sched_rt_entity *rt_se, bool throt)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
+       9 | static const u64 max_rt_runtime = MAX_BW;
+         |                  ^~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +1296 drivers/iommu/io-pgtable-arm.c
+vim +1092 kernel/sched/rt.c
 
-fe4b991dcd84e0 Will Deacon        2014-11-17  1256  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1257  static int __init arm_lpae_do_selftests(void)
-fe4b991dcd84e0 Will Deacon        2014-11-17  1258  {
-9062c1d0bedacf Christophe JAILLET 2019-09-09  1259  	static const unsigned long pgsize[] __initconst = {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1260  		SZ_4K | SZ_2M | SZ_1G,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1261  		SZ_16K | SZ_32M,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1262  		SZ_64K | SZ_512M,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1263  	};
-fe4b991dcd84e0 Will Deacon        2014-11-17  1264  
-9062c1d0bedacf Christophe JAILLET 2019-09-09  1265  	static const unsigned int ias[] __initconst = {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1266  		32, 36, 40, 42, 44, 48,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1267  	};
-fe4b991dcd84e0 Will Deacon        2014-11-17  1268  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1269  	int i, j, pass = 0, fail = 0;
-ca25ec247aadbf Robin Murphy       2022-08-15  1270  	struct device dev;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1271  	struct io_pgtable_cfg cfg = {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1272  		.tlb = &dummy_tlb_ops,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1273  		.oas = 48,
-4f41845b340783 Will Deacon        2019-06-25  1274  		.coherent_walk = true,
-ca25ec247aadbf Robin Murphy       2022-08-15  1275  		.iommu_dev = &dev,
-fe4b991dcd84e0 Will Deacon        2014-11-17  1276  	};
-fe4b991dcd84e0 Will Deacon        2014-11-17  1277  
-ca25ec247aadbf Robin Murphy       2022-08-15  1278  	/* __arm_lpae_alloc_pages() merely needs dev_to_node() to work */
-ca25ec247aadbf Robin Murphy       2022-08-15  1279  	set_dev_node(&dev, NUMA_NO_NODE);
-ca25ec247aadbf Robin Murphy       2022-08-15  1280  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1281  	for (i = 0; i < ARRAY_SIZE(pgsize); ++i) {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1282  		for (j = 0; j < ARRAY_SIZE(ias); ++j) {
-fe4b991dcd84e0 Will Deacon        2014-11-17  1283  			cfg.pgsize_bitmap = pgsize[i];
-fe4b991dcd84e0 Will Deacon        2014-11-17  1284  			cfg.ias = ias[j];
-fe4b991dcd84e0 Will Deacon        2014-11-17  1285  			pr_info("selftest: pgsize_bitmap 0x%08lx, IAS %u\n",
-fe4b991dcd84e0 Will Deacon        2014-11-17  1286  				pgsize[i], ias[j]);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1287  			if (arm_lpae_run_tests(&cfg))
-fe4b991dcd84e0 Will Deacon        2014-11-17  1288  				fail++;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1289  			else
-fe4b991dcd84e0 Will Deacon        2014-11-17  1290  				pass++;
-fe4b991dcd84e0 Will Deacon        2014-11-17  1291  		}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1292  	}
-fe4b991dcd84e0 Will Deacon        2014-11-17  1293  
-fe4b991dcd84e0 Will Deacon        2014-11-17  1294  	pr_info("selftest: completed with %d PASS %d FAIL\n", pass, fail);
-fe4b991dcd84e0 Will Deacon        2014-11-17  1295  	return fail ? -EFAULT : 0;
-fe4b991dcd84e0 Will Deacon        2014-11-17 @1296  }
+  1042	
+  1043	/*
+  1044	 * Update the current task's runtime statistics. Skip current tasks that
+  1045	 * are not in our scheduling class.
+  1046	 */
+  1047	static void update_curr_rt(struct rq *rq)
+  1048	{
+  1049		struct task_struct *curr = rq->curr;
+  1050		struct sched_rt_entity *rt_se = &curr->rt;
+  1051		u64 delta_exec;
+  1052		u64 now;
+  1053	
+  1054		if (curr->sched_class != &rt_sched_class)
+  1055			return;
+  1056	
+  1057		now = rq_clock_task(rq);
+  1058		delta_exec = now - curr->se.exec_start;
+  1059		if (unlikely((s64)delta_exec <= 0))
+  1060			return;
+  1061	
+  1062		schedstat_set(curr->stats.exec_max,
+  1063			      max(curr->stats.exec_max, delta_exec));
+  1064	
+  1065		trace_sched_stat_runtime(curr, delta_exec, 0);
+  1066	
+  1067		update_current_exec_runtime(curr, now, delta_exec);
+  1068	
+  1069		if (!rt_bandwidth_enabled())
+  1070			return;
+  1071	
+  1072		for_each_sched_rt_entity(rt_se) {
+  1073			struct rt_rq *rt_rq = rt_rq_of_se(rt_se);
+  1074			int exceeded;
+  1075	
+  1076			if (sched_rt_runtime(rt_rq) != RUNTIME_INF) {
+  1077				bool tbefore;
+  1078				raw_spin_lock(&rt_rq->rt_runtime_lock);
+  1079				tbefore = rt_rq_throttled(rt_rq);
+  1080	
+  1081				rt_rq->rt_time += delta_exec;
+  1082				exceeded = sched_rt_runtime_exceeded(rt_rq);
+  1083				if (exceeded) {
+  1084					resched_curr(rq);
+  1085	
+  1086					/*
+  1087					 * Whenever reasons of our parent group's
+  1088					 * throttling change (bw ran out here), we have
+  1089					 * to adjust grandparent's cg throttling state
+  1090					 * and so forth. @rt_se can be a task or group.
+  1091					 */
+> 1092					if (!tbefore && rt_se->parent)
+  1093						adjust_cg_throt_update(rt_se->parent, true);
+  1094				}
+  1095	
+  1096				raw_spin_unlock(&rt_rq->rt_runtime_lock);
+  1097				if (exceeded)
+  1098					do_start_rt_bandwidth(sched_rt_bandwidth(rt_rq));
+  1099			}
+  1100		}
+  1101	}
+  1102	
 
 -- 
 0-DAY CI Kernel Test Service
