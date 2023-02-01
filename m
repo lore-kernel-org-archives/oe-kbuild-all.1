@@ -1,44 +1,54 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAC17E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 01:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F517E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Feb 2023 02:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675215517; x=1706751517;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vDbjCKo46pmw8szD4bsvYz2EuJ3K5UFVdJp9uDpm1mo=;
-  b=DlILHQhUoujLbL/yVNqJx+JPm/Ahvo6GXPbhu6hIy48rq6InKrPWx18/
-   o0cHgQvL9J5xDXP5WZk1QPS8ZeTXW0yenMsu7bzNva0cf3/OE+8+LNjwM
-   OZE7kO9+YiQkQgB2wxxtfwUgwHbI2Qk099EWY9UpjTZEGTrHmD1+WLYRi
-   f2m+5Kd2DUQ/HDMBnAlLkw8GXc//EPC7p0zVo8pJTgc0DCm/Wd4ygxNgz
-   q/dv7JBtY4RBCGBC463mftJJ510V2Cx0uq1DnUd21NdHRQ/giKAtijerB
-   C4tJ+MqrqM4ADQ1DF8xEfaD9d5YSI8Rsce0uKw5rnGomAu+J/ANmwsEUK
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="325711623"
+  t=1675218526; x=1706754526;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=toLA3/CCNOUSAf7uhabNH7zDl/Gt2MCQkgKD0DBBBzQ=;
+  b=CyqTowoo7gb046XOHOKKvP7o7WhsFhbjJy8tcX+8838I9/yEaoAKeGmk
+   GbS0i7HhuSz0eQFbSbKv2sD+oLXDspGzwGbZfstkd4TxfqFyUKXlgQPYO
+   Gig0QxUeaoRU1xdPNd5LzhlcXu+0WKxuQFXFuUau5wr0v+7MQMtaFU/SD
+   K6Gx5nsUMHtMVLNDOUIDNKS6HwCfvo2/jPTF7R9K3xFwk89QoNbCDsFXr
+   Kip0LusrdRWCPZ4ZzQVI/j8AwLrxeMDwwKXcU3yU1phD7OFAnmmo4h4EY
+   7ujGYy9EZXJ3u/0XJdIeZ/R0UL7jkuPrEkkPBc2sGA3UIvDzA0etDGk/y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="315989759"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="325711623"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 17:38:37 -0800
+   d="scan'208";a="315989759"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 18:28:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910127923"
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="614685237"
 X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="910127923"
+   d="scan'208";a="614685237"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 17:38:35 -0800
+  by orsmga003.jf.intel.com with ESMTP; 31 Jan 2023 18:28:38 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pN255-0004tS-0r;
-	Wed, 01 Feb 2023 01:38:35 +0000
-Date: Wed, 1 Feb 2023 09:37:45 +0800
+	id 1pN2rV-0004wA-1F;
+	Wed, 01 Feb 2023 02:28:37 +0000
+Date: Wed, 1 Feb 2023 10:28:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [linux-next:master 8520/9515] arch/arm/mach-pxa/cm-x300.c:26:10:
- fatal error: linux/platform_data/rtc-v3020.h: No such file or directory
-Message-ID: <202302010907.ldMaJ10q-lkp@intel.com>
+To: Byungchul Park <max.byungchul.park@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org
+Subject: Re: [PATCH v9 05/25] dept: Tie to Lockdep and IRQ tracing
+Message-ID: <202302011038.V1juoXv1-lkp@intel.com>
+References: <1675154394-25598-6-git-send-email-max.byungchul.park@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +57,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1675154394-25598-6-git-send-email-max.byungchul.park@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   80bd9028fecadae4e8e3a278cd32d74badc2a6e0
-commit: bf5c08d3de21fc9145b829f668c71fa346bb8644 [8520/9515] rtc: remove v3020 driver
-config: arm-cm_x300_defconfig (https://download.01.org/0day-ci/archive/20230201/202302010907.ldMaJ10q-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Byungchul,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on tip/sched/core drm-misc/drm-misc-next linus/master v6.2-rc6 next-20230131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
+patch link:    https://lore.kernel.org/r/1675154394-25598-6-git-send-email-max.byungchul.park%40gmail.com
+patch subject: [PATCH v9 05/25] dept: Tie to Lockdep and IRQ tracing
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230201/202302011038.V1juoXv1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=bf5c08d3de21fc9145b829f668c71fa346bb8644
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout bf5c08d3de21fc9145b829f668c71fa346bb8644
+        # https://github.com/intel-lab-lkp/linux/commit/ee619b0e7faff81e8b794e2adcdf9102d5bc83e8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20230131-164632
+        git checkout ee619b0e7faff81e8b794e2adcdf9102d5bc83e8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/iommu/ drivers/scsi/qla2xxx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-Note: the linux-next/master HEAD 80bd9028fecadae4e8e3a278cd32d74badc2a6e0 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from include/linux/atomic.h:80,
+                    from drivers/iommu/io-pgtable-arm.c:12:
+   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
+   include/linux/atomic/atomic-arch-fallback.h:60:32: error: implicit declaration of function 'arch_cmpxchg64'; did you mean 'arch_cmpxchg'? [-Werror=implicit-function-declaration]
+      60 | #define arch_cmpxchg64_relaxed arch_cmpxchg64
+         |                                ^~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:1968:9: note: in expansion of macro 'arch_cmpxchg64_relaxed'
+    1968 |         arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/io-pgtable-arm.c:330:15: note: in expansion of macro 'cmpxchg64_relaxed'
+     330 |         old = cmpxchg64_relaxed(ptep, curr, new);
+         |               ^~~~~~~~~~~~~~~~~
+   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_do_selftests':
+>> drivers/iommu/io-pgtable-arm.c:1296:1: warning: the frame size of 1088 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1296 | }
+         | ^
+   cc1: some warnings being treated as errors
 
->> arch/arm/mach-pxa/cm-x300.c:26:10: fatal error: linux/platform_data/rtc-v3020.h: No such file or directory
-      26 | #include <linux/platform_data/rtc-v3020.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
 
+vim +1296 drivers/iommu/io-pgtable-arm.c
 
-vim +26 arch/arm/mach-pxa/cm-x300.c
-
-cf75d8d213f58c0 Mike Rapoport     2008-08-26  21  
-cf75d8d213f58c0 Mike Rapoport     2008-08-26  22  #include <linux/gpio.h>
-9b00bc7b901ff67 Linus Walleij     2018-02-12  23  #include <linux/gpio/machine.h>
-cf75d8d213f58c0 Mike Rapoport     2008-08-26  24  #include <linux/dm9000.h>
-cf75d8d213f58c0 Mike Rapoport     2008-08-26  25  #include <linux/leds.h>
-cd9b518b98d3e98 Alexandre Belloni 2016-06-27 @26  #include <linux/platform_data/rtc-v3020.h>
-783bc78836563af Thierry Reding    2015-10-05  27  #include <linux/pwm.h>
-db205463fd24c09 Igor Grinberg     2009-11-10  28  #include <linux/pwm_backlight.h>
-cf75d8d213f58c0 Mike Rapoport     2008-08-26  29  
-
-:::::: The code at line 26 was first introduced by commit
-:::::: cd9b518b98d3e989f523e63b2ffda78467a3679e rtc: v3020: move rtc-v3020.h to platform_data
-
-:::::: TO: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-:::::: CC: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+fe4b991dcd84e0 Will Deacon        2014-11-17  1256  
+fe4b991dcd84e0 Will Deacon        2014-11-17  1257  static int __init arm_lpae_do_selftests(void)
+fe4b991dcd84e0 Will Deacon        2014-11-17  1258  {
+9062c1d0bedacf Christophe JAILLET 2019-09-09  1259  	static const unsigned long pgsize[] __initconst = {
+fe4b991dcd84e0 Will Deacon        2014-11-17  1260  		SZ_4K | SZ_2M | SZ_1G,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1261  		SZ_16K | SZ_32M,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1262  		SZ_64K | SZ_512M,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1263  	};
+fe4b991dcd84e0 Will Deacon        2014-11-17  1264  
+9062c1d0bedacf Christophe JAILLET 2019-09-09  1265  	static const unsigned int ias[] __initconst = {
+fe4b991dcd84e0 Will Deacon        2014-11-17  1266  		32, 36, 40, 42, 44, 48,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1267  	};
+fe4b991dcd84e0 Will Deacon        2014-11-17  1268  
+fe4b991dcd84e0 Will Deacon        2014-11-17  1269  	int i, j, pass = 0, fail = 0;
+ca25ec247aadbf Robin Murphy       2022-08-15  1270  	struct device dev;
+fe4b991dcd84e0 Will Deacon        2014-11-17  1271  	struct io_pgtable_cfg cfg = {
+fe4b991dcd84e0 Will Deacon        2014-11-17  1272  		.tlb = &dummy_tlb_ops,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1273  		.oas = 48,
+4f41845b340783 Will Deacon        2019-06-25  1274  		.coherent_walk = true,
+ca25ec247aadbf Robin Murphy       2022-08-15  1275  		.iommu_dev = &dev,
+fe4b991dcd84e0 Will Deacon        2014-11-17  1276  	};
+fe4b991dcd84e0 Will Deacon        2014-11-17  1277  
+ca25ec247aadbf Robin Murphy       2022-08-15  1278  	/* __arm_lpae_alloc_pages() merely needs dev_to_node() to work */
+ca25ec247aadbf Robin Murphy       2022-08-15  1279  	set_dev_node(&dev, NUMA_NO_NODE);
+ca25ec247aadbf Robin Murphy       2022-08-15  1280  
+fe4b991dcd84e0 Will Deacon        2014-11-17  1281  	for (i = 0; i < ARRAY_SIZE(pgsize); ++i) {
+fe4b991dcd84e0 Will Deacon        2014-11-17  1282  		for (j = 0; j < ARRAY_SIZE(ias); ++j) {
+fe4b991dcd84e0 Will Deacon        2014-11-17  1283  			cfg.pgsize_bitmap = pgsize[i];
+fe4b991dcd84e0 Will Deacon        2014-11-17  1284  			cfg.ias = ias[j];
+fe4b991dcd84e0 Will Deacon        2014-11-17  1285  			pr_info("selftest: pgsize_bitmap 0x%08lx, IAS %u\n",
+fe4b991dcd84e0 Will Deacon        2014-11-17  1286  				pgsize[i], ias[j]);
+fe4b991dcd84e0 Will Deacon        2014-11-17  1287  			if (arm_lpae_run_tests(&cfg))
+fe4b991dcd84e0 Will Deacon        2014-11-17  1288  				fail++;
+fe4b991dcd84e0 Will Deacon        2014-11-17  1289  			else
+fe4b991dcd84e0 Will Deacon        2014-11-17  1290  				pass++;
+fe4b991dcd84e0 Will Deacon        2014-11-17  1291  		}
+fe4b991dcd84e0 Will Deacon        2014-11-17  1292  	}
+fe4b991dcd84e0 Will Deacon        2014-11-17  1293  
+fe4b991dcd84e0 Will Deacon        2014-11-17  1294  	pr_info("selftest: completed with %d PASS %d FAIL\n", pass, fail);
+fe4b991dcd84e0 Will Deacon        2014-11-17  1295  	return fail ? -EFAULT : 0;
+fe4b991dcd84e0 Will Deacon        2014-11-17 @1296  }
 
 -- 
 0-DAY CI Kernel Test Service
