@@ -1,53 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7577A3201
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 20:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2986F8F7D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 21:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675370456; x=1706906456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dca+SSdV2iPqpOOIalDHL2cowscJyYtLtR0+FpBaxhg=;
-  b=SM1nbt9aor1dSnXCrHsWFKEZXnSmHi7k+y1Zodvcu6G2WdywGvOoHZbq
-   XnuyHHaHjouMeE6T+A1xEYzo3HXEb/cDfXauhj6y1xIMnzIrIWMnv6rTn
-   7kYl9aNgtrLvPYvbXOpfoNBMhWnpHo+Atl3gud0vYEC6qriut+W8845FR
-   JxQPYb2WNChxmTVbNfpTrxyy5eGfwe6HUYz4pSp9l+UsI4TD7BYYoxd/s
-   kRAx2QjQFUf5ylFufXmxOPovkGt+swuUWA7zs1CUyAZfOoY4KR+gNTumY
-   47B0mRUAB0J3DgV9Q8qhEHHBAY+fdA8UsktVFZxblLwFlZYE21sMC9rY2
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="414772486"
+  t=1675372253; x=1706908253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Tn8gw+pUizUVyLWdeQ33cg43GfQyYKW0oJLsIw7Ajgo=;
+  b=UjYOzRfGfpsyMrGcnIB22NP6AXJmI+oTSmYhZSmE1SPjhHLCaeQM5MkQ
+   Qes5Fvf1HDP7RpDeBFfkYsV7dUvfFNkcFY6T0K8+zIUqnlJboATjjuuqH
+   JM01yMwzTv2/qVLviyej+iGCO0PlzWUd7wxNLEH/GxBW2mB5+JBO2V/oC
+   9t2b++pw+Td/DYqVCKGok4BB7XaiIRu6zerqzZtRWqOgVmHEiWkQilNmW
+   kkgP1vssx8GKHnhZxq1tiOQ8pkZgEDMV8twTSXIPeqZdVEjKGi8D7GcLw
+   jKwWmYvUI22s7JFlpA4a7lu0mGXarDg/e4Jeu+u84jIoxOwvJWuZuR0fs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316564783"
 X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="414772486"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 12:40:55 -0800
+   d="scan'208";a="316564783"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 13:10:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="839335709"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="910900707"
 X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="839335709"
+   d="scan'208";a="910900707"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 02 Feb 2023 12:40:49 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 02 Feb 2023 13:10:51 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNgO1-0006pp-0V;
-	Thu, 02 Feb 2023 20:40:49 +0000
-Date: Fri, 3 Feb 2023 04:39:57 +0800
+	id 1pNgr4-0006rw-1S;
+	Thu, 02 Feb 2023 21:10:50 +0000
+Date: Fri, 3 Feb 2023 05:10:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?B?WmHFpW92acSN?= <m.zatovic1@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-	martin.petersen@oracle.com, beanhuo@micron.com, arnd@arndb.de,
-	avri.altman@wdc.com, iwona.winiarska@intel.com,
-	fmdefrancesco@gmail.com, dipenp@nvidia.com, ogabbay@kernel.org,
-	bvanassche@acm.org, mathieu.poirier@linaro.org,
-	yangyicong@hisilicon.com, dan.j.williams@intel.com,
-	devicetree@vger.kernel.org, linus.walleij@linaro.org,
-	Martin =?utf-8?B?WmHFpW92acSN?= <m.zatovic1@gmail.com>
-Subject: Re: [PATCHv2 4/4] wiegand: add Wiegand GPIO bit-banged controller
- driver
-Message-ID: <202302030403.qE5eN2x8-lkp@intel.com>
-References: <20230202143305.21789-5-m.zatovic1@gmail.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: warning: Local
+ variable 'ret' shadows outer variable [shadowVariable]
+Message-ID: <202302030532.61KWU5Iq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,222 +45,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230202143305.21789-5-m.zatovic1@gmail.com>
 
-Hi Martin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.2-rc6 next-20230202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Za-ovi/dt-bindings-wiegand-add-Wiegand-controller-common-properties/20230202-223510
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230202143305.21789-5-m.zatovic1%40gmail.com
-patch subject: [PATCHv2 4/4] wiegand: add Wiegand GPIO bit-banged controller driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230203/202302030403.qE5eN2x8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d2c4bf0953d186dba735c1f95b5c25ff5523872c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Martin-Za-ovi/dt-bindings-wiegand-add-Wiegand-controller-common-properties/20230202-223510
-        git checkout d2c4bf0953d186dba735c1f95b5c25ff5523872c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9f266ccaa2f5228bfe67ad58a94ca4e0109b954a
+commit: 4d07b0bc403403438d9cf88450506240c5faf92f drm/display/dp_mst: Move all payload info into the atomic state
+date:   5 months ago
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 4d07b0bc403403438d9cf88450506240c5faf92f
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: warning: Local variable 'ret' shadows outer variable [shadowVariable]
+     int ret;
+         ^
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:4737:9: note: Shadowed declaration
+    int i, ret;
+           ^
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:4780:7: note: Shadow variable
+     int ret;
+         ^
 
->> drivers/wiegand/wiegand-gpio.c:51:9: warning: no previous prototype for 'payload_len_show' [-Wmissing-prototypes]
-      51 | ssize_t payload_len_show(struct device *dev, struct device_attribute *attr,
-         |         ^~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:61:9: warning: no previous prototype for 'payload_len_store' [-Wmissing-prototypes]
-      61 | ssize_t payload_len_store(struct device *dev, struct device_attribute *attr,
-         |         ^~~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:79:6: warning: no previous prototype for 'wiegand_gpio_send_bit' [-Wmissing-prototypes]
-      79 | void wiegand_gpio_send_bit(struct wiegand_gpio *wiegand_gpio, bool value,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:198:5: warning: no previous prototype for 'wiegand_gpio_transfer_message' [-Wmissing-prototypes]
-     198 | int wiegand_gpio_transfer_message(struct wiegand_device *dev, u8 *message,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
+>> fs/overlayfs/copy_up.c:480:40: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
+    temp = ovl_create_temp(ofs, indexdir, OVL_CATTR(S_IFDIR | 0));
+                                          ^
+>> fs/overlayfs/copy_up.c:420:57: warning: Possible null pointer dereference: fh [nullPointer]
+    err = ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+                                                           ^
+   fs/overlayfs/copy_up.c:403:28: note: Assignment 'fh=NULL', assigned value is 0
+    const struct ovl_fh *fh = NULL;
+                              ^
+   fs/overlayfs/copy_up.c:411:23: note: Assuming condition is false
+    if (ovl_can_decode_fh(lower->d_sb)) {
+                         ^
+   fs/overlayfs/copy_up.c:420:57: note: Null pointer dereference
+    err = ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+                                                           ^
+>> fs/overlayfs/copy_up.c:107:10: warning: Local variable 'new' shadows outer argument [shadowArgument]
+      void *new;
+            ^
+   fs/overlayfs/copy_up.c:47:81: note: Shadowed declaration
+   int ovl_copy_xattr(struct super_block *sb, struct path *oldpath, struct dentry *new)
+                                                                                   ^
+   fs/overlayfs/copy_up.c:107:10: note: Shadow variable
+      void *new;
+            ^
+--
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:1691:30: warning: Parameter 'port' can be declared as pointer to const [constParameter]
+        struct drm_dp_mst_port *port)
+                                ^
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:5003:34: warning: Parameter 'branch' can be declared as pointer to const [constParameter]
+          struct drm_dp_mst_branch *branch)
+                                    ^
 
-vim +/payload_len_show +51 drivers/wiegand/wiegand-gpio.c
+vim +/ret +4780 drivers/gpu/drm/display/drm_dp_mst_topology.c
 
-    47	
-    48	/*
-    49	 * Attribute file for setting payload length of Wiegand messages.
-    50	 */
-  > 51	ssize_t payload_len_show(struct device *dev, struct device_attribute *attr,
-    52									 char *buf)
-    53	{
-    54		struct wiegand_gpio *wiegand_gpio = (struct wiegand_gpio *)
-    55								dev->driver_data;
-    56		struct wiegand_controller *ctlr = wiegand_gpio->ctlr;
-    57	
-    58		return sysfs_emit(buf, "%u\n", ctlr->payload_len);
-    59	}
-    60	
-  > 61	ssize_t payload_len_store(struct device *dev, struct device_attribute *attr,
-    62							const char *buf, size_t count)
-    63	{
-    64		struct wiegand_gpio *wiegand_gpio = (struct wiegand_gpio *)
-    65								dev->driver_data;
-    66		struct wiegand_controller *ctlr = wiegand_gpio->ctlr;
-    67	
-    68		return store_ulong(&(ctlr->payload_len), buf, count,
-    69							WIEGAND_MAX_PAYLEN_BYTES * 8);
-    70	}
-    71	DEVICE_ATTR_RW(payload_len);
-    72	
-    73	/*
-    74	 * To send a bit of value 1 following the wiegand protocol, one must set
-    75	 * the wiegand_data_hi to low for the duration of pulse. Similarly to send
-    76	 * a bit of value 0, the wiegand_data_lo is set to low for pulse duration.
-    77	 * This way the two lines are never low at the same time.
-    78	 */
-  > 79	void wiegand_gpio_send_bit(struct wiegand_gpio *wiegand_gpio, bool value,
-    80									bool last)
-    81	{
-    82		u32 pulse_len = wiegand_gpio->ctlr->pulse_len;
-    83		u32 interval_len = wiegand_gpio->ctlr->interval_len;
-    84		u32 frame_gap = wiegand_gpio->ctlr->frame_gap;
-    85		struct gpio_desc *gpio = value ? wiegand_gpio->gpio_data_hi
-    86						: wiegand_gpio->gpio_data_lo;
-    87	
-    88		gpiod_set_value_cansleep(gpio, 0);
-    89		udelay(pulse_len);
-    90		gpiod_set_value_cansleep(gpio, 1);
-    91	
-    92		if (last)
-    93			udelay(frame_gap - pulse_len);
-    94		else
-    95			udelay(interval_len - pulse_len);
-    96	}
-    97	
-    98	/* This function is used for writing from file in dev directory */
-    99	static int wiegand_gpio_write_by_bits(struct wiegand_gpio *wiegand_gpio,
-   100									u16 bitlen)
-   101	{
-   102		size_t i;
-   103		bool bit_value, is_last_bit;
-   104	
-   105		for (i = 0; i < bitlen; i++) {
-   106			bit_value = ((wiegand_gpio->data[i / 8] >> (7 - (i % 8)))
-   107										& 0x01);
-   108			is_last_bit = (i + 1) == bitlen;
-   109			wiegand_gpio_send_bit(wiegand_gpio, bit_value, is_last_bit);
-   110		}
-   111	
-   112		return 0;
-   113	}
-   114	
-   115	static ssize_t wiegand_gpio_get_user_data(struct wiegand_gpio *wiegand_gpio,
-   116						char __user const *buf, size_t len)
-   117	{
-   118		size_t rc;
-   119	
-   120		if (len > WIEGAND_MAX_PAYLEN_BYTES)
-   121			return -EBADMSG;
-   122	
-   123		rc = copy_from_user(&wiegand_gpio->data[0], buf,
-   124							WIEGAND_MAX_PAYLEN_BYTES);
-   125		if (rc < 0)
-   126			return rc;
-   127	
-   128		return len;
-   129	}
-   130	
-   131	static int wiegand_gpio_frelease(struct inode *ino, struct file *filp)
-   132	{
-   133		struct wiegand_gpio_instance *info = filp->private_data;
-   134		struct wiegand_gpio *wiegand_gpio = info->dev;
-   135	
-   136		mutex_lock(&wiegand_gpio->mutex);
-   137		info->flags = 0;
-   138		mutex_unlock(&wiegand_gpio->mutex);
-   139	
-   140		kfree(info);
-   141	
-   142		return 0;
-   143	}
-   144	
-   145	static ssize_t wiegand_gpio_fwrite(struct file *filp, char __user const *buf,
-   146							size_t len, loff_t *offset)
-   147	{
-   148		struct wiegand_gpio_instance *info = filp->private_data;
-   149		struct wiegand_gpio *wiegand_gpio = info->dev;
-   150		u32 msg_length = wiegand_gpio->ctlr->payload_len;
-   151		int rc;
-   152	
-   153		if (buf == NULL || len == 0 || len * 8 < msg_length)
-   154			return -EINVAL;
-   155	
-   156		rc = wiegand_gpio_get_user_data(wiegand_gpio, buf, len);
-   157		if (rc < 0)
-   158			return rc;
-   159	
-   160		wiegand_gpio_write_by_bits(wiegand_gpio, msg_length);
-   161	
-   162		return len;
-   163	}
-   164	
-   165	static int wiegand_gpio_fopen(struct inode *ino, struct file *filp)
-   166	{
-   167		int rc;
-   168		struct wiegand_gpio_instance *info;
-   169		struct wiegand_gpio *wiegand_gpio = container_of(filp->f_op,
-   170								 struct wiegand_gpio,
-   171								 fops);
-   172		mutex_lock(&wiegand_gpio->mutex);
-   173		if ((filp->f_flags & O_ACCMODE) == O_RDONLY ||
-   174					(filp->f_flags & O_ACCMODE) == O_RDWR) {
-   175			dev_err(wiegand_gpio->dev, "Device is write only\n");
-   176			rc = -EIO;
-   177			goto err;
-   178		}
-   179		info = kzalloc(sizeof(*info), GFP_KERNEL);
-   180		if (!info) {
-   181			rc = -ENOMEM;
-   182			goto err;
-   183		}
-   184	
-   185		info->dev = wiegand_gpio;
-   186		info->flags = filp->f_flags;
-   187		mutex_unlock(&wiegand_gpio->mutex);
-   188	
-   189		filp->private_data = info;
-   190	
-   191		return 0;
-   192	err:
-   193		mutex_unlock(&wiegand_gpio->mutex);
-   194		return rc;
-   195	}
-   196	
-   197	/* This function is used by device drivers */
- > 198	int wiegand_gpio_transfer_message(struct wiegand_device *dev, u8 *message,
-   199									u8 msg_bitlen)
-   200	{
-   201		struct wiegand_controller *ctlr = dev->controller;
-   202		struct wiegand_gpio *wiegand_gpio = wiegand_master_get_devdata(ctlr);
-   203		u8 msg_bytelength = (msg_bitlen % 8) ?
-   204					(msg_bitlen / 8) + 1 : (msg_bitlen / 8);
-   205	
-   206		memcpy(wiegand_gpio->data, message, msg_bytelength);
-   207		wiegand_gpio_write_by_bits(wiegand_gpio, msg_bitlen);
-   208	
-   209		return 0;
-   210	}
-   211	
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4724  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4725  /**
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4726   * drm_dp_mst_dump_topology(): dump topology to seq file.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4727   * @m: seq_file to dump output to
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4728   * @mgr: manager to dump current topology for.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4729   *
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4730   * helper to dump MST topology to a seq file for debugfs.
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4731   */
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4732  void drm_dp_mst_dump_topology(struct seq_file *m,
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4733  			      struct drm_dp_mst_topology_mgr *mgr)
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4734  {
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4735  	struct drm_dp_mst_topology_state *state;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4736  	struct drm_dp_mst_atomic_payload *payload;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4737  	int i, ret;
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4738  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4739  	mutex_lock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4740  	if (mgr->mst_primary)
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4741  		drm_dp_mst_dump_mstb(m, mgr->mst_primary);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4742  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4743  	/* dump VCPIs */
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4744  	mutex_unlock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4745  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4746  	ret = drm_modeset_lock_single_interruptible(&mgr->base.lock);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4747  	if (ret < 0)
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4748  		return;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4749  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4750  	state = to_drm_dp_mst_topology_state(mgr->base.state);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4751  	seq_printf(m, "\n*** Atomic state info ***\n");
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4752  	seq_printf(m, "payload_mask: %x, max_payloads: %d, start_slot: %u, pbn_div: %d\n",
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4753  		   state->payload_mask, mgr->max_payloads, state->start_slot, state->pbn_div);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4754  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4755  	seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc |     sink name     |\n");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4756  	for (i = 0; i < mgr->max_payloads; i++) {
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4757  		list_for_each_entry(payload, &state->payloads, next) {
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4758  			char name[14];
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4759  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4760  			if (payload->vcpi != i || payload->delete)
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4761  				continue;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4762  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4763  			fetch_monitor_name(mgr, payload->port, name, sizeof(name));
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4764  			seq_printf(m, " %5d %6d %6d %02d - %02d %5d %5s %19s\n",
+e55f2ffc4dc105 drivers/gpu/drm/drm_dp_mst_topology.c         Eryk Brol         2021-03-25  4765  				   i,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4766  				   payload->port->port_num,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4767  				   payload->vcpi,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4768  				   payload->vc_start_slot,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4769  				   payload->vc_start_slot + payload->time_slots - 1,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4770  				   payload->pbn,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4771  				   payload->dsc_enabled ? "Y" : "N",
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4772  				   (*name != 0) ? name : "Unknown");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4773  		}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4774  	}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4775  
+e55f2ffc4dc105 drivers/gpu/drm/drm_dp_mst_topology.c         Eryk Brol         2021-03-25  4776  	seq_printf(m, "\n*** DPCD Info ***\n");
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4777  	mutex_lock(&mgr->lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4778  	if (mgr->mst_primary) {
+7056a2bccc3b5a drivers/gpu/drm/drm_dp_mst_topology.c         Andy Shevchenko   2018-03-19  4779  		u8 buf[DP_PAYLOAD_TABLE_SIZE];
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05 @4780  		int ret;
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4781  
+7a710a8bc90931 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak         2022-06-14  4782  		if (drm_dp_read_dpcd_caps(mgr->aux, buf) < 0) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4783  			seq_printf(m, "dpcd read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4784  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4785  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4786  		seq_printf(m, "dpcd: %*ph\n", DP_RECEIVER_CAP_SIZE, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4787  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4788  		ret = drm_dp_dpcd_read(mgr->aux, DP_FAUX_CAP, buf, 2);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4789  		if (ret != 2) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4790  			seq_printf(m, "faux/mst read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4791  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4792  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4793  		seq_printf(m, "faux/mst: %*ph\n", 2, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4794  
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4795  		ret = drm_dp_dpcd_read(mgr->aux, DP_MSTM_CTRL, buf, 1);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4796  		if (ret != 1) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4797  			seq_printf(m, "mst ctrl read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4798  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4799  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4800  		seq_printf(m, "mst ctrl: %*ph\n", 1, buf);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4801  
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4802  		/* dump the standard OUI branch header */
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4803  		ret = drm_dp_dpcd_read(mgr->aux, DP_BRANCH_OUI, buf, DP_BRANCH_OUI_HEADER_SIZE);
+2ac6cdd581f48c drivers/gpu/drm/display/drm_dp_mst_topology.c Simon Ser         2022-02-10  4804  		if (ret != DP_BRANCH_OUI_HEADER_SIZE) {
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4805  			seq_printf(m, "branch oui read failed\n");
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4806  			goto out;
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4807  		}
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4808  		seq_printf(m, "branch oui: %*phN devid: ", 3, buf);
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4809  
+51108f252b02d3 drivers/gpu/drm/drm_dp_mst_topology.c         Jim Bride         2016-04-14  4810  		for (i = 0x3; i < 0x8 && buf[i]; i++)
+44790462d041d3 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2015-07-14  4811  			seq_printf(m, "%c", buf[i]);
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4812  		seq_printf(m, " revision: hw: %x.%x sw: %x.%x\n",
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4813  			   buf[0x9] >> 4, buf[0x9] & 0xf, buf[0xa], buf[0xb]);
+46466b0dac3f6b drivers/gpu/drm/drm_dp_mst_topology.c         Joe Perches       2017-05-30  4814  		if (dump_dp_payload_table(mgr, buf))
+7056a2bccc3b5a drivers/gpu/drm/drm_dp_mst_topology.c         Andy Shevchenko   2018-03-19  4815  			seq_printf(m, "payload table: %*ph\n", DP_PAYLOAD_TABLE_SIZE, buf);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4816  	}
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4817  
+cb897542c6d2b3 drivers/gpu/drm/drm_dp_mst_topology.c         Benjamin Gaignard 2020-02-05  4818  out:
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4819  	mutex_unlock(&mgr->lock);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul        2022-08-17  4820  	drm_modeset_unlock(&mgr->base.lock);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4821  }
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4822  EXPORT_SYMBOL(drm_dp_mst_dump_topology);
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie       2014-06-05  4823  
+
+:::::: The code at line 4780 was first introduced by commit
+:::::: ad7f8a1f9ced7f049f9b66d588723f243a7034cd drm/helper: add Displayport multi-stream helper (v0.6)
+
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
