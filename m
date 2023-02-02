@@ -1,109 +1,264 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5118F7E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 03:48:50 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4P6l8L1t5MznTV9;
-	Thu,  2 Feb 2023 11:46:42 +0800 (CST)
-Received: from [10.67.110.176] (10.67.110.176) by
- kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 2 Feb 2023 11:48:45 +0800
-Subject: Re: [linux-stable-rc:queue/4.19 1/66]
- drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function
- 'devm_clk_get_enabled'
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Sasha Levin <sashal@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-References: <202302012152.IA9WllvH-lkp@intel.com>
-From: cuigaosheng <cuigaosheng1@huawei.com>
-Message-ID: <010464e4-e8a6-0c23-715e-8aef45c30d26@huawei.com>
-Date: Thu, 2 Feb 2023 11:48:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C147E;
+	Thu,  2 Feb 2023 04:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675310531; x=1706846531;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q6pt76n3GNc0XQSh5sHwG6/T5JVBFQK0A82aR9qxwdg=;
+  b=RiXIFgaidd7mguTArhHjE4iB/oeChdOuwQlDrfWgXhSN0FH3QhsiTDBv
+   hUwAFmUpDc8EK7zqTEO2RFJUJ2sGt/rH5DNL6Q6eWVKhv3gIruRafeEkx
+   GpJuZIFokTeLO3fQxtijrovIeFN9As/idnYTM8k4WIHL+iFiVVi/3zMWW
+   YWhCAfZQNWlL8h6P7CTMpsAusTqT3Nq6AxBW4Vn7s1q7cxaj/W0p4NGVQ
+   eZHQZ/mPc6EzwJ4bV8DBd0TtM2jPilD8H1FYulPQWESHIIm2uQa+otYYJ
+   xYV0u6aExXvXn9Kvs/w6WskhJncFh7kekVSnC4Ti3R37cLNwGdAyCZVCj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="392926398"
+X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
+   d="scan'208";a="392926398"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 20:02:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="789139053"
+X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
+   d="scan'208";a="789139053"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 01 Feb 2023 20:02:08 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNQnX-00067S-2Z;
+	Thu, 02 Feb 2023 04:02:07 +0000
+Date: Thu, 2 Feb 2023 12:01:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 2/4] bpf: treewide: Clean up BPF_ALU and BPF_JMP
+Message-ID: <202302021105.HU4McFMJ-lkp@intel.com>
+References: <1675254998-4951-3-git-send-email-yangtiezhu@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202302012152.IA9WllvH-lkp@intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.110.176]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1675254998-4951-3-git-send-email-yangtiezhu@loongson.cn>
 
-Thanks for reporting the issue, this patch depends on the following patches:
-   7ef9651e9792 clk: Provide new devm_clk helpers for prepared and enabled clocks
-   abae8e57e49a clk: generalize devm_clk_get() a bit
-we can fix the issue by applying them, thanks for Sasha's work again!
+Hi Tiezhu,
 
-Gaosheng.
+Thank you for the patch! Yet something to improve:
 
-On 2023/2/1 21:35, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
-> head:   923e939ad273761d537bc8b4e314e7fbac1d975d
-> commit: e283c92e9ef8852a075bed84d3427a0704159f9c [1/66] memory: atmel-sdramc: Fix missing clk_disable_unprepare in atmel_ramc_probe()
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20230201/202302012152.IA9WllvH-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=e283c92e9ef8852a075bed84d3427a0704159f9c
->          git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
->          git fetch --no-tags linux-stable-rc queue/4.19
->          git checkout e283c92e9ef8852a075bed84d3427a0704159f9c
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>):
->
->     drivers/memory/atmel-sdramc.c: In function 'atmel_ramc_probe':
->>> drivers/memory/atmel-sdramc.c:62:23: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
->        62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
->           |                       ^~~~~~~~~~~~~~~~~~~~
->     drivers/memory/atmel-sdramc.c:62:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->        62 |                 clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
->           |                     ^
->     drivers/memory/atmel-sdramc.c:68:21: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->        68 |                 clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
->           |                     ^
->     cc1: some warnings being treated as errors
->
->
-> vim +/devm_clk_get_enabled +62 drivers/memory/atmel-sdramc.c
->
->      53	
->      54	static int atmel_ramc_probe(struct platform_device *pdev)
->      55	{
->      56		const struct at91_ramc_caps *caps;
->      57		struct clk *clk;
->      58	
->      59		caps = of_device_get_match_data(&pdev->dev);
->      60	
->      61		if (caps->has_ddrck) {
->    > 62			clk = devm_clk_get_enabled(&pdev->dev, "ddrck");
->      63			if (IS_ERR(clk))
->      64				return PTR_ERR(clk);
->      65		}
->      66	
->      67		if (caps->has_mpddr_clk) {
->      68			clk = devm_clk_get_enabled(&pdev->dev, "mpddr");
->      69			if (IS_ERR(clk)) {
->      70				pr_err("AT91 RAMC: couldn't get mpddr clock\n");
->      71				return PTR_ERR(clk);
->      72			}
->      73		}
->      74	
->      75		return 0;
->      76	}
->      77	
->
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/bpf-Add-new-macro-BPF_ALU32-and-BPF_JMP64/20230201-203836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/1675254998-4951-3-git-send-email-yangtiezhu%40loongson.cn
+patch subject: [PATCH bpf-next 2/4] bpf: treewide: Clean up BPF_ALU and BPF_JMP
+config: i386-randconfig-a016-20230130 (https://download.01.org/0day-ci/archive/20230202/202302021105.HU4McFMJ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9955f957cb218f711161ac710656be1164eaa3a3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tiezhu-Yang/bpf-Add-new-macro-BPF_ALU32-and-BPF_JMP64/20230201-203836
+        git checkout 9955f957cb218f711161ac710656be1164eaa3a3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash samples/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> samples/seccomp/bpf-fancy.c:38:3: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_exit, ALLOW),
+                   ^
+   samples/seccomp/bpf-helper.h:56:11: note: expanded from macro 'SYSCALL'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (nr), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:39:3: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_exit_group, ALLOW),
+                   ^
+   samples/seccomp/bpf-helper.h:56:11: note: expanded from macro 'SYSCALL'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (nr), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:40:3: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_write, JUMP(&l, write_fd)),
+                   ^
+   samples/seccomp/bpf-helper.h:56:11: note: expanded from macro 'SYSCALL'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (nr), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:40:23: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_write, JUMP(&l, write_fd)),
+                                       ^
+   samples/seccomp/bpf-helper.h:50:11: note: expanded from macro 'JUMP'
+           BPF_JUMP(BPF_JMP64+BPF_JA, FIND_LABEL((labels), (label)), \
+                    ^
+   samples/seccomp/bpf-fancy.c:41:3: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_read, JUMP(&l, read)),
+                   ^
+   samples/seccomp/bpf-helper.h:56:11: note: expanded from macro 'SYSCALL'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (nr), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:41:22: error: use of undeclared identifier 'BPF_JMP64'
+                   SYSCALL(__NR_read, JUMP(&l, read)),
+                                      ^
+   samples/seccomp/bpf-helper.h:50:11: note: expanded from macro 'JUMP'
+           BPF_JUMP(BPF_JMP64+BPF_JA, FIND_LABEL((labels), (label)), \
+                    ^
+   samples/seccomp/bpf-fancy.c:44:3: error: use of undeclared identifier 'BPF_JMP64'
+                   LABEL(&l, read),
+                   ^
+   samples/seccomp/bpf-helper.h:53:11: note: expanded from macro 'LABEL'
+           BPF_JUMP(BPF_JMP64+BPF_JA, FIND_LABEL((labels), (label)), \
+                    ^
+   samples/seccomp/bpf-fancy.c:46:3: error: use of undeclared identifier 'BPF_JMP64'
+                   JNE(STDIN_FILENO, DENY),
+                   ^
+   samples/seccomp/bpf-helper.h:77:20: note: expanded from macro 'JNE'
+   #define JNE(x, jt) JNE32(x, EXPAND(jt))
+                      ^
+   samples/seccomp/bpf-helper.h:154:11: note: expanded from macro 'JNE32'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (value), 1, 0), \
+                    ^
+   samples/seccomp/bpf-fancy.c:48:3: error: use of undeclared identifier 'BPF_JMP64'
+                   JNE((unsigned long)buf, DENY),
+                   ^
+   samples/seccomp/bpf-helper.h:77:20: note: expanded from macro 'JNE'
+   #define JNE(x, jt) JNE32(x, EXPAND(jt))
+                      ^
+   samples/seccomp/bpf-helper.h:154:11: note: expanded from macro 'JNE32'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (value), 1, 0), \
+                    ^
+   samples/seccomp/bpf-fancy.c:50:3: error: use of undeclared identifier 'BPF_JMP64'
+                   JGE(sizeof(buf), DENY),
+                   ^
+   samples/seccomp/bpf-helper.h:80:20: note: expanded from macro 'JGE'
+   #define JGE(x, jt) JGE32(x, EXPAND(jt))
+                      ^
+   samples/seccomp/bpf-helper.h:162:11: note: expanded from macro 'JGE32'
+           BPF_JUMP(BPF_JMP64+BPF_JGE+BPF_K, (value), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:53:3: error: use of undeclared identifier 'BPF_JMP64'
+                   LABEL(&l, write_fd),
+                   ^
+   samples/seccomp/bpf-helper.h:53:11: note: expanded from macro 'LABEL'
+           BPF_JUMP(BPF_JMP64+BPF_JA, FIND_LABEL((labels), (label)), \
+                    ^
+   samples/seccomp/bpf-fancy.c:55:3: error: use of undeclared identifier 'BPF_JMP64'
+                   JEQ(STDOUT_FILENO, JUMP(&l, write_buf)),
+                   ^
+   samples/seccomp/bpf-helper.h:76:20: note: expanded from macro 'JEQ'
+   #define JEQ(x, jt) JEQ32(x, EXPAND(jt))
+                      ^
+   samples/seccomp/bpf-helper.h:150:11: note: expanded from macro 'JEQ32'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (value), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:55:22: error: use of undeclared identifier 'BPF_JMP64'
+                   JEQ(STDOUT_FILENO, JUMP(&l, write_buf)),
+                                      ^
+   samples/seccomp/bpf-helper.h:50:11: note: expanded from macro 'JUMP'
+           BPF_JUMP(BPF_JMP64+BPF_JA, FIND_LABEL((labels), (label)), \
+                    ^
+   samples/seccomp/bpf-fancy.c:56:3: error: use of undeclared identifier 'BPF_JMP64'
+                   JEQ(STDERR_FILENO, JUMP(&l, write_buf)),
+                   ^
+   samples/seccomp/bpf-helper.h:76:20: note: expanded from macro 'JEQ'
+   #define JEQ(x, jt) JEQ32(x, EXPAND(jt))
+                      ^
+   samples/seccomp/bpf-helper.h:150:11: note: expanded from macro 'JEQ32'
+           BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, (value), 0, 1), \
+                    ^
+   samples/seccomp/bpf-fancy.c:56:22: error: use of undeclared identifier 'BPF_JMP64'
+                   JEQ(STDERR_FILENO, JUMP(&l, write_buf)),
+--
+>> samples/seccomp/bpf-helper.c:33:23: error: use of undeclared identifier 'BPF_JMP64'
+                   if (instr->code != (BPF_JMP64+BPF_JA))
+                                       ^
+   1 error generated.
+--
+>> samples/seccomp/dropper.c:33:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, arch, 0, 3),
+                            ^
+   samples/seccomp/dropper.c:36:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, nr, 0, 1),
+                            ^
+>> samples/seccomp/dropper.c:42:33: error: invalid application of 'sizeof' to an incomplete type 'struct sock_filter[]'
+                   .len = (unsigned short)(sizeof(filter)/sizeof(filter[0])),
+                                                 ^~~~~~~~
+   3 errors generated.
+--
+>> samples/seccomp/bpf-direct.c:117:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_rt_sigreturn, 0, 1),
+                            ^
+   samples/seccomp/bpf-direct.c:120:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_sigreturn, 0, 1),
+                            ^
+   samples/seccomp/bpf-direct.c:123:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_exit_group, 0, 1),
+                            ^
+   samples/seccomp/bpf-direct.c:125:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_exit, 0, 1),
+                            ^
+   samples/seccomp/bpf-direct.c:127:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_read, 1, 0),
+                            ^
+   samples/seccomp/bpf-direct.c:128:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, __NR_write, 3, 2),
+                            ^
+   samples/seccomp/bpf-direct.c:132:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, STDIN_FILENO, 4, 0),
+                            ^
+   samples/seccomp/bpf-direct.c:137:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, STDOUT_FILENO, 1, 0),
+                            ^
+   samples/seccomp/bpf-direct.c:139:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, STDERR_FILENO, 1, 2),
+                            ^
+>> samples/seccomp/bpf-direct.c:146:33: error: invalid application of 'sizeof' to an incomplete type 'struct sock_filter[]'
+                   .len = (unsigned short)(sizeof(filter)/sizeof(filter[0])),
+                                                 ^~~~~~~~
+   10 errors generated.
+--
+>> samples/seccomp/user-trap.c:91:12: error: use of undeclared identifier 'BPF_JMP64'
+                   BPF_JUMP(BPF_JMP64+BPF_JEQ+BPF_K, nr, 0, 1),
+                            ^
+>> samples/seccomp/user-trap.c:97:26: error: invalid application of 'sizeof' to an incomplete type 'struct sock_filter[]'
+                   .len = (unsigned short)ARRAY_SIZE(filter),
+                                          ^~~~~~~~~~~~~~~~~~
+   samples/seccomp/user-trap.c:24:30: note: expanded from macro 'ARRAY_SIZE'
+   #define ARRAY_SIZE(x) (sizeof(x) / sizeof(*(x)))
+                                ^~~
+   2 errors generated.
+
+
+vim +/BPF_JMP64 +38 samples/seccomp/bpf-fancy.c
+
+8ac270d1e29f042 Will Drewry 2012-04-12  26  
+8ac270d1e29f042 Will Drewry 2012-04-12  27  int main(int argc, char **argv)
+8ac270d1e29f042 Will Drewry 2012-04-12  28  {
+3a9af0bd34410a2 Kees Cook   2015-02-17  29  	struct bpf_labels l = {
+3a9af0bd34410a2 Kees Cook   2015-02-17  30  		.count = 0,
+3a9af0bd34410a2 Kees Cook   2015-02-17  31  	};
+8ac270d1e29f042 Will Drewry 2012-04-12  32  	static const char msg1[] = "Please type something: ";
+8ac270d1e29f042 Will Drewry 2012-04-12  33  	static const char msg2[] = "You typed: ";
+8ac270d1e29f042 Will Drewry 2012-04-12  34  	char buf[256];
+8ac270d1e29f042 Will Drewry 2012-04-12  35  	struct sock_filter filter[] = {
+8ac270d1e29f042 Will Drewry 2012-04-12  36  		/* TODO: LOAD_SYSCALL_NR(arch) and enforce an arch */
+8ac270d1e29f042 Will Drewry 2012-04-12  37  		LOAD_SYSCALL_NR,
+8ac270d1e29f042 Will Drewry 2012-04-12 @38  		SYSCALL(__NR_exit, ALLOW),
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
