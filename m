@@ -1,52 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27867E9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 04:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F4DA2A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 04:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675312393; x=1706848393;
+  t=1675313658; x=1706849658;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bi9zCorLY17vdzPYr0SEZUj7gYa2k2U+qt/PS0q4CNc=;
-  b=Ce6f/fH1cxf7oiXhwidnsCdr0yHB+hJLCG1oOA0CQ9KqgKXU0bEPkco8
-   ta9JfZh0tSQyNZWHQCTMiiTdXQM2pb25TfxHg8/AONhuPpLlIWQl2xfVd
-   Ame46C1bMyZGucl/qA1pQy+uUFl/f9+RC/aVvye59Ky0CQwywvcWfTm5Y
-   GTV/ZsNgtrw7WlwCzpRIBB3xp0Wc2oAwa6eoHvQPdLcX9h3kb8npGj6E4
-   iTWBy6pF+paLOlnBn3EVW6vlTPvB0L8dSv1oXjpqEc48BCM0DT1OSnw3C
-   YjeNGjilio0D6arrAttSDdEj6KSDekdOQffzNMveJvz8cLrPJDvEmXSVS
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316348287"
+  bh=RxuR55X3AAe0WSdLaoBJfLJjrnmzU1QVMffDdTPAznE=;
+  b=X68OklCD/kntxnH99wDre/Uiax3bFaSI+glH3OMHnoOTW7CzeW5Yx2sZ
+   vkrPbCPXw5oqr7Cmlmdk7q5Uv1dPCYzwNLUFm3MNvcHMmbzxBosrdtb/o
+   +KKVxuvm/aX+ealVvienl0O2f0l8gNRhMPttTIPZI2dltsdmOe+elAT8E
+   rDsxKPKw4vj3+N4fgtJKz3Nl56nxIuIhmH6sPpus5Y6shjg0y1XHIWzVy
+   zSawECtYsPmdbg0roJlRWGzUQQ0k69WVg8hcmUHIJlJz4e5j0GINjGhoX
+   EE12bJWaNZc6JcvROdWVfGNG6LEOztWAL4KfpgJ8E5mcTKMwysBqgKtDt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="390741314"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="316348287"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 20:33:13 -0800
+   d="scan'208";a="390741314"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 20:54:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="910580217"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="658584547"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="910580217"
+   d="scan'208";a="658584547"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Feb 2023 20:33:10 -0800
+  by orsmga007.jf.intel.com with ESMTP; 01 Feb 2023 20:54:10 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNRHZ-00069E-17;
-	Thu, 02 Feb 2023 04:33:09 +0000
-Date: Thu, 2 Feb 2023 12:32:49 +0800
+	id 1pNRbu-0006AE-0N;
+	Thu, 02 Feb 2023 04:54:10 +0000
+Date: Thu, 2 Feb 2023 12:53:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Avri Altman <avri.altman@wdc.com>,
-	Adrian Hunter <adrian.hunter@intel.com>, linux-scsi@vger.kernel.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Asutosh Das <asutoshd@codeaurora.org>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	Bean Huo <beanhuo@micron.com>,
-	Stanley Chu <stanley.chu@mediatek.com>,
-	Jinyoung Choi <j-young.choi@samsung.com>
-Subject: Re: [PATCH 2/2] scsi: ufs: Use SYNCHRONIZE CACHE instead of FUA
-Message-ID: <202302021202.mM5iFxSO-lkp@intel.com>
-References: <20230201180637.2102556-3-bvanassche@acm.org>
+To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org, tj@kernel.org, dennis@kernel.org, cl@linux.com,
+	akpm@linux-foundation.org, penberg@kernel.org, rientjes@google.com,
+	iamjoonsoo.kim@lge.com, roman.gushchin@linux.dev,
+	42.hyeyoo@gmail.com, vbabka@suse.cz, urezki@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org,
+	Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [PATCH bpf-next 6/7] bpf: introduce bpf_mem_alloc_size()
+Message-ID: <202302021258.By6JZK71-lkp@intel.com>
+References: <20230202014158.19616-7-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,88 +54,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201180637.2102556-3-bvanassche@acm.org>
+In-Reply-To: <20230202014158.19616-7-laoar.shao@gmail.com>
 
-Hi Bart,
+Hi Yafang,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on mkp-scsi/for-next]
-[also build test ERROR on jejb-scsi/for-next linus/master v6.2-rc6 next-20230202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/scsi-core-Introduce-the-BLIST_BROKEN_FUA-flag/20230202-021019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230201180637.2102556-3-bvanassche%40acm.org
-patch subject: [PATCH 2/2] scsi: ufs: Use SYNCHRONIZE CACHE instead of FUA
-config: arm-randconfig-r046-20230130 (https://download.01.org/0day-ci/archive/20230202/202302021202.mM5iFxSO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-percpu-fix-incorrect-size-in-pcpu_obj_full_size/20230202-094352
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230202014158.19616-7-laoar.shao%40gmail.com
+patch subject: [PATCH bpf-next 6/7] bpf: introduce bpf_mem_alloc_size()
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302021258.By6JZK71-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4edde0173805f04faa8e79aab4de3e929ea4b7c0
+        # https://github.com/intel-lab-lkp/linux/commit/996f3e2ac4dca054396d0f37ffe8ddb97fc4212f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bart-Van-Assche/scsi-core-Introduce-the-BLIST_BROKEN_FUA-flag/20230202-021019
-        git checkout 4edde0173805f04faa8e79aab4de3e929ea4b7c0
+        git fetch --no-tags linux-review Yafang-Shao/mm-percpu-fix-incorrect-size-in-pcpu_obj_full_size/20230202-094352
+        git checkout 996f3e2ac4dca054396d0f37ffe8ddb97fc4212f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/ufs/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/ufs/core/ufshcd.c: In function 'ufshcd_slave_alloc':
->> drivers/ufs/core/ufshcd.c:5060:29: error: 'BLIST_BROKEN_FUA' undeclared (first use in this function)
-    5060 |         sdev->sdev_bflags = BLIST_BROKEN_FUA;
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:5060:29: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/bpf/memalloc.c:227:15: warning: no previous prototype for 'bpf_mem_cache_size' [-Wmissing-prototypes]
+     227 | unsigned long bpf_mem_cache_size(struct bpf_mem_cache *c, void *obj)
+         |               ^~~~~~~~~~~~~~~~~~
 
 
-vim +/BLIST_BROKEN_FUA +5060 drivers/ufs/core/ufshcd.c
+vim +/bpf_mem_cache_size +227 kernel/bpf/memalloc.c
 
-  5031	
-  5032	/**
-  5033	 * ufshcd_slave_alloc - handle initial SCSI device configurations
-  5034	 * @sdev: pointer to SCSI device
-  5035	 *
-  5036	 * Returns success
-  5037	 */
-  5038	static int ufshcd_slave_alloc(struct scsi_device *sdev)
-  5039	{
-  5040		struct ufs_hba *hba;
-  5041	
-  5042		hba = shost_priv(sdev->host);
-  5043	
-  5044		/* Mode sense(6) is not supported by UFS, so use Mode sense(10) */
-  5045		sdev->use_10_for_ms = 1;
-  5046	
-  5047		/* DBD field should be set to 1 in mode sense(10) */
-  5048		sdev->set_dbd_for_ms = 1;
-  5049	
-  5050		/* allow SCSI layer to restart the device in case of errors */
-  5051		sdev->allow_restart = 1;
-  5052	
-  5053		/* REPORT SUPPORTED OPERATION CODES is not supported */
-  5054		sdev->no_report_opcodes = 1;
-  5055	
-  5056		/* WRITE_SAME command is not supported */
-  5057		sdev->no_write_same = 1;
-  5058	
-  5059		/* Use SYNCHRONIZE CACHE instead of FUA to improve performance */
-> 5060		sdev->sdev_bflags = BLIST_BROKEN_FUA;
-  5061	
-  5062		ufshcd_lu_init(hba, sdev);
-  5063	
-  5064		ufshcd_setup_links(hba, sdev);
-  5065	
-  5066		return 0;
-  5067	}
-  5068	
+   226	
+ > 227	unsigned long bpf_mem_cache_size(struct bpf_mem_cache *c, void *obj)
+   228	{
+   229		unsigned long size;
+   230	
+   231		if (!obj)
+   232			return 0;
+   233	
+   234		if (c->percpu_size) {
+   235			size = percpu_size(((void **)obj)[1]);
+   236			size += ksize(obj);
+   237			return size;
+   238		}
+   239	
+   240		return ksize(obj);
+   241	}
+   242	
 
 -- 
 0-DAY CI Kernel Test Service
