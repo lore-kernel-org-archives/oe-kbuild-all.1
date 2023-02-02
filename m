@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269F07E5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 01:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78717E5;
+	Thu,  2 Feb 2023 02:07:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675302424; x=1706838424;
+  t=1675303624; x=1706839624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UjiXyCXeq3PWS50hHT4LKkvZZiKI94H3t1r4+4cV70g=;
-  b=jung+LzZpoDx2iwJuDwziOedjv5XGigtco8Imvj8cA8H+u7CJSyiRGH1
-   OavLAM9A8777l1dRkkyTl/7tM4QI9zWdZxeWu79yg2zIuMx6Q3OaVgXLl
-   d11TMdqtwFkPrivVuYEwuL5k2UQhR1ZxcUyIqh+tP5LJCkMIGrbhAjwYK
-   Q9SGoQFhkidLlo+/EWwxG7EvFXpLaHJUqM7L98/cWyF0a+gBTGVLpM3ov
-   Kp/CG8n6gv/yh4DzX0la+Vc7nB5bNtrytkpVWjtdemYdcyz2hlBrRKwi6
-   GGOGfpTdOqxm7VZerUF6NvgP6NfGwuqoxiBfgS7J004llTSknrZWyhUVY
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="329615940"
+  bh=FKehjncn8yXkXD55skykzjXPCcfnt/Ux2/8e2Tj/HdM=;
+  b=f9g2S6y6Bu+I0ByBCjJ4OwwnWgJGfkcXWSrg5hz086E0TpVRvcFRrt0w
+   syCCRbYjbJSavfGe0Whn7k8n40xDe3/TRtEa8uSynMayJWrw0tpCa4279
+   Z3z6vDps/CatkWBgvA/i7Sfo0BTE/FMbM3PYST6O9tWVu9vi8u6W+u5tV
+   ArtWOMx+l0U9sqkAoTKjapYRLSmCfK01KihL+qaD41H5eVI5PAVXeMm17
+   +m+VKAxWr7F6nmV14GczZ3BrIx/d6eg/jiKBrGwSlpi8VNJXeTMSv6c7v
+   2ecaQlGLx1nq/bNt8Thj+ICjAJlCdXjmNNnSX6ppUVsvrQnpfrn7OTJsX
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="326028773"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="329615940"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 17:47:03 -0800
+   d="scan'208";a="326028773"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 18:07:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733773306"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="993900137"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="733773306"
+   d="scan'208";a="993900137"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2023 17:47:02 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2023 18:07:03 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNOgn-00060W-2G;
-	Thu, 02 Feb 2023 01:47:01 +0000
-Date: Thu, 2 Feb 2023 09:46:19 +0800
+	id 1pNP0A-00061V-1d;
+	Thu, 02 Feb 2023 02:07:02 +0000
+Date: Thu, 2 Feb 2023 10:06:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2/3] drivers/md/dm-bow.c:793:6:
- warning: no previous prototype for 'dm_bow_resume'
-Message-ID: <202302020929.ZpQJbB95-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3 18/25]
+ arch/riscv/mm/physaddr.c:28:15: error: use of undeclared identifier
+ '__phys_addr_symbol'
+Message-ID: <202302021035.rerDlVUa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,78 +47,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   7a7986f840b09a4a80a6c042bb9316b71ef37b61
-commit: f6908a0d69bb0afccc6e3ddbc1876b5005733fa7 [2/3] ANDROID: dm-bow: Fix 5.15 compatibility issue
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302020929.ZpQJbB95-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3
+head:   ac3cfb78163256f2febd47ebd017d9f5b75820dd
+commit: d047dc9f56633d427434d6593fce94cf1190abe8 [18/25] riscv: Make virt_to_pfn() a real function
+config: riscv-randconfig-r042-20230130 (https://download.01.org/0day-ci/archive/20230202/202302021035.rerDlVUa-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout f6908a0d69bb0afccc6e3ddbc1876b5005733fa7
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=d047dc9f56633d427434d6593fce94cf1190abe8
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3
+        git checkout d047dc9f56633d427434d6593fce94cf1190abe8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/md/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/md/dm-bow.c:97:10: warning: no previous prototype for 'range_top' [-Wmissing-prototypes]
-      97 | sector_t range_top(struct bow_range *br)
-         |          ^~~~~~~~~
-   drivers/md/dm-bow.c:103:5: warning: no previous prototype for 'range_size' [-Wmissing-prototypes]
-     103 | u64 range_size(struct bow_range *br)
-         |     ^~~~~~~~~~
-   drivers/md/dm-bow.c:148:6: warning: no previous prototype for 'add_before' [-Wmissing-prototypes]
-     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
-         |      ^~~~~~~~~~
->> drivers/md/dm-bow.c:793:6: warning: no previous prototype for 'dm_bow_resume' [-Wmissing-prototypes]
-     793 | void dm_bow_resume(struct dm_target *ti)
-         |      ^~~~~~~~~~~~~
-   drivers/md/dm-bow.c:1103:5: warning: no previous prototype for 'remap_unless_illegal_trim' [-Wmissing-prototypes]
-    1103 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c: In function 'dm_bow_map':
-   drivers/md/dm-bow.c:1139:51: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-    1139 |                                 /* pass-through */;
-         |                                                   ^
-   drivers/md/dm-bow.c:1146:51: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-    1146 |                                 /* pass-through */;
-         |                                                   ^
-   drivers/md/dm-bow.c: At top level:
-   drivers/md/dm-bow.c:1259:5: warning: no previous prototype for 'dm_bow_prepare_ioctl' [-Wmissing-prototypes]
-    1259 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c:1292:12: warning: no previous prototype for 'dm_bow_init' [-Wmissing-prototypes]
-    1292 | int __init dm_bow_init(void)
-         |            ^~~~~~~~~~~
-   drivers/md/dm-bow.c:1301:6: warning: no previous prototype for 'dm_bow_exit' [-Wmissing-prototypes]
-    1301 | void dm_bow_exit(void)
-         |      ^~~~~~~~~~~
+   arch/riscv/mm/physaddr.c:15:13: error: expected identifier or '('
+   phys_addr_t __phys_addr_symbol(unsigned long x)
+               ^
+   arch/riscv/include/asm/page.h:154:31: note: expanded from macro '__phys_addr_symbol'
+   #define __phys_addr_symbol(x)   __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:142:32: note: expanded from macro '__va_to_pa_nodebug'
+   #define __va_to_pa_nodebug(x)   ({                                              \
+                                    ^
+   arch/riscv/mm/physaddr.c:15:13: error: expected ')'
+   arch/riscv/include/asm/page.h:154:31: note: expanded from macro '__phys_addr_symbol'
+   #define __phys_addr_symbol(x)   __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:142:32: note: expanded from macro '__va_to_pa_nodebug'
+   #define __va_to_pa_nodebug(x)   ({                                              \
+                                    ^
+   arch/riscv/mm/physaddr.c:15:13: note: to match this '('
+   arch/riscv/include/asm/page.h:154:31: note: expanded from macro '__phys_addr_symbol'
+   #define __phys_addr_symbol(x)   __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:142:31: note: expanded from macro '__va_to_pa_nodebug'
+   #define __va_to_pa_nodebug(x)   ({                                              \
+                                   ^
+>> arch/riscv/mm/physaddr.c:28:15: error: use of undeclared identifier '__phys_addr_symbol'
+   EXPORT_SYMBOL(__phys_addr_symbol);
+                 ^
+   3 errors generated.
 
 
-vim +/dm_bow_resume +793 drivers/md/dm-bow.c
+vim +/__phys_addr_symbol +28 arch/riscv/mm/physaddr.c
 
-   792	
- > 793	void dm_bow_resume(struct dm_target *ti)
-   794	{
-   795		struct mapped_device *md = dm_table_get_md(ti->table);
-   796		struct bow_context *bc = ti->private;
-   797		int ret;
-   798	
-   799		if (bc->kobj_holder.kobj.state_initialized)
-   800			return;
-   801	
-   802		ret = kobject_init_and_add(&bc->kobj_holder.kobj, &bow_ktype,
-   803					   &disk_to_dev(dm_disk(md))->kobj, "%s",
-   804					   "bow");
-   805		if (ret)
-   806			ti->error = "Cannot create sysfs node";
-   807	}
-   808	
+6435f773d81f021 Zong Li         2020-01-02  14  
+6435f773d81f021 Zong Li         2020-01-02  15  phys_addr_t __phys_addr_symbol(unsigned long x)
+6435f773d81f021 Zong Li         2020-01-02  16  {
+658e2c5125bbbc9 Alexandre Ghiti 2021-06-17  17  	unsigned long kernel_start = kernel_map.virt_addr;
+0c49688174f5347 Samuel Holland  2022-11-26  18  	unsigned long kernel_end = kernel_start + kernel_map.size;
+6435f773d81f021 Zong Li         2020-01-02  19  
+6435f773d81f021 Zong Li         2020-01-02  20  	/*
+6435f773d81f021 Zong Li         2020-01-02  21  	 * Boundary checking aginst the kernel image mapping.
+6435f773d81f021 Zong Li         2020-01-02  22  	 * __pa_symbol should only be used on kernel symbol addresses.
+6435f773d81f021 Zong Li         2020-01-02  23  	 */
+6435f773d81f021 Zong Li         2020-01-02  24  	VIRTUAL_BUG_ON(x < kernel_start || x > kernel_end);
+6435f773d81f021 Zong Li         2020-01-02  25  
+6435f773d81f021 Zong Li         2020-01-02  26  	return __va_to_pa_nodebug(x);
+6435f773d81f021 Zong Li         2020-01-02  27  }
+6435f773d81f021 Zong Li         2020-01-02 @28  EXPORT_SYMBOL(__phys_addr_symbol);
+
+:::::: The code at line 28 was first introduced by commit
+:::::: 6435f773d81f02193228685a7e3fe65c983c5de0 riscv: mm: add support for CONFIG_DEBUG_VIRTUAL
+
+:::::: TO: Zong Li <zong.li@sifive.com>
+:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
