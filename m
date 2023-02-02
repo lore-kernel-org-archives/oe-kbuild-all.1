@@ -1,139 +1,135 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C285963B7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 14:00:15 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id o18so1801999wrj.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Feb 2023 06:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eMycSpSWqkLdJLuPU1kAliRBYKe3vnTJI8phLtEWdDI=;
-        b=aX1rwy2YkRI6JACyuVKP5etYUZPG7JUA1R0As0ErGFAkMlpt62aDBJPcsvUThjjLom
-         aHdlUs0Y6cY8dMz8yVgjfbpxGSITYHw/tENe8vYZTa+C3VCETc9gVSndANh7BGPRucVP
-         R0tKqZXPEBxJK7CU1Jh9mDaIMl2DIWJbDIMxIO+/uu35JSJIVJD1vWZOt1mmc88NiiR8
-         0uJvVQMHzoOz3hCH1BMHW6gHyKotDAAsfCIhxpAyANFwjLQYuQ8JhLBmZX6MsjH+pc2S
-         9Z3ShGePx1zGree3SOmONdQ8tYPk7U1WvD59xKqM+rfje4EhiK03hKx4EFr7ihC5IVvW
-         ZjHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eMycSpSWqkLdJLuPU1kAliRBYKe3vnTJI8phLtEWdDI=;
-        b=SsFr989ayDlopKmoMJ8shMqJz5hP+tzP+df5sib6hZ0RPkfQk8mx8e3KWJADS6FsLn
-         VVGiYMOm8USvG6NeoTclPpbn4//ly4IEjAIJOy8S2Op0XKikYKiObtzjs4PpopTW9PPB
-         cgw+NFamiRg6RNXKHgkFhTkyah69c/PObH/BqZ6bPkua5etXW1coS2KGDOhifehm4I29
-         jNTIW6cJIBMiWy50HAYpm21y7Mt9IOHYweK7SrncsVnaki4IqIw7p9yUs7xsZaYXpE/+
-         eIb4XO0avHJtgwea/W1w4zOLS21P/z0F+AzLMgZTYQLV0lt0Gd55gkAHcmPenFUaVMi0
-         8Dbw==
-X-Gm-Message-State: AO0yUKWMezIpkMnFUCbTHES/aujZZKOGEtz3Y987FzNfbIdhd5yIPeCp
-	4D74smxZWPF15xVCGG2lFMdOL+cnVnBYQR7da1OZnQ==
-X-Google-Smtp-Source: AK7set991hy80LggrGKuE0EGDn0gAr/4aLuvD+To3+bf8l/YlM8w4oAxF3edTa+/NMUuSWyoDpk+UbMMdtjLXw/6knk=
-X-Received: by 2002:adf:ffcb:0:b0:2bf:e95c:9918 with SMTP id
- x11-20020adfffcb000000b002bfe95c9918mr211434wrs.330.1675346413910; Thu, 02
- Feb 2023 06:00:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376EE63B7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 14:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675346994; x=1706882994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3+PmYJAt+gLm3nMqcE/gerTYxQtrGS9tvLkR1pRwWLI=;
+  b=Outo3eMJpog4tnoIJqJ7w9xs9qaKZyQhq/7TzgMxDbgBS598vDJz8kur
+   5eQwvdw+37mw+pMxqtMG+iRHKTcsfK35mj+Q4F3aCMOVsaexYJuG9E9Cm
+   +olBKcXdXrTJocrwZm8JGAKcSHfC1TIqxwuZK7tqMzChsczsZns4e2aCE
+   QwN3wliLEkpWF4e7wHdT3GDH/DA9C0vlzUABA5BEnJVeFmyDDDbx+PXcM
+   mKSJ732u8CCzXp97c/9LWceAG161PjR9NP9rtRU2UOfxmT9/wfXnppWHF
+   WUBPUakAxB6T6thN9A2hVRWROVQzxB765UchaC1IirOtTTAQIEzjECpgr
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="355793867"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="355793867"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 06:09:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733949410"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="733949410"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2023 06:09:39 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNaHN-0006Zo-2I;
+	Thu, 02 Feb 2023 14:09:33 +0000
+Date: Thu, 2 Feb 2023 22:08:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kalyan Thota <quic_kalyant@quicinc.com>,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Kalyan Thota <quic_kalyant@quicinc.com>,
+	linux-kernel@vger.kernel.org, robdclark@chromium.org,
+	dianders@chromium.org, swboyd@chromium.org,
+	quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org,
+	quic_abhinavk@quicinc.com, marijn.suijten@somainline.org
+Subject: Re: [v1 3/3] drm/msm/disp/dpu1: reserve the resources on topology
+ change
+Message-ID: <202302022254.37XyfGnR-lkp@intel.com>
+References: <1675092092-26412-4-git-send-email-quic_kalyant@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230125082333.1577572-3-alexghiti@rivosinc.com> <202302010819.RAsjyv6V-lkp@intel.com>
-In-Reply-To: <202302010819.RAsjyv6V-lkp@intel.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Thu, 2 Feb 2023 15:00:02 +0100
-Message-ID: <CAHVXubht443DmB6qZMJ=Hyxz=xi65Dkd=PuN_2i=uf783z0B=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] riscv: Rework kasan population functions
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-efi@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1675092092-26412-4-git-send-email-quic_kalyant@quicinc.com>
 
-On Wed, Feb 1, 2023 at 1:16 AM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Alexandre,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.2-rc6 next-20230131]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
-> patch link:    https://lore.kernel.org/r/20230125082333.1577572-3-alexghiti%40rivosinc.com
-> patch subject: [PATCH v3 2/6] riscv: Rework kasan population functions
-> config: riscv-randconfig-r006-20230201 (https://download.01.org/0day-ci/archive/20230201/202302010819.RAsjyv6V-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/c18726e8d14edbd59ec19854b4eb06d83fff716f
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
->         git checkout c18726e8d14edbd59ec19854b4eb06d83fff716f
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/mm/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
-> >> arch/riscv/mm/kasan_init.c:442:6: warning: no previous prototype for 'create_tmp_mapping' [-Wmissing-prototypes]
->      442 | void create_tmp_mapping(void)
->          |      ^~~~~~~~~~~~~~~~~~
->
->
-> vim +/create_tmp_mapping +442 arch/riscv/mm/kasan_init.c
->
->    441
->  > 442  void create_tmp_mapping(void)
->    443  {
->    444          void *ptr;
->    445          p4d_t *base_p4d;
->    446
->    447          /*
->    448           * We need to clean the early mapping: this is hard to achieve "in-place",
->    449           * so install a temporary mapping like arm64 and x86 do.
->    450           */
->    451          memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(pgd_t) * PTRS_PER_PGD);
->    452
->    453          /* Copy the last p4d since it is shared with the kernel mapping. */
->    454          if (pgtable_l5_enabled) {
->    455                  ptr = (p4d_t *)pgd_page_vaddr(*pgd_offset_k(KASAN_SHADOW_END));
->    456                  memcpy(tmp_p4d, ptr, sizeof(p4d_t) * PTRS_PER_P4D);
->    457                  set_pgd(&tmp_pg_dir[pgd_index(KASAN_SHADOW_END)],
->    458                          pfn_pgd(PFN_DOWN(__pa(tmp_p4d)), PAGE_TABLE));
->    459                  base_p4d = tmp_p4d;
->    460          } else {
->    461                  base_p4d = (p4d_t *)tmp_pg_dir;
->    462          }
->    463
->    464          /* Copy the last pud since it is shared with the kernel mapping. */
->    465          if (pgtable_l4_enabled) {
->    466                  ptr = (pud_t *)p4d_page_vaddr(*(base_p4d + p4d_index(KASAN_SHADOW_END)));
->    467                  memcpy(tmp_pud, ptr, sizeof(pud_t) * PTRS_PER_PUD);
->    468                  set_p4d(&base_p4d[p4d_index(KASAN_SHADOW_END)],
->    469                          pfn_p4d(PFN_DOWN(__pa(tmp_pud)), PAGE_TABLE));
->    470          }
->    471  }
->    472
+Hi Kalyan,
 
-Ok, I have to declare this function static to quiet this warning,
-there will be a v4 soon then.
+Thank you for the patch! Yet something to improve:
 
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kalyan-Thota/drm-msm-disp-dpu1-clear-dspp-reservations-in-rm-release/20230130-232224
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/1675092092-26412-4-git-send-email-quic_kalyant%40quicinc.com
+patch subject: [v1 3/3] drm/msm/disp/dpu1: reserve the resources on topology change
+config: arm64-randconfig-r034-20230129 (https://download.01.org/0day-ci/archive/20230202/202302022254.37XyfGnR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4c49c3233fc18f3b746a96b5ff4ce5008da3bfec
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kalyan-Thota/drm-msm-disp-dpu1-clear-dspp-reservations-in-rm-release/20230130-232224
+        git checkout 4c49c3233fc18f3b746a96b5ff4ce5008da3bfec
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2091:6: error: conflicting types for 'dpu_encoder_prepare_commit'; have 'void(struct drm_encoder *)'
+    2091 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h:19,
+                    from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:29:
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h:155:6: note: previous declaration of 'dpu_encoder_prepare_commit' with type 'void(struct drm_encoder *, struct drm_crtc_state *)'
+     155 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: In function 'dpu_kms_prepare_commit':
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:443:25: error: too few arguments to function 'dpu_encoder_prepare_commit'
+     443 |                         dpu_encoder_prepare_commit(encoder);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:30:
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h:155:6: note: declared here
+     155 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +2091 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+
+ae4d721ce10057 Abhinav Kumar     2022-04-26  2090  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @2091  void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2092  {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2093  	struct dpu_encoder_virt *dpu_enc;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2094  	struct dpu_encoder_phys *phys;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2095  	int i;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2096  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2097  	if (!drm_enc) {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2098  		DPU_ERROR("invalid encoder\n");
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2099  		return;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2100  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2101  	dpu_enc = to_dpu_encoder_virt(drm_enc);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2102  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2103  	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2104  		phys = dpu_enc->phys_encs[i];
+b6fadcade62704 Drew Davenport    2019-12-06  2105  		if (phys->ops.prepare_commit)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2106  			phys->ops.prepare_commit(phys);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2107  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2108  }
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2109  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
