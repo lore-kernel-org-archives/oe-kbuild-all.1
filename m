@@ -1,42 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640BCA2A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 05:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667A67F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 07:27:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675316113; x=1706852113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eEvmjqgZ0mygR2wIPs7fYUSqlFkx/sEGcqVB/MM8YV0=;
-  b=SUwmW/BPsYviD6oqx1e51iUCSldjJALYaQT8Hdw8w+BlA+Ybj3waTDsn
-   0MEHVGvlmX6pCZLY5i0e0Lr3cf2SsYepi/pPet7zDP2ceaQbtrYb4gV1y
-   93PPj4KL9Mzs+wxYdSlXSQno0XzajnUPJ5SBd65VXGEkQ7HEbCtfYDA7Q
-   UtTonegbzh/NJ8ZwhyS86wVB+xZ4/MGQWwH2m99bcuDHl9sVODDmht5o3
-   dE1IvjGqMfrqZmaxXCILE/s+QVv6BE9/tlUGY4iYUAXSobbZF1LHJmYfx
-   3pFNMNf5YoV70yjj/mnVWvVBWboehtZTN9w6PB1f9GEIJ7Z96IxNMTP4o
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="390747836"
+  t=1675322839; x=1706858839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CsNdO7enAaB1DnnDD0uULEpC8X/6XBAenIZVjgTdu/M=;
+  b=GmZ5YhPLO7NLl85RrItAzQPgZKIAnkGTmuCyqCt4lhgscg0v3+KYJt+Q
+   d+kcAUwINVkCjb/GG4VESIYKdblwbq2FZhZA9sHiqo8jbXki5Mim4VpTF
+   JBuVYj1L6NLJlu5XJtRjZ2cKZirXeG2zA1KpK6UmuaLXCIJONG6o24HSd
+   dp/nZ1/A4I65fYL9v/TH31LRxxKm1WFlUGdBF3bK7ubZcEDomLvW/u2SS
+   fwmQqCpfQdYGBpHPxqeuFx68sgZCzIQgPHiOXjA3BiNo4V8Pzu+9a/hkY
+   lyUV+aLj4K1zCB3FqrPBUKATg+VeK6G+yyiHTzauP2cMwW63ogHlAV/qO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="312023377"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="390747836"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 21:35:12 -0800
+   d="scan'208";a="312023377"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 23:27:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="697562382"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="910644221"
 X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
-   d="scan'208";a="697562382"
+   d="scan'208";a="910644221"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Feb 2023 21:35:11 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 01 Feb 2023 23:27:16 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNSFb-0006Bs-15;
-	Thu, 02 Feb 2023 05:35:11 +0000
-Date: Thu, 2 Feb 2023 13:34:41 +0800
+	id 1pNU03-0006H6-2A;
+	Thu, 02 Feb 2023 07:27:15 +0000
+Date: Thu, 2 Feb 2023 15:26:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sverdlin:ep93xx-dt 15/44] drivers/clk/clk-ep93xx.c:341:23: warning:
- variable 'best_rate' set but not used
-Message-ID: <202302021313.R6SFhfPk-lkp@intel.com>
+To: equu@openmail.cc, lpieralisi@kernel.org, toke@toke.dk, kvalo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	robh@kernel.org, linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org, equu@openmail.cc
+Subject: Re: [PATCH v2 3/3] wifi: ath10k: only load compatible DT cal data
+Message-ID: <202302021511.hIXEXftH-lkp@intel.com>
+References: <20230202041823.2879262-4-equu@openmail.cc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,282 +48,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230202041823.2879262-4-equu@openmail.cc>
 
-tree:   https://github.com/sverdlin/linux ep93xx-dt
-head:   1828eb1f87e53b70df4817b242fbea027e1e146c
-commit: 78a5e14f66dd158b2db016cf13acbc959227c76f [15/44] clk: ep93xx: add DT support for Cirrus EP93xx
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302021313.R6SFhfPk-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on helgaas-pci/next]
+[also build test WARNING on helgaas-pci/for-linus wireless-next/main wireless/main linus/master v6.2-rc6 next-20230202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-131914
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+patch link:    https://lore.kernel.org/r/20230202041823.2879262-4-equu%40openmail.cc
+patch subject: [PATCH v2 3/3] wifi: ath10k: only load compatible DT cal data
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302021511.hIXEXftH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/sverdlin/linux/commit/78a5e14f66dd158b2db016cf13acbc959227c76f
-        git remote add sverdlin https://github.com/sverdlin/linux
-        git fetch --no-tags sverdlin ep93xx-dt
-        git checkout 78a5e14f66dd158b2db016cf13acbc959227c76f
+        # https://github.com/intel-lab-lkp/linux/commit/d3f328c8809b6349090ad2a2ee78250d657edb58
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-131914
+        git checkout d3f328c8809b6349090ad2a2ee78250d657edb58
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/clk/ drivers/power/reset/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/clk-ep93xx.c: In function 'ep93xx_clk_enable':
-   drivers/clk/clk-ep93xx.c:151:9: error: implicit declaration of function 'ep93xx_syscon_swlocked_write' [-Werror=implicit-function-declaration]
-     151 |         ep93xx_syscon_swlocked_write(val, psc->reg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-ep93xx.c: In function 'ep93xx_ddiv_set_rate':
->> drivers/clk/clk-ep93xx.c:341:23: warning: variable 'best_rate' set but not used [-Wunused-but-set-variable]
-     341 |         unsigned long best_rate = 0, actual_rate, mclk_rate, rate_err = -1;
-         |                       ^~~~~~~~~
+   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_download_cal_nvmem':
+   drivers/net/wireless/ath/ath10k/core.c:1985:15: error: implicit declaration of function 'of_pci_node_match_device' [-Werror=implicit-function-declaration]
+    1985 |              !of_pci_node_match_device(ar->dev->of_node,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/ath/ath10k/core.c:1987:24: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+    1987 |                 return ERR_PTR(-ENOENT);
+         |                        ^~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/best_rate +341 drivers/clk/clk-ep93xx.c
+vim +1987 drivers/net/wireless/ath/ath10k/core.c
 
-   138	
-   139	static int ep93xx_clk_enable(struct clk_hw *hw)
-   140	{
-   141		struct clk_psc *psc = to_clk_psc(hw);
-   142		unsigned long flags = 0;
-   143		u32 val;
-   144	
-   145		if (psc->lock)
-   146			spin_lock_irqsave(psc->lock, flags);
-   147	
-   148		ep93xx_regmap_read(psc->reg, &val);
-   149		val |= BIT(psc->bit_idx);
-   150	
- > 151		ep93xx_syscon_swlocked_write(val, psc->reg);
-   152	
-   153		if (psc->lock)
-   154			spin_unlock_irqrestore(psc->lock, flags);
-   155	
-   156		return 0;
-   157	}
-   158	
-   159	static void ep93xx_clk_disable(struct clk_hw *hw)
-   160	{
-   161		struct clk_psc *psc = to_clk_psc(hw);
-   162		unsigned long flags = 0;
-   163		u32 val;
-   164	
-   165		if (psc->lock)
-   166			spin_lock_irqsave(psc->lock, flags);
-   167	
-   168		ep93xx_regmap_read(psc->reg, &val);
-   169		val &= ~BIT(psc->bit_idx);
-   170	
-   171		ep93xx_syscon_swlocked_write(val, psc->reg);
-   172	
-   173		if (psc->lock)
-   174			spin_unlock_irqrestore(psc->lock, flags);
-   175	}
-   176	
-   177	static const struct clk_ops clk_ep93xx_gate_ops = {
-   178		.enable = ep93xx_clk_enable,
-   179		.disable = ep93xx_clk_disable,
-   180		.is_enabled = ep93xx_clk_is_enabled,
-   181	};
-   182	
-   183	static struct clk_hw *ep93xx_clk_register_gate(const char *name,
-   184					    const char *parent_name,
-   185					    unsigned int reg,
-   186					    u8 bit_idx)
-   187	{
-   188		struct clk_init_data init;
-   189		struct clk_psc *psc;
-   190		struct clk *clk;
-   191	
-   192		psc = kzalloc(sizeof(*psc), GFP_KERNEL);
-   193		if (!psc)
-   194			return ERR_PTR(-ENOMEM);
-   195	
-   196		init.name = name;
-   197		init.ops = &clk_ep93xx_gate_ops;
-   198		init.flags = CLK_SET_RATE_PARENT;
-   199		init.parent_names = (parent_name ? &parent_name : NULL);
-   200		init.num_parents = (parent_name ? 1 : 0);
-   201	
-   202		psc->reg = reg;
-   203		psc->bit_idx = bit_idx;
-   204		psc->hw.init = &init;
-   205		psc->lock = &clk_lock;
-   206	
-   207		clk = clk_register(NULL, &psc->hw);
-   208		if (IS_ERR(clk)) {
-   209			kfree(psc);
-   210			return ERR_CAST(clk);
-   211		}
-   212	
-   213		return &psc->hw;
-   214	}
-   215	
-   216	static u8 ep93xx_mux_get_parent(struct clk_hw *hw)
-   217	{
-   218		struct clk_psc *psc = to_clk_psc(hw);
-   219		u32 val;
-   220	
-   221		ep93xx_regmap_read(psc->reg, &val);
-   222		if (!(val & EP93XX_SYSCON_CLKDIV_ESEL))
-   223			return 0;
-   224	
-   225		if (!(val & EP93XX_SYSCON_CLKDIV_PSEL))
-   226			return 1;
-   227	
-   228		return 2;
-   229	}
-   230	
-   231	static int ep93xx_mux_set_parent_lock(struct clk_hw *hw, u8 index)
-   232	{
-   233		struct clk_psc *psc = to_clk_psc(hw);
-   234		unsigned long flags = 0;
-   235		u32 val;
-   236	
-   237		if (index >= ARRAY_SIZE(mux_parents))
-   238			return -EINVAL;
-   239	
-   240		if (psc->lock)
-   241			spin_lock_irqsave(psc->lock, flags);
-   242	
-   243		ep93xx_regmap_read(psc->reg, &val);
-   244		val &= ~(EP93XX_SYSCON_CLKDIV_ESEL | EP93XX_SYSCON_CLKDIV_PSEL);
-   245	
-   246		if (index != 0) {
-   247			val |= EP93XX_SYSCON_CLKDIV_ESEL;
-   248			val |= (index - 1) ? EP93XX_SYSCON_CLKDIV_PSEL : 0;
-   249		}
-   250	
-   251		ep93xx_syscon_swlocked_write(val, psc->reg);
-   252	
-   253		if (psc->lock)
-   254			spin_unlock_irqrestore(psc->lock, flags);
-   255	
-   256		return 0;
-   257	}
-   258	
-   259	static bool is_best(unsigned long rate, unsigned long now,
-   260			     unsigned long best)
-   261	{
-   262		return abs(rate - now) < abs(rate - best);
-   263	}
-   264	
-   265	static int ep93xx_mux_determine_rate(struct clk_hw *hw,
-   266					struct clk_rate_request *req)
-   267	{
-   268		unsigned long rate = req->rate;
-   269		struct clk *parent_best = NULL;
-   270		unsigned long parent_rate;
-   271		unsigned long best_rate = 0, actual_rate, mclk_rate;
-   272		unsigned long parent_rate_best;
-   273		int div, pdiv;
-   274		int i;
-   275	
-   276		/*
-   277		 * Try the two pll's and the external clock
-   278		 * Because the valid predividers are 2, 2.5 and 3, we multiply
-   279		 * all the clocks by 2 to avoid floating point math.
-   280		 *
-   281		 * This is based on the algorithm in the ep93xx raster guide:
-   282		 * http://be-a-maverick.com/en/pubs/appNote/AN269REV1.pdf
-   283		 *
-   284		 */
-   285		for (i = 0; i < ARRAY_SIZE(mux_parents); i++) {
-   286			struct clk *parent = clk_get_sys(mux_parents[i], NULL);
-   287	
-   288			parent_rate = clk_get_rate(parent);
-   289			mclk_rate = parent_rate * 2;
-   290	
-   291			/* Try each predivider value */
-   292			for (pdiv = 4; pdiv <= 6; pdiv++) {
-   293				div = mclk_rate / (rate * pdiv);
-   294				if (div < 2 || div > 127) {
-   295					pr_info("%s : continue div=%d", __func__, div);
-   296					continue;
-   297				}
-   298	
-   299				actual_rate = DIV_ROUND_UP_ULL((u64)mclk_rate, (pdiv * div));
-   300	
-   301				if (is_best(rate, actual_rate, best_rate)) {
-   302					best_rate = actual_rate;
-   303					parent_rate_best = parent_rate;
-   304					parent_best = parent;
-   305				}
-   306			}
-   307		}
-   308	
-   309		if (!parent_best)
-   310			return -EINVAL;
-   311	
-   312		req->best_parent_rate = parent_rate_best;
-   313		req->best_parent_hw = __clk_get_hw(parent_best);
-   314		req->rate = best_rate;
-   315	
-   316		return 0;
-   317	}
-   318	
-   319	static unsigned long ep93xx_ddiv_recalc_rate(struct clk_hw *hw,
-   320							unsigned long parent_rate)
-   321	{
-   322		struct clk_psc *psc = to_clk_psc(hw);
-   323		unsigned long rate = 0;
-   324		u32 val;
-   325		int pdiv, div;
-   326	
-   327		ep93xx_regmap_read(psc->reg, &val);
-   328		pdiv = ((val >> EP93XX_SYSCON_CLKDIV_PDIV_SHIFT) & 0x03);
-   329		div = val & 0x7f;
-   330		if (div > 0)
-   331			rate = (parent_rate * 2) / ((pdiv + 3) * div);
-   332	
-   333		return rate;
-   334	}
-   335	
-   336	static int ep93xx_ddiv_set_rate(struct clk_hw *hw, unsigned long rate,
-   337					unsigned long parent_rate)
-   338	{
-   339		struct clk_psc *psc = to_clk_psc(hw);
-   340		int pdiv, div, npdiv, ndiv;
- > 341		unsigned long best_rate = 0, actual_rate, mclk_rate, rate_err = -1;
-   342		int found = 0;
-   343		u32 val;
-   344	
-   345		ep93xx_regmap_read(psc->reg, &val);
-   346		mclk_rate = parent_rate * 2;
-   347	
-   348		for (pdiv = 4; pdiv <= 6; pdiv++) {
-   349			div = mclk_rate / (rate * pdiv);
-   350			if (div < 2 || div > 127)
-   351				continue;
-   352	
-   353			actual_rate = mclk_rate / (pdiv * div);
-   354	
-   355			if (!found || abs(actual_rate - rate) < rate_err) {
-   356				npdiv = pdiv - 3;
-   357				ndiv = div;
-   358				best_rate = actual_rate;
-   359				rate_err = abs(actual_rate - rate);
-   360				found = 1;
-   361			}
-   362		}
-   363	
-   364		if (!found)
-   365			return -EINVAL;
-   366	
-   367		/* Clear old dividers */
-   368		val &= ~0x37f;
-   369	
-   370		/* Set the new pdiv and div bits for the new clock rate */
-   371		val |= (npdiv << EP93XX_SYSCON_CLKDIV_PDIV_SHIFT) | ndiv;
-   372	
-   373		ep93xx_syscon_swlocked_write(val, psc->reg);
-   374	
-   375		return 0;
-   376	}
-   377	
+  1954	
+  1955	static int ath10k_download_cal_nvmem(struct ath10k *ar, const char *cell_name)
+  1956	{
+  1957		struct nvmem_cell *cell;
+  1958		void *buf;
+  1959		size_t len;
+  1960		int ret;
+  1961	
+  1962		/* devm_nvmem_cell_get() will get a cell first from the OF
+  1963		 * DT node representing the given device with nvmem-cell-name
+  1964		 * "calibration", and from the global lookup table as a fallback,
+  1965		 * and an ath9k device could be either a pci one or a platform one.
+  1966		 *
+  1967		 * If the OF DT node is not compatible with the real device, the
+  1968		 * calibration data got from the node should not be applied.
+  1969		 *
+  1970		 * dev_is_pci(ar->dev) && ( no OF node || caldata not from node
+  1971		 * || not compatible ) -> do not use caldata .
+  1972		 *
+  1973		 * !dev_is_pci(ar->dev) -> always use caldata .
+  1974		 *
+  1975		 * The judgement for compatibility differs with ath9k for many
+  1976		 * DT using "qcom,ath10k" as compatibility string.
+  1977		 */
+  1978		if (dev_is_pci(ar->dev) &&
+  1979		    (!ar->dev->of_node ||
+  1980		     (of_property_match_string(ar->dev->of_node,
+  1981					       "nvmem-cell-names",
+  1982					       cell_name) < 0) ||
+  1983		     !of_device_is_compatible(ar->dev->of_node,
+  1984					      "qcom,ath10k") ||
+  1985		     !of_pci_node_match_device(ar->dev->of_node,
+  1986					       &ath10k_pci_driver)))
+> 1987			return ERR_PTR(-ENOENT);
+  1988	
+  1989		cell = devm_nvmem_cell_get(ar->dev, cell_name);
+  1990		if (IS_ERR(cell)) {
+  1991			ret = PTR_ERR(cell);
+  1992			return ret;
+  1993		}
+  1994	
+  1995		buf = nvmem_cell_read(cell, &len);
+  1996		if (IS_ERR(buf))
+  1997			return PTR_ERR(buf);
+  1998	
+  1999		if (ar->hw_params.cal_data_len != len) {
+  2000			kfree(buf);
+  2001			ath10k_warn(ar, "invalid calibration data length in nvmem-cell '%s': %zu != %u\n",
+  2002				    cell_name, len, ar->hw_params.cal_data_len);
+  2003			return -EMSGSIZE;
+  2004		}
+  2005	
+  2006		ret = ath10k_download_board_data(ar, buf, len);
+  2007		kfree(buf);
+  2008		if (ret)
+  2009			ath10k_warn(ar, "failed to download calibration data from nvmem-cell '%s': %d\n",
+  2010				    cell_name, ret);
+  2011	
+  2012		return ret;
+  2013	}
+  2014	
 
 -- 
 0-DAY CI Kernel Test Service
