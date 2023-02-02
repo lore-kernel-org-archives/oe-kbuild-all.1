@@ -1,135 +1,128 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376EE63B7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 14:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675346994; x=1706882994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3+PmYJAt+gLm3nMqcE/gerTYxQtrGS9tvLkR1pRwWLI=;
-  b=Outo3eMJpog4tnoIJqJ7w9xs9qaKZyQhq/7TzgMxDbgBS598vDJz8kur
-   5eQwvdw+37mw+pMxqtMG+iRHKTcsfK35mj+Q4F3aCMOVsaexYJuG9E9Cm
-   +olBKcXdXrTJocrwZm8JGAKcSHfC1TIqxwuZK7tqMzChsczsZns4e2aCE
-   QwN3wliLEkpWF4e7wHdT3GDH/DA9C0vlzUABA5BEnJVeFmyDDDbx+PXcM
-   mKSJ732u8CCzXp97c/9LWceAG161PjR9NP9rtRU2UOfxmT9/wfXnppWHF
-   WUBPUakAxB6T6thN9A2hVRWROVQzxB765UchaC1IirOtTTAQIEzjECpgr
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="355793867"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="355793867"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 06:09:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733949410"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="733949410"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2023 06:09:39 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNaHN-0006Zo-2I;
-	Thu, 02 Feb 2023 14:09:33 +0000
-Date: Thu, 2 Feb 2023 22:08:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kalyan Thota <quic_kalyant@quicinc.com>,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Kalyan Thota <quic_kalyant@quicinc.com>,
-	linux-kernel@vger.kernel.org, robdclark@chromium.org,
-	dianders@chromium.org, swboyd@chromium.org,
-	quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org,
-	quic_abhinavk@quicinc.com, marijn.suijten@somainline.org
-Subject: Re: [v1 3/3] drm/msm/disp/dpu1: reserve the resources on topology
- change
-Message-ID: <202302022254.37XyfGnR-lkp@intel.com>
-References: <1675092092-26412-4-git-send-email-quic_kalyant@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330E463B7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 14:12:13 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id cr22so1873354qtb.10
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Feb 2023 06:12:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8lKwPpkPDxwm1VBqDHuuHVHYFGb1CHGpldcsBIhtkdM=;
+        b=fN/lac7S0hEha5x8ywniY7iRYMzhonZYyA0EvuvEBq5QbCZHEPgZsn7N4hiR5LgeaO
+         Jh1fkkK4eKeZKgNa2tMvfn6N0q4W+SCCRrKMyDuJpUUIVYH+luyi/t+uEtsaoQ6RidvS
+         beRW6DCDMqRhXeoLebx7wyoBwmlzf/++Rcl1TcoypuidOIior69I1RwPavAz1vBRIXLS
+         y2jK89CaBkav/OtELC5vP2FOEgvZvhV4asMXSwWK5UNyYghmj2vBPaGB6gvBXYtfl5l7
+         78ctZVTOxPjqXUT9T0nMxcfk97joBOH5rjcet4q9urTUosSkzmy+bs3WZs+6xHIYkT1r
+         ej+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8lKwPpkPDxwm1VBqDHuuHVHYFGb1CHGpldcsBIhtkdM=;
+        b=nXnk8lCWI4FZGblo2xvcqitv09wjjN8vcarLDSClXd2IVgb57JP91gYlI58oy9Q4E1
+         pj/H+W8t/Yj5em3qUC6NIPYWqdUrQvcqHTJZBmr2LWEjGf8Uymtkv8AH5f1Pq8rfpHO5
+         qfKLQ969WJ+Yc9bYz3kUuqSMwg3UNUw8hFiInYPytmMPz69orraB7Rd8JtN1mWToSaao
+         AGQBBmnRrlNX9uKl6Xci4tzdUwVa14ed+BokpVe0pcf7RE9EW78VimkdaEznAFqnen2x
+         XgTzWQQaEjiF4H+fVw5GxKc6Yvhl2ZT+aBoocYpQWgv0GmAlCpPFPJlAIh8WGwZHx7YY
+         i8Ew==
+X-Gm-Message-State: AO0yUKXNGCMaVJWhqUOXXCh38NunNMiNWEZHu/adMq+M2hXqnrVYcOh9
+	3LQLX8tCRqow486yGrl0Xpw87Abl7iS95RVzYNc=
+X-Google-Smtp-Source: AK7set9k5XCQtHVBDhmS2cTjynxpRw3/UekFOEHwWW/291ryl6hyF+HTz1I4NTG83hwQ78BYzyTyhDxsbXw/IdAbDg8=
+X-Received: by 2002:a05:622a:1ba9:b0:3b4:6444:546b with SMTP id
+ bp41-20020a05622a1ba900b003b46444546bmr581897qtb.295.1675347132004; Thu, 02
+ Feb 2023 06:12:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1675092092-26412-4-git-send-email-quic_kalyant@quicinc.com>
+References: <20230202014158.19616-7-laoar.shao@gmail.com> <202302021258.By6JZK71-lkp@intel.com>
+In-Reply-To: <202302021258.By6JZK71-lkp@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Thu, 2 Feb 2023 22:11:36 +0800
+Message-ID: <CALOAHbDFtsL5BPDPt8XnHyfEzTRH3xz3=i42YUn43uo+H5hhxA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 6/7] bpf: introduce bpf_mem_alloc_size()
+To: kernel test robot <lkp@intel.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com, 
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com, jolsa@kernel.org, 
+	tj@kernel.org, dennis@kernel.org, cl@linux.com, akpm@linux-foundation.org, 
+	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com, 
+	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, vbabka@suse.cz, 
+	urezki@gmail.com, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Kalyan,
+On Thu, Feb 2, 2023 at 12:54 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Yafang,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-percpu-fix-incorrect-size-in-pcpu_obj_full_size/20230202-094352
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/20230202014158.19616-7-laoar.shao%40gmail.com
+> patch subject: [PATCH bpf-next 6/7] bpf: introduce bpf_mem_alloc_size()
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302021258.By6JZK71-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/996f3e2ac4dca054396d0f37ffe8ddb97fc4212f
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Yafang-Shao/mm-percpu-fix-incorrect-size-in-pcpu_obj_full_size/20230202-094352
+>         git checkout 996f3e2ac4dca054396d0f37ffe8ddb97fc4212f
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/bpf/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> kernel/bpf/memalloc.c:227:15: warning: no previous prototype for 'bpf_mem_cache_size' [-Wmissing-prototypes]
+>      227 | unsigned long bpf_mem_cache_size(struct bpf_mem_cache *c, void *obj)
+>          |               ^~~~~~~~~~~~~~~~~~
 
-Thank you for the patch! Yet something to improve:
+Should be defined with 'static'.
+Thanks for the report. Will update it in the next version.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kalyan-Thota/drm-msm-disp-dpu1-clear-dspp-reservations-in-rm-release/20230130-232224
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/1675092092-26412-4-git-send-email-quic_kalyant%40quicinc.com
-patch subject: [v1 3/3] drm/msm/disp/dpu1: reserve the resources on topology change
-config: arm64-randconfig-r034-20230129 (https://download.01.org/0day-ci/archive/20230202/202302022254.37XyfGnR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4c49c3233fc18f3b746a96b5ff4ce5008da3bfec
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kalyan-Thota/drm-msm-disp-dpu1-clear-dspp-reservations-in-rm-release/20230130-232224
-        git checkout 4c49c3233fc18f3b746a96b5ff4ce5008da3bfec
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2091:6: error: conflicting types for 'dpu_encoder_prepare_commit'; have 'void(struct drm_encoder *)'
-    2091 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h:19,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:29:
-   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h:155:6: note: previous declaration of 'dpu_encoder_prepare_commit' with type 'void(struct drm_encoder *, struct drm_crtc_state *)'
-     155 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: In function 'dpu_kms_prepare_commit':
->> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:443:25: error: too few arguments to function 'dpu_encoder_prepare_commit'
-     443 |                         dpu_encoder_prepare_commit(encoder);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:30:
-   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h:155:6: note: declared here
-     155 | void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/bpf_mem_cache_size +227 kernel/bpf/memalloc.c
+>
+>    226
+>  > 227  unsigned long bpf_mem_cache_size(struct bpf_mem_cache *c, void *obj)
+>    228  {
+>    229          unsigned long size;
+>    230
+>    231          if (!obj)
+>    232                  return 0;
+>    233
+>    234          if (c->percpu_size) {
+>    235                  size = percpu_size(((void **)obj)[1]);
+>    236                  size += ksize(obj);
+>    237                  return size;
+>    238          }
+>    239
+>    240          return ksize(obj);
+>    241  }
+>    242
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
 
-vim +2091 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-
-ae4d721ce10057 Abhinav Kumar     2022-04-26  2090  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @2091  void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2092  {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2093  	struct dpu_encoder_virt *dpu_enc;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2094  	struct dpu_encoder_phys *phys;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2095  	int i;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2096  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2097  	if (!drm_enc) {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2098  		DPU_ERROR("invalid encoder\n");
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2099  		return;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2100  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2101  	dpu_enc = to_dpu_encoder_virt(drm_enc);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2102  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2103  	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2104  		phys = dpu_enc->phys_encs[i];
-b6fadcade62704 Drew Davenport    2019-12-06  2105  		if (phys->ops.prepare_commit)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2106  			phys->ops.prepare_commit(phys);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2107  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2108  }
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  2109  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards
+Yafang
