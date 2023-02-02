@@ -1,51 +1,46 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946243239;
-	Thu,  2 Feb 2023 12:16:32 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso3572496wmp.3;
-        Thu, 02 Feb 2023 04:16:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/gi6ygwK+Ed3kqscUd6G2XBWzqocOrYUpatO0ytaDdk=;
-        b=cJsFtWsn5zeNrTSCEHdc97jXnvhwsi9qpJ/LwR9vadff1nMkOJlyX7GxOqBLPNyU+c
-         JlmbNRDKVVSUMv6rhbzof+vCS+PjPhig7R9PIJVH2azTiu3/WDurngy2OePogl3XoCeb
-         xpDZzZ8ITWCH20VOznlbCf2ld7Ewqp+fhSlFuk12e2w3Y9ioCb3NKlWsXdEWAevnG27D
-         3VfF8DEtMRpK/JVJ2MUV4EzY1jLUdRXXRyGAZ3sHEWpvSx5TtFAo2rS14WANkEeIAiUG
-         1wByXlb3xtTrZ8PTdc12nzEpPP4Q2GFvSjc9LrA3GTw+wuOy/HNZBBXCd7lKPJlhERd0
-         iqeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/gi6ygwK+Ed3kqscUd6G2XBWzqocOrYUpatO0ytaDdk=;
-        b=r6GJxXmAvpf0zJCF57SICFgJLONbizw9ahAON7VsYZYDrEh1uScw0OCWhSt4sRhhj1
-         wAXN6/sR13bRWW3xEPAhuTmKzdBiyu1rXQDeOtXBLUURi2I+jFrA9O1KwMeeRIdZ5Z8V
-         cMTodSqaVpgh31Q3QYONfp4flMG+f9/z1OT+c6r+DXQq9WihhFHBVC0AFk65Ng2KSCrc
-         yOPRQ/iK2uCwLIRDd+RKEqZ1wChlN9ob5V2lcYb5PH8YKNWG300RfeEei1fSyCMiDBpp
-         BAYomJU5KGJf4s/Ce54g247mkdgdmctwQw2LGXApNX4xCGyiilH4nuHt1AgeKH/E6K9y
-         r7CQ==
-X-Gm-Message-State: AO0yUKUcnOalT9fFl9L54JICAFpZeWsFgQFoRjG2n3jpbIkjvgcaKyEa
-	6cJz5qn/5xn9k0UsrBkQvOrsxL2i+DI=
-X-Google-Smtp-Source: AK7set8pYRNGJPQ22IMpy/HZrP6qt9rlrHP93M0y7on5zIH/fT479NmbxOvNb4nvUO4KYr/GyHdZag==
-X-Received: by 2002:a05:600c:6018:b0:3dc:1ad6:55fd with SMTP id az24-20020a05600c601800b003dc1ad655fdmr5683543wmb.32.1675340190601;
-        Thu, 02 Feb 2023 04:16:30 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003dc34edacf8sm4508219wmc.31.2023.02.02.04.16.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 04:16:30 -0800 (PST)
-Date: Thu, 2 Feb 2023 15:15:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Imre Deak <imre.deak@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 11/17] drm/display/dp_mst: Add helpers to query for
- payload allocation errors
-Message-ID: <202302021855.yyqIeQ2o-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6708B3239;
+	Thu,  2 Feb 2023 12:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675340852; x=1706876852;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R5GgOIf9gH76s8qzC5dBZpdcHe+ywXzG0g9ZF/UoaZk=;
+  b=NjI+6+NzidMiqUkl0jiUpSZjyyt+LwM6PDxDGPg7D1CwiJ0OCBexdRGC
+   liLdMyldzaFUHGESLlIuboAXcXyTYUFrGOmRzq3An3GsLbDuQnVF0O8JR
+   /852IUF/soDKC4jryzpHEJq6zUzUbC6a7XA/bVX9XBKOdBqrO8VfQpVVF
+   tG18ddt7hlzCUofGKpzss9TmVndCf459aWI9Kn9mxvWhtt2NRMARdNlAg
+   CY9f0TXmyuY1rtyRaw5A07b1KtLvi1k0IDIJJ07Sso/ZPXCusYN5PH6et
+   CMwQI7drUX7lKlrgBiniyUxT6hl+7wM5O08aPPY/FTYSWng/vHI9rZjXH
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="328448089"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="328448089"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 04:27:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733915994"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="733915994"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2023 04:27:30 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNYgb-0006Uq-1P;
+	Thu, 02 Feb 2023 12:27:29 +0000
+Date: Thu, 2 Feb 2023 20:26:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: [ammarfaizi2-block:paulmck/linux-rcu/peterz.2023.01.26a 64/68]
+ kernel/trace/trace_preemptirq.c:122:2: error: call to undeclared function
+ 'trace'; ISO C99 and later do not support implicit function declarations
+Message-ID: <202302022036.e3TYkFbH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,72 +49,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131150548.1614458-12-imre.deak@intel.com>
 
-Hi Imre,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-i915-dp_mst-Add-the-MST-topology-state-for-modesetted-CRTCs/20230131-230853
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230131150548.1614458-12-imre.deak%40intel.com
-patch subject: [PATCH v2 11/17] drm/display/dp_mst: Add helpers to query for payload allocation errors
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230202/202302021855.yyqIeQ2o-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/peterz.2023.01.26a
+head:   f9588508f16615daf50ae4e3e16f40b6be874154
+commit: 29847e5e64b9a99e8e55c70229733f1a30bd4143 [64/68] tracing, preempt: Squash _rcuidle tracing
+config: arm64-randconfig-r016-20230130 (https://download.01.org/0day-ci/archive/20230202/202302022036.e3TYkFbH-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/29847e5e64b9a99e8e55c70229733f1a30bd4143
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/peterz.2023.01.26a
+        git checkout 29847e5e64b9a99e8e55c70229733f1a30bd4143
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/iommu/ kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/gpu/drm/display/drm_dp_mst_topology.c:3316 drm_dp_add_payload_part1() warn: missing error code 'ret'
+All errors (new ones prefixed by >>):
 
-vim +/ret +3316 drivers/gpu/drm/display/drm_dp_mst_topology.c
+   kernel/trace/trace_preemptirq.c:88:16: warning: no previous prototype for function 'trace_hardirqs_on_caller' [-Wmissing-prototypes]
+   __visible void trace_hardirqs_on_caller(unsigned long caller_addr)
+                  ^
+   kernel/trace/trace_preemptirq.c:88:11: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __visible void trace_hardirqs_on_caller(unsigned long caller_addr)
+             ^
+             static 
+   kernel/trace/trace_preemptirq.c:103:16: warning: no previous prototype for function 'trace_hardirqs_off_caller' [-Wmissing-prototypes]
+   __visible void trace_hardirqs_off_caller(unsigned long caller_addr)
+                  ^
+   kernel/trace/trace_preemptirq.c:103:11: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __visible void trace_hardirqs_off_caller(unsigned long caller_addr)
+             ^
+             static 
+>> kernel/trace/trace_preemptirq.c:122:2: error: call to undeclared function 'trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           trace(preempt_enable)(a0, a1);
+           ^
+>> kernel/trace/trace_preemptirq.c:122:8: error: use of undeclared identifier 'preempt_enable'
+           trace(preempt_enable)(a0, a1);
+                 ^
+   kernel/trace/trace_preemptirq.c:128:2: error: call to undeclared function 'trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           trace(preempt_disable)(a0, a1);
+           ^
+>> kernel/trace/trace_preemptirq.c:128:8: error: use of undeclared identifier 'preempt_disable'
+           trace(preempt_disable)(a0, a1);
+                 ^
+   2 warnings and 4 errors generated.
 
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3304  int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3305  			     struct drm_dp_mst_topology_state *mst_state,
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3306  			     struct drm_dp_mst_atomic_payload *payload)
-ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3307  {
-ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3308  	struct drm_dp_mst_port *port;
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3309  	int ret = 0;
-706246c761ddd3 drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2018-12-13  3310  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3311  	port = drm_dp_mst_topology_get_port_validated(mgr, payload->port);
-33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3312  	if (!port) {
-33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3313  		drm_dbg_kms(mgr->dev,
-33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3314  			    "VCPI %d for port %p not in topology, not creating a payload\n",
-33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3315  			    payload->vcpi, payload->port);
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31 @3316  		goto alloc_fail;
 
-Hard to tell if this is an error path or a success path.
+vim +/trace +122 kernel/trace/trace_preemptirq.c
 
-33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3317  	}
-cfe9f90358d97a drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2019-01-10  3318  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3319  	if (mgr->payload_count == 0)
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3320  		mgr->next_start_slot = mst_state->start_slot;
-3769e4c0af5b82 drivers/gpu/drm/drm_dp_mst_topology.c         Wayne Lin        2021-06-16  3321  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3322  	payload->vc_start_slot = mgr->next_start_slot;
-cfe9f90358d97a drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2019-01-10  3323  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3324  	ret = drm_dp_create_payload_step1(mgr, payload);
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3325  	drm_dp_mst_topology_put_port(port);
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3326  	if (ret < 0) {
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3327  		drm_warn(mgr->dev, "Failed to create MST payload for port %p: %d\n",
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3328  			 payload->port, ret);
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3329  		goto alloc_fail;
-ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3330  	}
-dfda0df3426483 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-08-06  3331  
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3332  	payload->alloc_failed = false;
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3333  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3334  	mgr->payload_count++;
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3335  	mgr->next_start_slot += payload->time_slots;
-ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3336  
-4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3337  	return 0;
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3338  
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3339  alloc_fail:
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3340  	payload->vc_start_slot = -1;
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3341  	payload->alloc_failed = true;
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3342  
-5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3343  	return ret;
-ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3344  }
+   102	
+ > 103	__visible void trace_hardirqs_off_caller(unsigned long caller_addr)
+   104	{
+   105		lockdep_hardirqs_off(caller_addr);
+   106	
+   107		if (!this_cpu_read(tracing_irq_cpu)) {
+   108			this_cpu_write(tracing_irq_cpu, 1);
+   109			tracer_hardirqs_off(CALLER_ADDR0, caller_addr);
+   110			if (!in_nmi())
+   111				trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+   112		}
+   113	}
+   114	EXPORT_SYMBOL(trace_hardirqs_off_caller);
+   115	NOKPROBE_SYMBOL(trace_hardirqs_off_caller);
+   116	#endif /* CONFIG_TRACE_IRQFLAGS */
+   117	
+   118	#ifdef CONFIG_TRACE_PREEMPT_TOGGLE
+   119	
+   120	void trace_preempt_on(unsigned long a0, unsigned long a1)
+   121	{
+ > 122		trace(preempt_enable)(a0, a1);
+   123		tracer_preempt_on(a0, a1);
+   124	}
+   125	
+   126	void trace_preempt_off(unsigned long a0, unsigned long a1)
+   127	{
+ > 128		trace(preempt_disable)(a0, a1);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
