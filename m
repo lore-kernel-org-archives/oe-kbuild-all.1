@@ -1,45 +1,52 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29F810FD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 09:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE0BEDF;
+	Thu,  2 Feb 2023 09:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675328543; x=1706864543;
+  t=1675328561; x=1706864561;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LDDs5HFwk3RKv81l2LtmKwv1GfoDxgJexqkSPa/jwW4=;
-  b=IKrdUkVeiEZHVqCl7+pt/qItcHy8uuCQgdz0/ADyJD0scFegRFRnq6t8
-   663yzS0flX9k8HgNu5LCO+jx0D0NH+JCrdS3GBapEDJeujkGwgDZIjK5W
-   vd+EDEegAJPMn0bvw+j0SFHgpMH5fGO/ZDcSpOVNpwG33+5dM7/RD0c6+
-   DJy8t2bGBt/ssZyvNjc8Zam8Fg6OvazpemVbCjI9Kjk97yccTwAAc/SVz
-   2AedyhJHwCB5kVaKhGCLh+B1YHVrkkbepGGWizidcXiQJwElLKRNgb8ih
-   XWK/elocAPQIKhGn4US+jv//l/xQjiDs16QZqdXbm6HJZpXwP/LdFZ3Zr
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="414603283"
+  bh=FViG9TMpLgYk4KVWN5JEFfUr90OY4NYSxlfiA/GHQUs=;
+  b=jDtoYrzAvNCiO+B0w1BxYuXxJQpQzoTf+8B6fhmq5rcVgEnmI1MJIT7z
+   j+lagKmBP8TvGkmg9O8dnAoECMSwtz6UvvnOEVJDYxEYiuE6oIXPbXD/j
+   nBR9PgZKF/ZNjjwmgOjE6pIj+qJZKsjlKDdvMYwdAc3u78k7p5S3OkDqM
+   O72sUWm4U5634NdHXR3+6sTUKaX6WVpR6HmFXOEeIyO33qzXB0/MI/zao
+   /tkA2r2Pla/8r3142h1JU+WlaGMoBofwYsk8BigaL5gX8y2jGHmPYW4I7
+   FBgQrhSBdK8hAi5KpBaoGDV4GIvGVj4O//Z62HzvwDsv8TCf58vxNhe/w
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="312043829"
 X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="414603283"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 01:02:22 -0800
+   d="scan'208";a="312043829"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 01:02:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807902694"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="773794752"
 X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="807902694"
+   d="scan'208";a="773794752"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:02:21 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 02 Feb 2023 01:02:26 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNVU4-0006M8-2k;
+	id 1pNVU4-0006MA-2o;
 	Thu, 02 Feb 2023 09:02:20 +0000
-Date: Thu, 2 Feb 2023 17:01:47 +0800
+Date: Thu, 2 Feb 2023 17:01:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	ALSA development <alsa-devel@alsa-project.org>
-Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH] ALSA: hda: Fix the control element identification for
- multiple codecs
-Message-ID: <202302021656.nqNSqtwW-lkp@intel.com>
-References: <20230131094215.3545993-1-perex@perex.cz>
+To: Bart Van Assche <bvanassche@acm.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Avri Altman <avri.altman@wdc.com>,
+	Adrian Hunter <adrian.hunter@intel.com>, linux-scsi@vger.kernel.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Asutosh Das <asutoshd@codeaurora.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	Bean Huo <beanhuo@micron.com>,
+	Stanley Chu <stanley.chu@mediatek.com>,
+	Jinyoung Choi <j-young.choi@samsung.com>
+Subject: Re: [PATCH 2/2] scsi: ufs: Use SYNCHRONIZE CACHE instead of FUA
+Message-ID: <202302021626.GfHCwXIh-lkp@intel.com>
+References: <20230201180637.2102556-3-bvanassche@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +55,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131094215.3545993-1-perex@perex.cz>
+In-Reply-To: <20230201180637.2102556-3-bvanassche@acm.org>
 
-Hi Jaroslav,
+Hi Bart,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v6.2-rc6 next-20230202]
+[auto build test ERROR on mkp-scsi/for-next]
+[also build test ERROR on jejb-scsi/for-next linus/master v6.2-rc6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jaroslav-Kysela/ALSA-hda-Fix-the-control-element-identification-for-multiple-codecs/20230131-174413
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230131094215.3545993-1-perex%40perex.cz
-patch subject: [PATCH] ALSA: hda: Fix the control element identification for multiple codecs
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230202/202302021656.nqNSqtwW-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/scsi-core-Introduce-the-BLIST_BROKEN_FUA-flag/20230202-021019
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230201180637.2102556-3-bvanassche%40acm.org
+patch subject: [PATCH 2/2] scsi: ufs: Use SYNCHRONIZE CACHE instead of FUA
+config: x86_64-randconfig-a012-20230130 (https://download.01.org/0day-ci/archive/20230202/202302021626.GfHCwXIh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/8dfc91ec424bfc92232d31eadddd1901fa5c65f6
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4edde0173805f04faa8e79aab4de3e929ea4b7c0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jaroslav-Kysela/ALSA-hda-Fix-the-control-element-identification-for-multiple-codecs/20230131-174413
-        git checkout 8dfc91ec424bfc92232d31eadddd1901fa5c65f6
+        git fetch --no-tags linux-review Bart-Van-Assche/scsi-core-Introduce-the-BLIST_BROKEN_FUA-flag/20230202-021019
+        git checkout 4edde0173805f04faa8e79aab4de3e929ea4b7c0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> sound/pci/hda/hda_intel.c:123:41: error: 'CONFIG_SND_HDA_CTL_DEV_ID' undeclared here (not in a function); did you mean 'CONFIG_SND_HDA_CORE'?
-     123 |                                         CONFIG_SND_HDA_CTL_DEV_ID};
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         CONFIG_SND_HDA_CORE
+>> drivers/ufs/core/ufshcd.c:5060:22: error: use of undeclared identifier 'BLIST_BROKEN_FUA'
+           sdev->sdev_bflags = BLIST_BROKEN_FUA;
+                               ^
+   drivers/ufs/core/ufshcd.c:9988:44: warning: shift count >= width of type [-Wshift-count-overflow]
+                   if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
+                                                            ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                                        ^ ~~~
+   1 warning and 1 error generated.
 
 
-vim +123 sound/pci/hda/hda_intel.c
+vim +/BLIST_BROKEN_FUA +5060 drivers/ufs/core/ufshcd.c
 
-   101	
-   102	
-   103	static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-   104	static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
-   105	static bool enable[SNDRV_CARDS] = SNDRV_DEFAULT_ENABLE_PNP;
-   106	static char *model[SNDRV_CARDS];
-   107	static int position_fix[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-   108	static int bdl_pos_adj[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-   109	static int probe_mask[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-   110	static int probe_only[SNDRV_CARDS];
-   111	static int jackpoll_ms[SNDRV_CARDS];
-   112	static int single_cmd = -1;
-   113	static int enable_msi = -1;
-   114	#ifdef CONFIG_SND_HDA_PATCH_LOADER
-   115	static char *patch[SNDRV_CARDS];
-   116	#endif
-   117	#ifdef CONFIG_SND_HDA_INPUT_BEEP
-   118	static bool beep_mode[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] =
-   119						CONFIG_SND_HDA_INPUT_BEEP_MODE};
-   120	#endif
-   121	static bool dmic_detect = 1;
-   122	static bool ctl_dev_id[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] =
- > 123						CONFIG_SND_HDA_CTL_DEV_ID};
-   124	
+  5031	
+  5032	/**
+  5033	 * ufshcd_slave_alloc - handle initial SCSI device configurations
+  5034	 * @sdev: pointer to SCSI device
+  5035	 *
+  5036	 * Returns success
+  5037	 */
+  5038	static int ufshcd_slave_alloc(struct scsi_device *sdev)
+  5039	{
+  5040		struct ufs_hba *hba;
+  5041	
+  5042		hba = shost_priv(sdev->host);
+  5043	
+  5044		/* Mode sense(6) is not supported by UFS, so use Mode sense(10) */
+  5045		sdev->use_10_for_ms = 1;
+  5046	
+  5047		/* DBD field should be set to 1 in mode sense(10) */
+  5048		sdev->set_dbd_for_ms = 1;
+  5049	
+  5050		/* allow SCSI layer to restart the device in case of errors */
+  5051		sdev->allow_restart = 1;
+  5052	
+  5053		/* REPORT SUPPORTED OPERATION CODES is not supported */
+  5054		sdev->no_report_opcodes = 1;
+  5055	
+  5056		/* WRITE_SAME command is not supported */
+  5057		sdev->no_write_same = 1;
+  5058	
+  5059		/* Use SYNCHRONIZE CACHE instead of FUA to improve performance */
+> 5060		sdev->sdev_bflags = BLIST_BROKEN_FUA;
+  5061	
+  5062		ufshcd_lu_init(hba, sdev);
+  5063	
+  5064		ufshcd_setup_links(hba, sdev);
+  5065	
+  5066		return 0;
+  5067	}
+  5068	
 
 -- 
 0-DAY CI Kernel Test Service
