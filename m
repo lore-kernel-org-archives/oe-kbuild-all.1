@@ -1,43 +1,59 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C680B8F7D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 22:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF727AD3A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 23:03:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675376516; x=1706912516;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ih45qw3GO+A2Jg57523xVsGMRHouyCzrPpg2VyURJ3o=;
-  b=MQNTaBTDof8vDWKneO5fRfhVN48efAsBqmof+nci3ZizCc2rXHjYdJKa
-   D0U7g8QjLB3ypV5Bc2S5DW8t9k9HcYWx2jIn2r3GIx14CFRz4mTyxPLsr
-   +MTUIcllgDGGR7mQerGLrUb2E68ZMscJW/yzvTBoGCWwBBq3cS2z/NyJU
-   +e8S/L8q9JwL+liQo3L2Op/o/OvyitaLnhUfRoZ/eUJB79SjMRHOEts66
-   CC8i/BzlAFHmrHB3y0qCZo5PIB10JqksNUf4oMgd20ckHhpxELpuKs4Sb
-   4r54Ib40cRAFW3zc9bWNSpE8rQ1M5vcasTklTDqL/Gn5ExvpzPoxYIGD+
+  t=1675378981; x=1706914981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=53RNLMoQEXs/8h3PKrRplWnOeJwQKRWrDky6pO2LlBw=;
+  b=Ottqvoq6CplI7lI5mlKo3B/1ndgNW/QpxS9jYv0fI9fTzWtHHC/ywldZ
+   UDpZ216+HsOwipvOqnR2pFpBg293QEmqWQ5FI9UKwz5SFlFqD7CPBDPyT
+   wDWh26ngsRHycrRA9j4iinQ5FcU3EmV2wT4ntJCaIIjwOqrthkuBUZjGI
+   IVTCyLDz60DMid3E/cdn9oQuYynbxcQt/PWQvDMs3R6gxV09dv54N4iX6
+   eoxBYj0zuMuZATmQM/GEUdaIz55cVes0grs15nBWm5Cec7XeWw9QJy/iK
+   JCcTPYH9r4eL/mFoyWxZqkeTdyt+w1phm5B8v5bQhOMa5CKf9ovPk10PO
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="308927188"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316589868"
 X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="308927188"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 14:21:55 -0800
+   d="scan'208";a="316589868"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 15:03:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="729048449"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="695944506"
 X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="729048449"
+   d="scan'208";a="695944506"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Feb 2023 14:21:53 -0800
+  by orsmga008.jf.intel.com with ESMTP; 02 Feb 2023 15:02:55 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNhxp-0006um-0z;
-	Thu, 02 Feb 2023 22:21:53 +0000
-Date: Fri, 3 Feb 2023 06:21:48 +0800
+	id 1pNibW-0006vo-1T;
+	Thu, 02 Feb 2023 23:02:54 +0000
+Date: Fri, 3 Feb 2023 07:02:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: arch/mips/kernel/vpe-mt.c:(.text.vpe_run+0x280): undefined reference
- to `physical_memsize'
-Message-ID: <202302030625.2g3E98sY-lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Menglong Dong <imagedong@tencent.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Petr Machata <petrm@nvidia.com>,
+	virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
+Subject: Re: [PATCH 22/33] virtio_net: xsk: introduce xsk disable
+Message-ID: <202302030652.8JBKpzat-lkp@intel.com>
+References: <20230202110058.130695-23-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,33 +62,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230202110058.130695-23-xuanzhuo@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e7368fd30165ced757d64da48e2091c83815ce5c
-commit: 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-date:   9 months ago
-config: mips-randconfig-r002-20230202 (https://download.01.org/0day-ci/archive/20230203/202302030625.2g3E98sY-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+Hi Xuan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+[also build test WARNING on next-20230202]
+[cannot apply to net/master mst-vhost/linux-next linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-virtqueue_add-support-premapped/20230202-190707
+patch link:    https://lore.kernel.org/r/20230202110058.130695-23-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH 22/33] virtio_net: xsk: introduce xsk disable
+config: nios2-randconfig-s033-20230202 (https://download.01.org/0day-ci/archive/20230203/202302030652.8JBKpzat-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b4537199a4a8480b8c3ba37a2d44765ce76cd9b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/3c385ac45368b585d2ca1a45263b4a0536cef0dd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xuan-Zhuo/virtio_ring-virtqueue_add-support-premapped/20230202-190707
+        git checkout 3c385ac45368b585d2ca1a45263b4a0536cef0dd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/net/virtio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/virtio/xsk.c:133:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct xsk_buff_pool *pool @@     got struct xsk_buff_pool [noderef] __rcu *pool @@
+   drivers/net/virtio/xsk.c:133:35: sparse:     expected struct xsk_buff_pool *pool
+   drivers/net/virtio/xsk.c:133:35: sparse:     got struct xsk_buff_pool [noderef] __rcu *pool
 
-   mips-linux-ld: arch/mips/kernel/vpe-mt.o: in function `vpe_run':
->> arch/mips/kernel/vpe-mt.c:(.text.vpe_run+0x280): undefined reference to `physical_memsize'
->> mips-linux-ld: arch/mips/kernel/vpe-mt.c:(.text.vpe_run+0x284): undefined reference to `physical_memsize'
+vim +133 drivers/net/virtio/xsk.c
+
+   116	
+   117	static int virtnet_xsk_pool_disable(struct net_device *dev, u16 qid)
+   118	{
+   119		struct virtnet_info *vi = netdev_priv(dev);
+   120		struct receive_queue *rq;
+   121		struct send_queue *sq;
+   122		int err1, err2;
+   123	
+   124		if (qid >= vi->curr_queue_pairs)
+   125			return -EINVAL;
+   126	
+   127		sq = &vi->sq[qid];
+   128		rq = &vi->rq[qid];
+   129	
+   130		virtio_dma_unmap(&vi->vdev->dev, sq->xsk.hdr_dma_address, vi->hdr_len,
+   131				 DMA_TO_DEVICE);
+   132	
+ > 133		xsk_pool_dma_unmap(sq->xsk.pool, 0);
 
 -- 
 0-DAY CI Kernel Test Service
