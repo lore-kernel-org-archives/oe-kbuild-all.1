@@ -1,52 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0668110FD;
-	Thu,  2 Feb 2023 09:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4088A7E8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Feb 2023 10:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675330413; x=1706866413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aIiyDgv/qmZGr3jDNkPYzcbCICg4MgEqP2BLjAJlMts=;
-  b=lk6poxTvtTNKQaCFen5csdQbcM+hX0E60hlKQlik3XryDmrrtahDRJRJ
-   mbI3NaqCopAeADTCoIB7K2bsYBNNbs/j/bzjuIbCM2nnfF07Mypd+3Xn4
-   QWrrdayx5kB+SEqqN4h7maSpYPSkWT4CiZsQ2KVMz+0+ZS+ZAEbsVGaRn
-   dPearp/pqnrO794GI+++cj5rhTOu7mOEhH1uFuLP54pRClVilHRtEhlu9
-   Md2/wk5D6Ly8IjGbNURV0/2JY8N701Ra2zgrrueBWqLuywueIYzI53+VE
-   jZNHKZDIJHuL+Lc3z/SSwJNEP4SrAlvEzjgyMd81QclG/qR9vaCBIdgH2
+  t=1675334132; x=1706870132;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hu9wHKImVDD/N+OSz93SDa04Jw0rQ+OvnWcDR1zvw48=;
+  b=XH/AbxB605BjVPzlK76tQHc2ITqba8GNU4OiWSvK5X4QgbDED26PBsrO
+   8Hf/kf7iG2xWJKo6Yfp3ESpv6OXG/br99jhW7/jh2yACXWhchX/yxEbNz
+   bY/cRq1S0JnbJ/atCB3+yQjc5Per9TsgEaHJsv5oXotw/22mhkN2fkYIu
+   1ySG1SQrA7qyH4OBKlUcFPcarJd7djWSVLE2wlySC97NeNV/iR4iuK42V
+   P49F87AL4bO0X8820dB6BP3Xa06SWN7O0kJF/IVrJ3pLybUQwQKlb36L0
+   tM4ojNDaBC1hreRHRMlstTQ64TjA5AAwmW5fAgz0LFIzn/RnhZwD5iecp
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308742900"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="392994770"
 X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="308742900"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 01:33:32 -0800
+   d="scan'208";a="392994770"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 02:35:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="697626494"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733888870"
 X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="697626494"
+   d="scan'208";a="733888870"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Feb 2023 01:33:27 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2023 02:35:30 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNVy6-0006O0-0g;
-	Thu, 02 Feb 2023 09:33:22 +0000
-Date: Thu, 2 Feb 2023 17:32:40 +0800
+	id 1pNWw8-0006QM-1M;
+	Thu, 02 Feb 2023 10:35:24 +0000
+Date: Thu, 2 Feb 2023 18:34:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Desaulniers <ndesaulniers@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-	Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-	Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Yonghong Song <yhs@fb.com>, Daniel Kolesa <q66@chimera-linux.org>,
-	Chris Mason <chris.mason@fusionio.com>
-Subject: Re: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta
- datacenters
-Message-ID: <202302021759.syE8waoZ-lkp@intel.com>
-References: <20230201192509.4124319-1-ndesaulniers@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 240/258]
+ arch/arm64/kvm/hyp/nvhe/serial.c:41:6: warning: no previous prototype for
+ 'hyp_puts'
+Message-ID: <202302021811.PakRA4XL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,51 +46,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201192509.4124319-1-ndesaulniers@google.com>
 
-Hi Nick,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.2-rc6 next-20230202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Documentation-llvm-add-Chimera-Linux-Google-and-Meta-datacenters/20230202-032729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230201192509.4124319-1-ndesaulniers%40google.com
-patch subject: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta datacenters
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/fb73005aa3c6a4052e30f0f0dc2c608bafd8acce
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nick-Desaulniers/Documentation-llvm-add-Chimera-Linux-Google-and-Meta-datacenters/20230202-032729
-        git checkout fb73005aa3c6a4052e30f0f0dc2c608bafd8acce
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   b2487c5b2bdbac887caa086038f90c88f31f30af
+commit: b21ae4963d0d204a1405c4aedd76eb01cd79dfdd [240/258] ANDROID: KVM: arm64: Add serial framework for pKVM
+config: arm64-buildonly-randconfig-r005-20230130 (https://download.01.org/0day-ci/archive/20230202/202302021811.PakRA4XL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-6.1
+        git checkout b21ae4963d0d204a1405c4aedd76eb01cd79dfdd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/kbuild/llvm.rst:13: WARNING: Unknown target name: "chromeos https://www.chromium.org/chromium-os>".
+>> arch/arm64/kvm/hyp/nvhe/serial.c:41:6: warning: no previous prototype for 'hyp_puts' [-Wmissing-prototypes]
+      41 | void hyp_puts(const char *s)
+         |      ^~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/serial.c:53:6: warning: no previous prototype for 'hyp_putx64' [-Wmissing-prototypes]
+      53 | void hyp_putx64(u64 x)
+         |      ^~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/serial.c:59:6: warning: no previous prototype for 'hyp_putc' [-Wmissing-prototypes]
+      59 | void hyp_putc(char c)
+         |      ^~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/serial.c:65:5: warning: no previous prototype for '__pkvm_register_serial_driver' [-Wmissing-prototypes]
+      65 | int __pkvm_register_serial_driver(void (*cb)(char))
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +13 Documentation/kbuild/llvm.rst
 
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  12  
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26 @13  The Linux kernel has always traditionally been compiled with GNU toolchains
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  14  such as GCC and binutils. Ongoing work has allowed for `Clang
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  15  <https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  16  used as viable substitutes. Distributions such as `Android
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  17  <https://www.android.com/>`_, `ChromeOS
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  18  https://www.chromium.org/chromium-os>`_, `OpenMandriva
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  19  <https://www.openmandriva.org/>`_, and `Chimera Linux
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  20  <https://chimera-linux.org/>`_ use Clang built kernels. Google's and Meta's
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  21  datacenter fleets also run kernels built with Clang.
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  22  
+vim +/hyp_puts +41 arch/arm64/kvm/hyp/nvhe/serial.c
+
+    40	
+  > 41	void hyp_puts(const char *s)
+    42	{
+    43		if (!hyp_serial_enabled())
+    44			return;
+    45	
+    46		while (*s)
+    47			__hyp_putc(*s++);
+    48	
+    49		__hyp_putc('\n');
+    50		__hyp_putc('\r');
+    51	}
+    52	
+  > 53	void hyp_putx64(u64 x)
+    54	{
+    55		if (hyp_serial_enabled())
+    56			__hyp_putx4n(x, 64);
+    57	}
+    58	
+  > 59	void hyp_putc(char c)
+    60	{
+    61		if (hyp_serial_enabled())
+    62			__hyp_putc(c);
+    63	}
+    64	
+  > 65	int __pkvm_register_serial_driver(void (*cb)(char))
 
 -- 
 0-DAY CI Kernel Test Service
