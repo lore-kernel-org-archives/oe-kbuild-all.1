@@ -1,49 +1,38 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE541FBC;
-	Fri,  3 Feb 2023 11:30:55 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id o18so4377207wrj.3;
-        Fri, 03 Feb 2023 03:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LBQjtoGHHgqblX9RDRub+u5uqU4jup01+5+erIPdZwM=;
-        b=dAiyQMjKSt9ndJtDjBZ/ofTPZOTeCfiQH206n5H+iIKpJIPr7siML8X1IphJXWzxtz
-         EtUwocmx3nxf+RSn+AFrlxrIXPBXh8p1YAOVnYcRA3pfO5YtWVJ4whOVDwN5lfClOWGZ
-         P2FwayBIUkwaVbdue+CoquyA6V8okieTt+Q6wVBboO3l4KcUmNagOQ3Ki89XNXo+ddxw
-         v3cHDrLhIIewKQhyhbQ5dEPcSs+okKMpQCZxO7UrWRVrDiKEvgFougXyL560Ox09psoA
-         gnSJS7WeylAZ88iZE0mnJWOcT6v0SMJNtL6wCr10euHFYRo8DYh4RXGouXdUI1MVDuGy
-         RzZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBQjtoGHHgqblX9RDRub+u5uqU4jup01+5+erIPdZwM=;
-        b=BZii3It1JpL5vwY9a7S+u2lJ8Sy81sbOICzzfzAfvB9G+qMOyn/3TjuOxDexNfGybp
-         GUDkkqXBYaZxNjr42j8XVyVC4TNwOrt2zC9ihmSaDW5G0+GPx0WdYgnZ6QLdt3uUnEDf
-         NQDDbr3T8CMCM0BUzZ0QBnwCUbu0SFQ2FLpnJSyZIxhcNhnHHVAfgZ5Q2tZMZ5Qh9rAa
-         bn7xQa4ICcRdYmA3xbtMKeynYxVGFqkAYXfllLNomfI16XinBQnPf7aC6ELKbVIwvBHx
-         3P/b1Gsj8v5Y80cMBIXn3xOnJVX1gkIQlA9+Yc4n3PIhIJV8RHD4VSVFzaGMYn38w83X
-         HxVw==
-X-Gm-Message-State: AO0yUKUDrmGfANgP2oIJUpZ3boxQrr28E5VXxpeoGuHCkryzqP4PbDXU
-	kkvN8CuBvKN9M7sLG3F8VrcleTV1Vew=
-X-Google-Smtp-Source: AK7set+wwtWTop0v2FxlIUbjvMTzk7G71xpzSxEDSgPBIPgQbcRL2JfA+6kUDKGNn2S3L5k+wmMcYg==
-X-Received: by 2002:adf:b355:0:b0:2bd:c83a:6e3 with SMTP id k21-20020adfb355000000b002bdc83a06e3mr8123753wrd.7.1675423853355;
-        Fri, 03 Feb 2023 03:30:53 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n9-20020a5d5989000000b002bc7fcf08ddsm1878761wri.103.2023.02.03.03.30.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 03:30:52 -0800 (PST)
-Date: Fri, 3 Feb 2023 11:56:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Guillaume Nault <gnault@redhat.com>
-Subject: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error
- code 'ret'
-Message-ID: <202302031144.yY6UaRcD-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A799257D;
+	Fri,  3 Feb 2023 11:32:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161EDC433EF;
+	Fri,  3 Feb 2023 11:31:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675423921;
+	bh=EMT4gAM6DFLAx01b5MmVLLZlp58/tPr8Emh4r7uLVYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dMdHRcJF0hM4pWxTxwwRi/eNiQXUxWBkgsUhUIZkbdeVM6RlvKD1XanvN2qCMldP0
+	 WpG/weQPZik2iwR1ER4nF/qxq5Om2uVH1wxDBGJ1DfAPTrQ6O7lcUzUPLl3mTsWo8G
+	 fpuXxJhL6L5yCeg1Qf76ED2fit5W1fb+yN0lZ0cCC9ODEphO0B6Tt9Aw64NOtqi+Ov
+	 gORw+HTwcqx4wdctW26BiNxLuZdOPODLg114LRgU3Ozmj80q9ZR6sGmc/OwajvvjiA
+	 9s9aRKr6a2w5tAL3IDcEc+yAn/OYIj2aZhNDQQ+oLAPMnO2cFBkDp5aOFB/n5bAb5G
+	 dHswfjIH8AVzw==
+Date: Fri, 3 Feb 2023 11:31:54 +0000
+From: Will Deacon <will@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	catalin.marinas@arm.com, mark.rutland@arm.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Suzuki Poulose <suzuki.poulose@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
+Message-ID: <20230203113153.GA5927@willie-the-truck>
+References: <20230123125956.1350336-6-anshuman.khandual@arm.com>
+ <202301310047.b5iv9hM8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,108 +41,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202301310047.b5iv9hM8-lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   66a87fff1a87c260452f5a57123891ca5258c449
-commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
-config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+On Tue, Jan 31, 2023 at 12:28:17AM +0800, kernel test robot wrote:
+> Hi Anshuman,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on arm64/for-next/core]
+> [also build test WARNING on tip/perf/core acme/perf/core linus/master v6.2-rc6 next-20230130]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+> patch link:    https://lore.kernel.org/r/20230123125956.1350336-6-anshuman.khandual%40arm.com
+> patch subject: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
+> config: arm64-randconfig-r016-20230130 (https://download.01.org/0day-ci/archive/20230131/202301310047.b5iv9hM8-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm64 cross compiling tool for clang build
+>         # apt-get install binutils-aarch64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/0deba04ac45f8632b8579cb5cbf908b9f4428402
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
+>         git checkout 0deba04ac45f8632b8579cb5cbf908b9f4428402
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/arm64/kernel/asm-offsets.c:15:
+>    In file included from include/linux/kvm_host.h:45:
+>    In file included from arch/arm64/include/asm/kvm_host.h:36:
+>    In file included from include/kvm/arm_pmu.h:11:
+> >> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
+>    static inline bool has_branch_stack(struct perf_event *event);
+>                       ^
+>    arch/arm64/include/asm/perf_event.h:284:16: note: used here
+>            WARN_ON_ONCE(!has_branch_stack(event));
+>                          ^
+>    1 warning generated.
+> --
+>    In file included from arch/arm64/kernel/asm-offsets.c:15:
+>    In file included from include/linux/kvm_host.h:45:
+>    In file included from arch/arm64/include/asm/kvm_host.h:36:
+>    In file included from include/kvm/arm_pmu.h:11:
+> >> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
+>    static inline bool has_branch_stack(struct perf_event *event);
+>                       ^
+>    arch/arm64/include/asm/perf_event.h:284:16: note: used here
+>            WARN_ON_ONCE(!has_branch_stack(event));
+>                          ^
+>    1 warning generated.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+This looks like it should be fixed. I'd also like to see Mark's ack on the
+final series, since he had some detailed comments on the previous version.
 
-smatch warnings:
-net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
-
-vim +/ret +1481 net/l2tp/l2tp_core.c
-
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
-c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
-c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
-c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
-c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
-c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
-c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
-c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
-c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
-c4d48a58f32c59 Cong Wang       2023-01-13  1471  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
-6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
-                                                                        ^^^^^^^^^
-I don't know why this is showing up as a 3 week old warning when it
-looks like the code is from 2018...  Anyway, should this be an error
-path or a success path?
-
-b68777d54fac21 Jakub Sitnicki  2022-11-14  1482  	}
-b68777d54fac21 Jakub Sitnicki  2022-11-14  1483  
-b68777d54fac21 Jakub Sitnicki  2022-11-14  1484  	sk = sock->sk;
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1485  	write_lock_bh(&sk->sk_callback_lock);
-b68777d54fac21 Jakub Sitnicki  2022-11-14  1486  	ret = l2tp_validate_socket(sk, net, tunnel->encap);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1487  	if (ret < 0)
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1488  		goto err_inval_sock;
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1489  	rcu_assign_sk_user_data(sk, tunnel);
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1490  	write_unlock_bh(&sk->sk_callback_lock);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1491  
-69e16d01d1de4f Gong, Sishuai   2021-04-27  1492  	sock_hold(sk);
-69e16d01d1de4f Gong, Sishuai   2021-04-27  1493  	tunnel->sock = sk;
-c4d48a58f32c59 Cong Wang       2023-01-13  1494  	tunnel->l2tp_net = net;
-69e16d01d1de4f Gong, Sishuai   2021-04-27  1495  
-c4d48a58f32c59 Cong Wang       2023-01-13  1496  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
-c4d48a58f32c59 Cong Wang       2023-01-13  1497  	idr_replace(&pn->l2tp_tunnel_idr, tunnel, tunnel->tunnel_id);
-c4d48a58f32c59 Cong Wang       2023-01-13  1498  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1499  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1500  	if (tunnel->encap == L2TP_ENCAPTYPE_UDP) {
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1501  		struct udp_tunnel_sock_cfg udp_cfg = {
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1502  			.sk_user_data = tunnel,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1503  			.encap_type = UDP_ENCAP_L2TPINUDP,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1504  			.encap_rcv = l2tp_udp_encap_recv,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1505  			.encap_destroy = l2tp_udp_encap_destroy,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1506  		};
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1507  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1508  		setup_udp_tunnel_sock(net, sock, &udp_cfg);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1509  	}
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1510  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1511  	tunnel->old_sk_destruct = sk->sk_destruct;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1512  	sk->sk_destruct = &l2tp_tunnel_destruct;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1513  	lockdep_set_class_and_name(&sk->sk_lock.slock, &l2tp_socket_class,
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1514  				   "l2tp_sock");
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1515  	sk->sk_allocation = GFP_ATOMIC;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1516  
-6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1517  	trace_register_tunnel(tunnel);
-6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1518  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1519  	if (tunnel->fd >= 0)
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1520  		sockfd_put(sock);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1521  
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1522  	return 0;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1523  
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1524  err_inval_sock:
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1525  	write_unlock_bh(&sk->sk_callback_lock);
-af295e854a4e38 Jakub Sitnicki  2022-11-21  1526  
-f6cd651b056ffd Guillaume Nault 2018-04-10  1527  	if (tunnel->fd < 0)
-f6cd651b056ffd Guillaume Nault 2018-04-10  1528  		sock_release(sock);
-f6cd651b056ffd Guillaume Nault 2018-04-10  1529  	else
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1530  		sockfd_put(sock);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1531  err:
-c4d48a58f32c59 Cong Wang       2023-01-13  1532  	l2tp_tunnel_remove(net, tunnel);
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1533  	return ret;
-6b9f34239b00e6 Guillaume Nault 2018-04-10  1534  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Will
