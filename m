@@ -1,190 +1,142 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A7BED9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 02:45:24 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id mf7so11697184ejc.6
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Feb 2023 18:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UWbXociyFkdQ7/TUxBgecQAZf00rOpeT9CPa5wmxf04=;
-        b=YaKGyvJ6Rm9T6pGi9CEGpXW8/tz30eEJqTdZ5sDBSsYzk0uAWrcUii7GJ0X3HEcc99
-         JU1KRKAuGsXkOPQQphxpo6Tqeuzfdnk1jed90PonrOQ2wqgxcNrim/zs9/T5faCpph6W
-         eLdGzuoOIMPE7pbjD9jYVMehoHu6j3mjwcer0t4Q+queq4DbnOEnDMQoeJ8N+2QZ5+BA
-         MK2JZjfSVzN5EDq3Yrjq8k/Fw1RTaGe2NT6wJPNN1xItRRRBTZGAkQWCQqH6eMuZjvhd
-         /HIKTBZY9uP6Cuw5zPQKi25pV5dKG1xmRrdH3ft0oOECgs7usfZLRZ+sEU6vLm7V9yOp
-         Q8ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UWbXociyFkdQ7/TUxBgecQAZf00rOpeT9CPa5wmxf04=;
-        b=4Q3IsDHE9lOABw99VUXLbuIxVp8yOTqcs6jmdG989qjTfgjLGA+0SfuWOVV2z37wJK
-         yhOLDO1Kt021t0731Pn8Hc3qDK3bHIesChvLjBpIFagz1AQZRTySsDzf0QUEQtaulKC3
-         53nEl9nlBf1mEWIPY7Nof8X0C0CeTfLL1P12S7XipEYFgeF4lhryrCht40XMjMhYh66p
-         t7jUPrho5xibh5mGNYrFsC2iQZYVPemMkU7EVIn647w3Y1HqNmMf6htvoFydkuW6Dfn/
-         zi3OxgFzen623SbnW3nYMDKz3Lh5KXSBvjZdZt30NghRUuu/sjS6iDspIXltT+RmEFTw
-         QNew==
-X-Gm-Message-State: AO0yUKUf6NUp0hAl0k5GK5OZNy9AeJdzWXMqPJ78UoHVwaZN9+LqA1pq
-	OR2qgzZvFyBhZCcaPc7lqEDNGiVauyFTXCF23Yg=
-X-Google-Smtp-Source: AK7set94ceSpo/h1dUWbNI7qOd4aKf2weBp3h6HWl4TainLpBjMrdODUPEhcqOWYRNW+xnRXWSJ3FFHDrIf5QS/+xgk=
-X-Received: by 2002:a17:906:eca:b0:883:5f37:5aea with SMTP id
- u10-20020a1709060eca00b008835f375aeamr2482984eji.10.1675392322931; Thu, 02
- Feb 2023 18:45:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D743510E6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 03:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675394311; x=1706930311;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IAVrdyU7SUG1n2ySXvR3lW7L1iBU+Rd8/BYmuWxFtIk=;
+  b=GvJhckVRt8PPJ/anCatFCxsH6/eEoN2ZAItcZ1fwmOiII/yrkkugjSCD
+   PEkgrEmuNXRtPqxSUKIwFiENLAZSKjvfVWvY/vWoXtuyqfO6UbH0oRwXv
+   WNMmMkcNgrWmkD01bV9cv1cYuqKNRtVxA81RsExirx+p+5+IRmJ3d7L74
+   1o+sFjg2EXuWdoE0eeQ19ZqZC9hWCWLXF+mi0HYg4tENYmFiAtBE4/he4
+   qpTGcR8g4a+oD+ikmrCAwdWIlmDCwoNp+KeM+JIywPPvd0sMGPraUwAwg
+   PUuMHhsqPn/cu1qN5NYuuFr3Z7G4cKWDrrZ51CJQ8ex6fcYlJCMJK7aZr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="355985045"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="355985045"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 19:18:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="734167353"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="734167353"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2023 19:18:29 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNmaq-00001G-1e;
+	Fri, 03 Feb 2023 03:18:28 +0000
+Date: Fri, 3 Feb 2023 11:18:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Allen Ballway <ballway@chromium.org>, benjamin.tissoires@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, jikos@kernel.org,
+	lukas.bulwahn@gmail.com, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Allen Ballway <ballway@chromium.org>
+Subject: Re: [PATCH] HID: multitouch: Fix typo in config check
+Message-ID: <202302031117.u6FdSXY2-lkp@intel.com>
+References: <20230202144149.1.I7f213388b358718068c63acb698dc4937716cf35@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230202091151.855784-1-qkrwngud825@gmail.com> <202302030733.TVNhMvP4-lkp@intel.com>
-In-Reply-To: <202302030733.TVNhMvP4-lkp@intel.com>
-From: Juhyung Park <qkrwngud825@gmail.com>
-Date: Fri, 3 Feb 2023 11:45:09 +0900
-Message-ID: <CAD14+f2d2ggvTMO9oXF_6yhQYOsLjQKFd0hbCrBT2Whn3ad0kA@mail.gmail.com>
-Subject: Re: [PATCH] block: remove more NULL checks after bdev_get_queue()
-To: kernel test robot <lkp@intel.com>
-Cc: linux-block@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	axboe@kernel.dk, johannes.thumshirn@wdc.com, p.raghav@samsung.com, 
-	kch@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202144149.1.I7f213388b358718068c63acb698dc4937716cf35@changeid>
 
-Welp, didn't have it build-tested with W=3D1 and it somehow didn't warn
-me without it.
+Hi Allen,
 
-Just posted v2:
-https://lore.kernel.org/all/20230203024029.48260-1-qkrwngud825@gmail.com/T/=
-#u
+Thank you for the patch! Yet something to improve:
 
-Sorry for the inconvenience!
-Thanks,
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on next-20230202]
+[cannot apply to linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Fri, Feb 3, 2023 at 9:05 AM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Juhyung,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on axboe-block/for-next]
-> [also build test WARNING on linus/master v6.2-rc6 next-20230202]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Juhyung-Park/block=
--remove-more-NULL-checks-after-bdev_get_queue/20230202-171443
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
-.git for-next
-> patch link:    https://lore.kernel.org/r/20230202091151.855784-1-qkrwngud=
-825%40gmail.com
-> patch subject: [PATCH] block: remove more NULL checks after bdev_get_queu=
-e()
-> config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/202=
-30203/202302030733.TVNhMvP4-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=3D1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/f62253701c6bf7712=
-27300ca8c572c778c2670bb
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Juhyung-Park/block-remove-more-N=
-ULL-checks-after-bdev_get_queue/20230202-171443
->         git checkout f62253701c6bf771227300ca8c572c778c2670bb
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
->         make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->    block/blk-zoned.c: In function 'blkdev_report_zones_ioctl':
-> >> block/blk-zoned.c:337:31: warning: variable 'q' set but not used [-Wun=
-used-but-set-variable]
->      337 |         struct request_queue *q;
->          |                               ^
->    block/blk-zoned.c: In function 'blkdev_zone_mgmt_ioctl':
->    block/blk-zoned.c:392:31: warning: variable 'q' set but not used [-Wun=
-used-but-set-variable]
->      392 |         struct request_queue *q;
->          |                               ^
->
->
-> vim +/q +337 block/blk-zoned.c
->
-> d41003513e61dd Christoph Hellwig 2019-11-11  327
-> 56c4bddb970658 Bart Van Assche   2018-03-08  328  /*
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  329   * BLKREPORTZONE ioctl =
-processing.
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  330   * Called from blkdev_i=
-octl.
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  331   */
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  332  int blkdev_report_zones=
-_ioctl(struct block_device *bdev, fmode_t mode,
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  333                         =
-     unsigned int cmd, unsigned long arg)
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  334  {
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  335        void __user *argp=
- =3D (void __user *)arg;
-> d41003513e61dd Christoph Hellwig 2019-11-11  336        struct zone_repor=
-t_args args;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18 @337        struct request_qu=
-eue *q;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  338        struct blk_zone_r=
-eport rep;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  339        int ret;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  340
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  341        if (!argp)
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  342                return -E=
-INVAL;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  343
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  344        q =3D bdev_get_qu=
-eue(bdev);
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  345
-> edd1dbc83b1de3 Christoph Hellwig 2022-07-06  346        if (!bdev_is_zone=
-d(bdev))
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  347                return -E=
-NOTTY;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  348
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  349        if (copy_from_use=
-r(&rep, argp, sizeof(struct blk_zone_report)))
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  350                return -E=
-FAULT;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  351
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  352        if (!rep.nr_zones=
-)
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  353                return -E=
-INVAL;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  354
-> d41003513e61dd Christoph Hellwig 2019-11-11  355        args.zones =3D ar=
-gp + sizeof(struct blk_zone_report);
-> d41003513e61dd Christoph Hellwig 2019-11-11  356        ret =3D blkdev_re=
-port_zones(bdev, rep.sector, rep.nr_zones,
-> d41003513e61dd Christoph Hellwig 2019-11-11  357                         =
-         blkdev_copy_zone_to_user, &args);
-> d41003513e61dd Christoph Hellwig 2019-11-11  358        if (ret < 0)
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  359                return re=
-t;
-> d41003513e61dd Christoph Hellwig 2019-11-11  360
-> d41003513e61dd Christoph Hellwig 2019-11-11  361        rep.nr_zones =3D =
-ret;
-> 82394db7383d33 Matias Bj=C3=B8rling   2020-06-29  362        rep.flags =
-=3D BLK_ZONE_REP_CAPACITY;
-> d41003513e61dd Christoph Hellwig 2019-11-11  363        if (copy_to_user(=
-argp, &rep, sizeof(struct blk_zone_report)))
-> d41003513e61dd Christoph Hellwig 2019-11-11  364                return -E=
-FAULT;
-> d41003513e61dd Christoph Hellwig 2019-11-11  365        return 0;
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  366  }
-> 3ed05a987e0f63 Shaun Tancheff    2016-10-18  367
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Ballway/HID-multitouch-Fix-typo-in-config-check/20230202-224919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230202144149.1.I7f213388b358718068c63acb698dc4937716cf35%40changeid
+patch subject: [PATCH] HID: multitouch: Fix typo in config check
+config: x86_64-randconfig-a006 (https://download.01.org/0day-ci/archive/20230203/202302031117.u6FdSXY2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/a2331d08db1030f3e3f2e0d9c9232780c27d954a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Allen-Ballway/HID-multitouch-Fix-typo-in-config-check/20230202-224919
+        git checkout a2331d08db1030f3e3f2e0d9c9232780c27d954a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `hid_lookup_quirk':
+>> drivers/hid/hid-quirks.c:1305: undefined reference to `i2c_hid_get_dmi_quirks'
+
+
+vim +1305 drivers/hid/hid-quirks.c
+
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1258  
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1259  /**
+0603616a5bf6cd Randy Dunlap       2021-01-19  1260   * hid_lookup_quirk - return any quirks associated with a HID device
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1261   * @hdev: the HID device to look for
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1262   *
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1263   * Description:
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1264   *     Given a HID device, return any quirks associated with that device.
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1265   *
+0603616a5bf6cd Randy Dunlap       2021-01-19  1266   * Return: an unsigned long quirks value.
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1267   */
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1268  unsigned long hid_lookup_quirk(const struct hid_device *hdev)
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1269  {
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1270  	unsigned long quirks = 0;
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1271  	const struct hid_device_id *quirk_entry = NULL;
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1272  
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1273  	/* NCR devices must not be queried for reports */
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1274  	if (hdev->bus == BUS_USB &&
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1275  	    hdev->vendor == USB_VENDOR_ID_NCR &&
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1276  	    hdev->product >= USB_DEVICE_ID_NCR_FIRST &&
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1277  	    hdev->product <= USB_DEVICE_ID_NCR_LAST)
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1278  		return HID_QUIRK_NO_INIT_REPORTS;
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1279  
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1280  	/* These devices must be ignored if version (bcdDevice) is too old */
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1281  	if (hdev->bus == BUS_USB && hdev->vendor == USB_VENDOR_ID_JABRA) {
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1282  		switch (hdev->product) {
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1283  		case USB_DEVICE_ID_JABRA_SPEAK_410:
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1284  			if (hdev->version < 0x0111)
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1285  				return HID_QUIRK_IGNORE;
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1286  			break;
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1287  		case USB_DEVICE_ID_JABRA_SPEAK_510:
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1288  			if (hdev->version < 0x0214)
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1289  				return HID_QUIRK_IGNORE;
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1290  			break;
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1291  		}
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1292  	}
+d5158e020c4593 Niels Skou Olsen   2017-10-04  1293  
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1294  	mutex_lock(&dquirks_lock);
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1295  	quirk_entry = hid_exists_dquirk(hdev);
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1296  	if (quirk_entry)
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1297  		quirks = quirk_entry->driver_data;
+6e65d9d5492f37 Benjamin Tissoires 2017-11-20  1298  	else
+6e65d9d5492f37 Benjamin Tissoires 2017-11-20  1299  		quirks = hid_gets_squirk(hdev);
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1300  	mutex_unlock(&dquirks_lock);
+d5d3e202753cc0 Benjamin Tissoires 2017-11-20  1301  
+a2f416bf062a38 Allen Ballway      2023-01-10  1302  	/* Get quirks specific to I2C devices */
+a2331d08db1030 Allen Ballway      2023-02-02  1303  	if (IS_ENABLED(CONFIG_I2C_HID_CORE) && IS_ENABLED(CONFIG_DMI) &&
+a2f416bf062a38 Allen Ballway      2023-01-10  1304  	    hdev->bus == BUS_I2C)
+a2f416bf062a38 Allen Ballway      2023-01-10 @1305  		quirks |= i2c_hid_get_dmi_quirks(hdev->vendor, hdev->product);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
