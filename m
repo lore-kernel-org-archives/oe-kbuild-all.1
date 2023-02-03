@@ -1,45 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB08E290B;
-	Fri,  3 Feb 2023 22:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76A3290B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 22:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675463541; x=1706999541;
+  t=1675464142; x=1707000142;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pIGrupTEDXpoUeI3Xj9bt5x4kPdBAZYQHZVaoC2h++c=;
-  b=BQ5P6gMB8TGdLEDarZ5TT3qqNAI/pUW+VZbuOyvla1iEvsSMYSdxkw0a
-   sspdP+RfRB6K6l21qwaO5FfT+hB49V7TitKz/WFawjMhDI803yEYLo9lX
-   FO6EUVBq1ZXd7e50AdUopjv4hugaI/z62v/qRlVfP2vPLFNh8lfaVGVq5
-   cojuFymkOd68LekNWYHfysmGvXUWtbrLRLP5ZEPmYy/GYadKOEuhKAEOQ
-   DBUB0eVy7QAsodwcfzLbaXvMH+42eXs99fA6gdWAT/AHDGHT4gcFJD1ez
-   BoJpj6TSToB+7lRjmwcjhZsLqHBzv+I7EvGeFW3KPM7/M7mEejfTW6MF8
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327507851"
+  bh=vo0xXr01l1cx/ojigtQ7R/3TxE5UQfZlKkiyf7qJbGI=;
+  b=A+NXm+L8wKTO8rb9SmYuLFN8IAds2MIPs3gaf2PfZKoFUOFWuKeAEjuw
+   ppogEFtYuTVB7j0aJLLtsBfvB7O2HPC20aPfud8veyEAgvm3+qB5g0OlP
+   iNvodLuIBllTwdC3Mb87PMbalU9TSP++mdOxUBLpGTIxnCB36yLzLuKnv
+   7P7IjeBR9RiVzmLvvWsuqLBOCwJrPWWciZrNH5dZx70NDZiniDehRDbcc
+   2GtGYuhmUbKMoutIP31VszxAU46yW7/b6B/RCmAhRWzxTg6lH19zxwtmc
+   izdXFWMj+06RPFP8PlmX3qpb5rt3JpMbwys3q6Sm/oJ2p1I8HaJwImwFY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="356218505"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="327507851"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:32:21 -0800
+   d="scan'208";a="356218505"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:42:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="774476939"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698225782"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="774476939"
+   d="scan'208";a="698225782"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2023 14:32:19 -0800
+  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 14:42:20 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO4bT-0000ob-04;
-	Fri, 03 Feb 2023 22:32:19 +0000
-Date: Sat, 4 Feb 2023 06:31:47 +0800
+	id 1pO4l9-0000oj-0p;
+	Fri, 03 Feb 2023 22:42:19 +0000
+Date: Sat, 4 Feb 2023 06:42:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: [linux-next:master 8959/10357]
- drivers/pcmcia/pxa2xx_sharpsl.c:206:5: warning: no previous prototype for
- function 'pcmcia_collie_init'
-Message-ID: <202302040652.zkUBTjyo-lkp@intel.com>
+To: Ian Rogers <irogers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: [tip:objtool/core 3/8] <stdin>:1:10: fatal error: libelf.h: No such
+ file or directory
+Message-ID: <202302040614.HtRK9IrP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,63 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nathan,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4fafd96910add124586b549ad005dcd179de8a18
-commit: 5eb6e280432ddc9b755193552f3a070da8d7455c [8959/10357] ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
-config: arm-collie_defconfig (https://download.01.org/0day-ci/archive/20230204/202302040652.zkUBTjyo-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
+head:   391e6d2abd652b460d9017b2f8a8ded508c09558
+commit: 93eacc15687a491a9cf829f94b6891bf544084f3 [3/8] objtool: Fix HOSTCC flag usage
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230204/202302040614.HtRK9IrP-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=5eb6e280432ddc9b755193552f3a070da8d7455c
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 5eb6e280432ddc9b755193552f3a070da8d7455c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=93eacc15687a491a9cf829f94b6891bf544084f3
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip objtool/core
+        git checkout 93eacc15687a491a9cf829f94b6891bf544084f3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pcmcia/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pcmcia/pxa2xx_sharpsl.c:206:5: warning: no previous prototype for function 'pcmcia_collie_init' [-Wmissing-prototypes]
-   int pcmcia_collie_init(struct device *dev)
-       ^
-   drivers/pcmcia/pxa2xx_sharpsl.c:206:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int pcmcia_collie_init(struct device *dev)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/pcmcia_collie_init +206 drivers/pcmcia/pxa2xx_sharpsl.c
-
-a63ae4427c6af6 Richard Purdie 2005-11-08  205  
-34cdf25a126f05 Bill Pemberton 2012-11-19 @206  int pcmcia_collie_init(struct device *dev)
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  207  {
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  208         int ret = -ENODEV;
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  209  
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  210         if (machine_is_collie())
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  211                 ret = sa11xx_drv_pcmcia_probe(dev, &sharpsl_pcmcia_ops, 0, 1);
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  212  
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  213         return ret;
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  214  }
-77bb86a1b9f8b8 Pavel Machek   2005-10-30  215  
-
-:::::: The code at line 206 was first introduced by commit
-:::::: 34cdf25a126f053698d549cc12a9c30e9a8a0bab pcmcia: remove use of __devinit
-
-:::::: TO: Bill Pemberton <wfp5p@virginia.edu>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> <stdin>:1:10: fatal error: libelf.h: No such file or directory
+   compilation terminated.
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   elf.c: In function 'read_sections':
+   elf.c:273:9: error: 'elf_getshnum' is deprecated [-Werror=deprecated-declarations]
+     273 |         if (elf_getshdrnum(elf->elf, &sections_nr)) {
+         |         ^~
+   In file included from /usr/include/gelf.h:32,
+                    from tools/objtool/include/objtool/elf.h:10,
+                    from elf.c:22:
+   /usr/include/libelf.h:310:12: note: declared here
+     310 | extern int elf_getshnum (Elf *__elf, size_t *__dst)
+         |            ^~~~~~~~~~~~
+   elf.c:278:9: error: 'elf_getshstrndx' is deprecated [-Werror=deprecated-declarations]
+     278 |         if (elf_getshdrstrndx(elf->elf, &shstrndx)) {
+         |         ^~
+   /usr/include/libelf.h:322:12: note: declared here
+     322 | extern int elf_getshstrndx (Elf *__elf, size_t *__dst)
+         |            ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   make[4]: *** [tools/build/Makefile.build:96: tools/objtool/elf.o] Error 1
+   make[4]: *** Waiting for unfinished jobs....
+   make[3]: *** [Makefile:66: tools/objtool/objtool-in.o] Error 2
+   make[2]: *** [Makefile:73: objtool] Error 2
+   make[1]: *** [Makefile:1439: tools/objtool] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
