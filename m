@@ -1,75 +1,186 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540121863
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 09:19:47 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id u9so377646plf.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Feb 2023 01:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B/K5nwMA8gvVa10PeMZSw77e4QnQnF6l8GwdE0FA3W4=;
-        b=luBjfbvqSaQ7qCAtGVFiqUWy8FH5HsgUOP8afdGlDZAq+nE0K4nyTcB+gtX8x2nCs5
-         /NBt9Kzh0EJeREIj7zfZ64jlel4aobpLlESPqAxQKaU5zr3heb1V4UciwZcbGrmlkI/a
-         TSIZRo51WZ77BufXUtTZ1FACt665zphwXLclJHSripRXRenn9DRJW5eHsECYU7DMafUI
-         6F8ln1JwqcmNqtKmDeC/vOcT+SnT7ukwgEuUoe40aStBjojhXq6gvkvBiHySWwLHq4y5
-         78hRysrNaQXBLo8eUfi3g8pjwHiX+YfCnuKvxSv1x+EY021w5mbIXJrwf/xRmxaI6gJq
-         LOyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B/K5nwMA8gvVa10PeMZSw77e4QnQnF6l8GwdE0FA3W4=;
-        b=MNVnmRTlZkzU+ydmW+F+E0HxpTavs8bVyMsmFfCgrFwuwe9c+bmhXPVkV7YvJCqI2u
-         nfCcWo/KyVsXTZ2vBOcV7cm7ZRbMAYhedKmQ7mJRzvmCY7qiCrr6gAiCsJFsKjtChJ+A
-         oK8uQi8h+Rqntz/1skiozZHHb7QrJD96kWO32ZBZrFEolY9NWodSikwmgYxdNAv58oDt
-         AEFUtGhWzdaxeF7jl4lqNVtOWWs371wwqxv3gQ2o9Q/H1DFV+iXrSXuc/O5zTzLaU1Wm
-         /DmIw8OIp0uezYGSiGTQeYJcG2dmzn2f+NnV1WePLMNj0eeod/wgg9OHi3wRDPaWkkjv
-         nWVw==
-X-Gm-Message-State: AO0yUKW5i6B09XJo7ozfn0DDYIksK9MmbWuZ6osW2RkPMc67dJ/67xC8
-	LNERfGGxA+O6dpV4s51I7+Q=
-X-Google-Smtp-Source: AK7set//VeLBQllO4lSM/GQi7Dl1r/947yKqKjU+0e76B/DeM4FjHh/tIjcVf6py4FWhAU1xPv7NZA==
-X-Received: by 2002:a17:902:f2d4:b0:197:8f72:aed8 with SMTP id h20-20020a170902f2d400b001978f72aed8mr7116572plc.5.1675415986633;
-        Fri, 03 Feb 2023 01:19:46 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-91.three.co.id. [180.214.233.91])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170902ee0300b001960441f604sm1084907plb.277.2023.02.03.01.19.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 01:19:46 -0800 (PST)
-Message-ID: <7370dc9a-8a14-4c38-028e-f44cd099dbaf@gmail.com>
-Date: Fri, 3 Feb 2023 16:19:41 +0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFF31C29
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 09:57:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675418224; x=1706954224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dJ2q9PwEMW0SSkG+4Ta7q5xMk9OhifxLsOSev/dtMJg=;
+  b=WY+oE72gYyuMIc66EFC7gXTlXhxgutFG+tFgYP97QlJJEP9yes3U1tiV
+   jMWhJdam29y8+8PM8NOCLo2iWxwRDKGmH1Y1LWKrfO0jjFspFWKPYiQ8O
+   tCotDpR7iUcOJOIYn9Y7YrsJ3jS40AEslHaW5/8q2GN9nr6kGEFpD7zdb
+   rwQzV/iWfJp1y/aaX4WU3oPwthliQJ2bxUwV9D0aEJbOlPRxMqYL5y+Mp
+   Zw8kKKYQU2nqbpsWdgK+y6dbD7ukd60sD6llgrKrsCMjpFAEd4d0Bcn0Y
+   g67ipIC85prigzmiMxV2dKvM1Z7Qe4vK9e7rAFs/3/dZPxqV5NKkEZO9a
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="329994208"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="329994208"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 01:56:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="808324883"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="808324883"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2023 01:56:52 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNsoN-0000ND-1v;
+	Fri, 03 Feb 2023 09:56:51 +0000
+Date: Fri, 3 Feb 2023 17:56:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: equu@openmail.cc, lpieralisi@kernel.org, toke@toke.dk, kvalo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	robh@kernel.org, linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org, equu@openmail.cc
+Subject: Re: [PATCH v3 2/3] wifi: ath9k: stop loading incompatible DT cal data
+Message-ID: <202302031700.zxbfZuRh-lkp@intel.com>
+References: <20230202075524.2911058-3-equu@openmail.cc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] tracing/histogram: Wrap remaining shell snippets in code
- blocks
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, kernel test robot <lkp@intel.com>
-References: <202301290253.LU5yIxcJ-lkp@intel.com>
- <20230129031402.47420-1-bagasdotme@gmail.com> <871qn8vsro.fsf@meer.lwn.net>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <871qn8vsro.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202075524.2911058-3-equu@openmail.cc>
 
-On 2/3/23 01:14, Jonathan Corbet wrote:
-> So this is a good cleanup and I'd like to apply it, but it doesn't come
-> close to applying to docs-next.  Which tree did you do this against?
-> 
+Hi,
 
-for-next branch (linux-trace tree).
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on helgaas-pci/next]
+[also build test ERROR on helgaas-pci/for-linus wireless-next/main wireless/main linus/master v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+patch link:    https://lore.kernel.org/r/20230202075524.2911058-3-equu%40openmail.cc
+patch subject: [PATCH v3 2/3] wifi: ath9k: stop loading incompatible DT cal data
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230203/202302031700.zxbfZuRh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/b8656d7cf0ddf9edc732511d6d959c1b3a8b4ea8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
+        git checkout b8656d7cf0ddf9edc732511d6d959c1b3a8b4ea8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/ath/ath10k/ drivers/net/wireless/ath/ath9k/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/wireless/ath/ath9k/init.c:25:
+>> include/linux/of_pci.h:23:33: warning: 'struct pci_driver' declared inside parameter list will not be visible outside of this definition or declaration
+      23 |                          struct pci_driver *drv);
+         |                                 ^~~~~~~~~~
+   drivers/net/wireless/ath/ath9k/init.c: In function 'ath9k_nvmem_request_eeprom':
+>> drivers/net/wireless/ath/ath9k/init.c:594:13: error: implicit declaration of function 'dev_is_pci' [-Werror=implicit-function-declaration]
+     594 |         if (dev_is_pci(sc->dev) &&
+         |             ^~~~~~~~~~
+>> drivers/net/wireless/ath/ath9k/init.c:600:40: error: passing argument 2 of 'of_pci_node_match_driver' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     600 |                                        &ath_pci_driver)))
+         |                                        ^~~~~~~~~~~~~~~
+         |                                        |
+         |                                        struct pci_driver *
+   In file included from drivers/net/wireless/ath/ath9k/init.c:25:
+   include/linux/of_pci.h:23:45: note: expected 'struct pci_driver *' but argument is of type 'struct pci_driver *'
+      23 |                          struct pci_driver *drv);
+         |                          ~~~~~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
+
+
+vim +/dev_is_pci +594 drivers/net/wireless/ath/ath9k/init.c
+
+   572	
+   573	static int ath9k_nvmem_request_eeprom(struct ath_softc *sc)
+   574	{
+   575		struct ath_hw *ah = sc->sc_ah;
+   576		struct nvmem_cell *cell;
+   577		void *buf;
+   578		size_t len;
+   579		int err;
+   580	
+   581		/* devm_nvmem_cell_get() will get a cell first from the OF
+   582		 * DT node representing the given device with nvmem-cell-name
+   583		 * "calibration", and from the global lookup table as a fallback,
+   584		 * and an ath9k device could be either a pci one or a platform one.
+   585		 *
+   586		 * If the OF DT node is not compatible with the real device, the
+   587		 * calibration data got from the node should not be applied.
+   588		 *
+   589		 * dev_is_pci(sc->dev) && ( no OF node || caldata not from node
+   590		 * || not compatible ) -> do not use caldata .
+   591		 *
+   592		 * !dev_is_pci(sc->dev) -> always use caldata .
+   593		 */
+ > 594		if (dev_is_pci(sc->dev) &&
+   595		    (!sc->dev->of_node ||
+   596		     !of_property_match_string(sc->dev->of_node,
+   597					       "nvmem-cell-names",
+   598					       "calibration") ||
+   599		     !of_pci_node_match_driver(sc->dev->of_node,
+ > 600					       &ath_pci_driver)))
+   601			/* follow the "just return 0;" convention as
+   602			 * noted below.
+   603			 */
+   604			return 0;
+   605	
+   606		cell = devm_nvmem_cell_get(sc->dev, "calibration");
+   607		if (IS_ERR(cell)) {
+   608			err = PTR_ERR(cell);
+   609	
+   610			/* nvmem cell might not be defined, or the nvmem
+   611			 * subsystem isn't included. In this case, follow
+   612			 * the established "just return 0;" convention of
+   613			 * ath9k_init_platform to say:
+   614			 * "All good. Nothing to see here. Please go on."
+   615			 */
+   616			if (err == -ENOENT || err == -EOPNOTSUPP)
+   617				return 0;
+   618	
+   619			return err;
+   620		}
+   621	
+   622		buf = nvmem_cell_read(cell, &len);
+   623		if (IS_ERR(buf))
+   624			return PTR_ERR(buf);
+   625	
+   626		/* run basic sanity checks on the returned nvram cell length.
+   627		 * That length has to be a multiple of a "u16" (i.e.: & 1).
+   628		 * Furthermore, it has to be more than "let's say" 512 bytes
+   629		 * but less than the maximum of AR9300_EEPROM_SIZE (16kb).
+   630		 */
+   631		if ((len & 1) == 1 || len < 512 || len >= AR9300_EEPROM_SIZE) {
+   632			kfree(buf);
+   633			return -EINVAL;
+   634		}
+   635	
+   636		/* devres manages the calibration values release on shutdown */
+   637		ah->nvmem_blob = (u16 *)devm_kmemdup(sc->dev, buf, len, GFP_KERNEL);
+   638		kfree(buf);
+   639		if (!ah->nvmem_blob)
+   640			return -ENOMEM;
+   641	
+   642		ah->nvmem_blob_len = len;
+   643		ah->ah_flags &= ~AH_USE_EEPROM;
+   644		ah->ah_flags |= AH_NO_EEP_SWAP;
+   645	
+   646		return 0;
+   647	}
+   648	
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
