@@ -1,43 +1,50 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72019D51B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 23:44:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389C2D51B;
+	Fri,  3 Feb 2023 23:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675467863; x=1707003863;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zLlUY3czAjfFK6NkFV2LcPWdS2+42SmdI3xHnU5oTJk=;
-  b=CM/vrHSbkI0jXQVJXvdX7ovD9LhoHSJRnops0doxO5EZhZEeD967gfUu
-   GUPH1I+Y06oXa3+G2PlNf5/UJ0mwsypaQ/gr3T8O1sxWlQTiX5ktgN9hJ
-   Mwzp9lPUYpTs0ggqADJRvzVWuTt0CI/UXVFi8cEpcii1wl3vMLCWnSlDM
-   0I2NSAB8b+q2dxNcY7pSS911VPA5ME/au41f9GzowVwa+08FDUyDnn8hi
-   mMk7T9T0VL1wErKVfzvEltmadT/iq+ImMG3YG99BT8H3qTMHO0950eLx9
-   Iiheaz/oqGbUHYe3tt4ixV5QTIMwtn8cis0QQI86osL+YJ8NO+9/KQPZa
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="331016948"
+  t=1675467871; x=1707003871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uZ0qNhDCqz4L2s+QoHLo0NAhbxb3fK+YiXc/q8MtHUA=;
+  b=G4aWql6NAzhhEtozfewYvinxO9F7kDWeKkQrj37EEonNBoFUwoUfVJE+
+   oGF3m2T42Tvmsf1bOT11+v/zUwg5iKrliTjm4BH4qtlIiDvPDUmj6Gqya
+   P4GwZC2KJ5CQ8+rAxwcvGzLolbAj17rGDUxM08g04GB+KDtHv8OZRAGL2
+   dgSW2MiRxqhY+nzDOc18NP6xUr1cY+4lfy4bMG+cv9bT4nO+yD2WMAEzT
+   cCoSWKpchKYi/kjJ9WmM9kz3YhE81aIWtwwNC5klJkCOI3SIn8E5jJG1G
+   GRqeAPxrSG7g7sLp65ZDERpepMi94fIdQwI8p8XIPATx40+sYAQalfXEA
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="331016968"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="331016948"
+   d="scan'208";a="331016968"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 15:44:22 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 15:44:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698243345"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698243366"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="698243345"
+   d="scan'208";a="698243366"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 15:44:21 -0800
+  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 15:44:26 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO5jA-0000qn-2t;
+	id 1pO5jA-0000qp-2x;
 	Fri, 03 Feb 2023 23:44:20 +0000
-Date: Sat, 4 Feb 2023 07:43:24 +0800
+Date: Sat, 4 Feb 2023 07:43:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 3386/20208] versioncheck:
- ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 18549: need
- linux/version.h
-Message-ID: <202302040702.5Z7aWDOD-lkp@intel.com>
+To: Krishna Yarlagadda <kyarlagadda@nvidia.com>, robh+dt@kernel.org,
+	broonie@kernel.org, peterhuewe@gmx.de, jgg@ziepe.ca,
+	jarkko@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	thierry.reding@gmail.com, jonathanh@nvidia.com,
+	skomatineni@nvidia.com, ldewangan@nvidia.com,
+	Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Subject: Re: [Patch V2 2/4] tpm: tegra: Support SPI tpm wait state detect
+Message-ID: <202302040739.VbsIprzH-lkp@intel.com>
+References: <20230203130133.32901-3-kyarlagadda@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +53,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230203130133.32901-3-kyarlagadda@nvidia.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 3dcab85234f3a4768e11d0fa9b18cfc9145c1131 [3386/20208] MGS-4530-1 add 6.2.4.p4 gpu driver for L4.19
-reproduce:
-        make versioncheck
+Hi Krishna,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus broonie-spi/for-next robh/for-next linus/master v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Yarlagadda/dt-bindings-tpm-Add-compatible-for-Tegra-TPM/20230203-210314
+patch link:    https://lore.kernel.org/r/20230203130133.32901-3-kyarlagadda%40nvidia.com
+patch subject: [Patch V2 2/4] tpm: tegra: Support SPI tpm wait state detect
+config: x86_64-randconfig-k001 (https://download.01.org/0day-ci/archive/20230204/202302040739.VbsIprzH-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/825363f7e8d0d426c45bbba6cb3c5d9b79b7e6aa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Krishna-Yarlagadda/dt-bindings-tpm-Add-compatible-for-Tegra-TPM/20230203-210314
+        git checkout 825363f7e8d0d426c45bbba6cb3c5d9b79b7e6aa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/tpm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
->> ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 18549: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 3590: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 604: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 546: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1153: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 511: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 854: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 603: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 572: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 151: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2331: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1331: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 856: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 250: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7821: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1642: need linux/version.h
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/char/tpm/tpm_tis_spi_tegra.c:18:
+   In file included from drivers/char/tpm/tpm_tis_core.h:22:
+   In file included from drivers/char/tpm/tpm.h:28:
+   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+           int mapping_size;
+               ^
+>> drivers/char/tpm/tpm_tis_spi_tegra.c:23:5: warning: no previous prototype for function 'tpm_tis_spi_tegra_transfer' [-Wmissing-prototypes]
+   int tpm_tis_spi_tegra_transfer(struct tpm_tis_data *data, u32 addr, u16 len,
+       ^
+   drivers/char/tpm/tpm_tis_spi_tegra.c:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int tpm_tis_spi_tegra_transfer(struct tpm_tis_data *data, u32 addr, u16 len,
+   ^
+   static 
+   2 warnings generated.
+
+
+vim +/tpm_tis_spi_tegra_transfer +23 drivers/char/tpm/tpm_tis_spi_tegra.c
+
+    22	
+  > 23	int tpm_tis_spi_tegra_transfer(struct tpm_tis_data *data, u32 addr, u16 len,
+    24				       u8 *in, const u8 *out)
+    25	{
+    26		struct tpm_tis_spi_phy *phy = to_tpm_tis_spi_phy(data);
+    27		int ret = 0;
+    28		struct spi_message m;
+    29		struct spi_transfer spi_xfer[3];
+    30		u8 transfer_len;
+    31	
+    32		spi_bus_lock(phy->spi_device->master);
+    33	
+    34		while (len) {
+    35			transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
+    36	
+    37			spi_message_init(&m);
+    38			phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
+    39			phy->iobuf[1] = 0xd4;
+    40			phy->iobuf[2] = addr >> 8;
+    41			phy->iobuf[3] = addr;
+    42	
+    43			memset(&spi_xfer, 0, sizeof(spi_xfer));
+    44	
+    45			spi_xfer[0].tx_buf = phy->iobuf;
+    46			spi_xfer[0].len = 1;
+    47			spi_message_add_tail(&spi_xfer[0], &m);
+    48	
+    49			spi_xfer[1].tx_buf = phy->iobuf + 1;
+    50			spi_xfer[1].len = 3;
+    51			spi_message_add_tail(&spi_xfer[1], &m);
+    52	
+    53			if (out) {
+    54				spi_xfer[2].tx_buf = &phy->iobuf[4];
+    55				spi_xfer[2].rx_buf = NULL;
+    56				memcpy(&phy->iobuf[4], out, transfer_len);
+    57				out += transfer_len;
+    58			}
+    59			if (in) {
+    60				spi_xfer[2].tx_buf = NULL;
+    61				spi_xfer[2].rx_buf = &phy->iobuf[4];
+    62			}
+    63			spi_xfer[2].len = transfer_len;
+    64			spi_message_add_tail(&spi_xfer[2], &m);
+    65	
+    66			reinit_completion(&phy->ready);
+    67			ret = spi_sync_locked(phy->spi_device, &m);
+    68			if (ret < 0)
+    69				goto exit;
+    70	
+    71			if (in) {
+    72				memcpy(in, &phy->iobuf[4], transfer_len);
+    73				in += transfer_len;
+    74			}
+    75	
+    76			len -= transfer_len;
+    77		}
+    78	
+    79	exit:
+    80		spi_bus_unlock(phy->spi_device->master);
+    81		return ret;
+    82	}
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
