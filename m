@@ -1,38 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A799257D;
-	Fri,  3 Feb 2023 11:32:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161EDC433EF;
-	Fri,  3 Feb 2023 11:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675423921;
-	bh=EMT4gAM6DFLAx01b5MmVLLZlp58/tPr8Emh4r7uLVYk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dMdHRcJF0hM4pWxTxwwRi/eNiQXUxWBkgsUhUIZkbdeVM6RlvKD1XanvN2qCMldP0
-	 WpG/weQPZik2iwR1ER4nF/qxq5Om2uVH1wxDBGJ1DfAPTrQ6O7lcUzUPLl3mTsWo8G
-	 fpuXxJhL6L5yCeg1Qf76ED2fit5W1fb+yN0lZ0cCC9ODEphO0B6Tt9Aw64NOtqi+Ov
-	 gORw+HTwcqx4wdctW26BiNxLuZdOPODLg114LRgU3Ozmj80q9ZR6sGmc/OwajvvjiA
-	 9s9aRKr6a2w5tAL3IDcEc+yAn/OYIj2aZhNDQQ+oLAPMnO2cFBkDp5aOFB/n5bAb5G
-	 dHswfjIH8AVzw==
-Date: Fri, 3 Feb 2023 11:31:54 +0000
-From: Will Deacon <will@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	catalin.marinas@arm.com, mark.rutland@arm.com, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Suzuki Poulose <suzuki.poulose@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
-Message-ID: <20230203113153.GA5927@willie-the-truck>
-References: <20230123125956.1350336-6-anshuman.khandual@arm.com>
- <202301310047.b5iv9hM8-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE1B23D7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 11:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675424341; x=1706960341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4IwlRkDcHwHBKdH4tsEJMEjumxbzdWvfwZJP6tuNYlA=;
+  b=GTZ4hPwCiHnw/DMTFLRNXUvhBDSwp661vcaYY98twuxFRlN6ocGO+4Vh
+   qsu4BVJA35Z+MKKE7RAnlzpmmwXfghDtH/Zd6fnBjeKsWeJtZYYonpJx6
+   HqhGTLa+NSNUDx1XQ6+GZOkWBgLFa3gpBHRHw+0dO/GFVcXzYLAE553ji
+   quKTe11B/sB7qw6kB28TwOBrJuj6ei0pXCfx8jgPjWlgZH5ThdDSlgKWT
+   rWLOXWRzEkkzdAtwgz3VccZqi1yZ9xUqu3zFqbpilQLcqhf87DNHUkfZz
+   piNHWRgKnubE2YYBZ5HyxxZ0raRy5saB/Go6d5LJi8xaeIll4EOHsLlKF
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="330012838"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="330012838"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 03:39:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="994497039"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="994497039"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Feb 2023 03:38:57 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNuPB-0000Rf-0s;
+	Fri, 03 Feb 2023 11:38:57 +0000
+Date: Fri, 3 Feb 2023 19:38:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: equu@openmail.cc, lpieralisi@kernel.org, toke@toke.dk, kvalo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	robh@kernel.org, linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org, equu@openmail.cc,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 3/3] wifi: ath10k: only load compatible DT cal data
+Message-ID: <202302031943.aLVT61nB-lkp@intel.com>
+References: <20230202075524.2911058-4-equu@openmail.cc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,70 +49,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202301310047.b5iv9hM8-lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20230202075524.2911058-4-equu@openmail.cc>
 
-On Tue, Jan 31, 2023 at 12:28:17AM +0800, kernel test robot wrote:
-> Hi Anshuman,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on arm64/for-next/core]
-> [also build test WARNING on tip/perf/core acme/perf/core linus/master v6.2-rc6 next-20230130]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20230123125956.1350336-6-anshuman.khandual%40arm.com
-> patch subject: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
-> config: arm64-randconfig-r016-20230130 (https://download.01.org/0day-ci/archive/20230131/202301310047.b5iv9hM8-lkp@intel.com/config)
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/0deba04ac45f8632b8579cb5cbf908b9f4428402
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
->         git checkout 0deba04ac45f8632b8579cb5cbf908b9f4428402
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from arch/arm64/kernel/asm-offsets.c:15:
->    In file included from include/linux/kvm_host.h:45:
->    In file included from arch/arm64/include/asm/kvm_host.h:36:
->    In file included from include/kvm/arm_pmu.h:11:
-> >> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
->    static inline bool has_branch_stack(struct perf_event *event);
->                       ^
->    arch/arm64/include/asm/perf_event.h:284:16: note: used here
->            WARN_ON_ONCE(!has_branch_stack(event));
->                          ^
->    1 warning generated.
-> --
->    In file included from arch/arm64/kernel/asm-offsets.c:15:
->    In file included from include/linux/kvm_host.h:45:
->    In file included from arch/arm64/include/asm/kvm_host.h:36:
->    In file included from include/kvm/arm_pmu.h:11:
-> >> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
->    static inline bool has_branch_stack(struct perf_event *event);
->                       ^
->    arch/arm64/include/asm/perf_event.h:284:16: note: used here
->            WARN_ON_ONCE(!has_branch_stack(event));
->                          ^
->    1 warning generated.
+Hi,
 
-This looks like it should be fixed. I'd also like to see Mark's ack on the
-final series, since he had some detailed comments on the previous version.
+Thank you for the patch! Yet something to improve:
 
-Will
+[auto build test ERROR on helgaas-pci/next]
+[also build test ERROR on helgaas-pci/for-linus wireless-next/main wireless/main linus/master v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+patch link:    https://lore.kernel.org/r/20230202075524.2911058-4-equu%40openmail.cc
+patch subject: [PATCH v3 3/3] wifi: ath10k: only load compatible DT cal data
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230203/202302031943.aLVT61nB-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d2ef9bc195ade55c010e64762b135a46a62f3fdd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
+        git checkout d2ef9bc195ade55c010e64762b135a46a62f3fdd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/ath/ath10k/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/wireless/ath/ath10k/core.c:16:
+   include/linux/of_pci.h:23:33: warning: 'struct pci_driver' declared inside parameter list will not be visible outside of this definition or declaration
+      23 |                          struct pci_driver *drv);
+         |                                 ^~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_download_cal_nvmem':
+>> drivers/net/wireless/ath/ath10k/core.c:1987:40: error: passing argument 2 of 'of_pci_node_match_driver' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1987 |                                        &ath10k_pci_driver)))
+         |                                        ^~~~~~~~~~~~~~~~~~
+         |                                        |
+         |                                        struct pci_driver *
+   In file included from drivers/net/wireless/ath/ath10k/core.c:16:
+   include/linux/of_pci.h:23:45: note: expected 'struct pci_driver *' but argument is of type 'struct pci_driver *'
+      23 |                          struct pci_driver *drv);
+         |                          ~~~~~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
+
+
+vim +/of_pci_node_match_driver +1987 drivers/net/wireless/ath/ath10k/core.c
+
+  1955	
+  1956	static int ath10k_download_cal_nvmem(struct ath10k *ar, const char *cell_name)
+  1957	{
+  1958		struct nvmem_cell *cell;
+  1959		void *buf;
+  1960		size_t len;
+  1961		int ret;
+  1962	
+  1963		/* devm_nvmem_cell_get() will get a cell first from the OF
+  1964		 * DT node representing the given device with nvmem-cell-name
+  1965		 * "calibration", and from the global lookup table as a fallback,
+  1966		 * and an ath10k device could be either a pci one or a platform one.
+  1967		 *
+  1968		 * If the OF DT node is not compatible with the real device, the
+  1969		 * calibration data got from the node should not be applied.
+  1970		 *
+  1971		 * dev_is_pci(ar->dev) && ( no OF node || caldata not from node
+  1972		 * || not compatible ) -> do not use caldata .
+  1973		 *
+  1974		 * !dev_is_pci(ar->dev) -> always use caldata .
+  1975		 *
+  1976		 * The judgement for compatibility differs with ath9k for many
+  1977		 * DT using "qcom,ath10k" as compatibility string.
+  1978		 */
+  1979		if (dev_is_pci(ar->dev) &&
+  1980		    (!ar->dev->of_node ||
+  1981		     (of_property_match_string(ar->dev->of_node,
+  1982					       "nvmem-cell-names",
+  1983					       cell_name) < 0) ||
+  1984		     !of_device_is_compatible(ar->dev->of_node,
+  1985					      "qcom,ath10k") ||
+  1986		     !of_pci_node_match_driver(ar->dev->of_node,
+> 1987					       &ath10k_pci_driver)))
+  1988			return -ENOENT;
+  1989	
+  1990		cell = devm_nvmem_cell_get(ar->dev, cell_name);
+  1991		if (IS_ERR(cell)) {
+  1992			ret = PTR_ERR(cell);
+  1993			return ret;
+  1994		}
+  1995	
+  1996		buf = nvmem_cell_read(cell, &len);
+  1997		if (IS_ERR(buf))
+  1998			return PTR_ERR(buf);
+  1999	
+  2000		if (ar->hw_params.cal_data_len != len) {
+  2001			kfree(buf);
+  2002			ath10k_warn(ar, "invalid calibration data length in nvmem-cell '%s': %zu != %u\n",
+  2003				    cell_name, len, ar->hw_params.cal_data_len);
+  2004			return -EMSGSIZE;
+  2005		}
+  2006	
+  2007		ret = ath10k_download_board_data(ar, buf, len);
+  2008		kfree(buf);
+  2009		if (ret)
+  2010			ath10k_warn(ar, "failed to download calibration data from nvmem-cell '%s': %d\n",
+  2011				    cell_name, ret);
+  2012	
+  2013		return ret;
+  2014	}
+  2015	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
