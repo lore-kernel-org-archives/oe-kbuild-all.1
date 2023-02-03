@@ -1,47 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174E77F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 08:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296DC1863
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 09:15:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675412701; x=1706948701;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oaAPFQiV9oHb7tB9lLuvJEfMSEquOivhshhLc2stFqs=;
-  b=ItEDs6V6+SNi7xrhDagVENw29cgdN43e0reSOxbo8elE1i4Q6BiTD7/U
-   XRvdHGyu7gzIAHih/Di9a191AUlaW7E7yT9j+MJa9VSlYNcIF/jXIEo1g
-   Pxm/5oJ3y52dunVCFaaxzNDbeaOyt5nfkN2OFl0sfVQMZdIaKhImxZAbK
-   TvtBAHmoL3Ge8K/L25MJpzWuvUlMVMi2vyONVDeT7cniLArZqcd5qrRMG
-   rCPNX0MYf3gOP86faP4tZ/375ZF/3CvVuE6p8+B5VosfNLQIMJs6v1pqD
-   +lstPfl5obMR+CzBQ0JpmfpWNzPfa58auXXqbPJdwibhZwNtxAy1hd77J
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316687220"
+  t=1675415758; x=1706951758;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s591EnynV9Qw2qx3KWqu0/ZOH5QrihIgLgTW7QfwBJk=;
+  b=irya/t/XiuRiIes8rA+4FQcX0HoihE+h7Y9JWbtRez3pobXsapegIc6J
+   PIf1w2X3Cb5fyRHxWEwxCkUei1S9p7TEieLCPekHVadtq0kUf0gKdN5HR
+   8STF9f1hAMGmuAxTPqd5RRoU2Q/xeNIAZA2X0OCjuIfASHkkQxVd0jg3M
+   OsnmORGUMBbcc2xttp132ygIBy8wYqb6tJOWydhpChacG1QErXu+Fh1Lw
+   74UsA99wpAESODN6O7hz9aHvHmcNJawbYQHbiKVuNCdRGzrzyq/4CVFT/
+   413Q/neM9lEnUc5tY8P5fjMusr26569zichZ5//FTTFbZ14iUIdgA4yH/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="330832261"
 X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="316687220"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 00:24:51 -0800
+   d="scan'208";a="330832261"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 01:15:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="839520895"
-X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="839520895"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="698009442"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="698009442"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 03 Feb 2023 00:24:48 -0800
+  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 01:15:50 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNrNI-0000JD-0I;
-	Fri, 03 Feb 2023 08:24:48 +0000
-Date: Fri, 3 Feb 2023 16:23:52 +0800
+	id 1pNsAg-0000LR-0P;
+	Fri, 03 Feb 2023 09:15:50 +0000
+Date: Fri, 3 Feb 2023 17:14:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: equu@openmail.cc, lpieralisi@kernel.org, toke@toke.dk, kvalo@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	robh@kernel.org, linux-wireless@vger.kernel.org,
-	ath10k@lists.infradead.org, equu@openmail.cc,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v3 1/3] PCI: of: Match pci devices or drivers against OF
- DT nodes
-Message-ID: <202302031611.JepssFdR-lkp@intel.com>
-References: <20230202075524.2911058-2-equu@openmail.cc>
+To: Balsam CHIHI <bchihi@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8195.dtsi:17:10: fatal error:
+ dt-bindings/thermal/mediatek-lvts.h: No such file or directory
+Message-ID: <202302031742.bLWp7r6l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,172 +45,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230202075524.2911058-2-equu@openmail.cc>
 
-Hi,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on helgaas-pci/next]
-[also build test ERROR on helgaas-pci/for-linus wireless-next/main wireless/main linus/master v6.2-rc6 next-20230203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
-patch link:    https://lore.kernel.org/r/20230202075524.2911058-2-equu%40openmail.cc
-patch subject: [PATCH v3 1/3] PCI: of: Match pci devices or drivers against OF DT nodes
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230203/202302031611.JepssFdR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230131-220614/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+head:   d122a362e2e9a6052d1ca4da029a1c5ba82e4dea
+commit: 7af71ea3c5aeb931bc239d0b9a3ee04aa21cdfb8 arm64/dts/mt8195: Add thermal zones and thermal nodes
+date:   3 days ago
+config: arm64-randconfig-r035-20230203 (https://download.01.org/0day-ci/archive/20230203/202302031742.bLWp7r6l-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/1c1bc10b9cc6f7a71ba1fb7bdc505195a2c3e759
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7af71ea3c5aeb931bc239d0b9a3ee04aa21cdfb8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review equu-openmail-cc/wifi-ath9k-stop-loading-incompatible-DT-cal-data/20230202-165536
-        git checkout 1c1bc10b9cc6f7a71ba1fb7bdc505195a2c3e759
+        git fetch --no-tags linux-review UPDATE-20230131-220614/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230124-211910
+        git checkout 7af71ea3c5aeb931bc239d0b9a3ee04aa21cdfb8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/of.c: In function 'of_pci_compat_to_device_id':
->> drivers/pci/of.c:296:25: error: expected ';' before '}' token
-     296 |                 return 0
-         |                         ^
-         |                         ;
-     297 |         }
-         |         ~                
-   drivers/pci/of.c:319:25: error: expected ';' before '}' token
-     319 |                 return 0
-         |                         ^
-         |                         ;
-     320 |         }
-         |         ~                
-   drivers/pci/of.c:330:25: error: expected ';' before '}' token
-     330 |                 return 0
-         |                         ^
-         |                         ;
-     331 |         }
-         |         ~                
->> drivers/pci/of.c:346:25: error: expected ';' before 'compat'
-     346 |                 return 0
-         |                         ^
-         |                         ;
-     347 | 
-     348 |         compat++;
-         |         ~~~~~~           
+   In file included from arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:8,
+                    from arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts:6:
+>> arch/arm64/boot/dts/mediatek/mt8195.dtsi:17:10: fatal error: dt-bindings/thermal/mediatek-lvts.h: No such file or directory
+      17 | #include <dt-bindings/thermal/mediatek-lvts.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +296 drivers/pci/of.c
+vim +17 arch/arm64/boot/dts/mediatek/mt8195.dtsi
 
-   255	
-   256	/**
-   257	 * of_pci_compat_to_device_id() - Decode an OF compatibility string into a
-   258	 * pci_device_id structure.
-   259	 * @compat: the compatibility string to decode, could be NULL
-   260	 * @id: pointer to a struct pci_device_id, to store the result
-   261	 * @rev: pointer to output revision info, PCI_ANY_ID if no revision in @compat
-   262	 * @req_pcie: pointer to output whether @compat mandates PCIe compatibility
-   263	 *
-   264	 * returns 0 when success, -EINVAL when failed.
-   265	 */
-   266	int of_pci_compat_to_device_id(const char *compat, struct pci_device_id *id,
-   267				       u32 *rev, u32 *req_pcie)
-   268	{
-   269		union {
-   270			u8 u8;
-   271			u16 u16;
-   272			u32 u32;
-   273		} res = {0};
-   274		*req_pcie = 0;
-   275		*rev = PCI_ANY_ID;
-   276		if (!compat || strncasecmp(compat, "pci", 3) != 0)
-   277			return -EINVAL;
-   278		compat += 3;
-   279	
-   280		if (strncasecmp(compat, "class,", 6) == 0) {
-   281			/* pciclass,CCSSPP */
-   282			compat += 6;
-   283			if ((strlen(compat) < 4)
-   284			   || kstrtouint(compat, 16, &id->class))
-   285				return -EINVAL;
-   286			if (id->class < 0x10000) {
-   287				id->class <<= 8;
-   288				id->class_mask = 0xFFFF00;
-   289			} else {
-   290				id->class_mask = PCI_ANY_ID;
-   291			}
-   292			id->vendor = PCI_ANY_ID;
-   293			id->device = PCI_ANY_ID;
-   294			id->subvendor = PCI_ANY_ID;
-   295			id->subdevice = PCI_ANY_ID;
- > 296			return 0
-   297		}
-   298	
-   299		if (strncasecmp(compat, "ex", 2) == 0) {
-   300			/* pciex...  */
-   301			*req_pcie = 1;
-   302			compat += 2;
-   303		}
-   304		if (kstrtou16(compat, 16, &res.u16))
-   305			return -EINVAL;
-   306		id->vendor = res.u16;
-   307		compat = strchr(compat, ',');
-   308		if (!compat)
-   309			return -EINVAL;
-   310		compat++;
-   311		if (kstrtou16(compat, 16, &res.u16))
-   312			return -EINVAL;
-   313		id->device = res.u16;
-   314		compat = strchr(compat, '.');
-   315		if (compat == NULL) {
-   316			/* pciVVVV,DDDD */
-   317			id->subvendor = PCI_ANY_ID;
-   318			id->subdevice = PCI_ANY_ID;
-   319			return 0
-   320		}
-   321	
-   322		compat++;
-   323		if (strlen(compat) == 2) {
-   324			/* pciVVVV,DDDD.RR */
-   325			if (kstrtou8(compat, 16, &res.u8))
-   326				return -EINVAL;
-   327			*rev = res.u8;
-   328			id->subvendor = PCI_ANY_ID;
-   329			id->subdevice = PCI_ANY_ID;
-   330			return 0
-   331		}
-   332	
-   333		if (kstrtou16(compat, 16, &res.u16))
-   334			return -EINVAL;
-   335		id->subvendor = res.u16;
-   336		compat = strchr(compat, '.');
-   337		if (!compat)
-   338			return -EINVAL;
-   339		compat++;
-   340		if (kstrtou16(compat, 16, &res.u16))
-   341			return -EINVAL;
-   342		id->subdevice = res.u16;
-   343		compat = strchr(compat, '.');
-   344		if (compat == NULL)
-   345			/* pciVVVV,DDDD.SSSS.ssss */
- > 346			return 0
-   347	
-   348		compat++;
-   349		if (strlen(compat) == 2) {
-   350			/* pciVVVV,DDDD.SSSS.ssss.RR */
-   351			if (kstrtou8(compat, 16, &res.u8))
-   352				return -EINVAL;
-   353			*rev = res.u8;
-   354		}
-   355		return 0;
-   356	}
-   357	
+  > 17	#include <dt-bindings/thermal/mediatek-lvts.h>
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
