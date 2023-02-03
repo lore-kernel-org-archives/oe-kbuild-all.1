@@ -1,46 +1,45 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC1AD507
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 22:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB08E290B;
+	Fri,  3 Feb 2023 22:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675462282; x=1706998282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z9y3fGtXxJjLSg6pAMA8PX5Kw59u1JHoZiob62NOFyg=;
-  b=dRRFMC+V7Nxqcu9ysLURz2Gqtc+tqnIYHrZNXG/TtVfs+HMf2pUY/Lut
-   C0R3bKdqZhKnXFDcmUqC50LC656ry+67DbGmRR6OklINbSzB6L5c6S/Ar
-   Hu/6cQ0wNu2n6nupxxgmgVIVPtjksOpD8IZHv74F7IBwBuuTZzE4xQbL+
-   GHPsf3AreE9e6rzSeKhQNiwLM6Vpehd82ha8acg1FbciDdIfCYKfDj0zQ
-   CrFXCSNLASC+rgvx43FRiqsytezR/8XS/+oSeJde4xn30D4mmskQAf0q/
-   e2iO2nAsIlwduMIQKEm4Y/0x83urxoLt6J4nPPI/rLcWKVT4ML4WDewWX
+  t=1675463541; x=1706999541;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pIGrupTEDXpoUeI3Xj9bt5x4kPdBAZYQHZVaoC2h++c=;
+  b=BQ5P6gMB8TGdLEDarZ5TT3qqNAI/pUW+VZbuOyvla1iEvsSMYSdxkw0a
+   sspdP+RfRB6K6l21qwaO5FfT+hB49V7TitKz/WFawjMhDI803yEYLo9lX
+   FO6EUVBq1ZXd7e50AdUopjv4hugaI/z62v/qRlVfP2vPLFNh8lfaVGVq5
+   cojuFymkOd68LekNWYHfysmGvXUWtbrLRLP5ZEPmYy/GYadKOEuhKAEOQ
+   DBUB0eVy7QAsodwcfzLbaXvMH+42eXs99fA6gdWAT/AHDGHT4gcFJD1ez
+   BoJpj6TSToB+7lRjmwcjhZsLqHBzv+I7EvGeFW3KPM7/M7mEejfTW6MF8
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308509989"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327507851"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="308509989"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:11:21 -0800
+   d="scan'208";a="327507851"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:32:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="643402334"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="774476939"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="643402334"
+   d="scan'208";a="774476939"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 03 Feb 2023 14:11:19 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2023 14:32:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO4H8-0000nQ-1B;
-	Fri, 03 Feb 2023 22:11:18 +0000
-Date: Sat, 4 Feb 2023 06:10:57 +0800
+	id 1pO4bT-0000ob-04;
+	Fri, 03 Feb 2023 22:32:19 +0000
+Date: Sat, 4 Feb 2023 06:31:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, bfoster@redhat.com,
-	willy@infradead.org, linux-api@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v9 2/3] cachestat: implement cachestat syscall
-Message-ID: <202302040606.esjgszqH-lkp@intel.com>
-References: <20230203190413.2559707-3-nphamcs@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [linux-next:master 8959/10357]
+ drivers/pcmcia/pxa2xx_sharpsl.c:206:5: warning: no previous prototype for
+ function 'pcmcia_collie_init'
+Message-ID: <202302040652.zkUBTjyo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,87 +48,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203190413.2559707-3-nphamcs@gmail.com>
 
-Hi Nhat,
+Hi Nathan,
 
-Thank you for the patch! Yet something to improve:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on 1440f576022887004f719883acb094e7e0dd4944]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230204-030455
-base:   1440f576022887004f719883acb094e7e0dd4944
-patch link:    https://lore.kernel.org/r/20230203190413.2559707-3-nphamcs%40gmail.com
-patch subject: [PATCH v9 2/3] cachestat: implement cachestat syscall
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20230204/202302040606.esjgszqH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4fafd96910add124586b549ad005dcd179de8a18
+commit: 5eb6e280432ddc9b755193552f3a070da8d7455c [8959/10357] ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
+config: arm-collie_defconfig (https://download.01.org/0day-ci/archive/20230204/202302040652.zkUBTjyo-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/49a57ed71ac2c005231660c85c3f30c4b47d8b7b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230204-030455
-        git checkout 49a57ed71ac2c005231660c85c3f30c4b47d8b7b
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=5eb6e280432ddc9b755193552f3a070da8d7455c
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 5eb6e280432ddc9b755193552f3a070da8d7455c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pcmcia/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/filemap.c:4035:6: warning: no previous prototype for 'ksys_cachestat' [-Wmissing-prototypes]
-    4035 | long ksys_cachestat(unsigned int fd, loff_t off, size_t len,
-         |      ^~~~~~~~~~~~~~
-   In file included from mm/filemap.c:25:
->> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_cachestat'; have 'long int(unsigned int,  loff_t,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long long int,  long unsigned int,  struct cachestat *, unsigned int)'}
-     243 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:229:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     229 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:222:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     222 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   mm/filemap.c:4095:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    4095 | SYSCALL_DEFINE5(cachestat, unsigned int, fd, loff_t, off, size_t, len,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:1060:17: note: previous declaration of 'sys_cachestat' with type 'long int(unsigned int,  long unsigned int,  long unsigned int,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  struct cachestat *, unsigned int)'}
-    1060 | asmlinkage long sys_cachestat(unsigned int fd, unsigned long off_low,
-         |                 ^~~~~~~~~~~~~
+>> drivers/pcmcia/pxa2xx_sharpsl.c:206:5: warning: no previous prototype for function 'pcmcia_collie_init' [-Wmissing-prototypes]
+   int pcmcia_collie_init(struct device *dev)
+       ^
+   drivers/pcmcia/pxa2xx_sharpsl.c:206:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int pcmcia_collie_init(struct device *dev)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +243 include/linux/syscalls.h
+vim +/pcmcia_collie_init +206 drivers/pcmcia/pxa2xx_sharpsl.c
 
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  232  
-e145242ea0df6b Dominik Brodowski   2018-04-09  233  /*
-e145242ea0df6b Dominik Brodowski   2018-04-09  234   * The asmlinkage stub is aliased to a function named __se_sys_*() which
-e145242ea0df6b Dominik Brodowski   2018-04-09  235   * sign-extends 32-bit ints to longs whenever needed. The actual work is
-e145242ea0df6b Dominik Brodowski   2018-04-09  236   * done within __do_sys_*().
-e145242ea0df6b Dominik Brodowski   2018-04-09  237   */
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  238  #ifndef __SYSCALL_DEFINEx
-bed1ffca022cc8 Frederic Weisbecker 2009-03-13  239  #define __SYSCALL_DEFINEx(x, name, ...)					\
-bee20031772af3 Arnd Bergmann       2018-06-19  240  	__diag_push();							\
-bee20031772af3 Arnd Bergmann       2018-06-19  241  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
-bee20031772af3 Arnd Bergmann       2018-06-19  242  		      "Type aliasing is used to sanitize syscall arguments");\
-83460ec8dcac14 Andi Kleen          2013-11-12 @243  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  244  		__attribute__((alias(__stringify(__se_sys##name))));	\
-c9a211951c7c79 Howard McLauchlan   2018-03-21  245  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
-e145242ea0df6b Dominik Brodowski   2018-04-09  246  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-e145242ea0df6b Dominik Brodowski   2018-04-09  247  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  248  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-1a94bc34768e46 Heiko Carstens      2009-01-14  249  	{								\
-e145242ea0df6b Dominik Brodowski   2018-04-09  250  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-07fe6e00f6cca6 Al Viro             2013-01-21  251  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
-2cf0966683430b Al Viro             2013-01-21  252  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
-2cf0966683430b Al Viro             2013-01-21  253  		return ret;						\
-1a94bc34768e46 Heiko Carstens      2009-01-14  254  	}								\
-bee20031772af3 Arnd Bergmann       2018-06-19  255  	__diag_pop();							\
-e145242ea0df6b Dominik Brodowski   2018-04-09  256  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  257  #endif /* __SYSCALL_DEFINEx */
-1a94bc34768e46 Heiko Carstens      2009-01-14  258  
+a63ae4427c6af6 Richard Purdie 2005-11-08  205  
+34cdf25a126f05 Bill Pemberton 2012-11-19 @206  int pcmcia_collie_init(struct device *dev)
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  207  {
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  208         int ret = -ENODEV;
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  209  
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  210         if (machine_is_collie())
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  211                 ret = sa11xx_drv_pcmcia_probe(dev, &sharpsl_pcmcia_ops, 0, 1);
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  212  
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  213         return ret;
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  214  }
+77bb86a1b9f8b8 Pavel Machek   2005-10-30  215  
+
+:::::: The code at line 206 was first introduced by commit
+:::::: 34cdf25a126f053698d549cc12a9c30e9a8a0bab pcmcia: remove use of __devinit
+
+:::::: TO: Bill Pemberton <wfp5p@virginia.edu>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
