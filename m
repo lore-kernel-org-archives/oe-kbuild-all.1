@@ -1,42 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BCE29A8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 14:32:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157FB29A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 15:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675434724; x=1706970724;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=5Sk7ebWkYvH08Kg2S3Dx1vvrve72aI3R9CdGq2cGOcQ=;
-  b=XfNdczECbsYZ2usEM1ZvloBB5CCojj9GRJtJhkT3QBDTqMkOWkCD1Jpx
-   p1I2L2LM4VoAVJRJVHdKEfzDlDwiX5w9X+xI/2tso0AdDZEVJ/o4rMLyN
-   rz9a0JnPyA/ity6hn+e94sXdB3KYP/iDI42aoQcartBzFX5WnYGA90Kxd
-   DdlTznSDRkPHEsOLOPL8nk2wAXyDoBkQvBjmzoPmifwns6mUvfjtlIo2Z
-   +bsHpfwxW/rzMtoymK7pav19oBeoYn+FDz2t21DdtG9mZB7uV2PDd8f8q
-   UkMdAwyzF03YHWBlDhvh6TTraQv2l2InlbL4LXtPCTfre3m4h3Oa0Cm2Y
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309092253"
+  t=1675436587; x=1706972587;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZQCTMH2RZT/nLfJJzreIlfX3cPBV56aqK5ImRMTjHvs=;
+  b=cUxokexKTCFjdvrsBhvfWDjHkPzI1YVDaGH+fCfLtaQ1KRw1BoHAn2v1
+   ip56J5MBbU8npEZeswaCBi9PS0A2CaVQlXEWgavG9DPVQDblzHez7ZgW5
+   RafnNKIS+AVk/jChYXDHUFjIWMuY4f3XMnqHiczfwi+KOdzXJXQ0o1P7V
+   42jPYHutBHUGU82yQPLhKng0v2JCLncG3ubHCguiQMKljemDsfPZBF6we
+   +7W5Gjs08b09Nr+VuyTp57DQpuMZberzBZLAl8RsHJ0Cz+8ML7qP9D5Ph
+   O2tm9gTZ4NGnv/df0KhYXpzv0ZtiAOmlvD6mvdqt266EDDe7GkzBW8v44
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="414976240"
 X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="309092253"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 06:32:04 -0800
+   d="scan'208";a="414976240"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 07:03:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="808382768"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="789719049"
 X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="808382768"
+   d="scan'208";a="789719049"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2023 06:32:03 -0800
+  by orsmga004.jf.intel.com with ESMTP; 03 Feb 2023 07:03:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNx6g-0000Yf-2D;
-	Fri, 03 Feb 2023 14:32:02 +0000
-Date: Fri, 3 Feb 2023 22:31:47 +0800
+	id 1pNxah-0000Zv-2s;
+	Fri, 03 Feb 2023 15:03:03 +0000
+Date: Fri, 3 Feb 2023 23:02:23 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:5.10/preempt-rt 16133/29702]
- drivers/gpu/drm/msm/dp/dp_display.c:1042:28: warning: variable 'drm' set but
- not used
-Message-ID: <202302032224.PMkI0GZN-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>
+Subject: [wens:mtk-test 19/39] ERROR: modpost: "mtk_clk_unregister_pllfhs"
+ [drivers/clk/mediatek/clk-mt8173-apmixedsys.ko] undefined!
+Message-ID: <202302032335.kY1FAqfO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,78 +46,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dmitry,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
-head:   32e6f493fd5e5c8cadd5b628aac19f8e64db0f33
-commit: 0512bfb0f5ce49889f7279640a489e6084ec0e6e [16133/29702] drm/msm: fix display snapshotting if DP or DSI is disabled
-config: arm64-randconfig-r014-20230202 (https://download.01.org/0day-ci/archive/20230203/202302032224.PMkI0GZN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-test
+head:   14d84237ad57de7b0f267d290ae87e40842965b4
+commit: ddcaa79669690cef7a4265a4d6844c2461aa8cd4 [19/39] clk: mediatek: mt8173: Add support for frequency hopping through FHCTL
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230203/202302032335.kY1FAqfO-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/0512bfb0f5ce49889f7279640a489e6084ec0e6e
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/preempt-rt
-        git checkout 0512bfb0f5ce49889f7279640a489e6084ec0e6e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git/commit/?id=ddcaa79669690cef7a4265a4d6844c2461aa8cd4
+        git remote add wens https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git
+        git fetch --no-tags wens mtk-test
+        git checkout ddcaa79669690cef7a4265a4d6844c2461aa8cd4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/msm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/gpu/drm/msm/dp/dp_display.c: In function 'dp_display_usbpd_attention_cb':
-   drivers/gpu/drm/msm/dp/dp_display.c:497:26: warning: variable 'hpd' set but not used [-Wunused-but-set-variable]
-     497 |         struct dp_usbpd *hpd;
-         |                          ^~~
-   drivers/gpu/drm/msm/dp/dp_display.c: In function 'msm_dp_snapshot':
->> drivers/gpu/drm/msm/dp/dp_display.c:1042:28: warning: variable 'drm' set but not used [-Wunused-but-set-variable]
-    1042 |         struct drm_device *drm;
-         |                            ^~~
+ERROR: modpost: "mtk_clk_unregister_pllfhs" [drivers/clk/mediatek/clk-mt6795-apmixedsys.ko] undefined!
+ERROR: modpost: "fhctl_parse_dt" [drivers/clk/mediatek/clk-mt6795-apmixedsys.ko] undefined!
+ERROR: modpost: "mtk_clk_register_pllfhs" [drivers/clk/mediatek/clk-mt6795-apmixedsys.ko] undefined!
+>> ERROR: modpost: "mtk_clk_unregister_pllfhs" [drivers/clk/mediatek/clk-mt8173-apmixedsys.ko] undefined!
+>> ERROR: modpost: "fhctl_parse_dt" [drivers/clk/mediatek/clk-mt8173-apmixedsys.ko] undefined!
+>> ERROR: modpost: "mtk_clk_register_pllfhs" [drivers/clk/mediatek/clk-mt8173-apmixedsys.ko] undefined!
 
-
-vim +/drm +1042 drivers/gpu/drm/msm/dp/dp_display.c
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  1038  
-51baa7de594de8 Dmitry Baryshkov 2021-04-27  1039  void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1040  {
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1041  	struct dp_display_private *dp_display;
-e5fec680bc3c92 Abhinav Kumar    2021-04-16 @1042  	struct drm_device *drm;
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1043  
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1044  	dp_display = container_of(dp, struct dp_display_private, dp_display);
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1045  	drm = dp->drm_dev;
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1046  
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1047  	/*
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1048  	 * if we are reading registers we need the link clocks to be on
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1049  	 * however till DP cable is connected this will not happen as we
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1050  	 * do not know the resolution to power up with. Hence check the
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1051  	 * power_on status before dumping DP registers to avoid crash due
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1052  	 * to unclocked access
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1053  	 */
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1054  	mutex_lock(&dp_display->event_mutex);
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1055  
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1056  	if (!dp->power_on) {
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1057  		mutex_unlock(&dp_display->event_mutex);
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1058  		return;
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1059  	}
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1060  
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1061  	dp_catalog_snapshot(dp_display->catalog, disp_state);
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1062  
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1063  	mutex_unlock(&dp_display->event_mutex);
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1064  }
-e5fec680bc3c92 Abhinav Kumar    2021-04-16  1065  
-
-:::::: The code at line 1042 was first introduced by commit
-:::::: e5fec680bc3c9215a546b2c03a6c3392e4c1a2b1 drm/msm/dp: add API to take DP register snapshot
-
-:::::: TO: Abhinav Kumar <abhinavk@codeaurora.org>
-:::::: CC: Junxiao Chang <junxiao.chang@intel.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PM
+   Depends on [n]: !MMU [=y]
+   Selected by [y]:
+   - SUN20I_PPU [=y] && (ARCH_SUNXI || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
