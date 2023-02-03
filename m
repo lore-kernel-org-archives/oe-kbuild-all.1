@@ -1,44 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA6ABA3F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 21:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E15FBA3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 21:40:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675459160; x=1706995160;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UVUv3/mnRTJNvTbZvw+X59IaeR9LcLY7UWZ7TcVejDE=;
-  b=m6R0FBNngOb8qh0euQQOkR9nxgjlfirXgN33pPaZVNHIA3u/tD8JG8zR
-   bmzhQW7Mei5gTWNq8IQ8iLghbTrUHrrs4cVQemcPlwei8oREL7imFQrX5
-   +bilNgKOAtxODQmBcOwIUldcZAwP4k+NqFlOKOfReNnTTPQCuqvtNtUV5
-   30bPz6hEHz+xiafDpHEXrT1h3Q0ywZlQcRHkZ7k2bPjWNGxYqjYFtHrfK
-   1rZhOf4AQJ5K3lpZSeunB3k7/qt2iN1lXw8MDtBnu/XRkwbzh17Dgwqzv
-   ySWtLxSfrSVq5GF+AAm47Ab9p0Vdh6wbCfAEc9LvfJKVC53JBuV6UNMeE
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327493833"
+  t=1675460423; x=1706996423;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+IdrVE8yGgPfkWbFmdeatEZlYvPv7+wLadAkcBt+4gQ=;
+  b=DPXn8DptNfZyd0SlfzHX+Y5v4IIkL15FTvEIIU+ipPVC8sPKGdrtkyFO
+   RUWCwLxH6RKIuBFAUYzdiah2EJ5Cd34oEaoKeVfkJbn2wwhmA2wzu2XUI
+   QxdbzV3m4us9jJYzvZM+03MbrNw302POFqfePcrT5b10IaP9Zw3k19tQo
+   vDxgtfQNIoVT8l6Q4e6mP/LRPR7HWfocsEoAHwRgJrHdDQPg+hcw0KGgk
+   hkGKgy4FF7mwS1XRYVMRF5fWXA91DvJ7AZTBxP9WF4LotyoozuDFRFnu0
+   q4Dn+qORB/KtmYXtT3imRIlR6JTUJoEjpLxOS1RjJDjrT14yZydTswOOx
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309197609"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="327493833"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 13:19:20 -0800
+   d="scan'208";a="309197609"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 13:40:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698205082"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="734500909"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="698205082"
+   d="scan'208";a="734500909"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 13:19:17 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 03 Feb 2023 13:40:17 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO3Sm-0000lb-20;
-	Fri, 03 Feb 2023 21:19:16 +0000
-Date: Sat, 4 Feb 2023 05:19:09 +0800
+	id 1pO3n7-0000m5-0H;
+	Fri, 03 Feb 2023 21:40:17 +0000
+Date: Sat, 4 Feb 2023 05:39:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Victor Hassan <victor@allwinnertech.com>, keescook@chromium.org
-Cc: oe-kbuild-all@lists.linux.dev, tony.luck@intel.com, gpiccoli@igalia.com,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pstore/blk: Export a method to implemente panic_write()
-Message-ID: <202302040515.tdCoWcUS-lkp@intel.com>
-References: <20230203113515.93540-1-victor@allwinnertech.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:doe 11/23] drivers/pci/pci.h:789:20: warning: conflicting types
+ for 'pci_doe_disconnected'; have 'void(struct pci_dev *)'
+Message-ID: <202302040558.b5kMgC86-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,71 +45,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203113515.93540-1-victor@allwinnertech.com>
 
-Hi Victor,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on kees/for-next/pstore]
-[also build test ERROR on kees/for-next/kspp linus/master v6.2-rc6 next-20230203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Victor-Hassan/pstore-blk-Export-a-method-to-implemente-panic_write/20230203-193548
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/20230203113515.93540-1-victor%40allwinnertech.com
-patch subject: [PATCH] pstore/blk: Export a method to implemente panic_write()
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230204/202302040515.tdCoWcUS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/l1k/linux doe
+head:   167c147eed6cb9d32a5f27c0aa5ac8d07e960982
+commit: cad83afa09817cb77ae9b53ad992c8894b6ecdb5 [11/23] PCI/DOE: Create mailboxes on device enumeration
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20230204/202302040558.b5kMgC86-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/368e42ba015da6c7bdd201b8fdb669e936307cbb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Victor-Hassan/pstore-blk-Export-a-method-to-implemente-panic_write/20230203-193548
-        git checkout 368e42ba015da6c7bdd201b8fdb669e936307cbb
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/cad83afa09817cb77ae9b53ad992c8894b6ecdb5
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k doe
+        git checkout cad83afa09817cb77ae9b53ad992c8894b6ecdb5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/ fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/mtd/mtdpstore.c:7:
->> include/linux/pstore_blk.h:32:41: error: unknown type name 'pstore_blk_notifier_type'
-      32 | typedef int (*pstore_blk_notifier_fn_t)(pstore_blk_notifier_type type,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pstore_blk.h:37:9: error: unknown type name 'pstore_blk_notifier_fn_t'
-      37 |         pstore_blk_notifier_fn_t notifier_call;
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from fs/pstore/blk.c:16:
->> include/linux/pstore_blk.h:32:41: error: unknown type name 'pstore_blk_notifier_type'
-      32 | typedef int (*pstore_blk_notifier_fn_t)(pstore_blk_notifier_type type,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pstore_blk.h:37:9: error: unknown type name 'pstore_blk_notifier_fn_t'
-      37 |         pstore_blk_notifier_fn_t notifier_call;
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pstore/blk.c: In function 'pstore_blk_panic_notifier_call':
->> fs/pstore/blk.c:114:23: error: called object is not a function or function pointer
-     114 |                 ret = pbn->notifier_call(action, data);
-         |                       ^~~
+   In file included from drivers/pci/of.c:16:
+   drivers/pci/pci.h: In function 'pci_dev_set_disconnected':
+   drivers/pci/pci.h:361:9: error: implicit declaration of function 'pci_doe_disconnected'; did you mean 'pci_dev_set_disconnected'? [-Werror=implicit-function-declaration]
+     361 |         pci_doe_disconnected(dev);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         pci_dev_set_disconnected
+   drivers/pci/pci.h: At top level:
+>> drivers/pci/pci.h:789:20: warning: conflicting types for 'pci_doe_disconnected'; have 'void(struct pci_dev *)'
+     789 | static inline void pci_doe_disconnected(struct pci_dev *pdev) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/pci/pci.h:789:20: error: static declaration of 'pci_doe_disconnected' follows non-static declaration
+   drivers/pci/pci.h:361:9: note: previous implicit declaration of 'pci_doe_disconnected' with type 'void(struct pci_dev *)'
+     361 |         pci_doe_disconnected(dev);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/pstore_blk_notifier_type +32 include/linux/pstore_blk.h
+vim +789 drivers/pci/pci.h
 
-    31	
-  > 32	typedef	int (*pstore_blk_notifier_fn_t)(pstore_blk_notifier_type type,
-    33			struct pstore_device_info *dev);
-    34	
-    35	struct pstore_blk_notifier {
-    36		struct notifier_block nb;
-  > 37		pstore_blk_notifier_fn_t notifier_call;
-    38	};
-    39	
+   781	
+   782	#ifdef CONFIG_PCI_DOE
+   783	void pci_doe_init(struct pci_dev *pdev);
+   784	void pci_doe_destroy(struct pci_dev *pdev);
+   785	void pci_doe_disconnected(struct pci_dev *pdev);
+   786	#else
+   787	static inline void pci_doe_init(struct pci_dev *pdev) { }
+   788	static inline void pci_doe_destroy(struct pci_dev *pdev) { }
+ > 789	static inline void pci_doe_disconnected(struct pci_dev *pdev) { }
+   790	#endif
+   791	
 
 -- 
 0-DAY CI Kernel Test Service
