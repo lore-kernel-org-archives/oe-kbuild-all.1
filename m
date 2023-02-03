@@ -1,37 +1,37 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF67CD505
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 22:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC1AD507
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 22:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675462283; x=1706998283;
+  t=1675462282; x=1706998282;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Hom4GIrptmIDrAk4aCCEtfreqZz3x5TgaqoTyzZJ1JI=;
-  b=AxobjOBrlJSf/Eh8YK9uVyTUnXIu8O+RY1lEalkVbYg3rv3oi2nm3kqj
-   V0OEEmzXbb0mCp2iHcpfUlekJZ5fZ1olNFZ7nRkGbZX1E5MhntFNZtXu0
-   kHBIzs6puQFNAPflGzOuNKtejCkk6I6apZ+60SOfYChlf4pCha6M2VYQ6
-   Ow7liu7N9vPMgdsnchANTGXXt3A03CO+bhn2WXq2oA7S/8drfpbC6ew1f
-   OixjXlzaCI+U08aqSUjOgJZsGpoOCHp6J+sVFwwtDeQpCE5udtkJNj7oV
-   +Xz0BS5E92Ax1SYdytYsfOD+eMVZHvGLw0MnFkJ/YsMucD0d4WMngF+Vy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308510003"
+  bh=Z9y3fGtXxJjLSg6pAMA8PX5Kw59u1JHoZiob62NOFyg=;
+  b=dRRFMC+V7Nxqcu9ysLURz2Gqtc+tqnIYHrZNXG/TtVfs+HMf2pUY/Lut
+   C0R3bKdqZhKnXFDcmUqC50LC656ry+67DbGmRR6OklINbSzB6L5c6S/Ar
+   Hu/6cQ0wNu2n6nupxxgmgVIVPtjksOpD8IZHv74F7IBwBuuTZzE4xQbL+
+   GHPsf3AreE9e6rzSeKhQNiwLM6Vpehd82ha8acg1FbciDdIfCYKfDj0zQ
+   CrFXCSNLASC+rgvx43FRiqsytezR/8XS/+oSeJde4xn30D4mmskQAf0q/
+   e2iO2nAsIlwduMIQKEm4Y/0x83urxoLt6J4nPPI/rLcWKVT4ML4WDewWX
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308509989"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="308510003"
+   d="scan'208";a="308509989"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:11:22 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:11:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="643402336"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="643402334"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="643402336"
+   d="scan'208";a="643402334"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga006.jf.intel.com with ESMTP; 03 Feb 2023 14:11:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO4H8-0000nX-1S;
+	id 1pO4H8-0000nQ-1B;
 	Fri, 03 Feb 2023 22:11:18 +0000
-Date: Sat, 4 Feb 2023 06:10:58 +0800
+Date: Sat, 4 Feb 2023 06:10:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
 Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
@@ -39,7 +39,7 @@ Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
 	willy@infradead.org, linux-api@vger.kernel.org,
 	kernel-team@meta.com
 Subject: Re: [PATCH v9 2/3] cachestat: implement cachestat syscall
-Message-ID: <202302040606.Q2Z9z4KL-lkp@intel.com>
+Message-ID: <202302040606.esjgszqH-lkp@intel.com>
 References: <20230203190413.2559707-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,8 +61,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refa
 base:   1440f576022887004f719883acb094e7e0dd4944
 patch link:    https://lore.kernel.org/r/20230203190413.2559707-3-nphamcs%40gmail.com
 patch subject: [PATCH v9 2/3] cachestat: implement cachestat syscall
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20230204/202302040606.Q2Z9z4KL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20230204/202302040606.esjgszqH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -72,8 +72,8 @@ reproduce (this is a W=1 build):
         git checkout 49a57ed71ac2c005231660c85c3f30c4b47d8b7b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
@@ -84,7 +84,7 @@ All errors (new ones prefixed by >>):
     4035 | long ksys_cachestat(unsigned int fd, loff_t off, size_t len,
          |      ^~~~~~~~~~~~~~
    In file included from mm/filemap.c:25:
->> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_cachestat'; have 'long int(unsigned int,  loff_t,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long long int,  unsigned int,  struct cachestat *, unsigned int)'}
+>> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_cachestat'; have 'long int(unsigned int,  loff_t,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long long int,  long unsigned int,  struct cachestat *, unsigned int)'}
      243 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
          |                         ^~~
    include/linux/syscalls.h:229:9: note: in expansion of macro '__SYSCALL_DEFINEx'
@@ -96,7 +96,7 @@ All errors (new ones prefixed by >>):
    mm/filemap.c:4095:1: note: in expansion of macro 'SYSCALL_DEFINE5'
     4095 | SYSCALL_DEFINE5(cachestat, unsigned int, fd, loff_t, off, size_t, len,
          | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:1060:17: note: previous declaration of 'sys_cachestat' with type 'long int(unsigned int,  long unsigned int,  long unsigned int,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long unsigned int,  long unsigned int,  unsigned int,  struct cachestat *, unsigned int)'}
+   include/linux/syscalls.h:1060:17: note: previous declaration of 'sys_cachestat' with type 'long int(unsigned int,  long unsigned int,  long unsigned int,  size_t,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  struct cachestat *, unsigned int)'}
     1060 | asmlinkage long sys_cachestat(unsigned int fd, unsigned long off_low,
          |                 ^~~~~~~~~~~~~
 
