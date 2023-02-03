@@ -1,46 +1,44 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656A11FBC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 10:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07E91FBC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 10:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675421278; x=1706957278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SuTo8l/pXiGzxJcP/Cf8lFBatS3BM1QmwUzE3NjUOZk=;
-  b=B5eSDBNkOvThhGaTrnGeu5mw0uyg3hOh6rosE25OJ70x62+wIwM2LUNh
-   ncwnyVItdIYiTiirQosN0fMfbe+KS1aGo6yqW0g3hZ7lT16L9weYDcPZ2
-   2Mxjj2j1vzm1X8AIavEvsZLLdJf+5oXZAR2P5o9Tcscl7XnS6rn7mzcCf
-   zDWoRuGIS0gBQKclbGe8YmetSG9fnp6EmDS9ThmGL10MNr+Ej55I3eGJ+
-   CzHWjbUXzD3F+aM7hh+TWlOssY7MzM+k91M4Z7RzAW0x/2MalL7G0U1v2
-   F7IFGMDUNkfP33XAF3zNPXD8NQ76wVn5okLFQ79umH/d+17vHpD9YiVHx
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="312374038"
+  t=1675421877; x=1706957877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rfj82yQyo98wY6k6z0pnc0QrkytfJ96y/ZqQSMdW30E=;
+  b=oGZ6ezzQw1x8YEyxAX1kGCL9gOo8YJpv/k2l/nMqPVtOhOOdHBbrOo4K
+   ILu6B2SthzoYvOCd4VBd53SjeOTkXCkcqFEdudrRIfTTLu2ddW5kvdoz5
+   XccCWQjuP00kr9NgzvPUzZ055Q2woeZNehOj345cRleBy6CQqcDE9DY7v
+   FFpI4qDd1e9alhrPrtwASKgAVtriIFqi78bHYPNLGJpyKAw5dzbIFL5Qt
+   Jcw7gh7SqrSWqoNA8yMnFlrB3Tl0kwA4AX43oje0cKXXYiO4kOfHj2WF0
+   dmpPSxwoVO/IyD35xiDtDpHxLkhRL+d6NNO/lLon+kYlG6XqNWwLQ0rqm
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="312375669"
 X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="312374038"
+   d="scan'208";a="312375669"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 02:47:57 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 02:57:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="643233563"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="643236130"
 X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="643233563"
+   d="scan'208";a="643236130"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 03 Feb 2023 02:47:55 -0800
+  by orsmga006.jf.intel.com with ESMTP; 03 Feb 2023 02:57:56 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNtbn-0000PN-0d;
-	Fri, 03 Feb 2023 10:47:55 +0000
-Date: Fri, 3 Feb 2023 18:47:15 +0800
+	id 1pNtlT-0000Pj-1U;
+	Fri, 03 Feb 2023 10:57:55 +0000
+Date: Fri, 3 Feb 2023 18:57:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: kismet: WARNING: unmet direct dependencies detected for IDLE_INJECT
- when selected by INTEL_POWERCLAMP
-Message-ID: <202302031854.dRaSdTg4-lkp@intel.com>
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 1/2] mm: vmscan: refactor updating reclaimed pages
+ in reclaim_state
+Message-ID: <202302031815.t4cv1IFv-lkp@intel.com>
+References: <20230202233229.3895713-2-yosryahmed@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,37 +47,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230202233229.3895713-2-yosryahmed@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   dcb17d36bed40f2ab07d6ffb318a5277b6c3378d
-commit: da0e3490ff71f89e5d3438ae0b2e412d543eab11 thermal: intel: powerclamp: Use powercap idle-inject feature
-date:   19 hours ago
-config: x86_64-kismet-CONFIG_IDLE_INJECT-CONFIG_INTEL_POWERCLAMP-0-0 (https://download.01.org/0day-ci/archive/20230203/202302031854.dRaSdTg4-lkp@intel.com/config)
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=da0e3490ff71f89e5d3438ae0b2e412d543eab11
-        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
-        git fetch --no-tags rafael-pm bleeding-edge
-        git checkout da0e3490ff71f89e5d3438ae0b2e412d543eab11
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_IDLE_INJECT --selectors CONFIG_INTEL_POWERCLAMP -a=x86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=x86_64 olddefconfig
+Hi Yosry,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on xfs-linux/for-next]
+[also build test ERROR on linus/master v6.2-rc6 next-20230203]
+[cannot apply to vbabka-slab/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-vmscan-refactor-updating-reclaimed-pages-in-reclaim_state/20230203-073330
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20230202233229.3895713-2-yosryahmed%40google.com
+patch subject: [RFC PATCH v1 1/2] mm: vmscan: refactor updating reclaimed pages in reclaim_state
+config: x86_64-rhel-8.3-kvm (https://download.01.org/0day-ci/archive/20230203/202302031815.t4cv1IFv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/cfdb5fa3107c03c8e0ef434d181c115b770f7c99
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yosry-Ahmed/mm-vmscan-refactor-updating-reclaimed-pages-in-reclaim_state/20230203-073330
+        git checkout cfdb5fa3107c03c8e0ef434d181c115b770f7c99
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IDLE_INJECT when selected by INTEL_POWERCLAMP
-   .config:4831:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
-   .config:5885:warning: symbol value 'ONFIG_ARCH_MMAP_RND_COMPAT_BITS_MI' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   
-   WARNING: unmet direct dependencies detected for IDLE_INJECT
-     Depends on [n]: POWERCAP [=y] && CPU_IDLE [=n]
-     Selected by [y]:
-     - INTEL_POWERCLAMP [=y] && THERMAL [=y] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y] && CPU_SUP_INTEL [=y]
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "report_freed_pages" [fs/xfs/xfs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
