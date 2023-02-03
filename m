@@ -1,30 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11531FBC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 10:29:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA820C433D2;
-	Fri,  3 Feb 2023 10:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675420150;
-	bh=LXcNmy6g3C5XCMxJuo9YsXMW2skSzPomIrpT4a9UBhs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PWuyzT3VONcdcrYAfifIv+OLEABalf1dx4lGMEhKLkN2TdgfX+Op1xKb5EaPlbPwi
-	 MCNzDn9F+fxf1Y+XhFLSOwqaDNoSOF6ufuRHb7BlOgm1SKFBZaoVbyX4gEuhlHvKv5
-	 GDnplsLaCl24H5FUc+QENvEdHI5SNbRiHw+M8Et9HoYfSE1K5fkT0RiqhvCi8hokqt
-	 JyyWqxKo9+wnEqERkZr10wd81zrSNJJ2Yg+K84l0mQm65JOWsPVQQRth+CaKOvxvFO
-	 NTD5mvJG4YdRFTxWXsBz9OjIM0Bj5GoKMTm+5jdWhfvhNkV3Z5QepRtbSTFHBufABR
-	 SFeEr5C7GCDlA==
-Date: Fri, 3 Feb 2023 10:29:06 +0000
-From: Will Deacon <will@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Liu Shixin <liushixin2@huawei.com>, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [stable:linux-6.1.y 1681/2293]
- arch/arm64/include/asm/pgtable.h:871:51: error: implicit declaration of
- function 'pud_user_exec'; did you mean 'pmd_user_exec'?
-Message-ID: <20230203102905.GA5867@willie-the-truck>
-References: <202302021638.tYWqFXQb-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656A11FBC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 10:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675421278; x=1706957278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SuTo8l/pXiGzxJcP/Cf8lFBatS3BM1QmwUzE3NjUOZk=;
+  b=B5eSDBNkOvThhGaTrnGeu5mw0uyg3hOh6rosE25OJ70x62+wIwM2LUNh
+   ncwnyVItdIYiTiirQosN0fMfbe+KS1aGo6yqW0g3hZ7lT16L9weYDcPZ2
+   2Mxjj2j1vzm1X8AIavEvsZLLdJf+5oXZAR2P5o9Tcscl7XnS6rn7mzcCf
+   zDWoRuGIS0gBQKclbGe8YmetSG9fnp6EmDS9ThmGL10MNr+Ej55I3eGJ+
+   CzHWjbUXzD3F+aM7hh+TWlOssY7MzM+k91M4Z7RzAW0x/2MalL7G0U1v2
+   F7IFGMDUNkfP33XAF3zNPXD8NQ76wVn5okLFQ79umH/d+17vHpD9YiVHx
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="312374038"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="312374038"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 02:47:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="643233563"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="643233563"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 03 Feb 2023 02:47:55 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNtbn-0000PN-0d;
+	Fri, 03 Feb 2023 10:47:55 +0000
+Date: Fri, 3 Feb 2023 18:47:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: kismet: WARNING: unmet direct dependencies detected for IDLE_INJECT
+ when selected by INTEL_POWERCLAMP
+Message-ID: <202302031854.dRaSdTg4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -33,55 +49,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302021638.tYWqFXQb-lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Feb 02, 2023 at 04:40:53PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
-> head:   68a95455c153f8adc513e5b688f4b348daa7c1b1
-> commit: a006aaffd78ff70efcffa44e325633c0840b2bf2 [1681/2293] arm64/mm: add pud_user_exec() check in pud_user_accessible_page()
-> config: arm64-buildonly-randconfig-r006-20230129 (https://download.01.org/0day-ci/archive/20230202/202302021638.tYWqFXQb-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a006aaffd78ff70efcffa44e325633c0840b2bf2
->         git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
->         git fetch --no-tags stable linux-6.1.y
->         git checkout a006aaffd78ff70efcffa44e325633c0840b2bf2
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/pgtable.h:6,
->                     from include/linux/mm.h:29,
->                     from include/linux/pid_namespace.h:7,
->                     from include/linux/ptrace.h:10,
->                     from include/linux/elfcore.h:11,
->                     from include/linux/crash_core.h:6,
->                     from include/linux/kexec.h:18,
->                     from arch/arm64/kernel/asm-offsets.c:12:
->    arch/arm64/include/asm/pgtable.h: In function 'pud_user_accessible_page':
-> >> arch/arm64/include/asm/pgtable.h:871:51: error: implicit declaration of function 'pud_user_exec'; did you mean 'pmd_user_exec'? [-Werror=implicit-function-declaration]
->      871 |         return pud_leaf(pud) && (pud_user(pud) || pud_user_exec(pud));
->          |                                                   ^~~~~~~~~~~~~
->          |                                                   pmd_user_exec
->    cc1: some warnings being treated as errors
->    make[2]: *** [scripts/Makefile.build:118: arch/arm64/kernel/asm-offsets.s] Error 1
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:1270: prepare0] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:231: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   dcb17d36bed40f2ab07d6ffb318a5277b6c3378d
+commit: da0e3490ff71f89e5d3438ae0b2e412d543eab11 thermal: intel: powerclamp: Use powercap idle-inject feature
+date:   19 hours ago
+config: x86_64-kismet-CONFIG_IDLE_INJECT-CONFIG_INTEL_POWERCLAMP-0-0 (https://download.01.org/0day-ci/archive/20230203/202302031854.dRaSdTg4-lkp@intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=da0e3490ff71f89e5d3438ae0b2e412d543eab11
+        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+        git fetch --no-tags rafael-pm bleeding-edge
+        git checkout da0e3490ff71f89e5d3438ae0b2e412d543eab11
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_IDLE_INJECT --selectors CONFIG_INTEL_POWERCLAMP -a=x86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=x86_64 olddefconfig
 
-This is probably because you don't have:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-4e4ff23a35ee ("arm64/mm: Define dummy pud_user_exec() when using 2-level page-table")
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IDLE_INJECT when selected by INTEL_POWERCLAMP
+   .config:4831:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   .config:5885:warning: symbol value 'ONFIG_ARCH_MMAP_RND_COMPAT_BITS_MI' invalid for ARCH_MMAP_RND_COMPAT_BITS
+   
+   WARNING: unmet direct dependencies detected for IDLE_INJECT
+     Depends on [n]: POWERCAP [=y] && CPU_IDLE [=n]
+     Selected by [y]:
+     - INTEL_POWERCLAMP [=y] && THERMAL [=y] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y] && CPU_SUP_INTEL [=y]
 
-Will
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
