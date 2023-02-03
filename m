@@ -1,42 +1,31 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A48AD3A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 17:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675445113; x=1706981113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xqBFLA0g13Dq7FKxO+7DPVP+Yp1n7l8JnM3SktXOyWo=;
-  b=PJ9b54U6uZTOLsZ03b0oOAMaTSJdYlVK9UQRmwVWUDAxong44C1Mzp41
-   Etdvn8EBWmHjq7x29n8r9KvgVe1/ZazFbTzNFsYllIiyYHJneIfaKGOJg
-   K65tDugFG2DMo84bp40SyQvYe6SM+YTJuw5XbIM9yHXGVKeYAvKp/2eOM
-   jV0W4bSKmwPJsnNAJj9Lr4RxYF7GXHGC4xdm7WD+GRDsAD/CDmOPHW/7I
-   tauFMqZlQbyOnF/rtcMEeG/FxAZgV7srxdByHkIXtkR/4NArIWG2R+ta3
-   Rc398Zs6oGSr17UGWSh8zSBAIlgsfkVUKHBr6dK1rmL50B+s47U/Xs8+5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393392623"
-X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="393392623"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 09:25:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="911227511"
-X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="911227511"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Feb 2023 09:25:11 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNzoE-0000fR-1l;
-	Fri, 03 Feb 2023 17:25:10 +0000
-Date: Sat, 4 Feb 2023 01:24:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 13184/28743]
- fs/incfs/integrity.c:196:9: sparse: sparse: Variable length array is used.
-Message-ID: <202302040158.Jl7o16bM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7C4AD5A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Feb 2023 19:16:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E8EC433EF;
+	Fri,  3 Feb 2023 19:16:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675451802;
+	bh=0AFp6+/WYLkly4i1S3e6QCedjBXXIlDjZCRb4SgkOcI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UMXO1Wkg2f3xBGalnhAsIFnYiTUjtXSLRMCNbhXIsnEjW0Ca5Nyy5Vw2Ih5YP6HVp
+	 75t2rm2TteqT5HOuQGvLa/qTbSxaYF6mGusQVvJ1TsvIoQ3noSmnYYpoVruGvqJdHf
+	 t72mE/r2L/SAGSs/X7dYREIYh3Dm9827QsyfuxBKAm/CLS4MY5jIaL+XMZHTpJuYeq
+	 3GjKRhbrDqih1HwMDXjTLcAlu32wtKqr4g4/Qmw6LvFrZJFv6niGIydWhZzC7PsSFS
+	 dYqpQG7zMDd2s/7Hgl9Mv2e7HPM8bz2xyu+n4jekxOMue8F1NpmWvXmURt0uL/0mHn
+	 xpSNMPL/QpkGA==
+Received: by pali.im (Postfix)
+	id 1E628723; Fri,  3 Feb 2023 20:16:39 +0100 (CET)
+Date: Fri, 3 Feb 2023 20:16:39 +0100
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [powerpc:next-test 14/40] arch/powerpc/kernel/pci_32.c:233:5:
+ error: no previous prototype for 'pci_device_from_OF_node'
+Message-ID: <20230203191639.ga5xkwqf4hxgoaov@pali>
+References: <202302030001.HQPCI490-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,78 +34,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202302030001.HQPCI490-lkp@intel.com>
+User-Agent: NeoMutt/20180716
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   7b8eb82135b171c1f11d8b0ea6d2cc691021840d
-commit: 040942fc50b20325bb56737c32b303268bb6f35c [13184/28743] ANDROID: Initial commit of Incremental FS
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230204/202302040158.Jl7o16bM-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout 040942fc50b20325bb56737c32b303268bb6f35c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash fs/incfs/
+On Friday 03 February 2023 00:13:02 kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
+> head:   9ffcf6a19dbb2a24de2c2d7b2af1e130986cd565
+> commit: 869363998da87c80c16ff1221e95b41b2d3cceb2 [14/40] powerpc/pci: Allow to disable filling deprecated pci-OF-bus-map
+> config: powerpc-buildonly-randconfig-r006-20230202 (https://download.01.org/0day-ci/archive/20230203/202302030001.HQPCI490-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=869363998da87c80c16ff1221e95b41b2d3cceb2
+>         git remote add powerpc https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
+>         git fetch --no-tags powerpc next-test
+>         git checkout 869363998da87c80c16ff1221e95b41b2d3cceb2
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> arch/powerpc/kernel/pci_32.c:233:5: error: no previous prototype for 'pci_device_from_OF_node' [-Werror=missing-prototypes]
+>      233 | int pci_device_from_OF_node(struct device_node *node, u8 *bus, u8 *devfn)
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Try this change:
 
-sparse warnings: (new ones prefixed by >>)
->> fs/incfs/integrity.c:196:9: sparse: sparse: Variable length array is used.
-   In file included from include/linux/kernel.h:14,
-                    from include/linux/crypto.h:21,
-                    from include/crypto/hash.h:16,
-                    from fs/incfs/integrity.c:6:
-   fs/incfs/integrity.c: In function 'incfs_validate_pkcs7_signature':
-   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:136:24: note: in definition of macro 'no_printk'
-     136 |                 printk(fmt, ##__VA_ARGS__);             12-      |                        ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:346:19: note: in expansion of macro 'KERN_DEBUG'
-     346 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   fs/incfs/integrity.c:24:17: note: in expansion of macro 'pr_debug'
-      24 |                 pr_debug("PKCS#7 parsing error. ptr=%p size=%ld err=%ldn",
-         |                 ^~~~~~~~
-   In file included from arch/x86/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from include/linux/crypto.h:23,
-                    from include/crypto/hash.h:16,
-                    from fs/incfs/integrity.c:6:
-   include/asm-generic/bug.h:7:70: note: format string is defined here
-       7 | #define CUT_HERE                "------------[ cut here ]------------n"
-         |                                                                    ~~^~
-         |                                                                      |
-         |                                                                      long int
-         |                                                                    -d
+diff --git a/arch/powerpc/kernel/pci_32.c b/arch/powerpc/kernel/pci_32.c
+index 82a8981d4c47..b59b6dfb8d4c 100644
+--- a/arch/powerpc/kernel/pci_32.c
++++ b/arch/powerpc/kernel/pci_32.c
+@@ -227,6 +227,7 @@ pci_create_OF_bus_map(void)
+ 
+ #else /* CONFIG_PPC_PCI_OF_BUS_MAP_FILL */
+ 
++#ifdef CONFIG_PPC_PMAC
+ /*
+  * Returns the PCI device matching a given OF node without pci_to_OF_bus_map
+  */
+@@ -248,6 +249,7 @@ int pci_device_from_OF_node(struct device_node *node, u8 *bus, u8 *devfn)
+ 
+ 	return 0;
+ }
++#endif
+ 
+ #endif /* CONFIG_PPC_PCI_OF_BUS_MAP_FILL */
+ 
 
-vim +196 fs/incfs/integrity.c
-
-   192	
-   193	int incfs_calc_digest(struct incfs_hash_alg *alg, struct mem_range data,
-   194				struct mem_range digest)
-   195	{
- > 196		SHASH_DESC_ON_STACK(desc, alg->shash);
-   197	
-   198		if (!alg || !alg->shash || !data.data || !digest.data)
-   199			return -EFAULT;
-   200	
-   201		if (alg->digest_size > digest.len)
-   202			return -EINVAL;
-   203	
-   204		desc->tfm = alg->shash;
-   205		return crypto_shash_digest(desc, data.data, data.len, digest.data);
-   206	}
-   207	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+> vim +/pci_device_from_OF_node +233 arch/powerpc/kernel/pci_32.c
+> 
+>    229	
+>    230	/*
+>    231	 * Returns the PCI device matching a given OF node without pci_to_OF_bus_map
+>    232	 */
+>  > 233	int pci_device_from_OF_node(struct device_node *node, u8 *bus, u8 *devfn)
+>    234	{
+>    235		const __be32 *reg;
+>    236		int size;
+>    237	
+>    238		/* Check if it might have a chance to be a PCI device */
+>    239		if (!pci_find_hose_for_OF_device(node))
+>    240			return -ENODEV;
+>    241	
+>    242		reg = of_get_property(node, "reg", &size);
+>    243		if (!reg || size < 5 * sizeof(u32))
+>    244			return -ENODEV;
+>    245	
+>    246		*bus = (be32_to_cpup(&reg[0]) >> 16) & 0xff;
+>    247		*devfn = (be32_to_cpup(&reg[0]) >> 8) & 0xff;
+>    248	
+>    249		return 0;
+>    250	}
+>    251	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
