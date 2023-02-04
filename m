@@ -1,49 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009CD7F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6B57F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 10:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675504123; x=1707040123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vxN9Bf20URGxek3+/6jCLwHL5JDiPApDEdSYAgzw+pc=;
-  b=CuwpSXZAd0wJcO0Uj1c4fvke/qbtZW3v74IwqecbQ6302uHHSJxs1Qut
-   xqUtbAm50YG3UBC1WnhWB1rZjtZxUK/XgBK7PhWb67r8l6TtRssvlKeaX
-   M+2SapkqvSHMUR/HsbAIz304ZZnS61UeCGiDLdlCHA4ZpTXHoxZO676zv
-   xGhpoToIp4MwoMj8PeR9/Emq19Ny6Gm2XnKfXARTAWtCPpGFilACjEigL
-   wQOlQ9syyEXcfoxFwoiAtgfo19InYatOKoBwuEfCbVNsW4G07UZSuWXBF
-   lIfpqqpjeGKA337mj794JU0i7R0woJU2/arCNsvyQvveDrjR9zvtQH6vK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="391326584"
+  t=1675505322; x=1707041322;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9cgnRGqE7z6Lpcq0m70HbiRjWeQ5mKUH+zWRaGpP1jY=;
+  b=lyhQVaoyGydLAEke5LZqRnTd3BbQ1AM1dVrPhGg5R+Ad9aMYE+Qve3nS
+   dt4GOO5EAFsHiDfgEOnh96p3tEjRGLRfUsq5TKhZNwiHSFGUCvfkYk7/e
+   g5lFuEF6hr4Zi84goNX1le2yK2ytbldDmZTPgnXljF/0iGNyNubKQOzL9
+   NBOdiS0la8gKW7IZua8NHehsVZPR+ceM4EBqEKwvHGGHj3+h6DsOMyyqX
+   H0npD6uBMJgJy0h5S+OXTV45QrJGDodS7XZ10DbqihgI4ecWv6HLUF7RK
+   1sKivaIU5NgKrDEhtSFLKDAy53zqgF1bcsxAmvTf+M8FvMiTsBiVCFOzr
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="326627609"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="391326584"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:48:43 -0800
+   d="scan'208";a="326627609"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 02:08:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="789955489"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="696388497"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="789955489"
+   d="scan'208";a="696388497"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Feb 2023 01:48:39 -0800
+  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 02:08:40 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOF9z-0001DE-0L;
-	Sat, 04 Feb 2023 09:48:39 +0000
-Date: Sat, 4 Feb 2023 17:48:13 +0800
+	id 1pOFTL-0001Dw-1m;
+	Sat, 04 Feb 2023 10:08:39 +0000
+Date: Sat, 4 Feb 2023 18:08:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Yarlagadda <kyarlagadda@nvidia.com>, robh+dt@kernel.org,
-	broonie@kernel.org, peterhuewe@gmx.de, jgg@ziepe.ca,
-	jarkko@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, skomatineni@nvidia.com, ldewangan@nvidia.com,
-	Krishna Yarlagadda <kyarlagadda@nvidia.com>
-Subject: Re: [Patch V2 2/4] tpm: tegra: Support SPI tpm wait state detect
-Message-ID: <202302041737.v2JywR8Y-lkp@intel.com>
-References: <20230203130133.32901-3-kyarlagadda@nvidia.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/621 6136/20208]
+ drivers/net/dsa/ocelot/felix_tsn.c:1298:60: warning: left shift count >=
+ width of type
+Message-ID: <202302041807.wa2ShpYu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,109 +46,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203130133.32901-3-kyarlagadda@nvidia.com>
 
-Hi Krishna,
+Hi Dong,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus broonie-spi/for-next robh/for-next linus/master v6.2-rc6 next-20230203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Yarlagadda/dt-bindings-tpm-Add-compatible-for-Tegra-TPM/20230203-210314
-patch link:    https://lore.kernel.org/r/20230203130133.32901-3-kyarlagadda%40nvidia.com
-patch subject: [Patch V2 2/4] tpm: tegra: Support SPI tpm wait state detect
-config: loongarch-buildonly-randconfig-r003-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041737.v2JywR8Y-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: d4ed5184f4ad9d0d2f29985e3411f11bd9c97584 [6136/20208] Merge remote-tracking branch 'origin/net/tsn' into net/next
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041807.wa2ShpYu-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/825363f7e8d0d426c45bbba6cb3c5d9b79b7e6aa
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Krishna-Yarlagadda/dt-bindings-tpm-Add-compatible-for-Tegra-TPM/20230203-210314
-        git checkout 825363f7e8d0d426c45bbba6cb3c5d9b79b7e6aa
+        # https://github.com/Freescale/linux-fslc/commit/d4ed5184f4ad9d0d2f29985e3411f11bd9c97584
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/621
+        git checkout d4ed5184f4ad9d0d2f29985e3411f11bd9c97584
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/char/tpm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/dma/ drivers/irqchip/ drivers/net/dsa/ocelot/ drivers/phy/freescale/ drivers/video/fbdev/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/tpm/tpm_tis_spi_tegra.c:23:5: warning: no previous prototype for 'tpm_tis_spi_tegra_transfer' [-Wmissing-prototypes]
-      23 | int tpm_tis_spi_tegra_transfer(struct tpm_tis_data *data, u32 addr, u16 len,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/ocelot/felix_tsn.c: In function 'felix_cb_streamid_set':
+   drivers/net/dsa/ocelot/felix_tsn.c:551:13: warning: variable 'idx' set but not used [-Wunused-but-set-variable]
+     551 |         int idx, sfid, ssid, port;
+         |             ^~~
+   drivers/net/dsa/ocelot/felix_tsn.c: In function 'felix_qci_sgi_get':
+>> drivers/net/dsa/ocelot/felix_tsn.c:1298:60: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1298 |                 ANA_SG_CONFIG_REG_3_BASE_TIME_SEC_MSB(val) << 32;
+         |                                                            ^~
+   drivers/net/dsa/ocelot/felix_tsn.c: In function 'felix_qci_sgi_status_get':
+   drivers/net/dsa/ocelot/felix_tsn.c:1351:63: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1351 |                 ANA_SG_STATUS_REG_3_CFG_CHG_TIME_SEC_MSB(val) << 32;
+         |                                                               ^~
 
 
-vim +/tpm_tis_spi_tegra_transfer +23 drivers/char/tpm/tpm_tis_spi_tegra.c
+vim +1298 drivers/net/dsa/ocelot/felix_tsn.c
 
-    22	
-  > 23	int tpm_tis_spi_tegra_transfer(struct tpm_tis_data *data, u32 addr, u16 len,
-    24				       u8 *in, const u8 *out)
-    25	{
-    26		struct tpm_tis_spi_phy *phy = to_tpm_tis_spi_phy(data);
-    27		int ret = 0;
-    28		struct spi_message m;
-    29		struct spi_transfer spi_xfer[3];
-    30		u8 transfer_len;
-    31	
-    32		spi_bus_lock(phy->spi_device->master);
-    33	
-    34		while (len) {
-    35			transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
-    36	
-    37			spi_message_init(&m);
-    38			phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
-    39			phy->iobuf[1] = 0xd4;
-    40			phy->iobuf[2] = addr >> 8;
-    41			phy->iobuf[3] = addr;
-    42	
-    43			memset(&spi_xfer, 0, sizeof(spi_xfer));
-    44	
-    45			spi_xfer[0].tx_buf = phy->iobuf;
-    46			spi_xfer[0].len = 1;
-    47			spi_message_add_tail(&spi_xfer[0], &m);
-    48	
-    49			spi_xfer[1].tx_buf = phy->iobuf + 1;
-    50			spi_xfer[1].len = 3;
-    51			spi_message_add_tail(&spi_xfer[1], &m);
-    52	
-    53			if (out) {
-    54				spi_xfer[2].tx_buf = &phy->iobuf[4];
-    55				spi_xfer[2].rx_buf = NULL;
-    56				memcpy(&phy->iobuf[4], out, transfer_len);
-    57				out += transfer_len;
-    58			}
-    59			if (in) {
-    60				spi_xfer[2].tx_buf = NULL;
-    61				spi_xfer[2].rx_buf = &phy->iobuf[4];
-    62			}
-    63			spi_xfer[2].len = transfer_len;
-    64			spi_message_add_tail(&spi_xfer[2], &m);
-    65	
-    66			reinit_completion(&phy->ready);
-    67			ret = spi_sync_locked(phy->spi_device, &m);
-    68			if (ret < 0)
-    69				goto exit;
-    70	
-    71			if (in) {
-    72				memcpy(in, &phy->iobuf[4], transfer_len);
-    73				in += transfer_len;
-    74			}
-    75	
-    76			len -= transfer_len;
-    77		}
-    78	
-    79	exit:
-    80		spi_bus_unlock(phy->spi_device->master);
-    81		return ret;
-    82	}
-    83	
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1263  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1264  static int felix_qci_sgi_get(struct net_device *ndev, u32 index,
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1265  			     struct tsn_qci_psfp_sgi_conf *sgi_conf)
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1266  {
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1267  	struct tsn_qci_sg_control *admin  = &sgi_conf->admin;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1268  	struct tsn_qci_psfp_gcl *glist;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1269  	u32 val, reg, list_num;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1270  	struct ocelot *ocelot;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1271  	struct dsa_port *dp;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1272  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1273  	dp = dsa_port_from_netdev(ndev);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1274  	ocelot = dp->ds->priv;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1275  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1276  	if (index >= capa.num_psfp_sgid) {
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1277  		dev_err(ocelot->dev, "Invalid sgid %u, maximum:%u\n",
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1278  			index, capa.num_psfp_sgid);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1279  		return -EINVAL;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1280  	}
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1281  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1282  	ocelot_rmw(ocelot,
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1283  		   ANA_SG_ACCESS_CTRL_SGID(index),
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1284  		   ANA_SG_ACCESS_CTRL_SGID_M,
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1285  		   ANA_SG_ACCESS_CTRL);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1286  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1287  	admin->cycle_time = ocelot_read(ocelot, ANA_SG_CONFIG_REG_4);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1288  	admin->cycle_time_extension =
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1289  		ocelot_read(ocelot, ANA_SG_CONFIG_REG_5);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1290  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1291  	val = ocelot_read(ocelot, ANA_SG_CONFIG_REG_2);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1292  	admin->base_time = val;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1293  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1294  	reg = ocelot_read(ocelot, ANA_SG_CONFIG_REG_1);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1295  	val = ocelot_read(ocelot, ANA_SG_CONFIG_REG_3);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1296  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1297  	admin->base_time +=
+13a65918eff2b2 Xiaoliang Yang 2020-08-31 @1298  		ANA_SG_CONFIG_REG_3_BASE_TIME_SEC_MSB(val) << 32;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1299  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1300  	admin->base_time = admin->base_time * 1000000000 + reg;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1301  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1302  	if (val & ANA_SG_CONFIG_REG_3_IPV_VALID)
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1303  		admin->init_ipv = ANA_SG_CONFIG_REG_3_INIT_IPV_X(val);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1304  	else
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1305  		admin->init_ipv = -1;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1306  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1307  	if (val & ANA_SG_CONFIG_REG_3_GATE_ENABLE)
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1308  		sgi_conf->gate_enabled = 1;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1309  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1310  	admin->control_list_length = ANA_SG_CONFIG_REG_3_LIST_LENGTH_X(val);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1311  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1312  	list_num = admin->control_list_length;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1313  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1314  	glist = kmalloc_array(list_num, sizeof(struct tsn_qci_psfp_gcl),
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1315  			      GFP_KERNEL);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1316  	if (!glist)
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1317  		return -ENOMEM;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1318  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1319  	admin->gcl = glist;
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1320  
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1321  	return felix_sgi_get_glist(ocelot, glist, list_num);
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1322  }
+13a65918eff2b2 Xiaoliang Yang 2020-08-31  1323  
+
+:::::: The code at line 1298 was first introduced by commit
+:::::: 13a65918eff2b258c6f233f1057fdfbb43c1af04 net: dsa: felix: add tsn support for felix switch based on net/tsn
+
+:::::: TO: Xiaoliang Yang <xiaoliang.yang_1@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
