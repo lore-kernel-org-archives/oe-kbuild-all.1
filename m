@@ -1,51 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE8E23A9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 13:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE52023A9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 14:13:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675518830; x=1707054830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BwigBs1aMqtVp4Q9wvZ4hwv9KfZie/IcsgUZDHHV4Xk=;
-  b=Yois0kpK5ECFfjusvduO4pqWlz5WgPtuBVvGenzfwxzYQEEGs5gg8E3j
-   dVFwpu2/GK6VMIaCleajnT3O+mNxIlqMDvPjyoKDI6Z71+FJzJbnuenEd
-   G9zMHVooCAeuHhZ/TymjHETYNjK9DukBR6J2fi75w+1FdsHJ3/WSet8e5
-   pqrc88TyUMQNcrMdV9RVHhphRgAtBuCMyKLtfhcQvsSjhhPVQxwIhoxPQ
-   xL+U7lZSqqsFcYKgT5J9u08xJ4DDuxJAVh67j+0V8lCZ8pyytN/KRqP0g
-   i0FlQ5lFO4uYTqU5C786bhYCBD96QJWRGkLzPimwVxzhx2IcU6Bac/nrw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309279243"
+  t=1675520027; x=1707056027;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=soD1SAGS4pMGPYMPCMzP4mVHMVARDwCLTFCXv1W6mTI=;
+  b=KTgPWBA9uId+jGGyODz3t1SI4XAWd0oVgQ+6gx/gwGDpvn7xXlW9xlA/
+   skl3UAGrAVbKFUKoKhx7a94BbAEQoecX6f6dFoNPRaRfyhohUyIyb/UmC
+   GO7/B0jBPA3wZmDJdhdJIqNoE9wSV4CZThPFazbUIlVXoH+K5e/rCJhbR
+   XHIXFuQOVkivg6NAINDMAxe8nd6hFRWVi1RwmSCVE1100YMMNg6XZLTKS
+   5Fy6zj5avk+s9Tn/M0JGoaEsPOC3UGcFiLBM8jkaq3rz4Wzdm6OnGXFA0
+   Ceg30z81TV6fDMa4ZVcmgUS6m7pP9CXAsDsK3d2Dye4POc4fu12BXD3dH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393541928"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="309279243"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 05:53:48 -0800
+   d="scan'208";a="393541928"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 06:13:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="643564021"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="666028844"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="643564021"
+   d="scan'208";a="666028844"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Feb 2023 05:53:45 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Feb 2023 06:13:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOIzB-0001L8-00;
-	Sat, 04 Feb 2023 13:53:45 +0000
-Date: Sat, 4 Feb 2023 21:52:49 +0800
+	id 1pOJIX-0001LY-0g;
+	Sat, 04 Feb 2023 14:13:45 +0000
+Date: Sat, 4 Feb 2023 22:13:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Gardon <bgardon@google.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	David Matlack <dmatlack@google.com>,
-	Vipin Sharma <vipinsh@google.com>,
-	Ricardo Koller <ricarkol@google.com>,
-	Ben Gardon <bgardon@google.com>
-Subject: Re: [PATCH 11/21] KVM: x86/MMU: Cleanup shrinker interface with
- Shadow MMU
-Message-ID: <202302042127.gbKNDVaL-lkp@intel.com>
-References: <20230202182809.1929122-12-bgardon@google.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 178/20209]
+ sound/soc/fsl/fsl_esai_client.c:85:5: warning: no previous prototype for
+ 'fsl_esai_client_pcm_trigger'
+Message-ID: <202302042240.d6i0xqRG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,86 +46,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230202182809.1929122-12-bgardon@google.com>
 
-Hi Ben,
+Hi Shengjiu,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 7cb79f433e75b05d1635aefaa851cfcd1cb7dc4f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Gardon/KVM-x86-mmu-Rename-slot-rmap-walkers-to-add-clarity-and-clean-up-code/20230203-023259
-base:   7cb79f433e75b05d1635aefaa851cfcd1cb7dc4f
-patch link:    https://lore.kernel.org/r/20230202182809.1929122-12-bgardon%40google.com
-patch subject: [PATCH 11/21] KVM: x86/MMU: Cleanup shrinker interface with Shadow MMU
-config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230204/202302042127.gbKNDVaL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3248ffcb12d15a0e40b9a020ba362591b8137923
+commit: c03a789d0a2388b61aeabe8b5bad7935e2951497 [178/20209] MLK-24612-1: ASoC: fsl_esai: Add esai client driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302042240.d6i0xqRG-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/c1170de906dfe1ee64da0066e7c28d35e716ed18
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ben-Gardon/KVM-x86-mmu-Rename-slot-rmap-walkers-to-add-clarity-and-clean-up-code/20230203-023259
-        git checkout c1170de906dfe1ee64da0066e7c28d35e716ed18
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/c03a789d0a2388b61aeabe8b5bad7935e2951497
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
+        git checkout c03a789d0a2388b61aeabe8b5bad7935e2951497
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/accessibility/speakup/ drivers/base/power/ drivers/dma/ drivers/firmware/imx/ drivers/gpu/drm/bridge/ drivers/gpu/drm/imx/ drivers/i2c/busses/ drivers/input/touchscreen/ drivers/mailbox/ drivers/media/platform/ drivers/mtd/nand/raw/gpmi-nand/ drivers/net/ethernet/freescale/ drivers/net/phy/ drivers/pci/controller/dwc/ drivers/pci/controller/mobiveil/ drivers/power/supply/ drivers/pwm/ drivers/regulator/ drivers/rpmsg/ drivers/soc/imx/ drivers/staging/ drivers/thermal/ drivers/video/backlight/ drivers/video/fbdev/ net/ sound/soc/fsl/ sound/soc/sof/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/mmu.c:3148:15: warning: no previous prototype for 'mmu_shrink_scan' [-Wmissing-prototypes]
-    3148 | unsigned long mmu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
-         |               ^~~~~~~~~~~~~~~
+>> sound/soc/fsl/fsl_esai_client.c:85:5: warning: no previous prototype for 'fsl_esai_client_pcm_trigger' [-Wmissing-prototypes]
+      85 | int fsl_esai_client_pcm_trigger(struct snd_soc_component *component,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/mmu_shrink_scan +3148 arch/x86/kvm/mmu/mmu.c
+vim +/fsl_esai_client_pcm_trigger +85 sound/soc/fsl/fsl_esai_client.c
 
-  3147	
-> 3148	unsigned long mmu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
-  3149	{
-  3150		struct kvm *kvm;
-  3151		int nr_to_scan = sc->nr_to_scan;
-  3152		unsigned long freed = 0;
-  3153	
-  3154		mutex_lock(&kvm_lock);
-  3155	
-  3156		list_for_each_entry(kvm, &vm_list, vm_list) {
-  3157			/*
-  3158			 * Never scan more than sc->nr_to_scan VM instances.
-  3159			 * Will not hit this condition practically since we do not try
-  3160			 * to shrink more than one VM and it is very unlikely to see
-  3161			 * !n_used_mmu_pages so many times.
-  3162			 */
-  3163			if (!nr_to_scan--)
-  3164				break;
-  3165	
-  3166			/*
-  3167			 * n_used_mmu_pages is accessed without holding kvm->mmu_lock
-  3168			 * here. We may skip a VM instance errorneosly, but we do not
-  3169			 * want to shrink a VM that only started to populate its MMU
-  3170			 * anyway.
-  3171			 */
-  3172			if (!kvm->arch.n_used_mmu_pages &&
-  3173			    !kvm_shadow_mmu_has_zapped_obsolete_pages(kvm))
-  3174				continue;
-  3175	
-  3176			freed = kvm_shadow_mmu_shrink_scan(kvm, sc->nr_to_scan);
-  3177	
-  3178			/*
-  3179			 * unfair on small ones
-  3180			 * per-vm shrinkers cry out
-  3181			 * sadness comes quickly
-  3182			 */
-  3183			list_move_tail(&kvm->vm_list, &vm_list);
-  3184			break;
-  3185		}
-  3186	
-  3187		mutex_unlock(&kvm_lock);
-  3188		return freed;
-  3189	}
-  3190	
+    84	
+  > 85	int fsl_esai_client_pcm_trigger(struct snd_soc_component *component,
+    86					struct snd_pcm_substream *substream, int cmd)
+    87	{
+    88		struct snd_soc_pcm_runtime *rtd = substream->private_data;
+    89		struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
+    90		struct fsl_esai_client *client = snd_soc_dai_get_drvdata(cpu_dai);
+    91		bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+    92	
+    93		switch (cmd) {
+    94		case SNDRV_PCM_TRIGGER_START:
+    95		case SNDRV_PCM_TRIGGER_RESUME:
+    96		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+    97			/* These info are needed by esai mix*/
+    98			client->dma[tx].buffer_bytes = snd_pcm_lib_buffer_bytes(substream);
+    99			client->dma[tx].period_bytes = snd_pcm_lib_period_bytes(substream);
+   100			client->dma[tx].buffer_offset = 0;
+   101			client->dma[tx].active = true;
+   102			break;
+   103		case SNDRV_PCM_TRIGGER_SUSPEND:
+   104		case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+   105		case SNDRV_PCM_TRIGGER_STOP:
+   106			client->dma[tx].active = false;
+   107			break;
+   108		default:
+   109			return -EINVAL;
+   110		}
+   111	
+   112		return 0;
+   113	}
+   114	
 
 -- 
 0-DAY CI Kernel Test Service
