@@ -1,48 +1,51 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B70D3217
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 19:04:59 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id n2so3169981pgb.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Feb 2023 11:04:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mUn8Be+13vClnnWtDHhooL/sMdhScbk/CUaqeF1Jz/c=;
-        b=eZ+Bv1VyGuF71emj1OfSwnYB6cRwoh57JmKX11uj0dzbtyuVBjMob2zIcxttGLc0rN
-         yKgRxWYsP/EiLcbwVLPe1cpO5OaMXpn/LCXP/nWV+KzWkea6cNi5RtclQQRw+pLi33oF
-         FtQIl6uJRwT7ggEf9TXtvn+bGDxLggiuV9f8k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mUn8Be+13vClnnWtDHhooL/sMdhScbk/CUaqeF1Jz/c=;
-        b=PtcUlqin1EKSimqHrnyGvAIqAc/OQbyyBv9Sha7fhhwlC5dCiu15HZApUAAqZRxcZ8
-         HWxTuHWpDO7kboCo8UWqHpTLPtLFG6oY2ewpnFJWHFfENumZRV9r6dK/PbVwxAfTfPmM
-         mn3EfqYPSihBmPOuF74I4PCTdlfWqmzQ+1A3VN/n/X8rf3/mmYGlANX1rsfNohrQeJOJ
-         1Xu1BoAViG3Wq2UEeK2JSJ1Q1/QiA14XZoW+TkD6VJR2j35vnEMHMHwhUyLzzNkO1r5O
-         sY5NCKr7AWP1gqoj+qksWaohYoaWtuoGEVVnEi0ObMx6MRPRUQgs3e4Ggrt9iUzU/qei
-         m0ng==
-X-Gm-Message-State: AO0yUKWyscaqO+iW6qEzm+TcP78Ux6Doo+3l78DLQwkSxba9fAjkWoeN
-	APfoCw6V6DaMRNck822YxxXxkw==
-X-Google-Smtp-Source: AK7set83qkJxD4lzMtiKTpmzF/z5pc/vprk7I0w8i06Qqg7WrjqIzdY10adnfNPiFPhlDmGTgVvm8A==
-X-Received: by 2002:a05:6a00:1ace:b0:593:b422:f11d with SMTP id f14-20020a056a001ace00b00593b422f11dmr16783228pfv.30.1675537498785;
-        Sat, 04 Feb 2023 11:04:58 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b64-20020a621b43000000b0058d92d6e4ddsm4055403pfb.5.2023.02.04.11.04.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 11:04:58 -0800 (PST)
-Message-ID: <63deac5a.620a0220.2c25e.6cf0@mx.google.com>
-X-Google-Original-Message-ID: <202302041104.@keescook>
-Date: Sat, 4 Feb 2023 11:04:57 -0800
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [kees:for-next/kspp 19/19] lib/ubsan.c:27:13: warning: no
- previous prototype for 'report_ubsan_failure'
-References: <202302041600.oGDByVG5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BA23217;
+	Sat,  4 Feb 2023 19:10:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675537859; x=1707073859;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=peFlvY2byFwd8qcwJsPU//FQzIbgC+db/U2+rXUvjcQ=;
+  b=lzoF/Vj9v9ZCl7x5VUz/yDDcP0CsY8iQWsdIoptP14heWmIp4QdzwenC
+   GIhaEzLSBfAfOtR/szmvmq6sVb2eiUlwFaFl7YDCoWcUQCRUfRcdSfF0K
+   kTPGy2XwlatmUBzuunqPniLXjN2X6zPCYXLjljGQDsp2owG/+/Iw9qJcF
+   awiRUsDe/O9Q17yRW7stixE65DIN5HY7xTWX36UXwlQrHCCxCNR2A2ltt
+   B4Jg2YuugNFbPTAiPUtJpOqmpFCdQtMqO17ZvhNoiF3qssWNlniL/edZA
+   8evwYIZHUBb06jibphN7+eE7sBsD8J9F1A3e4DmcsINDzzfoP2O6feW7d
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="312635181"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
+   d="scan'208";a="312635181"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 11:10:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="666078855"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
+   d="scan'208";a="666078855"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 04 Feb 2023 11:10:54 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pONw6-0001Ua-02;
+	Sat, 04 Feb 2023 19:10:54 +0000
+Date: Sun, 5 Feb 2023 03:10:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Gardon <bgardon@google.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	David Matlack <dmatlack@google.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Ricardo Koller <ricarkol@google.com>,
+	Ben Gardon <bgardon@google.com>
+Subject: Re: [PATCH 11/21] KVM: x86/MMU: Cleanup shrinker interface with
+ Shadow MMU
+Message-ID: <202302050303.kLjMucYK-lkp@intel.com>
+References: <20230202182809.1929122-12-bgardon@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,36 +54,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302041600.oGDByVG5-lkp@intel.com>
+In-Reply-To: <20230202182809.1929122-12-bgardon@google.com>
 
-On Sat, Feb 04, 2023 at 04:45:49PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
-> head:   eeea3ad2aae00767549e2e5c50ad5f2dcfb353cd
-> commit: eeea3ad2aae00767549e2e5c50ad5f2dcfb353cd [19/19] arm64: Support Clang UBSAN trap codes for better reporting
-> config: s390-randconfig-r044-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041600.oGDByVG5-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?id=eeea3ad2aae00767549e2e5c50ad5f2dcfb353cd
->         git remote add kees https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
->         git fetch --no-tags kees for-next/kspp
->         git checkout eeea3ad2aae00767549e2e5c50ad5f2dcfb353cd
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> lib/ubsan.c:27:13: warning: no previous prototype for 'report_ubsan_failure' [-Wmissing-prototypes]
->       27 | const char *report_ubsan_failure(struct pt_regs *regs, u32 check_type)
->          |             ^~~~~~~~~~~~~~~~~~~~
+Hi Ben,
 
-Thanks! I'll get this fixed.
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on 7cb79f433e75b05d1635aefaa851cfcd1cb7dc4f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Gardon/KVM-x86-mmu-Rename-slot-rmap-walkers-to-add-clarity-and-clean-up-code/20230203-023259
+base:   7cb79f433e75b05d1635aefaa851cfcd1cb7dc4f
+patch link:    https://lore.kernel.org/r/20230202182809.1929122-12-bgardon%40google.com
+patch subject: [PATCH 11/21] KVM: x86/MMU: Cleanup shrinker interface with Shadow MMU
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230205/202302050303.kLjMucYK-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c1170de906dfe1ee64da0066e7c28d35e716ed18
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ben-Gardon/KVM-x86-mmu-Rename-slot-rmap-walkers-to-add-clarity-and-clean-up-code/20230203-023259
+        git checkout c1170de906dfe1ee64da0066e7c28d35e716ed18
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kvm/mmu/mmu.c:3148:15: warning: no previous prototype for function 'mmu_shrink_scan' [-Wmissing-prototypes]
+   unsigned long mmu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
+                 ^
+   arch/x86/kvm/mmu/mmu.c:3148:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   unsigned long mmu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/mmu_shrink_scan +3148 arch/x86/kvm/mmu/mmu.c
+
+  3147	
+> 3148	unsigned long mmu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
+  3149	{
+  3150		struct kvm *kvm;
+  3151		int nr_to_scan = sc->nr_to_scan;
+  3152		unsigned long freed = 0;
+  3153	
+  3154		mutex_lock(&kvm_lock);
+  3155	
+  3156		list_for_each_entry(kvm, &vm_list, vm_list) {
+  3157			/*
+  3158			 * Never scan more than sc->nr_to_scan VM instances.
+  3159			 * Will not hit this condition practically since we do not try
+  3160			 * to shrink more than one VM and it is very unlikely to see
+  3161			 * !n_used_mmu_pages so many times.
+  3162			 */
+  3163			if (!nr_to_scan--)
+  3164				break;
+  3165	
+  3166			/*
+  3167			 * n_used_mmu_pages is accessed without holding kvm->mmu_lock
+  3168			 * here. We may skip a VM instance errorneosly, but we do not
+  3169			 * want to shrink a VM that only started to populate its MMU
+  3170			 * anyway.
+  3171			 */
+  3172			if (!kvm->arch.n_used_mmu_pages &&
+  3173			    !kvm_shadow_mmu_has_zapped_obsolete_pages(kvm))
+  3174				continue;
+  3175	
+  3176			freed = kvm_shadow_mmu_shrink_scan(kvm, sc->nr_to_scan);
+  3177	
+  3178			/*
+  3179			 * unfair on small ones
+  3180			 * per-vm shrinkers cry out
+  3181			 * sadness comes quickly
+  3182			 */
+  3183			list_move_tail(&kvm->vm_list, &vm_list);
+  3184			break;
+  3185		}
+  3186	
+  3187		mutex_unlock(&kvm_lock);
+  3188		return freed;
+  3189	}
+  3190	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
