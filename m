@@ -1,44 +1,51 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176961FB7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 11:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B53E1FC4;
+	Sat,  4 Feb 2023 11:30:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675510245; x=1707046245;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6bD+yYyQ17B86qBgKLxGS70HWrJLJNeUTAoS28OJG9w=;
-  b=UtiYeklWAQpjrAsSqE5W4o82cs3hFaBaCkC4ngq/eQdpcVCUiMcYMOZU
-   sC+b5xFCQIdvYnf+L+ig1LkfIASPWKMyCJEzI5Az0Tqoyg7woFc2n9kWJ
-   2k37HaLiJKwnpyai+cy/MpkfFjPrPaEwu9XSBfa3/8kRpnh3aUUmBkmi0
-   dgjDvBSh7JwTSqcblOeGueEmNRJdD921uTu/l7v86X/B05bgn+BpGBW3W
-   MVn8E9MDS/c3Bz1KL0trWR0MNb7uzUv4AN3eu25iSgvJBFu78yiNKV2P4
-   c5HqdJqVipQO0LiFmhO7UlVXm0QuBXko31HF/T2Gx/62nU2RzX0dswgox
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327572634"
+  t=1675510246; x=1707046246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pxG2PMYD9PrmXuRk6KzR4zbAxmr0VBPiSuKznRqqPvY=;
+  b=VZHNFNy834q98peJuFfbFx2V4093uz1XU3ia9AoC7eQAdx7lS6CbHqTW
+   MEpSuAqeResmhgiTcNXS1VF93/6oYk3464z1H3uo4cYZurU6IFEsWHCqI
+   2OfTy4ZJfjUSZGFUjuHuroT4Nsn/JNxs18Sfo94Y3m8mRKb68dWHHJ7BB
+   ZcacHHa85AddLpngCFVS9TCqMrwFdtZ2hJ4z9rjDtr+WXN710QSJTWXFf
+   31073DGnCxxWm/YDl65d303hk/ssytPcKheQgOHQkCuthIi6KTYeQCV39
+   2UHjmOD4cRTXMaOP/YqoKg26Qiuy8oyg+useQexuo3patPO4YhRbzLfp2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="356282936"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="327572634"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 03:30:44 -0800
+   d="scan'208";a="356282936"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 03:30:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="643546994"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="667926453"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="643546994"
+   d="scan'208";a="667926453"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Feb 2023 03:30:42 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 04 Feb 2023 03:30:42 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOGkj-0001Gk-2z;
+	id 1pOGkj-0001Gi-2u;
 	Sat, 04 Feb 2023 11:30:41 +0000
-Date: Sat, 4 Feb 2023 19:30:15 +0800
+Date: Sat, 4 Feb 2023 19:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
- 94/138] kernel/time/timekeeping.c:1658:2: error: use of undeclared
- identifier 'boot_delta'
-Message-ID: <202302041947.KexHdig2-lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+	andersson@kernel.org, agross@kernel.org,
+	krzysztof.kozlowski@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	marijn.suijten@somainline.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 02/10] clk: qcom: branch: Add helper functions for
+ setting SLEEP/WAKE bits
+Message-ID: <202302041929.36wT4EUe-lkp@intel.com>
+References: <20230201183626.351211-3-konrad.dybcio@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,108 +54,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230201183626.351211-3-konrad.dybcio@linaro.org>
 
-Hi Hikaru,
+Hi Konrad,
 
-FYI, the error/warning still remains.
+I love your patch! Yet something to improve:
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
-head:   573344b8d137d3584c918c7efa8d4b949d0414d4
-commit: 7833de03e339af4c25a58b24cc29ad75b98672fc [94/138] CHROMIUM: timekeeping: Remove CLOCK_BOOTTIME hack except for ARM64
-config: arm64-buildonly-randconfig-r005-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041947.KexHdig2-lkp@intel.com/config)
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/clk-qcom-branch-Add-helper-functions-for-setting-SLEEP-WAKE-bits/20230202-033712
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230201183626.351211-3-konrad.dybcio%40linaro.org
+patch subject: [PATCH v5 02/10] clk: qcom: branch: Add helper functions for setting SLEEP/WAKE bits
+config: arm-randconfig-r013-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041929.36wT4EUe-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/7833de03e339af4c25a58b24cc29ad75b98672fc
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
-        git checkout 7833de03e339af4c25a58b24cc29ad75b98672fc
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/abd8a21fce6fafe4998281709f574b94b6c87031
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Konrad-Dybcio/clk-qcom-branch-Add-helper-functions-for-setting-SLEEP-WAKE-bits/20230202-033712
+        git checkout abd8a21fce6fafe4998281709f574b94b6c87031
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> kernel/time/timekeeping.c:1658:2: error: use of undeclared identifier 'boot_delta'
-           boot_delta.tv_sec = 5;
-           ^
-   kernel/time/timekeeping.c:1659:2: error: use of undeclared identifier 'boot_delta'
-           boot_delta.tv_nsec = 0;
-           ^
-   kernel/time/timekeeping.c:1660:47: error: use of undeclared identifier 'boot_delta'
-           tk_update_sleep_time(tk, timespec64_to_ktime(boot_delta));
-                                                        ^
-   3 errors generated.
+   In file included from drivers/clk/qcom/gcc-apq8084.c:24:
+>> drivers/clk/qcom/clk-branch.h:71:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                              FIELD_PREP(CBCR_WAKEUP, val));
+                              ^
+   drivers/clk/qcom/clk-branch.h:77:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                              FIELD_PREP(CBCR_SLEEP, val));
+                              ^
+   2 errors generated.
 
 
-vim +/boot_delta +1658 kernel/time/timekeeping.c
+vim +/FIELD_PREP +71 drivers/clk/qcom/clk-branch.h
 
-  1610	
-  1611	/*
-  1612	 * timekeeping_init - Initializes the clocksource and common timekeeping values
-  1613	 */
-  1614	void __init timekeeping_init(void)
-  1615	{
-  1616		struct timespec64 wall_time, boot_offset, wall_to_mono;
-  1617		struct timekeeper *tk = &tk_core.timekeeper;
-  1618		struct clocksource *clock;
-  1619		unsigned long flags;
-  1620	
-  1621		read_persistent_wall_and_boot_offset(&wall_time, &boot_offset);
-  1622		if (timespec64_valid_settod(&wall_time) &&
-  1623		    timespec64_to_ns(&wall_time) > 0) {
-  1624			persistent_clock_exists = true;
-  1625		} else if (timespec64_to_ns(&wall_time) != 0) {
-  1626			pr_warn("Persistent clock returned invalid value");
-  1627			wall_time = (struct timespec64){0};
-  1628		}
-  1629	
-  1630		if (timespec64_compare(&wall_time, &boot_offset) < 0)
-  1631			boot_offset = (struct timespec64){0};
-  1632	
-  1633		/*
-  1634		 * We want set wall_to_mono, so the following is true:
-  1635		 * wall time + wall_to_mono = boot time
-  1636		 */
-  1637		wall_to_mono = timespec64_sub(boot_offset, wall_time);
-  1638	
-  1639		raw_spin_lock_irqsave(&timekeeper_lock, flags);
-  1640		write_seqcount_begin(&tk_core.seq);
-  1641		ntp_init();
-  1642	
-  1643		clock = clocksource_default_clock();
-  1644		if (clock->enable)
-  1645			clock->enable(clock);
-  1646		tk_setup_internals(tk, clock);
-  1647	
-  1648		tk_set_xtime(tk, &wall_time);
-  1649		tk->raw_sec = 0;
-  1650	
-  1651		tk_set_wall_to_mono(tk, wall_to_mono);
-  1652	
-  1653	#ifdef CONFIG_ARM64
-  1654		// TODO(b/162547792): Remove following CLOCK_BOOTTIME adjustment
-  1655		// once the underlying issue is resolved.
-  1656		// The gap added here is larger enough than
-  1657		// MIN_DELTA_BETWEEN_CLOCKS_MS which is expected by CTS Verifier.
-> 1658		boot_delta.tv_sec = 5;
-  1659		boot_delta.tv_nsec = 0;
-  1660		tk_update_sleep_time(tk, timespec64_to_ktime(boot_delta));
-  1661	#endif
-  1662	
-  1663		timekeeping_update(tk, TK_MIRROR | TK_CLOCK_WAS_SET);
-  1664	
-  1665		write_seqcount_end(&tk_core.seq);
-  1666		raw_spin_unlock_irqrestore(&timekeeper_lock, flags);
-  1667	}
-  1668	
+    67	
+    68	static inline void qcom_branch_set_wakeup(struct regmap *regmap, struct clk_branch clk, u32 val)
+    69	{
+    70		regmap_update_bits(regmap, clk.halt_reg, CBCR_WAKEUP,
+  > 71				   FIELD_PREP(CBCR_WAKEUP, val));
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
