@@ -1,42 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8165E1867
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CAB1C13
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 06:02:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1675490555; x=1707026555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J69DHLhnCR5pf9g0XNfpodrEhl4DSbvv3o8KUyCkQqY=;
-  b=j5Tlay0ir8LAf3fpCRn4BGdY84dFoD9z58Dj6EdBzCz5QfC/ybWfU9oj
-   Yd8VTTil7IIndVjQT8j8MSH1rpWhdU5JwvmH5mT1wBnd4HWefD/JTEMTI
-   B6eMKt3KJ4mWCQww01EaJsrzWGCBcX6z7Qc3T/bT+eOigJ+kAohL+friy
-   V3ezoI9/Y55Y1CjIenY5evoU8a2ctu6jlzev8CFMF4dnMojRiPu7Qc3mR
-   IypQTDcBd5W+JABgPqy7bG1Q0BDsuioL/W7X3CUBfm46hZdbGj+m4zwSS
-   O0xCQ+G+g9kS1Gja+pyPkffHxv9/Wfyg1ommKUF84iD6wCosNLLZL7TcJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="316921388"
+  bh=DrSFJwobCRz6VsCtkNX2jEfwt/B1Acz/2zAawZzEgvc=;
+  b=SdyR530PPHXO9Wnrm9lQ5/GSlcvFQnYnTvHCwWdM2dSOZUtq8FjmmcjX
+   7vLUM6O98MzUuk01k7cmAX+xAsX09SroEP7TxmDEdfEmKibkObrpT49d9
+   sxzd13zH3pGrKdMS4xUmA614liQWCemKxF0B0s+GEkhFq+htv9Z92EAQN
+   M3wYtswzbB9sx3/A/dzL32JWNWRvKUnyH6OVviXg45DlLj1N+gaO0CEWP
+   QovQC8yQUpacDmLsk4HsE/yU4rMuRQdv6w4+NfaNVvdhjce0EWmPVC8wE
+   tQi3YKJVdAoSq3R6Owk+dQX+I+NqhByMutm975/sK67BuI9NmHauku/Sq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327557188"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="316921388"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 22:02:35 -0800
+   d="scan'208";a="327557188"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 22:02:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698317432"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="729483018"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="698317432"
+   d="scan'208";a="729483018"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 22:02:34 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 03 Feb 2023 22:02:33 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOBdB-00015M-0o;
+	id 1pOBdB-00015J-0c;
 	Sat, 04 Feb 2023 06:02:33 +0000
-Date: Sat, 4 Feb 2023 14:01:40 +0800
+Date: Sat, 4 Feb 2023 14:01:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 3662/20208] versioncheck:
- ./drivers/mxc/vpu_malone/vpu_b0.c: 6663: need linux/version.h
-Message-ID: <202302041305.uGi2a5St-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
+ 6/138] drivers/virtio/virtio_wl.c:1093:20: warning: this statement may fall
+ through
+Message-ID: <202302041410.wgFPOepU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +48,178 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 40154c59427a487831b0075c7b81bb6864e93cb6 [3662/20208] vpu: malone decoder: enable mailbox and unify code
-reproduce:
-        make versioncheck
+Hi Zach,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
+head:   573344b8d137d3584c918c7efa8d4b949d0414d4
+commit: 7b4638e78f5c6ad83faefe267d8f92a057246209 [6/138] CHROMIUM: virtwl: add virtwl driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041410.wgFPOepU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/ammarfaizi2/linux-block/commit/7b4638e78f5c6ad83faefe267d8f92a057246209
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
+        git checkout 7b4638e78f5c6ad83faefe267d8f92a057246209
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/ drivers/virtio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
->> ./drivers/mxc/vpu_malone/vpu_b0.c: 6663: need linux/version.h
->> ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
->> ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
->> ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_recv':
+   drivers/virtio/virtio_wl.c:1227:25: error: implicit declaration of function '__close_fd'; did you mean 'close_fd'? [-Werror=implicit-function-declaration]
+    1227 |                         __close_fd(current->files, fds[i]);
+         |                         ^~~~~~~~~~
+         |                         close_fd
+   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_new':
+   drivers/virtio/virtio_wl.c:1296:17: error: implicit declaration of function 'ksys_close'; did you mean 'ksys_chown'? [-Werror=implicit-function-declaration]
+    1296 |                 ksys_close(ioctl_new.fd);
+         |                 ^~~~~~~~~~
+         |                 ksys_chown
+   drivers/virtio/virtio_wl.c: In function 'do_new':
+>> drivers/virtio/virtio_wl.c:1093:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    1093 |                 if (ioctl_new_size == sizeof(*ioctl_new)) {
+         |                    ^
+   drivers/virtio/virtio_wl.c:1101:9: note: here
+    1101 |         default:
+         |         ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +1093 drivers/virtio/virtio_wl.c
+
+  1024	
+  1025	static struct virtwl_vfd *do_new(struct virtwl_info *vi,
+  1026					 struct virtwl_ioctl_new *ioctl_new,
+  1027					 size_t ioctl_new_size, bool nonblock)
+  1028	{
+  1029		struct virtio_wl_ctrl_vfd_new *ctrl_new;
+  1030		struct virtwl_vfd *vfd;
+  1031		struct completion finish_completion;
+  1032		struct scatterlist out_sg;
+  1033		struct scatterlist in_sg;
+  1034		int ret = 0;
+  1035	
+  1036		if (ioctl_new->type != VIRTWL_IOCTL_NEW_CTX &&
+  1037			ioctl_new->type != VIRTWL_IOCTL_NEW_CTX_NAMED &&
+  1038			ioctl_new->type != VIRTWL_IOCTL_NEW_ALLOC &&
+  1039			ioctl_new->type != VIRTWL_IOCTL_NEW_PIPE_READ &&
+  1040			ioctl_new->type != VIRTWL_IOCTL_NEW_PIPE_WRITE &&
+  1041			ioctl_new->type != VIRTWL_IOCTL_NEW_DMABUF)
+  1042			return ERR_PTR(-EINVAL);
+  1043	
+  1044		ctrl_new = kzalloc(sizeof(*ctrl_new), GFP_KERNEL);
+  1045		if (!ctrl_new)
+  1046			return ERR_PTR(-ENOMEM);
+  1047	
+  1048		vfd = virtwl_vfd_alloc(vi);
+  1049		if (!vfd) {
+  1050			ret = -ENOMEM;
+  1051			goto free_ctrl_new;
+  1052		}
+  1053	
+  1054		mutex_lock(&vi->vfds_lock);
+  1055		/*
+  1056		 * Take the lock before adding it to the vfds list where others might
+  1057		 * reference it.
+  1058		 */
+  1059		mutex_lock(&vfd->lock);
+  1060		ret = idr_alloc(&vi->vfds, vfd, 1, VIRTWL_MAX_ALLOC, GFP_KERNEL);
+  1061		mutex_unlock(&vi->vfds_lock);
+  1062		if (ret <= 0)
+  1063			goto remove_vfd;
+  1064	
+  1065		vfd->id = ret;
+  1066		ret = 0;
+  1067	
+  1068		ctrl_new->vfd_id = vfd->id;
+  1069		switch (ioctl_new->type) {
+  1070		case VIRTWL_IOCTL_NEW_CTX:
+  1071			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_CTX;
+  1072			ctrl_new->flags = VIRTIO_WL_VFD_WRITE | VIRTIO_WL_VFD_READ;
+  1073			break;
+  1074		case VIRTWL_IOCTL_NEW_CTX_NAMED:
+  1075			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_CTX_NAMED;
+  1076			ctrl_new->flags = VIRTIO_WL_VFD_WRITE | VIRTIO_WL_VFD_READ;
+  1077			memcpy(ctrl_new->name, ioctl_new->name, sizeof(ctrl_new->name));
+  1078			break;
+  1079		case VIRTWL_IOCTL_NEW_ALLOC:
+  1080			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW;
+  1081			ctrl_new->size = PAGE_ALIGN(ioctl_new->size);
+  1082			break;
+  1083		case VIRTWL_IOCTL_NEW_PIPE_READ:
+  1084			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_PIPE;
+  1085			ctrl_new->flags = VIRTIO_WL_VFD_READ;
+  1086			break;
+  1087		case VIRTWL_IOCTL_NEW_PIPE_WRITE:
+  1088			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_PIPE;
+  1089			ctrl_new->flags = VIRTIO_WL_VFD_WRITE;
+  1090			break;
+  1091		case VIRTWL_IOCTL_NEW_DMABUF:
+  1092			/* Make sure ioctl_new contains enough data for NEW_DMABUF. */
+> 1093			if (ioctl_new_size == sizeof(*ioctl_new)) {
+  1094				ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_DMABUF;
+  1095				/* FIXME: convert from host byte order. */
+  1096				memcpy(&ctrl_new->dmabuf, &ioctl_new->dmabuf,
+  1097				       sizeof(ioctl_new->dmabuf));
+  1098				break;
+  1099			}
+  1100			/* fall-through */
+  1101		default:
+  1102			ret = -EINVAL;
+  1103			goto remove_vfd;
+  1104		}
+  1105	
+  1106		init_completion(&finish_completion);
+  1107		sg_init_one(&out_sg, ctrl_new, sizeof(*ctrl_new));
+  1108		sg_init_one(&in_sg, ctrl_new, sizeof(*ctrl_new));
+  1109	
+  1110		ret = vq_queue_out(vi, &out_sg, &in_sg, &finish_completion, nonblock);
+  1111		if (ret)
+  1112			goto remove_vfd;
+  1113	
+  1114		wait_for_completion(&finish_completion);
+  1115	
+  1116		ret = virtwl_resp_err(ctrl_new->hdr.type);
+  1117		if (ret)
+  1118			goto remove_vfd;
+  1119	
+  1120		vfd->size = ctrl_new->size;
+  1121		vfd->pfn = ctrl_new->pfn;
+  1122		vfd->flags = ctrl_new->flags;
+  1123	
+  1124		mutex_unlock(&vfd->lock);
+  1125	
+  1126		if (ioctl_new->type == VIRTWL_IOCTL_NEW_DMABUF) {
+  1127			/* FIXME: convert to host byte order. */
+  1128			memcpy(&ioctl_new->dmabuf, &ctrl_new->dmabuf,
+  1129			       sizeof(ctrl_new->dmabuf));
+  1130		}
+  1131	
+  1132		kfree(ctrl_new);
+  1133		return vfd;
+  1134	
+  1135	remove_vfd:
+  1136		/*
+  1137		 * unlock the vfd to avoid deadlock when unlinking it
+  1138		 * or freeing a held lock
+  1139		 */
+  1140		mutex_unlock(&vfd->lock);
+  1141		/* this is safe since the id cannot change after the vfd is created */
+  1142		if (vfd->id)
+  1143			virtwl_vfd_lock_unlink(vfd);
+  1144		virtwl_vfd_free(vfd);
+  1145	free_ctrl_new:
+  1146		kfree(ctrl_new);
+  1147		return ERR_PTR(ret);
+  1148	}
+  1149	
 
 -- 
 0-DAY CI Kernel Test Service
