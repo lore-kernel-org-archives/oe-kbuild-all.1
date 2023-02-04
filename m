@@ -1,52 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A746110E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 04:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536511867
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 05:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675486236; x=1707022236;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eqgGciLsAYrfeY4BTuA+7hyygKm5BHIi0UdbiRPqWrw=;
-  b=QelTXUSMJDBJ7XHbdO6+cHv4GcBO+ogb7OZQXBAwq2DCqNKH83s26FoW
-   EYe3YhsFcuqFuJgsLezvx0CiPkZx283vS7DqrNU8LMAh22ibtzRfDz7VC
-   awdEcUNte0UZeLwluOVAoBR8S8qv04/rgcMH8yG6sG18zjX1+YnkZgfOy
-   eMfRfJeusTB3sQqxrECO9faqm9rtCQj8DfRM2wq+1rmsloVYEiIJpbei2
-   EPfItpGrSbfI9rART0FEQ4Ij1Y0l2Z0yHJ7cHaJMwMoKkUX3KCVjOPngj
-   sjXYaOkhJ/6CpzWadmhcBInv6l+tX3I3exdZ0YJ3tNRQw9ITOl1PMNMdq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327553170"
+  t=1675487434; x=1707023434;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pmhtXUfnc8l7KAR41awcspL3jeRplgg7fiH+QGoOzhc=;
+  b=dej0LnyTavvq2buUZVb8YWKvwJCtbEuy8mCsihBolT+KG31n2gcTksb5
+   Roq5Jap04ny7saXKlhAef49RqvhTMUW6hYeqpsGe2eQNfisGn0MSFpQ56
+   DImdWguMpVtapPmxQuVWh7b8FcPpjrZxHmQPUX4nZj4nBwNcevYKaC/7Y
+   jLoiCE6ZMKTvEcdiN1tIenYPdtc/6CBvWb+krn73te2cHbz6UOdaiiOU9
+   /cvZ+li8zh1la1RPpcNbfQ4p+fRyACRmPtMKkfoqFtGHZhaixLKeX2OeN
+   GP3G+IdTB/HJwpSX2P4YH2MmMXyTYgFdxN3qZDPSqCAyMyGWjWfM8kkI+
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308560727"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="327553170"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 20:50:35 -0800
+   d="scan'208";a="308560727"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 21:10:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="839822123"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="667860607"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="839822123"
+   d="scan'208";a="667860607"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 03 Feb 2023 20:50:32 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 03 Feb 2023 21:10:32 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOAVT-00013J-2X;
-	Sat, 04 Feb 2023 04:50:31 +0000
-Date: Sat, 4 Feb 2023 12:49:49 +0800
+	id 1pOAoq-00013z-0t;
+	Sat, 04 Feb 2023 05:10:32 +0000
+Date: Sat, 4 Feb 2023 13:10:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>, linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	kernel@pegutronix.de,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 18/18] dt-bindings: devfreq: event: convert Rockchip DFI
- binding to yaml
-Message-ID: <202302041211.DPhrQayE-lkp@intel.com>
-References: <20230203125012.3804008-19-s.hauer@pengutronix.de>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/621 3661/20208] versioncheck:
+ ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+Message-ID: <202302041347.PyXGlewP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,38 +45,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203125012.3804008-19-s.hauer@pengutronix.de>
 
-Hi Sascha,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next shawnguo/for-next soc/for-next xilinx-xlnx/master linus/master v6.2-rc6 next-20230203]
-[cannot apply to chanwoo/devfreq-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/PM-devfreq-rockchip-dfi-Embed-desc-into-private-data-struct/20230203-205252
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20230203125012.3804008-19-s.hauer%40pengutronix.de
-patch subject: [PATCH 18/18] dt-bindings: devfreq: event: convert Rockchip DFI binding to yaml
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: d2c5e489f30aae384fd35bd2923e065f79f9ef15 [3661/20208] vpu: windsor encoder: enable mailbox and unify code
 reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/b6385ff60bdb4b1b2895d87a7f294fde81f10ee9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sascha-Hauer/PM-devfreq-rockchip-dfi-Embed-desc-into-private-data-struct/20230203-205252
-        git checkout b6385ff60bdb4b1b2895d87a7f294fde81f10ee9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/devicetree/bindings/memory-controllers/rockchip,rk3399-dmc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/devfreq/event/rockchip-dfi.txt
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+>> ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+>> ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version.c: 17 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
