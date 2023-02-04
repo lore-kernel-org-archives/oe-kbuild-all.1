@@ -1,43 +1,57 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98181C27
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 07:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA881C27
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 07:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675495478; x=1707031478;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zue08qcuQ4OmFhevHK+wWCreNK8FsW6E6JgnrD7DYPg=;
-  b=HE3lI8J0+yQFPZaKc3fkL6mabkwIxJPcJsfUbBisjYhXA7Ra4n4HtCB3
-   OvC4ZQ/bPWJdZ2LY9XG1w9r9Mf/qnoUt1XD2efhiHjQ3zPP2cSHyiS9j5
-   hkd5k5XSH8uqPDjRbZ3XVUGJNEWUY7wyDZKMd6QsG2xihlDEWEKrsXx+b
-   N4zWWjPyaUuGZW8ph58ZKlXsI73vu0kVPs6AwuiJMEIOA4n3cr+SfmD0f
-   ZtQm5VR9VQWf7ELi9prDWhJT3UM72WNvv71+5Ir0RuqZKBf9DIeMTrXT/
-   chhaOJtzA1hNXx7k/YDzDn+nVX6zeN1WE6brQ25/V7tP6IZQ3/0oFfa+8
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308566317"
+  t=1675495483; x=1707031483;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xv4erXaIjU/U2PyCOdDnNNxcvF32iclosxBe50Xccfk=;
+  b=VC6aYHwyp3jU0WL74RaqjIpewNjjv41h10NL0myeFygUKX649fAxcAwp
+   0i2EE+vAOzdF8jC5aOWLgWyUh2Wa9b0Ad1wJCAu0xpn6J/nqPk5f1zFYz
+   xUl9YQSMRkSGmjdK2j9DrrK7gUt9t4STFdTiln/w9n2cj6ltfaNwLgq4c
+   bp4qiYdBsIxJk6UyDYzP7Sfx9pwi3pi8rB2CianFHbnAk115AmBKL2O03
+   5D5KRwv+bOm9nFWlQlysUXo9uFoVxaCPC4sfF2imf41XBrDufWOgXn8hJ
+   3egZOmkzcjUlRPHlyIJDY6QyMT/cMwH/sKe0vz1nOhpXb8evU1k0wA0ji
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308566324"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="308566317"
+   d="scan'208";a="308566324"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 23:24:38 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 23:24:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="659346571"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="659346575"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="659346571"
+   d="scan'208";a="659346575"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 03 Feb 2023 23:24:36 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOCuZ-00017x-2H;
+	id 1pOCuZ-00017z-2L;
 	Sat, 04 Feb 2023 07:24:35 +0000
-Date: Sat, 4 Feb 2023 15:23:48 +0800
+Date: Sat, 4 Feb 2023 15:23:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 4423/20208] versioncheck:
- ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39
- linux/version.h not needed.
-Message-ID: <202302041503.19YST24R-lkp@intel.com>
+To: "Iuliana Prodan (OSS)" <iuliana.prodan@oss.nxp.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	"S.J. Wang" <shengjiu.wang@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Paul Olaru <paul.olaru@nxp.com>,
+	Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-imx <linux-imx@nxp.com>,
+	linux-remoteproc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH v2] remoteproc: imx_dsp_rproc: add custom memory copy
+ implementation for i.MX DSP Cores
+Message-ID: <202302041520.m9CY8p6U-lkp@intel.com>
+References: <20230131170436.31280-1-iuliana.prodan@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,53 +60,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230131170436.31280-1-iuliana.prodan@oss.nxp.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 3f9aacad7d973711cdfbdc9dbbf19f972f39c7d9 [4423/20208] sdk_fman: add LSDK-19.09-V4.14 SDK DPAA FMan files
-reproduce:
-        make versioncheck
+Hi Iuliana,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Iuliana-Prodan-OSS/remoteproc-imx_dsp_rproc-add-custom-memory-copy-implementation-for-i-MX-DSP-Cores/20230201-011011
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20230131170436.31280-1-iuliana.prodan%40oss.nxp.com
+patch subject: [PATCH v2] remoteproc: imx_dsp_rproc: add custom memory copy implementation for i.MX DSP Cores
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041520.m9CY8p6U-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/65bca8739891378a92cf6a5774e2ad72630a4276
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Iuliana-Prodan-OSS/remoteproc-imx_dsp_rproc-add-custom-memory-copy-implementation-for-i-MX-DSP-Cores/20230201-011011
+        git checkout 65bca8739891378a92cf6a5774e2ad72630a4276
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:15,
+                    from include/linux/clk.h:13,
+                    from drivers/remoteproc/imx_dsp_rproc.c:6:
+   drivers/remoteproc/imx_dsp_rproc.c: In function 'imx_dsp_rproc_memcpy':
+>> drivers/remoteproc/imx_dsp_rproc.c:732:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     732 |         if (!IS_ALIGNED((u64)dest, 4))
+         |                         ^
+   include/linux/align.h:13:44: note: in definition of macro 'IS_ALIGNED'
+      13 | #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))(a) - 1)) == 0)
+         |                                            ^
+>> drivers/remoteproc/imx_dsp_rproc.c:732:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     732 |         if (!IS_ALIGNED((u64)dest, 4))
+         |                         ^
+   include/linux/align.h:13:58: note: in definition of macro 'IS_ALIGNED'
+      13 | #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))(a) - 1)) == 0)
+         |                                                          ^
+   drivers/remoteproc/imx_dsp_rproc.c: In function 'imx_dsp_rproc_memset':
+   drivers/remoteproc/imx_dsp_rproc.c:776:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     776 |         if (!IS_ALIGNED((u64)addr, 4))
+         |                         ^
+   include/linux/align.h:13:44: note: in definition of macro 'IS_ALIGNED'
+      13 | #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))(a) - 1)) == 0)
+         |                                            ^
+   drivers/remoteproc/imx_dsp_rproc.c:776:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     776 |         if (!IS_ALIGNED((u64)addr, 4))
+         |                         ^
+   include/linux/align.h:13:58: note: in definition of macro 'IS_ALIGNED'
+      13 | #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))(a) - 1)) == 0)
+         |                                                          ^
+
+
+vim +732 drivers/remoteproc/imx_dsp_rproc.c
+
+   717	
+   718	/*
+   719	 * Custom memory copy implementation for i.MX DSP Cores
+   720	 *
+   721	 * The IRAM is part of the HiFi DSP.
+   722	 * According to hw specs only 32-bits writes are allowed.
+   723	 */
+   724	static int imx_dsp_rproc_memcpy(void *dest, const void *src, size_t size)
+   725	{
+   726		const u8 *src_byte = src;
+   727		u32 affected_mask;
+   728		u32 tmp;
+   729		int i, q, r;
+   730	
+   731		/* destination must be 32bit aligned */
+ > 732		if (!IS_ALIGNED((u64)dest, 4))
+   733			return -EINVAL;
+   734	
+   735		q = size / 4;
+   736		r = size % 4;
+   737	
+   738		/* __iowrite32_copy use 32bit size values so divide by 4 */
+   739		__iowrite32_copy(dest, src, q);
+   740	
+   741		if (r) {
+   742			affected_mask = (1 << (8 * r)) - 1;
+   743	
+   744			/* first read the 32bit data of dest, then change affected
+   745			 * bytes, and write back to dest.
+   746			 * For unaffected bytes, it should not be changed
+   747			 */
+   748			tmp = ioread32(dest + q * 4);
+   749			tmp &= ~affected_mask;
+   750	
+   751			/* avoid reading after end of source */
+   752			for (i = 0; i < r; i++)
+   753				tmp |= (src_byte[q * 4 + i] << (8 * i));
+   754	
+   755			iowrite32(tmp, dest + q * 4);
+   756		}
+   757	
+   758		return 0;
+   759	}
+   760	
 
 -- 
 0-DAY CI Kernel Test Service
