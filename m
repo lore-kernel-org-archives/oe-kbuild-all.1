@@ -1,47 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF2E23DC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 20:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F6423DC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 20:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675543440; x=1707079440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IR+38awXRWxdcpHN+7aQRcTcrCcg3s4/G2wGNCzeLis=;
-  b=SGzZDGxz0NRI4uvCfPU+lN6Se9z/HUc5S8atmQoZum6Y94jD/tOO8+C+
-   NVfpyKrIyJ98peF7aeBMQbHN2jf8PlHcfoDd92wFjIieZUTeg4n+HSRP6
-   Qz4AEzpQMuz8qmiyXJlRpBtMSolbWzjubJqIyeoPo27sM4VdWRWVR/LBm
-   RJD/7gx5GhAacCql7ZDqt49EzBGpZL3mnmTUr+RPf93KsvZoEEsDH4dzl
-   4uW7EiUKDQsuuBcr+2i8SJR9gmHnyNtx7W+atjfDI5z48oXN0PgL3ipNL
-   BQ21i1zfjiQ/+AY+XG+lRfaivcW9sOmH5Fiye1R4T951xqJ3lA+fitmoA
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="327617104"
+  t=1675544038; x=1707080038;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e7hraJRaAhZ0sKB7m5JO/FqU/0lkCoyYvpC1vkUs/tY=;
+  b=ZtVc+kP78+Xp+VFVbaKVEWgd3pjNiy0eFg02jM7FWDrEhUsHV79AgKRK
+   z38CauxWUk/SzoJZQ52k8lWExgP6GqU2RQ3UfUbFh9gepRLVspFpiS0c2
+   sw5h7lUq6GNSOEvudfNiO9bnJwYSRptqMDDR/hbPbUCbp2dSZAdFy9WNr
+   v4F/JRE9lQIcBrRqRNejx9mnIkrRzNYQOaHJInxk0EawfVS3ZcKX7BpwF
+   lkgQMkip6yBGrCScWbMrCmeLk/jkVqIAVJSIsm7nhf/nFg53Xe83XnMis
+   Boj79+ZLycQDyw95320dE59JpusvebwIi9NG0XGZUoxxTKVbpJmxzwn4/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="309322916"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="327617104"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 12:43:58 -0800
+   d="scan'208";a="309322916"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 12:53:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="729621552"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="754843151"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="729621552"
+   d="scan'208";a="754843151"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Feb 2023 12:43:56 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2023 12:53:56 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOPO7-0001WS-1q;
-	Sat, 04 Feb 2023 20:43:55 +0000
-Date: Sun, 5 Feb 2023 04:42:58 +0800
+	id 1pOPXn-0001WW-25;
+	Sat, 04 Feb 2023 20:53:55 +0000
+Date: Sun, 5 Feb 2023 04:53:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sia Jee Heng <jeeheng.sia@starfivetech.com>, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, jeeheng.sia@starfivetech.com,
-	leyfoon.tan@starfivetech.com, mason.huo@starfivetech.com
-Subject: Re: [PATCH v3 4/4] RISC-V: Add arch functions to support
- hibernation/suspend-to-disk
-Message-ID: <202302050450.VM99IQpW-lkp@intel.com>
-References: <20230127091051.1465278-5-jeeheng.sia@starfivetech.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:virtual_cpu_hotplug/rfc/v1 4/32]
+ arch/x86/kernel/topology.c:147:19: error: static declaration of
+ 'arch_register_cpu' follows non-static declaration
+Message-ID: <202302050424.nhax1DdC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,84 +46,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230127091051.1465278-5-jeeheng.sia@starfivetech.com>
 
-Hi Sia,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on 7c46948a6e9cf47ed03b0d489fde894ad46f1437]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sia-Jee-Heng/RISC-V-Change-suspend_save_csrs-and-suspend_restore_csrs-to-public-function/20230128-114249
-base:   7c46948a6e9cf47ed03b0d489fde894ad46f1437
-patch link:    https://lore.kernel.org/r/20230127091051.1465278-5-jeeheng.sia%40starfivetech.com
-patch subject: [PATCH v3 4/4] RISC-V: Add arch functions to support hibernation/suspend-to-disk
-config: riscv-randconfig-r001-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050450.VM99IQpW-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git virtual_cpu_hotplug/rfc/v1
+head:   81295db7555df74bd02dab0b7e87b512d3a3de34
+commit: 7ced3bbe6b69329395d605c948c5fa54696ad552 [4/32] drivers: base: Allow parts of GENERIC_CPU_DEVICES to be overridden
+config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230205/202302050424.nhax1DdC-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/642c1b119b3d33fe0ee22ff6823085cb847cfe79
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sia-Jee-Heng/RISC-V-Change-suspend_save_csrs-and-suspend_restore_csrs-to-public-function/20230128-114249
-        git checkout 642c1b119b3d33fe0ee22ff6823085cb847cfe79
+        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=7ced3bbe6b69329395d605c948c5fa54696ad552
+        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
+        git fetch --no-tags morse virtual_cpu_hotplug/rfc/v1
+        git checkout 7ced3bbe6b69329395d605c948c5fa54696ad552
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   riscv64-linux-ld: arch/riscv/kernel/hibernate.o: in function `arch_hibernation_header_restore':
->> arch/riscv/kernel/hibernate.c:133: undefined reference to `__cpu_suspend_enter'
->> riscv64-linux-ld: arch/riscv/kernel/hibernate.c:137: undefined reference to `suspend_save_csrs'
->> riscv64-linux-ld: arch/riscv/kernel/hibernate.c:137: undefined reference to `suspend_restore_csrs'
-   pahole: .tmp_vmlinux.btf: No such file or directory
-   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+>> arch/x86/kernel/topology.c:147:19: error: static declaration of 'arch_register_cpu' follows non-static declaration
+     147 | static int __init arch_register_cpu(int num)
+         |                   ^~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/cpu.h:6,
+                    from arch/x86/kernel/topology.c:36:
+   include/linux/cpu.h:78:12: note: previous declaration of 'arch_register_cpu' with type 'int(int)'
+      78 | extern int arch_register_cpu(int cpu);
+         |            ^~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_CPU
+   Depends on [n]: ACPI [=y] && ACPI_PROCESSOR [=y] && HOTPLUG_CPU [=n]
+   Selected by [y]:
+   - X86 [=y] && ACPI [=y]
 
 
-vim +133 arch/riscv/kernel/hibernate.c
+vim +/arch_register_cpu +147 arch/x86/kernel/topology.c
 
-   106	
-   107	/*
-   108	 * Retrieve the helper parameters from the hibernation image header
-   109	 */
-   110	int arch_hibernation_header_restore(void *addr)
-   111	{
-   112		struct arch_hibernate_hdr_invariants invariants;
-   113		struct arch_hibernate_hdr *hdr = addr;
-   114		int ret = 0;
-   115	
-   116		arch_hdr_invariants(&invariants);
-   117	
-   118		if (memcmp(&hdr->invariants, &invariants, sizeof(invariants))) {
-   119			pr_crit("Hibernate image not generated by this kernel!\n");
-   120			return -EINVAL;
-   121		}
-   122	
-   123		sleep_cpu = riscv_hartid_to_cpuid(hdr->hartid);
-   124		if (sleep_cpu < 0) {
-   125			pr_crit("Hibernated on a CPU not known to this kernel!\n");
-   126			sleep_cpu = -EINVAL;
-   127			return -EINVAL;
-   128		}
-   129	
-   130	#ifdef CONFIG_SMP
-   131		ret = bringup_hibernate_cpu(sleep_cpu);
-   132		if (ret) {
- > 133			sleep_cpu = -EINVAL;
-   134			return ret;
-   135		}
-   136	#endif
- > 137		resume_hdr = *hdr;
-   138	
-   139		return ret;
-   140	}
-   141	EXPORT_SYMBOL(arch_hibernation_header_restore);
-   142	
+271eb5c588e5d0 arch/x86/kernel/topology.c        Jaswinder Singh Rajput 2009-03-21  146  
+d987402695f16a arch/x86/kernel/topology.c        Alexander van Heukelum 2008-02-01 @147  static int __init arch_register_cpu(int num)
+3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  148  {
+3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  149  	return register_cpu(&per_cpu(cpu_devices, num).cpu, num);
+3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  150  }
+^1da177e4c3f41 arch/i386/mach-default/topology.c Linus Torvalds         2005-04-16  151  #endif /* CONFIG_HOTPLUG_CPU */
+^1da177e4c3f41 arch/i386/mach-default/topology.c Linus Torvalds         2005-04-16  152  
+
+:::::: The code at line 147 was first introduced by commit
+:::::: d987402695f16ae33999d7315b915099d64616d4 x86: avoid section mismatch involving arch_register_cpu
+
+:::::: TO: Alexander van Heukelum <heukelum@mailshack.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
