@@ -1,117 +1,256 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE52023A9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 14:13:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675520027; x=1707056027;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=soD1SAGS4pMGPYMPCMzP4mVHMVARDwCLTFCXv1W6mTI=;
-  b=KTgPWBA9uId+jGGyODz3t1SI4XAWd0oVgQ+6gx/gwGDpvn7xXlW9xlA/
-   skl3UAGrAVbKFUKoKhx7a94BbAEQoecX6f6dFoNPRaRfyhohUyIyb/UmC
-   GO7/B0jBPA3wZmDJdhdJIqNoE9wSV4CZThPFazbUIlVXoH+K5e/rCJhbR
-   XHIXFuQOVkivg6NAINDMAxe8nd6hFRWVi1RwmSCVE1100YMMNg6XZLTKS
-   5Fy6zj5avk+s9Tn/M0JGoaEsPOC3UGcFiLBM8jkaq3rz4Wzdm6OnGXFA0
-   Ceg30z81TV6fDMa4ZVcmgUS6m7pP9CXAsDsK3d2Dye4POc4fu12BXD3dH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393541928"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="393541928"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 06:13:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="666028844"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="666028844"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 04 Feb 2023 06:13:46 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pOJIX-0001LY-0g;
-	Sat, 04 Feb 2023 14:13:45 +0000
-Date: Sat, 4 Feb 2023 22:13:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 178/20209]
- sound/soc/fsl/fsl_esai_client.c:85:5: warning: no previous prototype for
- 'fsl_esai_client_pcm_trigger'
-Message-ID: <202302042240.d6i0xqRG-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A4923A9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 14:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675520823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZPOejpU0s4Yxr4vcE05SB6G59o9oYXhIdjS1qgFOtUM=;
+	b=FT2lprVJjWQVBfFIfHAHKnMCBjKr1DA7Ywzhywzjv6xI9bpKP438u5CDM5QNAK2ITmHLNQ
+	U8vfFiI7QbftlC0Z3V3YtuUGWxtG9MU5ASZ4bYW4bjWcuVMU4bTpsTJ6fbx2bZSFOsaWjB
+	yfxEUYhuGhREMirW+3kXGylUoT5p4Iw=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-152-RiFQdEThOXi_0erDnAmXKA-1; Sat, 04 Feb 2023 09:27:02 -0500
+X-MC-Unique: RiFQdEThOXi_0erDnAmXKA-1
+Received: by mail-io1-f69.google.com with SMTP id g6-20020a6b7606000000b007297c4996c7so3999123iom.13
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Feb 2023 06:27:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:organization:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZPOejpU0s4Yxr4vcE05SB6G59o9oYXhIdjS1qgFOtUM=;
+        b=mssUUSdH+Pk4b/jLKFTUdkiTZK90wu0Ny1ilAs0TXwBDQ8d1RVGRfcHvL/z/AGud5R
+         s8phYx4mvZzP721fDqZIwC5ez8Jbe8KKoQ15xZRgeu4FfFaG/8JMdpHgJ6GWtaDjBsqv
+         cGMfrYAU2FSblxUN1HN1WG/RVeXGbnAPVznwhOsodXBPdsO6UHm++g3iPnzvRdzepkOd
+         DKd347moIzRYeViHTh+iuQxLl2stqkUn/cFvoXTduvOQCQqV4fImmfSN899izuDrOaPF
+         tL14YceO0jEkMfuT7uK9JI90N6bUkFAzdrF+BJ73fJ31/uXgD0VBxPXVtNdGSOMBUzLb
+         Hn+g==
+X-Gm-Message-State: AO0yUKXv8iviHXZaWw2mcAHwW97Q+WNE2ocT9TXsTSH/Bo5mLGrYhW4I
+	aNfFIRZiRmjPfQLh3aIVzgR1fqtne8d+WFA1safIDfWsXIZgbtlyx3BCpHPtw4/xcIOberTJggS
+	/73VaMN+gDQhpuWyToxurrn1qhA==
+X-Received: by 2002:a6b:da1a:0:b0:6e4:80fc:4885 with SMTP id x26-20020a6bda1a000000b006e480fc4885mr11792742iob.4.1675520819818;
+        Sat, 04 Feb 2023 06:26:59 -0800 (PST)
+X-Google-Smtp-Source: AK7set8KK8g0R1Rkm6Rss7diY/CTbo32ciCPFGF+6cPruSFuMK8wdPIkhSleZHUM4mon4x/zweRFpA==
+X-Received: by 2002:a6b:da1a:0:b0:6e4:80fc:4885 with SMTP id x26-20020a6bda1a000000b006e480fc4885mr11792730iob.4.1675520819597;
+        Sat, 04 Feb 2023 06:26:59 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id g19-20020a02cd13000000b003b247647f96sm1844400jaq.14.2023.02.04.06.26.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Feb 2023 06:26:58 -0800 (PST)
+Date: Sat, 4 Feb 2023 07:26:58 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Cc: lkp <lkp@intel.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "chao.p.peng@linux.intel.com"
+ <chao.p.peng@linux.intel.com>, "eric.auger@redhat.com"
+ <eric.auger@redhat.com>, "yi.y.sun@linux.intel.com"
+ <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] docs: vfio: Update vfio.rst per latest
+ interfaces
+Message-ID: <20230204072658.0790485c.alex.williamson@redhat.com>
+In-Reply-To: <DS0PR11MB75299A027633FE16852599CCC3D49@DS0PR11MB7529.namprd11.prod.outlook.com>
+References: <20230203083345.711443-3-yi.l.liu@intel.com>
+	<202302041603.N8YkuJks-lkp@intel.com>
+	<DS0PR11MB75299A027633FE16852599CCC3D49@DS0PR11MB7529.namprd11.prod.outlook.com>
+Organization: Red Hat
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Shengjiu,
+On Sat, 4 Feb 2023 13:09:25 +0000
+"Liu, Yi L" <yi.l.liu@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> > From: lkp <lkp@intel.com>
+> > Sent: Saturday, February 4, 2023 4:56 PM
+> > 
+> > Hi Yi,
+> > 
+> > Thank you for the patch! Perhaps something to improve:
+> > 
+> > [auto build test WARNING on awilliam-vfio/for-linus]
+> > [also build test WARNING on linus/master v6.2-rc6 next-20230203]
+> > [cannot apply to awilliam-vfio/next]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Yi-Liu/vfio-Update-
+> > the-kdoc-for-vfio_device_ops/20230203-163612
+> > base:   https://github.com/awilliam/linux-vfio.git for-linus
+> > patch link:    https://lore.kernel.org/r/20230203083345.711443-3-
+> > yi.l.liu%40intel.com
+> > patch subject: [PATCH v2 2/2] docs: vfio: Update vfio.rst per latest
+> > interfaces
+> > reproduce:
+> >         # https://github.com/intel-lab-
+> > lkp/linux/commit/8db2c0d3414387502a6c743d6fa383cec960e3ba
+> >         git remote add linux-review https://github.com/intel-lab-lkp/linux
+> >         git fetch --no-tags linux-review Yi-Liu/vfio-Update-the-kdoc-for-
+> > vfio_device_ops/20230203-163612
+> >         git checkout 8db2c0d3414387502a6c743d6fa383cec960e3ba
+> >         make menuconfig
+> >         # enable CONFIG_COMPILE_TEST,
+> > CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+> >         make htmldocs
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All warnings (new ones prefixed by >>):
+> >   
+> > >> Documentation/driver-api/vfio.rst:264: WARNING: Inline emphasis start-  
+> > string without end-string.  
+> > >> Documentation/driver-api/vfio.rst:296: WARNING: Literal block ends  
+> > without a blank line; unexpected unindent.  
+> > >> Documentation/driver-api/vfio.rst:305: WARNING: Unexpected  
+> > indentation.  
+> > >> Documentation/driver-api/vfio.rst:306: WARNING: Block quote ends  
+> > without a blank line; unexpected unindent.
+> >   
+> 
+> Hi Alex,
+> 
+> An updated version to address comments in this mail. 
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: c03a789d0a2388b61aeabe8b5bad7935e2951497 [178/20209] MLK-24612-1: ASoC: fsl_esai: Add esai client driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302042240.d6i0xqRG-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/c03a789d0a2388b61aeabe8b5bad7935e2951497
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout c03a789d0a2388b61aeabe8b5bad7935e2951497
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/accessibility/speakup/ drivers/base/power/ drivers/dma/ drivers/firmware/imx/ drivers/gpu/drm/bridge/ drivers/gpu/drm/imx/ drivers/i2c/busses/ drivers/input/touchscreen/ drivers/mailbox/ drivers/media/platform/ drivers/mtd/nand/raw/gpmi-nand/ drivers/net/ethernet/freescale/ drivers/net/phy/ drivers/pci/controller/dwc/ drivers/pci/controller/mobiveil/ drivers/power/supply/ drivers/pwm/ drivers/regulator/ drivers/rpmsg/ drivers/soc/imx/ drivers/staging/ drivers/thermal/ drivers/video/backlight/ drivers/video/fbdev/ net/ sound/soc/fsl/ sound/soc/sof/
+Please send a v3 series.  Thanks,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Alex
+ 
+> From 6d9c6f9b3d10da2923b28d8cfbf5fdd39e5fd8aa Mon Sep 17 00:00:00 2001
+> From: Yi Liu <yi.l.liu@intel.com>
+> Date: Tue, 31 Jan 2023 06:16:50 -0800
+> Subject: [PATCH] docs: vfio: Update vfio.rst per latest interfaces
+> 
+> this imports the latest vfio_device_ops definition to vfio.rst.
+> 
+> Signed-off-by: Yi Liu <yi.l.liu@intel.com>
+> ---
+>  Documentation/driver-api/vfio.rst | 79 ++++++++++++++++++++++---------
+>  1 file changed, 57 insertions(+), 22 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
+> index c663b6f97825..0bfa7261f991 100644
+> --- a/Documentation/driver-api/vfio.rst
+> +++ b/Documentation/driver-api/vfio.rst
+> @@ -249,19 +249,21 @@ VFIO bus driver API
+>  
+>  VFIO bus drivers, such as vfio-pci make use of only a few interfaces
+>  into VFIO core.  When devices are bound and unbound to the driver,
+> -the driver should call vfio_register_group_dev() and
+> -vfio_unregister_group_dev() respectively::
+> +Following interfaces are called when devices are bound to and
+> +unbound from the driver::
+>  
+> -	void vfio_init_group_dev(struct vfio_device *device,
+> -				struct device *dev,
+> -				const struct vfio_device_ops *ops);
+> -	void vfio_uninit_group_dev(struct vfio_device *device);
+>  	int vfio_register_group_dev(struct vfio_device *device);
+> +	int vfio_register_emulated_iommu_dev(struct vfio_device *device);
+>  	void vfio_unregister_group_dev(struct vfio_device *device);
+>  
+> -The driver should embed the vfio_device in its own structure and call
+> -vfio_init_group_dev() to pre-configure it before going to registration
+> -and call vfio_uninit_group_dev() after completing the un-registration.
+> +The driver should embed the vfio_device in its own structure and use
+> +vfio_alloc_device() to allocate the structure, and can register
+> +@init/@release callbacks to manage any private state wrapping the
+> +vfio_device::
+> +
+> +	vfio_alloc_device(dev_struct, member, dev, ops);
+> +	void vfio_put_device(struct vfio_device *device);
+> +
+>  vfio_register_group_dev() indicates to the core to begin tracking the
+>  iommu_group of the specified dev and register the dev as owned by a VFIO bus
+>  driver. Once vfio_register_group_dev() returns it is possible for userspace to
+> @@ -270,28 +272,61 @@ ready before calling it. The driver provides an ops structure for callbacks
+>  similar to a file operations structure::
+>  
+>  	struct vfio_device_ops {
+> -		int	(*open)(struct vfio_device *vdev);
+> +		char	*name;
+> +		int	(*init)(struct vfio_device *vdev);
+>  		void	(*release)(struct vfio_device *vdev);
+> +		int	(*bind_iommufd)(struct vfio_device *vdev,
+> +					struct iommufd_ctx *ictx, u32 *out_device_id);
+> +		void	(*unbind_iommufd)(struct vfio_device *vdev);
+> +		int	(*attach_ioas)(struct vfio_device *vdev, u32 *pt_id);
+> +		int	(*open_device)(struct vfio_device *vdev);
+> +		void	(*close_device)(struct vfio_device *vdev);
+>  		ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
+>  				size_t count, loff_t *ppos);
+> -		ssize_t	(*write)(struct vfio_device *vdev,
+> -				 const char __user *buf,
+> -				 size_t size, loff_t *ppos);
+> +		ssize_t	(*write)(struct vfio_device *vdev, const char __user *buf,
+> +			 size_t count, loff_t *size);
+>  		long	(*ioctl)(struct vfio_device *vdev, unsigned int cmd,
+>  				 unsigned long arg);
+> -		int	(*mmap)(struct vfio_device *vdev,
+> -				struct vm_area_struct *vma);
+> +		int	(*mmap)(struct vfio_device *vdev, struct vm_area_struct *vma);
+> +		void	(*request)(struct vfio_device *vdev, unsigned int count);
+> +		int	(*match)(struct vfio_device *vdev, char *buf);
+> +		void	(*dma_unmap)(struct vfio_device *vdev, u64 iova, u64 length);
+> +		int	(*device_feature)(struct vfio_device *device, u32 flags,
+> +					  void __user *arg, size_t argsz);
+>  	};
+>  
+>  Each function is passed the vdev that was originally registered
+> -in the vfio_register_group_dev() call above.  This allows the bus driver
+> -to obtain its private data using container_of().  The open/release
+> -callbacks are issued when a new file descriptor is created for a
+> -device (via VFIO_GROUP_GET_DEVICE_FD).  The ioctl interface provides
+> -a direct pass through for VFIO_DEVICE_* ioctls.  The read/write/mmap
+> -interfaces implement the device region access defined by the device's
+> -own VFIO_DEVICE_GET_REGION_INFO ioctl.
+> +in the vfio_register_group_dev() or vfio_register_emulated_iommu_dev()
+> +call above. This allows the bus driver to obtain its private data using
+> +container_of().
+> +
+> +::
+> +
+> +	- The init/release callbacks are issued when vfio_device is initialized
+> +	  and released.
+> +
+> +	- The open/close_device callbacks are issued when a new file descriptor
+> +	  is created for a device (e.g. via VFIO_GROUP_GET_DEVICE_FD).
+> +
+> +	- The ioctl callback provides a direct pass through for some VFIO_DEVICE_*
+> +	  ioctls.
+> +
+> +	- The [un]bind_iommufd callbacks are issued when the device is bound to
+> +	  and unbound from iommufd.
+> +
+> +	- The attach_ioas callback is issued when the device is attached to an
+> +	  IOAS managed by the bound iommufd. The attached IOAS is automatically
+> +	  detached when the device is unbound from iommufd.
+> +
+> +	- The read/write/mmap callbacks implement the device region access defined
+> +	  by the device's own VFIO_DEVICE_GET_REGION_INFO ioctl.
+> +
+> +	- The request callback is issued when device is going to be unregistered.
+>  
+> +	- The dma_unmap callback is issued when a range of iova's are unmapped
+> +	  in the container or IOAS attached by the device. Drivers which care
+> +	  about iova unmap can implement this callback and must tolerate receiving
+> +	  unmap notifications before the device is opened.
+>  
+>  PPC64 sPAPR implementation note
+>  -------------------------------
 
-All warnings (new ones prefixed by >>):
-
->> sound/soc/fsl/fsl_esai_client.c:85:5: warning: no previous prototype for 'fsl_esai_client_pcm_trigger' [-Wmissing-prototypes]
-      85 | int fsl_esai_client_pcm_trigger(struct snd_soc_component *component,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/fsl_esai_client_pcm_trigger +85 sound/soc/fsl/fsl_esai_client.c
-
-    84	
-  > 85	int fsl_esai_client_pcm_trigger(struct snd_soc_component *component,
-    86					struct snd_pcm_substream *substream, int cmd)
-    87	{
-    88		struct snd_soc_pcm_runtime *rtd = substream->private_data;
-    89		struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-    90		struct fsl_esai_client *client = snd_soc_dai_get_drvdata(cpu_dai);
-    91		bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-    92	
-    93		switch (cmd) {
-    94		case SNDRV_PCM_TRIGGER_START:
-    95		case SNDRV_PCM_TRIGGER_RESUME:
-    96		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-    97			/* These info are needed by esai mix*/
-    98			client->dma[tx].buffer_bytes = snd_pcm_lib_buffer_bytes(substream);
-    99			client->dma[tx].period_bytes = snd_pcm_lib_period_bytes(substream);
-   100			client->dma[tx].buffer_offset = 0;
-   101			client->dma[tx].active = true;
-   102			break;
-   103		case SNDRV_PCM_TRIGGER_SUSPEND:
-   104		case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-   105		case SNDRV_PCM_TRIGGER_STOP:
-   106			client->dma[tx].active = false;
-   107			break;
-   108		default:
-   109			return -EINVAL;
-   110		}
-   111	
-   112		return 0;
-   113	}
-   114	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
