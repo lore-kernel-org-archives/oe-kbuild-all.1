@@ -1,43 +1,47 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DB07F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2F71FA8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675501661; x=1707037661;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VBYNEAC0CQ2KHLrFbd4HfQ+m96N8Vj7mXyV2MLWSGFM=;
-  b=cBPdgw2uwOJkGdWyN0k+uBCMg4oD4ngP6mD8XksK6bH9pCzO94avgaa0
-   xvCPuBAlUbgmVDqHlDL1UAqBZ9OYoN0UPoMlAmuZm2apjB4pbekuzjPCm
-   opro3TwhKVrRyqPNPWZ06S1abdipZhyawifUzkpN3xdZgej1p1XttZdz8
-   5wgDrFhjalwt828GfEbedq3b6nsKJbvM12TloHprdngtDQ4pXNPr9gKWg
-   80d/E/stPr9KeD/EdQ3DWujA1ysiXOaGe04FeKK6kEmeDVTM0KusN+DPG
-   y6wm1/G4dP35Ew+HNANWZp0lAug2yCm7QNJRpMTsOlKnRHihqccGUSXEK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393524869"
+  t=1675501662; x=1707037662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vh1rn/GElzkmw4J+3sdswSnKFPEU6wulsbnU0427utc=;
+  b=QKYsmyVZuLb/ckPdGKN2iogRIx2GIHQn7r9FzqsQtBFfQz7d+cAOQQBR
+   sGEWGe4uHHAWSms8fMr3VGy9dag/6YUwCtH/HFfgfoLrYk3ue9jOIPciy
+   ruIPlp2iNNiW/IWqLAVrCmQfErIXktJqf6ZYiXHvTdoC5lPYNB5ouFDbZ
+   d10E9U+UH7FZ7ghKRJUelq2RFjIWU0yChJu+Bmw0T5NQT1jGjNjWq7c/F
+   gU6WDsEQzulSF4W2EEAC4M2IUIFCCRtuTGfs2FvHEptPBTZR3mXa0Wj6/
+   roMjzNWsOeRt1Z+XrnzmJUVd3Wg/jsz+WESIhY7BQnel8HbbK6/fNYQOu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393524871"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="393524869"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:07:40 -0800
+   d="scan'208";a="393524871"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:07:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="789948777"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698343878"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="789948777"
+   d="scan'208";a="698343878"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Feb 2023 01:07:38 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 01:07:38 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOEWH-0001BQ-2x;
+	id 1pOEWH-0001BS-32;
 	Sat, 04 Feb 2023 09:07:37 +0000
-Date: Sat, 4 Feb 2023 17:06:44 +0800
+Date: Sat, 4 Feb 2023 17:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 9885/20208] versioncheck:
- ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
- needed.
-Message-ID: <202302041620.LpoJWM5W-lkp@intel.com>
+To: Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+	Uma Shankar <uma.shankar@intel.com>, Vitaly.Prosyak@amd.com,
+	Joshua Ashton <joshua@froggi.es>
+Subject: Re: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
+Message-ID: <202302041649.Dswc7gNr-lkp@intel.com>
+References: <20230203020744.30745-1-joshua@froggi.es>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,92 +50,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230203020744.30745-1-joshua@froggi.es>
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 3c566d782b874da3b5929b2c7a2ac9d29c60de89 [9885/20208] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
-reproduce:
-        make versioncheck
+Hi Joshua,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230203020744.30745-1-joshua%40froggi.es
+patch subject: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
+config: arc-randconfig-r034-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041649.Dswc7gNr-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
+        git checkout 146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/display/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
-   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 16472: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 6097: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4865: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 216: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 638: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 548: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1408: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 592: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 937: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 641: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 259: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 183: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 119: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3062: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1530: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7647: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 449: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2054: need linux/version.h
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2-dec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2-enc.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2.c: 41 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_b0.c: 6923: need linux/version.h
-   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/system/sys_io.c: 33 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 41 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
->> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: error: 'DRM_MODE_COLORIMETRY_NO_DATA' undeclared here (not in a function); did you mean 'DRM_MODE_COLORIMETRY_OPRGB'?
+     108 |         [DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |          DRM_MODE_COLORIMETRY_OPRGB
+>> drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: error: array index in initializer not of integer type
+   drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: note: (near initialization for 'hdmi_colorimetry_val')
+
+
+vim +108 drivers/gpu/drm/display/drm_hdmi_helper.c
+
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  106  
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  107  static const u32 hdmi_colorimetry_val[] = {
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21 @108  	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  109  	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  110  	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  111  	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  112  	[DRM_MODE_COLORIMETRY_XVYCC_709] = HDMI_COLORIMETRY_XVYCC_709,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  113  	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  114  	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  115  	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  116  	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  117  	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  118  	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  119  };
+4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  120  
 
 -- 
 0-DAY CI Kernel Test Service
