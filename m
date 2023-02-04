@@ -1,44 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CAB1C13
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 06:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD901C26
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 06:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675490555; x=1707026555;
+  t=1675492357; x=1707028357;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DrSFJwobCRz6VsCtkNX2jEfwt/B1Acz/2zAawZzEgvc=;
-  b=SdyR530PPHXO9Wnrm9lQ5/GSlcvFQnYnTvHCwWdM2dSOZUtq8FjmmcjX
-   7vLUM6O98MzUuk01k7cmAX+xAsX09SroEP7TxmDEdfEmKibkObrpT49d9
-   sxzd13zH3pGrKdMS4xUmA614liQWCemKxF0B0s+GEkhFq+htv9Z92EAQN
-   M3wYtswzbB9sx3/A/dzL32JWNWRvKUnyH6OVviXg45DlLj1N+gaO0CEWP
-   QovQC8yQUpacDmLsk4HsE/yU4rMuRQdv6w4+NfaNVvdhjce0EWmPVC8wE
-   tQi3YKJVdAoSq3R6Owk+dQX+I+NqhByMutm975/sK67BuI9NmHauku/Sq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327557188"
+  bh=CD6b0htZRO2x3louGvIWhiuWHvhKpWU4M+fa3f0CUtE=;
+  b=Eky9GemeNw7HMwKbEeQgDDhvgwDTPnDxHGPV58zkEkHthho4e52KYPH8
+   BPaGNewpI66IkqxG7rqxyHoyGgxlQlyltlqk+LKf31Am+OZE4DDIs9wBg
+   raMG+VvBJ2mCF6VNcBqvd9yhPYsAQt/hoTuqP5NcdEdMkpweiuZ4oB9QB
+   eRAQPFWeyQpJf/AmIn3m9SmZAXa8jkJD2VM0scemtI4b2pNTV0N0zNqWk
+   ZUpSBimAxSqxhaEKMBn2qA70M2lqXMgYInrHhIrzmbpQ4Wl/06Hdn3P7B
+   cz0YcYysQ8ac8IbhzqFPHHwUG1/IpwqtaRWaxaHxzMQ+RTkK8PYHiDx6w
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="415136369"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="327557188"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 22:02:34 -0800
+   d="scan'208";a="415136369"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 22:32:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="729483018"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="839835835"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="729483018"
+   d="scan'208";a="839835835"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Feb 2023 22:02:33 -0800
+  by orsmga005.jf.intel.com with ESMTP; 03 Feb 2023 22:32:35 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOBdB-00015J-0c;
-	Sat, 04 Feb 2023 06:02:33 +0000
-Date: Sat, 4 Feb 2023 14:01:41 +0800
+	id 1pOC6E-00016P-1t;
+	Sat, 04 Feb 2023 06:32:34 +0000
+Date: Sat, 4 Feb 2023 14:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
- 6/138] drivers/virtio/virtio_wl.c:1093:20: warning: this statement may fall
- through
-Message-ID: <202302041410.wgFPOepU-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 125/20209]
+ sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for
+ 'fsl_asrc_process_buffer_pre'
+Message-ID: <202302041405.8oVMqTcx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,178 +47,185 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zach,
+Hi Shengjiu,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
-head:   573344b8d137d3584c918c7efa8d4b949d0414d4
-commit: 7b4638e78f5c6ad83faefe267d8f92a057246209 [6/138] CHROMIUM: virtwl: add virtwl driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041410.wgFPOepU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3248ffcb12d15a0e40b9a020ba362591b8137923
+commit: 94e5356aea65959c2f670b94b36472658a40000f [125/20209] MLK-11398: ASoC: fsl_asrc: Add Memory to Memory support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041405.8oVMqTcx-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/ammarfaizi2/linux-block/commit/7b4638e78f5c6ad83faefe267d8f92a057246209
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
-        git checkout 7b4638e78f5c6ad83faefe267d8f92a057246209
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/94e5356aea65959c2f670b94b36472658a40000f
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
+        git checkout 94e5356aea65959c2f670b94b36472658a40000f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/ drivers/virtio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/accessibility/speakup/ drivers/base/power/ drivers/dma/ drivers/firmware/imx/ drivers/gpu/drm/bridge/ drivers/gpu/drm/imx/ drivers/i2c/busses/ drivers/input/touchscreen/ drivers/mailbox/ drivers/media/platform/ drivers/mtd/nand/raw/gpmi-nand/ drivers/net/ethernet/freescale/ drivers/net/phy/ drivers/pci/controller/dwc/ drivers/pci/controller/mobiveil/ drivers/power/supply/ drivers/pwm/ drivers/regulator/ drivers/rpmsg/ drivers/soc/imx/ drivers/staging/ drivers/thermal/ drivers/video/backlight/ drivers/video/fbdev/ net/ sound/soc/fsl/ sound/soc/sof/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_recv':
-   drivers/virtio/virtio_wl.c:1227:25: error: implicit declaration of function '__close_fd'; did you mean 'close_fd'? [-Werror=implicit-function-declaration]
-    1227 |                         __close_fd(current->files, fds[i]);
-         |                         ^~~~~~~~~~
-         |                         close_fd
-   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_new':
-   drivers/virtio/virtio_wl.c:1296:17: error: implicit declaration of function 'ksys_close'; did you mean 'ksys_chown'? [-Werror=implicit-function-declaration]
-    1296 |                 ksys_close(ioctl_new.fd);
-         |                 ^~~~~~~~~~
-         |                 ksys_chown
-   drivers/virtio/virtio_wl.c: In function 'do_new':
->> drivers/virtio/virtio_wl.c:1093:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1093 |                 if (ioctl_new_size == sizeof(*ioctl_new)) {
-         |                    ^
-   drivers/virtio/virtio_wl.c:1101:9: note: here
-    1101 |         default:
-         |         ^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from sound/soc/fsl/fsl_asrc.c:11:
+   sound/soc/fsl/fsl_asrc_m2m.c: In function 'fsl_asrc_dmaconfig':
+   sound/soc/fsl/fsl_asrc_m2m.c:244:69: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     244 |         ret = dma_map_sg(&asrc->pdev->dev, sg, sg_nent, slave_config.direction);
+         |                                                         ~~~~~~~~~~~~^~~~~~~~~~
+   include/linux/dma-mapping.h:408:58: note: in definition of macro 'dma_map_sg'
+     408 | #define dma_map_sg(d, s, n, r) dma_map_sg_attrs(d, s, n, r, 0)
+         |                                                          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c: At top level:
+>> sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for 'fsl_asrc_process_buffer_pre' [-Wmissing-prototypes]
+     350 | int fsl_asrc_process_buffer_pre(struct completion *complete,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/fsl/fsl_asrc_m2m.c:372:5: warning: no previous prototype for 'fsl_asrc_process_buffer' [-Wmissing-prototypes]
+     372 | int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c: In function 'fsl_asrc_process_buffer':
+   sound/soc/fsl/fsl_asrc_m2m.c:367:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     367 |                              DMA_MEM_TO_DEV); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:384:17: note: in expansion of macro 'mxc_asrc_dma_umap'
+     384 |                 mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |                 ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     369 |                              DMA_DEV_TO_MEM); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:384:17: note: in expansion of macro 'mxc_asrc_dma_umap'
+     384 |                 mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |                 ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:367:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     367 |                              DMA_MEM_TO_DEV); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:391:17: note: in expansion of macro 'mxc_asrc_dma_umap'
+     391 |                 mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |                 ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     369 |                              DMA_DEV_TO_MEM); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:391:17: note: in expansion of macro 'mxc_asrc_dma_umap'
+     391 |                 mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |                 ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:367:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     367 |                              DMA_MEM_TO_DEV); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:395:9: note: in expansion of macro 'mxc_asrc_dma_umap'
+     395 |         mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |         ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:30: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     369 |                              DMA_DEV_TO_MEM); \
+         |                              ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: in definition of macro 'dma_unmap_sg'
+     409 | #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+         |                                                              ^
+   sound/soc/fsl/fsl_asrc_m2m.c:395:9: note: in expansion of macro 'mxc_asrc_dma_umap'
+     395 |         mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+         |         ^~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c: In function 'fsl_asrc_calc_last_period_size':
+>> sound/soc/fsl/fsl_asrc_m2m.c:670:22: warning: variable 'out_length' set but not used [-Wunused-but-set-variable]
+     670 |         unsigned int out_length;
+         |                      ^~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c: In function 'fsl_asrc_m2m_resume':
+>> sound/soc/fsl/fsl_asrc_m2m.c:1037:30: warning: variable 'm2m' set but not used [-Wunused-but-set-variable]
+    1037 |         struct fsl_asrc_m2m *m2m;
+         |                              ^~~
 
 
-vim +1093 drivers/virtio/virtio_wl.c
+vim +/fsl_asrc_process_buffer_pre +350 sound/soc/fsl/fsl_asrc_m2m.c
 
-  1024	
-  1025	static struct virtwl_vfd *do_new(struct virtwl_info *vi,
-  1026					 struct virtwl_ioctl_new *ioctl_new,
-  1027					 size_t ioctl_new_size, bool nonblock)
-  1028	{
-  1029		struct virtio_wl_ctrl_vfd_new *ctrl_new;
-  1030		struct virtwl_vfd *vfd;
-  1031		struct completion finish_completion;
-  1032		struct scatterlist out_sg;
-  1033		struct scatterlist in_sg;
-  1034		int ret = 0;
-  1035	
-  1036		if (ioctl_new->type != VIRTWL_IOCTL_NEW_CTX &&
-  1037			ioctl_new->type != VIRTWL_IOCTL_NEW_CTX_NAMED &&
-  1038			ioctl_new->type != VIRTWL_IOCTL_NEW_ALLOC &&
-  1039			ioctl_new->type != VIRTWL_IOCTL_NEW_PIPE_READ &&
-  1040			ioctl_new->type != VIRTWL_IOCTL_NEW_PIPE_WRITE &&
-  1041			ioctl_new->type != VIRTWL_IOCTL_NEW_DMABUF)
-  1042			return ERR_PTR(-EINVAL);
-  1043	
-  1044		ctrl_new = kzalloc(sizeof(*ctrl_new), GFP_KERNEL);
-  1045		if (!ctrl_new)
-  1046			return ERR_PTR(-ENOMEM);
-  1047	
-  1048		vfd = virtwl_vfd_alloc(vi);
-  1049		if (!vfd) {
-  1050			ret = -ENOMEM;
-  1051			goto free_ctrl_new;
-  1052		}
-  1053	
-  1054		mutex_lock(&vi->vfds_lock);
-  1055		/*
-  1056		 * Take the lock before adding it to the vfds list where others might
-  1057		 * reference it.
-  1058		 */
-  1059		mutex_lock(&vfd->lock);
-  1060		ret = idr_alloc(&vi->vfds, vfd, 1, VIRTWL_MAX_ALLOC, GFP_KERNEL);
-  1061		mutex_unlock(&vi->vfds_lock);
-  1062		if (ret <= 0)
-  1063			goto remove_vfd;
-  1064	
-  1065		vfd->id = ret;
-  1066		ret = 0;
-  1067	
-  1068		ctrl_new->vfd_id = vfd->id;
-  1069		switch (ioctl_new->type) {
-  1070		case VIRTWL_IOCTL_NEW_CTX:
-  1071			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_CTX;
-  1072			ctrl_new->flags = VIRTIO_WL_VFD_WRITE | VIRTIO_WL_VFD_READ;
-  1073			break;
-  1074		case VIRTWL_IOCTL_NEW_CTX_NAMED:
-  1075			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_CTX_NAMED;
-  1076			ctrl_new->flags = VIRTIO_WL_VFD_WRITE | VIRTIO_WL_VFD_READ;
-  1077			memcpy(ctrl_new->name, ioctl_new->name, sizeof(ctrl_new->name));
-  1078			break;
-  1079		case VIRTWL_IOCTL_NEW_ALLOC:
-  1080			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW;
-  1081			ctrl_new->size = PAGE_ALIGN(ioctl_new->size);
-  1082			break;
-  1083		case VIRTWL_IOCTL_NEW_PIPE_READ:
-  1084			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_PIPE;
-  1085			ctrl_new->flags = VIRTIO_WL_VFD_READ;
-  1086			break;
-  1087		case VIRTWL_IOCTL_NEW_PIPE_WRITE:
-  1088			ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_PIPE;
-  1089			ctrl_new->flags = VIRTIO_WL_VFD_WRITE;
-  1090			break;
-  1091		case VIRTWL_IOCTL_NEW_DMABUF:
-  1092			/* Make sure ioctl_new contains enough data for NEW_DMABUF. */
-> 1093			if (ioctl_new_size == sizeof(*ioctl_new)) {
-  1094				ctrl_new->hdr.type = VIRTIO_WL_CMD_VFD_NEW_DMABUF;
-  1095				/* FIXME: convert from host byte order. */
-  1096				memcpy(&ctrl_new->dmabuf, &ioctl_new->dmabuf,
-  1097				       sizeof(ioctl_new->dmabuf));
-  1098				break;
-  1099			}
-  1100			/* fall-through */
-  1101		default:
-  1102			ret = -EINVAL;
-  1103			goto remove_vfd;
-  1104		}
-  1105	
-  1106		init_completion(&finish_completion);
-  1107		sg_init_one(&out_sg, ctrl_new, sizeof(*ctrl_new));
-  1108		sg_init_one(&in_sg, ctrl_new, sizeof(*ctrl_new));
-  1109	
-  1110		ret = vq_queue_out(vi, &out_sg, &in_sg, &finish_completion, nonblock);
-  1111		if (ret)
-  1112			goto remove_vfd;
-  1113	
-  1114		wait_for_completion(&finish_completion);
-  1115	
-  1116		ret = virtwl_resp_err(ctrl_new->hdr.type);
-  1117		if (ret)
-  1118			goto remove_vfd;
-  1119	
-  1120		vfd->size = ctrl_new->size;
-  1121		vfd->pfn = ctrl_new->pfn;
-  1122		vfd->flags = ctrl_new->flags;
-  1123	
-  1124		mutex_unlock(&vfd->lock);
-  1125	
-  1126		if (ioctl_new->type == VIRTWL_IOCTL_NEW_DMABUF) {
-  1127			/* FIXME: convert to host byte order. */
-  1128			memcpy(&ioctl_new->dmabuf, &ctrl_new->dmabuf,
-  1129			       sizeof(ctrl_new->dmabuf));
-  1130		}
-  1131	
-  1132		kfree(ctrl_new);
-  1133		return vfd;
-  1134	
-  1135	remove_vfd:
-  1136		/*
-  1137		 * unlock the vfd to avoid deadlock when unlinking it
-  1138		 * or freeing a held lock
-  1139		 */
-  1140		mutex_unlock(&vfd->lock);
-  1141		/* this is safe since the id cannot change after the vfd is created */
-  1142		if (vfd->id)
-  1143			virtwl_vfd_lock_unlink(vfd);
-  1144		virtwl_vfd_free(vfd);
-  1145	free_ctrl_new:
-  1146		kfree(ctrl_new);
-  1147		return ERR_PTR(ret);
-  1148	}
-  1149	
+   349	
+ > 350	int fsl_asrc_process_buffer_pre(struct completion *complete,
+   351					enum asrc_pair_index index, bool dir)
+   352	{
+   353		if (!wait_for_completion_interruptible_timeout(complete, 10 * HZ)) {
+   354			pr_err("%sput DMA task timeout\n", DIR_STR(dir));
+   355			return -ETIME;
+   356		} else if (signal_pending(current)) {
+   357			pr_err("%sput task forcibly aborted\n", DIR_STR(dir));
+   358			return -ERESTARTSYS;
+   359		}
+   360	
+   361		return 0;
+   362	}
+   363	
+   364	#define mxc_asrc_dma_umap(dev, m2m) \
+   365		do { \
+   366			dma_unmap_sg(dev, m2m->sg[IN], m2m->sg_nodes[IN], \
+   367				     DMA_MEM_TO_DEV); \
+   368			dma_unmap_sg(dev, m2m->sg[OUT], m2m->sg_nodes[OUT], \
+   369				     DMA_DEV_TO_MEM); \
+   370		} while (0)
+   371	
+ > 372	int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
+   373				    struct asrc_convert_buffer *pbuf)
+   374	{
+   375		struct fsl_asrc *asrc = pair->asrc;
+   376		struct fsl_asrc_m2m *m2m = pair->private_m2m;
+   377		enum asrc_pair_index index = pair->index;
+   378		unsigned long lock_flags;
+   379		int ret;
+   380	
+   381		/* Check input task first */
+   382		ret = fsl_asrc_process_buffer_pre(&m2m->complete[IN], index, IN);
+   383		if (ret) {
+   384			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   385			return ret;
+   386		}
+   387	
+   388		/* ...then output task*/
+   389		ret = fsl_asrc_process_buffer_pre(&m2m->complete[OUT], index, OUT);
+   390		if (ret) {
+   391			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   392			return ret;
+   393		}
+   394	
+   395		mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   396	
+   397		/* Fetch the remaining data */
+   398		spin_lock_irqsave(&m2m->lock, lock_flags);
+   399		if (!m2m->pair_hold) {
+   400			spin_unlock_irqrestore(&m2m->lock, lock_flags);
+   401			return -EFAULT;
+   402		}
+   403		spin_unlock_irqrestore(&m2m->lock, lock_flags);
+   404	
+   405		fsl_asrc_read_last_FIFO(pair);
+   406	
+   407		/* Update final lengths after getting last FIFO */
+   408		pbuf->input_buffer_length = m2m->dma_block[IN].length;
+   409		pbuf->output_buffer_length = m2m->dma_block[OUT].length;
+   410	
+   411		if (copy_to_user((void __user *)pbuf->output_buffer_vaddr,
+   412				 m2m->dma_block[OUT].dma_vaddr,
+   413				 m2m->dma_block[OUT].length))
+   414			return -EFAULT;
+   415	
+   416		return 0;
+   417	}
+   418	
 
 -- 
 0-DAY CI Kernel Test Service
