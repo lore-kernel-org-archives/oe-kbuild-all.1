@@ -1,45 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCA17F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 08:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DB07F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675501001; x=1707037001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z1Os81dv7xzZJVvTa+yNC5+XR3mnTuAq7NYN1yvO0T0=;
-  b=a9ioOq2bV3O+i/NkvbtCt3Pk+KLWJxAgyoVBnG8bvQOHlDhRfl4Yo4Y9
-   2Ox6JHSB0VTBbwKcuzsU02YEXMwrXoogGJ0nvFipDJoTP5NWosGxrkFhL
-   v2aEQaokyhxtj/9VHj+y3PSdkCwvFl0gdkdcU4gjoNAoiIW/pbMvV1bYs
-   mIV98Ztibzowe7MRZRlQM0WUJCXMZqfaftuCjkWXIljKdCnQCPsDJ6JU6
-   wD22qlybVHFCrEhuhccnyAk6eq0lAvvnLB5uRYc8Gsc3C9+cqvFebcfZL
-   lqlvz5JFWvdlfjn/+Zi/DybXE/NYrzv5VHEYzmZ9cPnkyZqcy9DcOiqwe
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="356275533"
+  t=1675501661; x=1707037661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VBYNEAC0CQ2KHLrFbd4HfQ+m96N8Vj7mXyV2MLWSGFM=;
+  b=cBPdgw2uwOJkGdWyN0k+uBCMg4oD4ngP6mD8XksK6bH9pCzO94avgaa0
+   xvCPuBAlUbgmVDqHlDL1UAqBZ9OYoN0UPoMlAmuZm2apjB4pbekuzjPCm
+   opro3TwhKVrRyqPNPWZ06S1abdipZhyawifUzkpN3xdZgej1p1XttZdz8
+   5wgDrFhjalwt828GfEbedq3b6nsKJbvM12TloHprdngtDQ4pXNPr9gKWg
+   80d/E/stPr9KeD/EdQ3DWujA1ysiXOaGe04FeKK6kEmeDVTM0KusN+DPG
+   y6wm1/G4dP35Ew+HNANWZp0lAug2yCm7QNJRpMTsOlKnRHihqccGUSXEK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393524869"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="356275533"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 00:56:40 -0800
+   d="scan'208";a="393524869"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:07:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="808599382"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="789948777"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="808599382"
+   d="scan'208";a="789948777"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2023 00:56:38 -0800
+  by orsmga004.jf.intel.com with ESMTP; 04 Feb 2023 01:07:38 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOELd-0001BE-2R;
-	Sat, 04 Feb 2023 08:56:37 +0000
-Date: Sat, 4 Feb 2023 16:56:18 +0800
+	id 1pOEWH-0001BQ-2x;
+	Sat, 04 Feb 2023 09:07:37 +0000
+Date: Sat, 4 Feb 2023 17:06:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, alex.williamson@redhat.com, jgg@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev, kevin.tian@intel.com,
-	chao.p.peng@linux.intel.com, eric.auger@redhat.com,
-	yi.l.liu@intel.com, yi.y.sun@linux.intel.com, kvm@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] docs: vfio: Update vfio.rst per latest interfaces
-Message-ID: <202302041603.N8YkuJks-lkp@intel.com>
-References: <20230203083345.711443-3-yi.l.liu@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/621 9885/20208] versioncheck:
+ ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
+ needed.
+Message-ID: <202302041620.LpoJWM5W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,101 +46,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203083345.711443-3-yi.l.liu@intel.com>
 
-Hi Yi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on awilliam-vfio/for-linus]
-[also build test WARNING on linus/master v6.2-rc6 next-20230203]
-[cannot apply to awilliam-vfio/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-Liu/vfio-Update-the-kdoc-for-vfio_device_ops/20230203-163612
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20230203083345.711443-3-yi.l.liu%40intel.com
-patch subject: [PATCH v2 2/2] docs: vfio: Update vfio.rst per latest interfaces
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: 3c566d782b874da3b5929b2c7a2ac9d29c60de89 [9885/20208] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
 reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/8db2c0d3414387502a6c743d6fa383cec960e3ba
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-Liu/vfio-Update-the-kdoc-for-vfio_device_ops/20230203-163612
-        git checkout 8db2c0d3414387502a6c743d6fa383cec960e3ba
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/driver-api/vfio.rst:264: WARNING: Inline emphasis start-string without end-string.
->> Documentation/driver-api/vfio.rst:296: WARNING: Literal block ends without a blank line; unexpected unindent.
->> Documentation/driver-api/vfio.rst:305: WARNING: Unexpected indentation.
->> Documentation/driver-api/vfio.rst:306: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-vim +264 Documentation/driver-api/vfio.rst
-
-   263	
- > 264		vfio_alloc_device(dev_struct, member, dev, ops);
-   265		void vfio_put_device(struct vfio_device *device);
-   266	
-   267	vfio_register_group_dev() indicates to the core to begin tracking the
-   268	iommu_group of the specified dev and register the dev as owned by a VFIO bus
-   269	driver. Once vfio_register_group_dev() returns it is possible for userspace to
-   270	start accessing the driver, thus the driver should ensure it is completely
-   271	ready before calling it. The driver provides an ops structure for callbacks
-   272	similar to a file operations structure::
-   273	
-   274		struct vfio_device_ops {
-   275			char	*name;
-   276			int	(*init)(struct vfio_device *vdev);
-   277			void	(*release)(struct vfio_device *vdev);
-   278			int	(*bind_iommufd)(struct vfio_device *vdev,
-   279						struct iommufd_ctx *ictx, u32 *out_device_id);
-   280			void	(*unbind_iommufd)(struct vfio_device *vdev);
-   281			int	(*attach_ioas)(struct vfio_device *vdev, u32 *pt_id);
-   282			int	(*open_device)(struct vfio_device *vdev);
-   283			void	(*close_device)(struct vfio_device *vdev);
-   284			ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
-   285					size_t count, loff_t *ppos);
-   286			ssize_t	(*write)(struct vfio_device *vdev, const char __user *buf,
-   287				 size_t count, loff_t *size);
-   288			long	(*ioctl)(struct vfio_device *vdev, unsigned int cmd,
-   289					 unsigned long arg);
-   290			int	(*mmap)(struct vfio_device *vdev, struct vm_area_struct *vma);
-   291			void	(*request)(struct vfio_device *vdev, unsigned int count);
-   292			int	(*match)(struct vfio_device *vdev, char *buf);
-   293			void	(*dma_unmap)(struct vfio_device *vdev, u64 iova, u64 length);
-   294			int	(*device_feature)(struct vfio_device *device, u32 flags,
-   295						  void __user *arg, size_t argsz);
- > 296	};
-   297	
-   298	Each function is passed the vdev that was originally registered
-   299	in the vfio_register_group_dev() or vfio_register_emulated_iommu_dev()
-   300	call above.  This allows the bus driver to obtain its private data using
-   301	container_of().
-   302	- The init/release callbacks are issued when vfio_device is initialized
-   303	- and released.
-   304	- The open/close_device callbacks are issued when a new file descriptor is
- > 305	  created for a device (via VFIO_GROUP_GET_DEVICE_FD).
- > 306	- The ioctl interface provides a direct pass through for VFIO_DEVICE_* ioctls.
-   307	- The [un]bind_iommufd callbacks are issued when the device is bound to
-   308	- and unbound from iommufd.
-   309	- The attach_ioas callback is issued when the device is attached to an IOAS
-   310	  managed by the bound iommufd. The attached IOAS is automatically detached
-   311	  when the device is unbound from the iommufd.
-   312	- The read/write/mmap interfaces implement the device region access defined by
-   313	  the device's own VFIO_DEVICE_GET_REGION_INFO ioctl.
-   314	- The request callback is issued when device is going to be unregistered.
-   315	- The dma_unmap callback is issued when a range of iova's are unmapped in
-   316	  the container or IOAS attached by the device. Drivers which care about
-   317	  DMA unmap can implement this callback and must tolerate receiving unmap
-   318	  notifications before the device is opened.
-   319	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
+   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 16472: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 6097: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4865: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 216: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 638: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 548: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1408: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 592: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 937: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 641: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 259: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 183: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 119: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3062: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1530: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7647: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 449: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2054: need linux/version.h
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+   ./drivers/mxc/hantro_v4l2/vsi-v4l2-dec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_v4l2/vsi-v4l2-enc.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_v4l2/vsi-v4l2.c: 41 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_b0.c: 6923: need linux/version.h
+   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/system/sys_io.c: 33 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 41 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
+   ./init/version.c: 17 linux/version.h not needed.
+   ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
