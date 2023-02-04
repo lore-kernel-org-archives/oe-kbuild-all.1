@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F6423DC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 20:53:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DB523DC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 21:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675544038; x=1707080038;
+  t=1675544638; x=1707080638;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e7hraJRaAhZ0sKB7m5JO/FqU/0lkCoyYvpC1vkUs/tY=;
-  b=ZtVc+kP78+Xp+VFVbaKVEWgd3pjNiy0eFg02jM7FWDrEhUsHV79AgKRK
-   z38CauxWUk/SzoJZQ52k8lWExgP6GqU2RQ3UfUbFh9gepRLVspFpiS0c2
-   sw5h7lUq6GNSOEvudfNiO9bnJwYSRptqMDDR/hbPbUCbp2dSZAdFy9WNr
-   v4F/JRE9lQIcBrRqRNejx9mnIkrRzNYQOaHJInxk0EawfVS3ZcKX7BpwF
-   lkgQMkip6yBGrCScWbMrCmeLk/jkVqIAVJSIsm7nhf/nFg53Xe83XnMis
-   Boj79+ZLycQDyw95320dE59JpusvebwIi9NG0XGZUoxxTKVbpJmxzwn4/
+  bh=q/5pLaw551fsATdlNZfQaQTyEmYHyiqwz2XzQFpdnDI=;
+  b=M4l4WBrwQ2Xn+494Rdl5w4gxLdCgGVtujmXKqxmjPjAniIzQ+WWcvoxi
+   qSZI/522Jht8BbcZTqtUdVStdFj/pdJFD6pUbXpIelVSWJ8YQS0mWOZH8
+   jre196rfsRXrrZaPhyMP46xRgp0PeCcSfgYVCFJWth+rcuHZ86bx4nmPz
+   ZNqD90tPwXkxd15boKWigJ1yzG6L0KyDLHV56IH0Aq1hhSmS5JM9mkEA8
+   FhT2CDCqtOdP0GruXp/m3kWbiGNp+FAigM7og8Ge4Pkb7Gj4+Aoblp0uD
+   zFt9OxJiCwdkEKfCyjwl6oIepUcdaiWOp3MVgvS01nfluhuXmiqFc2tBR
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="309322916"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="308626467"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="309322916"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 12:53:57 -0800
+   d="scan'208";a="308626467"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 13:03:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="754843151"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="911522731"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="754843151"
+   d="scan'208";a="911522731"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2023 12:53:56 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 04 Feb 2023 13:03:56 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOPXn-0001WW-25;
-	Sat, 04 Feb 2023 20:53:55 +0000
-Date: Sun, 5 Feb 2023 04:53:18 +0800
+	id 1pOPhU-0001Wl-0W;
+	Sat, 04 Feb 2023 21:03:56 +0000
+Date: Sun, 5 Feb 2023 05:03:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:virtual_cpu_hotplug/rfc/v1 4/32]
- arch/x86/kernel/topology.c:147:19: error: static declaration of
- 'arch_register_cpu' follows non-static declaration
-Message-ID: <202302050424.nhax1DdC-lkp@intel.com>
+Subject: [freescale-fslc:pr/621 3164/20208]
+ drivers/firmware/imx/imx-scu.c:228:43: warning: cast from pointer to integer
+ of different size
+Message-ID: <202302050530.CsQmb5IC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +47,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git virtual_cpu_hotplug/rfc/v1
-head:   81295db7555df74bd02dab0b7e87b512d3a3de34
-commit: 7ced3bbe6b69329395d605c948c5fa54696ad552 [4/32] drivers: base: Allow parts of GENERIC_CPU_DEVICES to be overridden
-config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230205/202302050424.nhax1DdC-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Peng,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: d0d51c6537d06c23e9fceeb69b5e2f8275caadd7 [3164/20208] LF-202-1 firmware: imx: scu: use hvc for dom0
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230205/202302050530.CsQmb5IC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=7ced3bbe6b69329395d605c948c5fa54696ad552
-        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
-        git fetch --no-tags morse virtual_cpu_hotplug/rfc/v1
-        git checkout 7ced3bbe6b69329395d605c948c5fa54696ad552
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/d0d51c6537d06c23e9fceeb69b5e2f8275caadd7
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/621
+        git checkout d0d51c6537d06c23e9fceeb69b5e2f8275caadd7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/firmware/imx/ drivers/net/ethernet/freescale/fman/ drivers/pwm/ drivers/staging/ drivers/tty/serial/ net/ sound/soc/sof/intel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/topology.c:147:19: error: static declaration of 'arch_register_cpu' follows non-static declaration
-     147 | static int __init arch_register_cpu(int num)
-         |                   ^~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/cpu.h:6,
-                    from arch/x86/kernel/topology.c:36:
-   include/linux/cpu.h:78:12: note: previous declaration of 'arch_register_cpu' with type 'int(int)'
-      78 | extern int arch_register_cpu(int cpu);
-         |            ^~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_CPU
-   Depends on [n]: ACPI [=y] && ACPI_PROCESSOR [=y] && HOTPLUG_CPU [=n]
-   Selected by [y]:
-   - X86 [=y] && ACPI [=y]
+   In file included from drivers/firmware/imx/imx-scu.c:10:
+   drivers/firmware/imx/imx-scu.c: In function 'imx_scu_call_rpc':
+>> drivers/firmware/imx/imx-scu.c:228:43: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     228 |                 arm_smccc_hvc(FSL_HVC_SC, (uint64_t)msg, !have_resp, 0, 0, 0,
+         |                                           ^
+   include/linux/arm-smccc.h:360:44: note: in definition of macro 'arm_smccc_hvc'
+     360 | #define arm_smccc_hvc(...) __arm_smccc_hvc(__VA_ARGS__, NULL)
+         |                                            ^~~~~~~~~~~
 
 
-vim +/arch_register_cpu +147 arch/x86/kernel/topology.c
+vim +228 drivers/firmware/imx/imx-scu.c
 
-271eb5c588e5d0 arch/x86/kernel/topology.c        Jaswinder Singh Rajput 2009-03-21  146  
-d987402695f16a arch/x86/kernel/topology.c        Alexander van Heukelum 2008-02-01 @147  static int __init arch_register_cpu(int num)
-3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  148  {
-3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  149  	return register_cpu(&per_cpu(cpu_devices, num).cpu, num);
-3eaf5efae72b33 arch/x86/kernel/topology.c        Sam Ravnborg           2008-01-30  150  }
-^1da177e4c3f41 arch/i386/mach-default/topology.c Linus Torvalds         2005-04-16  151  #endif /* CONFIG_HOTPLUG_CPU */
-^1da177e4c3f41 arch/i386/mach-default/topology.c Linus Torvalds         2005-04-16  152  
-
-:::::: The code at line 147 was first introduced by commit
-:::::: d987402695f16ae33999d7315b915099d64616d4 x86: avoid section mismatch involving arch_register_cpu
-
-:::::: TO: Alexander van Heukelum <heukelum@mailshack.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+   203	
+   204	/*
+   205	 * RPC command/response
+   206	 */
+   207	int imx_scu_call_rpc(struct imx_sc_ipc *sc_ipc, void *msg, bool have_resp)
+   208	{
+   209		uint8_t saved_svc, saved_func;
+   210		struct imx_sc_rpc_msg *hdr;
+   211		struct arm_smccc_res res;
+   212		int ret;
+   213	
+   214		if (WARN_ON(!sc_ipc || !msg))
+   215			return -EINVAL;
+   216	
+   217		mutex_lock(&sc_ipc->lock);
+   218		reinit_completion(&sc_ipc->done);
+   219	
+   220		if (have_resp) {
+   221			sc_ipc->msg = msg;
+   222			saved_svc = ((struct imx_sc_rpc_msg *)msg)->svc;
+   223			saved_func = ((struct imx_sc_rpc_msg *)msg)->func;
+   224		}
+   225		sc_ipc->count = 0;
+   226		sc_ipc->rx_size = 0;
+   227		if (xen_initial_domain()) {
+ > 228			arm_smccc_hvc(FSL_HVC_SC, (uint64_t)msg, !have_resp, 0, 0, 0,
+   229				      0, 0, &res);
+   230			if (res.a0)
+   231				printk("Error FSL_HVC_SC %ld\n", res.a0);
+   232	
+   233			ret = res.a0;
+   234	
+   235		} else {
+   236			ret = imx_scu_ipc_write(sc_ipc, msg);
+   237			if (ret < 0) {
+   238				dev_err(sc_ipc->dev, "RPC send msg failed: %d\n", ret);
+   239				goto out;
+   240			}
+   241	
+   242			if (have_resp) {
+   243				if (!wait_for_completion_timeout(&sc_ipc->done,
+   244								 MAX_RX_TIMEOUT)) {
+   245					dev_err(sc_ipc->dev, "RPC send msg timeout\n");
+   246					mutex_unlock(&sc_ipc->lock);
+   247					return -ETIMEDOUT;
+   248				}
+   249	
+   250				/* response status is stored in hdr->func field */
+   251				hdr = msg;
+   252				ret = hdr->func;
+   253	
+   254				/*
+   255				 * Some special SCU firmware APIs do NOT have return value
+   256				 * in hdr->func, but they do have response data, those special
+   257				 * APIs are defined as void function in SCU firmware, so they
+   258				 * should be treated as return success always.
+   259				 */
+   260				if ((saved_svc == IMX_SC_RPC_SVC_MISC) &&
+   261					(saved_func == IMX_SC_MISC_FUNC_UNIQUE_ID ||
+   262					 saved_func == IMX_SC_MISC_FUNC_GET_BUTTON_STATUS))
+   263					ret = 0;
+   264			}
+   265		}
+   266	
+   267	out:
+   268		sc_ipc->msg = NULL;
+   269		mutex_unlock(&sc_ipc->lock);
+   270	
+   271		dev_dbg(sc_ipc->dev, "RPC SVC done\n");
+   272	
+   273		return imx_sc_to_linux_errno(ret);
+   274	}
+   275	EXPORT_SYMBOL(imx_scu_call_rpc);
+   276	
 
 -- 
 0-DAY CI Kernel Test Service
