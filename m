@@ -1,42 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DDD3217
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 20:13:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1282F3217;
+	Sat,  4 Feb 2023 20:13:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675541583; x=1707077583;
+  t=1675541595; x=1707077595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H6s290KQi6AfFBSwUaZdI0qIiJaJskv3I/hVmv2wXLs=;
-  b=mNlF4kBFFkEWjIwgHmC3RiLLCvxxeKEl6cwhULcPBaTNJUPKCT5WgJzt
-   EpwykLcsiOcYlPdWIwx8ilwyHtjALEckKgzSS9esRjVR9i60OdCBM0zFj
-   1cJjnijTle12/PmgJPJ6ujLb7ZsABJtP56nhIc63H0xKesNbJKcCcEqAG
-   9pfrhlZAp440M/d0iANm84zXFU00e5VYIL97tL/jMFAsJkhRTJzpkoP2o
-   7Y2uQbn3hPQXmeO0ZBIZ+HzLQyZv2OFGnn8nUFrR45GpZspoy4X5G0PcX
-   1GXpjR2Q5nUNjXo+AwRJP27RYajh50A2JvmdRvrGxivz3RS2coYhJbpjA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393580198"
+  bh=impB2PY5ZQlafmRLAVSitt88Gdvkw4xHxJZ2JEItRNk=;
+  b=M0WfJTwk0mXW+7MeeJ2TACmSisijTpJjO/5fW8Pd4OPMehvUdJ/+0O36
+   UnCfFieHPtsMCIJrTwL4y8/z2bnMUFDjDPuoIzZJR6lUykgPcqQHbsQjy
+   I5wtcPPOT99FNwuF6Qln09rp8shr4KCg6kDygS3pqK/aT2akzXjza3H87
+   wAXXLFzDm/2AefYtGk/AdDlWvT7W1eXCgYiPeb783sR143CwbxOgBT3z4
+   nn0roE1wOHzLPFkDHvgAMNIcwJGW1VWx0c8bav/6kum4RWkIU8NeDIcHD
+   898z5hAO1m4DQUdnBZ9SZIGpvykrVhBWb87L6YefMcfrW3KBABv+nRIyf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393580203"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="393580198"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 12:12:57 -0800
+   d="scan'208";a="393580203"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 12:13:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="696472003"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="698434249"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="696472003"
+   d="scan'208";a="698434249"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 12:12:56 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 12:13:01 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOOu7-0001W4-0y;
+	id 1pOOu7-0001W6-13;
 	Sat, 04 Feb 2023 20:12:55 +0000
-Date: Sun, 5 Feb 2023 04:12:12 +0800
+Date: Sun, 5 Feb 2023 04:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: arch/sh/include/asm/setup.h:5:10: fatal error: uapi/asm/setup.h: No
- such file or directory
-Message-ID: <202302050450.UdM5Y90m-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:virtual_cpu_hotplug/rfc/v1 8/32]
+ arch/x86/kernel/topology.c:147:49: error: no member named 'cpu' in 'struct
+ cpu'
+Message-ID: <202302050422.aKurEcYI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,41 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230203-160118
-head:   25be89d3c286e3bab7eedaa49d83ddab673cfb2b
-commit: c6fa6752f4ce7b69ae569eeef3bd6a4d7d7eb9a1 asm-generic: Remove COMMAND_LINE_SIZE from uapi
-date:   2 days ago
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230205/202302050450.UdM5Y90m-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git virtual_cpu_hotplug/rfc/v1
+head:   81295db7555df74bd02dab0b7e87b512d3a3de34
+commit: bbbbfae28e723520ab31d000146207547cc62124 [8/32] x86/topology: Switch over to GENERIC_CPU_DEVICES
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230205/202302050422.aKurEcYI-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c6fa6752f4ce7b69ae569eeef3bd6a4d7d7eb9a1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230203-160118
-        git checkout c6fa6752f4ce7b69ae569eeef3bd6a4d7d7eb9a1
+        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=bbbbfae28e723520ab31d000146207547cc62124
+        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
+        git fetch --no-tags morse virtual_cpu_hotplug/rfc/v1
+        git checkout bbbbfae28e723520ab31d000146207547cc62124
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/of/fdt.c:31:
->> arch/sh/include/asm/setup.h:5:10: fatal error: uapi/asm/setup.h: No such file or directory
-       5 | #include <uapi/asm/setup.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   arch/x86/kernel/topology.c:145:19: error: static declaration of 'arch_register_cpu' follows non-static declaration
+   static int __init arch_register_cpu(int num)
+                     ^
+   include/linux/cpu.h:78:12: note: previous declaration is here
+   extern int arch_register_cpu(int cpu);
+              ^
+>> arch/x86/kernel/topology.c:147:49: error: no member named 'cpu' in 'struct cpu'
+           return register_cpu(&per_cpu(cpu_devices, num).cpu, num);
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_CPU
+   Depends on [n]: ACPI [=y] && ACPI_PROCESSOR [=y] && HOTPLUG_CPU [=n]
+   Selected by [y]:
+   - X86 [=y] && ACPI [=y]
 
 
-vim +5 arch/sh/include/asm/setup.h
+vim +147 arch/x86/kernel/topology.c
 
-^1da177e4c3f41 include/asm-sh/setup.h      Linus Torvalds 2005-04-16  4  
-0a9426df1858f7 arch/sh/include/asm/setup.h David Howells  2012-10-09 @5  #include <uapi/asm/setup.h>
-^1da177e4c3f41 include/asm-sh/setup.h      Linus Torvalds 2005-04-16  6  
+271eb5c588e5d0a Jaswinder Singh Rajput 2009-03-21  144  
+d987402695f16ae Alexander van Heukelum 2008-02-01  145  static int __init arch_register_cpu(int num)
+3eaf5efae72b33b Sam Ravnborg           2008-01-30  146  {
+3eaf5efae72b33b Sam Ravnborg           2008-01-30 @147  	return register_cpu(&per_cpu(cpu_devices, num).cpu, num);
+
+:::::: The code at line 147 was first introduced by commit
+:::::: 3eaf5efae72b33bc6132e9590e5d4bf11532f8c4 x86: fix section mismatch warning in topology.c
+
+:::::: TO: Sam Ravnborg <sam@ravnborg.org>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
