@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD69E7C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC31859
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 03:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675482511; x=1707018511;
+  t=1675482512; x=1707018512;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cDqgY0BmaY3mxOIayhMjlVRUcruv4/yFsjPs1pEUUSc=;
-  b=hITIPw9yFug9zNXlcxdVIhgo4j0WtaePLVBbg+0zMXFNyyeLMes6I0nW
-   kkyXcXHyXcGgGuFkf2oxof644o8YBJOsOFEXrByttPjo1QQje9uBNB2N5
-   oWBhZ+/i8aOYoXUzK5F/HZyJHQNSufJNXUCz2xhUR4FHk4r4xHNkjUMKS
-   txTsZfS0tGkSRAeAXSSttOgDRdB7fL8p2BgcXJGQrXaRPjqGC4EU9jg7d
-   n4MOilO/EXZnCCFFsiy4oNNR4wi+qepWVGr3UsyfrbXSCI0Vt5V6Ig8LJ
-   Y7meUdeD1OM/DZd/2TlqAYnxY4oEYr263xjqCcLjupZDYl4psY9I22RVS
+  bh=o2EV8TTmEOhXBXlw9hXJnrCrhOjNqDr5zPWPFhgrDUA=;
+  b=mesTVbE1LiTAfHFnPFnhxxl4zEukdmv4L4DtsRgVEKQ05HzWfbTFnn/o
+   rx9TCLOxezWlU+u0Sbhk5L1i3eodZfBZsgFoxu/8tqBO/UZOKcYxolPKE
+   PuM2URO13cO4Su0fTAXslJcj2+79D3882xdnWVkZztbm5IK1DEqHJrNGA
+   mcuoii/K29OEhkqFfAhSccFrhreewXauRFevbTSORgEnp1FBciIK22V6O
+   Uobj6zpmlkPxAF4awhCBN3gf15rtOEUlhMp8vW6azlUp/TvT9tjPRdhLe
+   Js1HkyZRLRpjEYP2dHm8pxejlhdbK1lnChXP9qvImd7LBTuwbYefEJ6QY
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="327549674"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="330204662"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="327549674"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 19:48:31 -0800
+   d="scan'208";a="330204662"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 19:48:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="911370410"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="734570734"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="911370410"
+   d="scan'208";a="734570734"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Feb 2023 19:48:30 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 03 Feb 2023 19:48:30 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO9XR-00010p-2d;
+	id 1pO9XR-00010n-2V;
 	Sat, 04 Feb 2023 03:48:29 +0000
-Date: Sat, 4 Feb 2023 11:48:06 +0800
+Date: Sat, 4 Feb 2023 11:48:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 3635/20208] versioncheck:
- ./drivers/mxc/hantro/hantrodec.c: 40 linux/version.h not needed.
-Message-ID: <202302041115.MkaXfPri-lkp@intel.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sbi_nested_v1 36/76] arch/riscv/kernel/cpu.c:261:6:
+ warning: no previous prototype for 'acpi_print_hart_info'
+Message-ID: <202302041120.3uOASnQ2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,49 +46,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 1e76e72750984f142eab9a744d6a8d779b795fb8 [3635/20208] arm64: vpu: m850d: hantro
-reproduce:
-        make versioncheck
+tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
+head:   27e6109638389f74b42fe02858caa9c7a381cbbe
+commit: f10d91c4595417710a1be739d697cce32feb9bb0 [36/76] RISC-V: ACPI: cpu: Enable cpuinfo for ACPI systems
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041120.3uOASnQ2-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/avpatel/linux/commit/f10d91c4595417710a1be739d697cce32feb9bb0
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_sbi_nested_v1
+        git checkout f10d91c4595417710a1be739d697cce32feb9bb0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
->> ./drivers/mxc/hantro/hantrodec.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/kernel/cpu.c:261:6: warning: no previous prototype for 'acpi_print_hart_info' [-Wmissing-prototypes]
+     261 | void acpi_print_hart_info(struct seq_file *m,
+         |      ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/acpi_print_hart_info +261 arch/riscv/kernel/cpu.c
+
+   259	
+   260	#ifdef CONFIG_ACPI
+ > 261	void acpi_print_hart_info(struct seq_file *m,
+   262				  unsigned long cpu)
+   263	{
+   264		const char *isa;
+   265	
+   266		if (!acpi_get_riscv_isa(NULL, get_acpi_id_for_cpu(cpu), &isa))
+   267			print_isa(m, isa);
+   268	
 
 -- 
 0-DAY CI Kernel Test Service
