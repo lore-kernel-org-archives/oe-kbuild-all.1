@@ -1,48 +1,53 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FE01874
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 05:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CB01867
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 05:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675487435; x=1707023435;
+  t=1675488698; x=1707024698;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QYQxTqPE8mDCKyZZWw5FyDblvnJen1pA8puNOrmJ/Ao=;
-  b=E2559oTUx3HK/zRobVF8mOTQyaKiHEago4D0+L25wCpRuM3vp3fixlqm
-   cEqaf0Q9xIRAZH4raS3qrNJU7M0+S9A/msRTh6qJw+P13WgpZ9PgVXI6c
-   2fIi8RfYofsuf9pzYjlNlFZ8OXKylG5rw7Q2I/Q/CMP37Th5m335bAS7K
-   Qi7f+SN+XewWuKPj2BJsRrpvJQnvaz6ZLBq73J+dWQ5qT4n7aQ75xSNXv
-   Ov1iGyAEPWz4ZXTFRiISpBsLWwYPAIvPQIf2J9sg+YhCjprROGaa35S+o
-   UEo8ylQsSYuIZ4n8MYIyNbcyKD4NkYDnSA5pnW8atqFxIFmWSMcjfh416
+  bh=wiaDjmTVDYP3++nmiG+UiFzVdmXO51IFqJJgfa6KODM=;
+  b=LqSbY5juRrN778HwjmG8VNQzoXeWT3s6h73XjPXeLjKeCXYk8yPhphq2
+   GiMDi1xfIZ07Wn0xBH6Y54WVCT2hYOwWn8VSHKbcBH2WIBlRXGa++49ev
+   b6j5N6apSnvc28twrMHcZqDP3n79dmG6euSgXLmKPmTQr/ZAHXNdanxlU
+   CNmaHEefk15dFrWa5JeQkozXKprqpmq57snqwAokOqAYkDQsKCbgZQ4H2
+   L4tPKHpDm/iZej3rmyK5zAg3oNNs6tKEeZR80+ZK1SWd5l4ZYgLuVsqoj
+   DoC34ji9NROA5YPbHjci0aMVK8MD45vPBVqcTyHqUPfEP5YDoKuuEz5U/
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="356264179"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="331048662"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="356264179"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 21:10:35 -0800
+   d="scan'208";a="331048662"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 21:31:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="774568233"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="696350014"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="774568233"
+   d="scan'208";a="696350014"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2023 21:10:32 -0800
+  by orsmga008.jf.intel.com with ESMTP; 03 Feb 2023 21:31:33 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOAoq-00013x-0l;
-	Sat, 04 Feb 2023 05:10:32 +0000
-Date: Sat, 4 Feb 2023 13:10:18 +0800
+	id 1pOB9A-00014L-1O;
+	Sat, 04 Feb 2023 05:31:32 +0000
+Date: Sat, 4 Feb 2023 13:30:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rjw@rjwysocki.net
-Cc: oe-kbuild-all@lists.linux.dev, daniel.lezcano@linaro.org,
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+To: Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 11/11] thermal/acpi: Use the thermal framework ACPI API
-Message-ID: <202302041301.JFOakwDi-lkp@intel.com>
-References: <20230203174429.3375691-12-daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org,
+	ilpo.jarvinen@linux.intel.com, macro@orcam.me.uk,
+	andriy.shevchenko@linux.intel.com, lukas@wunner.de,
+	cang1@live.co.uk, matthew.gerlach@linux.intel.com, deller@gmx.de,
+	phil.edworthy@renesas.com, geert+renesas@glider.be,
+	marpagan@redhat.com, u.kleine-koenig@pengutronix.de,
+	etremblay@distech-controls.com, wander@redhat.com,
+	Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>
+Subject: Re: [PATCH v11 tty-next 1/4] serial: 8250_pci: Add
+ serial8250_pci_setup_port definition in 8250_pcilib.c
+Message-ID: <202302041334.aXx6dVcJ-lkp@intel.com>
+References: <20230204053138.2520105-2-kumaravel.thiagarajan@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,219 +56,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203174429.3375691-12-daniel.lezcano@linaro.org>
+In-Reply-To: <20230204053138.2520105-2-kumaravel.thiagarajan@microchip.com>
 
-Hi Daniel,
+Hi Kumaravel,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.2-rc6 next-20230203]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.2-rc6 next-20230203]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-acpi-Remove-the-intermediate-acpi_thermal_trip-structure/20230204-015126
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230203174429.3375691-12-daniel.lezcano%40linaro.org
-patch subject: [PATCH v2 11/11] thermal/acpi: Use the thermal framework ACPI API
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230204/202302041301.JFOakwDi-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumaravel-Thiagarajan/serial-8250_pci-Add-serial8250_pci_setup_port-definition-in-8250_pcilib-c/20230204-005851
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230204053138.2520105-2-kumaravel.thiagarajan%40microchip.com
+patch subject: [PATCH v11 tty-next 1/4] serial: 8250_pci: Add serial8250_pci_setup_port definition in 8250_pcilib.c
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20230204/202302041334.aXx6dVcJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/2c921da06a8ac8f9e047f1a683146e1c5561534a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/cd5f521fabae71343d59d524ad57221e2b7524fe
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Lezcano/thermal-acpi-Remove-the-intermediate-acpi_thermal_trip-structure/20230204-015126
-        git checkout 2c921da06a8ac8f9e047f1a683146e1c5561534a
+        git fetch --no-tags linux-review Kumaravel-Thiagarajan/serial-8250_pci-Add-serial8250_pci_setup_port-definition-in-8250_pcilib-c/20230204-005851
+        git checkout cd5f521fabae71343d59d524ad57221e2b7524fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/tty/serial/8250/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/acpi/thermal.c: In function 'acpi_thermal_trips_alloc_critical':
->> drivers/acpi/thermal.c:274:15: error: implicit declaration of function 'thermal_acpi_critical_trip_temp' [-Werror=implicit-function-declaration]
-     274 |         ret = thermal_acpi_critical_trip_temp(tz->device->handle, &trip.temperature);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/thermal.c: In function 'acpi_thermal_trips_alloc_hot':
->> drivers/acpi/thermal.c:307:15: error: implicit declaration of function 'thermal_acpi_hot_trip_temp'; did you mean 'thermal_zone_get_crit_temp'? [-Werror=implicit-function-declaration]
-     307 |         ret = thermal_acpi_hot_trip_temp(tz->device->handle, &trip.temperature);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               thermal_zone_get_crit_temp
-   drivers/acpi/thermal.c: In function 'acpi_thermal_trips_alloc_passive':
->> drivers/acpi/thermal.c:339:15: error: implicit declaration of function 'thermal_acpi_passive_trip_temp' [-Werror=implicit-function-declaration]
-     339 |         ret = thermal_acpi_passive_trip_temp(tz->device->handle, &trip.temperature);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/thermal.c: In function 'acpi_thermal_trips_alloc_active':
->> drivers/acpi/thermal.c:380:23: error: implicit declaration of function 'thermal_acpi_active_trip_temp' [-Werror=implicit-function-declaration]
-     380 |                 ret = thermal_acpi_active_trip_temp(tz->device->handle, i , &trip.temperature);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/tty/serial/8250/8250_pcilib.c:14:5: warning: no previous prototype for 'serial8250_pci_setup_port' [-Wmissing-prototypes]
+      14 | int serial8250_pci_setup_port(struct pci_dev *dev, struct uart_8250_port *port,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/thermal_acpi_critical_trip_temp +274 drivers/acpi/thermal.c
+vim +/serial8250_pci_setup_port +14 drivers/tty/serial/8250/8250_pcilib.c
 
-   257	
-   258	static struct thermal_trip *acpi_thermal_trips_alloc_critical(struct acpi_thermal *tz,
-   259								      struct thermal_trip *trips,
-   260								      int *num_trips)
-   261	{
-   262		struct thermal_trip trip = {
-   263			.type = THERMAL_TRIP_CRITICAL,
-   264		};
-   265	
-   266		int ret;
-   267	
-   268		/*
-   269		 * Module parameters disable the critical trip point
-   270		 */
-   271		if (crt < 0)
-   272			goto out;
-   273	
- > 274		ret = thermal_acpi_critical_trip_temp(tz->device->handle, &trip.temperature);
-   275		if (ret)
-   276			goto out;
-   277		
-   278		if (trip.temperature <= 0) {
-   279			pr_info(FW_BUG "Invalid critical threshold (%d)\n", trip.temperature);
-   280			goto out;
-   281		}
-   282	
-   283		trips = krealloc(trips, sizeof(*trips) * (*num_trips + 1), GFP_KERNEL);
-   284		if (!trips)
-   285			goto out;
-   286	
-   287		trips[*num_trips] = trip; /* structure copy */
-   288	
-   289		if (crt > 0)
-   290			acpi_thermal_trips_override(&trips[*num_trips], crt * MILLI);
-   291		
-   292		(*num_trips)++;
-   293	out:
-   294		return trips;
-   295	}
-   296	
-   297	static struct thermal_trip *acpi_thermal_trips_alloc_hot(struct acpi_thermal *tz,
-   298								 struct thermal_trip *trips,
-   299								 int *num_trips)
-   300	{
-   301		struct thermal_trip trip = {
-   302			.type = THERMAL_TRIP_HOT,
-   303		};
-   304	
-   305		int ret;
-   306	
- > 307		ret = thermal_acpi_hot_trip_temp(tz->device->handle, &trip.temperature);
-   308		if (ret)
-   309			goto out;
-   310	
-   311		trips = krealloc(trips, sizeof(*trips) * (*num_trips + 1), GFP_KERNEL);
-   312		if (!trips)
-   313			goto out;
-   314	
-   315		trips[*num_trips] = trip; /* structure copy */
-   316		
-   317		(*num_trips)++;
-   318	out:
-   319		return trips;
-   320	}
-   321	
-   322	static struct thermal_trip *acpi_thermal_trips_alloc_passive(struct acpi_thermal *tz,
-   323								     struct thermal_trip *trips,
-   324								     int *num_trips)
-   325	{
-   326		acpi_status status;
-   327		struct acpi_handle_list devices;
-   328		struct thermal_trip trip = {
-   329			.type = THERMAL_TRIP_PASSIVE
-   330		};
-   331		int ret;
-   332	
-   333		/*
-   334		 * Module parameters disable all passive trip points
-   335		 */
-   336		if (psv < 0)
-   337			goto out;
-   338		
- > 339		ret = thermal_acpi_passive_trip_temp(tz->device->handle, &trip.temperature);
-   340		if (ret)
-   341			goto out;
-   342		
-   343		status = acpi_evaluate_reference(tz->device->handle, "_PSL", NULL, &devices);
-   344		if (ACPI_FAILURE(status)) {
-   345			acpi_handle_debug(tz->device->handle, "No passive device associated\n");
-   346			goto out;
-   347		}
-   348	
-   349		trips = krealloc(trips, sizeof(*trips) * (*num_trips + 1), GFP_KERNEL);
-   350		if (!trips)
-   351			goto out;
-   352	
-   353		trips[*num_trips] = trip; /* structure copy */	
-   354		
-   355		(*num_trips)++;
-   356	out:
-   357		return trips;
-   358	}
-   359	
-   360	static struct thermal_trip *acpi_thermal_trips_alloc_active(struct acpi_thermal *tz,
-   361								    struct thermal_trip *trips,
-   362								    int *num_trips)
-   363	{
-   364		acpi_status status;
-   365		struct acpi_handle_list devices;
-   366		int i, ret;
-   367	
-   368		/*
-   369		 * Module parameters disable all active trip points
-   370		 */
-   371		if (act < 0)
-   372			return trips;
-   373	
-   374		for (i = 0; i < ACPI_THERMAL_MAX_ACTIVE; i++) {
-   375			struct thermal_trip trip = {
-   376				.type = THERMAL_TRIP_ACTIVE,
-   377			};
-   378			char name[5];
-   379	
- > 380			ret = thermal_acpi_active_trip_temp(tz->device->handle, i , &trip.temperature);
-   381			if (ret)
-   382				break;
-   383	
-   384			sprintf(name, "_AL%d", i);
-   385	
-   386			status = acpi_evaluate_reference(tz->device->handle, name, NULL, &devices);
-   387			if (ACPI_FAILURE(status)) {
-   388				acpi_handle_info(tz->device->handle, "No _AL%d defined for _AC%d\n", i, i);
-   389				break;
-   390			}
-   391			
-   392			trips = krealloc(trips, sizeof(*trips) * (*num_trips + 1), GFP_KERNEL);
-   393			if (!trips)
-   394				break;
-   395	
-   396			trips[*num_trips] = trip; /* structure copy */	
-   397	
-   398			(*num_trips)++;
-   399		}
-   400	
-   401		/*
-   402		 * We found at least one trip point and we have an override option
-   403		 */
-   404		if (i && act) {
-   405			/*
-   406			 * Regarding the ACPI specification AC0 is the highest active
-   407			 * temperature trip point. We will override this one.
-   408			 */
-   409			acpi_thermal_trips_override(&trips[*num_trips], act * MILLI);		
-   410		}
-   411	
-   412		return trips;
-   413	}
-   414	
+    13	
+  > 14	int serial8250_pci_setup_port(struct pci_dev *dev, struct uart_8250_port *port,
 
 -- 
 0-DAY CI Kernel Test Service
