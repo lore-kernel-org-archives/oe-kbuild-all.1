@@ -1,43 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E566023DC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 21:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9737D23DC;
+	Sat,  4 Feb 2023 21:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675545898; x=1707081898;
+  t=1675546501; x=1707082501;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SIjIwo4tqoLTzpkfNCyUc5nrfGSnl+IuJK3oWsAZ2FE=;
-  b=PQzxdylUDY/K1N5Vjxx2Jyue1I31TLyTACVuMTAkDfIfPQbRCAqfPzzY
-   /OlpSb+jYlpN+Df1NHQq/G+LoNM+4QV1KNsMeqrZs8/AjdLXzLKxL95uz
-   6viz6QLnPCnmusqbTzBwlvyAHe5SgHfZ6mPi+8woBUQQBmJwSaMd+oKoH
-   VETBKlTUCPfRoldm8u8Bm0PUAwj7xvGNM6u62eDFJo6zzM0yP+X2WfX0i
-   /8h6XxLqIMUr/HfQpslKrYmo4LcRrQpTZLFTfRLVKHshSzGOJ0y6Mx+iO
-   vATUJjpu1OITPyVuCB43ZRYY98VEToMImxMvckLEHY/JYSer1kclAaIx8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="330282819"
+  bh=Ujb0P9ReMinYlWKi5+KZbSZJH3+VkyqUYBrxS/rxhAo=;
+  b=QWF69Igo9MNXB+uY3y08zv/hFLKErfp7q4/7nUus17VFebSPDR5awPi6
+   q8AH8Jt6tui8aOr1hfPEd/dej6b8HgwhwWqYDCV/QXFP20SmcwtruKRTe
+   gNl0RNbz5lIdOC9i3GITask1c3wISHuNrdsN5yaH63oMKMtambFIzf18f
+   DsScxrGyCUyqcuNm52rZDYQzio5jZfEOP/f5+uV4Ko2chO0eoxQvJsNRm
+   KqxqQSFGdCu4OlCxRmPUX2RhSJUaM9nvvYfaUJX5LL5y8ypaqgI9gEQsV
+   PrPTNOPXojlSEeZgxshOtJigxxT3T2BYaUAmNVFWX+eonWgAkeZu+h0w4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="415205967"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="330282819"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 13:24:58 -0800
+   d="scan'208";a="415205967"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 13:34:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="994872326"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="774728217"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="994872326"
+   d="scan'208";a="774728217"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Feb 2023 13:24:57 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 04 Feb 2023 13:34:57 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOQ1o-0001XA-1S;
-	Sat, 04 Feb 2023 21:24:56 +0000
-Date: Sun, 5 Feb 2023 05:24:24 +0800
+	id 1pOQBU-0001XU-2f;
+	Sat, 04 Feb 2023 21:34:56 +0000
+Date: Sun, 5 Feb 2023 05:34:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: kernel/trace/rv/monitors/wip/wip.c:20:1: sparse: sparse: symbol
- 'da_mon_wip' was not declared. Should it be static?
-Message-ID: <202302050517.4xtGBe0d-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:virtual_cpu_hotplug/rfc/v1 20/32] drivers/base/cpu.c:504:2:
+ error: implicit declaration of function 'unregister_cpu' is invalid in C99
+Message-ID: <202302050505.vWGB6FVR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +46,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Stephen,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   db27c22251e7c8f3a9d5bfb55c9c8c701a70bbb3
-commit: 10bde81c74863472047f31304064018c40f488ee rv/monitor: Add the wip monitor
-date:   6 months ago
-config: csky-randconfig-s052-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050517.4xtGBe0d-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git virtual_cpu_hotplug/rfc/v1
+head:   81295db7555df74bd02dab0b7e87b512d3a3de34
+commit: 9048fbcbea6dd1dfa42a3b9409695ff9199a417d [20/32] drivers: base: Implement weak arch_unregister_cpu()
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230205/202302050505.vWGB6FVR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=10bde81c74863472047f31304064018c40f488ee
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 10bde81c74863472047f31304064018c40f488ee
+        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=9048fbcbea6dd1dfa42a3b9409695ff9199a417d
+        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
+        git fetch --no-tags morse virtual_cpu_hotplug/rfc/v1
+        git checkout 9048fbcbea6dd1dfa42a3b9409695ff9199a417d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky SHELL=/bin/bash kernel/trace/rv/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/rv/monitors/wip/wip.c: note: in included file:
-   kernel/trace/rv/monitors/wip/wip.h:30:22: sparse: sparse: symbol 'automaton_wip' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/da_mon_wip +20 kernel/trace/rv/monitors/wip/wip.c
+>> drivers/base/cpu.c:504:2: error: implicit declaration of function 'unregister_cpu' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           unregister_cpu(&per_cpu(cpu_devices, num));
+           ^
+   drivers/base/cpu.c:504:2: note: did you mean 'register_cpu'?
+   drivers/base/cpu.c:359:5: note: 'register_cpu' declared here
+   int register_cpu(struct cpu *cpu, int num)
+       ^
+   1 error generated.
 
-8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29  18  
-8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29 @19  struct rv_monitor rv_wip;
-8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29 @20  DECLARE_DA_MON_PER_CPU(wip, unsigned char);
-8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29  21  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_PRESENT_CPU
+   Depends on [n]: ACPI [=y] && ACPI_PROCESSOR [=y] && HOTPLUG_CPU [=n]
+   Selected by [y]:
+   - X86 [=y] && ACPI [=y]
 
-:::::: The code at line 20 was first introduced by commit
-:::::: 8812d21219b9c649dd25eb93915e00939944aeb7 rv/monitor: Add the wip monitor skeleton created by dot2k
 
-:::::: TO: Daniel Bristot de Oliveira <bristot@kernel.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+vim +/unregister_cpu +504 drivers/base/cpu.c
+
+   501	
+   502	void __weak arch_unregister_cpu(int num)
+   503	{
+ > 504		unregister_cpu(&per_cpu(cpu_devices, num));
+   505	}
+   506	#endif
+   507	
 
 -- 
 0-DAY CI Kernel Test Service
