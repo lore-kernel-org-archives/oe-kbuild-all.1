@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F11E2586;
-	Sat,  4 Feb 2023 15:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DF02586
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 15:35:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675524350; x=1707060350;
+  t=1675524950; x=1707060950;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/5eC+P25W5n+6PjKlnn3GEO2ZHBzhePxQYCutPenRIE=;
-  b=kxUCTZcaPyqkKBgMOLqW5MMuYDDEIMFOzumnRHzfc6heIUeSZFLldBCf
-   Qi6OkikYKMV5iexLDZVNGh95kS17bqJ8kkEK9tfcQfMpWXjod/fpAIray
-   M8XlwPgjtEGU/m27EpSKxEeoVjhy7st9rwurpDSRJ83MSS7bfxJcZV4rg
-   yxHu5Q8m8/Aq2NTCgQmWxbxxYQrU1RUsPH9bi3MD3jrSao6x678e63qDa
-   /+FRBdqV5QASdA1DtZ5lrlclfghSfM46tc8HedXJgr5woWCHnTcXJnqQr
-   hy8TVAoe87QigydmFFYdCzMis0TSFtNX+C5X9tv+RnyK7qz6Z+WUohHRg
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="330244801"
+  bh=pFNfNKudiXrHpLiIw+aNvsIB4aT2LvDeE1ZWZNvwCqw=;
+  b=mukgvL8KCtohMKOtqYM+vjMCx9jtAPtwX6n6cfRhr2k6dQX5SCPprkVo
+   D6m9ys8rfhPnzTIt7iXrkY4xQzuaU0PKNmHU524L74VG/3JIEQAX7JKeE
+   ak0It7QgfH8YXFVbnUuDiFkrnfraI6AHjHSnl4rCiC51oIXphDSOAuYwk
+   GHrfBeixQGUJ2QAdozmKJ+lFgEY6WaSuxCzjTKA9jbyeFjmFQKYWINsKw
+   XTj6cqsS0+hMjphVR6/juqA43X8zbBbbl807H6EXj7tGIxwtWGdpLITvg
+   V32pyIseEpEI9UnG7yUg6DJv6Fsp2G2mVmE8yAwuoSBkfKQRumDhlJvXB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393548546"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="330244801"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 07:25:49 -0800
+   d="scan'208";a="393548546"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 07:35:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="754786666"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="698395273"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="754786666"
+   d="scan'208";a="698395273"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2023 07:25:48 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 07:35:48 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOKQF-0001Nw-0a;
-	Sat, 04 Feb 2023 15:25:47 +0000
-Date: Sat, 4 Feb 2023 23:25:11 +0800
+	id 1pOKZv-0001OC-1G;
+	Sat, 04 Feb 2023 15:35:47 +0000
+Date: Sat, 4 Feb 2023 23:35:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [wens:mtk-test 19/39] ld.lld: error: undefined symbol:
- mtk_clk_unregister_pllfhs
-Message-ID: <202302042333.DtuL4mur-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@c-s.fr>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miles Chen <miles.chen@mediatek.com>
+Subject: [stable:linux-4.19.y 2192/9999] lib/strnlen_user.c:57: Error:
+ unrecognized opcode `csrs sstatus,a7'
+Message-ID: <202302042352.2mntkiTg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,39 +48,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-test
-head:   14d84237ad57de7b0f267d290ae87e40842965b4
-commit: ddcaa79669690cef7a4265a4d6844c2461aa8cd4 [19/39] clk: mediatek: mt8173: Add support for frequency hopping through FHCTL
-config: hexagon-randconfig-r002-20230204 (https://download.01.org/0day-ci/archive/20230204/202302042333.DtuL4mur-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   b17faf2c4e88ac0deb894f068bda67ace57e9c0a
+commit: e18590b3e242638e873a61d299abf8a9df446236 [2192/9999] lib: Reduce user_access_begin() boundaries in strncpy_from_user() and strnlen_user()
+config: riscv-randconfig-c031-20230202 (https://download.01.org/0day-ci/archive/20230204/202302042352.2mntkiTg-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git/commit/?id=ddcaa79669690cef7a4265a4d6844c2461aa8cd4
-        git remote add wens https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git
-        git fetch --no-tags wens mtk-test
-        git checkout ddcaa79669690cef7a4265a4d6844c2461aa8cd4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=e18590b3e242638e873a61d299abf8a9df446236
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout e18590b3e242638e873a61d299abf8a9df446236
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: mtk_clk_unregister_pllfhs
-   >>> referenced by clk-mt8173-apmixedsys.c:198 (drivers/clk/mediatek/clk-mt8173-apmixedsys.c:198)
-   >>>               drivers/clk/mediatek/clk-mt8173-apmixedsys.o:(clk_mt8173_apmixed_remove) in archive vmlinux.a
-   >>> referenced by clk-mt8173-apmixedsys.c:198 (drivers/clk/mediatek/clk-mt8173-apmixedsys.c:198)
-   >>>               drivers/clk/mediatek/clk-mt8173-apmixedsys.o:(clk_mt8173_apmixed_remove) in archive vmlinux.a
+   lib/strnlen_user.c: Assembler messages:
+   lib/strnlen_user.c:42: Error: unrecognized opcode `csrs sstatus,a2'
+   lib/strnlen_user.c:42: Error: unrecognized opcode `csrc sstatus,a2'
+>> lib/strnlen_user.c:57: Error: unrecognized opcode `csrs sstatus,a7'
+>> lib/strnlen_user.c:57: Error: unrecognized opcode `csrc sstatus,a7'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
-   Depends on [n]: PM_DEVFREQ [=n]
-   Selected by [m]:
-   - DRM_MSM [=m] && HAS_IOMEM [=y] && DRM [=m] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
+
+vim +57 lib/strnlen_user.c
+
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  14  
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  15  /*
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  16   * Do a strnlen, return length of string *with* final '\0'.
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  17   * 'count' is the user-supplied count, while 'max' is the
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  18   * address space maximum.
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  19   *
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  20   * Return 0 for exceptions (which includes hitting the address
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  21   * space maximum), or 'count+1' if hitting the user-supplied
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  22   * maximum count.
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  23   *
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  24   * NOTE! We can sometimes overshoot the user-supplied maximum
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  25   * if it fits in a aligned 'long'. The caller needs to check
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  26   * the return value against "> max".
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  27   */
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  28  static inline long do_strnlen_user(const char __user *src, unsigned long count, unsigned long max)
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  29  {
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  30  	const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
+189b396a2580d6 Peter Zijlstra 2019-04-24  31  	unsigned long align, res = 0;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  32  	unsigned long c;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  33  
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  34  	/*
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  35  	 * Do everything aligned. But that means that we
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  36  	 * need to also expand the maximum..
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  37  	 */
+189b396a2580d6 Peter Zijlstra 2019-04-24  38  	align = (sizeof(unsigned long) - 1) & (unsigned long)src;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  39  	src -= align;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  40  	max += align;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  41  
+1bd4403d86a1c0 Linus Torvalds 2016-08-08  42  	unsafe_get_user(c, (unsigned long __user *)src, efault);
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  43  	c |= aligned_byte_mask(align);
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  44  
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  45  	for (;;) {
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  46  		unsigned long data;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  47  		if (has_zero(c, &data, &constants)) {
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  48  			data = prep_zero_mask(c, data, &constants);
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  49  			data = create_zero_mask(data);
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  50  			return res + find_zero(data) + 1 - align;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  51  		}
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  52  		res += sizeof(unsigned long);
+f18c34e483ff6b Jan Kara       2015-06-02  53  		/* We already handled 'unsigned long' bytes. Did we do it all ? */
+f18c34e483ff6b Jan Kara       2015-06-02  54  		if (unlikely(max <= sizeof(unsigned long)))
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  55  			break;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  56  		max -= sizeof(unsigned long);
+1bd4403d86a1c0 Linus Torvalds 2016-08-08 @57  		unsafe_get_user(c, (unsigned long __user *)(src+res), efault);
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  58  	}
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  59  	res -= align;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  60  
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  61  	/*
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  62  	 * Uhhuh. We hit 'max'. But was that the user-specified maximum
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  63  	 * too? If so, return the marker for "too long".
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  64  	 */
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  65  	if (res >= count)
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  66  		return count+1;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  67  
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  68  	/*
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  69  	 * Nope: we hit the address space limit, and we still had more
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  70  	 * characters the caller would have wanted. That's 0.
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  71  	 */
+1bd4403d86a1c0 Linus Torvalds 2016-08-08  72  efault:
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  73  	return 0;
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  74  }
+a08c5356a3aaf6 Linus Torvalds 2012-05-26  75  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: 1bd4403d86a1c06cb6cc9ac87664a0c9d3413d51 unsafe_[get|put]_user: change interface to use a error target label
+
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
