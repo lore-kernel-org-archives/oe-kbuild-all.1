@@ -1,47 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2F71FA8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08737F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 09:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675501662; x=1707037662;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vh1rn/GElzkmw4J+3sdswSnKFPEU6wulsbnU0427utc=;
-  b=QKYsmyVZuLb/ckPdGKN2iogRIx2GIHQn7r9FzqsQtBFfQz7d+cAOQQBR
-   sGEWGe4uHHAWSms8fMr3VGy9dag/6YUwCtH/HFfgfoLrYk3ue9jOIPciy
-   ruIPlp2iNNiW/IWqLAVrCmQfErIXktJqf6ZYiXHvTdoC5lPYNB5ouFDbZ
-   d10E9U+UH7FZ7ghKRJUelq2RFjIWU0yChJu+Bmw0T5NQT1jGjNjWq7c/F
-   gU6WDsEQzulSF4W2EEAC4M2IUIFCCRtuTGfs2FvHEptPBTZR3mXa0Wj6/
-   roMjzNWsOeRt1Z+XrnzmJUVd3Wg/jsz+WESIhY7BQnel8HbbK6/fNYQOu
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393524871"
+  t=1675502860; x=1707038860;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jte5swivAvHqao3bEe8848g5Nfr7BfG6Kz02X0Z355Q=;
+  b=AT6UgrvFgtdXPCl1sf4FM0oFCEGaGLw78P47NRgZEKMHlFp43AwgPBjz
+   Z+MYjEG8NzciUcbpl1W5wUu0CM2BQiuGbBMaP2hmfi/+gzcukHs8jeWSC
+   ebZk9oUr8il+cMLcKLILCroBbHnkrVTfIUoNqXg37aEjUQnenx8JtT4xs
+   m+z3zcGaeo4W8TiP0rjm0CXwLCGZulrYdRoBsToyXMrr6dxwXxMzHCSUb
+   bE9AcYxrErC8EJSjsy2EyMsGA3puU9tMaE8onleMwgHBzRY/GPpxu6YSk
+   QfHWYUxxkkEMtcT0lCPtvtrVELWm9eQyPkxYhVh72PWyTrQMzjOr7n4/Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="415145370"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="393524871"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:07:41 -0800
+   d="scan'208";a="415145370"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:27:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698343878"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="911426663"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="698343878"
+   d="scan'208";a="911426663"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 01:07:38 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 04 Feb 2023 01:27:39 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOEWH-0001BS-32;
-	Sat, 04 Feb 2023 09:07:37 +0000
-Date: Sat, 4 Feb 2023 17:06:46 +0800
+	id 1pOEpe-0001CK-1m;
+	Sat, 04 Feb 2023 09:27:38 +0000
+Date: Sat, 4 Feb 2023 17:27:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
-	Uma Shankar <uma.shankar@intel.com>, Vitaly.Prosyak@amd.com,
-	Joshua Ashton <joshua@froggi.es>
-Subject: Re: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
-Message-ID: <202302041649.Dswc7gNr-lkp@intel.com>
-References: <20230203020744.30745-1-joshua@froggi.es>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 6094/20209]
+ drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:64:5: warning: "CONFIG_PM" is not
+ defined, evaluates to 0
+Message-ID: <202302041719.b3EhkanG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,66 +46,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230203020744.30745-1-joshua@froggi.es>
 
-Hi Joshua,
+Hi Dong,
 
-I love your patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.2-rc6 next-20230203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230203020744.30745-1-joshua%40froggi.es
-patch subject: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
-config: arc-randconfig-r034-20230204 (https://download.01.org/0day-ci/archive/20230204/202302041649.Dswc7gNr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3248ffcb12d15a0e40b9a020ba362591b8137923
+commit: ba7179b2e4a0549e119cc83c5dfe5eb013cef3c2 [6094/20209] Merge remote-tracking branch 'origin/display/dsim' into display/next
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041719.b3EhkanG-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
-        git checkout 146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
+        # https://github.com/Freescale/linux-fslc/commit/ba7179b2e4a0549e119cc83c5dfe5eb013cef3c2
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
+        git checkout ba7179b2e4a0549e119cc83c5dfe5eb013cef3c2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/display/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/accessibility/speakup/ drivers/firmware/imx/ drivers/gpu/drm/imx/ drivers/irqchip/ drivers/mfd/ drivers/soc/imx/ drivers/spi/ drivers/staging/media/imx/ sound/soc/sof/intel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: error: 'DRM_MODE_COLORIMETRY_NO_DATA' undeclared here (not in a function); did you mean 'DRM_MODE_COLORIMETRY_OPRGB'?
-     108 |         [DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |          DRM_MODE_COLORIMETRY_OPRGB
->> drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: error: array index in initializer not of integer type
-   drivers/gpu/drm/display/drm_hdmi_helper.c:108:10: note: (near initialization for 'hdmi_colorimetry_val')
+>> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:64:5: warning: "CONFIG_PM" is not defined, evaluates to 0 [-Wundef]
+      64 | #if CONFIG_PM
+         |     ^~~~~~~~~
+   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c: In function 'sec_dsim_of_parse_resets':
+>> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:291:18: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+     291 |         uint32_t len, rstc_num = 0;
+         |                  ^~~
+   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c: At top level:
+   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:72:12: warning: 'imx_sec_dsim_runtime_resume' defined but not used [-Wunused-function]
+      72 | static int imx_sec_dsim_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:68:12: warning: 'imx_sec_dsim_runtime_suspend' defined but not used [-Wunused-function]
+      68 | static int imx_sec_dsim_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +108 drivers/gpu/drm/display/drm_hdmi_helper.c
+vim +/CONFIG_PM +64 drivers/gpu/drm/imx/sec_mipi_dsim-imx.c
 
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  106  
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  107  static const u32 hdmi_colorimetry_val[] = {
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21 @108  	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  109  	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  110  	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  111  	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  112  	[DRM_MODE_COLORIMETRY_XVYCC_709] = HDMI_COLORIMETRY_XVYCC_709,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  113  	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  114  	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  115  	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  116  	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  117  	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  118  	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  119  };
-4fc8cb47fcfdc9 Thomas Zimmermann 2022-04-21  120  
+25799de94b286c Fancy Fang 2018-06-06  63  
+b5a7aa6c474c92 Fancy Fang 2018-07-02 @64  #if CONFIG_PM
+b5a7aa6c474c92 Fancy Fang 2018-07-02  65  static int imx_sec_dsim_runtime_suspend(struct device *dev);
+b5a7aa6c474c92 Fancy Fang 2018-07-02  66  static int imx_sec_dsim_runtime_resume(struct device *dev);
+b5a7aa6c474c92 Fancy Fang 2018-07-02  67  #else
+b5a7aa6c474c92 Fancy Fang 2018-07-02  68  static int imx_sec_dsim_runtime_suspend(struct device *dev)
+b5a7aa6c474c92 Fancy Fang 2018-07-02  69  {
+b5a7aa6c474c92 Fancy Fang 2018-07-02  70  	return 0;
+b5a7aa6c474c92 Fancy Fang 2018-07-02  71  }
+b5a7aa6c474c92 Fancy Fang 2018-07-02  72  static int imx_sec_dsim_runtime_resume(struct device *dev)
+b5a7aa6c474c92 Fancy Fang 2018-07-02  73  {
+b5a7aa6c474c92 Fancy Fang 2018-07-02  74  	return 0;
+b5a7aa6c474c92 Fancy Fang 2018-07-02  75  }
+b5a7aa6c474c92 Fancy Fang 2018-07-02  76  #endif
+b5a7aa6c474c92 Fancy Fang 2018-07-02  77  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: b5a7aa6c474c926d8d7d919ebdb84ac3dfb328bd MLK-19017-6 drm/imx: add system pm support for SEC DSIM
+
+:::::: TO: Fancy Fang <chen.fang@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
