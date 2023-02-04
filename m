@@ -1,137 +1,98 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F284F1C27
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 06:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98181C27
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Feb 2023 07:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675493622; x=1707029622;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vP517VPNLeMl5qMSZv5hYh92Ykwu0neGbr0zo5Xa6jI=;
-  b=k4lNTuAQUPYlbmiG/+5ATszMuqbdEl80QlGk3fKENVFo0X6J5rXfFLQ3
-   tRjka/RCGoLo8k+tLIQO4vjC6eyPu3IjQxIHQqChOC+gVRTnvqJKHw2Lu
-   4L2RwHMAQHp3rXIHs3WanooSm+h35j90rPViCyuwItrEgJAMyEvVjn6zA
-   rZaBOk4X5CSMrnRx5OLtzvFAhreZQpY7m6BeakonlHDn4sdtwLqIuMuDa
-   76N4+rDlxK5W1nQOmwJNLmXjOMz9MUzUnzft2SfCTEyBqmudJjjT72bUR
-   lnRrpLvW4y76NP+2TaUDnmZGDXs5ruZkSDMA4X1lXXsS79taV7nUG+II1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309258049"
+  t=1675495478; x=1707031478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zue08qcuQ4OmFhevHK+wWCreNK8FsW6E6JgnrD7DYPg=;
+  b=HE3lI8J0+yQFPZaKc3fkL6mabkwIxJPcJsfUbBisjYhXA7Ra4n4HtCB3
+   OvC4ZQ/bPWJdZ2LY9XG1w9r9Mf/qnoUt1XD2efhiHjQ3zPP2cSHyiS9j5
+   hkd5k5XSH8uqPDjRbZ3XVUGJNEWUY7wyDZKMd6QsG2xihlDEWEKrsXx+b
+   N4zWWjPyaUuGZW8ph58ZKlXsI73vu0kVPs6AwuiJMEIOA4n3cr+SfmD0f
+   ZtQm5VR9VQWf7ELi9prDWhJT3UM72WNvv71+5Ir0RuqZKBf9DIeMTrXT/
+   chhaOJtzA1hNXx7k/YDzDn+nVX6zeN1WE6brQ25/V7tP6IZQ3/0oFfa+8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="308566317"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="309258049"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 22:53:41 -0800
+   d="scan'208";a="308566317"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 23:24:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="774582804"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="659346571"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="774582804"
+   d="scan'208";a="659346571"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2023 22:53:40 -0800
+  by orsmga007.jf.intel.com with ESMTP; 03 Feb 2023 23:24:36 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOCQZ-00017H-0V;
-	Sat, 04 Feb 2023 06:53:35 +0000
-Date: Sat, 4 Feb 2023 14:53:15 +0800
+	id 1pOCuZ-00017x-2H;
+	Sat, 04 Feb 2023 07:24:35 +0000
+Date: Sat, 4 Feb 2023 15:23:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
- 115/138] drivers/media/virtio/virtio_video_device.c:801:37: warning:
- variable 'out_prev_min_buffs' set but not used
-Message-ID: <202302041403.ipr42zHg-lkp@intel.com>
+Subject: [freescale-fslc:pr/621 4423/20208] versioncheck:
+ ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39
+ linux/version.h not needed.
+Message-ID: <202302041503.19YST24R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Bartłomiej,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
-head:   573344b8d137d3584c918c7efa8d4b949d0414d4
-commit: d2fdccc2068350260263ab52734dbb0a7871673f [115/138] CHROMIUM: drivers: media: virtio: send EVENT_CTRL when CID_MIN_BUFFERS_FOR_* changes
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230204/202302041403.ipr42zHg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/ammarfaizi2/linux-block/commit/d2fdccc2068350260263ab52734dbb0a7871673f
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
-        git checkout d2fdccc2068350260263ab52734dbb0a7871673f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/virtio/
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: 3f9aacad7d973711cdfbdc9dbbf19f972f39c7d9 [4423/20208] sdk_fman: add LSDK-19.09-V4.14 SDK DPAA FMan files
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/virtio/virtio_video_device.c: In function 'virtio_video_update_params':
->> drivers/media/virtio/virtio_video_device.c:801:37: warning: variable 'out_prev_min_buffs' set but not used [-Wunused-but-set-variable]
-     801 |         int ret, in_prev_min_buffs, out_prev_min_buffs;
-         |                                     ^~~~~~~~~~~~~~~~~~
-
-
-vim +/out_prev_min_buffs +801 drivers/media/virtio/virtio_video_device.c
-
-   794	
-   795	int virtio_video_update_params(struct virtio_video *vv,
-   796				       struct virtio_video_stream *stream,
-   797				       struct video_format_info *in_info,
-   798				       struct video_format_info *out_info)
-   799	{
-   800		struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
- > 801		int ret, in_prev_min_buffs, out_prev_min_buffs;
-   802		bool is_encoder;
-   803	
-   804		in_prev_min_buffs = stream->in_info.min_buffers;
-   805		out_prev_min_buffs = stream->out_info.min_buffers;
-   806	
-   807		if (in_info) {
-   808			ret = virtio_video_cmd_set_params(vv, stream, in_info,
-   809							  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
-   810			if (ret)
-   811				return ret;
-   812		}
-   813		if (out_info) {
-   814			ret = virtio_video_cmd_set_params(vv, stream, out_info,
-   815							  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
-   816			if (ret)
-   817				return ret;
-   818		}
-   819	
-   820		ret = virtio_video_cmd_get_params(vv, stream,
-   821						  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
-   822		if (ret)
-   823			return ret;
-   824		ret = virtio_video_cmd_get_params(vv, stream,
-   825						  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
-   826		if (ret)
-   827			return ret;
-   828	
-   829		is_encoder = vvd->type == VIRTIO_VIDEO_DEVICE_ENCODER;
-   830		if (is_encoder && in_prev_min_buffs != stream->in_info.min_buffers)
-   831			virtio_video_queue_ctrl_event(stream,
-   832						      V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
-   833						      stream->in_info.min_buffers,
-   834						      V4L2_EVENT_CTRL_CH_VALUE);
-   835		if (!is_encoder && in_prev_min_buffs != stream->out_info.min_buffers)
-   836			virtio_video_queue_ctrl_event(stream,
-   837						      V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
-   838						      stream->out_info.min_buffers,
-   839						      V4L2_EVENT_CTRL_CH_VALUE);
-   840	
-   841		return 0;
-   842	}
-   843	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+>> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39 linux/version.h not needed.
+>> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
+>> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
+>> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version.c: 17 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
