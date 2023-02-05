@@ -1,87 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E17723B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 08:56:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8814C433D2;
-	Sun,  5 Feb 2023 08:56:15 +0000 (UTC)
-Date: Sun, 5 Feb 2023 03:56:12 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: kernel/trace/rv/monitors/wip/wip.c:20:1: sparse: sparse: symbol
- 'da_mon_wip' was not declared. Should it be static?
-Message-ID: <20230205035612.55406e42@rorschach.local.home>
-In-Reply-To: <202302050517.4xtGBe0d-lkp@intel.com>
-References: <202302050517.4xtGBe0d-lkp@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C01323B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 09:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675589117; x=1707125117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Df99HyDrosle/JXu/3JFQ3h9SeA0KobmxpwIwPQlTJc=;
+  b=fKHttNbSVdtQRAY9bB7oSpBulkhkL7GJ0V6a7667thJ43aYjNZDZ7iTK
+   XbpH7APkyQ/1JnNltM/CqKDpEp3T3YzIc5KNYa4039ksuCRVzpJOOFsML
+   iLAv269qUs8pFS8ymq4PrCaDftm/3cMFp973/Agj2Z9KEtWcOKWgiQssu
+   RER260fur6P+F7zNWwXPaaw6nUpBtvaEjyinkTO072qTVZEfobigOgvj+
+   DIF0VuKwYbNrRhvtnzGVa48T5HXU4nBcsPIncrnyR7lfYlUvmSg4HL/nh
+   +TGS8gqZwwauhygUjrIzd0/oO3ZwkaF0pmBb8UthYLURhODUT5tnpvjmo
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393629184"
+X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
+   d="scan'208";a="393629184"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 01:25:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="643720442"
+X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
+   d="scan'208";a="643720442"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 05 Feb 2023 01:25:15 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pObGt-0001uE-0e;
+	Sun, 05 Feb 2023 09:25:15 +0000
+Date: Sun, 5 Feb 2023 17:24:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/621 3770/20208]
+ ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in
+ this language
+Message-ID: <202302051726.rwdzjWMj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 5 Feb 2023 05:24:24 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Zhou,
 
-> Hi Stephen,
+FYI, the error/warning still remains.
 
-Who's "Stephen"?
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: 0a3658b7bccb93a6ceec4bc4f6b220384f4d58b6 [3770/20208] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230205/202302051726.rwdzjWMj-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/0a3658b7bccb93a6ceec4bc4f6b220384f4d58b6
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/621
+        git checkout 0a3658b7bccb93a6ceec4bc4f6b220384f4d58b6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   db27c22251e7c8f3a9d5bfb55c9c8c701a70bbb3
-> commit: 10bde81c74863472047f31304064018c40f488ee rv/monitor: Add the wip monitor
-> date:   6 months ago
-> config: csky-randconfig-s052-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050517.4xtGBe0d-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 12.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=10bde81c74863472047f31304064018c40f488ee
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout 10bde81c74863472047f31304064018c40f488ee
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky SHELL=/bin/bash kernel/trace/rv/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> sparse warnings: (new ones prefixed by >>)
->    kernel/trace/rv/monitors/wip/wip.c: note: in included file:
->    kernel/trace/rv/monitors/wip/wip.h:30:22: sparse: sparse: symbol 'automaton_wip' was not declared. Should it be static?
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Line 30 in kernel/trace/rv/monitors/wip/wip.h is:
+All warnings (new ones prefixed by >>):
 
-static const struct automaton_wip automaton_wip
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/imx_vpu.h:17:
+   ./usr/include/linux/videodev2.h:2428:20: error: field has incomplete type 'struct timespec'
+           struct timespec                 timestamp;
+                                           ^
+   ./usr/include/linux/videodev2.h:2428:9: note: forward declaration of 'struct timespec'
+           struct timespec                 timestamp;
+                  ^
+   In file included from <built-in>:1:
+>> ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in this language [-Wcomment]
+   //ctrls & extension ctrls definitions
+   ^
+   1 warning and 1 error generated.
 
-Isn't it already static??
-
--- Steve
-
-> vim +/da_mon_wip +20 kernel/trace/rv/monitors/wip/wip.c
-> 
-> 8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29  18  
-> 8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29 @19  struct rv_monitor rv_wip;
-> 8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29 @20  DECLARE_DA_MON_PER_CPU(wip, unsigned char);
-> 8812d21219b9c6 Daniel Bristot de Oliveira 2022-07-29  21  
-> 
-> :::::: The code at line 20 was first introduced by commit
-> :::::: 8812d21219b9c649dd25eb93915e00939944aeb7 rv/monitor: Add the wip monitor skeleton created by dot2k
-> 
-> :::::: TO: Daniel Bristot de Oliveira <bristot@kernel.org>
-> :::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
