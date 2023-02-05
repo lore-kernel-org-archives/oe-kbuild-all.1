@@ -1,42 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C1C17C5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 21:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1266217C5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 21:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675631016; x=1707167016;
+  t=1675631022; x=1707167022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mPWnmXgNWyAwE5hkoJEs+DfZza3l1jkDkRiYZDjNxsw=;
-  b=haAzXvTty8SZaN+zwYYXRCl1BVZ2+bCHvvaeA2uiwcAFhpOeoJ7r8usX
-   +cj28TzpTW4vTofnuBoolvpIxRMP8FLfJtPQvah/Z4eUJmxeEv/FCf04L
-   GJeZB+FOiOjO3YA1xjDDJDU2opwIff6+vHbaMdbaYS7/DtaXffhsFVg04
-   QWvXFhL+hpfPIX8qy4fY7Td+KOGo25hPSLFy19pF5vVL/7zp6CXB5K9zu
-   /70uXtBkueEJLzx67hnvMfxPQs4OHMBDvvr5JjHWNmz1+ssgRmXGOZe3l
-   8C0I5ZFIQm4URCm8K/M6mOZrLyBfNp2Y2rIUSxE1mCVAPsmOQlnmYSzNM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="393687463"
+  bh=z4tGP7YECaEXuftXsDhXb8MnUI+Jm5VnqZNZCKCTFN8=;
+  b=XA8iqMv78xwZqb2RMDmIBhPYupJ3D/kZ+MCigZMeBfLAzEHejOtF+vrx
+   zC5z2hd0O5/bRssaC+c1nurrmdC59eX4cSKQqO4wLP+oUtYMAFSakRJY+
+   eXW9XtgS9zfNWA6Fcat8p4Uhhl7b+nghlOXG2VfjltUgIuT1lNk9oXkQV
+   ndpTL5OyhyklIN4x3dnBVmn0tI8xdcrFdy6JaZUO8rPeSYaUQKe8lKrAI
+   Yf3BLKKP12ZvKcsYycRxWqXgau9IvsOjEUp9fJlxfwVLEVRmqjaKJYrqi
+   4GB3gZUqxREK0ANTXOos2s7bc3yEObB/NT1Z7+kPPDW1a/yt0LJffnfSN
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="415308288"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="393687463"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 13:03:35 -0800
+   d="scan'208";a="415308288"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 13:03:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="840176269"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="666306746"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="840176269"
+   d="scan'208";a="666306746"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Feb 2023 13:03:34 -0800
+  by orsmga002.jf.intel.com with ESMTP; 05 Feb 2023 13:03:39 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOmAf-0002DQ-2R;
+	id 1pOmAf-0002DS-2W;
 	Sun, 05 Feb 2023 21:03:33 +0000
-Date: Mon, 6 Feb 2023 05:02:46 +0800
+Date: Mon, 6 Feb 2023 05:02:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:ovl-lazy-lowerdata 1/2] fs/overlayfs/inode.c:256:
- undefined reference to `__divdi3'
-Message-ID: <202302060551.1L7Rj2Ss-lkp@intel.com>
+Subject: drivers/media/virtio/virtio_video_vq.c:532:41: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202302060411.AveowtsE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,164 +49,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/amir73il/linux ovl-lazy-lowerdata
-head:   815a759a1a03f231d5fc94fcb2de98efac1e184b
-commit: 6364ddb1e514220d5b88c3b6b53c040419996c35 [1/2] ovl: add support for "redirect_dir=lazyfollow" on lower only overlay
-config: i386-randconfig-a013-20230206 (https://download.01.org/0day-ci/archive/20230206/202302060551.1L7Rj2Ss-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/amir73il/linux/commit/6364ddb1e514220d5b88c3b6b53c040419996c35
-        git remote add amir73il https://github.com/amir73il/linux
-        git fetch --no-tags amir73il ovl-lazy-lowerdata
-        git checkout 6364ddb1e514220d5b88c3b6b53c040419996c35
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: bc32f55417037a061fc11e60c35c084d454f8b85 FROMLIST: drivers: media: virtio: Support virtio objects in virtio-video driver
+date:   2 years, 2 months ago
+config: m68k-randconfig-s051-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060411.AveowtsE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=bc32f55417037a061fc11e60c35c084d454f8b85
+        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
+        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
+        git checkout bc32f55417037a061fc11e60c35c084d454f8b85
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/media/virtio/virtio_video_vq.c:241:25: sparse: sparse: restricted __le32 degrades to integer
+   drivers/media/virtio/virtio_video_vq.c:242:21: sparse: sparse: restricted __le32 degrades to integer
+   drivers/media/virtio/virtio_video_vq.c:359:49: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long id @@     got restricted __le32 [usertype] stream_id @@
+   drivers/media/virtio/virtio_video_vq.c:359:49: sparse:     expected unsigned long id
+   drivers/media/virtio/virtio_video_vq.c:359:49: sparse:     got restricted __le32 [usertype] stream_id
+>> drivers/media/virtio/virtio_video_vq.c:532:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 @@     got unsigned int data_offset @@
+   drivers/media/virtio/virtio_video_vq.c:532:41: sparse:     expected restricted __le32
+   drivers/media/virtio/virtio_video_vq.c:532:41: sparse:     got unsigned int data_offset
+   drivers/media/virtio/virtio_video_vq.c:597:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] num_data_sizes @@     got unsigned char [usertype] num_data_size @@
+   drivers/media/virtio/virtio_video_vq.c:597:31: sparse:     expected restricted __le32 [usertype] num_data_sizes
+   drivers/media/virtio/virtio_video_vq.c:597:31: sparse:     got unsigned char [usertype] num_data_size
+   drivers/media/virtio/virtio_video_vq.c:774:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] top @@     got unsigned int @@
+   drivers/media/virtio/virtio_video_vq.c:774:31: sparse:     expected restricted __le32 [usertype] top
+   drivers/media/virtio/virtio_video_vq.c:774:31: sparse:     got unsigned int
+   drivers/media/virtio/virtio_video_vq.c:775:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] left @@     got unsigned int @@
+   drivers/media/virtio/virtio_video_vq.c:775:32: sparse:     expected restricted __le32 [usertype] left
+   drivers/media/virtio/virtio_video_vq.c:775:32: sparse:     got unsigned int
+   drivers/media/virtio/virtio_video_vq.c:776:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] width @@     got unsigned int @@
+   drivers/media/virtio/virtio_video_vq.c:776:33: sparse:     expected restricted __le32 [usertype] width
+   drivers/media/virtio/virtio_video_vq.c:776:33: sparse:     got unsigned int
+   drivers/media/virtio/virtio_video_vq.c:777:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] height @@     got unsigned int @@
+   drivers/media/virtio/virtio_video_vq.c:777:34: sparse:     expected restricted __le32 [usertype] height
+   drivers/media/virtio/virtio_video_vq.c:777:34: sparse:     got unsigned int
+   drivers/media/virtio/virtio_video_vq.c:824:18: sparse: sparse: restricted __le32 degrades to integer
+   drivers/media/virtio/virtio_video_vq.c:866:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] v4l2_format @@     got restricted __le32 [usertype] @@
+   drivers/media/virtio/virtio_video_vq.c:866:34: sparse:     expected unsigned int [usertype] v4l2_format
+   drivers/media/virtio/virtio_video_vq.c:866:34: sparse:     got restricted __le32 [usertype]
+   drivers/media/virtio/virtio_video_vq.c:865:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] format @@     got unsigned int @@
+   drivers/media/virtio/virtio_video_vq.c:865:30: sparse:     expected restricted __le32 [usertype] format
+   drivers/media/virtio/virtio_video_vq.c:865:30: sparse:     got unsigned int
+   drivers/media/virtio/virtio_video_vq.c:309:28: sparse: sparse: context imbalance in 'virtio_video_queue_cmd_buffer_locked' - unexpected unlock
 
-   ld: fs/overlayfs/inode.o: in function `ovl_getattr':
->> fs/overlayfs/inode.c:256: undefined reference to `__divdi3'
+vim +532 drivers/media/virtio/virtio_video_vq.c
 
-
-vim +256 fs/overlayfs/inode.c
-
-   155	
-   156	int ovl_getattr(struct user_namespace *mnt_userns, const struct path *path,
-   157			struct kstat *stat, u32 request_mask, unsigned int flags)
-   158	{
-   159		struct dentry *dentry = path->dentry;
-   160		enum ovl_path_type type;
-   161		struct path realpath;
-   162		const struct cred *old_cred;
-   163		struct inode *inode = d_inode(dentry);
-   164		bool is_dir = S_ISDIR(inode->i_mode);
-   165		int fsid = 0;
-   166		int err;
-   167		bool metacopy_blocks = false;
-   168	
-   169		metacopy_blocks = ovl_is_metacopy_dentry(dentry);
-   170	
-   171		type = ovl_path_real(dentry, &realpath);
-   172		old_cred = ovl_override_creds(dentry->d_sb);
-   173		err = vfs_getattr(&realpath, stat, request_mask, flags);
-   174		if (err)
-   175			goto out;
-   176	
-   177		/* Report the effective immutable/append-only STATX flags */
-   178		generic_fill_statx_attr(inode, stat);
-   179	
-   180		/*
-   181		 * For non-dir or same fs, we use st_ino of the copy up origin.
-   182		 * This guaranties constant st_dev/st_ino across copy up.
-   183		 * With xino feature and non-samefs, we use st_ino of the copy up
-   184		 * origin masked with high bits that represent the layer id.
-   185		 *
-   186		 * If lower filesystem supports NFS file handles, this also guaranties
-   187		 * persistent st_ino across mount cycle.
-   188		 */
-   189		if (!is_dir || ovl_same_dev(dentry->d_sb)) {
-   190			if (!OVL_TYPE_UPPER(type)) {
-   191				fsid = ovl_layer_lower(dentry)->fsid;
-   192			} else if (OVL_TYPE_ORIGIN(type)) {
-   193				struct kstat lowerstat;
-   194				u32 lowermask = STATX_INO | STATX_BLOCKS |
-   195						(!is_dir ? STATX_NLINK : 0);
-   196	
-   197				ovl_path_lower(dentry, &realpath);
-   198				err = vfs_getattr(&realpath, &lowerstat,
-   199						  lowermask, flags);
-   200				if (err)
-   201					goto out;
-   202	
-   203				/*
-   204				 * Lower hardlinks may be broken on copy up to different
-   205				 * upper files, so we cannot use the lower origin st_ino
-   206				 * for those different files, even for the same fs case.
-   207				 *
-   208				 * Similarly, several redirected dirs can point to the
-   209				 * same dir on a lower layer. With the "verify_lower"
-   210				 * feature, we do not use the lower origin st_ino, if
-   211				 * we haven't verified that this redirect is unique.
-   212				 *
-   213				 * With inodes index enabled, it is safe to use st_ino
-   214				 * of an indexed origin. The index validates that the
-   215				 * upper hardlink is not broken and that a redirected
-   216				 * dir is the only redirect to that origin.
-   217				 */
-   218				if (ovl_test_flag(OVL_INDEX, d_inode(dentry)) ||
-   219				    (!ovl_verify_lower(dentry->d_sb) &&
-   220				     (is_dir || lowerstat.nlink == 1))) {
-   221					fsid = ovl_layer_lower(dentry)->fsid;
-   222					stat->ino = lowerstat.ino;
-   223				}
-   224	
-   225				/*
-   226				 * If we are querying a metacopy dentry and lower
-   227				 * dentry is data dentry, then use the blocks we
-   228				 * queried just now. We don't have to do additional
-   229				 * vfs_getattr(). If lower itself is metacopy, then
-   230				 * additional vfs_getattr() is unavoidable.
-   231				 */
-   232				if (metacopy_blocks &&
-   233				    realpath.dentry == ovl_dentry_lowerdata(dentry)) {
-   234					stat->blocks = lowerstat.blocks;
-   235					metacopy_blocks = false;
-   236				}
-   237			}
-   238	
-   239			if (metacopy_blocks) {
-   240				/*
-   241				 * If lower is not same as lowerdata or if there was
-   242				 * no origin on upper, we can end up here.
-   243				 */
-   244				struct kstat lowerdatastat;
-   245				u32 lowermask = STATX_BLOCKS;
-   246	
-   247				ovl_path_lowerdata(dentry, &realpath);
-   248				if (realpath.dentry) {
-   249					err = vfs_getattr(&realpath, &lowerdatastat,
-   250							  lowermask, flags);
-   251					if (err)
-   252						goto out;
-   253				} else {
-   254					/* TODO: store lowerdata blocks in metacopy xattr? */
-   255					lowerdatastat.blocks =
- > 256						DIV_ROUND_UP(stat->size, stat->blksize) << 3;
-   257				}
-   258				stat->blocks = lowerdatastat.blocks;
-   259			}
-   260		}
-   261	
-   262		ovl_map_dev_ino(dentry, stat, fsid);
-   263	
-   264		/*
-   265		 * It's probably not worth it to count subdirs to get the
-   266		 * correct link count.  nlink=1 seems to pacify 'find' and
-   267		 * other utilities.
-   268		 */
-   269		if (is_dir && OVL_TYPE_MERGE(type))
-   270			stat->nlink = 1;
-   271	
-   272		/*
-   273		 * Return the overlay inode nlinks for indexed upper inodes.
-   274		 * Overlay inode nlink counts the union of the upper hardlinks
-   275		 * and non-covered lower hardlinks. It does not include the upper
-   276		 * index hardlink.
-   277		 */
-   278		if (!is_dir && ovl_test_flag(OVL_INDEX, d_inode(dentry)))
-   279			stat->nlink = dentry->d_inode->i_nlink;
-   280	
-   281	out:
-   282		revert_creds(old_cred);
-   283	
-   284		return err;
-   285	}
-   286	
+   512	
+   513	int virtio_video_cmd_resource_create_object(
+   514		struct virtio_video *vv, uint32_t stream_id, uint32_t resource_id,
+   515		uint32_t queue_type, unsigned int num_planes, struct vb2_plane *planes,
+   516		struct virtio_video_object_entry *ents)
+   517	{
+   518		struct virtio_video_resource_create *req_p;
+   519		struct virtio_video_vbuffer *vbuf;
+   520		int i;
+   521	
+   522		req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
+   523		if (IS_ERR(req_p))
+   524			return PTR_ERR(req_p);
+   525	
+   526		virtio_video_cmd_resource_create_core(vv, req_p, stream_id, resource_id,
+   527						      queue_type, num_planes);
+   528	
+   529		req_p->planes_layout =
+   530			cpu_to_le32(VIRTIO_VIDEO_PLANES_LAYOUT_SINGLE_BUFFER);
+   531		for (i = 0; i < num_planes; i++)
+ > 532			req_p->plane_offsets[i] = planes[i].data_offset;
+   533	
+   534		vbuf->data_buf = ents;
+   535		vbuf->data_size = sizeof(*ents);
+   536	
+   537		return virtio_video_queue_cmd_buffer(vv, vbuf);
+   538	}
+   539	
 
 -- 
 0-DAY CI Kernel Test Service
