@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB5315B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E56915C0
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:42:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675561325; x=1707097325;
+  t=1675561326; x=1707097326;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ZRtja9zl9k7V2SuwkjqFPS/dSWFpnNOng8I7eXTa50=;
-  b=PdeFa+0dVUt4TRqgZxU5lt5wt2tIYXJ+g0HloH+DPI0ht7F0CCPlCiOw
-   6NaJ3mgYT2mvDEf8Uwc5f7MKm7vu6E7i7bDXlFy8sy6O5q4GT8owlcEj+
-   C+cBekLnXqqA41BK+DJquuq2b9k5KUeDVoswf77SyZP/Zv9x1etmB+336
-   POANM/cqV/csx0eQNCyOFe2LyFxHZDqxq5nywoOFU55ie6WHwzqrUC9uS
-   bAJT0C2kMeq46Os/0n5Msn7PLPsScz/VMFi5ZcAZhyqMr0R1o80PAtmgA
-   Av6IIBZ13iss4+Fw3LB5L/CgeZKSzQj4zD9UHQKLcTlyCdmHDaqFTtpXi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="331143163"
+  bh=JGYVo1RZJVNUBLdPobzm3WqBXXo8QaF8V2av2xGECYI=;
+  b=TEWpRU0pKmkVSnc+GTuTRjXHEo7cSl0X+49R+TYaC8ZvRTxGja21tgaH
+   DfAu06k8V73i65i31mzCTGaIVuTMdRH/VU5vB2IMgFnSulc8y/kUE2Jqm
+   yG4GOuyZqzFP8X/nhn9XxO9173j/SieK0l3kI9qg1W7tLXpKZriW7jMgJ
+   8Qh2KA6fT02PVTj5gcP9gpJpvGmiqu++ItEHlW7DzLaE11j/WsZOKk8PE
+   h9Av6f+drpF4/PEjQ/eONt5zslwsxrrGyz4l1cRzNdigzVJRri2Gmn0MR
+   NbAf5S9PdwNaV0J4VFp6o2sMT7AUQs7RYabufTt0ZJK8KB+uhlCv4rilT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="327641888"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="331143163"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:42:04 -0800
+   d="scan'208";a="327641888"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:42:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="790084799"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="616094893"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="790084799"
+   d="scan'208";a="616094893"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Feb 2023 17:42:03 -0800
+  by orsmga003.jf.intel.com with ESMTP; 04 Feb 2023 17:42:03 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOU2d-0001e2-0Y;
+	id 1pOU2d-0001e0-0K;
 	Sun, 05 Feb 2023 01:42:03 +0000
 Date: Sun, 5 Feb 2023 09:41:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 6077/20209]
- drivers/media/platform/mxc/capture/ov5640_v2.c:792:28: warning: unused
- variable 'client'
-Message-ID: <202302050930.xwfPr88c-lkp@intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Aswath Govindraju <a-govindraju@ti.com>
+Subject: drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol
+ 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
+Message-ID: <202302050901.FR4NtarP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +48,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: 75f2ca3b452a3b216d8f58985e99ab517247880c [6077/20209] Merge remote-tracking branch 'origin/capture/ov5640' into capture/next
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230205/202302050930.xwfPr88c-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/Freescale/linux-fslc/commit/75f2ca3b452a3b216d8f58985e99ab517247880c
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout 75f2ca3b452a3b216d8f58985e99ab517247880c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95078069c1e70d1b3b141132d18d0c563acedd0c
+commit: 0651a730924b172476f67c7c6e01e898f84cd8f3 gpio: davinci: Add support for system suspend/resume PM
+date:   7 months ago
+config: arm64-randconfig-s053-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050901.FR4NtarP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0651a730924b172476f67c7c6e01e898f84cd8f3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 0651a730924b172476f67c7c6e01e898f84cd8f3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/platform/mxc/capture/ net/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
 
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'ov5640_get_register':
->> drivers/media/platform/mxc/capture/ov5640_v2.c:792:28: warning: unused variable 'client' [-Wunused-variable]
-     792 |         struct i2c_client *client = v4l2_get_subdevdata(sd);
-         |                            ^~~~~~
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'ov5640_set_register':
-   drivers/media/platform/mxc/capture/ov5640_v2.c:811:28: warning: unused variable 'client' [-Wunused-variable]
-     811 |         struct i2c_client *client = v4l2_get_subdevdata(sd);
-         |                            ^~~~~~
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'init_device':
-   drivers/media/platform/mxc/capture/ov5640_v2.c:1708:32: warning: variable 'frame_rate' set but not used [-Wunused-but-set-variable]
-    1708 |         enum ov5640_frame_rate frame_rate;
-         |                                ^~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5640_v2.c:1706:13: warning: variable 'tgt_xclk' set but not used [-Wunused-but-set-variable]
-    1706 |         u32 tgt_xclk;   /* target xclk */
-         |             ^~~~~~~~
+vim +/davinci_gpio_dev_pm_ops +704 drivers/gpio/gpio-davinci.c
 
-
-vim +/client +792 drivers/media/platform/mxc/capture/ov5640_v2.c
-
-4a2766d696ef8a2 Robby Cai 2019-09-25  787  
-4a2766d696ef8a2 Robby Cai 2019-09-25  788  #ifdef CONFIG_VIDEO_ADV_DEBUG
-4a2766d696ef8a2 Robby Cai 2019-09-25  789  static int ov5640_get_register(struct v4l2_subdev *sd,
-4a2766d696ef8a2 Robby Cai 2019-09-25  790  					struct v4l2_dbg_register *reg)
-4a2766d696ef8a2 Robby Cai 2019-09-25  791  {
-4a2766d696ef8a2 Robby Cai 2019-09-25 @792  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-4a2766d696ef8a2 Robby Cai 2019-09-25  793  	int ret;
-4a2766d696ef8a2 Robby Cai 2019-09-25  794  	u8 val;
-4a2766d696ef8a2 Robby Cai 2019-09-25  795  
-4a2766d696ef8a2 Robby Cai 2019-09-25  796  	if (reg->reg & ~0xffff)
-4a2766d696ef8a2 Robby Cai 2019-09-25  797  		return -EINVAL;
-4a2766d696ef8a2 Robby Cai 2019-09-25  798  
-4a2766d696ef8a2 Robby Cai 2019-09-25  799  	reg->size = 1;
-4a2766d696ef8a2 Robby Cai 2019-09-25  800  
-4a2766d696ef8a2 Robby Cai 2019-09-25  801  	ret = ov5640_read_reg(reg->reg, &val);
-4a2766d696ef8a2 Robby Cai 2019-09-25  802  	if (!ret)
-4a2766d696ef8a2 Robby Cai 2019-09-25  803  		reg->val = (__u64)val;
-4a2766d696ef8a2 Robby Cai 2019-09-25  804  
-4a2766d696ef8a2 Robby Cai 2019-09-25  805  	return ret;
-4a2766d696ef8a2 Robby Cai 2019-09-25  806  }
-4a2766d696ef8a2 Robby Cai 2019-09-25  807  
-
-:::::: The code at line 792 was first introduced by commit
-:::::: 4a2766d696ef8a2b758c3728ea510d33c1502e69 media: capture: add ov5640 mipi and parallel driver of subdev version
-
-:::::: TO: Robby Cai <robby.cai@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+   699	
+   700	DEFINE_SIMPLE_DEV_PM_OPS(davinci_gpio_dev_pm_ops, davinci_gpio_suspend,
+   701				 davinci_gpio_resume);
+   702	
+   703	static const struct of_device_id davinci_gpio_ids[] = {
+ > 704		{ .compatible = "ti,keystone-gpio", keystone_gpio_get_irq_chip},
+   705		{ .compatible = "ti,am654-gpio", keystone_gpio_get_irq_chip},
+   706		{ .compatible = "ti,dm6441-gpio", davinci_gpio_get_irq_chip},
+   707		{ /* sentinel */ },
+   708	};
+   709	MODULE_DEVICE_TABLE(of, davinci_gpio_ids);
+   710	
 
 -- 
 0-DAY CI Kernel Test Service
