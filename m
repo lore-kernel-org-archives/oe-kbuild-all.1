@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D422F21
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 19:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7112F21
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 19:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675626092; x=1707162092;
+  t=1675626096; x=1707162096;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QoqMwBGtg0o60vYc523HtJoYcvhAnF53tLIPpRbn6mw=;
-  b=PJr3TD154qzEn5h/GKtLpEjdxr0NBkC0kb6/+TJvy4It25YEYYMCa+Wj
-   lV6I7nRfyRogQ2WBEMq71fxK+dnTpXJwlfgZnAlKd+e3hGb4sAUtvmfQe
-   ky1SdMph2z1LilhB21LkRVkdj1YRZCSRfq/6iXZCsZly7Vq5edd3pHs1r
-   N1nvTmK/z/GvaE4U35laaQVJbhQkglLxnWh5Zy/uDNusAyWaP0iVSq69R
-   emlY+zOP6HAgsCxn6kk8Ml5LnlnsYSqFsvGWCXSkGrVekh3oGuvuVj3Aa
-   w/WyMl/VYETL6OCo94PUuWrfBu15h7S93KAoJz8uMKFpIg0/PFYCO30AL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="330374719"
+  bh=58X0p4vGaSlNVZlTn+96wnsYamzpbiJ3eLsFbShMMUs=;
+  b=Wd/qwtf9CuiILAKoDw6ibOEBKqpRgz0GER0rx0Edp4NVBueZH0oFt+Ed
+   5yXG9oXkl0w4mxrdiIjwCQSFE+hP1HFUFN6gYqNuLzrUpxorpleGs7nbe
+   lu6WMiEia61bqKmt/rw7+xraJg0wIuxOC+uBPC4AqKtFvgK0uwa2ezxxI
+   xC1/iHOqkuZ3ZjIzkwMLngPAElCa0IDwf4sVgcZLa7OlmKSJSfHArAjUR
+   F/tnPbI60A8i/HczZoCJkjLDrVNl4AEnhjxEtP3hJgoWwIBb6bJdsrSfx
+   +hRg2qofb0ep+8h2COqTo4NbafcmE6eRvUItGrbO1L1DMlm7oG5SOiUpl
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="329095160"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="330374719"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 11:41:31 -0800
+   d="scan'208";a="329095160"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 11:41:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="840165955"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="668215499"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="840165955"
+   d="scan'208";a="668215499"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Feb 2023 11:41:30 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 05 Feb 2023 11:41:34 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOktF-0002BI-0m;
+	id 1pOktF-0002BM-0y;
 	Sun, 05 Feb 2023 19:41:29 +0000
-Date: Mon, 6 Feb 2023 03:41:00 +0800
+Date: Mon, 6 Feb 2023 03:41:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 4145/20208] drivers/rpmsg/imx_rpmsg.c:371:6:
- warning: no previous prototype for function 'imx_rpmsg_restore'
-Message-ID: <202302060352.TljjRWpz-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 31/20209]
+ arch/arm/mach-imx/common.c:22:15: warning: no previous prototype for
+ 'save_ttbr1'
+Message-ID: <202302060357.HiuYpRMk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,240 +47,381 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Robin,
+Hi Anson,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: dc5690015984c6ba85503e5ead1938de078d38a4 [4145/20208] rpmsg: imx_rpmsg: add partition reset notify
-config: riscv-randconfig-r026-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060352.TljjRWpz-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3248ffcb12d15a0e40b9a020ba362591b8137923
+commit: c45147fa43a3c82106dc3d47d4ae1b1c353b9282 [31/20209] ARM: imx: add i.MX7D bus-freq support
+config: arm-buildonly-randconfig-r003-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060357.HiuYpRMk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/Freescale/linux-fslc/commit/dc5690015984c6ba85503e5ead1938de078d38a4
+        # https://github.com/Freescale/linux-fslc/commit/c45147fa43a3c82106dc3d47d4ae1b1c353b9282
         git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/621
-        git checkout dc5690015984c6ba85503e5ead1938de078d38a4
+        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
+        git checkout c45147fa43a3c82106dc3d47d4ae1b1c353b9282
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/clk/imx/ drivers/firmware/imx/ drivers/mailbox/ drivers/rpmsg/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/rpmsg/imx_rpmsg.c:19:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:36:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/rpmsg/imx_rpmsg.c:19:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/rpmsg/imx_rpmsg.c:19:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:1024:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
-   drivers/rpmsg/imx_rpmsg.c:163:9: error: implicit declaration of function 'kmalloc' [-Werror,-Wimplicit-function-declaration]
-           rpvq = kmalloc(sizeof(*rpvq), GFP_KERNEL);
-                  ^
-   drivers/rpmsg/imx_rpmsg.c:163:7: error: incompatible integer to pointer conversion assigning to 'struct imx_rpmsg_vq_info *' from 'int' [-Wint-conversion]
-           rpvq = kmalloc(sizeof(*rpvq), GFP_KERNEL);
-                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/imx_rpmsg.c:168:32: error: implicit declaration of function 'ioremap_nocache' [-Werror,-Wimplicit-function-declaration]
-           rpvq->addr = (__force void *) ioremap_nocache(virdev->vring[index],
-                                         ^
-   drivers/rpmsg/imx_rpmsg.c:168:15: warning: cast to 'void *' from smaller integer type 'int' [-Wint-to-void-pointer-cast]
-           rpvq->addr = (__force void *) ioremap_nocache(virdev->vring[index],
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/imx_rpmsg.c:203:2: error: implicit declaration of function 'kfree' [-Werror,-Wimplicit-function-declaration]
-           kfree(rpvq);
-           ^
-   drivers/rpmsg/imx_rpmsg.c:216:3: error: implicit declaration of function 'kfree' [-Werror,-Wimplicit-function-declaration]
-                   kfree(rpvq);
-                   ^
-   drivers/rpmsg/imx_rpmsg.c:307:22: error: implicit declaration of function 'kzalloc' [-Werror,-Wimplicit-function-declaration]
-                           rpdev->ivdev[i] = kzalloc(sizeof(struct imx_virdev),
-                                             ^
-   drivers/rpmsg/imx_rpmsg.c:307:20: error: incompatible integer to pointer conversion assigning to 'struct imx_virdev *' from 'int' [-Wint-conversion]
-                           rpdev->ivdev[i] = kzalloc(sizeof(struct imx_virdev),
-                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/imx_rpmsg.c:378:3: error: implicit declaration of function 'kfree' [-Werror,-Wimplicit-function-declaration]
-                   kfree(rpdev->ivdev[i]);
-                   ^
->> drivers/rpmsg/imx_rpmsg.c:371:6: warning: no previous prototype for function 'imx_rpmsg_restore' [-Wmissing-prototypes]
-   void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-        ^
-   drivers/rpmsg/imx_rpmsg.c:371:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-   ^
-   static 
-   drivers/rpmsg/imx_rpmsg.c:556:19: warning: cast to smaller integer type 'enum imx_rpmsg_variants' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           rpdev->variant = (enum imx_rpmsg_variants)of_device_get_match_data(dev);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   10 warnings and 8 errors generated.
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/xarray.h:14,
+                    from include/linux/radix-tree.h:19,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:13,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from arch/arm/mach-imx/common.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1349:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1349 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1335:27: note: 'mem_section' declared here
+    1335 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/arm/mach-imx/common.c: At top level:
+>> arch/arm/mach-imx/common.c:22:15: warning: no previous prototype for 'save_ttbr1' [-Wmissing-prototypes]
+      22 | unsigned long save_ttbr1(void)
+         |               ^~~~~~~~~~
+>> arch/arm/mach-imx/common.c:33:6: warning: no previous prototype for 'restore_ttbr1' [-Wmissing-prototypes]
+      33 | void restore_ttbr1(unsigned long ttbr1)
+         |      ^~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:44:13: warning: no previous prototype for 'imx6_enet_mac_init' [-Wmissing-prototypes]
+      44 | void __init imx6_enet_mac_init(const char *enet_compat, const char *ocotp_compat)
+         |             ^~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c: In function 'imx6_enet_mac_init':
+   arch/arm/mach-imx/common.c:62:21: error: too few arguments to function 'of_get_mac_address'
+      62 |                 if (of_get_mac_address(enet_np))
+         |                     ^~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/mach-imx/common.c:14:
+   include/linux/of_net.h:25:19: note: declared here
+      25 | static inline int of_get_mac_address(struct device_node *np, u8 *mac)
+         |                   ^~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c: At top level:
+>> arch/arm/mach-imx/common.c:126:5: warning: no previous prototype for 'imx_gpc_mf_request_on' [-Wmissing-prototypes]
+     126 | int imx_gpc_mf_request_on(unsigned int irq, unsigned int on) { return 0; }
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:132:6: warning: no previous prototype for 'mx6_lpddr2_freq_change' [-Wmissing-prototypes]
+     132 | void mx6_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:136:6: warning: no previous prototype for 'imx6sll_lpddr2_freq_change' [-Wmissing-prototypes]
+     136 | void imx6sll_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:143:6: warning: no previous prototype for 'imx6_up_ddr3_freq_change' [-Wmissing-prototypes]
+     143 | void imx6_up_ddr3_freq_change(struct imx6_busfreq_info *busfreq_info) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:144:6: warning: no previous prototype for 'imx6_up_lpddr2_freq_change' [-Wmissing-prototypes]
+     144 | void imx6_up_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c:149:6: warning: no previous prototype for 'imx6ull_low_power_idle' [-Wmissing-prototypes]
+     149 | void imx6ull_low_power_idle(void) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:156:6: warning: no previous prototype for 'mx6_ddr3_freq_change' [-Wmissing-prototypes]
+     156 | void mx6_ddr3_freq_change(u32 freq, void *ddr_settings,
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:158:6: warning: no previous prototype for 'mx6q_lpddr2_freq_change' [-Wmissing-prototypes]
+     158 | void mx6q_lpddr2_freq_change(u32 freq, void *ddr_settings) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:159:6: warning: no previous prototype for 'wfe_smp_freq_change' [-Wmissing-prototypes]
+     159 | void wfe_smp_freq_change(u32 cpuid, u32 *ddr_freq_change_done) {}
+         |      ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:163:6: warning: no previous prototype for 'imx7_smp_wfe' [-Wmissing-prototypes]
+     163 | void imx7_smp_wfe(u32 cpuid, u32 ocram_base) {}
+         |      ^~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:164:6: warning: no previous prototype for 'imx7d_ddr3_freq_change' [-Wmissing-prototypes]
+     164 | void imx7d_ddr3_freq_change(u32 freq) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/arm/include/asm/cacheflush.h:10,
+                    from arch/arm/mach-imx/busfreq-imx.c:17:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1349:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1349 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1335:27: note: 'mem_section' declared here
+    1335 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from arch/arm/include/asm/bug.h:6,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:9:
+   arch/arm/mach-imx/busfreq-imx.c: At top level:
+>> include/linux/stddef.h:8:14: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:19: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                   ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'busfreq_func')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:19: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                   ^~~~
+>> include/linux/stddef.h:8:14: error: invalid initializer
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:19: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                   ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'busfreq_func.<anonymous>')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:19: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                   ^~~~
+>> include/linux/stddef.h:8:14: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:25: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                         ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'busfreq_func')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm/mach-imx/busfreq-imx.c:94:25: note: in expansion of macro 'NULL'
+      94 | } busfreq_func = {NULL, NULL};
+         |                         ^~~~
+   arch/arm/mach-imx/busfreq-imx.c:134:5: error: redefinition of 'register_busfreq_notifier'
+     134 | int register_busfreq_notifier(struct notifier_block *nb)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/mach-imx/busfreq-imx.c:23:
+   include/linux/busfreq-imx.h:64:19: note: previous definition of 'register_busfreq_notifier' with type 'int(struct notifier_block *)'
+      64 | static inline int register_busfreq_notifier(struct notifier_block *nb)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq-imx.c:140:5: error: redefinition of 'unregister_busfreq_notifier'
+     140 | int unregister_busfreq_notifier(struct notifier_block *nb)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/busfreq-imx.h:68:19: note: previous definition of 'unregister_busfreq_notifier' with type 'int(struct notifier_block *)'
+      68 | static inline int unregister_busfreq_notifier(struct notifier_block *nb)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq-imx.c:321:6: error: redefinition of 'request_bus_freq'
+     321 | void request_bus_freq(enum bus_freq_mode mode)
+         |      ^~~~~~~~~~~~~~~~
+   include/linux/busfreq-imx.h:58:20: note: previous definition of 'request_bus_freq' with type 'void(enum bus_freq_mode)'
+      58 | static inline void request_bus_freq(enum bus_freq_mode mode)
+         |                    ^~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq-imx.c:370:6: error: redefinition of 'release_bus_freq'
+     370 | void release_bus_freq(enum bus_freq_mode mode)
+         |      ^~~~~~~~~~~~~~~~
+   include/linux/busfreq-imx.h:61:20: note: previous definition of 'release_bus_freq' with type 'void(enum bus_freq_mode)'
+      61 | static inline void release_bus_freq(enum bus_freq_mode mode)
+         |                    ^~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq-imx.c:446:5: error: redefinition of 'get_bus_freq_mode'
+     446 | int get_bus_freq_mode(void)
+         |     ^~~~~~~~~~~~~~~~~
+   include/linux/busfreq-imx.h:72:19: note: previous definition of 'get_bus_freq_mode' with type 'int(void)'
+      72 | static inline int get_bus_freq_mode(void)
+         |                   ^~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq-imx.c:458:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     458 | const static char *ddr_freq_iram_match[] __initconst = {
+         | ^~~~~
+   arch/arm/mach-imx/busfreq-imx.c: In function 'imx_dt_find_ddr_sram':
+   arch/arm/mach-imx/busfreq-imx.c:469:13: error: implicit declaration of function 'of_flat_dt_match'; did you mean 'of_flat_dt_match_machine'? [-Werror=implicit-function-declaration]
+     469 |         if (of_flat_dt_match(node, ddr_freq_iram_match)) {
+         |             ^~~~~~~~~~~~~~~~
+         |             of_flat_dt_match_machine
+   In file included from arch/arm/mach-imx/busfreq-imx.c:38:
+   arch/arm/mach-imx/common.h: At top level:
+   arch/arm/mach-imx/common.h:102:18: warning: 'imx53_suspend_sz' defined but not used [-Wunused-const-variable=]
+     102 | static const u32 imx53_suspend_sz;
+         |                  ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/arm/include/asm/cacheflush.h:10,
+                    from arch/arm/mach-imx/busfreq_ddr3.c:21:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1349:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1349 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1335:27: note: 'mem_section' declared here
+    1335 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/arm/mach-imx/busfreq_ddr3.c: At top level:
+>> arch/arm/mach-imx/busfreq_ddr3.c:111:5: warning: no previous prototype for 'can_change_ddr_freq' [-Wmissing-prototypes]
+     111 | int can_change_ddr_freq(void)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/busfreq_ddr3.c:148:5: warning: no previous prototype for 'update_ddr_freq_imx_smp' [-Wmissing-prototypes]
+     148 | int update_ddr_freq_imx_smp(int ddr_rate)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/busfreq_ddr3.c:241:5: warning: no previous prototype for 'init_ddrc_ddr_settings' [-Wmissing-prototypes]
+     241 | int init_ddrc_ddr_settings(struct platform_device *busfreq_pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq_ddr3.c:78:22: warning: 'gic_dist_base' defined but not used [-Wunused-variable]
+      78 | static void __iomem *gic_dist_base;
+         |                      ^~~~~~~~~~~~~
+   arch/arm/mach-imx/busfreq_ddr3.c:76:24: warning: 'iram_iomux_settings' defined but not used [-Wunused-variable]
+      76 | static unsigned long (*iram_iomux_settings)[2];
+         |                        ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/mach-imx/busfreq_ddr3.c:48:
+   arch/arm/mach-imx/common.h:102:18: warning: 'imx53_suspend_sz' defined but not used [-Wunused-const-variable=]
+     102 | static const u32 imx53_suspend_sz;
+         |                  ^~~~~~~~~~~~~~~~
 
 
-vim +/imx_rpmsg_restore +371 drivers/rpmsg/imx_rpmsg.c
+vim +/save_ttbr1 +22 arch/arm/mach-imx/common.c
 
-   292	
-   293	static int set_vring_phy_buf(struct platform_device *pdev,
-   294			       struct imx_rpmsg_vproc *rpdev, int vdev_nums)
-   295	{
-   296		struct resource *res;
-   297		resource_size_t size;
-   298		unsigned int start, end;
-   299		int i, ret = 0;
-   300	
-   301		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   302		if (res) {
-   303			size = resource_size(res);
-   304			start = res->start;
-   305			end = res->start + size;
-   306			for (i = 0; i < vdev_nums; i++) {
- > 307				rpdev->ivdev[i] = kzalloc(sizeof(struct imx_virdev),
-   308								GFP_KERNEL);
-   309				if (!rpdev->ivdev[i])
-   310					return -ENOMEM;
-   311	
-   312				rpdev->ivdev[i]->vring[0] = start;
-   313				rpdev->ivdev[i]->vring[1] = start + 0x8000;
-   314				start += 0x10000;
-   315				if (start > end) {
-   316					dev_err(&pdev->dev,
-   317						"Too small memory size %x!\n",
-   318						(u32)size);
-   319					ret = -EINVAL;
-   320					break;
-   321				}
-   322			}
-   323		} else {
-   324			return -ENOMEM;
-   325		}
-   326	
-   327		return ret;
-   328	}
-   329	
-   330	static void rpmsg_work_handler(struct work_struct *work)
-   331	{
-   332		u32 message;
-   333		unsigned long flags;
-   334		struct imx_virdev *virdev;
-   335		struct delayed_work *dwork = to_delayed_work(work);
-   336		struct imx_rpmsg_vproc *rpdev = container_of(dwork,
-   337				struct imx_rpmsg_vproc, rpmsg_work);
-   338		struct circ_buf *cb = &rpdev->rx_buffer;
-   339		struct platform_device *pdev = rpdev->pdev;
-   340		struct device *dev = &pdev->dev;
-   341	
-   342		spin_lock_irqsave(&rpdev->mu_lock, flags);
-   343		/* handle all incoming mu message */
-   344		while (CIRC_CNT(cb->head, cb->tail, PAGE_SIZE)) {
-   345			message = cb->buf[cb->tail];
-   346			message |= (cb->buf[cb->tail + 1] << 8);
-   347			message |= (cb->buf[cb->tail + 2] << 16);
-   348			message |= (cb->buf[cb->tail + 3] << 24);
-   349			spin_unlock_irqrestore(&rpdev->mu_lock, flags);
-   350			virdev = rpdev->ivdev[(message >> 16) / 2];
-   351	
-   352			dev_dbg(dev, "%s msg: 0x%x\n", __func__, message);
-   353			message = message >> 16;
-   354			message -= virdev->base_vq_id;
-   355	
-   356			/*
-   357			 * Currently both PENDING_MSG and explicit-virtqueue-index
-   358			 * messaging are supported.
-   359			 * Whatever approach is taken, at this point message contains
-   360			 * the index of the vring which was just triggered.
-   361			 */
-   362			if (message  < virdev->num_of_vqs)
-   363				vring_interrupt(message, virdev->vq[message]);
-   364			spin_lock_irqsave(&rpdev->mu_lock, flags);
-   365			cb->tail = CIRC_ADD(cb->tail, PAGE_SIZE, 4);
-   366		}
-   367		spin_unlock_irqrestore(&rpdev->mu_lock, flags);
-   368	}
-   369	
-   370	#ifdef CONFIG_IMX_SCU
- > 371	void imx_rpmsg_restore(struct imx_rpmsg_vproc *rpdev)
-   372	{
-   373		int i;
-   374		int vdev_nums = rpdev->vdev_nums;
-   375	
-   376		for (i = 0; i < vdev_nums; i++) {
-   377			unregister_virtio_device(&rpdev->ivdev[i]->vdev);
-   378			kfree(rpdev->ivdev[i]);
-   379		}
-   380	
-   381		/* Make a double check that remote processor is ready or not */
-   382		for (i = 0; i < REMOTE_READY_WAIT_MAX_RETRIES; i++) {
-   383			if (rpdev->flags & REMOTE_IS_READY)
-   384				break;
-   385			udelay(100);
-   386		}
-   387		if (unlikely((rpdev->flags & REMOTE_IS_READY) == 0)) {
-   388			pr_err("Wait for remote ready timeout, assume it's dead.\n");
-   389			/*
-   390			 * In order to make the codes to be robust and back compatible.
-   391			 * When wait remote ready timeout, use the MU_SendMessageTimeout
-   392			 * to send the first kick-off message when register the vdev.
-   393			 */
-   394			rpdev->first_notify = rpdev->vdev_nums;
-   395		}
-   396	
-   397		/* Allocate and setup ivdev again to register virtio devices */
-   398		if (set_vring_phy_buf(rpdev->pdev, rpdev, rpdev->vdev_nums))
-   399			pr_err("No vring buffer.\n");
-   400	
-   401		for (i = 0; i < vdev_nums; i++) {
-   402			rpdev->ivdev[i]->vdev.id.device = VIRTIO_ID_RPMSG;
-   403			rpdev->ivdev[i]->vdev.config = &imx_rpmsg_config_ops;
-   404			rpdev->ivdev[i]->vdev.dev.parent = &rpdev->pdev->dev;
-   405			rpdev->ivdev[i]->vdev.dev.release = imx_rpmsg_vproc_release;
-   406			rpdev->ivdev[i]->base_vq_id = i * 2;
-   407			rpdev->ivdev[i]->rpdev = rpdev;
-   408	
-   409			if (register_virtio_device(&rpdev->ivdev[i]->vdev))
-   410				pr_err("%s failed to register rpdev.\n", __func__);
-   411		}
-   412	}
-   413	
+    21	
+  > 22	unsigned long save_ttbr1(void)
+    23	{
+    24		unsigned long lttbr1;
+    25		asm volatile(
+    26			".align 4\n"
+    27			"mrc p15, 0, %0, c2, c0, 1\n"
+    28			: "=r" (lttbr1)
+    29		);
+    30		return lttbr1;
+    31	}
+    32	
+  > 33	void restore_ttbr1(unsigned long ttbr1)
+    34	{
+    35		asm volatile(
+    36			".align 4\n"
+    37			"mcr p15, 0, %0, c2, c0, 1\n"
+    38			: : "r" (ttbr1)
+    39		);
+    40	}
+    41	
+    42	#define OCOTP_MAC_OFF	(cpu_is_imx7d() ? 0x640 : 0x620)
+    43	#define OCOTP_MACn(n)	(OCOTP_MAC_OFF + (n) * 0x10)
+  > 44	void __init imx6_enet_mac_init(const char *enet_compat, const char *ocotp_compat)
+    45	{
+    46		struct device_node *ocotp_np, *enet_np, *from = NULL;
+    47		void __iomem *base;
+    48		struct property *newmac;
+    49		u32 macaddr_low;
+    50		u32 macaddr_high = 0;
+    51		u32 macaddr1_high = 0;
+    52		u8 *macaddr;
+    53		int i, id;
+    54	
+    55		for (i = 0; i < 2; i++) {
+    56			enet_np = of_find_compatible_node(from, NULL, enet_compat);
+    57			if (!enet_np)
+    58				return;
+    59	
+    60			from = enet_np;
+    61	
+    62			if (of_get_mac_address(enet_np))
+    63				goto put_enet_node;
+    64	
+    65			id = of_alias_get_id(enet_np, "ethernet");
+    66			if (id < 0)
+    67				id = i;
+    68	
+    69			ocotp_np = of_find_compatible_node(NULL, NULL, ocotp_compat);
+    70			if (!ocotp_np) {
+    71				pr_warn("failed to find ocotp node\n");
+    72				goto put_enet_node;
+    73			}
+    74	
+    75			base = of_iomap(ocotp_np, 0);
+    76			if (!base) {
+    77				pr_warn("failed to map ocotp\n");
+    78				goto put_ocotp_node;
+    79			}
+    80	
+    81			macaddr_low = readl_relaxed(base + OCOTP_MACn(1));
+    82			if (id)
+    83				macaddr1_high = readl_relaxed(base + OCOTP_MACn(2));
+    84			else
+    85				macaddr_high = readl_relaxed(base + OCOTP_MACn(0));
+    86	
+    87			newmac = kzalloc(sizeof(*newmac) + 6, GFP_KERNEL);
+    88			if (!newmac)
+    89				goto put_ocotp_node;
+    90	
+    91			newmac->value = newmac + 1;
+    92			newmac->length = 6;
+    93			newmac->name = kstrdup("local-mac-address", GFP_KERNEL);
+    94			if (!newmac->name) {
+    95				kfree(newmac);
+    96				goto put_ocotp_node;
+    97			}
+    98	
+    99			macaddr = newmac->value;
+   100			if (id) {
+   101				macaddr[5] = (macaddr_low >> 16) & 0xff;
+   102				macaddr[4] = (macaddr_low >> 24) & 0xff;
+   103				macaddr[3] = macaddr1_high & 0xff;
+   104				macaddr[2] = (macaddr1_high >> 8) & 0xff;
+   105				macaddr[1] = (macaddr1_high >> 16) & 0xff;
+   106				macaddr[0] = (macaddr1_high >> 24) & 0xff;
+   107			} else {
+   108				macaddr[5] = macaddr_high & 0xff;
+   109				macaddr[4] = (macaddr_high >> 8) & 0xff;
+   110				macaddr[3] = (macaddr_high >> 16) & 0xff;
+   111				macaddr[2] = (macaddr_high >> 24) & 0xff;
+   112				macaddr[1] = macaddr_low & 0xff;
+   113				macaddr[0] = (macaddr_low >> 8) & 0xff;
+   114			}
+   115	
+   116			of_update_property(enet_np, newmac);
+   117	
+   118	put_ocotp_node:
+   119		of_node_put(ocotp_np);
+   120	put_enet_node:
+   121		of_node_put(enet_np);
+   122		}
+   123	}
+   124	
+   125	#ifndef CONFIG_HAVE_IMX_GPC
+ > 126	int imx_gpc_mf_request_on(unsigned int irq, unsigned int on) { return 0; }
+   127	EXPORT_SYMBOL_GPL(imx_gpc_mf_request_on);
+   128	#endif
+   129	
+   130	#if !defined(CONFIG_SOC_IMX6SL)
+   131	u32 imx6_lpddr2_freq_change_start, imx6_lpddr2_freq_change_end;
+ > 132	void mx6_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+   133	#endif
+   134	
+   135	#if !defined(CONFIG_SOC_IMX6SLL)
+ > 136	void imx6sll_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+   137	#endif
+   138	
+   139	#if !defined(CONFIG_SOC_IMX6SX) && !defined(CONFIG_SOC_IMX6UL)
+   140	u32 imx6_up_ddr3_freq_change_start, imx6_up_ddr3_freq_change_end;
+   141	struct imx6_busfreq_info {
+   142	} __aligned(8);
+ > 143	void imx6_up_ddr3_freq_change(struct imx6_busfreq_info *busfreq_info) {}
+ > 144	void imx6_up_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+   145	#endif
+   146	
+   147	#if !defined(CONFIG_SOC_IMX6ULL)
+   148	u32 mx6ull_lpm_wfi_start, mx6ull_lpm_wfi_end;
+   149	void imx6ull_low_power_idle(void) {}
+   150	#endif
+   151	
+   152	#if !defined(CONFIG_SOC_IMX6Q)
+   153	u32 mx6_ddr3_freq_change_start, mx6_ddr3_freq_change_end;
+   154	u32 mx6q_lpddr2_freq_change_start, mx6q_lpddr2_freq_change_end;
+   155	u32 wfe_smp_freq_change_start, wfe_smp_freq_change_end;
+ > 156	void mx6_ddr3_freq_change(u32 freq, void *ddr_settings,
+   157		bool dll_mode, void *iomux_offsets) {}
+ > 158	void mx6q_lpddr2_freq_change(u32 freq, void *ddr_settings) {}
+ > 159	void wfe_smp_freq_change(u32 cpuid, u32 *ddr_freq_change_done) {}
+   160	#endif
+   161	
+   162	#if !defined(CONFIG_SOC_IMX7D)
+ > 163	void imx7_smp_wfe(u32 cpuid, u32 ocram_base) {}
+ > 164	void imx7d_ddr3_freq_change(u32 freq) {}
 
 -- 
 0-DAY CI Kernel Test Service
