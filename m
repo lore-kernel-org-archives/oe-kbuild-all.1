@@ -1,44 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E56915C0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76D115B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675561326; x=1707097326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JGYVo1RZJVNUBLdPobzm3WqBXXo8QaF8V2av2xGECYI=;
-  b=TEWpRU0pKmkVSnc+GTuTRjXHEo7cSl0X+49R+TYaC8ZvRTxGja21tgaH
-   DfAu06k8V73i65i31mzCTGaIVuTMdRH/VU5vB2IMgFnSulc8y/kUE2Jqm
-   yG4GOuyZqzFP8X/nhn9XxO9173j/SieK0l3kI9qg1W7tLXpKZriW7jMgJ
-   8Qh2KA6fT02PVTj5gcP9gpJpvGmiqu++ItEHlW7DzLaE11j/WsZOKk8PE
-   h9Av6f+drpF4/PEjQ/eONt5zslwsxrrGyz4l1cRzNdigzVJRri2Gmn0MR
-   NbAf5S9PdwNaV0J4VFp6o2sMT7AUQs7RYabufTt0ZJK8KB+uhlCv4rilT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="327641888"
+  t=1675561925; x=1707097925;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=zkuOL7L8kILrqGOAJ7lQVdZuKJ5PKUg5Vx179Y+xqhQ=;
+  b=i2u2EVzZZUdiLxB48coHYGZ4KLYEYtsZ4GReO/uBlwFKOfL+nfXQO+Mb
+   cTkScRxuBsMaJqlsc4D3/k8ALH5CkTAt6+s9ln2DC5VHLR35kb1RJKfrd
+   n/LZuonidV1Wo9p74p8PgDlYN05cx3LZ7X4sUgWdJy2RnHKwrjp8BuNPm
+   qDGWFYc8XhGUewJFzUJjc2hTuGDtYMlitKW+RS6M9Uf2AhhjQ9hZog6PF
+   HSRCkaqrn8UtnNFTMU0K0UICwENvvAoNPB8JQpY6ZbFPe0tOAKWgp/WWj
+   ey5KmRjW8yQahnCm9RUyOXzBA0GXKomuVSrheRfIL37NoOC7s7zgiWpTN
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="330303273"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="327641888"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:42:05 -0800
+   d="scan'208";a="330303273"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:52:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="616094893"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="666132630"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="616094893"
+   d="scan'208";a="666132630"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 Feb 2023 17:42:03 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Feb 2023 17:52:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOU2d-0001e0-0K;
-	Sun, 05 Feb 2023 01:42:03 +0000
-Date: Sun, 5 Feb 2023 09:41:25 +0800
+	id 1pOUCJ-0001eU-1n;
+	Sun, 05 Feb 2023 01:52:03 +0000
+Date: Sun, 5 Feb 2023 09:51:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Aswath Govindraju <a-govindraju@ti.com>
-Subject: drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol
- 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
-Message-ID: <202302050901.FR4NtarP-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:5.15/linux 20057/22285]
+ drivers/gpu/drm/vkms/vkms_plane.c:102:6: warning: variable 'fmt' set but not
+ used
+Message-ID: <202302050956.A7oShcee-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,46 +46,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95078069c1e70d1b3b141132d18d0c563acedd0c
-commit: 0651a730924b172476f67c7c6e01e898f84cd8f3 gpio: davinci: Add support for system suspend/resume PM
-date:   7 months ago
-config: arm64-randconfig-s053-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050901.FR4NtarP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   3fcbe6a0b3dc32ae64e534484770059e644250bc
+commit: 5aeec08d7e1a50abcf959377b9735cc2e7f56687 [20057/22285] drm/vkms: fix variable dereferenced before check warning
+config: riscv-randconfig-r042-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050956.A7oShcee-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0651a730924b172476f67c7c6e01e898f84cd8f3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0651a730924b172476f67c7c6e01e898f84cd8f3
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel/linux-intel-lts/commit/5aeec08d7e1a50abcf959377b9735cc2e7f56687
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.15/linux
+        git checkout 5aeec08d7e1a50abcf959377b9735cc2e7f56687
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/vkms/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-davinci.c:704:1: sparse: sparse: symbol 'davinci_gpio_dev_pm_ops' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/davinci_gpio_dev_pm_ops +704 drivers/gpio/gpio-davinci.c
+>> drivers/gpu/drm/vkms/vkms_plane.c:102:6: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
+           u32 fmt;
+               ^
+   1 warning generated.
 
-   699	
-   700	DEFINE_SIMPLE_DEV_PM_OPS(davinci_gpio_dev_pm_ops, davinci_gpio_suspend,
-   701				 davinci_gpio_resume);
-   702	
-   703	static const struct of_device_id davinci_gpio_ids[] = {
- > 704		{ .compatible = "ti,keystone-gpio", keystone_gpio_get_irq_chip},
-   705		{ .compatible = "ti,am654-gpio", keystone_gpio_get_irq_chip},
-   706		{ .compatible = "ti,dm6441-gpio", davinci_gpio_get_irq_chip},
-   707		{ /* sentinel */ },
-   708	};
-   709	MODULE_DEVICE_TABLE(of, davinci_gpio_ids);
-   710	
+
+vim +/fmt +102 drivers/gpu/drm/vkms/vkms_plane.c
+
+    92	
+    93	static void vkms_plane_atomic_update(struct drm_plane *plane,
+    94					     struct drm_atomic_state *state)
+    95	{
+    96		struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+    97										   plane);
+    98		struct vkms_plane_state *vkms_plane_state;
+    99		struct drm_shadow_plane_state *shadow_plane_state;
+   100		struct drm_framebuffer *fb = new_state->fb;
+   101		struct vkms_frame_info *frame_info;
+ > 102		u32 fmt;
+   103	
+   104		if (!new_state->crtc || !fb)
+   105			return;
+   106	
+   107		fmt = fb->format->format;
+   108		vkms_plane_state = to_vkms_plane_state(new_state);
+   109		shadow_plane_state = &vkms_plane_state->base;
+   110	
+   111		frame_info = vkms_plane_state->frame_info;
+   112		memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+   113		memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+   114		frame_info->fb = fb;
+   115		memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+   116		drm_framebuffer_get(frame_info->fb);
+   117		frame_info->offset = fb->offsets[0];
+   118		frame_info->pitch = fb->pitches[0];
+   119		frame_info->cpp = fb->format->cpp[0];
+   120	}
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
