@@ -1,43 +1,55 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBF07F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 05:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B357F;
+	Sun,  5 Feb 2023 05:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675574862; x=1707110862;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rk6TTVmI/euoh3IRRQydAoZwrLAXPDP18IJI3KpVtcE=;
-  b=G/Kr2UKObTEm3UPzdwGat+yYeBLxqgyh+mL5FrLvnVTfiBbP2b17BvYV
-   63yNFTWsfZ0r5OHOhEVKi0n4BdOoqceBPXg7kzkNr7DrePHQhILrAGT20
-   ugwUkATNXJyh5+Zq4gA9DiRV11Ad7sKhLEMevnpKJgP+PlcDe+QilMx6l
-   avCU7doLcZK11g5vQtm74ytJELwJOWOpYomBvShWKJMjauRMPi5ydxDc6
-   ucPw7EAtZLeWyuFAeDE4EQ+hOU8wU8pO/uFTg46/T6K6yJ/P30Tqyhhy5
-   K8CBWxkZuyP9eIBEPzpyrpMiwLbAGiu6Hm9rH7HejaGECwJYZKjSG7nbg
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="326711691"
+  t=1675576095; x=1707112095;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iEw0zlMttW4+qyyZlq9G8QxHxm7XJTMCir7vrzAuEcs=;
+  b=Ryd1yiqrDN1wP5nWzz2s/cxmTqD9mIKgqjcG28pJdhNh6eJTCnu4xRkN
+   xG9LiDmKg/Fdlha9hhsNaPMrR10Cf8vT8lHfLP1LOpbXFU5GmvP7gkR/3
+   eHoNi8mheJ46T73rHXX28j8whY6OUflHls9EYwBq+YQcshA6nwuMKNCVv
+   EMSZJH5D7NuBs2ZIo0uefPPLuEk5ZVmVAJNVRqS6ekPIjZJ0h9yYg9Y+V
+   QmGPH8DeG1jv1IttRTe8NisjwngZoDhWGYr1symHfPVWosoW9rTHXbGFE
+   CiHMXBUcwznjhLNZVVQ5CvlNNuetAiBMykLSz7c+QXsHhOkt1Es2W+58C
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="317023732"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="326711691"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 21:27:11 -0800
+   d="scan'208";a="317023732"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 21:48:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="643688739"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="696544694"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="643688739"
+   d="scan'208";a="696544694"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Feb 2023 21:27:09 -0800
+  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 21:48:09 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOXYS-0001lQ-32;
-	Sun, 05 Feb 2023 05:27:08 +0000
-Date: Sun, 5 Feb 2023 13:27:07 +0800
+	id 1pOXsn-0001lo-0V;
+	Sun, 05 Feb 2023 05:48:09 +0000
+Date: Sun, 5 Feb 2023 13:47:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 6233/20209]
- drivers/base/power/domain.c:255:6: warning: no previous prototype for
- function 'pm_genpd_disable_clks'
-Message-ID: <202302051333.HV7AfkSy-lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Leonardo <leobras@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>, cgroups@vger.kernel.org
+Subject: Re: [PATCH 2/2] sched/isolation: Add cpu_is_isolated() API
+Message-ID: <202302051316.1kdX7ylk-lkp@intel.com>
+References: <20230203232409.163847-3-frederic@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,76 +58,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230203232409.163847-3-frederic@kernel.org>
 
-Hi Dong,
+Hi Frederic,
 
-FYI, the error/warning still remains.
+I love your patch! Yet something to improve:
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: c85126180a10439a8c7db1800529b4857d91c609 [6233/20209] LF-4713-1 PM: domains: add pm domain clocks support
-config: arm-randconfig-r034-20230205 (https://download.01.org/0day-ci/archive/20230205/202302051333.HV7AfkSy-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on horms-ipvs-next/master horms-ipvs/master linus/master v6.2-rc6 next-20230203]
+[cannot apply to paulmck-rcu/dev]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frederic-Weisbecker/sched-isolation-Merge-individual-nohz_full-features-into-a-common-housekeeping-flag/20230204-072510
+patch link:    https://lore.kernel.org/r/20230203232409.163847-3-frederic%40kernel.org
+patch subject: [PATCH 2/2] sched/isolation: Add cpu_is_isolated() API
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230205/202302051316.1kdX7ylk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/Freescale/linux-fslc/commit/c85126180a10439a8c7db1800529b4857d91c609
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout c85126180a10439a8c7db1800529b4857d91c609
+        # https://github.com/intel-lab-lkp/linux/commit/89596a035dc10e00cb66d4e75e49d69b75413807
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Frederic-Weisbecker/sched-isolation-Merge-individual-nohz_full-features-into-a-common-housekeeping-flag/20230204-072510
+        git checkout 89596a035dc10e00cb66d4e75e49d69b75413807
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/base/power/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/power/domain.c:255:6: warning: no previous prototype for function 'pm_genpd_disable_clks' [-Wmissing-prototypes]
-   void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-        ^
-   drivers/base/power/domain.c:255:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-   ^
-   static 
->> drivers/base/power/domain.c:261:5: warning: no previous prototype for function 'pm_genpd_enable_clks' [-Wmissing-prototypes]
-   int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
+   In file included from drivers/pci/pci-driver.c:15:
+>> include/linux/sched/isolation.h:58:10: error: implicit declaration of function 'housekeeping_test_cpu' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return !housekeeping_test_cpu(cpu, HK_TYPE_DOMAIN) ||
+                   ^
+   include/linux/sched/isolation.h:58:10: note: did you mean 'housekeeping_any_cpu'?
+   include/linux/sched/isolation.h:27:19: note: 'housekeeping_any_cpu' declared here
+   static inline int housekeeping_any_cpu(enum hk_type type)
+                     ^
+   1 error generated.
+--
+   In file included from kernel/sched/fair.c:38:
+>> include/linux/sched/isolation.h:58:10: error: implicit declaration of function 'housekeeping_test_cpu' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return !housekeeping_test_cpu(cpu, HK_TYPE_DOMAIN) ||
+                   ^
+   include/linux/sched/isolation.h:58:10: note: did you mean 'housekeeping_any_cpu'?
+   include/linux/sched/isolation.h:27:19: note: 'housekeeping_any_cpu' declared here
+   static inline int housekeeping_any_cpu(enum hk_type type)
+                     ^
+   kernel/sched/fair.c:688:5: warning: no previous prototype for function 'sched_update_scaling' [-Wmissing-prototypes]
+   int sched_update_scaling(void)
        ^
-   drivers/base/power/domain.c:261:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
+   kernel/sched/fair.c:688:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sched_update_scaling(void)
    ^
    static 
-   2 warnings generated.
+   1 warning and 1 error generated.
 
 
-vim +/pm_genpd_disable_clks +255 drivers/base/power/domain.c
+vim +/housekeeping_test_cpu +58 include/linux/sched/isolation.h
 
-   254	
- > 255	void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-   256	{
-   257		if (genpd->flags & GENPD_FLAG_PM_PD_CLK && genpd->num_clks > 0)
-   258			clk_bulk_disable_unprepare(genpd->num_clks, genpd->clks);
-   259	}
-   260	
- > 261	int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
-   262	{
-   263		int ret;
-   264	
-   265		if (genpd->flags & GENPD_FLAG_PM_PD_CLK && genpd->num_clks > 0) {
-   266			ret = clk_bulk_prepare_enable(genpd->num_clks, genpd->clks);
-   267			if (ret) {
-   268				dev_err(&genpd->dev, "failed to enable clocks\n");
-   269				return ret;
-   270			}
-   271		}
-   272	
-   273		return 0;
-   274	}
-   275	
+    55	
+    56	static inline bool cpu_is_isolated(int cpu)
+    57	{
+  > 58		return !housekeeping_test_cpu(cpu, HK_TYPE_DOMAIN) ||
+    59			 !housekeeping_test_cpu(cpu, HK_TYPE_KERNEL_NOISE);
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
