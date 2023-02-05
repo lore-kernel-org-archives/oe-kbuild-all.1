@@ -1,43 +1,42 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DC615B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5262215B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 01:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675560072; x=1707096072;
+  t=1675560089; x=1707096089;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WFThPd9l4PwBK+/ESCCKMEzBRLN3hloaEI6ypseAVqo=;
-  b=AwIh91y4mNWVr4lAfWTxl0Mn/42hQbEq/6sv7t7qFeVIhG5Hro3DG5fn
-   zeExqI08cm+BxnXLBpff0DBZXX0Q3gvIi3H2mcWALgRVUN94SSdM/PZnC
-   3QWhjCtoeO67K47UW5nErUIlfnl3R+D+cbvzP5+ll0e3Yug+QwfadhY43
-   5ybz5TpL2nkn37y79j9+ugopATSZMzVf8Njcc3pH6loFEgfJ/JfIZLtb7
-   bkLTMA+Xx88kbdoHsAUj4XPEgvH7Ls6yNP6fIJYqRaHTD7Q/G0n/wfOWb
-   zE0mh5zrBjEbGRYUTcT5upkVObqc7sYDJSi1Bzso9wkyA0FdMdOAsuWgc
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="415225405"
+  bh=o5kjE/imZdSh/XdeqqbLjOha58INFy9iDWdnIcW8Lm8=;
+  b=F14nwcUTVgivU/BUbUAPitbEvXgUwiiciSWatOaxdPyE03i0uTEtCt5L
+   s4J9XRbNd6eZk7g9DN+2jYCYKvyTJWziYzlOjMlaMnQpx6dTxtiO+iPAW
+   v/A8ln2aYBEAKHta1ollADzcid6ue+UlS1H4imCvNXTEcg7hylGMXWrpI
+   0E/1gtGS7yZ5n07a/RBNj++U1GWYszu5N1uVsmTyvMzeFF3cHq3YNYmRA
+   YiEztuk2Xl/zifyogun5qVUJdPqts34QzWAIok8pJztUvXmlLMxZ4c+Wg
+   FFu+0cKg5hwSp56p0auc0w84TWwX2r9v7nRM+8s/VSDmo/4MLFtT2Ipv5
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="415225407"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="415225405"
+   d="scan'208";a="415225407"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:21:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="616092041"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="616092042"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="616092041"
+   d="scan'208";a="616092042"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 04 Feb 2023 17:21:03 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOTiI-0001d6-1F;
+	id 1pOTiI-0001d9-1P;
 	Sun, 05 Feb 2023 01:21:02 +0000
-Date: Sun, 5 Feb 2023 09:20:51 +0800
+Date: Sun, 5 Feb 2023 09:20:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 1335/20208]
- drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for
- function 'mxc_edid_fb_mode_is_equal'
-Message-ID: <202302050938.zkY5r9Nm-lkp@intel.com>
+Subject: [freescale-fslc:pr/621 160/20208]
+ sound/soc/codecs/pcm512x.c:1595:14: warning: unused variable 'clk_name'
+Message-ID: <202302050945.cd1bsDVd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +46,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Fancy,
+Hi Adrian,
 
 FYI, the error/warning still remains.
 
 tree:   https://github.com/Freescale/linux-fslc pr/621
 head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 53b409327c6b9468f2c8c306a2b833e8fa3035be [1335/20208] video: fbdev: mxc: add Northwest Logic DSI driver support
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230205/202302050938.zkY5r9Nm-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+commit: c7981269740967250226190f3236434d1f060084 [160/20208] MLK-25015: sound: soc: codecs: pcm512x: set input sclk
+config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230205/202302050945.cd1bsDVd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/53b409327c6b9468f2c8c306a2b833e8fa3035be
+        # https://github.com/Freescale/linux-fslc/commit/c7981269740967250226190f3236434d1f060084
         git remote add freescale-fslc https://github.com/Freescale/linux-fslc
         git fetch --no-tags freescale-fslc pr/621
-        git checkout 53b409327c6b9468f2c8c306a2b833e8fa3035be
+        git checkout c7981269740967250226190f3236434d1f060084
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/i2c/busses/ drivers/video/fbdev/mxc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/touchscreen/ sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for function 'mxc_edid_fb_mode_is_equal' [-Wmissing-prototypes]
-   int mxc_edid_fb_mode_is_equal(bool use_aspect,
-       ^
-   drivers/video/fbdev/mxc/mxc_edid.c:190:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mxc_edid_fb_mode_is_equal(bool use_aspect,
-   ^
-   static 
-   1 warning generated.
+   sound/soc/codecs/pcm512x.c: In function 'pcm512x_probe':
+>> sound/soc/codecs/pcm512x.c:1595:14: warning: unused variable 'clk_name' [-Wunused-variable]
+    1595 |         char clk_name[8];
+         |              ^~~~~~~~
 
 
-vim +/mxc_edid_fb_mode_is_equal +190 drivers/video/fbdev/mxc/mxc_edid.c
+vim +/clk_name +1595 sound/soc/codecs/pcm512x.c
 
-   184	
-   185	/*
-   186	 * We have a special version of fb_mode_is_equal that ignores
-   187	 * pixclock, since for many CEA modes, 2 frequencies are supported
-   188	 * e.g. 640x480 @ 60Hz or 59.94Hz
-   189	 */
- > 190	int mxc_edid_fb_mode_is_equal(bool use_aspect,
-   191				const struct fb_videomode *mode1,
-   192				const struct fb_videomode *mode2)
-   193	{
-   194		u32 mask;
-   195	
-   196		if (use_aspect)
-   197			mask = ~0;
-   198		else
-   199			mask = ~FB_VMODE_ASPECT_MASK;
-   200	
-   201		return (mode1->xres         == mode2->xres &&
-   202			mode1->yres         == mode2->yres &&
-   203			mode1->hsync_len    == mode2->hsync_len &&
-   204			mode1->vsync_len    == mode2->vsync_len &&
-   205			mode1->left_margin  == mode2->left_margin &&
-   206			mode1->right_margin == mode2->right_margin &&
-   207			mode1->upper_margin == mode2->upper_margin &&
-   208			mode1->lower_margin == mode2->lower_margin &&
-   209			mode1->sync         == mode2->sync &&
-   210			/* refresh check, 59.94Hz and 60Hz have the same parameter
-   211			 * in struct of mxc_cea_mode */
-   212			abs(mode1->refresh - mode2->refresh) <= 1 &&
-   213			(mode1->vmode & mask) == (mode2->vmode & mask));
-   214	}
-   215	
+  1591	
+  1592	int pcm512x_probe(struct device *dev, struct regmap *regmap)
+  1593	{
+  1594		struct pcm512x_priv *pcm512x;
+> 1595		char clk_name[8];
+  1596		int i, ret;
+  1597	
+  1598		pcm512x = devm_kzalloc(dev, sizeof(struct pcm512x_priv), GFP_KERNEL);
+  1599		if (!pcm512x)
+  1600			return -ENOMEM;
+  1601	
+  1602		mutex_init(&pcm512x->mutex);
+  1603	
+  1604		dev_set_drvdata(dev, pcm512x);
+  1605		pcm512x->regmap = regmap;
+  1606	
+  1607		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++)
+  1608			pcm512x->supplies[i].supply = pcm512x_supply_names[i];
+  1609	
+  1610		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pcm512x->supplies),
+  1611					      pcm512x->supplies);
+  1612		if (ret != 0) {
+  1613			dev_err(dev, "Failed to get supplies: %d\n", ret);
+  1614			return ret;
+  1615		}
+  1616	
+  1617		pcm512x->supply_nb[0].notifier_call = pcm512x_regulator_event_0;
+  1618		pcm512x->supply_nb[1].notifier_call = pcm512x_regulator_event_1;
+  1619		pcm512x->supply_nb[2].notifier_call = pcm512x_regulator_event_2;
+  1620	
+  1621		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++) {
+  1622			ret = devm_regulator_register_notifier(
+  1623							pcm512x->supplies[i].consumer,
+  1624							&pcm512x->supply_nb[i]);
+  1625			if (ret != 0) {
+  1626				dev_err(dev,
+  1627					"Failed to register regulator notifier: %d\n",
+  1628					ret);
+  1629			}
+  1630		}
+  1631	
+  1632		ret = regulator_bulk_enable(ARRAY_SIZE(pcm512x->supplies),
+  1633					    pcm512x->supplies);
+  1634		if (ret != 0) {
+  1635			dev_err(dev, "Failed to enable supplies: %d\n", ret);
+  1636			return ret;
+  1637		}
+  1638	
+  1639		/* Reset the device, verifying I/O in the process for I2C */
+  1640		ret = regmap_write(regmap, PCM512x_RESET,
+  1641				   PCM512x_RSTM | PCM512x_RSTR);
+  1642		if (ret != 0) {
+  1643			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1644			goto err;
+  1645		}
+  1646	
+  1647		ret = regmap_write(regmap, PCM512x_RESET, 0);
+  1648		if (ret != 0) {
+  1649			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1650			goto err;
+  1651		}
+  1652	
+  1653		/* default to first sclk */
+  1654		pcm512x->num_clocks = 1;
+  1655		pcm512x->sclk_src = PCM512x_SYSCLK_MCLK1;
+  1656	
+  1657		pcm512x->sclk[0] = devm_clk_get(dev, NULL);
+  1658		if (PTR_ERR(pcm512x->sclk[0]) == -EPROBE_DEFER) {
+  1659			ret = -EPROBE_DEFER;
+  1660			goto err;
+  1661		}
+  1662	
+  1663		if (!IS_ERR(pcm512x->sclk[0])) {
+  1664			ret = clk_prepare_enable(pcm512x->sclk[0]);
+  1665			if (ret != 0) {
+  1666				dev_err(dev, "Failed to enable SCLK: %d\n", ret);
+  1667				goto err;
+  1668			}
+  1669		}
+  1670	
+  1671		/* Default to standby mode */
+  1672		ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
+  1673					 PCM512x_RQST, PCM512x_RQST);
+  1674		if (ret != 0) {
+  1675			dev_err(dev, "Failed to request standby: %d\n",
+  1676				ret);
+  1677			goto err_clk;
+  1678		}
+  1679	
+  1680		pm_runtime_set_active(dev);
+  1681		pm_runtime_enable(dev);
+  1682		pm_runtime_idle(dev);
+  1683	
 
 -- 
 0-DAY CI Kernel Test Service
