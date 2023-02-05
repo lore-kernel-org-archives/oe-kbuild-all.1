@@ -1,45 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDC915B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 00:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E536E15B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 00:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675557005; x=1707093005;
+  t=1675558208; x=1707094208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ogz9Tbwr8bDROAXeOWVcSA0NVPYabAvQ7kH9tNxWj8U=;
-  b=CbXKgDRu6QEa/1/t/qS8wotr3kbgVO1bbc60iH5db/hjrlNd3N+EmNp2
-   Z116mKxsHP4/VYZENpzIKLsSzRkhPQLUpo5pgdupvGxNoC6iws9+K9eeo
-   ks8y1ROd6I5EbrcTn/nygTlW3sskeeGK+22ePofgsB1fJIhn3p1qA7j1f
-   mivB7nQtMEbaLJT+7dykGgOkf2CqJ+SAZkxI+tBUHNYnIY0SYVr9Tx07B
-   FaIKPpZ7o/PzQyIp7HUob2IA2NvfXSRvicAdosodopPfpgqIi2q9wGCa5
-   1o3sMa7TiqAqvRA0U4krfZZhfe0PbdIUg2Pd/y0RygOZPJfJ9wgYTaZ7u
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="309341880"
+  bh=WsLAkB39dtSgla6NRSnUXpWF9RWL3SSQBUVjWOmzJFo=;
+  b=DInYZYjiMV5lzU22iRMB2uLPvVKLBUqyG/gePQVS340zIpIOnqkBcTf0
+   cAjSap8/32yiO63l5HKJMoaTA7Lz/3lxrpX+HqvWhwJV/kYT18b4Wme22
+   7xDquVjf4/PUq0OGLKt1e7vtksSiTECcj2CO/Licl4sctSazRtTM4zI7j
+   HODTKYfIMdh3n/Ai+Bn9W2/2UqPSQVGgbZ/kIz6FJ0EDJ6TAnH/1cqLyz
+   SJFHB+/abuw8w8P+xOVezhJR2z7Ho2KsfpD3Px7EtLNO9DccCYuv5B/pL
+   hoOyPn7/rKj5AACpTLYZADmCIbfw5Dhz/WwBo0oYiWLmuYbhm+/nvnwiC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393604050"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="309341880"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 16:30:04 -0800
+   d="scan'208";a="393604050"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 16:50:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="659486809"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="696505182"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="659486809"
+   d="scan'208";a="696505182"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Feb 2023 16:30:02 -0800
+  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 16:50:07 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOSuv-0001bU-0Q;
-	Sun, 05 Feb 2023 00:30:01 +0000
-Date: Sun, 5 Feb 2023 08:29:01 +0800
+	id 1pOTEH-0001c4-2A;
+	Sun, 05 Feb 2023 00:50:01 +0000
+Date: Sun, 5 Feb 2023 08:49:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: mm/low-mem-notify.c:53:6: warning: no previous prototype for
- function 'low_mem_notify'
-Message-ID: <202302050856.mFpS92nt-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 144/20209]
+ include/asm-generic/div64.h:238:36: error: passing argument 1 of
+ '__div64_32' from incompatible pointer type
+Message-ID: <202302050828.GCAYb8QE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,288 +47,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu,
+Hi Adrian,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: 585b704d6b9decff53ce46e97eaa1f71a15e388c CHROMIUM: mm: move low memory code
-date:   2 years, 2 months ago
-config: s390-randconfig-r012-20230205 (https://download.01.org/0day-ci/archive/20230205/202302050856.mFpS92nt-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3248ffcb12d15a0e40b9a020ba362591b8137923
+commit: d715564642db6f453a7d5ac2f82f81ae3a147b14 [144/20209] MLK-24423: sound: soc: fsl: imx pdm: fixed mclk improve voice
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230205/202302050828.GCAYb8QE-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=585b704d6b9decff53ce46e97eaa1f71a15e388c
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout 585b704d6b9decff53ce46e97eaa1f71a15e388c
+        # https://github.com/Freescale/linux-fslc/commit/d715564642db6f453a7d5ac2f82f81ae3a147b14
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
+        git checkout d715564642db6f453a7d5ac2f82f81ae3a147b14
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:20:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |            \
-                     ^
-   In file included from mm/low-mem-notify.c:34:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:22:
-   In file included from include/linux/writeback.h:14:
-   In file included from include/linux/blk-cgroup.h:23:
-   In file included from include/linux/blkdev.h:26:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:21:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |            \
-                     ^
-   In file included from mm/low-mem-notify.c:34:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:22:
-   In file included from include/linux/writeback.h:14:
-   In file included from include/linux/blk-cgroup.h:23:
-   In file included from include/linux/blkdev.h:26:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:22:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-                     ^
-   In file included from mm/low-mem-notify.c:34:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:22:
-   In file included from include/linux/writeback.h:14:
-   In file included from include/linux/blk-cgroup.h:23:
-   In file included from include/linux/blkdev.h:26:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:120:12: note: expanded from macro '__swab32'
-           __fswab32(x))
-                     ^
-   In file included from mm/low-mem-notify.c:34:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:22:
-   In file included from include/linux/writeback.h:14:
-   In file included from include/linux/blk-cgroup.h:23:
-   In file included from include/linux/blkdev.h:26:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> mm/low-mem-notify.c:53:6: warning: no previous prototype for function 'low_mem_notify' [-Wmissing-prototypes]
-   void low_mem_notify(void)
-        ^
-   mm/low-mem-notify.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void low_mem_notify(void)
-   ^
-   static 
->> mm/low-mem-notify.c:121:6: warning: no previous prototype for function 'low_mem_check' [-Wmissing-prototypes]
-   bool low_mem_check(void)
-        ^
-   mm/low-mem-notify.c:121:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool low_mem_check(void)
-   ^
-   static 
-   22 warnings generated.
+   In file included from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:5,
+                    from include/linux/kernel.h:15,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:12,
+                    from sound/soc/fsl/imx-pdm.c:12:
+   sound/soc/fsl/imx-pdm.c: In function 'imx_pdm_mic_hw_params':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
+     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
+         |                              ^~~~~~
+   In file included from include/linux/kernel.h:11:
+   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
+      77 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
+     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
+         |                              ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
+     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
+         |                              ^~~~~~
+   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   sound/soc/fsl/imx-pdm.c: In function 'imx_pdm_mic_probe':
+   sound/soc/fsl/imx-pdm.c:322:47: error: 'struct fsl_sai' has no member named 'pll8k_clk'; did you mean 'mclk_clk'?
+     322 |                 sai_pll8k = clk_get_rate(sai->pll8k_clk);
+         |                                               ^~~~~~~~~
+         |                                               mclk_clk
+   cc1: some warnings being treated as errors
 
 
-vim +/low_mem_notify +53 mm/low-mem-notify.c
+vim +/__div64_32 +238 include/asm-generic/div64.h
 
-bca855d46bcc36 Luigi Semenzato 2014-04-03   52  
-bca855d46bcc36 Luigi Semenzato 2014-04-03  @53  void low_mem_notify(void)
-bca855d46bcc36 Luigi Semenzato 2014-04-03   54  {
-bca855d46bcc36 Luigi Semenzato 2014-04-03   55  	atomic_set(&low_mem_state, true);
-bca855d46bcc36 Luigi Semenzato 2014-04-03   56  	wake_up(&low_mem_wait);
-bca855d46bcc36 Luigi Semenzato 2014-04-03   57  }
-bca855d46bcc36 Luigi Semenzato 2014-04-03   58  
-585b704d6b9dec Yu Zhao         2019-11-10   59  /*
-585b704d6b9dec Yu Zhao         2019-11-10   60   * Compute available memory used by files that can be reclaimed quickly.
-585b704d6b9dec Yu Zhao         2019-11-10   61   */
-585b704d6b9dec Yu Zhao         2019-11-10   62  static unsigned long get_available_file_mem(void)
-bca855d46bcc36 Luigi Semenzato 2014-04-03   63  {
-585b704d6b9dec Yu Zhao         2019-11-10   64  	unsigned long file_mem =
-585b704d6b9dec Yu Zhao         2019-11-10   65  			global_node_page_state(NR_ACTIVE_FILE) +
-585b704d6b9dec Yu Zhao         2019-11-10   66  			global_node_page_state(NR_INACTIVE_FILE);
-585b704d6b9dec Yu Zhao         2019-11-10   67  	unsigned long dirty_mem = global_node_page_state(NR_FILE_DIRTY);
-585b704d6b9dec Yu Zhao         2019-11-10   68  	unsigned long min_file_mem = min_filelist_kbytes >> (PAGE_SHIFT - 10);
-585b704d6b9dec Yu Zhao         2019-11-10   69  	unsigned long clean_file_mem = file_mem > dirty_mem ?
-585b704d6b9dec Yu Zhao         2019-11-10   70  			file_mem - dirty_mem : 0;
-585b704d6b9dec Yu Zhao         2019-11-10   71  	/* Conservatively estimate the amount of available_file_mem */
-585b704d6b9dec Yu Zhao         2019-11-10   72  	unsigned long available_file_mem = clean_file_mem > min_file_mem ?
-585b704d6b9dec Yu Zhao         2019-11-10   73  			clean_file_mem - min_file_mem : 0;
-585b704d6b9dec Yu Zhao         2019-11-10   74  	return available_file_mem;
-585b704d6b9dec Yu Zhao         2019-11-10   75  }
-bca855d46bcc36 Luigi Semenzato 2014-04-03   76  
-585b704d6b9dec Yu Zhao         2019-11-10   77  /*
-585b704d6b9dec Yu Zhao         2019-11-10   78   * Available anonymous memory.
-585b704d6b9dec Yu Zhao         2019-11-10   79   */
-585b704d6b9dec Yu Zhao         2019-11-10   80  static unsigned long get_available_anon_mem(void)
-585b704d6b9dec Yu Zhao         2019-11-10   81  {
-585b704d6b9dec Yu Zhao         2019-11-10   82  	return global_node_page_state(NR_ACTIVE_ANON) +
-585b704d6b9dec Yu Zhao         2019-11-10   83  		global_node_page_state(NR_INACTIVE_ANON);
-bca855d46bcc36 Luigi Semenzato 2014-04-03   84  }
-bca855d46bcc36 Luigi Semenzato 2014-04-03   85  
-585b704d6b9dec Yu Zhao         2019-11-10   86  /*
-585b704d6b9dec Yu Zhao         2019-11-10   87   * Compute "available" memory, that is either free memory or memory that can be
-585b704d6b9dec Yu Zhao         2019-11-10   88   * reclaimed quickly, adjusted for the presence of swap.
-585b704d6b9dec Yu Zhao         2019-11-10   89   */
-585b704d6b9dec Yu Zhao         2019-11-10   90  static unsigned long get_available_mem_adj(void)
-585b704d6b9dec Yu Zhao         2019-11-10   91  {
-585b704d6b9dec Yu Zhao         2019-11-10   92  	/* free_mem is completely unallocated; clean file-backed memory
-585b704d6b9dec Yu Zhao         2019-11-10   93  	 * (file_mem - dirty_mem) is easy to reclaim, except for the last
-585b704d6b9dec Yu Zhao         2019-11-10   94  	 * min_filelist_kbytes. totalreserve_pages is the reserve of pages that
-585b704d6b9dec Yu Zhao         2019-11-10   95  	 * are not available to user space.
-585b704d6b9dec Yu Zhao         2019-11-10   96  	 */
-585b704d6b9dec Yu Zhao         2019-11-10   97  	unsigned long raw_free_mem = global_zone_page_state(NR_FREE_PAGES);
-585b704d6b9dec Yu Zhao         2019-11-10   98  	unsigned long free_mem = raw_free_mem > totalreserve_pages ?
-585b704d6b9dec Yu Zhao         2019-11-10   99  			raw_free_mem - totalreserve_pages : 0;
-585b704d6b9dec Yu Zhao         2019-11-10  100  	unsigned long available_mem = free_mem + get_available_file_mem();
-585b704d6b9dec Yu Zhao         2019-11-10  101  	unsigned long swappable_pages = min_t(unsigned long,
-585b704d6b9dec Yu Zhao         2019-11-10  102  			get_nr_swap_pages(), get_available_anon_mem());
-585b704d6b9dec Yu Zhao         2019-11-10  103  	/*
-585b704d6b9dec Yu Zhao         2019-11-10  104  	 * The contribution of swap is reduced by a factor of
-585b704d6b9dec Yu Zhao         2019-11-10  105  	 * low_mem_ram_vs_swap_weight.
-585b704d6b9dec Yu Zhao         2019-11-10  106  	 */
-585b704d6b9dec Yu Zhao         2019-11-10  107  	return available_mem + swappable_pages / low_mem_ram_vs_swap_weight;
-585b704d6b9dec Yu Zhao         2019-11-10  108  }
-585b704d6b9dec Yu Zhao         2019-11-10  109  
-585b704d6b9dec Yu Zhao         2019-11-10  110  #ifdef CONFIG_SYSFS
-585b704d6b9dec Yu Zhao         2019-11-10  111  static void low_mem_threshold_notify(void);
-585b704d6b9dec Yu Zhao         2019-11-10  112  #else
-585b704d6b9dec Yu Zhao         2019-11-10  113  static void low_mem_threshold_notify(void)
-585b704d6b9dec Yu Zhao         2019-11-10  114  {
-585b704d6b9dec Yu Zhao         2019-11-10  115  }
-585b704d6b9dec Yu Zhao         2019-11-10  116  #endif
-585b704d6b9dec Yu Zhao         2019-11-10  117  
-585b704d6b9dec Yu Zhao         2019-11-10  118  /*
-585b704d6b9dec Yu Zhao         2019-11-10  119   * Returns TRUE if we are in a low memory state.
-585b704d6b9dec Yu Zhao         2019-11-10  120   */
-585b704d6b9dec Yu Zhao         2019-11-10 @121  bool low_mem_check(void)
-585b704d6b9dec Yu Zhao         2019-11-10  122  {
-585b704d6b9dec Yu Zhao         2019-11-10  123  	static bool was_low_mem;	/* = false, as per style guide */
-585b704d6b9dec Yu Zhao         2019-11-10  124  	static atomic_t in_low_mem_check = ATOMIC_INIT(0);
-585b704d6b9dec Yu Zhao         2019-11-10  125  	/* last observed threshold */
-585b704d6b9dec Yu Zhao         2019-11-10  126  	static unsigned int low_mem_threshold_last = UINT_MAX;
-585b704d6b9dec Yu Zhao         2019-11-10  127  	/* Limit logging low memory to once per second. */
-585b704d6b9dec Yu Zhao         2019-11-10  128  	static DEFINE_RATELIMIT_STATE(low_mem_logging_ratelimit, 1 * HZ, 1);
-585b704d6b9dec Yu Zhao         2019-11-10  129  
-585b704d6b9dec Yu Zhao         2019-11-10  130  	/* We declare a low-memory condition when a combination of RAM and swap
-585b704d6b9dec Yu Zhao         2019-11-10  131  	 * space is low.
-585b704d6b9dec Yu Zhao         2019-11-10  132  	 */
-585b704d6b9dec Yu Zhao         2019-11-10  133  	unsigned long available_mem = get_available_mem_adj();
-585b704d6b9dec Yu Zhao         2019-11-10  134  	/*
-585b704d6b9dec Yu Zhao         2019-11-10  135  	 * For backwards compatibility with the older margin interface, we will
-585b704d6b9dec Yu Zhao         2019-11-10  136  	 * trigger the /dev/chromeos-low_mem device when we are below the
-585b704d6b9dec Yu Zhao         2019-11-10  137  	 * lowest threshold
-585b704d6b9dec Yu Zhao         2019-11-10  138  	 */
-585b704d6b9dec Yu Zhao         2019-11-10  139  	bool is_low_mem = available_mem < low_mem_thresholds[0];
-585b704d6b9dec Yu Zhao         2019-11-10  140  	unsigned int threshold_lowest = UINT_MAX;
-585b704d6b9dec Yu Zhao         2019-11-10  141  	int i;
-585b704d6b9dec Yu Zhao         2019-11-10  142  
-585b704d6b9dec Yu Zhao         2019-11-10  143  	if (!low_mem_margin_enabled)
-585b704d6b9dec Yu Zhao         2019-11-10  144  		return false;
-585b704d6b9dec Yu Zhao         2019-11-10  145  
-585b704d6b9dec Yu Zhao         2019-11-10  146  	if (atomic_read(&in_low_mem_check) || atomic_xchg(&in_low_mem_check, 1))
-585b704d6b9dec Yu Zhao         2019-11-10  147  		return was_low_mem;
-585b704d6b9dec Yu Zhao         2019-11-10  148  
-585b704d6b9dec Yu Zhao         2019-11-10  149  	if (unlikely(is_low_mem && !was_low_mem) &&
-585b704d6b9dec Yu Zhao         2019-11-10  150  	    __ratelimit(&low_mem_logging_ratelimit)) {
-585b704d6b9dec Yu Zhao         2019-11-10  151  		pr_info("entering low_mem (avail RAM = %lu kB, avail swap %lu kB, avail file %lu kB, anon mem: %lu kB)\n",
-585b704d6b9dec Yu Zhao         2019-11-10  152  			available_mem * PAGE_SIZE / 1024,
-585b704d6b9dec Yu Zhao         2019-11-10  153  			get_nr_swap_pages() * PAGE_SIZE / 1024,
-585b704d6b9dec Yu Zhao         2019-11-10  154  			get_available_file_mem() * PAGE_SIZE / 1024,
-585b704d6b9dec Yu Zhao         2019-11-10  155  			get_available_anon_mem() * PAGE_SIZE / 1024);
-585b704d6b9dec Yu Zhao         2019-11-10  156  	}
-585b704d6b9dec Yu Zhao         2019-11-10  157  	was_low_mem = is_low_mem;
-585b704d6b9dec Yu Zhao         2019-11-10  158  
-585b704d6b9dec Yu Zhao         2019-11-10  159  	if (is_low_mem)
-585b704d6b9dec Yu Zhao         2019-11-10  160  		low_mem_notify();
-585b704d6b9dec Yu Zhao         2019-11-10  161  
-585b704d6b9dec Yu Zhao         2019-11-10  162  	for (i = 0; i < low_mem_threshold_count; i++) {
-585b704d6b9dec Yu Zhao         2019-11-10  163  		if (available_mem < low_mem_thresholds[i]) {
-585b704d6b9dec Yu Zhao         2019-11-10  164  			threshold_lowest = i;
-585b704d6b9dec Yu Zhao         2019-11-10  165  			break;
-585b704d6b9dec Yu Zhao         2019-11-10  166  		}
-585b704d6b9dec Yu Zhao         2019-11-10  167  	}
-585b704d6b9dec Yu Zhao         2019-11-10  168  
-585b704d6b9dec Yu Zhao         2019-11-10  169  	/* we crossed one or more thresholds */
-585b704d6b9dec Yu Zhao         2019-11-10  170  	if (unlikely(threshold_lowest < low_mem_threshold_last))
-585b704d6b9dec Yu Zhao         2019-11-10  171  		low_mem_threshold_notify();
-585b704d6b9dec Yu Zhao         2019-11-10  172  
-585b704d6b9dec Yu Zhao         2019-11-10  173  	low_mem_threshold_last = threshold_lowest;
-585b704d6b9dec Yu Zhao         2019-11-10  174  
-585b704d6b9dec Yu Zhao         2019-11-10  175  	atomic_set(&in_low_mem_check, 0);
-585b704d6b9dec Yu Zhao         2019-11-10  176  
-585b704d6b9dec Yu Zhao         2019-11-10  177  	return is_low_mem;
-585b704d6b9dec Yu Zhao         2019-11-10  178  }
-585b704d6b9dec Yu Zhao         2019-11-10  179  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
 
-:::::: The code at line 53 was first introduced by commit
-:::::: bca855d46bcc364801c1336e96d238fbf1d3c20b CHROMIUM: Add /dev/low-mem device for low-memory notification.
+:::::: The code at line 238 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Luigi Semenzato <semenzato@chromium.org>
-:::::: CC: Guenter Roeck <groeck@chromium.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
