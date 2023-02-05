@@ -1,42 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198A28E8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 11:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC83928E8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 12:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675596560; x=1707132560;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gzUbC22S/fdWrLv9R32X3z3yGCDnFyzIGXsn2KT1ti8=;
-  b=Eb2t9/OzCECTsw2Qeq4uJJ9l7Jl2uuTIJvmKqpBAk4wZU1055aQBLF7I
-   wgx8xWPplKjnqtAECkeBUNSFMvJXqoF7+hVe/XLoBjLKt3t6NeDUy9Aqq
-   kXk3vivptpf1qPfg/NkZD275JA/MgfxzscH1la6DFG9MyWHCpSzulcbWD
-   qAupbd8btOWOHm1bcj9zGlLFDrphZIAWep1/1uEK595AgBdJC/P8SXUlJ
-   IDeJfg/dD53mPr/OOr4ji0F9etF2sICb/kHJhfE/X4cFQ66y37M0KZZci
-   9sUJWOJKU/bQlWcyxIsEe1YMeHdfEfStVmFkNfigwAP30+TxpqWzacFUT
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="356388354"
+  t=1675599020; x=1707135020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1augIqkmIIjSdtx/hGs9NophVK2AmgaV1cJbrPAMgGQ=;
+  b=d7Zt+yC0M+GWG1F1HxbsqUo7XB70huaCHiydHfPTI1Kzo2Be9OQ2BI/C
+   ruOBDo8u3ceP0juCkTbqqhWcgYuN+tEenEi2x1eZxL+Q43urFnIkSGfbt
+   RIpvBGmvGBzyjK+I68/J1LAFJI6p17kGIuI7KtDpvrny78OsxNfjsBSaK
+   /T1HRBlElPT2A9gUqJC/lv++qiib1AUy8X8EgP4DIosqlKy5cumSYMyDo
+   PxiGXAphWW3817bauG7GKPnhVctIOggvV6FiVWTrJGsS3suggD24O/vVh
+   audt/5s1M+KqijlA7Ci8N3mGqMLRAwAzlTuvS89vbDb+6RBzImuNuWQ5v
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="331173738"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="356388354"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 03:29:19 -0800
+   d="scan'208";a="331173738"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 04:10:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="995004226"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="840103580"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="995004226"
+   d="scan'208";a="840103580"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Feb 2023 03:29:18 -0800
+  by orsmga005.jf.intel.com with ESMTP; 05 Feb 2023 04:10:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOdCv-0001y4-24;
-	Sun, 05 Feb 2023 11:29:17 +0000
-Date: Sun, 5 Feb 2023 19:28:22 +0800
+	id 1pOdqc-0001zA-11;
+	Sun, 05 Feb 2023 12:10:18 +0000
+Date: Sun, 5 Feb 2023 20:09:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/621 1629/20208] drivers/dma/mxs-dma.c:914:5:
- warning: no previous prototype for 'mxs_dma_runtime_suspend'
-Message-ID: <202302051924.D7wisx3F-lkp@intel.com>
+Subject: Re: [PATCH 2/2] btrfs: reduce div64 calls by limiting the number of
+ stripes of a chunk to u32
+Message-ID: <202302051950.KouT9cVY-lkp@intel.com>
+References: <275da997c70615256bed3cff8e74ab2b3fecbafc.1675586554.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,79 +47,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <275da997c70615256bed3cff8e74ab2b3fecbafc.1675586554.git.wqu@suse.com>
 
-Hi Han,
+Hi Qu,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Yet something to improve:
 
-tree:   https://github.com/Freescale/linux-fslc pr/621
-head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
-commit: 1b639120f160cd2a1a0fa6528d4cb721b94708c3 [1629/20208] LF-251-1: dma: mxs-dma: enable runtime PM for mxs-dma
-config: ia64-buildonly-randconfig-r004-20230205 (https://download.01.org/0day-ci/archive/20230205/202302051924.D7wisx3F-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on v6.2-rc6]
+[also build test ERROR on linus/master]
+[cannot apply to kdave/for-next next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-remove-map_lookup-stripe_len/20230205-165612
+patch link:    https://lore.kernel.org/r/275da997c70615256bed3cff8e74ab2b3fecbafc.1675586554.git.wqu%40suse.com
+patch subject: [PATCH 2/2] btrfs: reduce div64 calls by limiting the number of stripes of a chunk to u32
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230205/202302051950.KouT9cVY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/1b639120f160cd2a1a0fa6528d4cb721b94708c3
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/621
-        git checkout 1b639120f160cd2a1a0fa6528d4cb721b94708c3
+        # https://github.com/intel-lab-lkp/linux/commit/dc356ab4c1f118e55634c17c1e086bfc0536198d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Qu-Wenruo/btrfs-remove-map_lookup-stripe_len/20230205-165612
+        git checkout dc356ab4c1f118e55634c17c1e086bfc0536198d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/dma/ drivers/irqchip/ drivers/mtd/nand/raw/gpmi-nand/ drivers/pci/controller/mobiveil/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/dma/mxs-dma.c: In function 'mxs_dma_remove':
-   drivers/dma/mxs-dma.c:879:9: error: implicit declaration of function 'dma_pool_destroy' [-Werror=implicit-function-declaration]
-     879 |         dma_pool_destroy(mxs_dma->mxs_chans[0].ccw_pool);
-         |         ^~~~~~~~~~~~~~~~
-   drivers/dma/mxs-dma.c:879:47: error: 'struct mxs_dma_chan' has no member named 'ccw_pool'
-     879 |         dma_pool_destroy(mxs_dma->mxs_chans[0].ccw_pool);
-         |                                               ^
-   drivers/dma/mxs-dma.c:885:25: error: 'struct mxs_dma_chan' has no member named 'ccw_pool'
-     885 |                 mxs_chan->ccw_pool = NULL;
-         |                         ^~
-   drivers/dma/mxs-dma.c: At top level:
->> drivers/dma/mxs-dma.c:914:5: warning: no previous prototype for 'mxs_dma_runtime_suspend' [-Wmissing-prototypes]
-     914 | int mxs_dma_runtime_suspend(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/dma/mxs-dma.c:923:5: warning: no previous prototype for 'mxs_dma_runtime_resume' [-Wmissing-prototypes]
-     923 | int mxs_dma_runtime_resume(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/mxs_dma_runtime_suspend +914 drivers/dma/mxs-dma.c
-
-   913	
- > 914	int mxs_dma_runtime_suspend(struct device *dev)
-   915	{
-   916		struct mxs_dma_engine *mxs_dma = dev_get_drvdata(dev);
-   917	
-   918		clk_disable_unprepare(mxs_dma->clk);
-   919	
-   920		return 0;
-   921	}
-   922	
- > 923	int mxs_dma_runtime_resume(struct device *dev)
-   924	{
-   925		struct mxs_dma_engine *mxs_dma = dev_get_drvdata(dev);
-   926		int ret;
-   927	
-   928		ret = clk_prepare_enable(mxs_dma->clk);
-   929		if (ret) {
-   930			dev_err(&mxs_dma->pdev->dev, "failed to enable the clock\n");
-   931			return ret;
-   932		}
-   933	
-   934		return 0;
-   935	}
-   936	
+>> ERROR: modpost: "__udivdi3" [fs/btrfs/btrfs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
