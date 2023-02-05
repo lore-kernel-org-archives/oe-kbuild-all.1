@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8908815C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 03:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEE615C8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 04:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675569309; x=1707105309;
+  t=1675569910; x=1707105910;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ALu+o6UuED/MRLJEhc6XmS+16V6T+Hk4t+Tw9XmeJ5Y=;
-  b=oBXPmhOn+prQKhB4rMQiASXxwsYCvwS7nHtP+a3wxpCWN+gzIn7iO1RD
-   8ohzZ0tvFYhjKrUKkutG+Jwwz8FtBpqTKs5/EsKdC7OrjXNL9ynAW6Drt
-   fIYKVVKiuzzE3fkiSuDMC6OKmSsQYczCCCAYux6X84KbisP3Jb4dqL43o
-   CaSE1iQQB03bW1kvjfNzcddxX1Sv9rMKnPRwAswffsmQPumoyTqO8+ciK
-   b97Uw1HIh6Olsiw+6/khujMak5vJfSb+xE1mJrxYseCMcnzj2oPE5GN1j
-   Xy8+dhIo1SnNuZXA6PlDIrvnsQiwgToh0SznJUYQq3yQh8DGSyrkUxuca
+  bh=N2NqAN73bKaH1JiCiV47VF3BSHz5buEujRjDvxaN8xQ=;
+  b=NWPv6MIXTrO3grIeHQPKLLHRfhe2cUIRtarBNDRCCxwV1DjS+1oPA2Jr
+   Wac8qlrDnc7Ns6ngrBlpTdXNM7E4uz2lsrluE8GJKHfJV69aKjTOHE2gb
+   syrE/UeDWlFzGePOhMP/q/Nm6XMZ+H2QiM3DDWjrUdHLHX4N2qstEMP7X
+   BCSacGriPR6LrHRTmdU5GXvKzPHi7orBm/woCn3qc0TeRPlNgn0yOyMz1
+   VF6zuhtr+iFbSvG9Nlm9jsrDS308vcl2fSNAJa+mjGDqs3ACCmF7Ls1AF
+   L+Ds7+Q36ctvxFz9imb+rgESn/zT3mFeWqbzshaqa9El2N2BhUatB1YMO
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="415231662"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="309351244"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="415231662"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 19:55:08 -0800
+   d="scan'208";a="309351244"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 20:05:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="643677814"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="698501840"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="643677814"
+   d="scan'208";a="698501840"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Feb 2023 19:55:07 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 20:05:07 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOW7O-0001ie-34;
-	Sun, 05 Feb 2023 03:55:06 +0000
-Date: Sun, 5 Feb 2023 11:54:35 +0800
+	id 1pOWH5-0001j5-0i;
+	Sun, 05 Feb 2023 04:05:07 +0000
+Date: Sun, 5 Feb 2023 12:05:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
- 94/138] kernel/time/timekeeping.c:1658:9: error: 'boot_delta' undeclared
-Message-ID: <202302051131.Q3oSuBVW-lkp@intel.com>
+Subject: [freescale-fslc:pr/621 125/20208]
+ sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for
+ function 'fsl_asrc_process_buffer_pre'
+Message-ID: <202302051127.1ywJRwZl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,100 +47,195 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hikaru,
+Hi Shengjiu,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
-head:   573344b8d137d3584c918c7efa8d4b949d0414d4
-commit: 7833de03e339af4c25a58b24cc29ad75b98672fc [94/138] CHROMIUM: timekeeping: Remove CLOCK_BOOTTIME hack except for ARM64
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230205/202302051131.Q3oSuBVW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: 94e5356aea65959c2f670b94b36472658a40000f [125/20208] MLK-11398: ASoC: fsl_asrc: Add Memory to Memory support
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230205/202302051127.1ywJRwZl-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/7833de03e339af4c25a58b24cc29ad75b98672fc
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
-        git checkout 7833de03e339af4c25a58b24cc29ad75b98672fc
+        # https://github.com/Freescale/linux-fslc/commit/94e5356aea65959c2f670b94b36472658a40000f
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/621
+        git checkout 94e5356aea65959c2f670b94b36472658a40000f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/tty/serial/ sound/soc/fsl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/time/timekeeping.c: In function 'timekeeping_init':
->> kernel/time/timekeeping.c:1658:9: error: 'boot_delta' undeclared (first use in this function)
-    1658 |         boot_delta.tv_sec = 5;
-         |         ^~~~~~~~~~
-   kernel/time/timekeeping.c:1658:9: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:244:63: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+           ret = dma_map_sg(&asrc->pdev->dev, sg, sg_nent, slave_config.direction);
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+   include/linux/dma-mapping.h:408:58: note: expanded from macro 'dma_map_sg'
+   #define dma_map_sg(d, s, n, r) dma_map_sg_attrs(d, s, n, r, 0)
+                                  ~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+>> sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for function 'fsl_asrc_process_buffer_pre' [-Wmissing-prototypes]
+   int fsl_asrc_process_buffer_pre(struct completion *complete,
+       ^
+   sound/soc/fsl/fsl_asrc_m2m.c:350:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int fsl_asrc_process_buffer_pre(struct completion *complete,
+   ^
+   static 
+   sound/soc/fsl/fsl_asrc_m2m.c:384:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_MEM_TO_DEV); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:384:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_DEV_TO_MEM); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:391:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_MEM_TO_DEV); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:391:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_DEV_TO_MEM); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:395:2: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+           mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_MEM_TO_DEV); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+   sound/soc/fsl/fsl_asrc_m2m.c:395:2: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
+           mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
+                                DMA_DEV_TO_MEM); \
+                                ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
+   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+                                    ~~~~~~~~~~~~~~~~~~          ^
+   In file included from sound/soc/fsl/fsl_asrc.c:918:
+>> sound/soc/fsl/fsl_asrc_m2m.c:372:5: warning: no previous prototype for function 'fsl_asrc_process_buffer' [-Wmissing-prototypes]
+   int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
+       ^
+   sound/soc/fsl/fsl_asrc_m2m.c:372:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
+   ^
+   static 
+>> sound/soc/fsl/fsl_asrc_m2m.c:670:15: warning: variable 'out_length' set but not used [-Wunused-but-set-variable]
+           unsigned int out_length;
+                        ^
+>> sound/soc/fsl/fsl_asrc_m2m.c:1037:23: warning: variable 'm2m' set but not used [-Wunused-but-set-variable]
+           struct fsl_asrc_m2m *m2m;
+                                ^
+   11 warnings generated.
 
 
-vim +/boot_delta +1658 kernel/time/timekeeping.c
+vim +/fsl_asrc_process_buffer_pre +350 sound/soc/fsl/fsl_asrc_m2m.c
 
-  1610	
-  1611	/*
-  1612	 * timekeeping_init - Initializes the clocksource and common timekeeping values
-  1613	 */
-  1614	void __init timekeeping_init(void)
-  1615	{
-  1616		struct timespec64 wall_time, boot_offset, wall_to_mono;
-  1617		struct timekeeper *tk = &tk_core.timekeeper;
-  1618		struct clocksource *clock;
-  1619		unsigned long flags;
-  1620	
-  1621		read_persistent_wall_and_boot_offset(&wall_time, &boot_offset);
-  1622		if (timespec64_valid_settod(&wall_time) &&
-  1623		    timespec64_to_ns(&wall_time) > 0) {
-  1624			persistent_clock_exists = true;
-  1625		} else if (timespec64_to_ns(&wall_time) != 0) {
-  1626			pr_warn("Persistent clock returned invalid value");
-  1627			wall_time = (struct timespec64){0};
-  1628		}
-  1629	
-  1630		if (timespec64_compare(&wall_time, &boot_offset) < 0)
-  1631			boot_offset = (struct timespec64){0};
-  1632	
-  1633		/*
-  1634		 * We want set wall_to_mono, so the following is true:
-  1635		 * wall time + wall_to_mono = boot time
-  1636		 */
-  1637		wall_to_mono = timespec64_sub(boot_offset, wall_time);
-  1638	
-  1639		raw_spin_lock_irqsave(&timekeeper_lock, flags);
-  1640		write_seqcount_begin(&tk_core.seq);
-  1641		ntp_init();
-  1642	
-  1643		clock = clocksource_default_clock();
-  1644		if (clock->enable)
-  1645			clock->enable(clock);
-  1646		tk_setup_internals(tk, clock);
-  1647	
-  1648		tk_set_xtime(tk, &wall_time);
-  1649		tk->raw_sec = 0;
-  1650	
-  1651		tk_set_wall_to_mono(tk, wall_to_mono);
-  1652	
-  1653	#ifdef CONFIG_ARM64
-  1654		// TODO(b/162547792): Remove following CLOCK_BOOTTIME adjustment
-  1655		// once the underlying issue is resolved.
-  1656		// The gap added here is larger enough than
-  1657		// MIN_DELTA_BETWEEN_CLOCKS_MS which is expected by CTS Verifier.
-> 1658		boot_delta.tv_sec = 5;
-  1659		boot_delta.tv_nsec = 0;
-  1660		tk_update_sleep_time(tk, timespec64_to_ktime(boot_delta));
-  1661	#endif
-  1662	
-  1663		timekeeping_update(tk, TK_MIRROR | TK_CLOCK_WAS_SET);
-  1664	
-  1665		write_seqcount_end(&tk_core.seq);
-  1666		raw_spin_unlock_irqrestore(&timekeeper_lock, flags);
-  1667	}
-  1668	
+   349	
+ > 350	int fsl_asrc_process_buffer_pre(struct completion *complete,
+   351					enum asrc_pair_index index, bool dir)
+   352	{
+   353		if (!wait_for_completion_interruptible_timeout(complete, 10 * HZ)) {
+   354			pr_err("%sput DMA task timeout\n", DIR_STR(dir));
+   355			return -ETIME;
+   356		} else if (signal_pending(current)) {
+   357			pr_err("%sput task forcibly aborted\n", DIR_STR(dir));
+   358			return -ERESTARTSYS;
+   359		}
+   360	
+   361		return 0;
+   362	}
+   363	
+   364	#define mxc_asrc_dma_umap(dev, m2m) \
+   365		do { \
+   366			dma_unmap_sg(dev, m2m->sg[IN], m2m->sg_nodes[IN], \
+   367				     DMA_MEM_TO_DEV); \
+   368			dma_unmap_sg(dev, m2m->sg[OUT], m2m->sg_nodes[OUT], \
+   369				     DMA_DEV_TO_MEM); \
+   370		} while (0)
+   371	
+ > 372	int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
+   373				    struct asrc_convert_buffer *pbuf)
+   374	{
+   375		struct fsl_asrc *asrc = pair->asrc;
+   376		struct fsl_asrc_m2m *m2m = pair->private_m2m;
+   377		enum asrc_pair_index index = pair->index;
+   378		unsigned long lock_flags;
+   379		int ret;
+   380	
+   381		/* Check input task first */
+   382		ret = fsl_asrc_process_buffer_pre(&m2m->complete[IN], index, IN);
+   383		if (ret) {
+   384			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   385			return ret;
+   386		}
+   387	
+   388		/* ...then output task*/
+   389		ret = fsl_asrc_process_buffer_pre(&m2m->complete[OUT], index, OUT);
+   390		if (ret) {
+   391			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   392			return ret;
+   393		}
+   394	
+   395		mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
+   396	
+   397		/* Fetch the remaining data */
+   398		spin_lock_irqsave(&m2m->lock, lock_flags);
+   399		if (!m2m->pair_hold) {
+   400			spin_unlock_irqrestore(&m2m->lock, lock_flags);
+   401			return -EFAULT;
+   402		}
+   403		spin_unlock_irqrestore(&m2m->lock, lock_flags);
+   404	
+   405		fsl_asrc_read_last_FIFO(pair);
+   406	
+   407		/* Update final lengths after getting last FIFO */
+   408		pbuf->input_buffer_length = m2m->dma_block[IN].length;
+   409		pbuf->output_buffer_length = m2m->dma_block[OUT].length;
+   410	
+   411		if (copy_to_user((void __user *)pbuf->output_buffer_vaddr,
+   412				 m2m->dma_block[OUT].dma_vaddr,
+   413				 m2m->dma_block[OUT].length))
+   414			return -EFAULT;
+   415	
+   416		return 0;
+   417	}
+   418	
 
 -- 
 0-DAY CI Kernel Test Service
