@@ -1,43 +1,53 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E536E15B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 00:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B6D15B4;
+	Sun,  5 Feb 2023 01:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675558208; x=1707094208;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WsLAkB39dtSgla6NRSnUXpWF9RWL3SSQBUVjWOmzJFo=;
-  b=DInYZYjiMV5lzU22iRMB2uLPvVKLBUqyG/gePQVS340zIpIOnqkBcTf0
-   cAjSap8/32yiO63l5HKJMoaTA7Lz/3lxrpX+HqvWhwJV/kYT18b4Wme22
-   7xDquVjf4/PUq0OGLKt1e7vtksSiTECcj2CO/Licl4sctSazRtTM4zI7j
-   HODTKYfIMdh3n/Ai+Bn9W2/2UqPSQVGgbZ/kIz6FJ0EDJ6TAnH/1cqLyz
-   SJFHB+/abuw8w8P+xOVezhJR2z7Ho2KsfpD3Px7EtLNO9DccCYuv5B/pL
-   hoOyPn7/rKj5AACpTLYZADmCIbfw5Dhz/WwBo0oYiWLmuYbhm+/nvnwiC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="393604050"
+  t=1675558809; x=1707094809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HYzoEAObKmco2oMwJFZ9Ok0gbxNT7DUEeDIgbmPNHJs=;
+  b=K+oQdQbRQ82T1WWVqYcP4AvS6lLolzyxFFmV1fEBb2PKi3rk1eoHaH1O
+   4F+lluxQoK76mNK4FwH4zfea1eTmEmwqY5IjirwipW96uO9BhU7aC5T9N
+   3T3YSfUQ85wAGPwQg3utCFCYuHVL27NwOqJbMWs1/2/v7D+a4BovT5BcO
+   fkj78H+5CIITaj0YuDuaSrl8u49ZJ0Kp79o8M4xq1rRxZ1hxFpcjMrfES
+   wBsOGl/+Uk5EpaWe/VnFbwcCvXpiujzT43sfpuQQs/ke5tEE14qCNz63Q
+   OMsGsgqwkerIuVzfPIJW28NKIcWB+afrUDoeqLr4XyAp8uJd51f0F6P2k
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="331140836"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="393604050"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 16:50:08 -0800
+   d="scan'208";a="331140836"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 17:00:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="696505182"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="666123637"
 X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="696505182"
+   d="scan'208";a="666123637"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 16:50:07 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Feb 2023 17:00:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOTEH-0001c4-2A;
-	Sun, 05 Feb 2023 00:50:01 +0000
-Date: Sun, 5 Feb 2023 08:49:34 +0800
+	id 1pOTNx-0001cK-2s;
+	Sun, 05 Feb 2023 01:00:01 +0000
+Date: Sun, 5 Feb 2023 08:59:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 144/20209]
- include/asm-generic/div64.h:238:36: error: passing argument 1 of
- '__div64_32' from incompatible pointer type
-Message-ID: <202302050828.GCAYb8QE-lkp@intel.com>
+To: Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-serial@vger.kernel.org, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, ilpo.jarvinen@linux.intel.com,
+	macro@orcam.me.uk, andriy.shevchenko@linux.intel.com,
+	lukas@wunner.de, cang1@live.co.uk, matthew.gerlach@linux.intel.com,
+	deller@gmx.de, phil.edworthy@renesas.com, geert+renesas@glider.be,
+	marpagan@redhat.com, u.kleine-koenig@pengutronix.de,
+	etremblay@distech-controls.com, wander@redhat.com,
+	Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>
+Subject: Re: [PATCH v11 tty-next 1/4] serial: 8250_pci: Add
+ serial8250_pci_setup_port definition in 8250_pcilib.c
+Message-ID: <202302050831.9fyXKlIq-lkp@intel.com>
+References: <20230204053138.2520105-2-kumaravel.thiagarajan@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,111 +56,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230204053138.2520105-2-kumaravel.thiagarajan@microchip.com>
 
-Hi Adrian,
+Hi Kumaravel,
 
-FYI, the error/warning still remains.
+I love your patch! Perhaps something to improve:
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: d715564642db6f453a7d5ac2f82f81ae3a147b14 [144/20209] MLK-24423: sound: soc: fsl: imx pdm: fixed mclk improve voice
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230205/202302050828.GCAYb8QE-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumaravel-Thiagarajan/serial-8250_pci-Add-serial8250_pci_setup_port-definition-in-8250_pcilib-c/20230204-005851
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230204053138.2520105-2-kumaravel.thiagarajan%40microchip.com
+patch subject: [PATCH v11 tty-next 1/4] serial: 8250_pci: Add serial8250_pci_setup_port definition in 8250_pcilib.c
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230205/202302050831.9fyXKlIq-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/d715564642db6f453a7d5ac2f82f81ae3a147b14
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout d715564642db6f453a7d5ac2f82f81ae3a147b14
+        # https://github.com/intel-lab-lkp/linux/commit/cd5f521fabae71343d59d524ad57221e2b7524fe
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kumaravel-Thiagarajan/serial-8250_pci-Add-serial8250_pci_setup_port-definition-in-8250_pcilib-c/20230204-005851
+        git checkout cd5f521fabae71343d59d524ad57221e2b7524fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/tty/serial/8250/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:12,
-                    from sound/soc/fsl/imx-pdm.c:12:
-   sound/soc/fsl/imx-pdm.c: In function 'imx_pdm_mic_hw_params':
-   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
-     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
-         |                              ^~~~~~
-   In file included from include/linux/kernel.h:11:
-   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
-      77 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
-     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
-         |                              ^~~~~~
->> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-         |                                    |
-         |                                    unsigned int *
-   sound/soc/fsl/imx-pdm.c:241:30: note: in expansion of macro 'do_div'
-     241 |                 mclk_freq = (do_div(sample_rate, 8000) ?
-         |                              ^~~~~~
-   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                            ~~~~~~~~~~^~~~~~~~
-   sound/soc/fsl/imx-pdm.c: In function 'imx_pdm_mic_probe':
-   sound/soc/fsl/imx-pdm.c:322:47: error: 'struct fsl_sai' has no member named 'pll8k_clk'; did you mean 'mclk_clk'?
-     322 |                 sai_pll8k = clk_get_rate(sai->pll8k_clk);
-         |                                               ^~~~~~~~~
-         |                                               mclk_clk
-   cc1: some warnings being treated as errors
+>> drivers/tty/serial/8250/8250_pcilib.c:14:5: warning: no previous prototype for function 'serial8250_pci_setup_port' [-Wmissing-prototypes]
+   int serial8250_pci_setup_port(struct pci_dev *dev, struct uart_8250_port *port,
+       ^
+   drivers/tty/serial/8250/8250_pcilib.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int serial8250_pci_setup_port(struct pci_dev *dev, struct uart_8250_port *port,
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/__div64_32 +238 include/asm-generic/div64.h
+vim +/serial8250_pci_setup_port +14 drivers/tty/serial/8250/8250_pcilib.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
-^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
-461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
-461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
-^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
-
-:::::: The code at line 238 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    13	
+  > 14	int serial8250_pci_setup_port(struct pci_dev *dev, struct uart_8250_port *port,
 
 -- 
 0-DAY CI Kernel Test Service
