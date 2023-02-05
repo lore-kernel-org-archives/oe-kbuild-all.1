@@ -1,44 +1,45 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFC433C1;
-	Sun,  5 Feb 2023 18:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0955533C1
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 18:08:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675620508; x=1707156508;
+  t=1675620513; x=1707156513;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GNXvUsNzlxPbwMH9iAFHroesTRVd4kViUtSziSeoNdU=;
-  b=J9WYKkbZUx9r58y4imhIxwoivDX0QAXOzg3sVg12I/ZYoFYpfRo6zQhq
-   l/pEIYDqmT/G0LCE435bEMQXla7/U59lZp/ELFPr127NjFEwqe5996jp2
-   FRp3QwGLLjpi+GcScRYyIRJXQ582V7seclG6tqQo2CARqoaa8Nzyd6CIq
-   WmvLRvdbNXvaE7F7kbz1LRummq4gvu6+cVReEEnpy4djYr0Zp1lXKlWDU
-   hVhOOjTxQnf6eCVcUqV13B5fqhjAXSwFvFS+9R8ecHdyy75znhbY+P4p0
-   7VCu3M9b898+mKjWg86ygNAxcZQHRzGss0QWes8LlN3MYgG/tS+f8PZNG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="331206769"
+  bh=VNukrZj6U/6LY9h817cBXYMS1+KF8BsGSZVNAEL/6G0=;
+  b=iNZPbeazgxn5AcwSlMWKnIfehBVmUnJFpoFDfo9CbMbrGkviMVYP3M9D
+   Wkf2Dg9yfmTeeM3XMnKOskKpUXqnfRDfRS8TURHn5SvIlmdajmv/8eKHb
+   R+p1niB9PXzrqYZd8kkVul0sX92I2Lm/sbsmVyGFqHRBR6TVSXV/LtBCq
+   q7uYTUXtwkfuSQ9sdGcZGZkqujfN1tXwDdLfNTY4nRt9/1i/jWC3TdIPW
+   l4t3ywmcjE7feFFFTgSonilEAuCBM+XuXu2st2QhHGTSzpGeJHDM2MjGn
+   TxqMsovaQHl8SF+JBbQjmhUMXCl8/fR0Ql2Ko/B4hAsoOm/NRtBLVAY80
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="331206775"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="331206769"
+   d="scan'208";a="331206775"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 10:08:28 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 10:08:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="698634229"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="698634242"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="698634229"
+   d="scan'208";a="698634242"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 Feb 2023 10:08:26 -0800
+  by orsmga001.jf.intel.com with ESMTP; 05 Feb 2023 10:08:31 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOjRB-00028m-29;
+	id 1pOjRB-00028o-2F;
 	Sun, 05 Feb 2023 18:08:25 +0000
-Date: Mon, 6 Feb 2023 02:08:11 +0800
+Date: Mon, 6 Feb 2023 02:08:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gwendal Grignou <gwendal@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Stephen Boyd <swboyd@chromium.org>
-Subject: [jic23-iio:testing 3/5] drivers/iio/proximity/sx_common.c:437:48:
- warning: format specifies type 'char *' but the argument has type 'int'
-Message-ID: <202302060207.khEkxAUF-lkp@intel.com>
+Subject: [jic23-iio:testing 3/5] drivers/iio/proximity/sx_common.c:437:55:
+ error: implicit declaration of function 'acpi_device_hid'; did you mean
+ 'dmi_device_id'?
+Message-ID: <202302060132.vAIoV9ew-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,8 +52,8 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
 head:   1693e893f058e96fdaccbdb4bb42970811ac9ec6
 commit: fef38680d38d39f6f574db2c77df3de215f08e7d [3/5] iio: proximity: sx_common: Add old register mapping
-config: hexagon-randconfig-r045-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060207.khEkxAUF-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+config: arc-randconfig-r043-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060132.vAIoV9ew-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -62,70 +63,26 @@ reproduce (this is a W=1 build):
         git checkout fef38680d38d39f6f574db2c77df3de215f08e7d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iio/proximity/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/iio/proximity/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/proximity/sx_common.c:14:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/iio/proximity/sx_common.c:14:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/iio/proximity/sx_common.c:14:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   drivers/iio/proximity/sx_common.c:437:48: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           snprintf(prop, ARRAY_SIZE(prop), "%s,reg_%s", acpi_device_hid(adev), reg_def->property);
-                                                         ^
->> drivers/iio/proximity/sx_common.c:437:48: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-           snprintf(prop, ARRAY_SIZE(prop), "%s,reg_%s", acpi_device_hid(adev), reg_def->property);
-                                             ~~          ^~~~~~~~~~~~~~~~~~~~~
-                                             %d
-   7 warnings and 1 error generated.
+   drivers/iio/proximity/sx_common.c: In function 'sx_common_get_raw_register_config':
+>> drivers/iio/proximity/sx_common.c:437:55: error: implicit declaration of function 'acpi_device_hid'; did you mean 'dmi_device_id'? [-Werror=implicit-function-declaration]
+     437 |         snprintf(prop, ARRAY_SIZE(prop), "%s,reg_%s", acpi_device_hid(adev), reg_def->property);
+         |                                                       ^~~~~~~~~~~~~~~
+         |                                                       dmi_device_id
+>> drivers/iio/proximity/sx_common.c:437:44: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+     437 |         snprintf(prop, ARRAY_SIZE(prop), "%s,reg_%s", acpi_device_hid(adev), reg_def->property);
+         |                                           ~^          ~~~~~~~~~~~~~~~~~~~~~
+         |                                            |          |
+         |                                            char *     int
+         |                                           %d
+   cc1: some warnings being treated as errors
 
 
 vim +437 drivers/iio/proximity/sx_common.c
