@@ -1,107 +1,100 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB3015C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 03:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675566248; x=1707102248;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tJ0G3/+qZOMhhZDgoMaJDIPW7ehxTPgDNPhzq0KuHZk=;
-  b=Lm0sJHk5ZUh726/FtS+23zAvi7sw+wsF2WXrBMxNEP3dKH2bzqfhBJtP
-   Yx1dsMw4KlngAkAghcaPxfpJ/sVgdVeUp9fqXd8HSvU1POEkfvRt2PujM
-   CEdLmFNC63HuGYJbCV3yOwJ0zhUKAOMQN/nlhRV9JYuhvXI+BIUuHsJXT
-   s6jH2h/GE63JjtNlvw4oaH4OtXSDtMAgqvDHSehcaJ1RTWBJzXY/ZAfne
-   dXqqlCIIJGJayNLYUUkXsSDAK2r6a9Lm5SRNn9dJ/Y7P6f8g35BLfOKkO
-   th+Xc+BOTPGv6rh8bslrL0im15110eW0uBNOUaaA4FCKE4fQBk//lwTPA
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="317017273"
-X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="317017273"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 19:04:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="696525196"
-X-IronPort-AV: E=Sophos;i="5.97,274,1669104000"; 
-   d="scan'208";a="696525196"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Feb 2023 19:04:06 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pOVK1-0001hQ-2k;
-	Sun, 05 Feb 2023 03:04:05 +0000
-Date: Sun, 5 Feb 2023 11:03:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_sbi_nested_v1 35/76]
- arch/riscv/include/asm/acpi.h:80:5: warning: no previous prototype for
- 'acpi_get_riscv_isa'
-Message-ID: <202302051035.L0veLRjj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB62215C8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 03:34:59 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-51ba4b1b9feso118180497b3.11
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Feb 2023 19:34:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fcwD730JuegJS9ZrkIlmvCTSQQeySoHb1pg0TjvLj4k=;
+        b=K5ih6AUOASfJQCxBzijpSTnTup+RVfJjyiSgYPmG0SCljR71HsUqWISpsex0ufKKO+
+         B3yoNExk3zcU8LjbNYso/tu4uOmdrVFsc1UlCg7qOAVPFAxtBbR2pGGDluRLpHui0MMp
+         XsaUOfyDJ3QYaQ1Iv56+obvzlO1e5s4H3f133F3bgwLW08NA+sJiEhGQn1F+IcM4mjZa
+         YbkerwBqYs2LmuAI14bkWNGIFdHttaKJngL8XIf0OfuLWnK429kwWwQ5mOLHMZ7IlmCV
+         va2BDkDfRep7MhCZGJ/7GQM4QD1Ncj6OTeXE1Dzqs66lEI+zF4WjsY7GwuROZQBkP33T
+         bHJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fcwD730JuegJS9ZrkIlmvCTSQQeySoHb1pg0TjvLj4k=;
+        b=k4cQmPiWJeXOnI+oFfwykuOivo1qDgf2a90BEHAHeQU1glnfaaUVY2a/2OmnBqojbe
+         qf3QqZiAWn/pc+cjDcpfEYDLXMV23MyQfewOkYBanvWbUDDie/n+m3IYzP6mATfArsDt
+         NFCtIpGTDaTQX0UOcQLsrrIyg4NVghVXl19LrYj2oSYoAV+U/gNEx5n/QzWGFa2HWNfR
+         MeiaTKV5dWAwNluCidm9v1LvhEDmpBXuyIvF1525WF28mnap8NRk22ooWasdd5FUlzP7
+         AfPl5Rg1rlIpd4FV+Bw10ESXfRrf5PDb9lupcaFeHiRkKVjv+1EtvxuG406ga3Dsqp0z
+         p7qw==
+X-Gm-Message-State: AO0yUKUWMesTDtQ/kgtNqy+c72NjYU6zx6gzhvPlRGps3XKCMy4GshBj
+	ksgW103XAKC3mh6Gvbj0ZKXRUCoBndp7Rm9+AKA=
+X-Google-Smtp-Source: AK7set/WMVjziLschXh8TLMwDh9aQwxEyvuoYBxqceAIqUq1zHx5v9hq4fKwGe2bi4B+cgYFROlNzsvAvh028s1pXeI=
+X-Received: by 2002:a0d:d94e:0:b0:526:bfed:89ca with SMTP id
+ b75-20020a0dd94e000000b00526bfed89camr595368ywe.171.1675568098565; Sat, 04
+ Feb 2023 19:34:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <6eca3cf10a8c06f733fac943bcb997c06ec5daa3.1675548023.git.lucien.xin@gmail.com>
+ <202302050823.JwxMWCH9-lkp@intel.com>
+In-Reply-To: <202302050823.JwxMWCH9-lkp@intel.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Sat, 4 Feb 2023 22:34:37 -0500
+Message-ID: <CADvbK_fVBubU7cdrSa_PGGATU8WxAmjSA_F=MR2GmAATjqUqYA@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/5] net: create nf_conntrack_ovs for ovs and tc use
+To: kernel test robot <lkp@intel.com>
+Cc: network dev <netdev@vger.kernel.org>, dev@openvswitch.org, 
+	oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Pravin B Shelar <pshelar@ovn.org>, Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>, 
+	Jiri Pirko <jiri@resnulli.us>, Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, 
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Ilya Maximets <i.maximets@ovn.org>, 
+	Aaron Conole <aconole@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
-head:   27e6109638389f74b42fe02858caa9c7a381cbbe
-commit: db4952f58ebd70e99ec95af6c8139e52f809a32a [35/76] RISC-V: ACPI: cpufeature: Add ACPI support in riscv_fill_hwcap()
-config: riscv-randconfig-r035-20230205 (https://download.01.org/0day-ci/archive/20230205/202302051035.L0veLRjj-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/avpatel/linux/commit/db4952f58ebd70e99ec95af6c8139e52f809a32a
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_sbi_nested_v1
-        git checkout db4952f58ebd70e99ec95af6c8139e52f809a32a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
+On Sat, Feb 4, 2023 at 8:11 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Xin,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on net-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Long/net-create-nf_conntrack_ovs-for-ovs-and-tc-use/20230205-060514
+> patch link:    https://lore.kernel.org/r/6eca3cf10a8c06f733fac943bcb997c06ec5daa3.1675548023.git.lucien.xin%40gmail.com
+> patch subject: [PATCH net-next 1/5] net: create nf_conntrack_ovs for ovs and tc use
+> config: s390-defconfig (https://download.01.org/0day-ci/archive/20230205/202302050823.JwxMWCH9-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/e2bb7f965a86f833a4ae6ec28444ba328fdfc358
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Xin-Long/net-create-nf_conntrack_ovs-for-ovs-and-tc-use/20230205-060514
+>         git checkout e2bb7f965a86f833a4ae6ec28444ba328fdfc358
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+> >> ERROR: modpost: "nf_ct_helper" [net/openvswitch/openvswitch.ko] undefined!
+> >> ERROR: modpost: "nf_ct_add_helper" [net/openvswitch/openvswitch.ko] undefined!
+>
+caused by:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
++       select NF_CONNTRACK_OVS if NF_NF_CONNTRACK
 
-All warnings (new ones prefixed by >>):
+"NF_NF_CONNTRACK", incorrect option name was used, will fix it.
+The same cause is for Patch 2/5 and 5/5.
 
-   In file included from arch/riscv/kernel/cpufeature.c:16:
->> arch/riscv/include/asm/acpi.h:80:5: warning: no previous prototype for 'acpi_get_riscv_isa' [-Wmissing-prototypes]
-      80 | int acpi_get_riscv_isa(struct acpi_table_header *table, unsigned int cpu, const char **isa)
-         |     ^~~~~~~~~~~~~~~~~~
-
-
-vim +/acpi_get_riscv_isa +80 arch/riscv/include/asm/acpi.h
-
-f6ce6a00404b8e Sunil V L 2023-01-30  67  
-d8a08750a4fecf Sunil V L 2023-01-30  68  struct acpi_madt_rintc *acpi_get_madt_rintc(int cpu);
-d8a08750a4fecf Sunil V L 2023-01-30  69  struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
-d8a08750a4fecf Sunil V L 2023-01-30  70  static inline u32 get_acpi_id_for_cpu(int cpu)
-d8a08750a4fecf Sunil V L 2023-01-30  71  {
-d8a08750a4fecf Sunil V L 2023-01-30  72  	return	acpi_cpu_get_madt_rintc(cpu)->uid;
-d8a08750a4fecf Sunil V L 2023-01-30  73  }
-04edd69e833b9d Sunil V L 2023-01-30  74  int acpi_get_riscv_isa(struct acpi_table_header *table, unsigned int cpu, const char **isa);
-d8a08750a4fecf Sunil V L 2023-01-30  75  #else
-d8a08750a4fecf Sunil V L 2023-01-30  76  static inline u32 get_acpi_id_for_cpu(int cpu)
-d8a08750a4fecf Sunil V L 2023-01-30  77  {
-d8a08750a4fecf Sunil V L 2023-01-30  78  	return -1;
-d8a08750a4fecf Sunil V L 2023-01-30  79  }
-04edd69e833b9d Sunil V L 2023-01-30 @80  int acpi_get_riscv_isa(struct acpi_table_header *table, unsigned int cpu, const char **isa)
-04edd69e833b9d Sunil V L 2023-01-30  81  {
-04edd69e833b9d Sunil V L 2023-01-30  82  	return -1;
-04edd69e833b9d Sunil V L 2023-01-30  83  }
-d8a08750a4fecf Sunil V L 2023-01-30  84  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: 04edd69e833b9da8cbae5866214e4891626072ae ACPI: RISC-V: drivers/acpi: Add RHCT related code
-
-:::::: TO: Sunil V L <sunilvl@ventanamicro.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks.
