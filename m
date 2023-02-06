@@ -1,42 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765807F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 00:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C75F7F;
+	Mon,  6 Feb 2023 00:58:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675644523; x=1707180523;
+  t=1675645124; x=1707181124;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kt6B6NdWRINl3+V3veCaqK3d+boTrHVwRgVY6fAs+bQ=;
-  b=P0f5LUrpk5fBEFmOfcUwEtfxz0X2ULaRkeXRZ9qQ4TKrbZVelLY+Y68S
-   sGIrzKa0WEjEGdwYMPiosdxKbGN6UWx2cqJen/aA5C8Kcq+tXrLCA0EHY
-   IcvC6bZ/h1V7c8uY/h2ynSdYMYKyAzqbXONTetetTYuEwu2LO3fQ5Go0U
-   V4YXmXC+w9mglXWGbjXVyPi4TFES6mNvIdMBj+nQoAIdx8zuYHIr71iP1
-   itJO2zSoG6fapvN+YYyIiJN95mF5sHlp7ZI8uLbcE3KzGccdmncnyMdcK
-   9S6lua2tsUcrGyZ57Ivy9t0u/1CiMerKjiYQuExIZo9KevsKKDSRFo8ak
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="415326752"
+  bh=huYIxJmsUUnB2hhLbLPAlW3NJExt3qxQvSvg0Q+Wec8=;
+  b=cHUSy5GRd5WZpvOkGnSebWZhQBtAH87HBvXX9vZC21viamtlbOOHjVQS
+   pagPmcoFsf0Tqyo2ITQoHOGWiiknai2DJXcHMllCav0I2+hkI0dOmra65
+   9OKeXTgaR90vTxonfV/nMG+Qc5bKBJnaNcj2sArZzvxpB2djS04Ub4SKE
+   i7AkN+ExyuKfGlczdkssViB3NoOlBRU8FIwM8G2iG6+JQlnYPVDF/AzWO
+   7UNyQu1KTvKxRvjG3hqGPLmT3bS87VXffZxcVhXD/VQnf4opmDziabNtc
+   kAqe2AgrqwH0OYtZfV6Ogms654MtUPToCfYZ69/thxOYVDFcsXlZvYxJo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="327740634"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="415326752"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 16:48:42 -0800
+   d="scan'208";a="327740634"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 16:58:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="734948970"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="790287521"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="734948970"
+   d="scan'208";a="790287521"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Feb 2023 16:48:41 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Feb 2023 16:58:42 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOpgX-0002Iy-0M;
-	Mon, 06 Feb 2023 00:48:41 +0000
-Date: Mon, 6 Feb 2023 08:48:01 +0800
+	id 1pOpqD-0002JI-1O;
+	Mon, 06 Feb 2023 00:58:41 +0000
+Date: Mon, 6 Feb 2023 08:58:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [povik:ivsense 37/39] sound/soc/codecs/tas2764-quirks.h:148:2:
- warning: unannotated fall-through between switch labels
-Message-ID: <202302060811.oZke6HHH-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/020-t6000-dart 6/21]
+ drivers/iommu/apple-dart.c:610:34: warning: implicit conversion from
+ 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from
+ 18446744073709551615 to 4294967295
+Message-ID: <202302060829.LqIe1phI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,94 +48,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/povik/linux ivsense
-head:   34f7168e4161164e8b3879d8ad099346a63f764f
-commit: 46630652178d7edeb72add30f186f264f4982c8a [37/39] ASoC: tas2764: Add optional 'Apple quirks'
-config: riscv-randconfig-r042-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060811.oZke6HHH-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/020-t6000-dart
+head:   05458bcb879b99768bb4621c212651a1316a4e95
+commit: da75d5ce709f288f6e4902dcf6fe5d7113995bdd [6/21] iommu: dart: Add t8110 DART support
+config: arm-randconfig-r046-20230206 (https://download.01.org/0day-ci/archive/20230206/202302060829.LqIe1phI-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/povik/linux/commit/46630652178d7edeb72add30f186f264f4982c8a
-        git remote add povik https://github.com/povik/linux
-        git fetch --no-tags povik ivsense
-        git checkout 46630652178d7edeb72add30f186f264f4982c8a
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/AsahiLinux/linux/commit/da75d5ce709f288f6e4902dcf6fe5d7113995bdd
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/020-t6000-dart
+        git checkout da75d5ce709f288f6e4902dcf6fe5d7113995bdd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from sound/soc/codecs/tas2764.c:56:
->> sound/soc/codecs/tas2764-quirks.h:148:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   sound/soc/codecs/tas2764-quirks.h:148:2: note: insert '__attribute__((fallthrough));' to silence this warning
-           default:
-           ^
-           __attribute__((fallthrough)); 
-   sound/soc/codecs/tas2764-quirks.h:148:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   sound/soc/codecs/tas2764.c:876:20: warning: cast to smaller integer type 'enum tas2764_devid' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-                   tas2764->devid = (enum tas2764_devid) of_id->data;
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> drivers/iommu/apple-dart.c:610:34: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+           domain->geometry.aperture_end = DMA_BIT_MASK(dart->ias);
+                                         ~ ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:76:40: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                          ^~~~~
+   1 warning generated.
 
 
-vim +148 sound/soc/codecs/tas2764-quirks.h
+vim +610 drivers/iommu/apple-dart.c
 
-   115	
-   116	static int tas2764_do_quirky_pwr_ctrl_change(struct tas2764_priv *tas2764,
-   117						     unsigned int target)
-   118	{
-   119		unsigned int curr;
-   120		int ret;
-   121	
-   122		curr = snd_soc_component_read_field(tas2764->component,
-   123						       TAS2764_PWR_CTRL,
-   124						       TAS2764_PWR_CTRL_MASK);
-   125	
-   126		if (target == curr)
-   127			return 0;
-   128	
-   129	#define TRANSITION(new, old) ((new) << 8 | (old))
-   130		switch (TRANSITION(target, curr)) {
-   131		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_MUTE):
-   132		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_ACTIVE):
-   133			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_pre_shutdown_seq,
-   134						     ARRAY_SIZE(tas2764_pre_shutdown_seq));
-   135			if (ret < 0)
-   136				break;
-   137	
-   138			ret = snd_soc_component_update_bits(tas2764->component,
-   139							    TAS2764_PWR_CTRL,
-   140						    	    TAS2764_PWR_CTRL_MASK,
-   141						    	    TAS2764_PWR_CTRL_SHUTDOWN);
-   142			if (ret > 0)
-   143				break;
-   144	
-   145			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_post_shutdown_seq,
-   146						     ARRAY_SIZE(tas2764_post_shutdown_seq));
-   147	
- > 148		default:
-   149			ret = snd_soc_component_update_bits(tas2764->component, TAS2764_PWR_CTRL,
-   150						    	    TAS2764_PWR_CTRL_MASK, target);
-   151		}
-   152	#undef TRANSITION
-   153	
-   154		if (ret < 0)
-   155			return ret;
-   156		return 0;
-   157	}
-   158	
+   571	
+   572	static int apple_dart_finalize_domain(struct iommu_domain *domain,
+   573					      struct apple_dart_master_cfg *cfg)
+   574	{
+   575		struct apple_dart_domain *dart_domain = to_dart_domain(domain);
+   576		struct apple_dart *dart = cfg->stream_maps[0].dart;
+   577		struct io_pgtable_cfg pgtbl_cfg;
+   578		int ret = 0;
+   579		int i, j;
+   580	
+   581		mutex_lock(&dart_domain->init_lock);
+   582	
+   583		if (dart_domain->finalized)
+   584			goto done;
+   585	
+   586		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
+   587			dart_domain->stream_maps[i].dart = cfg->stream_maps[i].dart;
+   588			for (j = 0; j < BITS_TO_LONGS(dart->num_streams); j++)
+   589				atomic_long_set(&dart_domain->stream_maps[i].sidmap[j],
+   590						cfg->stream_maps[i].sidmap[j]);
+   591		}
+   592	
+   593		pgtbl_cfg = (struct io_pgtable_cfg){
+   594			.pgsize_bitmap = dart->pgsize,
+   595			.ias = dart->ias,
+   596			.oas = dart->oas,
+   597			.coherent_walk = 1,
+   598			.iommu_dev = dart->dev,
+   599		};
+   600	
+   601		dart_domain->pgtbl_ops =
+   602			alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg, domain);
+   603		if (!dart_domain->pgtbl_ops) {
+   604			ret = -ENOMEM;
+   605			goto done;
+   606		}
+   607	
+   608		domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
+   609		domain->geometry.aperture_start = 0;
+ > 610		domain->geometry.aperture_end = DMA_BIT_MASK(dart->ias);
+   611		domain->geometry.force_aperture = true;
+   612	
+   613		dart_domain->finalized = true;
+   614	
+   615	done:
+   616		mutex_unlock(&dart_domain->init_lock);
+   617		return ret;
+   618	}
+   619	
 
 -- 
 0-DAY CI Kernel Test Service
