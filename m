@@ -1,44 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFE853A2;
-	Mon,  6 Feb 2023 15:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1813A53A2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 15:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675698726; x=1707234726;
+  t=1675698732; x=1707234732;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WZrGjuXfj7Zf0Ou26gpE8uITdkyBqJo0y/5oAA3Q9bw=;
-  b=L0xvvsZZ03723VSt4vhtMzJCH4n8cFVZCqsdH8cONChJaaFRKRfmaWc1
-   QBFsMUBIjb3/exCZWzJXwJ+6oR0WJuIrJnIigR+LCatAJADTC+Hm32H72
-   io7DNflzzge1yteVILlQu9ZoAItIJsc4nzpnrWypx4KxhbEDuAsvk1eXF
-   SSVb+OvI6ZfjzQ/dqf0Hm0HUOxQqPs3/YnjNiCwc8qY1p4E8Gt58wnG/S
-   3iKfp2ZOgdwc7BvpsLZTF/bCC1Pz/0yMn1RuXgOvFHEREo6mYwGrVmIZQ
-   lEpa1+GD0u25X7qkl0R56lHtBgYXJmWdAdPMfRrJlBf38MUafRXm9nhpp
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="312890958"
+  bh=VvefBkdpPmKom40wQsp0mBCIE20Xdyc6zxR6Jkl3iyg=;
+  b=dXI/qg8YzFvnhpXBsjHDGNzozhH8zTJo8UdnyMnRLRp6RPVZmkaIFIBn
+   OTbhJ9MK+oV2tf6yQv6DTRNnIy1OO8wVFS5Gq5sx/3Xltp58iiGhube37
+   bZMtzTlb+T5Q9kkVBzOBiwPNnN87Ce98/LPtLShH9AFjsZVxjg6iRfRv5
+   JX46dqw1tUSh2hM8gOe8puX7K6bxq5iGl+tYcRT0xQHKffVXTRT+nhNBg
+   CW57AFslh7bVxyfME8lzB+T0MW3g8zh67woX3WaQrwdwTm5SnS00UOSh2
+   bFeQc7nHHme2q/VKOW0QkAsX7yFBW3VttJQ1Dn9WWo83Wg4a3Ub/yMDn9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="327871206"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="312890958"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 07:52:05 -0800
+   d="scan'208";a="327871206"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 07:52:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="659887416"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="644079078"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="659887416"
+   d="scan'208";a="644079078"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Feb 2023 07:52:03 -0800
+  by orsmga006.jf.intel.com with ESMTP; 06 Feb 2023 07:52:08 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pP3mk-0002e4-2U;
+	id 1pP3mk-0002e6-2c;
 	Mon, 06 Feb 2023 15:52:02 +0000
-Date: Mon, 6 Feb 2023 23:52:01 +0800
+Date: Mon, 6 Feb 2023 23:52:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jason A. Donenfeld" <zx2c4@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly
- requires more registers than available
-Message-ID: <202302062324.HhzEZCF7-lkp@intel.com>
+To: Kan Liang <kan.liang@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Qin <chao.qin@intel.com>,
+	Andi Kleen <ak@linux.intel.com>
+Subject: [intel-lts:5.10/yocto 24099/29177]
+ arch/x86/events/intel/uncore_snbep.c:5416:33: warning: unused variable
+ 'spr_uncore_iio'
+Message-ID: <202302062347.YFMuPIIM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,207 +48,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2d11f342b179f1894a901f143ec7c008caba43e
-commit: 07b586fe06625b0b610dc3d3a969c51913d143d4 crypto: x86/curve25519 - replace with formally verified implementation
-date:   3 years ago
-config: x86_64-buildonly-randconfig-r006-20230206 (https://download.01.org/0day-ci/archive/20230206/202302062324.HhzEZCF7-lkp@intel.com/config)
+Hi Kan,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   a28867696061a1be54960089016434aee399da9d
+commit: ad0841569ed53a6945308c8b6f9d7710bd1b07a7 [24099/29177] perf/x86/intel/uncore: Support IIO free-running counters on Sapphire Rapids server
+config: i386-randconfig-a002-20230206 (https://download.01.org/0day-ci/archive/20230206/202302062347.YFMuPIIM-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=07b586fe06625b0b610dc3d3a969c51913d143d4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 07b586fe06625b0b610dc3d3a969c51913d143d4
+        # https://github.com/intel/linux-intel-lts/commit/ad0841569ed53a6945308c8b6f9d7710bd1b07a7
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout ad0841569ed53a6945308c8b6f9d7710bd1b07a7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/events/intel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/crypto/curve25519-x86_64.c:954:6: warning: variable 'carry' set but not used [-Wunused-but-set-variable]
-           u64 carry;
-               ^
-   arch/x86/crypto/curve25519-x86_64.c:951:6: warning: variable 'carry0' set but not used [-Wunused-but-set-variable]
-           u64 carry0;
-               ^
->> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
-                   "  movq 0(%1), %%rdx;"                                       /* f[0] */
-                   ^
->> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
-   2 warnings and 2 errors generated.
+>> arch/x86/events/intel/uncore_snbep.c:5416:33: warning: unused variable 'spr_uncore_iio' [-Wunused-variable]
+   static struct intel_uncore_type spr_uncore_iio = {
+                                   ^
+>> arch/x86/events/intel/uncore_snbep.c:5442:33: warning: unused variable 'spr_uncore_irp' [-Wunused-variable]
+   static struct intel_uncore_type spr_uncore_irp = {
+                                   ^
+>> arch/x86/events/intel/uncore_snbep.c:5448:33: warning: unused variable 'spr_uncore_m2pcie' [-Wunused-variable]
+   static struct intel_uncore_type spr_uncore_m2pcie = {
+                                   ^
+>> arch/x86/events/intel/uncore_snbep.c:5453:33: warning: unused variable 'spr_uncore_pcu' [-Wunused-variable]
+   static struct intel_uncore_type spr_uncore_pcu = {
+                                   ^
+   4 warnings generated.
 
 
-vim +609 arch/x86/crypto/curve25519-x86_64.c
+vim +/spr_uncore_iio +5416 arch/x86/events/intel/uncore_snbep.c
 
-   600	
-   601	/* Computes two field squarings:
-   602	 * out[0] <- f[0] * f[0]
-   603	 * out[1] <- f[1] * f[1]
-   604	 * Uses the 16-element buffer tmp for intermediate results */
-   605	static inline void fsqr2(u64 *out, const u64 *f, u64 *tmp)
-   606	{
-   607		asm volatile(
-   608			/* Step 1: Compute all partial products */
- > 609			"  movq 0(%1), %%rdx;"                                       /* f[0] */
-   610			"  mulxq 8(%1), %%r8, %%r14;"      "  xor %%r15, %%r15;"     /* f[1]*f[0] */
-   611			"  mulxq 16(%1), %%r9, %%r10;"     "  adcx %%r14, %%r9;"     /* f[2]*f[0] */
-   612			"  mulxq 24(%1), %%rax, %%rcx;"    "  adcx %%rax, %%r10;"    /* f[3]*f[0] */
-   613			"  movq 24(%1), %%rdx;"                                      /* f[3] */
-   614			"  mulxq 8(%1), %%r11, %%r12;"     "  adcx %%rcx, %%r11;"    /* f[1]*f[3] */
-   615			"  mulxq 16(%1), %%rax, %%r13;"    "  adcx %%rax, %%r12;"    /* f[2]*f[3] */
-   616			"  movq 8(%1), %%rdx;"             "  adcx %%r15, %%r13;"    /* f1 */
-   617			"  mulxq 16(%1), %%rax, %%rcx;"    "  mov $0, %%r14;"        /* f[2]*f[1] */
-   618	
-   619			/* Step 2: Compute two parallel carry chains */
-   620			"  xor %%r15, %%r15;"
-   621			"  adox %%rax, %%r10;"
-   622			"  adcx %%r8, %%r8;"
-   623			"  adox %%rcx, %%r11;"
-   624			"  adcx %%r9, %%r9;"
-   625			"  adox %%r15, %%r12;"
-   626			"  adcx %%r10, %%r10;"
-   627			"  adox %%r15, %%r13;"
-   628			"  adcx %%r11, %%r11;"
-   629			"  adox %%r15, %%r14;"
-   630			"  adcx %%r12, %%r12;"
-   631			"  adcx %%r13, %%r13;"
-   632			"  adcx %%r14, %%r14;"
-   633	
-   634			/* Step 3: Compute intermediate squares */
-   635			"  movq 0(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[0]^2 */
-   636			                           "  movq %%rax, 0(%0);"
-   637			"  add %%rcx, %%r8;"       "  movq %%r8, 8(%0);"
-   638			"  movq 8(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[1]^2 */
-   639			"  adcx %%rax, %%r9;"      "  movq %%r9, 16(%0);"
-   640			"  adcx %%rcx, %%r10;"     "  movq %%r10, 24(%0);"
-   641			"  movq 16(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[2]^2 */
-   642			"  adcx %%rax, %%r11;"     "  movq %%r11, 32(%0);"
-   643			"  adcx %%rcx, %%r12;"     "  movq %%r12, 40(%0);"
-   644			"  movq 24(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[3]^2 */
-   645			"  adcx %%rax, %%r13;"     "  movq %%r13, 48(%0);"
-   646			"  adcx %%rcx, %%r14;"     "  movq %%r14, 56(%0);"
-   647	
-   648			/* Step 1: Compute all partial products */
-   649			"  movq 32(%1), %%rdx;"                                       /* f[0] */
-   650			"  mulxq 40(%1), %%r8, %%r14;"      "  xor %%r15, %%r15;"     /* f[1]*f[0] */
-   651			"  mulxq 48(%1), %%r9, %%r10;"     "  adcx %%r14, %%r9;"     /* f[2]*f[0] */
-   652			"  mulxq 56(%1), %%rax, %%rcx;"    "  adcx %%rax, %%r10;"    /* f[3]*f[0] */
-   653			"  movq 56(%1), %%rdx;"                                      /* f[3] */
-   654			"  mulxq 40(%1), %%r11, %%r12;"     "  adcx %%rcx, %%r11;"    /* f[1]*f[3] */
-   655			"  mulxq 48(%1), %%rax, %%r13;"    "  adcx %%rax, %%r12;"    /* f[2]*f[3] */
-   656			"  movq 40(%1), %%rdx;"             "  adcx %%r15, %%r13;"    /* f1 */
-   657			"  mulxq 48(%1), %%rax, %%rcx;"    "  mov $0, %%r14;"        /* f[2]*f[1] */
-   658	
-   659			/* Step 2: Compute two parallel carry chains */
-   660			"  xor %%r15, %%r15;"
-   661			"  adox %%rax, %%r10;"
-   662			"  adcx %%r8, %%r8;"
-   663			"  adox %%rcx, %%r11;"
-   664			"  adcx %%r9, %%r9;"
-   665			"  adox %%r15, %%r12;"
-   666			"  adcx %%r10, %%r10;"
-   667			"  adox %%r15, %%r13;"
-   668			"  adcx %%r11, %%r11;"
-   669			"  adox %%r15, %%r14;"
-   670			"  adcx %%r12, %%r12;"
-   671			"  adcx %%r13, %%r13;"
-   672			"  adcx %%r14, %%r14;"
-   673	
-   674			/* Step 3: Compute intermediate squares */
-   675			"  movq 32(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[0]^2 */
-   676			                           "  movq %%rax, 64(%0);"
-   677			"  add %%rcx, %%r8;"       "  movq %%r8, 72(%0);"
-   678			"  movq 40(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[1]^2 */
-   679			"  adcx %%rax, %%r9;"      "  movq %%r9, 80(%0);"
-   680			"  adcx %%rcx, %%r10;"     "  movq %%r10, 88(%0);"
-   681			"  movq 48(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[2]^2 */
-   682			"  adcx %%rax, %%r11;"     "  movq %%r11, 96(%0);"
-   683			"  adcx %%rcx, %%r12;"     "  movq %%r12, 104(%0);"
-   684			"  movq 56(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[3]^2 */
-   685			"  adcx %%rax, %%r13;"     "  movq %%r13, 112(%0);"
-   686			"  adcx %%rcx, %%r14;"     "  movq %%r14, 120(%0);"
-   687	
-   688			/* Line up pointers */
-   689			"  mov %0, %1;"
-   690			"  mov %2, %0;"
-   691	
-   692			/* Step 1: Compute dst + carry == tmp_hi * 38 + tmp_lo */
-   693			"  mov $38, %%rdx;"
-   694			"  mulxq 32(%1), %%r8, %%r13;"
-   695			"  xor %%rcx, %%rcx;"
-   696			"  adoxq 0(%1), %%r8;"
-   697			"  mulxq 40(%1), %%r9, %%r12;"
-   698			"  adcx %%r13, %%r9;"
-   699			"  adoxq 8(%1), %%r9;"
-   700			"  mulxq 48(%1), %%r10, %%r13;"
-   701			"  adcx %%r12, %%r10;"
-   702			"  adoxq 16(%1), %%r10;"
-   703			"  mulxq 56(%1), %%r11, %%rax;"
-   704			"  adcx %%r13, %%r11;"
-   705			"  adoxq 24(%1), %%r11;"
-   706			"  adcx %%rcx, %%rax;"
-   707			"  adox %%rcx, %%rax;"
-   708			"  imul %%rdx, %%rax;"
-   709	
-   710			/* Step 2: Fold the carry back into dst */
-   711			"  add %%rax, %%r8;"
-   712			"  adcx %%rcx, %%r9;"
-   713			"  movq %%r9, 8(%0);"
-   714			"  adcx %%rcx, %%r10;"
-   715			"  movq %%r10, 16(%0);"
-   716			"  adcx %%rcx, %%r11;"
-   717			"  movq %%r11, 24(%0);"
-   718	
-   719			/* Step 3: Fold the carry bit back in; guaranteed not to carry at this point */
-   720			"  mov $0, %%rax;"
-   721			"  cmovc %%rdx, %%rax;"
-   722			"  add %%rax, %%r8;"
-   723			"  movq %%r8, 0(%0);"
-   724	
-   725			/* Step 1: Compute dst + carry == tmp_hi * 38 + tmp_lo */
-   726			"  mov $38, %%rdx;"
-   727			"  mulxq 96(%1), %%r8, %%r13;"
-   728			"  xor %%rcx, %%rcx;"
-   729			"  adoxq 64(%1), %%r8;"
-   730			"  mulxq 104(%1), %%r9, %%r12;"
-   731			"  adcx %%r13, %%r9;"
-   732			"  adoxq 72(%1), %%r9;"
-   733			"  mulxq 112(%1), %%r10, %%r13;"
-   734			"  adcx %%r12, %%r10;"
-   735			"  adoxq 80(%1), %%r10;"
-   736			"  mulxq 120(%1), %%r11, %%rax;"
-   737			"  adcx %%r13, %%r11;"
-   738			"  adoxq 88(%1), %%r11;"
-   739			"  adcx %%rcx, %%rax;"
-   740			"  adox %%rcx, %%rax;"
-   741			"  imul %%rdx, %%rax;"
-   742	
-   743			/* Step 2: Fold the carry back into dst */
-   744			"  add %%rax, %%r8;"
-   745			"  adcx %%rcx, %%r9;"
-   746			"  movq %%r9, 40(%0);"
-   747			"  adcx %%rcx, %%r10;"
-   748			"  movq %%r10, 48(%0);"
-   749			"  adcx %%rcx, %%r11;"
-   750			"  movq %%r11, 56(%0);"
-   751	
-   752			/* Step 3: Fold the carry bit back in; guaranteed not to carry at this point */
-   753			"  mov $0, %%rax;"
-   754			"  cmovc %%rdx, %%rax;"
-   755			"  add %%rax, %%r8;"
-   756			"  movq %%r8, 32(%0);"
-   757		: "+&r" (tmp), "+&r" (f), "+&r" (out)
-   758		:
-   759		: "%rax", "%rcx", "%rdx", "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15", "memory", "cc"
-   760		);
-   761	}
-   762	
+2158f3ffb5a647 Kan Liang 2021-06-30  5415  
+3f62f906a5319a Kan Liang 2021-06-30 @5416  static struct intel_uncore_type spr_uncore_iio = {
+3f62f906a5319a Kan Liang 2021-06-30  5417  	.name			= "iio",
+3f62f906a5319a Kan Liang 2021-06-30  5418  	.event_mask		= SNBEP_PMON_RAW_EVENT_MASK,
+3f62f906a5319a Kan Liang 2021-06-30  5419  	.event_mask_ext		= SNR_IIO_PMON_RAW_EVENT_MASK_EXT,
+3f62f906a5319a Kan Liang 2021-06-30  5420  	.format_group		= &snr_uncore_iio_format_group,
+3f62f906a5319a Kan Liang 2021-06-30  5421  };
+3f62f906a5319a Kan Liang 2021-06-30  5422  
+3f62f906a5319a Kan Liang 2021-06-30  5423  static struct attribute *spr_uncore_raw_formats_attr[] = {
+3f62f906a5319a Kan Liang 2021-06-30  5424  	&format_attr_event.attr,
+3f62f906a5319a Kan Liang 2021-06-30  5425  	&format_attr_umask_ext4.attr,
+3f62f906a5319a Kan Liang 2021-06-30  5426  	&format_attr_edge.attr,
+3f62f906a5319a Kan Liang 2021-06-30  5427  	&format_attr_inv.attr,
+3f62f906a5319a Kan Liang 2021-06-30  5428  	&format_attr_thresh8.attr,
+3f62f906a5319a Kan Liang 2021-06-30  5429  	NULL,
+3f62f906a5319a Kan Liang 2021-06-30  5430  };
+3f62f906a5319a Kan Liang 2021-06-30  5431  
+3f62f906a5319a Kan Liang 2021-06-30  5432  static const struct attribute_group spr_uncore_raw_format_group = {
+3f62f906a5319a Kan Liang 2021-06-30  5433  	.name			= "format",
+3f62f906a5319a Kan Liang 2021-06-30  5434  	.attrs			= spr_uncore_raw_formats_attr,
+3f62f906a5319a Kan Liang 2021-06-30  5435  };
+3f62f906a5319a Kan Liang 2021-06-30  5436  
+3f62f906a5319a Kan Liang 2021-06-30  5437  #define SPR_UNCORE_COMMON_FORMAT()				\
+3f62f906a5319a Kan Liang 2021-06-30  5438  	.event_mask		= SNBEP_PMON_RAW_EVENT_MASK,	\
+3f62f906a5319a Kan Liang 2021-06-30  5439  	.event_mask_ext		= SPR_RAW_EVENT_MASK_EXT,	\
+3f62f906a5319a Kan Liang 2021-06-30  5440  	.format_group		= &spr_uncore_raw_format_group
+3f62f906a5319a Kan Liang 2021-06-30  5441  
+3f62f906a5319a Kan Liang 2021-06-30 @5442  static struct intel_uncore_type spr_uncore_irp = {
+3f62f906a5319a Kan Liang 2021-06-30  5443  	SPR_UNCORE_COMMON_FORMAT(),
+3f62f906a5319a Kan Liang 2021-06-30  5444  	.name			= "irp",
+3f62f906a5319a Kan Liang 2021-06-30  5445  
+3f62f906a5319a Kan Liang 2021-06-30  5446  };
+3f62f906a5319a Kan Liang 2021-06-30  5447  
+3f62f906a5319a Kan Liang 2021-06-30 @5448  static struct intel_uncore_type spr_uncore_m2pcie = {
+3f62f906a5319a Kan Liang 2021-06-30  5449  	SPR_UNCORE_COMMON_FORMAT(),
+3f62f906a5319a Kan Liang 2021-06-30  5450  	.name			= "m2pcie",
+3f62f906a5319a Kan Liang 2021-06-30  5451  };
+3f62f906a5319a Kan Liang 2021-06-30  5452  
+3f62f906a5319a Kan Liang 2021-06-30 @5453  static struct intel_uncore_type spr_uncore_pcu = {
+3f62f906a5319a Kan Liang 2021-06-30  5454  	.name			= "pcu",
+3f62f906a5319a Kan Liang 2021-06-30  5455  };
+3f62f906a5319a Kan Liang 2021-06-30  5456  
+
+:::::: The code at line 5416 was first introduced by commit
+:::::: 3f62f906a5319a0bdc901f887d0d37ef43754676 perf/x86/intel/uncore: Add Sapphire Rapids server IMC support
+
+:::::: TO: Kan Liang <kan.liang@linux.intel.com>
+:::::: CC: Chao Qin <chao.qin@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
