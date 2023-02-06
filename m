@@ -1,202 +1,138 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A54E17CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 03:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675654430; x=1707190430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L4kD9fBKfRQgIpz24Qms4T/rGutF9bfpQYJ1O9Unut8=;
-  b=Or3CUUgj3zAnZYRVRt3TS93ryJiqZw1g7Yuy12UCUZDDjGEJIjp04wkX
-   6pq/C3/oT02YW7phyifizZHeZo+xioYaiohhvcjjydBowDrZlJVdjTCTj
-   GzE/oUQ2NR9GCjrYS3tOuZHu73u/X8HOVjJ/oukx3kLC/azH13xG7V6+S
-   eI9i+CzV5rVCUcJ3PYixY30BZpOkTGZC7hVQPQ0syUKH/SzKQ999n8w2H
-   P9ehck6UMTO8cQm/wPXKiFuVi6XgfDoK+Ze5kp6RMIL3JqMZ5HSObhFGr
-   Sox6Tv96R8vEsON7GKBEUP72DffTtDow9RJQwvWcG+riPkLHxZmxDzqz2
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="308766538"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="308766538"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 19:33:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="790309648"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="790309648"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Feb 2023 19:33:47 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pOsGJ-0002Me-01;
-	Mon, 06 Feb 2023 03:33:47 +0000
-Date: Mon, 6 Feb 2023 11:32:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [pinchartl-media:muxed/2023.1/xilinx/api-updates 69/88]
- drivers/media/platform/xilinx/xilinx-axis-switch.c:266:30: error:
- subscripted value is neither array nor pointer nor vector
-Message-ID: <202302061143.B1fKs8O8-lkp@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9D815BE;
+	Mon,  6 Feb 2023 04:16:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67FE2113E;
+	Sun,  5 Feb 2023 20:17:16 -0800 (PST)
+Received: from [10.162.40.17] (unknown [10.162.40.17])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A4DA3F71E;
+	Sun,  5 Feb 2023 20:16:28 -0800 (PST)
+Message-ID: <143549b7-6f16-209f-b1be-c8202fd55d05@arm.com>
+Date: Mon, 6 Feb 2023 09:46:25 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   git://linuxtv.org/pinchartl/media.git muxed/2023.1/xilinx/api-updates
-head:   4d84aca55464a5384ebfc09558bbc965f6eb5218
-commit: e81e65cfc035a650709f6df9f5a7bcf73f3ad4e8 [69/88] media: subdev: Add [GS]_ROUTING subdev ioctls and operations
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230206/202302061143.B1fKs8O8-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
-        git fetch --no-tags pinchartl-media muxed/2023.1/xilinx/api-updates
-        git checkout e81e65cfc035a650709f6df9f5a7bcf73f3ad4e8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-Note: the pinchartl-media/muxed/2023.1/xilinx/api-updates HEAD 4d84aca55464a5384ebfc09558bbc965f6eb5218 builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/xilinx/xilinx-axis-switch.c: In function 'xvsw_get_routing':
->> drivers/media/platform/xilinx/xilinx-axis-switch.c:266:30: error: subscripted value is neither array nor pointer nor vector
-     266 |                 route->routes[i].sink = xvsw->routing[i];
-         |                              ^
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:267:30: error: subscripted value is neither array nor pointer nor vector
-     267 |                 route->routes[i].source = i;
-         |                              ^
-   drivers/media/platform/xilinx/xilinx-axis-switch.c: In function 'xvsw_set_routing':
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:299:44: error: subscripted value is neither array nor pointer nor vector
-     299 |                 xvsw->routing[route->routes[i].source - xvsw->xvip.num_sinks] =
-         |                                            ^
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:300:38: error: subscripted value is neither array nor pointer nor vector
-     300 |                         route->routes[i].sink;
-         |                                      ^
-   drivers/media/platform/xilinx/xilinx-axis-switch.c: At top level:
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'get_routing'; did you mean 'set_routing'?
-     327 |         .get_routing = xvsw_get_routing,
-         |          ^~~~~~~~~~~
-         |          set_routing
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     327 |         .get_routing = xvsw_get_routing,
-         |                        ^~~~~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: note: (near initialization for 'xvsw_pad_ops')
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: note: (near initialization for 'xvsw_pad_ops.set_selection')
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:328:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, enum v4l2_subdev_format_whence,  struct v4l2_subdev_krouting *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
-     328 |         .set_routing = xvsw_set_routing,
-         |                        ^~~~~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:328:24: note: (near initialization for 'xvsw_pad_ops.set_routing')
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:10: error: 'const struct media_entity_operations' has no member named 'has_route'
-     371 |         .has_route = xvsw_has_route,
-         |          ^~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     371 |         .has_route = xvsw_has_route,
-         |                      ^~~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: note: (near initialization for 'xvsw_media_ops')
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: error: initialization of 'int (*)(struct media_entity *, struct fwnode_endpoint *)' from incompatible pointer type 'bool (*)(struct media_entity *, unsigned int,  unsigned int)' {aka '_Bool (*)(struct media_entity *, unsigned int,  unsigned int)'} [-Werror=incompatible-pointer-types]
-   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: note: (near initialization for 'xvsw_media_ops.get_fwnode_pad')
-   cc1: some warnings being treated as errors
---
-   drivers/media/platform/xilinx/xilinx-switch.c: In function 'xsw_get_routing':
->> drivers/media/platform/xilinx/xilinx-switch.c:197:30: error: subscripted value is neither array nor pointer nor vector
-     197 |                 route->routes[i].sink = xsw->routing[i];
-         |                              ^
-   drivers/media/platform/xilinx/xilinx-switch.c:198:30: error: subscripted value is neither array nor pointer nor vector
-     198 |                 route->routes[i].source = i;
-         |                              ^
-   drivers/media/platform/xilinx/xilinx-switch.c: In function 'xsw_set_routing':
-   drivers/media/platform/xilinx/xilinx-switch.c:226:43: error: subscripted value is neither array nor pointer nor vector
-     226 |                 xsw->routing[route->routes[i].source - xsw->xvip.num_sinks] =
-         |                                           ^
-   drivers/media/platform/xilinx/xilinx-switch.c:227:38: error: subscripted value is neither array nor pointer nor vector
-     227 |                         route->routes[i].sink;
-         |                                      ^
-   drivers/media/platform/xilinx/xilinx-switch.c: At top level:
-   drivers/media/platform/xilinx/xilinx-switch.c:292:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'get_routing'; did you mean 'set_routing'?
-     292 |         .get_routing = xsw_get_routing,
-         |          ^~~~~~~~~~~
-         |          set_routing
-   drivers/media/platform/xilinx/xilinx-switch.c:292:24: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     292 |         .get_routing = xsw_get_routing,
-         |                        ^~~~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-switch.c:292:24: note: (near initialization for 'xsw_pad_ops')
-   drivers/media/platform/xilinx/xilinx-switch.c:292:24: error: initialization of 'int (*)(struct v4l2_subdev *, unsigned int,  struct v4l2_mbus_frame_desc *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
-   drivers/media/platform/xilinx/xilinx-switch.c:292:24: note: (near initialization for 'xsw_pad_ops.set_frame_desc')
-   drivers/media/platform/xilinx/xilinx-switch.c:293:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, enum v4l2_subdev_format_whence,  struct v4l2_subdev_krouting *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
-     293 |         .set_routing = xsw_set_routing,
-         |                        ^~~~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-switch.c:293:24: note: (near initialization for 'xsw_pad_ops.set_routing')
-   drivers/media/platform/xilinx/xilinx-switch.c:331:10: error: 'const struct media_entity_operations' has no member named 'has_route'
-     331 |         .has_route = xsw_has_route,
-         |          ^~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-switch.c:331:22: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     331 |         .has_route = xsw_has_route,
-         |                      ^~~~~~~~~~~~~
-   drivers/media/platform/xilinx/xilinx-switch.c:331:22: note: (near initialization for 'xsw_media_ops')
-   drivers/media/platform/xilinx/xilinx-switch.c:331:22: error: initialization of 'int (*)(struct media_entity *, struct fwnode_endpoint *)' from incompatible pointer type 'bool (*)(struct media_entity *, unsigned int,  unsigned int)' {aka '_Bool (*)(struct media_entity *, unsigned int,  unsigned int)'} [-Werror=incompatible-pointer-types]
-   drivers/media/platform/xilinx/xilinx-switch.c:331:22: note: (near initialization for 'xsw_media_ops.get_fwnode_pad')
-   cc1: some warnings being treated as errors
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
+Content-Language: en-US
+To: Will Deacon <will@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ catalin.marinas@arm.com, mark.rutland@arm.com, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Suzuki Poulose <suzuki.poulose@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users@vger.kernel.org
+References: <20230123125956.1350336-6-anshuman.khandual@arm.com>
+ <202301310047.b5iv9hM8-lkp@intel.com>
+ <20230203113153.GA5927@willie-the-truck>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20230203113153.GA5927@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +266 drivers/media/platform/xilinx/xilinx-axis-switch.c
 
-789f326f453f86 Vishal Sagar     2018-08-14  246  
-789f326f453f86 Vishal Sagar     2018-08-14  247  static int xvsw_get_routing(struct v4l2_subdev *subdev,
-789f326f453f86 Vishal Sagar     2018-08-14  248  			    struct v4l2_subdev_routing *route)
-789f326f453f86 Vishal Sagar     2018-08-14  249  {
-789f326f453f86 Vishal Sagar     2018-08-14  250  	struct xvswitch_device *xvsw = to_xvsw(subdev);
-789f326f453f86 Vishal Sagar     2018-08-14  251  	unsigned int i;
-789f326f453f86 Vishal Sagar     2018-08-14  252  	u32 min;
-789f326f453f86 Vishal Sagar     2018-08-14  253  
-789f326f453f86 Vishal Sagar     2018-08-14  254  	/* In case of tdest routing, we can't get routing */
-789f326f453f86 Vishal Sagar     2018-08-14  255  	if (xvsw->tdest_routing)
-789f326f453f86 Vishal Sagar     2018-08-14  256  		return -EINVAL;
-789f326f453f86 Vishal Sagar     2018-08-14  257  
-789f326f453f86 Vishal Sagar     2018-08-14  258  	mutex_lock(&subdev->entity.graph_obj.mdev->graph_mutex);
-789f326f453f86 Vishal Sagar     2018-08-14  259  
-c8d3ad56df8983 Laurent Pinchart 2022-01-04  260  	if (xvsw->xvip.num_sources < route->num_routes)
-c8d3ad56df8983 Laurent Pinchart 2022-01-04  261  		min = xvsw->xvip.num_sources;
-789f326f453f86 Vishal Sagar     2018-08-14  262  	else
-789f326f453f86 Vishal Sagar     2018-08-14  263  		min = route->num_routes;
-789f326f453f86 Vishal Sagar     2018-08-14  264  
-789f326f453f86 Vishal Sagar     2018-08-14  265  	for (i = 0; i < min; ++i) {
-789f326f453f86 Vishal Sagar     2018-08-14 @266  		route->routes[i].sink = xvsw->routing[i];
-789f326f453f86 Vishal Sagar     2018-08-14  267  		route->routes[i].source = i;
-789f326f453f86 Vishal Sagar     2018-08-14  268  	}
-789f326f453f86 Vishal Sagar     2018-08-14  269  
-c8d3ad56df8983 Laurent Pinchart 2022-01-04  270  	route->num_routes = xvsw->xvip.num_sources;
-789f326f453f86 Vishal Sagar     2018-08-14  271  
-789f326f453f86 Vishal Sagar     2018-08-14  272  	mutex_unlock(&subdev->entity.graph_obj.mdev->graph_mutex);
-789f326f453f86 Vishal Sagar     2018-08-14  273  
-789f326f453f86 Vishal Sagar     2018-08-14  274  	return 0;
-789f326f453f86 Vishal Sagar     2018-08-14  275  }
-789f326f453f86 Vishal Sagar     2018-08-14  276  
+On 2/3/23 17:01, Will Deacon wrote:
+> On Tue, Jan 31, 2023 at 12:28:17AM +0800, kernel test robot wrote:
+>> Hi Anshuman,
+>>
+>> Thank you for the patch! Perhaps something to improve:
+>>
+>> [auto build test WARNING on arm64/for-next/core]
+>> [also build test WARNING on tip/perf/core acme/perf/core linus/master v6.2-rc6 next-20230130]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+>> patch link:    https://lore.kernel.org/r/20230123125956.1350336-6-anshuman.khandual%40arm.com
+>> patch subject: [PATCH V8 5/6] arm64/perf: Add branch stack support in ARMV8 PMU
+>> config: arm64-randconfig-r016-20230130 (https://download.01.org/0day-ci/archive/20230131/202301310047.b5iv9hM8-lkp@intel.com/config)
+>> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+>> reproduce (this is a W=1 build):
+>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>         chmod +x ~/bin/make.cross
+>>         # install arm64 cross compiling tool for clang build
+>>         # apt-get install binutils-aarch64-linux-gnu
+>>         # https://github.com/intel-lab-lkp/linux/commit/0deba04ac45f8632b8579cb5cbf908b9f4428402
+>>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>         git fetch --no-tags linux-review Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230123-210254
+>>         git checkout 0deba04ac45f8632b8579cb5cbf908b9f4428402
+>>         # save the config file
+>>         mkdir build_dir && cp config build_dir/.config
+>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>    In file included from arch/arm64/kernel/asm-offsets.c:15:
+>>    In file included from include/linux/kvm_host.h:45:
+>>    In file included from arch/arm64/include/asm/kvm_host.h:36:
+>>    In file included from include/kvm/arm_pmu.h:11:
+>>>> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
+>>    static inline bool has_branch_stack(struct perf_event *event);
+>>                       ^
+>>    arch/arm64/include/asm/perf_event.h:284:16: note: used here
+>>            WARN_ON_ONCE(!has_branch_stack(event));
+>>                          ^
+>>    1 warning generated.
+>> --
+>>    In file included from arch/arm64/kernel/asm-offsets.c:15:
+>>    In file included from include/linux/kvm_host.h:45:
+>>    In file included from arch/arm64/include/asm/kvm_host.h:36:
+>>    In file included from include/kvm/arm_pmu.h:11:
+>>>> arch/arm64/include/asm/perf_event.h:280:20: warning: function 'has_branch_stack' has internal linkage but is not defined [-Wundefined-internal]
+>>    static inline bool has_branch_stack(struct perf_event *event);
+>>                       ^
+>>    arch/arm64/include/asm/perf_event.h:284:16: note: used here
+>>            WARN_ON_ONCE(!has_branch_stack(event));
+>>                          ^
+>>    1 warning generated.
+> 
+> This looks like it should be fixed. I'd also like to see Mark's ack on the
 
-:::::: The code at line 266 was first introduced by commit
-:::::: 789f326f453f8641e69a8684c7349580213067f8 v4l: xilinx: Driver support for Xilinx AXI4-Stream Switch
+This build warning is triggered when CONFIG_PERF_EVENTS is not enabled, when
+all the fallback stubs in there try to use has_branch_stack() which does not
+get defined. The following change, fixes the problem.
 
-:::::: TO: Vishal Sagar <vishal.sagar@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@amd.com>
+diff --git a/arch/arm64/include/asm/perf_event.h b/arch/arm64/include/asm/perf_event.h
+index 97db96326e13..1f68c125eb1a 100644
+--- a/arch/arm64/include/asm/perf_event.h
++++ b/arch/arm64/include/asm/perf_event.h
+@@ -277,8 +277,6 @@ struct pmu_hw_events;
+ struct arm_pmu;
+ struct perf_event;
+ 
+-static inline bool has_branch_stack(struct perf_event *event);
+-
+ #ifdef CONFIG_ARM64_BRBE
+ void armv8pmu_branch_read(struct pmu_hw_events *cpuc, struct perf_event *event);
+ bool armv8pmu_branch_valid(struct perf_event *event);
+@@ -289,6 +287,9 @@ void armv8pmu_branch_reset(void);
+ int armv8pmu_private_alloc(struct arm_pmu *arm_pmu);
+ void armv8pmu_private_free(struct arm_pmu *arm_pmu);
+ #else
++#ifdef CONFIG_PERF_EVENTS
++static inline bool has_branch_stack(struct perf_event *event);
++
+ static inline void armv8pmu_branch_read(struct pmu_hw_events *cpuc, struct perf_event *event)
+ {
+        WARN_ON_ONCE(!has_branch_stack(event));
+@@ -316,3 +317,4 @@ static inline int armv8pmu_private_alloc(struct arm_pmu *arm_pmu) { return 0; }
+ static inline void armv8pmu_private_free(struct arm_pmu *arm_pmu) { }
+ #endif
+ #endif
++#endif
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> final series, since he had some detailed comments on the previous version.
+> 
+> Will
