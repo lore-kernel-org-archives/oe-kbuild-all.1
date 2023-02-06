@@ -1,45 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8CC3C26;
-	Mon,  6 Feb 2023 12:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E8B3D8C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 12:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675685817; x=1707221817;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=FeYioh6Acn0m6gGvzStZgrQdUvLNuamr9iubwxchJ3M=;
-  b=H5jwzeHUhPcdgyFQXnUU7wu03ebE2YrFXMNTH3BqEB63V0IEeM+gb8PG
-   ddz7o3MD2lKDrIOK5EE2HdwasWM+fNsjyTu9bOEKAmQjKzIWMmeimmsFK
-   vP5FqF9+ipI5rLePavUVh2DL53zN1BCWFt0fcvH5CqE0Nhp81gCkDtVZu
-   F7cM7J0BXJKghfV4+THR2VZ1OFWVdDcoj1HtAqq6pQmS+UFz2/o0opdqP
-   2qxj41+brHP62Ur6tkkaI6oPgGAQjGaQmQU4jwEZeGqk9tKK7DXyI7cQD
-   wIcyOaQ7PW9jBSBrQ132/D6qZAuyVwxbxZ+WV15m6T/2QLgSO1mshakWg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="393789527"
+  t=1675687079; x=1707223079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yG7gucLEwUI1l9TGVTW03YPJOUtmvRwcVtxuLwuiAOM=;
+  b=bRUp/9FD8czWEGskckueDS0GHd+76zJRq8EbGYja2XqOXWBz8v5hrwAL
+   RlsI3oM1hg31bWmRPYRg40qxJbQOF1jJ+5OzE6VPuDL8JB/g3iKannYUr
+   V1mS+r1bICemVQ0tO5kYwjAv98c9OpDSaJaJ+G/cvGwk7Rz6LmVXeduYA
+   53SPlOLGat8peW6uybpVQjObrBpQsXQmRuyQhB6FyYnh6Yo+4d++nn+Oc
+   xMPHbQI/phIDUvhtd8Zsb2VhuFcXQl0dkIM8PPDUnKJGsPLODIjBQB6+Z
+   r4+jTzfxD9DFKsOkWXlQH47c8bnwdf2ZNFZEnsro4OuVR5K52z5iBtx6s
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="330488908"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="393789527"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 04:16:57 -0800
+   d="scan'208";a="330488908"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 04:37:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="790417118"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="659838982"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="790417118"
+   d="scan'208";a="659838982"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 Feb 2023 04:16:56 -0800
+  by orsmga007.jf.intel.com with ESMTP; 06 Feb 2023 04:37:57 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pP0QZ-0002X6-0y;
-	Mon, 06 Feb 2023 12:16:55 +0000
-Date: Mon, 6 Feb 2023 20:16:26 +0800
+	id 1pP0ku-0002Xi-0B;
+	Mon, 06 Feb 2023 12:37:56 +0000
+Date: Mon, 6 Feb 2023 20:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [usb:usb-testing 1/25]
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c:4162:6: error: format
- specifies type 'unsigned long' but the argument has type 'size_t' (aka
- 'unsigned int')
-Message-ID: <202302062055.24gKr6MY-lkp@intel.com>
+To: "Chang S. Bae" <chang.seok.bae@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, nanli2x <nanx.li@intel.com>
+Subject: [intel-lts:5.10/yocto 19767/29177]
+ arch/x86/crypto/aesni-intel_asm.S:177: warning: "GF128MUL_MASK" redefined
+Message-ID: <202302062013.kU6Ojak1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,53 +46,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   be535132af28d98d8382ffa03d11c8acd7b5da30
-commit: 924fb3ec50f5156d21e4f484358fb36f75b91ca8 [1/25] Merge 6.2-rc7 into usb-next
-config: i386-randconfig-a001-20230206 (https://download.01.org/0day-ci/archive/20230206/202302062055.24gKr6MY-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Chang,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   a28867696061a1be54960089016434aee399da9d
+commit: f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0 [19767/29177] crypto: x86/aes-kl - Support AES algorithm using Key Locker instructions
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230206/202302062013.kU6Ojak1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=924fb3ec50f5156d21e4f484358fb36f75b91ca8
-        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-        git fetch --no-tags usb usb-testing
-        git checkout 924fb3ec50f5156d21e4f484358fb36f75b91ca8
+        # https://github.com/intel/linux-intel-lts/commit/f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/ arch/x86/events/intel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/gt/intel_execlists_submission.c:4162:6: error: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-                      list_count_nodes(&engine->sched_engine->hold));
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> arch/x86/crypto/aesni-intel_asm.S:177: warning: "GF128MUL_MASK" redefined
+     177 | #define GF128MUL_MASK   %xmm7
+         | 
+   arch/x86/crypto/aesni-intel_asm.S:149: note: this is the location of the previous definition
+     149 | #define GF128MUL_MASK %xmm10
+         | 
 
 
-vim +4162 drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+vim +/GF128MUL_MASK +177 arch/x86/crypto/aesni-intel_asm.S
 
-  4150	
-  4151	void intel_execlists_dump_active_requests(struct intel_engine_cs *engine,
-  4152						  struct i915_request *hung_rq,
-  4153						  struct drm_printer *m)
-  4154	{
-  4155		unsigned long flags;
-  4156	
-  4157		spin_lock_irqsave(&engine->sched_engine->lock, flags);
-  4158	
-  4159		intel_engine_dump_active_requests(&engine->sched_engine->requests, hung_rq, m);
-  4160	
-  4161		drm_printf(m, "\tOn hold?: %lu\n",
-> 4162			   list_count_nodes(&engine->sched_engine->hold));
-  4163	
-  4164		spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
-  4165	}
-  4166	
+   176	
+ > 177	#define GF128MUL_MASK	%xmm7
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
