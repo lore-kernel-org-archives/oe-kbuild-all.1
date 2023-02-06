@@ -1,44 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D666FD3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 23:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71BB6FD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 23:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675726344; x=1707262344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uGcg6RXpN31VZJkVU6pRDi4QUO7SCFNy0sS4PebvV38=;
-  b=V83cR7IkssCxpPZ1xhbg/rBpjcauBXlmk8WO97JjlcW1OzRfYf40aHdU
-   EjstTbdV+tWtzb7djjBxTgN5MiJXRnf2cNUSdSDdDDOL+iKzjj+40XGHV
-   MhnYvfgBHZRC4O2KodXjyZ4fgo7lryXdYsZ9CszCDkHKFp964rZWo0Pig
-   PCdFxvv+MjwICeme+OfFzTAsftWFfPlt7Ca2MK6AahYs45kknxKavA+S1
-   pweK1TC7ko+uUCbtw21AOirLS3Gmuxp6onrRVRYLtI8t5Gzf/fC5+eCbW
-   Cj+SEh5zykPcq3036UgpGg2v+LXY/sdpYNIz2TEmj7U7pyZz1cYUxRxeZ
+  t=1675726945; x=1707262945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=URrdhd4/W7Mg25YmjYNxLbJ2RsxAcpE2rCNjB8T6Zp0=;
+  b=AkH/NbgFbktbfay/xN+0CZ9YrVKWTxagFn1iZ2tI3wFmyYqGbO3kG1vB
+   D16fMpbeqgXze0yOUHAp2RPsMWvg/xZMECVGSRK85wJfORDI/6DlmouNB
+   J+7rbMv6xJ/YtWrt+vyDemR85uifhodtzyhwKHmaDHNhEvvlI24+wDCFj
+   AJXIDUu7hnk/GMYIGFXXWTwS7t+nl+hlVHsAMxE0oNOmTVUWm1of9rP42
+   N/I+/rTRAlw+dCoQshConGbtI3VRjHTcFpGctTzDFaopltzyCFockBGgl
+   kXF2w2tIOoYXta4bPiuC3uA2v0ILFFXTwRp4vANBzvRUMDTvxmkF0uoSB
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="327028856"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="308991859"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="327028856"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 15:32:22 -0800
+   d="scan'208";a="308991859"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 15:42:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="668573206"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="697038978"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="668573206"
+   d="scan'208";a="697038978"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Feb 2023 15:32:21 -0800
+  by orsmga008.jf.intel.com with ESMTP; 06 Feb 2023 15:42:23 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPAyC-0002rM-1T;
-	Mon, 06 Feb 2023 23:32:20 +0000
-Date: Tue, 7 Feb 2023 07:31:27 +0800
+	id 1pPB7u-0002s6-1h;
+	Mon, 06 Feb 2023 23:42:22 +0000
+Date: Tue, 7 Feb 2023 07:41:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next 10/11] net: enetc: add RX support for
- zero-copy XDP sockets
-Message-ID: <202302070724.8DHXW8De-lkp@intel.com>
-References: <20230206100837.451300-11-vladimir.oltean@nxp.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: [tip:x86/vdso 3/4] arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1:
+ warning: no previous prototype for '__vdso_getcpu'
+Message-ID: <202302070742.iYcnoJwk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,36 +46,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230206100837.451300-11-vladimir.oltean@nxp.com>
 
-Hi Vladimir,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Oltean/net-enetc-optimize-struct-enetc_rx_swbd-layout/20230206-181117
-patch link:    https://lore.kernel.org/r/20230206100837.451300-11-vladimir.oltean%40nxp.com
-patch subject: [RFC PATCH net-next 10/11] net: enetc: add RX support for zero-copy XDP sockets
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230207/202302070724.8DHXW8De-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vdso
+head:   5646bbd6684acf5c9b9dedb863b7d2f6f5a330fb
+commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 [3/4] x86/vdso: Provide getcpu for x86-32.
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230207/202302070742.iYcnoJwk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/fbab63c50d7c6cf49f331ad32599c48e98804258
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vladimir-Oltean/net-enetc-optimize-struct-enetc_rx_swbd-layout/20230206-181117
-        git checkout fbab63c50d7c6cf49f331ad32599c48e98804258
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip x86/vdso
+        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/entry/vdso/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "enetc_xsk_wakeup" [drivers/net/ethernet/freescale/enetc/fsl-enetc.ko] undefined!
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+>> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for '__vdso_getcpu' [-Wmissing-prototypes]
+      13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+         | ^~~~~~~~~~~~~
+
+
+vim +/__vdso_getcpu +13 arch/x86/entry/vdso/vdso32/../vgetcpu.c
+
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  11  
+23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12  12  notrace long
+23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12 @13  __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  14  {
+22245bdf0ad805 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  15  	vdso_read_cpunode(cpu, node);
+ec3a94188df7d2 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  16  
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  17  	return 0;
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  18  }
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  19  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 23adec554a7648f99c8acc0caf49c66320cd2b84 x86: add notrace annotations to vsyscall.
+
+:::::: TO: Steven Rostedt <srostedt@redhat.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
