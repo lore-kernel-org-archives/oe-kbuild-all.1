@@ -1,45 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EF42772E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Feb 2023 23:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765807F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 00:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675639605; x=1707175605;
+  t=1675644523; x=1707180523;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fHU9JZ5U9twsT6mjbtzanElC7vkblwyYpAuVPveGzrA=;
-  b=YD/0tV522ZlAMY+wXwPUqwBFrBuxCacfSX0D8t9rUKdr+HIMw/PyKKZ0
-   I2PotylS+HVfP1FaPx525MMwpwNesxbh7wgu9pO34g9cwSKArCew5X2jp
-   ShBvbSP5pHljrhK6+4eztzCc3Crr7f1sNWs8MJXyuLhAVipZEFk3iCzdT
-   AwDlS1ObOiqOP8b9vdw0HqB5eSeUXZax8EwUfVi8pg6WN7L1A0qy7JAwB
-   ikeajgGeniKok/r16MnLCikkcCxz9wyNo3chCCVwcm3Dr/Nc4NuFXVwh8
-   u/uNpiqP833BZxPUWTJLAYHSTukhbbrZNrtk8DTFpNuiLYmEvqLIFmvn6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="309434123"
+  bh=Kt6B6NdWRINl3+V3veCaqK3d+boTrHVwRgVY6fAs+bQ=;
+  b=P0f5LUrpk5fBEFmOfcUwEtfxz0X2ULaRkeXRZ9qQ4TKrbZVelLY+Y68S
+   sGIrzKa0WEjEGdwYMPiosdxKbGN6UWx2cqJen/aA5C8Kcq+tXrLCA0EHY
+   IcvC6bZ/h1V7c8uY/h2ynSdYMYKyAzqbXONTetetTYuEwu2LO3fQ5Go0U
+   V4YXmXC+w9mglXWGbjXVyPi4TFES6mNvIdMBj+nQoAIdx8zuYHIr71iP1
+   itJO2zSoG6fapvN+YYyIiJN95mF5sHlp7ZI8uLbcE3KzGccdmncnyMdcK
+   9S6lua2tsUcrGyZ57Ivy9t0u/1CiMerKjiYQuExIZo9KevsKKDSRFo8ak
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="415326752"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="309434123"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 15:26:42 -0800
+   d="scan'208";a="415326752"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 16:48:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="696700398"
-X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="696700398"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="734948970"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="734948970"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 05 Feb 2023 15:26:40 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 05 Feb 2023 16:48:41 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOoP9-0002HU-0w;
-	Sun, 05 Feb 2023 23:26:39 +0000
-Date: Mon, 6 Feb 2023 07:26:22 +0800
+	id 1pOpgX-0002Iy-0M;
+	Mon, 06 Feb 2023 00:48:41 +0000
+Date: Mon, 6 Feb 2023 08:48:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/media/virtio/virtio_video_device.c:504:29: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202302060727.KDiXmQ9y-lkp@intel.com>
+Subject: [povik:ivsense 37/39] sound/soc/codecs/tas2764-quirks.h:148:2:
+ warning: unannotated fall-through between switch labels
+Message-ID: <202302060811.oZke6HHH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,223 +46,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: b91d14b597929f638524030500519305aa4d6477 CHROMIUM: drivers: media: virtio: handle selection
-date:   2 years, 2 months ago
-config: m68k-randconfig-s051-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060727.KDiXmQ9y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/povik/linux ivsense
+head:   34f7168e4161164e8b3879d8ad099346a63f764f
+commit: 46630652178d7edeb72add30f186f264f4982c8a [37/39] ASoC: tas2764: Add optional 'Apple quirks'
+config: riscv-randconfig-r042-20230205 (https://download.01.org/0day-ci/archive/20230206/202302060811.oZke6HHH-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=b91d14b597929f638524030500519305aa4d6477
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout b91d14b597929f638524030500519305aa4d6477
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/povik/linux/commit/46630652178d7edeb72add30f186f264f4982c8a
+        git remote add povik https://github.com/povik/linux
+        git fetch --no-tags povik ivsense
+        git checkout 46630652178d7edeb72add30f186f264f4982c8a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/media/virtio/virtio_video_device.c:314:29: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_video_device.c:323:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] width @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:323:35: sparse:     expected unsigned int [usertype] width
-   drivers/media/virtio/virtio_video_device.c:323:35: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:324:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] height @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:324:36: sparse:     expected unsigned int [usertype] height
-   drivers/media/virtio/virtio_video_device.c:324:36: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:329:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] min_width @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:329:31: sparse:     expected unsigned int [usertype] min_width
-   drivers/media/virtio/virtio_video_device.c:329:31: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:330:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] max_width @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:330:31: sparse:     expected unsigned int [usertype] max_width
-   drivers/media/virtio/virtio_video_device.c:330:31: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:331:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] min_height @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:331:32: sparse:     expected unsigned int [usertype] min_height
-   drivers/media/virtio/virtio_video_device.c:331:32: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:332:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] max_height @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:332:32: sparse:     expected unsigned int [usertype] max_height
-   drivers/media/virtio/virtio_video_device.c:332:32: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:333:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] step_width @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:333:32: sparse:     expected unsigned int [usertype] step_width
-   drivers/media/virtio/virtio_video_device.c:333:32: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:334:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] step_height @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:334:33: sparse:     expected unsigned int [usertype] step_height
-   drivers/media/virtio/virtio_video_device.c:334:33: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:371:43: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_video_device.c:374:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] int_start @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:374:53: sparse:     expected unsigned int [usertype] int_start
-   drivers/media/virtio/virtio_video_device.c:374:53: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:374:71: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] int_end @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:374:71: sparse:     expected unsigned int [usertype] int_end
-   drivers/media/virtio/virtio_video_device.c:374:71: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:375:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] step @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:375:53: sparse:     expected unsigned int [usertype] step
-   drivers/media/virtio/virtio_video_device.c:375:53: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:376:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] int_start @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:376:53: sparse:     expected unsigned int [usertype] int_start
-   drivers/media/virtio/virtio_video_device.c:376:53: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:376:72: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] int_end @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:376:72: sparse:     expected unsigned int [usertype] int_end
-   drivers/media/virtio/virtio_video_device.c:376:72: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:377:54: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] step @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:377:54: sparse:     expected unsigned int [usertype] step
-   drivers/media/virtio/virtio_video_device.c:377:54: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:381:47: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_video_device.c:388:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] denominator @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:388:41: sparse:     expected unsigned int [usertype] denominator
-   drivers/media/virtio/virtio_video_device.c:388:41: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:391:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] denominator @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:391:45: sparse:     expected unsigned int [usertype] denominator
-   drivers/media/virtio/virtio_video_device.c:391:45: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:393:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] denominator @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:393:45: sparse:     expected unsigned int [usertype] denominator
-   drivers/media/virtio/virtio_video_device.c:393:45: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:395:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] denominator @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:395:46: sparse:     expected unsigned int [usertype] denominator
-   drivers/media/virtio/virtio_video_device.c:395:46: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:396:26: sparse: sparse: restricted __le32 degrades to integer
->> drivers/media/virtio/virtio_video_device.c:504:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] left @@     got restricted __le32 [usertype] left @@
-   drivers/media/virtio/virtio_video_device.c:504:29: sparse:     expected signed int [usertype] left
-   drivers/media/virtio/virtio_video_device.c:504:29: sparse:     got restricted __le32 [usertype] left
->> drivers/media/virtio/virtio_video_device.c:505:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] top @@     got restricted __le32 [usertype] top @@
-   drivers/media/virtio/virtio_video_device.c:505:28: sparse:     expected signed int [usertype] top
-   drivers/media/virtio/virtio_video_device.c:505:28: sparse:     got restricted __le32 [usertype] top
->> drivers/media/virtio/virtio_video_device.c:506:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] width @@     got restricted __le32 [usertype] width @@
-   drivers/media/virtio/virtio_video_device.c:506:30: sparse:     expected unsigned int [usertype] width
-   drivers/media/virtio/virtio_video_device.c:506:30: sparse:     got restricted __le32 [usertype] width
->> drivers/media/virtio/virtio_video_device.c:507:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] height @@     got restricted __le32 [usertype] height @@
-   drivers/media/virtio/virtio_video_device.c:507:31: sparse:     expected unsigned int [usertype] height
-   drivers/media/virtio/virtio_video_device.c:507:31: sparse:     got restricted __le32 [usertype] height
-   drivers/media/virtio/virtio_video_device.c:527:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] top @@     got signed int [usertype] top @@
-   drivers/media/virtio/virtio_video_device.c:527:35: sparse:     expected restricted __le32 [usertype] top
-   drivers/media/virtio/virtio_video_device.c:527:35: sparse:     got signed int [usertype] top
-   drivers/media/virtio/virtio_video_device.c:528:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] left @@     got signed int [usertype] left @@
-   drivers/media/virtio/virtio_video_device.c:528:36: sparse:     expected restricted __le32 [usertype] left
-   drivers/media/virtio/virtio_video_device.c:528:36: sparse:     got signed int [usertype] left
-   drivers/media/virtio/virtio_video_device.c:529:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] width @@     got unsigned int [usertype] width @@
-   drivers/media/virtio/virtio_video_device.c:529:37: sparse:     expected restricted __le32 [usertype] width
-   drivers/media/virtio/virtio_video_device.c:529:37: sparse:     got unsigned int [usertype] width
-   drivers/media/virtio/virtio_video_device.c:530:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] height @@     got unsigned int [usertype] height @@
-   drivers/media/virtio/virtio_video_device.c:530:38: sparse:     expected restricted __le32 [usertype] height
-   drivers/media/virtio/virtio_video_device.c:530:38: sparse:     got unsigned int [usertype] height
-   drivers/media/virtio/virtio_video_device.c:578:34: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_video_device.c:581:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] min @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:581:47: sparse:     expected unsigned int [usertype] min
-   drivers/media/virtio/virtio_video_device.c:581:47: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:582:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] max @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:582:47: sparse:     expected unsigned int [usertype] max
-   drivers/media/virtio/virtio_video_device.c:582:47: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:585:48: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] min @@     got restricted __le32 [usertype] min @@
-   drivers/media/virtio/virtio_video_device.c:585:48: sparse:     expected unsigned int [usertype] min
-   drivers/media/virtio/virtio_video_device.c:585:48: sparse:     got restricted __le32 [usertype] min
-   drivers/media/virtio/virtio_video_device.c:586:48: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] max @@     got restricted __le32 [usertype] max @@
-   drivers/media/virtio/virtio_video_device.c:586:48: sparse:     expected unsigned int [usertype] max
-   drivers/media/virtio/virtio_video_device.c:586:48: sparse:     got restricted __le32 [usertype] max
-   drivers/media/virtio/virtio_video_device.c:593:64: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:593:64: sparse:     expected unsigned int [usertype] a
-   drivers/media/virtio/virtio_video_device.c:593:64: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:596:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __le32 [usertype] step @@
-   drivers/media/virtio/virtio_video_device.c:596:66: sparse:     expected unsigned int [usertype] a
-   drivers/media/virtio/virtio_video_device.c:596:66: sparse:     got restricted __le32 [usertype] step
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:606:33: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse:    restricted __le32 *
-   drivers/media/virtio/virtio_video_device.c:611:34: sparse: sparse: cast from unknown type
-   drivers/media/virtio/virtio_video_device.c:898:70: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] v4l2_format @@     got restricted __le32 [usertype] format @@
+All warnings (new ones prefixed by >>):
 
-vim +504 drivers/media/virtio/virtio_video_device.c
+   In file included from sound/soc/codecs/tas2764.c:56:
+>> sound/soc/codecs/tas2764-quirks.h:148:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   sound/soc/codecs/tas2764-quirks.h:148:2: note: insert '__attribute__((fallthrough));' to silence this warning
+           default:
+           ^
+           __attribute__((fallthrough)); 
+   sound/soc/codecs/tas2764-quirks.h:148:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   sound/soc/codecs/tas2764.c:876:20: warning: cast to smaller integer type 'enum tas2764_devid' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+                   tas2764->devid = (enum tas2764_devid) of_id->data;
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
-   469	
-   470	int virtio_video_g_selection(struct file *file, void *fh,
-   471				 struct v4l2_selection *sel)
-   472	{
-   473		struct video_format_info *info = NULL;
-   474		struct virtio_video_stream *stream = file2stream(file);
-   475		struct virtio_video_device *vvd = video_drvdata(file);
-   476	
-   477		switch (vvd->type) {
-   478		case VIRTIO_VIDEO_DEVICE_ENCODER:
-   479			if (!V4L2_TYPE_IS_OUTPUT(sel->type))
-   480				return -EINVAL;
-   481			info = &stream->in_info;
-   482			break;
-   483		case VIRTIO_VIDEO_DEVICE_DECODER:
-   484			if (V4L2_TYPE_IS_OUTPUT(sel->type))
-   485				return -EINVAL;
-   486			info = &stream->out_info;
-   487			break;
-   488		default:
-   489			v4l2_err(&vvd->vv->v4l2_dev, "unsupported device type\n");
-   490			return -EINVAL;
-   491		}
-   492	
-   493		switch (sel->target) {
-   494		case V4L2_SEL_TGT_CROP_BOUNDS:
-   495			sel->r.width = info->frame_width;
-   496			sel->r.height = info->frame_height;
-   497			break;
-   498		case V4L2_SEL_TGT_CROP_DEFAULT:
-   499		case V4L2_SEL_TGT_CROP:
-   500		case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-   501		case V4L2_SEL_TGT_COMPOSE_DEFAULT:
-   502		case V4L2_SEL_TGT_COMPOSE:
-   503		case V4L2_SEL_TGT_COMPOSE_PADDED:
- > 504			sel->r.left = info->crop.left;
- > 505			sel->r.top = info->crop.top;
- > 506			sel->r.width = info->crop.width;
- > 507			sel->r.height = info->crop.height;
-   508			break;
-   509		default:
-   510			v4l2_dbg(1, vvd->vv->debug, &vvd->vv->v4l2_dev,
-   511				 "unsupported/invalid selection target: %d\n",
-   512				sel->target);
-   513			return -EINVAL;
-   514		}
-   515	
-   516		return 0;
-   517	}
-   518	
+
+vim +148 sound/soc/codecs/tas2764-quirks.h
+
+   115	
+   116	static int tas2764_do_quirky_pwr_ctrl_change(struct tas2764_priv *tas2764,
+   117						     unsigned int target)
+   118	{
+   119		unsigned int curr;
+   120		int ret;
+   121	
+   122		curr = snd_soc_component_read_field(tas2764->component,
+   123						       TAS2764_PWR_CTRL,
+   124						       TAS2764_PWR_CTRL_MASK);
+   125	
+   126		if (target == curr)
+   127			return 0;
+   128	
+   129	#define TRANSITION(new, old) ((new) << 8 | (old))
+   130		switch (TRANSITION(target, curr)) {
+   131		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_MUTE):
+   132		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_ACTIVE):
+   133			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_pre_shutdown_seq,
+   134						     ARRAY_SIZE(tas2764_pre_shutdown_seq));
+   135			if (ret < 0)
+   136				break;
+   137	
+   138			ret = snd_soc_component_update_bits(tas2764->component,
+   139							    TAS2764_PWR_CTRL,
+   140						    	    TAS2764_PWR_CTRL_MASK,
+   141						    	    TAS2764_PWR_CTRL_SHUTDOWN);
+   142			if (ret > 0)
+   143				break;
+   144	
+   145			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_post_shutdown_seq,
+   146						     ARRAY_SIZE(tas2764_post_shutdown_seq));
+   147	
+ > 148		default:
+   149			ret = snd_soc_component_update_bits(tas2764->component, TAS2764_PWR_CTRL,
+   150						    	    TAS2764_PWR_CTRL_MASK, target);
+   151		}
+   152	#undef TRANSITION
+   153	
+   154		if (ret < 0)
+   155			return ret;
+   156		return 0;
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
