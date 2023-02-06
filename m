@@ -1,137 +1,255 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2058.outbound.protection.outlook.com [40.107.96.58])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683A253A2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 15:26:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Txz3adbUUb89R4CEdzxoaUCcE1M6r04/AtmNCZVxGOBOTd3hx80G03wtGqRkMC/oFmBWMK9gk0py+wYNymFxeX6X7PPt/9E4f0QXsy5yYY1dhJ+4ccEhxFg4ltLWfm21UH/UlX7eMwjlgJcjlqEtU1KrEaHVazU1tZLnx0zb8pZZ8U9PS7F5rYTmdus8m/jfwRG6gocWoOatdVu2emE6cf+OpNBglsjSuxDAuTsu+WaX/QP73XyE1JmApg5c/8vhJvSWceCR1XYPlaePtA+YW7nJ9fYg9Gdn//8W/XRIi8/PDwFqFvnU32FmwbKnATAVkCddwrZoj1wwdMwZH7QOEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gfwb/XZUwTVLPy4kOHhV+twCdqkOi8X0TQEogmOiXdM=;
- b=oPbjLPQ+5YVPxE0RpJXl2oBadG8tcgsqrcLLY3z+tg/Tcnt1U+EPaoGUCJXNElNreMFYUCNl/IgHZuobdtwrupcKAMoyRB2U9Y1DeDZc5e7SqQOb9GplBm1+cbQagdZCcWIjj6McGxzDDGm49tq4a8GMwxjZSPafKUfg6wrxJoevMKfmzZ0CI6RUkGv18XktBCR0wxEe2wIx8dJusXwcB5rHm6ONZj8iJGOCLhH8Zg+JpbFe3VTfK2J5HvZaJvXf468BOlrv+osKASEQ7zmdsAUxUJwom/O66CLP8C4noPZkoxBjhP0wfYVTK69x9rbtERo22/aEdahzLE/moN1cew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gfwb/XZUwTVLPy4kOHhV+twCdqkOi8X0TQEogmOiXdM=;
- b=NJ6ynro0p6yJozy9+et95RC8kxSvwlAe7vFoYY/lDRmZtptn2k6HtGKDM+p4G5CwEhBAUvmBitltTkAzzbV3XJP3WNqgY79NwqrCvi54DHVdg/QEmR+KIEsEjKE/pso1VV6ZTcSNu7+hzZVy8MzxJt617sTokkdBzOJ8DdYwLaJUlTNE4puqtDzV67EPiFXOH0/6wYArOWonvCt3zLn3dYgR+sumUsxdIa8iJ7Bq2VPty7oWg2DK2Cw+376PVyeSCZ/q2JRIo8uTgZDk03q/g54cxZl0gG3hqiBm1VZJsRA4LiCOgFTG4C2YiiqtJZ4ziYC6x3cjlvoX7Bp8veVlaQ==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by PH8PR12MB6674.namprd12.prod.outlook.com (2603:10b6:510:1c1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Mon, 6 Feb
- 2023 15:26:28 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::4aaa:495:78b4:1d7c]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::4aaa:495:78b4:1d7c%3]) with mapi id 15.20.6064.032; Mon, 6 Feb 2023
- 15:26:28 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Logan Gunthorpe <logang@deltatee.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Jens Axboe
-	<axboe@kernel.dk>, kernel test robot <lkp@intel.com>, Christoph Hellwig
-	<hch@lst.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>
-Subject: Re: drivers/pci/p2pdma.c:199:44: sparse: sparse: dereference of
- noderef expression
-Thread-Topic: drivers/pci/p2pdma.c:199:44: sparse: sparse: dereference of
- noderef expression
-Thread-Index: AQHZNmM+YFccZjMStEK9o9raBIfe367CEfuA
-Date: Mon, 6 Feb 2023 15:26:27 +0000
-Message-ID: <6359dcaa-0817-4819-321c-f786809ff89d@nvidia.com>
-References: <202302020153.4eL3mwiK-lkp@intel.com>
-In-Reply-To: <202302020153.4eL3mwiK-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|PH8PR12MB6674:EE_
-x-ms-office365-filtering-correlation-id: 1304c3c0-0434-4ad4-7110-08db08568428
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- FsebWHei+Sc8TJSl0CYc8Oo8WZLwxKWCnbdbWQGlK5ZUeVsofeULRi63feq4ufRC9qmFGIWonucvuE8WoH55tYwmuPlSw8NDHdy/jcdZNbJIUuKpHvrVjigka9mp/DvD9YwH/L5mMYY2vHbciTcXsmBw5fdD/jAOexU45Un7i6hsTVgH6AjKU973w7WefKoO24lPJT2uiVovUEgLHaLfnwBux36DjAuVugYQ7SswJ3oaN1FEa4sE8Nqs009klvy1DZEZ4iVk9H/Xs70TSOzHneqh6z5syIzj326V/5vh3+p5J1Dw3OCXtax+TODn1YGL90TzYg3AgJ1rxc/5x8g6xcZ9iJqoTgOGWn3Nyr4ToWTNtkZ9LnMDOvLg4jYK4WRVpLjrasOC/9MYv3NFA++lNvgnJUwo2OTz7ekENhI7synghy3PwdjdDYfW25F8YSff4YUtX9zH2YBliP6y4ylK9EQ6wIgYyXuLpxygNa5dR/G/oXeaSM5BRQHk6EiF5oVj4RPjuUMBX8OFR3gGwiX8ZxZkaVfQyJnFLKn+wpgaK7+oHX2kTRo7139nIq0adKSkVolKGiugSV2cav8bTkmpSYeC3jw2SM3ub4s/VXHdeCw5yHRtZ/DVsZjzYwgDdbWGbgjO6Oxh1zryKuWASM4rS+J31+tTAuuMtyWNGwtTYjdY4+ONqN32BrPWQq+dOl8zfM+aWcBUgsHbWzn+VU7tt7ArHISv02CxdUdkdkDuvoUjWXodEeDIEjdz6ycKO1loFOncVt3MvjnABt9jnDsTgQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(346002)(396003)(366004)(376002)(451199018)(83380400001)(31686004)(36756003)(71200400001)(31696002)(86362001)(66476007)(8676002)(76116006)(66556008)(4326008)(6916009)(66446008)(64756008)(38100700002)(66946007)(122000001)(2616005)(38070700005)(6512007)(6506007)(6486002)(186003)(54906003)(107886003)(478600001)(8936002)(316002)(91956017)(5660300002)(4744005)(2906002)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?MTREMDNlcXVhcE96aG9aNGFvb2xGeklSbVdmN0JEWWJ5NW0xWWRzcitIem51?=
- =?utf-8?B?RjA0NXdtTis0dm00Y0Vzdm1uTDVSMktSVmdrZTB3YUROVGkwWlgrT0JhZCty?=
- =?utf-8?B?L0VGZnlienBET2JKOVk0ME5ucVhQUTVMLzJ5R2VnNzJjRnhiSW9qYzF6aVZD?=
- =?utf-8?B?QjFCWUhoWGxkai85R3JMWW1hK24za0VQQjNHQnkvWWF2VGh3TklnMVJ4S0xY?=
- =?utf-8?B?L1ZhTE9zU0xwQkhQZ25nUEN6ODh1WjNkT1M0OG5tOFpFZDhUcGgyL0VSRE1T?=
- =?utf-8?B?ZWtneDF4dmtqL0FMM3JGMkdCSDAvSmF0UWUrb3hZQlZ3bWVDcDd4OEF2M1Nx?=
- =?utf-8?B?enhiWkJxeDJzQms5a0pHNXRwbktwQjhuMi9rRndyU29maVh1MS9MWUdrWUVH?=
- =?utf-8?B?bHVnQTZEZGxwb3ZCRjllc1V0RTl5TFg5S3k0aXB4Qno4Z0pjUm9YcDhtMjFU?=
- =?utf-8?B?Z0MzemJxRGU2YkN1eHVTVE5HVHgwUk84NjN2clhQaXRPRjQ5TGd1eFo5T3lF?=
- =?utf-8?B?ZHBPYjc1dndKMnptQUE4QWtYRjJrTWxDTll3SVVDVUlrcU1XMzNkbk1FNGl4?=
- =?utf-8?B?K3VpcWFIeVJOc1BFNyt2NGpVWHNyd0xReTErRGxPV3F5NWJBNGhlbUhnSTk1?=
- =?utf-8?B?Y0dUWlJSYTFmNFJTbTBnMnFXdGdMbHVva25HNmVzMGJuS1lVNC9tbHhmcjRq?=
- =?utf-8?B?RnJNVFlGc1pIYzV3WGh6NStNdUQyU3p4RkZhMFh6NnNsMWI1aHJuMkVocnpE?=
- =?utf-8?B?OXRXbllHQWdxVkJ0SVN1c2pjSk5WWm9DdmdTK0x3aU95NEU0WVliSjkyb2Yv?=
- =?utf-8?B?NjYxUFcrZkNpeGtHdmZ4SzZ4cmdISDE5Wmcvc1pHdU5aTkFkbXVwMGVabFYy?=
- =?utf-8?B?L0hCb3c5RE9PUEJGUFRITHhBT3A1SEVDUjNScWpxMVZyMEJpSGRURTk1RjFS?=
- =?utf-8?B?cis4UmJLYTdWbXlRU3hNZ3VXZlkzWmtYTDFXbnBFQkZuQysveWc0QStUb2hF?=
- =?utf-8?B?Unl0bXhXQUFSMk1EWmFWbGZGdk1HbEt5VGQ5NUV2b254N0s0aFhNVFpPYnM0?=
- =?utf-8?B?clhkNlk3ZEJYQzJ6cTIrRjlVdEFCLytGTXBLeVV3VUZXVlpyeU9NaEc0cXNv?=
- =?utf-8?B?NFFTV3g4THFPaFhuTHJYbVdMMzVhZzVBSnNCTEUremVQd0FGcllVaC8yMER4?=
- =?utf-8?B?VG13c2lldUg2d0YyMnM4VUpyazB6L2pxT2RoQTFGYnZJQyt6U1BxL2ErV1Ix?=
- =?utf-8?B?MXFTbFpMVXk4UlhWOHY2czYvcjV2RElzSm1vTStrcmQ1SXFJMnN0OEZCaDV2?=
- =?utf-8?B?S3V5NlMvV3E3ZGZBSXJmM04vYW1XaFFBdWcydHNzcEtKQWg4UVRLd0g0MWIr?=
- =?utf-8?B?UUJvL2dKUHFmOXJWZ2t0TWV6cTBwNURkRERtdVdqYXFLczhTSXB0dmJ6LzJL?=
- =?utf-8?B?b2J0TUErUUJmejI2RjhCNy93WlBmbUltVjE4dzl4ODk4ZnFaYmt4RTVIbmth?=
- =?utf-8?B?S214cG5yWWxjN0dKQy82NDgycEM1MG1BTk9zK012czRhMC9PbmNPKzUwejl5?=
- =?utf-8?B?aEoxZHlwd2xvRHZFTWxudWtiZWdpRnAvZ0JRUVlPYVVCUEZmWXpLcytoTTlL?=
- =?utf-8?B?M0ZrZ1IvRG9UWml4Q2YxZnJKK1pucE5nbWIvVFB3SS9QYk5CL2l3bGFUMjY0?=
- =?utf-8?B?WUtmbHhVUDJjbVNSbXhrUEFmRVZSSVZVMDdzTVJaZ3B0cEd3T0ZsWHBINjY0?=
- =?utf-8?B?YURVNE8xWm9qQzJLNDRwYnY1UTJiK1U0RVpSaDExcHFReXptTGU2RE9nbjZ6?=
- =?utf-8?B?Tk0rM3NuK2RqRjdiWERHZ0VNR3kxejY3QnNzaEdyN20wemJodDBNaDZtUmF0?=
- =?utf-8?B?TUdOc3dCMm4vOS9NYkkyMk5FamFFV3VoSFkxOXJka3dYdXZENEdQUFhmUGlH?=
- =?utf-8?B?eExPU21EYUQ4ZGxIVjc1LzArd0kzVkx3cGxnSW1QK09PQ0FXQVhwOWtVdE5j?=
- =?utf-8?B?di9yTG5nQ1ZaMmdCaHlRNWN1SVkwaW00VmxQWnQxTDJlSm1JUlRMdWJLV2ZK?=
- =?utf-8?B?ZlZoTWpJVmdYRi84eWI1QUFJQlR4bGZPRi9EUU00WlBwcE9MWk9iK0F4YmZS?=
- =?utf-8?B?dTArandYT2hzWkZsT2dEblRvRlNDRnRTWlRIZ1FRWi9kUkJ2T3YyQVBhVEFr?=
- =?utf-8?Q?N9PWTF5NUNky97+w0tP3L3SdlzDJwSZin9P7gBXh3wFJ?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E0B0E634B7DD24419C4B649780B50B1D@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFE853A2;
+	Mon,  6 Feb 2023 15:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675698726; x=1707234726;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WZrGjuXfj7Zf0Ou26gpE8uITdkyBqJo0y/5oAA3Q9bw=;
+  b=L0xvvsZZ03723VSt4vhtMzJCH4n8cFVZCqsdH8cONChJaaFRKRfmaWc1
+   QBFsMUBIjb3/exCZWzJXwJ+6oR0WJuIrJnIigR+LCatAJADTC+Hm32H72
+   io7DNflzzge1yteVILlQu9ZoAItIJsc4nzpnrWypx4KxhbEDuAsvk1eXF
+   SSVb+OvI6ZfjzQ/dqf0Hm0HUOxQqPs3/YnjNiCwc8qY1p4E8Gt58wnG/S
+   3iKfp2ZOgdwc7BvpsLZTF/bCC1Pz/0yMn1RuXgOvFHEREo6mYwGrVmIZQ
+   lEpa1+GD0u25X7qkl0R56lHtBgYXJmWdAdPMfRrJlBf38MUafRXm9nhpp
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="312890958"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="312890958"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 07:52:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="659887416"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="659887416"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 06 Feb 2023 07:52:03 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pP3mk-0002e4-2U;
+	Mon, 06 Feb 2023 15:52:02 +0000
+Date: Mon, 6 Feb 2023 23:52:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jason A. Donenfeld" <zx2c4@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly
+ requires more registers than available
+Message-ID: <202302062324.HhzEZCF7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1304c3c0-0434-4ad4-7110-08db08568428
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2023 15:26:27.9884
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m/YXH3OqcqTr24XwS9TkaaJ71598YkVVN0pcLWGpL3IURtfzdbXfbpkEY1+XxnWshUN0ALiz6QngWxzr5JAq7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6674
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-TG9nYW4sDQoNCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUsIGtpbmRseSBhZGQgZm9sbG93aW5nIHRh
-ZyB3aGVyZSBhcHBsaWNhYmxlDQo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxs
-a3BAaW50ZWwuY29tPg0KPiANCj4gc3BhcnNlIHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQg
-YnkgPj4pDQo+Pj4gZHJpdmVycy9wY2kvcDJwZG1hLmM6MTk5OjQ0OiBzcGFyc2U6IHNwYXJzZTog
-ZGVyZWZlcmVuY2Ugb2Ygbm9kZXJlZiBleHByZXNzaW9uDQo+IA0KPiB2aW0gKzE5OSBkcml2ZXJz
-L3BjaS9wMnBkbWEuYw0KPiANCj4gICAgIDE5MwkNCj4gICAgIDE5NAlzdGF0aWMgdm9pZCBwMnBk
-bWFfcGFnZV9mcmVlKHN0cnVjdCBwYWdlICpwYWdlKQ0KPiAgICAgMTk1CXsNCj4gICAgIDE5NgkJ
-c3RydWN0IHBjaV9wMnBkbWFfcGFnZW1hcCAqcGdtYXAgPSB0b19wMnBfcGdtYXAocGFnZS0+cGdt
-YXApOw0KPiAgICAgMTk3CQlzdHJ1Y3QgcGVyY3B1X3JlZiAqcmVmOw0KPiAgICAgMTk4CQ0KPiAg
-ID4gMTk5CQlnZW5fcG9vbF9mcmVlX293bmVyKHBnbWFwLT5wcm92aWRlci0+cDJwZG1hLT5wb29s
-LA0KPiAgICAgMjAwCQkJCSAgICAodWludHB0cl90KXBhZ2VfdG9fdmlydChwYWdlKSwgUEFHRV9T
-SVpFLA0KPiAgICAgMjAxCQkJCSAgICAodm9pZCAqKikmcmVmKTsNCj4gICAgIDIwMgkJcGVyY3B1
-X3JlZl9wdXQocmVmKTsNCj4gICAgIDIwMwl9DQo+ICAgICAyMDQJDQo+IA0KDQpEaWQgeW91IGdl
-dCBhIGNoYW5jZSB0byBsb29rIGludG8gdGhpcyA/DQoNCi1jaw0KDQo=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2d11f342b179f1894a901f143ec7c008caba43e
+commit: 07b586fe06625b0b610dc3d3a969c51913d143d4 crypto: x86/curve25519 - replace with formally verified implementation
+date:   3 years ago
+config: x86_64-buildonly-randconfig-r006-20230206 (https://download.01.org/0day-ci/archive/20230206/202302062324.HhzEZCF7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=07b586fe06625b0b610dc3d3a969c51913d143d4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 07b586fe06625b0b610dc3d3a969c51913d143d4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   arch/x86/crypto/curve25519-x86_64.c:954:6: warning: variable 'carry' set but not used [-Wunused-but-set-variable]
+           u64 carry;
+               ^
+   arch/x86/crypto/curve25519-x86_64.c:951:6: warning: variable 'carry0' set but not used [-Wunused-but-set-variable]
+           u64 carry0;
+               ^
+>> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
+                   "  movq 0(%1), %%rdx;"                                       /* f[0] */
+                   ^
+>> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
+   2 warnings and 2 errors generated.
+
+
+vim +609 arch/x86/crypto/curve25519-x86_64.c
+
+   600	
+   601	/* Computes two field squarings:
+   602	 * out[0] <- f[0] * f[0]
+   603	 * out[1] <- f[1] * f[1]
+   604	 * Uses the 16-element buffer tmp for intermediate results */
+   605	static inline void fsqr2(u64 *out, const u64 *f, u64 *tmp)
+   606	{
+   607		asm volatile(
+   608			/* Step 1: Compute all partial products */
+ > 609			"  movq 0(%1), %%rdx;"                                       /* f[0] */
+   610			"  mulxq 8(%1), %%r8, %%r14;"      "  xor %%r15, %%r15;"     /* f[1]*f[0] */
+   611			"  mulxq 16(%1), %%r9, %%r10;"     "  adcx %%r14, %%r9;"     /* f[2]*f[0] */
+   612			"  mulxq 24(%1), %%rax, %%rcx;"    "  adcx %%rax, %%r10;"    /* f[3]*f[0] */
+   613			"  movq 24(%1), %%rdx;"                                      /* f[3] */
+   614			"  mulxq 8(%1), %%r11, %%r12;"     "  adcx %%rcx, %%r11;"    /* f[1]*f[3] */
+   615			"  mulxq 16(%1), %%rax, %%r13;"    "  adcx %%rax, %%r12;"    /* f[2]*f[3] */
+   616			"  movq 8(%1), %%rdx;"             "  adcx %%r15, %%r13;"    /* f1 */
+   617			"  mulxq 16(%1), %%rax, %%rcx;"    "  mov $0, %%r14;"        /* f[2]*f[1] */
+   618	
+   619			/* Step 2: Compute two parallel carry chains */
+   620			"  xor %%r15, %%r15;"
+   621			"  adox %%rax, %%r10;"
+   622			"  adcx %%r8, %%r8;"
+   623			"  adox %%rcx, %%r11;"
+   624			"  adcx %%r9, %%r9;"
+   625			"  adox %%r15, %%r12;"
+   626			"  adcx %%r10, %%r10;"
+   627			"  adox %%r15, %%r13;"
+   628			"  adcx %%r11, %%r11;"
+   629			"  adox %%r15, %%r14;"
+   630			"  adcx %%r12, %%r12;"
+   631			"  adcx %%r13, %%r13;"
+   632			"  adcx %%r14, %%r14;"
+   633	
+   634			/* Step 3: Compute intermediate squares */
+   635			"  movq 0(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[0]^2 */
+   636			                           "  movq %%rax, 0(%0);"
+   637			"  add %%rcx, %%r8;"       "  movq %%r8, 8(%0);"
+   638			"  movq 8(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[1]^2 */
+   639			"  adcx %%rax, %%r9;"      "  movq %%r9, 16(%0);"
+   640			"  adcx %%rcx, %%r10;"     "  movq %%r10, 24(%0);"
+   641			"  movq 16(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[2]^2 */
+   642			"  adcx %%rax, %%r11;"     "  movq %%r11, 32(%0);"
+   643			"  adcx %%rcx, %%r12;"     "  movq %%r12, 40(%0);"
+   644			"  movq 24(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[3]^2 */
+   645			"  adcx %%rax, %%r13;"     "  movq %%r13, 48(%0);"
+   646			"  adcx %%rcx, %%r14;"     "  movq %%r14, 56(%0);"
+   647	
+   648			/* Step 1: Compute all partial products */
+   649			"  movq 32(%1), %%rdx;"                                       /* f[0] */
+   650			"  mulxq 40(%1), %%r8, %%r14;"      "  xor %%r15, %%r15;"     /* f[1]*f[0] */
+   651			"  mulxq 48(%1), %%r9, %%r10;"     "  adcx %%r14, %%r9;"     /* f[2]*f[0] */
+   652			"  mulxq 56(%1), %%rax, %%rcx;"    "  adcx %%rax, %%r10;"    /* f[3]*f[0] */
+   653			"  movq 56(%1), %%rdx;"                                      /* f[3] */
+   654			"  mulxq 40(%1), %%r11, %%r12;"     "  adcx %%rcx, %%r11;"    /* f[1]*f[3] */
+   655			"  mulxq 48(%1), %%rax, %%r13;"    "  adcx %%rax, %%r12;"    /* f[2]*f[3] */
+   656			"  movq 40(%1), %%rdx;"             "  adcx %%r15, %%r13;"    /* f1 */
+   657			"  mulxq 48(%1), %%rax, %%rcx;"    "  mov $0, %%r14;"        /* f[2]*f[1] */
+   658	
+   659			/* Step 2: Compute two parallel carry chains */
+   660			"  xor %%r15, %%r15;"
+   661			"  adox %%rax, %%r10;"
+   662			"  adcx %%r8, %%r8;"
+   663			"  adox %%rcx, %%r11;"
+   664			"  adcx %%r9, %%r9;"
+   665			"  adox %%r15, %%r12;"
+   666			"  adcx %%r10, %%r10;"
+   667			"  adox %%r15, %%r13;"
+   668			"  adcx %%r11, %%r11;"
+   669			"  adox %%r15, %%r14;"
+   670			"  adcx %%r12, %%r12;"
+   671			"  adcx %%r13, %%r13;"
+   672			"  adcx %%r14, %%r14;"
+   673	
+   674			/* Step 3: Compute intermediate squares */
+   675			"  movq 32(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[0]^2 */
+   676			                           "  movq %%rax, 64(%0);"
+   677			"  add %%rcx, %%r8;"       "  movq %%r8, 72(%0);"
+   678			"  movq 40(%1), %%rdx;"     "  mulx %%rdx, %%rax, %%rcx;"    /* f[1]^2 */
+   679			"  adcx %%rax, %%r9;"      "  movq %%r9, 80(%0);"
+   680			"  adcx %%rcx, %%r10;"     "  movq %%r10, 88(%0);"
+   681			"  movq 48(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[2]^2 */
+   682			"  adcx %%rax, %%r11;"     "  movq %%r11, 96(%0);"
+   683			"  adcx %%rcx, %%r12;"     "  movq %%r12, 104(%0);"
+   684			"  movq 56(%1), %%rdx;"    "  mulx %%rdx, %%rax, %%rcx;"    /* f[3]^2 */
+   685			"  adcx %%rax, %%r13;"     "  movq %%r13, 112(%0);"
+   686			"  adcx %%rcx, %%r14;"     "  movq %%r14, 120(%0);"
+   687	
+   688			/* Line up pointers */
+   689			"  mov %0, %1;"
+   690			"  mov %2, %0;"
+   691	
+   692			/* Step 1: Compute dst + carry == tmp_hi * 38 + tmp_lo */
+   693			"  mov $38, %%rdx;"
+   694			"  mulxq 32(%1), %%r8, %%r13;"
+   695			"  xor %%rcx, %%rcx;"
+   696			"  adoxq 0(%1), %%r8;"
+   697			"  mulxq 40(%1), %%r9, %%r12;"
+   698			"  adcx %%r13, %%r9;"
+   699			"  adoxq 8(%1), %%r9;"
+   700			"  mulxq 48(%1), %%r10, %%r13;"
+   701			"  adcx %%r12, %%r10;"
+   702			"  adoxq 16(%1), %%r10;"
+   703			"  mulxq 56(%1), %%r11, %%rax;"
+   704			"  adcx %%r13, %%r11;"
+   705			"  adoxq 24(%1), %%r11;"
+   706			"  adcx %%rcx, %%rax;"
+   707			"  adox %%rcx, %%rax;"
+   708			"  imul %%rdx, %%rax;"
+   709	
+   710			/* Step 2: Fold the carry back into dst */
+   711			"  add %%rax, %%r8;"
+   712			"  adcx %%rcx, %%r9;"
+   713			"  movq %%r9, 8(%0);"
+   714			"  adcx %%rcx, %%r10;"
+   715			"  movq %%r10, 16(%0);"
+   716			"  adcx %%rcx, %%r11;"
+   717			"  movq %%r11, 24(%0);"
+   718	
+   719			/* Step 3: Fold the carry bit back in; guaranteed not to carry at this point */
+   720			"  mov $0, %%rax;"
+   721			"  cmovc %%rdx, %%rax;"
+   722			"  add %%rax, %%r8;"
+   723			"  movq %%r8, 0(%0);"
+   724	
+   725			/* Step 1: Compute dst + carry == tmp_hi * 38 + tmp_lo */
+   726			"  mov $38, %%rdx;"
+   727			"  mulxq 96(%1), %%r8, %%r13;"
+   728			"  xor %%rcx, %%rcx;"
+   729			"  adoxq 64(%1), %%r8;"
+   730			"  mulxq 104(%1), %%r9, %%r12;"
+   731			"  adcx %%r13, %%r9;"
+   732			"  adoxq 72(%1), %%r9;"
+   733			"  mulxq 112(%1), %%r10, %%r13;"
+   734			"  adcx %%r12, %%r10;"
+   735			"  adoxq 80(%1), %%r10;"
+   736			"  mulxq 120(%1), %%r11, %%rax;"
+   737			"  adcx %%r13, %%r11;"
+   738			"  adoxq 88(%1), %%r11;"
+   739			"  adcx %%rcx, %%rax;"
+   740			"  adox %%rcx, %%rax;"
+   741			"  imul %%rdx, %%rax;"
+   742	
+   743			/* Step 2: Fold the carry back into dst */
+   744			"  add %%rax, %%r8;"
+   745			"  adcx %%rcx, %%r9;"
+   746			"  movq %%r9, 40(%0);"
+   747			"  adcx %%rcx, %%r10;"
+   748			"  movq %%r10, 48(%0);"
+   749			"  adcx %%rcx, %%r11;"
+   750			"  movq %%r11, 56(%0);"
+   751	
+   752			/* Step 3: Fold the carry bit back in; guaranteed not to carry at this point */
+   753			"  mov $0, %%rax;"
+   754			"  cmovc %%rdx, %%rax;"
+   755			"  add %%rax, %%r8;"
+   756			"  movq %%r8, 32(%0);"
+   757		: "+&r" (tmp), "+&r" (f), "+&r" (out)
+   758		:
+   759		: "%rax", "%rcx", "%rdx", "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15", "memory", "cc"
+   760		);
+   761	}
+   762	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
