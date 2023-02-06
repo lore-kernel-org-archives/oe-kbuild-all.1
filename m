@@ -1,44 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D71928E8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 11:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C3B3C2C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Feb 2023 11:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675683963; x=1707219963;
+  t=1675684557; x=1707220557;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=icTvws4kIzU2UsXu1q43rVkUlEvrWS5DBP6uhS7pCEU=;
-  b=PaOnzxG6R3al57hyWNrpJqZYLrdEqeylDJpPduvKs9ayDAMDo38Tdeeb
-   WtaA2rUn8wVcIzN+K7J54gz30Wjp9BTWDnJ97GTorRUkdyf85Syf0zIJa
-   wOWjA8w+sgfr+Ja2yQDjEEW+PMwPg25zSNbmKTE15TuNUM9k0wyawIs93
-   OqY72thbiuygphCaEXvFBD/iyg+prZPWnGZiJGvhTvkLygNGXR2pOulu0
-   /FAGDcZV8Skrx8tH2DDUQiZ5jmdhABsixQhYxpb9cTibmAzfljuAW9CBJ
-   zm1GK3y44mIuyU8CiY8IcyKgR5KMjrGHL4ADzRDsx8lgTcPE13wO0B+7x
+  bh=grSvXDSHPkPLjguVqU3N4Ep0Kic3QqAnSYLlkotf6NI=;
+  b=CJjbmBPpZEXwIQhT+2+FHVSK+clQioVjeBDE9ZngzZjPiVxjsE46qRPU
+   hJxRb48oZECwDm3B4xe25QiivOQVpmYsFqGaSQuxAx76rDhAhbeZYHCfj
+   tsayZq2u1xCep6uo4H6Zi5o4+BxEUj+RFY6o1Y/eTirjQvZ450N6uaHbE
+   V8hA127sPNGExFQZ97lqT01+kl8c8J3FgXTmtoT7esba8fsh1gCmO3Sga
+   VCKvqUIaqWRl6lU3LCwX2w5ACjmySTu+szpuwFGzylegSuo5QgsE4Z7lf
+   GG8G/JHEA8MgZJiXdipFLz1N8eYkmTH3S3AoLcB5nwapR7XsV1a/XxAWC
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="327818614"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="308830725"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="327818614"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 03:45:57 -0800
+   d="scan'208";a="308830725"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 03:55:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="840328611"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="696852399"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="840328611"
+   d="scan'208";a="696852399"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 06 Feb 2023 03:45:55 -0800
+  by orsmga008.jf.intel.com with ESMTP; 06 Feb 2023 03:55:56 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOzwY-0002WS-2s;
-	Mon, 06 Feb 2023 11:45:54 +0000
-Date: Mon, 6 Feb 2023 19:45:24 +0800
+	id 1pP06F-0002We-00;
+	Mon, 06 Feb 2023 11:55:55 +0000
+Date: Mon, 6 Feb 2023 19:55:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlene Liu <Charlene.Liu@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:881:16:
- warning: variable 'Tsw_oto' set but not used
-Message-ID: <202302061945.Fnl3rRuk-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/621 6164/20208]
+ drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype
+ for 'int_imx_secvio_sc_check_state'
+Message-ID: <202302061913.2hKbncHz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,187 +47,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Charlene,
+Hi Dong,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2d11f342b179f1894a901f143ec7c008caba43e
-commit: 27142312c8a44026815df721882468c63c4c96da drm/amd/display: fix dcn3.1x mode validation on high bandwidth config
-date:   3 months ago
-config: arm64-randconfig-r002-20230205 (https://download.01.org/0day-ci/archive/20230206/202302061945.Fnl3rRuk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc pr/621
+head:   b9ae52e89c61eed5d446a9693d8bf0f55a5323e7
+commit: 8e33e9a47296b6a3afd7da3c950b77eaacfc42b3 [6164/20208] Merge branch 'firmware/next' into next
+config: arm-randconfig-r046-20230205 (https://download.01.org/0day-ci/archive/20230206/202302061913.2hKbncHz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=27142312c8a44026815df721882468c63c4c96da
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 27142312c8a44026815df721882468c63c4c96da
+        # https://github.com/Freescale/linux-fslc/commit/8e33e9a47296b6a3afd7da3c950b77eaacfc42b3
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/621
+        git checkout 8e33e9a47296b6a3afd7da3c950b77eaacfc42b3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-imx/ drivers/firmware/imx/ drivers/rpmsg/ drivers/soc/imx/secvio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: In function 'CalculatePrefetchSchedule':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:881:16: warning: variable 'Tsw_oto' set but not used [-Wunused-but-set-variable]
-     881 |         double Tsw_oto;
-         |                ^~~~~~~
+>> drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype for 'int_imx_secvio_sc_check_state' [-Wmissing-prototypes]
+     140 | int int_imx_secvio_sc_check_state(struct device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/imx/secvio/imx-secvio-sc.c: In function 'int_imx_secvio_sc_disable_irq':
+>> drivers/soc/imx/secvio/imx-secvio-sc.c:377:36: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+     377 |         struct imx_secvio_sc_data *data;
+         |                                    ^~~~
+   drivers/soc/imx/secvio/imx-secvio-sc.c: At top level:
+>> drivers/soc/imx/secvio/imx-secvio-sc.c:459:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     459 | const static struct file_operations imx_secvio_sc_fops = {
+         | ^~~~~
 --
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_314.c: In function 'CalculatePrefetchSchedule':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_314.c:903:16: warning: variable 'Tsw_oto' set but not used [-Wunused-but-set-variable]
-     903 |         double Tsw_oto;
-         |                ^~~~~~~
+>> drivers/soc/imx/secvio/imx-secvio-debugfs.c:35:5: warning: no previous prototype for 'fuse_reader' [-Wmissing-prototypes]
+      35 | int fuse_reader(struct device *dev, u32 id, u32 *value, u8 mul)
+         |     ^~~~~~~~~~~
+>> drivers/soc/imx/secvio/imx-secvio-debugfs.c:56:5: warning: no previous prototype for 'snvs_reader' [-Wmissing-prototypes]
+      56 | int snvs_reader(struct device *dev, u32 id, u32 *value, u8 mul)
+         |     ^~~~~~~~~~~
+>> drivers/soc/imx/secvio/imx-secvio-debugfs.c:95:5: warning: no previous prototype for 'snvs_dgo_reader' [-Wmissing-prototypes]
+      95 | int snvs_dgo_reader(struct device *dev, u32 id, u32 *value, u8 mul)
+         |     ^~~~~~~~~~~~~~~
 
 
-vim +/Tsw_oto +881 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c
+vim +/int_imx_secvio_sc_check_state +140 drivers/soc/imx/secvio/imx-secvio-sc.c
 
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  812  
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  813  static bool CalculatePrefetchSchedule(
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  814  		struct display_mode_lib *mode_lib,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  815  		double HostVMInefficiencyFactor,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  816  		Pipe *myPipe,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  817  		unsigned int DSCDelay,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  818  		double DPPCLKDelaySubtotalPlusCNVCFormater,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  819  		double DPPCLKDelaySCL,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  820  		double DPPCLKDelaySCLLBOnly,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  821  		double DPPCLKDelayCNVCCursor,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  822  		double DISPCLKDelaySubtotal,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  823  		unsigned int DPP_RECOUT_WIDTH,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  824  		enum output_format_class OutputFormat,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  825  		unsigned int MaxInterDCNTileRepeaters,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  826  		unsigned int VStartup,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  827  		unsigned int MaxVStartup,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  828  		unsigned int GPUVMPageTableLevels,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  829  		bool GPUVMEnable,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  830  		bool HostVMEnable,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  831  		unsigned int HostVMMaxNonCachedPageTableLevels,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  832  		double HostVMMinPageSize,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  833  		bool DynamicMetadataEnable,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  834  		bool DynamicMetadataVMEnabled,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  835  		int DynamicMetadataLinesBeforeActiveRequired,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  836  		unsigned int DynamicMetadataTransmittedBytes,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  837  		double UrgentLatency,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  838  		double UrgentExtraLatency,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  839  		double TCalc,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  840  		unsigned int PDEAndMetaPTEBytesFrame,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  841  		unsigned int MetaRowByte,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  842  		unsigned int PixelPTEBytesPerRow,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  843  		double PrefetchSourceLinesY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  844  		unsigned int SwathWidthY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  845  		double VInitPreFillY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  846  		unsigned int MaxNumSwathY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  847  		double PrefetchSourceLinesC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  848  		unsigned int SwathWidthC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  849  		double VInitPreFillC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  850  		unsigned int MaxNumSwathC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  851  		int swath_width_luma_ub,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  852  		int swath_width_chroma_ub,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  853  		unsigned int SwathHeightY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  854  		unsigned int SwathHeightC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  855  		double TWait,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  856  		double *DSTXAfterScaler,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  857  		double *DSTYAfterScaler,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  858  		double *DestinationLinesForPrefetch,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  859  		double *PrefetchBandwidth,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  860  		double *DestinationLinesToRequestVMInVBlank,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  861  		double *DestinationLinesToRequestRowInVBlank,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  862  		double *VRatioPrefetchY,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  863  		double *VRatioPrefetchC,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  864  		double *RequiredPrefetchPixDataBWLuma,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  865  		double *RequiredPrefetchPixDataBWChroma,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  866  		bool *NotEnoughTimeForDynamicMetadata,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  867  		double *Tno_bw,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  868  		double *prefetch_vmrow_bw,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  869  		double *Tdmdl_vm,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  870  		double *Tdmdl,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  871  		double *TSetup,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  872  		int *VUpdateOffsetPix,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  873  		double *VUpdateWidthPix,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  874  		double *VReadyOffsetPix)
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  875  {
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  876  	bool MyError = false;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  877  	unsigned int DPPCycles, DISPCLKCycles;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  878  	double DSTTotalPixelsAfterScaler;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  879  	double LineTime;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  880  	double dst_y_prefetch_equ;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19 @881  	double Tsw_oto;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  882  	double prefetch_bw_oto;
-9338cb719f0f0b Charlene Liu        2022-01-07  883  	double prefetch_bw_pr;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  884  	double Tvm_oto;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  885  	double Tr0_oto;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  886  	double Tvm_oto_lines;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  887  	double Tr0_oto_lines;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  888  	double dst_y_prefetch_oto;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  889  	double TimeForFetchingMetaPTE = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  890  	double TimeForFetchingRowInVBlank = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  891  	double LinesToRequestPrefetchPixelData = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  892  	unsigned int HostVMDynamicLevelsTrips;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  893  	double trip_to_mem;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  894  	double Tvm_trips;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  895  	double Tr0_trips;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  896  	double Tvm_trips_rounded;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  897  	double Tr0_trips_rounded;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  898  	double Lsw_oto;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  899  	double Tpre_rounded;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  900  	double prefetch_bw_equ;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  901  	double Tvm_equ;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  902  	double Tr0_equ;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  903  	double Tdmbf;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  904  	double Tdmec;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  905  	double Tdmsks;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  906  	double prefetch_sw_bytes;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  907  	double bytes_pp;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  908  	double dep_bytes;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  909  	int max_vratio_pre = 4;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  910  	double min_Lsw;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  911  	double Tsw_est1 = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  912  	double Tsw_est3 = 0;
-9338cb719f0f0b Charlene Liu        2022-01-07  913  	double  max_Tsw = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  914  
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  915  	if (GPUVMEnable == true && HostVMEnable == true) {
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  916  		HostVMDynamicLevelsTrips = HostVMMaxNonCachedPageTableLevels;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  917  	} else {
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  918  		HostVMDynamicLevelsTrips = 0;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  919  	}
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  920  #ifdef __DML_VBA_DEBUG__
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  921  	dml_print("DML::%s: GPUVMEnable=%d HostVMEnable=%d HostVMInefficiencyFactor=%f\n", __func__, GPUVMEnable, HostVMEnable, HostVMInefficiencyFactor);
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  922  #endif
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  923  	CalculateVupdateAndDynamicMetadataParameters(
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  924  			MaxInterDCNTileRepeaters,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  925  			myPipe->DPPCLK,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  926  			myPipe->DISPCLK,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  927  			myPipe->DCFCLKDeepSleep,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  928  			myPipe->PixelClock,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  929  			myPipe->HTotal,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  930  			myPipe->VBlank,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  931  			DynamicMetadataTransmittedBytes,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  932  			DynamicMetadataLinesBeforeActiveRequired,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  933  			myPipe->InterlaceEnable,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  934  			myPipe->ProgressiveToInterlaceUnitInOPP,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  935  			TSetup,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  936  			&Tdmbf,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  937  			&Tdmec,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  938  			&Tdmsks,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  939  			VUpdateOffsetPix,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  940  			VUpdateWidthPix,
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  941  			VReadyOffsetPix);
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  942  
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  943  	LineTime = myPipe->HTotal / myPipe->PixelClock;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  944  	trip_to_mem = UrgentLatency;
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  945  	Tvm_trips = UrgentExtraLatency + trip_to_mem * (GPUVMPageTableLevels * (HostVMDynamicLevelsTrips + 1) - 1);
-74458c081fcfb0 Nicholas Kazlauskas 2021-05-19  946  
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  139  
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05 @140  int int_imx_secvio_sc_check_state(struct device *dev)
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  141  {
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  142  	struct secvio_sc_notifier_info info = {0};
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  143  	int ret = 0;
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  144  
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  145  	ret = int_imx_secvio_sc_get_state(dev, &info);
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  146  	if (ret) {
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  147  		dev_err(dev, "Failed to get secvio state\n");
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  148  		goto exit;
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  149  	}
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  150  
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  151  	/* Call chain of CB registered to this module if status detected */
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  152  	if (info.hpsvs || info.lps || info.lptds)
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  153  		if (imx_secvio_sc_notifier_call_chain(&info))
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  154  			dev_warn(dev,
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  155  				 "Issues when calling the notifier chain\n");
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  156  
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  157  exit:
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  158  	return ret;
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  159  }
+c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  160  
 
-:::::: The code at line 881 was first introduced by commit
-:::::: 74458c081fcfb0423877e630de2746daefdb16e4 drm/amd/display: Add DCN3.1 DML calculation support
+:::::: The code at line 140 was first introduced by commit
+:::::: c4c96d8e4f4bd60d88bfbcedf2edefdc1e1f7cf8 SSI-87: soc: imx: secvio: Add support for SNVS secvio and tamper via SCFW
 
-:::::: TO: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Franck LENORMAND <franck.lenormand@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
