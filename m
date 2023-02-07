@@ -1,150 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9150C566F;
-	Tue,  7 Feb 2023 16:53:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B818C4339B;
-	Tue,  7 Feb 2023 16:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675788831;
-	bh=XuTCGHDp71Maj5LPFP6Q/D0zLoJ9M2HqT+7H2wIqnvM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pGclJ/DqVAGjovIJ9hLph5/0eo+QXyrPNtMVOmmyhU/iTM76j4MTHDjAGJIiJRCr6
-	 2LbXUulAGSEj4UZhd1wq9FliysnhQxkImn+y6Xi9CjXIf7U9gvkKTn/5MMwxsONTD7
-	 I2jdy/HEwpKybpSEWLVBkt2zzgv7LHUA2QTum0n3YgEuxD4KwyzrrFPPcyqLH0A3nA
-	 nTT+CDj8l61w+cpEjedO/m475M40gmWccgXpJlKakNMprEfbes8voZ5EF+lxRCvH+S
-	 BqtuatyfKafip2JI+S9Zpk9JKIbYUIBrWR/XcajcT6XUTDhInIn70quYCmmZEoXTq7
-	 a1DmDU1hK+G0g==
-Date: Tue, 7 Feb 2023 09:53:48 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: kernel test robot <lkp@intel.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023A5566F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 17:07:51 +0000 (UTC)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C88861EC047F;
+	Tue,  7 Feb 2023 18:07:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+	t=1675789669;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1dJoMuVzuM1aNIUSF1OCPBNvUwYGuGQIxuTeKwLrK5w=;
+	b=Uhyh6ZfV/ahAjSQ0cPYrVUYGf5cTuLra9t8WWSpM4l7ChwGejDFE4jrsJMmJKHus4pPniA
+	E5K0dO2JTviani/IKpgHQFpPUCMVi9nJ1AUDAJA62FVdCkK8XH5jJ9V1rP2lY1Y1anCa9A
+	MviDLTkvykfl4oL16RQjm8FdzZJ/jpQ=
+Date: Tue, 7 Feb 2023 18:07:45 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH] x86/vdso: Fake 32bit VDSO build on 64bit compile for
- vgetcpu.
-Message-ID: <Y+KCHOkrumS1I/Th@dev-arch.thelio-3990X>
-References: <202302071338.m7nBGR5i-lkp@intel.com>
- <Y+IsCWQdXEr8d9Vy@linutronix.de>
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [tip:x86/vdso 3/4] arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1:
+ warning: no previous prototype for '__vdso_getcpu'
+Message-ID: <Y+KFYUqM5pT7iuoK@zn.tnic>
+References: <202302070742.iYcnoJwk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y+IsCWQdXEr8d9Vy@linutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202302070742.iYcnoJwk-lkp@intel.com>
 
-On Tue, Feb 07, 2023 at 11:46:33AM +0100, Sebastian Andrzej Siewior wrote:
-> The 64bit register constrains in __arch_hweight64() can not be
-> fulfilled in a 32bit build. The function is only declared, not used
-> within vclock_gettime.c and gcc does not care. LLVM complains and
-> aborts.
+On Tue, Feb 07, 2023 at 07:41:54AM +0800, kernel test robot wrote:
+> All warnings (new ones prefixed by >>):
 > 
-> Move the "fake a 32 bit kernel configuration" bits from vclock_gettime.c
-> into a common header file. Use this from vclock_gettime.c and vgetcpu.c.
-> 
-> Fixes: 92d33063c081a ("x86/vdso: Provide getcpu for x86-32.")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>    In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+> >> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for '__vdso_getcpu' [-Wmissing-prototypes]
+>       13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+>          | ^~~~~~~~~~~~~
 
-Thank you so much for the fix! Boris inquired why this happens with
-clang and I wrote a little blurb here if that is helpful at all:
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Tue, 7 Feb 2023 16:13:24 +0100
+Subject: [PATCH] x86/vdso: Fix -Wmissing-prototypes warnings
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-https://lore.kernel.org/Y+J+UQ1vAKr6RHuH@dev-arch.thelio-3990X/
+Fix those:
 
-Regardless, this works for me.
+  In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
+arch/x86/entry/vdso/vdso32/../vclock_gettime.c:70:5: warning: no previous prototype for ‘__vdso_clock_gettime64’ [-Wmissing-prototypes]
+   70 | int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts)
+      |
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:3:
+arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for ‘__vdso_getcpu’ [-Wmissing-prototypes]
+   13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+      | ^~~~~~~~~~~~~
 
-> ---
->  arch/x86/entry/vdso/vdso32/fake_32bit_build.h | 25 +++++++++++++++++
->  arch/x86/entry/vdso/vdso32/vclock_gettime.c   | 27 +------------------
->  arch/x86/entry/vdso/vdso32/vgetcpu.c          |  1 +
->  3 files changed, 27 insertions(+), 26 deletions(-)
->  create mode 100644 arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> 
-> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> new file mode 100644
-> index 0000000000000..db1b15f686e32
-> --- /dev/null
-> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> @@ -0,0 +1,25 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifdef CONFIG_X86_64
-> +
-> +/*
-> + * in case of a 32 bit VDSO for a 64 bit kernel fake a 32 bit kernel
-> + * configuration
-> + */
-> +#undef CONFIG_64BIT
-> +#undef CONFIG_X86_64
-> +#undef CONFIG_COMPAT
-> +#undef CONFIG_PGTABLE_LEVELS
-> +#undef CONFIG_ILLEGAL_POINTER_VALUE
-> +#undef CONFIG_SPARSEMEM_VMEMMAP
-> +#undef CONFIG_NR_CPUS
-> +#undef CONFIG_PARAVIRT_XXL
-> +
-> +#define CONFIG_X86_32 1
-> +#define CONFIG_PGTABLE_LEVELS 2
-> +#define CONFIG_PAGE_OFFSET 0
-> +#define CONFIG_ILLEGAL_POINTER_VALUE 0
-> +#define CONFIG_NR_CPUS 1
-> +
-> +#define BUILD_VDSO32_64
-> +
-> +#endif
-> diff --git a/arch/x86/entry/vdso/vdso32/vclock_gettime.c b/arch/x86/entry/vdso/vdso32/vclock_gettime.c
-> index 283ed9d004267..86981decfea83 100644
-> --- a/arch/x86/entry/vdso/vdso32/vclock_gettime.c
-> +++ b/arch/x86/entry/vdso/vdso32/vclock_gettime.c
-> @@ -1,29 +1,4 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #define BUILD_VDSO32
-> -
-> -#ifdef CONFIG_X86_64
-> -
-> -/*
-> - * in case of a 32 bit VDSO for a 64 bit kernel fake a 32 bit kernel
-> - * configuration
-> - */
-> -#undef CONFIG_64BIT
-> -#undef CONFIG_X86_64
-> -#undef CONFIG_COMPAT
-> -#undef CONFIG_PGTABLE_LEVELS
-> -#undef CONFIG_ILLEGAL_POINTER_VALUE
-> -#undef CONFIG_SPARSEMEM_VMEMMAP
-> -#undef CONFIG_NR_CPUS
-> -#undef CONFIG_PARAVIRT_XXL
-> -
-> -#define CONFIG_X86_32 1
-> -#define CONFIG_PGTABLE_LEVELS 2
-> -#define CONFIG_PAGE_OFFSET 0
-> -#define CONFIG_ILLEGAL_POINTER_VALUE 0
-> -#define CONFIG_NR_CPUS 1
-> -
-> -#define BUILD_VDSO32_64
-> -
-> -#endif
-> -
-> +#include "fake_32bit_build.h"
->  #include "../vclock_gettime.c"
-> diff --git a/arch/x86/entry/vdso/vdso32/vgetcpu.c b/arch/x86/entry/vdso/vdso32/vgetcpu.c
-> index b777f84ffae9b..3a9791f5e9989 100644
-> --- a/arch/x86/entry/vdso/vdso32/vgetcpu.c
-> +++ b/arch/x86/entry/vdso/vdso32/vgetcpu.c
-> @@ -1,2 +1,3 @@
->  // SPDX-License-Identifier: GPL-2.0
-> +#include "fake_32bit_build.h"
->  #include "../vgetcpu.c"
-> -- 
-> 2.39.1
-> 
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/202302070742.iYcnoJwk-lkp@intel.com
+---
+ arch/x86/include/asm/vdso/gettimeofday.h | 2 ++
+ arch/x86/include/asm/vdso/processor.h    | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/arch/x86/include/asm/vdso/gettimeofday.h b/arch/x86/include/asm/vdso/gettimeofday.h
+index 1936f21ed8cd..4cf6794f9d68 100644
+--- a/arch/x86/include/asm/vdso/gettimeofday.h
++++ b/arch/x86/include/asm/vdso/gettimeofday.h
+@@ -318,6 +318,8 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
+ }
+ #define vdso_calc_delta vdso_calc_delta
+ 
++int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
++
+ #endif /* !__ASSEMBLY__ */
+ 
+ #endif /* __ASM_VDSO_GETTIMEOFDAY_H */
+diff --git a/arch/x86/include/asm/vdso/processor.h b/arch/x86/include/asm/vdso/processor.h
+index 57b1a7034c64..2cbce97d29ea 100644
+--- a/arch/x86/include/asm/vdso/processor.h
++++ b/arch/x86/include/asm/vdso/processor.h
+@@ -18,6 +18,10 @@ static __always_inline void cpu_relax(void)
+ 	rep_nop();
+ }
+ 
++struct getcpu_cache;
++
++notrace long __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused);
++
+ #endif /* __ASSEMBLY__ */
+ 
+ #endif /* __ASM_VDSO_PROCESSOR_H */
+-- 
+2.35.1
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
