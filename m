@@ -1,53 +1,62 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E581566B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 16:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675786459; x=1707322459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=piPvQsT8sg3M6OXkur43AQOlc9r+x7DRJBGS2pa/A0Q=;
-  b=TVkHyE0N2gjnTw98QxCrdU/4pvxWg4h9L5yY1QlAQvIJo7YQaWJtFi46
-   MdlIxi5YPEyOOEpCv3EX8km0pw7D+UCJ7G+h4mcX617XmOOL5cWN/X2aP
-   rG9/pmQa8OegBsM9nS0b6/rBltbxSolJ8OiWi58MOJoMXzY603cYn2OQy
-   wM9i9UDXCjeL6hPw/po2ibI6pbSk0CygLAS/yqdoQIDhAm0xYMVJHJ1jW
-   kcnxY/zfybEYEf9qTZ5OOkfy4znB7EWUKbAiVgYRMZ5i4kCFULmWpPI9V
-   kpCat1lYlQyMZwJFrzBGDMyLYVcvfiaPGoaWlpPT6U8V0QSDn6w5sGhah
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="309885590"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="309885590"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 08:14:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="699301774"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="699301774"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2023 08:14:10 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPQbh-0003gM-3A;
-	Tue, 07 Feb 2023 16:14:09 +0000
-Date: Wed, 8 Feb 2023 00:14:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: bchihi@baylibre.com, daniel.lezcano@linaro.org,
-	angelogioacchino.delregno@collabora.com, rafael@kernel.org,
-	amitk@kernel.org, rui.zhang@intel.com, matthias.bgg@gmail.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	rdunlap@infradead.org, ye.xingchen@zte.com.cn,
-	p.zabel@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	khilman@baylibre.com, james.lo@mediatek.com,
-	rex-bc.chen@mediatek.com
-Subject: Re: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to
- mediatek folder
-Message-ID: <202302080018.wNeWiKqz-lkp@intel.com>
-References: <20230207130958.608305-2-bchihi@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67520566F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 16:46:06 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id bg26so11496033wmb.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Feb 2023 08:46:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=organization:user-agent:in-reply-to:content-disposition
+         :mime-version:references:mail-followup-to:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MFe7KbGPSeSiCrhFu3zhIymixh3OVejotXYjmmT4LpA=;
+        b=Gr1bOpUrTTN7X/K/fLOPN5vew9r2fa91q2Nde7fpSRT50U/GoF5Lswai2TVum5/RNP
+         mJe2qiBdyE5QbCqFpsTRLDp8P7yQCxPpcGdXOFoRLMbg0OBzWkPOxRALs/tiBt23FgHk
+         JTIs684QjH39phmvgoUu7WBUobjKdnUOks9YnSPXJ069/TruMQir89LdtyNVqjCzDnaH
+         /rYMi9tuzIF0yhYWfg2ACyqHctWQhJuMORPK9WQmxm2OaXQdlwrH3qHvarND3eLWu4AZ
+         UeAczj6npmntd3HAztc90JpxC7XCdUwHmOGzBuX+I5w8e/QFLM0j15NHIco3JILtnyYN
+         myYg==
+X-Gm-Message-State: AO0yUKVMP0/49zXqZqMoKB/A91JybY6uX30KoDPG/7RJokY4GitfA9th
+	p5DvfujkDh76vAXyN7Q1niQf9A==
+X-Google-Smtp-Source: AK7set8IQRTQ5/BGaLtaTu+sYMcnNDZr8Z6VT4BBBa0DxPnIF8+SzZ7cxDlQ5DGsPVF0zKnkYP9LnQ==
+X-Received: by 2002:a05:600c:4b1b:b0:3d9:f836:3728 with SMTP id i27-20020a05600c4b1b00b003d9f8363728mr3707950wmp.11.1675788364490;
+        Tue, 07 Feb 2023 08:46:04 -0800 (PST)
+Received: from fedora (p549440c4.dip0.t-ipconnect.de. [84.148.64.196])
+        by smtp.gmail.com with ESMTPSA id t8-20020a05600c198800b003dff870ce0esm9043123wmq.2.2023.02.07.08.46.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 08:46:04 -0800 (PST)
+Date: Tue, 7 Feb 2023 17:45:59 +0100
+From: Damian Tometzki <dtometzki@fedoraproject.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: kernel test robot <lkp@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH] x86/vdso: Fake 32bit VDSO build on 64bit compile for
+ vgetcpu.
+Message-ID: <Y+KAR/Jxz4U30qST@fedora>
+Reply-To: Damian Tometzki <dtometzki@fedoraproject.org>
+Mail-Followup-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	kernel test robot <lkp@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>
+References: <202302071338.m7nBGR5i-lkp@intel.com>
+ <Y+IsCWQdXEr8d9Vy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,68 +65,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230207130958.608305-2-bchihi@baylibre.com>
+In-Reply-To: <Y+IsCWQdXEr8d9Vy@linutronix.de>
+User-Agent: Mutt
+Organization: Familie Tometzki
 
-Hi,
+Hello Sebastian,
+Linux Kernel build 6.2.0rc7 was successfully with clang-17.
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on a2c81dc59d41e92362ab7d41d0c15471ea50637d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
-base:   a2c81dc59d41e92362ab7d41d0c15471ea50637d
-patch link:    https://lore.kernel.org/r/20230207130958.608305-2-bchihi%40baylibre.com
-patch subject: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to mediatek folder
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080018.wNeWiKqz-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0eb89997925c0d7b47bbeee93016146fc660b259
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
-        git checkout 0eb89997925c0d7b47bbeee93016146fc660b259
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/thermal/mediatek/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/thermal/mediatek/auxadc_thermal.c:562: warning: expecting prototype for raw_to_mcelsius(). Prototype was for raw_to_mcelsius_v1() instead
+Many Thanks
+Damian Tometzki
 
 
-vim +562 drivers/thermal/mediatek/auxadc_thermal.c
-
-a4ffe6b52d27f4 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  551  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  552  /**
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  553   * raw_to_mcelsius - convert a raw ADC value to mcelsius
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  554   * @mt:	The thermal controller
-3772bb422072d4 drivers/thermal/mtk_thermal.c Amit Kucheria 2019-11-20  555   * @sensno:	sensor number
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  556   * @raw:	raw ADC value
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  557   *
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  558   * This converts the raw ADC value to mcelsius using the SoC specific
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  559   * calibration constants
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  560   */
-54bf1e5a629dfb drivers/thermal/mtk_thermal.c Henry Yen     2020-04-30  561  static int raw_to_mcelsius_v1(struct mtk_thermal *mt, int sensno, s32 raw)
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30 @562  {
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  563  	s32 tmp;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  564  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  565  	raw &= 0xfff;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  566  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  567  	tmp = 203450520 << 3;
-f84514766985d3 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  568  	tmp /= mt->conf->cali_val + mt->o_slope;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  569  	tmp /= 10000 + mt->adc_ge;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  570  	tmp *= raw - mt->vts[sensno] - 3350;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  571  	tmp >>= 3;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  572  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  573  	return mt->degc_cali * 500 - tmp;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  574  }
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  575  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On Tue, 07. Feb 11:46, Sebastian Andrzej Siewior wrote:
+> The 64bit register constrains in __arch_hweight64() can not be
+> fulfilled in a 32bit build. The function is only declared, not used
+> within vclock_gettime.c and gcc does not care. LLVM complains and
+> aborts.
+> 
+> Move the "fake a 32 bit kernel configuration" bits from vclock_gettime.c
+> into a common header file. Use this from vclock_gettime.c and vgetcpu.c.
+> 
+> Fixes: 92d33063c081a ("x86/vdso: Provide getcpu for x86-32.")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  arch/x86/entry/vdso/vdso32/fake_32bit_build.h | 25 +++++++++++++++++
+>  arch/x86/entry/vdso/vdso32/vclock_gettime.c   | 27 +------------------
+>  arch/x86/entry/vdso/vdso32/vgetcpu.c          |  1 +
+>  3 files changed, 27 insertions(+), 26 deletions(-)
+>  create mode 100644 arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> 
+> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> new file mode 100644
+> index 0000000000000..db1b15f686e32
+> --- /dev/null
+> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> @@ -0,0 +1,25 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifdef CONFIG_X86_64
+> +
+> +/*
+> + * in case of a 32 bit VDSO for a 64 bit kernel fake a 32 bit kernel
+> + * configuration
+> + */
+> +#undef CONFIG_64BIT
+> +#undef CONFIG_X86_64
+> +#undef CONFIG_COMPAT
+> +#undef CONFIG_PGTABLE_LEVELS
+> +#undef CONFIG_ILLEGAL_POINTER_VALUE
+> +#undef CONFIG_SPARSEMEM_VMEMMAP
+> +#undef CONFIG_NR_CPUS
+> +#undef CONFIG_PARAVIRT_XXL
+> +
+> +#define CONFIG_X86_32 1
+> +#define CONFIG_PGTABLE_LEVELS 2
+> +#define CONFIG_PAGE_OFFSET 0
+> +#define CONFIG_ILLEGAL_POINTER_VALUE 0
+> +#define CONFIG_NR_CPUS 1
+> +
+> +#define BUILD_VDSO32_64
+> +
+> +#endif
+> diff --git a/arch/x86/entry/vdso/vdso32/vclock_gettime.c b/arch/x86/entry/vdso/vdso32/vclock_gettime.c
+> index 283ed9d004267..86981decfea83 100644
+> --- a/arch/x86/entry/vdso/vdso32/vclock_gettime.c
+> +++ b/arch/x86/entry/vdso/vdso32/vclock_gettime.c
+> @@ -1,29 +1,4 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  #define BUILD_VDSO32
+> -
+> -#ifdef CONFIG_X86_64
+> -
+> -/*
+> - * in case of a 32 bit VDSO for a 64 bit kernel fake a 32 bit kernel
+> - * configuration
+> - */
+> -#undef CONFIG_64BIT
+> -#undef CONFIG_X86_64
+> -#undef CONFIG_COMPAT
+> -#undef CONFIG_PGTABLE_LEVELS
+> -#undef CONFIG_ILLEGAL_POINTER_VALUE
+> -#undef CONFIG_SPARSEMEM_VMEMMAP
+> -#undef CONFIG_NR_CPUS
+> -#undef CONFIG_PARAVIRT_XXL
+> -
+> -#define CONFIG_X86_32 1
+> -#define CONFIG_PGTABLE_LEVELS 2
+> -#define CONFIG_PAGE_OFFSET 0
+> -#define CONFIG_ILLEGAL_POINTER_VALUE 0
+> -#define CONFIG_NR_CPUS 1
+> -
+> -#define BUILD_VDSO32_64
+> -
+> -#endif
+> -
+> +#include "fake_32bit_build.h"
+>  #include "../vclock_gettime.c"
+> diff --git a/arch/x86/entry/vdso/vdso32/vgetcpu.c b/arch/x86/entry/vdso/vdso32/vgetcpu.c
+> index b777f84ffae9b..3a9791f5e9989 100644
+> --- a/arch/x86/entry/vdso/vdso32/vgetcpu.c
+> +++ b/arch/x86/entry/vdso/vdso32/vgetcpu.c
+> @@ -1,2 +1,3 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> +#include "fake_32bit_build.h"
+>  #include "../vgetcpu.c"
+> -- 
+> 2.39.1
+> 
