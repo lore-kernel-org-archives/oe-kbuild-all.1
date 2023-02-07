@@ -1,44 +1,45 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84663C3B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 18:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BD63C3B;
+	Tue,  7 Feb 2023 18:59:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675796375; x=1707332375;
+  t=1675796377; x=1707332377;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n+jyDIY1VTrBJqivo1p2qwVv+gZmGotmo2QAQNWWNuI=;
-  b=JOJBp62Z71VjVeoVY3j/iii4O+5udRzInOLKvHjcA+v91mXJVxF7P/UQ
-   v/n+uy7/Ia06wJoNRxum9lwxMLBEJsbe1fDlS+rc6CM9NCu00gKpP4yww
-   fX0AgnHpw4u9A+3F7BPKbZ1WGScaO48ksYe/RpIi3yBbKUL+idy2VBGHI
-   wLgVdmtJ1Ly1lDa1H42To8DMB/YVZtFKQm/q5/vlnasTxvYHSHoBMEiaR
-   0ie1DNhdw+9Nm+3zSnhnEs+hVrSnxSrY3Hjg+/+EaWcKxZXc26MlUpqSE
-   XsIS2BY7pnnUt0x2ZpCZs/AnRVILkaq6rJmjDasHzp7My0LhyfCgpO+dA
+  bh=/Mp6NMgwj0IL6KwFesw0L/HixzVcJnlIbK4zO/yOc6o=;
+  b=TzBFZZ0ZRZydZlTYHUFLK55PdOnL9o+adfr/ebq2ZitoVpkZ3jPdkMC3
+   isZLKcvo+GUOSLUK8O2N7FdSnF4Ha0SxnhNFPbJr+Hp+jZmSXCAF1S4/R
+   DgEjwOFSRqycyqfEYDEyjFPKb4OAADZBQPsp80tpSDsLsa1nemYc0wsPg
+   JH36Ou6wsD6vm5WV745N2RrGUrd4rBetP+5jlUPQTubB8y5xdWfl0zghM
+   TCNe/eZ/8pIYKwTOVhdveUsqxmudl5vfLxdTyCEYv73EBpg18VnRXwr2b
+   /TRDaw9/30kDep/R3VMVrwLSYwCY+oWEzkxKl4kqIcVMA4UYOzRQZBE8I
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415817698"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415817701"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="415817698"
+   d="scan'208";a="415817701"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 10:59:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="755729480"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="755729481"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="755729480"
+   d="scan'208";a="755729481"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2023 10:59:34 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPTBf-0003nK-2i;
+	id 1pPTBf-0003nI-2Y;
 	Tue, 07 Feb 2023 18:59:27 +0000
-Date: Wed, 8 Feb 2023 02:59:04 +0800
+Date: Wed, 8 Feb 2023 02:59:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 14467/20209]
- drivers/gpu/drm/imx/dw_mipi_dsi-imx.c:612:24: error:
- 'dw_mipi_dsi_imx_pm_ops' undeclared here (not in a function); did you mean
- 'dw_mipi_dsi_imx_phy_ops'?
-Message-ID: <202302080227.ZOxFkRFx-lkp@intel.com>
+To: Patrisious Haddad <phaddad@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Mark Zhang <markzhang@nvidia.com>
+Subject: include/linux/fortify-string.h:414:4: error: call to
+ '__read_overflow' declared with 'error' attribute: detected read beyond size
+ of object (1st parameter)
+Message-ID: <202302080231.ZqOmpanX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +49,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: 1db07ceeb7e35318fab75e5069c5e33466b7e202 [14467/20209] LF-6251-2 drm/imx: Add i.MX93 Synopsys DesignWare MIPI DSI controller support
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080227.ZOxFkRFx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
+commit: 925d046e7e52c71c3531199ce137e141807ef740 RDMA/core: Add a netevent notifier to cma
+date:   8 months ago
+config: mips-buildonly-randconfig-r006-20230207 (https://download.01.org/0day-ci/archive/20230208/202302080231.ZqOmpanX-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/1db07ceeb7e35318fab75e5069c5e33466b7e202
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout 1db07ceeb7e35318fab75e5069c5e33466b7e202
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=925d046e7e52c71c3531199ce137e141807ef740
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 925d046e7e52c71c3531199ce137e141807ef740
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/infiniband/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/imx/dw_mipi_dsi-imx.c:612:24: error: 'dw_mipi_dsi_imx_pm_ops' undeclared here (not in a function); did you mean 'dw_mipi_dsi_imx_phy_ops'?
-     612 |                 .pm = &dw_mipi_dsi_imx_pm_ops,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        dw_mipi_dsi_imx_phy_ops
+   In file included from drivers/infiniband/core/cma.c:9:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:55:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/mips/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/mips/include/asm/thread_info.h:16:
+   In file included from arch/mips/include/asm/processor.h:15:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:11:
+   In file included from include/linux/string.h:253:
+>> include/linux/fortify-string.h:414:4: error: call to '__read_overflow' declared with 'error' attribute: detected read beyond size of object (1st parameter)
+                           __read_overflow();
+                           ^
+   1 error generated.
 
 
-vim +612 drivers/gpu/drm/imx/dw_mipi_dsi-imx.c
+vim +414 include/linux/fortify-string.h
 
-   605	
-   606	struct platform_driver dw_mipi_dsi_imx_driver = {
-   607		.probe	= dw_mipi_dsi_imx_probe,
-   608		.remove	= dw_mipi_dsi_imx_remove,
-   609		.driver	= {
-   610			.of_match_table = dw_mipi_dsi_imx_dt_ids,
-   611			.name = "dw-mipi-dsi-imx",
- > 612			.pm = &dw_mipi_dsi_imx_pm_ops,
-   613		},
-   614	};
-   615	
+a28a6e860c6cf2 Francis Laniel 2021-02-25  405  
+92df138a8d663c Kees Cook      2022-02-08  406  __FORTIFY_INLINE __diagnose_as(__builtin_memcmp, 1, 2, 3)
+281d0c962752fb Kees Cook      2022-02-08  407  int memcmp(const void * const POS0 p, const void * const POS0 q, __kernel_size_t size)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  408  {
+a28a6e860c6cf2 Francis Laniel 2021-02-25  409  	size_t p_size = __builtin_object_size(p, 0);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  410  	size_t q_size = __builtin_object_size(q, 0);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  411  
+a28a6e860c6cf2 Francis Laniel 2021-02-25  412  	if (__builtin_constant_p(size)) {
+a28a6e860c6cf2 Francis Laniel 2021-02-25  413  		if (p_size < size)
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @414  			__read_overflow();
+a28a6e860c6cf2 Francis Laniel 2021-02-25  415  		if (q_size < size)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  416  			__read_overflow2();
+a28a6e860c6cf2 Francis Laniel 2021-02-25  417  	}
+a28a6e860c6cf2 Francis Laniel 2021-02-25  418  	if (p_size < size || q_size < size)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  419  		fortify_panic(__func__);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  420  	return __underlying_memcmp(p, q, size);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  421  }
+a28a6e860c6cf2 Francis Laniel 2021-02-25  422  
+
+:::::: The code at line 414 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
