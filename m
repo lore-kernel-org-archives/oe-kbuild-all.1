@@ -1,58 +1,51 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F9719B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 23:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675811806; x=1707347806;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STI6p7MWc4YADHC7iNdmUKpnTsVLSGk6u5h6DbhqFKA=;
-  b=kSJUV6rwGwGhAFS2JFI5RWhSZN2VtcOxNziFSYBWNZfE37DTuYDFM2wQ
-   X9040yObYMTmv4MwI+jVkG52WU0chMtQFhzfamAiaZAyihiAkgT/7dore
-   4xTuPnKfc0rLY3s7cGDprMnbCVApoacczZmDezOjaI6iyUo78vQpdPVuL
-   695SuFFPOZPOqI6TPnxLkRXKptnQMn5KV7xJhfPPmdvEGJhSZzCQfPfJa
-   Lae2Hdf9+8ORTH2sd21tWxjJR8+F5+SyxcDJvtAMGmkziN+akGV5043mC
-   C+dHfrt41J1pGk004JAmOT7+E6OT+TwIdXUm+elKKwaM/31KoxsX7T4Wn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415875345"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="415875345"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 15:16:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="790978634"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="790978634"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Feb 2023 15:16:39 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPXCZ-0003yH-0G;
-	Tue, 07 Feb 2023 23:16:39 +0000
-Date: Wed, 8 Feb 2023 07:16:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Evan Green <evan@rivosinc.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Conor Dooley <conor@kernel.org>,
-	vineetg@rivosinc.com, heiko@sntech.de, slewis@rivosinc.com,
-	Evan Green <evan@rivosinc.com>, Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Bresticker <abrestic@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Anup Patel <apatel@ventanamicro.com>, Arnd Bergmann <arnd@arndb.de>,
-	Atish Patra <atishp@rivosinc.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Celeste Liu <coelacanthus@outlook.com>, Dao Lu <daolu@rivosinc.com>,
-	Guo Ren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ruizhe Pan <c141028@gmail.com>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Tobias Klauser <tklauser@distanz.ch>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-Message-ID: <202302080600.xT7BtKan-lkp@intel.com>
-References: <20230206201455.1790329-3-evan@rivosinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F4319B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 23:34:16 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id w5so7350100plg.8
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Feb 2023 15:34:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UyGodDrgVbW0z9vHbO6dRS1h5TgV34tLPKV1nOObYPE=;
+        b=eyDR2QFCECgTVpU6uBT0rgxpJkwoETu4DtvRB4vzaVFyRBSXdvc2nAkwl4ardBete4
+         1jjkX8UJ/zCN3xq/1mTTeryi2J/N3f+aJkduSxSASkpHpt7KA9vmAxYqZrOswzs1xw+Q
+         y4OorlG2BJJ41HQVl/8eSpwQudZ4d7wD56Qk8YcRUoSqI8s7GmJT3bV/8PehDH5ieD0M
+         3zl6TR2PxOSuquqTCmn2gN3YYfI208/mCG+fVwApw7XOSakrt6pe5e+Kg2qo5F9bz02g
+         tofyVABcUz6g1RfL27w2if3IOlBdbNPAuTQRyDZfHkFX/o/oS9BoZZNCk3nxvUKHr3FP
+         FzQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UyGodDrgVbW0z9vHbO6dRS1h5TgV34tLPKV1nOObYPE=;
+        b=8O+b9SlGls0fwCOiFL5dkO8pJwpr8YcMfApnT5XAZrcIJa4ikfCsUOyy+y6pWNq7p4
+         4EgNd0wNRQqtp5joF46C7NwVZ24gdwAmYKY9hH4o0rAyvqlVDQ6Z7pQmXT7npYDeB8UF
+         iA7Ay+mfqQJkh3cNyY0ltSPAG15pI3rrHtrC2r7Xt5NNEs8Rv3Jjc/mFbz8Gu7OxudHd
+         WitkJmID9fW2sj/eM4NsiEFD66M0/F3ltiDuD0l4X9cCEwH4AsIcngZmlaOk4+ahRWJf
+         t16DvUiBZVRSEJ4P1OAkjoyQjpbkJxGJsLLiB1mlaaZcmLwhGN7lxMlah240BupuYfhJ
+         bPNg==
+X-Gm-Message-State: AO0yUKXNCWxeXTs9u/10tPCQPz5xv8e8ZyztH51wM/v3wnrG5EvaXmNX
+	94ShrIs64T8IzEf1YUM6Sqp/dw==
+X-Google-Smtp-Source: AK7set/YVwxb1mXwzCS5mGYWzZJA9CeM/GgF0TebmxygOCWPdcLln7kuV0tn96ZC9SaW8voyRbgmfA==
+X-Received: by 2002:a17:902:d502:b0:198:af50:e4de with SMTP id b2-20020a170902d50200b00198af50e4demr84917plg.4.1675812855533;
+        Tue, 07 Feb 2023 15:34:15 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id c6-20020a17090a1d0600b00229b17bb1e8sm83823pjd.34.2023.02.07.15.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 15:34:15 -0800 (PST)
+Date: Tue, 7 Feb 2023 23:34:11 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast
+ truncates bits from constant value (ffffffffff000 becomes fffff000)
+Message-ID: <Y+Lf8w9h29cRmcJG@google.com>
+References: <202302070638.iEBPQ4gL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,44 +54,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230206201455.1790329-3-evan@rivosinc.com>
+In-Reply-To: <202302070638.iEBPQ4gL-lkp@intel.com>
 
-Hi Evan,
+On Tue, Feb 07, 2023, kernel test robot wrote:
+> Hi Sean,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Thank you for the patch! Perhaps something to improve:
+Is there a way to mark this as "working as intended"?  The truncation is intentional.
+I've been ignoring the reports, but they just keep coming :-)
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes robh/for-next soc/for-next linus/master v6.2-rc7 next-20230207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230206201455.1790329-3-evan%40rivosinc.com
-patch subject: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/4a91a9ca5d81029b702e6e74c8f2015cf50af0ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
-        git checkout 4a91a9ca5d81029b702e6e74c8f2015cf50af0ae
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/riscv/hwprobe.rst:33: WARNING: Field list ends without a blank line; unexpected unindent.
-
-vim +33 Documentation/riscv/hwprobe.rst
-
-    31	
-    32	* :RISCV_HWPROBE_KEY_MVENDORID:: Contains the value of :mvendorid:, as per the
-  > 33	  ISA specifications.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   d2d11f342b179f1894a901f143ec7c008caba43e
+> commit: 70e41c31bc7776b262cd9f524df3dfc2b5869a0a KVM: x86/mmu: Use common logic for computing the 32/64-bit base PA mask
+> date:   8 months ago
+> config: x86_64-randconfig-s023-20230206 (https://download.01.org/0day-ci/archive/20230207/202302070638.iEBPQ4gL-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce:
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=70e41c31bc7776b262cd9f524df3dfc2b5869a0a
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 70e41c31bc7776b262cd9f524df3dfc2b5869a0a
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+>         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    arch/x86/kvm/mmu/mmu.c:610:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_begin' - different lock contexts for basic block
+>    arch/x86/kvm/mmu/mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, arch/x86/kvm/irq.h):
+>    include/linux/rcupdate.h:726:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_end' - unexpected unlock
+>    arch/x86/kvm/mmu/mmu.c:2550:9: sparse: sparse: context imbalance in 'mmu_try_to_unsync_pages' - different lock contexts for basic block
+>    arch/x86/kvm/mmu/mmu.c: note: in included file:
+> >> arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+>    arch/x86/kvm/mmu/paging_tmpl.h:426:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+>    arch/x86/kvm/mmu/mmu.c:4618:57: sparse: sparse: cast truncates bits from constant value (ffffff33 becomes 33)
+>    arch/x86/kvm/mmu/mmu.c:4620:56: sparse: sparse: cast truncates bits from constant value (ffffff0f becomes f)
+>    arch/x86/kvm/mmu/mmu.c:4622:57: sparse: sparse: cast truncates bits from constant value (ffffff55 becomes 55)
+> 
+> vim +106 arch/x86/kvm/mmu/paging_tmpl.h
+> 
+> b3fcdb04a98035 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2022-06-14  103  
+> e04da980c35d75 arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2009-07-27  104  static gfn_t gpte_to_gfn_lvl(pt_element_t gpte, int lvl)
+> 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  105  {
+> e04da980c35d75 arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2009-07-27 @106  	return (gpte & PT_LVL_ADDR_MASK(lvl)) >> PAGE_SHIFT;
+> 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  107  }
+> 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  108  
+> 
+> :::::: The code at line 106 was first introduced by commit
+> :::::: e04da980c35d75fa050ba4009ad99025432d8d7d KVM: MMU: make page walker aware of mapping levels
+> 
+> :::::: TO: Joerg Roedel <joerg.roedel@amd.com>
+> :::::: CC: Avi Kivity <avi@redhat.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
