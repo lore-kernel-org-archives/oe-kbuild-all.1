@@ -1,44 +1,49 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8582CBD14;
-	Tue,  7 Feb 2023 04:17:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675743455; x=1707279455;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l/hW9W9VG9B5eYsz9SDZNPiyr2Q0yhO2RZk0wdJgkSw=;
-  b=PNzVUdr45PzAeSD6rhpw19p1ntjYCfQK3b2/6RO/FMor7OZRrRRVzb1F
-   RciW8GKp40z56Q6o3MquvtWO2thkz05jNo9INPeqHAMy3XYNX+EQRDPF2
-   oe2FqlNivM6LeHlsjmVDSvNBXojXCIQv9jF1E0Mcfdb7rQzCskJOo37bL
-   I+KGCe5YAT1we3zfrpK3C9t+SDGcIvvCArTvPQpLr6MeN7BgZ0xnuJ9M7
-   ojtZ7QlbHUnx4lMa6lONuiAstTMimKF7ePoP5hjLqs7ocpCqjQ7V6136W
-   zyiUzQ48jYwg43NNHYkvPQTEdhA7sd6K5saWNg1UIUiVkOYftCxYvhvnJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="330690189"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="330690189"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 20:17:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="668645444"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="668645444"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Feb 2023 20:17:33 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPFQC-00033q-3A;
-	Tue, 07 Feb 2023 04:17:32 +0000
-Date: Tue, 7 Feb 2023 12:17:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter-upstream 23/31]
- arch/x86/coco/tdx/filter.c:21:13: warning: unused variable
- 'filter_overridden'
-Message-ID: <202302071239.MJSQ1SNL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336617F7;
+	Tue,  7 Feb 2023 05:24:11 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id bk16so12400854wrb.11;
+        Mon, 06 Feb 2023 21:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+nYuhbxKTv5gi6L1XYKUM1gFnaEBIaYUpfy7Ajj2Og4=;
+        b=ZpLwX5rdBMx76S2XuTJhiI7PAGFvjhQNAQkISNf257JeW7/sSq7IbVugNcJZIfRY5q
+         8CECkTdCDnfPQYhGJFVqLSQIsk+ldpp8vYkXrrjvYg8R5Dykn0d+1PVRTMnVcXu6rib6
+         xxeDFX3F5BIjMzK6G72LdZvI4lYa0EtCNmA477KBjie8Pg5cazxpjAyV34jV/6eZkcme
+         s/zRBd9W2bRoKh3KhAbDzTCMr8HjWMF80QWnZlZhSkDFUvqQwQPHw88DqQjeECD9YOMF
+         QEkElEJuD18xZtZBkkSjhgeRLifIJofN32l9YI6oLQRVo4DASCfJ6vfO7an4ebyrbHb8
+         ylVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+nYuhbxKTv5gi6L1XYKUM1gFnaEBIaYUpfy7Ajj2Og4=;
+        b=7U5YX6byoO+4I139AypqFDTdF0xRiVd0qexSpe4YQdDklFqxnWfx+t0RPDZQz1Tv1M
+         USzWVnrRoPLLLkxws5BgRUQ3KRJIytwxY17+QUqDxqHHeV8ePbYx5DBEFq3IvLKFkGdG
+         3f8LonJm+AMYg6aMQBxC4eHWoe+74cnttYTgK1M+RvSQSTW2zWag9VpNNwHty8hrVG+6
+         xyZ6+FJ8U1b7Vj5PRW7AIcR0ZL0wRb5RcyarOoAW7+5mNPdb2TEwYh+cA9yAmTQOx1ey
+         M2SuVs+hgClsuU0M8qdyo8UQa/1xhfG9dhY/JdQLBBXK/0H4sIrj6bkaLvoh3QorvG1M
+         tEiw==
+X-Gm-Message-State: AO0yUKXub5lHd1rHuLXSWnvTcOHnBvgCtIY7bwZvxkgkX3SCzcaoSaP3
+	yTl1C8ce8lDhDzUXG+U/ZK6jiX9UVrbpsHNK
+X-Google-Smtp-Source: AK7set/9391XXQJFm/ayxAByr9OiRzBjY4xS/qXEQl57LoOan/+NrBKWhxgEcmpyiKmkZSEPSsus1A==
+X-Received: by 2002:a5d:595f:0:b0:2c3:d8f0:547a with SMTP id e31-20020a5d595f000000b002c3d8f0547amr1371145wri.1.1675747449853;
+        Mon, 06 Feb 2023 21:24:09 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l13-20020adffe8d000000b002bfbda53b98sm7341176wrr.35.2023.02.06.21.24.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Feb 2023 21:24:09 -0800 (PST)
+Date: Tue, 7 Feb 2023 08:24:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [niks:dma_iommu_v5 4/7] drivers/iommu/s390-iommu.c:713
+ zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see
+ line 713)
+Message-ID: <202302071312.P2C14gaH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,41 +53,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-filter-upstream
-head:   fd61f2d2a82f5c0c284fa3f074bae5016c39e7bc
-commit: 4f14697c74172d5614c9ee8f1d5a6c55dd9fdbbf [23/31] x86/tdx: Add a command line option to add new ACPI tables to the filter
-config: x86_64-randconfig-a001-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071239.MJSQ1SNL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/4f14697c74172d5614c9ee8f1d5a6c55dd9fdbbf
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter-upstream
-        git checkout 4f14697c74172d5614c9ee8f1d5a6c55dd9fdbbf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/coco/tdx/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git dma_iommu_v5
+head:   1130d11df3ad4a18aada280e80da35911239b4ad
+commit: 4dd8a9e92a898af65c84631f354f51a8b9f9ff09 [4/7] s390/pci: Use dma-iommu layer
+config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071312.P2C14gaH-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iommu/s390-iommu.c:713 zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see line 713)
 
->> arch/x86/coco/tdx/filter.c:21:13: warning: unused variable 'filter_overridden' [-Wunused-variable]
-   static bool filter_overridden;
-               ^
-   1 warning generated.
+vim +/zdev +713 drivers/iommu/s390-iommu.c
 
+4dd8a9e92a898a Niklas Schnelle 2022-07-01  711  struct zpci_iommu_ctrs *zpci_get_iommu_ctrs(struct zpci_dev *zdev)
+4dd8a9e92a898a Niklas Schnelle 2022-07-01  712  {
+4dd8a9e92a898a Niklas Schnelle 2022-07-01 @713  	if (!zdev && !zdev->s390_domain)
 
-vim +/filter_overridden +21 arch/x86/coco/tdx/filter.c
+Should be || instead of &&.
 
-    19	
-    20	/* Set true if authorize_allow_devs is used */
-  > 21	static bool filter_overridden;
-    22	
+4dd8a9e92a898a Niklas Schnelle 2022-07-01  714  		return NULL;
+4dd8a9e92a898a Niklas Schnelle 2022-07-01  715  	return &zdev->s390_domain->ctrs;
+4dd8a9e92a898a Niklas Schnelle 2022-07-01  716  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
