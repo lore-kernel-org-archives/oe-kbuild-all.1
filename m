@@ -1,50 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEDABD0B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 03:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB3CBD0D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 03:16:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675739193; x=1707275193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YigXQ2LSr3ITNvRgdHDzSl8lcf5xe5hJv8rmEHqLs7c=;
-  b=djtwViO0AClI2M79KGYsTYgWqiGs6fieUTjNaovOE++B8RoZHPNuRLVJ
-   KyiOzsKmwXRkmSvqszKqVab998IeLmDK7Zmd/E1+E67WRP50bFJOGMCdX
-   BggCTO8PQbBm0TgOIxOGiOhNFb9rRK7YX1AjJBW5nL7nS7AXbRsattKqa
-   W7AD8BvSWZL3je2anUc09IuY7dm0qIw+pWok0ChQwuigiAccK4o/Etjx+
-   Pb75M/ZqN2xhEVlR2hc6vmIV9/MRt2WXfcIT6VekWqndIJk048rxxcE0b
-   8NeMUcInqaWcPDcGZPcPFmdhnPl4CtvaOmBH1lD+1DIxz26lH01KVdrNB
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="327075184"
+  t=1675739791; x=1707275791;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hyGkyclUKPRGLMHHtkS6zKtSCrno8NaSDmImJgJCaZY=;
+  b=Z8qNgS1b+Hb0PNMW5+cUbu7RzEgHRLx7mPD3W7GCc3BiqOeEKdH8S3Nt
+   ZGkdNefiKOLDpbg9oks/3yokAdKY0bJo7blFgqhxcb1U/xyuJ4BHvzj7A
+   YjJu9PmLPSQFgoHQ/najTndAVn+CmyOnr5R+CciFyxxHUIu9yyRLH1sjA
+   QZr6E1d2m7pb/26rsujwqR9PesKhZmErFaSRCf8THCX0JACNS7nhylf3h
+   OE6emYCZ52xwKIG1h6Ug83/1zx7LoCibvGFPnAWytv99U9tsmktjhd4Qu
+   Fk3Zf2G5UaCUJRm1BZItt6jSnIsmLrNOIkqfofHhZrZdTlyS3f2SJgYZ/
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="331525896"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="327075184"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 19:06:33 -0800
+   d="scan'208";a="331525896"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 19:16:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="730238373"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="995580100"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="730238373"
+   d="scan'208";a="995580100"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2023 19:06:29 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 06 Feb 2023 19:16:29 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPEJQ-0002zW-17;
-	Tue, 07 Feb 2023 03:06:28 +0000
-Date: Tue, 7 Feb 2023 11:05:49 +0800
+	id 1pPET6-0002zq-2M;
+	Tue, 07 Feb 2023 03:16:28 +0000
+Date: Tue, 7 Feb 2023 11:16:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	daniel.lezcano@linaro.org, tglx@linutronix.de,
-	virtualization@lists.linux-foundation.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
-	ssengar@microsoft.com, dphadke@linux.microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 6/6] Driver: VMBus: Add device tree support
-Message-ID: <202302071011.XjQOfXVK-lkp@intel.com>
-References: <1675706060-22361-7-git-send-email-ssengar@linux.microsoft.com>
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [linux-next:master 9327/10565]
+ drivers/powercap/idle_inject.c:130:40-42: WARNING !A || A && B is equivalent
+ to !A || B
+Message-ID: <202302071107.cFKQxtEz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,62 +48,18 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1675706060-22361-7-git-send-email-ssengar@linux.microsoft.com>
 
-Hi Saurabh,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on next-20230206]
-[cannot apply to robh/for-next tip/timers/core brgl/gpio/for-next wsa/i2c/for-next linus/master v6.2-rc7 v6.2-rc6 v6.2-rc5 v6.2-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-015625
-patch link:    https://lore.kernel.org/r/1675706060-22361-7-git-send-email-ssengar%40linux.microsoft.com
-patch subject: [PATCH v3 6/6] Driver: VMBus: Add device tree support
-config: i386-randconfig-a014-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071011.XjQOfXVK-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   129af770823407ee115a56c69a04b440fd2fbe61
+commit: acbc661032b8aa0e8359ac77074769ade34a176c [9327/10565] powercap: idle_inject: Add update callback
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230207/202302071107.cFKQxtEz-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/121473f34bab66918912399f1cfe9e06a9ea0294
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-015625
-        git checkout 121473f34bab66918912399f1cfe9e06a9ea0294
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
-
-   drivers/hv/vmbus_drv.c: In function 'vmbus_mmio_remove':
-   drivers/hv/vmbus_drv.c:2285:1: error: no return statement in function returning non-void [-Werror=return-type]
-    2285 | }
-         | ^
-   At top level:
->> drivers/hv/vmbus_drv.c:2691:34: warning: 'vmbus_of_match' defined but not used [-Wunused-const-variable=]
-    2691 | static const struct of_device_id vmbus_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/vmbus_of_match +2691 drivers/hv/vmbus_drv.c
-
-  2690	
-> 2691	static const struct of_device_id vmbus_of_match[] = {
-  2692		{
-  2693			.compatible = "microsoft,vmbus",
-  2694		},
-  2695		{
-  2696			/* sentinel */
-  2697		},
-  2698	};
-  2699	MODULE_DEVICE_TABLE(of, vmbus_of_match);
-  2700	
+cocci warnings: (new ones prefixed by >>)
+>> drivers/powercap/idle_inject.c:130:40-42: WARNING !A || A && B is equivalent to !A || B
 
 -- 
 0-DAY CI Kernel Test Service
