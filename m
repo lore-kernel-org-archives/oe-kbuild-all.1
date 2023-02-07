@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A912747F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 19:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE3A747F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 20:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675798471; x=1707334471;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=IdUD/f1dcDeWmsY/fkz1o45yPvTUbO5WZf1tvtrEa8k=;
-  b=ZliLet1uWlydbLCTkOIsQbTjJ1nvpMqWa+ek+ykVrozldvw5DbdE0tDY
-   +A2nAhGudJIRicomEab4KoiNvYnyMicR/BF+YZcjA7TcN6ymrJirPt22D
-   1m7SaiRW/zR2yfcz8VUTGVVwc7xUOsuVi647U2Qa1vqGK9lmuSd67GUMT
-   YwBf0YjrOYq01WVwqr0KRScrV3Nl/8oUqRg1YK3EDkRJPkudbcYwpDvI4
-   ojZByp0IL+Dxs5aJcra8qgQcxaP5vegdm1EXQMAn27AXSYliXkXuEotbB
-   EqtIbsrWgJO5O+AW5Mq7nVAqhzrvWiSymaSGLc34ravUimB3qUODqNxJH
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="330896294"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="330896294"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 11:34:30 -0800
+  t=1675800093; x=1707336093;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4xIeivNeheGV10GaSYDAa//tf69jn6+aAcKRYxVOcsw=;
+  b=Rh4Jg3ijQ47McPhUvkMfdC8sANCt0PIj18XxGcLMHJ2WXiAOG7YG9Ep0
+   xwYb19ocJOuNhfXy+y+Q9ahnzfyhWXjCavzYgXWuiWxa3+TvUXM6JoYHz
+   DQPpQSHL+Gf0pcDm+cViCxM6IpPV0bU8EqnINzF8r16/+l0BJeTDe3QnK
+   +i3YhGcbU8V/5BNwCJR9MIi6usYbfdawsbuPpE3eDiEWWoYXxexJZk5fl
+   YgFcBnE6Mc7kBr46oiKthFRDnztlGFu4I1BL7Z4OZ3DgUKnIC4DyOkRaq
+   irQn2PZZF2iMoeLm5unVK3cSNCjwWcqCilGB1GlpBjDAqXytPCQsGxrm9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="327304274"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="327304274"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 12:01:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="666957843"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="666957843"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="790922519"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="790922519"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Feb 2023 11:34:29 -0800
+  by orsmga004.jf.intel.com with ESMTP; 07 Feb 2023 12:01:30 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPTjZ-0003p8-0d;
-	Tue, 07 Feb 2023 19:34:29 +0000
-Date: Wed, 8 Feb 2023 03:34:09 +0800
+	id 1pPU9i-0003qY-0Q;
+	Tue, 07 Feb 2023 20:01:30 +0000
+Date: Wed, 8 Feb 2023 04:00:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ronak Doshi <doshir@vmware.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net ] vmxnet3: move rss code block under eop descriptor
-Message-ID: <Y+KnsSL57EdGWzwC@a5b9dd7d9a79>
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-can@vger.kernel.org
+Subject: [mkl-can-next:testing 42/51] drivers/net/can/dev/bittiming.c:79:24:
+ error: too many arguments to function 'can_calc_bittiming'
+Message-ID: <202302080358.PGPjdXwE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +45,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230207192849.2732-1-doshir@vmware.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
+head:   3dafbe5cc1409dd2e3fc2955b0026c1ba7dfa323
+commit: 286c0e09e8e07de0f116a01aa234b05d9956dcf5 [42/51] can: bittiming: can_changelink() pass extack down callstack
+config: parisc-randconfig-r026-20230205 (https://download.01.org/0day-ci/archive/20230208/202302080358.PGPjdXwE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/commit/?id=286c0e09e8e07de0f116a01aa234b05d9956dcf5
+        git remote add mkl-can-next https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git
+        git fetch --no-tags mkl-can-next testing
+        git checkout 286c0e09e8e07de0f116a01aa234b05d9956dcf5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/net/can/dev/
 
-Thanks for your patch.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH net ] vmxnet3: move rss code block under eop descriptor
-Link: https://lore.kernel.org/stable/20230207192849.2732-1-doshir%40vmware.com
+   drivers/net/can/dev/bittiming.c: In function 'can_get_bittiming':
+>> drivers/net/can/dev/bittiming.c:79:24: error: too many arguments to function 'can_calc_bittiming'
+      79 |                 return can_calc_bittiming(dev, bt, btc, extack);
+         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/can/dev.h:18,
+                    from drivers/net/can/dev/bittiming.c:7:
+   include/linux/can/bittiming.h:126:1: note: declared here
+     126 | can_calc_bittiming(const struct net_device *dev, struct can_bittiming *bt,
+         | ^~~~~~~~~~~~~~~~~~
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+
+vim +/can_calc_bittiming +79 drivers/net/can/dev/bittiming.c
+
+    66	
+    67	int can_get_bittiming(const struct net_device *dev, struct can_bittiming *bt,
+    68			      const struct can_bittiming_const *btc,
+    69			      const u32 *bitrate_const,
+    70			      const unsigned int bitrate_const_cnt,
+    71			      struct netlink_ext_ack *extack)
+    72	{
+    73		/* Depending on the given can_bittiming parameter structure the CAN
+    74		 * timing parameters are calculated based on the provided bitrate OR
+    75		 * alternatively the CAN timing parameters (tq, prop_seg, etc.) are
+    76		 * provided directly which are then checked and fixed up.
+    77		 */
+    78		if (!bt->tq && bt->bitrate && btc)
+  > 79			return can_calc_bittiming(dev, bt, btc, extack);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
