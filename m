@@ -1,113 +1,79 @@
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023A5566F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 17:07:51 +0000 (UTC)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C88861EC047F;
-	Tue,  7 Feb 2023 18:07:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-	t=1675789669;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1dJoMuVzuM1aNIUSF1OCPBNvUwYGuGQIxuTeKwLrK5w=;
-	b=Uhyh6ZfV/ahAjSQ0cPYrVUYGf5cTuLra9t8WWSpM4l7ChwGejDFE4jrsJMmJKHus4pPniA
-	E5K0dO2JTviani/IKpgHQFpPUCMVi9nJ1AUDAJA62FVdCkK8XH5jJ9V1rP2lY1Y1anCa9A
-	MviDLTkvykfl4oL16RQjm8FdzZJ/jpQ=
-Date: Tue, 7 Feb 2023 18:07:45 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [tip:x86/vdso 3/4] arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1:
- warning: no previous prototype for '__vdso_getcpu'
-Message-ID: <Y+KFYUqM5pT7iuoK@zn.tnic>
-References: <202302070742.iYcnoJwk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C61D566F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 17:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675789692; x=1707325692;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yH6Wwz3ZZw5Av4IeTLBRjMyIIgfqSbdQA1nrEuy12Ac=;
+  b=fUcdwOgVqAHvvELciNoDZ5VyhwPwAXCl2QwNOPJIKsduqc0Xr9DzemVR
+   PwjRDctWUVLYA2aE62zTZdJgrtPeGGIWMYdw1gCLdB44kQbyLNWuQDH2L
+   s1SW29UzN1o0NmfHfr1Mdu3LSIZ4I34kaiGImTKzvSIjjlc2SVR4NjV5e
+   QGowhzTsIz5mS5O0enf/IbZAgeQ8jWiL28vB3LyF+TErHC14DuPcTfRQR
+   uaFHVE8JHz0NjORlW8ez/o7mfkTjqH9m//vWgWyuRADVnkPlPu+amZBuX
+   L/TweuUDStxuv2AdIq16ncKzUUEB8PM9OYMGSZ54bne49GaZBgvPRepcK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="328209981"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="328209981"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 09:06:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="755687590"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="755687590"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2023 09:05:15 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPRP8-0003jW-39;
+	Tue, 07 Feb 2023 17:05:14 +0000
+Date: Wed, 08 Feb 2023 01:04:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: [lkp] [+906 bytes kernel size regression] [i386-tinyconfig]
+ [093a3d80e1] iov_iter: Add a function to extract a page list from an
+ iterator
+Message-ID: <63e28495.fFPZYIjkuSAZmjxA%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202302070742.iYcnoJwk-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 07, 2023 at 07:41:54AM +0800, kernel test robot wrote:
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
-> >> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for '__vdso_getcpu' [-Wmissing-prototypes]
->       13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
->          | ^~~~~~~~~~~~~
 
----
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Tue, 7 Feb 2023 16:13:24 +0100
-Subject: [PATCH] x86/vdso: Fix -Wmissing-prototypes warnings
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+FYI, we noticed a +906 bytes kernel size regression due to commit:
 
-Fix those:
+commit: 093a3d80e19db28bb7a241b60d15cf744ecd5aaf (iov_iter: Add a function to extract a page list from an iterator)
+https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-extract
 
-  In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-arch/x86/entry/vdso/vdso32/../vclock_gettime.c:70:5: warning: no previous prototype for ‘__vdso_clock_gettime64’ [-Wmissing-prototypes]
-   70 | int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts)
-      |
 
-In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:3:
-arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for ‘__vdso_getcpu’ [-Wmissing-prototypes]
-   13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-      | ^~~~~~~~~~~~~
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://lore.kernel.org/r/202302070742.iYcnoJwk-lkp@intel.com
----
- arch/x86/include/asm/vdso/gettimeofday.h | 2 ++
- arch/x86/include/asm/vdso/processor.h    | 4 ++++
- 2 files changed, 6 insertions(+)
+39022e3d: iov_iter: Define flags to qualify page extraction.
+093a3d80: iov_iter: Add a function to extract a page list from an iterator
 
-diff --git a/arch/x86/include/asm/vdso/gettimeofday.h b/arch/x86/include/asm/vdso/gettimeofday.h
-index 1936f21ed8cd..4cf6794f9d68 100644
---- a/arch/x86/include/asm/vdso/gettimeofday.h
-+++ b/arch/x86/include/asm/vdso/gettimeofday.h
-@@ -318,6 +318,8 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
- }
- #define vdso_calc_delta vdso_calc_delta
- 
-+int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
-+
- #endif /* !__ASSEMBLY__ */
- 
- #endif /* __ASM_VDSO_GETTIMEOFDAY_H */
-diff --git a/arch/x86/include/asm/vdso/processor.h b/arch/x86/include/asm/vdso/processor.h
-index 57b1a7034c64..2cbce97d29ea 100644
---- a/arch/x86/include/asm/vdso/processor.h
-+++ b/arch/x86/include/asm/vdso/processor.h
-@@ -18,6 +18,10 @@ static __always_inline void cpu_relax(void)
- 	rep_nop();
- }
- 
-+struct getcpu_cache;
-+
-+notrace long __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused);
-+
- #endif /* __ASSEMBLY__ */
- 
- #endif /* __ASM_VDSO_PROCESSOR_H */
--- 
-2.35.1
++---------------------------------+----------+----------+-------+
+|             symbol              | 39022e3d | 093a3d80 | delta |
++---------------------------------+----------+----------+-------+
+| nm.T.iov_iter_extract_pages     | 0        | 892      | 892   |
+| bzImage                         | 495104   | 495648   | 544   |
+| nm.t.iter_xarray_get_pages      | 0        | 328      | 328   |
+| nm.t.first_iovec_segment        | 0        | 71       | 71    |
+| nm.t.__iov_iter_get_pages_alloc | 543      | 445      | -98   |
+| nm.t.iter_xarray_populate_pages | 287      | 0        | -287  |
++---------------------------------+----------+----------+-------+
 
--- 
-Regards/Gruss,
-    Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+Thanks
+
