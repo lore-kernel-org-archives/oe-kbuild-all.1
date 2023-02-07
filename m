@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD7A7F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 01:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FC47F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 01:44:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675732477; x=1707268477;
+  t=1675734288; x=1707270288;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LFhJSt1fx/SFjp9VD+48PyKO79pofRe4HT47t7RgnZA=;
-  b=fOYRcL64F4V2qcEaJaA2VkWqwD+Jfmvd4z2w7kRTZ9fnEm9EDeOMsXwC
-   ++pRcm0fK+BlmQhfeAom6JzCwkTt0qzl0usVSujDzn2fLMd2x6XTrXkPa
-   HGbyq7B9kDOmMrybcr0W/wYOfDj406CfmMkbtaC9lYynEx+DItLc9oHqN
-   /GAeecrwZiuCpzvk7cDjAVi1PiZ0yIOEW+zGO1iVQIVFOhDmS6f5uebMU
-   F3dURQbptVBIimdGVSH2/cEE3Hw9l8VlZWaIpawkybVBmxFm5XbeoHbSj
-   YyyKaX4aAvySRp1w5Hqzw811FQ9chghpr5lZtuKDZaF4bIAVF3/fGTCL1
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="330658098"
+  bh=vvKKbaXxXsaUpmsJMxijqZEagzraOoOKcASM8s9ugBc=;
+  b=O+gganKr6CVWlA3Ro9cA6GHDILBcyx7y5XoqnmDdjXH5rO8qPfT+u9fb
+   s7x9XyffuoP7VMuua27Owy6ajMoLf7EQ+wa5QzhTrD+RYe02Qg5MSrYvW
+   To1dZ2SIYCJv/0X7mzqZFKxOjzz4E1nUDXVEDjIA334fNNBNXr8kH3VoQ
+   JW40UrnesnOngj0gJ0lOanCgC0Q3VU3CXQXJX2iRp87YiBNQz143fqJdb
+   4JRhBHbdBEKCWBAbpN5iqpReRiVns4iBunwiCK+FUM/mwG3Qwjy2tx3OD
+   Nbp3gFTYUwBKpDSL3hdeEUQvvhurMHWNqEQ9cbGyFKo6N0rn+OcW3UEth
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="393971873"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="330658098"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 17:14:28 -0800
+   d="scan'208";a="393971873"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 17:44:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="735368624"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="730216798"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="735368624"
+   d="scan'208";a="730216798"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Feb 2023 17:14:27 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2023 17:44:27 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPCYz-0002vU-38;
-	Tue, 07 Feb 2023 01:14:25 +0000
-Date: Tue, 7 Feb 2023 09:13:31 +0800
+	id 1pPD22-0002w6-0x;
+	Tue, 07 Feb 2023 01:44:26 +0000
+Date: Tue, 7 Feb 2023 09:44:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Miles Chen <miles.chen@mediatek.com>
-Subject: [stable:linux-4.19.y 2192/9999] lib/strncpy_from_user.c:39: Error:
- unrecognized opcode `csrs sstatus,s9'
-Message-ID: <202302070926.bm6KpsnS-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: [tip:sched/core 9/10] vmlinux.o: warning: objtool: local_clock+0x44:
+ call to ftrace_likely_update() leaves .noinstr.text section
+Message-ID: <202302070951.oHp56RIa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,242 +47,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   53b696f0584acce2e90db69272a2a11aab138370
-commit: e18590b3e242638e873a61d299abf8a9df446236 [2192/9999] lib: Reduce user_access_begin() boundaries in strncpy_from_user() and strnlen_user()
-config: riscv-randconfig-r001-20230206 (https://download.01.org/0day-ci/archive/20230207/202302070926.bm6KpsnS-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   4d627628d7584f3d3add1d53342d0f01aa878e04
+commit: 776f22913b8e50011004c6ae43004711dab7efa5 [9/10] sched/clock: Make local_clock() noinstr
+config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230207/202302070951.oHp56RIa-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=e18590b3e242638e873a61d299abf8a9df446236
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout e18590b3e242638e873a61d299abf8a9df446236
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=776f22913b8e50011004c6ae43004711dab7efa5
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip sched/core
+        git checkout 776f22913b8e50011004c6ae43004711dab7efa5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:272:47: note: in expansion of macro 'unlikely'
-     272 | #define unsafe_get_user(x, ptr, err) do { if (unlikely(__get_user(x, ptr))) goto err; } while (0)
-         |                                               ^~~~~~~~
-   lib/strncpy_from_user.c:55:17: note: in expansion of macro 'unsafe_get_user'
-      55 |                 unsafe_get_user(c,src+res, efault);
-         |                 ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/uaccess.h:272:43: note: in expansion of macro 'if'
-     272 | #define unsafe_get_user(x, ptr, err) do { if (unlikely(__get_user(x, ptr))) goto err; } while (0)
-         |                                           ^~
-   lib/strncpy_from_user.c:55:17: note: in expansion of macro 'unsafe_get_user'
-      55 |                 unsafe_get_user(c,src+res, efault);
-         |                 ^~~~~~~~~~~~~~~
-   lib/strncpy_from_user.c: In function 'strncpy_from_user':
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   lib/strncpy_from_user.c:100:9: note: in expansion of macro 'if'
-     100 |         if (unlikely(count <= 0))
-         |         ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   lib/strncpy_from_user.c:100:13: note: in expansion of macro 'unlikely'
-     100 |         if (unlikely(count <= 0))
-         |             ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   lib/strncpy_from_user.c:100:9: note: in expansion of macro 'if'
-     100 |         if (unlikely(count <= 0))
-         |         ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   lib/strncpy_from_user.c:105:9: note: in expansion of macro 'if'
-     105 |         if (likely(src_addr < max_addr)) {
-         |         ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   lib/strncpy_from_user.c:105:13: note: in expansion of macro 'likely'
-     105 |         if (likely(src_addr < max_addr)) {
-         |             ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   lib/strncpy_from_user.c:105:9: note: in expansion of macro 'if'
-     105 |         if (likely(src_addr < max_addr)) {
-         |         ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   lib/strncpy_from_user.c:118:17: note: in expansion of macro 'if'
-     118 |                 if (user_access_begin(VERIFY_READ, src, max)) {
-         |                 ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:81:9: note: in expansion of macro 'likely'
-      81 |         likely(__access_ok((unsigned long __force)(addr), (size)));     \
-         |         ^~~~~~
-   include/linux/uaccess.h:270:43: note: in expansion of macro 'access_ok'
-     270 | #define user_access_begin(type, ptr, len) access_ok(type, ptr, len)
-         |                                           ^~~~~~~~~
-   lib/strncpy_from_user.c:118:21: note: in expansion of macro 'user_access_begin'
-     118 |                 if (user_access_begin(VERIFY_READ, src, max)) {
-         |                     ^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   lib/strncpy_from_user.c:118:17: note: in expansion of macro 'if'
-     118 |                 if (user_access_begin(VERIFY_READ, src, max)) {
-         |                 ^~
-   lib/strncpy_from_user.c: Assembler messages:
->> lib/strncpy_from_user.c:39: Error: unrecognized opcode `csrs sstatus,s9'
->> lib/strncpy_from_user.c:39: Error: unrecognized opcode `csrc sstatus,s9'
-   lib/strncpy_from_user.c:55: Error: unrecognized opcode `csrs sstatus,s11'
-   lib/strncpy_from_user.c:55: Error: unrecognized opcode `csrc sstatus,s11'
+   vmlinux.o: warning: objtool: __asan_memset+0x53: call to __memset() with UACCESS enabled
+   vmlinux.o: warning: objtool: __asan_memmove+0x7f: call to __memmove() with UACCESS enabled
+   vmlinux.o: warning: objtool: __asan_memcpy+0x7f: call to __memcpy() with UACCESS enabled
+   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x36: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x32: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x75: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_debug+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x34: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: native_sched_clock+0x7d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0xd: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_machine_check+0x4d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_machine_check+0x52: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0xb2: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: local_clock+0x44: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x49: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x8e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x45: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_s2idle+0x63: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_xstate+0x5e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_irq+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle+0x59: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_ibrs+0x12: call to sched_smt_active() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x53: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
 
 
-vim +39 lib/strncpy_from_user.c
-
-2922585b93294d David S. Miller  2012-05-24   19  
-2922585b93294d David S. Miller  2012-05-24   20  /*
-2922585b93294d David S. Miller  2012-05-24   21   * Do a strncpy, return length of string without final '\0'.
-2922585b93294d David S. Miller  2012-05-24   22   * 'count' is the user-supplied count (return 'count' if we
-2922585b93294d David S. Miller  2012-05-24   23   * hit it), 'max' is the address space maximum (and we return
-2922585b93294d David S. Miller  2012-05-24   24   * -EFAULT if we hit it).
-2922585b93294d David S. Miller  2012-05-24   25   */
-189b396a2580d6 Peter Zijlstra   2019-04-24   26  static inline long do_strncpy_from_user(char *dst, const char __user *src,
-189b396a2580d6 Peter Zijlstra   2019-04-24   27  					unsigned long count, unsigned long max)
-2922585b93294d David S. Miller  2012-05-24   28  {
-36126f8f2ed816 Linus Torvalds   2012-05-26   29  	const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
-189b396a2580d6 Peter Zijlstra   2019-04-24   30  	unsigned long res = 0;
-2922585b93294d David S. Miller  2012-05-24   31  
-2922585b93294d David S. Miller  2012-05-24   32  	if (IS_UNALIGNED(src, dst))
-2922585b93294d David S. Miller  2012-05-24   33  		goto byte_at_a_time;
-2922585b93294d David S. Miller  2012-05-24   34  
-2922585b93294d David S. Miller  2012-05-24   35  	while (max >= sizeof(unsigned long)) {
-36126f8f2ed816 Linus Torvalds   2012-05-26   36  		unsigned long c, data;
-2922585b93294d David S. Miller  2012-05-24   37  
-2922585b93294d David S. Miller  2012-05-24   38  		/* Fall back to byte-at-a-time if we get a page fault */
-1bd4403d86a1c0 Linus Torvalds   2016-08-08  @39  		unsafe_get_user(c, (unsigned long __user *)(src+res), byte_at_a_time);
-1bd4403d86a1c0 Linus Torvalds   2016-08-08   40  
-2922585b93294d David S. Miller  2012-05-24   41  		*(unsigned long *)(dst+res) = c;
-36126f8f2ed816 Linus Torvalds   2012-05-26   42  		if (has_zero(c, &data, &constants)) {
-36126f8f2ed816 Linus Torvalds   2012-05-26   43  			data = prep_zero_mask(c, data, &constants);
-36126f8f2ed816 Linus Torvalds   2012-05-26   44  			data = create_zero_mask(data);
-36126f8f2ed816 Linus Torvalds   2012-05-26   45  			return res + find_zero(data);
-2922585b93294d David S. Miller  2012-05-24   46  		}
-2922585b93294d David S. Miller  2012-05-24   47  		res += sizeof(unsigned long);
-2922585b93294d David S. Miller  2012-05-24   48  		max -= sizeof(unsigned long);
-2922585b93294d David S. Miller  2012-05-24   49  	}
-2922585b93294d David S. Miller  2012-05-24   50  
-2922585b93294d David S. Miller  2012-05-24   51  byte_at_a_time:
-2922585b93294d David S. Miller  2012-05-24   52  	while (max) {
-2922585b93294d David S. Miller  2012-05-24   53  		char c;
-2922585b93294d David S. Miller  2012-05-24   54  
-1bd4403d86a1c0 Linus Torvalds   2016-08-08   55  		unsafe_get_user(c,src+res, efault);
-2922585b93294d David S. Miller  2012-05-24   56  		dst[res] = c;
-2922585b93294d David S. Miller  2012-05-24   57  		if (!c)
-2922585b93294d David S. Miller  2012-05-24   58  			return res;
-2922585b93294d David S. Miller  2012-05-24   59  		res++;
-2922585b93294d David S. Miller  2012-05-24   60  		max--;
-2922585b93294d David S. Miller  2012-05-24   61  	}
-2922585b93294d David S. Miller  2012-05-24   62  
-2922585b93294d David S. Miller  2012-05-24   63  	/*
-2922585b93294d David S. Miller  2012-05-24   64  	 * Uhhuh. We hit 'max'. But was that the user-specified maximum
-2922585b93294d David S. Miller  2012-05-24   65  	 * too? If so, that's ok - we got as much as the user asked for.
-2922585b93294d David S. Miller  2012-05-24   66  	 */
-2922585b93294d David S. Miller  2012-05-24   67  	if (res >= count)
-2922585b93294d David S. Miller  2012-05-24   68  		return res;
-2922585b93294d David S. Miller  2012-05-24   69  
-2922585b93294d David S. Miller  2012-05-24   70  	/*
-2922585b93294d David S. Miller  2012-05-24   71  	 * Nope: we hit the address space limit, and we still had more
-2922585b93294d David S. Miller  2012-05-24   72  	 * characters the caller would have wanted. That's an EFAULT.
-2922585b93294d David S. Miller  2012-05-24   73  	 */
-1bd4403d86a1c0 Linus Torvalds   2016-08-08   74  efault:
-2922585b93294d David S. Miller  2012-05-24   75  	return -EFAULT;
-2922585b93294d David S. Miller  2012-05-24   76  }
-2922585b93294d David S. Miller  2012-05-24   77  
-2922585b93294d David S. Miller  2012-05-24   78  /**
-2922585b93294d David S. Miller  2012-05-24   79   * strncpy_from_user: - Copy a NUL terminated string from userspace.
-2922585b93294d David S. Miller  2012-05-24   80   * @dst:   Destination address, in kernel space.  This buffer must be at
-2922585b93294d David S. Miller  2012-05-24   81   *         least @count bytes long.
-2922585b93294d David S. Miller  2012-05-24   82   * @src:   Source address, in user space.
-2922585b93294d David S. Miller  2012-05-24   83   * @count: Maximum number of bytes to copy, including the trailing NUL.
-2922585b93294d David S. Miller  2012-05-24   84   *
-2922585b93294d David S. Miller  2012-05-24   85   * Copies a NUL-terminated string from userspace to kernel space.
-2922585b93294d David S. Miller  2012-05-24   86   *
-2922585b93294d David S. Miller  2012-05-24   87   * On success, returns the length of the string (not including the trailing
-2922585b93294d David S. Miller  2012-05-24   88   * NUL).
-2922585b93294d David S. Miller  2012-05-24   89   *
-2922585b93294d David S. Miller  2012-05-24   90   * If access to userspace fails, returns -EFAULT (some data may have been
-2922585b93294d David S. Miller  2012-05-24   91   * copied).
-2922585b93294d David S. Miller  2012-05-24   92   *
-2922585b93294d David S. Miller  2012-05-24   93   * If @count is smaller than the length of the string, copies @count bytes
-2922585b93294d David S. Miller  2012-05-24   94   * and returns @count.
-2922585b93294d David S. Miller  2012-05-24   95   */
-2922585b93294d David S. Miller  2012-05-24   96  long strncpy_from_user(char *dst, const char __user *src, long count)
-2922585b93294d David S. Miller  2012-05-24   97  {
-2922585b93294d David S. Miller  2012-05-24   98  	unsigned long max_addr, src_addr;
-2922585b93294d David S. Miller  2012-05-24   99  
-2922585b93294d David S. Miller  2012-05-24  100  	if (unlikely(count <= 0))
-2922585b93294d David S. Miller  2012-05-24  101  		return 0;
-2922585b93294d David S. Miller  2012-05-24  102  
-2922585b93294d David S. Miller  2012-05-24  103  	max_addr = user_addr_max();
-2922585b93294d David S. Miller  2012-05-24  104  	src_addr = (unsigned long)src;
-2922585b93294d David S. Miller  2012-05-24  105  	if (likely(src_addr < max_addr)) {
-2922585b93294d David S. Miller  2012-05-24  106  		unsigned long max = max_addr - src_addr;
-9fd4470ff4974c Linus Torvalds   2015-12-17  107  		long retval;
-9fd4470ff4974c Linus Torvalds   2015-12-17  108  
-e18590b3e24263 Christophe Leroy 2020-01-23  109  		/*
-e18590b3e24263 Christophe Leroy 2020-01-23  110  		 * Truncate 'max' to the user-specified limit, so that
-e18590b3e24263 Christophe Leroy 2020-01-23  111  		 * we only have one limit we need to check in the loop
-e18590b3e24263 Christophe Leroy 2020-01-23  112  		 */
-e18590b3e24263 Christophe Leroy 2020-01-23  113  		if (max > count)
-e18590b3e24263 Christophe Leroy 2020-01-23  114  			max = count;
-e18590b3e24263 Christophe Leroy 2020-01-23  115  
-1771c6e1a567ea Andrey Ryabinin  2016-05-20  116  		kasan_check_write(dst, count);
-bf90e56e467ed5 Mark Rutland     2016-10-11  117  		check_object_size(dst, count, false);
-216284c4a126b2 Linus Torvalds   2019-01-04 @118  		if (user_access_begin(VERIFY_READ, src, max)) {
-
-:::::: The code at line 39 was first introduced by commit
-:::::: 1bd4403d86a1c06cb6cc9ac87664a0c9d3413d51 unsafe_[get|put]_user: change interface to use a error target label
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+objdump-func vmlinux.o local_clock:
+0000 0000000000002d8c <local_clock>:
+0000     2d8c:	f3 0f 1e fa          	endbr64
+0004     2d90:	41 54                	push   %r12
+0006     2d92:	53                   	push   %rbx
+0007     2d93:	eb 14                	jmp    2da9 <local_clock+0x1d>
+0009     2d95:	e8 00 00 00 00       	call   2d9a <local_clock+0xe>	2d96: R_X86_64_PLT32	sched_clock-0x4
+000e     2d9a:	48 03 05 00 00 00 00 	add    0x0(%rip),%rax        # 2da1 <local_clock+0x15>	2d9d: R_X86_64_PC32	__sched_clock_offset-0x4
+0015     2da1:	49 89 c4             	mov    %rax,%r12
+0018     2da4:	e9 cc 00 00 00       	jmp    2e75 <local_clock+0xe9>
+001d     2da9:	ff 05 00 00 00 00    	incl   0x0(%rip)        # 2daf <local_clock+0x23>	2dab: R_X86_64_PC32	pcpu_hot+0x4
+0023     2daf:	e8 00 00 00 00       	call   2db4 <local_clock+0x28>	2db0: R_X86_64_PLT32	sched_clock-0x4
+0028     2db4:	48 2b 05 00 00 00 00 	sub    0x0(%rip),%rax        # 2dbb <local_clock+0x2f>	2db7: R_X86_64_PC32	sched_clock_data-0x4
+002f     2dbb:	31 c9                	xor    %ecx,%ecx
+0031     2dbd:	31 d2                	xor    %edx,%edx
+0033     2dbf:	49 89 c4             	mov    %rax,%r12
+0036     2dc2:	48 c1 e8 3f          	shr    $0x3f,%rax
+003a     2dc6:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2dc9: R_X86_64_32S	_ftrace_annotated_branch+0x29be0
+0041     2dcd:	48 89 c6             	mov    %rax,%rsi
+0044     2dd0:	e8 00 00 00 00       	call   2dd5 <local_clock+0x49>	2dd1: R_X86_64_PLT32	ftrace_likely_update-0x4
+0049     2dd5:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 2ddc <local_clock+0x50>	2dd8: R_X86_64_PC32	sched_clock_data+0xc
+0050     2ddc:	31 c9                	xor    %ecx,%ecx
+0052     2dde:	48 8b 15 00 00 00 00 	mov    0x0(%rip),%rdx        # 2de5 <local_clock+0x59>	2de1: R_X86_64_PC32	.data..read_mostly+0x26e4
+0059     2de5:	48 03 15 00 00 00 00 	add    0x0(%rip),%rdx        # 2dec <local_clock+0x60>	2de8: R_X86_64_PC32	sched_clock_data+0x4
+0060     2dec:	4d 85 e4             	test   %r12,%r12
+0063     2def:	4c 0f 48 e1          	cmovs  %rcx,%r12
+0067     2df3:	48 89 d1             	mov    %rdx,%rcx
+006a     2df6:	48 89 c6             	mov    %rax,%rsi
+006d     2df9:	48 29 c1             	sub    %rax,%rcx
+0070     2dfc:	49 01 d4             	add    %rdx,%r12
+0073     2dff:	48 85 c9             	test   %rcx,%rcx
+0076     2e02:	48 89 c1             	mov    %rax,%rcx
+0079     2e05:	48 0f 4f ca          	cmovg  %rdx,%rcx
+007d     2e09:	48 81 c2 d5 dc 32 00 	add    $0x32dcd5,%rdx
+0084     2e10:	48 29 d6             	sub    %rdx,%rsi
+0087     2e13:	48 85 f6             	test   %rsi,%rsi
+008a     2e16:	4c 89 e6             	mov    %r12,%rsi
+008d     2e19:	48 0f 4f d0          	cmovg  %rax,%rdx
+0091     2e1d:	48 29 ce             	sub    %rcx,%rsi
+0094     2e20:	48 85 f6             	test   %rsi,%rsi
+0097     2e23:	4c 0f 4e e1          	cmovle %rcx,%r12
+009b     2e27:	49 39 d4             	cmp    %rdx,%r12
+009e     2e2a:	4c 0f 49 e2          	cmovns %rdx,%r12
+00a2     2e2e:	4c 0f b1 25 00 00 00 00 	cmpxchg %r12,0x0(%rip)        # 2e36 <local_clock+0xaa>	2e32: R_X86_64_PC32	sched_clock_data+0xc
+00aa     2e36:	40 0f 95 c6          	setne  %sil
+00ae     2e3a:	0f 94 c3             	sete   %bl
+00b1     2e3d:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2e40: R_X86_64_32S	_ftrace_annotated_branch+0x29bb0
+00b8     2e44:	31 c9                	xor    %ecx,%ecx
+00ba     2e46:	31 d2                	xor    %edx,%edx
+00bc     2e48:	40 0f b6 f6          	movzbl %sil,%esi
+00c0     2e4c:	e8 00 00 00 00       	call   2e51 <local_clock+0xc5>	2e4d: R_X86_64_PLT32	ftrace_likely_update-0x4
+00c5     2e51:	31 c9                	xor    %ecx,%ecx
+00c7     2e53:	0f b6 f3             	movzbl %bl,%esi
+00ca     2e56:	ba 01 00 00 00       	mov    $0x1,%edx
+00cf     2e5b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2e5e: R_X86_64_32S	_ftrace_annotated_branch+0x29b80
+00d6     2e62:	e8 00 00 00 00       	call   2e67 <local_clock+0xdb>	2e63: R_X86_64_PLT32	ftrace_likely_update-0x4
+00db     2e67:	84 db                	test   %bl,%bl
+00dd     2e69:	0f 84 40 ff ff ff    	je     2daf <local_clock+0x23>
+00e3     2e6f:	ff 0d 00 00 00 00    	decl   0x0(%rip)        # 2e75 <local_clock+0xe9>	2e71: R_X86_64_PC32	pcpu_hot+0x4
+00e9     2e75:	4c 89 e0             	mov    %r12,%rax
+00ec     2e78:	5b                   	pop    %rbx
+00ed     2e79:	41 5c                	pop    %r12
+00ef     2e7b:	c3                   	ret
 
 -- 
 0-DAY CI Kernel Test Service
