@@ -1,43 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E244439
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 15:33:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E581566B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 16:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675783989; x=1707319989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UGM/IVMITZ+m1PEz7CGFE2Jped0YIaEnFzvEtnLRmkk=;
-  b=C0x+fLwAn+fP18NVaSu2D7bFFr5Yt/EOaeygpZLSS5n2BGldDn/Icbfe
-   eXzYo0g1Eog0PwO1HrsNawe7SDruVMKrB1U7Hte33erQviHE2HmhfFSvC
-   Am/7paZcnu8vnE7KLIPqNtc8fxNoqQqJPKjJKxNDXs4nXxQef4cTdlOSq
-   zmjcz+Hb6gK3iAAAZXInTIc1cH3ku1eyl7noDNaIRbAyJoPiogxtArCNq
-   9pto6soUvB7gJazMv+bVOopjSfFCi2+vvHkfFkTkDHmFWY2o/VkiV4F61
-   DHIK0EQLAckbcaJ/YA5xY8YZqrTiSVllJC7m9GcFlmVL5sOIX33pU1kGF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415752432"
+  t=1675786459; x=1707322459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=piPvQsT8sg3M6OXkur43AQOlc9r+x7DRJBGS2pa/A0Q=;
+  b=TVkHyE0N2gjnTw98QxCrdU/4pvxWg4h9L5yY1QlAQvIJo7YQaWJtFi46
+   MdlIxi5YPEyOOEpCv3EX8km0pw7D+UCJ7G+h4mcX617XmOOL5cWN/X2aP
+   rG9/pmQa8OegBsM9nS0b6/rBltbxSolJ8OiWi58MOJoMXzY603cYn2OQy
+   wM9i9UDXCjeL6hPw/po2ibI6pbSk0CygLAS/yqdoQIDhAm0xYMVJHJ1jW
+   kcnxY/zfybEYEf9qTZ5OOkfy4znB7EWUKbAiVgYRMZ5i4kCFULmWpPI9V
+   kpCat1lYlQyMZwJFrzBGDMyLYVcvfiaPGoaWlpPT6U8V0QSDn6w5sGhah
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="309885590"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="415752432"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 07:33:08 -0800
+   d="scan'208";a="309885590"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 08:14:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="775596255"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="699301774"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="775596255"
+   d="scan'208";a="699301774"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2023 07:33:08 -0800
+  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2023 08:14:10 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPPxz-0003er-1K;
-	Tue, 07 Feb 2023 15:33:07 +0000
-Date: Tue, 7 Feb 2023 23:32:53 +0800
+	id 1pPQbh-0003gM-3A;
+	Tue, 07 Feb 2023 16:14:09 +0000
+Date: Wed, 8 Feb 2023 00:14:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-filter-upstream 7/31]
- drivers/base/da_firmware.c:133:9: warning: 'strncpy' specified bound 64
- equals destination size
-Message-ID: <202302072357.ecVSWGbC-lkp@intel.com>
+To: bchihi@baylibre.com, daniel.lezcano@linaro.org,
+	angelogioacchino.delregno@collabora.com, rafael@kernel.org,
+	amitk@kernel.org, rui.zhang@intel.com, matthias.bgg@gmail.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	rdunlap@infradead.org, ye.xingchen@zte.com.cn,
+	p.zabel@pengutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	khilman@baylibre.com, james.lo@mediatek.com,
+	rex-bc.chen@mediatek.com
+Subject: Re: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to
+ mediatek folder
+Message-ID: <202302080018.wNeWiKqz-lkp@intel.com>
+References: <20230207130958.608305-2-bchihi@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,74 +56,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230207130958.608305-2-bchihi@baylibre.com>
 
-tree:   https://github.com/intel/tdx.git guest-filter-upstream
-head:   fd61f2d2a82f5c0c284fa3f074bae5016c39e7bc
-commit: 2918c8a83642b317e92706dcb7ee6ee4443f3266 [7/31] driver core: Add command line option to update device authorization list
-config: arm-cerfcube_defconfig (https://download.01.org/0day-ci/archive/20230207/202302072357.ecVSWGbC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on a2c81dc59d41e92362ab7d41d0c15471ea50637d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
+base:   a2c81dc59d41e92362ab7d41d0c15471ea50637d
+patch link:    https://lore.kernel.org/r/20230207130958.608305-2-bchihi%40baylibre.com
+patch subject: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to mediatek folder
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080018.wNeWiKqz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/2918c8a83642b317e92706dcb7ee6ee4443f3266
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter-upstream
-        git checkout 2918c8a83642b317e92706dcb7ee6ee4443f3266
+        # https://github.com/intel-lab-lkp/linux/commit/0eb89997925c0d7b47bbeee93016146fc660b259
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
+        git checkout 0eb89997925c0d7b47bbeee93016146fc660b259
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/base/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/thermal/mediatek/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/base/da_firmware.c:166:8: warning: no previous prototype for 'parse_firmware_devices' [-Wmissing-prototypes]
-     166 | size_t parse_firmware_devices(struct da_bus_node *node, void *data)
-         |        ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/da_firmware.c: In function 'parse_cmdline_data':
-   drivers/base/da_firmware.c:377:25: warning: variable 'ids' set but not used [-Wunused-but-set-variable]
-     377 |         char *k, *bus, *ids;
-         |                         ^~~
-   drivers/base/da_firmware.c: In function 'alloc_bus_node':
->> drivers/base/da_firmware.c:133:9: warning: 'strncpy' specified bound 64 equals destination size [-Wstringop-truncation]
-     133 |         strncpy(node->name, bus, NAME_LEN);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/thermal/mediatek/auxadc_thermal.c:562: warning: expecting prototype for raw_to_mcelsius(). Prototype was for raw_to_mcelsius_v1() instead
 
 
-vim +/strncpy +133 drivers/base/da_firmware.c
+vim +562 drivers/thermal/mediatek/auxadc_thermal.c
 
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  123  
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  124  /* Allocate DA firmware bus node and initialize it based on struct da_bus_hdr */
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  125  static struct da_bus_node *alloc_bus_node(char *bus, u32 count)
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  126  {
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  127  	struct da_bus_node *node;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  128  
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  129  	node = kzalloc(sizeof(*node), GFP_KERNEL);
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  130  	if (!node)
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  131  		return NULL;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  132  
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22 @133  	strncpy(node->name, bus, NAME_LEN);
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  134  	node->count = count;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  135  
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  136  	if (!strncmp(node->name, "pci", 3)) {
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  137  		node->match_device = pci_match_device;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  138  		node->print_devices = pci_print_devices;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  139  	} else {
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  140  		node->match_device = bus_match_device;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  141  		node->print_devices = bus_print_devices;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  142  	}
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  143  
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  144  	return node;
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  145  }
-304ef1a77b5f51 Kuppuswamy Sathyanarayanan 2022-12-22  146  
-
-:::::: The code at line 133 was first introduced by commit
-:::::: 304ef1a77b5f5171d3e3ceb4d315ac79b135ab92 driver core: Add support to parse device authorize firmware
-
-:::::: TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-:::::: CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+a4ffe6b52d27f4 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  551  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  552  /**
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  553   * raw_to_mcelsius - convert a raw ADC value to mcelsius
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  554   * @mt:	The thermal controller
+3772bb422072d4 drivers/thermal/mtk_thermal.c Amit Kucheria 2019-11-20  555   * @sensno:	sensor number
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  556   * @raw:	raw ADC value
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  557   *
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  558   * This converts the raw ADC value to mcelsius using the SoC specific
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  559   * calibration constants
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  560   */
+54bf1e5a629dfb drivers/thermal/mtk_thermal.c Henry Yen     2020-04-30  561  static int raw_to_mcelsius_v1(struct mtk_thermal *mt, int sensno, s32 raw)
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30 @562  {
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  563  	s32 tmp;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  564  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  565  	raw &= 0xfff;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  566  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  567  	tmp = 203450520 << 3;
+f84514766985d3 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  568  	tmp /= mt->conf->cali_val + mt->o_slope;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  569  	tmp /= 10000 + mt->adc_ge;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  570  	tmp *= raw - mt->vts[sensno] - 3350;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  571  	tmp >>= 3;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  572  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  573  	return mt->degc_cali * 500 - tmp;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  574  }
+a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  575  
 
 -- 
 0-DAY CI Kernel Test Service
