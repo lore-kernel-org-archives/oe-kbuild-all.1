@@ -1,43 +1,60 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E395917FD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 06:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB6B1844
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 07:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675752163; x=1707288163;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jIpT9ebS7n4mNSRR5/KZDqEO+r88BCQJ+kzssd4ydgA=;
-  b=Sq3QhEKg/XnV0EvcfS2F6Anbb3sKa/2ivzd2iu/QabTimOxBRuz+ryo1
-   E/TEhxowoiBYyjMQj6yRpX/XhlRYNHy4pKtkEwI7VXnv9ldy3Wpi6il2l
-   bVV4gSyMhq+9vdHVfZPZqiPGZ9yA2jBLiFyAz1nyyWkY/1e5rc77Cp1kN
-   wVQqjt8mm6Y3Np9GrSof0P0AUi8R0b01EdHgaeMHXI3oHoygrXdgIVffJ
-   /YN/VvCHYIrjRKZyH9ehVsa2DNvoDMmsWYuRXmbCuVR9rOg8CmgzvuCaA
-   djYK37XDkzFAB6tNqX3CrMUrKFC7e2rCVW3c6//9SEEs7zpBdWGZq/RAY
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="391817592"
+  t=1675753371; x=1707289371;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6ptH8NtvzL1DrlH7wz/ndbERaBEk8PIEAMBa7K2WDsg=;
+  b=K9FNDNsGG5VgfHH0E+dHptDZLm8GTFZ/FSiXhJsrA6SkiLAaGL1vxWPh
+   WSJFnVmsvp+ozqiBR4vgmEmTYJe1NfQUhjBNkipukGD/w8x99MGXZGBWe
+   8ECi9+j9vp2vyPXWmrb2fH3nKHMOAcqCnkbptqQUn4uTJ7rwoc6IHotQd
+   Nr+VXLZwYXi44UNmHqhcbqp1i72aiejMXDWiMW6GwFxRdgebPw2swrnM5
+   9VrgYPyZsuRt5p/CZBXVUBc6jyWf9s7Y/osYDvWTf64Pl0F8GqKiNZKIA
+   9iO8zIZq7+1Bzplv0vNu7oMb1nqT10qpy3grRNx6mHGzPMbJgANGOPV8M
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="327111607"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="391817592"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 22:42:43 -0800
+   d="scan'208";a="327111607"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 23:02:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="995627008"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="644331114"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="995627008"
+   d="scan'208";a="644331114"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Feb 2023 22:42:41 -0800
+  by orsmga006.jf.intel.com with ESMTP; 06 Feb 2023 23:02:44 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPHgf-0003CM-0V;
-	Tue, 07 Feb 2023 06:42:41 +0000
-Date: Tue, 7 Feb 2023 14:41:44 +0800
+	id 1pPI03-0003EX-31;
+	Tue, 07 Feb 2023 07:02:43 +0000
+Date: Tue, 7 Feb 2023 15:02:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:sched/core 10/10] vmlinux.o: warning: objtool: poll_idle+0x4a:
- call to ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202302071403.la39hU5C-lkp@intel.com>
+To: Evan Green <evan@rivosinc.com>, Palmer Dabbelt <palmer@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Conor Dooley <conor@kernel.org>,
+	vineetg@rivosinc.com, heiko@sntech.de, slewis@rivosinc.com,
+	Evan Green <evan@rivosinc.com>, Albert Ou <aou@eecs.berkeley.edu>,
+	Andrew Bresticker <abrestic@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Anup Patel <apatel@ventanamicro.com>, Arnd Bergmann <arnd@arndb.de>,
+	Atish Patra <atishp@rivosinc.com>,
+	Celeste Liu <coelacanthus@outlook.com>, Guo Ren <guoren@kernel.org>,
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	Tsukasa OI <research_trasio@irq.a4lg.com>,
+	Xianting Tian <xianting.tian@linux.alibaba.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 5/6] RISC-V: hwprobe: Support probing of misaligned
+ access performance
+Message-ID: <202302071444.L48pajcK-lkp@intel.com>
+References: <20230206201455.1790329-6-evan@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,129 +63,264 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230206201455.1790329-6-evan@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   4d627628d7584f3d3add1d53342d0f01aa878e04
-commit: 4d627628d7584f3d3add1d53342d0f01aa878e04 [10/10] cpuidle: Fix poll_idle() noinstr annotation
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230207/202302071403.la39hU5C-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=4d627628d7584f3d3add1d53342d0f01aa878e04
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip sched/core
-        git checkout 4d627628d7584f3d3add1d53342d0f01aa878e04
+Hi Evan,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes robh/for-next soc/for-next linus/master v6.2-rc7]
+[cannot apply to next-20230207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20230206201455.1790329-6-evan%40rivosinc.com
+patch subject: [PATCH v2 5/6] RISC-V: hwprobe: Support probing of misaligned access performance
+config: riscv-randconfig-s052-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071444.L48pajcK-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/9e77be253d64809a98f31c17abd12761dd9fad8e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
+        git checkout 9e77be253d64809a98f31c17abd12761dd9fad8e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: __asan_memset+0x53: call to __memset() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memmove+0x7f: call to __memmove() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memcpy+0x7f: call to __memcpy() with UACCESS enabled
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x36: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x32: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x75: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: native_sched_clock+0x7d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0xd: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x4d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x52: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0xb2: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: local_clock+0x44: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x49: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x8e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x45: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0x63: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0x5e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0x59: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_ibrs+0x12: call to sched_smt_active() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x53: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: poll_idle+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
+   arch/riscv/kernel/cpufeature.c: In function 'riscv_fill_hwcap':
+>> arch/riscv/kernel/cpufeature.c:258:23: error: implicit declaration of function 'hartid_to_cpuid_map' [-Werror=implicit-function-declaration]
+     258 |                 cpu = hartid_to_cpuid_map(hartid);
+         |                       ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-objdump-func vmlinux.o poll_idle:
-0000 0000000000000b3b <poll_idle>:
-0000  b3b:	f3 0f 1e fa          	endbr64
-0004  b3f:	41 57                	push   %r15
-0006  b41:	49 89 f7             	mov    %rsi,%r15
-0009  b44:	41 56                	push   %r14
-000b  b46:	41 55                	push   %r13
-000d  b48:	41 89 d5             	mov    %edx,%r13d
-0010  b4b:	41 54                	push   %r12
-0012  b4d:	55                   	push   %rbp
-0013  b4e:	53                   	push   %rbx
-0014  b4f:	48 89 fb             	mov    %rdi,%rbx
-0017  b52:	51                   	push   %rcx
-0018  b53:	e8 00 00 00 00       	call   b58 <poll_idle+0x1d>	b54: R_X86_64_PLT32	local_clock-0x4
-001d  b58:	80 23 fb             	andb   $0xfb,(%rbx)
-0020  b5b:	49 89 c6             	mov    %rax,%r14
-0023  b5e:	fb                   	sti
-0024  b5f:	4c 8b 24 25 00 00 00 00 	mov    0x0,%r12	b63: R_X86_64_32S	pcpu_hot
-002c  b67:	41 80 4c 24 02 20    	orb    $0x20,0x2(%r12)
-0032  b6d:	49 8b 2c 24          	mov    (%r12),%rbp
-0036  b71:	31 c9                	xor    %ecx,%ecx
-0038  b73:	31 d2                	xor    %edx,%edx
-003a  b75:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	b78: R_X86_64_32S	_ftrace_annotated_branch+0xf5010
-0041  b7c:	48 c1 ed 03          	shr    $0x3,%rbp
-0045  b80:	83 e5 01             	and    $0x1,%ebp
-0048  b83:	89 ee                	mov    %ebp,%esi
-004a  b85:	e8 00 00 00 00       	call   b8a <poll_idle+0x4f>	b86: R_X86_64_PLT32	ftrace_likely_update-0x4
-004f  b8a:	48 85 ed             	test   %rbp,%rbp
-0052  b8d:	75 4f                	jne    bde <poll_idle+0xa3>
-0054  b8f:	48 89 de             	mov    %rbx,%rsi
-0057  b92:	4c 89 ff             	mov    %r15,%rdi
-005a  b95:	e8 00 00 00 00       	call   b9a <poll_idle+0x5f>	b96: R_X86_64_PLT32	cpuidle_poll_time-0x4
-005f  b9a:	48 89 04 24          	mov    %rax,(%rsp)
-0063  b9e:	41 bf c9 00 00 00    	mov    $0xc9,%r15d
-0069  ba4:	49 8b 2c 24          	mov    (%r12),%rbp
-006d  ba8:	31 c9                	xor    %ecx,%ecx
-006f  baa:	31 d2                	xor    %edx,%edx
-0071  bac:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	baf: R_X86_64_32S	_ftrace_annotated_branch+0xf5040
-0078  bb3:	48 c1 ed 03          	shr    $0x3,%rbp
-007c  bb7:	83 e5 01             	and    $0x1,%ebp
-007f  bba:	89 ee                	mov    %ebp,%esi
-0081  bbc:	e8 00 00 00 00       	call   bc1 <poll_idle+0x86>	bbd: R_X86_64_PLT32	ftrace_likely_update-0x4
-0086  bc1:	48 85 ed             	test   %rbp,%rbp
-0089  bc4:	75 18                	jne    bde <poll_idle+0xa3>
-008b  bc6:	f3 90                	pause
-008d  bc8:	41 ff cf             	dec    %r15d
-0090  bcb:	75 d7                	jne    ba4 <poll_idle+0x69>
-0092  bcd:	e8 00 00 00 00       	call   bd2 <poll_idle+0x97>	bce: R_X86_64_PLT32	local_clock-0x4
-0097  bd2:	4c 29 f0             	sub    %r14,%rax
-009a  bd5:	48 3b 04 24          	cmp    (%rsp),%rax
-009e  bd9:	76 c3                	jbe    b9e <poll_idle+0x63>
-00a0  bdb:	80 0b 04             	orb    $0x4,(%rbx)
-00a3  bde:	fa                   	cli
-00a4  bdf:	48 8b 04 25 00 00 00 00 	mov    0x0,%rax	be3: R_X86_64_32S	pcpu_hot
-00ac  be7:	80 60 02 df          	andb   $0xdf,0x2(%rax)
-00b0  beb:	48 8b 00             	mov    (%rax),%rax
-00b3  bee:	a8 08                	test   $0x8,%al
-00b5  bf0:	74 0a                	je     bfc <poll_idle+0xc1>
-00b7  bf2:	81 25 00 00 00 00 ff ff ff 7f 	andl   $0x7fffffff,0x0(%rip)        # bfc <poll_idle+0xc1>	bf4: R_X86_64_PC32	pcpu_hot
-00c1  bfc:	5a                   	pop    %rdx
-00c2  bfd:	44 89 e8             	mov    %r13d,%eax
-00c5  c00:	5b                   	pop    %rbx
-00c6  c01:	5d                   	pop    %rbp
-00c7  c02:	41 5c                	pop    %r12
-00c9  c04:	41 5d                	pop    %r13
-00cb  c06:	41 5e                	pop    %r14
-00cd  c08:	41 5f                	pop    %r15
-00cf  c0a:	c3                   	ret
+vim +/hartid_to_cpuid_map +258 arch/riscv/kernel/cpufeature.c
+
+    93	
+    94	void __init riscv_fill_hwcap(void)
+    95	{
+    96		struct device_node *node;
+    97		const char *isa, *misaligned;
+    98		char print_str[NUM_ALPHA_EXTS + 1];
+    99		int i, j, rc;
+   100		unsigned long isa2hwcap[26] = {0};
+   101		unsigned long hartid, cpu;
+   102	
+   103		isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+   104		isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+   105		isa2hwcap['a' - 'a'] = COMPAT_HWCAP_ISA_A;
+   106		isa2hwcap['f' - 'a'] = COMPAT_HWCAP_ISA_F;
+   107		isa2hwcap['d' - 'a'] = COMPAT_HWCAP_ISA_D;
+   108		isa2hwcap['c' - 'a'] = COMPAT_HWCAP_ISA_C;
+   109	
+   110		elf_hwcap = 0;
+   111	
+   112		bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+   113	
+   114		for_each_of_cpu_node(node) {
+   115			unsigned long this_hwcap = 0;
+   116			DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
+   117			const char *temp;
+   118	
+   119			rc = riscv_of_processor_hartid(node, &hartid);
+   120			if (rc < 0)
+   121				continue;
+   122	
+   123			if (of_property_read_string(node, "riscv,isa", &isa)) {
+   124				pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+   125				continue;
+   126			}
+   127	
+   128			temp = isa;
+   129	#if IS_ENABLED(CONFIG_32BIT)
+   130			if (!strncmp(isa, "rv32", 4))
+   131				isa += 4;
+   132	#elif IS_ENABLED(CONFIG_64BIT)
+   133			if (!strncmp(isa, "rv64", 4))
+   134				isa += 4;
+   135	#endif
+   136			/* The riscv,isa DT property must start with rv64 or rv32 */
+   137			if (temp == isa)
+   138				continue;
+   139			bitmap_zero(this_isa, RISCV_ISA_EXT_MAX);
+   140			for (; *isa; ++isa) {
+   141				const char *ext = isa++;
+   142				const char *ext_end = isa;
+   143				bool ext_long = false, ext_err = false;
+   144	
+   145				switch (*ext) {
+   146				case 's':
+   147					/**
+   148					 * Workaround for invalid single-letter 's' & 'u'(QEMU).
+   149					 * No need to set the bit in riscv_isa as 's' & 'u' are
+   150					 * not valid ISA extensions. It works until multi-letter
+   151					 * extension starting with "Su" appears.
+   152					 */
+   153					if (ext[-1] != '_' && ext[1] == 'u') {
+   154						++isa;
+   155						ext_err = true;
+   156						break;
+   157					}
+   158					fallthrough;
+   159				case 'x':
+   160				case 'z':
+   161					ext_long = true;
+   162					/* Multi-letter extension must be delimited */
+   163					for (; *isa && *isa != '_'; ++isa)
+   164						if (unlikely(!islower(*isa)
+   165							     && !isdigit(*isa)))
+   166							ext_err = true;
+   167					/* Parse backwards */
+   168					ext_end = isa;
+   169					if (unlikely(ext_err))
+   170						break;
+   171					if (!isdigit(ext_end[-1]))
+   172						break;
+   173					/* Skip the minor version */
+   174					while (isdigit(*--ext_end))
+   175						;
+   176					if (ext_end[0] != 'p'
+   177					    || !isdigit(ext_end[-1])) {
+   178						/* Advance it to offset the pre-decrement */
+   179						++ext_end;
+   180						break;
+   181					}
+   182					/* Skip the major version */
+   183					while (isdigit(*--ext_end))
+   184						;
+   185					++ext_end;
+   186					break;
+   187				default:
+   188					if (unlikely(!islower(*ext))) {
+   189						ext_err = true;
+   190						break;
+   191					}
+   192					/* Find next extension */
+   193					if (!isdigit(*isa))
+   194						break;
+   195					/* Skip the minor version */
+   196					while (isdigit(*++isa))
+   197						;
+   198					if (*isa != 'p')
+   199						break;
+   200					if (!isdigit(*++isa)) {
+   201						--isa;
+   202						break;
+   203					}
+   204					/* Skip the major version */
+   205					while (isdigit(*++isa))
+   206						;
+   207					break;
+   208				}
+   209				if (*isa != '_')
+   210					--isa;
+   211	
+   212	#define SET_ISA_EXT_MAP(name, bit)						\
+   213				do {							\
+   214					if ((ext_end - ext == sizeof(name) - 1) &&	\
+   215					     !memcmp(ext, name, sizeof(name) - 1) &&	\
+   216					     riscv_isa_extension_check(bit))		\
+   217						set_bit(bit, this_isa);			\
+   218				} while (false)						\
+   219	
+   220				if (unlikely(ext_err))
+   221					continue;
+   222				if (!ext_long) {
+   223					int nr = *ext - 'a';
+   224	
+   225					if (riscv_isa_extension_check(nr)) {
+   226						this_hwcap |= isa2hwcap[nr];
+   227						set_bit(nr, this_isa);
+   228					}
+   229				} else {
+   230					SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
+   231					SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_SVPBMT);
+   232					SET_ISA_EXT_MAP("zicbom", RISCV_ISA_EXT_ZICBOM);
+   233					SET_ISA_EXT_MAP("zihintpause", RISCV_ISA_EXT_ZIHINTPAUSE);
+   234					SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
+   235					SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+   236				}
+   237	#undef SET_ISA_EXT_MAP
+   238			}
+   239	
+   240			/*
+   241			 * All "okay" hart should have same isa. Set HWCAP based on
+   242			 * common capabilities of every "okay" hart, in case they don't
+   243			 * have.
+   244			 */
+   245			if (elf_hwcap)
+   246				elf_hwcap &= this_hwcap;
+   247			else
+   248				elf_hwcap = this_hwcap;
+   249	
+   250			if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
+   251				bitmap_copy(riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+   252			else
+   253				bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+   254	
+   255			/*
+   256			 * Check for the performance of misaligned accesses.
+   257			 */
+ > 258			cpu = hartid_to_cpuid_map(hartid);
+   259			if (cpu < 0)
+   260				continue;
+   261	
+   262			if (!of_property_read_string(node, "riscv,misaligned-access-performance",
+   263						     &misaligned)) {
+   264				if (strcmp(misaligned, "emulated") == 0)
+   265					per_cpu(misaligned_access_speed, cpu) =
+   266						RISCV_HWPROBE_MISALIGNED_EMULATED;
+   267	
+   268				if (strcmp(misaligned, "slow") == 0)
+   269					per_cpu(misaligned_access_speed, cpu) =
+   270						RISCV_HWPROBE_MISALIGNED_SLOW;
+   271	
+   272				if (strcmp(misaligned, "fast") == 0)
+   273					per_cpu(misaligned_access_speed, cpu) =
+   274						RISCV_HWPROBE_MISALIGNED_FAST;
+   275			}
+   276		}
+   277	
+   278		/* We don't support systems with F but without D, so mask those out
+   279		 * here. */
+   280		if ((elf_hwcap & COMPAT_HWCAP_ISA_F) && !(elf_hwcap & COMPAT_HWCAP_ISA_D)) {
+   281			pr_info("This kernel does not support systems with F but not D\n");
+   282			elf_hwcap &= ~COMPAT_HWCAP_ISA_F;
+   283		}
+   284	
+   285		memset(print_str, 0, sizeof(print_str));
+   286		for (i = 0, j = 0; i < NUM_ALPHA_EXTS; i++)
+   287			if (riscv_isa[0] & BIT_MASK(i))
+   288				print_str[j++] = (char)('a' + i);
+   289		pr_info("riscv: base ISA extensions %s\n", print_str);
+   290	
+   291		memset(print_str, 0, sizeof(print_str));
+   292		for (i = 0, j = 0; i < NUM_ALPHA_EXTS; i++)
+   293			if (elf_hwcap & BIT_MASK(i))
+   294				print_str[j++] = (char)('a' + i);
+   295		pr_info("riscv: ELF capabilities %s\n", print_str);
+   296	
+   297		for_each_set_bit(i, riscv_isa, RISCV_ISA_EXT_MAX) {
+   298			j = riscv_isa_ext2key(i);
+   299			if (j >= 0)
+   300				static_branch_enable(&riscv_isa_ext_keys[j]);
+   301		}
+   302	}
+   303	
 
 -- 
 0-DAY CI Kernel Test Service
