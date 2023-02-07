@@ -1,49 +1,42 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE1D20E8;
-	Tue,  7 Feb 2023 08:03:13 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso12532657wms.0;
-        Tue, 07 Feb 2023 00:03:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8Fo/rCSoO5B3dO/TraHF/Ewq1zEZS6ueUNW5PL1NVo=;
-        b=nvJYeCCwwXa/iPihaau1177ZExjMysWH1KDEGe6XaL8oRtXrVsqhAukMZWZrerwG7G
-         rpSNBQkFR3vfcays7jEmShxOYJefIj5fIjfKVtMb9N8qtB9z0fibudCN4DTNMbS5FADS
-         aqeWBu+uWmzBcVpucTAsgQoI3DXywkJ57av1tRzQ0ikoaFgVqmH2pG91dS6GNGv+hEMF
-         3CiTruVkJlX2ITJ3XwD92Vc4E9t3R5bdsRSc3QDoWedEKKwMtnqUFLMLACjAaVXDtqRu
-         GlGCAG6RtRPaU1BbhZ0z2FEKMnotmsijGmCNmQ3Fqs7XWVlMp7vXpLxLFrgGqDRx7jSr
-         mGGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h8Fo/rCSoO5B3dO/TraHF/Ewq1zEZS6ueUNW5PL1NVo=;
-        b=pNIRVZfAUwInkpKniXRedSjdq5WBGjQC03C7FEjpZ1UEchPhd/p5JcVqq3NVeHpdf2
-         EQeP7egXu/7yl+C4QKiW751z3o83yuYhiUHU+M6b83yPdY54WqhbxI6alFPu47NFxPD4
-         AxsLPJhjxWO9R9pa5O7tuV4250Q6UaCaE68fFE/oE1aWwbn6ahbcjIQl6Tkvk9r2fl7j
-         MN64zjYxxMgx9w6QdD+32cZXedtlEJLhyJChAe78edmsrSiDZiEqxW89Qq0OPqpt8z97
-         nlFBLiWqxnCnHKoq3nX4IMikbgFjBiZ88B3w1HGyQ1D/09J1QJ341J4MSFqfv2mKxdvG
-         qASw==
-X-Gm-Message-State: AO0yUKWq0d0g/MVr/wrcMn/RV08MONlkZ7TntSa8h7QXLGUmk9s/Xb+2
-	GSafmlElo/GgfZtx+MhPl3q6CsijQlUhvcyF
-X-Google-Smtp-Source: AK7set8IRQ93d6Encc0Zv1jH2b6tzYJsgZlGP02itsR5AgLShBbs40ZOJ5VEF94FKV+nQOPF3v2afA==
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id m19-20020a05600c161300b003dfb5ae5289mr2195856wmn.8.1675756991262;
-        Tue, 07 Feb 2023 00:03:11 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020a5d6e8a000000b002bdda9856b5sm10626509wrz.50.2023.02.07.00.03.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 00:03:10 -0800 (PST)
-Date: Tue, 7 Feb 2023 11:03:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Bob Pearson <rpearsonhpe@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH for-next v7 6/6] RDMA/rxe: Replace rxe_map and
- rxe_phys_buf by xarray
-Message-ID: <202302071553.dxgzoPxM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848C715A2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 08:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675758899; x=1707294899;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7h93IpIj5ozX3HQ0og1Lx/oTF8dHsl4ZE8UKhuKLWso=;
+  b=GPt8KhNxUplMBbYTdV2IdcvueBUwBQhHjamWyO11ncivwofqZW4zWY6/
+   eDSnd7hUW8vtvIRqJw7+scIeXhNQ4aaSwKMrI8tdRYbdyrAA4USUZqmq4
+   +mddcKYgKfj1dgJUJ3jZkx+ngoSrDBgUcqtbSk85CoK7jZFmzKSH2iCLx
+   eBj2tiyu0/9cahcC+U9pv84vG94N11/Jd5xpFFHsBpwpUVaAxRbBwUf/0
+   vx16CWCXIuwZHAJOC36kf/b7GvcAC/3HJwEyIQO5MYpmfpeMB58jN2etd
+   j1MVqs/J9hFWF+dNl0IeFWahIsaJRKuRuQn6vg7VneefReRb/xKWF29xo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="317469641"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="317469641"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 00:34:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="755552657"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="755552657"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2023 00:34:51 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPJRD-0003MK-00;
+	Tue, 07 Feb 2023 08:34:51 +0000
+Date: Tue, 7 Feb 2023 16:34:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/omap/omapfb_main.c:549 set_fb_var() warn:
+ inconsistent indenting
+Message-ID: <202302071628.D2cZY8jL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +45,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119235936.19728-7-rpearsonhpe@gmail.com>
 
-Hi Bob,
+Hi Arnd,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bob-Pearson/RDMA-rxe-Cleanup-mr_check_range/20230120-080520
-base:   1ec82317a1daac78c04b0c15af89018ccf9fa2b7
-patch link:    https://lore.kernel.org/r/20230119235936.19728-7-rpearsonhpe%40gmail.com
-patch subject: [PATCH for-next v7 6/6] RDMA/rxe: Replace rxe_map and rxe_phys_buf by xarray
-config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071553.dxgzoPxM-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
+commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
+date:   10 months ago
+config: arm-randconfig-m031-20230207 (https://download.01.org/0day-ci/archive/20230207/202302071628.D2cZY8jL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/infiniband/sw/rxe/rxe_mr.c:130 rxe_mr_fill_pages_from_sgt() warn: inconsistent returns '&((&xas)->xa)->xa_lock'.
+New smatch warnings:
+drivers/video/fbdev/omap/omapfb_main.c:549 set_fb_var() warn: inconsistent indenting
 
-vim +130 drivers/infiniband/sw/rxe/rxe_mr.c
+Old smatch warnings:
+drivers/video/fbdev/omap/omapfb_main.c:551 set_fb_var() warn: inconsistent indenting
+drivers/video/fbdev/omap/omapfb_main.c:556 set_fb_var() warn: inconsistent indenting
+drivers/video/fbdev/omap/omapfb_main.c:558 set_fb_var() warn: inconsistent indenting
+drivers/video/fbdev/omap/omapfb_main.c:1646 omapfb_do_probe() warn: platform_get_irq() does not return zero
+drivers/video/fbdev/omap/omapfb_main.c:1653 omapfb_do_probe() warn: platform_get_irq() does not return zero
 
-3222da9099ca42 Bob Pearson 2023-01-19   99  static int rxe_mr_fill_pages_from_sgt(struct rxe_mr *mr, struct sg_table *sgt)
-3222da9099ca42 Bob Pearson 2023-01-19  100  {
-3222da9099ca42 Bob Pearson 2023-01-19  101  	XA_STATE(xas, &mr->page_list, 0);
-3222da9099ca42 Bob Pearson 2023-01-19  102  	struct sg_page_iter sg_iter;
-3222da9099ca42 Bob Pearson 2023-01-19  103  	struct page *page;
-3222da9099ca42 Bob Pearson 2023-01-19  104  	bool persistent = !!(mr->access & IB_ACCESS_FLUSH_PERSISTENT);
-3222da9099ca42 Bob Pearson 2023-01-19  105  
-3222da9099ca42 Bob Pearson 2023-01-19  106  	__sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
-3222da9099ca42 Bob Pearson 2023-01-19  107  	if (!__sg_page_iter_next(&sg_iter))
-3222da9099ca42 Bob Pearson 2023-01-19  108  		return 0;
-3222da9099ca42 Bob Pearson 2023-01-19  109  
-3222da9099ca42 Bob Pearson 2023-01-19  110  	do {
-3222da9099ca42 Bob Pearson 2023-01-19  111  		xas_lock(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  112  		while (true) {
-3222da9099ca42 Bob Pearson 2023-01-19  113  			page = sg_page_iter_page(&sg_iter);
-3222da9099ca42 Bob Pearson 2023-01-19  114  
-3222da9099ca42 Bob Pearson 2023-01-19  115  			if (persistent && !is_pmem_page(page)) {
-3222da9099ca42 Bob Pearson 2023-01-19  116  				rxe_dbg_mr(mr, "Page can't be persistent\n");
-3222da9099ca42 Bob Pearson 2023-01-19  117  				return -EINVAL;
+vim +549 drivers/video/fbdev/omap/omapfb_main.c
 
-xas_unlock(&xas);
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  457  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  458  /*
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  459   * Check the values in var against our capabilities and in case of out of
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  460   * bound values try to adjust them.
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  461   */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  462  static int set_fb_var(struct fb_info *fbi,
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  463  		      struct fb_var_screeninfo *var)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  464  {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  465  	int		bpp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  466  	unsigned long	max_frame_size;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  467  	unsigned long	line_size;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  468  	int		xres_min, xres_max;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  469  	int		yres_min, yres_max;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  470  	struct omapfb_plane_struct *plane = fbi->par;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  471  	struct omapfb_device *fbdev = plane->fbdev;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  472  	struct lcd_panel *panel = fbdev->panel;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  473  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  474  	if (set_color_mode(plane, var) < 0)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  475  		return -EINVAL;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  476  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  477  	bpp = var->bits_per_pixel;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  478  	if (plane->color_mode == OMAPFB_COLOR_RGB444)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  479  		bpp = 16;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  480  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  481  	switch (var->rotate) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  482  	case 0:
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  483  	case 180:
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  484  		xres_min = OMAPFB_PLANE_XRES_MIN;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  485  		xres_max = panel->x_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  486  		yres_min = OMAPFB_PLANE_YRES_MIN;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  487  		yres_max = panel->y_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  488  		if (cpu_is_omap15xx()) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  489  			var->xres = panel->x_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  490  			var->yres = panel->y_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  491  		}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  492  		break;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  493  	case 90:
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  494  	case 270:
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  495  		xres_min = OMAPFB_PLANE_YRES_MIN;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  496  		xres_max = panel->y_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  497  		yres_min = OMAPFB_PLANE_XRES_MIN;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  498  		yres_max = panel->x_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  499  		if (cpu_is_omap15xx()) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  500  			var->xres = panel->y_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  501  			var->yres = panel->x_res;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  502  		}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  503  		break;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  504  	default:
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  505  		return -EINVAL;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  506  	}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  507  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  508  	if (var->xres < xres_min)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  509  		var->xres = xres_min;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  510  	if (var->yres < yres_min)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  511  		var->yres = yres_min;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  512  	if (var->xres > xres_max)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  513  		var->xres = xres_max;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  514  	if (var->yres > yres_max)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  515  		var->yres = yres_max;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  516  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  517  	if (var->xres_virtual < var->xres)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  518  		var->xres_virtual = var->xres;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  519  	if (var->yres_virtual < var->yres)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  520  		var->yres_virtual = var->yres;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  521  	max_frame_size = fbdev->mem_desc.region[plane->idx].size;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  522  	line_size = var->xres_virtual * bpp / 8;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  523  	if (line_size * var->yres_virtual > max_frame_size) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  524  		/* Try to keep yres_virtual first */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  525  		line_size = max_frame_size / var->yres_virtual;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  526  		var->xres_virtual = line_size * 8 / bpp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  527  		if (var->xres_virtual < var->xres) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  528  			/* Still doesn't fit. Shrink yres_virtual too */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  529  			var->xres_virtual = var->xres;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  530  			line_size = var->xres * bpp / 8;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  531  			var->yres_virtual = max_frame_size / line_size;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  532  		}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  533  		/* Recheck this, as the virtual size changed. */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  534  		if (var->xres_virtual < var->xres)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  535  			var->xres = var->xres_virtual;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  536  		if (var->yres_virtual < var->yres)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  537  			var->yres = var->yres_virtual;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  538  		if (var->xres < xres_min || var->yres < yres_min)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  539  			return -EINVAL;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  540  	}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  541  	if (var->xres + var->xoffset > var->xres_virtual)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  542  		var->xoffset = var->xres_virtual - var->xres;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  543  	if (var->yres + var->yoffset > var->yres_virtual)
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  544  		var->yoffset = var->yres_virtual - var->yres;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  545  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  546  	if (plane->color_mode == OMAPFB_COLOR_RGB444) {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  547  		var->red.offset	  = 8; var->red.length	 = 4;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  548  						var->red.msb_right   = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17 @549  		var->green.offset = 4; var->green.length = 4;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  550  						var->green.msb_right = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  551  		var->blue.offset  = 0; var->blue.length  = 4;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  552  						var->blue.msb_right  = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  553  	} else {
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  554  		var->red.offset	 = 11; var->red.length	 = 5;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  555  						var->red.msb_right   = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  556  		var->green.offset = 5;  var->green.length = 6;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  557  						var->green.msb_right = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  558  		var->blue.offset = 0;  var->blue.length  = 5;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  559  						var->blue.msb_right  = 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  560  	}
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  561  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  562  	var->height		= -1;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  563  	var->width		= -1;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  564  	var->grayscale		= 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  565  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  566  	/* pixclock in ps, the rest in pixclock */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  567  	var->pixclock		= 10000000 / (panel->pixel_clock / 100);
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  568  	var->left_margin	= panel->hfp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  569  	var->right_margin	= panel->hbp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  570  	var->upper_margin	= panel->vfp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  571  	var->lower_margin	= panel->vbp;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  572  	var->hsync_len		= panel->hsw;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  573  	var->vsync_len		= panel->vsw;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  574  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  575  	/* TODO: get these from panel->config */
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  576  	var->vmode		= FB_VMODE_NONINTERLACED;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  577  	var->sync		= 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  578  
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  579  	return 0;
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  580  }
+8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak 2007-07-17  581  
 
-3222da9099ca42 Bob Pearson 2023-01-19  118  			}
-3222da9099ca42 Bob Pearson 2023-01-19  119  
-3222da9099ca42 Bob Pearson 2023-01-19  120  			xas_store(&xas, page);
-3222da9099ca42 Bob Pearson 2023-01-19  121  			if (xas_error(&xas))
-3222da9099ca42 Bob Pearson 2023-01-19  122  				break;
-3222da9099ca42 Bob Pearson 2023-01-19  123  			xas_next(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  124  			if (!__sg_page_iter_next(&sg_iter))
-3222da9099ca42 Bob Pearson 2023-01-19  125  				break;
-3222da9099ca42 Bob Pearson 2023-01-19  126  		}
-3222da9099ca42 Bob Pearson 2023-01-19  127  		xas_unlock(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  128  	} while (xas_nomem(&xas, GFP_KERNEL));
-3222da9099ca42 Bob Pearson 2023-01-19  129  
-3222da9099ca42 Bob Pearson 2023-01-19 @130  	return xas_error(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  131  }
+:::::: The code at line 549 was first introduced by commit
+:::::: 8b08cf2b64f5a60594b07795b2ad518c6d044566 OMAP: add TI OMAP framebuffer driver
+
+:::::: TO: Imre Deak <imre.deak@solidboot.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
