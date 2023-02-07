@@ -1,43 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE1879DD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 20:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CEA8BF1;
+	Tue,  7 Feb 2023 21:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675803214; x=1707339214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8HVPQko0pHpLHJJu5kZ8ASYtbx3D0XkF6VXHDh2Llzk=;
-  b=cRztPyztpW3O0u3x9dYYGxrXQNA0DwKCUD+TjEJ+iNOc1tE4L3CFdEoL
-   ot+7uQbPpSg8GveM3p3PUCRepBFs6RNC1zIYzovbBQxMFohkZi2UdU2n+
-   DUyPGUPr/zopaboO5WO70JfEn18JeMxWL+9xg5G4MEAbSiqDRiYmMLCLy
-   tdsVo5hAtvioSNxIfsCB9NUeSgLm9OptgXRZ45Tt9bIuKv1omAtlVwq9P
-   XbFzbfov979x1gG8ibKOgzPTtZ8YotP5s09ODT8BPh8tSzKEMdOTVVah6
-   wh5RUeNgROYhF4X/lVqA6uIkjXebqSumdm3SsVZZk0mP7kUTil5acx2ly
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="357003174"
+  t=1675805680; x=1707341680;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6rk3STxwXlLTIA+18/o9DVvRBIh5FH0jKa6+66pEn1s=;
+  b=jNIS4Q16j/xKlhQceNmTzk3wg6LTm9TNKYaDhN9zgNVGY1yK+5HaJeDY
+   qulxtkP9IA/ocNS5cbuSZOqJnlHSIjuYALf5hYGq/6YL59Oz2BdKB6w2B
+   pdn0+2/lKScgOKwGQyTjsNhFIZ8U4m4a8zGypaiG90ZHAo1n4HiTNKC6Y
+   rD2LlaxpkZ2ZGRsNVPVJvHc/K082WDHDZh4zTPPQ2cbbyUqZAXZehDc8v
+   Eq6lPV+Z5eJ1vY6J1zy8pEFFj+dM2eEpBKRyGd7zyB6VkmTYf0joVUQS+
+   uJfRqaG8QqAes2pp/yPj90g//G/vixQn/huZ2nGoDU5s+5/vea0r5j1Ez
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="309283469"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="357003174"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 12:53:33 -0800
+   d="scan'208";a="309283469"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 13:34:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="735674081"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="644606027"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="735674081"
+   d="scan'208";a="644606027"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Feb 2023 12:53:32 -0800
+  by orsmga006.jf.intel.com with ESMTP; 07 Feb 2023 13:34:36 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPUy3-0003so-2z;
-	Tue, 07 Feb 2023 20:53:31 +0000
-Date: Wed, 8 Feb 2023 04:52:58 +0800
+	id 1pPVbn-0003uS-2D;
+	Tue, 07 Feb 2023 21:34:35 +0000
+Date: Wed, 8 Feb 2023 05:33:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 12/12] gpiolib: Clean up headers
-Message-ID: <202302080412.kZeKWUuw-lkp@intel.com>
-References: <20230207142952.51844-13-andriy.shevchenko@linux.intel.com>
+To: Perry Yuan <Perry.Yuan@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Mario Limonciello <Mario.Limonciello@amd.com>,
+	Wyes Karny <wyes.karny@amd.com>
+Subject: [linux-next:master 9935/10933] drivers/cpufreq/amd-pstate.c:864:6:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202302080535.YeJXn11A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,158 +50,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230207142952.51844-13-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on next-20230207]
-[cannot apply to powerpc/next powerpc/fixes soc/for-next linus/master v6.2-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpiolib-remove-empty-asm-gpio-h-files/20230207-223652
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20230207142952.51844-13-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v3 12/12] gpiolib: Clean up headers
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080412.kZeKWUuw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   49a8133221c71b935f36a7c340c0271c2a9ee2db
+commit: ffa5096a7c338641f70fb06d4778e8cf400181a8 [9935/10933] cpufreq: amd-pstate: implement Pstate EPP support for the AMD processors
+config: i386-buildonly-randconfig-r004-20230206 (https://download.01.org/0day-ci/archive/20230208/202302080535.YeJXn11A-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1b29af54a98628e27cdabe2554fbf29b75a1c18b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/gpiolib-remove-empty-asm-gpio-h-files/20230207-223652
-        git checkout 1b29af54a98628e27cdabe2554fbf29b75a1c18b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ffa5096a7c338641f70fb06d4778e8cf400181a8
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout ffa5096a7c338641f70fb06d4778e8cf400181a8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpufreq/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-regmap.c: In function 'gpio_regmap_register':
-   drivers/gpio/gpio-regmap.c:256:40: error: implicit declaration of function 'dev_name' [-Werror=implicit-function-declaration]
-     256 |         chip->label = config->label ?: dev_name(config->parent);
-         |                                        ^~~~~~~~
->> drivers/gpio/gpio-regmap.c:256:38: warning: pointer/integer type mismatch in conditional expression
-     256 |         chip->label = config->label ?: dev_name(config->parent);
-         |                                      ^
-   drivers/gpio/gpio-regmap.c: In function 'devm_gpio_regmap_register':
-   drivers/gpio/gpio-regmap.c:329:15: error: implicit declaration of function 'devm_add_action_or_reset' [-Werror=implicit-function-declaration]
-     329 |         ret = devm_add_action_or_reset(dev, devm_gpio_regmap_unregister, gpio);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/cpufreq/amd-pstate.c:864:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (rc)
+               ^~
+   drivers/cpufreq/amd-pstate.c:920:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/cpufreq/amd-pstate.c:864:2: note: remove the 'if' if its condition is always false
+           if (rc)
+           ^~~~~~~
+   drivers/cpufreq/amd-pstate.c:853:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!dev)
+               ^~~~
+   drivers/cpufreq/amd-pstate.c:920:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/cpufreq/amd-pstate.c:853:2: note: remove the 'if' if its condition is always false
+           if (!dev)
+           ^~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:841:66: note: initialize the variable 'ret' to silence this warning
+           int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+                                                                           ^
+                                                                            = 0
+>> drivers/cpufreq/amd-pstate.c:957:6: warning: variable 'epp' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (cpudata->epp_policy == cpudata->policy)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:982:30: note: uninitialized use occurs here
+           amd_pstate_set_epp(cpudata, epp);
+                                       ^~~
+   drivers/cpufreq/amd-pstate.c:957:2: note: remove the 'if' if its condition is always false
+           if (cpudata->epp_policy == cpudata->policy)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:936:9: note: initialize the variable 'epp' to silence this warning
+           s16 epp;
+                  ^
+                   = 0
+   3 warnings generated.
 
 
-vim +256 drivers/gpio/gpio-regmap.c
+vim +864 drivers/cpufreq/amd-pstate.c
 
-ebe363197e525ff Michael Walle          2020-05-28  191  
-ebe363197e525ff Michael Walle          2020-05-28  192  /**
-ebe363197e525ff Michael Walle          2020-05-28  193   * gpio_regmap_register() - Register a generic regmap GPIO controller
-ebe363197e525ff Michael Walle          2020-05-28  194   * @config: configuration for gpio_regmap
-ebe363197e525ff Michael Walle          2020-05-28  195   *
-ebe363197e525ff Michael Walle          2020-05-28  196   * Return: A pointer to the registered gpio_regmap or ERR_PTR error value.
-ebe363197e525ff Michael Walle          2020-05-28  197   */
-ebe363197e525ff Michael Walle          2020-05-28  198  struct gpio_regmap *gpio_regmap_register(const struct gpio_regmap_config *config)
-ebe363197e525ff Michael Walle          2020-05-28  199  {
-ebe363197e525ff Michael Walle          2020-05-28  200  	struct gpio_regmap *gpio;
-ebe363197e525ff Michael Walle          2020-05-28  201  	struct gpio_chip *chip;
-ebe363197e525ff Michael Walle          2020-05-28  202  	int ret;
-ebe363197e525ff Michael Walle          2020-05-28  203  
-ebe363197e525ff Michael Walle          2020-05-28  204  	if (!config->parent)
-ebe363197e525ff Michael Walle          2020-05-28  205  		return ERR_PTR(-EINVAL);
-ebe363197e525ff Michael Walle          2020-05-28  206  
-ebe363197e525ff Michael Walle          2020-05-28  207  	if (!config->ngpio)
-ebe363197e525ff Michael Walle          2020-05-28  208  		return ERR_PTR(-EINVAL);
-ebe363197e525ff Michael Walle          2020-05-28  209  
-ebe363197e525ff Michael Walle          2020-05-28  210  	/* we need at least one */
-ebe363197e525ff Michael Walle          2020-05-28  211  	if (!config->reg_dat_base && !config->reg_set_base)
-ebe363197e525ff Michael Walle          2020-05-28  212  		return ERR_PTR(-EINVAL);
-ebe363197e525ff Michael Walle          2020-05-28  213  
-ebe363197e525ff Michael Walle          2020-05-28  214  	/* if we have a direction register we need both input and output */
-ebe363197e525ff Michael Walle          2020-05-28  215  	if ((config->reg_dir_out_base || config->reg_dir_in_base) &&
-ebe363197e525ff Michael Walle          2020-05-28  216  	    (!config->reg_dat_base || !config->reg_set_base))
-ebe363197e525ff Michael Walle          2020-05-28  217  		return ERR_PTR(-EINVAL);
-ebe363197e525ff Michael Walle          2020-05-28  218  
-ebe363197e525ff Michael Walle          2020-05-28  219  	/* we don't support having both registers simultaneously for now */
-ebe363197e525ff Michael Walle          2020-05-28  220  	if (config->reg_dir_out_base && config->reg_dir_in_base)
-ebe363197e525ff Michael Walle          2020-05-28  221  		return ERR_PTR(-EINVAL);
-ebe363197e525ff Michael Walle          2020-05-28  222  
-ebe363197e525ff Michael Walle          2020-05-28  223  	gpio = kzalloc(sizeof(*gpio), GFP_KERNEL);
-ebe363197e525ff Michael Walle          2020-05-28  224  	if (!gpio)
-ebe363197e525ff Michael Walle          2020-05-28  225  		return ERR_PTR(-ENOMEM);
-ebe363197e525ff Michael Walle          2020-05-28  226  
-ebe363197e525ff Michael Walle          2020-05-28  227  	gpio->parent = config->parent;
-9b3c47f124b6077 Michael Walle          2021-06-05  228  	gpio->driver_data = config->drvdata;
-ebe363197e525ff Michael Walle          2020-05-28  229  	gpio->regmap = config->regmap;
-ebe363197e525ff Michael Walle          2020-05-28  230  	gpio->ngpio_per_reg = config->ngpio_per_reg;
-ebe363197e525ff Michael Walle          2020-05-28  231  	gpio->reg_stride = config->reg_stride;
-ebe363197e525ff Michael Walle          2020-05-28  232  	gpio->reg_mask_xlate = config->reg_mask_xlate;
-ebe363197e525ff Michael Walle          2020-05-28  233  	gpio->reg_dat_base = config->reg_dat_base;
-ebe363197e525ff Michael Walle          2020-05-28  234  	gpio->reg_set_base = config->reg_set_base;
-ebe363197e525ff Michael Walle          2020-05-28  235  	gpio->reg_clr_base = config->reg_clr_base;
-ebe363197e525ff Michael Walle          2020-05-28  236  	gpio->reg_dir_in_base = config->reg_dir_in_base;
-ebe363197e525ff Michael Walle          2020-05-28  237  	gpio->reg_dir_out_base = config->reg_dir_out_base;
-ebe363197e525ff Michael Walle          2020-05-28  238  
-ebe363197e525ff Michael Walle          2020-05-28  239  	/* if not set, assume there is only one register */
-ebe363197e525ff Michael Walle          2020-05-28  240  	if (!gpio->ngpio_per_reg)
-ebe363197e525ff Michael Walle          2020-05-28  241  		gpio->ngpio_per_reg = config->ngpio;
-ebe363197e525ff Michael Walle          2020-05-28  242  
-ebe363197e525ff Michael Walle          2020-05-28  243  	/* if not set, assume they are consecutive */
-ebe363197e525ff Michael Walle          2020-05-28  244  	if (!gpio->reg_stride)
-ebe363197e525ff Michael Walle          2020-05-28  245  		gpio->reg_stride = 1;
-ebe363197e525ff Michael Walle          2020-05-28  246  
-ebe363197e525ff Michael Walle          2020-05-28  247  	if (!gpio->reg_mask_xlate)
-ebe363197e525ff Michael Walle          2020-05-28  248  		gpio->reg_mask_xlate = gpio_regmap_simple_xlate;
-ebe363197e525ff Michael Walle          2020-05-28  249  
-ebe363197e525ff Michael Walle          2020-05-28  250  	chip = &gpio->gpio_chip;
-ebe363197e525ff Michael Walle          2020-05-28  251  	chip->parent = config->parent;
-f21ecad451c9b33 Andy Shevchenko        2021-12-23  252  	chip->fwnode = config->fwnode;
-ebe363197e525ff Michael Walle          2020-05-28  253  	chip->base = -1;
-ebe363197e525ff Michael Walle          2020-05-28  254  	chip->ngpio = config->ngpio;
-ebe363197e525ff Michael Walle          2020-05-28  255  	chip->names = config->names;
-ebe363197e525ff Michael Walle          2020-05-28 @256  	chip->label = config->label ?: dev_name(config->parent);
-297a44f664a8ac2 Michael Walle          2023-01-05  257  	chip->can_sleep = regmap_might_sleep(config->regmap);
-ebe363197e525ff Michael Walle          2020-05-28  258  
-ebe363197e525ff Michael Walle          2020-05-28  259  	chip->get = gpio_regmap_get;
-ebe363197e525ff Michael Walle          2020-05-28  260  	if (gpio->reg_set_base && gpio->reg_clr_base)
-ebe363197e525ff Michael Walle          2020-05-28  261  		chip->set = gpio_regmap_set_with_clear;
-ebe363197e525ff Michael Walle          2020-05-28  262  	else if (gpio->reg_set_base)
-ebe363197e525ff Michael Walle          2020-05-28  263  		chip->set = gpio_regmap_set;
-ebe363197e525ff Michael Walle          2020-05-28  264  
-ebe363197e525ff Michael Walle          2020-05-28  265  	chip->get_direction = gpio_regmap_get_direction;
-8978277c229b950 William Breathitt Gray 2022-12-27  266  	if (gpio->reg_dir_in_base || gpio->reg_dir_out_base) {
-ebe363197e525ff Michael Walle          2020-05-28  267  		chip->direction_input = gpio_regmap_direction_input;
-ebe363197e525ff Michael Walle          2020-05-28  268  		chip->direction_output = gpio_regmap_direction_output;
-ebe363197e525ff Michael Walle          2020-05-28  269  	}
-ebe363197e525ff Michael Walle          2020-05-28  270  
-ebe363197e525ff Michael Walle          2020-05-28  271  	ret = gpiochip_add_data(chip, gpio);
-ebe363197e525ff Michael Walle          2020-05-28  272  	if (ret < 0)
-ebe363197e525ff Michael Walle          2020-05-28  273  		goto err_free_gpio;
-ebe363197e525ff Michael Walle          2020-05-28  274  
-ebe363197e525ff Michael Walle          2020-05-28  275  	if (config->irq_domain) {
-ebe363197e525ff Michael Walle          2020-05-28  276  		ret = gpiochip_irqchip_add_domain(chip, config->irq_domain);
-ebe363197e525ff Michael Walle          2020-05-28  277  		if (ret)
-ebe363197e525ff Michael Walle          2020-05-28  278  			goto err_remove_gpiochip;
-ebe363197e525ff Michael Walle          2020-05-28  279  	}
-ebe363197e525ff Michael Walle          2020-05-28  280  
-ebe363197e525ff Michael Walle          2020-05-28  281  	return gpio;
-ebe363197e525ff Michael Walle          2020-05-28  282  
-ebe363197e525ff Michael Walle          2020-05-28  283  err_remove_gpiochip:
-ebe363197e525ff Michael Walle          2020-05-28  284  	gpiochip_remove(chip);
-ebe363197e525ff Michael Walle          2020-05-28  285  err_free_gpio:
-ebe363197e525ff Michael Walle          2020-05-28  286  	kfree(gpio);
-ebe363197e525ff Michael Walle          2020-05-28  287  	return ERR_PTR(ret);
-ebe363197e525ff Michael Walle          2020-05-28  288  }
-ebe363197e525ff Michael Walle          2020-05-28  289  EXPORT_SYMBOL_GPL(gpio_regmap_register);
-ebe363197e525ff Michael Walle          2020-05-28  290  
+   838	
+   839	static int amd_pstate_epp_cpu_init(struct cpufreq_policy *policy)
+   840	{
+   841		int min_freq, max_freq, nominal_freq, lowest_nonlinear_freq, ret;
+   842		struct amd_cpudata *cpudata;
+   843		struct device *dev;
+   844		int rc;
+   845		u64 value;
+   846	
+   847		/*
+   848		 * Resetting PERF_CTL_MSR will put the CPU in P0 frequency,
+   849		 * which is ideal for initialization process.
+   850		 */
+   851		amd_perf_ctl_reset(policy->cpu);
+   852		dev = get_cpu_device(policy->cpu);
+   853		if (!dev)
+   854			goto free_cpudata1;
+   855	
+   856		cpudata = kzalloc(sizeof(*cpudata), GFP_KERNEL);
+   857		if (!cpudata)
+   858			return -ENOMEM;
+   859	
+   860		cpudata->cpu = policy->cpu;
+   861		cpudata->epp_policy = 0;
+   862	
+   863		rc = amd_pstate_init_perf(cpudata);
+ > 864		if (rc)
+   865			goto free_cpudata1;
+   866	
+   867		min_freq = amd_get_min_freq(cpudata);
+   868		max_freq = amd_get_max_freq(cpudata);
+   869		nominal_freq = amd_get_nominal_freq(cpudata);
+   870		lowest_nonlinear_freq = amd_get_lowest_nonlinear_freq(cpudata);
+   871		if (min_freq < 0 || max_freq < 0 || min_freq > max_freq) {
+   872			dev_err(dev, "min_freq(%d) or max_freq(%d) value is incorrect\n",
+   873					min_freq, max_freq);
+   874			ret = -EINVAL;
+   875			goto free_cpudata1;
+   876		}
+   877	
+   878		policy->cpuinfo.min_freq = min_freq;
+   879		policy->cpuinfo.max_freq = max_freq;
+   880		/* It will be updated by governor */
+   881		policy->cur = policy->cpuinfo.min_freq;
+   882	
+   883		/* Initial processor data capability frequencies */
+   884		cpudata->max_freq = max_freq;
+   885		cpudata->min_freq = min_freq;
+   886		cpudata->nominal_freq = nominal_freq;
+   887		cpudata->lowest_nonlinear_freq = lowest_nonlinear_freq;
+   888	
+   889		policy->driver_data = cpudata;
+   890	
+   891		cpudata->epp_cached = amd_pstate_get_epp(cpudata, 0);
+   892	
+   893		policy->min = policy->cpuinfo.min_freq;
+   894		policy->max = policy->cpuinfo.max_freq;
+   895	
+   896		/*
+   897		 * Set the policy to powersave to provide a valid fallback value in case
+   898		 * the default cpufreq governor is neither powersave nor performance.
+   899		 */
+   900		policy->policy = CPUFREQ_POLICY_POWERSAVE;
+   901	
+   902		if (boot_cpu_has(X86_FEATURE_CPPC)) {
+   903			policy->fast_switch_possible = true;
+   904			ret = rdmsrl_on_cpu(cpudata->cpu, MSR_AMD_CPPC_REQ, &value);
+   905			if (ret)
+   906				return ret;
+   907			WRITE_ONCE(cpudata->cppc_req_cached, value);
+   908	
+   909			ret = rdmsrl_on_cpu(cpudata->cpu, MSR_AMD_CPPC_CAP1, &value);
+   910			if (ret)
+   911				return ret;
+   912			WRITE_ONCE(cpudata->cppc_cap1_cached, value);
+   913		}
+   914		amd_pstate_boost_init(cpudata);
+   915	
+   916		return 0;
+   917	
+   918	free_cpudata1:
+   919		kfree(cpudata);
+   920		return ret;
+   921	}
+   922	
+   923	static int amd_pstate_epp_cpu_exit(struct cpufreq_policy *policy)
+   924	{
+   925		pr_debug("CPU %d exiting\n", policy->cpu);
+   926		policy->fast_switch_possible = false;
+   927		return 0;
+   928	}
+   929	
+   930	static void amd_pstate_epp_init(unsigned int cpu)
+   931	{
+   932		struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+   933		struct amd_cpudata *cpudata = policy->driver_data;
+   934		u32 max_perf, min_perf;
+   935		u64 value;
+   936		s16 epp;
+   937	
+   938		max_perf = READ_ONCE(cpudata->highest_perf);
+   939		min_perf = READ_ONCE(cpudata->lowest_perf);
+   940	
+   941		value = READ_ONCE(cpudata->cppc_req_cached);
+   942	
+   943		if (cpudata->policy == CPUFREQ_POLICY_PERFORMANCE)
+   944			min_perf = max_perf;
+   945	
+   946		/* Initial min/max values for CPPC Performance Controls Register */
+   947		value &= ~AMD_CPPC_MIN_PERF(~0L);
+   948		value |= AMD_CPPC_MIN_PERF(min_perf);
+   949	
+   950		value &= ~AMD_CPPC_MAX_PERF(~0L);
+   951		value |= AMD_CPPC_MAX_PERF(max_perf);
+   952	
+   953		/* CPPC EPP feature require to set zero to the desire perf bit */
+   954		value &= ~AMD_CPPC_DES_PERF(~0L);
+   955		value |= AMD_CPPC_DES_PERF(0);
+   956	
+ > 957		if (cpudata->epp_policy == cpudata->policy)
+   958			goto skip_epp;
+   959	
+   960		cpudata->epp_policy = cpudata->policy;
+   961	
+   962		if (cpudata->policy == CPUFREQ_POLICY_PERFORMANCE) {
+   963			epp = amd_pstate_get_epp(cpudata, value);
+   964			if (epp < 0)
+   965				goto skip_epp;
+   966			/* force the epp value to be zero for performance policy */
+   967			epp = 0;
+   968		} else {
+   969			/* Get BIOS pre-defined epp value */
+   970			epp = amd_pstate_get_epp(cpudata, value);
+   971			if (epp)
+   972				goto skip_epp;
+   973		}
+   974		/* Set initial EPP value */
+   975		if (boot_cpu_has(X86_FEATURE_CPPC)) {
+   976			value &= ~GENMASK_ULL(31, 24);
+   977			value |= (u64)epp << 24;
+   978		}
+   979	
+   980	skip_epp:
+   981		WRITE_ONCE(cpudata->cppc_req_cached, value);
+   982		amd_pstate_set_epp(cpudata, epp);
+   983		cpufreq_cpu_put(policy);
+   984	}
+   985	
 
 -- 
 0-DAY CI Kernel Test Service
