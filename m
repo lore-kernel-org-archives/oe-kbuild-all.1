@@ -1,43 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FC47F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 01:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEDABD0B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Feb 2023 03:06:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675734288; x=1707270288;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vvKKbaXxXsaUpmsJMxijqZEagzraOoOKcASM8s9ugBc=;
-  b=O+gganKr6CVWlA3Ro9cA6GHDILBcyx7y5XoqnmDdjXH5rO8qPfT+u9fb
-   s7x9XyffuoP7VMuua27Owy6ajMoLf7EQ+wa5QzhTrD+RYe02Qg5MSrYvW
-   To1dZ2SIYCJv/0X7mzqZFKxOjzz4E1nUDXVEDjIA334fNNBNXr8kH3VoQ
-   JW40UrnesnOngj0gJ0lOanCgC0Q3VU3CXQXJX2iRp87YiBNQz143fqJdb
-   4JRhBHbdBEKCWBAbpN5iqpReRiVns4iBunwiCK+FUM/mwG3Qwjy2tx3OD
-   Nbp3gFTYUwBKpDSL3hdeEUQvvhurMHWNqEQ9cbGyFKo6N0rn+OcW3UEth
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="393971873"
+  t=1675739193; x=1707275193;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YigXQ2LSr3ITNvRgdHDzSl8lcf5xe5hJv8rmEHqLs7c=;
+  b=djtwViO0AClI2M79KGYsTYgWqiGs6fieUTjNaovOE++B8RoZHPNuRLVJ
+   KyiOzsKmwXRkmSvqszKqVab998IeLmDK7Zmd/E1+E67WRP50bFJOGMCdX
+   BggCTO8PQbBm0TgOIxOGiOhNFb9rRK7YX1AjJBW5nL7nS7AXbRsattKqa
+   W7AD8BvSWZL3je2anUc09IuY7dm0qIw+pWok0ChQwuigiAccK4o/Etjx+
+   Pb75M/ZqN2xhEVlR2hc6vmIV9/MRt2WXfcIT6VekWqndIJk048rxxcE0b
+   8NeMUcInqaWcPDcGZPcPFmdhnPl4CtvaOmBH1lD+1DIxz26lH01KVdrNB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="327075184"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="393971873"
+   d="scan'208";a="327075184"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 17:44:28 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 19:06:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="730216798"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="730238373"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="730216798"
+   d="scan'208";a="730238373"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2023 17:44:27 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2023 19:06:29 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPD22-0002w6-0x;
-	Tue, 07 Feb 2023 01:44:26 +0000
-Date: Tue, 7 Feb 2023 09:44:02 +0800
+	id 1pPEJQ-0002zW-17;
+	Tue, 07 Feb 2023 03:06:28 +0000
+Date: Tue, 7 Feb 2023 11:05:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:sched/core 9/10] vmlinux.o: warning: objtool: local_clock+0x44:
- call to ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202302070951.oHp56RIa-lkp@intel.com>
+To: Saurabh Sengar <ssengar@linux.microsoft.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	daniel.lezcano@linaro.org, tglx@linutronix.de,
+	virtualization@lists.linux-foundation.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
+	ssengar@microsoft.com, dphadke@linux.microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 6/6] Driver: VMBus: Add device tree support
+Message-ID: <202302071011.XjQOfXVK-lkp@intel.com>
+References: <1675706060-22361-7-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,123 +53,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1675706060-22361-7-git-send-email-ssengar@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   4d627628d7584f3d3add1d53342d0f01aa878e04
-commit: 776f22913b8e50011004c6ae43004711dab7efa5 [9/10] sched/clock: Make local_clock() noinstr
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230207/202302070951.oHp56RIa-lkp@intel.com/config)
+Hi Saurabh,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20230206]
+[cannot apply to robh/for-next tip/timers/core brgl/gpio/for-next wsa/i2c/for-next linus/master v6.2-rc7 v6.2-rc6 v6.2-rc5 v6.2-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-015625
+patch link:    https://lore.kernel.org/r/1675706060-22361-7-git-send-email-ssengar%40linux.microsoft.com
+patch subject: [PATCH v3 6/6] Driver: VMBus: Add device tree support
+config: i386-randconfig-a014-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071011.XjQOfXVK-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=776f22913b8e50011004c6ae43004711dab7efa5
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip sched/core
-        git checkout 776f22913b8e50011004c6ae43004711dab7efa5
+        # https://github.com/intel-lab-lkp/linux/commit/121473f34bab66918912399f1cfe9e06a9ea0294
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-015625
+        git checkout 121473f34bab66918912399f1cfe9e06a9ea0294
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: __asan_memset+0x53: call to __memset() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memmove+0x7f: call to __memmove() with UACCESS enabled
-   vmlinux.o: warning: objtool: __asan_memcpy+0x7f: call to __memcpy() with UACCESS enabled
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x36: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x32: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x75: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: native_sched_clock+0x7d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0xd: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x4d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x52: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0xb2: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: local_clock+0x44: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x49: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x8e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x45: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0x63: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0x5e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0x59: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_ibrs+0x12: call to sched_smt_active() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x53: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
+   drivers/hv/vmbus_drv.c: In function 'vmbus_mmio_remove':
+   drivers/hv/vmbus_drv.c:2285:1: error: no return statement in function returning non-void [-Werror=return-type]
+    2285 | }
+         | ^
+   At top level:
+>> drivers/hv/vmbus_drv.c:2691:34: warning: 'vmbus_of_match' defined but not used [-Wunused-const-variable=]
+    2691 | static const struct of_device_id vmbus_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-objdump-func vmlinux.o local_clock:
-0000 0000000000002d8c <local_clock>:
-0000     2d8c:	f3 0f 1e fa          	endbr64
-0004     2d90:	41 54                	push   %r12
-0006     2d92:	53                   	push   %rbx
-0007     2d93:	eb 14                	jmp    2da9 <local_clock+0x1d>
-0009     2d95:	e8 00 00 00 00       	call   2d9a <local_clock+0xe>	2d96: R_X86_64_PLT32	sched_clock-0x4
-000e     2d9a:	48 03 05 00 00 00 00 	add    0x0(%rip),%rax        # 2da1 <local_clock+0x15>	2d9d: R_X86_64_PC32	__sched_clock_offset-0x4
-0015     2da1:	49 89 c4             	mov    %rax,%r12
-0018     2da4:	e9 cc 00 00 00       	jmp    2e75 <local_clock+0xe9>
-001d     2da9:	ff 05 00 00 00 00    	incl   0x0(%rip)        # 2daf <local_clock+0x23>	2dab: R_X86_64_PC32	pcpu_hot+0x4
-0023     2daf:	e8 00 00 00 00       	call   2db4 <local_clock+0x28>	2db0: R_X86_64_PLT32	sched_clock-0x4
-0028     2db4:	48 2b 05 00 00 00 00 	sub    0x0(%rip),%rax        # 2dbb <local_clock+0x2f>	2db7: R_X86_64_PC32	sched_clock_data-0x4
-002f     2dbb:	31 c9                	xor    %ecx,%ecx
-0031     2dbd:	31 d2                	xor    %edx,%edx
-0033     2dbf:	49 89 c4             	mov    %rax,%r12
-0036     2dc2:	48 c1 e8 3f          	shr    $0x3f,%rax
-003a     2dc6:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2dc9: R_X86_64_32S	_ftrace_annotated_branch+0x29be0
-0041     2dcd:	48 89 c6             	mov    %rax,%rsi
-0044     2dd0:	e8 00 00 00 00       	call   2dd5 <local_clock+0x49>	2dd1: R_X86_64_PLT32	ftrace_likely_update-0x4
-0049     2dd5:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 2ddc <local_clock+0x50>	2dd8: R_X86_64_PC32	sched_clock_data+0xc
-0050     2ddc:	31 c9                	xor    %ecx,%ecx
-0052     2dde:	48 8b 15 00 00 00 00 	mov    0x0(%rip),%rdx        # 2de5 <local_clock+0x59>	2de1: R_X86_64_PC32	.data..read_mostly+0x26e4
-0059     2de5:	48 03 15 00 00 00 00 	add    0x0(%rip),%rdx        # 2dec <local_clock+0x60>	2de8: R_X86_64_PC32	sched_clock_data+0x4
-0060     2dec:	4d 85 e4             	test   %r12,%r12
-0063     2def:	4c 0f 48 e1          	cmovs  %rcx,%r12
-0067     2df3:	48 89 d1             	mov    %rdx,%rcx
-006a     2df6:	48 89 c6             	mov    %rax,%rsi
-006d     2df9:	48 29 c1             	sub    %rax,%rcx
-0070     2dfc:	49 01 d4             	add    %rdx,%r12
-0073     2dff:	48 85 c9             	test   %rcx,%rcx
-0076     2e02:	48 89 c1             	mov    %rax,%rcx
-0079     2e05:	48 0f 4f ca          	cmovg  %rdx,%rcx
-007d     2e09:	48 81 c2 d5 dc 32 00 	add    $0x32dcd5,%rdx
-0084     2e10:	48 29 d6             	sub    %rdx,%rsi
-0087     2e13:	48 85 f6             	test   %rsi,%rsi
-008a     2e16:	4c 89 e6             	mov    %r12,%rsi
-008d     2e19:	48 0f 4f d0          	cmovg  %rax,%rdx
-0091     2e1d:	48 29 ce             	sub    %rcx,%rsi
-0094     2e20:	48 85 f6             	test   %rsi,%rsi
-0097     2e23:	4c 0f 4e e1          	cmovle %rcx,%r12
-009b     2e27:	49 39 d4             	cmp    %rdx,%r12
-009e     2e2a:	4c 0f 49 e2          	cmovns %rdx,%r12
-00a2     2e2e:	4c 0f b1 25 00 00 00 00 	cmpxchg %r12,0x0(%rip)        # 2e36 <local_clock+0xaa>	2e32: R_X86_64_PC32	sched_clock_data+0xc
-00aa     2e36:	40 0f 95 c6          	setne  %sil
-00ae     2e3a:	0f 94 c3             	sete   %bl
-00b1     2e3d:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2e40: R_X86_64_32S	_ftrace_annotated_branch+0x29bb0
-00b8     2e44:	31 c9                	xor    %ecx,%ecx
-00ba     2e46:	31 d2                	xor    %edx,%edx
-00bc     2e48:	40 0f b6 f6          	movzbl %sil,%esi
-00c0     2e4c:	e8 00 00 00 00       	call   2e51 <local_clock+0xc5>	2e4d: R_X86_64_PLT32	ftrace_likely_update-0x4
-00c5     2e51:	31 c9                	xor    %ecx,%ecx
-00c7     2e53:	0f b6 f3             	movzbl %bl,%esi
-00ca     2e56:	ba 01 00 00 00       	mov    $0x1,%edx
-00cf     2e5b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2e5e: R_X86_64_32S	_ftrace_annotated_branch+0x29b80
-00d6     2e62:	e8 00 00 00 00       	call   2e67 <local_clock+0xdb>	2e63: R_X86_64_PLT32	ftrace_likely_update-0x4
-00db     2e67:	84 db                	test   %bl,%bl
-00dd     2e69:	0f 84 40 ff ff ff    	je     2daf <local_clock+0x23>
-00e3     2e6f:	ff 0d 00 00 00 00    	decl   0x0(%rip)        # 2e75 <local_clock+0xe9>	2e71: R_X86_64_PC32	pcpu_hot+0x4
-00e9     2e75:	4c 89 e0             	mov    %r12,%rax
-00ec     2e78:	5b                   	pop    %rbx
-00ed     2e79:	41 5c                	pop    %r12
-00ef     2e7b:	c3                   	ret
+vim +/vmbus_of_match +2691 drivers/hv/vmbus_drv.c
+
+  2690	
+> 2691	static const struct of_device_id vmbus_of_match[] = {
+  2692		{
+  2693			.compatible = "microsoft,vmbus",
+  2694		},
+  2695		{
+  2696			/* sentinel */
+  2697		},
+  2698	};
+  2699	MODULE_DEVICE_TABLE(of, vmbus_of_match);
+  2700	
 
 -- 
 0-DAY CI Kernel Test Service
