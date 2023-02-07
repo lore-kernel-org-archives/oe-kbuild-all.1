@@ -1,49 +1,44 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336617F7;
-	Tue,  7 Feb 2023 05:24:11 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id bk16so12400854wrb.11;
-        Mon, 06 Feb 2023 21:24:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+nYuhbxKTv5gi6L1XYKUM1gFnaEBIaYUpfy7Ajj2Og4=;
-        b=ZpLwX5rdBMx76S2XuTJhiI7PAGFvjhQNAQkISNf257JeW7/sSq7IbVugNcJZIfRY5q
-         8CECkTdCDnfPQYhGJFVqLSQIsk+ldpp8vYkXrrjvYg8R5Dykn0d+1PVRTMnVcXu6rib6
-         xxeDFX3F5BIjMzK6G72LdZvI4lYa0EtCNmA477KBjie8Pg5cazxpjAyV34jV/6eZkcme
-         s/zRBd9W2bRoKh3KhAbDzTCMr8HjWMF80QWnZlZhSkDFUvqQwQPHw88DqQjeECD9YOMF
-         QEkElEJuD18xZtZBkkSjhgeRLifIJofN32l9YI6oLQRVo4DASCfJ6vfO7an4ebyrbHb8
-         ylVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+nYuhbxKTv5gi6L1XYKUM1gFnaEBIaYUpfy7Ajj2Og4=;
-        b=7U5YX6byoO+4I139AypqFDTdF0xRiVd0qexSpe4YQdDklFqxnWfx+t0RPDZQz1Tv1M
-         USzWVnrRoPLLLkxws5BgRUQ3KRJIytwxY17+QUqDxqHHeV8ePbYx5DBEFq3IvLKFkGdG
-         3f8LonJm+AMYg6aMQBxC4eHWoe+74cnttYTgK1M+RvSQSTW2zWag9VpNNwHty8hrVG+6
-         xyZ6+FJ8U1b7Vj5PRW7AIcR0ZL0wRb5RcyarOoAW7+5mNPdb2TEwYh+cA9yAmTQOx1ey
-         M2SuVs+hgClsuU0M8qdyo8UQa/1xhfG9dhY/JdQLBBXK/0H4sIrj6bkaLvoh3QorvG1M
-         tEiw==
-X-Gm-Message-State: AO0yUKXub5lHd1rHuLXSWnvTcOHnBvgCtIY7bwZvxkgkX3SCzcaoSaP3
-	yTl1C8ce8lDhDzUXG+U/ZK6jiX9UVrbpsHNK
-X-Google-Smtp-Source: AK7set/9391XXQJFm/ayxAByr9OiRzBjY4xS/qXEQl57LoOan/+NrBKWhxgEcmpyiKmkZSEPSsus1A==
-X-Received: by 2002:a5d:595f:0:b0:2c3:d8f0:547a with SMTP id e31-20020a5d595f000000b002c3d8f0547amr1371145wri.1.1675747449853;
-        Mon, 06 Feb 2023 21:24:09 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l13-20020adffe8d000000b002bfbda53b98sm7341176wrr.35.2023.02.06.21.24.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 21:24:09 -0800 (PST)
-Date: Tue, 7 Feb 2023 08:24:06 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [niks:dma_iommu_v5 4/7] drivers/iommu/s390-iommu.c:713
- zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see
- line 713)
-Message-ID: <202302071312.P2C14gaH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A717F7;
+	Tue,  7 Feb 2023 05:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675748381; x=1707284381;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vA9Mmni/6NPac6Y0H9GUnP6jaS0rdTr3cyE3IuB+Rso=;
+  b=kjjHy26q3KJxRkHZK3EmIdrjURGww3orcsZHcLd5+KY0E08Lh2+u0mxG
+   ucV+MoyKWAxHDdLjti6Y8++e7UoTHFJqDnr70KOYZGx4QEjeEIXIss8wS
+   DIH7t8L8Bw2minY/+RSvPsiajjtnWL0To8R+m8XYNKcAX6ZvHXJMeeSSl
+   UwiZVjReLvqhMLH5y2lP3/OtBz7cIIUEJGgIZ77coPxV+8elQRKMRHZ1/
+   O0Sm6xWIIreFJEQq5Kja4+ksrqxtOt+uDK8IqplP9nAQ1/0D4NWVzFgbm
+   GhRMuaXcTkt/OIWkcsOeaeyyBucanSHhsqHt5Shq04uk1YSQLmzeDnniY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="309745853"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="309745853"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 21:39:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="699114117"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="699114117"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 06 Feb 2023 21:39:38 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPGhd-00038A-19;
+	Tue, 07 Feb 2023 05:39:37 +0000
+Date: Tue, 7 Feb 2023 13:39:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [tip:x86/vdso 3/4] arch/x86/include/asm/arch_hweight.h:49:15: error:
+ invalid input size for constraint 'D'
+Message-ID: <202302071338.m7nBGR5i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,32 +48,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git dma_iommu_v5
-head:   1130d11df3ad4a18aada280e80da35911239b4ad
-commit: 4dd8a9e92a898af65c84631f354f51a8b9f9ff09 [4/7] s390/pci: Use dma-iommu layer
-config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071312.P2C14gaH-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vdso
+head:   5646bbd6684acf5c9b9dedb863b7d2f6f5a330fb
+commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 [3/4] x86/vdso: Provide getcpu for x86-32.
+config: x86_64-randconfig-r031-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071338.m7nBGR5i-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip x86/vdso
+        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/iommu/s390-iommu.c:713 zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see line 713)
+All errors (new ones prefixed by >>):
 
-vim +/zdev +713 drivers/iommu/s390-iommu.c
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+   In file included from arch/x86/entry/vdso/vdso32/../vgetcpu.c:8:
+   In file included from include/linux/kernel.h:22:
+   In file included from include/linux/bitops.h:68:
+   In file included from arch/x86/include/asm/bitops.h:420:
+>> arch/x86/include/asm/arch_hweight.h:49:15: error: invalid input size for constraint 'D'
+                            : REG_IN (w));
+                                      ^
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+   In file included from arch/x86/entry/vdso/vdso32/../vgetcpu.c:8:
+   In file included from include/linux/kernel.h:25:
+   In file included from include/linux/math.h:6:
+>> arch/x86/include/asm/div64.h:85:34: error: invalid output size for constraint '=a'
+           asm ("mulq %2; divq %3" : "=a" (q)
+                                           ^
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+   arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: warning: no previous prototype for function '__vdso_getcpu' [-Wmissing-prototypes]
+   __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+   ^
+   arch/x86/entry/vdso/vdso32/../vgetcpu.c:12:9: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   notrace long
+           ^
+           static 
+   1 warning and 2 errors generated.
 
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  711  struct zpci_iommu_ctrs *zpci_get_iommu_ctrs(struct zpci_dev *zdev)
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  712  {
-4dd8a9e92a898a Niklas Schnelle 2022-07-01 @713  	if (!zdev && !zdev->s390_domain)
 
-Should be || instead of &&.
+vim +/D +49 arch/x86/include/asm/arch_hweight.h
 
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  714  		return NULL;
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  715  	return &zdev->s390_domain->ctrs;
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  716  }
+d61931d89be506 Borislav Petkov 2010-03-05  35  
+d14edb1648221e Denys Vlasenko  2015-08-04  36  #ifdef CONFIG_X86_32
+d61931d89be506 Borislav Petkov 2010-03-05  37  static inline unsigned long __arch_hweight64(__u64 w)
+d61931d89be506 Borislav Petkov 2010-03-05  38  {
+d61931d89be506 Borislav Petkov 2010-03-05  39  	return  __arch_hweight32((u32)w) +
+d61931d89be506 Borislav Petkov 2010-03-05  40  		__arch_hweight32((u32)(w >> 32));
+d14edb1648221e Denys Vlasenko  2015-08-04  41  }
+d61931d89be506 Borislav Petkov 2010-03-05  42  #else
+d14edb1648221e Denys Vlasenko  2015-08-04  43  static __always_inline unsigned long __arch_hweight64(__u64 w)
+d14edb1648221e Denys Vlasenko  2015-08-04  44  {
+f5967101e9de12 Borislav Petkov 2016-05-30  45  	unsigned long res;
+d14edb1648221e Denys Vlasenko  2015-08-04  46  
+566b62a3676cae Uros Bizjak     2018-10-14  47  	asm (ALTERNATIVE("call __sw_hweight64", "popcntq %1, %0", X86_FEATURE_POPCNT)
+d61931d89be506 Borislav Petkov 2010-03-05  48  			 : "="REG_OUT (res)
+d61931d89be506 Borislav Petkov 2010-03-05 @49  			 : REG_IN (w));
+d61931d89be506 Borislav Petkov 2010-03-05  50  
+d61931d89be506 Borislav Petkov 2010-03-05  51  	return res;
+d61931d89be506 Borislav Petkov 2010-03-05  52  }
+d14edb1648221e Denys Vlasenko  2015-08-04  53  #endif /* CONFIG_X86_32 */
+d61931d89be506 Borislav Petkov 2010-03-05  54  
+
+:::::: The code at line 49 was first introduced by commit
+:::::: d61931d89be506372d01a90d1755f6d0a9fafe2d x86: Add optimized popcnt variants
+
+:::::: TO: Borislav Petkov <borislav.petkov@amd.com>
+:::::: CC: H. Peter Anvin <hpa@zytor.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
