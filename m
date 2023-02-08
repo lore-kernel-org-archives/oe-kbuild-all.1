@@ -1,43 +1,50 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE5620F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 08:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230B520F7;
+	Wed,  8 Feb 2023 08:23:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675844579; x=1707380579;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cY5F8XRLOIkQmgqp5Qp2UJHgm7rgffX5XOBjEZCgKuM=;
-  b=FlOebjzTwXu6uXb2xRw94lGdjWSKJ7LWGsXb1SB5SU63UzIXg4jfThv0
-   jtlOyaXsa/Cv1UsPdJIZ44SEIxiaaDsODWZB0MAWtzW6r23XjAIgGiFCS
-   L9UY587/1E/4RfUpDnaTR9VthVaxmvLdIoN21F2tVSCYe5a+6Q1opnU35
-   p5eBtkkfNQdrjKT8SOxTKNfvud7bDYLDabnPj5V3Y7tFxRVjKzLYId+Ve
-   jpp0ujPDSr9HNn1sNi81St3vkDpoEoBc6IpJrener0kIQUCnp4SSPtybG
-   yq6XzxewlCZfLFtnXBerFGTdcr0l3C43YESkwr6IIPDSrV3zU8mgF4o56
+  t=1675844582; x=1707380582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eT7LyT1k1N1zT8h2h1TIVWuk3jB5eyl3BSlItLElxuw=;
+  b=gceGxfvgj/pRYd+OvN3pm45rr22v25Jc612QAJSOtzw5i9rKCdDhuhrN
+   P07YijBybzQ9MBFZrOa+zeNmwhQw8WdC4wE8Hj69qKtA2ICyD67iVuEyT
+   Bx08Q/Pc5haGm8znw1UskSiRT9By62+SbShEYwJHQDpvWZOKB9JOu34yb
+   5fFYYmBsfFIHKsshyxea7MNP9Nc3WyVZevIHiZ/Rojakitf9zviLJJpEG
+   8AB8fl6DyfImLTM8F8EbUm7bjbh8oFzVqvT4rXEV/+vJT9FAM7WNk2wyK
+   oU3y/FBmcV7oDjFAWPpSyNJ3RNvUOR00ZM5SF5AMj3q5SxPJ1nt+h+ysH
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415963062"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="331874271"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="415963062"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 00:22:58 -0800
+   d="scan'208";a="331874271"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 00:23:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="730781792"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="996049097"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="730781792"
+   d="scan'208";a="996049097"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Feb 2023 00:22:57 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 08 Feb 2023 00:22:57 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPfjE-0004JE-1y;
+	id 1pPfjE-0004JC-1f;
 	Wed, 08 Feb 2023 08:22:56 +0000
-Date: Wed, 8 Feb 2023 16:22:00 +0800
+Date: Wed, 8 Feb 2023 16:22:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:ucode-for-ashok 4/16]
- arch/x86/kernel/cpu/microcode/core.c:573:22: error: 'struct microcode_ops'
- has no member named 'collect_cpu_info'
-Message-ID: <202302081611.jPWz5VRg-lkp@intel.com>
+To: Saurabh Sengar <ssengar@linux.microsoft.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	daniel.lezcano@linaro.org, tglx@linutronix.de,
+	virtualization@lists.linux-foundation.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
+	ssengar@microsoft.com, dphadke@linux.microsoft.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 6/6] Driver: VMBus: Add device tree support
+Message-ID: <202302081621.odizDzHG-lkp@intel.com>
+References: <1675756199-5917-7-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,95 +53,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1675756199-5917-7-git-send-email-ssengar@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git ucode-for-ashok
-head:   01bd4486138ec018e1bb204d93e4e52190dfde21
-commit: 1f06d23f1930b256d37e15402fdb90e9f44db467 [4/16] ucode-version-op
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230208/202302081611.jPWz5VRg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Saurabh,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20230207]
+[cannot apply to robh/for-next tip/timers/core brgl/gpio/for-next wsa/i2c/for-next linus/master v6.2-rc7 v6.2-rc6 v6.2-rc5 v6.2-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-155113
+patch link:    https://lore.kernel.org/r/1675756199-5917-7-git-send-email-ssengar%40linux.microsoft.com
+patch subject: [PATCH v4 6/6] Driver: VMBus: Add device tree support
+config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230208/202302081621.odizDzHG-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git/commit/?id=1f06d23f1930b256d37e15402fdb90e9f44db467
-        git remote add daveh-devel https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git
-        git fetch --no-tags daveh-devel ucode-for-ashok
-        git checkout 1f06d23f1930b256d37e15402fdb90e9f44db467
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b3cd029f78e9c1f5cd1633e1ffc7c5a09deae98f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Saurabh-Sengar/drivers-clocksource-hyper-v-non-ACPI-support-in-hyperv-clock/20230207-155113
+        git checkout b3cd029f78e9c1f5cd1633e1ffc7c5a09deae98f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/microcode/core.c: In function 'microcode_init_cpu':
->> arch/x86/kernel/cpu/microcode/core.c:573:22: error: 'struct microcode_ops' has no member named 'collect_cpu_info'
-     573 |         microcode_ops->collect_cpu_info(cpu, &uci->cpu_sig);
-         |                      ^~
---
->> arch/x86/kernel/cpu/microcode/intel.c:767:10: error: 'struct microcode_ops' has no member named 'collect_cpu_info'
-     767 |         .collect_cpu_info                 = collect_cpu_info,
-         |          ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:767:45: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     767 |         .collect_cpu_info                 = collect_cpu_info,
-         |                                             ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:767:45: note: (near initialization for 'microcode_intel_ops')
->> arch/x86/kernel/cpu/microcode/intel.c:767:45: error: initialization of 'void (*)(int)' from incompatible pointer type 'int (*)(int,  struct cpu_signature *)' [-Werror=incompatible-pointer-types]
-   arch/x86/kernel/cpu/microcode/intel.c:767:45: note: (near initialization for 'microcode_intel_ops.microcode_fini_cpu')
-   cc1: some warnings being treated as errors
---
-   arch/x86/kernel/cpu/microcode/amd.c: In function 'load_ucode_amd_ap':
-   arch/x86/kernel/cpu/microcode/amd.c:534:28: warning: unused variable 'dummy' [-Wunused-variable]
-     534 |         u32 *new_rev, rev, dummy;
-         |                            ^~~~~
-   arch/x86/kernel/cpu/microcode/amd.c: In function 'apply_microcode_amd':
-   arch/x86/kernel/cpu/microcode/amd.c:718:17: error: label 'out' used but not defined
-     718 |                 goto out;
-         |                 ^~~~
-   arch/x86/kernel/cpu/microcode/amd.c:695:29: warning: unused variable 'c' [-Wunused-variable]
-     695 |         struct cpuinfo_x86 *c = &cpu_data(cpu);
-         |                             ^
-   arch/x86/kernel/cpu/microcode/amd.c: At top level:
->> arch/x86/kernel/cpu/microcode/amd.c:950:10: error: 'struct microcode_ops' has no member named 'collect_cpu_info'
-     950 |         .collect_cpu_info                 = collect_cpu_info_amd,
-         |          ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:950:45: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     950 |         .collect_cpu_info                 = collect_cpu_info_amd,
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:950:45: note: (near initialization for 'microcode_amd_ops')
->> arch/x86/kernel/cpu/microcode/amd.c:950:45: error: initialization of 'void (*)(int)' from incompatible pointer type 'int (*)(int,  struct cpu_signature *)' [-Werror=incompatible-pointer-types]
-   arch/x86/kernel/cpu/microcode/amd.c:950:45: note: (near initialization for 'microcode_amd_ops.microcode_fini_cpu')
-   arch/x86/kernel/cpu/microcode/amd.c:952:45: warning: initialized field overwritten [-Woverride-init]
-     952 |         .microcode_fini_cpu               = microcode_fini_cpu_amd,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:952:45: note: (near initialization for 'microcode_amd_ops.microcode_fini_cpu')
->> arch/x86/kernel/cpu/microcode/amd.c:953:45: error: initialization of 'u32 (*)(int)' {aka 'unsigned int (*)(int)'} from incompatible pointer type 'u32 (*)(void)' {aka 'unsigned int (*)(void)'} [-Werror=incompatible-pointer-types]
-     953 |         .get_microcode_revision           = get_microcode_revision_amd,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:953:45: note: (near initialization for 'microcode_amd_ops.get_microcode_revision')
-   cc1: some warnings being treated as errors
+>> drivers/hv/vmbus_drv.c:2691:21: warning: attribute declaration must precede definition [-Wignored-attributes]
+   static const struct __maybe_unused of_device_id vmbus_of_match[] = {
+                       ^
+   include/linux/compiler_attributes.h:355:56: note: expanded from macro '__maybe_unused'
+   #define __maybe_unused                  __attribute__((__unused__))
+                                                          ^
+   include/linux/mod_devicetable.h:268:8: note: previous definition is here
+   struct of_device_id {
+          ^
+   1 warning generated.
 
 
-vim +573 arch/x86/kernel/cpu/microcode/core.c
+vim +2691 drivers/hv/vmbus_drv.c
 
-280a9ca5d0663b arch/x86/kernel/microcode_core.c     Dmitry Adamushko 2008-12-20  566  
-2071c0aeda2281 arch/x86/kernel/cpu/microcode/core.c Borislav Petkov  2022-10-19  567  static enum ucode_state microcode_init_cpu(int cpu)
-d45de40934897c arch/x86/kernel/microcode.c          Dmitry Adamushko 2008-08-20  568  {
-871b72dd1e12af arch/x86/kernel/microcode_core.c     Dmitry Adamushko 2009-05-11  569  	struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
-d45de40934897c arch/x86/kernel/microcode.c          Dmitry Adamushko 2008-08-20  570  
-2071c0aeda2281 arch/x86/kernel/cpu/microcode/core.c Borislav Petkov  2022-10-19  571  	memset(uci, 0, sizeof(*uci));
-7f709d0c322203 arch/x86/kernel/cpu/microcode/core.c Borislav Petkov  2016-10-25  572  
-2071c0aeda2281 arch/x86/kernel/cpu/microcode/core.c Borislav Petkov  2022-10-19 @573  	microcode_ops->collect_cpu_info(cpu, &uci->cpu_sig);
-fd1452ebf25731 arch/x86/kernel/microcode_core.c     Dmitry Adamushko 2008-10-02  574  
-2071c0aeda2281 arch/x86/kernel/cpu/microcode/core.c Borislav Petkov  2022-10-19  575  	return microcode_ops->apply_microcode(cpu);
-d45de40934897c arch/x86/kernel/microcode.c          Dmitry Adamushko 2008-08-20  576  }
-d45de40934897c arch/x86/kernel/microcode.c          Dmitry Adamushko 2008-08-20  577  
-
-:::::: The code at line 573 was first introduced by commit
-:::::: 2071c0aeda228107bf1b9e870b6187c90fbeef1d x86/microcode: Simplify init path even more
-
-:::::: TO: Borislav Petkov <bp@suse.de>
-:::::: CC: Borislav Petkov <bp@suse.de>
+  2690	
+> 2691	static const struct __maybe_unused of_device_id vmbus_of_match[] = {
+  2692		{
+  2693			.compatible = "microsoft,vmbus",
+  2694		},
+  2695		{
+  2696			/* sentinel */
+  2697		},
+  2698	};
+  2699	MODULE_DEVICE_TABLE(of, vmbus_of_match);
+  2700	
 
 -- 
 0-DAY CI Kernel Test Service
