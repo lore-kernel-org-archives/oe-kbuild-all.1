@@ -1,43 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8458B2560
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 12:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9802F386
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 12:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675858625; x=1707394625;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P1Wlb2eGETIdAed2GP1rClNZT1VBsO1mIXIdiErYBGs=;
-  b=Fh0KGSSfiGL2F2eVZlngi7uWayvkhjayOioLMaWSn+T2Auo6N1okRvdU
-   LoUPqvpO1wamrHFd9ALwYnZkYl7iLde3ZFUvyb7nuX2lTT/aw+a9bKCs4
-   sSHCUEOxPFUnzkQm+2/U9y69t0u46a++lKV0Vwt86+XiZPjNx1RQ18J6U
-   wD6yabz7EY3OHm/WpmRakON2QgnpR3fJM++gn0/MBJrthqlcN2qZpr1di
-   PzXdjtdUA6NdBIirk6dD8rRtAfj+obb3JZDMuRT2glQdHCvkKfuqJLfHR
-   jy1bam1bvNlDHlwXGmY6orxjlN8yYA+mGdWJ1eBiCF9UczJDSz0oNk/s+
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="357174324"
+  t=1675859885; x=1707395885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I0Ew9aYs3CFE2JWPoEf5XA9IQcJWWwIY9K2aEensB+Q=;
+  b=IDFqKcYAf8PqLQ+PxU6m1nc9KvCx9lts1YB9vk68RVodwI2+UuwZYqjw
+   nlMnLT029VxHCz5ITEFzGlUn3oI9/t/7LhvwkJRyAvttXgNjMkiXa7WwE
+   0hVdqKm7Je165RKH2nVYGEnjj/dbNzkM2DwcxtyaxdJIQaCD2ojsgmc0z
+   J6/UjBaDz2ipFqQux/2HNWLnNha/Rjy2G9o2zkhlzrOs7InYgGSbDGyGO
+   LxSHwSgx8j+YxiffEGFRhwbbxiXzsjz8lygeqPWfOQ+cZs4ldVI1si9g2
+   NavmKl528Ja62fzhN0vEx79aNnskwmvxXJFufq99PuxUx9VAGQNOluCGO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="313425673"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="357174324"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:17:04 -0800
+   d="scan'208";a="313425673"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:38:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="697653237"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="809929261"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="697653237"
+   d="scan'208";a="809929261"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Feb 2023 04:17:03 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2023 04:38:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPjNn-0004R4-0A;
-	Wed, 08 Feb 2023 12:17:03 +0000
-Date: Wed, 8 Feb 2023 20:16:49 +0800
+	id 1pPji7-0004RY-1I;
+	Wed, 08 Feb 2023 12:38:03 +0000
+Date: Wed, 8 Feb 2023 20:37:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:virt-to-pfn-v6.2-rc3 12/20]
- arch/m68k/include/asm/page_no.h:30:26: error: invalid operands to binary <<
- (have 'void *' and 'int')
-Message-ID: <202302082037.45I7Wat6-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Subject: Re: [Intel-gfx] [PATCH 04/10] drm/i915/wm: add .get_hw_state to
+ watermark funcs
+Message-ID: <202302082001.KuQFCeRp-lkp@intel.com>
+References: <6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,55 +47,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.2-rc3
-head:   e7b124e682b6f0adf09d2bb405e70bee2024175f
-commit: 246a4c87fbded16b1202eac820589fbf249f129f [12/20] m68k/mm: Make pfn accessors static inlines
-config: m68k-randconfig-r035-20230204 (https://download.01.org/0day-ci/archive/20230208/202302082037.45I7Wat6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Jani,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-move-memory-frequency-detection-to-intel_dram-c/20230208-175057
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikula%40intel.com
+patch subject: [Intel-gfx] [PATCH 04/10] drm/i915/wm: add .get_hw_state to watermark funcs
+config: x86_64-randconfig-a013-20230206 (https://download.01.org/0day-ci/archive/20230208/202302082001.KuQFCeRp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=246a4c87fbded16b1202eac820589fbf249f129f
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator virt-to-pfn-v6.2-rc3
-        git checkout 246a4c87fbded16b1202eac820589fbf249f129f
+        # https://github.com/intel-lab-lkp/linux/commit/3be1dad7406a8c767260601b10af82797025aae3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jani-Nikula/drm-i915-move-memory-frequency-detection-to-intel_dram-c/20230208-175057
+        git checkout 3be1dad7406a8c767260601b10af82797025aae3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k prepare
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/page.h:62,
-                    from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from arch/m68k/include/asm/current.h:16,
-                    from include/linux/sched.h:12,
-                    from arch/m68k/kernel/asm-offsets.c:15:
-   arch/m68k/include/asm/page_no.h: In function 'pfn_to_virt':
->> arch/m68k/include/asm/page_no.h:30:26: error: invalid operands to binary << (have 'void *' and 'int')
-      30 |         return __va(pfn) << PAGE_SHIFT;
-         |                          ^~
-   make[2]: *** [scripts/Makefile.build:114: arch/m68k/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/gpu/drm/i915/display/i9xx_wm.c:3824:6: warning: no previous prototype for 'ilk_wm_get_hw_state' [-Wmissing-prototypes]
+    3824 | void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv)
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +30 arch/m68k/include/asm/page_no.h
+vim +/ilk_wm_get_hw_state +3824 drivers/gpu/drm/i915/display/i9xx_wm.c
 
-    27	
-    28	static inline void * pfn_to_virt(unsigned long pfn)
-    29	{
-  > 30		return __va(pfn) << PAGE_SHIFT;
-    31	}
-    32	
+f21b5d6fc26440 Jani Nikula 2023-02-08  3823  
+f21b5d6fc26440 Jani Nikula 2023-02-08 @3824  void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv)
+f21b5d6fc26440 Jani Nikula 2023-02-08  3825  {
+f21b5d6fc26440 Jani Nikula 2023-02-08  3826  	struct ilk_wm_values *hw = &dev_priv->display.wm.hw;
+f21b5d6fc26440 Jani Nikula 2023-02-08  3827  	struct intel_crtc *crtc;
+f21b5d6fc26440 Jani Nikula 2023-02-08  3828  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3829  	ilk_init_lp_watermarks(dev_priv);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3830  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3831  	for_each_intel_crtc(&dev_priv->drm, crtc)
+f21b5d6fc26440 Jani Nikula 2023-02-08  3832  		ilk_pipe_wm_get_hw_state(crtc);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3833  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3834  	hw->wm_lp[0] = intel_uncore_read(&dev_priv->uncore, WM1_LP_ILK);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3835  	hw->wm_lp[1] = intel_uncore_read(&dev_priv->uncore, WM2_LP_ILK);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3836  	hw->wm_lp[2] = intel_uncore_read(&dev_priv->uncore, WM3_LP_ILK);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3837  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3838  	hw->wm_lp_spr[0] = intel_uncore_read(&dev_priv->uncore, WM1S_LP_ILK);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3839  	if (DISPLAY_VER(dev_priv) >= 7) {
+f21b5d6fc26440 Jani Nikula 2023-02-08  3840  		hw->wm_lp_spr[1] = intel_uncore_read(&dev_priv->uncore, WM2S_LP_IVB);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3841  		hw->wm_lp_spr[2] = intel_uncore_read(&dev_priv->uncore, WM3S_LP_IVB);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3842  	}
+f21b5d6fc26440 Jani Nikula 2023-02-08  3843  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3844  	if (IS_HASWELL(dev_priv) || IS_BROADWELL(dev_priv))
+f21b5d6fc26440 Jani Nikula 2023-02-08  3845  		hw->partitioning = (intel_uncore_read(&dev_priv->uncore, WM_MISC) &
+f21b5d6fc26440 Jani Nikula 2023-02-08  3846  				    WM_MISC_DATA_PARTITION_5_6) ?
+f21b5d6fc26440 Jani Nikula 2023-02-08  3847  			INTEL_DDB_PART_5_6 : INTEL_DDB_PART_1_2;
+f21b5d6fc26440 Jani Nikula 2023-02-08  3848  	else if (IS_IVYBRIDGE(dev_priv))
+f21b5d6fc26440 Jani Nikula 2023-02-08  3849  		hw->partitioning = (intel_uncore_read(&dev_priv->uncore, DISP_ARB_CTL2) &
+f21b5d6fc26440 Jani Nikula 2023-02-08  3850  				    DISP_DATA_PARTITION_5_6) ?
+f21b5d6fc26440 Jani Nikula 2023-02-08  3851  			INTEL_DDB_PART_5_6 : INTEL_DDB_PART_1_2;
+f21b5d6fc26440 Jani Nikula 2023-02-08  3852  
+f21b5d6fc26440 Jani Nikula 2023-02-08  3853  	hw->enable_fbc_wm =
+f21b5d6fc26440 Jani Nikula 2023-02-08  3854  		!(intel_uncore_read(&dev_priv->uncore, DISP_ARB_CTL) & DISP_FBC_WM_DIS);
+f21b5d6fc26440 Jani Nikula 2023-02-08  3855  }
+f21b5d6fc26440 Jani Nikula 2023-02-08  3856  
 
 -- 
 0-DAY CI Kernel Test Service
