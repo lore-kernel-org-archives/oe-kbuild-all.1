@@ -1,43 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3982945A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 12:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8859477;
+	Wed,  8 Feb 2023 12:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675859885; x=1707395885;
+  t=1675859887; x=1707395887;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9MTIc1tdFbH0n1cBv/CkzSH7Uc8zTFL+pAKK3lgOxOQ=;
-  b=c71CcvurjayvPKLJ1OHFpMI3JgWCZEBhoFeOg91KuqXBDZ86neOg2mVi
-   greH5IUE9tEIr8xW2gcaREL6OxAElIzvsvH2jG7BF9+CUBUBU9WKNzkyH
-   sZc6/bX2IzALOn2iyO+q1YsCqlbEBHZ9lq/7EucA9WJ7LUbdDIBEireCi
-   CX/UqYmc3CWzAppW4fALl17EY976lQ0mVmCrVYDT464Vwgg8VtPYdlNvn
-   ACHCOBxJ6oHDsCBvJ7s0ZolNP4T22hwRMtaTcGXdbI46bPVJGC1yUCKNJ
-   t3lktC5xZmRdm06Dazz+WtAxaXlX+KoSrWwQd8aoBeG+9FtVg022O120M
+  bh=rtfe/oTEQJ45Jl4F2AZoj2YmMjYRdTWtPVHW/GN0dfw=;
+  b=dGRbu1iKZYjCwBZAqWTwWdkwggL4eYyid8rIP3TfpW8KA/qEQ9n3tie/
+   NLMeZ2D2YPQ6WI32ubqaNwB0NAnbKQIt1RKFGEbDoPIbxLlb8uS8f+qgz
+   wtnasgPTEDXbRZ56DPpPZYlp/Z2uE8FvBTSIjfnTDdzSXWeQJQPfEBvjK
+   alYDODmg0/6E70Nfqs4kXZdd20zmLESVTtch8+2aGLA34V5/cYuc8QPqh
+   zSYdez8RukXQoOgIJEjDFdtc17m4KbYR+fKec0hVpFNcXHxPEHKyiqyPX
+   8Lt2GP3zKRQPdEucj+LykiXosPPAKRNNpcF2NUoaYwufVD4BDx3T4V88Z
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="394379190"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="313425675"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="394379190"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:38:05 -0800
+   d="scan'208";a="313425675"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:38:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="756036674"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="809929264"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="756036674"
+   d="scan'208";a="809929264"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2023 04:38:04 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2023 04:38:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPji7-0004RW-1E;
+	id 1pPji7-0004Rb-1O;
 	Wed, 08 Feb 2023 12:38:03 +0000
-Date: Wed, 8 Feb 2023 20:37:21 +0800
+Date: Wed, 8 Feb 2023 20:37:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jani.nikula@intel.com
 Subject: Re: [Intel-gfx] [PATCH 04/10] drm/i915/wm: add .get_hw_state to
  watermark funcs
-Message-ID: <202302082023.fQH3CQDb-lkp@intel.com>
+Message-ID: <202302082058.02NjQHJ5-lkp@intel.com>
 References: <6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -51,35 +52,41 @@ In-Reply-To: <6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikul
 
 Hi Jani,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test WARNING on drm-tip/drm-tip]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-move-memory-frequency-detection-to-intel_dram-c/20230208-175057
 base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
 patch link:    https://lore.kernel.org/r/6fc335ec79f163b7a612af012ce07be6d98f2ef9.1675849634.git.jani.nikula%40intel.com
 patch subject: [Intel-gfx] [PATCH 04/10] drm/i915/wm: add .get_hw_state to watermark funcs
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230208/202302082023.fQH3CQDb-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a002-20230206 (https://download.01.org/0day-ci/archive/20230208/202302082058.02NjQHJ5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/3be1dad7406a8c767260601b10af82797025aae3
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Jani-Nikula/drm-i915-move-memory-frequency-detection-to-intel_dram-c/20230208-175057
         git checkout 3be1dad7406a8c767260601b10af82797025aae3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/i9xx_wm.c:3824:6: error: no previous prototype for 'ilk_wm_get_hw_state' [-Werror=missing-prototypes]
-    3824 | void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv)
-         |      ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/i915/display/i9xx_wm.c:3824:6: warning: no previous prototype for function 'ilk_wm_get_hw_state' [-Wmissing-prototypes]
+   void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv)
+        ^
+   drivers/gpu/drm/i915/display/i9xx_wm.c:3824:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv)
+   ^
+   static 
+   1 warning generated.
 
 
 vim +/ilk_wm_get_hw_state +3824 drivers/gpu/drm/i915/display/i9xx_wm.c
