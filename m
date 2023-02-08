@@ -1,68 +1,139 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26C537B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 02:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675823206; x=1707359206;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=3x7uSzC4CDKmwnSD23oNR+JAtTnvTVeeqvk4Or4ncGA=;
-  b=hx9L3Nx02ePBPP8pgd/8pKDOFMYxg5mLo3dka4d3vwmFrsUrgsdRX/Pe
-   +qb+vjBZgzZKapW+fII9T+Gvq7SxsdN0WdqCipzYcYJRGf9HAOnsMDusL
-   0dhCfPvXaQQMgxIgHg90Cf5jfho18CZFCj/FZIYYxC6xezONWjblEE7Uk
-   IFvAIc1ea3OsbkxcA6JSoVZdcOqDXofTDr66WNL18WKGOoKpnPjUwv6fy
-   wHFsKRFzmmRyljHVta/Z8EwdgpbwuA3XqCvojE+/lisCeJHawg+WpzHsQ
-   cj71oL+3rAwj+1B3IOM3IiXIIAreSPVHyY8PHS4TSwBWxaky0qn68jcnX
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="310037097"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="310037097"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 18:26:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="735763480"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="735763480"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Feb 2023 18:26:45 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPaAW-00044s-2Y;
-	Wed, 08 Feb 2023 02:26:44 +0000
-Date: Wed, 8 Feb 2023 10:26:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: coolqyj@163.com
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] [PATCH V2] mm/filemap: fix page end in
- filemap_get_read_batch
-Message-ID: <Y+MIPHQJFiZ+uEu/@a5b9dd7d9a79>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A582D7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 02:49:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596ACC433EF;
+	Wed,  8 Feb 2023 02:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675824588;
+	bh=knypg8koZd0Cab7ZNIquVYoIC2yiDFKnUF5sBSze0OY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ln6SE7qKLNlCxURgnFWS2pz87VmUxsTJFUVDy9axapk9r8gmn+7/btmDOXzpUphLH
+	 uJgLIs/klzPh33IX2kyB839ee9/+AZWdocpIFJxkEt9kH9NSG4NYi4YRVjQLqviuaJ
+	 9cUegj+Q8x1UXEPSUW+Q8ybVwTH7B8gK6qNGLQF+41lMwxd1iLMndTB1JtRN9/fCx1
+	 VMpKTOA3sL5wjs4V2QiKB+jbLNhz4mmJbyt27VTnh0gcKe4DQYl48IJGpx5k5xEd5g
+	 j+gpWN8pDlGCo9NAA4f/jbYBxUmgB2lqTJ8Jz5RFP4ATii37XMh3d7EbZwf1ctuQ3U
+	 OZFG7qEKyHIZg==
+Date: Wed, 8 Feb 2023 04:49:42 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>,
+	kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, keyrings@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+Message-ID: <Y+MNxmzlILarAlZA@kernel.org>
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+ <202301250706.deGvd0yq-lkp@intel.com>
+ <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+ <Y9ykeASyzhSKQCmx@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230208022400.28962-1-coolqyj@163.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y9ykeASyzhSKQCmx@yujie-X299>
 
-Hi,
+On Fri, Feb 03, 2023 at 02:06:48PM +0800, Yujie Liu wrote:
+> Hi James,
+> 
+> On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
+> > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
+> > > Hi James,
+> > > 
+> > > I love your patch! Perhaps something to improve:
+> > > 
+> > > [auto build test WARNING on char-misc/char-misc-testing]
+> > > [also build test WARNING on char-misc/char-misc-next char-misc/char-
+> > > misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5 next-
+> > > 20230124]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a
+> > > note.
+> > > And when submitting patch, we suggest to use '--base' as documented
+> > > in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:   
+> > > https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> > > patch link:   
+> > > https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
+> > > patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
+> > > encrypt/decrypt session handling code
+> > > config: arc-allyesconfig
+> > > (https://download.01.org/0day-ci/archive/20230125/202301250706.deGvd0
+> > > yq-lkp@intel.com/config)
+> > > compiler: arceb-elf-gcc (GCC) 12.1.0
+> > > reproduce (this is a W=1 build):
+> > >         wget
+> > > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
+> > >  -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         #
+> > > https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > >         git remote add linux-review
+> > > https://github.com/intel-lab-lkp/linux
+> > >         git fetch --no-tags linux-review James-Bottomley/tpm-move-
+> > > buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> > >         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > make.cross W=1 O=build_dir ARCH=arc olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/char/tpm/
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous
+> > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
+> > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
+> > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+> > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > 'tpm_buf_check_hmac_response':
+> > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame size
+> > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+> > >      831 | }
+> > >          | ^
+> > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > 'tpm_buf_fill_hmac_session':
+> > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame size of
+> > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+> > >      579 | }
+> > >          | ^
+> > 
+> > Is this a test problem?  I can't see why the code would only blow the
+> > stack on the arc architecture and not on any other ... does it have
+> > something funny with on stack crypto structures?
+> 
+> This warning is controlled by the value of CONFIG_FRAME_WARN.
+> 
+> For "make ARCH=arc allyesconfig", the default value is 1024, so this
+> frame warning shows up during the build.
+> 
+> For other arch such as "make ARCH=x86_64 allyesconfig", the default
+> value would be 2048 and won't have this warning.
+> 
+> Not sure if this is a real problem that need to be fixed, here just
+> providing above information for your reference.
+> 
+> --
+> Best Regards,
+> Yujie
 
-Thanks for your patch.
+*Must* be fixed given that it is how the default value is set now. This
+is wrong place to reconsider.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+And we do not want to add functions that bloat the stack this way.
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH] [PATCH V2] mm/filemap: fix page end in filemap_get_read_batch
-Link: https://lore.kernel.org/stable/20230208022400.28962-1-coolqyj%40163.com
+Shash just needs to be allocated from heap instead of stack.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
-
-
+BR, Jarkko
