@@ -1,84 +1,86 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008AC643
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 07:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE469447;
+	Wed,  8 Feb 2023 07:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675840459; x=1707376459;
+  t=1675842029; x=1707378029;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=VziWqBKQjF9YNhklfCYcGuuiqh80GI12R2R38X/YOQc=;
-  b=kYJm+OoHhbeLFgszKNw7nwtIFOX6ieAUmTGSkr5JRYOjBp80tu/6y2UY
-   MtDJEZPp9OCGTi5yqmFRZBJ2YMXfNJLrUjQlNR8GK/WrTdAUlOXXYkQZB
-   3loddmJNSiR+KSHwVdsTC9nwfuINaSUyfY7HzK5jM9WfmKVgqFpdmka6l
-   BD3xv6NL5iJ1VM20x92cBnznFkrQb48tLsLn/ULR1ue7ZDcswYKqvK6jg
-   ibP/Vpk3GmJDmYD9Yw3Oann1NWlEEQuVSD/UzxNG4MzudNoorvP6IhG1F
-   i3kP0106va8HpYPTqpyb36kYu58+1WFNCpPwEnDDZnCSEar08VkJH81t/
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="317729303"
+  bh=0R5f6LwlrfI1k2EIFaYLtxMKf8jESoh/H3BHnQsQhZQ=;
+  b=Al3EYJU0Z4C0X66sXNVg/7mLbn5nT/WSkIQYUA+D9IZj48k8V3DpavCY
+   Yj5KzcWlAjXogYmX41KTiE+S6Vxh3Y1L0zS5MzkCX1QvhFXXHZ2mYeO24
+   Y+SZoqVUPjPBUNOKrI0bxOfhjXxRVwcsjTniZdiuF7PNJSoCcNQzwsKaK
+   QvpDRqw6ZjEev8OE+qx6xdK8Qe2c3Nh8WEoFDHdj/fzRHXnC05Fngbral
+   gvB24g/YrbWI8vE9y+Rfofai0GlciioIat9ln7IS76Hql245L+Iemjc9e
+   suKhOadjgp7eZrmzAI6vgTnHfZ5pPG100guItK57W8pJqbGjq53V/D3v8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="357121776"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="317729303"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 23:14:02 -0800
+   d="scan'208";a="357121776"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 23:40:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="699544681"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="775907094"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="699544681"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2023 23:14:02 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+   d="scan'208";a="775907094"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2023 23:40:28 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 7 Feb 2023 23:14:02 -0800
+ 15.1.2507.16; Tue, 7 Feb 2023 23:40:28 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 7 Feb 2023 23:14:01 -0800
+ 15.1.2507.16; Tue, 7 Feb 2023 23:40:27 -0800
 Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 7 Feb 2023 23:14:01 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Tue, 7 Feb 2023 23:40:27 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 7 Feb 2023 23:14:01 -0800
+ 15.1.2507.16; Tue, 7 Feb 2023 23:40:27 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oJccnqiI9rOLj5jPMNvDIR+RkBxPvPLWHHc2SwZvNS0RNLkNveb+wu/I0ylpyEtVig8+fheppNbUvlDIOgYHj9oXkDaObNSBTgfeo5+DxSHkPQimgGuHdAGXa/HRaVUziCXxrtMT1+4TtuSaffz/JSnEq+8y/OvW+bpE9I1N/1ZLEsBNX/paA35ANExW4O4We0kCGP8zfw3kUWrjkmhkUltBHOe8SUPMNDnU0T0VlUsDrJ2gGh3d//cd0Uhpa7OSZ1uci+9kSWyAsZyLpR+BWIb9mroqgOuVZlBCfTxN2/SM7Fuhm53jZ5UJ7L49QUaerG+CBG3XDTGrBk+PZpNKFQ==
+ b=FOMlj1xBl52XAnX+Ny/qbPQaqnFOoe7PtZ1g9FNWaluHuF5JIbe6nCn6zH9oQG8H1ESpVfvo6QEs+0mfTTxHSUOX2wlBW+pUH2s4OEI8j5xo8tVE8tZ/HoHDNnFXjtsA18JMEtpew0iQhH1z/p51U65+vXqlkYQuHZ+QqQWqViC6IIoLoRaxuSOq+hvkvc8ZHgfXuEDum6cCPqt8bAdTNTurJ9jwL7bkWpny+gShiLfOsh0jCt+3HqY/Bcwhm0OgyoNiToEv+FnNkqZkFlzWgG+fCt+TYopAamlvdG+sM+byM/nqvczIwXnI1FZ5nmiSicMbHYK6e7eO1twlx30yYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y8FvAszS2z0ykYNnu1GFYpIWKunrVh0POKOuMkT/DuA=;
- b=NLhUViEXl+5SnTzpYJVQ4icB6igIwuq6qDExTmushi+xzE6DJ+j20LLyMfiSKWv6GgGXq93Bmpt/6uz6FeZUf4sPihDGgJMAJzree58Kq0ihaA+JFZCwfBR2CLSIoSDHW7xVCFlfDX3iZWaMPiQyns1pxglAKIfPgibfn57ZLTDfdIPpZ2GmwMFqM8TOJNBIpC6svQH1HfYSuvroo8hhj1XWs7nYW2+g7pJ9UrSC3LyQ01S+PL+bN4glPynNePvFfDY7EeILeIFL1ZVYPMEkFvfUVzhhDLiFsNkyV2iAa2YO2Kr805NhVRe/fffBI7x2Ms6AZG0eDGLNLmf/2rokfA==
+ bh=p+9EckUKxjEuUO3qT9/UeTJKeX0s+EUPzjzIzGq1G3A=;
+ b=D9CzfapcIQXrxZU5pIoXpbgVQxcCZ/ksKyKV8nIXVevUj+w+m9efh1CNMif3CGQJ6ZOt/W01OcwoljUiV2vQm6UfJwecpp44mjF4hZ8iH+v5QW8bpsNj1QyrqUZuL9skCpJ9BUmWg8LHlLESoPmhTA34rhsWQ4jtrEE/AtS6i9u1n6NBicD3pAtafyic169Pogqf6IB3Y11Q/lm5F6/UVZSsNkB2J6ONzMVDyXJC2oogxy6niQz+3Qdtz620tyNQN/+DRgMEfFH65EwUld9wlUMQIfSNykcbuWmM6wYmUiNuy1gfbucMYhseFfpolx0k5NGAzgewpbW3WOmFSAcOlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6397.namprd11.prod.outlook.com (2603:10b6:8:ca::12) by
- DM4PR11MB5519.namprd11.prod.outlook.com (2603:10b6:5:39e::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6064.36; Wed, 8 Feb 2023 07:13:53 +0000
-Received: from DS0PR11MB6397.namprd11.prod.outlook.com
- ([fe80::390e:494c:f177:5ca3]) by DS0PR11MB6397.namprd11.prod.outlook.com
- ([fe80::390e:494c:f177:5ca3%3]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
- 07:13:53 +0000
-Date: Wed, 8 Feb 2023 15:11:21 +0800
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by CO6PR11MB5620.namprd11.prod.outlook.com (2603:10b6:303:13e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17; Wed, 8 Feb
+ 2023 07:40:25 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb%8]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
+ 07:40:25 +0000
+Date: Wed, 8 Feb 2023 15:37:52 +0800
 From: Yujie Liu <yujie.liu@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast
- truncates bits from constant value (ffffffffff000 becomes fffff000)
-Message-ID: <Y+NLGY7ztExSFGpi@yujie-X299>
-References: <202302070638.iEBPQ4gL-lkp@intel.com>
- <Y+Lf8w9h29cRmcJG@google.com>
+To: Nathan Chancellor <nathan@kernel.org>
+CC: kernel test robot <lkp@intel.com>, "Jason A. Donenfeld"
+	<zx2c4@kernel.org>, <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline
+ assembly requires more registers than available
+Message-ID: <Y+NRUJ4Q/hJmT2Yh@yujie-X299>
+References: <202302062324.HhzEZCF7-lkp@intel.com>
+ <Y+EwHnWsubeQ0qjh@dev-arch.thelio-3990X>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <Y+Lf8w9h29cRmcJG@google.com>
-X-ClientProxiedBy: SG2PR04CA0175.apcprd04.prod.outlook.com
- (2603:1096:4:14::13) To DS0PR11MB6397.namprd11.prod.outlook.com
- (2603:10b6:8:ca::12)
+In-Reply-To: <Y+EwHnWsubeQ0qjh@dev-arch.thelio-3990X>
+X-ClientProxiedBy: SG2PR01CA0125.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::29) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,120 +88,98 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6397:EE_|DM4PR11MB5519:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0002113d-552d-4678-546c-08db09a408d4
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CO6PR11MB5620:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2efe0348-7edc-441b-d0a9-08db09a7bdf1
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m5aALy0oVo6EE+8Z5n7WvyXl1gxhtTWu61Hxh4UaQ60pJTyJ4Svm9HIC9hsTAvto0Dbepg5KQBRb9f6pYozm6TO1PSFGgj4TbchfFuzkeBgysuMeAjPplrUoaAF52J7VyjWDJCFoCRTQTS2uHvLRPLE7fxFZaQsb0IQAlS/MCSJmS0UauGyHuHO2+T+twkACLISUOUwTwM0sIA3ysG2xkSrP8K9M9hzN60kfwEG+uuNKakwFd4T8ZgUdZgGLp79jGEL1sxyeCT3mdUHzrpbWtx0l5tXQo+6/cH22dYYpiA4tjvZam4ayvsWPfLGBmRcgXIQptYxGhlb6jOpuLTsSGE2hFL2gkXEYE4PqcMYC9M0hx0n4b4FhtS8b/GETOvs5N34UZM+TZidFiN/f8I3Ak7wmnExG44oXeecRa1jAD+OYk4lBxOD+Y0swkZqQ9+2ins2wJ71RNfycLfTpmJ6XZYfBqnv6EHT6ptw8ZZ3xfbeYMPnhWjuYNrtXX3atj+EgeqDuPSkgt2Uze8z03SluzNByuhawrjwJltPui3e7qtdRdspECa0i34yxkVZ5KQHDbdJpa+2J0TNeMVwy1OhZ9uDvpFLeIRFtEtadPsyXid5FIxZtRvxPjuWkk1xGc5YbwL8njv+ft9eTObsCg4l6T6adkE9VCnm2djA7bSvOkXyxscO4zjjueF1uOk81urnDJwXjOb6D6zidQzvOe8Ia+r1Ox2Cyn1mv/ynw/UONyn1c3KR0GnfBlrA7NOk3gyF0t8elCbigz2QqSdv1bxKQpg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6397.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(136003)(366004)(396003)(39860400002)(376002)(346002)(451199018)(316002)(2906002)(38100700002)(82960400001)(83380400001)(4326008)(41300700001)(8936002)(8676002)(6916009)(66476007)(66556008)(66946007)(5660300002)(44832011)(966005)(9686003)(6486002)(6506007)(26005)(478600001)(6666004)(6512007)(186003)(33716001)(86362001)(54906003)(67856001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: xz0UGgfMKc1xhuWZHM/FYBLGUovxExlUNerHUEM22n2TuNI+hO/m6YFPfgDocpXAVPL8Zf0xlaVJ+pAyDkoSHklmDIcCsmAgtgp98b7ZWJ85baxjYmZPYJNmtqqmH7dO5OnHulJ+t/Yk5tvjB/rHJBGJTpCppT1VsNdrY70MStgDI3ma6ftymJdhMb6jd927PmW3TkBBs7znn4rKH7IAzOs253/1uXy4kWinyzZWHRY2tdPvkNjF0oXHMXXhTdWjc3jKqvnHN8Or2rNEv0Z8zxpjAva/ICfEBLDOnpmEv7bylPp5X+KhNycIu8Tbr43Rnj0wBJjR7AEiO4krYKddmuZyV35VVnoroUR9zc0dS8s5Xwt/oDXI6/QxN6+pkZIpgvaM3YT45UXoqVDTMmiq6WwKVi4lvgVDaJyTnUhS86G0Exrfi5CLS40Z10LglT37c95Iuh0tl0+cVBAUrx/0PJ/4hfO9Z+IoIS1TWkqAEmLqq8gRHbd1xJ/Gw78bWhkX5nEsLwGdY8h3srGG0jISXKbHKYSTEPxRS29itiLZ83UIYjST0qLLAAkmO+ZqUe904Cmi8/Qv50RG4xbQx/oVO3ePfr1pklZLYqzmzYfF31Wv3O6q4TaXj01+2l8YF3/W5Fu7OcHwDNeRroOgeeufzOLsex/rV2GvZ05GsQQUoJb9FjDWyh9vo7c4y1bYOm5Oy/LppvD3AEpr8sPXMPhtxg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(366004)(39860400002)(136003)(396003)(346002)(376002)(451199018)(316002)(83380400001)(2906002)(26005)(33716001)(41300700001)(478600001)(54906003)(38100700002)(6512007)(6486002)(966005)(186003)(44832011)(9686003)(86362001)(6666004)(8936002)(6506007)(5660300002)(4326008)(6916009)(8676002)(82960400001)(66556008)(66476007)(66946007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9Qb10Qc/XESwlHzBQHElupZNWPlbHiBcBI4vEHRcI8YSjIEr48RzKcJYAFZ3?=
- =?us-ascii?Q?9P4ilAWd7waTf5nhWJ5YteyMwhPJRhy+EFVjz+uKQ1CsaeCSGxu1411jCbLw?=
- =?us-ascii?Q?vfGENDzvzenf/xUhCdJkIyHqBNDnmWUQtMZkYYNYcKFWdMKdIKShZBTw5y07?=
- =?us-ascii?Q?4LrR3AJc03Uav6zmfsrNCOpFp1BnbFV/vFG3V+HFKzZHoEZl+Yi2S9MLyXCT?=
- =?us-ascii?Q?8XG+CXtxNlkzriRlSYeAJBPA/JGvqxM7iQ1RrUPDUV+UqDsgLqvIy3i7oOZa?=
- =?us-ascii?Q?ZkpezoFosFfD1fLsjQo2nrHWwYiB/utpLYpFhm9i1cqxdV1yp6EK0e8YDrBB?=
- =?us-ascii?Q?cIpesz+klD4672gK0MIsCBunby+inZDWBN+5h7kw63sF0cBWVffQRwKvqM+J?=
- =?us-ascii?Q?C6I0qEV0I+NhJwrpUadRUiOvvl+5I5qgQOYyYWZBeARw42itX4x/VS23h/9s?=
- =?us-ascii?Q?Xme+MWv/o6r5Pq0IbpXJp/fvsbbvxHk+KwI4oMb7DBWM67yXYA4A+/SaKG0H?=
- =?us-ascii?Q?Vzt8K9+ylhr4W1QzqXBo8B/jtqx9osnSHXJW1BBDdp3TQRDet05LomK16Zqy?=
- =?us-ascii?Q?ano8rL6uht53ptqhxfOsMcwe55mDAKXMBakh4vh1nup9Lfzb0oYHNMlPdEe8?=
- =?us-ascii?Q?x5yNRNlHnKKjjhFldUvAH9xudTrXozFIoI1KZgjZ4L33ku7t95z47DEYkRnI?=
- =?us-ascii?Q?LZWFq/q7RZLCAqQNM43G60laq2zQq5DXBDCIIi6m0dL4apvTtprTfEFEyBf7?=
- =?us-ascii?Q?ETAi9P9UN69RDLXm6Igqt0ARGsMa1mGRoc29uwNvJ25ULFGFPNGlSjkYyzi4?=
- =?us-ascii?Q?2U3uoth4VDyF0Z3ra1VfuKG0ZUT3zvb0kIRaFsr3W4b0NmEI9iLuGt87OHzH?=
- =?us-ascii?Q?ImR01mgNVXadxzkHmrbJN731AtjwOCH1tP+1NmiHEKl5yVuco9SxRqz8auh9?=
- =?us-ascii?Q?GmrvkiD07+uahd/3cFp02u+eGf1qX6E32706W+hrelXdxBe+24IYW+rjBW/m?=
- =?us-ascii?Q?Yf6m0uP5lMW4XVUbwxKJpVh23nFniS4pIImNtY7wKvrJ28ebPYabDp4UPCtf?=
- =?us-ascii?Q?spcBSxiCuwd5/aO4pwYgIRdNWxZ3nEEbp3fP3EzPeSTSJhycoBr8V1oXHqI9?=
- =?us-ascii?Q?dZes4GBwWRfOz34S0TOPB6nscIzrkuHpkJHMkMYJMBTEMUWDvyVjX2P7DgRx?=
- =?us-ascii?Q?9A9T908qiJ1aUSWWIhsVQ6WVXQ129Z445MKT0duiaNCm2zdOPSPanTQ/HNuj?=
- =?us-ascii?Q?Fl5rihUl2+DSoW+sou4HyCmDYTra8uvXrWlUENnFtV9Pml9hea4WH7xp9TF6?=
- =?us-ascii?Q?0/+oXwQV9OKIexM2qd41nq0OVJFh6/h0GZgatuoUwkJV9kQwr/lP8QAB6CNb?=
- =?us-ascii?Q?q2HwNGC7MnDzJnvWEUtrcUuVlM00YC3CX2/Mpf+1F0k34EIFCGRIa41Qfa2K?=
- =?us-ascii?Q?LZILhzlpHbAAjB4uMB9TOt8vj2CNhh4kIBSGiRU5k4wEln06JSsWvRQTZEff?=
- =?us-ascii?Q?RtmMVlGSZwBX/TneOj9r/G1eJ2MEB9YhPBNVjOYZczbD69nQvfRFX0dDMZ5B?=
- =?us-ascii?Q?orQz0wvHkD40Ts3Aa+TlqH5+BKEgBvoIhOPN+drb?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0002113d-552d-4678-546c-08db09a408d4
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6397.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PI1k7gS/8Kzc9DTgB+tvSEjnko1DO6qRMqmU1CcxcFuf7c0YgDEHOoyKiFte?=
+ =?us-ascii?Q?GahfBezocDALnQYhcPU7VoPmQ2yPXl7EzO3XsqyOJ6W7SfQyz3QEqsARysN6?=
+ =?us-ascii?Q?zfz7nKJlqxSY0/kzgFuwT4dl5NqK0LzVU1b+uG4O7o+YQxMoPt+w8TVBh9wO?=
+ =?us-ascii?Q?ov4CDEoYjGM3cId0qO8cZk6nxQvUtlH/2OznGsqE+HtzCnNh30WLG78gtwXl?=
+ =?us-ascii?Q?Ei6P4LGptJ2UpA0u3SYHwlyv+8a4Q7B17QMOl+x2y03J3r/tQpE2ydtT5y4S?=
+ =?us-ascii?Q?t+EGj3BuZbqdgR6F5bdxkKvqjlXQWeGK/Q/sXa8gluebDgUvJeLhyPTuovoU?=
+ =?us-ascii?Q?a+LdDphjsUQLjAHub6JOftWM65pQM8HIDJAVKatN+5lnxFsfvnHlLC2mDNnM?=
+ =?us-ascii?Q?+s1wQ+LMRPcY5M1Em9p7RhtNOgulWhzkjaJJPOL3aDlbtooB1Rnv6fElSOo3?=
+ =?us-ascii?Q?3C93GdESq20qCGWzWxdFTpMARNxhM2Ac3YHCK2b98aSqaZei3GDyTulhDr7d?=
+ =?us-ascii?Q?kIS+XYRwd6tHfIH/SlpfJX/w+PfU2QJBjySgNnUpwG2+6CvHujKNEzuPRRW5?=
+ =?us-ascii?Q?UR49PgSZnN7cFd8j1wkKkrZgF3jjv3Tyme4Y1faTfEqPCKvwCObdlEL1PSaP?=
+ =?us-ascii?Q?DyiPklhrAXgxARnsV87uVyZILBA8Wk7z0a1Qz6iUJzdk1TdL9xTO1xASF9eX?=
+ =?us-ascii?Q?zO6Sm4l3UDLV7OSCwxWEfNhEbnD7H2SdMdsh9W5zJvL9zUK/aeveWE9EIAog?=
+ =?us-ascii?Q?zLioZZTR+bwT59UI4AnoxWYJ7drvdX0PzY8lKIs2CVNW+9xQF5K0i9jjkZa5?=
+ =?us-ascii?Q?xT3D/TlkC46UoTMsQh8qscqUh9HDEhebw9Ge2OfFLdo2CheaEF+kymZnFaAw?=
+ =?us-ascii?Q?EReh4gJifrGhHyzAyQGtSoVOljgy3DzMIEP6fSAr1BDeZruPCYCwxmEjh0V5?=
+ =?us-ascii?Q?WqAsTZ2UaYUrb8N5CLvX+EfncEdQOzMlv3ebtjXa3A2bl1t1+wZBmtB/kwwO?=
+ =?us-ascii?Q?wv0Q/+vs7oQqujsL6SjfVS86PT+xJaxQMOnT8F7sk/1r6pKOIPqo7ow9RiSM?=
+ =?us-ascii?Q?3m+VLsp6cjZ/VuONztrkB23NewDDmwXpP9loFhpDbpIMDleffsujN7n5C0Ng?=
+ =?us-ascii?Q?udEXHV9DwXfDypky1GKswFQgmntmRWZ8hqxjqRiuy7AqiBQtP3FniIB5dK/u?=
+ =?us-ascii?Q?aUr6Xu/ydKdKVZ12WDn/2bjOFjDYsOdwrOduAIzqLBmrL3IvOkVlt6Rjpmuk?=
+ =?us-ascii?Q?RsWLDM8RhI2WWskisJTbVCen4VCTfNKW0bjPbA8oCSMM9yitA6PFq7zEPGlR?=
+ =?us-ascii?Q?9cEldz2U6lkCoBPdohfe/OexCSKkp6t1/0HAjIz6l1M7KbgkrezhNaCkGxSV?=
+ =?us-ascii?Q?8DaplBEov7z9VY3lkc4TiVAwuFZg3b4yAXRtW3QkdmqjtrEAEe2wdy/4x2EO?=
+ =?us-ascii?Q?/k2qDdB6a+g9o+6dJCrMI9F0l0Vptvg3E4XYlUL0Kgm+dRyiib9gNixHPAEE?=
+ =?us-ascii?Q?ntX05OPG+w08zH15CQhU7DgYO+uZLjdTW01ig4c+g2tO/Q1P1pyqVBUSlw9P?=
+ =?us-ascii?Q?seNdTJ6gQY11j4ehBemANmu0gX0hyPy9E1c4FIWz?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2efe0348-7edc-441b-d0a9-08db09a7bdf1
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 07:13:53.4225
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 07:40:25.6330
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nM8Gb+5cZ4SNjS19h/he9qQ0YFo0GqHIBuhnfO4IBEURUIA5nuX6cSHoBhy10NgoAx5gYiu1IFoP+Ji+3dIW0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5519
+X-MS-Exchange-CrossTenant-UserPrincipalName: e7zy8FInl+5gi1YHHzUNRUsEOVkOBh42sPCyzAlt3hNkfyWcSXQ0VKKn7cr9XecnarGiQdugAPBMo8mxIRvwWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5620
 X-OriginatorOrg: intel.com
 
-Hi Sean,
-
-On Tue, Feb 07, 2023 at 11:34:11PM +0000, Sean Christopherson wrote:
-> On Tue, Feb 07, 2023, kernel test robot wrote:
-> > Hi Sean,
-> > 
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> Is there a way to mark this as "working as intended"?  The truncation is intentional.
-> I've been ignoring the reports, but they just keep coming :-)
-
-Sorry for reporting this warning repeatedly. We've added it to the
-ignore list for this particular commit.
-
-Best Regards,
-Yujie
-
+On Mon, Feb 06, 2023 at 09:51:42AM -0700, Nathan Chancellor wrote:
+> On Mon, Feb 06, 2023 at 11:52:01PM +0800, kernel test robot wrote:
 > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > > head:   d2d11f342b179f1894a901f143ec7c008caba43e
-> > commit: 70e41c31bc7776b262cd9f524df3dfc2b5869a0a KVM: x86/mmu: Use common logic for computing the 32/64-bit base PA mask
-> > date:   8 months ago
-> > config: x86_64-randconfig-s023-20230206 (https://download.01.org/0day-ci/archive/20230207/202302070638.iEBPQ4gL-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > reproduce:
-> >         # apt-get install sparse
-> >         # sparse version: v0.6.4-39-gce1a6720-dirty
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=70e41c31bc7776b262cd9f524df3dfc2b5869a0a
+> > commit: 07b586fe06625b0b610dc3d3a969c51913d143d4 crypto: x86/curve25519 - replace with formally verified implementation
+> > date:   3 years ago
+> > config: x86_64-buildonly-randconfig-r006-20230206 (https://download.01.org/0day-ci/archive/20230206/202302062324.HhzEZCF7-lkp@intel.com/config)
+> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=07b586fe06625b0b610dc3d3a969c51913d143d4
 > >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 > >         git fetch --no-tags linus master
-> >         git checkout 70e41c31bc7776b262cd9f524df3dfc2b5869a0a
+> >         git checkout 07b586fe06625b0b610dc3d3a969c51913d143d4
 > >         # save the config file
 > >         mkdir build_dir && cp config build_dir/.config
-> >         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-> >         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/
 > > 
 > > If you fix the issue, kindly add following tag where applicable
 > > | Reported-by: kernel test robot <lkp@intel.com>
 > > 
-> > sparse warnings: (new ones prefixed by >>)
-> >    arch/x86/kvm/mmu/mmu.c:610:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_begin' - different lock contexts for basic block
-> >    arch/x86/kvm/mmu/mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, arch/x86/kvm/irq.h):
-> >    include/linux/rcupdate.h:726:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_end' - unexpected unlock
-> >    arch/x86/kvm/mmu/mmu.c:2550:9: sparse: sparse: context imbalance in 'mmu_try_to_unsync_pages' - different lock contexts for basic block
-> >    arch/x86/kvm/mmu/mmu.c: note: in included file:
-> > >> arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
-> >    arch/x86/kvm/mmu/paging_tmpl.h:426:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
-> >    arch/x86/kvm/mmu/mmu.c:4618:57: sparse: sparse: cast truncates bits from constant value (ffffff33 becomes 33)
-> >    arch/x86/kvm/mmu/mmu.c:4620:56: sparse: sparse: cast truncates bits from constant value (ffffff0f becomes f)
-> >    arch/x86/kvm/mmu/mmu.c:4622:57: sparse: sparse: cast truncates bits from constant value (ffffff55 becomes 55)
+> > All errors (new ones prefixed by >>):
 > > 
-> > vim +106 arch/x86/kvm/mmu/paging_tmpl.h
-> > 
-> > b3fcdb04a98035 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2022-06-14  103  
-> > e04da980c35d75 arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2009-07-27  104  static gfn_t gpte_to_gfn_lvl(pt_element_t gpte, int lvl)
-> > 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  105  {
-> > e04da980c35d75 arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2009-07-27 @106  	return (gpte & PT_LVL_ADDR_MASK(lvl)) >> PAGE_SHIFT;
-> > 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  107  }
-> > 5fb07ddb183eb4 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-11-21  108  
-> > 
-> > :::::: The code at line 106 was first introduced by commit
-> > :::::: e04da980c35d75fa050ba4009ad99025432d8d7d KVM: MMU: make page walker aware of mapping levels
-> > 
-> > :::::: TO: Joerg Roedel <joerg.roedel@amd.com>
-> > :::::: CC: Avi Kivity <avi@redhat.com>
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests
+> >    arch/x86/crypto/curve25519-x86_64.c:954:6: warning: variable 'carry' set but not used [-Wunused-but-set-variable]
+> >            u64 carry;
+> >                ^
+> >    arch/x86/crypto/curve25519-x86_64.c:951:6: warning: variable 'carry0' set but not used [-Wunused-but-set-variable]
+> >            u64 carry0;
+> >                ^
+> > >> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
+> >                    "  movq 0(%1), %%rdx;"                                       /* f[0] */
+> >                    ^
+> > >> arch/x86/crypto/curve25519-x86_64.c:609:3: error: inline assembly requires more registers than available
+> >    2 warnings and 2 errors generated.
 > 
+> https://github.com/ClangBuiltLinux/linux/issues/1589
+> 
+> Intel folks, this can probably just be sent to our list from now on.
+
+Sorry for repeat reporting this clang issue to kernel developers. We've
+added a new rule to send similar reports to llvm list only.
+
+--
+Best Regards,
+Yujie
