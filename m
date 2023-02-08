@@ -1,43 +1,44 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D370D7F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 02:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A9C7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 02:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675824712; x=1707360712;
+  t=1675824716; x=1707360716;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kJKgo9jddAFdwW2IbuDIHkPRorIUa+zN8aD1siPQ5Ww=;
-  b=caHDBGV2UblIbbY2wjusE6J2ZHl4bRi3V/ONqdl/q9SxMqBSEPM3Q8US
-   9HtYc3a8k7FKFITIaZ7qAZM+/fkvRrfW4JtvwHoHCGkjLcgU9QQ3jFoIe
-   oxy5TCQYL/9hIM7AQlB3IqjN84BMyvKF0Fr70Dq2CFy9fwiEZxgv8CiDs
-   YUFxUYqrkyj7L0t1rJLmZVqT8AEc//R5HKNkrX6y0Ndkf7k3I+G43YRth
-   CT+MOJN4Eo9x7eVxlmCf7rg0xhy65O9r3uKiRUUDbKvz3+7k1TvO/TV1t
-   SKmN24xc6nfHwqQ/Jp7XUJ+5L4irx5hTZLmOrLscCPxSF0Lg1pNZkL/rJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="330984857"
+  bh=Mwr3qNzGCEl1ilH3eggGBCQcHoceTEn3i6eC1KZclvU=;
+  b=VQRmG4xL5Y/iyZkrMY8NDxH7nAzELHwXw9CFjCD90SEH2LljvIMAWd9T
+   7nlicVdN+tGW5F/Q1xqAtRrpKi4hzOe9JpEYnAaM/qEhkPReX6caK2Lni
+   Ko5hVIJSqqRvA6dGLJLMDRnf9NY3f5q2dhcc/OvwyZjPYuOarbvNaoohn
+   //shSOptCgNHTA6cAFgz2XjwfYsI7OH7nuqXvWISdPsuSllUKB1IvxejC
+   jFpkyzKucEmqZM5L7w3QdgP80xRR8pSKJLsZ7sXVt2BZuXTgrEYtJpPg9
+   TPnKJjmZHUBdPKa8x8lpHaVU1vFHEo2eIMLV0ctcL39aMpB/F0JJP2Y0e
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="330984868"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="330984857"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+   d="scan'208";a="330984868"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 18:51:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="669024995"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="809777118"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="669024995"
+   d="scan'208";a="809777118"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Feb 2023 18:51:51 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2023 18:51:51 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPaYj-00046i-2O;
+	id 1pPaYj-00046e-2I;
 	Wed, 08 Feb 2023 02:51:45 +0000
-Date: Wed, 8 Feb 2023 10:51:10 +0800
+Date: Wed, 8 Feb 2023 10:51:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 14787/20209]
- drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state'
- undeclared
-Message-ID: <202302081021.WsASAdOc-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: arch/powerpc/kvm/../kernel/head_booke.h:20:6: warning:
+ "THREAD_SHIFT" is not defined, evaluates to 0
+Message-ID: <202302081034.IDWxXcwG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +48,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jacky,
+Hi Masahiro,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3248ffcb12d15a0e40b9a020ba362591b8137923
-commit: 264ab88f12e93e8f2755792771f22da44c9ead9e [14787/20209] LF-6644: soc: imx: Only do lifecycle notify when enter mem mode
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302081021.WsASAdOc-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
+commit: 80b6093b55e31c2c40ff082fb32523d4e852954f kbuild: add -Wundef to KBUILD_CPPFLAGS for W=1 builds
+date:   8 weeks ago
+config: powerpc-randconfig-r015-20230208 (https://download.01.org/0day-ci/archive/20230208/202302081034.IDWxXcwG-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/264ab88f12e93e8f2755792771f22da44c9ead9e
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 5.15-2.2.x-imx
-        git checkout 264ab88f12e93e8f2755792771f22da44c9ead9e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80b6093b55e31c2c40ff082fb32523d4e852954f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 80b6093b55e31c2c40ff082fb32523d4e852954f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/ arch/powerpc/kvm/ arch/powerpc/platforms/85xx/ arch/powerpc/sysdev/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/soc/imx/rpmsg_life_cycle.c: In function 'rpmsg_lifecycle_pm_notify':
->> drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state' undeclared (first use in this function)
-     126 |         if (pm_suspend_target_state != PM_SUSPEND_MEM)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/imx/rpmsg_life_cycle.c:126:13: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from arch/powerpc/kvm/bookehv_interrupts.S:26:
+>> arch/powerpc/kvm/../kernel/head_booke.h:20:6: warning: "THREAD_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      20 | #if (THREAD_SHIFT < 15)
+         |      ^~~~~~~~~~~~
 
 
-vim +/pm_suspend_target_state +126 drivers/soc/imx/rpmsg_life_cycle.c
+vim +/THREAD_SHIFT +20 arch/powerpc/kvm/../kernel/head_booke.h
 
-   119	
-   120	static int __maybe_unused rpmsg_lifecycle_pm_notify(bool enter)
-   121	{
-   122		struct pm_rpmsg_data msg;
-   123		int ret;
-   124	
-   125		/* Only need to do lifecycle notify when APD enter mem(HW PD) mode */
- > 126		if (pm_suspend_target_state != PM_SUSPEND_MEM)
-   127			return 0;
-   128	
-   129		msg.data = enter ? PM_RPMSG_SUSPEND : PM_RPMSG_ACTIVE;
-   130		msg.header.cate = IMX_RMPSG_LIFECYCLE;
-   131		msg.header.major = IMX_RMPSG_MAJOR;
-   132		msg.header.minor = IMX_RMPSG_MINOR;
-   133		msg.header.type = PM_RPMSG_TYPE;
-   134		msg.header.cmd = PM_RPMSG_MODE;
-   135	
-   136		reinit_completion(&cmd_complete);
-   137	
-   138		ret = rpmsg_send(life_cycle_rpdev->ept, &msg, sizeof(struct pm_rpmsg_data));
-   139		if (ret) {
-   140			dev_err(&life_cycle_rpdev->dev, "rpmsg send failed:%d\n", ret);
-   141			return ret;
-   142		}
-   143	
-   144		ret = wait_for_completion_timeout(&cmd_complete,
-   145						msecs_to_jiffies(RPMSG_TIMEOUT));
-   146		if (!ret) {
-   147			dev_err(&life_cycle_rpdev->dev, "rpmsg_send timeout!\n");
-   148			return -ETIMEDOUT;
-   149		}
-   150	
-   151		return 0;
-   152	}
-   153	
+1a4b739bbb4f885 Christophe Leroy 2019-04-30  10  
+63dafe5728e7354 Becky Bruce      2006-01-14  11  /*
+63dafe5728e7354 Becky Bruce      2006-01-14  12   * Macros used for common Book-e exception handling
+63dafe5728e7354 Becky Bruce      2006-01-14  13   */
+63dafe5728e7354 Becky Bruce      2006-01-14  14  
+63dafe5728e7354 Becky Bruce      2006-01-14  15  #define SET_IVOR(vector_number, vector_label)		\
+63dafe5728e7354 Becky Bruce      2006-01-14  16  		li	r26,vector_label@l; 		\
+63dafe5728e7354 Becky Bruce      2006-01-14  17  		mtspr	SPRN_IVOR##vector_number,r26;	\
+63dafe5728e7354 Becky Bruce      2006-01-14  18  		sync
+63dafe5728e7354 Becky Bruce      2006-01-14  19  
+e12401222f749c3 Yuri Tikhonov    2009-01-29 @20  #if (THREAD_SHIFT < 15)
+e12401222f749c3 Yuri Tikhonov    2009-01-29  21  #define ALLOC_STACK_FRAME(reg, val)			\
+e12401222f749c3 Yuri Tikhonov    2009-01-29  22  	addi reg,reg,val
+e12401222f749c3 Yuri Tikhonov    2009-01-29  23  #else
+e12401222f749c3 Yuri Tikhonov    2009-01-29  24  #define ALLOC_STACK_FRAME(reg, val)			\
+e12401222f749c3 Yuri Tikhonov    2009-01-29  25  	addis	reg,reg,val@ha;				\
+e12401222f749c3 Yuri Tikhonov    2009-01-29  26  	addi	reg,reg,val@l
+e12401222f749c3 Yuri Tikhonov    2009-01-29  27  #endif
+e12401222f749c3 Yuri Tikhonov    2009-01-29  28  
+
+:::::: The code at line 20 was first introduced by commit
+:::::: e12401222f749c37277a313d631dc024bbfd3b00 powerpc/44x: Support for 256KB PAGE_SIZE
+
+:::::: TO: Yuri Tikhonov <yur@emcraft.com>
+:::::: CC: Josh Boyer <jwboyer@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
