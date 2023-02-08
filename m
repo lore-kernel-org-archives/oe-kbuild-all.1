@@ -1,90 +1,166 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0357F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 03:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6696936E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 04:35:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675827289; x=1707363289;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6kRFyxQHHedbgLEa5qA0GQP9wwzW4XaVy2z+gJFxG3Q=;
-  b=FF2gG83i5b5VYHGTu+/wvMdwqBuby9kqZyQUfwp6CtXZSTIaUmWUD72V
-   weuan2Ahqb8E+AtZ6wWODNei61CAvKAyXasmyVQLtWCCRl0k6YjUOa40I
-   5dk8SBPeczAUSJgZk/v5gA0lhZkwQO+R7Knay+y7wEYc7pz/4bIG9yMJS
-   D6oIN0IPnZNYAj6k3hdhhvPT1Wgm52HLK92VmHoa6CAWQQfIHqBINkKVV
-   kWWldUVqZMy7l+m9JT96MsXu/fePvnREfkJ7qLzw+5djO26uvw+NrVtPb
-   KtBvD6u8q+Ew81Jfqjv7iKPmXLssE5vK+93cfSoRwaiOjlCatVXIJDcPm
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="394291434"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="394291434"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 19:34:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="617056736"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="617056736"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 07 Feb 2023 19:34:47 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPbEN-000492-0X;
-	Wed, 08 Feb 2023 03:34:47 +0000
-Date: Wed, 8 Feb 2023 11:34:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest 102/136] arch/x86/kernel/tdx.c:712:15: sparse:
- sparse: symbol 'tdx_mmio_readq' was not declared. Should it be static?
-Message-ID: <202302081112.STP1dlyS-lkp@intel.com>
+	d=hansenpartnership.com; s=20151216; t=1675830946;
+	bh=f39yvrDOmv2DvucwTqX2uN2hj74AJ8aPcBfQJHQiUZY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=i4WXCZI+saBtiwshZWYbmeryRfBudnTyVB3ZMC18KNwMr4AYTefFzwtwM5KN0yV7e
+	 3yuAwCMcqYRa7Yovad1blDMZihSPr7avyTWz1gYFc6eTTvG7O+qNrYP0adS7hwsWnc
+	 BSf0K9PWgjc92kRP7MEUcKdmEpPpyiouB5ezF/BE=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 8BEE412891EF;
+	Tue,  7 Feb 2023 23:35:46 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id i9IS57eTWRkI; Tue,  7 Feb 2023 23:35:46 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1675830946;
+	bh=f39yvrDOmv2DvucwTqX2uN2hj74AJ8aPcBfQJHQiUZY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=i4WXCZI+saBtiwshZWYbmeryRfBudnTyVB3ZMC18KNwMr4AYTefFzwtwM5KN0yV7e
+	 3yuAwCMcqYRa7Yovad1blDMZihSPr7avyTWz1gYFc6eTTvG7O+qNrYP0adS7hwsWnc
+	 BSf0K9PWgjc92kRP7MEUcKdmEpPpyiouB5ezF/BE=
+Received: from [172.20.6.85] (unknown [176.236.36.194])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 6945112891EE;
+	Tue,  7 Feb 2023 23:35:44 -0500 (EST)
+Message-ID: <f2055c474c55533095d1cc4c7ccfdcf369551fb1.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
+	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 08 Feb 2023 07:35:40 +0300
+In-Reply-To: <Y9ykeASyzhSKQCmx@yujie-X299>
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+	 <202301250706.deGvd0yq-lkp@intel.com>
+	 <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+	 <Y9ykeASyzhSKQCmx@yujie-X299>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/tdx.git guest
-head:   f3d7a7e86bf2f0d5ce629f2fb7be11dca88ac06d
-commit: c2b75088b70d45a8b98121cd1c4a4fa1380d4cf7 [102/136] x86/tdx: Enable direct iomap MMIO optimizations
-config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230208/202302081112.STP1dlyS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel/tdx/commit/c2b75088b70d45a8b98121cd1c4a4fa1380d4cf7
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest
-        git checkout c2b75088b70d45a8b98121cd1c4a4fa1380d4cf7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
+On Fri, 2023-02-03 at 14:06 +0800, Yujie Liu wrote:
+> Hi James,
+> 
+> On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
+> > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
+> > > Hi James,
+> > > 
+> > > I love your patch! Perhaps something to improve:
+> > > 
+> > > [auto build test WARNING on char-misc/char-misc-testing]
+> > > [also build test WARNING on char-misc/char-misc-next char-
+> > > misc/char-
+> > > misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5
+> > > next-
+> > > 20230124]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a
+> > > note.
+> > > And when submitting patch, we suggest to use '--base' as
+> > > documented
+> > > in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:   
+> > > https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> > > patch link:   
+> > > https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
+> > > patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
+> > > encrypt/decrypt session handling code
+> > > config: arc-allyesconfig
+> > > (
+> > > https://download.01.org/0day-ci/archive/20230125/202301250706.deGv
+> > > d0
+> > > yq-lkp@intel.com/config)
+> > > compiler: arceb-elf-gcc (GCC) 12.1.0
+> > > reproduce (this is a W=1 build):
+> > >         wget
+> > > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
+> > >  -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         #
+> > > https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > >         git remote add linux-review
+> > > https://github.com/intel-lab-lkp/linux
+> > >         git fetch --no-tags linux-review James-Bottomley/tpm-
+> > > move-
+> > > buffer-handling-from-static-inlines-to-real-functions/20230125-
+> > > 020146
+> > >         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > make.cross W=1 O=build_dir ARCH=arc olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+> > > drivers/char/tpm/
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous
+> > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
+> > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
+> > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+> > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > 'tpm_buf_check_hmac_response':
+> > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame
+> > > > > size
+> > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-
+> > > > > than=]
+> > >      831 | }
+> > >          | ^
+> > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > 'tpm_buf_fill_hmac_session':
+> > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame
+> > > size of
+> > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+> > >      579 | }
+> > >          | ^
+> > 
+> > Is this a test problem?  I can't see why the code would only blow
+> > the stack on the arc architecture and not on any other ... does it
+> > have something funny with on stack crypto structures?
+> 
+> This warning is controlled by the value of CONFIG_FRAME_WARN.
+> 
+> For "make ARCH=arc allyesconfig", the default value is 1024, so this
+> frame warning shows up during the build.
+> 
+> For other arch such as "make ARCH=x86_64 allyesconfig", the default
+> value would be 2048 and won't have this warning.
+> 
+> Not sure if this is a real problem that need to be fixed, here just
+> providing above information for your reference.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Is there something weird about arc, though, since a quick trawl through
+defconfigs shows quite a few systems (including i386) have it set to
+1024:
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/tdx.c:267:5: sparse: sparse: symbol 'tdx_hcall_set_notify_intr' was not declared. Should it be static?
-   arch/x86/kernel/tdx.c:490:14: sparse: sparse: symbol 'tdx_write_msr' was not declared. Should it be static?
->> arch/x86/kernel/tdx.c:712:15: sparse: sparse: symbol 'tdx_mmio_readq' was not declared. Should it be static?
+mips/configs/lemote2f_defconfig:CONFIG_FRAME_WARN=1024
+mips/configs/loongson2k_defconfig:CONFIG_FRAME_WARN=1024
+powerpc/configs/fsl-emb-nonhw.config:CONFIG_FRAME_WARN=1024
+um/configs/x86_64_defconfig:CONFIG_FRAME_WARN=1024
+x86/configs/i386_defconfig:CONFIG_FRAME_WARN=1024
 
-vim +/tdx_mmio_readq +712 arch/x86/kernel/tdx.c
+That also seems to show, by the way, that the default on arc should be
+the standard 2048.
 
-   711	
- > 712	unsigned long tdx_mmio_readq(void __iomem *addr)
-   713	{
-   714		unsigned long val;
-   715	
-   716		if (tdx_virt_mmio(8, false, (unsigned long)addr, &val))
-   717			return 0xffffffffffffffff;
-   718		return val;
-   719	}
-   720	
+James
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
