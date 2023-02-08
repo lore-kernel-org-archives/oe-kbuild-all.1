@@ -1,88 +1,77 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741A42113
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 10:26:01 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id g6so8251970wrv.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Feb 2023 02:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2vBRxdK4AYNAIN8xzgOiscHELLsk42uD/uHH62t4p4=;
-        b=vOROfMvBVQUgrGeyXGyUeffueIr97W6RjcIkK+MYIbMJ6JNOyOnqkGZfVGO8gZ6aoz
-         9k5Fu8LGDq6RW+AtqbYXNg5+6lqk7fblSpB9wc7XHUkXz1GYroi2LuM9s/a1HxFhHJke
-         UrIOQr8QaTC5R1WUi+m3z6P1ioebAlVweRv/MPYQ3Crx7lodeQWX7MQjgJermHKGFjfV
-         Bwwdmi5OCYApcfovBDqHj8oR5tHRSe4iMz4xgV9g7EA3YwFvswcpAiBSVZqkZ8dihNG1
-         8O2i+V/b1+AG00gmvX/2+vFjy7I3ic5y0X/icVlzGWuCM85kAmziqPJasnvDj8k9uGjb
-         1kmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2vBRxdK4AYNAIN8xzgOiscHELLsk42uD/uHH62t4p4=;
-        b=WPOYfCpzkZTwQ3ZgrFvNIex6rTCb/zdocbSeIWJZeamNR+uc6bP0uN72pMOdqcY9HT
-         DkG2K7NwpJuJprcXK4Ekzs08ZuDe+4J1wBH4hJwMeKtPe+i4KEVt1e5H6RFG78ARXF48
-         Y4DEZm2jsRC6lbx1XdrQOQFCtbK3pSOPDk9YmkW0mJzmd5yE/gbmUsNUZ8UUhR147kKC
-         UgPd5CSJYSsy3EnzfH5fCeeX6/O9JlCOB+nGuAf8wPW2hvxp3iZUhvZh4rUfy3iI7Dwz
-         RwjJvTr7ANlmjC/YFglR7nTBmZ12GoOKRRa7f20kzg4loDzYAVZSXYqj2XY5BTI/VApT
-         Q6NA==
-X-Gm-Message-State: AO0yUKUkb1Db8mSOEkS28xW6Dpe/wZZHTgRo16PlRnSjySCSQjB5nxkf
-	ExmnAcC4idLD1isnsPmGBoNBqA==
-X-Google-Smtp-Source: AK7set+rGmjIfvS3baxKVbA0bxotZKgIUCw5HvLE3AnsK14SnALoXFJXe76PRDqzgumVmQzFWq+1CA==
-X-Received: by 2002:a05:6000:110e:b0:2bf:95fb:e5b3 with SMTP id z14-20020a056000110e00b002bf95fbe5b3mr5948875wrw.33.1675851959784;
-        Wed, 08 Feb 2023 02:25:59 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id h1-20020a5d4301000000b002c3b2afae00sm13064383wrq.41.2023.02.08.02.25.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Feb 2023 02:25:59 -0800 (PST)
-Message-ID: <39350ee9-c899-ba88-2e4e-103f93dcd722@linaro.org>
-Date: Wed, 8 Feb 2023 11:25:57 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBF2364
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 10:35:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675852505; x=1707388505;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wuKUaDG3nhGakKAMflDpyFUzigTaRC9OJjlo6xuqn+w=;
+  b=YCUgXWzlFuhP4mA9T/hq7YE5Wr86bEF++SUvRXYxfvU6BB7+jaTd5VOe
+   ce1uXBmzG/cq8i69DMgHjSeV/IN5M2hBQo9ilW2X173zQXMQeGxuJ7k0z
+   FZcqkIihWO35kHN22ng48gZcimP3w3GfsFG5d2yTEqWDzyl+2kYYBJ/qP
+   37Mrw1cI449DVdRnM2XYcUFdqAwKV0hL9n5fZ+j1CG/qKg0kBvp8nl817
+   RKzrZFr4zJlHYM7qnk7uX6AHJQDpoXSqBFcKSJtGJ0LnPJ/KxSYkcw2iB
+   ZgdNIyWvuMdHKD+t1ChjN15mgUxg0eUWUz2jteGh+wo9G7Mt2zKO4KOwg
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415985404"
+X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
+   d="scan'208";a="415985404"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 02:35:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="660610481"
+X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
+   d="scan'208";a="660610481"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 08 Feb 2023 02:35:02 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPhn3-0004Og-37;
+	Wed, 08 Feb 2023 10:35:01 +0000
+Date: Wed, 8 Feb 2023 18:34:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH V2] blktests: add test to cover umount one deleted disk
+Message-ID: <202302081836.q16rGKum-lkp@intel.com>
+References: <20230208010235.553252-1-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 6/6] Driver: VMBus: Add device tree support
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- daniel.lezcano@linaro.org, tglx@linutronix.de,
- virtualization@lists.linux-foundation.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- mikelley@microsoft.com, ssengar@microsoft.com, dphadke@linux.microsoft.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <1675756199-5917-7-git-send-email-ssengar@linux.microsoft.com>
- <202302081621.odizDzHG-lkp@intel.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <202302081621.odizDzHG-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208010235.553252-1-ming.lei@redhat.com>
 
-On 08/02/2023 09:22, kernel test robot wrote:
-> Hi Saurabh,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on next-20230207]
-> [cannot apply to robh/for-next tip/timers/core brgl/gpio/for-next wsa/i2c/for-next linus/master v6.2-rc7 v6.2-rc6 v6.2-rc5 v6.2-rc7]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
+Hi Ming,
 
-All of your recent patches have build errors. Can you at least build
-test them before sending? It's a unnecessary noise in our mailboxes to
-get non-buildable patches, just to trigger compilation which you can
-easily do by your own. GCC is a free software...
+I love your patch! Perhaps something to improve:
 
-Best regards,
-Krzysztof
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc7 next-20230208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/blktests-add-test-to-cover-umount-one-deleted-disk/20230208-090437
+patch link:    https://lore.kernel.org/r/20230208010235.553252-1-ming.lei%40redhat.com
+patch subject: [PATCH V2] blktests: add test to cover umount one deleted disk
+reproduce:
+        scripts/spdxcheck.py
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+spdxcheck warnings: (new ones prefixed by >>)
+>> tests/block/032: 2:27 Invalid License ID: GPL-3.0+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
