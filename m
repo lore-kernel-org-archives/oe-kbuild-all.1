@@ -1,52 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E97C33FF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 16:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74F033FF;
+	Wed,  8 Feb 2023 16:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675872552; x=1707408552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i5wiQk9WC9xvE/C0qbZGsEhSgL1Eg53js8pBjXRU6aA=;
-  b=RG29djuGsAgzisrLloD974TjZKqwJWjdebAlMiHJV9NxLW4nVxJCos6J
-   6IcnBWxjg4Pyc5WyNQsfWkik+EID52mXR5PPxIBJQn5YEfKFZ8yo82JXt
-   dMv4y77qNC+JvOAC0rOpkZ4Wxy6erAidPYvbMdaehojPTlfZDdeWAWUW0
-   isigEJCTIJYFdAN2rz0EsewGG+WgpVUTQfhw+2sHSh284SvQpG+QSwKWL
-   iZl4tX/cp6Kp1ePBavjkwTn3H3hixqxkbvzZJsD0C07hlrfUjAlG5Iog3
-   IcEHgMH2G+NxtE7fBjNDcTNMv+1B2TPyj4mO4tm7eobUatyqZL/Tn7K30
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310195985"
+  t=1675872613; x=1707408613;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IqRFmG/tE88LZNICwrizQVUfzUCcslDbxcwFXRlTgBI=;
+  b=Zr/0pbKtU37d/ThGqC7nJMptN8q6TWYMN2vYYqEGdaF45bibAWlKc5fC
+   l4UM4q0mY0kodWoUUp2xqW2pZ4o+32XO3oyCS+MA0lmNLr3Vygny6TYyo
+   dgXNu5hzKwzmYGsLMK6U/R32NG/MoO1+b62e/5mqcjFPthPDyKqACbUBG
+   XIExX7vy/TksrED6zGNnvRvpzXRdwxxl+oZoAVPr/PCsDoXKZgfFKKf1g
+   D50VWMSBk9vRJ/qZsGUk2kvdUBh85EiGidLD0bxxK+7/3FI3ZroS47z55
+   mRrfWqtgn/+NxIEPkP70ky8vgqxFxqkTgZRPXghS8cPLBBunfPVLoLzmp
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416063532"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="310195985"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 08:09:12 -0800
+   d="scan'208";a="416063532"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 08:09:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="791264474"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="644909391"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="791264474"
+   d="scan'208";a="644909391"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 08 Feb 2023 08:09:08 -0800
+  by orsmga006.jf.intel.com with ESMTP; 08 Feb 2023 08:09:13 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPn0N-0004Wa-1m;
+	id 1pPn0N-0004Wd-1q;
 	Wed, 08 Feb 2023 16:09:07 +0000
-Date: Thu, 9 Feb 2023 00:08:33 +0800
+Date: Thu, 9 Feb 2023 00:08:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Tanure <lucas.tanure@collabora.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org, kernel@collabora.com,
-	Lucas Tanure <lucas.tanure@collabora.com>
-Subject: Re: [PATCH v3 3/4] ALSA: cs35l41: Add shared boost feature
-Message-ID: <202302090037.Ndp45WTg-lkp@intel.com>
-References: <20230208141839.1097377-4-lucas.tanure@collabora.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split 29/31]
+ kernel/sys.c:1288:1: warning: stack frame size (1040) exceeds limit (1024)
+ in '__se_sys_newuname'
+Message-ID: <202302090016.DRnD1KVw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,130 +46,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208141839.1097377-4-lucas.tanure@collabora.com>
 
-Hi Lucas,
+Hi Linus,
 
-I love your patch! Perhaps something to improve:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.2-rc7 next-20230208]
-[cannot apply to broonie-sound/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Tanure/ASoC-cs35l41-Only-disable-internal-boost/20230208-222109
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230208141839.1097377-4-lucas.tanure%40collabora.com
-patch subject: [PATCH v3 3/4] ALSA: cs35l41: Add shared boost feature
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230209/202302090037.Ndp45WTg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
+head:   e6fc25ec2770c9db62486fb1f291b99531f86533
+commit: 0facdc348172563db9b913d75c9aab1bf68550f8 [29/31] hack passing kernel_init()
+config: arm-randconfig-r046-20230206 (https://download.01.org/0day-ci/archive/20230209/202302090016.DRnD1KVw-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/87a5c357d253db3453537a973252d044ce02ad91
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lucas-Tanure/ASoC-cs35l41-Only-disable-internal-boost/20230208-222109
-        git checkout 87a5c357d253db3453537a973252d044ce02ad91
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=0facdc348172563db9b913d75c9aab1bf68550f8
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
+        git checkout 0facdc348172563db9b913d75c9aab1bf68550f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/codecs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/dvb-core/ drivers/tty/vt/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/codecs/cs35l41-lib.c: In function 'cs35l41_global_enable':
->> sound/soc/codecs/cs35l41-lib.c:1212:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    1212 |                 struct reg_sequence cs35l41_mdsync_down_seq[] = {
-         |                 ^~~~~~
-   sound/soc/codecs/cs35l41-lib.c:1217:46: error: 'cs35l45' undeclared (first use in this function)
-    1217 |                 ret = regmap_multi_reg_write(cs35l45->regmap, cs35l41_mdsync_down_seq,
-         |                                              ^~~~~~~
-   sound/soc/codecs/cs35l41-lib.c:1217:46: note: each undeclared identifier is reported only once for each function it appears in
-   sound/soc/codecs/cs35l41-lib.c:1231:25: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    1231 |                         struct reg_sequence cs35l41_mdsync_up_seq[] = {
-         |                         ^~~~~~
+>> kernel/sys.c:1288:1: warning: stack frame size (1040) exceeds limit (1024) in '__se_sys_newuname' [-Wframe-larger-than]
+   SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
+   ^
+   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFINE1'
+   #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+                                      ^
+   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^
+   include/linux/syscalls.h:247:18: note: expanded from macro '__SYSCALL_DEFINEx'
+           asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+                           ^
+   <scratch space>:124:1: note: expanded from here
+   __se_sys_newuname
+   ^
+   40/1040 (3.85%) spills, 1000/1040 (96.15%) variables
+   1 warning generated.
+--
+>> drivers/media/dvb-core/dvb_frontend.c:2424:12: warning: stack frame size (1072) exceeds limit (1024) in 'dvb_frontend_handle_ioctl' [-Wframe-larger-than]
+   static int dvb_frontend_handle_ioctl(struct file *file,
+              ^
+   66/1072 (6.16%) spills, 1006/1072 (93.84%) variables
+   1 warning generated.
+--
+>> drivers/tty/vt/consolemap.c:402:5: warning: stack frame size (1064) exceeds limit (1024) in 'con_get_trans_new' [-Wframe-larger-than]
+   int con_get_trans_new(ushort __user * arg)
+       ^
+   24/1064 (2.26%) spills, 1040/1064 (97.74%) variables
+   1 warning generated.
 
 
-vim +1212 sound/soc/codecs/cs35l41-lib.c
+vim +/__se_sys_newuname +1288 kernel/sys.c
 
-  1190	
-  1191	int cs35l41_global_enable(struct regmap *regmap, enum cs35l41_boost_type b_type, int enable,
-  1192				  struct completion *pll_lock)
-  1193	{
-  1194		int ret;
-  1195		unsigned int gpio1_func, pad_control, pwr_ctrl1, pwr_ctrl3;
-  1196	
-  1197		switch (b_type) {
-  1198		case CS35L41_SHD_BOOST_ACTV:
-  1199		case CS35L41_SHD_BOOST_PASS:
-  1200			regmap_read(regmap, CS35L41_PWR_CTRL3, &pwr_ctrl3);
-  1201			regmap_read(regmap, CS35L41_GPIO_PAD_CONTROL, &pad_control);
-  1202	
-  1203			pwr_ctrl3 &= ~CS35L41_SYNC_EN_MASK;
-  1204			pwr_ctrl1 = enable << CS35L41_GLOBAL_EN_SHIFT;
-  1205	
-  1206			gpio1_func = enable ? CS35L41_GPIO1_MDSYNC : CS35L41_GPIO1_HIZ;
-  1207			gpio1_func <<= CS35L41_GPIO1_CTRL_SHIFT;
-  1208	
-  1209			pad_control &= ~CS35L41_GPIO1_CTRL_MASK;
-  1210			pad_control |= gpio1_func & CS35L41_GPIO1_CTRL_MASK;
-  1211	
-> 1212			struct reg_sequence cs35l41_mdsync_down_seq[] = {
-  1213				{CS35L41_PWR_CTRL3,		pwr_ctrl3},
-  1214				{CS35L41_GPIO_PAD_CONTROL,	pad_control},
-  1215				{CS35L41_PWR_CTRL1,		pwr_ctrl1, 3000},
-  1216			};
-  1217			ret = regmap_multi_reg_write(cs35l45->regmap, cs35l41_mdsync_down_seq,
-  1218						     ARRAY_SIZE(cs35l41_mdsync_down_seq));
-  1219			if (!enable)
-  1220				break;
-  1221	
-  1222			if (!pll_lock)
-  1223				return -EINVAL;
-  1224	
-  1225			ret = wait_for_completion_timeout(pll_lock, msecs_to_jiffies(1000));
-  1226			if (ret == 0) {
-  1227				ret = -ETIMEDOUT;
-  1228			} else {
-  1229				regmap_read(regmap, CS35L41_PWR_CTRL3, &pwr_ctrl3);
-  1230				pwr_ctrl3 |= CS35L41_SYNC_EN_MASK;
-  1231				struct reg_sequence cs35l41_mdsync_up_seq[] = {
-  1232					{CS35L41_PWR_CTRL3,	pwr_ctrl3},
-  1233					{CS35L41_PWR_CTRL1,	0x00000000, 3000},
-  1234					{CS35L41_PWR_CTRL1,	0x00000001, 3000},
-  1235				};
-  1236				ret = regmap_multi_reg_write(cs35l45->regmap, cs35l41_mdsync_up_seq,
-  1237							     ARRAY_SIZE(cs35l41_mdsync_up_seq));
-  1238			}
-  1239			break;
-  1240		case CS35L41_INT_BOOST:
-  1241			ret = regmap_update_bits(regmap, CS35L41_PWR_CTRL1, CS35L41_GLOBAL_EN_MASK,
-  1242						 enable << CS35L41_GLOBAL_EN_SHIFT);
-  1243			usleep_range(3000, 3100);
-  1244			break;
-  1245		case CS35L41_EXT_BOOST:
-  1246		case CS35L41_EXT_BOOST_NO_VSPK_SWITCH:
-  1247			if (enable)
-  1248				ret = regmap_multi_reg_write(regmap, cs35l41_safe_to_active,
-  1249							     ARRAY_SIZE(cs35l41_safe_to_active));
-  1250			else
-  1251				ret = regmap_multi_reg_write(regmap, cs35l41_active_to_safe,
-  1252							     ARRAY_SIZE(cs35l41_active_to_safe));
-  1253			break;
-  1254		default:
-  1255			ret = -EINVAL;
-  1256			break;
-  1257		}
-  1258	
-  1259		return ret;
-  1260	}
-  1261	EXPORT_SYMBOL_GPL(cs35l41_global_enable);
-  1262	
+be27425dcc516f Andi Kleen        2011-08-19  1287  
+e48fbb699f82ef Heiko Carstens    2009-01-14 @1288  SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1289  {
+42a0cc3478584d Jann Horn         2018-06-25  1290  	struct new_utsname tmp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1291  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1292  	down_read(&uts_sem);
+42a0cc3478584d Jann Horn         2018-06-25  1293  	memcpy(&tmp, utsname(), sizeof(tmp));
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1294  	up_read(&uts_sem);
+42a0cc3478584d Jann Horn         2018-06-25  1295  	if (copy_to_user(name, &tmp, sizeof(tmp)))
+42a0cc3478584d Jann Horn         2018-06-25  1296  		return -EFAULT;
+e28cbf22933d0c Christoph Hellwig 2010-03-10  1297  
+42a0cc3478584d Jann Horn         2018-06-25  1298  	if (override_release(name->release, sizeof(name->release)))
+42a0cc3478584d Jann Horn         2018-06-25  1299  		return -EFAULT;
+42a0cc3478584d Jann Horn         2018-06-25  1300  	if (override_architecture(name))
+42a0cc3478584d Jann Horn         2018-06-25  1301  		return -EFAULT;
+42a0cc3478584d Jann Horn         2018-06-25  1302  	return 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1303  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1304  
+
+:::::: The code at line 1288 was first introduced by commit
+:::::: e48fbb699f82ef1e80bd7126046394d2dc9ca7e6 [CVE-2009-0029] System call wrappers part 24
+
+:::::: TO: Heiko Carstens <heiko.carstens@de.ibm.com>
+:::::: CC: Heiko Carstens <heiko.carstens@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
