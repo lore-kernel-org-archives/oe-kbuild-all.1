@@ -1,43 +1,46 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E342B37A;
-	Wed,  8 Feb 2023 00:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2178337A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 00:48:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675817326; x=1707353326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pl0K1EfCJvRiGHFuIMwtjsM+I02eG8qUaAxD6P8vj9Q=;
-  b=BaKo/19mzRJK6uujk9k0xgyOpE1PWbmHxfkecJAd5k2Xd41X0oMbfo/S
-   kTnocWrJ3Yqm/Pl51Pt52QykPryzxrs1iaYCkc0tRYG1PSWS9ETkcSpiu
-   Dd7O7D/Boy89DQyr2TsaQ3e3JZ9ehOEEmtRAcPRvP239x0IJ+61ziZmoq
-   xvXBdmvESo6jSL+OabIugnD+/vEmhHxyBg0O7cAhiHt5f1F0KSmiq2qdJ
-   iVBt/lnFySkNvCiiByiQwBiAxzc4zvSCKd4fN/0zwmWpmdp9nrGlrZKxY
-   YM/Z+xXgElcTnWwm8B8pW7nLEmsZQUw43vO+71mOHOdaZMuifFkvus23o
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="328322331"
+  t=1675817332; x=1707353332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iSU/wJUqxAA+x/6aRi8yZrp5knPufGQYsub+omXRCR8=;
+  b=ggd1GcdxaRRuQDW5jALJyNZpQzxO8ftwv9sTQ4077hHRG9TP+J4ldBjr
+   5KiNY+4UsgwqrisQPDhTiPV4zvTO8LadIcUE3cOHiDKd0Mux7THDORS27
+   +z/GrLBl7MBfRyY2gOKdapvHiLlhBBTMysLI00DPADU7edhKP8GYjY+ZR
+   xAkgMhIPCTcyRvZb+KwtG0l8dz76bsE0dXqCyv3tC4ziMy5gHcj9az+jW
+   YfdRItMDyxhA/cb98VtkKV3hJONKpG3uk3DHXneTqeP1HyGb7wH4Ws4Bq
+   9ZlJxpfaUJL9DrDuN5TtuaAHh7lJ12+h6lm+/ATW/6G9AngFcOoMBpq24
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="392066876"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="328322331"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 16:48:42 -0800
+   d="scan'208";a="392066876"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 16:48:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="809748487"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="660458010"
 X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="809748487"
+   d="scan'208";a="660458010"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2023 16:48:41 -0800
+  by orsmga007.jf.intel.com with ESMTP; 07 Feb 2023 16:48:41 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPYdc-000414-2s;
+	id 1pPYdc-000412-2l;
 	Wed, 08 Feb 2023 00:48:40 +0000
-Date: Wed, 8 Feb 2023 08:48:07 +0800
+Date: Wed, 8 Feb 2023 08:48:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [krzk-github:wip/sm8450-2 18/50] drivers/soundwire/qcom.c:331:6:
- warning: unused variable 'rd_fifo_outstanding_cmds'
-Message-ID: <202302080849.tOIK5uyo-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Yin Fengwei <fengwei.yin@intel.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, david@redhat.com,
+	dave.hansen@intel.com, tim.c.chen@intel.com, ying.huang@intel.com
+Subject: Re: [PATCH v5 2/5] mm: Add generic set_ptes()
+Message-ID: <202302080851.OXQ3usg2-lkp@intel.com>
+References: <20230207194937.122543-3-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +49,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230207194937.122543-3-willy@infradead.org>
 
-tree:   https://github.com/krzk/linux wip/sm8450-2
-head:   750232dcf0dc606e698c8c9644cb079472293a36
-commit: 13fd6e2c4ab057e562dd79e1bcba098a1a0febc9 [18/50] soundwire: qcom: wait for fifo to be empty before
-config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20230208/202302080849.tOIK5uyo-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Matthew,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on next-20230207]
+[also build test ERROR on v6.2-rc7]
+[cannot apply to linus/master v6.2-rc7 v6.2-rc6 v6.2-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/filemap-Add-filemap_map_folio_range/20230208-041404
+patch link:    https://lore.kernel.org/r/20230207194937.122543-3-willy%40infradead.org
+patch subject: [PATCH v5 2/5] mm: Add generic set_ptes()
+config: arm-randconfig-r016-20230205 (https://download.01.org/0day-ci/archive/20230208/202302080851.OXQ3usg2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/13fd6e2c4ab057e562dd79e1bcba098a1a0febc9
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github wip/sm8450-2
-        git checkout 13fd6e2c4ab057e562dd79e1bcba098a1a0febc9
+        # https://github.com/intel-lab-lkp/linux/commit/1549aed85e99407fbf2600da432b84c0660d2029
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Wilcox-Oracle/filemap-Add-filemap_map_folio_range/20230208-041404
+        git checkout 1549aed85e99407fbf2600da432b84c0660d2029
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/soundwire/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/soundwire/qcom.c:331:6: warning: unused variable 'rd_fifo_outstanding_cmds' [-Wunused-variable]
-           u32 rd_fifo_outstanding_cmds;
-               ^
-   1 warning generated.
+   In file included from include/linux/mm.h:29,
+                    from arch/arm/kernel/asm-offsets.c:12:
+   include/linux/pgtable.h: In function 'set_ptes':
+>> include/linux/pgtable.h:1458:17: error: implicit declaration of function 'set_pte_at'; did you mean 'set_ptes'? [-Werror=implicit-function-declaration]
+    1458 |                 set_pte_at(mm, addr, ptep, pte);
+         |                 ^~~~~~~~~~
+         |                 set_ptes
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/rd_fifo_outstanding_cmds +331 drivers/soundwire/qcom.c
+vim +1458 include/linux/pgtable.h
 
-   327	
-   328	static bool swrm_wait_for_wr_fifo_done(struct qcom_swrm_ctrl *swrm)
-   329	{
-   330		u32 fifo_outstanding_cmds, value;
- > 331		u32 rd_fifo_outstanding_cmds;
-   332		int fifo_retry_count = SWR_OVERFLOW_RETRY_COUNT*2;
-   333	
-   334		/* Check for fifo overflow during write */
-   335		swrm->reg_read(swrm, SWRM_CMD_FIFO_STATUS, &value);
-   336		fifo_outstanding_cmds = FIELD_GET(SWRM_WR_CMD_FIFO_CNT_MASK, value);
-   337	
-   338		if (fifo_outstanding_cmds) {
-   339			while (fifo_retry_count) {
-   340				usleep_range(500, 510);
-   341				swrm->reg_read(swrm, SWRM_CMD_FIFO_STATUS, &value);
-   342				fifo_outstanding_cmds = FIELD_GET(SWRM_WR_CMD_FIFO_CNT_MASK, value);
-   343				fifo_retry_count--;
-   344				if (fifo_outstanding_cmds == 0)
-   345					return true;
-   346			}
-   347		} else {
-   348			return true;
-   349		}
-   350	
-   351	
-   352		return false;
-   353	}
-   354	
+  1441	
+  1442	#ifndef set_ptes
+  1443	/**
+  1444	 * set_ptes - Map consecutive pages to a contiguous range of addresses.
+  1445	 * @mm: Address space to map the pages into.
+  1446	 * @addr: Address to map the first page at.
+  1447	 * @ptep: Page table pointer for the first entry.
+  1448	 * @pte: Page table entry for the first page.
+  1449	 * @nr: Number of pages to map.
+  1450	 *
+  1451	 * Context: The caller holds the page table lock.  The PTEs all lie
+  1452	 * within a single PMD (and VMA, and folio).
+  1453	 */
+  1454	static inline void set_ptes(struct mm_struct *mm, unsigned long addr,
+  1455			pte_t *ptep, pte_t pte, unsigned int nr)
+  1456	{
+  1457		for (;;) {
+> 1458			set_pte_at(mm, addr, ptep, pte);
+  1459			if (--nr == 0)
+  1460				break;
+  1461			ptep++;
+  1462			addr += PAGE_SIZE;
+  1463			/* This works for x86.  Check how PTEs are encoded */
+  1464			pte = __pte(pte_val(pte) + PAGE_SIZE);
+  1465		}
+  1466	}
+  1467	#endif
+  1468	
 
 -- 
 0-DAY CI Kernel Test Service
