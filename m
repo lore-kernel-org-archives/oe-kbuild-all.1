@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC699470
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 12:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8458B2560
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 12:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675858094; x=1707394094;
+  t=1675858625; x=1707394625;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kE+J52cgIQ6iIZdVoYoaSbu2S2jw29ayH0TUmUhV7fk=;
-  b=XBcbPUUvghccoS9aURNuimEYCdu972yflkASDBfDebiNyc7rQXp/8Mk3
-   nRCpmTonPCBxNA55DyKMaD8QXynp0hWWw+5AcNXKLoBCNpDYEekNENuvn
-   sACIv8wF8j1qbaK0W3VZ8rmOgcXZfVrP83b8ttJbXzLvJbM7ZbDzcAznw
-   HYcwCDbKZi4SOlQCx5XUxPVbpHG88WepThDWGh3gBpSYgqIxHYSP1BvCm
-   PGRtMdS7lAutr8K95IQ/gR/VzYAaWCVbAjO/NvVJYgYRMdT26VlHNfsuH
-   X7xZUVuYvmKi7upHygNWSAwhAN5V9s+TMjpu6fQZsaQPrawMuSzsJe/Kx
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="310132863"
+  bh=P1Wlb2eGETIdAed2GP1rClNZT1VBsO1mIXIdiErYBGs=;
+  b=Fh0KGSSfiGL2F2eVZlngi7uWayvkhjayOioLMaWSn+T2Auo6N1okRvdU
+   LoUPqvpO1wamrHFd9ALwYnZkYl7iLde3ZFUvyb7nuX2lTT/aw+a9bKCs4
+   sSHCUEOxPFUnzkQm+2/U9y69t0u46a++lKV0Vwt86+XiZPjNx1RQ18J6U
+   wD6yabz7EY3OHm/WpmRakON2QgnpR3fJM++gn0/MBJrthqlcN2qZpr1di
+   PzXdjtdUA6NdBIirk6dD8rRtAfj+obb3JZDMuRT2glQdHCvkKfuqJLfHR
+   jy1bam1bvNlDHlwXGmY6orxjlN8yYA+mGdWJ1eBiCF9UczJDSz0oNk/s+
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="357174324"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="310132863"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:07:05 -0800
+   d="scan'208";a="357174324"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 04:17:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="841158725"
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="697653237"
 X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="841158725"
+   d="scan'208";a="697653237"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Feb 2023 04:07:03 -0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Feb 2023 04:17:03 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPjE6-0004Qg-2m;
-	Wed, 08 Feb 2023 12:07:02 +0000
-Date: Wed, 8 Feb 2023 20:06:38 +0800
+	id 1pPjNn-0004R4-0A;
+	Wed, 08 Feb 2023 12:17:03 +0000
+Date: Wed, 8 Feb 2023 20:16:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Wysochanski <dwysocha@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Howells <dhowells@redhat.com>
-Subject: fs/nfs/fscache.c:58:51: sparse: sparse: incorrect type in argument 3
- (different base types)
-Message-ID: <202302082046.gSEcLsV7-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:virt-to-pfn-v6.2-rc3 12/20]
+ arch/m68k/include/asm/page_no.h:30:26: error: invalid operands to binary <<
+ (have 'void *' and 'int')
+Message-ID: <202302082037.45I7Wat6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,96 +47,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
-commit: a6b5a28eb56c3f4988f7ff5290b954ba296e309a nfs: Convert to new fscache volume/cookie API
-date:   1 year, 1 month ago
-config: arm64-randconfig-s043-20230208 (https://download.01.org/0day-ci/archive/20230208/202302082046.gSEcLsV7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.2-rc3
+head:   e7b124e682b6f0adf09d2bb405e70bee2024175f
+commit: 246a4c87fbded16b1202eac820589fbf249f129f [12/20] m68k/mm: Make pfn accessors static inlines
+config: m68k-randconfig-r035-20230204 (https://download.01.org/0day-ci/archive/20230208/202302082037.45I7Wat6-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a6b5a28eb56c3f4988f7ff5290b954ba296e309a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a6b5a28eb56c3f4988f7ff5290b954ba296e309a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=246a4c87fbded16b1202eac820589fbf249f129f
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator virt-to-pfn-v6.2-rc3
+        git checkout 246a4c87fbded16b1202eac820589fbf249f129f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/hns/ drivers/remoteproc/ fs/nfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfs/fscache.c:58:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be16 const [usertype] sin_port @@
-   fs/nfs/fscache.c:58:51: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:58:51: sparse:     got restricted __be16 const [usertype] sin_port
->> fs/nfs/fscache.c:59:61: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const [usertype] s_addr @@
-   fs/nfs/fscache.c:59:61: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:59:61: sparse:     got restricted __be32 const [usertype] s_addr
->> fs/nfs/fscache.c:64:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be16 const [usertype] sin6_port @@
-   fs/nfs/fscache.c:64:52: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:64:52: sparse:     got restricted __be16 const [usertype] sin6_port
->> fs/nfs/fscache.c:65:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:65:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:65:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:66:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:66:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:66:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:67:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:67:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:67:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:68:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:68:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:68:73: sparse:     got restricted __be32 const
+All errors (new ones prefixed by >>):
 
-vim +58 fs/nfs/fscache.c
+   In file included from arch/m68k/include/asm/page.h:62,
+                    from arch/m68k/include/asm/thread_info.h:6,
+                    from include/linux/thread_info.h:60,
+                    from arch/m68k/include/asm/current.h:16,
+                    from include/linux/sched.h:12,
+                    from arch/m68k/kernel/asm-offsets.c:15:
+   arch/m68k/include/asm/page_no.h: In function 'pfn_to_virt':
+>> arch/m68k/include/asm/page_no.h:30:26: error: invalid operands to binary << (have 'void *' and 'int')
+      30 |         return __va(pfn) << PAGE_SHIFT;
+         |                          ^~
+   make[2]: *** [scripts/Makefile.build:114: arch/m68k/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-    37	
-    38	/*
-    39	 * Get the per-client index cookie for an NFS client if the appropriate mount
-    40	 * flag was set
-    41	 * - We always try and get an index cookie for the client, but get filehandle
-    42	 *   cookies on a per-superblock basis, depending on the mount flags
-    43	 */
-    44	static bool nfs_fscache_get_client_key(struct nfs_client *clp,
-    45					       char *key, int *_len)
-    46	{
-    47		const struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) &clp->cl_addr;
-    48		const struct sockaddr_in *sin = (struct sockaddr_in *) &clp->cl_addr;
-    49	
-    50		*_len += snprintf(key + *_len, NFS_MAX_KEY_LEN - *_len,
-    51				  ",%u.%u,%x",
-    52				  clp->rpc_ops->version,
-    53				  clp->cl_minorversion,
-    54				  clp->cl_addr.ss_family);
-    55	
-    56		switch (clp->cl_addr.ss_family) {
-    57		case AF_INET:
-  > 58			if (!nfs_append_int(key, _len, sin->sin_port) ||
-  > 59			    !nfs_append_int(key, _len, sin->sin_addr.s_addr))
-    60				return false;
-    61			return true;
-    62	
-    63		case AF_INET6:
-  > 64			if (!nfs_append_int(key, _len, sin6->sin6_port) ||
-  > 65			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[0]) ||
-    66			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[1]) ||
-    67			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[2]) ||
-    68			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[3]))
-    69				return false;
-    70			return true;
-    71	
-    72		default:
-    73			printk(KERN_WARNING "NFS: Unknown network family '%d'\n",
-    74			       clp->cl_addr.ss_family);
-    75			return false;
-    76		}
-    77	}
-    78	
+
+vim +30 arch/m68k/include/asm/page_no.h
+
+    27	
+    28	static inline void * pfn_to_virt(unsigned long pfn)
+    29	{
+  > 30		return __va(pfn) << PAGE_SHIFT;
+    31	}
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
