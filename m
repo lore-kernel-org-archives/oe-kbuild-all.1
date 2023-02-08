@@ -1,166 +1,101 @@
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6696936E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 04:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B3E36E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 05:06:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1675830946;
-	bh=f39yvrDOmv2DvucwTqX2uN2hj74AJ8aPcBfQJHQiUZY=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=i4WXCZI+saBtiwshZWYbmeryRfBudnTyVB3ZMC18KNwMr4AYTefFzwtwM5KN0yV7e
-	 3yuAwCMcqYRa7Yovad1blDMZihSPr7avyTWz1gYFc6eTTvG7O+qNrYP0adS7hwsWnc
-	 BSf0K9PWgjc92kRP7MEUcKdmEpPpyiouB5ezF/BE=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 8BEE412891EF;
-	Tue,  7 Feb 2023 23:35:46 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i9IS57eTWRkI; Tue,  7 Feb 2023 23:35:46 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1675830946;
-	bh=f39yvrDOmv2DvucwTqX2uN2hj74AJ8aPcBfQJHQiUZY=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=i4WXCZI+saBtiwshZWYbmeryRfBudnTyVB3ZMC18KNwMr4AYTefFzwtwM5KN0yV7e
-	 3yuAwCMcqYRa7Yovad1blDMZihSPr7avyTWz1gYFc6eTTvG7O+qNrYP0adS7hwsWnc
-	 BSf0K9PWgjc92kRP7MEUcKdmEpPpyiouB5ezF/BE=
-Received: from [172.20.6.85] (unknown [176.236.36.194])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 6945112891EE;
-	Tue,  7 Feb 2023 23:35:44 -0500 (EST)
-Message-ID: <f2055c474c55533095d1cc4c7ccfdcf369551fb1.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>, 
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 08 Feb 2023 07:35:40 +0300
-In-Reply-To: <Y9ykeASyzhSKQCmx@yujie-X299>
-References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
-	 <202301250706.deGvd0yq-lkp@intel.com>
-	 <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
-	 <Y9ykeASyzhSKQCmx@yujie-X299>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675832811; x=1707368811;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0oxnSC6BEGtlSPgnqe04d7dDMDv32xVfm/G9DKfLhhg=;
+  b=H0m4c8atuD8w/K9kbVihoSIFtlhn3bc7mdyftF3xs+GeNKeSp5OxPoRt
+   UdMW/sgVMBzAX0gFiI54H4W84iTSDvXKBqWhupKcUuMxke01xsNCT0hBx
+   FIStzgPQsPFSfbGlFzDiLmlvgOYadY5dAgG2LpouGMu1w1hQhHCSUHPSZ
+   bXS+qzCqZg97NzkvkKgIqaGugSy0/LCpsEgHYBw5mMrnu24aOReZMwOH+
+   Ph06E8H5ZaB2QAQd6OaBDSDXON4PaTtLU79mKCxdUQ3zZ5iTpgCuyyncR
+   5mIW9vNTBYHQUcFvd/xKjqKZRW6ZmVyWeNhxOKL2/u8JlVhqMLl9e0oZ/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="329738401"
+X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
+   d="scan'208";a="329738401"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 21:06:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="669044158"
+X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
+   d="scan'208";a="669044158"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Feb 2023 21:06:50 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPcfS-0004D6-07;
+	Wed, 08 Feb 2023 05:06:50 +0000
+Date: Wed, 8 Feb 2023 13:06:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Evan Green <evan@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/6] RISC-V: hwprobe: Add support for
+ RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+Message-ID: <202302081207.cbclf73A-lkp@intel.com>
+References: <20230206201455.1790329-4-evan@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206201455.1790329-4-evan@rivosinc.com>
 
-On Fri, 2023-02-03 at 14:06 +0800, Yujie Liu wrote:
-> Hi James,
-> 
-> On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
-> > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
-> > > Hi James,
-> > > 
-> > > I love your patch! Perhaps something to improve:
-> > > 
-> > > [auto build test WARNING on char-misc/char-misc-testing]
-> > > [also build test WARNING on char-misc/char-misc-next char-
-> > > misc/char-
-> > > misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5
-> > > next-
-> > > 20230124]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a
-> > > note.
-> > > And when submitting patch, we suggest to use '--base' as
-> > > documented
-> > > in
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > 
-> > > url:   
-> > > https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-> > > patch link:   
-> > > https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
-> > > patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
-> > > encrypt/decrypt session handling code
-> > > config: arc-allyesconfig
-> > > (
-> > > https://download.01.org/0day-ci/archive/20230125/202301250706.deGv
-> > > d0
-> > > yq-lkp@intel.com/config)
-> > > compiler: arceb-elf-gcc (GCC) 12.1.0
-> > > reproduce (this is a W=1 build):
-> > >         wget
-> > > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
-> > >  -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         #
-> > > https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
-> > >         git remote add linux-review
-> > > https://github.com/intel-lab-lkp/linux
-> > >         git fetch --no-tags linux-review James-Bottomley/tpm-
-> > > move-
-> > > buffer-handling-from-static-inlines-to-real-functions/20230125-
-> > > 020146
-> > >         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> > > make.cross W=1 O=build_dir ARCH=arc olddefconfig
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> > > make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
-> > > drivers/char/tpm/
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no previous
-> > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
-> > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip) {
-> > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
-> > >    drivers/char/tpm/tpm2-sessions.c: In function
-> > > 'tpm_buf_check_hmac_response':
-> > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame
-> > > > > size
-> > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-
-> > > > > than=]
-> > >      831 | }
-> > >          | ^
-> > >    drivers/char/tpm/tpm2-sessions.c: In function
-> > > 'tpm_buf_fill_hmac_session':
-> > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame
-> > > size of
-> > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-> > >      579 | }
-> > >          | ^
-> > 
-> > Is this a test problem?  I can't see why the code would only blow
-> > the stack on the arc architecture and not on any other ... does it
-> > have something funny with on stack crypto structures?
-> 
-> This warning is controlled by the value of CONFIG_FRAME_WARN.
-> 
-> For "make ARCH=arc allyesconfig", the default value is 1024, so this
-> frame warning shows up during the build.
-> 
-> For other arch such as "make ARCH=x86_64 allyesconfig", the default
-> value would be 2048 and won't have this warning.
-> 
-> Not sure if this is a real problem that need to be fixed, here just
-> providing above information for your reference.
+Hi Evan,
 
-Is there something weird about arc, though, since a quick trawl through
-defconfigs shows quite a few systems (including i386) have it set to
-1024:
+I love your patch! Perhaps something to improve:
 
-mips/configs/lemote2f_defconfig:CONFIG_FRAME_WARN=1024
-mips/configs/loongson2k_defconfig:CONFIG_FRAME_WARN=1024
-powerpc/configs/fsl-emb-nonhw.config:CONFIG_FRAME_WARN=1024
-um/configs/x86_64_defconfig:CONFIG_FRAME_WARN=1024
-x86/configs/i386_defconfig:CONFIG_FRAME_WARN=1024
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes robh/for-next soc/for-next linus/master v6.2-rc7 next-20230207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-That also seems to show, by the way, that the default on arc should be
-the standard 2048.
+url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20230206201455.1790329-4-evan%40rivosinc.com
+patch subject: [PATCH v2 3/6] RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/e9c3c645558ed595a5ed9d2c9d1b718c75cadd90
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
+        git checkout e9c3c645558ed595a5ed9d2c9d1b718c75cadd90
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-James
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
+All warnings (new ones prefixed by >>):
+
+>> Documentation/riscv/hwprobe.rst:44: WARNING: Unexpected indentation.
+
+vim +44 Documentation/riscv/hwprobe.rst
+
+    31	
+    32	* :RISCV_HWPROBE_KEY_MVENDORID:: Contains the value of :mvendorid:, as per the
+    33	  ISA specifications.
+    34	* :RISCV_HWPROBE_KEY_MARCHID:: Contains the value of :marchid:, as per the ISA
+    35	  specifications.
+    36	* :RISCV_HWPROBE_KEY_MIMPLID:: Contains the value of :mimplid:, as per the ISA
+    37	  specifications.
+    38	* :RISCV_HWPROBE_KEY_BASE_BEHAVIOR:: A bitmask containing the base user-visible
+    39	  behavior that this kernel supports.  The following base user ABIs are defined:
+    40	    * :RISCV_HWPROBE_BASE_BEHAVIOR_IMA:: Support for rv32ima or rv64ima, as
+    41	      defined by version 2.2 of the user ISA and version 1.10 of the privileged
+    42	      ISA, with the following known exceptions (more exceptions may be added,
+    43	      but only if it can be demonstrated that the user ABI is not broken):
+  > 44	        * The :fence.i: instruction cannot be directly executed by userspace
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
