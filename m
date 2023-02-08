@@ -1,152 +1,104 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A07946E;
-	Wed,  8 Feb 2023 11:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675856828; x=1707392828;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5kU3wqaJ20/VwYQpQyjHZef6M022HHqkQEXk+jgj9l4=;
-  b=n/fqQQPGKg2BiJ94J3T3MAMRB6yCpmtesh7Xj0q66NHSVtmMgbJAhn/D
-   DMggALyw5T6J6UTnQcLXxpxQspA3Z9nWJ2MWcdOMRA4yZGqTxxylOw9e9
-   RZsbQ7YgQ5rzDs87HYjDAS+VBtLMAyArrVbCszdvhTMLidBG/9x+csOkY
-   0x/4GdFxnXvmNiRNcGvDl00/by3u+SwN/w+LRTTrriMOYREYU1+lHYdID
-   /9FeaWwpWlfJP2X+pTTQdlxPW6lVqVY2CdesTHbINEzFeDElhWm3wKTZi
-   i+d0Tkja2Swoyk3dUuDWttG/LaMso4JmzHccz3rbpZ2PlC/uMfqn4cTSl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="328431597"
-X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="328431597"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 03:47:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="756016285"
-X-IronPort-AV: E=Sophos;i="5.97,280,1669104000"; 
-   d="scan'208";a="756016285"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2023 03:47:03 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPiuk-0004QQ-2K;
-	Wed, 08 Feb 2023 11:47:02 +0000
-Date: Wed, 8 Feb 2023 19:46:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lucas Tanure <lucas.tanure@collabora.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
-	kernel@collabora.com, Lucas Tanure <lucas.tanure@collabora.com>
-Subject: Re: [PATCH 1/2] ALSA: cs35l41: Add shared boost feature
-Message-ID: <202302081911.MDwfUTfx-lkp@intel.com>
-References: <20230207104021.2842-2-lucas.tanure@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F742561
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 11:57:13 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id d14so16473524wrr.9
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Feb 2023 03:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pkgv51e+S+gpia9goEDyOF+wKS8a5XCd9MWj3hy4Qh8=;
+        b=cyXRdaZ8m06Ue4ok4y+JiEQ69PyZ6VegToLzU/gZcbU8UM1DxPT0KDrENTWdb1wI+8
+         ZTl9rwGNWkhua8qh37Ixw25uiZja+eb/rHnFIUwvqZIYsIZKmwo4sk5GKHmOzcjsqrc+
+         qnQ4EhYVmxINmOGrIt3YL3Cw4HoPuwdvKwCO538Dj4ax8fzY7uyoutPTt+0tHobfrnyB
+         EjlFQ799aIP6ypzx9ClpxyAFiPYRSy5Soa75uN7AASmaNdE7ilHdiwLKfORmdZQyYlSR
+         QfpqWrJ3O+fWQ4fSWeyECEFE7Ld00Faf5O1VjNEI9swfXEjnme7uBZJec7l5zJjjERz+
+         4pgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pkgv51e+S+gpia9goEDyOF+wKS8a5XCd9MWj3hy4Qh8=;
+        b=23UkwSzT8mFZ+bvCu5p/PpQ6PCig3zhFNCrQVArSTpnE0qGS/Qw7aO3EqofF2iGps5
+         fLhexzh7O9byoiOih9GzgNJCL8ATm9PslTf8V5I0klQSVut1WpVJU2DHlOS6AHBP1ybg
+         vyDygIOUBmdvfIhR5wZ3PZ1njZ34GETKxG7PhY5VP+ttbkpYRN6FA8+0eeKoV4Mjb/XK
+         yg0EEOrSqFSUTousCAGBWC5FSwmYBMKn8WDLQv4NjxujOYatMjtWPE9YimG827E/DYox
+         siG3zj2xMIS2S/W9tleB8r/CPqIiMSqwcSmrNYtIyeUlfHtpYWR349+IqUt69XjPK32e
+         1d/w==
+X-Gm-Message-State: AO0yUKWU8ryAAJxAanxATKHncPx2KV0Vp7/gq0wvAVomfiYN4P2jQXQh
+	iRUP+jd4SLbFrWfncpRv5Ezycg==
+X-Google-Smtp-Source: AK7set/7wPBkCfjTlFM94tHI/xXenu6VgOEq5rCokaHvC6jxnV+xKlh1y0eNcmWGi/cGDZrHkUhdzg==
+X-Received: by 2002:a5d:42cf:0:b0:2c3:efe7:607c with SMTP id t15-20020a5d42cf000000b002c3efe7607cmr6013996wrr.6.1675857431344;
+        Wed, 08 Feb 2023 03:57:11 -0800 (PST)
+Received: from [10.83.37.24] ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id d5-20020adfef85000000b002c3e600d1a8sm8004744wro.95.2023.02.08.03.57.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 03:57:10 -0800 (PST)
+Message-ID: <02e45c4e-1343-3077-2848-b5148faa2d4e@arista.com>
+Date: Wed, 8 Feb 2023 11:57:03 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230207104021.2842-2-lucas.tanure@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 3/4] crypto/net/ipv6: sr: Switch to using crypto_pool
+To: Dan Carpenter <error27@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ Andy Lutomirski <luto@amacapital.net>, Bob Gilligan <gilligan@arista.com>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ Leonard Crestez <cdleonard@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+ Salam Noureddine <noureddine@arista.com>, linux-crypto@vger.kernel.org,
+ oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
+References: <202302071833.k6CihGFl-lkp@intel.com>
+Content-Language: en-US
+From: Dmitry Safonov <dima@arista.com>
+In-Reply-To: <202302071833.k6CihGFl-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Lucas,
+On 2/7/23 11:40, Dan Carpenter wrote:
+> Hi Dmitry,
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/crypto-Introduce-crypto_pool/20230119-054258
+> base:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
+> patch link:    https://lore.kernel.org/r/20230118214111.394416-4-dima%40arista.com
+> patch subject: [PATCH v4 3/4] crypto/net/ipv6: sr: Switch to using crypto_pool
+> config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071833.k6CihGFl-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
+> smatch warnings:
+> net/ipv6/seg6.c:539 seg6_init() warn: ignoring unreachable code.
+> 
+> vim +539 net/ipv6/seg6.c
+> 
+> 4f4853dc1c9c19 David Lebrun   2016-11-08  532  
+> 915d7e5e5930b4 David Lebrun   2016-11-08  533  	pr_info("Segment Routing with IPv6\n");
+> 915d7e5e5930b4 David Lebrun   2016-11-08  534  
+> 915d7e5e5930b4 David Lebrun   2016-11-08  535  out:
+> 915d7e5e5930b4 David Lebrun   2016-11-08  536  	return err;
+> 754f6619437c57 Dmitry Safonov 2023-01-18  537  
+> 46738b1317e169 David Lebrun   2016-11-15  538  #ifdef CONFIG_IPV6_SEG6_LWTUNNEL
+> d1df6fd8a1d22d David Lebrun   2017-08-05 @539  	seg6_local_exit();
+> 
+> Not a bug.  Just dead code.  Some people like to store dead code here
+> for later, but it's not a common thing...
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.2-rc7 next-20230208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Tanure/ALSA-cs35l41-Add-shared-boost-feature/20230207-184238
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230207104021.2842-2-lucas.tanure%40collabora.com
-patch subject: [PATCH 1/2] ALSA: cs35l41: Add shared boost feature
-config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20230208/202302081911.MDwfUTfx-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c1726800667180cd46986c3578e635bafa8bf01a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lucas-Tanure/ALSA-cs35l41-Add-shared-boost-feature/20230207-184238
-        git checkout c1726800667180cd46986c3578e635bafa8bf01a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash sound/soc/codecs/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> sound/soc/codecs/cs35l41-lib.c:1160:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-           case CS35L41_SHD_BOOST_PASS:
-                ^~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs35l41-lib.c:1169:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   sound/soc/codecs/cs35l41-lib.c:1136:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 warning generated.
-
-
-vim +/ret +1160 sound/soc/codecs/cs35l41-lib.c
-
-  1132	
-  1133	int cs35l41_init_boost(struct device *dev, struct regmap *regmap,
-  1134			       struct cs35l41_hw_cfg *hw_cfg)
-  1135	{
-  1136		int ret;
-  1137	
-  1138		switch (hw_cfg->bst_type) {
-  1139		case CS35L41_SHD_BOOST_ACTV:
-  1140			regmap_multi_reg_write(regmap, cs35l41_actv_seq, ARRAY_SIZE(cs35l41_actv_seq));
-  1141			fallthrough;
-  1142		case CS35L41_INT_BOOST:
-  1143			ret = cs35l41_boost_config(dev, regmap, hw_cfg->bst_ind,
-  1144						   hw_cfg->bst_cap, hw_cfg->bst_ipk);
-  1145			if (ret)
-  1146				dev_err(dev, "Error in Boost DT config: %d\n", ret);
-  1147			break;
-  1148		case CS35L41_EXT_BOOST:
-  1149		case CS35L41_EXT_BOOST_NO_VSPK_SWITCH:
-  1150			/* Only CLSA0100 doesn't use GPIO as VSPK switch, but even on that laptop we can
-  1151			 * toggle GPIO1 as is not connected to anything.
-  1152			 * There will be no other device without VSPK switch.
-  1153			 */
-  1154			regmap_write(regmap, CS35L41_GPIO1_CTRL1, 0x00000001);
-  1155			regmap_multi_reg_write(regmap, cs35l41_reset_to_safe,
-  1156					       ARRAY_SIZE(cs35l41_reset_to_safe));
-  1157			ret = regmap_update_bits(regmap, CS35L41_PWR_CTRL2, CS35L41_BST_EN_MASK,
-  1158						 CS35L41_BST_DIS_FET_OFF << CS35L41_BST_EN_SHIFT);
-  1159			break;
-> 1160		case CS35L41_SHD_BOOST_PASS:
-  1161			regmap_multi_reg_write(regmap, cs35l41_pass_seq, ARRAY_SIZE(cs35l41_pass_seq));
-  1162			break;
-  1163		default:
-  1164			dev_err(dev, "Boost type %d not supported\n", hw_cfg->bst_type);
-  1165			ret = -EINVAL;
-  1166			break;
-  1167		}
-  1168	
-  1169		return ret;
-  1170	}
-  1171	EXPORT_SYMBOL_GPL(cs35l41_init_boost);
-  1172	
+Thanks for the report, Dan!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+          Dmitry
+
