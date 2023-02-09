@@ -1,128 +1,142 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FCA33EA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 11:00:45 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id dr8so5091425ejc.12
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Feb 2023 03:00:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dEiNvwdsh50/luN7kcdBw0tT4i5v1/6EEunHYjmNZXs=;
-        b=Cc5tn2CKinqZh1y6GDQOh3jtJ28lfw2AwbOsVKLtGeveXXSVLDmwew92x9ux+0z56F
-         OfAYNU/fNb6jcMpYuzPpdqEP+cy1mUVEFyu9uOmyx9g2lYIp4o9FqtnL+bv04Ojl193D
-         BUU/NFJ8GwOYJ8E7P2goc0AceLXUIIbs8jlTxm6w9sRRkXKfV1vviPHYRD543YgiL4Q4
-         pivztwB4TrK7gBRgy5u2ivXhVjbx3SNjI2kr+zn2GO8xZ7oLhCjtviVLKl66WkEaViyu
-         pujsrnKl/l5Z4xl0Dd1Wm+OgAfj7DVpTK6iyBB+gyKK9YmCSR27IIyhsIaAbHQGoTTLm
-         z1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dEiNvwdsh50/luN7kcdBw0tT4i5v1/6EEunHYjmNZXs=;
-        b=g/hExg7njFWBdIETwHLX8t9aPoUcWj0e/Jf10870DwHN2c/DZy5ViEDG7dd3nhE+SG
-         FXmEHzMOb0JlrMPO14W/sDjzKn9fi939gw8lqAAXeBlancu6VVPQ9RQL0n11WY/+239D
-         vVaFCicsiBRlOLJ2MBecHGThJaFwxH10vOQiQJfqo0akECs2I5YispbtyU4V5sWzQlmU
-         H0yv8/mkbvw2YnjaUdLDPdybpRkD3kcmNL4/kO9oVKbQMCdIDOj97BwdNlMtSWeeZxBv
-         VExoFWXl73t8DcoayhvXsGCJGKUCm6mHhuchHDtW0slZTF90EsDkEp/Iw9Ea501DbEIY
-         ZSMg==
-X-Gm-Message-State: AO0yUKVyoOseiga3u1xv/dryk40NV/M8XQWa4I527McdR2uslfKTeAXG
-	VMd8hQsRlYKV+W+FApe0vTPH5lsO/dOFQ4drdFG/pw==
-X-Google-Smtp-Source: AK7set+RaPbg+SOCzwGndo1Wa91cwrheg38QQCBg99GhoVwyzzAvFtOaofSU6Q5pBzPM0CXKp4JFifhFaFx0rd/k0bs=
-X-Received: by 2002:a17:906:ca04:b0:7c0:f45e:22ff with SMTP id
- jt4-20020a170906ca0400b007c0f45e22ffmr2702674ejb.104.1675940443471; Thu, 09
- Feb 2023 03:00:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13209748E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 11:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675940804; x=1707476804;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Lt1cRuAg8Zq2HTRCDVLJzG8U5PiiH/Kis3+YbDWZ9Ew=;
+  b=BJNvh085viTPlJkHhndzbqrrYHiyuZhtDqoJIxW0qWGEtVaJqOhKbYRU
+   H7xGA6sWfJzC9BCVUXpcwvmyTR/mIYbZHcw3l4GOupXhhIwLGOw7FUoW0
+   6iR/Rktvb5RtQGDoSV/1+5jmyhly9V3o/Ep2jRMCvLXvaiiYw+pjwVcfJ
+   NHCIecXsJm+KrQqLwkWFdJGUJNAH2bAJbbRVlSLAwjXPb4T/Rlr4msN7D
+   BqYp3AEnqsckqmuSaDGJDSakv8SBN2BhMHigGpcMIxpEY9FDoBBrKFlYm
+   WGUPWXaHr74eMJFNZyMvr5rR9JQqPZnUfSzzLHXcRTA+NGm7nze/w+nsP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="330100585"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="330100585"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 03:06:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="791571325"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="791571325"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 09 Feb 2023 03:06:38 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pQ4lB-00051a-36;
+	Thu, 09 Feb 2023 11:06:37 +0000
+Date: Thu, 9 Feb 2023 19:06:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>, bpf@vger.kernel.org
+Subject: Re: [PATCH net-next] xsk: support use vaddr as ring
+Message-ID: <202302091850.0HBmsDAq-lkp@intel.com>
+References: <20230209092436.87795-1-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230207130958.608305-2-bchihi@baylibre.com> <202302080018.wNeWiKqz-lkp@intel.com>
-In-Reply-To: <202302080018.wNeWiKqz-lkp@intel.com>
-From: Balsam CHIHI <bchihi@baylibre.com>
-Date: Thu, 9 Feb 2023 12:00:07 +0100
-Message-ID: <CAGuA+ori24xtbHnzYXGVSUOiU-T+V=33DPsHnsruGnP5Y_L7ZA@mail.gmail.com>
-Subject: Re: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to
- mediatek folder
-To: kernel test robot <lkp@intel.com>
-Cc: daniel.lezcano@linaro.org, angelogioacchino.delregno@collabora.com, 
-	rafael@kernel.org, amitk@kernel.org, rui.zhang@intel.com, 
-	matthias.bgg@gmail.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	rdunlap@infradead.org, ye.xingchen@zte.com.cn, p.zabel@pengutronix.de, 
-	oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
-	khilman@baylibre.com, james.lo@mediatek.com, rex-bc.chen@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230209092436.87795-1-xuanzhuo@linux.alibaba.com>
 
-this warning has been fixed by this patch :
-https://lore.kernel.org/all/20230113064449.15061-1-rdunlap@infradead.org/
+Hi Xuan,
 
-On Tue, Feb 7, 2023 at 5:14 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on a2c81dc59d41e92362ab7d41d0c15471ea50637d]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
-> base:   a2c81dc59d41e92362ab7d41d0c15471ea50637d
-> patch link:    https://lore.kernel.org/r/20230207130958.608305-2-bchihi%40baylibre.com
-> patch subject: [PATCH v13 1/6] thermal: drivers: mediatek: Relocate driver to mediatek folder
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080018.wNeWiKqz-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/0eb89997925c0d7b47bbeee93016146fc660b259
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review bchihi-baylibre-com/thermal-drivers-mediatek-Relocate-driver-to-mediatek-folder/20230207-211351
->         git checkout 0eb89997925c0d7b47bbeee93016146fc660b259
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/thermal/mediatek/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/thermal/mediatek/auxadc_thermal.c:562: warning: expecting prototype for raw_to_mcelsius(). Prototype was for raw_to_mcelsius_v1() instead
->
->
-> vim +562 drivers/thermal/mediatek/auxadc_thermal.c
->
-> a4ffe6b52d27f4 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  551
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  552  /**
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  553   * raw_to_mcelsius - convert a raw ADC value to mcelsius
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  554   * @mt:     The thermal controller
-> 3772bb422072d4 drivers/thermal/mtk_thermal.c Amit Kucheria 2019-11-20  555   * @sensno: sensor number
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  556   * @raw:    raw ADC value
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  557   *
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  558   * This converts the raw ADC value to mcelsius using the SoC specific
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  559   * calibration constants
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  560   */
-> 54bf1e5a629dfb drivers/thermal/mtk_thermal.c Henry Yen     2020-04-30  561  static int raw_to_mcelsius_v1(struct mtk_thermal *mt, int sensno, s32 raw)
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30 @562  {
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  563      s32 tmp;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  564
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  565      raw &= 0xfff;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  566
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  567      tmp = 203450520 << 3;
-> f84514766985d3 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  568      tmp /= mt->conf->cali_val + mt->o_slope;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  569      tmp /= 10000 + mt->adc_ge;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  570      tmp *= raw - mt->vts[sensno] - 3350;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  571      tmp >>= 3;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  572
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  573      return mt->degc_cali * 500 - tmp;
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  574  }
-> a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  575
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230209-172553
+patch link:    https://lore.kernel.org/r/20230209092436.87795-1-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH net-next] xsk: support use vaddr as ring
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230209/202302091850.0HBmsDAq-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4a7734a008a4c9739f0abcc596455e4b76b601ec
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230209-172553
+        git checkout 4a7734a008a4c9739f0abcc596455e4b76b601ec
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302091850.0HBmsDAq-lkp@intel.com
+
+All warnings (new ones prefixed by >>):
+
+   net/xdp/xsk_queue.c: In function 'xskq_create':
+   net/xdp/xsk_queue.c:46:19: error: implicit declaration of function 'vmalloc_user' [-Werror=implicit-function-declaration]
+      46 |         q->ring = vmalloc_user(size);
+         |                   ^~~~~~~~~~~~
+>> net/xdp/xsk_queue.c:46:17: warning: assignment to 'struct xdp_ring *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      46 |         q->ring = vmalloc_user(size);
+         |                 ^
+   net/xdp/xsk_queue.c: In function 'xskq_destroy':
+   net/xdp/xsk_queue.c:60:17: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+      60 |                 vfree(q->ring);
+         |                 ^~~~~
+         |                 kvfree
+   cc1: some warnings being treated as errors
+
+
+vim +46 net/xdp/xsk_queue.c
+
+    22	
+    23	struct xsk_queue *xskq_create(u32 nentries, bool umem_queue)
+    24	{
+    25		struct xsk_queue *q;
+    26		gfp_t gfp_flags;
+    27		size_t size;
+    28	
+    29		q = kzalloc(sizeof(*q), GFP_KERNEL);
+    30		if (!q)
+    31			return NULL;
+    32	
+    33		q->nentries = nentries;
+    34		q->ring_mask = nentries - 1;
+    35	
+    36		gfp_flags = GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN |
+    37			    __GFP_COMP  | __GFP_NORETRY;
+    38		size = xskq_get_ring_size(q, umem_queue);
+    39	
+    40		q->ring_size = size;
+    41		q->ring = (struct xdp_ring *)__get_free_pages(gfp_flags,
+    42							      get_order(size));
+    43		if (q->ring)
+    44			return q;
+    45	
+  > 46		q->ring = vmalloc_user(size);
+    47		if (q->ring)
+    48			return q;
+    49	
+    50		kfree(q);
+    51		return NULL;
+    52	}
+    53	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
