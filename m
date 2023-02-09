@@ -1,144 +1,101 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E1A371;
-	Thu,  9 Feb 2023 09:47:27 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r2so1148515wrv.7;
-        Thu, 09 Feb 2023 01:47:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ClLp3PPP9k28DbYaMNfEXNS3WvVI0EPC4yIBTWDqEE=;
-        b=M+JDhU199pYRh0D7Xx/HikLYxqi5repqdQx9VoMw9Q+n3Zlss5o/Mmr/3fibPeB1RF
-         BD9+UE+V1BRxBPidZyuYGdYO+LT7r9soJnmeattn3leFVlT7VQm5qPq+E59tskd5tqJh
-         a0LeVEslqO7r/ileCO4XGtFqK51VyNgURqfMmStg7NWhLGW+9iBdRCDWDRTeL8slhCoP
-         2AyT+fbz54iURTgiOVMHDpKoaSQx/czBW/GxBocyA5DhUcX/QmWnJlYPsgtlUUH5Cv1P
-         6daaKxyXrpbO0mq8UzB8+f8tJ4qTmi6CfzEz8W0YC6eGEYcO/n17kCOc596BKs+HUmZS
-         CM2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6ClLp3PPP9k28DbYaMNfEXNS3WvVI0EPC4yIBTWDqEE=;
-        b=CQMEeseqcCribKr/DbzrZCgkthXe7tU9JXetUfGggwx77EvF6ikVRGMCNBY0zVFrDx
-         EMXZ4sXmR+Kda8vgd6tnsmK4pawpVDRcID7z+UzE2MyHDO2qmpRW1V30WoxbevehuNPm
-         8WDo6DRLjJ7oG7eXMDezqRnGM1lYwJcKddCMqbjTSnaWqkpzZqCql/Gv/NRLY6qC7zfy
-         J8JzkqU1Fcr5DS6zNLjPDF1MZOezLU6aX4VQe09OiyWlPFGtzmNUYoJG7EWLfHHisYCg
-         H/WxNL72nuxGq36/+y4WCwxT0E9F/gpPqn4GkwLGdUPVZaiVpAfqqujxJzlQtL62DBmR
-         Vv6g==
-X-Gm-Message-State: AO0yUKVXA0SJBNR8GwnCzCkaAGK4nLoGbVU4ab/gpytL8bZwndIK21LI
-	4dFCj0eGzPDhdVydIq3SFOwpolnthrU=
-X-Google-Smtp-Source: AK7set9abhntnv+7sQvVlWr/s1UnyhqUWhGNpNBlg4dmh7vwG4w8/m+GjrtTwW/XcL5tdyoErubQSQ==
-X-Received: by 2002:adf:fa83:0:b0:2bf:ae16:817c with SMTP id h3-20020adffa83000000b002bfae16817cmr10200928wrr.29.1675936045518;
-        Thu, 09 Feb 2023 01:47:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q13-20020adff94d000000b002be099f78c0sm795496wrr.69.2023.02.09.01.47.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 01:47:24 -0800 (PST)
-Date: Thu, 9 Feb 2023 12:47:20 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-acpi@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, rafael@kernel.org,
-	andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v5 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <202302091722.YCT7d1kl-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D139C371;
+	Thu,  9 Feb 2023 09:53:58 +0000 (UTC)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EF8CB1EC06BD;
+	Thu,  9 Feb 2023 10:53:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+	t=1675936431;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+	bh=4LXgg6eGQ1qH1srtU+U2fOYiBbnpfa32IaXXFfMKKgI=;
+	b=WzVRQzzokNidD+nWlWipMdvljGa9V5i9uJOvMmjVVUSBWh4jSmnuwP3o/YefOtSXiXrKDt
+	jYAYv5U6TP2I2GgV8Gmc6lUSLlcNVp+WlkSMz2s0C7To7OOV809gs2695SRNcLThthjfLF
+	t+NePYOESA7Iqn3LbXqX4RJFnNY46oo=
+Date: Thu, 9 Feb 2023 10:53:47 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Babu Moger <babu.moger@amd.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: Re: [tip:x86/cache 9/13]
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c:1456:6: warning: variable 'h' set but
+ not used
+Message-ID: <Y+TCq4k+0AhfjZkL@zn.tnic>
+References: <202301242015.kbzkVteJ-lkp@intel.com>
+ <Y8/XoT23HVXHSY73@zn.tnic>
+ <Y+RjOpXP1Bbv268n@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230208212712.3184953-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <Y+RjOpXP1Bbv268n@rli9-mobl>
 
-Hi Sakari,
+On Thu, Feb 09, 2023 at 11:06:34AM +0800, Philip Li wrote:
+> Thanks a lot for the suggestions, we will think of this to continuously optimize the
+> service. Right now, we try to build-test the patches that we can find a suitable base
+> to apply the patches successfully, some of effort could fail. Then we only test them
+> when they appears on repo. We will keep monitoring the patch testing status to see
+> anything we can fix as well.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cool, thanks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230209-053017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230208212712.3184953-3-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v5 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230209/202302091722.YCT7d1kl-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+I see you've started doing silly tests like subdirectory builds for W=
+warnings, picking one such report at random from lkml:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302091722.YCT7d1kl-lkp@intel.com
+https://lore.kernel.org/r/202302091432.VgittDjI-lkp@intel.com
 
-smatch warnings:
-drivers/acpi/mipi.c:241 acpi_crs_csi2_alloc_fill_swnodes() warn: variable dereferenced before check 'ads' (see line 237)
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/spi/
 
-vim +/ads +241 drivers/acpi/mipi.c
+and then it says
 
-06167f6b99bad9 Sakari Ailus 2023-02-08  206  void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
-06167f6b99bad9 Sakari Ailus 2023-02-08  207  {
-06167f6b99bad9 Sakari Ailus 2023-02-08  208  	struct acpi_device_software_nodes *ads;
-06167f6b99bad9 Sakari Ailus 2023-02-08  209  	struct crs_csi2_swnodes *swnodes;
-06167f6b99bad9 Sakari Ailus 2023-02-08  210  	size_t alloc_size;
-06167f6b99bad9 Sakari Ailus 2023-02-08  211  	unsigned int i;
-06167f6b99bad9 Sakari Ailus 2023-02-08  212  	bool overflow;
-06167f6b99bad9 Sakari Ailus 2023-02-08  213  	void *end;
-06167f6b99bad9 Sakari Ailus 2023-02-08  214  
-06167f6b99bad9 Sakari Ailus 2023-02-08  215  	/*
-06167f6b99bad9 Sakari Ailus 2023-02-08  216  	 * Allocate memory for ports, node pointers (number of nodes +
-06167f6b99bad9 Sakari Ailus 2023-02-08  217  	 * 1 (guardian), nodes (root + number of ports * 2 (for for
-06167f6b99bad9 Sakari Ailus 2023-02-08  218  	 * every port there is an endpoint)).
-06167f6b99bad9 Sakari Ailus 2023-02-08  219  	 */
-06167f6b99bad9 Sakari Ailus 2023-02-08  220  	overflow = check_mul_overflow(sizeof(*ads->ports) +
-06167f6b99bad9 Sakari Ailus 2023-02-08  221  				      sizeof(*ads->nodes) * 2 +
-06167f6b99bad9 Sakari Ailus 2023-02-08  222  				      sizeof(*ads->nodeptrs) * 2,
-06167f6b99bad9 Sakari Ailus 2023-02-08  223  				      ports_count, &alloc_size);
-06167f6b99bad9 Sakari Ailus 2023-02-08  224  	overflow = overflow ||
-06167f6b99bad9 Sakari Ailus 2023-02-08  225  		   check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
-06167f6b99bad9 Sakari Ailus 2023-02-08  226  				      sizeof(*ads->nodeptrs) * 2,
-06167f6b99bad9 Sakari Ailus 2023-02-08  227  				      alloc_size, &alloc_size);
-06167f6b99bad9 Sakari Ailus 2023-02-08  228  	if (overflow) {
-06167f6b99bad9 Sakari Ailus 2023-02-08  229  		acpi_handle_warn(handle,
-06167f6b99bad9 Sakari Ailus 2023-02-08  230  				 "too many _CRS CSI2 resource handles (%zu)",
-06167f6b99bad9 Sakari Ailus 2023-02-08  231  				 ports_count);
-06167f6b99bad9 Sakari Ailus 2023-02-08  232  		return;
-06167f6b99bad9 Sakari Ailus 2023-02-08  233  	}
-06167f6b99bad9 Sakari Ailus 2023-02-08  234  
-06167f6b99bad9 Sakari Ailus 2023-02-08  235  	swnodes = kzalloc(sizeof(*swnodes), GFP_KERNEL);
-06167f6b99bad9 Sakari Ailus 2023-02-08  236  	ads = kzalloc(alloc_size, GFP_KERNEL);
-06167f6b99bad9 Sakari Ailus 2023-02-08 @237  	ads->ports = (void *)(ads + 1);
-                                                ^^^^^^^^^^
-Derference
+drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype for 'mpc52xx_psc_spi_transfer_one_message' [-Wmissing-prototypes]
 
-06167f6b99bad9 Sakari Ailus 2023-02-08  238  	ads->nodes = (void *)(ads->ports + ports_count);
-06167f6b99bad9 Sakari Ailus 2023-02-08  239  	ads->nodeptrs = (void *)(ads->nodes + ports_count * 2 + 1);
-06167f6b99bad9 Sakari Ailus 2023-02-08  240  	end = ads->nodeptrs + ports_count * 2 + 2;
-06167f6b99bad9 Sakari Ailus 2023-02-08 @241  	if (!swnodes || !ads || WARN_ON((void *)ads + alloc_size != end)) {
-                                                                ^^^^
-Checked to late.
+Yes, this is all fine and dandy but such tests should be the lowest prio
+eva! If you have a way to schedule by prio, those should wait until all
+the other build tests have happened.
 
-06167f6b99bad9 Sakari Ailus 2023-02-08  242  		kfree(swnodes);
-06167f6b99bad9 Sakari Ailus 2023-02-08  243  		kfree(ads);
-06167f6b99bad9 Sakari Ailus 2023-02-08  244  		acpi_handle_debug(handle,
-06167f6b99bad9 Sakari Ailus 2023-02-08  245  				  "cannot allocate for %zu software nodes\n",
-06167f6b99bad9 Sakari Ailus 2023-02-08  246  				  ports_count);
-06167f6b99bad9 Sakari Ailus 2023-02-08  247  		return;
-06167f6b99bad9 Sakari Ailus 2023-02-08  248  	}
-06167f6b99bad9 Sakari Ailus 2023-02-08  249  
-06167f6b99bad9 Sakari Ailus 2023-02-08  250  	ads->num_ports = ports_count;
-06167f6b99bad9 Sakari Ailus 2023-02-08  251  	for (i = 0; i < ports_count * 2 + 1; i++)
-06167f6b99bad9 Sakari Ailus 2023-02-08  252  		ads->nodeptrs[i] = &ads->nodes[i];
-06167f6b99bad9 Sakari Ailus 2023-02-08  253  	ads->nodeptrs[i] = NULL;
-06167f6b99bad9 Sakari Ailus 2023-02-08  254  	for (i = 0; i < ports_count; i++)
-06167f6b99bad9 Sakari Ailus 2023-02-08  255  		ads->ports[i].port_nr = NO_CSI2_PORT;
-06167f6b99bad9 Sakari Ailus 2023-02-08  256  	swnodes->handle = handle;
-06167f6b99bad9 Sakari Ailus 2023-02-08  257  	swnodes->ads = ads;
-06167f6b99bad9 Sakari Ailus 2023-02-08  258  	list_add(&swnodes->list, &crs_csi2_swnodes);
-06167f6b99bad9 Sakari Ailus 2023-02-08  259  }
+I don't know how your resources are spread out and whether you even can
+do as many so I'm only reporting from my experience, in case you were
+wondering what you could improve:
+
+People push branches to their trees and wait for the robot to test them.
+And they wait and wait. But instead, such silly warnings come.
+
+So it would be a lot better if you could expedite such pushed branches'
+build tests first and then the rest.
+
+And then if there are no branches, submitted patchsets on the ML.
+
+If you're trying to figure out what base to use, you can put a doc
+somewhere telling people how to specify the base for you and they will
+start doing it, you will parse the 0th message for that info and use the
+base.
+
+And the long-standing feature request we have: a simple web page
+somewhere which says how far is it with testing. So that people can go
+and look at it and know whether to wait for test results before sending.
+
+The web page doesn't have to be anything special - just a table of
+branches being tested at the moment.
+
+Anyway, I thought I should give you some suggestions if you were looking
+for some. :-)
+
+Thanks for the testing work - it is appreciated!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
