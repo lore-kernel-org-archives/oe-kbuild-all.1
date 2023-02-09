@@ -1,43 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611982107
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 08:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AB8371
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 08:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675930894; x=1707466894;
+  t=1675932214; x=1707468214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qSNEuSjLMefwCLldzADS4ERa3/+8x0SMhJqpUi9xH9g=;
-  b=b/9aSPQR7GZOmxK36AauDLaRm3i/MXMeUeqA+3bMRfwMHwLglrh8+9ZM
-   ETNZOc5JAlDDRIq0moDqDg+O+tPDVXHQfqlReO+9pZeAwG9s/F+bvxsPj
-   /IqrfK0YQcWeYcCrN+55gBPbcxJ64iaQs52rshRlUUtGi2HR40uWCISLx
-   HhwQO0/E6MB7izo+fSZDa07idrZR+Cei0w6FAQ9mo5Pr/iEvEFcvH0HQE
-   OcdDEAz9AEI5n+knjs1olW/kjV1OlfLbbU3QBpn71ey1GKzrK6Hz63RYu
-   YSPGcAdnoUjIwUf3fpxk7zMrRj41goF55aR12fUcAb94nM46NxuJvmoKn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416272089"
+  bh=pUWttd5KJNclQiN7SjHRci22gpkkx37bhJmgo99GTpo=;
+  b=g6uc+f1yQ41XQogexhtUKNIyqOhcKom6hKdJvioDPwK4YMeItXeer8Ad
+   o+yHZeivD6X3X48gJbM30TAJuO6HA9rLO2da0DxOqAQex+hcVv+TMdaSa
+   oYs9nUo+9qQ2EAE35Eq36gqveXQBvESbUNIHpkAxWA16e9qoydbWj/1LN
+   NE013j8E0G6fBbLw5xVD0z/JDcDto7XQZlHmfzsOyF2tLRTrsofFqKZam
+   pXP9t83GYnvzhxZqWpg7iyjZSeVoV9eVCIhMja9xTTimffQSf+JH69/Lj
+   HagGuzTAkcR18B24vNYMiE3VWnSMkfuugUwcvvbYmdt1Wi03RzPQizMvR
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313686641"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="416272089"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 00:21:33 -0800
+   d="scan'208";a="313686641"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 00:43:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="996452829"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776391388"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="996452829"
+   d="scan'208";a="776391388"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Feb 2023 00:21:32 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 09 Feb 2023 00:43:32 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ2BP-0004w6-1i;
-	Thu, 09 Feb 2023 08:21:31 +0000
-Date: Thu, 9 Feb 2023 16:21:07 +0800
+	id 1pQ2Wi-0004wm-0Z;
+	Thu, 09 Feb 2023 08:43:32 +0000
+Date: Thu, 9 Feb 2023 16:42:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Wysochanski <dwysocha@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Howells <dhowells@redhat.com>
-Subject: fs/nfs/fscache.c:58:51: sparse: sparse: incorrect type in argument 3
- (different base types)
-Message-ID: <202302091643.bKacRPzV-lkp@intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:ucode-for-ashok 5/16]
+ arch/x86/kernel/cpu/microcode/intel.c:769:10: error: 'struct microcode_ops'
+ has no member named 'get_microcode_version'; did you mean
+ 'get_microcode_revision'?
+Message-ID: <202302091622.vXWE4fqI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,97 +48,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
-commit: a6b5a28eb56c3f4988f7ff5290b954ba296e309a nfs: Convert to new fscache volume/cookie API
-date:   1 year, 1 month ago
-config: arm64-randconfig-s043-20230208 (https://download.01.org/0day-ci/archive/20230209/202302091643.bKacRPzV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a6b5a28eb56c3f4988f7ff5290b954ba296e309a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a6b5a28eb56c3f4988f7ff5290b954ba296e309a
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git ucode-for-ashok
+head:   01bd4486138ec018e1bb204d93e4e52190dfde21
+commit: c4d034fea56852933d94732fbe044ba554aba745 [5/16] ucode-version-op-intel
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230209/202302091622.vXWE4fqI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git/commit/?id=c4d034fea56852933d94732fbe044ba554aba745
+        git remote add daveh-devel https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git
+        git fetch --no-tags daveh-devel ucode-for-ashok
+        git checkout c4d034fea56852933d94732fbe044ba554aba745
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/hns/ drivers/remoteproc/ fs/nfs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302091643.bKacRPzV-lkp@intel.com
+| Link: https://lore.kernel.org/oe-kbuild-all/202302091622.vXWE4fqI-lkp@intel.com
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfs/fscache.c:58:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be16 const [usertype] sin_port @@
-   fs/nfs/fscache.c:58:51: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:58:51: sparse:     got restricted __be16 const [usertype] sin_port
->> fs/nfs/fscache.c:59:61: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const [usertype] s_addr @@
-   fs/nfs/fscache.c:59:61: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:59:61: sparse:     got restricted __be32 const [usertype] s_addr
->> fs/nfs/fscache.c:64:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be16 const [usertype] sin6_port @@
-   fs/nfs/fscache.c:64:52: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:64:52: sparse:     got restricted __be16 const [usertype] sin6_port
->> fs/nfs/fscache.c:65:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:65:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:65:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:66:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:66:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:66:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:67:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:67:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:67:73: sparse:     got restricted __be32 const
-   fs/nfs/fscache.c:68:73: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long x @@     got restricted __be32 const @@
-   fs/nfs/fscache.c:68:73: sparse:     expected unsigned long long x
-   fs/nfs/fscache.c:68:73: sparse:     got restricted __be32 const
+All errors (new ones prefixed by >>):
 
-vim +58 fs/nfs/fscache.c
+   arch/x86/kernel/cpu/microcode/intel.c:767:10: error: 'struct microcode_ops' has no member named 'collect_cpu_info'
+     767 |         .collect_cpu_info       = collect_cpu_info,
+         |          ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/intel.c:767:35: error: initialization of 'void (*)(int)' from incompatible pointer type 'int (*)(int,  struct cpu_signature *)' [-Werror=incompatible-pointer-types]
+     767 |         .collect_cpu_info       = collect_cpu_info,
+         |                                   ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/intel.c:767:35: note: (near initialization for 'microcode_intel_ops.microcode_fini_cpu')
+>> arch/x86/kernel/cpu/microcode/intel.c:769:10: error: 'struct microcode_ops' has no member named 'get_microcode_version'; did you mean 'get_microcode_revision'?
+     769 |         .get_microcode_version  = intel_get_microcode_revision,
+         |          ^~~~~~~~~~~~~~~~~~~~~
+         |          get_microcode_revision
+>> arch/x86/kernel/cpu/microcode/intel.c:769:35: error: initialization of 'u32 (*)(int)' {aka 'unsigned int (*)(int)'} from incompatible pointer type 'u32 (*)(void)' {aka 'unsigned int (*)(void)'} [-Werror=incompatible-pointer-types]
+     769 |         .get_microcode_version  = intel_get_microcode_revision,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/intel.c:769:35: note: (near initialization for 'microcode_intel_ops.get_microcode_revision')
+   cc1: some warnings being treated as errors
 
-    37	
-    38	/*
-    39	 * Get the per-client index cookie for an NFS client if the appropriate mount
-    40	 * flag was set
-    41	 * - We always try and get an index cookie for the client, but get filehandle
-    42	 *   cookies on a per-superblock basis, depending on the mount flags
-    43	 */
-    44	static bool nfs_fscache_get_client_key(struct nfs_client *clp,
-    45					       char *key, int *_len)
-    46	{
-    47		const struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) &clp->cl_addr;
-    48		const struct sockaddr_in *sin = (struct sockaddr_in *) &clp->cl_addr;
-    49	
-    50		*_len += snprintf(key + *_len, NFS_MAX_KEY_LEN - *_len,
-    51				  ",%u.%u,%x",
-    52				  clp->rpc_ops->version,
-    53				  clp->cl_minorversion,
-    54				  clp->cl_addr.ss_family);
-    55	
-    56		switch (clp->cl_addr.ss_family) {
-    57		case AF_INET:
-  > 58			if (!nfs_append_int(key, _len, sin->sin_port) ||
-  > 59			    !nfs_append_int(key, _len, sin->sin_addr.s_addr))
-    60				return false;
-    61			return true;
-    62	
-    63		case AF_INET6:
-  > 64			if (!nfs_append_int(key, _len, sin6->sin6_port) ||
-  > 65			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[0]) ||
-    66			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[1]) ||
-    67			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[2]) ||
-    68			    !nfs_append_int(key, _len, sin6->sin6_addr.s6_addr32[3]))
-    69				return false;
-    70			return true;
-    71	
-    72		default:
-    73			printk(KERN_WARNING "NFS: Unknown network family '%d'\n",
-    74			       clp->cl_addr.ss_family);
-    75			return false;
-    76		}
-    77	}
-    78	
+
+vim +769 arch/x86/kernel/cpu/microcode/intel.c
+
+   764	
+   765	static struct microcode_ops microcode_intel_ops = {
+   766		.request_microcode_fw	= request_microcode_fw,
+   767		.collect_cpu_info	= collect_cpu_info,
+   768		.apply_microcode	= apply_microcode_intel,
+ > 769		.get_microcode_version	= intel_get_microcode_revision,
+   770	};
+   771	
 
 -- 
 0-DAY CI Kernel Test Service
