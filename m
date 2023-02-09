@@ -1,44 +1,43 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AB8371
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 08:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF276320E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 08:43:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675932214; x=1707468214;
+  t=1675932216; x=1707468216;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pUWttd5KJNclQiN7SjHRci22gpkkx37bhJmgo99GTpo=;
-  b=g6uc+f1yQ41XQogexhtUKNIyqOhcKom6hKdJvioDPwK4YMeItXeer8Ad
-   o+yHZeivD6X3X48gJbM30TAJuO6HA9rLO2da0DxOqAQex+hcVv+TMdaSa
-   oYs9nUo+9qQ2EAE35Eq36gqveXQBvESbUNIHpkAxWA16e9qoydbWj/1LN
-   NE013j8E0G6fBbLw5xVD0z/JDcDto7XQZlHmfzsOyF2tLRTrsofFqKZam
-   pXP9t83GYnvzhxZqWpg7iyjZSeVoV9eVCIhMja9xTTimffQSf+JH69/Lj
-   HagGuzTAkcR18B24vNYMiE3VWnSMkfuugUwcvvbYmdt1Wi03RzPQizMvR
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313686641"
+  bh=3BT9ZLSf5+bsMF3a2FQRrZurcNe5Z1yC+Iur6k3YcMU=;
+  b=C6L+9j4R/HfJabuOT7aZlwyv721wNwSq8ROmpRUD3A5SR/e3Ror5mcGg
+   NBBTDoWd98Fm2839jfpiJxqyCQ7g92c0ar9CMWj/Q8FlNVKVHDfB/eED1
+   rpYvMZQltvw9e+ZDNa3ijGbOtF8I+Lk0LVuOVkGr+ixQczx/WFkNcin6r
+   FN5aJ8bIUcnCAdoys2PQRzF9H9oP/v6oTn8imuaudleKfgYSOZt00c59v
+   wQVKeR2xjBZUKpBtkaK2/Ttplto1g5TVYQ/S93vuuMcj3Y5Bz8EVHWplv
+   YGqY3F27a1GtiGr6B5wMDRo1q9HSXDQtpbkPu+orTkdqyg22V1iVOddty
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313686642"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="313686641"
+   d="scan'208";a="313686642"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 00:43:33 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 00:43:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776391388"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776391387"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="776391388"
+   d="scan'208";a="776391387"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 09 Feb 2023 00:43:32 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ2Wi-0004wm-0Z;
+	id 1pQ2Wi-0004wk-0T;
 	Thu, 09 Feb 2023 08:43:32 +0000
-Date: Thu, 9 Feb 2023 16:42:52 +0800
+Date: Thu, 9 Feb 2023 16:42:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:ucode-for-ashok 5/16]
- arch/x86/kernel/cpu/microcode/intel.c:769:10: error: 'struct microcode_ops'
- has no member named 'get_microcode_version'; did you mean
- 'get_microcode_revision'?
-Message-ID: <202302091622.vXWE4fqI-lkp@intel.com>
+To: "Jason A. Donenfeld" <zx2c4@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202302091600.1oUii7PE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,55 +47,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git ucode-for-ashok
-head:   01bd4486138ec018e1bb204d93e4e52190dfde21
-commit: c4d034fea56852933d94732fbe044ba554aba745 [5/16] ucode-version-op-intel
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230209/202302091622.vXWE4fqI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git/commit/?id=c4d034fea56852933d94732fbe044ba554aba745
-        git remote add daveh-devel https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git
-        git fetch --no-tags daveh-devel ucode-for-ashok
-        git checkout c4d034fea56852933d94732fbe044ba554aba745
+Hi Jason,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
+commit: b7133757da4c4c17d625970f6da3d76af12a8867 crypto: s390 - do not depend on CRYPTO_HW for SIMD implementations
+date:   7 months ago
+config: s390-randconfig-s053-20230209 (https://download.01.org/0day-ci/archive/20230209/202302091600.1oUii7PE-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b7133757da4c4c17d625970f6da3d76af12a8867
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b7133757da4c4c17d625970f6da3d76af12a8867
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302091622.vXWE4fqI-lkp@intel.com
+| Link: https://lore.kernel.org/oe-kbuild-all/202302091600.1oUii7PE-lkp@intel.com
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL pointer
+>> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL pointer
 
-   arch/x86/kernel/cpu/microcode/intel.c:767:10: error: 'struct microcode_ops' has no member named 'collect_cpu_info'
-     767 |         .collect_cpu_info       = collect_cpu_info,
-         |          ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:767:35: error: initialization of 'void (*)(int)' from incompatible pointer type 'int (*)(int,  struct cpu_signature *)' [-Werror=incompatible-pointer-types]
-     767 |         .collect_cpu_info       = collect_cpu_info,
-         |                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:767:35: note: (near initialization for 'microcode_intel_ops.microcode_fini_cpu')
->> arch/x86/kernel/cpu/microcode/intel.c:769:10: error: 'struct microcode_ops' has no member named 'get_microcode_version'; did you mean 'get_microcode_revision'?
-     769 |         .get_microcode_version  = intel_get_microcode_revision,
-         |          ^~~~~~~~~~~~~~~~~~~~~
-         |          get_microcode_revision
->> arch/x86/kernel/cpu/microcode/intel.c:769:35: error: initialization of 'u32 (*)(int)' {aka 'unsigned int (*)(int)'} from incompatible pointer type 'u32 (*)(void)' {aka 'unsigned int (*)(void)'} [-Werror=incompatible-pointer-types]
-     769 |         .get_microcode_version  = intel_get_microcode_revision,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:769:35: note: (near initialization for 'microcode_intel_ops.get_microcode_revision')
-   cc1: some warnings being treated as errors
+vim +320 kernel/kexec_file.c
 
+a43cac0d9dc207 Dave Young     2015-09-09  319  
+a43cac0d9dc207 Dave Young     2015-09-09 @320  SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+a43cac0d9dc207 Dave Young     2015-09-09  321  		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
+a43cac0d9dc207 Dave Young     2015-09-09  322  		unsigned long, flags)
+a43cac0d9dc207 Dave Young     2015-09-09  323  {
+a43cac0d9dc207 Dave Young     2015-09-09  324  	int ret = 0, i;
+a43cac0d9dc207 Dave Young     2015-09-09  325  	struct kimage **dest_image, *image;
+a43cac0d9dc207 Dave Young     2015-09-09  326  
+a43cac0d9dc207 Dave Young     2015-09-09  327  	/* We only trust the superuser with rebooting the system. */
+a43cac0d9dc207 Dave Young     2015-09-09  328  	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+a43cac0d9dc207 Dave Young     2015-09-09  329  		return -EPERM;
+a43cac0d9dc207 Dave Young     2015-09-09  330  
+a43cac0d9dc207 Dave Young     2015-09-09  331  	/* Make sure we have a legal set of flags */
+a43cac0d9dc207 Dave Young     2015-09-09  332  	if (flags != (flags & KEXEC_FILE_FLAGS))
+a43cac0d9dc207 Dave Young     2015-09-09  333  		return -EINVAL;
+a43cac0d9dc207 Dave Young     2015-09-09  334  
+a43cac0d9dc207 Dave Young     2015-09-09  335  	image = NULL;
+a43cac0d9dc207 Dave Young     2015-09-09  336  
+a43cac0d9dc207 Dave Young     2015-09-09  337  	if (!mutex_trylock(&kexec_mutex))
+a43cac0d9dc207 Dave Young     2015-09-09  338  		return -EBUSY;
+a43cac0d9dc207 Dave Young     2015-09-09  339  
+a43cac0d9dc207 Dave Young     2015-09-09  340  	dest_image = &kexec_image;
+9b492cf58077a0 Xunlei Pang    2016-05-23  341  	if (flags & KEXEC_FILE_ON_CRASH) {
+a43cac0d9dc207 Dave Young     2015-09-09  342  		dest_image = &kexec_crash_image;
+9b492cf58077a0 Xunlei Pang    2016-05-23  343  		if (kexec_crash_image)
+9b492cf58077a0 Xunlei Pang    2016-05-23  344  			arch_kexec_unprotect_crashkres();
+9b492cf58077a0 Xunlei Pang    2016-05-23  345  	}
+a43cac0d9dc207 Dave Young     2015-09-09  346  
+a43cac0d9dc207 Dave Young     2015-09-09  347  	if (flags & KEXEC_FILE_UNLOAD)
+a43cac0d9dc207 Dave Young     2015-09-09  348  		goto exchange;
+a43cac0d9dc207 Dave Young     2015-09-09  349  
+a43cac0d9dc207 Dave Young     2015-09-09  350  	/*
+a43cac0d9dc207 Dave Young     2015-09-09  351  	 * In case of crash, new kernel gets loaded in reserved region. It is
+a43cac0d9dc207 Dave Young     2015-09-09  352  	 * same memory where old crash kernel might be loaded. Free any
+a43cac0d9dc207 Dave Young     2015-09-09  353  	 * current crash dump kernel before we corrupt it.
+a43cac0d9dc207 Dave Young     2015-09-09  354  	 */
+a43cac0d9dc207 Dave Young     2015-09-09  355  	if (flags & KEXEC_FILE_ON_CRASH)
+a43cac0d9dc207 Dave Young     2015-09-09  356  		kimage_free(xchg(&kexec_crash_image, NULL));
+a43cac0d9dc207 Dave Young     2015-09-09  357  
+a43cac0d9dc207 Dave Young     2015-09-09  358  	ret = kimage_file_alloc_init(&image, kernel_fd, initrd_fd, cmdline_ptr,
+a43cac0d9dc207 Dave Young     2015-09-09  359  				     cmdline_len, flags);
+a43cac0d9dc207 Dave Young     2015-09-09  360  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  361  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  362  
+a43cac0d9dc207 Dave Young     2015-09-09  363  	ret = machine_kexec_prepare(image);
+a43cac0d9dc207 Dave Young     2015-09-09  364  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  365  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  366  
+1229384f5b856d Xunlei Pang    2017-07-12  367  	/*
+1229384f5b856d Xunlei Pang    2017-07-12  368  	 * Some architecture(like S390) may touch the crash memory before
+1229384f5b856d Xunlei Pang    2017-07-12  369  	 * machine_kexec_prepare(), we must copy vmcoreinfo data after it.
+1229384f5b856d Xunlei Pang    2017-07-12  370  	 */
+1229384f5b856d Xunlei Pang    2017-07-12  371  	ret = kimage_crash_copy_vmcoreinfo(image);
+1229384f5b856d Xunlei Pang    2017-07-12  372  	if (ret)
+1229384f5b856d Xunlei Pang    2017-07-12  373  		goto out;
+1229384f5b856d Xunlei Pang    2017-07-12  374  
+a43cac0d9dc207 Dave Young     2015-09-09  375  	ret = kexec_calculate_store_digests(image);
+a43cac0d9dc207 Dave Young     2015-09-09  376  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  377  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  378  
+a43cac0d9dc207 Dave Young     2015-09-09  379  	for (i = 0; i < image->nr_segments; i++) {
+a43cac0d9dc207 Dave Young     2015-09-09  380  		struct kexec_segment *ksegment;
+a43cac0d9dc207 Dave Young     2015-09-09  381  
+a43cac0d9dc207 Dave Young     2015-09-09  382  		ksegment = &image->segment[i];
+a43cac0d9dc207 Dave Young     2015-09-09  383  		pr_debug("Loading segment %d: buf=0x%p bufsz=0x%zx mem=0x%lx memsz=0x%zx\n",
+a43cac0d9dc207 Dave Young     2015-09-09  384  			 i, ksegment->buf, ksegment->bufsz, ksegment->mem,
+a43cac0d9dc207 Dave Young     2015-09-09  385  			 ksegment->memsz);
+a43cac0d9dc207 Dave Young     2015-09-09  386  
+a43cac0d9dc207 Dave Young     2015-09-09  387  		ret = kimage_load_segment(image, &image->segment[i]);
+a43cac0d9dc207 Dave Young     2015-09-09  388  		if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  389  			goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  390  	}
+a43cac0d9dc207 Dave Young     2015-09-09  391  
+a43cac0d9dc207 Dave Young     2015-09-09  392  	kimage_terminate(image);
+a43cac0d9dc207 Dave Young     2015-09-09  393  
+de68e4daea9084 Pavel Tatashin 2019-12-04  394  	ret = machine_kexec_post_load(image);
+de68e4daea9084 Pavel Tatashin 2019-12-04  395  	if (ret)
+de68e4daea9084 Pavel Tatashin 2019-12-04  396  		goto out;
+de68e4daea9084 Pavel Tatashin 2019-12-04  397  
+a43cac0d9dc207 Dave Young     2015-09-09  398  	/*
+a43cac0d9dc207 Dave Young     2015-09-09  399  	 * Free up any temporary buffers allocated which are not needed
+a43cac0d9dc207 Dave Young     2015-09-09  400  	 * after image has been loaded
+a43cac0d9dc207 Dave Young     2015-09-09  401  	 */
+a43cac0d9dc207 Dave Young     2015-09-09  402  	kimage_file_post_load_cleanup(image);
+a43cac0d9dc207 Dave Young     2015-09-09  403  exchange:
+a43cac0d9dc207 Dave Young     2015-09-09  404  	image = xchg(dest_image, image);
+a43cac0d9dc207 Dave Young     2015-09-09  405  out:
+9b492cf58077a0 Xunlei Pang    2016-05-23  406  	if ((flags & KEXEC_FILE_ON_CRASH) && kexec_crash_image)
+9b492cf58077a0 Xunlei Pang    2016-05-23  407  		arch_kexec_protect_crashkres();
+9b492cf58077a0 Xunlei Pang    2016-05-23  408  
+a43cac0d9dc207 Dave Young     2015-09-09  409  	mutex_unlock(&kexec_mutex);
+a43cac0d9dc207 Dave Young     2015-09-09  410  	kimage_free(image);
+a43cac0d9dc207 Dave Young     2015-09-09  411  	return ret;
+a43cac0d9dc207 Dave Young     2015-09-09  412  }
+a43cac0d9dc207 Dave Young     2015-09-09  413  
 
-vim +769 arch/x86/kernel/cpu/microcode/intel.c
+:::::: The code at line 320 was first introduced by commit
+:::::: a43cac0d9dc2073ff2245a171429ddbe1accece7 kexec: split kexec_file syscall code to kexec_file.c
 
-   764	
-   765	static struct microcode_ops microcode_intel_ops = {
-   766		.request_microcode_fw	= request_microcode_fw,
-   767		.collect_cpu_info	= collect_cpu_info,
-   768		.apply_microcode	= apply_microcode_intel,
- > 769		.get_microcode_version	= intel_get_microcode_revision,
-   770	};
-   771	
+:::::: TO: Dave Young <dyoung@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
