@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616FF160
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Feb 2023 22:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F6F36C;
+	Thu,  9 Feb 2023 01:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675895780; x=1707431780;
+  t=1675904962; x=1707440962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vcz0p1ffkG4vcNLHuDO0b2Hs0jLEg1Uf4S0AoeDy1k4=;
-  b=KRKDQTl6fKHSG9gWnMt9TyQL6ckO5CiRCEtlhq9l54cmH4ujPdUcoTzP
-   FEgSXe+Qu912uUr3A1vnW8O2WYImXKPomAJ2UcsGyZIjnGNeY0MOwQGTh
-   f4i3h94UgNxYAxxBK8K+iiN2pAWpGvYj4xY03aqrILF1YIgFKfw9/5bbB
-   BilWbCaM3U3kffz+qO1A6oZFf90gDIUR2Teo/xnR6Q/rWMhpoR9Zv31CM
-   DIL5gl3ZxEtas/EY++lCpCziwIyaeMygISYqMXCuQhQ5qh6Jsm8T8zElC
-   Q5CrQ7/r0ZQUhKfAtVkRycdCyCWY+SBPqAtsJ4UER5Y/YPyEnteKjPqZH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="357344662"
+  bh=GI8IwpHrCtLwdiOPxD0L9G1DYq+NLvDgg0Cnzqj/6BM=;
+  b=HkNvNb82/Ue86lo8DpYPO9U9JzmrWdlmXu/zcJlokhY/KssRbPeMdjfc
+   EfXeUUwlbd6QgU3WU89fLEBcIb3xMZz4/JpnCV2svojv5WaiQE1DcqKs5
+   OTUdbD2nYcbHgizXHCdscWNI4osfIXlLVYzDvf2iP78MJqjB/QsmNQ63b
+   Pklp5MvzEkxrVYUbtc9kxta7dN7hg1RJGdjwSunvCtKNsK7epythGwoyA
+   rBbD66IK2SjBrGgVYTVlPbeyaxbr9Y4a1++mmWr9tcQ2wNKoBgupbdaiG
+   uNePGGQABK8KlsiVY6O8s9h8su25kQ2Fpy8qZwy1OE7Qm/P6q4NzEewpx
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="309625003"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="357344662"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 14:36:18 -0800
+   d="scan'208";a="309625003"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 17:09:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="912879515"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776267162"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="912879515"
+   d="scan'208";a="776267162"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Feb 2023 14:36:16 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 08 Feb 2023 17:09:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPt32-0004ge-0Q;
-	Wed, 08 Feb 2023 22:36:16 +0000
-Date: Thu, 9 Feb 2023 06:36:13 +0800
+	id 1pPvR8-0004jS-2X;
+	Thu, 09 Feb 2023 01:09:18 +0000
+Date: Thu, 9 Feb 2023 09:09:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aurelien Jarno <aurelien@aurel32.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: drivers/clocksource/timer-clint.c:237:36: sparse: sparse: incorrect
- type in argument 2 (different address spaces)
-Message-ID: <202302090640.TTyRdnHU-lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:3126:34:
+ warning: unused variable 'samsung_jpeg_match'
+Message-ID: <202302090840.vIjaH7GJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,139 +47,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Aurelien,
+Hi Mauro,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
-commit: 6df2a016c0c8a3d0933ef33dd192ea6606b115e3 riscv: fix build with binutils 2.38
-date:   12 months ago
-config: riscv-randconfig-s052-20230209 (https://download.01.org/0day-ci/archive/20230209/202302090640.TTyRdnHU-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce:
+commit: f4104b7851a8d8b9a70899dcbecdb393eb16cd8a media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
+date:   11 months ago
+config: s390-randconfig-r014-20230209 (https://download.01.org/0day-ci/archive/20230209/202302090840.vIjaH7GJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6df2a016c0c8a3d0933ef33dd192ea6606b115e3
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f4104b7851a8d8b9a70899dcbecdb393eb16cd8a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6df2a016c0c8a3d0933ef33dd192ea6606b115e3
+        git checkout f4104b7851a8d8b9a70899dcbecdb393eb16cd8a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash drivers/clocksource/ drivers/scsi/esas2r/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/media/platform/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302090640.TTyRdnHU-lkp@intel.com
+| Link: https://lore.kernel.org/oe-kbuild-all/202302090840.vIjaH7GJ-lkp@intel.com
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clocksource/timer-clint.c:237:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void * @@     got struct clock_event_device [noderef] __percpu * @@
-   drivers/clocksource/timer-clint.c:237:36: sparse:     expected void *
-   drivers/clocksource/timer-clint.c:237:36: sparse:     got struct clock_event_device [noderef] __percpu *
---
-   drivers/scsi/esas2r/esas2r_ioctl.c:321:23: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:322:23: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:333:25: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_ioctl.c:334:29: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:334:29: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:334:29: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:355:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ctrl_code @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_ioctl.c:355:31: sparse:     expected unsigned int [usertype] ctrl_code
-   drivers/scsi/esas2r/esas2r_ioctl.c:355:31: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_ioctl.c:356:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] target_id @@     got restricted __le16 [usertype] @@
-   drivers/scsi/esas2r/esas2r_ioctl.c:356:31: sparse:     expected unsigned short [usertype] target_id
-   drivers/scsi/esas2r/esas2r_ioctl.c:356:31: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/esas2r/esas2r_ioctl.c:357:31: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:419:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] csmi_status @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_ioctl.c:419:57: sparse:     expected unsigned int [usertype] csmi_status
-   drivers/scsi/esas2r/esas2r_ioctl.c:419:57: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_ioctl.c:425:29: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:425:29: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:425:29: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:569:39: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:600:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] csmi_status @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_ioctl.c:600:49: sparse:     expected unsigned int [usertype] csmi_status
-   drivers/scsi/esas2r/esas2r_ioctl.c:600:49: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_ioctl.c:632:21: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:642:22: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:697:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:1013:37: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:1013:37: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:1013:37: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:1015:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] length @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_ioctl.c:1015:38: sparse:     expected unsigned int [usertype] length
-   drivers/scsi/esas2r/esas2r_ioctl.c:1015:38: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_ioctl.c:1030:45: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:1030:45: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:1030:45: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:1032:45: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:1032:45: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:1032:45: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:1041:45: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:1041:45: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:1041:45: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:1044:45: sparse: sparse: invalid assignment: |=
-   drivers/scsi/esas2r/esas2r_ioctl.c:1044:45: sparse:    left side has type unsigned int
-   drivers/scsi/esas2r/esas2r_ioctl.c:1044:45: sparse:    right side has type restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c: note: in included file:
-   drivers/scsi/esas2r/esas2r.h:1307:13: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r.h:1307:13: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r.h:1307:13: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r.h:1307:13: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_ioctl.c:956:39: sparse: sparse: memset with byte count of 524288
-   drivers/scsi/esas2r/esas2r_ioctl.c: note: in included file (through arch/riscv/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
->> include/asm-generic/uaccess.h:92:15: sparse: sparse: memcpy with byte count of 524320
+All warnings (new ones prefixed by >>):
 
-vim +237 drivers/clocksource/timer-clint.c
+   In file included from drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:15:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:15:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:15:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:3126:34: warning: unused variable 'samsung_jpeg_match' [-Wunused-const-variable]
+   static const struct of_device_id samsung_jpeg_match[] = {
+                                    ^
+   13 warnings generated.
 
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  204  
-2ac6795fcc085e Anup Patel     2020-08-17  205  	pr_info("%pOFP: timer running at %ld Hz\n", np, clint_timer_freq);
-2ac6795fcc085e Anup Patel     2020-08-17  206  
-2ac6795fcc085e Anup Patel     2020-08-17  207  	rc = clocksource_register_hz(&clint_clocksource, clint_timer_freq);
-2ac6795fcc085e Anup Patel     2020-08-17  208  	if (rc) {
-2ac6795fcc085e Anup Patel     2020-08-17  209  		pr_err("%pOFP: clocksource register failed [%d]\n", np, rc);
-2ac6795fcc085e Anup Patel     2020-08-17  210  		goto fail_iounmap;
-2ac6795fcc085e Anup Patel     2020-08-17  211  	}
-2ac6795fcc085e Anup Patel     2020-08-17  212  
-2ac6795fcc085e Anup Patel     2020-08-17  213  	sched_clock_register(clint_get_cycles64, 64, clint_timer_freq);
-2ac6795fcc085e Anup Patel     2020-08-17  214  
-2ac6795fcc085e Anup Patel     2020-08-17  215  	rc = request_percpu_irq(clint_timer_irq, clint_timer_interrupt,
-2ac6795fcc085e Anup Patel     2020-08-17  216  				 "clint-timer", &clint_clock_event);
-2ac6795fcc085e Anup Patel     2020-08-17  217  	if (rc) {
-2ac6795fcc085e Anup Patel     2020-08-17  218  		pr_err("registering percpu irq failed [%d]\n", rc);
-2ac6795fcc085e Anup Patel     2020-08-17  219  		goto fail_iounmap;
-2ac6795fcc085e Anup Patel     2020-08-17  220  	}
-2ac6795fcc085e Anup Patel     2020-08-17  221  
-2ac6795fcc085e Anup Patel     2020-08-17  222  	rc = cpuhp_setup_state(CPUHP_AP_CLINT_TIMER_STARTING,
-2ac6795fcc085e Anup Patel     2020-08-17  223  				"clockevents/clint/timer:starting",
-2ac6795fcc085e Anup Patel     2020-08-17  224  				clint_timer_starting_cpu,
-2ac6795fcc085e Anup Patel     2020-08-17  225  				clint_timer_dying_cpu);
-2ac6795fcc085e Anup Patel     2020-08-17  226  	if (rc) {
-2ac6795fcc085e Anup Patel     2020-08-17  227  		pr_err("%pOFP: cpuhp setup state failed [%d]\n", np, rc);
-2ac6795fcc085e Anup Patel     2020-08-17  228  		goto fail_free_irq;
-2ac6795fcc085e Anup Patel     2020-08-17  229  	}
-2ac6795fcc085e Anup Patel     2020-08-17  230  
-2ac6795fcc085e Anup Patel     2020-08-17  231  	riscv_set_ipi_ops(&clint_ipi_ops);
-2ac6795fcc085e Anup Patel     2020-08-17  232  	clint_clear_ipi();
-2ac6795fcc085e Anup Patel     2020-08-17  233  
-2ac6795fcc085e Anup Patel     2020-08-17  234  	return 0;
-2ac6795fcc085e Anup Patel     2020-08-17  235  
-2ac6795fcc085e Anup Patel     2020-08-17  236  fail_free_irq:
-2ac6795fcc085e Anup Patel     2020-08-17 @237  	free_irq(clint_timer_irq, &clint_clock_event);
-2ac6795fcc085e Anup Patel     2020-08-17  238  fail_iounmap:
-2ac6795fcc085e Anup Patel     2020-08-17  239  	iounmap(base);
-2ac6795fcc085e Anup Patel     2020-08-17  240  	return rc;
-2ac6795fcc085e Anup Patel     2020-08-17  241  }
-2ac6795fcc085e Anup Patel     2020-08-17  242  
 
-:::::: The code at line 237 was first introduced by commit
-:::::: 2ac6795fcc085e8d03649f1bbd0d70aaff612cad clocksource/drivers: Add CLINT timer driver
+vim +/samsung_jpeg_match +3126 drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
 
-:::::: TO: Anup Patel <anup.patel@wdc.com>
-:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
+6c96dbbc2aa9f5 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-09-18  3125  
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18 @3126  static const struct of_device_id samsung_jpeg_match[] = {
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3127  	{
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3128  		.compatible = "samsung,s5pv210-jpeg",
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3129  		.data = &s5p_jpeg_drvdata,
+3246fdaa0ac2d9 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2014-07-11  3130  	}, {
+3246fdaa0ac2d9 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2014-07-11  3131  		.compatible = "samsung,exynos3250-jpeg",
+3246fdaa0ac2d9 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2014-07-11  3132  		.data = &exynos3250_jpeg_drvdata,
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3133  	}, {
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3134  		.compatible = "samsung,exynos4210-jpeg",
+3246fdaa0ac2d9 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2014-07-11  3135  		.data = &exynos4_jpeg_drvdata,
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3136  	}, {
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3137  		.compatible = "samsung,exynos4212-jpeg",
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3138  		.data = &exynos4_jpeg_drvdata,
+7c15fd4bf3d367 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-03-09  3139  	}, {
+7c15fd4bf3d367 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-03-09  3140  		.compatible = "samsung,exynos5420-jpeg",
+7c15fd4bf3d367 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-03-09  3141  		.data = &exynos5420_jpeg_drvdata,
+6c96dbbc2aa9f5 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-09-18  3142  	}, {
+6c96dbbc2aa9f5 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-09-18  3143  		.compatible = "samsung,exynos5433-jpeg",
+6c96dbbc2aa9f5 drivers/media/platform/s5p-jpeg/jpeg-core.c Andrzej Pietrasiewicz 2015-09-18  3144  		.data = &exynos5433_jpeg_drvdata,
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3145  	},
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3146  	{},
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3147  };
+80529ae5c13725 drivers/media/platform/s5p-jpeg/jpeg-core.c Jacek Anaszewski      2013-12-18  3148  
+
+:::::: The code at line 3126 was first introduced by commit
+:::::: 80529ae5c13725e12ba0377e29b2160794ba6b25 [media] s5p-jpeg:  JPEG codec
+
+:::::: TO: Jacek Anaszewski <j.anaszewski@samsung.com>
+:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
