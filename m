@@ -1,42 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CCEA94B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 22:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12BEA94B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 22:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675980743; x=1707516743;
+  t=1675981332; x=1707517332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xds66Q2sWmPIw52hB69M2lXNd1EZKk7cyIgbO7VdXWM=;
-  b=kkq4ERWEuhTv6Bc3+0gb31/pBh8eTiQVI6ypRb236HqTV6C6CbgcHVfT
-   X9CaScOVGnhFp9xXuM5UUwc269cFrHQ5rVoACMnA+0+n5QP1VxvzeKEL6
-   SuUOb48PipKl5t4vPzOueRZEgJNMBNSTbqoEOsTLjLqokr6POIQ9ioRS+
-   NHTjXmNWaVnw72Wnu1zgU+ZKhTCwrxenqGYoOq49hg9ugS8FRppqHgjVn
-   +3f+LDTCbUI+TaRACLYCjVa/9UsTEWuS9g8hfKeFFErujUBk4O4FfqhPR
-   t8OugklhZF3UHBIJ13/LoAemv/mpL5YCtoVa/5/t7mV8ow+CMwcPwGNHG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="309898217"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="309898217"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 14:12:11 -0800
+  bh=4u3nTc5vbHVi8aw/wQxVXpF78/HmsNW3oJTLCa1YyLE=;
+  b=LOiPgbvh29KrGMb1ljKFuJt8sh1F57w5/3Tr5uG5E+Hsfp9RvH0JTxUh
+   9ii8LwUU8zObPPSIDcN4NBch0+QZJBDcA+qymJIe0r1ViRPBQ7UKZVd+9
+   XXrtUnJunXntNMzWq2tpZotUhRpIaAT0+AJtNkIjk1jBoCguNQlXd1p58
+   D4zuhum7zJ2rAUreAoNSndK0zMRkD5sHidZ81LDN8Dmk0GTALTOXGDdJU
+   7AkRE5nu5dqcMFyiWoMpvBMIJZ6F9GBU9FZAvr5JuOQxTp3qT+JQm00JF
+   J30GwR9mSSBlqedAOR9bDU/grmt6IkVgaoy/5ulrWFGhb8BRmof+xOmhp
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="331562857"
+X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
+   d="scan'208";a="331562857"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 14:22:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="810548121"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="810548121"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="736513018"
+X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
+   d="scan'208";a="736513018"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2023 14:12:10 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2023 14:22:10 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQF9F-0005LK-2Y;
-	Thu, 09 Feb 2023 22:12:09 +0000
-Date: Fri, 10 Feb 2023 06:11:10 +0800
+	id 1pQFIw-0005Lm-04;
+	Thu, 09 Feb 2023 22:22:10 +0000
+Date: Fri, 10 Feb 2023 06:21:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: arch/arm64/boot/dts/qcom/sa8775p.dtsi:7:10: fatal error:
- dt-bindings/clock/qcom,sa8775p-gcc.h: No such file or directory
-Message-ID: <202302100613.vyIxVR5J-lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
+Subject: [driver-core:kobject-const-2 78/78]
+ arch/arm/mm/dma-mapping.c:1713:47: warning: passing argument 1 of
+ 'arm_iommu_create_mapping' discards 'const' qualifier from pointer target
+ type
+Message-ID: <202302100601.wZtQDBrU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,45 +48,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/dt-bindings-arm-qcom-add-the-sa8775p-ride-board/20230131-204844
-head:   1adb509e8796e237c554946297a8d41b444efbee
-commit: 9a74a091be0f496c4b062a14ebeaec3e2515f053 arm64: dts: qcom: add initial support for qcom sa8775p-ride
-date:   9 days ago
-config: arm64-randconfig-r036-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100613.vyIxVR5J-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git kobject-const-2
+head:   0be8abebbd476395ee73f4a83d4988dc9958f83c
+commit: 0be8abebbd476395ee73f4a83d4988dc9958f83c [78/78] driver core: mark struct device's bus_type as const.
+config: arm-randconfig-r046-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100601.wZtQDBrU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9a74a091be0f496c4b062a14ebeaec3e2515f053
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bartosz-Golaszewski/dt-bindings-arm-qcom-add-the-sa8775p-ride-board/20230131-204844
-        git checkout 9a74a091be0f496c4b062a14ebeaec3e2515f053
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=0be8abebbd476395ee73f4a83d4988dc9958f83c
+        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+        git fetch --no-tags driver-core kobject-const-2
+        git checkout 0be8abebbd476395ee73f4a83d4988dc9958f83c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302100613.vyIxVR5J-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302100601.wZtQDBrU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/qcom/sa8775p-ride.dts:8:
->> arch/arm64/boot/dts/qcom/sa8775p.dtsi:7:10: fatal error: dt-bindings/clock/qcom,sa8775p-gcc.h: No such file or directory
-       7 | #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   arch/arm/mm/dma-mapping.c: In function 'arm_setup_iommu_dma_ops':
+>> arch/arm/mm/dma-mapping.c:1713:47: warning: passing argument 1 of 'arm_iommu_create_mapping' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1713 |         mapping = arm_iommu_create_mapping(dev->bus, dma_base, size);
+         |                                            ~~~^~~~~
+   arch/arm/mm/dma-mapping.c:1543:43: note: expected 'struct bus_type *' but argument is of type 'const struct bus_type *'
+    1543 | arm_iommu_create_mapping(struct bus_type *bus, dma_addr_t base, u64 size)
+         |                          ~~~~~~~~~~~~~~~~~^~~
 
 
-vim +7 arch/arm64/boot/dts/qcom/sa8775p.dtsi
+vim +1713 arch/arm/mm/dma-mapping.c
 
-   > 7	#include <dt-bindings/clock/qcom,sa8775p-gcc.h>
-     8	#include <dt-bindings/clock/qcom,rpmh.h>
-     9	#include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
-    10	#include <dt-bindings/power/qcom-rpmpd.h>
-    11	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
-    12	
+6fe367580339a3a Hiroshi Doyu      2013-01-24  1707  
+ae626eb97376148 Christoph Hellwig 2022-04-19  1708  static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
+ae626eb97376148 Christoph Hellwig 2022-04-19  1709  				    const struct iommu_ops *iommu, bool coherent)
+4bb25789ed28228 Will Deacon       2014-08-27  1710  {
+4bb25789ed28228 Will Deacon       2014-08-27  1711  	struct dma_iommu_mapping *mapping;
+4bb25789ed28228 Will Deacon       2014-08-27  1712  
+4bb25789ed28228 Will Deacon       2014-08-27 @1713  	mapping = arm_iommu_create_mapping(dev->bus, dma_base, size);
+4bb25789ed28228 Will Deacon       2014-08-27  1714  	if (IS_ERR(mapping)) {
+4bb25789ed28228 Will Deacon       2014-08-27  1715  		pr_warn("Failed to create %llu-byte IOMMU mapping for device %s\n",
+4bb25789ed28228 Will Deacon       2014-08-27  1716  				size, dev_name(dev));
+ae626eb97376148 Christoph Hellwig 2022-04-19  1717  		return;
+4bb25789ed28228 Will Deacon       2014-08-27  1718  	}
+4bb25789ed28228 Will Deacon       2014-08-27  1719  
+eab8d6530cc0074 Laurent Pinchart  2015-01-23  1720  	if (__arm_iommu_attach_device(dev, mapping)) {
+4bb25789ed28228 Will Deacon       2014-08-27  1721  		pr_warn("Failed to attached device %s to IOMMU_mapping\n",
+4bb25789ed28228 Will Deacon       2014-08-27  1722  				dev_name(dev));
+4bb25789ed28228 Will Deacon       2014-08-27  1723  		arm_iommu_release_mapping(mapping);
+ae626eb97376148 Christoph Hellwig 2022-04-19  1724  		return;
+4bb25789ed28228 Will Deacon       2014-08-27  1725  	}
+4bb25789ed28228 Will Deacon       2014-08-27  1726  
+ae626eb97376148 Christoph Hellwig 2022-04-19  1727  	set_dma_ops(dev, &iommu_ops);
+4bb25789ed28228 Will Deacon       2014-08-27  1728  }
+4bb25789ed28228 Will Deacon       2014-08-27  1729  
+
+:::::: The code at line 1713 was first introduced by commit
+:::::: 4bb25789ed28228a52c030bf28edb2fcdb214be8 arm: dma-mapping: plumb our iommu mapping ops into arch_setup_dma_ops
+
+:::::: TO: Will Deacon <will.deacon@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
