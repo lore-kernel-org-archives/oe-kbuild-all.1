@@ -1,56 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D263A;
-	Thu,  9 Feb 2023 05:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D69A63A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 05:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675919684; x=1707455684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tXlCsiS4ItKh3KiHiSPxfC0oS0H4trHUJSCkYJAmxPI=;
-  b=LDvSPEnkhph714rE0mkV/1eploT2M/+39+hikXLLHv+894WvYI2ZyrGe
-   6xgcRcGzfZWlHwiXx1w6QO3gsUhMrxz8QSGc5sEup382yydghlpS7xNGw
-   2bq4P2AbaWRaPuECqmTu7cbebL84tW9OnR48pjLtNDhvxrNd9BsejeWyz
-   B0vMrrUFoW8JiNdKy39K0cFXkUIe241bK+1vSdahFfLSphcAC9Z4633BR
-   xMAqHb1s3g0er1k7Hr21I+laFHNL57UWiXFif+y3hDvGy8T4SzO1ndP3r
-   6kliUls5RJveC6xUqbpkkPpxaihXa6+sn3DpDWdxxK/wYTip1S4nhv447
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313650355"
+  t=1675922327; x=1707458327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ovfN+cfUJv25UMenR8+YgdvvaKM+gqzw3X+ZZ82sHmM=;
+  b=IxUPXk85ZmjFgNhXZizUtc8vN1EzNuwVfEILKfMvJCn4RRZCXhiYZclH
+   JzMVxnu7TVItm9crLDk4PwYFpv8KcgZJ0qdc2yEslqszO2U4T37omCeTO
+   Kqd8A7lMvgUz9jHARx0d5Mkb8dJsi65Is5OD9yLrCHuc/REc5YNVccklI
+   9ln62FmEe518lwthsUViFFjzRTD6B58teoq8jgJbJ7F1n2r5TSCBWdTG7
+   Ce46bjzmY5wIQomRPKVnFuubJ9W4fcbBdTig7Iob92CXXQqdnPQuoSmUw
+   xZaXpExBnr/IHrnZ805avv+8orS+rsv+8XS5vALnKGz4CO+WeB1am4qPc
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="327716869"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="313650355"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 21:14:31 -0800
+   d="scan'208";a="327716869"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 21:56:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="669457609"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776346202"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="669457609"
+   d="scan'208";a="776346202"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Feb 2023 21:14:24 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 08 Feb 2023 21:56:25 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPzGJ-0004qE-1m;
-	Thu, 09 Feb 2023 05:14:23 +0000
-Date: Thu, 9 Feb 2023 13:14:22 +0800
+	id 1pPzuy-0004rU-1I;
+	Thu, 09 Feb 2023 05:56:24 +0000
+Date: Thu, 9 Feb 2023 13:55:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Chmielewski <pawel.chmielewski@intel.com>, yury.norov@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
-	baohua@kernel.org, bristot@redhat.com, bsegall@google.com,
-	davem@davemloft.net, dietmar.eggemann@arm.com, gal@nvidia.com,
-	gregkh@linuxfoundation.org, hca@linux.ibm.com,
-	jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
-	jgg@nvidia.com, juri.lelli@redhat.com, kuba@kernel.org,
-	leonro@nvidia.com, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux@rasmusvillemoes.dk, mgorman@suse.de, mingo@redhat.com,
-	netdev@vger.kernel.org, peter@n8pjl.ca, peterz@infradead.org,
-	rostedt@goodmis.org, saeedm@nvidia.com, tariqt@nvidia.com,
-	tony.luck@intel.com
-Subject: Re: [PATCH 1/1] ice: Change assigning method of the CPU affinity
- masks
-Message-ID: <202302091302.PaJoE0gU-lkp@intel.com>
-References: <20230208153905.109912-1-pawel.chmielewski@intel.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [linux-next:master 9862/11577]
+ drivers/soc/qcom/pmic_glink_altmode.c:418:33: error: 'struct drm_bridge' has
+ no member named 'of_node'
+Message-ID: <202302091343.ZmoXukx8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,107 +48,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208153905.109912-1-pawel.chmielewski@intel.com>
 
-Hi Pawel,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on tnguy-next-queue/dev-queue]
-[also build test ERROR on linus/master v6.2-rc7 next-20230208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Chmielewski/ice-Change-assigning-method-of-the-CPU-affinity-masks/20230208-234144
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20230208153905.109912-1-pawel.chmielewski%40intel.com
-patch subject: [PATCH 1/1] ice: Change assigning method of the CPU affinity masks
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230209/202302091302.PaJoE0gU-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20f513df926fac0594a3b65f79d856bd64251861
+commit: 080b4e24852b1d5b66929f69344e6c3eeb963941 [9862/11577] soc: qcom: pmic_glink: Introduce altmode support
+config: alpha-randconfig-s043-20230209 (https://download.01.org/0day-ci/archive/20230209/202302091343.ZmoXukx8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/33971c3245ae75900dbc4cc9aa2b76ff9cdb534c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pawel-Chmielewski/ice-Change-assigning-method-of-the-CPU-affinity-masks/20230208-234144
-        git checkout 33971c3245ae75900dbc4cc9aa2b76ff9cdb534c
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=080b4e24852b1d5b66929f69344e6c3eeb963941
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 080b4e24852b1d5b66929f69344e6c3eeb963941
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/intel/ice/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/soc/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302091302.PaJoE0gU-lkp@intel.com
+| Link: https://lore.kernel.org/oe-kbuild-all/202302091343.ZmoXukx8-lkp@intel.com
+
+Note: the linux-next/master HEAD 20f513df926fac0594a3b65f79d856bd64251861 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_base.c:662:23: error: no member named 'numa_node' in 'struct device'
-           int numa_node = dev->numa_node;
-                           ~~~  ^
->> drivers/net/ethernet/intel/ice/ice_base.c:678:2: error: implicit declaration of function 'for_each_numa_hop_mask' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           for_each_numa_hop_mask(aff_mask, numa_node) {
-           ^
->> drivers/net/ethernet/intel/ice/ice_base.c:678:45: error: expected ';' after expression
-           for_each_numa_hop_mask(aff_mask, numa_node) {
-                                                      ^
-                                                      ;
-   3 errors generated.
+   drivers/soc/qcom/pmic_glink_altmode.c: In function 'pmic_glink_altmode_sc8180xp_notify':
+   drivers/soc/qcom/pmic_glink_altmode.c:223:13: warning: variable 'svid' set but not used [-Wunused-but-set-variable]
+     223 |         u16 svid;
+         |             ^~~~
+   drivers/soc/qcom/pmic_glink_altmode.c: In function 'pmic_glink_altmode_probe':
+>> drivers/soc/qcom/pmic_glink_altmode.c:418:33: error: 'struct drm_bridge' has no member named 'of_node'
+     418 |                 alt_port->bridge.of_node = to_of_node(fwnode);
+         |                                 ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for QCOM_QMI_HELPERS
+   Depends on [n]: NET [=n]
+   Selected by [m]:
+   - QCOM_PDR_HELPERS [=m]
 
 
-vim +662 drivers/net/ethernet/intel/ice/ice_base.c
+vim +418 drivers/soc/qcom/pmic_glink_altmode.c
 
-   650	
-   651	/**
-   652	 * ice_vsi_alloc_q_vectors - Allocate memory for interrupt vectors
-   653	 * @vsi: the VSI being configured
-   654	 *
-   655	 * We allocate one q_vector per queue interrupt. If allocation fails we
-   656	 * return -ENOMEM.
-   657	 */
-   658	int ice_vsi_alloc_q_vectors(struct ice_vsi *vsi)
-   659	{
-   660		cpumask_t *aff_mask, *last_aff_mask = cpu_none_mask;
-   661		struct device *dev = ice_pf_to_dev(vsi->back);
- > 662		int numa_node = dev->numa_node;
-   663		u16 v_idx, cpu = 0;
-   664		int err;
-   665	
-   666		if (vsi->q_vectors[0]) {
-   667			dev_dbg(dev, "VSI %d has existing q_vectors\n", vsi->vsi_num);
-   668			return -EEXIST;
-   669		}
-   670	
-   671		for (v_idx = 0; v_idx < vsi->num_q_vectors; v_idx++) {
-   672			err = ice_vsi_alloc_q_vector(vsi, v_idx);
-   673			if (err)
-   674				goto err_out;
-   675		}
-   676	
-   677		v_idx = 0;
- > 678		for_each_numa_hop_mask(aff_mask, numa_node) {
-   679			for_each_cpu_andnot(cpu, aff_mask, last_aff_mask)
-   680				if (v_idx < vsi->num_q_vectors) {
-   681					if (cpu_online(cpu))
-   682						cpumask_set_cpu(cpu, &vsi->q_vectors[v_idx]->affinity_mask);
-   683					v_idx++;
-   684				}
-   685			last_aff_mask = aff_mask;
-   686		}
-   687	
-   688		return 0;
-   689	
-   690	err_out:
-   691		while (v_idx--)
-   692			ice_free_q_vector(vsi, v_idx);
-   693	
-   694		dev_err(dev, "Failed to allocate %d q_vector for VSI %d, ret=%d\n",
-   695			vsi->num_q_vectors, vsi->vsi_num, err);
-   696		vsi->num_q_vectors = 0;
-   697		return err;
-   698	}
-   699	
+   366	
+   367	static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+   368					    const struct auxiliary_device_id *id)
+   369	{
+   370		struct pmic_glink_altmode_port *alt_port;
+   371		struct pmic_glink_altmode *altmode;
+   372		struct typec_altmode_desc mux_desc = {};
+   373		const struct of_device_id *match;
+   374		struct fwnode_handle *fwnode;
+   375		struct device *dev = &adev->dev;
+   376		u32 port;
+   377		int ret;
+   378	
+   379		altmode = devm_kzalloc(dev, sizeof(*altmode), GFP_KERNEL);
+   380		if (!altmode)
+   381			return -ENOMEM;
+   382	
+   383		altmode->dev = dev;
+   384	
+   385		match = of_match_device(pmic_glink_altmode_of_quirks, dev->parent);
+   386		if (match)
+   387			altmode->owner_id = (unsigned long)match->data;
+   388		else
+   389			altmode->owner_id = PMIC_GLINK_OWNER_USBC_PAN;
+   390	
+   391		INIT_WORK(&altmode->enable_work, pmic_glink_altmode_enable_worker);
+   392		init_completion(&altmode->pan_ack);
+   393		mutex_init(&altmode->lock);
+   394	
+   395		device_for_each_child_node(dev, fwnode) {
+   396			ret = fwnode_property_read_u32(fwnode, "reg", &port);
+   397			if (ret < 0) {
+   398				dev_err(dev, "missing reg property of %pOFn\n", fwnode);
+   399				return ret;
+   400			}
+   401	
+   402			if (port >= ARRAY_SIZE(altmode->ports)) {
+   403				dev_warn(dev, "invalid connector number, ignoring\n");
+   404				continue;
+   405			}
+   406	
+   407			if (altmode->ports[port].altmode) {
+   408				dev_err(dev, "multiple connector definition for port %u\n", port);
+   409				return -EINVAL;
+   410			}
+   411	
+   412			alt_port = &altmode->ports[port];
+   413			alt_port->altmode = altmode;
+   414			alt_port->index = port;
+   415			INIT_WORK(&alt_port->work, pmic_glink_altmode_worker);
+   416	
+   417			alt_port->bridge.funcs = &pmic_glink_altmode_bridge_funcs;
+ > 418			alt_port->bridge.of_node = to_of_node(fwnode);
+   419			alt_port->bridge.ops = DRM_BRIDGE_OP_HPD;
+   420			alt_port->bridge.type = DRM_MODE_CONNECTOR_USB;
+   421	
+   422			ret = devm_drm_bridge_add(dev, &alt_port->bridge);
+   423			if (ret)
+   424				return ret;
+   425	
+   426			alt_port->dp_alt.svid = USB_TYPEC_DP_SID;
+   427			alt_port->dp_alt.mode = USB_TYPEC_DP_MODE;
+   428			alt_port->dp_alt.active = 1;
+   429	
+   430			mux_desc.svid = USB_TYPEC_DP_SID;
+   431			mux_desc.mode = USB_TYPEC_DP_MODE;
+   432			alt_port->typec_mux = fwnode_typec_mux_get(fwnode, &mux_desc);
+   433			if (IS_ERR(alt_port->typec_mux))
+   434				return dev_err_probe(dev, PTR_ERR(alt_port->typec_mux),
+   435						     "failed to acquire mode-switch for port: %d\n",
+   436						     port);
+   437	
+   438			ret = devm_add_action_or_reset(dev, pmic_glink_altmode_put_mux,
+   439						       alt_port->typec_mux);
+   440			if (ret)
+   441				return ret;
+   442	
+   443			alt_port->typec_switch = fwnode_typec_switch_get(fwnode);
+   444			if (IS_ERR(alt_port->typec_switch))
+   445				return dev_err_probe(dev, PTR_ERR(alt_port->typec_switch),
+   446						     "failed to acquire orientation-switch for port: %d\n",
+   447						     port);
+   448	
+   449			ret = devm_add_action_or_reset(dev, pmic_glink_altmode_put_switch,
+   450						       alt_port->typec_switch);
+   451			if (ret)
+   452				return ret;
+   453		}
+   454	
+   455		altmode->client = devm_pmic_glink_register_client(dev,
+   456								  altmode->owner_id,
+   457								  pmic_glink_altmode_callback,
+   458								  pmic_glink_altmode_pdr_notify,
+   459								  altmode);
+   460		return PTR_ERR_OR_ZERO(altmode->client);
+   461	}
+   462	
 
 -- 
 0-DAY CI Kernel Test Service
