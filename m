@@ -1,55 +1,51 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA9036B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 02:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA20F627
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 02:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675910540; x=1707446540;
+  t=1675910649; x=1707446649;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=EsGt0jX4Wk+EbgD3pyezXQBcnlsh8tm2nP6wpGFCRg0=;
-  b=NeYEJy7OlEYAYQnTntT/DgBUNjgBiujMIHgc+UEnAgvHf5rnE3PXoHj6
-   kAj3HRWyABZdzyvnB1ezZY2oSoXuc2MS6pTgsDjXXm0WR3UZLQ9xWsxn2
-   tQXJMeHqqfdeXtrK8iab/+ToNI+AhdcyT/ZS+I6ImkkZJZUrgcG5tL6Wm
-   jgMPjrVz2FORWvnTi82CFsdkaPrjKYwM+Eg1hT7kNXy/zQZVM4R8AAKRx
-   +6k8FY4VE/PmX7iT92laRIGePg99zyvXNXG0TdymOPZEkSvKAtcLk9Hkf
-   xr8imYvtS5zvOmVywyP0iiNpsFuIK9Au/tYskcBNSkCIlM2Ju44oR56qc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="309642604"
+  bh=5tLMdc5PAVqdBIsCHaUEEIqEbY5XqX5F5n6ayn/X0WM=;
+  b=QrhXjNhB9F4Q8GmMV9kZ/XXYOkFt1aYtuKvzCd46LQRC6V928F+Fr/EB
+   SGnLAsSMcsZ9Lg2yu/Y23DklD7LHaFmubrASNgcQsNoztXpQaMkee1Z1s
+   ZI/Vl0bxIU66guHrPY+oaKVTNpfAhxmkz5s8LD0qfZY91fZ2mpABLRPL6
+   D3YjfDQh3zs7nYoehptBefLd2tz+GmqzBD9QvW7z0A09VXGiVXK2/gJav
+   WzDqXKvYJpsIB/2lJmxN2CQYBgBxmGRbS7tpS6v6bY7djXLVqCw4ufpzT
+   kvIkMs3sa2HfqrU/y6KVG1bh760TlV196YaUhamADwKSvE2NkWDlA8byR
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="309642856"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="309642604"
+   d="scan'208";a="309642856"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 18:42:18 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 18:44:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="667475862"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="667475989"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="667475862"
+   d="scan'208";a="667475989"
 Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga002.jf.intel.com with ESMTP; 08 Feb 2023 18:42:18 -0800
+  by orsmga002.jf.intel.com with ESMTP; 08 Feb 2023 18:44:08 -0800
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 8 Feb 2023 18:42:17 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ 15.1.2507.16; Wed, 8 Feb 2023 18:44:08 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 8 Feb 2023 18:42:17 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 8 Feb 2023 18:42:17 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ 15.1.2507.16 via Frontend Transport; Wed, 8 Feb 2023 18:44:08 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
  by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 8 Feb 2023 18:42:16 -0800
+ 15.1.2507.16; Wed, 8 Feb 2023 18:44:07 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W7huqkXt8bJJgoJnrHhdoDLt8QAWNzBcWEBkUlhoRZnl6uMAiVc6Gzh3yr13SB1aduQQo6rS46goHZ79kw6GaI8faQ7Lq8cOh280OvKDvWMfp3778j791j63pXq7WqCxeICjsN4oFQvI3JOf8+6WtLX5570jc+sOKgdR0ts+4GmnTPb3pEH0BZADx5uTUfuJXZu0AlMsIWDjS+0DAJ6oApbXtwTAyJXDjdgPtaO37vQ18xWQbA9GFkdqDmPhowvuiS5KlGy2ZI082WdFqlSl/gi8TCRX4ftzG4wx530nOS2Pek1sMGgYLY+vaANBszjirZ7r6ad4KNwrjMYVTR3X6g==
+ b=eR+4ELTCEhG4VdSN10AfaTsEfA38ekWVA+n5ugccvF9ndJC+nBtbcQKVUvrwmNNeQZ1thkhMm+N4vfYJqgqmZdVtIPVXQtLZ+ikOvS6+U7nlnNDOjZON4xtzEck4aQnLjrQrqXdjHGAYQR8SfuogKNYGZvpZGHwxHzvCvBPFbzppk6lj5dJ07d2tmo2aaFWmK0vAP5AwmUEiXFUmm/ha100hRUrY/HXtlVY2bCpXNH5Iqau0uNLfuQRW8lL5iAA/Ykyf+WV65NKc2m8UGXcQESiCRr9/nQNhOYkSr1BPVjfxzDbsV7rjUU0oI+uYuOxPfIM8PzSZOpH8VDX4M/ambg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zum2Je+Od/5ByIuitnKK4TeY6mNZ6Ba0Sc55avvQ5eo=;
- b=l/TXrHEk3SmtYDBOVMR7KRN6Nr+C/F1r2KSLjXKS06LK+32XOE9YTE/RDLcmh+E24jWDvomRQmnC9lb4DvgBMbWubsW0kUkl+StYGval9SnshcTo3Go5+n1mTSlgaYUd2G4pAiiTCc55uFtTsfFCaV4rSy3F93QUoOZ+pB0e7HAJN80iSlfxDSXYjgjOAZGCOkQ7JCdxTkxMoLG4VcWL0G8nCgn3j4S2g9h2+4a/RI48/xUqFXsD4RFRIOXLpcunxQeG0FywoFEGTYmKI5Udb4MFH/EcOrKq5tNlCIHQ24qVu1nGjmPImbwBLmGetAN8DTCL15zPVoJg04PD65mmJQ==
+ bh=+fRYA4e13JKkvk16MccroNn6S5E2k+/h6RC5frvi9ew=;
+ b=CcTXsai7T+Vifn440QiLStx+Bu2ZPxcgIg0mkyYYdxgL04DAxzj9Mc4W909TjmRmMY+vIeLmnENKzGtglcmWutJNKyWWfpYzQNmU5S9pMNKGYmfRGdRVbvibVwuYX8lZnPfGushViSMpZXJFSOL5XF2g4vmpko1suaYA6X0xiyQ6E+0Ur4O/q2zc3fAWFHBYzjXBs9sTtr22bdGWmZrjCtWnfa9h2X9c0oZHBfASqMgZ0lv0SPsecockn9TzKDfIp5buiWIYSHyPyLrpRd4eFD1uZ9jpwTM7VRu1fkGRbjB98bz47lBdNg7VOqEkyCCtgU8w4598RqvoFKP6c+ck9w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -59,35 +55,26 @@ Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
  by CH3PR11MB7841.namprd11.prod.outlook.com (2603:10b6:610:121::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Thu, 9 Feb
- 2023 02:42:03 +0000
+ 2023 02:44:03 +0000
 Received: from BL0PR11MB2995.namprd11.prod.outlook.com
  ([fe80::66b1:16ec:b971:890c]) by BL0PR11MB2995.namprd11.prod.outlook.com
  ([fe80::66b1:16ec:b971:890c%4]) with mapi id 15.20.6064.034; Thu, 9 Feb 2023
- 02:42:03 +0000
-Date: Thu, 9 Feb 2023 10:41:33 +0800
+ 02:44:03 +0000
+Date: Thu, 9 Feb 2023 10:43:45 +0800
 From: Philip Li <philip.li@intel.com>
 To: kernel test robot <lkp@intel.com>
-CC: Pawel Chmielewski <pawel.chmielewski@intel.com>, <yury.norov@gmail.com>,
-	<oe-kbuild-all@lists.linux.dev>, <Jonathan.Cameron@huawei.com>,
-	<andriy.shevchenko@linux.intel.com>, <baohua@kernel.org>,
-	<bristot@redhat.com>, <bsegall@google.com>, <davem@davemloft.net>,
-	<dietmar.eggemann@arm.com>, <gal@nvidia.com>, <gregkh@linuxfoundation.org>,
-	<hca@linux.ibm.com>, <jacob.e.keller@intel.com>,
-	<jesse.brandeburg@intel.com>, <jgg@nvidia.com>, <juri.lelli@redhat.com>,
-	<kuba@kernel.org>, <leonro@nvidia.com>, <linux-crypto@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<linux@rasmusvillemoes.dk>, <mgorman@suse.de>, <mingo@redhat.com>,
-	<netdev@vger.kernel.org>, <peter@n8pjl.ca>, <rostedt@goodmis.org>,
-	<saeedm@nvidia.com>, <tariqt@nvidia.com>, <tony.luck@intel.com>
-Subject: Re: [PATCH 1/1] ice: Change assigning method of the CPU affinity
- masks
-Message-ID: <Y+RdXYlTKydr3L4I@rli9-mobl>
-References: <20230208153905.109912-1-pawel.chmielewski@intel.com>
- <202302090307.GQOJ4jik-lkp@intel.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>, <linux-acpi@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<rafael@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+	<heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
+Message-ID: <Y+Rd4d11fYSJbkSK@rli9-mobl>
+References: <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
+ <202302090459.kIM95vle-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <202302090307.GQOJ4jik-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0174.apcprd04.prod.outlook.com (2603:1096:4::36)
+In-Reply-To: <202302090459.kIM95vle-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
  To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -97,162 +84,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|CH3PR11MB7841:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa7553bb-a9f1-495c-8878-08db0a47396c
+X-MS-Office365-Filtering-Correlation-Id: bfc0f563-9e2b-4dcb-cac6-08db0a4780ea
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: upmY1wdqvZt4EYrPKQiijVoEvYyPVVQAlezM4Spr9jMxi0Ze1Ig+NEI5BKJVNL7K9eVfeL3gsgQrv+FgUoJeaYAqv3h+1R6P9gbW8URfNEKYtRpqez5RFPHR8cbdNbtTu1EohzWq4LKNT+JfCLvPW/pLkB4DpzhkBLW4NYS3x9AfBOLnpyK2xm8yHsn+UnHE11gkfS2VmJjoy9wZw7+pQ6RluKAs1FvpmJpel27Qqj1JykV4vgTxQJy7GXQBIsO14IQRXdznE3qCrTBQ80UAnymFZ6MOPq1EwcZTQZG8ZCXTPvuX4pmXdJX4CFIeY1+NH4erilvQozTpVji6NxIpx8n6A2aNT2NqmsWrN23BAd/yIiKGg5P9hiXaIvzWEAtwHaT+hKgU7o+kN5Ed28l4+yT7BOJSrge+1S0u/lUi/dNkkFLxR4Ivrv1kcpLOGfjPnDzRuTfhlT2jXmDf7NXGEEpy6contT1lCuX+LKVGYlyQWJIjYTEz4cbFKsem67x/3/Cu8lSdZO2Y0A/BnnzUiHsH1gn657tJy43fblKVaYabdqftM66Lpfxd7kotIW2Z2W0/GviN+tklVjasqizcDiuKkeRb529hTeSiBtXrFpXwTgMdz2BZOKom3+1j1zSHk/v27Hn7ozjzAFCkhiYNANnA1GaCKmCpCneAkHPNTtEtx0QxeXMN65Eo5C01VdNPCJ6GjJ+rHoVpfMJqS6WU5kfaPnOw1AGSuiujcv1P9JhpRdU88lMEpnmUW9ovlc0qgAPxpbPwHA1BYxgTMCmZmQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(376002)(396003)(39860400002)(136003)(366004)(346002)(451199018)(6506007)(966005)(9686003)(478600001)(6486002)(186003)(6512007)(26005)(6666004)(6636002)(316002)(83380400001)(66476007)(66946007)(66556008)(82960400001)(38100700002)(8676002)(4326008)(2906002)(8936002)(41300700001)(44832011)(86362001)(7416002)(5660300002)(33716001)(6862004)(67856001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: c/TRR93k+6KuzZAJR2YFBSNzvmXM5xH6IzUPb4PKYYJ7aida8Cl9LKGyJRZoNJzWnUSVYT1OE8+dM+UQ60sjpGOICOwwbKfVKPqrMwQ0/yCTcu0rhK7uHKML3NLNCnLw12dL0M95znFBiT7/qHx4ZeZ3hW6YQAtj2S2GbC0jiOE3tYwdZWpmmI6WUf62aZPJuyyppaxUShlZVVUiAECV6cvs1yOU8U0RtaLiS8lqDgVJrV4vmM/ffmHrRPf9FV4EP3kAU2ahbyiomeYARYi8x9OIpHvf3xqbpiSfrbM8SHkpCV6dUmZPQBhcOciJKMA4Poq4RJa17QFyXZO+R/PEWoA4EPPffmcZfvBOdfQYmg0ANXw6akqo4GUDY+bbD4/ilng8DkpgHXa50wxD47hD7216J/hXDDwkcNmmBcMXrJol/GeiaxBTsIKs8p7lL1XwEvpyKwkBe16l6lnGmb8wAvXen98V4gXzhyGKEnAcau5z5FkUZZhjxVisNpXmQ2O/FL3U36DMJJRK2fcvVyka51wZ7RjVEe/WLhYRc1iT0uZQYiFnCz2ctcQ28l95AxGA1mw6ReJ/EC95o0aEX4Sy9TnHWnigqUeHaPsHdZT0+v+1fAF7K1vnsxvkuZOlxKqSMnt7oEWPOYAQCp5+eOBXEEAUgWkjMcTSw9zXU2w5q26zFz/2YpKATA2rnntu4HfS1BStE/o9krUgHZOJsIR3GDUuDJ2ilYnJceWvyXABxNG3tLG3Awhd6V44zAiuR83kvB7dcu3s5cSo1VB+ryPUmg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(376002)(396003)(39860400002)(136003)(366004)(346002)(451199018)(6506007)(966005)(9686003)(478600001)(6486002)(186003)(6512007)(26005)(6666004)(6636002)(316002)(83380400001)(66476007)(66946007)(66556008)(82960400001)(38100700002)(8676002)(4326008)(2906002)(8936002)(41300700001)(44832011)(86362001)(5660300002)(33716001)(6862004)(67856001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rbdlx1izitRJLUh+reEIaL9YaxPhQ9M2Rp9OmSjEW97YmgOWdrq9Po4OdaqT?=
- =?us-ascii?Q?AkYn4UYKpF71GbybDtE8DBEQ9yQ6RfgH8RsQfcWqfgNrITp0kUDYiJszzFH5?=
- =?us-ascii?Q?RSKDTrcqo21+T2kS7qYMjUL694UYU64It34NFGTdveKgYL+2bC5eIG2+Ebdt?=
- =?us-ascii?Q?gdZIT1dd9SWzSa7/nJVhE/73NQFZkkbmUmqLsEGuWk7n24qT1azfTrigHpMZ?=
- =?us-ascii?Q?OuJGvTHoQS7IciOOW6pYnGqt9zG6A64SxxGiv8TOXSvxpN2rjmlB364dlyy7?=
- =?us-ascii?Q?4b/sEPTc2JWfuCbQ9ERYMv48XlnAUkWYNZE24ze+SGuf2+VWxp5Bu3jWxDc7?=
- =?us-ascii?Q?BxiVHK0yYP5DNCyb/DPvaAl68Bs69PHcpS6abxWIUEquiYZLEC7mFAdTOqTO?=
- =?us-ascii?Q?iGT9MDvXLp0KqLrqhesH5xNk5OQHmRBy7XAU5BqPPshODjW/+cTqKwc02Fx+?=
- =?us-ascii?Q?CzTeGAUPpRoxQb+/Zvz7XApr147q7jppnYbJR79uCXkWa10yLJFzXEsT6vK0?=
- =?us-ascii?Q?qhWA5xrhdxemtSoj3GqgVUL2M4iQzs3Kjkl0vYVGFZNZ795EcZ8uFxeNgCU1?=
- =?us-ascii?Q?JUAr3GEYtwWp1nUIlxiZpMemcFwQchtZLuOYsc7l4XW/KdoVntnejf54rcPz?=
- =?us-ascii?Q?JL9FMJ3PKuDzswu5uasWzFJkn7U2WI4l7nz2nRGc0G4nxtQc6GBFtL/Ha4WJ?=
- =?us-ascii?Q?wtWGVj1x9oWl0uTaWh5NTZ9fBDwZfTk6PhxjiWiRJOmDRf+mguOqvJ9j4cDs?=
- =?us-ascii?Q?60Gckxsf0sLnN5ILUmMrNolGYxy79hBSUos3OocnvhGzi7n++3+Y8s4lw3nl?=
- =?us-ascii?Q?zNxhiTDaI6tC4ZuEWseDBubI4OWFF0TQxct4jU9Iys/XdFVRYRFiEZ7JbrXe?=
- =?us-ascii?Q?r437e+wz0PCla4Dd5z3+AXDwaDJrugXIthFBxfxczoCq72T6faSXLEYrKzpG?=
- =?us-ascii?Q?YKsSZLxIO4lR1OZP1sUYUEdAQ7YCqi+4s5Y8phIRFJlGIYbJAZdcdj1yMfQ8?=
- =?us-ascii?Q?90+fCdOKMSvU816w2sn2Wv+K1ZT+dS8UYzsySL8MWTyHeLYM2g1jCuGp59II?=
- =?us-ascii?Q?QdOqDysF39vpDMGi5nZ5Hqy+pzU8FUVqhcj2E9PuvextTgCVb79aepmQiZ7w?=
- =?us-ascii?Q?ycqBZ6chC1hbgHPcl7ukVOb9HlSXwKyqJ1Gn8lfiElHiPrhwKWy4ajP4hKGz?=
- =?us-ascii?Q?8fh219MrCp1zZzxd7yoBquRPmvLXO0tSxjy6mASfVd99h7X6i8/TFWotEEJQ?=
- =?us-ascii?Q?mVO0qtFmRfk27iHKBju5eV6h9QeCpduXXWWRfGiqckGZ0IxWtkQ+/bKH9Nm4?=
- =?us-ascii?Q?7mIRx8nZRNjZkJKx3ajhqfsC2A38+7NFu3Jf9hOlNUKjHT/FMJ9b5GBZWtcg?=
- =?us-ascii?Q?/qb+txsd59x4AwbMdnAoOb90F+kVRJ7TWe0ZqY/FowUfmhSDU+1dY0ZQOpp2?=
- =?us-ascii?Q?j8cE46Uuk+Ul2yl+m0PJ+n9g83+xladb46aKmm5NCljxdPaXKHwiLE5LAO07?=
- =?us-ascii?Q?iHUYmCOf4wSnIw0uGz/XlZ3TUfbkH8TvDCCclm01rSdjRStPDcXvT1/T2VbF?=
- =?us-ascii?Q?jZ2TjO2AVu8Zgs2fSWbOXu3fmriIGnCheDIt0JYaYIUYmGCgkK+adAic4E7e?=
- =?us-ascii?Q?gw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa7553bb-a9f1-495c-8878-08db0a47396c
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uGDqVsXMb9oN1Qh0KaEs+QyfmXwhoZNoWI/o34RJALJNaLKJ6RoShKcSuO7c?=
+ =?us-ascii?Q?ZGLM3U/X5YqEVhkPKG6vCNvdB/AxwVva0TsY+TzH6+JKHg33RI2H4H4ZdS42?=
+ =?us-ascii?Q?lyC2j1RBOLALjWSDBPMnczlF/L3bSF7ZTw5plZt+7eQxcY4qQaNR4euwA/mO?=
+ =?us-ascii?Q?5r743KZsaPgge7jrY2lNk6JrsEZ6Yno+bTmKSYvHQOS4wUPFnJ4BQQiw+wm4?=
+ =?us-ascii?Q?6JmTRnjyCfe4qJKKeJAusRebpbZH1CXheu773oPQgrjr1wb+b9DurZUXPKKy?=
+ =?us-ascii?Q?dbB4b5qRoKBT4qhI4gH+Dcryhodq1RYnw4FyoFV8R+s1MtbwLKU00MzM51PB?=
+ =?us-ascii?Q?CTzPmsgIlj1CUZMidGllTZn8L0uDoVolzpGtTTxJE4V9byaRaLz5WNKWYEt1?=
+ =?us-ascii?Q?GxBVoqEA6wM03vS2l30GscKaH783yyW1akflMiIonPbFly/SXUQg7vZ/0ipw?=
+ =?us-ascii?Q?L55b2MiPvW3RWmlPxOfRUTxPOei7c3LV39K/lm18lwfoHVikGAaATnuQ4e0r?=
+ =?us-ascii?Q?UXZ5B0OFYv3nelKZMxyJxZfJgtG9Xh47JTgyUTJZKNI/tNbN/eDgE6SUWEXz?=
+ =?us-ascii?Q?V8xCuM0LAVD1IKssyvPBXH7dcaSvDtGV6EErVy2QWVB1TX+xaZJpUDV5cH/Y?=
+ =?us-ascii?Q?Dp425NfHl+RQsbBgYpS/UEQaNa79MW93FwixZ9yBAZ+uVozn9dbcAKhId2lY?=
+ =?us-ascii?Q?MbfGIDC9k/uovEWYiJWvhH6oJapvZa1JTSsxjP4r1rDqp/+IUdBkM6vsPaAA?=
+ =?us-ascii?Q?WCqB3CVO+TaKSrDy13hbp9lHkfplfVkTegmyjw+jNWpATN/2tcSXWy18vM6Z?=
+ =?us-ascii?Q?1yZ9WHkr8erCDLZIDmPHU0OMxweV6c84MRMDbOGXO/IF2ddM2JG+8nHn+5xS?=
+ =?us-ascii?Q?3q2lHBBI5WFsIhqzclYZ/YrbRUzEXTIErosrIVifKaq+l4/h/2quSqPsEtkQ?=
+ =?us-ascii?Q?uWEbXxZRxSXmTcfHFX/rwUE7rDQ/IIrTRcEUQWQpOWDRPJO4K4EZA1H19/CF?=
+ =?us-ascii?Q?Ia6iWgXrtYUVrj3JdWNMxQBsBqmfLrc22+Z/ngmy6ggYGjxQKArGMSuWBOc6?=
+ =?us-ascii?Q?2s5n2ETgrs2M7unpFyggHLXasKBTygeuO3G+tz6W3IrKBxwqhvHPXb+xe/oQ?=
+ =?us-ascii?Q?iiXhSq0d7Ht+ydf2zlZOrXtG/U/rnVP0KfA36h/7aIL/p2u+UwBrv4hpWqBj?=
+ =?us-ascii?Q?W644cyob23LkQ/CWkMX7P3SEtj5WwDf2lDXz2L0ozLlG34CwRrB0natMrfOg?=
+ =?us-ascii?Q?q4i/BJ/3/o3nddcsjKZOJywiYR6l6ZAj1r6fO4qyZSqmHTGh/NwIsGBXGQyG?=
+ =?us-ascii?Q?G5t84P05Gnc/Dueh3v1EpMFZXmurjfHCTEFboyQUncMhUwpD78/x+86HGMyz?=
+ =?us-ascii?Q?nnI3oFJoTdTMHWBP2aSM57GsbsVGJYLCbKfAfWd5L94kIRoNpJNMcBopjuu8?=
+ =?us-ascii?Q?YprVb88VbJCcoYZAH5vcF51fv2pZBIPHBWbRgcvD32IswzZT84DyLGYo+KmO?=
+ =?us-ascii?Q?GNNCvo9zDa4vvjclAyyrsR3U8+ysTkRVqy/4oPYdZsxHSjBjyDB8Bb7D8q6F?=
+ =?us-ascii?Q?EE1ZMBg41C6C3NEX2ZbO8UAwQvcTfc4ROMmQH5o2yNxVm2agsp6p9CVsdlQ8?=
+ =?us-ascii?Q?eQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfc0f563-9e2b-4dcb-cac6-08db0a4780ea
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 02:42:03.0270
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 02:44:03.3945
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lx/SknOy65a3Hlnp2mWCI0M7v2TpfcePyLHVzi+kNhYsdTiTK7kllrCWjGLDFMaqP2hfD/f/miSBc2bnratpzA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6MtfHn4PDDA2fgleLzOmCQkqxqBM2GkSuHhV18AAS7KfAQ/Q5fEuaLDdT83Za5WczIWyxl7BHGXxZR3Df+B+Hw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7841
 X-OriginatorOrg: intel.com
 
-On Thu, Feb 09, 2023 at 03:11:55AM +0800, kernel test robot wrote:
-> Hi Pawel,
+On Thu, Feb 09, 2023 at 05:04:11AM +0800, kernel test robot wrote:
+> Hi Sakari,
 > 
-> Thank you for the patch! Perhaps something to improve:
+> I love your patch! Perhaps something to improve:
 > 
-> [auto build test WARNING on tnguy-next-queue/dev-queue]
-> [also build test WARNING on linus/master v6.2-rc7]
+> [auto build test WARNING on rafael-pm/linux-next]
+> [also build test WARNING on sailus-media-tree/streams linus/master v6.2-rc7 next-20230208]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Chmielewski/ice-Change-assigning-method-of-the-CPU-affinity-masks/20230208-234144
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-> patch link:    https://lore.kernel.org/r/20230208153905.109912-1-pawel.chmielewski%40intel.com
-> patch subject: [PATCH 1/1] ice: Change assigning method of the CPU affinity masks
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230209/202302090307.GQOJ4jik-lkp@intel.com/config)
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230208-233112
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+> patch link:    https://lore.kernel.org/r/20230208152807.3064242-3-sakari.ailus%40linux.intel.com
+> patch subject: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
+> config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230209/202302090459.kIM95vle-lkp@intel.com/config)
 > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 > reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/33971c3245ae75900dbc4cc9aa2b76ff9cdb534c
+>         # https://github.com/intel-lab-lkp/linux/commit/d78f47f2d5051c50bdcea131da1779ec0fc8e266
 >         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Pawel-Chmielewski/ice-Change-assigning-method-of-the-CPU-affinity-masks/20230208-234144
->         git checkout 33971c3245ae75900dbc4cc9aa2b76ff9cdb534c
+>         git fetch --no-tags linux-review Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230208-233112
+>         git checkout d78f47f2d5051c50bdcea131da1779ec0fc8e266
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
 >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/
+>         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/
 > 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/20230208153905.109912-1-pawel.chmielewski@intel.com
+> | Link: https://lore.kernel.org/oe-kbuild-all/20230208152807.3064242-3-sakari.ailus@linux.intel.com
 
-Sorry that the link is wrong, which should be
-
-	Link: https://lore.kernel.org/oe-kbuild-all/202302090307.GQOJ4jik-lkp@intel.com/
+Sorry that the link is wrong, it should be
+	Link: https://lore.kernel.org/oe-kbuild-all/202302090459.kIM95vle-lkp@intel.com/
 
 > 
 > All warnings (new ones prefixed by >>):
 > 
->    drivers/net/ethernet/intel/ice/ice_base.c: In function 'ice_vsi_alloc_q_vectors':
->    drivers/net/ethernet/intel/ice/ice_base.c:678:9: error: implicit declaration of function 'for_each_numa_hop_mask'; did you mean 'for_each_node_mask'? [-Werror=implicit-function-declaration]
->      678 |         for_each_numa_hop_mask(aff_mask, numa_node) {
->          |         ^~~~~~~~~~~~~~~~~~~~~~
->          |         for_each_node_mask
->    drivers/net/ethernet/intel/ice/ice_base.c:678:52: error: expected ';' before '{' token
->      678 |         for_each_numa_hop_mask(aff_mask, numa_node) {
->          |                                                    ^~
->          |                                                    ;
-> >> drivers/net/ethernet/intel/ice/ice_base.c:663:20: warning: unused variable 'cpu' [-Wunused-variable]
->      663 |         u16 v_idx, cpu = 0;
->          |                    ^~~
-> >> drivers/net/ethernet/intel/ice/ice_base.c:660:31: warning: unused variable 'last_aff_mask' [-Wunused-variable]
->      660 |         cpumask_t *aff_mask, *last_aff_mask = cpu_none_mask;
->          |                               ^~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
+> >> drivers/acpi/mipi.c:205:6: warning: no previous prototype for 'acpi_crs_csi2_alloc_fill_swnodes' [-Wmissing-prototypes]
+>      205 | void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
 > 
-> vim +/cpu +663 drivers/net/ethernet/intel/ice/ice_base.c
+> vim +/acpi_crs_csi2_alloc_fill_swnodes +205 drivers/acpi/mipi.c
 > 
->    650	
->    651	/**
->    652	 * ice_vsi_alloc_q_vectors - Allocate memory for interrupt vectors
->    653	 * @vsi: the VSI being configured
->    654	 *
->    655	 * We allocate one q_vector per queue interrupt. If allocation fails we
->    656	 * return -ENOMEM.
->    657	 */
->    658	int ice_vsi_alloc_q_vectors(struct ice_vsi *vsi)
->    659	{
->  > 660		cpumask_t *aff_mask, *last_aff_mask = cpu_none_mask;
->    661		struct device *dev = ice_pf_to_dev(vsi->back);
->    662		int numa_node = dev->numa_node;
->  > 663		u16 v_idx, cpu = 0;
->    664		int err;
->    665	
->    666		if (vsi->q_vectors[0]) {
->    667			dev_dbg(dev, "VSI %d has existing q_vectors\n", vsi->vsi_num);
->    668			return -EEXIST;
->    669		}
->    670	
->    671		for (v_idx = 0; v_idx < vsi->num_q_vectors; v_idx++) {
->    672			err = ice_vsi_alloc_q_vector(vsi, v_idx);
->    673			if (err)
->    674				goto err_out;
->    675		}
->    676	
->    677		v_idx = 0;
->  > 678		for_each_numa_hop_mask(aff_mask, numa_node) {
->    679			for_each_cpu_andnot(cpu, aff_mask, last_aff_mask)
->    680				if (v_idx < vsi->num_q_vectors) {
->    681					if (cpu_online(cpu))
->    682						cpumask_set_cpu(cpu, &vsi->q_vectors[v_idx]->affinity_mask);
->    683					v_idx++;
->    684				}
->    685			last_aff_mask = aff_mask;
->    686		}
->    687	
->    688		return 0;
->    689	
->    690	err_out:
->    691		while (v_idx--)
->    692			ice_free_q_vector(vsi, v_idx);
->    693	
->    694		dev_err(dev, "Failed to allocate %d q_vector for VSI %d, ret=%d\n",
->    695			vsi->num_q_vectors, vsi->vsi_num, err);
->    696		vsi->num_q_vectors = 0;
->    697		return err;
->    698	}
->    699	
+>    200	
+>    201	/*
+>    202	 * Allocate memory and set up software nodes for an ACPI device with given
+>    203	 * number of CSI-2 ports.
+>    204	 */
+>  > 205	void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
+>    206	{
+>    207		struct acpi_device_software_nodes *ads;
+>    208		struct crs_csi2_swnodes *swnodes;
+>    209		size_t alloc_size;
+>    210		unsigned int i;
+>    211		bool overflow;
+>    212		void *end;
+>    213	
+>    214		/*
+>    215		 * Allocate memory for ports, node pointers (number of nodes +
+>    216		 * 1 (guardian), nodes (root + number of ports * 2 (for for
+>    217		 * every port there is an endpoint)).
+>    218		 */
+>    219		overflow = check_mul_overflow(sizeof(*ads->ports) +
+>    220					      sizeof(*ads->nodes) * 2 +
+>    221					      sizeof(*ads->nodeptrs) * 2,
+>    222					      ports_count, &alloc_size);
+>    223		overflow = overflow ||
+>    224			   check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
+>    225					      sizeof(*ads->nodeptrs) * 2,
+>    226					      alloc_size, &alloc_size);
+>    227		if (overflow) {
+>    228			acpi_handle_warn(handle,
+>    229					 "too many _CRS CSI2 resource handles (%zu)",
+>    230					 ports_count);
+>    231			return;
+>    232		}
+>    233	
+>    234		swnodes = kzalloc(sizeof(*swnodes), GFP_KERNEL);
+>    235		ads = kzalloc(alloc_size, GFP_KERNEL);
+>    236		ads->ports = (void *)(ads + 1);
+>    237		ads->nodes = (void *)(ads->ports + ports_count);
+>    238		ads->nodeptrs = (void *)(ads->nodes +
+>    239					 ports_count * 2 + 1);
+>    240		end = ads->nodeptrs + ports_count * 2 + 2;
+>    241		if (!swnodes || !ads || WARN_ON((void *)ads + alloc_size != end)) {
+>    242			kfree(swnodes);
+>    243			kfree(ads);
+>    244			acpi_handle_debug(handle,
+>    245					  "cannot allocate for %zu software nodes\n",
+>    246					  ports_count);
+>    247			return;
+>    248		}
+>    249	
+>    250		ads->num_ports = ports_count;
+>    251		for (i = 0; i < ports_count * 2 + 1; i++)
+>    252			ads->nodeptrs[i] = &ads->nodes[i];
+>    253		ads->nodeptrs[i] = NULL;
+>    254		for (i = 0; i < ports_count; i++)
+>    255			ads->ports[i].port_nr = NO_CSI2_PORT;
+>    256		swnodes->handle = handle;
+>    257		swnodes->ads = ads;
+>    258		list_add(&swnodes->list, &crs_csi2_swnodes);
+>    259	}
+>    260	
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
