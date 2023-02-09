@@ -1,46 +1,46 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42CC370;
-	Thu,  9 Feb 2023 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CA279F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 15:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675954306; x=1707490306;
+  t=1675956634; x=1707492634;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QT90vOr/r30zf6GJZ359ruAU9KZMp1cmqnLWwFOqYdc=;
-  b=S9Z4m2L9n+hkboCMXP6pvxytpNXaFNbZh5jogvV+tTYFjp/k9Jd8OC38
-   BU/ASQ0wbGVQ0NjlQz5M+qEdrs8ickst4kiynaN7dpySLlP/0AkRr8bGu
-   k+kgdWwQ0lQGyPb09BDMpXxFU2CWqw3UJYU3L5o4uXQpze1kl6iECR5WZ
-   UwZWn+DzWcylWKpE25Bs2rTWVV/8IM9Cjh5hKFGJupt3zlvVLs1TWVEXd
-   cfDiYTNXHUwfrXgCjn9MS19jtevpEOCSiccwDZ+NSgh7jwSH8s8aG55+/
-   rSpFtFsNvIFgi20BMnIYsMj3yUZyLQZU/8k/5WMIQLb7oktO5ZRLsci/h
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310479072"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="310479072"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 06:51:46 -0800
+  bh=qOfl2BzXQFQWmUA0I1/ePCp+riFd97UKHJAZ2Zo0o50=;
+  b=AS59paWlR03KkdQrPWnV0668m2RvT+es6A8znCbevWhtlt2WQNQFfAwj
+   O7U84t3GSWb2azBhEAqDbn/qOrFZNrfejFPCHgV+YuEzgLRuy4J8FIsDs
+   Xr1kohsEheEZ2aRRUoeaNtVm3pqSXacr1WNhx/oehjbGgQoNp4oNMWU67
+   IhkL0aA5P7zRYeaxsepQ5FRDfIXcHp/88QTeUmHQp1sp2x5+xbtWKdlZx
+   zl57K84bPaagc6W8Yjl7r+1F69Qspmvml8VL8fn3T+M2E2F9fw+JqifNt
+   UaHqW9nnn2BfA8gelWWtdmHRgq5FA0Qh+fIwosqLE6JQILvI2yh9xRRxQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="318150391"
+X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
+   d="scan'208";a="318150391"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 07:21:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="736379244"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="736379244"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="669611643"
+X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
+   d="scan'208";a="669611643"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2023 06:51:44 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2023 07:21:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ8H1-00057e-1D;
-	Thu, 09 Feb 2023 14:51:43 +0000
-Date: Thu, 9 Feb 2023 22:51:08 +0800
+	id 1pQ8k5-00058Q-1e;
+	Thu, 09 Feb 2023 15:21:45 +0000
+Date: Thu, 9 Feb 2023 23:21:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Zqiang <qiang1.zhang@intel.com>, paulmck@kernel.org,
 	frederic@kernel.org, quic_neeraju@quicinc.com,
 	joel@joelfernandes.org, qiuxu.zhuo@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rcu@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] rcu: Keeping rcu-related kthreads running on
  housekeeping CPUS
-Message-ID: <202302092209.AYjmQ4Id-lkp@intel.com>
+Message-ID: <202302092354.9PFOG9CE-lkp@intel.com>
 References: <20230209102730.974465-1-qiang1.zhang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,71 +67,80 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Zqiang/rcu-Keeping-rcu-re
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
 patch link:    https://lore.kernel.org/r/20230209102730.974465-1-qiang1.zhang%40intel.com
 patch subject: [PATCH v2] rcu: Keeping rcu-related kthreads running on housekeeping CPUS
-config: riscv-randconfig-r016-20230209 (https://download.01.org/0day-ci/archive/20230209/202302092209.AYjmQ4Id-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230209/202302092354.9PFOG9CE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/af15a3ade363b21d823918088623f8564cbd9d08
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Zqiang/rcu-Keeping-rcu-related-kthreads-running-on-housekeeping-CPUS/20230209-182311
         git checkout af15a3ade363b21d823918088623f8564cbd9d08
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302092209.AYjmQ4Id-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302092354.9PFOG9CE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    In file included from kernel/torture.c:40:
->> kernel/rcu/rcu.h:509:6: warning: no previous prototype for function 'rcu_tasks_generic_setaffinity' [-Wmissing-prototypes]
-   void rcu_tasks_generic_setaffinity(int cpu) {}
-        ^
-   kernel/rcu/rcu.h:509:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void rcu_tasks_generic_setaffinity(int cpu) {}
-   ^
-   static 
-   1 warning generated.
+>> kernel/rcu/rcu.h:602:6: warning: no previous prototype for 'rcu_kthread_setaffinity' [-Wmissing-prototypes]
+     602 | void rcu_kthread_setaffinity(struct task_struct *tsk, int outgoing) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from kernel/rcu/update.c:49:
+>> kernel/rcu/rcu.h:602:6: warning: no previous prototype for 'rcu_kthread_setaffinity' [-Wmissing-prototypes]
+     602 | void rcu_kthread_setaffinity(struct task_struct *tsk, int outgoing) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/rcu/update.c:649:
+>> kernel/rcu/tasks.h:1970:6: warning: no previous prototype for 'rcu_tasks_generic_setaffinity' [-Wmissing-prototypes]
+    1970 | void rcu_tasks_generic_setaffinity(int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/rcu_tasks_generic_setaffinity +509 kernel/rcu/rcu.h
+vim +/rcu_kthread_setaffinity +602 kernel/rcu/rcu.h
 
-   484	
-   485	#ifdef CONFIG_TINY_RCU
-   486	/* Tiny RCU doesn't expedite, as its purpose in life is instead to be tiny. */
-   487	static inline bool rcu_gp_is_normal(void) { return true; }
-   488	static inline bool rcu_gp_is_expedited(void) { return false; }
-   489	static inline bool rcu_async_should_hurry(void) { return false; }
-   490	static inline void rcu_expedite_gp(void) { }
-   491	static inline void rcu_unexpedite_gp(void) { }
-   492	static inline void rcu_async_hurry(void) { }
-   493	static inline void rcu_async_relax(void) { }
-   494	static inline void rcu_request_urgent_qs_task(struct task_struct *t) { }
-   495	#else /* #ifdef CONFIG_TINY_RCU */
-   496	bool rcu_gp_is_normal(void);     /* Internal RCU use. */
-   497	bool rcu_gp_is_expedited(void);  /* Internal RCU use. */
-   498	bool rcu_async_should_hurry(void);  /* Internal RCU use. */
-   499	void rcu_expedite_gp(void);
-   500	void rcu_unexpedite_gp(void);
-   501	void rcu_async_hurry(void);
-   502	void rcu_async_relax(void);
-   503	void rcupdate_announce_bootup_oddness(void);
-   504	#ifdef CONFIG_TASKS_RCU_GENERIC
-   505	void show_rcu_tasks_gp_kthreads(void);
-   506	void rcu_tasks_generic_setaffinity(int cpu);
-   507	#else /* #ifdef CONFIG_TASKS_RCU_GENERIC */
-   508	static inline void show_rcu_tasks_gp_kthreads(void) {}
- > 509	void rcu_tasks_generic_setaffinity(int cpu) {}
-   510	#endif /* #else #ifdef CONFIG_TASKS_RCU_GENERIC */
-   511	void rcu_request_urgent_qs_task(struct task_struct *t);
-   512	#endif /* #else #ifdef CONFIG_TINY_RCU */
-   513	
+   588	
+   589	#ifdef CONFIG_TINY_RCU
+   590	static inline bool rcu_dynticks_zero_in_eqs(int cpu, int *vp) { return false; }
+   591	static inline unsigned long rcu_get_gp_seq(void) { return 0; }
+   592	static inline unsigned long rcu_exp_batches_completed(void) { return 0; }
+   593	static inline unsigned long
+   594	srcu_batches_completed(struct srcu_struct *sp) { return 0; }
+   595	static inline void rcu_force_quiescent_state(void) { }
+   596	static inline bool rcu_check_boost_fail(unsigned long gp_state, int *cpup) { return true; }
+   597	static inline void show_rcu_gp_kthreads(void) { }
+   598	static inline int rcu_get_gp_kthreads_prio(void) { return 0; }
+   599	static inline void rcu_fwd_progress_check(unsigned long j) { }
+   600	static inline void rcu_gp_slow_register(atomic_t *rgssp) { }
+   601	static inline void rcu_gp_slow_unregister(atomic_t *rgssp) { }
+ > 602	void rcu_kthread_setaffinity(struct task_struct *tsk, int outgoing) { }
+   603	#else /* #ifdef CONFIG_TINY_RCU */
+   604	bool rcu_dynticks_zero_in_eqs(int cpu, int *vp);
+   605	unsigned long rcu_get_gp_seq(void);
+   606	unsigned long rcu_exp_batches_completed(void);
+   607	unsigned long srcu_batches_completed(struct srcu_struct *sp);
+   608	bool rcu_check_boost_fail(unsigned long gp_state, int *cpup);
+   609	void show_rcu_gp_kthreads(void);
+   610	int rcu_get_gp_kthreads_prio(void);
+   611	void rcu_fwd_progress_check(unsigned long j);
+   612	void rcu_force_quiescent_state(void);
+   613	void rcu_kthread_setaffinity(struct task_struct *tsk, int outgoing);
+   614	extern struct workqueue_struct *rcu_gp_wq;
+   615	#ifdef CONFIG_RCU_EXP_KTHREAD
+   616	extern struct kthread_worker *rcu_exp_gp_kworker;
+   617	extern struct kthread_worker *rcu_exp_par_gp_kworker;
+   618	#else /* !CONFIG_RCU_EXP_KTHREAD */
+   619	extern struct workqueue_struct *rcu_par_gp_wq;
+   620	#endif /* CONFIG_RCU_EXP_KTHREAD */
+   621	void rcu_gp_slow_register(atomic_t *rgssp);
+   622	void rcu_gp_slow_unregister(atomic_t *rgssp);
+   623	#endif /* #else #ifdef CONFIG_TINY_RCU */
+   624	
 
 -- 
 0-DAY CI Kernel Test Service
