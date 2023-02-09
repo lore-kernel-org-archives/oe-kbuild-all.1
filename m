@@ -1,45 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B16D1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 16:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351CA64A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 17:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675959772; x=1707495772;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hb8iCDJ0aTsCVjjHlP2Amw1KTUPvms2VDEUedaLEWbc=;
-  b=ljfhkeRyG2enivEddBfcallpApAf+2U37OTcJa9xXqWmhKTSOYdt4X5r
-   +l1caRj3qmHpTK2hBkVzzGn3pccjMcAY7VRKgzr+5dzzM3BClUm/aig9k
-   RH58vISsBuRRjPGyf6HaISn0Apz+pRkp/DU2J6dTGGzEZHka2N/auY4mh
-   fLy8n3GTBwP9HmMMbVPVuje/hz6q01c/+9Iu0sM83P0LZ5GYKju8dd8ec
-   c9aYA01PU/mdqO8wmWHzbY69wz9aBo96Q+vxCWXLE1S2BC6aOukrb8wWy
-   /lpaKLhHnWCF4OQ+0CNLkbivzqrn0Jx7b/K0KV0TU7h8ApJCaHYabM1M7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="331453819"
+  t=1675962971; x=1707498971;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JYNn6mVY8VbEBQsdc33AfcZoEUBeQM1RHyiqVLICUYg=;
+  b=khNfacdNRfJQWvokepn672DUDTxtf0rmexIxCPcFP91TkgF3570ms43v
+   vcAcBZUxrwFJhS+LdKK6pF1RZKBEsV/c7poHvqez1VkaehMfPyKUb5mOM
+   dU7dYcte+pzgxN1RfXwXo4DEZqTXIUx14GWE5leStFlg7YOqeAQ43z8bm
+   ZTt8rkgqo4sOgJxbyv/ot1bhQqep+0Op6hXZWHuOMLni6vqXjwhGclia9
+   Q4PqluSpxrWyimuRP681gxGjYFI70u1ky5WvobKE3H1bahYL8T8Sh9DnR
+   ZF1XpQ3ls1mXFw2PdDhPGFZH9mLrp44RR5mV808wr3PxlQiRa9owWiMxX
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="394777250"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="331453819"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 08:22:50 -0800
+   d="scan'208";a="394777250"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 09:13:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="731374997"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="667730667"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="731374997"
+   d="scan'208";a="667730667"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Feb 2023 08:22:49 -0800
+  by orsmga002.jf.intel.com with ESMTP; 09 Feb 2023 09:13:52 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ9hA-0005Ag-0y;
-	Thu, 09 Feb 2023 16:22:48 +0000
-Date: Fri, 10 Feb 2023 00:22:31 +0800
+	id 1pQAUZ-0005C4-2t;
+	Thu, 09 Feb 2023 17:13:51 +0000
+Date: Fri, 10 Feb 2023 01:13:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchan Joshi <joshi.k@samsung.com>, shinichiro.kawasaki@wdc.com
-Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH blktests] nvme/046: add test for unprivileged passthrough
-Message-ID: <202302100053.tumPI2Xy-lkp@intel.com>
-References: <20230209094541.248729-1-joshi.k@samsung.com>
+To: Liu Shixin <liushixin2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>
+Subject: [stable:linux-rolling-stable 61/915]
+ arch/arm64/include/asm/pgtable.h:871:51: error: implicit declaration of
+ function 'pud_user_exec'; did you mean 'pmd_user_exec'?
+Message-ID: <202302100106.Ln9eytJj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,32 +48,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230209094541.248729-1-joshi.k@samsung.com>
 
-Hi Kanchan,
+Hi Liu,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on hch-configfs/for-next]
-[also build test WARNING on linus/master v6.2-rc7 next-20230209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/nvme-046-add-test-for-unprivileged-passthrough/20230209-174831
-base:   git://git.infradead.org/users/hch/configfs.git for-next
-patch link:    https://lore.kernel.org/r/20230209094541.248729-1-joshi.k%40samsung.com
-patch subject: [PATCH blktests] nvme/046: add test for unprivileged passthrough
-reproduce:
-        scripts/spdxcheck.py
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-rolling-stable
+head:   657b3ebc26ae7bc5bb30e2d32e7c81ee17d087d9
+commit: a006aaffd78ff70efcffa44e325633c0840b2bf2 [61/915] arm64/mm: add pud_user_exec() check in pud_user_accessible_page()
+config: arm64-buildonly-randconfig-r002-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100106.Ln9eytJj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a006aaffd78ff70efcffa44e325633c0840b2bf2
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-rolling-stable
+        git checkout a006aaffd78ff70efcffa44e325633c0840b2bf2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302100053.tumPI2Xy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302100106.Ln9eytJj-lkp@intel.com/
 
-spdxcheck warnings: (new ones prefixed by >>)
-   drivers/cpufreq/amd-pstate-ut.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> tests/nvme/046: 2:27 Invalid License ID: GPL-3.0+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/pgtable.h:6,
+                    from include/linux/kasan.h:33,
+                    from include/linux/slab.h:148,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:14,
+                    from include/acpi/apei.h:9,
+                    from include/acpi/ghes.h:5,
+                    from include/linux/arm_sdei.h:8,
+                    from arch/arm64/kernel/asm-offsets.c:10:
+   arch/arm64/include/asm/pgtable.h: In function 'pud_user_accessible_page':
+>> arch/arm64/include/asm/pgtable.h:871:51: error: implicit declaration of function 'pud_user_exec'; did you mean 'pmd_user_exec'? [-Werror=implicit-function-declaration]
+     871 |         return pud_leaf(pud) && (pud_user(pud) || pud_user_exec(pud));
+         |                                                   ^~~~~~~~~~~~~
+         |                                                   pmd_user_exec
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:118: arch/arm64/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1270: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:231: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +871 arch/arm64/include/asm/pgtable.h
+
+   868	
+   869	static inline bool pud_user_accessible_page(pud_t pud)
+   870	{
+ > 871		return pud_leaf(pud) && (pud_user(pud) || pud_user_exec(pud));
+   872	}
+   873	#endif
+   874	
 
 -- 
 0-DAY CI Kernel Test Service
