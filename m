@@ -1,43 +1,42 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF052F29
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 19:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6FCA931;
+	Thu,  9 Feb 2023 19:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675970160; x=1707506160;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=afeuOVgq3g6HkVbFPKyxCD/OBYQs8lE/vwLHF5MSxlo=;
-  b=fHx7ZmLvwfXcJyd+ub67IHOIHEpAFF95NXhhW+makhzFp/j8M6kblE3f
-   N4+5evEgGmN+XHjFNJB0DBo5hpQsGqXZ1Pie9suChcQhptzzm8Fxl8+0r
-   TssQnh35JgYVMrYzKsKHopEJjJFmH0nxLCUZ/reSvIMT/Q+PfF2KIwufq
-   sIj1CAekIbNct9qFbpLaDavABn4O/jaAB7JX3HesU66zWnPFUZZzM/pZ7
-   EBB4gg5BolycZl9gbD7JLmm4FeBuIYucOamDuzgIb9o8WI3/D2ilonl1v
-   Pvr1PFw9axIshjBko69BvRXiz0ORf6XgKNeffptbJVp+Py84TlxWyQiJF
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="328852171"
+  t=1675971959; x=1707507959;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=l6YKJxbw0G+8eGc6j9LnLVIQZRNh8NechLTDj9YBPus=;
+  b=c+Ak4xdtsf2ESOUXNV1B9nsWvH5xvGHi7dwRvhpSyv+KmOU+g/LVgMj+
+   9AYKWNUc0z4pr9elV0ht635MP1lgB+qYcNPuRwxvVU5hvyCBLe6BN1ROR
+   cyqAsWNw2GHjt0oAwIK8MpPgBPQyux8gwXdfvOwpIJwbrEotD+bW50rMN
+   LF+21bLYPCuWucRCbcjbo7NGv049wazEbbKPJsyEkh0u33daIO5BymWsV
+   WK6wzXNAGF65yS7Rz8KF6uyNkBiCRijo7Lfxlg4g3CHmQ7h78sPizBMhT
+   SFXkKxrwsP5lR39HEoyPtWKvg2SjdjgbJehRlkBg8xr6qnAUPwV2Nk+FY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="328861620"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="328852171"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 11:15:59 -0800
+   d="scan'208";a="328861620"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 11:45:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="645376577"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="669725965"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="645376577"
+   d="scan'208";a="669725965"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 Feb 2023 11:15:57 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2023 11:45:58 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQCOi-0005GE-2C;
-	Thu, 09 Feb 2023 19:15:56 +0000
-Date: Fri, 10 Feb 2023 03:15:15 +0800
+	id 1pQCrl-0005H9-17;
+	Thu, 09 Feb 2023 19:45:57 +0000
+Date: Fri, 10 Feb 2023 03:45:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202302100301.Ykuxcbly-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: net/mac80211/he.c:158:33: warning: taking address of packed member
+ 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
+ an unaligned pointer value
+Message-ID: <202302100354.XRSFb57c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,348 +45,237 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+net/mac80211/he.c: 158:33: warning: taking address of packed member
+ 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
+ an unaligned pointer value [-Waddress-of-packed-member]
+net/mac80211/he.c: 160:12: warning: taking address of packed member
+ 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
+ an unaligned pointer value [-Waddress-of-packed-member]
+net/mac80211/he.c: 169:34: warning: taking address of packed member
+ 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
+ an unaligned pointer value [-Waddress-of-packed-member]
+net/mac80211/he.c: 171:13: warning: taking address of packed member
+ 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
+ an unaligned pointer value [-Waddress-of-packed-member]
+net/mac80211/he.c: 186:34: warning: taking address of packed member
+ 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
+ in an unaligned pointer value [-Waddress-of-packed-member]
+net/mac80211/he.c: 188:13: warning: taking address of packed member
+ 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
+ in an unaligned pointer value [-Waddress-of-packed-member]
 
-Hi Qing,
+TO: Wen Gong <wgong@codeaurora.org>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-First bad commit (maybe != root cause):
+Hi Wen,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   6 months ago
-config: loongarch-randconfig-s031-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100301.Ykuxcbly-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-rolling-lts
+head:   8e8a6864e8bef6f8268dfe646c710df14663064f
+commit: 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6 mac80211: reduce peer HE MCS/NSS to own capabilities
+date:   2 years, 1 month ago
+config: mips-loongson2k_defconfig (https://download.01.org/0day-ci/archive/20230210/202302100354.XRSFb57c-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips64el-linux-gnuabi64
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+        git fetch --no-tags linus stable/linux-rolling-lts
+        git checkout 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash arch/loongarch/kernel/ crypto/ drivers/perf/ kernel/events/ kernel/rcu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/ipv4/ net/ipv6/ net/mac80211/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302100301.Ykuxcbly-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302100354.XRSFb57c-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
-   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
->> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
-   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
->> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
-   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
->> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
-   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
---
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1402:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1402:15: sparse:    struct perf_event_context [noderef] __rcu *
---
-   kernel/rcu/tree.c: note: in included file:
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got int [noderef] __percpu *
->> kernel/rcu/tree_exp.h:807:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_exp.h:807:9: sparse:     expected void *ptr
-   kernel/rcu/tree_exp.h:807:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree.c: note: in included file:
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:720:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:720:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:720:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_plugin.h:1242:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     expected void *ptr
-   kernel/rcu/tree_plugin.h:1242:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree.c: note: in included file:
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_nocb.h:1473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     expected void *ptr
-   kernel/rcu/tree_nocb.h:1473:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree.c: note: in included file:
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
-   kernel/rcu/tree_stall.h:224:9: sparse:     got int [noderef] __percpu *
-   kernel/rcu/tree_stall.h:224:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/rcu/tree_stall.h:224:9: sparse:     expected void *ptr
+All warnings (new ones prefixed by >>):
 
-vim +56 crypto/crypto_engine.c
+   In file included from net/mac80211/he.c:9:
+   In file included from net/mac80211/ieee80211_i.h:16:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/net/checksum.h:22:
+   arch/mips/include/asm/checksum.h:161:9: error: unsupported inline asm: input with type 'unsigned long' matching output with type '__wsum' (aka 'unsigned int')
+           : "0" ((__force unsigned long)daddr),
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/mac80211/he.c:9:
+   In file included from net/mac80211/ieee80211_i.h:30:
+   In file included from include/net/mac80211.h:22:
+   In file included from include/net/codel.h:48:
+   In file included from include/net/inet_ecn.h:9:
+   In file included from include/net/inet_sock.h:22:
+   In file included from include/net/sock.h:61:
+   include/linux/poll.h:142:27: warning: division by zero is undefined [-Wdivision-by-zero]
+                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+                                           ^~~~~~~~~
+   include/linux/poll.h:140:32: note: expanded from macro 'M'
+   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
+           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+                                                            ^ ~~~~~~~~~
+   include/linux/poll.h:142:39: warning: division by zero is undefined [-Wdivision-by-zero]
+                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+                                                       ^~~~~~~~~
+   include/linux/poll.h:140:32: note: expanded from macro 'M'
+   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
+           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+                                                            ^ ~~~~~~~~~
+>> net/mac80211/he.c:158:33: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+           ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:159:12: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                         &he_cap->he_mcs_nss_supp.rx_mcs_80,
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/he.c:160:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                         &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:161:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                         &he_cap->he_mcs_nss_supp.tx_mcs_80);
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/he.c:169:34: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:170:13: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &he_cap->he_mcs_nss_supp.rx_mcs_160,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/he.c:171:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:172:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &he_cap->he_mcs_nss_supp.tx_mcs_160);
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:174:29: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:175:29: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/he.c:186:34: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:187:13: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/he.c:188:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:189:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                                 &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:191:29: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/he.c:192:29: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   18 warnings and 1 error generated.
 
-735d37b5424b27 Baolin Wang    2016-01-26  18  
-218d1cc1860c45 Corentin LABBE 2018-01-26  19  /**
-218d1cc1860c45 Corentin LABBE 2018-01-26  20   * crypto_finalize_request - finalize one request if the request is done
-218d1cc1860c45 Corentin LABBE 2018-01-26  21   * @engine: the hardware engine
-218d1cc1860c45 Corentin LABBE 2018-01-26  22   * @req: the request need to be finalized
-218d1cc1860c45 Corentin LABBE 2018-01-26  23   * @err: error number
-218d1cc1860c45 Corentin LABBE 2018-01-26  24   */
-218d1cc1860c45 Corentin LABBE 2018-01-26  25  static void crypto_finalize_request(struct crypto_engine *engine,
-218d1cc1860c45 Corentin LABBE 2018-01-26  26  				    struct crypto_async_request *req, int err)
-218d1cc1860c45 Corentin LABBE 2018-01-26  27  {
-218d1cc1860c45 Corentin LABBE 2018-01-26  28  	unsigned long flags;
-6a89f492f8e509 Iuliana Prodan 2020-04-28  29  	bool finalize_req = false;
-218d1cc1860c45 Corentin LABBE 2018-01-26  30  	int ret;
-218d1cc1860c45 Corentin LABBE 2018-01-26  31  	struct crypto_engine_ctx *enginectx;
-218d1cc1860c45 Corentin LABBE 2018-01-26  32  
-6a89f492f8e509 Iuliana Prodan 2020-04-28  33  	/*
-6a89f492f8e509 Iuliana Prodan 2020-04-28  34  	 * If hardware cannot enqueue more requests
-6a89f492f8e509 Iuliana Prodan 2020-04-28  35  	 * and retry mechanism is not supported
-6a89f492f8e509 Iuliana Prodan 2020-04-28  36  	 * make sure we are completing the current request
-6a89f492f8e509 Iuliana Prodan 2020-04-28  37  	 */
-6a89f492f8e509 Iuliana Prodan 2020-04-28  38  	if (!engine->retry_support) {
-218d1cc1860c45 Corentin LABBE 2018-01-26  39  		spin_lock_irqsave(&engine->queue_lock, flags);
-6a89f492f8e509 Iuliana Prodan 2020-04-28  40  		if (engine->cur_req == req) {
-6a89f492f8e509 Iuliana Prodan 2020-04-28  41  			finalize_req = true;
-6a89f492f8e509 Iuliana Prodan 2020-04-28  42  			engine->cur_req = NULL;
-6a89f492f8e509 Iuliana Prodan 2020-04-28  43  		}
-218d1cc1860c45 Corentin LABBE 2018-01-26  44  		spin_unlock_irqrestore(&engine->queue_lock, flags);
-6a89f492f8e509 Iuliana Prodan 2020-04-28  45  	}
-218d1cc1860c45 Corentin LABBE 2018-01-26  46  
-6a89f492f8e509 Iuliana Prodan 2020-04-28  47  	if (finalize_req || engine->retry_support) {
-218d1cc1860c45 Corentin LABBE 2018-01-26  48  		enginectx = crypto_tfm_ctx(req->tfm);
-6a89f492f8e509 Iuliana Prodan 2020-04-28  49  		if (enginectx->op.prepare_request &&
-218d1cc1860c45 Corentin LABBE 2018-01-26  50  		    enginectx->op.unprepare_request) {
-218d1cc1860c45 Corentin LABBE 2018-01-26  51  			ret = enginectx->op.unprepare_request(engine, req);
-218d1cc1860c45 Corentin LABBE 2018-01-26  52  			if (ret)
-218d1cc1860c45 Corentin LABBE 2018-01-26  53  				dev_err(engine->dev, "failed to unprepare request\n");
-218d1cc1860c45 Corentin LABBE 2018-01-26  54  		}
-218d1cc1860c45 Corentin LABBE 2018-01-26  55  	}
-4058cf08945c18 Corentin Labbe 2022-02-21 @56  	lockdep_assert_in_softirq();
-218d1cc1860c45 Corentin LABBE 2018-01-26  57  	req->complete(req, err);
-218d1cc1860c45 Corentin LABBE 2018-01-26  58  
-218d1cc1860c45 Corentin LABBE 2018-01-26  59  	kthread_queue_work(engine->kworker, &engine->pump_requests);
-218d1cc1860c45 Corentin LABBE 2018-01-26  60  }
-218d1cc1860c45 Corentin LABBE 2018-01-26  61  
 
-:::::: The code at line 56 was first introduced by commit
-:::::: 4058cf08945c18a6de193f4118fd05d83d3d4285 crypto: engine - check if BH is disabled during completion
+vim +158 net/mac80211/he.c
 
-:::::: TO: Corentin Labbe <clabbe@baylibre.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+   105	
+   106	void
+   107	ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
+   108					  struct ieee80211_supported_band *sband,
+   109					  const u8 *he_cap_ie, u8 he_cap_len,
+   110					  const struct ieee80211_he_6ghz_capa *he_6ghz_capa,
+   111					  struct sta_info *sta)
+   112	{
+   113		struct ieee80211_sta_he_cap *he_cap = &sta->sta.he_cap;
+   114		struct ieee80211_sta_he_cap own_he_cap = sband->iftype_data->he_cap;
+   115		struct ieee80211_he_cap_elem *he_cap_ie_elem = (void *)he_cap_ie;
+   116		u8 he_ppe_size;
+   117		u8 mcs_nss_size;
+   118		u8 he_total_size;
+   119		bool own_160, peer_160, own_80p80, peer_80p80;
+   120	
+   121		memset(he_cap, 0, sizeof(*he_cap));
+   122	
+   123		if (!he_cap_ie || !ieee80211_get_he_sta_cap(sband))
+   124			return;
+   125	
+   126		/* Make sure size is OK */
+   127		mcs_nss_size = ieee80211_he_mcs_nss_size(he_cap_ie_elem);
+   128		he_ppe_size =
+   129			ieee80211_he_ppe_size(he_cap_ie[sizeof(he_cap->he_cap_elem) +
+   130							mcs_nss_size],
+   131					      he_cap_ie_elem->phy_cap_info);
+   132		he_total_size = sizeof(he_cap->he_cap_elem) + mcs_nss_size +
+   133				he_ppe_size;
+   134		if (he_cap_len < he_total_size)
+   135			return;
+   136	
+   137		memcpy(&he_cap->he_cap_elem, he_cap_ie, sizeof(he_cap->he_cap_elem));
+   138	
+   139		/* HE Tx/Rx HE MCS NSS Support Field */
+   140		memcpy(&he_cap->he_mcs_nss_supp,
+   141		       &he_cap_ie[sizeof(he_cap->he_cap_elem)], mcs_nss_size);
+   142	
+   143		/* Check if there are (optional) PPE Thresholds */
+   144		if (he_cap->he_cap_elem.phy_cap_info[6] &
+   145		    IEEE80211_HE_PHY_CAP6_PPE_THRESHOLD_PRESENT)
+   146			memcpy(he_cap->ppe_thres,
+   147			       &he_cap_ie[sizeof(he_cap->he_cap_elem) + mcs_nss_size],
+   148			       he_ppe_size);
+   149	
+   150		he_cap->has_he = true;
+   151	
+   152		sta->cur_max_bandwidth = ieee80211_sta_cap_rx_bw(sta);
+   153		sta->sta.bandwidth = ieee80211_sta_cur_vht_bw(sta);
+   154	
+   155		if (sband->band == NL80211_BAND_6GHZ && he_6ghz_capa)
+   156			ieee80211_update_from_he_6ghz_capa(he_6ghz_capa, sta);
+   157	
+ > 158		ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
+ > 159					      &he_cap->he_mcs_nss_supp.rx_mcs_80,
+ > 160					      &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
+ > 161					      &he_cap->he_mcs_nss_supp.tx_mcs_80);
+   162	
+   163		own_160 = own_he_cap.he_cap_elem.phy_cap_info[0] &
+   164			  IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
+   165		peer_160 = he_cap->he_cap_elem.phy_cap_info[0] &
+   166			   IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
+   167	
+   168		if (peer_160 && own_160) {
+ > 169			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
+   170						      &he_cap->he_mcs_nss_supp.rx_mcs_160,
+ > 171						      &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
+ > 172						      &he_cap->he_mcs_nss_supp.tx_mcs_160);
+   173		} else if (peer_160 && !own_160) {
+   174			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
+ > 175			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
+   176			he_cap->he_cap_elem.phy_cap_info[0] &=
+   177				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
+   178		}
+   179	
+   180		own_80p80 = own_he_cap.he_cap_elem.phy_cap_info[0] &
+   181			    IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
+   182		peer_80p80 = he_cap->he_cap_elem.phy_cap_info[0] &
+   183			     IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
+   184	
+   185		if (peer_80p80 && own_80p80) {
+ > 186			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
+   187						      &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
+ > 188						      &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
+   189						      &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
+   190		} else if (peer_80p80 && !own_80p80) {
+   191			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
+   192			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
+   193			he_cap->he_cap_elem.phy_cap_info[0] &=
+   194				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
+   195		}
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
