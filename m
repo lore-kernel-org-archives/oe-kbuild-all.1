@@ -1,43 +1,43 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D1E748E;
-	Thu,  9 Feb 2023 11:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96025748E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Feb 2023 11:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675942661; x=1707478661;
+  t=1675942665; x=1707478665;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4pU4FfIxdtoMnl8HQQxkTr9AsU1rPuyIHBiJngdV5oM=;
-  b=NSgC7VaAv6PXRMBc2UwvVBKaMEgGTWhBP8Lzc56TqnLnFAxkYODFQY8T
-   9F6Dx35XiLAcutjbu1+P2sGJSaFq2R7AsegKO0nIQRoDH/NgwqnhLR4eB
-   FJ7lffeKywTXf2iB+k8BMBZivk6jhVqFCy7NldNeDzG+jHgTvvRs1kv22
-   9XZwAigKS4PC2fMBsMUU4mUXtGl8wQCVq/o7T29TBnyLXTnV1/RVOUouL
-   +Tf69rIv3ETQ7KsribkB4LY1Gh1vF4x/lqGiIAmU6vtD78zj77A8PY6EQ
-   pMIEXmf03BGl4fdsGtFyun3LWZZELqDoWBV6F+H6e25jkMvFvAqiIbiHd
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310437364"
+  bh=opRpsRV8B11kv+ILvkdytLRU+ynWE+wfUvTSNiZowSY=;
+  b=T27R+qO4/D4qkGXSBITn/QY2jjIUJv+i5mO4pFzjMhrCfnkTLHiOGwrd
+   rIaTv1InA8yWrWu+g2LQxF3zvDkEI7EX6lulwXUSJrnT4bfYsUbPXebHY
+   p5LWWCnoGEWGaYYI+g4JC73zuuMafWBiqfo4FEkqqZW6QNOYwYqHP29t0
+   K1n0b1eJIDuDcBwgVoWscq6Js/lH7Az1+pA2i7iBu2b4/awqF9wW3ti0z
+   jOr2PbZg4SooTVJCZ1B/vyCGZbZV6ib0eePgFggqkOqboefUgLnq+VtYh
+   ucHded9cwwiq8k8q/oX2TofvKe52jH1NuRpthQNOFTKgmL459VqjHKhZN
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310437378"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="310437364"
+   d="scan'208";a="310437378"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 03:37:40 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 03:37:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="913095856"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="913095872"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="913095856"
+   d="scan'208";a="913095872"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Feb 2023 03:37:39 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 09 Feb 2023 03:37:44 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ5FC-000526-1L;
+	id 1pQ5FC-000528-1T;
 	Thu, 09 Feb 2023 11:37:38 +0000
-Date: Thu, 9 Feb 2023 19:36:54 +0800
+Date: Thu, 9 Feb 2023 19:36:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:parallel-6.2-rc7 13/14] kernel/cpu.c:1531:37: warning: format
- specifies type 'long long' but the argument has type 'cycles_t' (aka
- 'unsigned int')
-Message-ID: <202302091914.6NZ47xeR-lkp@intel.com>
+To: Suman Anna <s-anna@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: drivers/remoteproc/ti_k3_r5_remoteproc.c:711:17: sparse: sparse:
+ cast removes address space '__iomem' of expression
+Message-ID: <202302091921.BhcFWgw3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,97 +47,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-rc7
-head:   8fec7c1c6a8c6419aafdfc7dbe6c928d326a87eb
-commit: 1ad0d91052e766a0a304552b81738864855b2669 [13/14] Print bringup timing
-config: mips-buildonly-randconfig-r004-20230209 (https://download.01.org/0day-ci/archive/20230209/202302091914.6NZ47xeR-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
+commit: 1168af40b1ad8cb2e78f4a70869fa4a076320e4f remoteproc: k3-r5: Add support for IPC-only mode for all R5Fs
+date:   11 months ago
+config: arm64-randconfig-s043-20230208 (https://download.01.org/0day-ci/archive/20230209/202302091921.BhcFWgw3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
-        git fetch --no-tags dwmw2 parallel-6.2-rc7
-        git checkout 1ad0d91052e766a0a304552b81738864855b2669
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1168af40b1ad8cb2e78f4a70869fa4a076320e4f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1168af40b1ad8cb2e78f4a70869fa4a076320e4f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/hns/ drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302091914.6NZ47xeR-lkp@intel.com
+| Link: https://lore.kernel.org/oe-kbuild-all/202302091921.BhcFWgw3-lkp@intel.com
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *cpu_addr @@
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse:     expected void *
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse:     got void [noderef] __iomem *cpu_addr
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *cpu_addr @@
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse:     expected void *
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse:     got void [noderef] __iomem *cpu_addr
+>> drivers/remoteproc/ti_k3_r5_remoteproc.c:711:17: sparse: sparse: cast removes address space '__iomem' of expression
 
->> kernel/cpu.c:1531:37: warning: format specifies type 'long long' but the argument has type 'cycles_t' (aka 'unsigned int') [-Wformat]
-                                  cpuhp_hp_states[st].name, t2 - t1);
-                                                            ^~~~~~~
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   kernel/cpu.c:1544:49: warning: format specifies type 'long long' but the argument has type 'cycles_t' (aka 'unsigned int') [-Wformat]
-           printk("Brought CPUs online in %lld cycles\n", t2 - t1);
-                                          ~~~~            ^~~~~~~
-                                          %u
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
+vim +/__iomem +711 drivers/remoteproc/ti_k3_r5_remoteproc.c
 
-
-vim +1531 kernel/cpu.c
-
-  1504	
-  1505	void bringup_nonboot_cpus(unsigned int setup_max_cpus)
-  1506	{
-  1507		unsigned int n = setup_max_cpus - num_online_cpus();
-  1508		unsigned int cpu;
-  1509		cycles_t t1, t2;
-  1510	
-  1511		/*
-  1512		 * An architecture may have regustered parallel pre-bringup states to
-  1513		 * which each CPU may be brought in parallel. For each such state,
-  1514		 * bring N CPUs to it in turn before the final round of bringing them
-  1515		 * online.
-  1516		 */
-  1517		if (n > 0) {
-  1518			enum cpuhp_state st = CPUHP_BP_PARALLEL_DYN;
-  1519	
-  1520			while (st <= CPUHP_BP_PARALLEL_DYN_END && cpuhp_hp_states[st].name) {
-  1521				int i = n;
-  1522				t1 = get_cycles();
-  1523				for_each_present_cpu(cpu) {
-  1524					cpu_up(cpu, st);
-  1525					if (!--i)
-  1526						break;
-  1527				}
-  1528				t2 = get_cycles();
-  1529	
-  1530				printk("Brought %d CPUs to %s in %lld cycles\n", n - i,
-> 1531				       cpuhp_hp_states[st].name, t2 - t1);
-  1532				st++;
-  1533			}
-  1534		}
-  1535	
-  1536		t1 = get_cycles();
-  1537		for_each_present_cpu(cpu) {
-  1538			if (num_online_cpus() >= setup_max_cpus)
-  1539				break;
-  1540			if (!cpu_online(cpu))
-  1541				cpu_up(cpu, CPUHP_ONLINE);
-  1542		}
-  1543		t2 = get_cycles();
-  1544		printk("Brought CPUs online in %lld cycles\n", t2 - t1);
-  1545	}
-  1546	
+   681	
+   682	/*
+   683	 * This function implements the .get_loaded_rsc_table() callback and is used
+   684	 * to provide the resource table for the booted R5F in IPC-only mode. The K3 R5F
+   685	 * firmwares follow a design-by-contract approach and are expected to have the
+   686	 * resource table at the base of the DDR region reserved for firmware usage.
+   687	 * This provides flexibility for the remote processor to be booted by different
+   688	 * bootloaders that may or may not have the ability to publish the resource table
+   689	 * address and size through a DT property. This callback is invoked only in
+   690	 * IPC-only mode.
+   691	 */
+   692	static struct resource_table *k3_r5_get_loaded_rsc_table(struct rproc *rproc,
+   693								 size_t *rsc_table_sz)
+   694	{
+   695		struct k3_r5_rproc *kproc = rproc->priv;
+   696		struct device *dev = kproc->dev;
+   697	
+   698		if (!kproc->rmem[0].cpu_addr) {
+   699			dev_err(dev, "memory-region #1 does not exist, loaded rsc table can't be found");
+   700			return ERR_PTR(-ENOMEM);
+   701		}
+   702	
+   703		/*
+   704		 * NOTE: The resource table size is currently hard-coded to a maximum
+   705		 * of 256 bytes. The most common resource table usage for K3 firmwares
+   706		 * is to only have the vdev resource entry and an optional trace entry.
+   707		 * The exact size could be computed based on resource table address, but
+   708		 * the hard-coded value suffices to support the IPC-only mode.
+   709		 */
+   710		*rsc_table_sz = 256;
+ > 711		return (struct resource_table *)kproc->rmem[0].cpu_addr;
+   712	}
+   713	
 
 -- 
 0-DAY CI Kernel Test Service
