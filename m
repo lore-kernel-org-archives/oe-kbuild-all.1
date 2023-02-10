@@ -1,42 +1,46 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C1B2F41
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 23:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9412F41
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 23:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676070471; x=1707606471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fd4+3PqTZujyemBuqGmuK6DSB5BDps4d3/is99yha58=;
-  b=RnuAE/wlw/5FJhEZq9U6zUg/TjC9IEnGd013vT5mZ/B+VZ7hol1rREhd
-   N5j5oCGfvZyHVK1MqQVVwnX9N2/eM0XAe+MFyfLP2oUxWM9qX2+DEgDrs
-   HL/tADcVPRMb8gBGZQKyI7zNcnZ+6mhkWf+RKgbiraGeJTdDAeEqpatsA
-   Fi4AXwx26ekZikEf6R3EQJcFSIo/I6aly1SEzSMDjUq+4G5Re+KlDl/6Y
-   68015hDlYqLFOk7uNAx6FYNEtqiJeQEGc9DcfYTMBtePPd+ojuZq0esJ2
-   hBpq4NWVVIL5zQsHor9IrZwny6agePE25jAe3shKecqHUlaVgM8oy6Ia0
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="318568529"
+  t=1676070483; x=1707606483;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7sQU3qLBarJwbOltvPK0DlyIvdrrHZ36gjP2djkEoxE=;
+  b=amyoB0n342qKZkRAVTRykVOHhrF7PVkSNLVL07YIRPXbovX8WoSo5vQk
+   kfijOGC9n1HLwS5gN/XOP1hTqhlILqqvNDcD1n4AztFmDTrOtaVElXdpD
+   EWtMJTsCy3mbKX8QTHME+4XwtVSnIzBEuJ8zkC2nxcawSM32fCdApHgVm
+   gpJU0QRzX2OwbQxpkXApaDkBNa1Gr/+TfFe0ULhjVybeG7ajQTb+QZfm4
+   hHA7vdnPiUoW45ugIcMuObj5XnTgiw1nTlZY04jWiWm9kXhINzPbIDQBp
+   4jOIrXZg4bWTbzCV/WnyNJerj94CpvPFUtonop6cpI+FyCVZyb4qbTuKT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="329181037"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="318568529"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 15:07:51 -0800
+   d="scan'208";a="329181037"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 15:07:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="756940247"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="618045959"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="756940247"
+   d="scan'208";a="618045959"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2023 15:07:50 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Feb 2023 15:07:50 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQcUf-00066l-1B;
+	id 1pQcUf-00066n-1G;
 	Fri, 10 Feb 2023 23:07:49 +0000
-Date: Sat, 11 Feb 2023 07:07:01 +0800
+Date: Sat, 11 Feb 2023 07:07:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/core 6/6] arch/x86/kvm/kvm-intel.o: warning:
- objtool: __vmx_vcpu_run+0x108: stack layout conflict in alternatives
-Message-ID: <202302110731.CwKk2LfT-lkp@intel.com>
+To: Tom Zanussi <zanussi@kernel.org>, rostedt@goodmis.org
+Cc: oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, zwisler@google.com,
+	chinglinyu@google.com
+Subject: Re: [PATCH 3/4] tracing/histogram: Fix stacktrace key
+Message-ID: <202302110636.O2hlhbxt-lkp@intel.com>
+References: <11aa614c82976adbfa4ea763dbe885b5fb01d59c.1676063532.git.zanussi@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,33 +49,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <11aa614c82976adbfa4ea763dbe885b5fb01d59c.1676063532.git.zanussi@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-head:   b7be6a4563d6f709d0cb82c87bb5dc53ad0bf73f
-commit: b7be6a4563d6f709d0cb82c87bb5dc53ad0bf73f [6/6] x86: Tweak FILL_RETURN_BUFFER some more
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230211/202302110731.CwKk2LfT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Tom,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20230210]
+[cannot apply to linus/master rostedt-trace/for-next rostedt-trace/for-next-urgent v6.2-rc7 v6.2-rc6 v6.2-rc5 v6.2-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Zanussi/tracing-histogram-Don-t-use-strlen-to-find-length-of-stacktrace-variables/20230211-053647
+patch link:    https://lore.kernel.org/r/11aa614c82976adbfa4ea763dbe885b5fb01d59c.1676063532.git.zanussi%40kernel.org
+patch subject: [PATCH 3/4] tracing/histogram: Fix stacktrace key
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302110636.O2hlhbxt-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=b7be6a4563d6f709d0cb82c87bb5dc53ad0bf73f
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue x86/core
-        git checkout b7be6a4563d6f709d0cb82c87bb5dc53ad0bf73f
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/797160b4aa615acf656dc6c8ef6fe41b3c2b84a2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tom-Zanussi/tracing-histogram-Don-t-use-strlen-to-find-length-of-stacktrace-variables/20230211-053647
+        git checkout 797160b4aa615acf656dc6c8ef6fe41b3c2b84a2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110731.CwKk2LfT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302110636.O2hlhbxt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/kvm-intel.o: warning: objtool: __vmx_vcpu_run+0x108: stack layout conflict in alternatives
->> arch/x86/kvm/kvm-intel.o: warning: objtool: __vmx_vcpu_run+0x97: objtool isn't smart enough to handle this CFI save/restore combo
+   kernel/trace/trace_events_hist.c: In function 'event_hist_trigger':
+>> kernel/trace/trace_events_hist.c:5261:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    5261 |                                 stack = (unsigned long *)field_contents;
+         |                                         ^
 
 
-objdump-func vmlinux.o __vmx_vcpu_run:
+vim +5261 kernel/trace/trace_events_hist.c
+
+  5231	
+  5232	static void event_hist_trigger(struct event_trigger_data *data,
+  5233				       struct trace_buffer *buffer, void *rec,
+  5234				       struct ring_buffer_event *rbe)
+  5235	{
+  5236		struct hist_trigger_data *hist_data = data->private_data;
+  5237		bool use_compound_key = (hist_data->n_keys > 1);
+  5238		unsigned long entries[HIST_STACKTRACE_DEPTH];
+  5239		u64 var_ref_vals[TRACING_MAP_VARS_MAX];
+  5240		char compound_key[HIST_KEY_SIZE_MAX];
+  5241		struct tracing_map_elt *elt = NULL;
+  5242		struct hist_field *key_field;
+  5243		u64 field_contents;
+  5244		void *key = NULL;
+  5245		unsigned int i;
+  5246	
+  5247		if (unlikely(!rbe))
+  5248			return;
+  5249	
+  5250		memset(compound_key, 0, hist_data->key_size);
+  5251	
+  5252		for_each_hist_key_field(i, hist_data) {
+  5253			key_field = hist_data->fields[i];
+  5254	
+  5255			if (key_field->flags & HIST_FIELD_FL_STACKTRACE) {
+  5256				memset(entries, 0, HIST_STACKTRACE_SIZE);
+  5257				if (key_field->field) {
+  5258					unsigned long *stack, n_entries;
+  5259	
+  5260					field_contents = hist_fn_call(key_field, elt, buffer, rbe, rec);
+> 5261					stack = (unsigned long *)field_contents;
+  5262					n_entries = *stack;
+  5263					memcpy(entries, ++stack, n_entries * sizeof(unsigned long));
+  5264				} else {
+  5265					stack_trace_save(entries, HIST_STACKTRACE_DEPTH,
+  5266							 HIST_STACKTRACE_SKIP);
+  5267				}
+  5268				key = entries;
+  5269			} else {
+  5270				field_contents = hist_fn_call(key_field, elt, buffer, rbe, rec);
+  5271				if (key_field->flags & HIST_FIELD_FL_STRING) {
+  5272					key = (void *)(unsigned long)field_contents;
+  5273					use_compound_key = true;
+  5274				} else
+  5275					key = (void *)&field_contents;
+  5276			}
+  5277	
+  5278			if (use_compound_key)
+  5279				add_to_key(compound_key, key, key_field, rec);
+  5280		}
+  5281	
+  5282		if (use_compound_key)
+  5283			key = compound_key;
+  5284	
+  5285		if (hist_data->n_var_refs &&
+  5286		    !resolve_var_refs(hist_data, key, var_ref_vals, false))
+  5287			return;
+  5288	
+  5289		elt = tracing_map_insert(hist_data->map, key);
+  5290		if (!elt)
+  5291			return;
+  5292	
+  5293		hist_trigger_elt_update(hist_data, elt, buffer, rec, rbe, var_ref_vals);
+  5294	
+  5295		if (resolve_var_refs(hist_data, key, var_ref_vals, true))
+  5296			hist_trigger_actions(hist_data, elt, buffer, rec, rbe, key, var_ref_vals);
+  5297	}
+  5298	
 
 -- 
 0-DAY CI Kernel Test Service
