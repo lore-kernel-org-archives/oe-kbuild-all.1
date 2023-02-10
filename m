@@ -1,110 +1,129 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA9C7E2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 04:14:56 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VbIVgC-_1676001560;
-Received: from 30.97.49.39(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0VbIVgC-_1676001560)
-          by smtp.aliyun-inc.com;
-          Fri, 10 Feb 2023 11:59:21 +0800
-Message-ID: <a2133204-98c8-4733-1062-e26abead28e7@linux.alibaba.com>
-Date: Fri, 10 Feb 2023 11:59:19 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D40E7E2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 04:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676003243; x=1707539243;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=BCek8t0JeGzvEK6wu116iAXo54s71FTa/1NkgZkzQdk=;
+  b=g3Y0mJ6JW0LaXJM90tTf5msU+c243MsCewhQAb/odqUDnkLaSZqSrg5K
+   6DOh242Fladp3QWGad4xxqz3+s7Aorb/DMqwpEzWl4liSFLH+H8BQJzy7
+   KGQPJV3DoRx4Bog8mlmJUV8e0AiocYnXIa80txznUBWLldHnUezc0rmBh
+   NSF2eMJq632pif3L60LrPpe7/dhGxx1c32VdtjjETF7Z7ATxLs7RBNOKC
+   /CKuaCDt56oaLZ1xgoVGpvmHMnRzug6b+2ambFNuFlpxGbcaJrG3+ZiGg
+   n4RzskdyKI8Lc1wBuyp7kExASivucR0eP9OdY2z3BXpfuIu3aGeiQRR7K
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="310698304"
+X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
+   d="scan'208";a="310698304"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:27:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="913399738"
+X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
+   d="scan'208";a="913399738"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Feb 2023 20:27:21 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pQL0K-0005YH-19;
+	Fri, 10 Feb 2023 04:27:20 +0000
+Date: Fri, 10 Feb 2023 12:26:55 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-5.10.y 16229/21442]
+ drivers/media/i2c/ds90ub953.c:268:6: error: no member named 'of_xlate' in
+ 'struct gpio_chip'
+Message-ID: <202302101239.OIR2d59B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast
- truncates bits from constant value (ffffffffe0f510cc becomes cc)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Yue Hu <huyue2@coolpad.com>, Chao Yu <yuchao0@huawei.com>,
- Chao Yu <chao@kernel.org>
-References: <202302101104.mgetTzwR-lkp@intel.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <202302101104.mgetTzwR-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Tomi,
 
-On 2023/2/10 11:52, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   38c1e0c65865426676123cc9a127526fa02bcac6
-> commit: 2f44013e39984c127c6efedf70e6b5f4e9dcf315 erofs: fix pcluster use-after-free on UP platforms
-> date:   5 months ago
-> config: alpha-randconfig-s042-20230210 (https://download.01.org/0day-ci/archive/20230210/202302101104.mgetTzwR-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 12.1.0
-> reproduce:
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # apt-get install sparse
->          # sparse version: v0.6.4-39-gce1a6720-dirty
->          # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2f44013e39984c127c6efedf70e6b5f4e9dcf315
->          git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->          git fetch --no-tags linus master
->          git checkout 2f44013e39984c127c6efedf70e6b5f4e9dcf315
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash fs/erofs/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302101104.mgetTzwR-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->     fs/erofs/utils.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
->>> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes cc)
->>> arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes 10cc)
-> --
->     fs/erofs/zdata.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
->>> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes cc)
->>> arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes 10cc)
->     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
->     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
->     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
->     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0edead becomes ad)
->     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
->     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0edead becomes dead)
+FYI, the error/warning still remains.
 
-As I reported in
-https://lore.kernel.org/r/b8dfa8cd-f3f9-d10c-fbd0-eac8067ee39c@intel.com
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y
+head:   221424b9d0cea049e58d5ad93fcec93c90511744
+commit: 51c767df6b13b4db728ececa0c5d8e644705dd62 [16229/21442] media: i2c: add DS90UB953 driver
+config: hexagon-randconfig-r014-20230210 (https://download.01.org/0day-ci/archive/20230210/202302101239.OIR2d59B-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y
+        git checkout 51c767df6b13b4db728ececa0c5d8e644705dd62
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/
 
-I'm not sure how we could do something for these reports in EROFS.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302101239.OIR2d59B-lkp@intel.com/
 
-Thanks,
-Gao Xiang
+All errors (new ones prefixed by >>):
 
-> 
-> vim +234 arch/alpha/include/asm/xchg.h
-> 
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  227
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  228  static __always_inline unsigned long
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  229  ____cmpxchg(, volatile void *ptr, unsigned long old, unsigned long new,
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  230  	      int size)
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  231  {
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  232  	switch (size) {
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  233  		case 1:
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @234  			return ____cmpxchg(_u8, ptr, old, new);
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  235  		case 2:
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @236  			return ____cmpxchg(_u16, ptr, old, new);
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  237  		case 4:
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  238  			return ____cmpxchg(_u32, ptr, old, new);
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  239  		case 8:
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  240  			return ____cmpxchg(_u64, ptr, old, new);
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  241  	}
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  242  	__cmpxchg_called_with_bad_pointer();
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  243  	return old;
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  244  }
-> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  245
-> 
-> :::::: The code at line 234 was first introduced by commit
-> :::::: a6209d6d71f2ab8c63cc1587ef65490d83022baf alpha: xchg/cmpxchg cleanup and fixes
-> 
-> :::::: TO: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-> 
+>> drivers/media/i2c/ds90ub953.c:268:6: error: no member named 'of_xlate' in 'struct gpio_chip'
+           gc->of_xlate = ub953_gpio_of_xlate;
+           ~~  ^
+>> drivers/media/i2c/ds90ub953.c:269:6: error: no member named 'of_node' in 'struct gpio_chip'
+           gc->of_node = priv->client->dev.of_node;
+           ~~  ^
+>> drivers/media/i2c/ds90ub953.c:270:6: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
+           gc->of_gpio_n_cells = 2;
+           ~~  ^
+   3 errors generated.
+
+
+vim +268 drivers/media/i2c/ds90ub953.c
+
+   244	
+   245	static int ub953_gpiochip_probe(struct ub953_data *priv)
+   246	{
+   247		struct device *dev = &priv->client->dev;
+   248		struct gpio_chip *gc = &priv->gpio_chip;
+   249		int ret;
+   250	
+   251		/* Set all GPIOs to local mode */
+   252		ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
+   253	
+   254		scnprintf(priv->gpio_chip_name, sizeof(priv->gpio_chip_name), "%s",
+   255			  dev_name(dev));
+   256	
+   257		gc->label = priv->gpio_chip_name;
+   258		gc->parent = dev;
+   259		gc->owner = THIS_MODULE;
+   260		gc->base = -1;
+   261		gc->can_sleep = 1;
+   262		gc->ngpio = UB953_NUM_GPIOS;
+   263		gc->get_direction = ub953_gpio_get_direction;
+   264		gc->direction_input = ub953_gpio_direction_in;
+   265		gc->direction_output = ub953_gpio_direction_out;
+   266		gc->get = ub953_gpio_get;
+   267		gc->set = ub953_gpio_set;
+ > 268		gc->of_xlate = ub953_gpio_of_xlate;
+ > 269		gc->of_node = priv->client->dev.of_node;
+ > 270		gc->of_gpio_n_cells = 2;
+   271	
+   272		ret = gpiochip_add_data(gc, priv);
+   273		if (ret) {
+   274			dev_err(dev, "Failed to add GPIOs: %d\n", ret);
+   275			return ret;
+   276		}
+   277	
+   278		return 0;
+   279	}
+   280	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
