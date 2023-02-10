@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF8E624
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 02:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D0E624
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 02:09:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675994961; x=1707530961;
+  t=1675994969; x=1707530969;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JtaOK4Cx1VyISQj5TnbG3+n1Y/czyjRSkuZduCiKp0Q=;
-  b=Cq0nZf4Ddta9RcXV3FEluccHzzYFYDwkkkt1gBvo+M5wemKpOO+w+HdI
-   jzxBziQsA+zk8ldvUFBtBjNj5oEtfHI/3tPb/2U375fTkkAFhOjOdGZgc
-   MrpgDesXBmiw5k2XRREgCuE0WmLzEaF1AkTBHFezIkDL7unATgSArvCWq
-   +doWKTqrlIC/W6rnMfvKxMboT4leA7IradZ6UErqhbjrJDX/5jzdWRhKF
-   E5XEa30Mu5D7jqudd/6kFRTthDWEecBaHGJYYspnuqiYzUbMfchETrabn
-   VP0X/cKZ4o6cJHpgreK+REdDAqmucdcOGIWcilEpXnZ+9OgZxx3bH5+lP
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="416539784"
+  bh=bWFzfDAISIx3fxIH8EKpwWNMZo7shJjkAHQ9+dmCRbk=;
+  b=dE1cvEfIWo5qfMjhauQx8Itobp+6Fn1CmsOrFSdT6TETEQvqy5KrppN+
+   TyJ4J6EBKsw5jcw2RuMOPl+zVJKP/qP9eHZ66aBhCDaNU2HazXhFQLYmG
+   uuKeD1JzlLbZsGF2Ire2qaBx2VrxI/VHib8n+GrxvOVsiGH0uU55yHemw
+   vO6qUK6O6zea8wQUtGF6o1V2N5LuUBvXCu/dt8I3A+wSYGUckRetooNvK
+   koMNF+cEiH+0TRMIPeCXANjOdOQYy+6/BSpZtb9ahCoA+L2rK8c0Iv0NJ
+   GB4cFwoeFSy5wphZfr219SG51oWYuSP/eVoBJIgwTRZ7Hmnl/VK3oUx8B
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="318328902"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="416539784"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 18:09:18 -0800
+   d="scan'208";a="318328902"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 18:09:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="700300619"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="661246622"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="700300619"
+   d="scan'208";a="661246622"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2023 18:09:15 -0800
+  by orsmga007.jf.intel.com with ESMTP; 09 Feb 2023 18:09:15 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQIqg-0005SA-12;
+	id 1pQIqg-0005SC-1E;
 	Fri, 10 Feb 2023 02:09:14 +0000
-Date: Fri, 10 Feb 2023 10:08:55 +0800
+Date: Fri, 10 Feb 2023 10:08:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10 3/4]
- include/trace/trace_events.h:27:23: warning:
- 'str__dma_noalias__trace_system_name' defined but not used
-Message-ID: <202302101031.o7gt8RS3-lkp@intel.com>
+To: Deepak Kumar Singh <quic_deesin@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202302101036.8ET56Cry-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,248 +47,202 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android12-5.10
-head:   d40d310e5ea48fda20e144621a2abe0aa61cf39c
-commit: 9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7 [3/4] ANDROID: dma-ops: Add restricted vendor hook
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230210/202302101031.o7gt8RS3-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/ammarfaizi2/linux-block/commit/9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android12-5.10
-        git checkout 9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e544a07438522ab3688416e6e2e34bf0ee6d8755
+commit: 20bb6c9de1b7e13f11d2ffe73686f4449c426807 soc: qcom: smem: map only partitions used by local HOST
+date:   10 months ago
+config: sh-randconfig-s032-20230209 (https://download.01.org/0day-ci/archive/20230210/202302101036.8ET56Cry-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=20bb6c9de1b7e13f11d2ffe73686f4449c426807
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 20bb6c9de1b7e13f11d2ffe73686f4449c426807
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302101031.o7gt8RS3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302101036.8ET56Cry-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/soc/qcom/smem.c:422:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:422:16: sparse:     expected struct smem_header *header
+   drivers/soc/qcom/smem.c:422:16: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:507:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:507:16: sparse:     expected struct smem_header *header
+   drivers/soc/qcom/smem.c:507:16: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:520:50: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/soc/qcom/smem.c:520:50: sparse:     expected void *
+   drivers/soc/qcom/smem.c:520:50: sparse:     got void [noderef] __iomem *
+   drivers/soc/qcom/smem.c:648:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:648:22: sparse:     expected struct smem_partition_header *phdr
+   drivers/soc/qcom/smem.c:648:22: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:653:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:653:22: sparse:     expected struct smem_partition_header *phdr
+   drivers/soc/qcom/smem.c:653:22: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:657:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:657:24: sparse:     expected struct smem_header *header
+   drivers/soc/qcom/smem.c:657:24: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:667:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/soc/qcom/smem.c:667:30: sparse:    void *
+   drivers/soc/qcom/smem.c:667:30: sparse:    void [noderef] __iomem *
+   drivers/soc/qcom/smem.c:688:36: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/qcom/smem.c:697:28: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/qcom/smem.c:706:36: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/qcom/smem.c:721:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:721:16: sparse:     expected struct smem_header *header
+   drivers/soc/qcom/smem.c:721:16: sparse:     got void [noderef] __iomem *virt_base
+   drivers/soc/qcom/smem.c:754:57: sparse: sparse: restricted __le32 degrades to integer
+   drivers/soc/qcom/smem.c:775:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *header @@     got void [noderef] __iomem * @@
+   drivers/soc/qcom/smem.c:775:16: sparse:     expected struct smem_partition_header *header
+   drivers/soc/qcom/smem.c:775:16: sparse:     got void [noderef] __iomem *
+   drivers/soc/qcom/smem.c:926:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_ptable *ptable @@     got void [noderef] __iomem * @@
+   drivers/soc/qcom/smem.c:926:22: sparse:     expected struct smem_ptable *ptable
+   drivers/soc/qcom/smem.c:926:22: sparse:     got void [noderef] __iomem *
+   drivers/soc/qcom/smem.c:1035:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
+   drivers/soc/qcom/smem.c:1035:16: sparse:     expected struct smem_header *header
+   drivers/soc/qcom/smem.c:1035:16: sparse:     got void [noderef] __iomem *virt_base
+>> drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
+   drivers/soc/qcom/smem.c:1056:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smem.c:1056:16: sparse:     got restricted __le32 *
+   drivers/soc/qcom/smem.c:1056:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
+   drivers/soc/qcom/smem.c:1056:52: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smem.c:1056:52: sparse:     got restricted __le32 *
 
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:22,
-                    from drivers/android/vendor_hooks.c:50:
-   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:43,
-                    from drivers/android/vendor_hooks.c:49:
-   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/block.h:39,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:80,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:34,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dma_noalias.h:19,
-                    from drivers/android/vendor_hooks.c:45:
->> include/trace/trace_events.h:27:23: warning: 'str__dma_noalias__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:50,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:45,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/power.h:51,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/trace_events.h:27:23: warning: 'str__power__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/softlockup.h:28,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/trace_events.h:27:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/timer.h:19,
-                    from drivers/android/vendor_hooks.c:40:
-   include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+vim +1056 drivers/soc/qcom/smem.c
 
-
-vim +/str__dma_noalias__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  30) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  31) 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  32) #define TRACE_MAKE_SYSTEM_STR()				\
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @33) 	static const char TRACE_SYSTEM_STRING[] =	\
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  34) 		__stringify(TRACE_SYSTEM)
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  35) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   973	
+   974	static int qcom_smem_probe(struct platform_device *pdev)
+   975	{
+   976		struct smem_header *header;
+   977		struct reserved_mem *rmem;
+   978		struct qcom_smem *smem;
+   979		unsigned long flags;
+   980		size_t array_size;
+   981		int num_regions;
+   982		int hwlock_id;
+   983		u32 version;
+   984		u32 size;
+   985		int ret;
+   986		int i;
+   987	
+   988		num_regions = 1;
+   989		if (of_find_property(pdev->dev.of_node, "qcom,rpm-msg-ram", NULL))
+   990			num_regions++;
+   991	
+   992		array_size = num_regions * sizeof(struct smem_region);
+   993		smem = devm_kzalloc(&pdev->dev, sizeof(*smem) + array_size, GFP_KERNEL);
+   994		if (!smem)
+   995			return -ENOMEM;
+   996	
+   997		smem->dev = &pdev->dev;
+   998		smem->num_regions = num_regions;
+   999	
+  1000		rmem = of_reserved_mem_lookup(pdev->dev.of_node);
+  1001		if (rmem) {
+  1002			smem->regions[0].aux_base = rmem->base;
+  1003			smem->regions[0].size = rmem->size;
+  1004		} else {
+  1005			/*
+  1006			 * Fall back to the memory-region reference, if we're not a
+  1007			 * reserved-memory node.
+  1008			 */
+  1009			ret = qcom_smem_resolve_mem(smem, "memory-region", &smem->regions[0]);
+  1010			if (ret)
+  1011				return ret;
+  1012		}
+  1013	
+  1014		if (num_regions > 1) {
+  1015			ret = qcom_smem_resolve_mem(smem, "qcom,rpm-msg-ram", &smem->regions[1]);
+  1016			if (ret)
+  1017				return ret;
+  1018		}
+  1019	
+  1020	
+  1021		ret = qcom_smem_map_toc(smem, &smem->regions[0]);
+  1022		if (ret)
+  1023			return ret;
+  1024	
+  1025		for (i = 1; i < num_regions; i++) {
+  1026			smem->regions[i].virt_base = devm_ioremap_wc(&pdev->dev,
+  1027								     smem->regions[i].aux_base,
+  1028								     smem->regions[i].size);
+  1029			if (!smem->regions[i].virt_base) {
+  1030				dev_err(&pdev->dev, "failed to remap %pa\n", &smem->regions[i].aux_base);
+  1031				return -ENOMEM;
+  1032			}
+  1033		}
+  1034	
+  1035		header = smem->regions[0].virt_base;
+  1036		if (le32_to_cpu(header->initialized) != 1 ||
+  1037		    le32_to_cpu(header->reserved)) {
+  1038			dev_err(&pdev->dev, "SMEM is not initialized by SBL\n");
+  1039			return -EINVAL;
+  1040		}
+  1041	
+  1042		hwlock_id = of_hwspin_lock_get_id(pdev->dev.of_node, 0);
+  1043		if (hwlock_id < 0) {
+  1044			if (hwlock_id != -EPROBE_DEFER)
+  1045				dev_err(&pdev->dev, "failed to retrieve hwlock\n");
+  1046			return hwlock_id;
+  1047		}
+  1048	
+  1049		smem->hwlock = hwspin_lock_request_specific(hwlock_id);
+  1050		if (!smem->hwlock)
+  1051			return -ENXIO;
+  1052	
+  1053		ret = hwspin_lock_timeout_irqsave(smem->hwlock, HWSPINLOCK_TIMEOUT, &flags);
+  1054		if (ret)
+  1055			return ret;
+> 1056		size = readl_relaxed(&header->available) + readl_relaxed(&header->free_offset);
+  1057		hwspin_unlock_irqrestore(smem->hwlock, &flags);
+  1058	
+  1059		version = qcom_smem_get_sbl_version(smem);
+  1060		/*
+  1061		 * smem header mapping is required only in heap version scheme, so unmap
+  1062		 * it here. It will be remapped in qcom_smem_map_global() when whole
+  1063		 * partition is mapped again.
+  1064		 */
+  1065		devm_iounmap(smem->dev, smem->regions[0].virt_base);
+  1066		switch (version >> 16) {
+  1067		case SMEM_GLOBAL_PART_VERSION:
+  1068			ret = qcom_smem_set_global_partition(smem);
+  1069			if (ret < 0)
+  1070				return ret;
+  1071			smem->item_count = qcom_smem_get_item_count(smem);
+  1072			break;
+  1073		case SMEM_GLOBAL_HEAP_VERSION:
+  1074			qcom_smem_map_global(smem, size);
+  1075			smem->item_count = SMEM_ITEM_COUNT;
+  1076			break;
+  1077		default:
+  1078			dev_err(&pdev->dev, "Unsupported SMEM version 0x%x\n", version);
+  1079			return -EINVAL;
+  1080		}
+  1081	
+  1082		BUILD_BUG_ON(SMEM_HOST_APPS >= SMEM_HOST_COUNT);
+  1083		ret = qcom_smem_enumerate_partitions(smem, SMEM_HOST_APPS);
+  1084		if (ret < 0 && ret != -ENOENT)
+  1085			return ret;
+  1086	
+  1087		__smem = smem;
+  1088	
+  1089		smem->socinfo = platform_device_register_data(&pdev->dev, "qcom-socinfo",
+  1090							      PLATFORM_DEVID_NONE, NULL,
+  1091							      0);
+  1092		if (IS_ERR(smem->socinfo))
+  1093			dev_dbg(&pdev->dev, "failed to register socinfo device\n");
+  1094	
+  1095		return 0;
+  1096	}
+  1097	
 
 -- 
 0-DAY CI Kernel Test Service
