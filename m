@@ -1,43 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844AA624;
-	Fri, 10 Feb 2023 01:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF8E624
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 02:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675994356; x=1707530356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G9Lcx3FnINMmOlyeSeP/pVV0yaB2mrasmLWakZilSfY=;
-  b=Y1xrmfbz3q5o5/AhbVCJxwI8o30Xssrw49Rc/RfnF7UtB2Jk7HZFmPUj
-   drjobXC+4swSG7E1ujh7DZLiBR6yyNGZnVeBwbtRg4+c06HdAIiyONby3
-   g+h4ID7iDjausvoLpittyOl6oNlZdOLMkocteSWE+VtVBOeKUS3knjKHD
-   4lN96SYHdOZp/rXEitUL1fye2ssjVnwo1GcGVys6vmQlgaP8qK5/NWxVe
-   qvfG1Ty7h4CSyVj8b88H4E91Uh7lqVcq6zI/64paxAuYsdXtzePnMzk/E
-   LaIpadz0LyQ2ASxNRiEJ62Fbz2hBTyA25p4xgAAcBiLsP8P3JOaBnDTRr
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="392709642"
+  t=1675994961; x=1707530961;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JtaOK4Cx1VyISQj5TnbG3+n1Y/czyjRSkuZduCiKp0Q=;
+  b=Cq0nZf4Ddta9RcXV3FEluccHzzYFYDwkkkt1gBvo+M5wemKpOO+w+HdI
+   jzxBziQsA+zk8ldvUFBtBjNj5oEtfHI/3tPb/2U375fTkkAFhOjOdGZgc
+   MrpgDesXBmiw5k2XRREgCuE0WmLzEaF1AkTBHFezIkDL7unATgSArvCWq
+   +doWKTqrlIC/W6rnMfvKxMboT4leA7IradZ6UErqhbjrJDX/5jzdWRhKF
+   E5XEa30Mu5D7jqudd/6kFRTthDWEecBaHGJYYspnuqiYzUbMfchETrabn
+   VP0X/cKZ4o6cJHpgreK+REdDAqmucdcOGIWcilEpXnZ+9OgZxx3bH5+lP
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="416539784"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="392709642"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 17:59:15 -0800
+   d="scan'208";a="416539784"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 18:09:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="791808078"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="700300619"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="791808078"
+   d="scan'208";a="700300619"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Feb 2023 17:59:14 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2023 18:09:15 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQIgz-0005RU-2y;
-	Fri, 10 Feb 2023 01:59:13 +0000
-Date: Fri, 10 Feb 2023 09:58:25 +0800
+	id 1pQIqg-0005SA-12;
+	Fri, 10 Feb 2023 02:09:14 +0000
+Date: Fri, 10 Feb 2023 10:08:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 1/1] v4l: async: Add some debug prints
-Message-ID: <202302100915.9sd03PJI-lkp@intel.com>
-References: <20230209221634.35239-1-sakari.ailus@linux.intel.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10 3/4]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__dma_noalias__trace_system_name' defined but not used
+Message-ID: <202302101031.o7gt8RS3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,169 +47,249 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230209221634.35239-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on sailus-media-tree/streams soc/for-next linus/master v6.2-rc7 next-20230209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/v4l-async-Add-some-debug-prints/20230210-061721
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230209221634.35239-1-sakari.ailus%40linux.intel.com
-patch subject: [RFC 1/1] v4l: async: Add some debug prints
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230210/202302100915.9sd03PJI-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android12-5.10
+head:   d40d310e5ea48fda20e144621a2abe0aa61cf39c
+commit: 9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7 [3/4] ANDROID: dma-ops: Add restricted vendor hook
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230210/202302101031.o7gt8RS3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e7f54a8293c1023ad1d5c5cd757278037d55088f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sakari-Ailus/v4l-async-Add-some-debug-prints/20230210-061721
-        git checkout e7f54a8293c1023ad1d5c5cd757278037d55088f
+        # https://github.com/ammarfaizi2/linux-block/commit/9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android12-5.10
+        git checkout 9d2ec2e0b69e81d5925e363f3a4e0b6cfaefb7e7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302100915.9sd03PJI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302101031.o7gt8RS3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/v4l2-core/v4l2-async.c:276:5: error: implicit declaration of function 'deb_dbg' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                   deb_dbg(subdev_notifier->sd->dev,
-                                   ^
->> drivers/media/v4l2-core/v4l2-async.c:290:1: error: function definition is not allowed here
-   {
-   ^
->> drivers/media/v4l2-core/v4l2-async.c:319:1: error: function declared in block scope cannot have 'static' storage class
-   static int
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:324:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:344:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:399:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:436:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:449:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:472:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:499:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:524:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:549:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:555:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:601:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:619:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:637:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:650:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:660:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/media/v4l2-core/v4l2-async.c:682:1: error: function definition is not allowed here
-   {
-   ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sys.h:22,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cgroup.h:43,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/block.h:39,
+                    from drivers/android/vendor_hooks.c:48:
+   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ufshcd.h:80,
+                    from drivers/android/vendor_hooks.c:47:
+   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/thermal.h:34,
+                    from drivers/android/vendor_hooks.c:46:
+   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dma_noalias.h:19,
+                    from drivers/android/vendor_hooks.c:45:
+>> include/trace/trace_events.h:27:23: warning: 'str__dma_noalias__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/iommu.h:50,
+                    from drivers/android/vendor_hooks.c:44:
+   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fault.h:45,
+                    from drivers/android/vendor_hooks.c:43:
+   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/power.h:51,
+                    from drivers/android/vendor_hooks.c:42:
+   include/trace/trace_events.h:27:23: warning: 'str__power__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/softlockup.h:28,
+                    from drivers/android/vendor_hooks.c:41:
+   include/trace/trace_events.h:27:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:19,
+                    from drivers/android/vendor_hooks.c:40:
+   include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +/deb_dbg +276 drivers/media/v4l2-core/v4l2-async.c
+vim +/str__dma_noalias__trace_system_name +27 include/trace/trace_events.h
 
-   257	
-   258	/*
-   259	 * Return true if all child sub-device notifiers are complete, false otherwise.
-   260	 */
-   261	static bool
-   262	v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-   263	{
-   264		struct v4l2_subdev *sd;
-   265	
-   266		if (!list_empty(&notifier->waiting))
-   267			return false;
-   268	
-   269		list_for_each_entry(sd, &notifier->done, async_list) {
-   270			struct v4l2_async_notifier *subdev_notifier =
-   271				v4l2_async_find_subdev_notifier(sd);
-   272	
-   273			if (subdev_notifier &&
-   274			    !v4l2_async_nf_can_complete(subdev_notifier)) {
-   275				if (subdev_notifier->sd)
- > 276					deb_dbg(subdev_notifier->sd->dev,
-   277						"cannot complete\n");
-   278				return false;
-   279		}
-   280	
-   281		return true;
-   282	}
-   283	
-   284	/*
-   285	 * Complete the master notifier if possible. This is done when all async
-   286	 * sub-devices have been bound; v4l2_device is also available then.
-   287	 */
-   288	static int
-   289	v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
- > 290	{
-   291		/* Quick check whether there are still more sub-devices here. */
-   292		if (!list_empty(&notifier->waiting))
-   293			return 0;
-   294	
-   295		if (notifier->sd)
-   296			deb_dbg(notifier->sd->dev, "trying to complete\n");
-   297	
-   298		/* Check the entire notifier tree; find the root notifier first. */
-   299		while (notifier->parent)
-   300			notifier = notifier->parent;
-   301	
-   302		/* This is root if it has v4l2_dev. */
-   303		if (!notifier->v4l2_dev) {
-   304			if (notifier->sd)
-   305				deb_dbg(notifier->sd->dev,
-   306					"V4L2 device not available\n");
-   307			return 0;
-   308		}
-   309	
-   310		/* Is everything ready? */
-   311		if (!v4l2_async_nf_can_complete(notifier))
-   312			return 0;
-   313	
-   314		deb_dbg(notifier->sd->dev, "complete\n");
-   315	
-   316		return v4l2_async_nf_call_complete(notifier);
-   317	}
-   318	
- > 319	static int
-   320	v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
-   321	
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  30) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  31) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  32) #define TRACE_MAKE_SYSTEM_STR()				\
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @33) 	static const char TRACE_SYSTEM_STRING[] =	\
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  34) 		__stringify(TRACE_SYSTEM)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  35) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
