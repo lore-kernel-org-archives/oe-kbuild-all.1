@@ -1,42 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D40E7E2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B047F4
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 04:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676003243; x=1707539243;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=BCek8t0JeGzvEK6wu116iAXo54s71FTa/1NkgZkzQdk=;
-  b=g3Y0mJ6JW0LaXJM90tTf5msU+c243MsCewhQAb/odqUDnkLaSZqSrg5K
-   6DOh242Fladp3QWGad4xxqz3+s7Aorb/DMqwpEzWl4liSFLH+H8BQJzy7
-   KGQPJV3DoRx4Bog8mlmJUV8e0AiocYnXIa80txznUBWLldHnUezc0rmBh
-   NSF2eMJq632pif3L60LrPpe7/dhGxx1c32VdtjjETF7Z7ATxLs7RBNOKC
-   /CKuaCDt56oaLZ1xgoVGpvmHMnRzug6b+2ambFNuFlpxGbcaJrG3+ZiGg
-   n4RzskdyKI8Lc1wBuyp7kExASivucR0eP9OdY2z3BXpfuIu3aGeiQRR7K
+  t=1676003244; x=1707539244;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wxz0s+vgLZzTI5InokUSdNaPsLa2/5T1ruudttxV1+8=;
+  b=IjwZbj4p80cap/06k9L32BtU8TyEL9BgLrVV4V0H8X6MHgzxAjg1CpLr
+   DolLrQqBNnZF5dDcyjm2Tl9PcksmkWAd/RiNiWXB17ZDoSu4ndT3sDbbF
+   jNE0F59Sns3J/3g++dw2BjItdZtVuqC0Hqy1XM5pUuztyPG1pI4s72x6X
+   ePNmj1PQVwSUzsJk+h1lMORbhbQPcyvBYp4dvD3pFkf/obxQGk/SncaRz
+   X4NnIu6Jd411i7fdu8/oYnC/mznL6xV5OK+ZjDw4C9DRyiFngNe6hxr+8
+   YWvmoiCT/Xer1rfRR2nzQQlWxXJQK/rNwxDjYozy1rsZGnCgbGgj/TOXY
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="310698304"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="318350074"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="310698304"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:27:22 -0800
+   d="scan'208";a="318350074"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:27:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="913399738"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="700332228"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="913399738"
+   d="scan'208";a="700332228"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Feb 2023 20:27:21 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2023 20:27:21 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQL0K-0005YH-19;
+	id 1pQL0K-0005YE-0z;
 	Fri, 10 Feb 2023 04:27:20 +0000
-Date: Fri, 10 Feb 2023 12:26:55 +0800
+Date: Fri, 10 Feb 2023 12:27:01 +0800
 From: kernel test robot <lkp@intel.com>
+To: Brandon Brnich <b-brnich@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-5.10.y 16229/21442]
- drivers/media/i2c/ds90ub953.c:268:6: error: no member named 'of_xlate' in
- 'struct gpio_chip'
-Message-ID: <202302101239.OIR2d59B-lkp@intel.com>
+Subject: [ti:ti-rt-linux-5.10.y 20049/21442]
+ drivers/media/platform/chips-media/wave5/wave5-vpu.c:228:37: warning: format
+ '%lx' expects argument of type 'long unsigned int', but argument 6 has type
+ 'size_t' {aka 'unsigned int'}
+Message-ID: <202302101249.Sfi4nEXh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,83 +48,198 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tomi,
+Hi Brandon,
 
 FYI, the error/warning still remains.
 
 tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y
 head:   221424b9d0cea049e58d5ad93fcec93c90511744
-commit: 51c767df6b13b4db728ececa0c5d8e644705dd62 [16229/21442] media: i2c: add DS90UB953 driver
-config: hexagon-randconfig-r014-20230210 (https://download.01.org/0day-ci/archive/20230210/202302101239.OIR2d59B-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+commit: f32fe9062e71fc67e8247319c55ff53584757347 [20049/21442] media: platform: Updating config to build CnM Wave5 VPU
+config: microblaze-randconfig-r011-20230210 (https://download.01.org/0day-ci/archive/20230210/202302101249.Sfi4nEXh-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
         git fetch --no-tags ti ti-rt-linux-5.10.y
-        git checkout 51c767df6b13b4db728ececa0c5d8e644705dd62
+        git checkout f32fe9062e71fc67e8247319c55ff53584757347
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/media/platform/chips-media/wave5/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302101239.OIR2d59B-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302101249.Sfi4nEXh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/ds90ub953.c:268:6: error: no member named 'of_xlate' in 'struct gpio_chip'
-           gc->of_xlate = ub953_gpio_of_xlate;
-           ~~  ^
->> drivers/media/i2c/ds90ub953.c:269:6: error: no member named 'of_node' in 'struct gpio_chip'
-           gc->of_node = priv->client->dev.of_node;
-           ~~  ^
->> drivers/media/i2c/ds90ub953.c:270:6: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-           gc->of_gpio_n_cells = 2;
-           ~~  ^
-   3 errors generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/media/platform/chips-media/wave5/wave5-vpu.c:9:
+   drivers/media/platform/chips-media/wave5/wave5-vpu.c: In function 'wave5_vpu_probe':
+>> drivers/media/platform/chips-media/wave5/wave5-vpu.c:228:37: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     228 |                 dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:19:22: note: in definition of macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   drivers/media/platform/chips-media/wave5/wave5-vpu.c:228:17: note: in expansion of macro 'dev_dbg'
+     228 |                 dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
+         |                 ^~~~~~~
+   drivers/media/platform/chips-media/wave5/wave5-vpu.c:228:70: note: format string is defined here
+     228 |                 dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
+         |                                                                    ~~^
+         |                                                                      |
+         |                                                                      long unsigned int
+         |                                                                    %x
 
 
-vim +268 drivers/media/i2c/ds90ub953.c
+vim +228 drivers/media/platform/chips-media/wave5/wave5-vpu.c
 
-   244	
-   245	static int ub953_gpiochip_probe(struct ub953_data *priv)
-   246	{
-   247		struct device *dev = &priv->client->dev;
-   248		struct gpio_chip *gc = &priv->gpio_chip;
-   249		int ret;
-   250	
-   251		/* Set all GPIOs to local mode */
-   252		ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
-   253	
-   254		scnprintf(priv->gpio_chip_name, sizeof(priv->gpio_chip_name), "%s",
-   255			  dev_name(dev));
-   256	
-   257		gc->label = priv->gpio_chip_name;
-   258		gc->parent = dev;
-   259		gc->owner = THIS_MODULE;
-   260		gc->base = -1;
-   261		gc->can_sleep = 1;
-   262		gc->ngpio = UB953_NUM_GPIOS;
-   263		gc->get_direction = ub953_gpio_get_direction;
-   264		gc->direction_input = ub953_gpio_direction_in;
-   265		gc->direction_output = ub953_gpio_direction_out;
-   266		gc->get = ub953_gpio_get;
-   267		gc->set = ub953_gpio_set;
- > 268		gc->of_xlate = ub953_gpio_of_xlate;
- > 269		gc->of_node = priv->client->dev.of_node;
- > 270		gc->of_gpio_n_cells = 2;
-   271	
-   272		ret = gpiochip_add_data(gc, priv);
-   273		if (ret) {
-   274			dev_err(dev, "Failed to add GPIOs: %d\n", ret);
-   275			return ret;
-   276		}
-   277	
-   278		return 0;
-   279	}
-   280	
+775bc9870068a01 Nas Chung 2022-10-31  169  
+775bc9870068a01 Nas Chung 2022-10-31  170  static int wave5_vpu_probe(struct platform_device *pdev)
+775bc9870068a01 Nas Chung 2022-10-31  171  {
+775bc9870068a01 Nas Chung 2022-10-31  172  	int ret;
+775bc9870068a01 Nas Chung 2022-10-31  173  	struct vpu_device *dev;
+775bc9870068a01 Nas Chung 2022-10-31  174  	struct device_node *np;
+775bc9870068a01 Nas Chung 2022-10-31  175  	const struct wave5_match_data *match_data;
+775bc9870068a01 Nas Chung 2022-10-31  176  	struct resource sram;
+775bc9870068a01 Nas Chung 2022-10-31  177  
+775bc9870068a01 Nas Chung 2022-10-31  178  	match_data = device_get_match_data(&pdev->dev);
+775bc9870068a01 Nas Chung 2022-10-31  179  	if (!match_data) {
+775bc9870068a01 Nas Chung 2022-10-31  180  		dev_err(&pdev->dev, "missing device match data\n");
+775bc9870068a01 Nas Chung 2022-10-31  181  		return -EINVAL;
+775bc9870068a01 Nas Chung 2022-10-31  182  	}
+775bc9870068a01 Nas Chung 2022-10-31  183  
+775bc9870068a01 Nas Chung 2022-10-31  184  	/* physical addresses limited to 32 bits */
+775bc9870068a01 Nas Chung 2022-10-31  185  	dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+775bc9870068a01 Nas Chung 2022-10-31  186  	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+775bc9870068a01 Nas Chung 2022-10-31  187  
+775bc9870068a01 Nas Chung 2022-10-31  188  	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+775bc9870068a01 Nas Chung 2022-10-31  189  	if (!dev)
+775bc9870068a01 Nas Chung 2022-10-31  190  		return -ENOMEM;
+775bc9870068a01 Nas Chung 2022-10-31  191  
+775bc9870068a01 Nas Chung 2022-10-31  192  	dev->vdb_register = devm_platform_ioremap_resource(pdev, 0);
+775bc9870068a01 Nas Chung 2022-10-31  193  	if (IS_ERR(dev->vdb_register))
+775bc9870068a01 Nas Chung 2022-10-31  194  		return PTR_ERR(dev->vdb_register);
+775bc9870068a01 Nas Chung 2022-10-31  195  	ida_init(&dev->inst_ida);
+775bc9870068a01 Nas Chung 2022-10-31  196  
+775bc9870068a01 Nas Chung 2022-10-31  197  	mutex_init(&dev->dev_lock);
+775bc9870068a01 Nas Chung 2022-10-31  198  	mutex_init(&dev->hw_lock);
+775bc9870068a01 Nas Chung 2022-10-31  199  	dev_set_drvdata(&pdev->dev, dev);
+775bc9870068a01 Nas Chung 2022-10-31  200  	dev->dev = &pdev->dev;
+775bc9870068a01 Nas Chung 2022-10-31  201  
+775bc9870068a01 Nas Chung 2022-10-31  202  	ret = devm_clk_bulk_get_all(&pdev->dev, &dev->clks);
+775bc9870068a01 Nas Chung 2022-10-31  203  
+775bc9870068a01 Nas Chung 2022-10-31  204  	/* continue without clock, assume externally managed */
+775bc9870068a01 Nas Chung 2022-10-31  205  	if (ret < 0) {
+775bc9870068a01 Nas Chung 2022-10-31  206  		dev_warn(&pdev->dev, "Getting clocks, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  207  		ret = 0;
+775bc9870068a01 Nas Chung 2022-10-31  208  	}
+775bc9870068a01 Nas Chung 2022-10-31  209  	dev->num_clks = ret;
+775bc9870068a01 Nas Chung 2022-10-31  210  
+775bc9870068a01 Nas Chung 2022-10-31  211  	ret = clk_bulk_prepare_enable(dev->num_clks, dev->clks);
+775bc9870068a01 Nas Chung 2022-10-31  212  	if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  213  		dev_err(&pdev->dev, "Enabling clocks, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  214  		return ret;
+775bc9870068a01 Nas Chung 2022-10-31  215  	}
+775bc9870068a01 Nas Chung 2022-10-31  216  
+775bc9870068a01 Nas Chung 2022-10-31  217  	np = of_parse_phandle(pdev->dev.of_node, "sram", 0);
+775bc9870068a01 Nas Chung 2022-10-31  218  	if (!np) {
+775bc9870068a01 Nas Chung 2022-10-31  219  		dev_warn(&pdev->dev, "sram node not found\n");
+775bc9870068a01 Nas Chung 2022-10-31  220  	} else {
+775bc9870068a01 Nas Chung 2022-10-31  221  		ret = of_address_to_resource(np, 0, &sram);
+775bc9870068a01 Nas Chung 2022-10-31  222  		if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  223  			dev_err(&pdev->dev, "sram resource not available\n");
+775bc9870068a01 Nas Chung 2022-10-31  224  			goto err_put_node;
+775bc9870068a01 Nas Chung 2022-10-31  225  		}
+775bc9870068a01 Nas Chung 2022-10-31  226  		dev->sram_buf.daddr = sram.start;
+775bc9870068a01 Nas Chung 2022-10-31  227  		dev->sram_buf.size = resource_size(&sram);
+775bc9870068a01 Nas Chung 2022-10-31 @228  		dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
+775bc9870068a01 Nas Chung 2022-10-31  229  			__func__, &dev->sram_buf.daddr, dev->sram_buf.size);
+775bc9870068a01 Nas Chung 2022-10-31  230  	}
+775bc9870068a01 Nas Chung 2022-10-31  231  
+775bc9870068a01 Nas Chung 2022-10-31  232  	dev->product_code = wave5_vdi_readl(dev, VPU_PRODUCT_CODE_REGISTER);
+775bc9870068a01 Nas Chung 2022-10-31  233  	ret = wave5_vdi_init(&pdev->dev);
+775bc9870068a01 Nas Chung 2022-10-31  234  	if (ret < 0) {
+775bc9870068a01 Nas Chung 2022-10-31  235  		dev_err(&pdev->dev, "wave5_vdi_init, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  236  		goto err_clk_dis;
+775bc9870068a01 Nas Chung 2022-10-31  237  	}
+775bc9870068a01 Nas Chung 2022-10-31  238  	dev->product = wave5_vpu_get_product_id(dev);
+775bc9870068a01 Nas Chung 2022-10-31  239  
+775bc9870068a01 Nas Chung 2022-10-31  240  	INIT_LIST_HEAD(&dev->instances);
+775bc9870068a01 Nas Chung 2022-10-31  241  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+775bc9870068a01 Nas Chung 2022-10-31  242  	if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  243  		dev_err(&pdev->dev, "v4l2_device_register, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  244  		goto err_vdi_release;
+775bc9870068a01 Nas Chung 2022-10-31  245  	}
+775bc9870068a01 Nas Chung 2022-10-31  246  
+775bc9870068a01 Nas Chung 2022-10-31  247  	if (match_data->flags & WAVE5_IS_DEC) {
+775bc9870068a01 Nas Chung 2022-10-31  248  		ret = wave5_vpu_dec_register_device(dev);
+775bc9870068a01 Nas Chung 2022-10-31  249  		if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  250  			dev_err(&pdev->dev, "wave5_vpu_dec_register_device, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  251  			goto err_v4l2_unregister;
+775bc9870068a01 Nas Chung 2022-10-31  252  		}
+775bc9870068a01 Nas Chung 2022-10-31  253  	}
+775bc9870068a01 Nas Chung 2022-10-31  254  	if (match_data->flags & WAVE5_IS_ENC) {
+775bc9870068a01 Nas Chung 2022-10-31  255  		ret = wave5_vpu_enc_register_device(dev);
+775bc9870068a01 Nas Chung 2022-10-31  256  		if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  257  			dev_err(&pdev->dev, "wave5_vpu_enc_register_device, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  258  			goto err_dec_unreg;
+775bc9870068a01 Nas Chung 2022-10-31  259  		}
+775bc9870068a01 Nas Chung 2022-10-31  260  	}
+775bc9870068a01 Nas Chung 2022-10-31  261  
+775bc9870068a01 Nas Chung 2022-10-31  262  	dev->irq = platform_get_irq(pdev, 0);
+775bc9870068a01 Nas Chung 2022-10-31  263  	if (dev->irq < 0) {
+775bc9870068a01 Nas Chung 2022-10-31  264  		dev_err(&pdev->dev, "failed to get irq resource\n");
+775bc9870068a01 Nas Chung 2022-10-31  265  		ret = -ENXIO;
+775bc9870068a01 Nas Chung 2022-10-31  266  		goto err_enc_unreg;
+775bc9870068a01 Nas Chung 2022-10-31  267  	}
+775bc9870068a01 Nas Chung 2022-10-31  268  
+775bc9870068a01 Nas Chung 2022-10-31  269  	ret = devm_request_threaded_irq(&pdev->dev, dev->irq, wave5_vpu_irq,
+775bc9870068a01 Nas Chung 2022-10-31  270  					wave5_vpu_irq_thread, 0, "vpu_irq", dev);
+775bc9870068a01 Nas Chung 2022-10-31  271  	if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  272  		dev_err(&pdev->dev, "Register interrupt handler, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  273  		goto err_enc_unreg;
+775bc9870068a01 Nas Chung 2022-10-31  274  	}
+775bc9870068a01 Nas Chung 2022-10-31  275  
+775bc9870068a01 Nas Chung 2022-10-31  276  	ret = wave5_vpu_load_firmware(&pdev->dev, match_data->fw_name);
+775bc9870068a01 Nas Chung 2022-10-31  277  	if (ret) {
+775bc9870068a01 Nas Chung 2022-10-31  278  		dev_err(&pdev->dev, "wave5_vpu_load_firmware, fail: %d\n", ret);
+775bc9870068a01 Nas Chung 2022-10-31  279  		goto err_enc_unreg;
+775bc9870068a01 Nas Chung 2022-10-31  280  	}
+775bc9870068a01 Nas Chung 2022-10-31  281  
+775bc9870068a01 Nas Chung 2022-10-31  282  	dev_dbg(&pdev->dev, "Added wave5 driver with caps: %s %s and product code: 0x%x\n",
+775bc9870068a01 Nas Chung 2022-10-31  283  		(match_data->flags & WAVE5_IS_ENC) ? "'ENCODE'" : "",
+775bc9870068a01 Nas Chung 2022-10-31  284  		(match_data->flags & WAVE5_IS_DEC) ? "'DECODE'" : "",
+775bc9870068a01 Nas Chung 2022-10-31  285  		dev->product_code);
+775bc9870068a01 Nas Chung 2022-10-31  286  	return 0;
+775bc9870068a01 Nas Chung 2022-10-31  287  
+775bc9870068a01 Nas Chung 2022-10-31  288  err_enc_unreg:
+775bc9870068a01 Nas Chung 2022-10-31  289  	if (match_data->flags & WAVE5_IS_ENC)
+775bc9870068a01 Nas Chung 2022-10-31  290  		wave5_vpu_enc_unregister_device(dev);
+775bc9870068a01 Nas Chung 2022-10-31  291  err_dec_unreg:
+775bc9870068a01 Nas Chung 2022-10-31  292  	if (match_data->flags & WAVE5_IS_DEC)
+775bc9870068a01 Nas Chung 2022-10-31  293  		wave5_vpu_dec_unregister_device(dev);
+775bc9870068a01 Nas Chung 2022-10-31  294  err_v4l2_unregister:
+775bc9870068a01 Nas Chung 2022-10-31  295  	v4l2_device_unregister(&dev->v4l2_dev);
+775bc9870068a01 Nas Chung 2022-10-31  296  err_vdi_release:
+775bc9870068a01 Nas Chung 2022-10-31  297  	wave5_vdi_release(&pdev->dev);
+775bc9870068a01 Nas Chung 2022-10-31  298  err_clk_dis:
+775bc9870068a01 Nas Chung 2022-10-31  299  	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+775bc9870068a01 Nas Chung 2022-10-31  300  err_put_node:
+775bc9870068a01 Nas Chung 2022-10-31  301  	of_node_put(np);
+775bc9870068a01 Nas Chung 2022-10-31  302  
+775bc9870068a01 Nas Chung 2022-10-31  303  	return ret;
+775bc9870068a01 Nas Chung 2022-10-31  304  }
+775bc9870068a01 Nas Chung 2022-10-31  305  
+
+:::::: The code at line 228 was first introduced by commit
+:::::: 775bc9870068a017c3a987c584df3d7f102d1e7c media: chips-media: wave5: Add the v4l2 layer
+
+:::::: TO: Nas Chung <nas.chung@chipsnmedia.com>
+:::::: CC: Brandon Brnich <b-brnich@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
