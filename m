@@ -1,47 +1,38 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E937D63AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 16:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676047906; x=1707583906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nSzng8kiRdDVACz4XJUD/Xl9rQMBEjR4hZY8l5ikNbY=;
-  b=Kx92kSxVwddxpcoiZx5mRNXvYMk6uYzyaAxvv3RhpS7ZKdZEssYjPBIO
-   YYKrpX7CaDm/JjM8DatKvwCSqgMuj91lqm5YTLKBk+zpSSMV3werQQJWC
-   2t7rTY1KPPk5fhrRUiwKoNCCAqdq0Kt6jrBmcOH3cD2J94J+Jz2HkRYq0
-   BfuOLBlobkHmv15+3R7Ld4qeRk+0rUXY614014m09Nz/4XwlrYM9wsgNH
-   MEZQzwYiWcZxvnGRuexe670hNJ7KAWybj/atC+Xx2HXHxXX7t1+JVhGWO
-   P7IhIrTnhrVEoqEukX8t04637fNi9iwj1j8EAY4xKPpS0v7zO7s29Ajbw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="310095084"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="310095084"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 08:51:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="645678483"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="645678483"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Feb 2023 08:51:40 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQWce-0005un-0Y;
-	Fri, 10 Feb 2023 16:51:40 +0000
-Date: Sat, 11 Feb 2023 00:50:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:for-6.3/cxl-ram-region 21/28] drivers/cxl/core/region.c:2527:7:
- warning: Local variable 'rc' shadows outer variable [shadowVariable]
-Message-ID: <202302110030.nDFn2KVK-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56AC63AB;
+	Fri, 10 Feb 2023 16:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=PIJ0eiwfFC1GcgQRe2pQ3GvN25J7vzagLnLLu75el5k=; b=aRbizo8R1YCqdlZkx3H4Md57rz
+	7rGHnY3xgNI5bMqgSqllNpyBYPxo45kX2INBwQtPauIuM4gpNX0yhXgVatbhMibek/kO3dSjFrXlm
+	nPa08dieeFYxe91EVhmwK9HMW+I1SVkHYJ6PW9m3MlYeqYN/TRceZujurEYhAPsVaNjbnj7gCXltw
+	gnabn4Qxwi/hdtX9TjouFI49tJFQw/WiTLI6cZWNj3pTueje/wpUSwoCG4IvC+bCfSEYJAmpgiZ2d
+	iIfot5NLndR7MbNs44y710y9VrjkIYekN0SvoakB+bp9jCiG2IZ53XavkynjNYkvo/NigP8yt7bCC
+	NPa4LCkg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pQWjE-003HNs-4D; Fri, 10 Feb 2023 16:58:28 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F3F8D30030F;
+	Fri, 10 Feb 2023 17:58:27 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id DCB8D2083D40F; Fri, 10 Feb 2023 17:58:27 +0100 (CET)
+Date: Fri, 10 Feb 2023 17:58:27 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:objtool/shrink-reloc 6/9]
+ tools/objtool/include/objtool/elf.h:85:92: error: '_Static_assert' with no
+ message is a C2x extension
+Message-ID: <Y+Z3s8RJhkWjg32L@hirez.programming.kicks-ass.net>
+References: <202302110008.pUtcZnVo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,116 +41,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202302110008.pUtcZnVo-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.3/cxl-ram-region
-head:   58c651c6c4bbf46725502ffbccde2c24b94dc5c0
-commit: eefc4eedc896b9b3af21a96657d00a9d3f4e88dd [21/28] cxl/region: Add region autodiscovery
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout eefc4eedc896b9b3af21a96657d00a9d3f4e88dd
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+On Sat, Feb 11, 2023 at 12:50:43AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git objtool/shrink-reloc
+> head:   6aedb7889b9dbd5094ff15b388ac2d2f6663148c
+> commit: 371de6c485805b337819a1a5f4a2f37ec739f328 [6/9] objtool: Remove reloc::offset
+> config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230211/202302110008.pUtcZnVo-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=371de6c485805b337819a1a5f4a2f37ec739f328
+>         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+>         git fetch --no-tags peterz-queue objtool/shrink-reloc
+>         git checkout 371de6c485805b337819a1a5f4a2f37ec739f328
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302110008.pUtcZnVo-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from weak.c:10:
+>    In file included from tools/objtool/include/objtool/objtool.h:13:
+> >> tools/objtool/include/objtool/elf.h:85:92: error: '_Static_assert' with no message is a C2x extension [-Werror,-Wc2x-extensions]
+>    static_assert(offsetof(struct reloc, rela.r_offset) == offsetof(struct reloc, rel.r_offset));
+>                                                                                               ^
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110030.nDFn2KVK-lkp@intel.com/
+Boo, I included build_bug.h which has:
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/cxl/core/region.c:2527:7: warning: Local variable 'rc' shadows outer variable [shadowVariable]
-     int rc = device_attach(&cxlr->dev);
-         ^
-   drivers/cxl/core/region.c:2487:6: note: Shadowed declaration
-    int rc;
-        ^
-   drivers/cxl/core/region.c:2527:7: note: Shadow variable
-     int rc = device_attach(&cxlr->dev);
-         ^
+tools/include/linux/build_bug.h:#define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
-   drivers/cxl/core/region.c:1626:5: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]
-    rc = cxl_region_validate_position(cxlr, cxled, pos);
-       ^
-   drivers/cxl/core/region.c:1527:9: note: rc is initialized
-    int rc = -ENXIO;
-           ^
-   drivers/cxl/core/region.c:1626:5: note: rc is overwritten
-    rc = cxl_region_validate_position(cxlr, cxled, pos);
-       ^
-
-vim +/rc +2527 drivers/cxl/core/region.c
-
-  2476	
-  2477	int cxl_add_to_region(struct cxl_port *root, struct cxl_endpoint_decoder *cxled)
-  2478	{
-  2479		struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-  2480		struct range *hpa = &cxled->cxld.hpa_range;
-  2481		struct cxl_decoder *cxld = &cxled->cxld;
-  2482		struct cxl_root_decoder *cxlrd;
-  2483		struct cxl_region_params *p;
-  2484		struct cxl_region *cxlr;
-  2485		bool attach = false;
-  2486		struct device *dev;
-  2487		int rc;
-  2488	
-  2489		dev = device_find_child(&root->dev, &cxld->hpa_range,
-  2490					match_decoder_by_range);
-  2491		if (!dev) {
-  2492			dev_err(cxlmd->dev.parent,
-  2493				"%s:%s no CXL window for range %#llx:%#llx\n",
-  2494				dev_name(&cxlmd->dev), dev_name(&cxld->dev),
-  2495				cxld->hpa_range.start, cxld->hpa_range.end);
-  2496			return -ENXIO;
-  2497		}
-  2498	
-  2499		cxlrd = to_cxl_root_decoder(dev);
-  2500	
-  2501		/*
-  2502		 * Ensure that if multiple threads race to construct_region() for @hpa
-  2503		 * one does the construction and the others add to that.
-  2504		 */
-  2505		mutex_lock(&cxlrd->range_lock);
-  2506		dev = device_find_child(&cxlrd->cxlsd.cxld.dev, hpa,
-  2507					match_region_by_range);
-  2508		if (!dev)
-  2509			cxlr = construct_region(cxlrd, cxled);
-  2510		else
-  2511			cxlr = to_cxl_region(dev);
-  2512		mutex_unlock(&cxlrd->range_lock);
-  2513	
-  2514		if (IS_ERR(cxlr)) {
-  2515			rc = PTR_ERR(cxlr);
-  2516			goto out;
-  2517		}
-  2518	
-  2519		attach_target(cxlr, cxled, -1, TASK_UNINTERRUPTIBLE);
-  2520	
-  2521		down_read(&cxl_region_rwsem);
-  2522		p = &cxlr->params;
-  2523		attach = p->state == CXL_CONFIG_COMMIT;
-  2524		up_read(&cxl_region_rwsem);
-  2525	
-  2526		if (attach) {
-> 2527			int rc = device_attach(&cxlr->dev);
-  2528	
-  2529			/*
-  2530			 * If device_attach() fails the range may still be active via
-  2531			 * the platform-firmware memory map, otherwise the driver for
-  2532			 * regions is local to this file, so driver matching can't fail.
-  2533			 */
-  2534			if (rc < 0)
-  2535				dev_err(&cxlr->dev, "failed to enable, range: %pr\n",
-  2536					p->res);
-  2537		}
-  2538	
-  2539		put_device(&cxlr->dev);
-  2540	out:
-  2541		put_device(&cxlrd->cxlsd.cxld.dev);
-  2542		return rc;
-  2543	}
-  2544	EXPORT_SYMBOL_NS_GPL(cxl_add_to_region, CXL);
-  2545	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I'll go dig out me clang I suppose.
