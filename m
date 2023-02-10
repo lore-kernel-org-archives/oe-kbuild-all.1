@@ -1,151 +1,109 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD10A2FAF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 21:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676063150; x=1707599150;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+S/K8eMD3x9PIF1tFFiF+7qJDB4BvX1h427QlI/NJZE=;
-  b=KEXg1Yj94bDFkrXcRZXpFPa2Al2cVtrcDCHt+rDRP1T0RrMNMltmIAEl
-   TWoQpcud77HjBp4ZjLCLoqTrAr4okdWjV/9bPHYAHiz9RFj+SG5MQWCKq
-   w0OYUGCbbQC2WfA2H6oHqbvBmT0FTOe/hfVe2t9YJR1JfTYd2UUGH1EP/
-   TZcK0cJPp0JH8N7bwvVq9Yr897cQk+S3XBovSZ/by3x6keehSH3cb6txI
-   iQlLHWUqi3rG73mRxhuArinjhn3oNK5XtcaNGtnB6uk/rIkf1s/hL4Fyg
-   1WEJr0gPIXi2bgwPkhQy53EMS6JzxCKsi2wpgM2/Vjo/3LAuQVtmXWxF7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="328217552"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="328217552"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 13:05:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="913674545"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="913674545"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Feb 2023 13:05:48 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQaaY-00063h-2g;
-	Fri, 10 Feb 2023 21:05:46 +0000
-Date: Sat, 11 Feb 2023 05:05:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: William Zhang <william.zhang@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Kursad Oney <kursad.oney@broadcom.com>
-Subject: [broonie-spi:for-next 32/35] drivers/spi/spi-bcm63xx-hsspi.c:197:31:
- sparse: sparse: cast from restricted __be16
-Message-ID: <202302110438.sQwQnU54-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DF42FAF;
+	Fri, 10 Feb 2023 21:49:59 +0000 (UTC)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5F11C1EC06C0;
+	Fri, 10 Feb 2023 22:49:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+	t=1676065795;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+	bh=aoz7bS9et9aIGm0OcKdmUFu0AmMnaNrDzjbYJ5AYcWE=;
+	b=YUuOccxbhcbE9xhuxZJq+fn0Y5GAqFEE0OTgoBRpbpvvRjm2tfrzYizxHLKeGfTfdh3UPM
+	CKYHy0i15MmW9z8ukyT8IJzlGOuX60IDZ98bL9feDRSn5neZOv96FynQGJ8FsGfNM0jo/+
+	8+rxQfq2aJNdBbzzZslcrsiHIcO5QJI=
+Date: Fri, 10 Feb 2023 22:49:51 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Babu Moger <babu.moger@amd.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: Re: [tip:x86/cache 9/13]
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c:1456:6: warning: variable 'h' set but
+ not used
+Message-ID: <Y+a7/2uOc2/maFX7@zn.tnic>
+References: <202301242015.kbzkVteJ-lkp@intel.com>
+ <Y8/XoT23HVXHSY73@zn.tnic>
+ <Y+RjOpXP1Bbv268n@rli9-mobl>
+ <Y+TCq4k+0AhfjZkL@zn.tnic>
+ <Y+W2tFIfGJ1c8uml@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <Y+W2tFIfGJ1c8uml@rli9-mobl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-head:   2ea9b08a661274b9b7b182327bf6ffe29605d671
-commit: 85a84a61699990db6a025b5073f337f49933a875 [32/35] spi: bcm63xx-hsspi: Endianness fix for ARM based SoC
-config: arm-randconfig-s032-20230210 (https://download.01.org/0day-ci/archive/20230211/202302110438.sQwQnU54-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git/commit/?id=85a84a61699990db6a025b5073f337f49933a875
-        git remote add broonie-spi https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
-        git fetch --no-tags broonie-spi for-next
-        git checkout 85a84a61699990db6a025b5073f337f49933a875
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/spi/
+On Fri, Feb 10, 2023 at 11:15:00AM +0800, Philip Li wrote:
+> Sorry for confusion, we do full make for the kernel to gather all issues.
+> And we try to provide a quicker way for developer to reproduce the issue,
+> thus the step in reproduce part shows the subdirectories that could reproduce
+> the reported issue.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110438.sQwQnU54-lkp@intel.com/
+Aah, ok.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/spi/spi-bcm63xx-hsspi.c:197:31: sparse: sparse: cast from restricted __be16
+I guess those reproduction instructions should then say:
 
-vim +197 drivers/spi/spi-bcm63xx-hsspi.c
+"... the fastest way to reproduce is ..."
 
-   156	
-   157	static int bcm63xx_hsspi_do_txrx(struct spi_device *spi, struct spi_transfer *t)
-   158	{
-   159		struct bcm63xx_hsspi *bs = spi_master_get_devdata(spi->master);
-   160		unsigned int chip_select = spi->chip_select;
-   161		u16 opcode = 0;
-   162		int pending = t->len;
-   163		int step_size = HSSPI_BUFFER_LEN;
-   164		const u8 *tx = t->tx_buf;
-   165		u8 *rx = t->rx_buf;
-   166	
-   167		bcm63xx_hsspi_set_clk(bs, spi, t->speed_hz);
-   168		bcm63xx_hsspi_set_cs(bs, spi->chip_select, true);
-   169	
-   170		if (tx && rx)
-   171			opcode = HSSPI_OP_READ_WRITE;
-   172		else if (tx)
-   173			opcode = HSSPI_OP_WRITE;
-   174		else if (rx)
-   175			opcode = HSSPI_OP_READ;
-   176	
-   177		if (opcode != HSSPI_OP_READ)
-   178			step_size -= HSSPI_OPCODE_LEN;
-   179	
-   180		if ((opcode == HSSPI_OP_READ && t->rx_nbits == SPI_NBITS_DUAL) ||
-   181		    (opcode == HSSPI_OP_WRITE && t->tx_nbits == SPI_NBITS_DUAL))
-   182			opcode |= HSSPI_OP_MULTIBIT;
-   183	
-   184		__raw_writel(1 << MODE_CTRL_MULTIDATA_WR_SIZE_SHIFT |
-   185			     1 << MODE_CTRL_MULTIDATA_RD_SIZE_SHIFT | 0xff,
-   186			     bs->regs + HSSPI_PROFILE_MODE_CTRL_REG(chip_select));
-   187	
-   188		while (pending > 0) {
-   189			int curr_step = min_t(int, step_size, pending);
-   190	
-   191			reinit_completion(&bs->done);
-   192			if (tx) {
-   193				memcpy_toio(bs->fifo + HSSPI_OPCODE_LEN, tx, curr_step);
-   194				tx += curr_step;
-   195			}
-   196	
- > 197			__raw_writew((u16)cpu_to_be16(opcode | curr_step), bs->fifo);
-   198	
-   199			/* enable interrupt */
-   200			__raw_writel(HSSPI_PINGx_CMD_DONE(0),
-   201				     bs->regs + HSSPI_INT_MASK_REG);
-   202	
-   203			/* start the transfer */
-   204			__raw_writel(!chip_select << PINGPONG_CMD_SS_SHIFT |
-   205				     chip_select << PINGPONG_CMD_PROFILE_SHIFT |
-   206				     PINGPONG_COMMAND_START_NOW,
-   207				     bs->regs + HSSPI_PINGPONG_COMMAND_REG(0));
-   208	
-   209			if (wait_for_completion_timeout(&bs->done, HZ) == 0) {
-   210				dev_err(&bs->pdev->dev, "transfer timed out!\n");
-   211				return -ETIMEDOUT;
-   212			}
-   213	
-   214			if (rx) {
-   215				memcpy_fromio(rx, bs->fifo, curr_step);
-   216				rx += curr_step;
-   217			}
-   218	
-   219			pending -= curr_step;
-   220		}
-   221	
-   222		return 0;
-   223	}
-   224	
+Or so.
+
+> Got it. Internally, we use the merge strategy to combine as many branches
+> as we can to run build testing, and bisect the issues if found. We need
+> further think of how to let high priority issues to be reported out earlier.
+
+Hmm, I wouldn't do that.
+
+If you test a whole bunch of patchsets, then you're not really testing
+each of them but you're testing the common thing which you've created by
+merging.
+
+I think it makes most sense to test single patchsets, single tree
+branches which should hopefully contain commits which belong to a single
+topic - this is how we aim to do them in the tip tree, at least, but
+others do different things, and so on.
+
+And then test linux-next. But I think you do that.
+
+> Thanks, so far, we recommend to use --base option in our report mail, like
+> 
+> 	[If your patch is applied to the wrong git tree, kindly drop us a note.
+> 	And when submitting patch, we suggest to use '--base' as documented in
+> 	https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> And we do need a place to put such information, so people can refer to. Without
+> a public available site for us, we will update https://github.com/intel/lkp-tests/wiki
+> firstly to host enough information.
+
+Right, make that URL part of every report so that people can go and read
+about it and know what are best practices. I'll try to remember myself
+to use --base too.
+
+> Thanks for the hint, this is doable, and we definitely need do this. I will
+> plan it to have initial version ready by Q1.
+
+You have a wiki page above already. Add a status subpage and dump into
+it periodically what current trees are being tested. And this way you
+have *something* to go with. You can always improve it later on.
+
+> Thanks a lot Boris, these suggestions are very helpful to further improve the
+> 0-day ci service.
+
+You're welcome - I'm glad that can be of help.
+
+Thx.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
