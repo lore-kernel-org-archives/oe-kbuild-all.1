@@ -1,43 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADC3622
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 00:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC602368
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 00:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675988235; x=1707524235;
+  t=1675989450; x=1707525450;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MBV1CCcvByHKYWDJ6Pn77FleOe6JE3tmZtdekYxNjbE=;
-  b=XMBL9ccNF4PLaD7KJOl4zbjKWLwxeMYvfYfPbb0OIQjHIFgnBUmx7kMv
-   oYWQZYu9s4MYtaU+rji72PlHYPRIMRZi9JArO7Sh4UTtFhyTZ204BrL2p
-   V/mFYEDUFuojhg7VnkMCELQxzFV2Se/TXDTBvDmZ+Zq68ah/813VBxisJ
-   QSBLMjOBEPHUfLNBjUHHR/u+iABtMFrXfah3jYD4Y78FfbYemMc+7kJ7z
-   qLpiaauoi7IbhvxdW7cZskQFtdnPowP6ol7nmygKp31zMDbo5Z85uMA85
-   04EGxDgTZMDFtM13aNzxI1z/LBM2syEDvqdNv5ijRDDJtKpUOigSRQori
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="318305274"
+  bh=PXyJgNPvZehyPMk+XcL+100g+1+DfTr5lbVyZtp1LCE=;
+  b=e1WiNnX+p2tNW0WGA7f6CP1TmRSrmhOPcKTXlzor624Z9hV4L84xBy8W
+   rLTlDXriXe9Zhgf8/s6eWtga/+949t5oVnzdsGT6M8GIpFVVfnw7c2eo7
+   nNlkaFSAF9hxJLhNFPFsLhW0Cd+M7A6ZfDdOGBd/t+wiI9tzhIuSNMW2R
+   q3/xnCQWrzWu0YjsE5fL0M+7CeL9U+O4iqWzsrJMKb/OO6hjEAmULc2Dw
+   cMCUPCtsvZVtowYkT7q71mHDt2gdDzlpgtN78M9gXTdrqoTwvQeFIKBiO
+   SsFZHFWZY/K1P1dP/ekLsj+4dQMGcUKTf1xrTbxoAsPRAb6SVJVFmktJ0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="310656962"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="318305274"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 16:17:14 -0800
+   d="scan'208";a="310656962"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 16:37:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="791789122"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="756606662"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="791789122"
+   d="scan'208";a="756606662"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Feb 2023 16:17:12 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Feb 2023 16:37:13 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQH6G-0005Oa-0C;
-	Fri, 10 Feb 2023 00:17:12 +0000
-Date: Fri, 10 Feb 2023 08:16:29 +0800
+	id 1pQHPc-0005PK-1M;
+	Fri, 10 Feb 2023 00:37:12 +0000
+Date: Fri, 10 Feb 2023 08:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suman Anna <s-anna@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: drivers/remoteproc/ti_k3_r5_remoteproc.c:711:17: sparse: sparse:
- cast removes address space '__iomem' of expression
-Message-ID: <202302100833.iRTqJ94Y-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 209/212] drivers/cpuidle/driver.c:187:
+ undefined reference to `__divdi3'
+Message-ID: <202302100849.6RI86Ten-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +47,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e544a07438522ab3688416e6e2e34bf0ee6d8755
-commit: 1168af40b1ad8cb2e78f4a70869fa4a076320e4f remoteproc: k3-r5: Add support for IPC-only mode for all R5Fs
-date:   11 months ago
-config: arm64-randconfig-s043-20230208 (https://download.01.org/0day-ci/archive/20230210/202302100833.iRTqJ94Y-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1168af40b1ad8cb2e78f4a70869fa4a076320e4f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 1168af40b1ad8cb2e78f4a70869fa4a076320e4f
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   ccf0090d0435abab1a8c84e595802e88ad90b357
+commit: de375f9c854a136822d5409a92d4efb57ac65e32 [209/212] cpuidle: driver: Update microsecond values of state parameters as needed
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230210/202302100849.6RI86Ten-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=de375f9c854a136822d5409a92d4efb57ac65e32
+        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+        git fetch --no-tags rafael-pm bleeding-edge
+        git checkout de375f9c854a136822d5409a92d4efb57ac65e32
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/hns/ drivers/remoteproc/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302100833.iRTqJ94Y-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302100849.6RI86Ten-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *cpu_addr @@
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse:     expected void *
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:476:28: sparse:     got void [noderef] __iomem *cpu_addr
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *cpu_addr @@
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse:     expected void *
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:479:28: sparse:     got void [noderef] __iomem *cpu_addr
->> drivers/remoteproc/ti_k3_r5_remoteproc.c:711:17: sparse: sparse: cast removes address space '__iomem' of expression
+All errors (new ones prefixed by >>):
 
-vim +/__iomem +711 drivers/remoteproc/ti_k3_r5_remoteproc.c
+   ld: drivers/cpuidle/driver.o: in function `__cpuidle_driver_init':
+>> drivers/cpuidle/driver.c:187: undefined reference to `__divdi3'
+>> ld: drivers/cpuidle/driver.c:194: undefined reference to `__divdi3'
 
-   681	
-   682	/*
-   683	 * This function implements the .get_loaded_rsc_table() callback and is used
-   684	 * to provide the resource table for the booted R5F in IPC-only mode. The K3 R5F
-   685	 * firmwares follow a design-by-contract approach and are expected to have the
-   686	 * resource table at the base of the DDR region reserved for firmware usage.
-   687	 * This provides flexibility for the remote processor to be booted by different
-   688	 * bootloaders that may or may not have the ability to publish the resource table
-   689	 * address and size through a DT property. This callback is invoked only in
-   690	 * IPC-only mode.
-   691	 */
-   692	static struct resource_table *k3_r5_get_loaded_rsc_table(struct rproc *rproc,
-   693								 size_t *rsc_table_sz)
-   694	{
-   695		struct k3_r5_rproc *kproc = rproc->priv;
-   696		struct device *dev = kproc->dev;
-   697	
-   698		if (!kproc->rmem[0].cpu_addr) {
-   699			dev_err(dev, "memory-region #1 does not exist, loaded rsc table can't be found");
-   700			return ERR_PTR(-ENOMEM);
-   701		}
-   702	
-   703		/*
-   704		 * NOTE: The resource table size is currently hard-coded to a maximum
-   705		 * of 256 bytes. The most common resource table usage for K3 firmwares
-   706		 * is to only have the vdev resource entry and an optional trace entry.
-   707		 * The exact size could be computed based on resource table address, but
-   708		 * the hard-coded value suffices to support the IPC-only mode.
-   709		 */
-   710		*rsc_table_sz = 256;
- > 711		return (struct resource_table *)kproc->rmem[0].cpu_addr;
-   712	}
-   713	
+
+vim +187 drivers/cpuidle/driver.c
+
+   149	
+   150	/**
+   151	 * __cpuidle_driver_init - initialize the driver's internal data
+   152	 * @drv: a valid pointer to a struct cpuidle_driver
+   153	 */
+   154	static void __cpuidle_driver_init(struct cpuidle_driver *drv)
+   155	{
+   156		int i;
+   157	
+   158		/*
+   159		 * Use all possible CPUs as the default, because if the kernel boots
+   160		 * with some CPUs offline and then we online one of them, the CPU
+   161		 * notifier has to know which driver to assign.
+   162		 */
+   163		if (!drv->cpumask)
+   164			drv->cpumask = (struct cpumask *)cpu_possible_mask;
+   165	
+   166		for (i = 0; i < drv->state_count; i++) {
+   167			struct cpuidle_state *s = &drv->states[i];
+   168	
+   169			/*
+   170			 * Look for the timer stop flag in the different states and if
+   171			 * it is found, indicate that the broadcast timer has to be set
+   172			 * up.
+   173			 */
+   174			if (s->flags & CPUIDLE_FLAG_TIMER_STOP)
+   175				drv->bctimer = 1;
+   176	
+   177			/*
+   178			 * The core will use the target residency and exit latency
+   179			 * values in nanoseconds, but allow drivers to provide them in
+   180			 * microseconds too.
+   181			 */
+   182			if (s->target_residency > 0)
+   183				s->target_residency_ns = s->target_residency * NSEC_PER_USEC;
+   184			else if (s->target_residency_ns < 0)
+   185				s->target_residency_ns = 0;
+   186			else
+ > 187				s->target_residency = s->target_residency_ns / NSEC_PER_USEC;
+   188	
+   189			if (s->exit_latency > 0)
+   190				s->exit_latency_ns = s->exit_latency * NSEC_PER_USEC;
+   191			else if (s->exit_latency_ns < 0)
+   192				s->exit_latency_ns =  0;
+   193			else
+ > 194				s->exit_latency = s->exit_latency_ns / NSEC_PER_USEC;
+   195		}
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
