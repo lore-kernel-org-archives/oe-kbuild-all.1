@@ -1,112 +1,110 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C514B7E2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 03:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676001386; x=1707537386;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CGpsFgUSy1luFrJ/WzlCx5bUMRysqRKfjjcCqF6MCU0=;
-  b=PIi8ogs39b8rX3w4InHS0FF2rRjOB3zCx1c0RQyM4U26NrZ24AkFCY6p
-   TuDcTIfXMfat1KtmNnMYXJwEUH/hLthx69boAny+zHWsGT7uf53nXFbf8
-   4dp9qqDEvYN6HKojFAEqfPBag1+f/q27fFTnQ1m9pN3itIIcuJhRsF6FT
-   g1egGCQI+CCxzQ3+4lk7cNZBMcTRZ5N5aiYdCpta8TZTDU/5FT2ahCvg9
-   LE2yWQPPrHpIO37n1+2QRiozwcmH0MKakDXvxAFxeUSnPku84DLMK29IC
-   XP9uVgcCWd67Wr60xhWUrfvmB1y0Jrkd498ik34GmndWnp5QUMX9fET83
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="309959276"
-X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="309959276"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 19:56:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="617762184"
-X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="617762184"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Feb 2023 19:56:19 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQKWH-0005Wc-30;
-	Fri, 10 Feb 2023 03:56:17 +0000
-Date: Fri, 10 Feb 2023 11:56:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v3_20230202_amit_kumar_mahapatra_spi_add_support_for_stacked_parallel_memories
- 35/35] sound/pci/hda/cs35l41_hda_spi.c:28:61: warning: passing argument 3 of
- 'cs35l41_hda_probe' makes integer from pointer without a cast
-Message-ID: <202302101127.AxwfAPSu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA9C7E2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 04:14:56 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VbIVgC-_1676001560;
+Received: from 30.97.49.39(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0VbIVgC-_1676001560)
+          by smtp.aliyun-inc.com;
+          Fri, 10 Feb 2023 11:59:21 +0800
+Message-ID: <a2133204-98c8-4733-1062-e26abead28e7@linux.alibaba.com>
+Date: Fri, 10 Feb 2023 11:59:19 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast
+ truncates bits from constant value (ffffffffe0f510cc becomes cc)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Yue Hu <huyue2@coolpad.com>, Chao Yu <yuchao0@huawei.com>,
+ Chao Yu <chao@kernel.org>
+References: <202302101104.mgetTzwR-lkp@intel.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <202302101104.mgetTzwR-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_20230202_amit_kumar_mahapatra_spi_add_support_for_stacked_parallel_memories
-head:   b1bff13bcb2439c0ba5142fb0851ad602f3a4a02
-commit: b1bff13bcb2439c0ba5142fb0851ad602f3a4a02 [35/35] spi: Add stacked and parallel memories support in SPI core
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230210/202302101127.AxwfAPSu-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=b1bff13bcb2439c0ba5142fb0851ad602f3a4a02
-        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
-        git fetch --no-tags broonie-ci v3_20230202_amit_kumar_mahapatra_spi_add_support_for_stacked_parallel_memories
-        git checkout b1bff13bcb2439c0ba5142fb0851ad602f3a4a02
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash sound/pci/hda/
+Hi,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302101127.AxwfAPSu-lkp@intel.com/
+On 2023/2/10 11:52, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   38c1e0c65865426676123cc9a127526fa02bcac6
+> commit: 2f44013e39984c127c6efedf70e6b5f4e9dcf315 erofs: fix pcluster use-after-free on UP platforms
+> date:   5 months ago
+> config: alpha-randconfig-s042-20230210 (https://download.01.org/0day-ci/archive/20230210/202302101104.mgetTzwR-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 12.1.0
+> reproduce:
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # apt-get install sparse
+>          # sparse version: v0.6.4-39-gce1a6720-dirty
+>          # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2f44013e39984c127c6efedf70e6b5f4e9dcf315
+>          git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>          git fetch --no-tags linus master
+>          git checkout 2f44013e39984c127c6efedf70e6b5f4e9dcf315
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash fs/erofs/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302101104.mgetTzwR-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>     fs/erofs/utils.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
+>>> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes cc)
+>>> arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes 10cc)
+> --
+>     fs/erofs/zdata.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
+>>> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes cc)
+>>> arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0f510cc becomes 10cc)
+>     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
+>     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
+>     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
+>     arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (5f0edead becomes ad)
+>     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
+>     arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (5f0edead becomes dead)
 
-All warnings (new ones prefixed by >>):
+As I reported in
+https://lore.kernel.org/r/b8dfa8cd-f3f9-d10c-fbd0-eac8067ee39c@intel.com
 
-   sound/pci/hda/cs35l41_hda_spi.c: In function 'cs35l41_hda_spi_probe':
->> sound/pci/hda/cs35l41_hda_spi.c:28:61: warning: passing argument 3 of 'cs35l41_hda_probe' makes integer from pointer without a cast [-Wint-conversion]
-      28 |         return cs35l41_hda_probe(&spi->dev, device_name, spi->chip_select, spi->irq,
-         |                                                          ~~~^~~~~~~~~~~~~
-         |                                                             |
-         |                                                             u8 * {aka unsigned char *}
-   In file included from sound/pci/hda/cs35l41_hda_spi.c:13:
-   sound/pci/hda/cs35l41_hda.h:83:72: note: expected 'int' but argument is of type 'u8 *' {aka 'unsigned char *'}
-      83 | int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int irq,
-         |                                                                    ~~~~^~
+I'm not sure how we could do something for these reports in EROFS.
 
+Thanks,
+Gao Xiang
 
-vim +/cs35l41_hda_probe +28 sound/pci/hda/cs35l41_hda_spi.c
-
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  14  
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  15  static int cs35l41_hda_spi_probe(struct spi_device *spi)
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  16  {
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  17  	const char *device_name;
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  18  
-642999365da3b7 Andy Shevchenko 2022-07-11  19  	/*
-642999365da3b7 Andy Shevchenko 2022-07-11  20  	 * Compare against the device name so it works for SPI, normal ACPI
-642999365da3b7 Andy Shevchenko 2022-07-11  21  	 * and for ACPI by serial-multi-instantiate matching cases.
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  22  	 */
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  23  	if (strstr(dev_name(&spi->dev), "CSC3551"))
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  24  		device_name = "CSC3551";
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  25  	else
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  26  		return -ENODEV;
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  27  
-7b2f3eb492dac7 Lucas Tanure    2021-12-17 @28  	return cs35l41_hda_probe(&spi->dev, device_name, spi->chip_select, spi->irq,
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  29  				 devm_regmap_init_spi(spi, &cs35l41_regmap_spi));
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  30  }
-7b2f3eb492dac7 Lucas Tanure    2021-12-17  31  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 7b2f3eb492dac7665c75df067e4d8e4869589f4a ALSA: hda: cs35l41: Add support for CS35L41 in HDA systems
-
-:::::: TO: Lucas Tanure <tanureal@opensource.cirrus.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+> vim +234 arch/alpha/include/asm/xchg.h
+> 
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  227
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  228  static __always_inline unsigned long
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  229  ____cmpxchg(, volatile void *ptr, unsigned long old, unsigned long new,
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  230  	      int size)
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  231  {
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  232  	switch (size) {
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  233  		case 1:
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @234  			return ____cmpxchg(_u8, ptr, old, new);
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  235  		case 2:
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @236  			return ____cmpxchg(_u16, ptr, old, new);
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  237  		case 4:
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  238  			return ____cmpxchg(_u32, ptr, old, new);
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  239  		case 8:
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  240  			return ____cmpxchg(_u64, ptr, old, new);
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  241  	}
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  242  	__cmpxchg_called_with_bad_pointer();
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  243  	return old;
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  244  }
+> a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  245
+> 
+> :::::: The code at line 234 was first introduced by commit
+> :::::: a6209d6d71f2ab8c63cc1587ef65490d83022baf alpha: xchg/cmpxchg cleanup and fixes
+> 
+> :::::: TO: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> 
