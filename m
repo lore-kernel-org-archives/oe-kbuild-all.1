@@ -1,131 +1,157 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A790D63AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Feb 2023 18:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676053365; x=1707589365;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cT0BmUVgAKCNZ69R7mxAJ7I+K3dJl0l83OzOKH0xG0Q=;
-  b=BujhhkTgPzqm0yLzIDhgrSVx9ZQeuCUltvWU7ZthHLX9J2aNeUDew8Cf
-   WlK1GlXTb3A4NEPaLzbFH7C5lGkjdSGm+vkGseq8mOz0atx1oDlmCGHSN
-   3GDmKuqrzXmqWwDlvlS5/VZXa36WSRrLeoMJj24bqHLRsfB0OZeBnKu0I
-   nhY/F7iO9ELPioKg/k6gFHIGzWYSFkeLPXZ9yjiofPjMk2AkYnTG2Zs8K
-   yqs63N8Swal+bpytKxg9N93eq8itAqYDFREfakwhIB9HKxMM1CbmxFXAx
-   Ofu25RjoXFh3GRV4UXfBbD4qNfD5rSukOKMQgve9S8fzFmmzoacYg2Sud
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314134963"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="314134963"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 10:22:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="617974678"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="617974678"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 10 Feb 2023 10:22:43 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQY2k-0005yL-2y;
-	Fri, 10 Feb 2023 18:22:42 +0000
-Date: Sat, 11 Feb 2023 02:22:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
-Subject: [driver-core:kobject-const-2 71/77]
- drivers/irqchip/irq-mbigen.c:248:43: error: 'struct bus_type' has no member
- named 'dev_root'
-Message-ID: <202302110229.u91u71ws-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0FD6D1B;
+	Fri, 10 Feb 2023 18:48:21 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id g14so7284505ljh.10;
+        Fri, 10 Feb 2023 10:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Un3RuNgUuXGsJqK22XSK4qt6d+DyNCQCjtzKzuT7iV8=;
+        b=f9JS4IqNiocsgZc6Q/4lDcG5ZyE4R6yte4HjVwg25QhIMi0OxcI2Idc0Wsf2N0cXr8
+         uYzJolc2LaVFTfA8998whggL4qW3+S0ZUuvjoqaAWLX2QkGgnlrsCSgnCSJ086ZxsDH8
+         5Se49xq6SduTGP2z1hpH8RH9WDUUL/f8Y6ANP4f7finsEEDNbI09goPQXKMK06IMZlfm
+         Tn87yF5WS5OLso/gv4LxnILz3sblGrUZjk3Ge7N3mDj+A8Ig7U30mEs+cUFmzSmKP8lX
+         SIWtJnaMpxoky4iN/ylKMCQvYu4O5t0pumPq7vE42QANhx9i5M3B1e0/RiDJvplf8Ahf
+         iMVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Un3RuNgUuXGsJqK22XSK4qt6d+DyNCQCjtzKzuT7iV8=;
+        b=gMI6Fm0gghkImyIa1W5xS7huLeG9ExyIR0Zw33TUq9Us9CNtvKT5nJESoZXclG1jYN
+         FyXj2YjY8VepfYSVhOXXeWKTMC2E+yanMT436FY1LBAJOLkLvCqvjpiNSLMSh6LupYIF
+         BvpcOG1LStrlYiRsnaVHqyD2BEHoWmnx7mfBS7YCRLSULspo4J2Y+t/DBpi2Kd5ot6b2
+         BX3kjiQ2sm5UHzECyRBNnSB12cjXycxxVBJFmcK8NJFQfGf56YoZkB6xwuA9wgGjOFxh
+         MiPKZ6zAOtzBQlk26/nNcwhclNyeDdIAKhZYH9OU+wb7inlVklo4NGU/hxbYosYmMAW2
+         K5dw==
+X-Gm-Message-State: AO0yUKXSQx5piTF4IlRMvvItXJykLhL0ooeDjiK9DnViw6cUBtgBFEvk
+	EtmZRChdIzvF+DU8z1YoyJsmDgG7UIzFq+5rxYc=
+X-Google-Smtp-Source: AK7set8VRS+sDgEAjIlJHWcEeXq4SCqwMaW9eBNL4x1j4y7j6PNnrHHn0QLhNZpl8G3BRlEZNZm327D7hQyW1CAeZVo=
+X-Received: by 2002:a2e:8e32:0:b0:283:33bb:42a5 with SMTP id
+ r18-20020a2e8e32000000b0028333bb42a5mr2276152ljk.29.1676054899654; Fri, 10
+ Feb 2023 10:48:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230118122817.42466-4-francesco@dolcini.it> <202301241423.sEVD92vC-lkp@intel.com>
+In-Reply-To: <202301241423.sEVD92vC-lkp@intel.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Fri, 10 Feb 2023 10:48:08 -0800
+Message-ID: <CABBYNZLeccgTS81JksTngmbQ5Hk+ThSKDLW8V2qujT3O315u+w@mail.gmail.com>
+Subject: Re: [PATCH v1 3/4] Bluetooth: hci_mrvl: Add serdev support for 88W8997
+To: kernel test robot <lkp@intel.com>
+Cc: Francesco Dolcini <francesco@dolcini.it>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	Marcel Holtmann <marcel@holtmann.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Johan Hedberg <johan.hedberg@gmail.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Francesco Dolcini <francesco.dolcini@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git kobject-const-2
-head:   edb07d61689645fa19378a7a18451f91c8414b5a
-commit: 7389911cf9a8bc346a6aa2662645298627c44cb6 [71/77] driver core: bus: move dev_root out of struct bus_type
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302110229.u91u71ws-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=7389911cf9a8bc346a6aa2662645298627c44cb6
-        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-        git fetch --no-tags driver-core kobject-const-2
-        git checkout 7389911cf9a8bc346a6aa2662645298627c44cb6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
+Hi Francesco,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110229.u91u71ws-lkp@intel.com/
+On Mon, Jan 23, 2023 at 10:38 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Francesco,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on robh/for-next]
+> [also build test WARNING on bluetooth-next/master bluetooth/master horms-ipvs/master net/master net-next/master linus/master v6.2-rc5 next-20230123]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Dolcini/dt-bindings-bluetooth-marvell-add-88W8997-DT-binding/20230118-210919
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20230118122817.42466-4-francesco%40dolcini.it
+> patch subject: [PATCH v1 3/4] Bluetooth: hci_mrvl: Add serdev support for 88W8997
+> config: hexagon-randconfig-r021-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241423.sEVD92vC-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/2ae116c8ad209e0bf11559519915e511c44c28be
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Francesco-Dolcini/dt-bindings-bluetooth-marvell-add-88W8997-DT-binding/20230118-210919
+>         git checkout 2ae116c8ad209e0bf11559519915e511c44c28be
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/ lib/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from drivers/bluetooth/hci_mrvl.c:12:
+>    In file included from include/linux/skbuff.h:17:
+>    In file included from include/linux/bvec.h:10:
+>    In file included from include/linux/highmem.h:12:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __raw_readb(PCI_IOBASE + addr);
+>                              ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+>    #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+>                                                      ^
+>    In file included from drivers/bluetooth/hci_mrvl.c:12:
+>    In file included from include/linux/skbuff.h:17:
+>    In file included from include/linux/bvec.h:10:
+>    In file included from include/linux/highmem.h:12:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>                                                      ^
+>    In file included from drivers/bluetooth/hci_mrvl.c:12:
+>    In file included from include/linux/skbuff.h:17:
+>    In file included from include/linux/bvec.h:10:
+>    In file included from include/linux/highmem.h:12:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writeb(value, PCI_IOBASE + addr);
+>                                ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+>                                                          ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+>                                                          ~~~~~~~~~~ ^
+> >> drivers/bluetooth/hci_mrvl.c:450:36: warning: unused variable 'mrvl_proto_8997' [-Wunused-const-variable]
+>    static const struct hci_uart_proto mrvl_proto_8997 = {
 
-All errors (new ones prefixed by >>):
+This last error seems to be caused by your changes, please fix it.
 
-   drivers/irqchip/irq-mbigen.c: In function 'mbigen_of_create_domain':
->> drivers/irqchip/irq-mbigen.c:248:43: error: 'struct bus_type' has no member named 'dev_root'
-     248 |                 parent = platform_bus_type.dev_root;
-         |                                           ^
-
-
-vim +248 drivers/irqchip/irq-mbigen.c
-
-9650c60ebfec05 Ma Jun          2015-12-17  234  
-76e1f77f9c26ec Kefeng Wang     2017-03-07  235  static int mbigen_of_create_domain(struct platform_device *pdev,
-76e1f77f9c26ec Kefeng Wang     2017-03-07  236  				   struct mbigen_device *mgn_chip)
-717c3dbc118ecb Ma Jun          2015-12-17  237  {
-76e1f77f9c26ec Kefeng Wang     2017-03-07  238  	struct device *parent;
-ed2a1002d25ccd MaJun           2016-03-17  239  	struct platform_device *child;
-9650c60ebfec05 Ma Jun          2015-12-17  240  	struct irq_domain *domain;
-ed2a1002d25ccd MaJun           2016-03-17  241  	struct device_node *np;
-9650c60ebfec05 Ma Jun          2015-12-17  242  	u32 num_pins;
-717c3dbc118ecb Ma Jun          2015-12-17  243  
-ed2a1002d25ccd MaJun           2016-03-17  244  	for_each_child_of_node(pdev->dev.of_node, np) {
-ed2a1002d25ccd MaJun           2016-03-17  245  		if (!of_property_read_bool(np, "interrupt-controller"))
-ed2a1002d25ccd MaJun           2016-03-17  246  			continue;
-ed2a1002d25ccd MaJun           2016-03-17  247  
-ed2a1002d25ccd MaJun           2016-03-17 @248  		parent = platform_bus_type.dev_root;
-ed2a1002d25ccd MaJun           2016-03-17  249  		child = of_platform_device_create(np, NULL, parent);
-321275f0d8f593 Nishka Dasgupta 2019-07-23  250  		if (!child) {
-321275f0d8f593 Nishka Dasgupta 2019-07-23  251  			of_node_put(np);
-086eec2de00ef5 Dan Carpenter   2016-04-04  252  			return -ENOMEM;
-321275f0d8f593 Nishka Dasgupta 2019-07-23  253  		}
-ed2a1002d25ccd MaJun           2016-03-17  254  
-ed2a1002d25ccd MaJun           2016-03-17  255  		if (of_property_read_u32(child->dev.of_node, "num-pins",
-ed2a1002d25ccd MaJun           2016-03-17  256  					 &num_pins) < 0) {
-9650c60ebfec05 Ma Jun          2015-12-17  257  			dev_err(&pdev->dev, "No num-pins property\n");
-321275f0d8f593 Nishka Dasgupta 2019-07-23  258  			of_node_put(np);
-9650c60ebfec05 Ma Jun          2015-12-17  259  			return -EINVAL;
-9650c60ebfec05 Ma Jun          2015-12-17  260  		}
-9650c60ebfec05 Ma Jun          2015-12-17  261  
-ed2a1002d25ccd MaJun           2016-03-17  262  		domain = platform_msi_create_device_domain(&child->dev, num_pins,
-9650c60ebfec05 Ma Jun          2015-12-17  263  							   mbigen_write_msg,
-9650c60ebfec05 Ma Jun          2015-12-17  264  							   &mbigen_domain_ops,
-9650c60ebfec05 Ma Jun          2015-12-17  265  							   mgn_chip);
-321275f0d8f593 Nishka Dasgupta 2019-07-23  266  		if (!domain) {
-321275f0d8f593 Nishka Dasgupta 2019-07-23  267  			of_node_put(np);
-9650c60ebfec05 Ma Jun          2015-12-17  268  			return -ENOMEM;
-ed2a1002d25ccd MaJun           2016-03-17  269  		}
-321275f0d8f593 Nishka Dasgupta 2019-07-23  270  	}
-9650c60ebfec05 Ma Jun          2015-12-17  271  
-76e1f77f9c26ec Kefeng Wang     2017-03-07  272  	return 0;
-76e1f77f9c26ec Kefeng Wang     2017-03-07  273  }
-76e1f77f9c26ec Kefeng Wang     2017-03-07  274  
-
-:::::: The code at line 248 was first introduced by commit
-:::::: ed2a1002d25ccdb6606c8ccb608524118bd30614 irqchip/mbigen: Handle multiple device nodes in a mbigen module
-
-:::::: TO: MaJun <majun258@huawei.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Luiz Augusto von Dentz
