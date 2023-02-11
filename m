@@ -1,45 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A107E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 21:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DCC7E5;
+	Sat, 11 Feb 2023 21:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676151268; x=1707687268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UGdEtbEAzbSERnty//wgt/U2Epe6F7MQ024/er2PNLc=;
-  b=T/I4aLIJ78omiyrVriXFdLGF0LLgv1OANiAU2dlO4nMyTOfXF86KoG7X
-   byVBDjC8E9fVF+NDil/1yFqR3o8O5gafQkUuOLBFI8TQ3s7q7C/RqEg19
-   yKOGQL82ukyS0U4BUmsVclVZeE3P1Io6XkEkvXAwu/WzOr4cpjnHjj6f+
-   t4MB7Veyw4L80EFBvsMnkIJYdjowIyItDg2dSdFW8qq3+TcYtjKMQwEI2
-   AHbSB+XtYxwBHhT85uUkuwS95llOonNgzbi9wLVE/++3xegQowWurRAcP
-   lHbHpwo1Rgev2RKQcW8wcTdjtkU+6AP82HZXWKwmw9mcu3h08466WCJtm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="328356078"
+  t=1676151867; x=1707687867;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=8N0DYA21xyy9YPFL9MR06pfDAmGwG9abJilBw1UMw0c=;
+  b=kBXKKlCs/caqAQ4vFl8UjmDLIuAvK5NTpXBlxN+fHepjy/fLgMEkBszX
+   7L3Spqp0Fq+QYdRE+MYSwTd2XZjabN8ysOTdGId2EC0R/D7wptipowDQ+
+   IhQ+XDm/p+4WszH+8IHiqOIkIoTRVDYU7TlWjcWz1uH6omVcrmSde1pfP
+   nVmtdpniPyc2QtBkhhK9UtV6q7Um2QehSKm9Oajhlm7Tkl+Twbo8JsFbM
+   rTkGrCuzsGoIILe4Vgf/QNaCy+hG2SjItkbWV3R8ihXD+7dEsRdcl0Ld9
+   yO0hRPa7bPiNf59q+er0p25Sq72XCDdUojIa2Eq8nQ5EYAdjyoO+z0cuh
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="416884005"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="328356078"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 13:34:27 -0800
+   d="scan'208";a="416884005"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 13:44:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="737081913"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="757140514"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="737081913"
+   d="scan'208";a="757140514"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Feb 2023 13:34:26 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Feb 2023 13:44:26 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQxVp-0006oj-1t;
-	Sat, 11 Feb 2023 21:34:25 +0000
-Date: Sun, 12 Feb 2023 05:33:49 +0800
+	id 1pQxfV-0006oz-2g;
+	Sat, 11 Feb 2023 21:44:25 +0000
+Date: Sun, 12 Feb 2023 05:44:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Zaidman <michael.zaidman@gmail.com>, jikos@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	Michael Zaidman <michael.zaidman@gmail.com>
-Subject: Re: [PATCH v1 1/1] HID: ft260: add GPIO support
-Message-ID: <202302120552.KrGf3GNw-lkp@intel.com>
-References: <20230211115752.26276-2-michael.zaidman@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [linux-next:master 9813/12152] ld.lld: error:
+ vmlinux.a(fs/btrfs/uuid-tree.o):(function btrfs_uuid_tree_add: .text+0x332):
+ relocation R_RISCV_HI20 out of range: 536970 is not in [-524288, 524287];
+ references .L.str.3
+Message-ID: <202302120501.QfPosCy2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,55 +46,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230211115752.26276-2-michael.zaidman@gmail.com>
 
-Hi Michael,
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.2-rc7 next-20230210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230211115752.26276-2-michael.zaidman%40gmail.com
-patch subject: [PATCH v1 1/1] HID: ft260: add GPIO support
-config: arm-randconfig-s041-20230210 (https://download.01.org/0day-ci/archive/20230212/202302120552.KrGf3GNw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6ba8a227fd19d19779005fb66ad7562608e1df83
+commit: 42186e6c00352ce9df9e3f12b1ff82e61978d40b [9813/12152] ipv4: raw: add drop reasons
+config: riscv-randconfig-r022-20230212 (https://download.01.org/0day-ci/archive/20230212/202302120501.QfPosCy2-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
-        git checkout d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=42186e6c00352ce9df9e3f12b1ff82e61978d40b
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 42186e6c00352ce9df9e3f12b1ff82e61978d40b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/hid/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120552.KrGf3GNw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302120501.QfPosCy2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-ft260.c:1289:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [addressable] [usertype] clock @@
-   drivers/hid/hid-ft260.c:1289:1: sparse:     expected unsigned short [usertype] value
-   drivers/hid/hid-ft260.c:1289:1: sparse:     got restricted __le16 [addressable] [usertype] clock
+Note: the linux-next/master HEAD 6ba8a227fd19d19779005fb66ad7562608e1df83 builds fine.
+      It may have been fixed somewhere.
 
-vim +1289 drivers/hid/hid-ft260.c
+All errors (new ones prefixed by >>):
 
-6a82582d9fa438 Michael Zaidman 2021-02-19  1287  
-6a82582d9fa438 Michael Zaidman 2021-02-19  1288  FT260_I2CST_ATTR_SHOW(clock);
-6a82582d9fa438 Michael Zaidman 2021-02-19 @1289  FT260_WORD_ATTR_STORE(clock, ft260_set_i2c_speed_report,
-d3ddadc80df8c1 Michael Zaidman 2023-02-11  1290  		      FT260_SET_I2C_CLOCK_SPEED, ft260_attr_dummy_func);
-6a82582d9fa438 Michael Zaidman 2021-02-19  1291  static DEVICE_ATTR_RW(clock);
-6a82582d9fa438 Michael Zaidman 2021-02-19  1292  
+>> ld.lld: error: vmlinux.a(fs/btrfs/uuid-tree.o):(function btrfs_uuid_tree_add: .text+0x332): relocation R_RISCV_HI20 out of range: 536970 is not in [-524288, 524287]; references .L.str.3
+   >>> referenced by uuid-tree.c
+   >>> defined in vmlinux.a(fs/btrfs/uuid-tree.o)
 
 -- 
 0-DAY CI Kernel Test Service
