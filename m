@@ -1,43 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16976805
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 01:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58397F4;
+	Sat, 11 Feb 2023 01:30:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676078455; x=1707614455;
+  t=1676079054; x=1707615054;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NvjO3EA2KmrquqdT0hI1GW8nOfSuMARy4qFYkmJmeSI=;
-  b=V128GrwrzXyz2cv31f0z/M1i5ibc7zMh87CzZwHpHJNDczzeuV0UWTUC
-   WMzLdTieB0XKy5NpzvJTZ8unhcwT4o++SQzgRrVvUQTU4hA+a9P/d2TRB
-   eMeWqpQryy+D/9Z80ukN5VmasP4JrpO12QBei14FaXeGe66JRQXXqk2FA
-   54USkPGFAJFsWX/NXP3qQust4mMPH4rTCpw7sT2z3hxKwCX1nfNlgqTKf
-   pjWshKsJJuaL9xYTHsWmJzUM1dwog4t/DoDKHAHeecQrTMNwIJFxiqC42
-   1MZk+dfHn4XEIwUW7Qv5rlKz5nVzz63xM3St1t42KuQ5eNx0IhFVXQkXX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="328263728"
+  bh=+UWsdxrOI8sICLOnpXx6z6RZ0IREm2aFB7BYK3ujS0A=;
+  b=kBTKp98vVKjyH1oekmMcktu9rQ1YWxWVoqV5QXHzGJamdvi+XNW9lT8r
+   g4Aq4JebaSr30ryIzo4GiDBtHxEU2fu3lO6IxI0lWWb6+K5nJFqqqUGBj
+   mTpK5JUBiN/jppdSJACoby9KEIrkezZ6ZaWFMLoVjvAbaZBYCGe67XHzp
+   HbuM5n6etdo/dG2H/5BdJvJ1r3jUkU41qLNv5J4b57Q7T+h1/CW07wsv6
+   YoJJY9DIsfSRJqXtz8g8A/SGJmJpGqdgFYJdN5v5n1UH/XyicoAtSiqel
+   8Tta+4kyDZSt/1S7+93LeVhXwyUjpV1rK/PgypJtJf3sCDy/PNHTrxOHW
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="330578343"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="328263728"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 17:20:54 -0800
+   d="scan'208";a="330578343"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 17:30:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="792154749"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="756971441"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="792154749"
+   d="scan'208";a="756971441"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 Feb 2023 17:20:52 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2023 17:30:52 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQeZP-00069f-2d;
-	Sat, 11 Feb 2023 01:20:51 +0000
-Date: Sat, 11 Feb 2023 09:19:52 +0800
+	id 1pQej5-0006A9-3C;
+	Sat, 11 Feb 2023 01:30:52 +0000
+Date: Sat, 11 Feb 2023 09:30:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202302110944.Q3Nt0hMV-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-next 4/10]
+ fs/afs/rxrpc.c:157:6: warning: variable 'o' is used uninitialized whenever
+ 'if' condition is false
+Message-ID: <202302110939.GED9MYd1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,177 +49,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   420b2d431d18a2572c8e86579e78105cb5ed45b0
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   6 months ago
-config: loongarch-randconfig-s052-20230210 (https://download.01.org/0day-ci/archive/20230211/202302110944.Q3Nt0hMV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-next
+head:   c661a1d21c087e6a776a85eb4c60fbba29caaf99
+commit: 0f2dc9220002c9a8172c453b9550df310bf9bd60 [4/10] rxrpc: Allow UDP socket sharing for AF_RXRPC service sockets
+config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230211/202302110939.GED9MYd1-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93a4fa622eb061f75f87f0cf9609ab4e69c67d01
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+        # https://github.com/ammarfaizi2/linux-block/commit/0f2dc9220002c9a8172c453b9550df310bf9bd60
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/rxrpc-next
+        git checkout 0f2dc9220002c9a8172c453b9550df310bf9bd60
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/afs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110944.Q3Nt0hMV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302110939.GED9MYd1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:3325:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3325:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3325:23: sparse:     got unsigned int
-   net/core/dev.c:3325:23: sparse: sparse: cast from restricted __wsum
-   net/core/dev.c:204:9: sparse: sparse: context imbalance in 'unlist_netdevice' - different lock contexts for basic block
-   net/core/dev.c:3829:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
-   net/core/dev.c:5056:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
+All warnings (new ones prefixed by >>):
 
-vim +4348 net/core/dev.c
+>> fs/afs/rxrpc.c:157:6: warning: variable 'o' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (!prealloc)
+               ^~~~~~~~~
+   fs/afs/rxrpc.c:159:58: note: uninitialized use occurs here
+           trace_afs_call(call->debug_id, afs_call_trace_alloc, 1, o,
+                                                                   ^
+   fs/afs/rxrpc.c:157:2: note: remove the 'if' if its condition is always true
+           if (!prealloc)
+           ^~~~~~~~~~~~~~
+   fs/afs/rxrpc.c:142:7: note: initialize the variable 'o' to silence this warning
+           int o;
+                ^
+                 = 0
+   1 warning generated.
 
-^1da177e4c3f41 Linus Torvalds            2005-04-16  4341  
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4342  /* Called with irq disabled */
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4343  static inline void ____napi_schedule(struct softnet_data *sd,
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4344  				     struct napi_struct *napi)
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4345  {
-29863d41bb6e1d Wei Wang                  2021-02-08  4346  	struct task_struct *thread;
-29863d41bb6e1d Wei Wang                  2021-02-08  4347  
-fbd9a2ceba5c74 Sebastian Andrzej Siewior 2022-03-11 @4348  	lockdep_assert_irqs_disabled();
-fbd9a2ceba5c74 Sebastian Andrzej Siewior 2022-03-11  4349  
-29863d41bb6e1d Wei Wang                  2021-02-08  4350  	if (test_bit(NAPI_STATE_THREADED, &napi->state)) {
-29863d41bb6e1d Wei Wang                  2021-02-08  4351  		/* Paired with smp_mb__before_atomic() in
-5fdd2f0e5c6484 Wei Wang                  2021-02-08  4352  		 * napi_enable()/dev_set_threaded().
-5fdd2f0e5c6484 Wei Wang                  2021-02-08  4353  		 * Use READ_ONCE() to guarantee a complete
-5fdd2f0e5c6484 Wei Wang                  2021-02-08  4354  		 * read on napi->thread. Only call
-29863d41bb6e1d Wei Wang                  2021-02-08  4355  		 * wake_up_process() when it's not NULL.
-29863d41bb6e1d Wei Wang                  2021-02-08  4356  		 */
-29863d41bb6e1d Wei Wang                  2021-02-08  4357  		thread = READ_ONCE(napi->thread);
-29863d41bb6e1d Wei Wang                  2021-02-08  4358  		if (thread) {
-cb038357937ee4 Wei Wang                  2021-03-16  4359  			/* Avoid doing set_bit() if the thread is in
-cb038357937ee4 Wei Wang                  2021-03-16  4360  			 * INTERRUPTIBLE state, cause napi_thread_wait()
-cb038357937ee4 Wei Wang                  2021-03-16  4361  			 * makes sure to proceed with napi polling
-cb038357937ee4 Wei Wang                  2021-03-16  4362  			 * if the thread is explicitly woken from here.
-cb038357937ee4 Wei Wang                  2021-03-16  4363  			 */
-2f064a59a11ff9 Peter Zijlstra            2021-06-11  4364  			if (READ_ONCE(thread->__state) != TASK_INTERRUPTIBLE)
-cb038357937ee4 Wei Wang                  2021-03-16  4365  				set_bit(NAPI_STATE_SCHED_THREADED, &napi->state);
-29863d41bb6e1d Wei Wang                  2021-02-08  4366  			wake_up_process(thread);
-29863d41bb6e1d Wei Wang                  2021-02-08  4367  			return;
-29863d41bb6e1d Wei Wang                  2021-02-08  4368  		}
-29863d41bb6e1d Wei Wang                  2021-02-08  4369  	}
-29863d41bb6e1d Wei Wang                  2021-02-08  4370  
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4371  	list_add_tail(&napi->poll_list, &sd->poll_list);
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4372  	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4373  }
-eecfd7c4e36ff5 Eric Dumazet              2010-05-06  4374  
 
-:::::: The code at line 4348 was first introduced by commit
-:::::: fbd9a2ceba5c74bbfa19cf257ae4b4b2c820860d net: Add lockdep asserts to ____napi_schedule().
+vim +157 fs/afs/rxrpc.c
 
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   133	
+   134	/*
+   135	 * Allocate a call.
+   136	 */
+   137	static struct afs_call *afs_alloc_call(struct afs_net *net,
+   138					       const struct afs_call_type *type,
+   139					       bool prealloc, gfp_t gfp)
+   140	{
+   141		struct afs_call *call;
+   142		int o;
+   143	
+   144		call = kzalloc(sizeof(*call), gfp);
+   145		if (!call)
+   146			return NULL;
+   147	
+   148		call->type = type;
+   149		call->net = net;
+   150		call->debug_id = atomic_inc_return(&rxrpc_debug_id);
+   151		refcount_set(&call->ref, 1);
+   152		INIT_WORK(&call->async_work, afs_process_async_call);
+   153		init_waitqueue_head(&call->waitq);
+   154		spin_lock_init(&call->state_lock);
+   155		call->iter = &call->def_iter;
+   156	
+ > 157		if (!prealloc)
+   158			o = atomic_inc_return(&net->nr_outstanding_calls);
+   159		trace_afs_call(call->debug_id, afs_call_trace_alloc, 1, o,
+   160			       __builtin_return_address(0));
+   161		return call;
+   162	}
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
