@@ -1,49 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94DE7ED
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 06:37:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B39EBF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 07:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676097423; x=1707633423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9gJpkJt3TaRPs6SWmfeEDwUFeKZtBCaDSHw7WJjsXnE=;
-  b=m4kRMpkKtuba23+2DNsa/+bRwMYonpzgWbF4xyilWd3il+fsobD5s1fR
-   0bXI6+zoV7x4RQnxJW+zcEqXpRfAyU+2dOspNKuWgrCuQ/Aw2MZquXSVx
-   k1k0DjBg8wqqs+3PE/7AT4d6UKqs7awqZhtnlXESkbl1GCM9tCJLjHc0U
-   rslKA3ThMMjTujf+ntduLFn8cY3VbmK67DZYhIrs759K0OcJDsMm1ZQZu
-   C/T2+MA6soaluGwQcD59KRuEdlJ/B5TRGqJ7ZrL2nNSSaJ24uNNJuCYES
-   BOwzVgayMLrSzrq9b6fuxaYpQwDrcEVCIb0L6ibA9aGO/KAkLcQaAfh7u
+  t=1676099221; x=1707635221;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QbrwXawfygw5QV4+McyRlUDRMbXCCfdyjR151u9rMik=;
+  b=NklGNFEHAARuqk7OKQMcWnLQQmqDD1PfXR6iyqyCYB1JiUWIEfKVw9ry
+   O7+/q6b7DLmx9TqfQ8jRf7zVd+IzJVa0N6xAOJQxJ4jyv2/YxJEZ4anZR
+   sQcukAWhhKS+lcRXFaSQNmbPyFzTD93gXh+TMvL0JlV6e5PIUPwBf0Nqv
+   NyvHWyvY7lR0L/dxRaFtj/Pr0U8xOL3plwdoTc1aoBn0LsctlXYKhEqIY
+   qckdGpcfCxgqKW7Q41Uz05cXYWIwn36e2gx+pLZBARmLW3VHsSj6DyC+E
+   Xog4CSSNCnvYTsvESaABLPb+AtWIttcZvn72ws9Q8HU8I1fndQRSr+oK7
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="392992455"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="331896188"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="392992455"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 22:37:03 -0800
+   d="scan'208";a="331896188"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 23:07:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="811058158"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="997176224"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="811058158"
+   d="scan'208";a="997176224"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2023 22:36:59 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Feb 2023 23:06:59 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQjVK-0006If-1W;
-	Sat, 11 Feb 2023 06:36:58 +0000
-Date: Sat, 11 Feb 2023 14:36:03 +0800
+	id 1pQjyN-0006JV-0Q;
+	Sat, 11 Feb 2023 07:06:59 +0000
+Date: Sat, 11 Feb 2023 15:06:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harsh Jain <h.jain@amd.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, thomas.lendacky@amd.com,
-	Raju.Rangoju@amd.com, Shyam-sundar.S-k@amd.com,
-	harshjain.prof@gmail.com, abhijit.gangurde@amd.com,
-	puneet.gupta@amd.com, nikhil.agarwal@amd.com, tarak.reddy@amd.com,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
-Subject: Re: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig,
- makefile
-Message-ID: <202302111407.gbTaWzgq-lkp@intel.com>
-References: <20230210130321.2898-7-h.jain@amd.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:stacktrace/tests 2/2]
+ unwind_kunit.c:(.text.__test_ftrace_unwind+0x5c): undefined reference to
+ `kunit_kmalloc_array'
+Message-ID: <202302111452.JedhD9F2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,218 +46,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230210130321.2898-7-h.jain@amd.com>
 
-Hi Harsh,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-[also build test WARNING on net/master horms-ipvs/master linus/master v6.2-rc7 next-20230210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-patch link:    https://lore.kernel.org/r/20230210130321.2898-7-h.jain%40amd.com
-patch subject: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig, makefile
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230211/202302111407.gbTaWzgq-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
+head:   c40c372bae5073513f06c33fae36c546bec57ffe
+commit: c40c372bae5073513f06c33fae36c546bec57ffe [2/2] WIP: unwind test
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230211/202302111452.JedhD9F2-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/93ed306161ac0259bd72b14922a7f6af60b3748c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-        git checkout 93ed306161ac0259bd72b14922a7f6af60b3748c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=c40c372bae5073513f06c33fae36c546bec57ffe
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
+        git fetch --no-tags mark stacktrace/tests
+        git checkout c40c372bae5073513f06c33fae36c546bec57ffe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ io_uring//
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302111407.gbTaWzgq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111452.JedhD9F2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/amd/efct/efct_nic.c:15:
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
-   drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
-      57 |         __raw_writeq((__force u64)value, reg);
-         |         ^~~~~~~~~~~~
-         |         _efct_writeq
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
-   drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
-      62 |         return (__force __le64)__raw_readq(reg);
-         |                                ^~~~~~~~~~~
-   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
-                    from drivers/net/ethernet/amd/efct/efct_common.h:13,
-                    from drivers/net/ethernet/amd/efct/efct_nic.c:10:
-   drivers/net/ethernet/amd/efct/efct_nic.c: In function 'efct_time_sync_event':
->> drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
-     112 |          (native_element) << ((min) - (low)))
-         |                           ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
-     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:144:11: note: in expansion of macro 'EFCT_EXTRACT32'
-     144 |           EFCT_EXTRACT32((qword).u32[1], 32, 63, low, high)) &          \
-         |           ^~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
-     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
-     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_nic.c:746:38: note: in expansion of macro 'EFCT_QWORD_FIELD'
-     746 |         evq->sync_timestamp_major =  EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TSYNC_TIME_HIGH_48);
-         |                                      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
-      69 |          (((((u32)1) << (width))) - 1))
-         |                      ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:145:10: note: in expansion of macro 'EFCT_MASK32'
-     145 |          EFCT_MASK32((high) + 1 - (low)))
-         |          ^~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
-     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
-     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_nic.c:746:38: note: in expansion of macro 'EFCT_QWORD_FIELD'
-     746 |         evq->sync_timestamp_major =  EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TSYNC_TIME_HIGH_48);
-         |                                      ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/ethernet/amd/efct/efct_tx.c:11:
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
-   drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
-      57 |         __raw_writeq((__force u64)value, reg);
-         |         ^~~~~~~~~~~~
-         |         _efct_writeq
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
-   drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
-      62 |         return (__force __le64)__raw_readq(reg);
-         |                                ^~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_tx.c: In function 'txq_piobuf_w64':
-   drivers/net/ethernet/amd/efct/efct_tx.c:89:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-      89 |         writeq(val, dest64);
-         |         ^~~~~~
-         |         writel
-   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
-                    from drivers/net/ethernet/amd/efct/efct_tx.h:11,
-                    from drivers/net/ethernet/amd/efct/efct_tx.c:9:
-   drivers/net/ethernet/amd/efct/efct_tx.c: In function 'efct_ev_tx':
->> drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
-     112 |          (native_element) << ((min) - (low)))
-         |                           ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
-     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:144:11: note: in expansion of macro 'EFCT_EXTRACT32'
-     144 |           EFCT_EXTRACT32((qword).u32[1], 32, 63, low, high)) &          \
-         |           ^~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
-     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
-     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_tx.c:326:22: note: in expansion of macro 'EFCT_QWORD_FIELD'
-     326 |         partial_ts = EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TXCMPL_PARTIAL_TSTAMP);
-         |                      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
-      69 |          (((((u32)1) << (width))) - 1))
-         |                      ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:145:10: note: in expansion of macro 'EFCT_MASK32'
-     145 |          EFCT_MASK32((high) + 1 - (low)))
-         |          ^~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
-     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
-     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_tx.c:326:22: note: in expansion of macro 'EFCT_QWORD_FIELD'
-     326 |         partial_ts = EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TXCMPL_PARTIAL_TSTAMP);
-         |                      ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/ethernet/amd/efct/efct_rx.c:15:
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
-   drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
-      57 |         __raw_writeq((__force u64)value, reg);
-         |         ^~~~~~~~~~~~
-         |         _efct_writeq
-   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
-   drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
-      62 |         return (__force __le64)__raw_readq(reg);
-         |                                ^~~~~~~~~~~
-   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
-                    from drivers/net/ethernet/amd/efct/efct_rx.h:11,
-                    from drivers/net/ethernet/amd/efct/efct_rx.c:12:
-   drivers/net/ethernet/amd/efct/efct_rx.c: In function 'efct_include_ts_in_rxskb':
->> drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
-     112 |          (native_element) << ((min) - (low)))
-         |                           ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
-     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:139:11: note: in expansion of macro 'EFCT_EXTRACT32'
-     139 |           EFCT_EXTRACT32((oword).u32[3], 96, 127, low, high)) &         \
-         |           ^~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:160:9: note: in expansion of macro 'EFCT_EXTRACT_OWORD32'
-     160 |         EFCT_EXTRACT_OWORD32(oword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:211:41: note: in expansion of macro 'EFCT_OWORD_FIELD32'
-     211 | #define EFCT_OWORD_FIELD                EFCT_OWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_rx.c:386:24: note: in expansion of macro 'EFCT_OWORD_FIELD'
-     386 |         pkt_ts_major = EFCT_OWORD_FIELD(*((union efct_oword *)p_meta), ESF_HZ_RX_PREFIX_TIMESTAMP);
-         |                        ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
-      69 |          (((((u32)1) << (width))) - 1))
-         |                      ^~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:140:10: note: in expansion of macro 'EFCT_MASK32'
-     140 |          EFCT_MASK32((high) + 1 - (low)))
-         |          ^~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:160:9: note: in expansion of macro 'EFCT_EXTRACT_OWORD32'
-     160 |         EFCT_EXTRACT_OWORD32(oword, EFCT_LOW_BIT(field),                \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_bitfield.h:211:41: note: in expansion of macro 'EFCT_OWORD_FIELD32'
-     211 | #define EFCT_OWORD_FIELD                EFCT_OWORD_FIELD32
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/amd/efct/efct_rx.c:386:24: note: in expansion of macro 'EFCT_OWORD_FIELD'
-     386 |         pkt_ts_major = EFCT_OWORD_FIELD(*((union efct_oword *)p_meta), ESF_HZ_RX_PREFIX_TIMESTAMP);
-         |                        ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +112 drivers/net/ethernet/amd/efct/efct_bitfield.h
-
-83f06a5b784384 Harsh Jain 2023-02-10   90  
-83f06a5b784384 Harsh Jain 2023-02-10   91  /* Format string and value expanders for printk */
-83f06a5b784384 Harsh Jain 2023-02-10   92  #define EFCT_DWORD_FMT "%08x"
-83f06a5b784384 Harsh Jain 2023-02-10   93  #define EFCT_OWORD_FMT "%08x:%08x:%08x:%08x"
-83f06a5b784384 Harsh Jain 2023-02-10   94  #define EFCT_DWORD_VAL(dword)				\
-83f06a5b784384 Harsh Jain 2023-02-10   95  	((u32)le32_to_cpu((dword).word32))
-83f06a5b784384 Harsh Jain 2023-02-10   96  
-83f06a5b784384 Harsh Jain 2023-02-10   97  /* Extract bit field portion [low,high) from the native-endian element
-83f06a5b784384 Harsh Jain 2023-02-10   98   * which contains bits [min,max).
-83f06a5b784384 Harsh Jain 2023-02-10   99   * For example, suppose "element" represents the high 32 bits of a
-83f06a5b784384 Harsh Jain 2023-02-10  100   * 64-bit value, and we wish to extract the bits belonging to the bit
-83f06a5b784384 Harsh Jain 2023-02-10  101   * field occupying bits 28-45 of this 64-bit value.
-83f06a5b784384 Harsh Jain 2023-02-10  102   * Then EFCT_EXTRACT ( element, 32, 63, 28, 45 ) would give
-83f06a5b784384 Harsh Jain 2023-02-10  103   *
-83f06a5b784384 Harsh Jain 2023-02-10  104   *   ( element ) << 4
-83f06a5b784384 Harsh Jain 2023-02-10  105   * The result will contain the relevant bits filled in the range
-83f06a5b784384 Harsh Jain 2023-02-10  106   * [0,high-low), with garbage in bits [high-low+1,...).
-83f06a5b784384 Harsh Jain 2023-02-10  107   */
-83f06a5b784384 Harsh Jain 2023-02-10  108  #define EFCT_EXTRACT_NATIVE(native_element, min, max, low, high)		\
-83f06a5b784384 Harsh Jain 2023-02-10  109  	((low) > (max) || (high) < (min) ? 0 :				\
-83f06a5b784384 Harsh Jain 2023-02-10  110  	 (low) > (min) ?						\
-83f06a5b784384 Harsh Jain 2023-02-10  111  	 (native_element) >> ((low) - (min)) :				\
-83f06a5b784384 Harsh Jain 2023-02-10 @112  	 (native_element) << ((min) - (low)))
-83f06a5b784384 Harsh Jain 2023-02-10  113  
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `__test_ftrace_unwind':
+>> unwind_kunit.c:(.text.__test_ftrace_unwind+0x5c): undefined reference to `kunit_kmalloc_array'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x72): undefined reference to `kunit_binary_ptr_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x82): undefined reference to `kunit_binary_ptr_assert_format'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xa0): undefined reference to `kunit_do_failed_assertion'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xee): undefined reference to `kunit_fail_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xfe): undefined reference to `kunit_fail_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x110): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x14a): undefined reference to `kunit_fail_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x15a): undefined reference to `kunit_fail_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x16c): undefined reference to `kunit_do_failed_assertion'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x1e0): undefined reference to `kunit_kfree'
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `std_assert_callers_present':
+>> unwind_kunit.c:(.text.std_assert_callers_present+0x72): undefined reference to `kunit_binary_assert_format'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x8e): undefined reference to `kunit_binary_assert_format'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0xb4): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0xee): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x10a): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x130): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x16a): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x186): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1ac): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1d6): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1f2): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x218): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x23e): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x266): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x284): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller':
+>> unwind_kunit.c:(.text.test_unwind_from_caller+0x44): undefined reference to `kunit_kmalloc_array'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x5a): undefined reference to `kunit_binary_ptr_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x6a): undefined reference to `kunit_binary_ptr_assert_format'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x88): undefined reference to `kunit_do_failed_assertion'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0xe0): undefined reference to `kunit_kfree'
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `std_assert_callers_present_reliable':
+>> unwind_kunit.c:(.text.std_assert_callers_present_reliable+0x74): undefined reference to `kunit_log_append'
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `__test_kprobe_unwind.constprop.0':
+>> unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x58): undefined reference to `kunit_kmalloc_array'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x6e): undefined reference to `kunit_binary_ptr_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x7e): undefined reference to `kunit_binary_ptr_assert_format'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x9c): undefined reference to `kunit_do_failed_assertion'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0xde): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0xfa): undefined reference to `kunit_binary_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x120): undefined reference to `kunit_do_failed_assertion'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x18c): undefined reference to `kunit_kfree'
+   powerpc-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller_reliable':
+>> unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x48): undefined reference to `kunit_kmalloc_array'
+>> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x5e): undefined reference to `kunit_binary_ptr_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x6e): undefined reference to `kunit_binary_ptr_assert_format'
+   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x8c): undefined reference to `kunit_do_failed_assertion'
+   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0xe8): undefined reference to `kunit_log_append'
+   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x13c): undefined reference to `kunit_kfree'
 
 -- 
 0-DAY CI Kernel Test Service
