@@ -1,42 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DAB10E3;
-	Sat, 11 Feb 2023 10:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2CC10E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 10:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676109667; x=1707645667;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dJq2KsjF5eRvnJ7BX51ugHWNneqFcNyIvSL2lT4NwxM=;
-  b=RXizio2ebbKxDjNiMhfyrlntpVzYZc6IDLhoQdDl8VjLCTTTSMfXMRcm
-   4GRYwi+itFhXc11OaE/7hEfI39DT8ZJFD0l5sxrm2OUs052MHZMEtALwY
-   f/TQho7sdkPJm8cqYQ7c4K+8Ku+7+/rfbRe5NBOy4FEtNDm6aIKkOig4q
-   /U9WUGYczPVRqnmbOXLF4PL0aznH16YcUiajKE/ADgmvT1JHfNCWFtN+f
-   OHya7ZytXO94MSamtzZjFz2KmmyHTHMBPL1kpkUyEBIZBKLHACC4T1sdq
-   hpnPkCF08NQqyy5M7tcTy9gycgOxcVp0i1iUgW+OfAbmCEm1FmkYGquxM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="395207477"
+  t=1676110266; x=1707646266;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=glsnQFZXEDvVmmLR9qIpigu2VLbon7V4oPvPNOTcEiM=;
+  b=cj7vnxG2JFsHHwszilndliUSgrv+A6vTIR2qC4Q1bdJVDdueIegmVmXv
+   IPDG+QoT7Df4sjj9wykVb80AjYl1hdvuJZEgmhgfOf7BCIRVusG5NHe7+
+   4WIUZYbj5M+bQYndQp8KBscjJU1Cu5hfdnOMfXtRkcS+0D6pa+1FNNrtO
+   ch5miB7YAxMWMKHN7ig277Il+IYRu9/v0ziwWNYlFrUqxAXEnrOQELz5r
+   lvNZ5B0xZGNRgUxJiC1KKN1BsTcuUkTMKxvMLNYtr/ax8hTNovQCf4ow8
+   6LxSvaJj0KKJRL4+3f1VLDrs99Vo9FH9JR3+1i65rRgfrEG1WrkUbeAib
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="328296097"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="395207477"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 02:01:06 -0800
+   d="scan'208";a="328296097"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 02:11:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="731971043"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="997204915"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="731971043"
+   d="scan'208";a="997204915"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Feb 2023 02:01:04 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 11 Feb 2023 02:11:05 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQmgq-0006PZ-0e;
-	Sat, 11 Feb 2023 10:01:04 +0000
-Date: Sat, 11 Feb 2023 18:00:09 +0800
+	id 1pQmqW-0006Pn-17;
+	Sat, 11 Feb 2023 10:11:04 +0000
+Date: Sat, 11 Feb 2023 18:10:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 2/2] lib/unwind_kunit.c:22:6: warning: no
- previous prototype for function 'std_stacktrace_save'
-Message-ID: <202302111722.ojTgaHZP-lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] power: reset: add Odroid Go Ultra poweroff driver
+Message-ID: <202302111754.O96B3LLL-lkp@intel.com>
+References: <20230126-b4-odroid-go-ultra-poweroff-v3-1-0a7fd3d5c4b3@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,81 +46,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126-b4-odroid-go-ultra-poweroff-v3-1-0a7fd3d5c4b3@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   c40c372bae5073513f06c33fae36c546bec57ffe
-commit: c40c372bae5073513f06c33fae36c546bec57ffe [2/2] WIP: unwind test
-config: s390-buildonly-randconfig-r004-20230210 (https://download.01.org/0day-ci/archive/20230211/202302111722.ojTgaHZP-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+Hi Neil,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on 38d2b86a665b5e86371a1a30228bce259aa6c101]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/power-reset-add-Odroid-Go-Ultra-poweroff-driver/20230210-180559
+base:   38d2b86a665b5e86371a1a30228bce259aa6c101
+patch link:    https://lore.kernel.org/r/20230126-b4-odroid-go-ultra-poweroff-v3-1-0a7fd3d5c4b3%40linaro.org
+patch subject: [PATCH v3] power: reset: add Odroid Go Ultra poweroff driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230211/202302111754.O96B3LLL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=c40c372bae5073513f06c33fae36c546bec57ffe
-        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
-        git fetch --no-tags mark stacktrace/tests
-        git checkout c40c372bae5073513f06c33fae36c546bec57ffe
+        # https://github.com/intel-lab-lkp/linux/commit/f7c8ef7b6c2a6c706640a6d1afe097d08f9dac00
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Neil-Armstrong/power-reset-add-Odroid-Go-Ultra-poweroff-driver/20230210-180559
+        git checkout f7c8ef7b6c2a6c706640a6d1afe097d08f9dac00
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302111722.ojTgaHZP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111754.O96B3LLL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/unwind_kunit.c:22:6: warning: no previous prototype for function 'std_stacktrace_save' [-Wmissing-prototypes]
-   void std_stacktrace_save(struct std *std)
-        ^
-   lib/unwind_kunit.c:22:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void std_stacktrace_save(struct std *std)
-   ^
-   static 
->> lib/unwind_kunit.c:29:6: warning: no previous prototype for function 'std_stacktrace_save_reliable' [-Wmissing-prototypes]
-   void std_stacktrace_save_reliable(struct std *std)
-        ^
-   lib/unwind_kunit.c:29:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void std_stacktrace_save_reliable(struct std *std)
-   ^
-   static 
->> lib/unwind_kunit.c:36:6: warning: no previous prototype for function 'std_stacktrace_save_regs' [-Wmissing-prototypes]
-   void std_stacktrace_save_regs(struct std *std, struct pt_regs *regs)
-        ^
-   lib/unwind_kunit.c:36:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void std_stacktrace_save_regs(struct std *std, struct pt_regs *regs)
-   ^
-   static 
-   3 warnings generated.
+   m68k-linux-ld: drivers/power/reset/odroid-go-ultra-poweroff.o: in function `odroid_go_ultra_poweroff_probe':
+>> odroid-go-ultra-poweroff.c:(.text+0x16a): undefined reference to `i2c_find_device_by_fwnode'
 
-
-vim +/std_stacktrace_save +22 lib/unwind_kunit.c
-
-    21	
-  > 22	void std_stacktrace_save(struct std *std)
-    23	{
-    24		std->len = stack_trace_save(std->stack_trace,
-    25					    NR_STD_ELEMS,
-    26					    0);
-    27	}
-    28	
-  > 29	void std_stacktrace_save_reliable(struct std *std)
-    30	{
-    31		std->len = stack_trace_save_tsk_reliable(current,
-    32							 std->stack_trace,
-    33							 NR_STD_ELEMS);
-    34	}
-    35	
-  > 36	void std_stacktrace_save_regs(struct std *std, struct pt_regs *regs)
-    37	{
-    38		std->len = stack_trace_save_regs(regs,
-    39						 std->stack_trace,
-    40						 NR_STD_ELEMS,
-    41						 0);
-    42	}
-    43	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PM
+   Depends on [n]: !MMU [=y]
+   Selected by [y]:
+   - SUN20I_PPU [=y] && (ARCH_SUNXI || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
