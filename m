@@ -1,34 +1,34 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A667E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 20:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEB87E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 20:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676148807; x=1707684807;
+  t=1676148809; x=1707684809;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BQ7ROONwrPabXryKcCqPDTo54Nk/mcKRjC9levl4ag4=;
-  b=XswYBhD6FLzs8nbsKnzgl5OKSHT4R3afkC+3zJzsaLL+9w5CGTaA7fEN
-   RAKJdJOSXrfPppJK4JNf+SfygcF6P9Hl4MT7DQmFfggpMZkIQolaJmOxz
-   eDzRLkjKQ0cfBSGAz2fJwOEZYAtZGhP5kJF3HJ9RLZQwvz9qZhfrHwS6k
-   v8kgzCn2AYg01GnvfOOJvKo1y8QP9rqGbTDrt0PGxtQJ62qKy4jW8QqwI
-   R+OS+t1al8xpIOQQyTTMbEb8opGShOO8now1Z7NFtY/H/cGrENjLZR9Us
-   A5fkoPwI+BCQ6gYSzJDsa1nIZ36GScX9Fh6f8f38F3PP3M1UPm6YGskvi
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="331959925"
+  bh=jGeDp6oxROmchg2IcURfEj5LqyYNIHc0VpNOvnVjbQw=;
+  b=TwFA1Ut2Z25e8jkDujcG36kNY/TbU0HAYM8lLx9gGC7Y7L15GoTPZrXr
+   miiHLESUX+t3J8ZAT8JPlEQQDULDT7Jd3Eqvxaan3BIdUt+spQyvEYRTI
+   u+8X0zpPszU0HnYSxcTSJFQNX70au4OuOL9G30FgZShgAELGA17bvhqkz
+   NlkctCyoytj+gbzdKtgg/1emELfk3wjBcb9zpJa+NUkGNUZjE2cM8Zr8x
+   4tDwCJv/ydH5LmmdqVLsCokBdvxkP4tHbTHyTi7jpHawlPyNQRod9CrAv
+   //tQtvcuRrEQhlVh4ITJr2hqB176JhsBSgFq3LkyokYT8UjHqliakn8sl
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="331959930"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="331959925"
+   d="scan'208";a="331959930"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 12:53:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="757135142"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="757135143"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="757135142"
+   d="scan'208";a="757135143"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 11 Feb 2023 12:53:24 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQws7-0006n5-2j;
+	id 1pQws7-0006n3-2d;
 	Sat, 11 Feb 2023 20:53:23 +0000
 Date: Sun, 12 Feb 2023 04:53:09 +0800
 From: kernel test robot <lkp@intel.com>
@@ -39,7 +39,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
 Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.02.03a 73/92]
  net/netfilter/ipvs/ip_vs_est.c:552:29: error: macro "kfree_rcu" requires 2
  arguments, but only 1 given
-Message-ID: <202302120419.6sgMnKtf-lkp@intel.com>
+Message-ID: <202302120430.VpTCBA2m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,7 +52,7 @@ Content-Disposition: inline
 tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.02.03a
 head:   077af4236f06a251931179a46f69d1815ceb4f97
 commit: d904447bec170523e97e847d0dfb0d1033ab36da [73/92] rcu/kvfree: Eliminate k[v]free_rcu() single argument macro
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230212/202302120419.6sgMnKtf-lkp@intel.com/config)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230212/202302120430.VpTCBA2m-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/ammarfaizi2/linux-block/commit/d904447bec170523e97e847d0dfb0d1033ab36da
@@ -61,12 +61,12 @@ reproduce (this is a W=1 build):
         git checkout d904447bec170523e97e847d0dfb0d1033ab36da
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/netfilter/ipvs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/netfilter/ipvs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120419.6sgMnKtf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302120430.VpTCBA2m-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
