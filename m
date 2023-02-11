@@ -1,46 +1,45 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD83882F;
-	Sat, 11 Feb 2023 20:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A667E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 20:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676147006; x=1707683006;
+  t=1676148807; x=1707684807;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WRDHWjCFbkXkleArgpuuSmjaJRp0vX7XUgfa2IcbRT0=;
-  b=SqyI4yfL+U9pgroXE+DMeXHzQkaTOPcG+cbB/7e36I81XiblPXjlpHv6
-   CtnsnuXLyk3ByVosO2uJfe15dBVNeWyShSpYVGdeG0HnRqo4Zhz9SHnq4
-   TeH4kX0pDhVo1AM/uWOOUXy5mh1HbinEUxehETCAyktz24koQn2UzNUKL
-   2n//GAqbYhc33ZG69JPwKE6HxA6b4rRe0BqgNvkzprBxt89G3EQRzIjdp
-   4RwnyxP2AUoIlVqIQSAbft/I43BiyX373y+MlE8R19MY9ePDJfiC6MvT2
-   /IFPjKGUPMtSstvdFFmNnJkNbJRATPzBaou15Jm3P6Mdk9oApT6Bph30U
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="331956868"
+  bh=BQ7ROONwrPabXryKcCqPDTo54Nk/mcKRjC9levl4ag4=;
+  b=XswYBhD6FLzs8nbsKnzgl5OKSHT4R3afkC+3zJzsaLL+9w5CGTaA7fEN
+   RAKJdJOSXrfPppJK4JNf+SfygcF6P9Hl4MT7DQmFfggpMZkIQolaJmOxz
+   eDzRLkjKQ0cfBSGAz2fJwOEZYAtZGhP5kJF3HJ9RLZQwvz9qZhfrHwS6k
+   v8kgzCn2AYg01GnvfOOJvKo1y8QP9rqGbTDrt0PGxtQJ62qKy4jW8QqwI
+   R+OS+t1al8xpIOQQyTTMbEb8opGShOO8now1Z7NFtY/H/cGrENjLZR9Us
+   A5fkoPwI+BCQ6gYSzJDsa1nIZ36GScX9Fh6f8f38F3PP3M1UPm6YGskvi
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="331959925"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="331956868"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 12:23:26 -0800
+   d="scan'208";a="331959925"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 12:53:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="913880546"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="757135142"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="913880546"
+   d="scan'208";a="757135142"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Feb 2023 12:23:24 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Feb 2023 12:53:24 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQwP5-0006mL-0l;
-	Sat, 11 Feb 2023 20:23:23 +0000
-Date: Sun, 12 Feb 2023 04:22:25 +0800
+	id 1pQws7-0006n5-2j;
+	Sat, 11 Feb 2023 20:53:23 +0000
+Date: Sun, 12 Feb 2023 04:53:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
 	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
 	"Paul E. McKenney" <paulmck@kernel.org>
 Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.02.03a 73/92]
- net/netfilter/ipvs/ip_vs_est.c:552:3: error: use of undeclared identifier
- 'kfree_rcu'; did you mean 'kfree_skb'?
-Message-ID: <202302120458.J4M5Suy8-lkp@intel.com>
+ net/netfilter/ipvs/ip_vs_est.c:552:29: error: macro "kfree_rcu" requires 2
+ arguments, but only 1 given
+Message-ID: <202302120419.6sgMnKtf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,94 +52,45 @@ Content-Disposition: inline
 tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.02.03a
 head:   077af4236f06a251931179a46f69d1815ceb4f97
 commit: d904447bec170523e97e847d0dfb0d1033ab36da [73/92] rcu/kvfree: Eliminate k[v]free_rcu() single argument macro
-config: hexagon-randconfig-r041-20230212 (https://download.01.org/0day-ci/archive/20230212/202302120458.J4M5Suy8-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230212/202302120419.6sgMnKtf-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/ammarfaizi2/linux-block/commit/d904447bec170523e97e847d0dfb0d1033ab36da
         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
         git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/dev.2023.02.03a
         git checkout d904447bec170523e97e847d0dfb0d1033ab36da
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/netfilter/ipvs/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/netfilter/ipvs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120458.J4M5Suy8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302120419.6sgMnKtf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/netfilter/ipvs/ip_vs_est.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/netfilter/ipvs/ip_vs_est.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/netfilter/ipvs/ip_vs_est.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> net/netfilter/ipvs/ip_vs_est.c:552:15: error: too few arguments provided to function-like macro invocation
-                   kfree_rcu(td);
-                               ^
-   include/linux/rcupdate.h:984:9: note: macro 'kfree_rcu' defined here
-   #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-           ^
->> net/netfilter/ipvs/ip_vs_est.c:552:3: error: use of undeclared identifier 'kfree_rcu'; did you mean 'kfree_skb'?
-                   kfree_rcu(td);
-                   ^~~~~~~~~
-                   kfree_skb
-   include/linux/skbuff.h:1216:20: note: 'kfree_skb' declared here
-   static inline void kfree_skb(struct sk_buff *skb)
-                      ^
-   net/netfilter/ipvs/ip_vs_est.c:552:3: warning: expression result unused [-Wunused-value]
-                   kfree_rcu(td);
-                   ^~~~~~~~~
-   7 warnings and 2 errors generated.
+   net/netfilter/ipvs/ip_vs_est.c: In function 'ip_vs_stop_estimator':
+>> net/netfilter/ipvs/ip_vs_est.c:552:29: error: macro "kfree_rcu" requires 2 arguments, but only 1 given
+     552 |                 kfree_rcu(td);
+         |                             ^
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/hardirq.h:9,
+                    from include/linux/interrupt.h:11,
+                    from net/netfilter/ipvs/ip_vs_est.c:21:
+   include/linux/rcupdate.h:984: note: macro "kfree_rcu" defined here
+     984 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         | 
+>> net/netfilter/ipvs/ip_vs_est.c:552:17: error: 'kfree_rcu' undeclared (first use in this function); did you mean 'kfree_skb'?
+     552 |                 kfree_rcu(td);
+         |                 ^~~~~~~~~
+         |                 kfree_skb
+   net/netfilter/ipvs/ip_vs_est.c:552:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +552 net/netfilter/ipvs/ip_vs_est.c
+vim +/kfree_rcu +552 net/netfilter/ipvs/ip_vs_est.c
 
 ^1da177e4c3f41 net/ipv4/ipvs/ip_vs_est.c      Linus Torvalds    2005-04-16  518  
 705dd344408127 net/netfilter/ipvs/ip_vs_est.c Julian Anastasov  2022-11-22  519  /* Unlink estimator from chain */
