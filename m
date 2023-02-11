@@ -1,46 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9202883B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A107E5
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 21:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1676151268; x=1707687268;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m5lQnSIboUpHGZZxDLLXfuZJCH+DGODHCO59VxKPvmM=;
-  b=BRV5VbMqlyASGEYKKXszHnzQEtGQI3n5qvPH9jWXGZZbbaJYOR1g5q7Q
-   Z3PMFYh6EpXG3CxrL2m2unyjNWpL02D5t8HbIoflHvPVwGbVHqdN8O49n
-   yhzblx33RHcXZlZro+DP4IAhj2tMK6K/ZDzsveoeDDVWK1K52bvTy8ivY
-   E8PX1dFSJbyniA1R9DIGRtQYn0GuvULTu7SqK/ENnTENb/fc/Ot8fYLEW
-   iHtzmwmJKM0uEDJvTgmPlxrdyDx2OveAt9DO/iXyWWA2pzMozMrzn7B08
-   wVN2MSD4B2ixbxIOQ3Ara3u01Z9lORzEAIW7Fgh8u2yVvP965TSNOoiMZ
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UGdEtbEAzbSERnty//wgt/U2Epe6F7MQ024/er2PNLc=;
+  b=T/I4aLIJ78omiyrVriXFdLGF0LLgv1OANiAU2dlO4nMyTOfXF86KoG7X
+   byVBDjC8E9fVF+NDil/1yFqR3o8O5gafQkUuOLBFI8TQ3s7q7C/RqEg19
+   yKOGQL82ukyS0U4BUmsVclVZeE3P1Io6XkEkvXAwu/WzOr4cpjnHjj6f+
+   t4MB7Veyw4L80EFBvsMnkIJYdjowIyItDg2dSdFW8qq3+TcYtjKMQwEI2
+   AHbSB+XtYxwBHhT85uUkuwS95llOonNgzbi9wLVE/++3xegQowWurRAcP
+   lHbHpwo1Rgev2RKQcW8wcTdjtkU+6AP82HZXWKwmw9mcu3h08466WCJtm
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="314300303"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="328356078"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="314300303"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 13:34:28 -0800
+   d="scan'208";a="328356078"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 13:34:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="668402534"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="737081913"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="668402534"
+   d="scan'208";a="737081913"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Feb 2023 13:34:26 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 11 Feb 2023 13:34:26 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQxVp-0006oh-1a;
+	id 1pQxVp-0006oj-1t;
 	Sat, 11 Feb 2023 21:34:25 +0000
-Date: Sun, 12 Feb 2023 05:33:48 +0800
+Date: Sun, 12 Feb 2023 05:33:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [ammarfaizi2-block:stable/linux-stable-rc/queue/5.10 8/105]
- arch/powerpc/net/bpf_jit32.h:131:8: error: redefinition of 'struct
- codegen_context'
-Message-ID: <202302120550.FfTfDIyg-lkp@intel.com>
+To: Michael Zaidman <michael.zaidman@gmail.com>, jikos@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	Michael Zaidman <michael.zaidman@gmail.com>
+Subject: Re: [PATCH v1 1/1] HID: ft260: add GPIO support
+Message-ID: <202302120552.KrGf3GNw-lkp@intel.com>
+References: <20230211115752.26276-2-michael.zaidman@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,61 +48,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230211115752.26276-2-michael.zaidman@gmail.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block stable/linux-stable-rc/queue/5.10
-head:   9ff628d4688675caf3ffe3356e353fcb4af8ba92
-commit: 8db4374c40363a75c6eb9d18dd12b3fc4a41d291 [8/105] powerpc/bpf: Move common helpers into bpf_jit.h
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230212/202302120550.FfTfDIyg-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+Hi Michael,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.2-rc7 next-20230210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230211115752.26276-2-michael.zaidman%40gmail.com
+patch subject: [PATCH v1 1/1] HID: ft260: add GPIO support
+config: arm-randconfig-s041-20230210 (https://download.01.org/0day-ci/archive/20230212/202302120552.KrGf3GNw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/8db4374c40363a75c6eb9d18dd12b3fc4a41d291
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block stable/linux-stable-rc/queue/5.10
-        git checkout 8db4374c40363a75c6eb9d18dd12b3fc4a41d291
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Michael-Zaidman/HID-ft260-add-GPIO-support/20230211-195918
+        git checkout d3ddadc80df8c149f97dc8ab8fa51ba53f5638cb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/hid/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120550.FfTfDIyg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302120552.KrGf3GNw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-ft260.c:1289:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [addressable] [usertype] clock @@
+   drivers/hid/hid-ft260.c:1289:1: sparse:     expected unsigned short [usertype] value
+   drivers/hid/hid-ft260.c:1289:1: sparse:     got restricted __le16 [addressable] [usertype] clock
 
-   In file included from arch/powerpc/net/bpf_jit_comp.c:16:
->> arch/powerpc/net/bpf_jit32.h:131:8: error: redefinition of 'struct codegen_context'
-     131 | struct codegen_context {
-         |        ^~~~~~~~~~~~~~~
-   In file included from arch/powerpc/net/bpf_jit32.h:13:
-   arch/powerpc/net/bpf_jit.h:124:8: note: originally defined here
-     124 | struct codegen_context {
-         |        ^~~~~~~~~~~~~~~
->> arch/powerpc/net/bpf_jit_comp.c:18:20: error: redefinition of 'bpf_flush_icache'
-      18 | static inline void bpf_flush_icache(void *start, void *end)
-         |                    ^~~~~~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit.h:139:20: note: previous definition of 'bpf_flush_icache' with type 'void(void *, void *)'
-     139 | static inline void bpf_flush_icache(void *start, void *end)
-         |                    ^~~~~~~~~~~~~~~~
+vim +1289 drivers/hid/hid-ft260.c
 
-
-vim +131 arch/powerpc/net/bpf_jit32.h
-
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  130  
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22 @131  struct codegen_context {
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  132  	unsigned int seen;
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  133  	unsigned int idx;
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  134  	int pc_ret0; /* bpf index of first RET #0 instruction (if any) */
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  135  };
-6ac0ba5a4f82b4 Naveen N. Rao 2016-06-22  136  
-
-:::::: The code at line 131 was first introduced by commit
-:::::: 6ac0ba5a4f82b40b4f6b3a75e7e4f0a15a3d7b9b powerpc/bpf/jit: Isolate classic BPF JIT specifics into a separate header
-
-:::::: TO: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+6a82582d9fa438 Michael Zaidman 2021-02-19  1287  
+6a82582d9fa438 Michael Zaidman 2021-02-19  1288  FT260_I2CST_ATTR_SHOW(clock);
+6a82582d9fa438 Michael Zaidman 2021-02-19 @1289  FT260_WORD_ATTR_STORE(clock, ft260_set_i2c_speed_report,
+d3ddadc80df8c1 Michael Zaidman 2023-02-11  1290  		      FT260_SET_I2C_CLOCK_SPEED, ft260_attr_dummy_func);
+6a82582d9fa438 Michael Zaidman 2021-02-19  1291  static DEVICE_ATTR_RW(clock);
+6a82582d9fa438 Michael Zaidman 2021-02-19  1292  
 
 -- 
 0-DAY CI Kernel Test Service
