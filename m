@@ -1,151 +1,266 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F10A2F41
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 13:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4952F41
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 13:56:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676123175; x=1707659175;
+  t=1676123776; x=1707659776;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=QVWnlp6HxiMITi+4G7GRDcMltvoFp3zphx53HM0P+90=;
-  b=iZkFMN43fykNwdNRdOH4U20rv54ownuEOSYTYk4KKl7UKaCTW60RXr9t
-   TAUCKe8dw7CcbfFwL23CBOzVq9aABhOxRScl0laHvQcRc09otBmRYBise
-   GE8N4mT3bllRGzJ6s8YRYJ7GBCvcNlH1Vy5+ure6C3hFXuQzoGLY5cAa9
-   NooDLxcuvBvGOm/sZBFpqUy8FJoMrB0R5+ygt4DY23Lb9QDJnsdWge88W
-   +k/V4c1AENQxZVcRDxXMaOcpMFaIvov5Lp02W5/b+ezFtV1FyXTLBnOB1
-   davzQs7yGDax5xGphnuJci6auhcZwTjg61p32+cpRtBNOfhWsuS1H4rMI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="331915555"
+   mime-version:in-reply-to;
+  bh=Yf9uN5AleEb2rnod9jgnJ0ohXkVLR4e93Al5AcGOoI4=;
+  b=fxSVzFagJprqa3hVswQXnkLmEP9xU+1+NsVsGUm6kTstMZgwwEOti/aY
+   nany4Jk5vf52tFto4e1q6+a9SBM0JwqVAaHWS5B/jGYNgiPQiQ6CDEOxf
+   HG1D9EyqfAzYI4eH7ictOJw5eEWLiDLCyo1osdRoOtt/9Tvn66P4Q/25s
+   D91IMP0xYc3af0f9fY1F+5aA5xz7Qk+xjGHsPYuGVkfJBKl1uE9uhvyCP
+   UZm7oUOIPAwojKEw2GDouOmcxt9L61Z1M9+JM4nPK189nwoadeHkhUaoM
+   fTyOj2sWumYT7j8Xd47AdGTHz22hFwZbdrbcKv/hIAfkriCUnNMDdo16h
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="310245123"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="331915555"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 05:46:15 -0800
+   d="scan'208";a="310245123"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 05:56:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="811117476"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="792268412"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="811117476"
+   d="scan'208";a="792268412"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2023 05:46:10 -0800
+  by orsmga004.jf.intel.com with ESMTP; 11 Feb 2023 05:56:11 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQqCg-0006Y3-0f;
-	Sat, 11 Feb 2023 13:46:10 +0000
-Date: Sat, 11 Feb 2023 21:45:25 +0800
+	id 1pQqMM-0006YT-1d;
+	Sat, 11 Feb 2023 13:56:10 +0000
+Date: Sat, 11 Feb 2023 21:55:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Michael Walle <michael@walle.cc>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	u-boot@lists.denx.de,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH 1/6] nvmem: core: add nvmem_dev_size() helper
-Message-ID: <202302112138.XOdXy4yF-lkp@intel.com>
-References: <20230110105425.13188-1-zajec5@gmail.com>
+To: Harsh Jain <h.jain@amd.com>, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, thomas.lendacky@amd.com,
+	Raju.Rangoju@amd.com, Shyam-sundar.S-k@amd.com,
+	harshjain.prof@gmail.com, abhijit.gangurde@amd.com,
+	puneet.gupta@amd.com, nikhil.agarwal@amd.com, tarak.reddy@amd.com,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
+Subject: Re: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig,
+ makefile
+Message-ID: <202302112108.yWxsei6x-lkp@intel.com>
+References: <20230210130321.2898-7-h.jain@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230110105425.13188-1-zajec5@gmail.com>
+In-Reply-To: <20230210130321.2898-7-h.jain@amd.com>
 
-Hi Rafał,
+Hi Harsh,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on next-20230110]
-[also build test WARNING on v6.2-rc7]
-[cannot apply to robh/for-next shawnguo/for-next mtd/mtd/next mtd/mtd/fixes linus/master v6.2-rc3 v6.2-rc2 v6.2-rc1]
+[auto build test ERROR on net-next/master]
+[also build test ERROR on net/master horms-ipvs/master linus/master v6.2-rc7 next-20230210]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafa-Mi-ecki/nvmem-core-allow-read_post_process-callbacks-to-adjust-data-length/20230110-185915
-patch link:    https://lore.kernel.org/r/20230110105425.13188-1-zajec5%40gmail.com
-patch subject: [PATCH 1/6] nvmem: core: add nvmem_dev_size() helper
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302112138.XOdXy4yF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
+patch link:    https://lore.kernel.org/r/20230210130321.2898-7-h.jain%40amd.com
+patch subject: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig, makefile
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230211/202302112108.yWxsei6x-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4d5cc61f8d02a82344468f172a852ffc56cf0d5c
+        # https://github.com/intel-lab-lkp/linux/commit/93ed306161ac0259bd72b14922a7f6af60b3748c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rafa-Mi-ecki/nvmem-core-allow-read_post_process-callbacks-to-adjust-data-length/20230110-185915
-        git checkout 4d5cc61f8d02a82344468f172a852ffc56cf0d5c
+        git fetch --no-tags linux-review Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
+        git checkout 93ed306161ac0259bd72b14922a7f6af60b3748c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvmem/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302112138.XOdXy4yF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302112108.yWxsei6x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/nvmem/core.c:16:
->> include/linux/nvmem-consumer.h:81:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      81 | const size_t nvmem_dev_size(struct nvmem_device *nvmem);
-         | ^~~~~
->> drivers/nvmem/core.c:2070:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-    2070 | const size_t nvmem_dev_size(struct nvmem_device *nvmem)
-         | ^~~~~
+   In file included from drivers/net/ethernet/amd/efct/mcdi.c:12:
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
+      57 |         __raw_writeq((__force u64)value, reg);
+         |         ^~~~~~~~~~~~
+         |         _efct_writeq
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
+      62 |         return (__force __le64)__raw_readq(reg);
+         |                                ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
-   In file included from drivers/nvmem/brcm_nvram.c:10:
->> include/linux/nvmem-consumer.h:81:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      81 | const size_t nvmem_dev_size(struct nvmem_device *nvmem);
-         | ^~~~~
+   In file included from drivers/net/ethernet/amd/efct/efct_nic.c:15:
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
+      57 |         __raw_writeq((__force u64)value, reg);
+         |         ^~~~~~~~~~~~
+         |         _efct_writeq
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
+      62 |         return (__force __le64)__raw_readq(reg);
+         |                                ^~~~~~~~~~~
+   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
+                    from drivers/net/ethernet/amd/efct/efct_common.h:13,
+                    from drivers/net/ethernet/amd/efct/efct_nic.c:10:
+   drivers/net/ethernet/amd/efct/efct_nic.c: In function 'efct_time_sync_event':
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
+     112 |          (native_element) << ((min) - (low)))
+         |                           ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
+     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:144:11: note: in expansion of macro 'EFCT_EXTRACT32'
+     144 |           EFCT_EXTRACT32((qword).u32[1], 32, 63, low, high)) &          \
+         |           ^~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
+     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
+     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_nic.c:746:38: note: in expansion of macro 'EFCT_QWORD_FIELD'
+     746 |         evq->sync_timestamp_major =  EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TSYNC_TIME_HIGH_48);
+         |                                      ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
+      69 |          (((((u32)1) << (width))) - 1))
+         |                      ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:145:10: note: in expansion of macro 'EFCT_MASK32'
+     145 |          EFCT_MASK32((high) + 1 - (low)))
+         |          ^~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
+     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
+     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_nic.c:746:38: note: in expansion of macro 'EFCT_QWORD_FIELD'
+     746 |         evq->sync_timestamp_major =  EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TSYNC_TIME_HIGH_48);
+         |                                      ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/amd/efct/efct_tx.c:11:
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
+      57 |         __raw_writeq((__force u64)value, reg);
+         |         ^~~~~~~~~~~~
+         |         _efct_writeq
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
+      62 |         return (__force __le64)__raw_readq(reg);
+         |                                ^~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_tx.c: In function 'txq_piobuf_w64':
+>> drivers/net/ethernet/amd/efct/efct_tx.c:89:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+      89 |         writeq(val, dest64);
+         |         ^~~~~~
+         |         writel
+   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
+                    from drivers/net/ethernet/amd/efct/efct_tx.h:11,
+                    from drivers/net/ethernet/amd/efct/efct_tx.c:9:
+   drivers/net/ethernet/amd/efct/efct_tx.c: In function 'efct_ev_tx':
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
+     112 |          (native_element) << ((min) - (low)))
+         |                           ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
+     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:144:11: note: in expansion of macro 'EFCT_EXTRACT32'
+     144 |           EFCT_EXTRACT32((qword).u32[1], 32, 63, low, high)) &          \
+         |           ^~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
+     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
+     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_tx.c:326:22: note: in expansion of macro 'EFCT_QWORD_FIELD'
+     326 |         partial_ts = EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TXCMPL_PARTIAL_TSTAMP);
+         |                      ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
+      69 |          (((((u32)1) << (width))) - 1))
+         |                      ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:145:10: note: in expansion of macro 'EFCT_MASK32'
+     145 |          EFCT_MASK32((high) + 1 - (low)))
+         |          ^~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:164:9: note: in expansion of macro 'EFCT_EXTRACT_QWORD32'
+     164 |         EFCT_EXTRACT_QWORD32(qword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:212:41: note: in expansion of macro 'EFCT_QWORD_FIELD32'
+     212 | #define EFCT_QWORD_FIELD                EFCT_QWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_tx.c:326:22: note: in expansion of macro 'EFCT_QWORD_FIELD'
+     326 |         partial_ts = EFCT_QWORD_FIELD(*p_event, ESF_HZ_EV_TXCMPL_PARTIAL_TSTAMP);
+         |                      ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/amd/efct/efct_rx.c:15:
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_writeq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:57:9: error: implicit declaration of function '__raw_writeq'; did you mean '_efct_writeq'? [-Werror=implicit-function-declaration]
+      57 |         __raw_writeq((__force u64)value, reg);
+         |         ^~~~~~~~~~~~
+         |         _efct_writeq
+   drivers/net/ethernet/amd/efct/efct_io.h: In function '_efct_readq':
+>> drivers/net/ethernet/amd/efct/efct_io.h:62:32: error: implicit declaration of function '__raw_readq' [-Werror=implicit-function-declaration]
+      62 |         return (__force __le64)__raw_readq(reg);
+         |                                ^~~~~~~~~~~
+   In file included from drivers/net/ethernet/amd/efct/efct_driver.h:25,
+                    from drivers/net/ethernet/amd/efct/efct_rx.h:11,
+                    from drivers/net/ethernet/amd/efct/efct_rx.c:12:
+   drivers/net/ethernet/amd/efct/efct_rx.c: In function 'efct_include_ts_in_rxskb':
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:112:27: warning: left shift count >= width of type [-Wshift-count-overflow]
+     112 |          (native_element) << ((min) - (low)))
+         |                           ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:124:9: note: in expansion of macro 'EFCT_EXTRACT_NATIVE'
+     124 |         EFCT_EXTRACT_NATIVE(le32_to_cpu(element), min, max, low, high)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:139:11: note: in expansion of macro 'EFCT_EXTRACT32'
+     139 |           EFCT_EXTRACT32((oword).u32[3], 96, 127, low, high)) &         \
+         |           ^~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:160:9: note: in expansion of macro 'EFCT_EXTRACT_OWORD32'
+     160 |         EFCT_EXTRACT_OWORD32(oword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:211:41: note: in expansion of macro 'EFCT_OWORD_FIELD32'
+     211 | #define EFCT_OWORD_FIELD                EFCT_OWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_rx.c:386:24: note: in expansion of macro 'EFCT_OWORD_FIELD'
+     386 |         pkt_ts_major = EFCT_OWORD_FIELD(*((union efct_oword *)p_meta), ESF_HZ_RX_PREFIX_TIMESTAMP);
+         |                        ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:69:22: warning: left shift count >= width of type [-Wshift-count-overflow]
+      69 |          (((((u32)1) << (width))) - 1))
+         |                      ^~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:140:10: note: in expansion of macro 'EFCT_MASK32'
+     140 |          EFCT_MASK32((high) + 1 - (low)))
+         |          ^~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:160:9: note: in expansion of macro 'EFCT_EXTRACT_OWORD32'
+     160 |         EFCT_EXTRACT_OWORD32(oword, EFCT_LOW_BIT(field),                \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_bitfield.h:211:41: note: in expansion of macro 'EFCT_OWORD_FIELD32'
+     211 | #define EFCT_OWORD_FIELD                EFCT_OWORD_FIELD32
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/efct/efct_rx.c:386:24: note: in expansion of macro 'EFCT_OWORD_FIELD'
+     386 |         pkt_ts_major = EFCT_OWORD_FIELD(*((union efct_oword *)p_meta), ESF_HZ_RX_PREFIX_TIMESTAMP);
+         |                        ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +81 include/linux/nvmem-consumer.h
+vim +57 drivers/net/ethernet/amd/efct/efct_io.h
 
-    49	
-    50	/* Cell based interface */
-    51	struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id);
-    52	struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *id);
-    53	void nvmem_cell_put(struct nvmem_cell *cell);
-    54	void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
-    55	void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len);
-    56	int nvmem_cell_write(struct nvmem_cell *cell, void *buf, size_t len);
-    57	int nvmem_cell_read_u8(struct device *dev, const char *cell_id, u8 *val);
-    58	int nvmem_cell_read_u16(struct device *dev, const char *cell_id, u16 *val);
-    59	int nvmem_cell_read_u32(struct device *dev, const char *cell_id, u32 *val);
-    60	int nvmem_cell_read_u64(struct device *dev, const char *cell_id, u64 *val);
-    61	int nvmem_cell_read_variable_le_u32(struct device *dev, const char *cell_id,
-    62					    u32 *val);
-    63	int nvmem_cell_read_variable_le_u64(struct device *dev, const char *cell_id,
-    64					    u64 *val);
-    65	
-    66	/* direct nvmem device read/write interface */
-    67	struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
-    68	struct nvmem_device *devm_nvmem_device_get(struct device *dev,
-    69						   const char *name);
-    70	void nvmem_device_put(struct nvmem_device *nvmem);
-    71	void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
-    72	int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
-    73			      size_t bytes, void *buf);
-    74	int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
-    75			       size_t bytes, void *buf);
-    76	ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
-    77				   struct nvmem_cell_info *info, void *buf);
-    78	int nvmem_device_cell_write(struct nvmem_device *nvmem,
-    79				    struct nvmem_cell_info *info, void *buf);
-    80	
-  > 81	const size_t nvmem_dev_size(struct nvmem_device *nvmem);
-    82	const char *nvmem_dev_name(struct nvmem_device *nvmem);
-    83	
+83f06a5b784384 Harsh Jain 2023-02-10  54  
+83f06a5b784384 Harsh Jain 2023-02-10  55  static inline void _efct_writeq(__le64 value, void __iomem *reg)
+83f06a5b784384 Harsh Jain 2023-02-10  56  {
+83f06a5b784384 Harsh Jain 2023-02-10 @57  	__raw_writeq((__force u64)value, reg);
+83f06a5b784384 Harsh Jain 2023-02-10  58  }
+83f06a5b784384 Harsh Jain 2023-02-10  59  
+83f06a5b784384 Harsh Jain 2023-02-10  60  static inline __le64 _efct_readq(void __iomem *reg)
+83f06a5b784384 Harsh Jain 2023-02-10  61  {
+83f06a5b784384 Harsh Jain 2023-02-10 @62  	return (__force __le64)__raw_readq(reg);
 
 -- 
 0-DAY CI Kernel Test Service
