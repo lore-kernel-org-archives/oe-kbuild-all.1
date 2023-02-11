@@ -1,195 +1,151 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9AE2F41
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 13:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F10A2F41
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 13:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676121912; x=1707657912;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=irui/RIM11uMQ7IowkeM+jqElfopjCn8gybGI9k0tRk=;
-  b=fs4jUL+Q4cgRP9ZSUwOUrwnf1b8ss6RZsk3Q1lza81rY6XO6GWMsEdPE
-   rQG6aGFykeWPoNr8F93HroSEJIWC1QCYIyHXbU1ldrFkcA/oZXve9dD+n
-   o9tavXa5c4893598ITDyYONUt/y424HWWxOas9NYg4kYuQzABdp/RLG5X
-   hC+OoiXbuurAfHI739D1S9BJ5UlEVTj29Mg7wr0ILXZPIQKjuaSW6hRL+
-   sa1USCF9EWf1twRD4ZAQbtFKTkfEBw/p228TdtmD+/qfu2M10oT2FqwxP
-   vBdrLWErlYmI00whpLdD78oCouGs8OrJ3OeoYeqqb3PcdFwqKEJPVzTaH
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314250655"
+  t=1676123175; x=1707659175;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QVWnlp6HxiMITi+4G7GRDcMltvoFp3zphx53HM0P+90=;
+  b=iZkFMN43fykNwdNRdOH4U20rv54ownuEOSYTYk4KKl7UKaCTW60RXr9t
+   TAUCKe8dw7CcbfFwL23CBOzVq9aABhOxRScl0laHvQcRc09otBmRYBise
+   GE8N4mT3bllRGzJ6s8YRYJ7GBCvcNlH1Vy5+ure6C3hFXuQzoGLY5cAa9
+   NooDLxcuvBvGOm/sZBFpqUy8FJoMrB0R5+ygt4DY23Lb9QDJnsdWge88W
+   +k/V4c1AENQxZVcRDxXMaOcpMFaIvov5Lp02W5/b+ezFtV1FyXTLBnOB1
+   davzQs7yGDax5xGphnuJci6auhcZwTjg61p32+cpRtBNOfhWsuS1H4rMI
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="331915555"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="314250655"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 05:25:11 -0800
+   d="scan'208";a="331915555"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 05:46:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="777261174"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="811117476"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="777261174"
+   d="scan'208";a="811117476"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Feb 2023 05:25:10 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2023 05:46:10 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQpsL-0006X7-2B;
-	Sat, 11 Feb 2023 13:25:09 +0000
-Date: Sat, 11 Feb 2023 21:24:53 +0800
+	id 1pQqCg-0006Y3-0f;
+	Sat, 11 Feb 2023 13:46:10 +0000
+Date: Sat, 11 Feb 2023 21:45:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Matthew Auld <matthew.auld@intel.com>
-Subject: [linux-next:master 6475/12152]
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202302112104.g75cGHZd-lkp@intel.com>
+To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Michael Walle <michael@walle.cc>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	u-boot@lists.denx.de,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH 1/6] nvmem: core: add nvmem_dev_size() helper
+Message-ID: <202302112138.XOdXy4yF-lkp@intel.com>
+References: <20230110105425.13188-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230110105425.13188-1-zajec5@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6ba8a227fd19d19779005fb66ad7562608e1df83
-commit: 516198d317d81f33839ca850e83f6717b0d80e80 [6475/12152] drm/i915: audit bo->resource usage v3
-config: i386-randconfig-s041-20230123 (https://download.01.org/0day-ci/archive/20230211/202302112104.g75cGHZd-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=516198d317d81f33839ca850e83f6717b0d80e80
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 516198d317d81f33839ca850e83f6717b0d80e80
+Hi Rafał,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20230110]
+[also build test WARNING on v6.2-rc7]
+[cannot apply to robh/for-next shawnguo/for-next mtd/mtd/next mtd/mtd/fixes linus/master v6.2-rc3 v6.2-rc2 v6.2-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafa-Mi-ecki/nvmem-core-allow-read_post_process-callbacks-to-adjust-data-length/20230110-185915
+patch link:    https://lore.kernel.org/r/20230110105425.13188-1-zajec5%40gmail.com
+patch subject: [PATCH 1/6] nvmem: core: add nvmem_dev_size() helper
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302112138.XOdXy4yF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4d5cc61f8d02a82344468f172a852ffc56cf0d5c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rafa-Mi-ecki/nvmem-core-allow-read_post_process-callbacks-to-adjust-data-length/20230110-185915
+        git checkout 4d5cc61f8d02a82344468f172a852ffc56cf0d5c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvmem/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302112104.g75cGHZd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302112138.XOdXy4yF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got int @@
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +1066 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+   In file included from drivers/nvmem/core.c:16:
+>> include/linux/nvmem-consumer.h:81:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+      81 | const size_t nvmem_dev_size(struct nvmem_device *nvmem);
+         | ^~~~~
+>> drivers/nvmem/core.c:2070:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+    2070 | const size_t nvmem_dev_size(struct nvmem_device *nvmem)
+         | ^~~~~
+--
+   In file included from drivers/nvmem/brcm_nvram.c:10:
+>> include/linux/nvmem-consumer.h:81:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+      81 | const size_t nvmem_dev_size(struct nvmem_device *nvmem);
+         | ^~~~~
 
-  1027	
-  1028	static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-  1029	{
-  1030		struct vm_area_struct *area = vmf->vma;
-  1031		struct ttm_buffer_object *bo = area->vm_private_data;
-  1032		struct drm_device *dev = bo->base.dev;
-  1033		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-  1034		intel_wakeref_t wakeref = 0;
-  1035		vm_fault_t ret;
-  1036		int idx;
-  1037	
-  1038		/* Sanity check that we allow writing into this object */
-  1039		if (unlikely(i915_gem_object_is_readonly(obj) &&
-  1040			     area->vm_flags & VM_WRITE))
-  1041			return VM_FAULT_SIGBUS;
-  1042	
-  1043		ret = ttm_bo_vm_reserve(bo, vmf);
-  1044		if (ret)
-  1045			return ret;
-  1046	
-  1047		if (obj->mm.madv != I915_MADV_WILLNEED) {
-  1048			dma_resv_unlock(bo->base.resv);
-  1049			return VM_FAULT_SIGBUS;
-  1050		}
-  1051	
-  1052		/*
-  1053		 * This must be swapped out with shmem ttm_tt (pipeline-gutting).
-  1054		 * Calling ttm_bo_validate() here with TTM_PL_SYSTEM should only go as
-  1055		 * far as far doing a ttm_bo_move_null(), which should skip all the
-  1056		 * other junk.
-  1057		 */
-  1058		if (!bo->resource) {
-  1059			struct ttm_operation_ctx ctx = {
-  1060				.interruptible = true,
-  1061				.no_wait_gpu = true, /* should be idle already */
-  1062			};
-  1063	
-  1064			GEM_BUG_ON(!bo->ttm || !(bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED));
-  1065	
-> 1066			ret = ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
-  1067			if (ret) {
-  1068				dma_resv_unlock(bo->base.resv);
-  1069				return VM_FAULT_SIGBUS;
-  1070			}
-  1071		} else if (!i915_ttm_resource_mappable(bo->resource)) {
-  1072			int err = -ENODEV;
-  1073			int i;
-  1074	
-  1075			for (i = 0; i < obj->mm.n_placements; i++) {
-  1076				struct intel_memory_region *mr = obj->mm.placements[i];
-  1077				unsigned int flags;
-  1078	
-  1079				if (!mr->io_size && mr->type != INTEL_MEMORY_SYSTEM)
-  1080					continue;
-  1081	
-  1082				flags = obj->flags;
-  1083				flags &= ~I915_BO_ALLOC_GPU_ONLY;
-  1084				err = __i915_ttm_migrate(obj, mr, flags);
-  1085				if (!err)
-  1086					break;
-  1087			}
-  1088	
-  1089			if (err) {
-  1090				drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n",
-  1091					ERR_PTR(err));
-  1092				dma_resv_unlock(bo->base.resv);
-  1093				ret = VM_FAULT_SIGBUS;
-  1094				goto out_rpm;
-  1095			}
-  1096		}
-  1097	
-  1098		if (i915_ttm_cpu_maps_iomem(bo->resource))
-  1099			wakeref = intel_runtime_pm_get(&to_i915(obj->base.dev)->runtime_pm);
-  1100	
-  1101		if (drm_dev_enter(dev, &idx)) {
-  1102			ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-  1103						       TTM_BO_VM_NUM_PREFAULT);
-  1104			drm_dev_exit(idx);
-  1105		} else {
-  1106			ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
-  1107		}
-  1108	
-  1109		if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-  1110			goto out_rpm;
-  1111	
-  1112		/*
-  1113		 * ttm_bo_vm_reserve() already has dma_resv_lock.
-  1114		 * userfault_count is protected by dma_resv lock and rpm wakeref.
-  1115		 */
-  1116		if (ret == VM_FAULT_NOPAGE && wakeref && !obj->userfault_count) {
-  1117			obj->userfault_count = 1;
-  1118			spin_lock(&to_i915(obj->base.dev)->runtime_pm.lmem_userfault_lock);
-  1119			list_add(&obj->userfault_link, &to_i915(obj->base.dev)->runtime_pm.lmem_userfault_list);
-  1120			spin_unlock(&to_i915(obj->base.dev)->runtime_pm.lmem_userfault_lock);
-  1121	
-  1122			GEM_WARN_ON(!i915_ttm_cpu_maps_iomem(bo->resource));
-  1123		}
-  1124	
-  1125		if (wakeref & CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND)
-  1126			intel_wakeref_auto(&to_i915(obj->base.dev)->runtime_pm.userfault_wakeref,
-  1127					   msecs_to_jiffies_timeout(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND));
-  1128	
-  1129		i915_ttm_adjust_lru(obj);
-  1130	
-  1131		dma_resv_unlock(bo->base.resv);
-  1132	
-  1133	out_rpm:
-  1134		if (wakeref)
-  1135			intel_runtime_pm_put(&to_i915(obj->base.dev)->runtime_pm, wakeref);
-  1136	
-  1137		return ret;
-  1138	}
-  1139	
+
+vim +81 include/linux/nvmem-consumer.h
+
+    49	
+    50	/* Cell based interface */
+    51	struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id);
+    52	struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *id);
+    53	void nvmem_cell_put(struct nvmem_cell *cell);
+    54	void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
+    55	void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len);
+    56	int nvmem_cell_write(struct nvmem_cell *cell, void *buf, size_t len);
+    57	int nvmem_cell_read_u8(struct device *dev, const char *cell_id, u8 *val);
+    58	int nvmem_cell_read_u16(struct device *dev, const char *cell_id, u16 *val);
+    59	int nvmem_cell_read_u32(struct device *dev, const char *cell_id, u32 *val);
+    60	int nvmem_cell_read_u64(struct device *dev, const char *cell_id, u64 *val);
+    61	int nvmem_cell_read_variable_le_u32(struct device *dev, const char *cell_id,
+    62					    u32 *val);
+    63	int nvmem_cell_read_variable_le_u64(struct device *dev, const char *cell_id,
+    64					    u64 *val);
+    65	
+    66	/* direct nvmem device read/write interface */
+    67	struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
+    68	struct nvmem_device *devm_nvmem_device_get(struct device *dev,
+    69						   const char *name);
+    70	void nvmem_device_put(struct nvmem_device *nvmem);
+    71	void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
+    72	int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
+    73			      size_t bytes, void *buf);
+    74	int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
+    75			       size_t bytes, void *buf);
+    76	ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
+    77				   struct nvmem_cell_info *info, void *buf);
+    78	int nvmem_device_cell_write(struct nvmem_device *nvmem,
+    79				    struct nvmem_cell_info *info, void *buf);
+    80	
+  > 81	const size_t nvmem_dev_size(struct nvmem_device *nvmem);
+    82	const char *nvmem_dev_name(struct nvmem_device *nvmem);
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
