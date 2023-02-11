@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B39EBF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 07:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70018EBF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 07:38:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676099221; x=1707635221;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QbrwXawfygw5QV4+McyRlUDRMbXCCfdyjR151u9rMik=;
-  b=NklGNFEHAARuqk7OKQMcWnLQQmqDD1PfXR6iyqyCYB1JiUWIEfKVw9ry
-   O7+/q6b7DLmx9TqfQ8jRf7zVd+IzJVa0N6xAOJQxJ4jyv2/YxJEZ4anZR
-   sQcukAWhhKS+lcRXFaSQNmbPyFzTD93gXh+TMvL0JlV6e5PIUPwBf0Nqv
-   NyvHWyvY7lR0L/dxRaFtj/Pr0U8xOL3plwdoTc1aoBn0LsctlXYKhEqIY
-   qckdGpcfCxgqKW7Q41Uz05cXYWIwn36e2gx+pLZBARmLW3VHsSj6DyC+E
-   Xog4CSSNCnvYTsvESaABLPb+AtWIttcZvn72ws9Q8HU8I1fndQRSr+oK7
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="331896188"
+  t=1676101083; x=1707637083;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gHRfT8lDxN8tG3DJrfm8yLFhweO4xTvvrJdRsmP8R9w=;
+  b=i8WNWobj38ZbZceZNfEfZiQ1gVWxC+ohNxD+SDomgphjMSkp6mVc8m+Q
+   ukJifLVhCBnXuQ26SWdalLkgQ4+TydfSTIXw7JXI/Bjd9UsxfEiR3cs/D
+   YKjub9f0yBc0+bE3hzhloie7djtMaLON7Cd7mjk0pcKS6XSp/JvM0DEOW
+   TcybZ6adVTxfTe0M0P6lh5qsUV0IZiCgfhlvUtakp5ZBzENOhxiY5NU80
+   Lg1BcLfMZyevpB/3pRZckjFJOMuectY2oNaEavDgg3GQuwCxWyJJws9HI
+   ZygTJRgQfwvOD9kQDIYkSZkeAOmGThK99BnCXRkevGkLEFJhhjw0caFhU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="416817157"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="331896188"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 23:07:01 -0800
+   d="scan'208";a="416817157"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 23:38:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="997176224"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="777196301"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="997176224"
+   d="scan'208";a="777196301"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Feb 2023 23:06:59 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2023 23:38:01 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQjyN-0006JV-0Q;
-	Sat, 11 Feb 2023 07:06:59 +0000
-Date: Sat, 11 Feb 2023 15:06:39 +0800
+	id 1pQkSO-0006Kn-2C;
+	Sat, 11 Feb 2023 07:38:00 +0000
+Date: Sat, 11 Feb 2023 15:37:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 2/2]
- unwind_kunit.c:(.text.__test_ftrace_unwind+0x5c): undefined reference to
- `kunit_kmalloc_array'
-Message-ID: <202302111452.JedhD9F2-lkp@intel.com>
+To: Asmaa Mnebhi <asmaa@nvidia.com>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Asmaa Mnebhi <asmaa@nvidia.com>
+Subject: Re: [PATCH v3 1/2] Support NVIDIA BlueField-3 GPIO controller
+Message-ID: <202302111542.y6a7wZeb-lkp@intel.com>
+References: <c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +47,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   c40c372bae5073513f06c33fae36c546bec57ffe
-commit: c40c372bae5073513f06c33fae36c546bec57ffe [2/2] WIP: unwind test
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230211/202302111452.JedhD9F2-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+Hi Asmaa,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.2-rc7 next-20230210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Asmaa-Mnebhi/Support-NVIDIA-BlueField-3-GPIO-controller/20230210-234043
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa%40nvidia.com
+patch subject: [PATCH v3 1/2] Support NVIDIA BlueField-3 GPIO controller
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230211/202302111542.y6a7wZeb-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=c40c372bae5073513f06c33fae36c546bec57ffe
-        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
-        git fetch --no-tags mark stacktrace/tests
-        git checkout c40c372bae5073513f06c33fae36c546bec57ffe
+        # https://github.com/intel-lab-lkp/linux/commit/ea731fc5718b591e6c84ee33049e46b60882009d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Asmaa-Mnebhi/Support-NVIDIA-BlueField-3-GPIO-controller/20230210-234043
+        git checkout ea731fc5718b591e6c84ee33049e46b60882009d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/gpio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302111452.JedhD9F2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111542.y6a7wZeb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `__test_ftrace_unwind':
->> unwind_kunit.c:(.text.__test_ftrace_unwind+0x5c): undefined reference to `kunit_kmalloc_array'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x72): undefined reference to `kunit_binary_ptr_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x82): undefined reference to `kunit_binary_ptr_assert_format'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xa0): undefined reference to `kunit_do_failed_assertion'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xee): undefined reference to `kunit_fail_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0xfe): undefined reference to `kunit_fail_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x110): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x14a): undefined reference to `kunit_fail_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x15a): undefined reference to `kunit_fail_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x16c): undefined reference to `kunit_do_failed_assertion'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_ftrace_unwind+0x1e0): undefined reference to `kunit_kfree'
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `std_assert_callers_present':
->> unwind_kunit.c:(.text.std_assert_callers_present+0x72): undefined reference to `kunit_binary_assert_format'
->> powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x8e): undefined reference to `kunit_binary_assert_format'
->> powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0xb4): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0xee): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x10a): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x130): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x16a): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x186): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1ac): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1d6): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x1f2): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x218): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x23e): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x266): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.std_assert_callers_present+0x284): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller':
->> unwind_kunit.c:(.text.test_unwind_from_caller+0x44): undefined reference to `kunit_kmalloc_array'
->> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x5a): undefined reference to `kunit_binary_ptr_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x6a): undefined reference to `kunit_binary_ptr_assert_format'
->> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0x88): undefined reference to `kunit_do_failed_assertion'
->> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller+0xe0): undefined reference to `kunit_kfree'
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `std_assert_callers_present_reliable':
->> unwind_kunit.c:(.text.std_assert_callers_present_reliable+0x74): undefined reference to `kunit_log_append'
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `__test_kprobe_unwind.constprop.0':
->> unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x58): undefined reference to `kunit_kmalloc_array'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x6e): undefined reference to `kunit_binary_ptr_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x7e): undefined reference to `kunit_binary_ptr_assert_format'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x9c): undefined reference to `kunit_do_failed_assertion'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0xde): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0xfa): undefined reference to `kunit_binary_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x120): undefined reference to `kunit_do_failed_assertion'
->> powerpc-linux-ld: unwind_kunit.c:(.text.__test_kprobe_unwind.constprop.0+0x18c): undefined reference to `kunit_kfree'
-   powerpc-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller_reliable':
->> unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x48): undefined reference to `kunit_kmalloc_array'
->> powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x5e): undefined reference to `kunit_binary_ptr_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x6e): undefined reference to `kunit_binary_ptr_assert_format'
-   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x8c): undefined reference to `kunit_do_failed_assertion'
-   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0xe8): undefined reference to `kunit_log_append'
-   powerpc-linux-ld: unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x13c): undefined reference to `kunit_kfree'
+   drivers/gpio/gpio-mlxbf3.c: In function 'mlxbf3_gpio_probe':
+>> drivers/gpio/gpio-mlxbf3.c:225:23: error: implicit declaration of function 'devm_request_irq'; did you mean 'can_request_irq'? [-Werror=implicit-function-declaration]
+     225 |                 ret = devm_request_irq(dev, irq, mlxbf3_gpio_irq_handler,
+         |                       ^~~~~~~~~~~~~~~~
+         |                       can_request_irq
+>> drivers/gpio/gpio-mlxbf3.c:226:40: error: 'IRQF_SHARED' undeclared (first use in this function); did you mean 'VM_SHARED'?
+     226 |                                        IRQF_SHARED, name, gs);
+         |                                        ^~~~~~~~~~~
+         |                                        VM_SHARED
+   drivers/gpio/gpio-mlxbf3.c:226:40: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
+
+
+vim +225 drivers/gpio/gpio-mlxbf3.c
+
+   148	
+   149	static int
+   150	mlxbf3_gpio_probe(struct platform_device *pdev)
+   151	{
+   152		struct device *dev = &pdev->dev;
+   153		struct mlxbf3_gpio_context *gs;
+   154		unsigned int npins, valid_mask;
+   155		struct gpio_irq_chip *girq;
+   156		struct gpio_chip *gc;
+   157		struct resource *res;
+   158		const char *name;
+   159		int ret, irq;
+   160	
+   161		name = dev_name(dev);
+   162	
+   163		gs = devm_kzalloc(dev, sizeof(*gs), GFP_KERNEL);
+   164		if (!gs)
+   165			return -ENOMEM;
+   166	
+   167		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   168		if (!res)
+   169			return -ENODEV;
+   170	
+   171		/* Resource shared with pinctrl driver */
+   172		gs->gpio_io = devm_ioremap(dev, res->start, resource_size(res));
+   173		if (!gs->gpio_io)
+   174			return -ENOMEM;
+   175	
+   176		/* YU GPIO block address */
+   177		gs->gpio_cause_io = devm_platform_ioremap_resource(pdev, 1);
+   178		if (IS_ERR(gs->gpio_cause_io))
+   179			return PTR_ERR(gs->gpio_cause_io);
+   180	
+   181		if (device_property_read_u32(dev, "npins", &npins))
+   182			npins = MLXBF3_GPIO_MAX_PINS_PER_BLOCK;
+   183	
+   184		if (device_property_read_u32(dev, "valid_mask", &valid_mask))
+   185			valid_mask = 0x0;
+   186	
+   187		gs->valid_mask = valid_mask;
+   188	
+   189		gc = &gs->gc;
+   190	
+   191		ret = bgpio_init(gc, dev, 4,
+   192				gs->gpio_io + MLXBF_GPIO_READ_DATA_IN,
+   193				gs->gpio_io + MLXBF_GPIO_FW_DATA_OUT_SET,
+   194				gs->gpio_io + MLXBF_GPIO_FW_DATA_OUT_CLEAR,
+   195				gs->gpio_io + MLXBF_GPIO_FW_OUTPUT_ENABLE_SET,
+   196				gs->gpio_io + MLXBF_GPIO_FW_OUTPUT_ENABLE_CLEAR, 0);
+   197	
+   198		gc->request = gpiochip_generic_request;
+   199		gc->free = gpiochip_generic_free;
+   200		gc->init_valid_mask = mlxbf3_gpio_init_valid_mask;
+   201	
+   202		gc->ngpio = npins;
+   203		gc->owner = THIS_MODULE;
+   204	
+   205		irq = platform_get_irq(pdev, 0);
+   206		if (irq >= 0) {
+   207			gs->irq_chip.name = name;
+   208			gs->irq_chip.irq_set_type = mlxbf3_gpio_irq_set_type;
+   209			gs->irq_chip.irq_enable = mlxbf3_gpio_irq_enable;
+   210			gs->irq_chip.irq_disable = mlxbf3_gpio_irq_disable;
+   211	
+   212			girq = &gs->gc.irq;
+   213			girq->chip = &gs->irq_chip;
+   214			girq->handler = handle_simple_irq;
+   215			girq->default_type = IRQ_TYPE_NONE;
+   216			/* This will let us handle the parent IRQ in the driver */
+   217			girq->num_parents = 0;
+   218			girq->parents = NULL;
+   219			girq->parent_handler = NULL;
+   220	
+   221			/*
+   222			 * Directly request the irq here instead of passing
+   223			 * a flow-handler because the irq is shared.
+   224			 */
+ > 225			ret = devm_request_irq(dev, irq, mlxbf3_gpio_irq_handler,
+ > 226					       IRQF_SHARED, name, gs);
+   227			if (ret) {
+   228				dev_err(dev, "failed to request IRQ");
+   229				return ret;
+   230			}
+   231		}
+   232	
+   233		platform_set_drvdata(pdev, gs);
+   234	
+   235		ret = devm_gpiochip_add_data(dev, &gs->gc, gs);
+   236		if (ret) {
+   237			dev_err(dev, "Failed adding memory mapped gpiochip\n");
+   238			return ret;
+   239		}
+   240	
+   241		return 0;
+   242	}
+   243	
 
 -- 
 0-DAY CI Kernel Test Service
