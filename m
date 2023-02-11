@@ -1,49 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B42A23
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 03:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB47F0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 04:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676086438; x=1707622438;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3KdXGkEFcFuGl3jnCYs57pKJThyFqSgkef/kUytVrMU=;
-  b=LnWIJq669UUPIfIJ8PZ6nwkd7JBPjzJXLzKplrAOX+c1Wldul7h715HC
-   dr/r6w5IZ4jvquEdQ2GXrPDFtjQgBSb4+WyABTItfHGXFegKabSByrD9h
-   9oz6E5QCnCfzRIk1YEOrlBc7QOyih7N+acbXfgIxGri1Z8IwIJ1NMA7ZO
-   2IaErSHkGP3fzwsm3oQOA7KOoaapgq2NBKbssCfvYCq2Ff2/IsFSLxChe
-   GmJABoheuCY9my6Hf7MGMcgg97FZJ+Y+KqVa/zTlv7MC8z6Js/33v2q9r
-   Fu1kDgPN/5qCYHaxYLGSmm+tjr68zhOb6OjfL8aZAURez0b0QEdWhRdzr
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="392980656"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="392980656"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 19:33:57 -0800
+  t=1676090639; x=1707626639;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ocsyosgoVyr3txpxyhGGypYFnqEjyiXgs5IeYEZd2MA=;
+  b=FdivCgxqnZRPgRF1+5am5zinwFiSdYFgfQcUaTKEHH66+6KYBGV0oEdc
+   ND1vC+JTqrxPf8kiNxo3rvSc6eX9mO6EDZadVwL8UZMK2/avU9o5d8NbO
+   1CkHwwHpRMDLoj8K98Wwi0fzWhUdwhwH8QauOQQlFwchOsXdB4V6nMkUs
+   c1DTOSTNMfEvngRGnYEPrIURlqGywDaqwqNxHauDX1c5Ezg9ABIAz0ruZ
+   bZXPqdDSAYYI+pmF9typSINbf4hq/TRTXLCxhgHLGXBEDZXGkXHe0Uxt2
+   Ls1yPW4zJ3FYE4W3s3pZNFaPhQOm1Yb9xGkDsfX5CSQTiNNi0GTdZ4O4/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="330592653"
+X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
+   d="scan'208";a="330592653"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 20:43:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="777152285"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="777152285"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="645844814"
+X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
+   d="scan'208";a="645844814"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2023 19:33:54 -0800
+  by orsmga006.jf.intel.com with ESMTP; 10 Feb 2023 20:43:56 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQge9-0006Cr-2l;
-	Sat, 11 Feb 2023 03:33:53 +0000
-Date: Sat, 11 Feb 2023 11:32:57 +0800
+	id 1pQhjw-0006Fl-0M;
+	Sat, 11 Feb 2023 04:43:56 +0000
+Date: Sat, 11 Feb 2023 12:43:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harsh Jain <h.jain@amd.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, thomas.lendacky@amd.com,
-	Raju.Rangoju@amd.com, Shyam-sundar.S-k@amd.com,
-	harshjain.prof@gmail.com, abhijit.gangurde@amd.com,
-	puneet.gupta@amd.com, nikhil.agarwal@amd.com, tarak.reddy@amd.com,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
-Subject: Re: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig,
- makefile
-Message-ID: <202302111128.JPr7UbtM-lkp@intel.com>
-References: <20230210130321.2898-7-h.jain@amd.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:numa-improve 1/3] include/linux/cpumask.h:1006:9: warning:
+ initialization of 'unsigned int' from 'struct cpumask *' makes integer from
+ pointer without a cast
+Message-ID: <202302111257.ZnQ4u1Un-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,107 +46,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230210130321.2898-7-h.jain@amd.com>
 
-Hi Harsh,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on net-next/master]
-[also build test ERROR on net/master horms-ipvs/master linus/master v6.2-rc7 next-20230210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-patch link:    https://lore.kernel.org/r/20230210130321.2898-7-h.jain%40amd.com
-patch subject: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig, makefile
-config: mips-db1xxx_defconfig (https://download.01.org/0day-ci/archive/20230211/202302111128.JPr7UbtM-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/norov/linux numa-improve
+head:   44d77430b10a193932bbc758e21566f365b9b0e7
+commit: 975525edc1c9aaeb32e4d9adc753e198cae86e44 [1/3] improve for_each_numa_hop
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302111257.ZnQ4u1Un-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/93ed306161ac0259bd72b14922a7f6af60b3748c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-        git checkout 93ed306161ac0259bd72b14922a7f6af60b3748c
+        # https://github.com/norov/linux/commit/975525edc1c9aaeb32e4d9adc753e198cae86e44
+        git remote add norov https://github.com/norov/linux
+        git fetch --no-tags norov numa-improve
+        git checkout 975525edc1c9aaeb32e4d9adc753e198cae86e44
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/net/ethernet/amd/efct/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302111128.JPr7UbtM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111257.ZnQ4u1Un-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/amd/efct/mcdi_functions.c: In function 'efct_mcdi_filter_table_probe':
->> drivers/net/ethernet/amd/efct/mcdi_functions.c:283:24: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
-     283 |         table->entry = vzalloc(EFCT_MCDI_FILTER_TBL_ROWS *
-         |                        ^~~~~~~
-         |                        kvzalloc
->> drivers/net/ethernet/amd/efct/mcdi_functions.c:283:22: warning: assignment to 'struct <anonymous> *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     283 |         table->entry = vzalloc(EFCT_MCDI_FILTER_TBL_ROWS *
-         |                      ^
-   drivers/net/ethernet/amd/efct/mcdi_functions.c: In function 'efct_mcdi_filter_table_remove':
->> drivers/net/ethernet/amd/efct/mcdi_functions.c:309:9: error: implicit declaration of function 'vfree'; did you mean 'kfree'? [-Werror=implicit-function-declaration]
-     309 |         vfree(table->entry);
-         |         ^~~~~
-         |         kfree
-   cc1: some warnings being treated as errors
+   In file included from include/linux/interrupt.h:8,
+                    from drivers/net/ethernet/mellanox/mlx5/core/eq.c:6:
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c: In function 'comp_irqs_request':
+>> include/linux/cpumask.h:1006:9: warning: initialization of 'unsigned int' from 'struct cpumask *' makes integer from pointer without a cast [-Wint-conversion]
+    1006 |         ((struct cpumask *)(1 ? (bitmap)                                \
+         |         ^
+   include/linux/cpumask.h:934:23: note: in expansion of macro 'to_cpumask'
+     934 | #define cpu_none_mask to_cpumask(cpu_bit_bitmap[0])
+         |                       ^~~~~~~~~~
+   include/linux/topology.h:276:51: note: in expansion of macro 'cpu_none_mask'
+     276 |         for (unsigned int __hops = 0, prev_mask = cpu_none_mask;               \
+         |                                                   ^~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c:847:9: note: in expansion of macro 'for_each_numa_hop_mask'
+     847 |         for_each_numa_hop_mask(mask, prev, dev->priv.numa_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/gfp.h:8,
+                    from include/linux/xarray.h:15,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/pci.h:35,
+                    from include/linux/mlx5/driver.h:38,
+                    from drivers/net/ethernet/mellanox/mlx5/core/eq.c:8:
+   include/linux/topology.h:281:34: warning: assignment to 'unsigned int' from 'const struct cpumask *' makes integer from pointer without a cast [-Wint-conversion]
+     281 |              __hops++, prev_mask = mask)
+         |                                  ^
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c:847:9: note: in expansion of macro 'for_each_numa_hop_mask'
+     847 |         for_each_numa_hop_mask(mask, prev, dev->priv.numa_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bitmap.h:9,
+                    from include/linux/cpumask.h:12:
+   include/linux/cpumask.h:28:37: error: invalid type argument of '->' (have 'unsigned int')
+      28 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   include/linux/find.h:536:53: note: in definition of macro 'for_each_andnot_bit'
+     536 |              (bit) = find_next_andnot_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                                     ^~~~~
+   include/linux/cpumask.h:328:55: note: in expansion of macro 'cpumask_bits'
+     328 |         for_each_andnot_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), nr_cpumask_bits)
+         |                                                       ^~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c:848:17: note: in expansion of macro 'for_each_cpu_andnot'
+     848 |                 for_each_cpu_andnot(cpu, mask, prev) {
+         |                 ^~~~~~~~~~~~~~~~~~~
+   include/linux/find.h:536:75: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     536 |              (bit) = find_next_andnot_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                                                           ^
+   include/linux/cpumask.h:328:9: note: in expansion of macro 'for_each_andnot_bit'
+     328 |         for_each_andnot_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), nr_cpumask_bits)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c:848:17: note: in expansion of macro 'for_each_cpu_andnot'
+     848 |                 for_each_cpu_andnot(cpu, mask, prev) {
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c:820:31: warning: unused variable 'prev' [-Wunused-variable]
+     820 |         const struct cpumask *prev = cpu_none_mask;
+         |                               ^~~~
 
 
-vim +283 drivers/net/ethernet/amd/efct/mcdi_functions.c
+vim +1006 include/linux/cpumask.h
 
-83f06a5b784384c Harsh Jain 2023-02-10  267  
-83f06a5b784384c Harsh Jain 2023-02-10  268  int efct_mcdi_filter_table_probe(struct efct_nic *efct)
-83f06a5b784384c Harsh Jain 2023-02-10  269  {
-83f06a5b784384c Harsh Jain 2023-02-10  270  	struct efct_mcdi_filter_table *table;
-83f06a5b784384c Harsh Jain 2023-02-10  271  	int rc = 0, i;
-83f06a5b784384c Harsh Jain 2023-02-10  272  
-83f06a5b784384c Harsh Jain 2023-02-10  273  	if (efct->filter_table) /* already probed */
-83f06a5b784384c Harsh Jain 2023-02-10  274  		return rc;
-83f06a5b784384c Harsh Jain 2023-02-10  275  
-83f06a5b784384c Harsh Jain 2023-02-10  276  	table = kzalloc(sizeof(*table), GFP_KERNEL);
-83f06a5b784384c Harsh Jain 2023-02-10  277  	if (!table)
-83f06a5b784384c Harsh Jain 2023-02-10  278  		return -ENOMEM;
-83f06a5b784384c Harsh Jain 2023-02-10  279  
-83f06a5b784384c Harsh Jain 2023-02-10  280  	efct->filter_table = table;
-83f06a5b784384c Harsh Jain 2023-02-10  281  
-83f06a5b784384c Harsh Jain 2023-02-10  282  	init_rwsem(&table->lock);
-83f06a5b784384c Harsh Jain 2023-02-10 @283  	table->entry = vzalloc(EFCT_MCDI_FILTER_TBL_ROWS *
-83f06a5b784384c Harsh Jain 2023-02-10  284  			       sizeof(*table->entry));
-83f06a5b784384c Harsh Jain 2023-02-10  285  	if (!table->entry) {
-83f06a5b784384c Harsh Jain 2023-02-10  286  		rc = -ENOMEM;
-83f06a5b784384c Harsh Jain 2023-02-10  287  		return rc;
-83f06a5b784384c Harsh Jain 2023-02-10  288  	}
-83f06a5b784384c Harsh Jain 2023-02-10  289  
-83f06a5b784384c Harsh Jain 2023-02-10  290  	for (i = 0; i < EFCT_MCDI_FILTER_TBL_ROWS; i++) {
-83f06a5b784384c Harsh Jain 2023-02-10  291  		table->entry[i].handle = EFCT_HANDLE_INVALID;
-83f06a5b784384c Harsh Jain 2023-02-10  292  		table->entry[i].ref_cnt = 0;
-83f06a5b784384c Harsh Jain 2023-02-10  293  	}
-83f06a5b784384c Harsh Jain 2023-02-10  294  
-83f06a5b784384c Harsh Jain 2023-02-10  295  	return rc;
-83f06a5b784384c Harsh Jain 2023-02-10  296  }
-83f06a5b784384c Harsh Jain 2023-02-10  297  
-83f06a5b784384c Harsh Jain 2023-02-10  298  void efct_mcdi_filter_table_remove(struct efct_nic *efct)
-83f06a5b784384c Harsh Jain 2023-02-10  299  {
-83f06a5b784384c Harsh Jain 2023-02-10  300  	struct efct_mcdi_filter_table *table = efct->filter_table;
-83f06a5b784384c Harsh Jain 2023-02-10  301  	int i;
-83f06a5b784384c Harsh Jain 2023-02-10  302  
-83f06a5b784384c Harsh Jain 2023-02-10  303  	if (!table)
-83f06a5b784384c Harsh Jain 2023-02-10  304  		return;
-83f06a5b784384c Harsh Jain 2023-02-10  305  	for (i = 0; i < EFCT_MCDI_FILTER_TBL_ROWS; i++) {
-83f06a5b784384c Harsh Jain 2023-02-10  306  		if (table->entry[i].spec)
-83f06a5b784384c Harsh Jain 2023-02-10  307  			kfree((struct efct_filter_spec *)table->entry[i].spec);
-83f06a5b784384c Harsh Jain 2023-02-10  308  	}
-83f06a5b784384c Harsh Jain 2023-02-10 @309  	vfree(table->entry);
-83f06a5b784384c Harsh Jain 2023-02-10  310  	table->entry = NULL;
-83f06a5b784384c Harsh Jain 2023-02-10  311  	efct->filter_table = NULL;
-83f06a5b784384c Harsh Jain 2023-02-10  312  	kfree(table);
-83f06a5b784384c Harsh Jain 2023-02-10  313  }
-83f06a5b784384c Harsh Jain 2023-02-10  314  
+9425676a363c09 Rasmus Villemoes 2016-01-20   994  
+6ba2ef7baac23a Rusty Russell    2009-09-24   995  /**
+6ba2ef7baac23a Rusty Russell    2009-09-24   996   * to_cpumask - convert an NR_CPUS bitmap to a struct cpumask *
+6ba2ef7baac23a Rusty Russell    2009-09-24   997   * @bitmap: the bitmap
+6ba2ef7baac23a Rusty Russell    2009-09-24   998   *
+6ba2ef7baac23a Rusty Russell    2009-09-24   999   * There are a few places where cpumask_var_t isn't appropriate and
+6ba2ef7baac23a Rusty Russell    2009-09-24  1000   * static cpumasks must be used (eg. very early boot), yet we don't
+6ba2ef7baac23a Rusty Russell    2009-09-24  1001   * expose the definition of 'struct cpumask'.
+6ba2ef7baac23a Rusty Russell    2009-09-24  1002   *
+6ba2ef7baac23a Rusty Russell    2009-09-24  1003   * This does the conversion, and can be used as a constant initializer.
+6ba2ef7baac23a Rusty Russell    2009-09-24  1004   */
+6ba2ef7baac23a Rusty Russell    2009-09-24  1005  #define to_cpumask(bitmap)						\
+6ba2ef7baac23a Rusty Russell    2009-09-24 @1006  	((struct cpumask *)(1 ? (bitmap)				\
+6ba2ef7baac23a Rusty Russell    2009-09-24  1007  			    : (void *)sizeof(__check_is_bitmap(bitmap))))
+6ba2ef7baac23a Rusty Russell    2009-09-24  1008  
+
+:::::: The code at line 1006 was first introduced by commit
+:::::: 6ba2ef7baac23a5d9bb85e28b882d16b439a2293 cpumask: Move deprecated functions to end of header.
+
+:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
+:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
 
 -- 
 0-DAY CI Kernel Test Service
