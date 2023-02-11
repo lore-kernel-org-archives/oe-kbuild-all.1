@@ -1,44 +1,47 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70018EBF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 07:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639CAEBF;
+	Sat, 11 Feb 2023 07:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676101083; x=1707637083;
+  t=1676101685; x=1707637685;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gHRfT8lDxN8tG3DJrfm8yLFhweO4xTvvrJdRsmP8R9w=;
-  b=i8WNWobj38ZbZceZNfEfZiQ1gVWxC+ohNxD+SDomgphjMSkp6mVc8m+Q
-   ukJifLVhCBnXuQ26SWdalLkgQ4+TydfSTIXw7JXI/Bjd9UsxfEiR3cs/D
-   YKjub9f0yBc0+bE3hzhloie7djtMaLON7Cd7mjk0pcKS6XSp/JvM0DEOW
-   TcybZ6adVTxfTe0M0P6lh5qsUV0IZiCgfhlvUtakp5ZBzENOhxiY5NU80
-   Lg1BcLfMZyevpB/3pRZckjFJOMuectY2oNaEavDgg3GQuwCxWyJJws9HI
-   ZygTJRgQfwvOD9kQDIYkSZkeAOmGThK99BnCXRkevGkLEFJhhjw0caFhU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="416817157"
+  bh=0bh2UKJYJLBhHtu24tSOZS3avHyLam90tgF7aQHJxoM=;
+  b=MIVQn0L5wvHR8Nn1cy3/uOZ+r7y3zQnDvlR8WMB+nCebHFl+1r70UY9j
+   3PROlWWVcL4PEc1kpS6qcYUVicvXp3kxtQ2Gld+JYT5u4k8wp0sKRV0Qs
+   HppokBwhG03OSfZdsG0j3PmuGG7X+yeHvyRvvpGNnQCVRTMUWdpoUdunW
+   p7w5wwwSKoujGdWiN/ZKMapeposPpFR8cdQ6rEmvmaf3e+ncfpPbVoTwt
+   SHhqvQyf4h01UeqNsHOkohCGEoXjxLJFjKMsBZncpO47H3LL2F8xWoseC
+   joPknSpC1NIOi9GhwRxxS6YHdLk7sItIFBpwOyxsGQH0V2kp5w9I3IjPX
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="310226568"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="416817157"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 23:38:02 -0800
+   d="scan'208";a="310226568"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 23:48:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="777196301"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="661638622"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="777196301"
+   d="scan'208";a="661638622"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2023 23:38:01 -0800
+  by orsmga007.jf.intel.com with ESMTP; 10 Feb 2023 23:48:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQkSO-0006Kn-2C;
-	Sat, 11 Feb 2023 07:38:00 +0000
-Date: Sat, 11 Feb 2023 15:37:02 +0800
+	id 1pQkc4-0006L7-3C;
+	Sat, 11 Feb 2023 07:48:01 +0000
+Date: Sat, 11 Feb 2023 15:47:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asmaa Mnebhi <asmaa@nvidia.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Asmaa Mnebhi <asmaa@nvidia.com>
-Subject: Re: [PATCH v3 1/2] Support NVIDIA BlueField-3 GPIO controller
-Message-ID: <202302111542.y6a7wZeb-lkp@intel.com>
-References: <c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa@nvidia.com>
+To: Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+	Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/v3d: New debugfs end-points to query GPU usage stats.
+Message-ID: <202302111549.NR71LTx9-lkp@intel.com>
+References: <20230210143421.1879915-1-jmcasanova@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,153 +50,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa@nvidia.com>
+In-Reply-To: <20230210143421.1879915-1-jmcasanova@igalia.com>
 
-Hi Asmaa,
+Hi Jose,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.2-rc7 next-20230210]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.2-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Asmaa-Mnebhi/Support-NVIDIA-BlueField-3-GPIO-controller/20230210-234043
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/c1bf45a868edcd3df5263fa76a32b28e6c9ca3d1.1676042188.git.asmaa%40nvidia.com
-patch subject: [PATCH v3 1/2] Support NVIDIA BlueField-3 GPIO controller
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230211/202302111542.y6a7wZeb-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Maria-Casanova-Crespo/drm-v3d-New-debugfs-end-points-to-query-GPU-usage-stats/20230210-223726
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230210143421.1879915-1-jmcasanova%40igalia.com
+patch subject: [PATCH] drm/v3d: New debugfs end-points to query GPU usage stats.
+config: hexagon-randconfig-r025-20230210 (https://download.01.org/0day-ci/archive/20230211/202302111549.NR71LTx9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ea731fc5718b591e6c84ee33049e46b60882009d
+        # https://github.com/intel-lab-lkp/linux/commit/890feddd5e794bae0b486a18c0b905c78309d445
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Asmaa-Mnebhi/Support-NVIDIA-BlueField-3-GPIO-controller/20230210-234043
-        git checkout ea731fc5718b591e6c84ee33049e46b60882009d
+        git fetch --no-tags linux-review Jose-Maria-Casanova-Crespo/drm-v3d-New-debugfs-end-points-to-query-GPU-usage-stats/20230210-223726
+        git checkout 890feddd5e794bae0b486a18c0b905c78309d445
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/v3d/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302111542.y6a7wZeb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111549.NR71LTx9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-mlxbf3.c: In function 'mlxbf3_gpio_probe':
->> drivers/gpio/gpio-mlxbf3.c:225:23: error: implicit declaration of function 'devm_request_irq'; did you mean 'can_request_irq'? [-Werror=implicit-function-declaration]
-     225 |                 ret = devm_request_irq(dev, irq, mlxbf3_gpio_irq_handler,
-         |                       ^~~~~~~~~~~~~~~~
-         |                       can_request_irq
->> drivers/gpio/gpio-mlxbf3.c:226:40: error: 'IRQF_SHARED' undeclared (first use in this function); did you mean 'VM_SHARED'?
-     226 |                                        IRQF_SHARED, name, gs);
-         |                                        ^~~~~~~~~~~
-         |                                        VM_SHARED
-   drivers/gpio/gpio-mlxbf3.c:226:40: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/v3d/v3d_sched.c:24:
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:9:
+   In file included from include/drm/drm_encoder.h:28:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/gpu/drm/v3d/v3d_sched.c:24:
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:9:
+   In file included from include/drm/drm_encoder.h:28:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/gpu/drm/v3d/v3d_sched.c:24:
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:9:
+   In file included from include/drm/drm_encoder.h:28:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/gpu/drm/v3d/v3d_sched.c:140:1: warning: no previous prototype for function 'v3d_sched_stats_add_job' [-Wmissing-prototypes]
+   v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
+   ^
+   drivers/gpu/drm/v3d/v3d_sched.c:139:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int
+   ^
+   static 
+   7 warnings generated.
 
 
-vim +225 drivers/gpio/gpio-mlxbf3.c
+vim +/v3d_sched_stats_add_job +140 drivers/gpu/drm/v3d/v3d_sched.c
 
-   148	
-   149	static int
-   150	mlxbf3_gpio_probe(struct platform_device *pdev)
-   151	{
-   152		struct device *dev = &pdev->dev;
-   153		struct mlxbf3_gpio_context *gs;
-   154		unsigned int npins, valid_mask;
-   155		struct gpio_irq_chip *girq;
-   156		struct gpio_chip *gc;
-   157		struct resource *res;
-   158		const char *name;
-   159		int ret, irq;
-   160	
-   161		name = dev_name(dev);
-   162	
-   163		gs = devm_kzalloc(dev, sizeof(*gs), GFP_KERNEL);
-   164		if (!gs)
-   165			return -ENOMEM;
-   166	
-   167		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   168		if (!res)
-   169			return -ENODEV;
-   170	
-   171		/* Resource shared with pinctrl driver */
-   172		gs->gpio_io = devm_ioremap(dev, res->start, resource_size(res));
-   173		if (!gs->gpio_io)
-   174			return -ENOMEM;
-   175	
-   176		/* YU GPIO block address */
-   177		gs->gpio_cause_io = devm_platform_ioremap_resource(pdev, 1);
-   178		if (IS_ERR(gs->gpio_cause_io))
-   179			return PTR_ERR(gs->gpio_cause_io);
-   180	
-   181		if (device_property_read_u32(dev, "npins", &npins))
-   182			npins = MLXBF3_GPIO_MAX_PINS_PER_BLOCK;
-   183	
-   184		if (device_property_read_u32(dev, "valid_mask", &valid_mask))
-   185			valid_mask = 0x0;
-   186	
-   187		gs->valid_mask = valid_mask;
-   188	
-   189		gc = &gs->gc;
-   190	
-   191		ret = bgpio_init(gc, dev, 4,
-   192				gs->gpio_io + MLXBF_GPIO_READ_DATA_IN,
-   193				gs->gpio_io + MLXBF_GPIO_FW_DATA_OUT_SET,
-   194				gs->gpio_io + MLXBF_GPIO_FW_DATA_OUT_CLEAR,
-   195				gs->gpio_io + MLXBF_GPIO_FW_OUTPUT_ENABLE_SET,
-   196				gs->gpio_io + MLXBF_GPIO_FW_OUTPUT_ENABLE_CLEAR, 0);
-   197	
-   198		gc->request = gpiochip_generic_request;
-   199		gc->free = gpiochip_generic_free;
-   200		gc->init_valid_mask = mlxbf3_gpio_init_valid_mask;
-   201	
-   202		gc->ngpio = npins;
-   203		gc->owner = THIS_MODULE;
-   204	
-   205		irq = platform_get_irq(pdev, 0);
-   206		if (irq >= 0) {
-   207			gs->irq_chip.name = name;
-   208			gs->irq_chip.irq_set_type = mlxbf3_gpio_irq_set_type;
-   209			gs->irq_chip.irq_enable = mlxbf3_gpio_irq_enable;
-   210			gs->irq_chip.irq_disable = mlxbf3_gpio_irq_disable;
-   211	
-   212			girq = &gs->gc.irq;
-   213			girq->chip = &gs->irq_chip;
-   214			girq->handler = handle_simple_irq;
-   215			girq->default_type = IRQ_TYPE_NONE;
-   216			/* This will let us handle the parent IRQ in the driver */
-   217			girq->num_parents = 0;
-   218			girq->parents = NULL;
-   219			girq->parent_handler = NULL;
-   220	
-   221			/*
-   222			 * Directly request the irq here instead of passing
-   223			 * a flow-handler because the irq is shared.
-   224			 */
- > 225			ret = devm_request_irq(dev, irq, mlxbf3_gpio_irq_handler,
- > 226					       IRQF_SHARED, name, gs);
-   227			if (ret) {
-   228				dev_err(dev, "failed to request IRQ");
-   229				return ret;
-   230			}
-   231		}
-   232	
-   233		platform_set_drvdata(pdev, gs);
-   234	
-   235		ret = devm_gpiochip_add_data(dev, &gs->gc, gs);
-   236		if (ret) {
-   237			dev_err(dev, "Failed adding memory mapped gpiochip\n");
-   238			return ret;
-   239		}
-   240	
-   241		return 0;
-   242	}
-   243	
+   134	
+   135	/*
+   136	 * Updates the queue usage adding the information of a new job that is
+   137	 * about to be sent to the GPU to be executed.
+   138	 */
+   139	int
+ > 140	v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
+   141				struct drm_sched_job *sched_job)
+   142	{
+   143	
+   144		struct v3d_queue_pid_stats *pid_stats = NULL;
+   145		struct v3d_job *job = sched_job?to_v3d_job(sched_job):NULL;
+   146		struct v3d_queue_pid_stats *cur;
+   147		struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
+   148		int ret = 0;
+   149	
+   150		mutex_lock(&queue_stats->lock);
+   151	
+   152		/* Completion of previous job requires an update of its runtime */
+   153		v3d_sched_stats_update(queue_stats);
+   154	
+   155		queue_stats->last_exec_start = local_clock();
+   156		queue_stats->last_exec_end = 0;
+   157		queue_stats->jobs_sent++;
+   158		queue_stats->last_pid = job->client_pid;
+   159	
+   160		/* gpu usage stats by process are being collected */
+   161		if (queue_stats->collect_pid_stats) {
+   162			list_for_each_entry(cur, pid_stats_list, list) {
+   163				if (cur->pid == job->client_pid) {
+   164					pid_stats = cur;
+   165					break;
+   166				}
+   167			}
+   168			/* client pid_stats is moved to the head of the list. */
+   169			if (pid_stats) {
+   170				list_move(&pid_stats->list, pid_stats_list);
+   171			} else {
+   172				pid_stats = kzalloc(sizeof(struct v3d_queue_pid_stats),
+   173						    GFP_KERNEL);
+   174				if (!pid_stats) {
+   175					ret = -ENOMEM;
+   176					goto err_mem;
+   177				}
+   178				pid_stats->pid = job->client_pid;
+   179				list_add(&pid_stats->list, pid_stats_list);
+   180			}
+   181			pid_stats->jobs_sent++;
+   182			pid_stats->timeout_purge = jiffies + V3D_QUEUE_STATS_TIMEOUT;
+   183		}
+   184	
+   185	err_mem:
+   186		mutex_unlock(&queue_stats->lock);
+   187		return ret;
+   188	}
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
