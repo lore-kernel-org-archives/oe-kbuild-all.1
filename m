@@ -1,42 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8A446BB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 15:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1DE2FAE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 16:38:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676217529; x=1707753529;
+  t=1676219930; x=1707755930;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ge+tLQJJJ2dWROdiC3sZ9RGJGcCp+jZxMmbe+K3Ircc=;
-  b=ftnNnCn6eddDbbIi+sYeTZG0U9wNGeulLDiIJDSearb4eBAOKTK9Y5SF
-   30zonlLl0IQXaUjtKQOTinSQL1xYkXvvM7CwxxKORvcINqu1LqiFcjNTj
-   ECR9AxVl7S8j/BxYLIvAlo4kqhcpCtJDPr8cruz6NKaDOYdD+F5dMiYY2
-   ZB4cN7luYcmW96tSsKU8wsxUE8BhbzhgW0EY9RUNKsDhfHJ4X/qcLK4GV
-   AfLRgxztGYkJZsx1FACa9QaPO52yRncudw36khCTZvRQYQDC34nj3HQ38
-   uXaBnDDQULM+B66EHd2+MMga62NAZNA3ZoPxzgQm3xgz/C7Nj8hSnVHL2
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314369134"
+  bh=A6nwNseFVyd9hFNSVmsnAkMhnkgo68hWquTjBKayVmA=;
+  b=bFaYR+ZCXriEJpkiEzm4QjM1vHLfeiGi8zHF3+0N2obmsDdK59EjcZsw
+   OQ4kkGrqAZQhzVwd5l0Ve1LRMXKKuzHCIkndLFAhmjOpdvTCw2iY2Ka8t
+   xENzdiokx1uYidbq3WNMRoQUc7tl/8aVoHh4FU4Y/NdoaxzxlhEcflfgY
+   jxLfQucDGWLmUeSn7oEfDEoz0NS+c4KXmzeicnB7FL8HWKU7A6m14lA+w
+   9u5PDGyHjgN+3YtgaCrkYl5mIC2/K3T2Ooxndtno2pKlGe6LORZumqaeH
+   wr9l+p/Igdz1fgxe1zTpLFChmxEOxssi56x8Wn8EYU/X35YfBVMuW/XfM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="311091028"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="314369134"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 07:58:47 -0800
+   d="scan'208";a="311091028"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 08:38:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="661920638"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="646143780"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="661920638"
+   d="scan'208";a="646143780"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 07:58:46 -0800
+  by orsmga006.jf.intel.com with ESMTP; 12 Feb 2023 08:38:47 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pREkX-0007Gr-2d;
-	Sun, 12 Feb 2023 15:58:45 +0000
-Date: Sun, 12 Feb 2023 23:58:06 +0800
+	id 1pRFNG-0007I9-2k;
+	Sun, 12 Feb 2023 16:38:46 +0000
+Date: Mon, 13 Feb 2023 00:38:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.4 62/71] drivers/iommu/iommu.c:1861:5:
- warning: no previous prototype for function '__iommu_map'
-Message-ID: <202302122354.beNlqQ2Q-lkp@intel.com>
+Subject: arch/s390/boot/compressed/../../../../lib/decompress_bunzip2.c:709:24:
+ warning: passing 'unsigned char *' to parameter of type 'char *' converts
+ between pointers to integer types where one is of the unique plain 'char'
+ type and the other is not
+Message-ID: <202302130039.fP1yAJ9g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,249 +51,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
-head:   1a75a12f11128114da2930ef58af4a8940a256db
-commit: 918cff530d4f2dfa379e51f58fcb7ad4b971535f [62/71] iommu: Add gfp parameter to iommu_ops::map
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230212/202302122354.beNlqQ2Q-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Guenter,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: 08c17be52b99119c96cc997a4ecd0f44e0183e26 CHROMIUM: Revert "ecryptfs_lookup(): try either only encrypted or plaintext name"
+date:   2 years, 2 months ago
+config: s390-randconfig-r025-20230212 (https://download.01.org/0day-ci/archive/20230213/202302130039.fP1yAJ9g-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=918cff530d4f2dfa379e51f58fcb7ad4b971535f
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.4
-        git checkout 918cff530d4f2dfa379e51f58fcb7ad4b971535f
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=08c17be52b99119c96cc997a4ecd0f44e0183e26
+        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
+        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
+        git checkout 08c17be52b99119c96cc997a4ecd0f44e0183e26
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302122354.beNlqQ2Q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302130039.fP1yAJ9g-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/iommu.c:292:5: warning: no previous prototype for function 'iommu_insert_resv_region' [-Wmissing-prototypes]
-   int iommu_insert_resv_region(struct iommu_resv_region *new,
-       ^
-   drivers/iommu/iommu.c:292:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int iommu_insert_resv_region(struct iommu_resv_region *new,
-   ^
-   static 
->> drivers/iommu/iommu.c:1861:5: warning: no previous prototype for function '__iommu_map' [-Wmissing-prototypes]
-   int __iommu_map(struct iommu_domain *domain, unsigned long iova,
-       ^
-   drivers/iommu/iommu.c:1861:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __iommu_map(struct iommu_domain *domain, unsigned long iova,
-   ^
-   static 
->> drivers/iommu/iommu.c:2012:8: warning: no previous prototype for function '__iommu_map_sg' [-Wmissing-prototypes]
-   size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
-          ^
-   drivers/iommu/iommu.c:2012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
-   ^
-   static 
-   3 warnings generated.
+   In file included from arch/s390/boot/compressed/decompressor.c:45:
+>> arch/s390/boot/compressed/../../../../lib/decompress_bunzip2.c:709:24: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+                           i = read_bunzip(bd, outbuf, BZIP2_IOBUF_SIZE);
+                                               ^~~~~~
+   arch/s390/boot/compressed/../../../../lib/decompress_bunzip2.c:523:59: note: passing argument to parameter 'outbuf' here
+   static int INIT read_bunzip(struct bunzip_data *bd, char *outbuf, int len)
+                                                             ^
+   1 warning generated.
 
 
-vim +/__iommu_map +1861 drivers/iommu/iommu.c
+vim +709 arch/s390/boot/compressed/../../../../lib/decompress_bunzip2.c
 
-  1860	
-> 1861	int __iommu_map(struct iommu_domain *domain, unsigned long iova,
-  1862		      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-  1863	{
-  1864		const struct iommu_ops *ops = domain->ops;
-  1865		unsigned long orig_iova = iova;
-  1866		unsigned int min_pagesz;
-  1867		size_t orig_size = size;
-  1868		phys_addr_t orig_paddr = paddr;
-  1869		int ret = 0;
-  1870	
-  1871		if (unlikely(ops->map == NULL ||
-  1872			     domain->pgsize_bitmap == 0UL))
-  1873			return -ENODEV;
-  1874	
-  1875		if (unlikely(!(domain->type & __IOMMU_DOMAIN_PAGING)))
-  1876			return -EINVAL;
-  1877	
-  1878		/* find out the minimum page size supported */
-  1879		min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
-  1880	
-  1881		/*
-  1882		 * both the virtual address and the physical one, as well as
-  1883		 * the size of the mapping, must be aligned (at least) to the
-  1884		 * size of the smallest page supported by the hardware
-  1885		 */
-  1886		if (!IS_ALIGNED(iova | paddr | size, min_pagesz)) {
-  1887			pr_err("unaligned: iova 0x%lx pa %pa size 0x%zx min_pagesz 0x%x\n",
-  1888			       iova, &paddr, size, min_pagesz);
-  1889			return -EINVAL;
-  1890		}
-  1891	
-  1892		pr_debug("map: iova 0x%lx pa %pa size 0x%zx\n", iova, &paddr, size);
-  1893	
-  1894		while (size) {
-  1895			size_t pgsize = iommu_pgsize(domain, iova | paddr, size);
-  1896	
-  1897			pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
-  1898				 iova, &paddr, pgsize);
-  1899			ret = ops->map(domain, iova, paddr, pgsize, prot, gfp);
-  1900	
-  1901			if (ret)
-  1902				break;
-  1903	
-  1904			iova += pgsize;
-  1905			paddr += pgsize;
-  1906			size -= pgsize;
-  1907		}
-  1908	
-  1909		if (ops->iotlb_sync_map)
-  1910			ops->iotlb_sync_map(domain);
-  1911	
-  1912		/* unroll mapping in case something went wrong */
-  1913		if (ret)
-  1914			iommu_unmap(domain, orig_iova, orig_size - size);
-  1915		else
-  1916			trace_map(orig_iova, orig_paddr, orig_size);
-  1917	
-  1918		return ret;
-  1919	}
-  1920	
-  1921	int iommu_map(struct iommu_domain *domain, unsigned long iova,
-  1922		      phys_addr_t paddr, size_t size, int prot)
-  1923	{
-  1924		might_sleep();
-  1925		return __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
-  1926	}
-  1927	EXPORT_SYMBOL_GPL(iommu_map);
-  1928	
-  1929	int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
-  1930		      phys_addr_t paddr, size_t size, int prot)
-  1931	{
-  1932		return __iommu_map(domain, iova, paddr, size, prot, GFP_ATOMIC);
-  1933	}
-  1934	EXPORT_SYMBOL_GPL(iommu_map_atomic);
-  1935	
-  1936	static size_t __iommu_unmap(struct iommu_domain *domain,
-  1937				    unsigned long iova, size_t size,
-  1938				    struct iommu_iotlb_gather *iotlb_gather)
-  1939	{
-  1940		const struct iommu_ops *ops = domain->ops;
-  1941		size_t unmapped_page, unmapped = 0;
-  1942		unsigned long orig_iova = iova;
-  1943		unsigned int min_pagesz;
-  1944	
-  1945		if (unlikely(ops->unmap == NULL ||
-  1946			     domain->pgsize_bitmap == 0UL))
-  1947			return 0;
-  1948	
-  1949		if (unlikely(!(domain->type & __IOMMU_DOMAIN_PAGING)))
-  1950			return 0;
-  1951	
-  1952		/* find out the minimum page size supported */
-  1953		min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
-  1954	
-  1955		/*
-  1956		 * The virtual address, as well as the size of the mapping, must be
-  1957		 * aligned (at least) to the size of the smallest page supported
-  1958		 * by the hardware
-  1959		 */
-  1960		if (!IS_ALIGNED(iova | size, min_pagesz)) {
-  1961			pr_err("unaligned: iova 0x%lx size 0x%zx min_pagesz 0x%x\n",
-  1962			       iova, size, min_pagesz);
-  1963			return 0;
-  1964		}
-  1965	
-  1966		pr_debug("unmap this: iova 0x%lx size 0x%zx\n", iova, size);
-  1967	
-  1968		/*
-  1969		 * Keep iterating until we either unmap 'size' bytes (or more)
-  1970		 * or we hit an area that isn't mapped.
-  1971		 */
-  1972		while (unmapped < size) {
-  1973			size_t pgsize = iommu_pgsize(domain, iova, size - unmapped);
-  1974	
-  1975			unmapped_page = ops->unmap(domain, iova, pgsize, iotlb_gather);
-  1976			if (!unmapped_page)
-  1977				break;
-  1978	
-  1979			pr_debug("unmapped: iova 0x%lx size 0x%zx\n",
-  1980				 iova, unmapped_page);
-  1981	
-  1982			iova += unmapped_page;
-  1983			unmapped += unmapped_page;
-  1984		}
-  1985	
-  1986		trace_unmap(orig_iova, size, unmapped);
-  1987		return unmapped;
-  1988	}
-  1989	
-  1990	size_t iommu_unmap(struct iommu_domain *domain,
-  1991			   unsigned long iova, size_t size)
-  1992	{
-  1993		struct iommu_iotlb_gather iotlb_gather;
-  1994		size_t ret;
-  1995	
-  1996		iommu_iotlb_gather_init(&iotlb_gather);
-  1997		ret = __iommu_unmap(domain, iova, size, &iotlb_gather);
-  1998		iommu_tlb_sync(domain, &iotlb_gather);
-  1999	
-  2000		return ret;
-  2001	}
-  2002	EXPORT_SYMBOL_GPL(iommu_unmap);
-  2003	
-  2004	size_t iommu_unmap_fast(struct iommu_domain *domain,
-  2005				unsigned long iova, size_t size,
-  2006				struct iommu_iotlb_gather *iotlb_gather)
-  2007	{
-  2008		return __iommu_unmap(domain, iova, size, iotlb_gather);
-  2009	}
-  2010	EXPORT_SYMBOL_GPL(iommu_unmap_fast);
-  2011	
-> 2012	size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
-  2013			    struct scatterlist *sg, unsigned int nents, int prot,
-  2014			    gfp_t gfp)
-  2015	{
-  2016		size_t len = 0, mapped = 0;
-  2017		phys_addr_t start;
-  2018		unsigned int i = 0;
-  2019		int ret;
-  2020	
-  2021		while (i <= nents) {
-  2022			phys_addr_t s_phys = sg_phys(sg);
-  2023	
-  2024			if (len && s_phys != start + len) {
-  2025				ret = __iommu_map(domain, iova + mapped, start,
-  2026						len, prot, gfp);
-  2027	
-  2028				if (ret)
-  2029					goto out_err;
-  2030	
-  2031				mapped += len;
-  2032				len = 0;
-  2033			}
-  2034	
-  2035			if (len) {
-  2036				len += sg->length;
-  2037			} else {
-  2038				len = sg->length;
-  2039				start = s_phys;
-  2040			}
-  2041	
-  2042			if (++i < nents)
-  2043				sg = sg_next(sg);
-  2044		}
-  2045	
-  2046		return mapped;
-  2047	
-  2048	out_err:
-  2049		/* undo mappings already done */
-  2050		iommu_unmap(domain, iova, mapped);
-  2051	
-  2052		return 0;
-  2053	
+bc22c17e12c130 Alain Knaff     2009-01-04  676  
+bc22c17e12c130 Alain Knaff     2009-01-04  677  /* Example usage: decompress src_fd to dst_fd.  (Stops at end of bzip2 data,
+bc22c17e12c130 Alain Knaff     2009-01-04  678     not end of file.) */
+d97b07c54f34e8 Yinghai Lu      2014-08-08  679  STATIC int INIT bunzip2(unsigned char *buf, long len,
+d97b07c54f34e8 Yinghai Lu      2014-08-08  680  			long (*fill)(void*, unsigned long),
+d97b07c54f34e8 Yinghai Lu      2014-08-08  681  			long (*flush)(void*, unsigned long),
+bc22c17e12c130 Alain Knaff     2009-01-04  682  			unsigned char *outbuf,
+d97b07c54f34e8 Yinghai Lu      2014-08-08  683  			long *pos,
+93685ad247ef65 Lasse Collin    2011-01-12  684  			void(*error)(char *x))
+bc22c17e12c130 Alain Knaff     2009-01-04  685  {
+bc22c17e12c130 Alain Knaff     2009-01-04  686  	struct bunzip_data *bd;
+bc22c17e12c130 Alain Knaff     2009-01-04  687  	int i = -1;
+bc22c17e12c130 Alain Knaff     2009-01-04  688  	unsigned char *inbuf;
+bc22c17e12c130 Alain Knaff     2009-01-04  689  
+bc22c17e12c130 Alain Knaff     2009-01-04  690  	if (flush)
+bc22c17e12c130 Alain Knaff     2009-01-04  691  		outbuf = malloc(BZIP2_IOBUF_SIZE);
+b1af4315d823a2 Phillip Lougher 2009-08-06  692  
+bc22c17e12c130 Alain Knaff     2009-01-04  693  	if (!outbuf) {
+90802ed9c3dbab Paul Bolle      2011-12-05  694  		error("Could not allocate output buffer");
+d4529862cae4de Phillip Lougher 2009-12-14  695  		return RETVAL_OUT_OF_MEMORY;
+bc22c17e12c130 Alain Knaff     2009-01-04  696  	}
+bc22c17e12c130 Alain Knaff     2009-01-04  697  	if (buf)
+bc22c17e12c130 Alain Knaff     2009-01-04  698  		inbuf = buf;
+bc22c17e12c130 Alain Knaff     2009-01-04  699  	else
+bc22c17e12c130 Alain Knaff     2009-01-04  700  		inbuf = malloc(BZIP2_IOBUF_SIZE);
+bc22c17e12c130 Alain Knaff     2009-01-04  701  	if (!inbuf) {
+90802ed9c3dbab Paul Bolle      2011-12-05  702  		error("Could not allocate input buffer");
+d4529862cae4de Phillip Lougher 2009-12-14  703  		i = RETVAL_OUT_OF_MEMORY;
+bc22c17e12c130 Alain Knaff     2009-01-04  704  		goto exit_0;
+bc22c17e12c130 Alain Knaff     2009-01-04  705  	}
+bc22c17e12c130 Alain Knaff     2009-01-04  706  	i = start_bunzip(&bd, inbuf, len, fill);
+bc22c17e12c130 Alain Knaff     2009-01-04  707  	if (!i) {
+bc22c17e12c130 Alain Knaff     2009-01-04  708  		for (;;) {
+bc22c17e12c130 Alain Knaff     2009-01-04 @709  			i = read_bunzip(bd, outbuf, BZIP2_IOBUF_SIZE);
+bc22c17e12c130 Alain Knaff     2009-01-04  710  			if (i <= 0)
+bc22c17e12c130 Alain Knaff     2009-01-04  711  				break;
+bc22c17e12c130 Alain Knaff     2009-01-04  712  			if (!flush)
+bc22c17e12c130 Alain Knaff     2009-01-04  713  				outbuf += i;
+bc22c17e12c130 Alain Knaff     2009-01-04  714  			else
+bc22c17e12c130 Alain Knaff     2009-01-04  715  				if (i != flush(outbuf, i)) {
+bc22c17e12c130 Alain Knaff     2009-01-04  716  					i = RETVAL_UNEXPECTED_OUTPUT_EOF;
+bc22c17e12c130 Alain Knaff     2009-01-04  717  					break;
+bc22c17e12c130 Alain Knaff     2009-01-04  718  				}
+bc22c17e12c130 Alain Knaff     2009-01-04  719  		}
+bc22c17e12c130 Alain Knaff     2009-01-04  720  	}
+bc22c17e12c130 Alain Knaff     2009-01-04  721  	/* Check CRC and release memory */
+bc22c17e12c130 Alain Knaff     2009-01-04  722  	if (i == RETVAL_LAST_BLOCK) {
+bc22c17e12c130 Alain Knaff     2009-01-04  723  		if (bd->headerCRC != bd->totalCRC)
+bc22c17e12c130 Alain Knaff     2009-01-04  724  			error("Data integrity error when decompressing.");
+bc22c17e12c130 Alain Knaff     2009-01-04  725  		else
+bc22c17e12c130 Alain Knaff     2009-01-04  726  			i = RETVAL_OK;
+bc22c17e12c130 Alain Knaff     2009-01-04  727  	} else if (i == RETVAL_UNEXPECTED_OUTPUT_EOF) {
+bc22c17e12c130 Alain Knaff     2009-01-04  728  		error("Compressed file ends unexpectedly");
+bc22c17e12c130 Alain Knaff     2009-01-04  729  	}
+d4529862cae4de Phillip Lougher 2009-12-14  730  	if (!bd)
+d4529862cae4de Phillip Lougher 2009-12-14  731  		goto exit_1;
+bc22c17e12c130 Alain Knaff     2009-01-04  732  	if (bd->dbuf)
+bc22c17e12c130 Alain Knaff     2009-01-04  733  		large_free(bd->dbuf);
+bc22c17e12c130 Alain Knaff     2009-01-04  734  	if (pos)
+bc22c17e12c130 Alain Knaff     2009-01-04  735  		*pos = bd->inbufPos;
+bc22c17e12c130 Alain Knaff     2009-01-04  736  	free(bd);
+d4529862cae4de Phillip Lougher 2009-12-14  737  exit_1:
+bc22c17e12c130 Alain Knaff     2009-01-04  738  	if (!buf)
+bc22c17e12c130 Alain Knaff     2009-01-04  739  		free(inbuf);
+bc22c17e12c130 Alain Knaff     2009-01-04  740  exit_0:
+bc22c17e12c130 Alain Knaff     2009-01-04  741  	if (flush)
+bc22c17e12c130 Alain Knaff     2009-01-04  742  		free(outbuf);
+bc22c17e12c130 Alain Knaff     2009-01-04  743  	return i;
+bc22c17e12c130 Alain Knaff     2009-01-04  744  }
+bc22c17e12c130 Alain Knaff     2009-01-04  745  
+
+:::::: The code at line 709 was first introduced by commit
+:::::: bc22c17e12c130dc929218a95aa347e0f3fd05dc bzip2/lzma: library support for gzip, bzip2 and lzma decompression
+
+:::::: TO: Alain Knaff <alain@knaff.lu>
+:::::: CC: H. Peter Anvin <hpa@zytor.com>
 
 -- 
 0-DAY CI Kernel Test Service
