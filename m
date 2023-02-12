@@ -1,43 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD22FAE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 16:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975972FAE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 16:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676220589; x=1707756589;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sC5HhrSBAtgf/43+i5cNnzoN8UqRfa8nA28LWkhHUew=;
-  b=LP1Ht7xtydjmBSxVI1z4uWjiddgkK5c7w1tdpKkPgjeU2QAVQdLGCS53
-   5cU29ImQlxQRf8Y44BqEQHYoIoZEdXGT3ilzpAwPSZvXKYkwvzLozVUxB
-   t6v4lb/KWxyzl6tfiYeQey6xC5JGTQiaQORi7vMqp2cTRpJDdG36t17sH
-   D2f0cZAC9EnYPtYbJ709+tZr/nzd7oZxb9FNOV5tQrfpB1dS8lwX1P4Wm
-   SOcxS6ans+AhaW7A2uLkpMSYsqBkwkAG2AfZshajyQNt+td/n0UZeWJus
-   +WJ+7EhllvsHEMxbgqoI0PivsCUpQ119xP4LngKK8uFmCjvhlTHgsFe1U
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="318753834"
+  t=1676221189; x=1707757189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ck7G91t0brpA6ea1pEZ4W1do4v2u7B6suAMwewl1iDE=;
+  b=lERrGM8bfDRD1mCy3OXM+aal4FAVqba7OsjEo9lE+XkfcfTuAGnSBxfa
+   QAP4d2LDmwUfnyRJQaMWwHVlJPP1rpHgFyJxBQsJh+6EJz9Sqxu2A7c/b
+   WhLEX2LM3/FXErhQsvxL54DDYOLh0qgH17rJaNWBfWTiMJIIdPlWJ/7V5
+   BmVOgMPsdrKs+kLmpUD4Swg7rL86CJWL+sZrlEC1/w3l9V2MVAaABW9YB
+   o9CBdVOwTHSdmP2rPSIT5M7RLj0y0688UO9DGbyaahfS0t/MF1f2kH47V
+   vUzS5QKfUlEZAxahfL5dvo8LcuDDMzpL0TYBQN+w/M+MH9bBMR4Dbf4yJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314374429"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="318753834"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 08:49:49 -0800
+   d="scan'208";a="314374429"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 08:59:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="661929113"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="698943486"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="661929113"
+   d="scan'208";a="698943486"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 08:49:47 -0800
+  by orsmga008.jf.intel.com with ESMTP; 12 Feb 2023 08:59:48 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRFXv-0007Ic-0X;
-	Sun, 12 Feb 2023 16:49:47 +0000
-Date: Mon, 13 Feb 2023 00:49:05 +0800
+	id 1pRFhb-0007JB-1W;
+	Sun, 12 Feb 2023 16:59:47 +0000
+Date: Mon, 13 Feb 2023 00:59:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+To: Vincent Donnefort <vdonnefort@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [povik:asahi-6.2-rc3-7_dp-altmode-wip 5/6]
- drivers/usb/typec/mux.c:422:41: warning: format '%x' expects argument of
- type 'unsigned int', but argument 4 has type 'long unsigned int'
-Message-ID: <202302130004.KZeiAyAB-lkp@intel.com>
+Subject: Re: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping
+ functions
+Message-ID: <202302130039.AbtnfYQZ-lkp@intel.com>
+References: <20230212153250.1099136-2-vdonnefort@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,86 +47,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230212153250.1099136-2-vdonnefort@google.com>
 
-tree:   https://github.com/povik/linux asahi-6.2-rc3-7_dp-altmode-wip
-head:   72e7196879b629343123a0459d858ef161061600
-commit: 040e50c16296093a0a739743387b95e51beedf55 [5/6] WIP: typec/tipd/altmode/displayport: debugging
-config: sparc64-randconfig-r015-20230212 (https://download.01.org/0day-ci/archive/20230213/202302130004.KZeiAyAB-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+Hi Vincent,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc7 next-20230210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230212-233420
+patch link:    https://lore.kernel.org/r/20230212153250.1099136-2-vdonnefort%40google.com
+patch subject: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping functions
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230213/202302130039.AbtnfYQZ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/povik/linux/commit/040e50c16296093a0a739743387b95e51beedf55
-        git remote add povik https://github.com/povik/linux
-        git fetch --no-tags povik asahi-6.2-rc3-7_dp-altmode-wip
-        git checkout 040e50c16296093a0a739743387b95e51beedf55
+        # https://github.com/intel-lab-lkp/linux/commit/96cfb7d92682fb5df39febc590fec75748b47e15
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230212-233420
+        git checkout 96cfb7d92682fb5df39febc590fec75748b47e15
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash drivers/usb/typec/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302130004.KZeiAyAB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302130039.AbtnfYQZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from drivers/usb/typec/mux.c:10:
-   drivers/usb/typec/mux.c: In function 'typec_mux_set':
->> drivers/usb/typec/mux.c:422:41: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
-     422 |                 dev_warn(&mux_dev->dev, "%s: 0x%02x\n", __func__, state->mode);
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/usb/typec/mux.c:422:17: note: in expansion of macro 'dev_warn'
-     422 |                 dev_warn(&mux_dev->dev, "%s: 0x%02x\n", __func__, state->mode);
-         |                 ^~~~~~~~
-   drivers/usb/typec/mux.c:422:51: note: format string is defined here
-     422 |                 dev_warn(&mux_dev->dev, "%s: 0x%02x\n", __func__, state->mode);
-         |                                                ~~~^
-         |                                                   |
-         |                                                   unsigned int
-         |                                                %02lx
---
->> drivers/usb/typec/tipd/displayport.c:210:5: warning: no previous prototype for 'tps6598x_displayport_notify' [-Wmissing-prototypes]
-     210 | int tps6598x_displayport_notify(struct typec_altmode *alt, unsigned long conf,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/tipd/displayport.c: In function 'tps6598x_displayport_notify':
-   drivers/usb/typec/tipd/displayport.c:213:37: warning: unused variable 'partner' [-Wunused-variable]
-     213 |         const struct typec_altmode *partner = typec_altmode_get_partner(alt);
-         |                                     ^~~~~~~
+>> kernel/trace/ring_buffer.c:6017:6: warning: no previous prototype for 'rb_put_mapped_buffer' [-Wmissing-prototypes]
+    6017 | void rb_put_mapped_buffer(struct ring_buffer_per_cpu *cpu_buffer)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +422 drivers/usb/typec/mux.c
+vim +/rb_put_mapped_buffer +6017 kernel/trace/ring_buffer.c
 
-   410	
-   411	int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
-   412	{
-   413		struct typec_mux_dev *mux_dev;
-   414		unsigned int i;
-   415		int ret;
-   416	
-   417		if (IS_ERR_OR_NULL(mux))
-   418			return 0;
-   419	
-   420		for (i = 0; i < mux->num_mux_devs; i++) {
-   421			mux_dev = mux->mux_devs[i];
- > 422			dev_warn(&mux_dev->dev, "%s: 0x%02x\n", __func__, state->mode);
-   423	
-   424			ret = mux_dev->set(mux_dev, state);
-   425			if (ret)
-   426				return ret;
-   427		}
-   428	
-   429		return 0;
-   430	}
-   431	EXPORT_SYMBOL_GPL(typec_mux_set);
-   432	
+  6016	
+> 6017	void rb_put_mapped_buffer(struct ring_buffer_per_cpu *cpu_buffer)
+  6018	{
+  6019		up_read(&cpu_buffer->mapping_lock);
+  6020	}
+  6021	
 
 -- 
 0-DAY CI Kernel Test Service
