@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04A6538F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 20:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424937E5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 21:47:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676232353; x=1707768353;
+  t=1676238475; x=1707774475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=asUFCyKEJ+zUdco4KMLT5pQBWx42v3iG6j5CX3LWmf0=;
-  b=Ew3Pyib/YsH1fGY15TsvtPmDjlBFB2kvbsmQ68ZeVZJfC8DeCNIjd/Hr
-   OnGF4GEIxKrJ5CsBsoKk+MLDa1pZjull6i6RlVhG8VlpdrAzBSBq91EYa
-   Z6BB15bdMcNiMStTp46qaiSuqVkOTQiYAnv4hf5seNU85Ag6UEfcG9/eX
-   mn3xfC+HF3A6b3UthZgVZjIX88pnjZ3AUSiW2K7xR9yyE+oD0rpXKQIjq
-   LjnAKwRt9REP3nIroDFlbERR0o/7emrqtpRGskkZ6Z1EIWqca/Sp7+Y97
-   myfyLbUlcNGXHIyHQny2XwPn9jLSqxTgi7px0ZBbzpbGg+G0AP0qpSgAN
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314395492"
+  bh=W9VHxmt5OExJwTOnHFZ/HUvyDmFFCgydGvIbDkfecp4=;
+  b=Qy4+kftKC6X15D9E7WC8ELxYoSqOJv/ri0kFakSWkWlEvsArwmtAXCCp
+   m7FKo6Wg941XlQ+IfR/vy9HuCoyMk3NLpBan5TawWAAZtnVEJYPntyNDQ
+   6ojhUA7aqHMbzUXZkdmXxmXp3u4FMye4WYxQjrlMCWJ+Nx5P8sASt0LLh
+   dyK9Yc/0V8YW1Px8MbyuxRjdXUjMfbtuQz6/JVcFP9IL9RH04ryUytgbp
+   +lgSUYBtb391eYOjFmYvS8LKU3snP82tslzmORIo/304hi9pz8nWWUhpV
+   XlV3lUkYV4DnnjCSez6cI+n5x4qqmwckkGNXv+DWVRgExwwRSzcOlgAW8
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="318785893"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="314395492"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 12:05:52 -0800
+   d="scan'208";a="318785893"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 13:47:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670590927"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="811392676"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="670590927"
+   d="scan'208";a="811392676"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Feb 2023 12:05:52 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 12 Feb 2023 13:47:53 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRIbf-0007NJ-0Z;
-	Sun, 12 Feb 2023 20:05:51 +0000
-Date: Mon, 13 Feb 2023 04:05:33 +0800
+	id 1pRKCO-0007Ov-1A;
+	Sun, 12 Feb 2023 21:47:52 +0000
+Date: Mon, 13 Feb 2023 05:47:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [povik:asahi-6.2-rc3-7_dp-altmode-wip 2256/2268]
- drivers/mux/apple-display-crossbar.c:267:1: warning: 'static' is not at
- beginning of declaration
-Message-ID: <202302130310.xrv1A6pX-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:gpiochip-no-driver-h 5/5] arch/mips/ar7/gpio.c:24:38:
+ warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer
+ from integer without a cast
+Message-ID: <202302130551.RReykD8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +47,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/povik/linux asahi-6.2-rc3-7_dp-altmode-wip
-head:   72e7196879b629343123a0459d858ef161061600
-commit: 9973c2a54f51ded15596231a192b75a30d98de5c [2256/2268] crossbar WIP
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230213/202302130310.xrv1A6pX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git gpiochip-no-driver-h
+head:   df771cce328bbd37333797d0df3471c2e03ecb03
+commit: df771cce328bbd37333797d0df3471c2e03ecb03 [5/5] gpio: Make the legacy <linux/gpio.h> consumer-only
+config: mips-ar7_defconfig (https://download.01.org/0day-ci/archive/20230213/202302130551.RReykD8t-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/povik/linux/commit/9973c2a54f51ded15596231a192b75a30d98de5c
-        git remote add povik https://github.com/povik/linux
-        git fetch --no-tags povik asahi-6.2-rc3-7_dp-altmode-wip
-        git checkout 9973c2a54f51ded15596231a192b75a30d98de5c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git/commit/?id=df771cce328bbd37333797d0df3471c2e03ecb03
+        git remote add linusw-gpio https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git
+        git fetch --no-tags linusw-gpio gpiochip-no-driver-h
+        git checkout df771cce328bbd37333797d0df3471c2e03ecb03
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/mux/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash arch/mips/ar7/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302130310.xrv1A6pX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302130551.RReykD8t-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mux/apple-display-crossbar.c:267:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     267 | const static struct apple_dpxbar_hw apple_dpxbar_hw_t8103 = {
-         | ^~~~~
-   drivers/mux/apple-display-crossbar.c:272:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     272 | const static struct apple_dpxbar_hw apple_dpxbar_hw_t6000 = {
-         | ^~~~~
+   arch/mips/ar7/gpio.c:19:33: error: field 'chip' has incomplete type
+      19 |         struct gpio_chip        chip;
+         |                                 ^~~~
+   arch/mips/ar7/gpio.c: In function 'ar7_gpio_get_value':
+   arch/mips/ar7/gpio.c:24:38: error: implicit declaration of function 'gpiochip_get_data' [-Werror=implicit-function-declaration]
+      24 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+>> arch/mips/ar7/gpio.c:24:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/mips/ar7/gpio.c: In function 'titan_gpio_get_value':
+   arch/mips/ar7/gpio.c:32:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      32 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'ar7_gpio_set_value':
+   arch/mips/ar7/gpio.c:42:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      42 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'titan_gpio_set_value':
+   arch/mips/ar7/gpio.c:55:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      55 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'ar7_gpio_direction_input':
+   arch/mips/ar7/gpio.c:68:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      68 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'titan_gpio_direction_input':
+   arch/mips/ar7/gpio.c:78:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      78 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'ar7_gpio_direction_output':
+   arch/mips/ar7/gpio.c:93:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      93 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'titan_gpio_direction_output':
+   arch/mips/ar7/gpio.c:105:38: warning: initialization of 'struct ar7_gpio_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     105 |         struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+         |                                      ^~~~~~~~~~~~~~~~~
+   arch/mips/ar7/gpio.c: In function 'ar7_gpio_init':
+   arch/mips/ar7/gpio.c:318:15: error: implicit declaration of function 'gpiochip_add_data' [-Werror=implicit-function-declaration]
+     318 |         ret = gpiochip_add_data(&gpch->chip, gpch);
+         |               ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/static +267 drivers/mux/apple-display-crossbar.c
+vim +24 arch/mips/ar7/gpio.c
 
-   266	
- > 267	const static struct apple_dpxbar_hw apple_dpxbar_hw_t8103 = {
-   268		.n_ufp = 2,
-   269		.tunable = 0,
-   270	};
-   271	
+7ca5dc145bc7da Florian Fainelli 2009-06-24  21  
+5f3c909881d5de Florian Fainelli 2010-01-03  22  static int ar7_gpio_get_value(struct gpio_chip *chip, unsigned gpio)
+7ca5dc145bc7da Florian Fainelli 2009-06-24  23  {
+1b2766fb496c46 Linus Walleij    2015-12-08 @24  	struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
+5f3c909881d5de Florian Fainelli 2010-01-03  25  	void __iomem *gpio_in = gpch->regs + AR7_GPIO_INPUT;
+7ca5dc145bc7da Florian Fainelli 2009-06-24  26  
+249e573d99ab59 Linus Walleij    2015-12-22  27  	return !!(readl(gpio_in) & (1 << gpio));
+5f3c909881d5de Florian Fainelli 2010-01-03  28  }
+5f3c909881d5de Florian Fainelli 2010-01-03  29  
+
+:::::: The code at line 24 was first introduced by commit
+:::::: 1b2766fb496c462b3f6e1d1c52c72f8601ac8540 MIPS: ar7: use gpiochip data pointer
+
+:::::: TO: Linus Walleij <linus.walleij@linaro.org>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
