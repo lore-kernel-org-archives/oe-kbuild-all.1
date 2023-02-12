@@ -1,44 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912BE2F3F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Feb 2023 23:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B939CEA0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 01:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676159791; x=1707695791;
+  t=1676166514; x=1707702514;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qf+7zSVyfc6q4RCtZjiedzlVwz73Fq3Xup1fjjHBEA0=;
-  b=TdoIPNsVH9qHqSUKCjnUhnxxqcH3ODq4OTHlX3ndXR01ueV+dnxMCgc6
-   zuYYTtjyeVndeqZIUAiA8cEh8ryj1PVNAVFGX4ONtOJpdxVnQi7juaPjt
-   nxsyazty5oq/qXCS0G+Tc5FX4vqnJavVgjGaxpzORNKzTOyCgUDzdKs9U
-   1PSuUJ+s8r/KaisC2TbFL/6CQmQZbgSHbeP+gbS0HbRpJbaE0nZyKExpf
-   ibApgscqJ+FMZLACtiPRzArNeTYAWJhaVzkSMXAFn8fwBVKjkpPuiK0Ij
-   HJ/mIbIIWncWH0lLVhjbb8pPYjud0nNUVAVc+jTElWyAowi5OAs/Mia2q
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="331976613"
+  bh=PhAygreb3oLikijwNv3wBlSTqlFo5y8e8Q/XwizXPtE=;
+  b=N1NaV55UFz1LdTStqKh4MbMYkw0CDT5CHWQW3NQzXt3u63m0TT25iPKG
+   pvHWPWXk8F3DdwkPBV7IIxCfcfGk0NnXXpA1bNujafqogR+r+QJrqOk68
+   N5Sg1m8DRShRykCsdDrm7pLOCIIjjSlHi6jy560Kuwo6lrMBWcuAWmgcH
+   fA72LODtFVNHCtRT3WtKKMSOdYvpPy21Y5u2ByzzCCUW/qduy/ekzJAFH
+   evPnI8uSjV70342YsB/8yLIDPTxhY071Pnlm1A8EBsR3z2QQ4TPmbKbJT
+   jsJAG2wBc+wE9yoYgfPO9q9RxQbDOvD6Bo72npE4swhGaui1O0zzM51a9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="330691524"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="331976613"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 15:56:30 -0800
+   d="scan'208";a="330691524"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 17:48:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="661767129"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="618254234"
 X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="661767129"
+   d="scan'208";a="618254234"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 Feb 2023 15:56:28 -0800
+  by orsmga003.jf.intel.com with ESMTP; 11 Feb 2023 17:48:32 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQzjI-0006s5-07;
-	Sat, 11 Feb 2023 23:56:28 +0000
-Date: Sun, 12 Feb 2023 07:55:54 +0800
+	id 1pR1Ti-0006vp-33;
+	Sun, 12 Feb 2023 01:48:30 +0000
+Date: Sun, 12 Feb 2023 09:48:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Schmitz <schmitzmic@gmail.com>
-Subject: drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: incorrect
- type in initializer (different base types)
-Message-ID: <202302120733.XDmW1EeP-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/soc/ti/knav_qmss_queue.c:1381:31: sparse: sparse: incorrect
+ type in return expression (different address spaces)
+Message-ID: <202302120935.shmdDgY7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,157 +47,255 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   47e9aa14ce5abca70d6584a8d8213707d197c38e
-commit: 30b5e6ef4a32ea4985b99200e06d6660a69f9246 m68k: atari: Make Atari ROM port I/O write macros return void
-date:   9 months ago
-config: m68k-randconfig-s033-20230212 (https://download.01.org/0day-ci/archive/20230212/202302120733.XDmW1EeP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+head:   f339c2597ebb00e738f2b6328c14804ed19f5d57
+commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
+date:   10 months ago
+config: arm-randconfig-s051-20230212 (https://download.01.org/0day-ci/archive/20230212/202302120935.shmdDgY7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=30b5e6ef4a32ea4985b99200e06d6660a69f9246
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 30b5e6ef4a32ea4985b99200e06d6660a69f9246
+        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/tty/ipwireless/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/soc/ti/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302120733.XDmW1EeP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302120935.shmdDgY7-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: cast from restricted __le16
-   drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     expected unsigned short [usertype] val
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: cast from restricted __le16
-   drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: cast from restricted __le16
->> drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [unused] [usertype] __v @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     expected unsigned short [unused] [usertype] __v
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
->> drivers/tty/ipwireless/hardware.c:431:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [unused] [usertype] __v @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     expected unsigned short [unused] [usertype] __v
-   drivers/tty/ipwireless/hardware.c:431:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: cast from restricted __le16
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     expected unsigned short [usertype] val
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: cast from restricted __le16
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: cast from restricted __le16
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [unused] [usertype] __v @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     expected unsigned short [unused] [usertype] __v
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:445:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [unused] [usertype] __v @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     expected unsigned short [unused] [usertype] __v
-   drivers/tty/ipwireless/hardware.c:445:25: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:863:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:863:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:863:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:863:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:872:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:872:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:872:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:872:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:872:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] raw_data @@     got int @@
-   drivers/tty/ipwireless/hardware.c:872:43: sparse:     expected restricted __le16 [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:872:43: sparse:     got int
-   drivers/tty/ipwireless/hardware.c:879:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:879:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:879:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:879:23: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:889:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:889:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:889:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:889:43: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:889:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] raw_data @@     got int @@
-   drivers/tty/ipwireless/hardware.c:889:43: sparse:     expected restricted __le16 [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:889:43: sparse:     got int
-   drivers/tty/ipwireless/hardware.c:897:25: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:897:25: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:897:25: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:897:25: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1051:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1051:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1051:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1051:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1062:16: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1062:16: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1062:16: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1062:16: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1607:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1607:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1607:24: sparse: sparse: cast to restricted __le16
-   drivers/tty/ipwireless/hardware.c:1607:24: sparse: sparse: cast to restricted __le16
+   drivers/soc/ti/knav_qmss_queue.c:70:12: sparse: sparse: symbol 'knav_acc_firmwares' was not declared. Should it be static?
+>> drivers/soc/ti/knav_qmss_queue.c:1381:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/soc/ti/knav_qmss_queue.c:1381:31: sparse:     expected void [noderef] __iomem *
+   drivers/soc/ti/knav_qmss_queue.c:1381:31: sparse:     got void *
+>> drivers/soc/ti/knav_qmss_queue.c:1553:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int [usertype] *[noderef] __iomem addr @@     got unsigned int [noderef] __iomem * @@
+   drivers/soc/ti/knav_qmss_queue.c:1553:41: sparse:     expected unsigned int [usertype] *[noderef] __iomem addr
+   drivers/soc/ti/knav_qmss_queue.c:1553:41: sparse:     got unsigned int [noderef] __iomem *
+>> drivers/soc/ti/knav_qmss_queue.c:1597:17: sparse: sparse: cast to restricted __be32
+>> drivers/soc/ti/knav_qmss_queue.c:1624:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int [usertype] *[noderef] __iomem addr @@     got void [noderef] __iomem *command @@
+   drivers/soc/ti/knav_qmss_queue.c:1624:40: sparse:     expected unsigned int [usertype] *[noderef] __iomem addr
+   drivers/soc/ti/knav_qmss_queue.c:1624:40: sparse:     got void [noderef] __iomem *command
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *[noderef] __iomem addr @@
+   drivers/soc/ti/knav_qmss_queue.c:491:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/ti/knav_qmss_queue.c:491:23: sparse:     got unsigned int [usertype] *[noderef] __iomem addr
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: dereference of noderef expression
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: dereference of noderef expression
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *[noderef] __iomem addr @@
+   drivers/soc/ti/knav_qmss_queue.c:491:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/ti/knav_qmss_queue.c:491:23: sparse:     got unsigned int [usertype] *[noderef] __iomem addr
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: dereference of noderef expression
+>> drivers/soc/ti/knav_qmss_queue.c:491:23: sparse: sparse: dereference of noderef expression
 
-vim +431 drivers/tty/ipwireless/hardware.c
+vim +1381 drivers/soc/ti/knav_qmss_queue.c
 
-d54c2752f6bb6c drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  403  
-93110f698fe92f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  404  static void do_send_fragment(struct ipw_hardware *hw, unsigned char *data,
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  405  			    unsigned length)
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  406  {
-d4c0deb7009217 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  407  	unsigned i;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  408  	unsigned long flags;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  409  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  410  	start_timing();
-93110f698fe92f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  411  	BUG_ON(length > hw->ll_mtu);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  412  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  413  	if (ipwireless_debug)
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  414  		dump_data_bytes("send", data, length);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  415  
-63c4dbd1023b9a drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  416  	spin_lock_irqsave(&hw->lock, flags);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  417  
-eb4e545d4ac82d drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-06-06  418  	hw->tx_ready = 0;
-d54c2752f6bb6c drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  419  	swap_packet_bitfield_to_le(data);
-eb4e545d4ac82d drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-06-06  420  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  421  	if (hw->hw_version == HW_VERSION_1) {
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  422  		outw((unsigned short) length, hw->base_port + IODWR);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  423  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  424  		for (i = 0; i < length; i += 2) {
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  425  			unsigned short d = data[i];
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  426  			__le16 raw_data;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  427  
-d4c0deb7009217 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  428  			if (i + 1 < length)
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  429  				d |= data[i + 1] << 8;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  430  			raw_data = cpu_to_le16(d);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07 @431  			outw(raw_data, hw->base_port + IODWR);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  432  		}
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  433  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  434  		outw(DCR_TXDONE, hw->base_port + IODCR);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  435  	} else if (hw->hw_version == HW_VERSION_2) {
-2e713165f892c8 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  436  		outw((unsigned short) length, hw->base_port);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  437  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  438  		for (i = 0; i < length; i += 2) {
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  439  			unsigned short d = data[i];
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  440  			__le16 raw_data;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  441  
-d4c0deb7009217 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  442  			if (i + 1 < length)
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  443  				d |= data[i + 1] << 8;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  444  			raw_data = cpu_to_le16(d);
-2e713165f892c8 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  445  			outw(raw_data, hw->base_port);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  446  		}
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  447  		while ((i & 3) != 2) {
-2e713165f892c8 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  448  			outw((unsigned short) 0xDEAD, hw->base_port);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  449  			i += 2;
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  450  		}
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  451  		writew(MEMRX_RX, &hw->memory_info_regs->memreg_rx);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  452  	}
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  453  
-63c4dbd1023b9a drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  454  	spin_unlock_irqrestore(&hw->lock, flags);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  455  
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  456  	end_write_timing(length);
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  457  }
-099dc4fb62653f drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  458  
+41f93af900a20d Sandeep Nair     2014-02-28  1369  
+41f93af900a20d Sandeep Nair     2014-02-28  1370  static void __iomem *knav_queue_map_reg(struct knav_device *kdev,
+41f93af900a20d Sandeep Nair     2014-02-28  1371  					struct device_node *node, int index)
+41f93af900a20d Sandeep Nair     2014-02-28  1372  {
+41f93af900a20d Sandeep Nair     2014-02-28  1373  	struct resource res;
+41f93af900a20d Sandeep Nair     2014-02-28  1374  	void __iomem *regs;
+41f93af900a20d Sandeep Nair     2014-02-28  1375  	int ret;
+41f93af900a20d Sandeep Nair     2014-02-28  1376  
+41f93af900a20d Sandeep Nair     2014-02-28  1377  	ret = of_address_to_resource(node, index, &res);
+41f93af900a20d Sandeep Nair     2014-02-28  1378  	if (ret) {
+dc37a25252717a Rob Herring      2018-08-27  1379  		dev_err(kdev->dev, "Can't translate of node(%pOFn) address for index(%d)\n",
+dc37a25252717a Rob Herring      2018-08-27  1380  			node, index);
+41f93af900a20d Sandeep Nair     2014-02-28 @1381  		return ERR_PTR(ret);
+41f93af900a20d Sandeep Nair     2014-02-28  1382  	}
+41f93af900a20d Sandeep Nair     2014-02-28  1383  
+41f93af900a20d Sandeep Nair     2014-02-28  1384  	regs = devm_ioremap_resource(kdev->dev, &res);
+41f93af900a20d Sandeep Nair     2014-02-28  1385  	if (IS_ERR(regs))
+dc37a25252717a Rob Herring      2018-08-27  1386  		dev_err(kdev->dev, "Failed to map register base for index(%d) node(%pOFn)\n",
+dc37a25252717a Rob Herring      2018-08-27  1387  			index, node);
+41f93af900a20d Sandeep Nair     2014-02-28  1388  	return regs;
+41f93af900a20d Sandeep Nair     2014-02-28  1389  }
+41f93af900a20d Sandeep Nair     2014-02-28  1390  
+41f93af900a20d Sandeep Nair     2014-02-28  1391  static int knav_queue_init_qmgrs(struct knav_device *kdev,
+41f93af900a20d Sandeep Nair     2014-02-28  1392  					struct device_node *qmgrs)
+41f93af900a20d Sandeep Nair     2014-02-28  1393  {
+41f93af900a20d Sandeep Nair     2014-02-28  1394  	struct device *dev = kdev->dev;
+41f93af900a20d Sandeep Nair     2014-02-28  1395  	struct knav_qmgr_info *qmgr;
+41f93af900a20d Sandeep Nair     2014-02-28  1396  	struct device_node *child;
+41f93af900a20d Sandeep Nair     2014-02-28  1397  	u32 temp[2];
+41f93af900a20d Sandeep Nair     2014-02-28  1398  	int ret;
+41f93af900a20d Sandeep Nair     2014-02-28  1399  
+41f93af900a20d Sandeep Nair     2014-02-28  1400  	for_each_child_of_node(qmgrs, child) {
+41f93af900a20d Sandeep Nair     2014-02-28  1401  		qmgr = devm_kzalloc(dev, sizeof(*qmgr), GFP_KERNEL);
+41f93af900a20d Sandeep Nair     2014-02-28  1402  		if (!qmgr) {
+a88f66d4a8668e Vasyl Gomonovych 2021-01-24  1403  			of_node_put(child);
+41f93af900a20d Sandeep Nair     2014-02-28  1404  			dev_err(dev, "out of memory allocating qmgr\n");
+41f93af900a20d Sandeep Nair     2014-02-28  1405  			return -ENOMEM;
+41f93af900a20d Sandeep Nair     2014-02-28  1406  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1407  
+41f93af900a20d Sandeep Nair     2014-02-28  1408  		ret = of_property_read_u32_array(child, "managed-queues",
+41f93af900a20d Sandeep Nair     2014-02-28  1409  						 temp, 2);
+41f93af900a20d Sandeep Nair     2014-02-28  1410  		if (!ret) {
+41f93af900a20d Sandeep Nair     2014-02-28  1411  			qmgr->start_queue = temp[0];
+41f93af900a20d Sandeep Nair     2014-02-28  1412  			qmgr->num_queues = temp[1];
+41f93af900a20d Sandeep Nair     2014-02-28  1413  		} else {
+41f93af900a20d Sandeep Nair     2014-02-28  1414  			dev_err(dev, "invalid qmgr queue range\n");
+41f93af900a20d Sandeep Nair     2014-02-28  1415  			devm_kfree(dev, qmgr);
+41f93af900a20d Sandeep Nair     2014-02-28  1416  			continue;
+41f93af900a20d Sandeep Nair     2014-02-28  1417  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1418  
+41f93af900a20d Sandeep Nair     2014-02-28  1419  		dev_info(dev, "qmgr start queue %d, number of queues %d\n",
+41f93af900a20d Sandeep Nair     2014-02-28  1420  			 qmgr->start_queue, qmgr->num_queues);
+41f93af900a20d Sandeep Nair     2014-02-28  1421  
+41f93af900a20d Sandeep Nair     2014-02-28  1422  		qmgr->reg_peek =
+41f93af900a20d Sandeep Nair     2014-02-28  1423  			knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1424  					   KNAV_QUEUE_PEEK_REG_INDEX);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1425  
+350601b4f7ab45 Murali Karicheri 2018-04-17  1426  		if (kdev->version == QMSS) {
+41f93af900a20d Sandeep Nair     2014-02-28  1427  			qmgr->reg_status =
+41f93af900a20d Sandeep Nair     2014-02-28  1428  				knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1429  						   KNAV_QUEUE_STATUS_REG_INDEX);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1430  		}
+350601b4f7ab45 Murali Karicheri 2018-04-17  1431  
+41f93af900a20d Sandeep Nair     2014-02-28  1432  		qmgr->reg_config =
+41f93af900a20d Sandeep Nair     2014-02-28  1433  			knav_queue_map_reg(kdev, child,
+350601b4f7ab45 Murali Karicheri 2018-04-17  1434  					   (kdev->version == QMSS_66AK2G) ?
+350601b4f7ab45 Murali Karicheri 2018-04-17  1435  					   KNAV_L_QUEUE_CONFIG_REG_INDEX :
+41f93af900a20d Sandeep Nair     2014-02-28  1436  					   KNAV_QUEUE_CONFIG_REG_INDEX);
+41f93af900a20d Sandeep Nair     2014-02-28  1437  		qmgr->reg_region =
+41f93af900a20d Sandeep Nair     2014-02-28  1438  			knav_queue_map_reg(kdev, child,
+350601b4f7ab45 Murali Karicheri 2018-04-17  1439  					   (kdev->version == QMSS_66AK2G) ?
+350601b4f7ab45 Murali Karicheri 2018-04-17  1440  					   KNAV_L_QUEUE_REGION_REG_INDEX :
+41f93af900a20d Sandeep Nair     2014-02-28  1441  					   KNAV_QUEUE_REGION_REG_INDEX);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1442  
+41f93af900a20d Sandeep Nair     2014-02-28  1443  		qmgr->reg_push =
+41f93af900a20d Sandeep Nair     2014-02-28  1444  			knav_queue_map_reg(kdev, child,
+350601b4f7ab45 Murali Karicheri 2018-04-17  1445  					   (kdev->version == QMSS_66AK2G) ?
+350601b4f7ab45 Murali Karicheri 2018-04-17  1446  					    KNAV_L_QUEUE_PUSH_REG_INDEX :
+41f93af900a20d Sandeep Nair     2014-02-28  1447  					    KNAV_QUEUE_PUSH_REG_INDEX);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1448  
+350601b4f7ab45 Murali Karicheri 2018-04-17  1449  		if (kdev->version == QMSS) {
+41f93af900a20d Sandeep Nair     2014-02-28  1450  			qmgr->reg_pop =
+41f93af900a20d Sandeep Nair     2014-02-28  1451  				knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1452  						   KNAV_QUEUE_POP_REG_INDEX);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1453  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1454  
+350601b4f7ab45 Murali Karicheri 2018-04-17  1455  		if (IS_ERR(qmgr->reg_peek) ||
+350601b4f7ab45 Murali Karicheri 2018-04-17  1456  		    ((kdev->version == QMSS) &&
+350601b4f7ab45 Murali Karicheri 2018-04-17  1457  		    (IS_ERR(qmgr->reg_status) || IS_ERR(qmgr->reg_pop))) ||
+41f93af900a20d Sandeep Nair     2014-02-28  1458  		    IS_ERR(qmgr->reg_config) || IS_ERR(qmgr->reg_region) ||
+350601b4f7ab45 Murali Karicheri 2018-04-17  1459  		    IS_ERR(qmgr->reg_push)) {
+41f93af900a20d Sandeep Nair     2014-02-28  1460  			dev_err(dev, "failed to map qmgr regs\n");
+350601b4f7ab45 Murali Karicheri 2018-04-17  1461  			if (kdev->version == QMSS) {
+41f93af900a20d Sandeep Nair     2014-02-28  1462  				if (!IS_ERR(qmgr->reg_status))
+41f93af900a20d Sandeep Nair     2014-02-28  1463  					devm_iounmap(dev, qmgr->reg_status);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1464  				if (!IS_ERR(qmgr->reg_pop))
+350601b4f7ab45 Murali Karicheri 2018-04-17  1465  					devm_iounmap(dev, qmgr->reg_pop);
+350601b4f7ab45 Murali Karicheri 2018-04-17  1466  			}
+350601b4f7ab45 Murali Karicheri 2018-04-17  1467  			if (!IS_ERR(qmgr->reg_peek))
+350601b4f7ab45 Murali Karicheri 2018-04-17  1468  				devm_iounmap(dev, qmgr->reg_peek);
+41f93af900a20d Sandeep Nair     2014-02-28  1469  			if (!IS_ERR(qmgr->reg_config))
+41f93af900a20d Sandeep Nair     2014-02-28  1470  				devm_iounmap(dev, qmgr->reg_config);
+41f93af900a20d Sandeep Nair     2014-02-28  1471  			if (!IS_ERR(qmgr->reg_region))
+41f93af900a20d Sandeep Nair     2014-02-28  1472  				devm_iounmap(dev, qmgr->reg_region);
+41f93af900a20d Sandeep Nair     2014-02-28  1473  			if (!IS_ERR(qmgr->reg_push))
+41f93af900a20d Sandeep Nair     2014-02-28  1474  				devm_iounmap(dev, qmgr->reg_push);
+41f93af900a20d Sandeep Nair     2014-02-28  1475  			devm_kfree(dev, qmgr);
+41f93af900a20d Sandeep Nair     2014-02-28  1476  			continue;
+41f93af900a20d Sandeep Nair     2014-02-28  1477  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1478  
+350601b4f7ab45 Murali Karicheri 2018-04-17  1479  		/* Use same push register for pop as well */
+350601b4f7ab45 Murali Karicheri 2018-04-17  1480  		if (kdev->version == QMSS_66AK2G)
+350601b4f7ab45 Murali Karicheri 2018-04-17  1481  			qmgr->reg_pop = qmgr->reg_push;
+350601b4f7ab45 Murali Karicheri 2018-04-17  1482  
+41f93af900a20d Sandeep Nair     2014-02-28  1483  		list_add_tail(&qmgr->list, &kdev->qmgrs);
+41f93af900a20d Sandeep Nair     2014-02-28  1484  		dev_info(dev, "added qmgr start queue %d, num of queues %d, reg_peek %p, reg_status %p, reg_config %p, reg_region %p, reg_push %p, reg_pop %p\n",
+41f93af900a20d Sandeep Nair     2014-02-28  1485  			 qmgr->start_queue, qmgr->num_queues,
+41f93af900a20d Sandeep Nair     2014-02-28  1486  			 qmgr->reg_peek, qmgr->reg_status,
+41f93af900a20d Sandeep Nair     2014-02-28  1487  			 qmgr->reg_config, qmgr->reg_region,
+41f93af900a20d Sandeep Nair     2014-02-28  1488  			 qmgr->reg_push, qmgr->reg_pop);
+41f93af900a20d Sandeep Nair     2014-02-28  1489  	}
+41f93af900a20d Sandeep Nair     2014-02-28  1490  	return 0;
+41f93af900a20d Sandeep Nair     2014-02-28  1491  }
+41f93af900a20d Sandeep Nair     2014-02-28  1492  
+41f93af900a20d Sandeep Nair     2014-02-28  1493  static int knav_queue_init_pdsps(struct knav_device *kdev,
+41f93af900a20d Sandeep Nair     2014-02-28  1494  					struct device_node *pdsps)
+41f93af900a20d Sandeep Nair     2014-02-28  1495  {
+41f93af900a20d Sandeep Nair     2014-02-28  1496  	struct device *dev = kdev->dev;
+41f93af900a20d Sandeep Nair     2014-02-28  1497  	struct knav_pdsp_info *pdsp;
+41f93af900a20d Sandeep Nair     2014-02-28  1498  	struct device_node *child;
+41f93af900a20d Sandeep Nair     2014-02-28  1499  
+41f93af900a20d Sandeep Nair     2014-02-28  1500  	for_each_child_of_node(pdsps, child) {
+41f93af900a20d Sandeep Nair     2014-02-28  1501  		pdsp = devm_kzalloc(dev, sizeof(*pdsp), GFP_KERNEL);
+41f93af900a20d Sandeep Nair     2014-02-28  1502  		if (!pdsp) {
+a88f66d4a8668e Vasyl Gomonovych 2021-01-24  1503  			of_node_put(child);
+41f93af900a20d Sandeep Nair     2014-02-28  1504  			dev_err(dev, "out of memory allocating pdsp\n");
+41f93af900a20d Sandeep Nair     2014-02-28  1505  			return -ENOMEM;
+41f93af900a20d Sandeep Nair     2014-02-28  1506  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1507  		pdsp->name = knav_queue_find_name(child);
+41f93af900a20d Sandeep Nair     2014-02-28  1508  		pdsp->iram =
+41f93af900a20d Sandeep Nair     2014-02-28  1509  			knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1510  					   KNAV_QUEUE_PDSP_IRAM_REG_INDEX);
+41f93af900a20d Sandeep Nair     2014-02-28  1511  		pdsp->regs =
+41f93af900a20d Sandeep Nair     2014-02-28  1512  			knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1513  					   KNAV_QUEUE_PDSP_REGS_REG_INDEX);
+41f93af900a20d Sandeep Nair     2014-02-28  1514  		pdsp->intd =
+41f93af900a20d Sandeep Nair     2014-02-28  1515  			knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1516  					   KNAV_QUEUE_PDSP_INTD_REG_INDEX);
+41f93af900a20d Sandeep Nair     2014-02-28  1517  		pdsp->command =
+41f93af900a20d Sandeep Nair     2014-02-28  1518  			knav_queue_map_reg(kdev, child,
+41f93af900a20d Sandeep Nair     2014-02-28  1519  					   KNAV_QUEUE_PDSP_CMD_REG_INDEX);
+41f93af900a20d Sandeep Nair     2014-02-28  1520  
+41f93af900a20d Sandeep Nair     2014-02-28  1521  		if (IS_ERR(pdsp->command) || IS_ERR(pdsp->iram) ||
+41f93af900a20d Sandeep Nair     2014-02-28  1522  		    IS_ERR(pdsp->regs) || IS_ERR(pdsp->intd)) {
+41f93af900a20d Sandeep Nair     2014-02-28  1523  			dev_err(dev, "failed to map pdsp %s regs\n",
+41f93af900a20d Sandeep Nair     2014-02-28  1524  				pdsp->name);
+41f93af900a20d Sandeep Nair     2014-02-28  1525  			if (!IS_ERR(pdsp->command))
+41f93af900a20d Sandeep Nair     2014-02-28  1526  				devm_iounmap(dev, pdsp->command);
+41f93af900a20d Sandeep Nair     2014-02-28  1527  			if (!IS_ERR(pdsp->iram))
+41f93af900a20d Sandeep Nair     2014-02-28  1528  				devm_iounmap(dev, pdsp->iram);
+41f93af900a20d Sandeep Nair     2014-02-28  1529  			if (!IS_ERR(pdsp->regs))
+41f93af900a20d Sandeep Nair     2014-02-28  1530  				devm_iounmap(dev, pdsp->regs);
+41f93af900a20d Sandeep Nair     2014-02-28  1531  			if (!IS_ERR(pdsp->intd))
+41f93af900a20d Sandeep Nair     2014-02-28  1532  				devm_iounmap(dev, pdsp->intd);
+41f93af900a20d Sandeep Nair     2014-02-28  1533  			devm_kfree(dev, pdsp);
+41f93af900a20d Sandeep Nair     2014-02-28  1534  			continue;
+41f93af900a20d Sandeep Nair     2014-02-28  1535  		}
+41f93af900a20d Sandeep Nair     2014-02-28  1536  		of_property_read_u32(child, "id", &pdsp->id);
+41f93af900a20d Sandeep Nair     2014-02-28  1537  		list_add_tail(&pdsp->list, &kdev->pdsps);
+96ee19becc3bd7 Murali Karicheri 2015-10-13  1538  		dev_dbg(dev, "added pdsp %s: command %p, iram %p, regs %p, intd %p\n",
+41f93af900a20d Sandeep Nair     2014-02-28  1539  			pdsp->name, pdsp->command, pdsp->iram, pdsp->regs,
+96ee19becc3bd7 Murali Karicheri 2015-10-13  1540  			pdsp->intd);
+41f93af900a20d Sandeep Nair     2014-02-28  1541  	}
+41f93af900a20d Sandeep Nair     2014-02-28  1542  	return 0;
+41f93af900a20d Sandeep Nair     2014-02-28  1543  }
+41f93af900a20d Sandeep Nair     2014-02-28  1544  
+41f93af900a20d Sandeep Nair     2014-02-28  1545  static int knav_queue_stop_pdsp(struct knav_device *kdev,
+41f93af900a20d Sandeep Nair     2014-02-28  1546  			  struct knav_pdsp_info *pdsp)
+41f93af900a20d Sandeep Nair     2014-02-28  1547  {
+41f93af900a20d Sandeep Nair     2014-02-28  1548  	u32 val, timeout = 1000;
+41f93af900a20d Sandeep Nair     2014-02-28  1549  	int ret;
+41f93af900a20d Sandeep Nair     2014-02-28  1550  
+41f93af900a20d Sandeep Nair     2014-02-28  1551  	val = readl_relaxed(&pdsp->regs->control) & ~PDSP_CTRL_ENABLE;
+41f93af900a20d Sandeep Nair     2014-02-28  1552  	writel_relaxed(val, &pdsp->regs->control);
+41f93af900a20d Sandeep Nair     2014-02-28 @1553  	ret = knav_queue_pdsp_wait(&pdsp->regs->control, timeout,
+41f93af900a20d Sandeep Nair     2014-02-28  1554  					PDSP_CTRL_RUNNING);
+41f93af900a20d Sandeep Nair     2014-02-28  1555  	if (ret < 0) {
+41f93af900a20d Sandeep Nair     2014-02-28  1556  		dev_err(kdev->dev, "timed out on pdsp %s stop\n", pdsp->name);
+41f93af900a20d Sandeep Nair     2014-02-28  1557  		return ret;
+41f93af900a20d Sandeep Nair     2014-02-28  1558  	}
+045016902bf7ab Murali Karicheri 2015-10-13  1559  	pdsp->loaded = false;
+045016902bf7ab Murali Karicheri 2015-10-13  1560  	pdsp->started = false;
+41f93af900a20d Sandeep Nair     2014-02-28  1561  	return 0;
+41f93af900a20d Sandeep Nair     2014-02-28  1562  }
+41f93af900a20d Sandeep Nair     2014-02-28  1563  
 
-:::::: The code at line 431 was first introduced by commit
-:::::: 099dc4fb62653f6019d78db55fba7a18ef02d65b ipwireless: driver for PC Card 3G/UMTS modem
+:::::: The code at line 1381 was first introduced by commit
+:::::: 41f93af900a20d1a0a358b522b5129c89677e9dc soc: ti: add Keystone Navigator QMSS driver
 
-:::::: TO: David Sterba <dsterba@suse.cz>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Sandeep Nair <sandeep_n@ti.com>
+:::::: CC: Santosh Shilimkar <santosh.shilimkar@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
