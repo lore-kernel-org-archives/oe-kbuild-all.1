@@ -1,42 +1,42 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACC62595
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 15:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8A446BB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Feb 2023 15:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676216927; x=1707752927;
+  t=1676217529; x=1707753529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=346+Ox80AQKdncJTcozkwhvHVhg7c1wHa+q4odS0BUE=;
-  b=f4p+bgOoqKdVmsRPZhXU6b+aDM8QknB79YJy3ZzMqJTwiDa4GNDs8pQ2
-   /EndgUaOGTNvaMLyYo2iczzgHcvWIjyIxIlMZ0+DwKhLIGvWgdN/v6TT7
-   AK0oAIGrHnS8taMEkuoQp8AtJi+22OtA4PTJW2iIfdxji9K1QbLZFC40Q
-   JuWDrTeQp1Ye9YqB1vb57i694w7QUfjUZRgF6jC32MeB/vfC/OMeBLXKH
-   K0TBJebxfK53gy5jKLJuuqhWoIDn5NmwVVgivSiuwJMSmFAXI7jOY4UTC
-   wFPgnHPnagX9Ja5kyFf/J/e2T/WLhjctVnEgi7VDRDAQlWIlVzmqG2pm1
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314368161"
+  bh=Ge+tLQJJJ2dWROdiC3sZ9RGJGcCp+jZxMmbe+K3Ircc=;
+  b=ftnNnCn6eddDbbIi+sYeTZG0U9wNGeulLDiIJDSearb4eBAOKTK9Y5SF
+   30zonlLl0IQXaUjtKQOTinSQL1xYkXvvM7CwxxKORvcINqu1LqiFcjNTj
+   ECR9AxVl7S8j/BxYLIvAlo4kqhcpCtJDPr8cruz6NKaDOYdD+F5dMiYY2
+   ZB4cN7luYcmW96tSsKU8wsxUE8BhbzhgW0EY9RUNKsDhfHJ4X/qcLK4GV
+   AfLRgxztGYkJZsx1FACa9QaPO52yRncudw36khCTZvRQYQDC34nj3HQ38
+   uXaBnDDQULM+B66EHd2+MMga62NAZNA3ZoPxzgQm3xgz/C7Nj8hSnVHL2
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314369134"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="314368161"
+   d="scan'208";a="314369134"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 07:48:47 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 07:58:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="661919953"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="661920638"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="661919953"
+   d="scan'208";a="661920638"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 07:48:46 -0800
+  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 07:58:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pREar-0007Gf-1z;
-	Sun, 12 Feb 2023 15:48:45 +0000
-Date: Sun, 12 Feb 2023 23:47:46 +0800
+	id 1pREkX-0007Gr-2d;
+	Sun, 12 Feb 2023 15:58:45 +0000
+Date: Sun, 12 Feb 2023 23:58:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [sashal-stable:pending-5.4 62/71] drivers/iommu/iommu.c:1861:5:
- warning: no previous prototype for '__iommu_map'
-Message-ID: <202302122322.3unC4M0X-lkp@intel.com>
+ warning: no previous prototype for function '__iommu_map'
+Message-ID: <202302122354.beNlqQ2Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,33 +49,48 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
 head:   1a75a12f11128114da2930ef58af4a8940a256db
 commit: 918cff530d4f2dfa379e51f58fcb7ad4b971535f [62/71] iommu: Add gfp parameter to iommu_ops::map
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230212/202302122322.3unC4M0X-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230212/202302122354.beNlqQ2Q-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=918cff530d4f2dfa379e51f58fcb7ad4b971535f
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-5.4
         git checkout 918cff530d4f2dfa379e51f58fcb7ad4b971535f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302122322.3unC4M0X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302122354.beNlqQ2Q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/iommu.c:292:5: warning: no previous prototype for 'iommu_insert_resv_region' [-Wmissing-prototypes]
-     292 | int iommu_insert_resv_region(struct iommu_resv_region *new,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/iommu.c:1861:5: warning: no previous prototype for '__iommu_map' [-Wmissing-prototypes]
-    1861 | int __iommu_map(struct iommu_domain *domain, unsigned long iova,
-         |     ^~~~~~~~~~~
->> drivers/iommu/iommu.c:2012:8: warning: no previous prototype for '__iommu_map_sg' [-Wmissing-prototypes]
-    2012 | size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
-         |        ^~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:292:5: warning: no previous prototype for function 'iommu_insert_resv_region' [-Wmissing-prototypes]
+   int iommu_insert_resv_region(struct iommu_resv_region *new,
+       ^
+   drivers/iommu/iommu.c:292:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int iommu_insert_resv_region(struct iommu_resv_region *new,
+   ^
+   static 
+>> drivers/iommu/iommu.c:1861:5: warning: no previous prototype for function '__iommu_map' [-Wmissing-prototypes]
+   int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+       ^
+   drivers/iommu/iommu.c:1861:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+   ^
+   static 
+>> drivers/iommu/iommu.c:2012:8: warning: no previous prototype for function '__iommu_map_sg' [-Wmissing-prototypes]
+   size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+          ^
+   drivers/iommu/iommu.c:2012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+   ^
+   static 
+   3 warnings generated.
 
 
 vim +/__iommu_map +1861 drivers/iommu/iommu.c
