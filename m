@@ -1,125 +1,111 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0454BA31
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 23:25:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676330742; x=1707866742;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vBITXMgY5jkQj/AgXMLv8VV7nSVD3VLvCdV7LTT9dME=;
-  b=kTWqJX6avCz76o5a/g7rJQQweJYOqDwSwVI9tM+QD3+oKkJDJTHszP+S
-   8ileZDGNCbANm/CqxMM39EkXNX0Yk0ZV4zNMnIZss7CsSak/FNdUzDLRn
-   ntTj+E9AF05iJnP8+yxOP1Nd+iirILrX37DhO2Wm2hoMi5JKOm+5jn1G2
-   g7n13u4j1nPRDkmr6OeDJwL4ZiEGm/0CWQ9ttO0J0e20vnHBRxC0dNnUo
-   ua4WERAK+rmDarE2EcL/rV69O7XAGjTa1C5P4lPrh/u4+9bSJqpi7fv0c
-   pN6a6+Ym52xTSYz+QK4f4p9lvNS24CN6ANDNy910dMZVKVAASJBnvx+nD
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393426039"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="393426039"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 15:25:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="997862193"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="997862193"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2023 15:25:38 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRiCX-00083p-32;
-	Mon, 13 Feb 2023 23:25:37 +0000
-Date: Tue, 14 Feb 2023 07:24:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Filipe Manana <fdmanana@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>
-Subject: [stable:linux-4.19.y 3835/9999] include/linux/pagemap.h:576: Error:
- unrecognized opcode `csrs sstatus,s4'
-Message-ID: <202302140706.HJDNA8li-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D84BA31
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 23:31:59 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id bt8so9316769edb.12
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 15:31:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AdtOWowEtcNb0fBYdv2IT4vsABesICSFaMSOMAEIWRA=;
+        b=cMkCqggcOpdERZkrVimIABE58AgahEXS7SwagsUDcIRe0tNifo2rJfrWITLM84bj3K
+         VT5r6oGAIGSGGDmoZBcOwmMPCOvD3aq/FKOf9TwOedY7huCgbqUgCnQ6+X86crrWF7SZ
+         5VDY9yc3NpyZDyY9eqTyFXhi4MAyC4IRGt3fF3EF9LXiwuNUfJ7Vh1EP7wzHIAz+zeMk
+         LQNPZ+j+qikdWWBHXQ/JyifmHUPvaLcYGRYJaNsjunDi4EJQuNa/aJ+GqU2VMkfOvLMC
+         I1o6GsFdF+x/Zfx8Yi9iQHJMlpt4NzVFNMbxqcXxBCVg5Tpwb4V8B8nM7pNf0K89hzOU
+         M+ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AdtOWowEtcNb0fBYdv2IT4vsABesICSFaMSOMAEIWRA=;
+        b=KBKEaLiHDfsBcWv3KSJ5CCw73q7xDDObLDzdrbnHxA9Jd4aH8o/D3zNqTluY226e04
+         y14DA6Qsj+m0UqNfPEnlrewO7OphzNlW057lbgR+BAWOZar9E2TVQfZNR3noLIQvSFu6
+         wXdmYV7QiPnwE7rI3zHvfAlJgqG/1XfwuIGkZqZVHA9mCEM5A2H85tzzjOe0OJ8LbxDB
+         p6NMDk/fQelIeiBKe41kL8W4L3BnlrG5ooZT0NRmJzc0fQTYMLVnUgA4VeSQ+mq/lnEO
+         QLm/V6HsdJbOFIpCWYQUZdJmvy9Ysj/Z7JrQOzurbxdHZ6x7bMmBqoIROmcZCbF3752B
+         jqug==
+X-Gm-Message-State: AO0yUKX0lPQ6QXYwz9pIgjf+yPrBf1Rr4N7XUm69X5HDh56DSov6zxPh
+	d+uYzqOe20DZa1ezuUSjhFz6leUysecmHQTOpDH7rA==
+X-Google-Smtp-Source: AK7set+4DODG3YNHkQGmaxQz8GUJTeGHYRXYvtMPa+YrS0XW+8xHHLnTrKDEV48T4miR6kX7dk0P0b0Y8J5TeDE8q/A=
+X-Received: by 2002:a50:d513:0:b0:4ac:c720:207c with SMTP id
+ u19-20020a50d513000000b004acc720207cmr198637edi.5.1676331117332; Mon, 13 Feb
+ 2023 15:31:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230212092715.1422619-4-davemarchevsky@fb.com>
+ <202302121936.t36vlAFG-lkp@intel.com> <d04d33ff-0f8f-2bbd-3a67-9b8b813a799b@meta.com>
+ <CAKwvOdketskm5z25aPRY7OsBOZe2kzvXV-i9RDTbwcLpZSAT0A@mail.gmail.com> <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
+In-Reply-To: <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Mon, 13 Feb 2023 15:31:21 -0800
+Message-ID: <CABCJKucDXNeGCdD6uT7phYhpm+OgYm19EkfCNMB9AJ66k4NcvQ@mail.gmail.com>
+Subject: Re: [PATCH v5 bpf-next 3/9] bpf: Add bpf_rbtree_{add,remove,first} kfuncs
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, Dave Marchevsky <davemarchevsky@meta.com>, 
+	kernel test robot <lkp@intel.com>, Dave Marchevsky <davemarchevsky@fb.com>, bpf <bpf@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, oe-kbuild-all@lists.linux.dev, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Kernel Team <kernel-team@fb.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Joao Moreira <joao@overdrivepizza.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   53b696f0584acce2e90db69272a2a11aab138370
-commit: 91567128a9cbe55a4c133b900d73e6f56fef8f59 [3835/9999] btrfs: fix wrong address when faulting in pages in the search ioctl
-config: riscv-randconfig-c44-20230212 (https://download.01.org/0day-ci/archive/20230214/202302140706.HJDNA8li-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=91567128a9cbe55a4c133b900d73e6f56fef8f59
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout 91567128a9cbe55a4c133b900d73e6f56fef8f59
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+On Mon, Feb 13, 2023 at 2:17 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, Feb 13, 2023 at 12:49 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > I haven't looked at the series in question, but note that this compile
+> > time warning is meant to help us catch Control Flow Integrity runtime
+> > violations, which may result in a panic.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140706.HJDNA8li-lkp@intel.com/
+Here's the tracking issue for the other warnings of this type in the
+kernel, nearly all the warnings are in one driver:
 
-All errors (new ones prefixed by >>):
+https://github.com/ClangBuiltLinux/linux/issues/1724
 
-   include/linux/pagemap.h: Assembler messages:
->> include/linux/pagemap.h:576: Error: unrecognized opcode `csrs sstatus,s4'
->> include/linux/pagemap.h:576: Error: unrecognized opcode `csrc sstatus,s4'
-   include/linux/pagemap.h:584: Error: unrecognized opcode `csrs sstatus,s4'
-   include/linux/pagemap.h:584: Error: unrecognized opcode `csrc sstatus,s4'
-   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrs sstatus,a4'
-   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrc sstatus,a4'
+> It's a transition from kernel to bpf prog.
+> If CFI trips on it it will trip on all transitions.
+> All calls from kernel into bpf are more or less the same.
+> Not sure what it means for other archs, but on x86 JIT emits 'endbr'
+> insn to make IBT/CFI happy.
 
+While IBT allows indirect calls to any function that starts with
+endbr, CFI is more fine-grained and requires the function pointer type
+to match the function type, which further limits possible call
+targets. To actually enforce this, the compiler emits a type hash
+prefix for each function, and a check before each indirect call to
+ensure the call target has the expected prefix. The commit message
+here has an example of the code the compiler generates:
 
-vim +576 include/linux/pagemap.h
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3c516f89e17e56b4738f05588e51267e295b5e63
 
-385e1ca5f21c46 David Howells  2009-04-03  558  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  559  /*
-4bce9f6ee8f84f Al Viro        2016-09-17  560   * Fault everything in given userspace address range in.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  561   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  562  static inline int fault_in_pages_writeable(char __user *uaddr, int size)
-f56f821feb7b36 Daniel Vetter  2012-03-25  563  {
-9923777dff4543 Daniel Vetter  2012-04-14  564  	char __user *end = uaddr + size - 1;
-f56f821feb7b36 Daniel Vetter  2012-03-25  565  
-f56f821feb7b36 Daniel Vetter  2012-03-25  566  	if (unlikely(size == 0))
-e23d4159b10916 Al Viro        2016-09-20  567  		return 0;
-f56f821feb7b36 Daniel Vetter  2012-03-25  568  
-e23d4159b10916 Al Viro        2016-09-20  569  	if (unlikely(uaddr > end))
-e23d4159b10916 Al Viro        2016-09-20  570  		return -EFAULT;
-f56f821feb7b36 Daniel Vetter  2012-03-25  571  	/*
-f56f821feb7b36 Daniel Vetter  2012-03-25  572  	 * Writing zeroes into userspace here is OK, because we know that if
-f56f821feb7b36 Daniel Vetter  2012-03-25  573  	 * the zero gets there, we'll be overwriting it.
-f56f821feb7b36 Daniel Vetter  2012-03-25  574  	 */
-e23d4159b10916 Al Viro        2016-09-20  575  	do {
-e23d4159b10916 Al Viro        2016-09-20 @576  		if (unlikely(__put_user(0, uaddr) != 0))
-e23d4159b10916 Al Viro        2016-09-20  577  			return -EFAULT;
-f56f821feb7b36 Daniel Vetter  2012-03-25  578  		uaddr += PAGE_SIZE;
-e23d4159b10916 Al Viro        2016-09-20  579  	} while (uaddr <= end);
-f56f821feb7b36 Daniel Vetter  2012-03-25  580  
-f56f821feb7b36 Daniel Vetter  2012-03-25  581  	/* Check whether the range spilled into the next page. */
-f56f821feb7b36 Daniel Vetter  2012-03-25  582  	if (((unsigned long)uaddr & PAGE_MASK) ==
-f56f821feb7b36 Daniel Vetter  2012-03-25  583  			((unsigned long)end & PAGE_MASK))
-e23d4159b10916 Al Viro        2016-09-20  584  		return __put_user(0, end);
-f56f821feb7b36 Daniel Vetter  2012-03-25  585  
-e23d4159b10916 Al Viro        2016-09-20  586  	return 0;
-f56f821feb7b36 Daniel Vetter  2012-03-25  587  }
-f56f821feb7b36 Daniel Vetter  2012-03-25  588  
+As calling a JIT compiled function would obviously trip CFI, indirect
+call checking is currently disabled in BPF dispatcher functions (using
+the __nocfi attribute). However, BPF trampolines still have the same
+problem, I believe. I wouldn't mind coming up with a solution for
+CFI+BPF JIT compatibility, but I haven't had much time to look into
+this. Basically, in places where we currently emit an endbr
+instruction, we should also emit a type hash prefix.
 
-:::::: The code at line 576 was first introduced by commit
-:::::: e23d4159b109167126e5bcd7f3775c95de7fee47 fix fault_in_multipages_...() on architectures with no-op access_ok()
+Generating type prefixes for functions called through a dispatcher
+shouldn't be that hard because the function type is always the same,
+but figuring out the correct type for indirect calls that don't go
+through a dispatcher might not be entirely trivial, although I'm sure
+the BPF verifier/compiler must have this information. FineIBT also
+complicates matters a bit here as the actual prefix format differs
+from the basic KCFI prefix.
 
-:::::: TO: Al Viro <viro@ZenIV.linux.org.uk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+I'm not sure if Peter or Joao have had time to look at this, but I
+would be happy to hear any suggestions you might have.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Sami
