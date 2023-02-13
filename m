@@ -1,182 +1,92 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9D22F21;
-	Mon, 13 Feb 2023 22:34:08 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id eq11so14971587edb.6;
-        Mon, 13 Feb 2023 14:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RfWVb6Dil2pQ+9lUGs2qSI8E23Clx1JFl1TyJZ7PbB4=;
-        b=iNVVdZK217J2BmoY+73CscywKjWHeSC5c6xMm+9w45kmYJP2igMaYoEQq12fH2UG+Z
-         KbOfKXO2JHS6iMt6qhFeSNNoO6a7SA+lr77qeUZkN28K/6IYnu0+CbLVL3aQWwKfheVr
-         pDdwYZEBLW5ABd7iKDoo37vCVNZhPpgQTD/6CuIKnWZ0Ep4xm1ULidC+ln6b/eH8t9lq
-         F8IIIpUZsOzpaE97PJHxtQWZYmagQ8clxYiuDg1Y7r6DaF2b4BbgJwCnGQLi9Gctx7bJ
-         abe26gQOWwc10gYwgUfv8dtrY04Fl8PI0lyQP1YEHZPvDXuaaNgS1RDpA3Jdaa5jLWTf
-         W/Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RfWVb6Dil2pQ+9lUGs2qSI8E23Clx1JFl1TyJZ7PbB4=;
-        b=aJG6c92nLD2OccSbqd8/kEekaPe9P6TEygpSWWVK6c3nesKX7GxdcX/3s/wXhA7pmF
-         DVXrK0Swanca5oHKvNRE+sfQbDGageMUZDnFm3ZMrsQTXbMIGo7FYJhHuX5sftn/UqQC
-         iMD1dBAaOvgNRV+t7CNNlwmuKv4P1rHsLHvXlaJDeesHEuWJkYbQbdl4vy3iDScyRjZ4
-         Sm3u/s153jPMxOIGUpqNlcEcoiWfbri1nge0D2rXCwvJObssi9siYAPqYmc5uWu7ZfKy
-         ldm1yPChUExOhncOvlr1tLChoT1v9G+FmybwoVO9BItxNXStvcJx0V8qR0l4Xex45F9p
-         WuYQ==
-X-Gm-Message-State: AO0yUKVW0FnO3w4PcFBzKv/4DZGbT7dAUQ4Un4gtIdu0+giz49nLVkqg
-	QZZgSsUsbsulgq1z8YJYt/ES7HeiwOtPUcO75YI=
-X-Google-Smtp-Source: AK7set8V/tscO1XNrqgeBbBVtbGQ2npDraDH/dwvCDFauj0DDWqQXYEiYLX9n0DCPRF6UviGKgghnys/lERIoQ3ZUVc=
-X-Received: by 2002:a05:6402:f11:b0:4ab:4cf5:591 with SMTP id
- i17-20020a0564020f1100b004ab4cf50591mr6077197eda.3.1676327646827; Mon, 13 Feb
- 2023 14:34:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD0FBA31
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 23:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676330740; x=1707866740;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q+6NmF77p8sTxc2oOJDBN5pNjGanYhbtPu7jvoRKnv8=;
+  b=OcbLMhXvyREifxkmuo+kBodqZJRTmS4jvU5gJMMeOu/sVGmVGupxFN1b
+   KHPOGN6HHt+YwKX9RsmNuUgFXSBcShmsAON8mtEPXnZfK3UU6cb4HzfJO
+   tZHmNlaECezLNkLBG0bwAfng5KbEqVtLglpOdsFhpcjNIv1bz+MPAcVFU
+   7H5xvp8d1cs9XtXohGPjtAv2PeRIjgn9RBH0nu3YNQfckxmLn/uiDmnL0
+   NcV5i9XgeiH+KLg0nEvlRJdh/UPAMCS8yq8oyy6hS20ZAepaaqslkl5KN
+   ovJCC6Bq7xFuGUweHMsvvAzqPQxTAuzqZX5AP78Fik+v0V5kViFbkrMi0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393426033"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="393426033"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 15:25:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="997862194"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="997862194"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2023 15:25:38 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRiCX-00083r-36;
+	Mon, 13 Feb 2023 23:25:37 +0000
+Date: Tue, 14 Feb 2023 07:24:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kalle Valo <kvalo@kernel.org>
+Subject: drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:1580
+ rtl8xxxu_print_chipinfo() warn: always true condition '(priv->chip_cut <=
+ 15) => (0-15 <= 15)'
+Message-ID: <202302140753.71IgU77A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230212092715.1422619-4-davemarchevsky@fb.com>
- <202302121936.t36vlAFG-lkp@intel.com> <d04d33ff-0f8f-2bbd-3a67-9b8b813a799b@meta.com>
- <CAKwvOdketskm5z25aPRY7OsBOZe2kzvXV-i9RDTbwcLpZSAT0A@mail.gmail.com> <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
-In-Reply-To: <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 13 Feb 2023 14:33:55 -0800
-Message-ID: <CAADnVQKSyUOoV6cedF3tX33UTHVkC-gBiHCr-4uV+_cn_Z2n9g@mail.gmail.com>
-Subject: Re: [PATCH v5 bpf-next 3/9] bpf: Add bpf_rbtree_{add,remove,first} kfuncs
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Dave Marchevsky <davemarchevsky@meta.com>, kernel test robot <lkp@intel.com>, 
-	Dave Marchevsky <davemarchevsky@fb.com>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, oe-kbuild-all@lists.linux.dev, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Kernel Team <kernel-team@fb.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Tejun Heo <tj@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Feb 13, 2023 at 2:17 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Mon, Feb 13, 2023 at 12:49 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Mon, Feb 13, 2023 at 12:45 PM Dave Marchevsky
-> > <davemarchevsky@meta.com> wrote:
-> > >
-> > > On 2/12/23 6:21 AM, kernel test robot wrote:
-> > > > Hi Dave,
-> > > >
-> > > >>> kernel/bpf/helpers.c:1901:9: warning: cast from 'bool (*)(struct =
-bpf_rb_node *, const struct bpf_rb_node *)' (aka '_Bool (*)(struct bpf_rb_n=
-ode *, const struct bpf_rb_node *)') to 'bool (*)(struct rb_node *, const s=
-truct rb_node *)' (aka '_Bool (*)(struct rb_node *, const struct rb_node *)=
-') converts to incompatible function type [-Wcast-function-type-strict]
-> > > >                          (bool (*)(struct rb_node *, const struct r=
-b_node *))less);
-> > > >                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-> > >
-> > > This is the only new warning introduced by this series. A previous ve=
-rsion had
-> > > the same complaint by kernel test robot.
-> > >
-> > > struct bpf_rb_node is an opaque struct with the same size as struct r=
-b_node.
-> > > It's not intended to be manipulated directly by any BPF program or bp=
-f-rbtree
-> > > kernel code, but rather to be used as a struct rb_node by rbtree libr=
-ary
-> > > helpers.
-> > >
-> > > Here, the compiler complains that the less() callback taken by bpf_rb=
-tree_add
-> > > is typed
-> > >
-> > > bool (*)(struct bpf_rb_node *, const struct bpf_rb_node *)
-> > >
-> > > while the actual rbtree lib helper rb_add's less() is typed
-> > >
-> > > bool (*)(struct rb_node *, const struct rb_node *)
-> > >
-> > > I'm not a C standard expert, but based on my googling, for C99 it's n=
-ot valid
-> > > to cast a function pointer to anything aside from void* and its origi=
-nal type.
-> > > Furthermore, since struct bpf_rb_node an opaque bitfield and struct r=
-b_node
-> > > has actual members, C99 standard 6.2.7 paragraph 1 states that they'r=
-e not
-> > > compatible:
-> > >
-> > >   Moreover, two structure,
-> > >   union, or enumerated types declared in separate translation units a=
-re compatible if their
-> > >   tags and members satisfy the following requirements: If one is decl=
-ared with a tag, the
-> > >   other shall be declared with the same tag. If both are complete typ=
-es, then the following
-> > >   additional requirements apply: there shall be a one-to-one correspo=
-ndence between their
-> > >   members such that each pair of corresponding members are declared w=
-ith compatible
-> > >   types, and such that if one member of a corresponding pair is decla=
-red with a name, the
-> > >   other member is declared with the same name. For two structures, co=
-rresponding
-> > >   members shall be declared in the same order
-> > >
-> > > I'm not sure how to proceed here. We could change bpf_rbtree_add's le=
-ss() cb to
-> >
-> > I haven't looked at the series in question, but note that this compile
-> > time warning is meant to help us catch Control Flow Integrity runtime
-> > violations, which may result in a panic.
->
-> It's a transition from kernel to bpf prog.
-> If CFI trips on it it will trip on all transitions.
-> All calls from kernel into bpf are more or less the same.
-> Not sure what it means for other archs, but on x86 JIT emits 'endbr'
-> insn to make IBT/CFI happy.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b408817d48840847c00052ae0e02a54311913073
+commit: 7b0ac469e331d9f9fd77f4ebb7a6322f5562db67 wifi: rtl8xxxu: Recognise all possible chip cuts
+date:   3 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140753.71IgU77A-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-Having said the above it's good that the warning was there.
-Just type casting the func is not correct.
-We should call bpf progs like this:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140753.71IgU77A-lkp@intel.com/
 
--void bpf_rbtree_add(struct bpf_rb_root *root, struct bpf_rb_node *node,
--                   bool (less)(struct bpf_rb_node *a, const struct
-bpf_rb_node *b))
--{
--       rb_add_cached((struct rb_node *)node, (struct rb_root_cached *)root=
-,
--                     (bool (*)(struct rb_node *, const struct rb_node *))l=
-ess);
-+void bpf_rbtree_add(struct bpf_rb_root *root, struct bpf_rb_node
-*node, bpf_callback_t less)
-+{
-+        struct rb_node **link =3D &((struct rb_root_cached
-*)root)->rb_root.rb_node;
-+        struct rb_node *parent =3D NULL;
-+        bool leftmost =3D true;
-+
-+        while (*link) {
-+                parent =3D *link;
-+                if (less((uintptr_t)node, (uintptr_t)parent, 0, 0, 0)) {
-+                        link =3D &parent->rb_left;
-+                } else {
-+                        link =3D &parent->rb_right;
-+                        leftmost =3D false;
-+                }
-+        }
-+
-+        rb_link_node((struct rb_node *)node, parent, link);
-+        rb_insert_color_cached((struct rb_node *)node, (struct
-rb_root_cached *)root, leftmost);
+New smatch warnings:
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:1580 rtl8xxxu_print_chipinfo() warn: always true condition '(priv->chip_cut <= 15) => (0-15 <= 15)'
 
-Dave, please incorporate in the next respin.
-I only compile tested the above.
+Old smatch warnings:
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5675 rtl8xxxu_c2hcmd_callback() warn: potential spectre issue 'rtl8xxxu_legacy_ratetable' [r] (local cap)
+
+vim +1580 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+
+  1573	
+  1574	static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
+  1575	{
+  1576		struct device *dev = &priv->udev->dev;
+  1577		char cut = '?';
+  1578	
+  1579		/* Currently always true: chip_cut is 4 bits. */
+> 1580		if (priv->chip_cut <= 15)
+  1581			cut = 'A' + priv->chip_cut;
+  1582	
+  1583		dev_info(dev,
+  1584			 "RTL%s rev %c (%s) %iT%iR, TX queues %i, WiFi=%i, BT=%i, GPS=%i, HI PA=%i\n",
+  1585			 priv->chip_name, cut, priv->chip_vendor, priv->tx_paths,
+  1586			 priv->rx_paths, priv->ep_tx_count, priv->has_wifi,
+  1587			 priv->has_bluetooth, priv->has_gps, priv->hi_pa);
+  1588	
+  1589		dev_info(dev, "RTL%s MAC: %pM\n", priv->chip_name, priv->mac_addr);
+  1590	}
+  1591	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
