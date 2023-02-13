@@ -1,100 +1,100 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82B333D1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 14:19:09 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id g8so13766214qtq.13
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 06:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rtsocPBgrP5t5SQoU56fedGlfvRQ93RglLTLhJ6D5ps=;
-        b=OP4pVrdWqBoFbXYD+fd7y0wrcUfXBhwnh7iaXREukxZrf/qKN9hpG8nUO4cmwbur1y
-         jNi0s1kIHmd3myhrrMOy0Z91WBM7khs+lSOjtuWNKkZOxaRAhxS97EjglHC0W9v646Wl
-         9aI3tlNXn2hauBkqR19H8oqH/y+8kYKGAtLRWmRpgK4Y0cRE6tXDCGo1IRWUtwJjsgPs
-         Vx4/fV8lH7Ql8DXNpgxmNeNHifW2+E056SUzq20b7wTYgT69Q4ZQX+egOrebkP8Dkrw1
-         WadmzuYodNrfCeVxUArjDZWYXqkldou1B29HbAV47STxQoshEz6Ozwk63GbBH2+g8+vt
-         Stuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rtsocPBgrP5t5SQoU56fedGlfvRQ93RglLTLhJ6D5ps=;
-        b=IYxL1u7XRKSIkuHk/AxYuvUa+Mqc7BOAJjwiGURGBaszreTYzL04CTovFmpKwx239E
-         BD508h3nEp5QzUGJoGExObw3TbcpF4UlrOfhSGKQ6+8eGebh/xqOFQo/PXv7OoJjpyZw
-         XdlUn2CImd7Veqws2ZqNDkREvkgTK2X+rT5P9ktGCF31TR1N5Icv61ZMPdSrBz/dWXBf
-         by+dmHcBclcpOirc19pnDtVWWwZR8YwwMXs9ashLWoUhO2OF9hxd6R+UUAo2A2EQwSTE
-         aNgtbQqA2+mcu6Vow87nzp7P7YaewgoiaZcaGjtBVk8ZXJPUb3MjfBQa/lf4OqsfvccU
-         TM/Q==
-X-Gm-Message-State: AO0yUKVQYecYmaYO8iQ6lB528u66P5LXSkRX7q0ss8/ZRw9pUDlPJT6s
-	jMv5CA230AZlLz/cHHdcxHapf3Jgqqei2/SFuAyuHL/0Y9+EOg==
-X-Google-Smtp-Source: AK7set/uKCjygvmTOc34DJPM5Jsv0LCYR3VXvtQLAf4FB/EDw3VcowZzcchZ8/ZmnXQo1PMmuQClyQ0lbWBZjmHd098=
-X-Received: by 2002:ac8:7e86:0:b0:3ba:23f2:2d29 with SMTP id
- w6-20020ac87e86000000b003ba23f22d29mr2685221qtj.355.1676297948611; Mon, 13
- Feb 2023 06:19:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1A28F4D;
+	Mon, 13 Feb 2023 14:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676298518; x=1707834518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ca2fl++q9uqe9t4GFMtzFHHUL5BNwJ7uXeCoTeCy9bM=;
+  b=HaExuJsZd5swuL0d1GQqLx1+wsK6zZ9NkU8FszipdMd+zFTDteybSCV9
+   H0ZczQ2m55D3ksaLxT/3u90cPaLXXS6jF8JezYeyfHujrEp856h0btpd2
+   SzSEa9kM4R1XAQPqYxHPtksmZF9iDqrIWdRIFqhLdae9Fzbt2PClS69wq
+   5mxXVnfolqAvQdYYh1MEYOgUswg7nK3AKLxKi/g09KcGZExXGaUbIH8dN
+   Yge5oY2MPMWBHuk6AbuUoO4Rt7BA07MgsZyqWzUrdMEopresuwBQlfGdD
+   DPmSsGkj1KWAvpFDKETMOQURkENab/93ukMQNeoZKqjgvXnEAVAJ8gVuz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333036956"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="333036956"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 06:28:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792744447"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="792744447"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 06:28:20 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRZoZ-0007mb-0w;
+	Mon, 13 Feb 2023 14:28:19 +0000
+Date: Mon, 13 Feb 2023 22:27:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [skeggsb-nouveau:01.03-gsp-ada 185/193]
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/r525.c:59:1: error: non-void
+ function does not return a value in all control paths
+Message-ID: <202302132206.uzzkoc7v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302130750.679RaRog-lkp@intel.com> <CALOAHbBwyEgW58RD-0Hw_Rn42bTRvFX6dzyCX-4_JyCyPaRR=Q@mail.gmail.com>
- <FFFF116D-A7F6-44DF-AC38-10B5E569290C@goodmis.org>
-In-Reply-To: <FFFF116D-A7F6-44DF-AC38-10B5E569290C@goodmis.org>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Mon, 13 Feb 2023 22:18:32 +0800
-Message-ID: <CALOAHbBTbVLB9EdOXpn5LM+T499Nh5O1aJLgfqP9Ywkxm0ymfQ@mail.gmail.com>
-Subject: Re: [trace:trace/urgent 13/13] kernel/trace/trace_events.c:158:5:
- warning: no previous prototype for 'trace_define_field_ext'
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Feb 13, 2023 at 4:38 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
->
->
-> On February 12, 2023 11:20:59 PM EST, Yafang Shao <laoar.shao@gmail.com> wrote:
-> >On Mon, Feb 13, 2023 at 7:30 AM kernel test robot <lkp@intel.com> wrote:
-> >>
-> >> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/urgent
-> >> head:   b6c7abd1c28a63ad633433d037ee15a1bc3023ba
-> >> commit: b6c7abd1c28a63ad633433d037ee15a1bc3023ba [13/13] tracing: Fix TASK_COMM_LEN in trace event format file
-> >> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230213/202302130750.679RaRog-lkp@intel.com/config)
-> >> compiler: sh4-linux-gcc (GCC) 12.1.0
-> >> reproduce (this is a W=1 build):
-> >>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >>         chmod +x ~/bin/make.cross
-> >>         # https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/commit/?id=b6c7abd1c28a63ad633433d037ee15a1bc3023ba
-> >>         git remote add trace git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
-> >>         git fetch --no-tags trace trace/urgent
-> >>         git checkout b6c7abd1c28a63ad633433d037ee15a1bc3023ba
-> >>         # save the config file
-> >>         mkdir build_dir && cp config build_dir/.config
-> >>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-> >>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash kernel/trace/
-> >>
-> >> If you fix the issue, kindly add following tag where applicable
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Link: https://lore.kernel.org/oe-kbuild-all/202302130750.679RaRog-lkp@intel.com/
-> >>
-> >> All warnings (new ones prefixed by >>):
-> >>
-> >> >> kernel/trace/trace_events.c:158:5: warning: no previous prototype for 'trace_define_field_ext' [-Wmissing-prototypes]
-> >>      158 | int trace_define_field_ext(struct trace_event_call *call, const char *type,
-> >>          |     ^~~~~~~~~~~~~~~~~~~~~~
-> >>
-> >
-> >Thanks for the report.
-> >Should make trace_define_field_ext static.
-> >I will send a fix.
->
-> No need, I already made one and it just passed my tests. I'll be sending a pull request shortly.
+tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
+head:   ab3448c2873e0fbcf1fd710cccb52dc548bdf449
+commit: c24815755c5c79d50fa9370ec1124fedd29743bb [185/193] disp
+config: arm64-randconfig-r021-20230212 (https://download.01.org/0day-ci/archive/20230213/202302132206.uzzkoc7v-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        git remote add skeggsb-nouveau https://gitlab.freedesktop.org/skeggsb/nouveau
+        git fetch --no-tags skeggsb-nouveau 01.03-gsp-ada
+        git checkout c24815755c5c79d50fa9370ec1124fedd29743bb
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
 
-Thanks for the work!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302132206.uzzkoc7v-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/nouveau/nvkm/engine/disp/r525.c:59:1: error: non-void function does not return a value in all control paths [-Werror,-Wreturn-type]
+   }
+   ^
+   1 error generated.
+
+
+vim +59 drivers/gpu/drm/nouveau/nvkm/engine/disp/r525.c
+
+    46	
+    47	static u64
+    48	r525_chan_user(struct nvkm_disp_chan *chan, u64 *psize)
+    49	{
+    50		switch (chan->object.oclass & 0xff) {
+    51		case 0x7d: *psize = 0x10000; return 0x680000;
+    52		case 0x7e: *psize = 0x01000; return 0x690000 + (chan->head * *psize);
+    53		case 0x7b: *psize = 0x01000; return 0x6b0000 + (chan->head * *psize);
+    54		case 0x7a: *psize = 0x01000; return 0x6d8000 + (chan->head * *psize);
+    55		default:
+    56			BUG_ON(1);
+    57			break;
+    58		}
+  > 59	}
+    60	
 
 -- 
-Regards
-Yafang
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
