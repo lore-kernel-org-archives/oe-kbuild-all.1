@@ -1,126 +1,137 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FED256F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 11:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676286677; x=1707822677;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XaGs5rBIxy7TerjuvDBGRYqQhfD7WqxbsdKR5xBD7Qo=;
-  b=CVq6uWBi8xSSbe2WIS8OwTnB4CwaxoFd1pRWyg9JBIg4HahDGwlYwlQT
-   SCvksJaf9seQN1iSy47/wolgqjPIhvso0TUIATWtLvgAgysejrmi9qtQP
-   sYrAwDLrTHsI1Bmx8WySjt+jU/Csju+9hlNGTUJcGNvy2DQTp3wpu6YNm
-   7I2rio3hkZQVN1Z6eK9N63rV7qhLzH7SgqCjWaHJ2h/YIJSI/7IGvs6Ay
-   yVLh+Mp4BRHHjw53O/xONe4pQWFrI9xs0p8Hjbq8Nsu5OrvP9v1DGslVE
-   DSpnyXtc9u9Oxiyo/w7Xxxssyk1eOARgO7WWo1Gei/RXYUAZTisy8VAq+
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332176295"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="332176295"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 03:11:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="668775603"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="668775603"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Feb 2023 03:11:15 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRWjq-0007hp-2z;
-	Mon, 13 Feb 2023 11:11:14 +0000
-Date: Mon, 13 Feb 2023 19:10:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:01.03-gsp-ada 183/193]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:642:71: error: passing
- argument 3 of 'dma_alloc_coherent' from incompatible pointer type
-Message-ID: <202302131936.us5WXjuQ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993F5291E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 11:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676286940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LgE91EF5P7iqqXpt6PtSMoHjg4zT1SgTrY7NGsebBbQ=;
+	b=SPN47cjGGejosgnSE4jOeqdbvZg18DkozK0yHcdNPcPL55LJJbUANmKkaX2D/T74WADG3x
+	97iQ//XaZ+7S39D76ZJIHqrZEArtCTqOl7/CJzFRCzI0gTJb6KCSVH1E8TjYrYj6IpOGkW
+	lLyKZMKRmQVG4G7QoibshEEKlr2DQ/s=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-204-dvyCuK14MUq4GDN2V5uatw-1; Mon, 13 Feb 2023 06:15:39 -0500
+X-MC-Unique: dvyCuK14MUq4GDN2V5uatw-1
+Received: by mail-qk1-f200.google.com with SMTP id j29-20020a05620a001d00b00724fd33cb3eso7304187qki.14
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 03:15:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LgE91EF5P7iqqXpt6PtSMoHjg4zT1SgTrY7NGsebBbQ=;
+        b=Q+PRC8eRAdZiC+NHkqVjbTmtPtixdfJKHJoYAYL+0jyKSEe84NMRLIueDE0Nk9LE6v
+         tN6UT7uY7HB7ZcE9Xoos65qUoYCBYvDshSVZoQBDj9OXCM7g2RaPptqBhaiZ7M5sbcpo
+         uWjTGchC9jBGcshygHAJz+s1OCb2UHZzRgv7tUj+Ta/wqMyM44dvxtef4h+fgCRG0IGG
+         xVlPiXQFsDoyG5x4SaG/Y+Ez9j6bUQJ8evtW/PiOb7JCCGsp2ExBZijZ/LFuVQq7IBO7
+         LHmjb5li1/1n55l8+9r+EAp0pRcFYvLCUwmhvbReNmqljg5UDTdfs6iGRjVxNyGvQmJn
+         VMHQ==
+X-Gm-Message-State: AO0yUKW0tFH5tc5sN7MY9cyr4M49uH4XzXiCHX4qHYKmk0JT9k4/+Qd8
+	5rP188GeGlVwIhu2CEGuJ4/QeIx3dVtnYza0wGmCH8GrZ29qIWVOSVejCQfKwnjutvjUrlc3DLL
+	qSlGk5AHaBQMhTs48CDNLu0E8UGs9V58=
+X-Received: by 2002:a05:622a:1301:b0:3a8:2ccb:f55d with SMTP id v1-20020a05622a130100b003a82ccbf55dmr42017631qtk.33.1676286938878;
+        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set8LqotNWAhkP4eDucQle2O3z8eSl+aQYETnylIeG+7DeQodD4EiIoDQiEjonnYcGhrhfkbk2Q==
+X-Received: by 2002:a05:622a:1301:b0:3a8:2ccb:f55d with SMTP id v1-20020a05622a130100b003a82ccbf55dmr42017604qtk.33.1676286938601;
+        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
+Received: from debian (2a01cb058918ce0052a1c4711233f5f0.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:52a1:c471:1233:f5f0])
+        by smtp.gmail.com with ESMTPSA id q1-20020ac84101000000b003b9dca4cdf4sm9035636qtl.83.2023.02.13.03.15.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
+Date: Mon, 13 Feb 2023 12:15:35 +0100
+From: Guillaume Nault <gnault@redhat.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing
+ error code 'ret'
+Message-ID: <Y+ob1xnM09kMlbRp@debian>
+References: <202302031144.yY6UaRcD-lkp@intel.com>
+ <Y9z8XPvcv5Wn2J8n@debian>
+ <Y+nLBPj70/03q8Do@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <Y+nLBPj70/03q8Do@kadam>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
-head:   ab3448c2873e0fbcf1fd710cccb52dc548bdf449
-commit: e5a4b3a2f16e4dac606a44ae4a3ab43240c0fca8 [183/193] drm/nouveau/gsp/tu102-: add support for booting GSP-RM
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230213/202302131936.us5WXjuQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add skeggsb-nouveau https://gitlab.freedesktop.org/skeggsb/nouveau
-        git fetch --no-tags skeggsb-nouveau 01.03-gsp-ada
-        git checkout e5a4b3a2f16e4dac606a44ae4a3ab43240c0fca8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+On Mon, Feb 13, 2023 at 08:30:44AM +0300, Dan Carpenter wrote:
+> On Fri, Feb 03, 2023 at 01:21:48PM +0100, Guillaume Nault wrote:
+> > On Fri, Feb 03, 2023 at 11:56:01AM +0300, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   66a87fff1a87c260452f5a57123891ca5258c449
+> > > commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
+> > > config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
+> > > compiler: powerpc-linux-gcc (GCC) 12.1.0
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > 
+> > > smatch warnings:
+> > > net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
+> > > 
+> > > vim +/ret +1481 net/l2tp/l2tp_core.c
+> > > 
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
+> > > c4d48a58f32c59 Cong Wang       2023-01-13  1471  
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
+> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
+> > >                                                                         ^^^^^^^^^
+> > > I don't know why this is showing up as a 3 week old warning when it
+> > > looks like the code is from 2018...  Anyway, should this be an error
+> > > path or a success path?
+> > 
+> > This is an error path.
+> > But I don't understand this warning. Does it complain that 'ret' isn't
+> > initialised before the 'goto err;' jump? (this is done by
+> > sockfd_lookup() in case of error).
+> 
+> Or sorry, I didn't see the &ret.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131936.us5WXjuQ-lkp@intel.com/
+No problem.
 
-All errors (new ones prefixed by >>):
+> Yes, Smatch thinks "ret" is zero here.
+> The kbuild-bot can't use the cross function database (building the DB
+> is too slow to scale).  So that's why the warning is printed.
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c: In function 'nvkm_gsp_mem_ctor':
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:642:71: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     642 |         mem->data = dma_alloc_coherent(gsp->subdev.device->dev, size, &mem->addr, GFP_KERNEL);
-         |                                                                       ^~~~~~~~~~
-         |                                                                       |
-         |                                                                       u64 * {aka long long unsigned int *}
-   In file included from include/linux/pci.h:2477,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:22:
-   include/linux/dma-mapping.h:421:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     421 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c: In function 'r525_gsp_oneinit':
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:1107:58: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1107 |                                                          &gsp->radix3[i].addr, GFP_KERNEL);
-         |                                                          ^~~~~~~~~~~~~~~~~~~~
-         |                                                          |
-         |                                                          u64 * {aka long long unsigned int *}
-   In file included from include/linux/pci.h:2477,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:22:
-   include/linux/dma-mapping.h:421:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     421 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
-   cc1: some warnings being treated as errors
+Okay, thanks for the explanations.
 
+> regards,
+> dan carpenter
+> 
 
-vim +/dma_alloc_coherent +642 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c
-
-   637	
-   638	static int
-   639	nvkm_gsp_mem_ctor(struct nvkm_gsp *gsp, u32 size, struct nvkm_gsp_mem *mem)
-   640	{
-   641		mem->size = size;
- > 642		mem->data = dma_alloc_coherent(gsp->subdev.device->dev, size, &mem->addr, GFP_KERNEL);
-   643		if (WARN_ON(!mem->data))
-   644			return -ENOMEM;
-   645	
-   646		return 0;
-   647	}
-   648	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
