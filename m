@@ -1,44 +1,50 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172838F5C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 15:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927C58F60
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 15:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676301625; x=1707837625;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OxsVQnGVTeoeLA1wHGG8+B61QiFRh1gGUghCC0swRJg=;
-  b=lJ/qDoaT0w4fJEJblScUVyCstYbzEa2nrrQ6GE5XqXS5rJ/7Ka4bOHk2
-   QYdTwbOrXyOtR1BWs2Zt3l0x1+9NzgnyekWDvFGyD9+F5jZkCD/co18Fs
-   Y9szsVsEyxSs8VCF2MnEF6hLna6xWucg9ZYGPXQFfgWBLVbanTWHdanMx
-   c6zFcpNou1yfE+UM7TsoZoK6eXIWsQBGSsFfijDF7awd+VWDqFdU8RILu
-   X4HEFYxRRxH6H34YZbNRFfcSbasvvXg2C2au6IuTQxxAeofvIOwpwnbXQ
-   3PHV8GI3tph3GivIkHY3QUP60xoY/aaTYWg/Ubzs5smkcT4PnviBsZGp0
+  t=1676301627; x=1707837627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ObQP9l0TevncY/9K8ieb/b6KtPH6c9i6zQUdHqY1bFg=;
+  b=hP9Cfkx+BJQQ4YyOp7gONaFgeVs264mPywHV27uEe+1K0QocCsTQWFaN
+   3+1u1MtInoEPHaTuK5IP29utZtfyPsvR4tOz0V+Eg9bVpx7Nwn/MOOaZX
+   KcBPAX1vgW7mfL5HDl6O4w+zRq6gUiTunUZa4wBqtJMacvgJ0Yv88rlQQ
+   BmdDf77Vlb4EDC5S9Tuj9LkJJ5TYQ2haS1ubzAC24TjEw5VLxLpPELFkr
+   NfRVa+e0IFuqrnJ/yekqTxgt3iu8SR5gF8AI9jmsH9XKvgdrEF7s0CVR+
+   a3f1faFaQi0GGeExnHcHZtj/QRVMWvAPwQ6f5BV6GBIPZVJnc3lqrXaCT
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333047968"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333047986"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="333047968"
+   d="scan'208";a="333047986"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 07:20:24 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 07:20:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699196718"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699196719"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="699196718"
+   d="scan'208";a="699196719"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 07:20:23 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRacw-0007oj-1N;
+	id 1pRacw-0007op-2S;
 	Mon, 13 Feb 2023 15:20:22 +0000
-Date: Mon, 13 Feb 2023 23:20:18 +0800
+Date: Mon, 13 Feb 2023 23:20:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 2/2] versioncheck:
- ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_model_error_generator.c: 185:
- need linux/version.h
-Message-ID: <202302132305.sLvmwVrb-lkp@intel.com>
+To: Cai Huoqing <cai.huoqing@linux.dev>, Sergey.Semin@baikalelectronics.ru
+Cc: oe-kbuild-all@lists.linux.dev, Cai huoqing <cai.huoqing@linux.dev>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] dmaengine: dw-edma: Add support for native HDMA
+Message-ID: <202302132344.oOgPHjYP-lkp@intel.com>
+References: <20230213132411.65524-4-cai.huoqing@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +53,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230213132411.65524-4-cai.huoqing@linux.dev>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   4e899792da6ad557ece992a9fa910378fab1332a
-commit: 4e899792da6ad557ece992a9fa910378fab1332a [2/2] CHROMIUM: gpu: mali: Apply r40p0 EAC release
-reproduce:
-        make versioncheck
+Hi Cai,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on next-20230213]
+[cannot apply to vkoul-dmaengine/next linus/master v6.2-rc8 v6.2-rc7 v6.2-rc6 v6.2-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/dmaengine-dw-edma-Rename-dw_edma_core_ops-structure-to-dw_edma_plat_ops/20230213-213412
+patch link:    https://lore.kernel.org/r/20230213132411.65524-4-cai.huoqing%40linux.dev
+patch subject: [PATCH v3 3/4] dmaengine: dw-edma: Add support for native HDMA
+config: i386-randconfig-a016-20230213 (https://download.01.org/0day-ci/archive/20230213/202302132344.oOgPHjYP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/04d89cfa187deda4fa5a7cc947dbb797ce05e72f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Cai-Huoqing/dmaengine-dw-edma-Rename-dw_edma_core_ops-structure-to-dw_edma_plat_ops/20230213-213412
+        git checkout 04d89cfa187deda4fa5a7cc947dbb797ce05e72f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302132305.sLvmwVrb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302132344.oOgPHjYP-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_model_error_generator.c: 185: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3339: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 426: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_time.c: 206: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf.c: 3335: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_defs.h: 1548: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware.c: 2913: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1598: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.c: 2368: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.h: 362: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 637: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
-   ./drivers/gpu/arm/mali/include/priority_control_manager.h: 27 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c: 772: need linux/version.h
-   ./drivers/gpu/arm/mali/jm/mali_kbase_jm_defs.h: 866: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase.h: 758: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_bits.h: 31: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_debug_job_fault.c: 573: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_defs.h: 1986: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.c: 61: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.h: 179: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence_ops.c: 85: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_gpuprops.c: 916: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/mali_kbase_mem_linux.h: 533: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_sync.h: 216: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_utility.h: 52: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_malisw.h: 29 linux/version.h not needed.
->> ./drivers/gpu/arm/mali/thirdparty/mali_kbase_mmap.c: 420: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/cache_km.c: 47 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/mt8173/mt8173_sysconfig.c: 552: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_arm64.c: 43 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_x86.c: 134: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_buffer_sync.c: 739: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_debugfs.c: 624: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 14 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 6 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys-video.c: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys.c: 14 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-psys.c: 16 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu6/ipu6-psys.c: 12 linux/version.h not needed.
-   ./drivers/media/virtio/virtio_video_driver.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version-timestamp.c: 5 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/dma/dw-edma/dw-hdma-v0-core.c: In function 'dw_hdma_v0_write_ll_data':
+>> drivers/dma/dw-edma/dw-hdma-v0-core.c:195:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+     195 |                 writeq(sar, &lli->sar.reg);
+         |                 ^~~~~~
+         |                 writel
+   cc1: some warnings being treated as errors
+
+
+vim +195 drivers/dma/dw-edma/dw-hdma-v0-core.c
+
+   177	
+   178	static void dw_hdma_v0_write_ll_data(struct dw_edma_chunk *chunk, int i,
+   179					     u32 control, u32 size, u64 sar, u64 dar)
+   180	{
+   181		ptrdiff_t ofs = i * sizeof(struct dw_hdma_v0_lli);
+   182	
+   183		if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+   184			struct dw_hdma_v0_lli *lli = chunk->ll_region.vaddr.mem + ofs;
+   185	
+   186			lli->control = control;
+   187			lli->transfer_size = size;
+   188			lli->sar.reg = sar;
+   189			lli->dar.reg = dar;
+   190		} else {
+   191			struct dw_hdma_v0_lli __iomem *lli = chunk->ll_region.vaddr.io + ofs;
+   192	
+   193			writel(control, &lli->control);
+   194			writel(size, &lli->transfer_size);
+ > 195			writeq(sar, &lli->sar.reg);
+   196			writeq(dar, &lli->dar.reg);
+   197		}
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
