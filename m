@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC787E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 01:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9707EA0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 02:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676252344; x=1707788344;
+  t=1676256004; x=1707792004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I2MV2bkWO0gCcGDtJOnT33bjpJl8TPvrgZvVzMp6P0g=;
-  b=ARE2gvN/bL9bS59Jz43fuDB6A8IQKAFH0glMBjykZsOhCm0vokjJZTOy
-   0F3s7wua+QiSKITK5L5eGDEbI1NPlSdpJQJcgcC/GurqsVvmPcfogyHtD
-   JFiWYJz2Ep0lYKeFeoWSDzRtXwI9I+/4WcHAYlCCObvzdLDIylyY3BuvV
-   ROeIjH8mHak3Y2RoAlGnFwIkSYvZHqVxoYyjqT4CvbZEPWffNg4avbimS
-   k8QZ4NEfPbKIDCo3Euw0AuXkWJMa6ahumHqlfHzxrlDvk2j0ZbMys4c0U
-   CqZh4xIAm/9R3z6ZeJcUMpFnb3wM6ihsVPZ8W2FVxUzmRkyTm1EjjutFR
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="330794965"
+  bh=CQfSu64slhzkT4iXBDal1GAC0CiEPy75fDX18XpcE/E=;
+  b=QW8v/GaqkovkaoCnfNeeukWrig5eIHW5rZXj5fAyVg42PN2VrEXG+e48
+   l/306wpoiuh5vi6ZilWyNRSutazWZHSgpOQd674cSs8JWnHhMQRLRdA8T
+   giWxwTE4q6gG2Kq73UyD8AlTNx0fMEXLLlDA0GwKXLOpkvNVUmQqIvfcm
+   +7HRXhEzRQQxMju1+vPoYD+/IXfXpNlTdNHquTuv2ErutQIp8zkRQf6Gi
+   3GEhpuz45qiuX5m3alz68FLhVx9o/Q58V4PdAI6sJIJpX4qxLrJruQqVY
+   yIIRUGf9yXVFRANHXtsfkKgWqRjxmnHtXXEG34lrf7AA9rQw/UAT+HqGH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332099028"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="330794965"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 17:39:03 -0800
+   d="scan'208";a="332099028"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 18:40:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="757389226"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="662027842"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="757389226"
+   d="scan'208";a="662027842"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Feb 2023 17:39:01 -0800
+  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 18:40:01 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRNo4-0007UD-0U;
-	Mon, 13 Feb 2023 01:39:00 +0000
-Date: Mon, 13 Feb 2023 09:38:12 +0800
+	id 1pROl6-0007Un-2p;
+	Mon, 13 Feb 2023 02:40:00 +0000
+Date: Mon, 13 Feb 2023 10:39:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	Steve French <stfrench@microsoft.com>
-Subject: [cifs:for-next 21/25] fs/netfs/iterator.c:372:19: error:
- 'netfs_extract_iter_to_sg' undeclared here (not in a function); did you mean
- 'netfs_extract_user_iter'?
-Message-ID: <202302130931.zOOQKBPI-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 10/11]
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c:217:6: error: no previous prototype
+ for function 'intel_pxp_tee_end_one_fw_session'
+Message-ID: <202302131005.utqF5Yjs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,194 +48,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-head:   2259206443e31ea6a266adcf0d900fbea17016ec
-commit: 1cbcbe544fb221a6cd24474c8af72b2a76f91d4d [21/25] netfs: Add a function to extract an iterator into a scatterlist
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230213/202302130931.zOOQKBPI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   7fdb454c609d08b40799b851e082110bcac615ad
+commit: abd7d8e9a3be86fadf24b543e7bb6662399add0f [10/11] CHROMIUM: drm/i915/pxp: Mutisession version for Invalidate all PXP fw sessions during teardown
+config: x86_64-randconfig-a001-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131005.utqF5Yjs-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        git remote add cifs git://git.samba.org/sfrench/cifs-2.6.git
-        git fetch --no-tags cifs for-next
-        git checkout 1cbcbe544fb221a6cd24474c8af72b2a76f91d4d
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout abd7d8e9a3be86fadf24b543e7bb6662399add0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302130931.zOOQKBPI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302131005.utqF5Yjs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/netfs/iterator.c:13:
-   include/linux/netfs.h:302:33: error: unknown type name 'iov_iter_extraction_t'
-     302 |                                 iov_iter_extraction_t extraction_flags);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/netfs.h:306:34: error: unknown type name 'iov_iter_extraction_t'
-     306 |                                  iov_iter_extraction_t extraction_flags);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:38:33: error: unknown type name 'iov_iter_extraction_t'
-      38 |                                 iov_iter_extraction_t extraction_flags)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/netfs/iterator.c:8:
-   fs/netfs/iterator.c:105:19: error: 'netfs_extract_user_iter' undeclared here (not in a function)
-     105 | EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:87:23: note: in definition of macro '___EXPORT_SYMBOL'
-      87 |         extern typeof(sym) sym;                                                 \
-         |                       ^~~
-   include/linux/export.h:147:41: note: in expansion of macro '__EXPORT_SYMBOL'
-     147 | #define _EXPORT_SYMBOL(sym, sec)        __EXPORT_SYMBOL(sym, sec, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:151:41: note: in expansion of macro '_EXPORT_SYMBOL'
-     151 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "_gpl")
-         |                                         ^~~~~~~~~~~~~~
-   fs/netfs/iterator.c:105:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     105 | EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
-         | ^~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:115:41: error: unknown type name 'iov_iter_extraction_t'
-     115 |                                         iov_iter_extraction_t extraction_flags)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:168:41: error: unknown type name 'iov_iter_extraction_t'
-     168 |                                         iov_iter_extraction_t extraction_flags)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:214:41: error: unknown type name 'iov_iter_extraction_t'
-     214 |                                         iov_iter_extraction_t extraction_flags)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:275:43: error: unknown type name 'iov_iter_extraction_t'
-     275 |                                           iov_iter_extraction_t extraction_flags)
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/iterator.c:346:34: error: unknown type name 'iov_iter_extraction_t'
-     346 |                                  iov_iter_extraction_t extraction_flags)
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/netfs/iterator.c:8:
->> fs/netfs/iterator.c:372:19: error: 'netfs_extract_iter_to_sg' undeclared here (not in a function); did you mean 'netfs_extract_user_iter'?
-     372 | EXPORT_SYMBOL_GPL(netfs_extract_iter_to_sg);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:87:23: note: in definition of macro '___EXPORT_SYMBOL'
-      87 |         extern typeof(sym) sym;                                                 \
-         |                       ^~~
-   include/linux/export.h:147:41: note: in expansion of macro '__EXPORT_SYMBOL'
-     147 | #define _EXPORT_SYMBOL(sym, sec)        __EXPORT_SYMBOL(sym, sec, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:151:41: note: in expansion of macro '_EXPORT_SYMBOL'
-     151 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "_gpl")
-         |                                         ^~~~~~~~~~~~~~
-   fs/netfs/iterator.c:372:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     372 | EXPORT_SYMBOL_GPL(netfs_extract_iter_to_sg);
-         | ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/pxp/intel_pxp_tee.c:217:6: error: no previous prototype for function 'intel_pxp_tee_end_one_fw_session' [-Werror,-Wmissing-prototypes]
+   void intel_pxp_tee_end_one_fw_session(struct intel_pxp *pxp, u32 session_id, bool is_alive)
+        ^
+   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c:217:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void intel_pxp_tee_end_one_fw_session(struct intel_pxp *pxp, u32 session_id, bool is_alive)
+   ^
+   static 
+   1 error generated.
 
 
-vim +372 fs/netfs/iterator.c
+vim +/intel_pxp_tee_end_one_fw_session +217 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
 
-   266	
-   267	/*
-   268	 * Extract up to sg_max folios from an XARRAY-type iterator and add them to
-   269	 * the scatterlist.  The pages are not pinned.
-   270	 */
-   271	static ssize_t netfs_extract_xarray_to_sg(struct iov_iter *iter,
-   272						  ssize_t maxsize,
-   273						  struct sg_table *sgtable,
-   274						  unsigned int sg_max,
- > 275						  iov_iter_extraction_t extraction_flags)
-   276	{
-   277		struct scatterlist *sg = sgtable->sgl + sgtable->nents;
-   278		struct xarray *xa = iter->xarray;
-   279		struct folio *folio;
-   280		loff_t start = iter->xarray_start + iter->iov_offset;
-   281		pgoff_t index = start / PAGE_SIZE;
-   282		ssize_t ret = 0;
-   283		size_t offset, len;
-   284		XA_STATE(xas, xa, index);
-   285	
-   286		rcu_read_lock();
-   287	
-   288		xas_for_each(&xas, folio, ULONG_MAX) {
-   289			if (xas_retry(&xas, folio))
-   290				continue;
-   291			if (WARN_ON(xa_is_value(folio)))
-   292				break;
-   293			if (WARN_ON(folio_test_hugetlb(folio)))
-   294				break;
-   295	
-   296			offset = offset_in_folio(folio, start);
-   297			len = min_t(size_t, maxsize, folio_size(folio) - offset);
-   298	
-   299			sg_set_page(sg, folio_page(folio, 0), len, offset);
-   300			sgtable->nents++;
-   301			sg++;
-   302			sg_max--;
-   303	
-   304			maxsize -= len;
-   305			ret += len;
-   306			if (maxsize <= 0 || sg_max == 0)
-   307				break;
-   308		}
-   309	
-   310		rcu_read_unlock();
-   311		if (ret > 0)
-   312			iov_iter_advance(iter, ret);
-   313		return ret;
-   314	}
-   315	
-   316	/**
-   317	 * netfs_extract_iter_to_sg - Extract pages from an iterator and add ot an sglist
-   318	 * @iter: The iterator to extract from
-   319	 * @maxsize: The amount of iterator to copy
-   320	 * @sgtable: The scatterlist table to fill in
-   321	 * @sg_max: Maximum number of elements in @sgtable that may be filled
-   322	 * @extraction_flags: Flags to qualify the request
-   323	 *
-   324	 * Extract the page fragments from the given amount of the source iterator and
-   325	 * add them to a scatterlist that refers to all of those bits, to a maximum
-   326	 * addition of @sg_max elements.
-   327	 *
-   328	 * The pages referred to by UBUF- and IOVEC-type iterators are extracted and
-   329	 * pinned; BVEC-, KVEC- and XARRAY-type are extracted but aren't pinned; PIPE-
-   330	 * and DISCARD-type are not supported.
-   331	 *
-   332	 * No end mark is placed on the scatterlist; that's left to the caller.
-   333	 *
-   334	 * @extraction_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA
-   335	 * be allowed on the pages extracted.
-   336	 *
-   337	 * If successul, @sgtable->nents is updated to include the number of elements
-   338	 * added and the number of bytes added is returned.  @sgtable->orig_nents is
-   339	 * left unaltered.
-   340	 *
-   341	 * The iov_iter_extract_mode() function should be used to query how cleanup
-   342	 * should be performed.
-   343	 */
-   344	ssize_t netfs_extract_iter_to_sg(struct iov_iter *iter, size_t maxsize,
-   345					 struct sg_table *sgtable, unsigned int sg_max,
-   346					 iov_iter_extraction_t extraction_flags)
-   347	{
-   348		if (maxsize == 0)
-   349			return 0;
-   350	
-   351		switch (iov_iter_type(iter)) {
-   352		case ITER_UBUF:
-   353		case ITER_IOVEC:
-   354			return netfs_extract_user_to_sg(iter, maxsize, sgtable, sg_max,
-   355							extraction_flags);
-   356		case ITER_BVEC:
-   357			return netfs_extract_bvec_to_sg(iter, maxsize, sgtable, sg_max,
-   358							extraction_flags);
-   359		case ITER_KVEC:
-   360			return netfs_extract_kvec_to_sg(iter, maxsize, sgtable, sg_max,
-   361							extraction_flags);
-   362		case ITER_XARRAY:
-   363			return netfs_extract_xarray_to_sg(iter, maxsize, sgtable, sg_max,
-   364							  extraction_flags);
-   365		default:
-   366			pr_err("netfs_extract_iter_to_sg(%u) unsupported\n",
-   367			       iov_iter_type(iter));
-   368			WARN_ON_ONCE(1);
-   369			return -EIO;
-   370		}
-   371	}
- > 372	EXPORT_SYMBOL_GPL(netfs_extract_iter_to_sg);
+   216	
+ > 217	void intel_pxp_tee_end_one_fw_session(struct intel_pxp *pxp, u32 session_id, bool is_alive)
+   218	{
+   219		struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
+   220		struct pxp_inv_stream_key_in msg_in = {0};
+   221		struct pxp_inv_stream_key_out msg_out = {0};
+   222		int ret, trials = 0;
+   223	
+   224	try_again:
+   225		memset(&msg_in, 0, sizeof(msg_in));
+   226		memset(&msg_out, 0, sizeof(msg_out));
+   227		msg_in.header.api_version = PXP_TEE_APIVER;
+   228		msg_in.header.command_id = PXP_TEE_INVALIDATE_STREAM_KEY;
+   229		msg_in.header.buffer_len = sizeof(msg_in) - sizeof(msg_in.header);
+   230	
+   231		msg_in.header.extdata = FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_VALID, 1);
+   232		msg_in.header.extdata |= FIELD_PREP(PXP_CMDHDR_EXTDATA_APP_TYPE, 0);
+   233		msg_in.header.extdata |= FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_ID, session_id);
+   234	
+   235		ret = intel_pxp_tee_io_message(pxp,
+   236					       &msg_in, sizeof(msg_in),
+   237					       &msg_out, sizeof(msg_out),
+   238					       NULL);
+   239	
+   240		/* Cleanup coherency between GT and Firmware is critical, so try again if it fails */
+   241		if ((ret || msg_out.header.status != 0x0) && ++trials < 3)
+   242			goto try_again;
+   243	
+   244		if (ret)
+   245			drm_err(&i915->drm, "Failed to send tee msg for inv-stream-key-%d, ret=[%d]\n",
+   246				session_id, ret);
+   247		else if (msg_out.header.status != 0x0 && is_alive)
+   248			drm_warn(&i915->drm, "PXP firmware failed inv-stream-key-%d with status 0x%08x\n",
+   249				 session_id, msg_out.header.status);
+   250	}
+   251	
 
 -- 
 0-DAY CI Kernel Test Service
