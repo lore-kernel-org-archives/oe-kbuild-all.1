@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D8C1FA8;
-	Mon, 13 Feb 2023 06:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7C81FA8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 07:00:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676270412; x=1707806412;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=fpTEh47MWrCnHTuYV/OuOJkZXMaN2JuZHzWyWpUgP3c=;
-  b=I0MDPmNUQvyXWzA6tY2u0s9syUmT8rtKw+tUEU4rBjIb+USnMaNYTM3J
-   3BQx/ZMqFj5wl0erhaCw1v0dBKbbejJDuy0nEB3S4snkTOUWhBWujRgDx
-   RYpuZzJfqb30LDyawZcnSwsSFSxZbhik75zxu3qq5hwyl2GYqersGpCvw
-   +VRHfJT1P4mO16qKDbQjnW1iJ4rEq1ZrS9oQAFP86ewZvNv7QuuyErzWK
-   +mhzwxjBFN21z+4JDjjXPlxUC/3ZBM/7PpZknbNgwiVbMjs6hFACPK1cu
-   vpHjHPe7D9oDf8rOQ1rfv9w/491KQhDCGOH08fVDMrVf0i6sSb36QZcTV
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="328529281"
+  t=1676271612; x=1707807612;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TicRqcq6yFIObXDi3ZMSSjye+jt3GaEvIzd9eLdHX0c=;
+  b=aFEmlCwnjVU80fAuTSMe3ntEQBTeRKV/tpqnV57nmvacKk4Ve4XMpObK
+   vPPX1eWH4dukfZMRzQb40IMmW0glf/rmeDXP8TbPkdflFfJeO+YWbgyIB
+   4aMh8spekGiQfkPElYMBdABV/pIT/ml+uYitJ7HfpOiFoMVM3oWb9fvJv
+   LbFv/SBmUgJl2awxpAQoE4ya1niiR6lBCIgCgngkTJGB8PM4MAE7xA6/t
+   53At1J5ER6x7wNwc7WJPEPPpxyG/Q9BR/FAmmCLO8+LBes37zVQPUY6T4
+   6PR/2x7FLAy1RPFA/ElAUiRyOLNyV5vKCRuxMmrUCWzOrJuiMLWeR6fDw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358234197"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="328529281"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 22:40:11 -0800
+   d="scan'208";a="358234197"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 23:00:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="701155056"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670709393"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="701155056"
+   d="scan'208";a="670709393"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Feb 2023 22:40:10 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 12 Feb 2023 23:00:10 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRSVV-0007b5-2e;
-	Mon, 13 Feb 2023 06:40:09 +0000
-Date: Mon, 13 Feb 2023 14:39:42 +0800
+	id 1pRSos-0007bZ-0U;
+	Mon, 13 Feb 2023 07:00:10 +0000
+Date: Mon, 13 Feb 2023 15:00:08 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [linux-next:master 10834/12440] ld.lld: error:
- vmlinux.a(init/main.o):(function rcu_lock_acquire: .text+0x268): relocation
- R_RISCV_HI20 out of range: 524289 is not in [-524288, 524287]; references
- .Ltmp0
-Message-ID: <202302131438.5tUJP2Sy-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [kraxel:drm-qemu-next 6/7]
+ drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse: sparse: incorrect type
+ in argument 3 (different base types)
+Message-ID: <202302131424.wBEsydUG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,44 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Mustafa Ismail <mustafa.ismail@intel.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Shiraz Saleem <shiraz.saleem@intel.com>
-CC: Sindhu Devale <sindhu.devale@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   09e41676e35ab06e4bce8870ea3bf1f191c3cb90
-commit: 9cd9842c46996ef62173c36619c746f57416bcb0 [10834/12440] RDMA/irdma: Cap MSIX used to online CPUs + 1
-config: riscv-randconfig-r036-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131438.5tUJP2Sy-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=9cd9842c46996ef62173c36619c746f57416bcb0
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 9cd9842c46996ef62173c36619c746f57416bcb0
+tree:   git://git.kraxel.org/linux drm-qemu-next
+head:   678d45faf3684f4ec694cc19b70db7f2a0c9c841
+commit: 347d001a65ba84c02ebd403000bf4e524cf678e6 [6/7] drm/virtio: Attach and set suggested_x/y properties for the connector
+config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20230213/202302131424.wBEsydUG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add kraxel git://git.kraxel.org/linux
+        git fetch --no-tags kraxel drm-qemu-next
+        git checkout 347d001a65ba84c02ebd403000bf4e524cf678e6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/virtio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131438.5tUJP2Sy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302131424.wBEsydUG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] x @@
+   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     expected unsigned long long [usertype] val
+   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     got restricted __le32 [usertype] x
+>> drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] y @@
+   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     expected unsigned long long [usertype] val
+   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     got restricted __le32 [usertype] y
 
->> ld.lld: error: vmlinux.a(init/main.o):(function rcu_lock_acquire: .text+0x268): relocation R_RISCV_HI20 out of range: 524289 is not in [-524288, 524287]; references .Ltmp0
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function rcu_lock_release: .text+0x2b0): relocation R_RISCV_HI20 out of range: 524289 is not in [-524288, 524287]; references .Ltmp1
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
+vim +654 drivers/gpu/drm/virtio/virtgpu_vq.c
+
+   647	
+   648	static void virtio_gpu_update_output_position(struct virtio_gpu_output *output)
+   649	{
+   650		struct drm_connector *connector = &output->conn;
+   651		struct drm_device *dev = connector->dev;
+   652	
+   653		drm_object_property_set_value(&connector->base,
+ > 654			dev->mode_config.suggested_x_property, output->info.r.x);
+   655		drm_object_property_set_value(&connector->base,
+ > 656			dev->mode_config.suggested_y_property, output->info.r.y);
+   657	}
+   658	
 
 -- 
 0-DAY CI Kernel Test Service
