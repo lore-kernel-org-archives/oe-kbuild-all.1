@@ -1,76 +1,84 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225278F5F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 16:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676305588; x=1707841588;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Mhqn7XyohSsO1uMINJTSHE8BQhiCGDwhiUBGRmonQfI=;
-  b=Z7B+JPPjn7A260QACoUSlgKkuMe92f7waRcm+4NUqXlRDFamh3oEaDiC
-   v8T0P/tugdLdFoCe2EJERZZBQU8hZcoaagCFdJlBbgoLxCINIg8mh2h7X
-   6H87Qpg/8XeQo1MO0JTyA7q0HdwAcKesXFQ5ahy1/l+BseFjyr5DRbyqG
-   0dHXT/NV/9tvapiSq98dos6O0jq+SH6kwp97WFnTfEHyRNh6+jvzUKnoy
-   YMuiweOYXW626Anpl2x1XMCPesCyR3C/lOqcv27XvGE0zeI2oSNzhfuWq
-   tijhpmlt18K4Nv+tkdPIDpqtudZ+5TskiEzVl9wszUKvk3ATQYhVMBphP
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="328633212"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="328633212"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 08:26:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="997742678"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="997742678"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2023 08:26:26 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRber-0007s5-2F;
-	Mon, 13 Feb 2023 16:26:25 +0000
-Date: Tue, 14 Feb 2023 00:25:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+538 bytes kernel size regression] [i386-tinyconfig]
- [d9722a4757] splice: Do splice read from a buffered file without using
- ITER_PIPE
-Message-ID: <63ea6483.I9rGNdlQt1aW8bNm%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5014A8F5F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 16:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676305690;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tY93Vcn96S1NQqNiCIPT+HMJd+qoWIAXPg3or3XpE6U=;
+	b=VTiZxJ1Sj5laTfve61b8JexkH29qUVaJf4pUs0w7PobB2vrCsfhcNjjRLy96JNEa1+3nmv
+	5f/Bv4HfqkuyPd9qkD/PH7DXW0SH6ulzR6qUOu9F4UGkMv3tFiXfoxJnOjM10AKy1deYDb
+	Jme+dPbjHdNmoqVPPOlagd0hthl2exA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-290-tSbErZfjNTuANVaBaHmJOw-1; Mon, 13 Feb 2023 11:28:07 -0500
+X-MC-Unique: tSbErZfjNTuANVaBaHmJOw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D72187A9E1;
+	Mon, 13 Feb 2023 16:28:06 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.24])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0858D40CF8ED;
+	Mon, 13 Feb 2023 16:28:05 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <63ea63b7.y4YY5lB3uDgtlJY6%lkp@intel.com>
+References: <63ea63b7.y4YY5lB3uDgtlJY6%lkp@intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: dhowells@redhat.com, Josh Triplett <josh@joshtriplett.org>,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [lkp] [+547 bytes kernel size regression] [i386-tinyconfig] [929bad88e0] splice: Fix O_DIRECT file read splice to avoid reversion of ITER_PIPE
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Date: Mon, 13 Feb 2023 16:28:05 +0000
+Message-ID: <2341199.1676305685@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2341198.1676305685.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, we noticed a +538 bytes kernel size regression due to commit:
+> FYI, we noticed a +547 bytes kernel size regression due to commit:
+>=20
+> commit: 929bad88e01fe3741170eb3c2faace578fae1ef6 (splice: Fix O_DIRECT fi=
+le read splice to avoid reversion of ITER_PIPE)
+> https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-extract-=
+3
+>=20
+>=20
+> Details as below (size data is obtained by `nm --size-sort vmlinux`):
+>=20
+> 4ec5183e: Linux 6.2-rc7
+> 929bad88: splice: Fix O_DIRECT file read splice to avoid reversion of ITE=
+R_PIPE
+>=20
+> +--------------------------------------+----------+----------+-------+
+> |                symbol                | 4ec5183e | 929bad88 | delta |
+> +--------------------------------------+----------+----------+-------+
+> | nm.t.generic_file_direct_splice_read | 0        | 515      | 515   |
+> | bzImage                              | 495936   | 496288   | 352   |
+> | nm.T.generic_file_splice_read        | 169      | 200      | 31    |
+> | nm.D.linux_banner                    | 165      | 166      | 1     |
+> +--------------------------------------+----------+----------+-------+
 
-commit: d9722a47571104f7fa1eeb5ec59044d3607c6070 (splice: Do splice read from a buffered file without using ITER_PIPE)
-https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-extract-3
+How does 82cf0207bed44feb0b3b8b17a4c351fdde34a97b to v6.2-rc7?  That's the
+conclusion of the ITER_PIPE-removal.
 
-
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-cd119d2f: mm: Pass info, not iter, into filemap_get_pages() and unstatic it
-d9722a47: splice: Do splice read from a buffered file without using ITER_PIPE
-
-+----------------------------------------+----------+----------+-------+
-|                 symbol                 | cd119d2f | d9722a47 | delta |
-+----------------------------------------+----------+----------+-------+
-| nm.t.generic_file_buffered_splice_read | 0        | 680      | 680   |
-| bzImage                                | 496352   | 496640   | 288   |
-| nm.T.generic_file_splice_read          | 200      | 58       | -142  |
-+----------------------------------------+----------+----------+-------+
-
-
-
-Thanks
+David
 
