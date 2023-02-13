@@ -1,34 +1,34 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068E523A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 10:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB4823A5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 10:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676283351; x=1707819351;
+  t=1676283445; x=1707819445;
   h=message-id:subject:from:to:cc:date:in-reply-to:
    references:content-transfer-encoding:mime-version;
-  bh=8pxbrVMMBeuKldEB4rEpcQ/HEmb3Tvb3aO7aDW2woT8=;
-  b=KNIPH2YX3Woiwsa8VovbgHTjsuOKfOVHqypepqj6I+IFbn2VieCVIcDO
-   wTXKiNpvtsLDQkD0p1zPHBNXTMdNEQp5DrKIAyZTDvhL/IwUbTaAes6sU
-   R9ogUITOJiATeKWz9ffoJ4AUzvpTVxwtyW7/781X/NfFtAW1hiBpwJVqg
-   W28eXnVC7djA5fHDUr65vD7hTh45f4z8SGRL32RFDSpNPn+uD4YU55Pje
-   NZRqRHE/Fhh4oDd0wbqvOryNDFQ9E8vGj9d1UV5SAfyVK/yrK/dQcOE82
-   wD5FXMY+WtaHGpfbpq8PET94/IGPHp8Wb7f4mSLXYdPE49KkMNGK28709
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="417082721"
+  bh=zeloRDIsdgzAHn0ZJQF6AbWhXizumlB5mC7D3T++dzA=;
+  b=EEviabSCYOyukK3B3S1kxk81SW1OpTH3hvjq9oreSBMsBgrjiaOuEHfN
+   p9R1rKk7GyRL38WB2KRtNqsYT8k+S76ludA/nEwbBf0FpNBqqbXcQ+Vu+
+   XtiGNkyYrrU2LSQd8gTyPGyjcxPBd0pHX81ki4VbaexsuB7A/7u5+EB30
+   Imr3Le5lgLzS9jMiFLNQyz2diV/8ojUR4xY9B9dhvnz2zTHXQ25fIY2e/
+   ij0fxetbp/qTHL0Xr/di9txN4h2QpG3FJj6SAz7sARTMaqOUvDfWPymRT
+   4CWp0MFFTP/H8KVWiN2rClmvtzTIymGelqT1yD6jUI2f0tMbPq+GHNTPU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="395470640"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="417082721"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:15:48 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="668753842"
+   d="scan'208";a="395470640"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:17:11 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="737461951"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="668753842"
+   d="scan'208";a="737461951"
 Received: from pranavk3-mobl.gar.corp.intel.com ([10.213.82.89])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:15:41 -0800
-Message-ID: <6cc45a32e92e6a261b7d497eb48ac59472c35508.camel@linux.intel.com>
-Subject: Re: [PATCH 1/3] Documentation: admin-guide: Add toctree entry for
- thermal docs
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:17:05 -0800
+Message-ID: <8367d92de90afaaa7ec5fac1dbcc0337ab641cb6.camel@linux.intel.com>
+Subject: Re: [PATCH 2/3] Documentation: powerclamp: Escape wildcard in
+ cpumask description
 From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
 To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Documentation
 	 <linux-doc@vger.kernel.org>, Linux Kernel Mailing List
@@ -41,10 +41,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
  <mchehab+samsung@kernel.org>, Arjan van de Ven <arjan@linux.intel.com>,
  Jacob Pan <jacob.jun.pan@linux.intel.com>,  oe-kbuild-all@lists.linux.dev,
  kernel test robot <lkp@intel.com>
-Date: Mon, 13 Feb 2023 02:15:36 -0800
-In-Reply-To: <20230213100800.28333-2-bagasdotme@gmail.com>
+Date: Mon, 13 Feb 2023 02:17:02 -0800
+In-Reply-To: <20230213100800.28333-3-bagasdotme@gmail.com>
 References: <20230213100800.28333-1-bagasdotme@gmail.com>
-	 <20230213100800.28333-2-bagasdotme@gmail.com>
+	 <20230213100800.28333-3-bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4-0ubuntu1 
@@ -57,64 +57,58 @@ MIME-Version: 1.0
 
 Hi Sanjaya,
 
-On Mon, 2023-02-13 at 17:07 +0700, Bagas Sanjaya wrote:
-> kernel test robot reported htmldocs warnings:
+On Mon, 2023-02-13 at 17:08 +0700, Bagas Sanjaya wrote:
+> kernel test robot reported htmldocs warning:
 >=20
-> Documentation/admin-guide/index.rst:62: WARNING: toctree contains
-> reference to nonexisting document 'admin-guide/thermal'
-> Documentation/admin-guide/thermal/intel_powerclamp.rst: WARNING:
-> document isn't included in any toctree
+> Documentation/admin-guide/thermal/intel_powerclamp.rst:328: WARNING:
+> Inline emphasis start-string without end-string.
 >=20
-> Add toctree entry for thermal/ docs to fix these warnings.
+> The mistaken asterisk in /proc/irq/*/smp_affinity is rendered as
+> hyperlink
+> as the result.
 >=20
 I submitted a patch=20
 	[thermal-bleeding-edge][PATCH] thermal: intel: powerclamp: Fix
-warnings
+warnings.
 
 Thanks,
 Srinivas
 
+> Escape the asterisk to fix above warning.
+>=20
 > Link:
-> https://lore.kernel.org/linux-doc/202302121759.MmJgDTxc-lkp@intel.com/
-> Fixes: 707bf8e1dfd51d ("Documentation: admin-guide: Move
-> intel_powerclamp documentation")
+> https://lore.kernel.org/linux-doc/202302122247.N4S791c4-lkp@intel.com/
+> Fixes: ebf51971021881 ("thermal: intel: powerclamp: Add two module
+> parameters")
 > Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
-> =C2=A0Documentation/admin-guide/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A0Documentation/admin-guide/thermal/index.rst | 8 ++++++++
-> =C2=A02 files changed, 9 insertions(+), 1 deletion(-)
-> =C2=A0create mode 100644 Documentation/admin-guide/thermal/index.rst
+> =C2=A0Documentation/admin-guide/thermal/intel_powerclamp.rst | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/Documentation/admin-guide/index.rst
-> b/Documentation/admin-guide/index.rst
-> index c872a8a1ddfa28..0571938ecdc868 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -116,7 +116,7 @@ configure specific aspects of kernel behavior to
-> your liking.
-> =C2=A0=C2=A0=C2=A0 svga
-> =C2=A0=C2=A0=C2=A0 syscall-user-dispatch
-> =C2=A0=C2=A0=C2=A0 sysrq
-> -=C2=A0=C2=A0 thermal
-> +=C2=A0=C2=A0 thermal/index
-> =C2=A0=C2=A0=C2=A0 thunderbolt
-> =C2=A0=C2=A0=C2=A0 ufs
-> =C2=A0=C2=A0=C2=A0 unicode
-> diff --git a/Documentation/admin-guide/thermal/index.rst
-> b/Documentation/admin-guide/thermal/index.rst
-> new file mode 100644
-> index 00000000000000..193b7b01a87d7e
-> --- /dev/null
-> +++ b/Documentation/admin-guide/thermal/index.rst
-> @@ -0,0 +1,8 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Thermal Subsystem
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +=C2=A0=C2=A0 :maxdepth: 1
-> +
-> +=C2=A0=C2=A0 intel_powerclamp
+> diff --git a/Documentation/admin-guide/thermal/intel_powerclamp.rst
+> b/Documentation/admin-guide/thermal/intel_powerclamp.rst
+> index 2d9d2d739f0256..f919fbe1cdd942 100644
+> --- a/Documentation/admin-guide/thermal/intel_powerclamp.rst
+> +++ b/Documentation/admin-guide/thermal/intel_powerclamp.rst
+> @@ -326,7 +326,7 @@ Module Parameters
+> =C2=A0
+> =C2=A0``cpumask`` (RW)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0A bit mask of CPUs to inj=
+ect idle. The format of the bitmask
+> is same as
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0used in other subsystems like =
+in /proc/irq/*/smp_affinity.
+> The mask is
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0used in other subsystems like =
+in /proc/irq/\*/smp_affinity.
+> The mask is
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0comma separated 32 bit gr=
+oups. Each CPU is one bit. For
+> example for a 256
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0CPU system the full mask =
+is:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ffffffff,ffffffff,fffffff=
+f,ffffffff,ffffffff,ffffffff,fffffff
+> f,ffffffff
 
