@@ -1,45 +1,45 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FECC185A;
-	Mon, 13 Feb 2023 03:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48863187E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 03:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676259740; x=1707795740;
+  t=1676259743; x=1707795743;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HVqDQXlbesnHaw/YR8mVcUIQJwZTqRaPvwT4zYlERaQ=;
-  b=KXSV1sszTJ4v6aJIO1LxDgipaSOh2HQTY4DoWRR9PxRmnAM26W3qWWvl
-   TV999N880ZbBiPGEBVd6zYGHE1H6lfUzOKHTJTMEw3bCgxRnZBMxIqzRc
-   m/5dMW4HtLUWyF+lmkpUFfg/iAn7R02f/YJXj51u/SZyEintCN0hfkY0E
-   APJH6WFQHoepUk+IboFe8yz8oOiUA6vWTMjnpQfaFDMhgwh2OWRf1sd2J
-   jZL2aiceis1z1EYjNGunO6eOmym3hm1ETkruGB+f2Gx/cm4EhR08eMhfK
-   fLWO2cZTE6Cwyg3Y4CMt4MdEfwySBWy8buqQGaMToI5EkjlJGTbCCu1JG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332938105"
+  bh=x2Kn7btT76n8hCkVdzDxZMzgT9DAxZsJ8X0Ywwj/FgY=;
+  b=c0koDzujPCHVhEiZSWDCKnI7F8IXuH/3gDIrkNbbbydy2EOXOLJ4GB3a
+   WAJMtdF6GT9mkGAY7fevojJvveQxQe/phKpjsdAouNcA6+/4xhH2G8DY7
+   EbbOmbpBTLJCbumZHSKBkLh2JROsmaAgXniNOk/98r9wv/BWhaW0f7iK1
+   Oz4JHqQgXzuHtMf2bPXPesOiT9k1qw2oJznxcRqSLWi8RRG+YSwKSD1BK
+   uSJWJYoFhlrpOZrJ/qdGru7Td+Gm4wuzBYSMIaddY3wzQdDaQzTGpI0vC
+   xPNkp3C2iuMwK2Kp5S5526IHNyGM7bKawo5F85/gJXxK0CvWDUCWHDZOK
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332938112"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="332938105"
+   d="scan'208";a="332938112"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 19:42:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="668669990"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="668669991"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="668669990"
+   d="scan'208";a="668669991"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 12 Feb 2023 19:42:03 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRPj9-0007Wl-0s;
+	id 1pRPj9-0007Wj-0n;
 	Mon, 13 Feb 2023 03:42:03 +0000
-Date: Mon, 13 Feb 2023 11:41:29 +0800
+Date: Mon, 13 Feb 2023 11:41:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mike Christie <michael.christie@oracle.com>, brauner@kernel.org,
 	ebiederm@xmission.com, torvalds@linux-foundation.org,
 	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Mike Christie <michael.christie@oracle.com>
 Subject: Re: [PATCH 5/5] kernel: Convert kthread to use setup_thread_fn
-Message-ID: <202302131159.2TPrVEmE-lkp@intel.com>
+Message-ID: <202302131111.s59th1pG-lkp@intel.com>
 References: <20230213010020.1813-6-michael.christie@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -56,8 +56,8 @@ Hi Mike,
 I love your patch! Perhaps something to improve:
 
 [auto build test WARNING on tip/sched/core]
-[also build test WARNING on vfs-idmapping/for-next linus/master]
-[cannot apply to davem-sparc/master next-20230210]
+[also build test WARNING on vfs-idmapping/for-next linus/master v6.2-rc8]
+[cannot apply to next-20230210]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -65,46 +65,28 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/kernel-Move-kernel_clone_args-s-fn-to-new-struct/20230213-090304
 patch link:    https://lore.kernel.org/r/20230213010020.1813-6-michael.christie%40oracle.com
 patch subject: [PATCH 5/5] kernel: Convert kthread to use setup_thread_fn
-config: mips-randconfig-r021-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131159.2TPrVEmE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230213/202302131111.s59th1pG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/9b34e5869b059d529620a0144a93c7437411cca0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Mike-Christie/kernel-Move-kernel_clone_args-s-fn-to-new-struct/20230213-090304
         git checkout 9b34e5869b059d529620a0144a93c7437411cca0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131159.2TPrVEmE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302131111.s59th1pG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/fork.c:162:13: warning: no previous prototype for function 'arch_release_task_struct' [-Wmissing-prototypes]
-   void __weak arch_release_task_struct(struct task_struct *tsk)
-               ^
-   kernel/fork.c:162:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_release_task_struct(struct task_struct *tsk)
-   ^
-   static 
-   kernel/fork.c:862:20: warning: no previous prototype for function 'arch_task_cache_init' [-Wmissing-prototypes]
-   void __init __weak arch_task_cache_init(void) { }
-                      ^
-   kernel/fork.c:862:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init __weak arch_task_cache_init(void) { }
-   ^
-   static 
->> kernel/fork.c:2565:1: warning: unused label 'bad_fork_cleanup_delayacct' [-Wunused-label]
-   bad_fork_cleanup_delayacct:
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
+   kernel/fork.c: In function 'copy_process':
+>> kernel/fork.c:2565:1: warning: label 'bad_fork_cleanup_delayacct' defined but not used [-Wunused-label]
+    2565 | bad_fork_cleanup_delayacct:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/bad_fork_cleanup_delayacct +2565 kernel/fork.c
