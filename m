@@ -1,202 +1,239 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7C723A5;
-	Mon, 13 Feb 2023 09:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E08423A5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 09:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676280558; x=1707816558;
+  t=1676280890; x=1707816890;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bainX+rNjEUG4h7jBawjp/NmO2u89bcT7SfBlCxrDXk=;
-  b=MBU+hld5lBqAgcUPkDavZuxXgo++THTGwhe6TLqjg8gYuRW2lCoxnlXo
-   Qp5vX+wgeQ4vNpARHyfmQPjDoS1pguqruDMk1lsXnET0i4Ytsbw9ki3V7
-   RRGmdQdrGEUQirFGOKoXfTPIQV6mw7kPoi1LErGvb8T3pyGFL38heGu9p
-   QbvdMlYpIjG2elK9FNTlZw+ki+/2I/wY0W5okHMpyxAmfxH9sYwsyaNso
-   kBUdbX1l/00aYIZtnz071m34b0KHXaqXJoVMp1PuiA4Xa5fy2LUL6pCMG
-   pdAx/JjF06eNA1O3xweFO1KellSiS/dfHQNoWmKyFyarXe+GabdnDonHt
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358258505"
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=IwIIts5SnwYtcR3xHATZbOGMxnqwbvjFcUB8/Jjn828=;
+  b=eCGGPv2nIkwXOXe7ikha0KhXZPgdfVGW5nhcEyUo0U8MZafyADRQNVvP
+   kxkAXCvKdOJPy0Zbl1yK1806AdxK+iJW0nn9etPDrNBKYkhjsB6JkgMkV
+   xGizw5HNlUzrNcuxDsbKHEZFbvGjs81FiOjXTqmHJTrZxfJAJcMNV+4us
+   aTrMSbNVyqdmPIecvgUsFoYkXSFNJ7+ZThPekx4TzONW5mOSdOIw6+y0v
+   eC6WDGe2v6tgH4LsVa0e4YmNrT060NdIplI1fnTNLt4dS0AffY/GPGLZw
+   b/Mc34kuKQx3MnEiA4h3leg/7B/VotPoq56VKi1b4jagk6xjIo66WQyPM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310484455"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="358258505"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 01:29:15 -0800
+   d="scan'208";a="310484455"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 01:34:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="732433075"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="777774373"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="732433075"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 13 Feb 2023 01:29:13 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRV96-0007eX-18;
-	Mon, 13 Feb 2023 09:29:12 +0000
-Date: Mon, 13 Feb 2023 17:28:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "GuoRui.Yu" <GuoRui.Yu@linux.alibaba.com>, hch@lst.de,
-	m.szyprowski@samsung.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	robin.murphy@arm.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, GuoRui.Yu@linux.alibaba.com,
-	xiaokang.hxk@alibaba-inc.com
-Subject: Re: [PATCH] swiotlb: fix the deadlock in swiotlb_do_find_slots
-Message-ID: <202302131745.cIrweVLs-lkp@intel.com>
-References: <20230213063604.127526-1-GuoRui.Yu@linux.alibaba.com>
+   d="scan'208";a="777774373"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2023 01:34:43 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 13 Feb 2023 01:34:42 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 13 Feb 2023 01:34:42 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.106)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 13 Feb 2023 01:34:42 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yn0UVle10ImH8Ibj6iXDHABfghW6fF0eKKHY2TMcXBZFerx47QwXPQgZ+TabgChQiv43YNuSGMVBDZ06Pbo0jYqelsR3ZiK4UzAIlI2eDLCwytFWGBAAEBwNPYC7XUzDf619qePvs9Npl3//26TiNLB6NPvpIkbizBjsxNZbWKMnwc7JvRLPVUM6fVuBTgh+mZcDETZr63OUnUvr/v1GkJoiXghl3TheyzYu6xmp1gpjG8Q2+QPLzRSJkR7jw10qv7rCA2Khco+DZMtOHzb8NHgpRVEJredR6E39wUn0l1ngTGkRdCEonyR8fYDfJioBg++rHvKxC69GafsVDX+4Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=98fXN242SEULnipiCsEi5k/+m6O3Hm3OPRT3bvFSQeQ=;
+ b=lknTR2aYgCC+TXFnhkWJ6MyiN6fpLJ5l9SoXdu4BmbrPjIaKXY67oGlNN4NLo2RY5utyLUWaxWC+WZ0Tbu8syYlOkP/abi43PNHcx5OxsTJj1TJN6gb6HFqBBPTIpcNmnqHruJGKUA3FgNA+Qs0nLIT+fEgbOTHQrgN0nOvAu3+JDzXE0t65UL+l0BHzJhIyUGoSeKUvGZWbTmsV+m68OPVlY9KGRJvVj2Yu7gxTr2BJY8dfPQkdmzQpprTVB9OkdOMDjHJSgSEy144zxCwCilpV/uI67GQkzTXSFqiF9C8enhYLzPjTVGnuqYNgWgYhKE/s6PhZQ+iWgr1fzbUiMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by DS0PR11MB7632.namprd11.prod.outlook.com (2603:10b6:8:14f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Mon, 13 Feb
+ 2023 09:34:39 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::30e3:a7ab:35ba:93bb%7]) with mapi id 15.20.6086.024; Mon, 13 Feb 2023
+ 09:34:39 +0000
+Date: Mon, 13 Feb 2023 17:31:58 +0800
+From: Yujie Liu <yujie.liu@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, James Bottomley
+	<James.Bottomley@hansenpartnership.com>
+CC: kernel test robot <lkp@intel.com>, <linux-integrity@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <keyrings@vger.kernel.org>, Ard Biesheuvel
+	<ardb@kernel.org>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+Message-ID: <Y+oDjm3dpqtXx1Jv@yujie-X299>
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+ <202301250706.deGvd0yq-lkp@intel.com>
+ <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+ <Y9ykeASyzhSKQCmx@yujie-X299>
+ <Y+MNxmzlILarAlZA@kernel.org>
+ <3109ff421139af6b0d9e66a06d8399135e546fa7.camel@HansenPartnership.com>
+ <Y+nqpLm2YyYkcZ+H@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+nqpLm2YyYkcZ+H@kernel.org>
+X-ClientProxiedBy: SG2P153CA0041.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::10)
+ To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213063604.127526-1-GuoRui.Yu@linux.alibaba.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS0PR11MB7632:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9239b8ad-7b0f-4c2f-4858-08db0da5870e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xszldxae3+fZur1s/YxVdXy3zy/6oVhASXXOVfiYe5n6QNRPgH3jkhKU4bNkVeln69BgfcD9X4anSXTB/vSzzpCuvbHKfKJlN5dgL3IQ1StpgF0oSRGJ9ycu+CS3sa1UNuTqcDHLMh4+oQpmGPgzmc59JQK73fJ5XsHgDaNekDvPp75/9BCSwHq//UPxZjh3OgTJtuqHygcJZ/RdkmC22fZh6F4IkieCeMfHlIINFRdMc2dEnpnATtCSFPWIeu0DtlQWGgkjDhQ2CWQv2FSxcCaWvnE+rcQ9/iy/kNSYc4YzbczFiHjCJj4hwSsK7/hEuSYZsRwiOy719ogaUhuzSceJi2eBq3iYXkevA4IMaU1gZVugWjV3dRKw/pRzwN6ALd/o+lZsHu4x4c9tJNZFQW9RzthWJjxtZ2KFmCBIfZHjzkNIjW5Bu/LTcAs8Rq8PoS/awEWsAqPZnf/EurCtdBsTcNhJeHLLBkvko+Q7XX09Qnls+avXJHniIp5Rya0cMDcVDj1GXPl8G7uZ9+nDXqp6TnKqvsofE6CwfJKc8e+PSEFyiFa4fOT81TPG9ScF9uOqL6SCrkfIurxQsZnA0yVu8vx3nyFdOPfej3yCPmO/S3bFAR1edeB+x5bj9mYMj6tEIN2/lB48OF8xIgtBGFpCaE8WMVU0tM9dIHgPw+R6+chEL4f6Im4glgAB74x4
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199018)(110136005)(54906003)(316002)(5660300002)(38100700002)(8936002)(41300700001)(2906002)(82960400001)(66476007)(8676002)(6666004)(44832011)(83380400001)(6512007)(86362001)(6486002)(478600001)(33716001)(4326008)(26005)(66556008)(6506007)(186003)(9686003)(66946007)(66899018)(67856001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?z64pzZYOdSFjJ/Z22ITAYsXX8zW0Tnm0VztiGp9S0eJrLVE5Bjn0OpkWvA?=
+ =?iso-8859-1?Q?R+zyOewJ/5LhLbaNWd57wwzVLsSXEALpAFIEzzDq+qGQQTph2s5dM8VEMv?=
+ =?iso-8859-1?Q?LEBEI3b2ALCCcsobyhqhHRdxRKQt55tAFEzrTwWooWe8IjumUUmiTxdcJL?=
+ =?iso-8859-1?Q?6PLFgr6tlwg7OnMwh/aaLbydeiGmmCTBfHWsY13jBiWu2Ort0FA2RZNgsD?=
+ =?iso-8859-1?Q?eHPoyw5mp2B3h4oxnOckPjiVDbdQkBjB61wz40YdiAADgHHukqK1qpSf0k?=
+ =?iso-8859-1?Q?DZZUwdAdkjshRSD527VHRPpj9okmm4dlzeqnJon44bd6+Bs68u/eUBOwl+?=
+ =?iso-8859-1?Q?K/LCDKgCuK0ZKNuQxtb06VhNDAZDVtUiV1x36Qfov6wIMRl+CLa4ohKOxD?=
+ =?iso-8859-1?Q?4J41ie9okY/1qxqQ7hCPa6gJzrmxkqoQYpwgdkHgtAkCRnnEY35IdBUp7o?=
+ =?iso-8859-1?Q?mTzwTcBt0xLfRP2a/ZElM3B2pZMEWk4pIvBC/yp/+Xs8Oreei2zXgSrSB4?=
+ =?iso-8859-1?Q?nRW3dkS8DkGeEbsNdz1YIklpNtex4c7ku+7G2BWTFBCvxU62RASHryOWQ6?=
+ =?iso-8859-1?Q?WzsAY4LUJgo+j/jMtranWIpbHvCIUgTXBRl9K32lAYjRpcYJAx/weGTvF5?=
+ =?iso-8859-1?Q?DVI8HZW49bvR9+CBBdKORDdQRaw0kXWB2BAqf9wTy7eSacjG4VuGwAWsgF?=
+ =?iso-8859-1?Q?mCzGWH4DvDR0QhKgEI3/rqxnt99GkB3QwpYxkz84OPR7xKhX/eAJaCH9d3?=
+ =?iso-8859-1?Q?rN7nfvAW6U7mfba7YDo+B9D7nH+ob5eh0gP0kSKFFy8RxkTIhR31IqFTyj?=
+ =?iso-8859-1?Q?Vcz3yn+WGaiqfa0htF+l4n36FQ3/LckRfY0GJdUPoQT7HvhPTMz73UsTFw?=
+ =?iso-8859-1?Q?N8IzHp76Ky4fvaUZ5HNsGARH8f63xjh7hoNsUcnI7/NWJzROCxxCHySCVQ?=
+ =?iso-8859-1?Q?qA4AEgg/+1QDNuMS32Tfwjm7q9tBKHXMeYxJe++FicojAoE5kEPHeJ0HVj?=
+ =?iso-8859-1?Q?7mxYvr9rkvvegUfBXg97AjWyWDqa7EM8nORLfsNvkpBJZQojojxLyy7U+R?=
+ =?iso-8859-1?Q?UOX6YHIchvzo3d2Rq3ATX31KlTy/AgpARaN3f912yq7i++FLc81b59aNJS?=
+ =?iso-8859-1?Q?4sqgCG7gBlg7nb96MOfS9Ffm8UBZm5nNpHk0t7x4RRpj6ZbfwnD71NlHHl?=
+ =?iso-8859-1?Q?x1AJ9EFrIcD+kRjGmGALB4/cDAH7VhftVg6XXG8Yh4NOi3IlXB8uwkAM+3?=
+ =?iso-8859-1?Q?uVOCBiF6/0YYSe6J/711ATGf68qu+izKuZn9zVLGsVVM5rB4aDGnG7wua8?=
+ =?iso-8859-1?Q?MhxCYevo7WT3GJhNoOdvuo1h8b58JVSbPfhn9+K8hucBUj/746hkXN3jE/?=
+ =?iso-8859-1?Q?rrUWuMz0ny1OrYhslNpQ/u+T/2rK/P0ZGZEnW7dDgFzSxo2g+3xPWEXD0D?=
+ =?iso-8859-1?Q?cLG/njDbGS3jX553adS9N/iYVHhqgsLGoaShv+JDZiTYC0mjRVShqiQNy3?=
+ =?iso-8859-1?Q?E3qMUr6ttaxxtqyDpLDTkqiQ36s3F8DqHSMhpjCflLEkVXVs9sIFC6R262?=
+ =?iso-8859-1?Q?5Iwg6T3HkElueWE9k8pab7DyGIc05x72f33rN8/ILnRK17+3ylEa0lsbrv?=
+ =?iso-8859-1?Q?0fnJJDLK68iA2M0YZtgj/Es21zAp9vNLDL?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9239b8ad-7b0f-4c2f-4858-08db0da5870e
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 09:34:39.3275
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8wTQ8Pzzv+KlUanC3dbREMBShM4wjqh8MWejSnP7MoETmOph0f9M9/eg//J/8O3k+SMwA0j+amUGX2/S6H39Kw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7632
+X-OriginatorOrg: intel.com
 
-Hi GuoRui.Yu",
+On Mon, Feb 13, 2023 at 09:45:40AM +0200, Jarkko Sakkinen wrote:
+> On Fri, Feb 10, 2023 at 09:48:15AM -0500, James Bottomley wrote:
+> > On Wed, 2023-02-08 at 04:49 +0200, Jarkko Sakkinen wrote:
+> > > On Fri, Feb 03, 2023 at 02:06:48PM +0800, Yujie Liu wrote:
+> > > > Hi James,
+> > > > 
+> > > > On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
+> > > > > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
+> > > > > > 
+> > > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > 
+> > > > > > All warnings (new ones prefixed by >>):
+> > > > > > 
+> > > > > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no
+> > > > > > previous
+> > > > > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
+> > > > > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip)
+> > > > > > {
+> > > > > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > > > > 'tpm_buf_check_hmac_response':
+> > > > > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame
+> > > > > > > > size
+> > > > > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-
+> > > > > > > > than=]
+> > > > > >      831 | }
+> > > > > >          | ^
+> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > > > > 'tpm_buf_fill_hmac_session':
+> > > > > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame
+> > > > > > size of
+> > > > > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+> > > > > >      579 | }
+> > > > > >          | ^
+> > > > > 
+> > > > > Is this a test problem?  I can't see why the code would only blow
+> > > > > the
+> > > > > stack on the arc architecture and not on any other ... does it
+> > > > > have
+> > > > > something funny with on stack crypto structures?
+> > > > 
+> > > > This warning is controlled by the value of CONFIG_FRAME_WARN.
+> > > > 
+> > > > For "make ARCH=arc allyesconfig", the default value is 1024, so
+> > > > this frame warning shows up during the build.
+> > > > 
+> > > > For other arch such as "make ARCH=x86_64 allyesconfig", the default
+> > > > value would be 2048 and won't have this warning.
+> > > > 
+> > > > Not sure if this is a real problem that need to be fixed, here just
+> > > > providing above information for your reference.
+> > > > 
+> > > > --
+> > > > Best Regards,
+> > > > Yujie
+> > > 
+> > > *Must* be fixed given that it is how the default value is set now.
+> > > This is wrong place to reconsider.
+> > >
+> > > 
+> > > And we do not want to add functions that bloat the stack this way.
+> > > 
+> > > Shash just needs to be allocated from heap instead of stack.
+> > 
+> > On x86_64 the stack usage is measured at 984 bytes, so rather than
+> > jumping to conclusions let's root cause why this is a problem only on
+> > the arc architecture.  I suspect it's something to do with the
+> > alignment constraints of shash.  I've also noted it shouldn't actually
+> > warn on arc because the default stack warning size there should be 2048
+> > (like x86_64).
 
-Thank you for the patch! Perhaps something to improve:
+The stack usage varies on different architectures, so does the default
+value of CONFIG_FRAME_WARN. The warning shows up when the stack usage
+exceeds the default warning size.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.2-rc8 next-20230213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For arc arch, I reconfirmed that the default stack warning size is 1024
+no matter allyesconfig or defconfig, while the usage could reach 1132
+bytes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/GuoRui-Yu/swiotlb-fix-the-deadlock-in-swiotlb_do_find_slots/20230213-143625
-patch link:    https://lore.kernel.org/r/20230213063604.127526-1-GuoRui.Yu%40linux.alibaba.com
-patch subject: [PATCH] swiotlb: fix the deadlock in swiotlb_do_find_slots
-config: riscv-randconfig-r004-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131745.cIrweVLs-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/d3d8e60e47bb50892fbde7c6fa81562f8ea916a3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review GuoRui-Yu/swiotlb-fix-the-deadlock-in-swiotlb_do_find_slots/20230213-143625
-        git checkout d3d8e60e47bb50892fbde7c6fa81562f8ea916a3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/dma/
+$ make ARCH=arc allyesconfig
+$ grep FRAME_WARN .config
+CONFIG_FRAME_WARN=1024
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131745.cIrweVLs-lkp@intel.com/
+$ make ARCH=arc defconfig
+$ grep FRAME_WARN .config
+CONFIG_FRAME_WARN=1024
 
-All warnings (new ones prefixed by >>):
+> Would it such a big deal to allocate shash from heap? That would
+> be IMHO more robust in the end.
 
->> kernel/dma/swiotlb.c:668:4: warning: variable 'index_nowrap' is uninitialized when used here [-Wuninitialized]
-                           index_nowrap += 1;
-                           ^~~~~~~~~~~~
-   kernel/dma/swiotlb.c:635:34: note: initialize the variable 'index_nowrap' to silence this warning
-           unsigned int index, index_nowrap, wrap, count = 0, i;
-                                           ^
-                                            = 0
-   1 warning generated.
+Thanks Jarkko for the suggestion. This would be a faster and better fix
+without having to look into this arc-specific problem.
 
-
-vim +/index_nowrap +668 kernel/dma/swiotlb.c
-
-   617	
-   618	/*
-   619	 * Find a suitable number of IO TLB entries size that will fit this request and
-   620	 * allocate a buffer from that IO TLB pool.
-   621	 */
-   622	static int swiotlb_do_find_slots(struct device *dev, int area_index,
-   623			phys_addr_t orig_addr, size_t alloc_size,
-   624			unsigned int alloc_align_mask)
-   625	{
-   626		struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-   627		struct io_tlb_area *area = mem->areas + area_index;
-   628		unsigned long boundary_mask = dma_get_seg_boundary(dev);
-   629		dma_addr_t tbl_dma_addr =
-   630			phys_to_dma_unencrypted(dev, mem->start) & boundary_mask;
-   631		unsigned long max_slots = get_max_slots(boundary_mask);
-   632		unsigned int iotlb_align_mask =
-   633			dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
-   634		unsigned int nslots = nr_slots(alloc_size), stride;
-   635		unsigned int index, index_nowrap, wrap, count = 0, i;
-   636		unsigned int offset = swiotlb_align_offset(dev, orig_addr);
-   637		unsigned long flags;
-   638		unsigned int slot_base;
-   639		unsigned int slot_index;
-   640	
-   641		BUG_ON(!nslots);
-   642		BUG_ON(area_index >= mem->nareas);
-   643	
-   644		/*
-   645		 * For mappings with an alignment requirement don't bother looping to
-   646		 * unaligned slots once we found an aligned one.  For allocations of
-   647		 * PAGE_SIZE or larger only look for page aligned allocations.
-   648		 */
-   649		stride = (iotlb_align_mask >> IO_TLB_SHIFT) + 1;
-   650		if (alloc_size >= PAGE_SIZE)
-   651			stride = max(stride, stride << (PAGE_SHIFT - IO_TLB_SHIFT));
-   652		stride = max(stride, (alloc_align_mask >> IO_TLB_SHIFT) + 1);
-   653	
-   654		spin_lock_irqsave(&area->lock, flags);
-   655		if (unlikely(nslots > mem->area_nslabs - area->used))
-   656			goto not_found;
-   657	
-   658		slot_base = area_index * mem->area_nslabs;
-   659		index = wrap = wrap_area_index(mem, ALIGN(area->index, stride));
-   660	
-   661		do {
-   662			slot_index = slot_base + index;
-   663	
-   664			if (orig_addr &&
-   665			    (slot_addr(tbl_dma_addr, slot_index) &
-   666			     iotlb_align_mask) != (orig_addr & iotlb_align_mask)) {
-   667				index = wrap_area_index(mem, index + 1);
- > 668				index_nowrap += 1;
-   669				continue;
-   670			}
-   671	
-   672			/*
-   673			 * If we find a slot that indicates we have 'nslots' number of
-   674			 * contiguous buffers, we allocate the buffers from that slot
-   675			 * and mark the entries as '0' indicating unavailable.
-   676			 */
-   677			if (!iommu_is_span_boundary(slot_index, nslots,
-   678						    nr_slots(tbl_dma_addr),
-   679						    max_slots)) {
-   680				if (mem->slots[slot_index].list >= nslots)
-   681					goto found;
-   682			}
-   683			index = wrap_area_index(mem, index + stride);
-   684			index_nowrap += stride;
-   685		} while (index_nowrap < wrap + mem->area_nslabs);
-   686	
-   687	not_found:
-   688		spin_unlock_irqrestore(&area->lock, flags);
-   689		return -1;
-   690	
-   691	found:
-   692		for (i = slot_index; i < slot_index + nslots; i++) {
-   693			mem->slots[i].list = 0;
-   694			mem->slots[i].alloc_size = alloc_size - (offset +
-   695					((i - slot_index) << IO_TLB_SHIFT));
-   696		}
-   697		for (i = slot_index - 1;
-   698		     io_tlb_offset(i) != IO_TLB_SEGSIZE - 1 &&
-   699		     mem->slots[i].list; i--)
-   700			mem->slots[i].list = ++count;
-   701	
-   702		/*
-   703		 * Update the indices to avoid searching in the next round.
-   704		 */
-   705		if (index + nslots < mem->area_nslabs)
-   706			area->index = index + nslots;
-   707		else
-   708			area->index = 0;
-   709		area->used += nslots;
-   710		spin_unlock_irqrestore(&area->lock, flags);
-   711		return slot_index;
-   712	}
-   713	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best Regards,
+Yujie
+ 
+> BR, Jarkko
