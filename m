@@ -1,49 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E7B8F7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 17:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71C28F7C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 17:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676307751; x=1707843751;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1gIDNPM5+Uhyw0Y+U+/MRFeoRenpsR2m285BwbGN7Go=;
-  b=diMHA43dZXPrg142cqfAFBH6qp3qKYRw+BJj5tCTsQ46GC+9vsL+wDAQ
-   la5nPazMsIbqH9mW3dtff9aUMdOu91vSOiXubma79FiX0n8HDBT6KFYNV
-   Ym6ioHxtVn6lSTHJ2dp8mXaAK0KngVMOY7xpBYH1HyPFC7tY+qt/c9DPk
-   pe+tYTCFraOJKj9XGgaGfY6ESBRsLrHeVfVjJ01FnNh0+4v/u+jS9fGaw
-   /any02fgNrDsdFki85vhGob0lRO81l7J/3Wtz8K1rpwZ7MVHvaAXnlwst
-   RaoZh+bAWJdlDRlo8kZiPkiFOVWGCups/5DTv5C6hFipHUc/eQH8u4L3U
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314579126"
+  t=1676308410; x=1707844410;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aOO10J6xTaBNmX6fAfXz+Prk9hzfMzoBr6mgZ1kDj58=;
+  b=PRRJAKeEUreWGigMMRFdauI6lY9EoRK16OdlkrWpafokZsiS1zZbjFdy
+   gduQEiELxT82bz8TTrr6ZF8bju20o4Jz4WsphbJ44ei7hTmf4jYoEq/tR
+   xQyWTesKdhn81Nj7cJ3vf63GtykWadJEU4HkfbbnAVOCFAtFNdYqO5p8N
+   eaPSiiiX9a9Q3l+mRdIcxFYV/mDzcio6cTKo4umQnnHwSACe5NOt+CLTc
+   Kg6J99EuYGT8lZkw7szskuqmS6o1DyZw8fBy57tPCLeiSjqngiPpk/E+v
+   /jp+40IWztSVU6CsqkGkO5XNpFXK+d0BMaw6heBpSeMynrSK9G2Smtpt9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358349177"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="314579126"
+   d="scan'208";a="358349177"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 09:02:31 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 09:13:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699225019"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699228324"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="699225019"
+   d="scan'208";a="699228324"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 09:02:27 -0800
+  by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 09:13:27 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRcDi-0007tB-20;
-	Mon, 13 Feb 2023 17:02:26 +0000
-Date: Tue, 14 Feb 2023 01:02:13 +0800
+	id 1pRcOM-0007td-2x;
+	Mon, 13 Feb 2023 17:13:26 +0000
+Date: Tue, 14 Feb 2023 01:12:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harsh Jain <h.jain@amd.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, thomas.lendacky@amd.com,
-	Raju.Rangoju@amd.com, Shyam-sundar.S-k@amd.com,
-	harshjain.prof@gmail.com, abhijit.gangurde@amd.com,
-	puneet.gupta@amd.com, nikhil.agarwal@amd.com, tarak.reddy@amd.com,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
-Subject: Re: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig,
- makefile
-Message-ID: <202302140042.eW1R48Z9-lkp@intel.com>
-References: <20230210130321.2898-7-h.jain@amd.com>
+To: Rohit Visavalia <rohit.visavalia@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
+	Vishal Sagar <vishal.sagar@xilinx.com>, linux-doc@vger.kernel.org
+Subject: [pinchartl-media:muxed/2022.2/base 356/740] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-x403 (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202302140118.EgMYWphI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,77 +48,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230210130321.2898-7-h.jain@amd.com>
 
-Hi Harsh,
+Hi Rohit,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/master]
-[also build test WARNING on net/master horms-ipvs/master linus/master v6.2-rc8 next-20230213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-patch link:    https://lore.kernel.org/r/20230210130321.2898-7-h.jain%40amd.com
-patch subject: [PATCH  6/6]  net: ethernet: efct: Add maintainer, kconfig, makefile
-config: alpha-randconfig-s042-20230212 (https://download.01.org/0day-ci/archive/20230214/202302140042.eW1R48Z9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
+head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
+commit: 0cc5e27906b914f5c42935e6cd99e2249f403840 [356/740] media: v4l: Support 3 planar YUV 444 10bpc pixel format in contiguous memory
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/93ed306161ac0259bd72b14922a7f6af60b3748c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Harsh-Jain/net-ethernet-efct-New-X3-net-driver/20230210-210711
-        git checkout 93ed306161ac0259bd72b14922a7f6af60b3748c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/
+        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+        git fetch --no-tags pinchartl-media muxed/2022.2/base
+        git checkout 0cc5e27906b914f5c42935e6cd99e2249f403840
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140042.eW1R48Z9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140118.EgMYWphI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/amd/efct/efct_pci.c: note: in included file:
->> drivers/net/ethernet/amd/efct/efct_io.h:48:54: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/net/ethernet/amd/efct/efct_io.h:48:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char [usertype] * @@
-   drivers/net/ethernet/amd/efct/efct_io.h:48:63: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/net/ethernet/amd/efct/efct_io.h:48:63: sparse:     got unsigned char [usertype] *
-   drivers/net/ethernet/amd/efct/efct_io.h:49:54: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/net/ethernet/amd/efct/efct_io.h:49:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char [usertype] * @@
-   drivers/net/ethernet/amd/efct/efct_io.h:49:63: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/net/ethernet/amd/efct/efct_io.h:49:63: sparse:     got unsigned char [usertype] *
-   drivers/net/ethernet/amd/efct/efct_io.h:50:54: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/net/ethernet/amd/efct/efct_io.h:50:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char [usertype] * @@
-   drivers/net/ethernet/amd/efct/efct_io.h:50:63: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/net/ethernet/amd/efct/efct_io.h:50:63: sparse:     got unsigned char [usertype] *
-   drivers/net/ethernet/amd/efct/efct_io.h:51:54: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/net/ethernet/amd/efct/efct_io.h:51:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char [usertype] * @@
-   drivers/net/ethernet/amd/efct/efct_io.h:51:63: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/net/ethernet/amd/efct/efct_io.h:51:63: sparse:     got unsigned char [usertype] *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +48 drivers/net/ethernet/amd/efct/efct_io.h
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x403 (if the link has no caption the label must precede a section header)
 
-83f06a5b784384 Harsh Jain 2023-02-10  40  
-83f06a5b784384 Harsh Jain 2023-02-10  41  /* Read a 128-bit CSR, locking as appropriate. */
-83f06a5b784384 Harsh Jain 2023-02-10  42  static inline void efct_reado(struct efct_device *efct_dev,
-83f06a5b784384 Harsh Jain 2023-02-10  43  			      union efct_oword *value, void __iomem *reg)
-83f06a5b784384 Harsh Jain 2023-02-10  44  {
-83f06a5b784384 Harsh Jain 2023-02-10  45  	unsigned long flags __maybe_unused;
-83f06a5b784384 Harsh Jain 2023-02-10  46  
-83f06a5b784384 Harsh Jain 2023-02-10  47  	spin_lock_irqsave(&efct_dev->biu_lock, flags);
-83f06a5b784384 Harsh Jain 2023-02-10 @48  	value->u32[0] = (__force __le32)__raw_readl((u8 *)reg + 0);
-83f06a5b784384 Harsh Jain 2023-02-10  49  	value->u32[1] = (__force __le32)__raw_readl((u8 *)reg + 4);
-83f06a5b784384 Harsh Jain 2023-02-10  50  	value->u32[2] = (__force __le32)__raw_readl((u8 *)reg + 8);
-83f06a5b784384 Harsh Jain 2023-02-10  51  	value->u32[3] = (__force __le32)__raw_readl((u8 *)reg + 12);
-83f06a5b784384 Harsh Jain 2023-02-10  52  	spin_unlock_irqrestore(&efct_dev->biu_lock, flags);
-83f06a5b784384 Harsh Jain 2023-02-10  53  }
-83f06a5b784384 Harsh Jain 2023-02-10  54  
+vim +6 Documentation/output/videodev2.h.rst
 
 -- 
 0-DAY CI Kernel Test Service
