@@ -1,92 +1,124 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5679AD39
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 19:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698FCAD39
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 19:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676316409; x=1707852409;
+  t=1676316424; x=1707852424;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FGwz8nOw6iKU+c5T1A1dSA/m1F//eesxLf2xx3SqtTQ=;
-  b=SEI5zkM3JnUw6iUXdr04M7hFiQymcFWgN8LOmctbym69w71euPylqPwz
-   aEhCr8LjWMfubdukWH+zeSRrghBOb/ihokj5R8Lo8SMu1v5+ZyzkEll30
-   5un6c3blCfvtbGR9OEsVdfy2cW1AZsVzL1MRqh8LbY9bZOhxJIqTr482y
-   8v1IcycO8KZ9z+NYie7o0QSTn7Xm9eGPZWn2HGnTMlklfTGmt3N7hYA/S
-   yJkpjYyP+u6XWQvdTw8ojto0envTPAnoHMhoW7B4fAgLLNMAXaoTmSzZH
-   M3tj/uqppxJlTC1wfv5hSpOZmU/Xeu9Jk4018vw82xXUs+BYuiwqsajuQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314618779"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=t+vYPG0zQjL/pLjPwKSq5XEoXTdvljDP3hBNEKzGXOQ=;
+  b=kMbTwZHDecZT3zDo9vbAghSH2vvM/p4IkYVXjm7SJ8VodgWiDeS9p7d9
+   f5Jw1uM2iwRg+NL0HlaJwHJsHbZvCDSLpkWylYWXCEPUPrnErhLtj20Z8
+   D/5/s2m5RDtfnC7r4OklHJwK6qTbsx/wyvi9CtBAp7i5C331i9/A4/v3X
+   R6ge2IWCrtqueDfimWoVHKPUU34N9EN6bRNsWvSO4C4QSHf6AvNI3AIkN
+   QNTnoAhcNu5gVAa7e3wzLzf4ISpCm/dqUefJmQ2OOh56DtQvLCWs7uERT
+   Jh5akPNI2nUZ/+HY32XqKy+vj5vrae/qMF0gIXV2QiuR1ITmu1vfY8Zsi
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358382955"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="314618779"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:26:35 -0800
+   d="scan'208";a="358382955"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:26:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792833578"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701390908"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="792833578"
+   d="scan'208";a="701390908"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 11:26:33 -0800
+  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 11:26:33 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pReTA-0007yR-14;
+	id 1pReTA-0007yP-0x;
 	Mon, 13 Feb 2023 19:26:32 +0000
-Date: Tue, 14 Feb 2023 03:25:54 +0800
+Date: Tue, 14 Feb 2023 03:25:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?L=F6hle?= <CLoehle@hyperstone.com>,
-	"adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-	Avri Altman <Avri.Altman@wdc.com>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-Subject: Re: [PATCH] mmc: block: workaround long ioctl busy timeout
-Message-ID: <202302140314.idOxiF7x-lkp@intel.com>
-References: <8f4a0fc6f2e64ef091784c5cd704c113@hyperstone.com>
+To: Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+	lee@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
+Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
+Message-ID: <202302140320.YmmWP6V8-lkp@intel.com>
+References: <20230213140638.620206-2-fe@dev.tdt.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <8f4a0fc6f2e64ef091784c5cd704c113@hyperstone.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230213140638.620206-2-fe@dev.tdt.de>
 
-Hi Christian,
+Hi Florian,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2-rc8 next-20230213]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus pavel-leds/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2-rc8 next-20230213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-L-hle/mmc-block-workaround-long-ioctl-busy-timeout/20230213-183603
-patch link:    https://lore.kernel.org/r/8f4a0fc6f2e64ef091784c5cd704c113%40hyperstone.com
-patch subject: [PATCH] mmc: block: workaround long ioctl busy timeout
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230214/202302140314.idOxiF7x-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230213140638.620206-2-fe%40dev.tdt.de
+patch subject: [PATCH 1/2] tty: new helper function tty_get_mget
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230214/202302140320.YmmWP6V8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/94406ad8626aa2d7761fb7eb20a918a4805ea667
+        # https://github.com/intel-lab-lkp/linux/commit/096ca9c9428ec2a8ebab4af0798461e66585cdde
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-L-hle/mmc-block-workaround-long-ioctl-busy-timeout/20230213-183603
-        git checkout 94406ad8626aa2d7761fb7eb20a918a4805ea667
+        git fetch --no-tags linux-review Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
+        git checkout 096ca9c9428ec2a8ebab4af0798461e66585cdde
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/leds/trigger/ drivers/tty/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140314.idOxiF7x-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140320.YmmWP6V8-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "mmc_prepare_busy_cmd" [drivers/mmc/core/mmc_block.ko] undefined!
+   In file included from drivers/tty/tty_io.c:76:
+   include/linux/tty.h:423:17: error: expected ';', ',' or ')' before 'struct'
+     423 |                 struct serial_icounter_struct *icount);
+         |                 ^~~~~~
+>> drivers/tty/tty_io.c:2589:5: warning: no previous prototype for 'tty_get_icount' [-Wmissing-prototypes]
+    2589 | int tty_get_icount(struct tty_struct *tty,
+         |     ^~~~~~~~~~~~~~
+
+
+vim +/tty_get_icount +2589 drivers/tty/tty_io.c
+
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds   2005-04-16  2579  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2580  /**
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2581   * tty_get_icount	-	get tty statistics
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2582   * @tty: tty device
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2583   * @icount: output parameter
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2584   *
+796a75a98762f1 drivers/tty/tty_io.c  Jiri Slaby       2021-11-26  2585   * Gets a copy of the @tty's icount statistics.
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2586   *
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2587   * Locking: none (up to the driver)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2588   */
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18 @2589  int tty_get_icount(struct tty_struct *tty,
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2590  		   struct serial_icounter_struct *icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2591  {
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2592  	memset(icount, 0, sizeof(*icount));
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2593  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2594  	if (tty->ops->get_icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2595  		return tty->ops->get_icount(tty, icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2596  	else
+1b8b20868a6d64 drivers/tty/tty_io.c  Johan Hovold     2021-04-07  2597  		return -ENOTTY;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2598  }
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2599  EXPORT_SYMBOL_GPL(tty_get_icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2600  
 
 -- 
 0-DAY CI Kernel Test Service
