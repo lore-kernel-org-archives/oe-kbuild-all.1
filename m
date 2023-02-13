@@ -1,45 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8077E;
-	Mon, 13 Feb 2023 00:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28AC7E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 01:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676249884; x=1707785884;
+  t=1676250482; x=1707786482;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CURrrhcMF9Es3tTPm7Xob2bMUXQmeCWTB6KzxHKsK9c=;
-  b=AyvNbZGcWiSfN8SShpuq4T7/H+Hmeai7XnDyHIhYmANlZrnjD4v/IK01
-   oaATHTD/mZAA07GjxdXFCse+U60JWPNW+lw2MyxqhWzP7D8fsOvJlNkEo
-   PQCmuDTtZuQVyg5ZUFv+sbfaeYWYjJ4Ju1AIyfO+3q8a7oXhLye7LkIir
-   SAT/xfWXXxseTdHIB1xjfIwQ3V64dC0FWpaU7WInlfA8wQCAKLqUpaBd3
-   bpn3EUqGv679QEsL6IzbA4+p2I5Dlvq404ACYXEUcn/sLgt+tGxmi4dXf
-   4rgRNcICulJFvQayT21m9TI3AdOX7SvoRC8gxT8SyoZwg5n7SkbZOh+43
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358190410"
+  bh=+jq+vAEfNU8iZ17uXb+IjGoaq2LFy7ickfOwdXjYhw0=;
+  b=cg3WlE+nHAAaji/VJKFO61AQj3x3jsk5BPC4luaZKsyR3IZ+yBukXN9L
+   wmnoElzTnTmpicpvJmrh7LiGqcnmVe3p1L7kN82hpQO6IdXIHidwIluqV
+   5TNVwQyCgAlvhLsMAlErh68EQK4HyDwzJUWanOq3WUEPp+asFWJSSFZMK
+   2JXKl7s4WhTG02JSYXBu/exhmxrVkJIcrCkOQi2ShOGiB8PK0J2nccQZm
+   xl4QE7I0gN3acBI95ycbeiPNh26bygoFpZgqfaEpL7YOjfCmA+1z/6cJC
+   P9fgNEdiQi8dC8m7aMniy+pNwc8fFTHiTqVoNpB1LLvVOamNn7siVOiSE
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="329408393"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="358190410"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 16:58:01 -0800
+   d="scan'208";a="329408393"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 17:08:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="842597401"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="811418913"
 X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="842597401"
+   d="scan'208";a="811418913"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Feb 2023 16:58:00 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 12 Feb 2023 17:08:00 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRNAN-0007T9-1C;
-	Mon, 13 Feb 2023 00:57:59 +0000
-Date: Mon, 13 Feb 2023 08:57:13 +0800
+	id 1pRNK3-0007Td-1w;
+	Mon, 13 Feb 2023 01:07:59 +0000
+Date: Mon, 13 Feb 2023 09:07:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
 	Steve French <stfrench@microsoft.com>
-Subject: [cifs:for-next 20/25] fs/netfs/iterator.c:65:9: error: call to
- undeclared function 'iov_iter_extract_pages'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202302130853.kU76MQRK-lkp@intel.com>
+Subject: [cifs:for-next 20/25] fs/netfs/iterator.c:36:33: error: unknown type
+ name 'iov_iter_extraction_t'
+Message-ID: <202302130948.NfSnmBaU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,45 +51,49 @@ Content-Disposition: inline
 tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
 head:   2259206443e31ea6a266adcf0d900fbea17016ec
 commit: d1df0021a8275ef2e0d455b384e78e18e57cf9f2 [20/25] netfs: Add a function to extract a UBUF or IOVEC into a BVEC iterator
-config: arm-buildonly-randconfig-r005-20230213 (https://download.01.org/0day-ci/archive/20230213/202302130853.kU76MQRK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230213/202302130948.NfSnmBaU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         git remote add cifs git://git.samba.org/sfrench/cifs-2.6.git
         git fetch --no-tags cifs for-next
         git checkout d1df0021a8275ef2e0d455b384e78e18e57cf9f2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash fs/netfs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302130853.kU76MQRK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302130948.NfSnmBaU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    In file included from fs/netfs/iterator.c:11:
-   include/linux/netfs.h:302:5: error: unknown type name 'iov_iter_extraction_t'
-                                   iov_iter_extraction_t extraction_flags);
-                                   ^
-   fs/netfs/iterator.c:36:5: error: unknown type name 'iov_iter_extraction_t'
-                                   iov_iter_extraction_t extraction_flags)
-                                   ^
->> fs/netfs/iterator.c:65:9: error: call to undeclared function 'iov_iter_extract_pages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   ret = iov_iter_extract_pages(orig, &pages, count,
-                         ^
-   fs/netfs/iterator.c:65:9: note: did you mean 'iov_iter_get_pages'?
-   include/linux/uio.h:253:9: note: 'iov_iter_get_pages' declared here
-   ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
-           ^
-   3 errors generated.
+   include/linux/netfs.h:302:33: error: unknown type name 'iov_iter_extraction_t'
+     302 |                                 iov_iter_extraction_t extraction_flags);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+>> fs/netfs/iterator.c:36:33: error: unknown type name 'iov_iter_extraction_t'
+      36 |                                 iov_iter_extraction_t extraction_flags)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/netfs/iterator.c:8:
+>> fs/netfs/iterator.c:103:19: error: 'netfs_extract_user_iter' undeclared here (not in a function)
+     103 | EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:87:23: note: in definition of macro '___EXPORT_SYMBOL'
+      87 |         extern typeof(sym) sym;                                                 \
+         |                       ^~~
+   include/linux/export.h:147:41: note: in expansion of macro '__EXPORT_SYMBOL'
+     147 | #define _EXPORT_SYMBOL(sym, sec)        __EXPORT_SYMBOL(sym, sec, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:151:41: note: in expansion of macro '_EXPORT_SYMBOL'
+     151 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "_gpl")
+         |                                         ^~~~~~~~~~~~~~
+   fs/netfs/iterator.c:103:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     103 | EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
+         | ^~~~~~~~~~~~~~~~~
 
 
-vim +/iov_iter_extract_pages +65 fs/netfs/iterator.c
+vim +/iov_iter_extraction_t +36 fs/netfs/iterator.c
 
     13	
     14	/**
@@ -115,7 +118,7 @@ vim +/iov_iter_extract_pages +65 fs/netfs/iterator.c
     33	 */
     34	ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
     35					struct iov_iter *new,
-    36					iov_iter_extraction_t extraction_flags)
+  > 36					iov_iter_extraction_t extraction_flags)
     37	{
     38		struct bio_vec *bv = NULL;
     39		struct page **pages;
@@ -144,7 +147,45 @@ vim +/iov_iter_extract_pages +65 fs/netfs/iterator.c
     62		pages = (void *)bv + bv_size - pg_size;
     63	
     64		while (count && npages < max_pages) {
-  > 65			ret = iov_iter_extract_pages(orig, &pages, count,
+    65			ret = iov_iter_extract_pages(orig, &pages, count,
+    66						     max_pages - npages, extraction_flags,
+    67						     &offset);
+    68			if (ret < 0) {
+    69				pr_err("Couldn't get user pages (rc=%zd)\n", ret);
+    70				break;
+    71			}
+    72	
+    73			if (ret > count) {
+    74				pr_err("get_pages rc=%zd more than %zu\n", ret, count);
+    75				break;
+    76			}
+    77	
+    78			count -= ret;
+    79			ret += offset;
+    80			cur_npages = DIV_ROUND_UP(ret, PAGE_SIZE);
+    81	
+    82			if (npages + cur_npages > max_pages) {
+    83				pr_err("Out of bvec array capacity (%u vs %u)\n",
+    84				       npages + cur_npages, max_pages);
+    85				break;
+    86			}
+    87	
+    88			for (i = 0; i < cur_npages; i++) {
+    89				len = ret > PAGE_SIZE ? PAGE_SIZE : ret;
+    90				bv[npages + i].bv_page	 = *pages++;
+    91				bv[npages + i].bv_offset = offset;
+    92				bv[npages + i].bv_len	 = len - offset;
+    93				ret -= len;
+    94				offset = 0;
+    95			}
+    96	
+    97			npages += cur_npages;
+    98		}
+    99	
+   100		iov_iter_bvec(new, orig->data_source, bv, npages, orig_len - count);
+   101		return npages;
+   102	}
+ > 103	EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
 
 -- 
 0-DAY CI Kernel Test Service
