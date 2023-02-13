@@ -1,43 +1,41 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CCB2914
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 11:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9277833EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 11:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676287277; x=1707823277;
+  t=1676289138; x=1707825138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q4vK+1xN/5BovAWcfi0EQSBakcsWXZz/atPNZIIgfmw=;
-  b=htGxW5eOc3Z9nzE5Txg6KmvYxb565SsWWRNPjY30at94awWry/uLZm5G
-   ziVyaOcR3yTMXdapjS/wECxPqgmmXW207NLK/l+d4utot97n2ws/OiXZg
-   K2vUEFLJKjNgs0G9/4u41C2GM89CxODPsBL4rJIk1bDezb8W46Typ7NkH
-   IBDWthyzfwAsbv2Kc59Zvfh40cvuk71EzfPBpK3SmAXaAAO4E7LL60k77
-   8RYwgg5hcMIVxLCVn0QsPZQTEBtlgZMQ6B3/Nro0gIyXUKjfxp+mxSbDR
-   nWmY/mV1/whkcG6YLwvqmcvTvcUwhZWy4jynUqHNZZqrzkrhdDcksq9io
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="395480868"
+  bh=36MqNQw1Ub4qT04YZlIKdGj+rtqZNg2khJWpqXm6ms0=;
+  b=FdhhDpTc4mE8K6AomPsyVP1aUR3+NqC74OUBtOk9Cl4gNWPWNwivOtjy
+   6gVDEDwyf1q7BWEkVHKYQAu8z2BqT+8kXV6agavqEJyCTKW7NoLq/Y1FV
+   PDZUFD4H+bCwNZv7ZP9g8CTTVwHJcE/N8lfMA7Cr/v1BUHOwGSZQJXq9T
+   JoVSnjoeinaPnYENHxeKQqhfm/1PuXIyWwA8A7lVpkgTEy7pXNGOZHMDz
+   w7MeiBAn4njvUt1c6OvVlLNHgGnB15vEsGEBx3YTmFMee1AsKvfem2oO5
+   3EBf++nb9/gt4rz+tzHDKyEHyDy5XXsj16EL2XPgAogRWEAwm/pcM7WfM
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358281974"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="395480868"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 03:21:16 -0800
+   d="scan'208";a="358281974"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 03:52:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="777806695"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="701241945"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="777806695"
+   d="scan'208";a="701241945"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2023 03:21:15 -0800
+  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 03:52:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRWtX-0007i1-0F;
-	Mon, 13 Feb 2023 11:21:15 +0000
-Date: Mon, 13 Feb 2023 19:21:09 +0800
+	id 1pRXNX-0007iX-1V;
+	Mon, 13 Feb 2023 11:52:15 +0000
+Date: Mon, 13 Feb 2023 19:51:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:01.03-gsp-ada 185/193]
- drivers/gpu/drm/nouveau/nvif/outp.c:335:1: warning: the frame size of 2064
- bytes is larger than 2048 bytes
-Message-ID: <202302131939.TNxCZciw-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: pahole: .tmp_vmlinux.btf: No such file or directory
+Message-ID: <202302131934.6f0mCaxY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,58 +45,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
-head:   ab3448c2873e0fbcf1fd710cccb52dc548bdf449
-commit: c24815755c5c79d50fa9370ec1124fedd29743bb [185/193] disp
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230213/202302131939.TNxCZciw-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ceaa837f96adb69c0df0397937cd74991d5d821a
+commit: 4e8bb4ba5a558159ffbfa7e60322a1c151c3903c csky: Add jump-label implementation
+date:   7 months ago
+config: csky-randconfig-r006-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131934.6f0mCaxY-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add skeggsb-nouveau https://gitlab.freedesktop.org/skeggsb/nouveau
-        git fetch --no-tags skeggsb-nouveau 01.03-gsp-ada
-        git checkout c24815755c5c79d50fa9370ec1124fedd29743bb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4e8bb4ba5a558159ffbfa7e60322a1c151c3903c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4e8bb4ba5a558159ffbfa7e60322a1c151c3903c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131939.TNxCZciw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302131934.6f0mCaxY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvif/outp.c: In function 'nvif_outp_edid_get':
->> drivers/gpu/drm/nouveau/nvif/outp.c:335:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-     335 | }
-         | ^
-
-
-vim +335 drivers/gpu/drm/nouveau/nvif/outp.c
-
-   315	
-   316	int
-   317	nvif_outp_edid_get(struct nvif_outp *outp, u8 **pedid)
-   318	{
-   319		struct nvif_outp_edid_get_v0 args;
-   320		int ret;
-   321	
-   322		args.version = 0;
-   323	
-   324		ret = nvif_mthd(&outp->object, NVIF_OUTP_V0_EDID_GET, &args, sizeof(args));
-   325		NVIF_ERRON(ret, &outp->object, "[EDID_GET] size:%d", args.size);
-   326		if (ret)
-   327			return ret;
-   328	
-   329		*pedid = kmalloc(args.size, GFP_KERNEL);
-   330		if (WARN_ON(!*pedid))
-   331			return -ENOMEM;
-   332	
-   333		memcpy(*pedid, args.data, args.size);
-   334		return args.size;
- > 335	}
-   336	
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
+   drivers/char/random.o: in function `add_interrupt_randomness':
+   drivers/char/random.c:1000:(.text+0x28c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.c:1005:(.text+0x2cc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.c:1018:(.text+0x2fc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.o: in function `lockdep_init_map_waits':
+   include/linux/lockdep.h:191:(.text+0x338): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.o: in function `random_fasync':
+   drivers/char/random.c:1405:(.text+0x352): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.o: in function `__blake2s_init':
+   include/crypto/blake2s.h:64:(.text+0x3f4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.o: in function `blake2s':
+   include/crypto/blake2s.h:100:(.text+0x412): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   include/crypto/blake2s.h:101:(.text+0x41a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.o: in function `extract_entropy':
+   drivers/char/random.c:604:(.text+0x46c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.c:607:(.text+0x478): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/char/random.c:607:(.text+0x480): additional relocation overflows omitted from the output
+>> pahole: .tmp_vmlinux.btf: No such file or directory
+   .btf.vmlinux.bin.o: file not recognized: file format not recognized
 
 -- 
 0-DAY CI Kernel Test Service
