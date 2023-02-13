@@ -1,43 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7C81FA8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 07:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC4E1FA8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 07:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676271612; x=1707807612;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TicRqcq6yFIObXDi3ZMSSjye+jt3GaEvIzd9eLdHX0c=;
-  b=aFEmlCwnjVU80fAuTSMe3ntEQBTeRKV/tpqnV57nmvacKk4Ve4XMpObK
-   vPPX1eWH4dukfZMRzQb40IMmW0glf/rmeDXP8TbPkdflFfJeO+YWbgyIB
-   4aMh8spekGiQfkPElYMBdABV/pIT/ml+uYitJ7HfpOiFoMVM3oWb9fvJv
-   LbFv/SBmUgJl2awxpAQoE4ya1niiR6lBCIgCgngkTJGB8PM4MAE7xA6/t
-   53At1J5ER6x7wNwc7WJPEPPpxyG/Q9BR/FAmmCLO8+LBes37zVQPUY6T4
-   6PR/2x7FLAy1RPFA/ElAUiRyOLNyV5vKCRuxMmrUCWzOrJuiMLWeR6fDw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358234197"
+  t=1676272272; x=1707808272;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ef51PczQ+7nY8AMgQge5Yc4hyLNaRq3b0xyhtymjt3Y=;
+  b=FppkanMdzQn6xUSamoHDgAk/S8dhNJkPj/J3bw0N3hFnaHQf878e31R0
+   MqHa9PHwU/WHTAWdDwsLYpDiVhIZ5X/NBhLAfPOF3LYLIYYqVsFEQ4w5L
+   asb+cwzJL44JeWjFKEvPvOkJLA3k+Poxlp3baNZr0sP3aCZyF4p652KB7
+   ViVfun80v7nCSJUshJiiu1lH0rWapEtAhYY8YyTuk/T1aDCcvdlQsK9vl
+   7s/dBmqT3N7AvFkObAAZa6Wj7lRtur+sUkctg137nOsbpVx+wYEIQ2phQ
+   XLIN2mmktwhVitc2CRsy/ykNKQ5rjh5eP3PblprSxaFy9R/SVsI5oFxV3
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="395437460"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="358234197"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 23:00:12 -0800
+   d="scan'208";a="395437460"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 23:11:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670709393"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="646286047"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="670709393"
+   d="scan'208";a="646286047"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Feb 2023 23:00:10 -0800
+  by orsmga006.jf.intel.com with ESMTP; 12 Feb 2023 23:11:11 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRSos-0007bZ-0U;
-	Mon, 13 Feb 2023 07:00:10 +0000
-Date: Mon, 13 Feb 2023 15:00:08 +0800
+	id 1pRSzW-0007bt-13;
+	Mon, 13 Feb 2023 07:11:10 +0000
+Date: Mon, 13 Feb 2023 15:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [kraxel:drm-qemu-next 6/7]
- drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse: sparse: incorrect type
- in argument 3 (different base types)
-Message-ID: <202302131424.wBEsydUG-lkp@intel.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 RFC Zisslpcfi 08/20] riscv: ELF header parsing in GNU
+ property for riscv zisslpcfi
+Message-ID: <202302131526.w68fMDQU-lkp@intel.com>
+References: <20230213045351.3945824-9-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,49 +47,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230213045351.3945824-9-debug@rivosinc.com>
 
-tree:   git://git.kraxel.org/linux drm-qemu-next
-head:   678d45faf3684f4ec694cc19b70db7f2a0c9c841
-commit: 347d001a65ba84c02ebd403000bf4e524cf678e6 [6/7] drm/virtio: Attach and set suggested_x/y properties for the connector
-config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20230213/202302131424.wBEsydUG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add kraxel git://git.kraxel.org/linux
-        git fetch --no-tags kraxel drm-qemu-next
-        git checkout 347d001a65ba84c02ebd403000bf4e524cf678e6
+Hi Deepak,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on kees/for-next/execve]
+[also build test ERROR on linus/master v6.2-rc8]
+[cannot apply to next-20230213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/sslp-stubs-shadow-stack-and-landing-pad-stubs/20230213-125630
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+patch link:    https://lore.kernel.org/r/20230213045351.3945824-9-debug%40rivosinc.com
+patch subject: [PATCH v1 RFC Zisslpcfi 08/20] riscv: ELF header parsing in GNU property for riscv zisslpcfi
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230213/202302131526.w68fMDQU-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/20f9ba1925526ea13ae4ba4398b2c4a800e63c53
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Deepak-Gupta/sslp-stubs-shadow-stack-and-landing-pad-stubs/20230213-125630
+        git checkout 20f9ba1925526ea13ae4ba4398b2c4a800e63c53
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/virtio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131424.wBEsydUG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302131526.w68fMDQU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] x @@
-   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     expected unsigned long long [usertype] val
-   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     got restricted __le32 [usertype] x
->> drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] y @@
-   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     expected unsigned long long [usertype] val
-   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     got restricted __le32 [usertype] y
+All errors (new ones prefixed by >>):
 
-vim +654 drivers/gpu/drm/virtio/virtgpu_vq.c
-
-   647	
-   648	static void virtio_gpu_update_output_position(struct virtio_gpu_output *output)
-   649	{
-   650		struct drm_connector *connector = &output->conn;
-   651		struct drm_device *dev = connector->dev;
-   652	
-   653		drm_object_property_set_value(&connector->base,
- > 654			dev->mode_config.suggested_x_property, output->info.r.x);
-   655		drm_object_property_set_value(&connector->base,
- > 656			dev->mode_config.suggested_y_property, output->info.r.y);
-   657	}
-   658	
+   riscv64-linux-ld: arch/riscv/kernel/process.o: in function `allocate_shadow_stack':
+>> process.c:(.text+0x22e): undefined reference to `shadow_stack'
 
 -- 
 0-DAY CI Kernel Test Service
