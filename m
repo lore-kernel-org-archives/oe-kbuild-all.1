@@ -1,41 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9277833EC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 11:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0825433EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 12:13:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676289138; x=1707825138;
+  t=1676290399; x=1707826399;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=36MqNQw1Ub4qT04YZlIKdGj+rtqZNg2khJWpqXm6ms0=;
-  b=FdhhDpTc4mE8K6AomPsyVP1aUR3+NqC74OUBtOk9Cl4gNWPWNwivOtjy
-   6gVDEDwyf1q7BWEkVHKYQAu8z2BqT+8kXV6agavqEJyCTKW7NoLq/Y1FV
-   PDZUFD4H+bCwNZv7ZP9g8CTTVwHJcE/N8lfMA7Cr/v1BUHOwGSZQJXq9T
-   JoVSnjoeinaPnYENHxeKQqhfm/1PuXIyWwA8A7lVpkgTEy7pXNGOZHMDz
-   w7MeiBAn4njvUt1c6OvVlLNHgGnB15vEsGEBx3YTmFMee1AsKvfem2oO5
-   3EBf++nb9/gt4rz+tzHDKyEHyDy5XXsj16EL2XPgAogRWEAwm/pcM7WfM
+  bh=3+cYlxdOn+Owc6eMvLKv4UVZ8FIneUY+Q///CYhch2I=;
+  b=OGaZBb28k5PjdUlOQp8V8TnQpB/HvxULIAUli2y3oBYV6wfc6fBjPpt3
+   Wpf/EvvhOwBYoZ6PgflymzaryxYRcMZowAUTP4fx06LquOQQocjuk7mUD
+   Fn2OUxEgRjvEQK6XFxgjcVE6EPVDLlEsLoSNcao3GRydwCL8axJzVpwUC
+   uP9b3S4gML2F9H7/73lkVY/EadbyCVzGW4R9jxRx1nl6RkuJNa0uIOxZm
+   MQO9qpkmnDo6czt6QJ+Zjhs/x5mNqMqSPURlLeq0PXwVLELkRbJz/7cY1
+   uvcm/Xlr5ASSjGDN3i77vQyvohaWNIgczjh0z/nqvfwX6xRopVqpLJnl9
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="358281974"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="358281974"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 03:52:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="329505629"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="329505629"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 04:13:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="701241945"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="701241945"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="699165188"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="699165188"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 03:52:16 -0800
+  by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 04:13:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRXNX-0007iX-1V;
-	Mon, 13 Feb 2023 11:52:15 +0000
-Date: Mon, 13 Feb 2023 19:51:33 +0800
+	id 1pRXhs-0007jB-1G;
+	Mon, 13 Feb 2023 12:13:16 +0000
+Date: Mon, 13 Feb 2023 20:12:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: pahole: .tmp_vmlinux.btf: No such file or directory
-Message-ID: <202302131934.6f0mCaxY-lkp@intel.com>
+To: Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [pinchartl-media:muxed/2022.2/base 330/740] htmldocs: Warning:
+ arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that
+ doesn't exist: Documentation/hwmon/pmbus
+Message-ID: <202302132059.8WPN05ke-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,53 +47,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ceaa837f96adb69c0df0397937cd74991d5d821a
-commit: 4e8bb4ba5a558159ffbfa7e60322a1c151c3903c csky: Add jump-label implementation
-date:   7 months ago
-config: csky-randconfig-r006-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131934.6f0mCaxY-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4e8bb4ba5a558159ffbfa7e60322a1c151c3903c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4e8bb4ba5a558159ffbfa7e60322a1c151c3903c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
+head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
+commit: b7bab5d0244b4621df07ce2102cc305644e298e1 [330/740] arm64: zynqmp: Add all missing dt files for Xilinx boards
+reproduce:
+        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+        git fetch --no-tags pinchartl-media muxed/2022.2/base
+        git checkout b7bab5d0244b4621df07ce2102cc305644e298e1
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302131934.6f0mCaxY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302132059.8WPN05ke-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   drivers/char/random.o: in function `add_interrupt_randomness':
-   drivers/char/random.c:1000:(.text+0x28c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.c:1005:(.text+0x2cc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.c:1018:(.text+0x2fc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.o: in function `lockdep_init_map_waits':
-   include/linux/lockdep.h:191:(.text+0x338): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.o: in function `random_fasync':
-   drivers/char/random.c:1405:(.text+0x352): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.o: in function `__blake2s_init':
-   include/crypto/blake2s.h:64:(.text+0x3f4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.o: in function `blake2s':
-   include/crypto/blake2s.h:100:(.text+0x412): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   include/crypto/blake2s.h:101:(.text+0x41a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.o: in function `extract_entropy':
-   drivers/char/random.c:604:(.text+0x46c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.c:607:(.text+0x478): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/char/random.c:607:(.text+0x480): additional relocation overflows omitted from the output
->> pahole: .tmp_vmlinux.btf: No such file or directory
-   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
 
 -- 
 0-DAY CI Kernel Test Service
