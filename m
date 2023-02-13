@@ -1,47 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15493AD39;
-	Mon, 13 Feb 2023 19:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A30BAD39
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 19:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676316426; x=1707852426;
+  t=1676316996; x=1707852996;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9Dul4F7DMk/3e5EF5hfjZuKYjBrTrPsCyZnnoSZ0rNQ=;
-  b=dnULLc+gXJEx0Q2wjgqmvFzr1qGjV/1Rrq/q+loaf1gQvJBDwT4FenOQ
-   q56XwClswjq/B6q2rNPzp6oBfeuUTo4zg2pK6m3R429EqJ0MyeT6+x9OI
-   j5Ds/PFlgeDII//Uuia23K9Sfg2Ax5htkC20w8u8iG3TRoejjJiH3y68Z
-   jSbUebo13OdTjNxcX0UWhVHZKUgm0tmX4wVgva4sAjBo2T2l2/2QENobn
-   6KcwlFtlpZFQVYMq0O6+76KxXshbfYgexfFG1sg4ZaOia8fTlS3ZFAuwJ
-   PulnLaWqmz6ayjz3QlwYXbQvYl2OLa0LR2cHonypci5ag/UxTyv4uLcd7
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358382960"
+  bh=mF8fIG94tsd4QNVe+c1ryuWoHOqHFSDXUAC9EmbQx2E=;
+  b=EEIMxgSawVOptzDQXamOd7qvY5bjOAQU6LR5mUZ0YKEYxv9NzXU7bZMx
+   w6jb7ngXEOq55FwMFsUVMkUMDi6J7T7uoi3XCJN9LhgevVQR3ZEL9Bew5
+   75POXk+RlE1L9iRABdJCHJBsnrnU7pcJZ4+bcZYKVo80Ix1qcQ3yz7BpC
+   73tSTmz3anwQnIDNkhs+ZMyHC/xi80cEfrFb3rVvnb3S26jpeLN24+4GD
+   ZyJKyWI9sze29LyZtmDy56xb9hLZ/WRyyayIiLPQ5pBA9M01r8zpWMiha
+   j/BEirJP3CBjElMa1ut31zEepBuZvWOByj2mYNknRBfimsCsYZNTMSRYL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="417198966"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="358382960"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:26:36 -0800
+   d="scan'208";a="417198966"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:36:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701390906"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="618769521"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="701390906"
+   d="scan'208";a="618769521"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 11:26:33 -0800
+  by orsmga003.jf.intel.com with ESMTP; 13 Feb 2023 11:36:33 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pReTA-0007yT-19;
-	Mon, 13 Feb 2023 19:26:32 +0000
-Date: Tue, 14 Feb 2023 03:25:53 +0800
+	id 1pRecq-0007yn-1a;
+	Mon, 13 Feb 2023 19:36:32 +0000
+Date: Tue, 14 Feb 2023 03:36:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
-	lee@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	Eckert.Florian@googlemail.com
-Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
-Message-ID: <202302140339.1vFSjZ1M-lkp@intel.com>
-References: <20230213140638.620206-2-fe@dev.tdt.de>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 RFC Zisslpcfi 09/20] riscv mmu: riscv shadow stack
+ page fault handling
+Message-ID: <202302140351.iqujxGOS-lkp@intel.com>
+References: <20230213045351.3945824-10-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,103 +47,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230213140638.620206-2-fe@dev.tdt.de>
+In-Reply-To: <20230213045351.3945824-10-debug@rivosinc.com>
 
-Hi Florian,
+Hi Deepak,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus pavel-leds/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2-rc8 next-20230213]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on kees/for-next/execve]
+[also build test WARNING on linus/master arnd-asm-generic/master v6.2-rc8]
+[cannot apply to next-20230213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20230213140638.620206-2-fe%40dev.tdt.de
-patch subject: [PATCH 1/2] tty: new helper function tty_get_mget
-config: x86_64-randconfig-a002-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140339.1vFSjZ1M-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/sslp-stubs-shadow-stack-and-landing-pad-stubs/20230213-125630
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+patch link:    https://lore.kernel.org/r/20230213045351.3945824-10-debug%40rivosinc.com
+patch subject: [PATCH v1 RFC Zisslpcfi 09/20] riscv mmu: riscv shadow stack page fault handling
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230214/202302140351.iqujxGOS-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/096ca9c9428ec2a8ebab4af0798461e66585cdde
+        # https://github.com/intel-lab-lkp/linux/commit/5bc0c094c6a280c8b4f16d7db053873e5c4fb5aa
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
-        git checkout 096ca9c9428ec2a8ebab4af0798461e66585cdde
+        git fetch --no-tags linux-review Deepak-Gupta/sslp-stubs-shadow-stack-and-landing-pad-stubs/20230213-125630
+        git checkout 5bc0c094c6a280c8b4f16d7db053873e5c4fb5aa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/misc/bcm-vk/ drivers/tty/ fs/proc/ init/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140339.1vFSjZ1M-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140351.iqujxGOS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/tty/tty_port.c:8:
-   include/linux/tty.h:423:3: error: expected ')'
-                   struct serial_icounter_struct *icount);
-                   ^
-   include/linux/tty.h:422:19: note: to match this '('
-   int tty_get_icount(struct tty_struct *tty
-                     ^
->> drivers/tty/tty_port.c:266:2: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-           INIT_KFIFO(port->xmit_fifo);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kfifo.h:130:69: note: expanded from macro 'INIT_KFIFO'
-           __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
-                         ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   1 warning and 1 error generated.
---
-   In file included from fs/proc/array.c:62:
-   include/linux/tty.h:423:3: error: expected ')'
-                   struct serial_icounter_struct *icount);
-                   ^
-   include/linux/tty.h:422:19: note: to match this '('
-   int tty_get_icount(struct tty_struct *tty
-                     ^
-   In file included from fs/proc/array.c:64:
->> include/linux/mman.h:154:9: warning: division by zero is undefined [-Wdivision-by-zero]
-                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:132:21: note: expanded from macro '_calc_vm_trans'
-      : ((x) & (bit1)) / ((bit1) / (bit2))))
-                       ^ ~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
---
-   In file included from drivers/misc/bcm-vk/bcm_vk_dev.c:20:
-   In file included from drivers/misc/bcm-vk/bcm_vk.h:18:
-   include/linux/tty.h:423:3: error: expected ')'
-                   struct serial_icounter_struct *icount);
-                   ^
-   include/linux/tty.h:422:19: note: to match this '('
-   int tty_get_icount(struct tty_struct *tty
-                     ^
->> drivers/misc/bcm-vk/bcm_vk_dev.c:1320:6: warning: shift count >= width of type [-Wshift-count-overflow]
-                                           DMA_BIT_MASK(BCM_VK_DMA_BITS));
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^ ~~~
-   1 warning and 1 error generated.
+>> arch/riscv/kernel/traps.c:101:6: warning: no previous prototype for 'is_ss_load_store_insn' [-Wmissing-prototypes]
+     101 | bool is_ss_load_store_insn(unsigned long insn)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/traps.c:115:7: warning: no previous prototype for 'get_instruction' [-Wmissing-prototypes]
+     115 | ulong get_instruction(ulong epc)
+         |       ^~~~~~~~~~~~~~~
 
 
-vim +266 drivers/tty/tty_port.c
+vim +/is_ss_load_store_insn +101 arch/riscv/kernel/traps.c
 
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  260  
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  261  void tty_port_free_xmit_buf(struct tty_port *port)
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  262  {
-44e4909e453eaa drivers/char/tty_port.c Alan Cox   2009-11-30  263  	mutex_lock(&port->buf_mutex);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  264  	free_page((unsigned long)port->xmit_buf);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  265  	port->xmit_buf = NULL;
-4e2a44c1408b6a drivers/tty/tty_port.c  Jiri Slaby 2022-01-24 @266  	INIT_KFIFO(port->xmit_fifo);
-44e4909e453eaa drivers/char/tty_port.c Alan Cox   2009-11-30  267  	mutex_unlock(&port->buf_mutex);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  268  }
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  269  EXPORT_SYMBOL(tty_port_free_xmit_buf);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  270  
+   100	
+ > 101	bool is_ss_load_store_insn(unsigned long insn)
+   102	{
+   103		if ((insn & SS_PUSH_POP) == SS_PUSH_POP)
+   104			return true;
+   105		/*
+   106		 * SS_AMOSWAP overlaps with LP_S_LL.
+   107		 * But LP_S_LL can never raise access fault
+   108		 */
+   109		if ((insn & SS_AMOSWAP) == SS_AMOSWAP)
+   110			return true;
+   111	
+   112		return false;
+   113	}
+   114	
+ > 115	ulong get_instruction(ulong epc)
+   116	{
+   117		ulong *epc_ptr = (ulong *) epc;
+   118		ulong insn = 0;
+   119	
+   120		__enable_user_access();
+   121		insn = *epc_ptr;
+   122		__disable_user_access();
+   123		return insn;
+   124	}
+   125	
 
 -- 
 0-DAY CI Kernel Test Service
