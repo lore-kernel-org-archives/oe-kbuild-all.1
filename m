@@ -1,50 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1263F7C;
-	Tue, 14 Feb 2023 09:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494057C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 09:33:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676366410; x=1707902410;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=36ankMROoiHIBFJltB6iuBfi/2ZprB2hArXdzmlRtVs=;
-  b=ci0lWF4pWpHaSTEXqoaJz4w33IHq0slsHDHW4l5G0NvsdlN/QpVVlyP5
-   vnV7bQh1IGUUTdSYSDtfRjTD8KVwBP6XFOlywSbuQdwsphOm0a+e0bEbS
-   aOfPIFRgNwHOzkBjahEwKTsbWUHnJ70pJ3bouA0a7xgY8+yiofMyLEbfb
-   eM7L8EMA0RXtuMQhB8E18ajlyBHcDiEkwY6MhhL7mVTztxgCdyXfP08uy
-   qALNrehiT9jDN71azgdZ0do9Gj93s1CFTuRbOe2CDbuRR50RY2IxbELKw
-   Ftd6WCPoHSL8uXBxe7VxKDIoLiMuczIwDdeCBP0abPNzHb8rcOmnfbync
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="332431874"
+  t=1676367184; x=1707903184;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gtY+FbDXoShbBj7MccCgwOPuQ80WHe2ZAsADdTBsr0s=;
+  b=ARNFRcJOwOwjPx+MauhaMO6qp+tHqTSgAK502dQ+sugCiEMogP2b0e4f
+   NpLfZPproUXUA+cGn0NkvvVphdTxBHfflTXVXLvIps+onZB17/VNm76UC
+   IZuH+aKxFHAasNeknXQqjQEqfwgnBQ01nZUNeZqTzDRo0vMoGQe3wqrjo
+   gNO2JVUEQsRNZ4uqsO37nZug7ZtWewzYUSBdOuf+pbx1z47AvuYj6PFFb
+   1jdlSdPpLDpcYvwAe/5HWAUk9rexvsdrMEU3FIRzabkdNVJZhV+k7ElDj
+   KFNUiqq/o1nTPE84U94+ZiZ4jz8ox+nf9E7NUH10E1yRTTBzYeKFox2Do
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="311479983"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="332431874"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 01:20:09 -0800
+   d="scan'208";a="311479983"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 01:33:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="732825617"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699482733"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="732825617"
+   d="scan'208";a="699482733"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Feb 2023 01:20:06 -0800
+  by orsmga008.jf.intel.com with ESMTP; 14 Feb 2023 01:33:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRrTl-0008MJ-0M;
-	Tue, 14 Feb 2023 09:20:01 +0000
-Date: Tue, 14 Feb 2023 17:19:36 +0800
+	id 1pRrgL-0008Mr-1m;
+	Tue, 14 Feb 2023 09:33:01 +0000
+Date: Tue, 14 Feb 2023 17:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frieder Schrempf <frieder@fris.de>, Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marek Vasut <marex@denx.de>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 4/6] regulator: Add operation to let drivers select vsel
- register
-Message-ID: <202302141754.N3CvO9lF-lkp@intel.com>
-References: <20230213155833.1644366-5-frieder@fris.de>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android14-5.15 6/11]
+ arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for
+ function 'hyp_trace_release'
+Message-ID: <202302141757.s6T6bgg3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,65 +47,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230213155833.1644366-5-frieder@fris.de>
 
-Hi Frieder,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on shawnguo/for-next arm/for-next arm/fixes arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next xilinx-xlnx/master linus/master v6.2-rc8 next-20230214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frieder-Schrempf/dt-bindings-regulator-pca9450-Document-new-usage-of-sd-vsel-gpios/20230214-013045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20230213155833.1644366-5-frieder%40fris.de
-patch subject: [PATCH 4/6] regulator: Add operation to let drivers select vsel register
-config: i386-randconfig-a003-20230213 (https://download.01.org/0day-ci/archive/20230214/202302141754.N3CvO9lF-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android14-5.15
+head:   8e245b4c3a574fbb94b6b655f84e071febc147a6
+commit: 575dd1da644e642dd122a5af1e81c4171af0f842 [6/11] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
+config: arm64-randconfig-r032-20230213 (https://download.01.org/0day-ci/archive/20230214/202302141757.s6T6bgg3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b76ab45ee4b60334c27d870b6d744a937ff94636
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Frieder-Schrempf/dt-bindings-regulator-pca9450-Document-new-usage-of-sd-vsel-gpios/20230214-013045
-        git checkout b76ab45ee4b60334c27d870b6d744a937ff94636
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/575dd1da644e642dd122a5af1e81c4171af0f842
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android14-5.15
+        git checkout 575dd1da644e642dd122a5af1e81c4171af0f842
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/regulator/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302141754.N3CvO9lF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302141757.s6T6bgg3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/regulator/helpers.c:226:14: warning: no previous prototype for function 'regulator_get_hwreg_voltage_sel_regmap' [-Wmissing-prototypes]
-   unsigned int regulator_get_hwreg_voltage_sel_regmap(struct regulator_dev *rdev)
-                ^
-   drivers/regulator/helpers.c:226:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   unsigned int regulator_get_hwreg_voltage_sel_regmap(struct regulator_dev *rdev)
+   arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier 'STRUCT_HYP_BUFFER_PAGE_SIZE'
+           backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
+                          ^
+>> arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
+   int hyp_trace_release(struct inode *inode, struct file *file)
+       ^
+   arch/arm64/kvm/hyp_trace.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int hyp_trace_release(struct inode *inode, struct file *file)
    ^
    static 
-   1 warning generated.
+   1 warning and 1 error generated.
 
 
-vim +/regulator_get_hwreg_voltage_sel_regmap +226 drivers/regulator/helpers.c
+vim +/hyp_trace_release +488 arch/arm64/kvm/hyp_trace.c
 
-   225	
- > 226	unsigned int regulator_get_hwreg_voltage_sel_regmap(struct regulator_dev *rdev)
-   227	{
-   228		const struct regulator_ops *ops = rdev->desc->ops;
-   229	
-   230		if (ops->get_reg_voltage_sel)
-   231			return ops->get_reg_voltage_sel(rdev);
-   232	
-   233		return rdev->desc->vsel_reg;
-   234	}
-   235	
+   487	
+ > 488	int hyp_trace_release(struct inode *inode, struct file *file)
+   489	{
+   490		struct seq_file *m = file->private_data;
+   491		struct ht_iterator *iter = m->private;
+   492	
+   493		ring_buffer_read_finish(iter->buf_iter);
+   494	
+   495		mutex_lock(&hyp_trace_lock);
+   496		hyp_trace_readers--;
+   497		mutex_unlock(&hyp_trace_lock);
+   498	
+   499		return seq_release_private(inode, file);
+   500	}
+   501	
 
 -- 
 0-DAY CI Kernel Test Service
