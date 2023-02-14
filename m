@@ -1,53 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C8CBA54
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 17:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E284BA54
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 17:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676394381; x=1707930381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JlJlccPPsCKSMrUu0LtHuZVJfasNtUfNxGXSsBatVqE=;
-  b=nJB4C1y2UO0m9KNtwUoE2xEMUvmZSFyjRhZaj5wCqnvMmAoCvUcIfn5M
-   BanSBubnDyHCvyzH6ICUE+UbBk8X0fObIBK6tM1IkgippWz9npO4ezQJU
-   nTYh4EWYkc1dD9iGAcGYtLv0KYy09hkel8NugXyjVIm3Tz9CpIPoiw8JL
-   XzEciQ+YWo8l5DaFNC60KFd+EvhoWFfkRYVlO/0NRhFDbH4XVZYnmGjZY
-   HUBkOACCm/L/tnHFb5G4PLTmTaGM6vh+jvUOpkwmL9tyDRw9/9xAtX0KO
-   cRFTKG89M5ZL57hwIgiJbbNRHt2zkYsQAIGqFOmNXwpNYPtVymCKVboVw
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393611002"
+  t=1676394739; x=1707930739;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=3Z0VR5hYhY9LUYikBks77e38UdhiUwdO2XqkLuXPZRo=;
+  b=K1F7gRbJVSFnQn94BaCiPN6fl8ahaDwXACe2Ok9GZnbyPwFEtwLAJUHH
+   0yEOBpUypiYuYcI7DpdNVC+QLSWIyRR9eq4f7shLbKGZ2wB13YnMp3n2O
+   tj5QdUTw/YggA67/wEa74O3CyQ06ygMUhF/VaWXyKGrxC+i9DwUvoZBV9
+   zyBw5q+aqpGL0UpusZ1o7C9PwmqspU9F8zgYJROz5XnE0/WIx6JNW3zze
+   9OyecES+o+KrrTyUtvr815fMHtc4xW6GNvXKzt0MLZ3IKZaTdtmlgpcO+
+   /FjafxZPK2peQmP1I1dsSy/GRcHXaYL6QaGyLAlBV95WCurLUG5KVAQyT
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="395824755"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="393611002"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 09:06:21 -0800
+   d="scan'208";a="395824755"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 09:12:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671276516"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="998148088"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="671276516"
+   d="scan'208";a="998148088"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Feb 2023 09:06:17 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2023 09:12:17 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRyky-0008fD-2h;
-	Tue, 14 Feb 2023 17:06:16 +0000
-Date: Wed, 15 Feb 2023 01:05:36 +0800
+	id 1pRyqn-0008ff-0K;
+	Tue, 14 Feb 2023 17:12:17 +0000
+Date: Wed, 15 Feb 2023 01:11:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v3] xsk: support use vaddr as ring
-Message-ID: <202302150059.M0lYLPTa-lkp@intel.com>
-References: <20230214015112.12094-1-xuanzhuo@linux.alibaba.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH for-5.15 3/3] Documentation/hw-vuln: Add documentation
+ for Cross-Thread Return Predictions
+Message-ID: <Y+vAuPVnSH1Z34m/@a5b9dd7d9a79>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,84 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230214015112.12094-1-xuanzhuo@linux.alibaba.com>
+In-Reply-To: <20230214170956.1297309-4-pbonzini@redhat.com>
 
-Hi Xuan,
+Hi,
 
-Thank you for the patch! Yet something to improve:
+Thanks for your patch.
 
-[auto build test ERROR on net-next/master]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230214-095210
-patch link:    https://lore.kernel.org/r/20230214015112.12094-1-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH net-next v3] xsk: support use vaddr as ring
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230215/202302150059.M0lYLPTa-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a2f7f17c84b0f4af1d0a8903b2b5e8e558f8359a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230214-095210
-        git checkout a2f7f17c84b0f4af1d0a8903b2b5e8e558f8359a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash net/
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH for-5.15 3/3] Documentation/hw-vuln: Add documentation for Cross-Thread Return Predictions
+Link: https://lore.kernel.org/stable/20230214170956.1297309-4-pbonzini%40redhat.com
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302150059.M0lYLPTa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/xdp/xsk.c: In function 'xsk_mmap':
->> net/xdp/xsk.c:1323:16: error: implicit declaration of function 'remap_vmalloc_range'; did you mean 'ida_alloc_range'? [-Werror=implicit-function-declaration]
-    1323 |         return remap_vmalloc_range(vma, q->ring, 0);
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                ida_alloc_range
-   cc1: some warnings being treated as errors
-
-
-vim +1323 net/xdp/xsk.c
-
-  1290	
-  1291	static int xsk_mmap(struct file *file, struct socket *sock,
-  1292			    struct vm_area_struct *vma)
-  1293	{
-  1294		loff_t offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
-  1295		unsigned long size = vma->vm_end - vma->vm_start;
-  1296		struct xdp_sock *xs = xdp_sk(sock->sk);
-  1297		struct xsk_queue *q = NULL;
-  1298	
-  1299		if (READ_ONCE(xs->state) != XSK_READY)
-  1300			return -EBUSY;
-  1301	
-  1302		if (offset == XDP_PGOFF_RX_RING) {
-  1303			q = READ_ONCE(xs->rx);
-  1304		} else if (offset == XDP_PGOFF_TX_RING) {
-  1305			q = READ_ONCE(xs->tx);
-  1306		} else {
-  1307			/* Matches the smp_wmb() in XDP_UMEM_REG */
-  1308			smp_rmb();
-  1309			if (offset == XDP_UMEM_PGOFF_FILL_RING)
-  1310				q = READ_ONCE(xs->fq_tmp);
-  1311			else if (offset == XDP_UMEM_PGOFF_COMPLETION_RING)
-  1312				q = READ_ONCE(xs->cq_tmp);
-  1313		}
-  1314	
-  1315		if (!q)
-  1316			return -EINVAL;
-  1317	
-  1318		/* Matches the smp_wmb() in xsk_init_queue */
-  1319		smp_rmb();
-  1320		if (size > PAGE_ALIGN(q->ring_size))
-  1321			return -EINVAL;
-  1322	
-> 1323		return remap_vmalloc_range(vma, q->ring, 0);
-  1324	}
-  1325	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
+
+
