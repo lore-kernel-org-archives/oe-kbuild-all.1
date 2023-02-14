@@ -1,125 +1,187 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57E727721;
-	Tue, 14 Feb 2023 13:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676381413; x=1707917413;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KiY8ACAIUMz6YB9Pycr31MXRldnNgckI7Vc05G9agmM=;
-  b=I5zClv5qoZvmS9NJ1JoZUWjB9H1bFLwLx6xuz1vzNwRWQCwaWyr31rTu
-   GvjgAOh7u7HEImxZC4I7bkzwa2uoWzql4iENqrPGR5dmORI1ec/HFXbQZ
-   2Gg1/7euLomP+HQQhmYSSksVjCMLIeAd8utdJeL9QnqInLdSMwzXUyYrE
-   FNK/Knqh4dSaoUULKcHUWFw5mgo5z2h9AIDinT4uSHZ83BBBbpfwqO20i
-   EJku9xdyj8tOyXBYDf4uNm+sQOR8BRoG36HEoTwbY5JUGWVml9RmT36AY
-   D6gzCPDPh8BwJvnKPlfO8J8oeuAr5ZWj6ER7OxJXwJ5p6Q4pFfrSGhMzm
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333294318"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="333294318"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 05:30:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="757995661"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="757995661"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Feb 2023 05:30:11 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRvNq-0008Xd-2M;
-	Tue, 14 Feb 2023 13:30:10 +0000
-Date: Tue, 14 Feb 2023 21:29:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/iov-extract-3 17/17]
- mm/shmem.c:2731:9: warning: comparison of distinct pointer types ('typeof
- (size) *' (aka 'unsigned int *') and 'typeof (((1UL) << (12)) - offset) *'
- (aka 'unsigned long *'))
-Message-ID: <202302142135.btT3KXbD-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBC6C081
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 13:54:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC43BC433D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 13:54:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676382855;
+	bh=qoULczsZVvR5w2vQsBUhToIAimNxpI6ClMZuCke9diw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=f3DILNWb3pTsxyOZtfvBrQ+C4ix9A+o6s7JpTxtVu2QU96pfhVo6f4ghhN+iBwxrQ
+	 gSZbUV87VXYbVzwK1d0UFGKj0WC8Zt60A2WpGwRgqzCAoyZ+TKzpNEL10T/gpu1L4v
+	 XgpNBidhbjcDAQUW6u5QNrbWfjWQex+VE/vpm7VB9s/N5d3WtDE+Nc+pocQCmHd1VA
+	 Vv5qMZYcVjzWQuWLYppfKHstTiWEeq8z4GA5JFXcnwsPArQcDTTkYLENBkqok1eCvv
+	 R31umtPncwMj1XUjdY8yRoD+V2F+KUR/wm1cc4iL1bXR+0T0TPB/dckXlpGKS0Hphl
+	 JtQHhlbiOktMQ==
+Received: by mail-lj1-f172.google.com with SMTP id u27so18442158ljo.12
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 05:54:15 -0800 (PST)
+X-Gm-Message-State: AO0yUKXzhPQAB0biFdHbwgX3AkYmyMz/ujl5hA1m/wzzwwz/PO55Y2kB
+	uOk/5pdNQuejvJpHYMV+8tJe/k8wpwyqmKSTjlk=
+X-Google-Smtp-Source: AK7set80w1qmX66r7ie/9uXTu63eyR0TSO4NmcKBF9OB6VKHcRlvRTYXBSILu7W+DyQ45/pnO8hb8WnL30RToFNtGFk=
+X-Received: by 2002:a2e:88d6:0:b0:28e:1ca4:b62 with SMTP id
+ a22-20020a2e88d6000000b0028e1ca40b62mr222096ljk.97.1676382853760; Tue, 14 Feb
+ 2023 05:54:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+ <202301250706.deGvd0yq-lkp@intel.com> <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+ <Y9ykeASyzhSKQCmx@yujie-X299> <Y+MNxmzlILarAlZA@kernel.org>
+ <3109ff421139af6b0d9e66a06d8399135e546fa7.camel@HansenPartnership.com> <Y+nqpLm2YyYkcZ+H@kernel.org>
+In-Reply-To: <Y+nqpLm2YyYkcZ+H@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 14 Feb 2023 14:54:02 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXECgmUMjKZk41oeXWWQpX5wB22YtBt2CSAQzEq8SqbY_g@mail.gmail.com>
+Message-ID: <CAMj1kXECgmUMjKZk41oeXWWQpX5wB22YtBt2CSAQzEq8SqbY_g@mail.gmail.com>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, Yujie Liu <yujie.liu@intel.com>, 
+	kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, keyrings@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-extract-3
-head:   17cd42e56c9be2df7fc5ec06c2315cab669a43b0
-commit: 17cd42e56c9be2df7fc5ec06c2315cab669a43b0 [17/17] shmem, overlayfs, coda, tty, proc, kernfs, random: Fix splice-read
-config: riscv-randconfig-r042-20230214 (https://download.01.org/0day-ci/archive/20230214/202302142135.btT3KXbD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/17cd42e56c9be2df7fc5ec06c2315cab669a43b0
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/iov-extract-3
-        git checkout 17cd42e56c9be2df7fc5ec06c2315cab669a43b0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+On Mon, 13 Feb 2023 at 08:45, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Fri, Feb 10, 2023 at 09:48:15AM -0500, James Bottomley wrote:
+> > On Wed, 2023-02-08 at 04:49 +0200, Jarkko Sakkinen wrote:
+> > > On Fri, Feb 03, 2023 at 02:06:48PM +0800, Yujie Liu wrote:
+> > > > Hi James,
+> > > >
+> > > > On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
+> > > > > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
+> > > > > > Hi James,
+> > > > > >
+> > > > > > I love your patch! Perhaps something to improve:
+> > > > > >
+> > > > > > [auto build test WARNING on char-misc/char-misc-testing]
+> > > > > > [also build test WARNING on char-misc/char-misc-next char-
+> > > > > > misc/char-
+> > > > > > misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5
+> > > > > > next-
+> > > > > > 20230124]
+> > > > > > [If your patch is applied to the wrong git tree, kindly drop us
+> > > > > > a
+> > > > > > note.
+> > > > > > And when submitting patch, we suggest to use '--base' as
+> > > > > > documented
+> > > > > > in
+> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information
+> > > > > > ]
+> > > > > >
+> > > > > > url:
+> > > > > > https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
+> > > > > > patch link:
+> > > > > > https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
+> > > > > > patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
+> > > > > > encrypt/decrypt session handling code
+> > > > > > config: arc-allyesconfig
+> > > > > > (
+> > > > > > https://download.01.org/0day-ci/archive/20230125/202301250706.de
+> > > > > > Gvd0
+> > > > > > yq-lkp@intel.com/config)
+> > > > > > compiler: arceb-elf-gcc (GCC) 12.1.0
+> > > > > > reproduce (this is a W=1 build):
+> > > > > >         wget
+> > > > > > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
+> > > > > >  -O ~/bin/make.cross
+> > > > > >         chmod +x ~/bin/make.cross
+> > > > > >         #
+> > > > > > https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > > > > >         git remote add linux-review
+> > > > > > https://github.com/intel-lab-lkp/linux
+> > > > > >         git fetch --no-tags linux-review James-Bottomley/tpm-
+> > > > > > move-
+> > > > > > buffer-handling-from-static-inlines-to-real-functions/20230125-
+> > > > > > 020146
+> > > > > >         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
+> > > > > >         # save the config file
+> > > > > >         mkdir build_dir && cp config build_dir/.config
+> > > > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > > > > make.cross W=1 O=build_dir ARCH=arc olddefconfig
+> > > > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
+> > > > > > make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+> > > > > > drivers/char/tpm/
+> > > > > >
+> > > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > >
+> > > > > > All warnings (new ones prefixed by >>):
+> > > > > >
+> > > > > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no
+> > > > > > previous
+> > > > > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
+> > > > > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip)
+> > > > > > {
+> > > > > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > > > > 'tpm_buf_check_hmac_response':
+> > > > > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame
+> > > > > > > > size
+> > > > > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-
+> > > > > > > > than=]
+> > > > > >      831 | }
+> > > > > >          | ^
+> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
+> > > > > > 'tpm_buf_fill_hmac_session':
+> > > > > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame
+> > > > > > size of
+> > > > > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+> > > > > >      579 | }
+> > > > > >          | ^
+> > > > >
+> > > > > Is this a test problem?  I can't see why the code would only blow
+> > > > > the
+> > > > > stack on the arc architecture and not on any other ... does it
+> > > > > have
+> > > > > something funny with on stack crypto structures?
+> > > >
+> > > > This warning is controlled by the value of CONFIG_FRAME_WARN.
+> > > >
+> > > > For "make ARCH=arc allyesconfig", the default value is 1024, so
+> > > > this frame warning shows up during the build.
+> > > >
+> > > > For other arch such as "make ARCH=x86_64 allyesconfig", the default
+> > > > value would be 2048 and won't have this warning.
+> > > >
+> > > > Not sure if this is a real problem that need to be fixed, here just
+> > > > providing above information for your reference.
+> > > >
+> > > > --
+> > > > Best Regards,
+> > > > Yujie
+> > >
+> > > *Must* be fixed given that it is how the default value is set now.
+> > > This is wrong place to reconsider.
+> > >
+> > >
+> > > And we do not want to add functions that bloat the stack this way.
+> > >
+> > > Shash just needs to be allocated from heap instead of stack.
+> >
+> > On x86_64 the stack usage is measured at 984 bytes, so rather than
+> > jumping to conclusions let's root cause why this is a problem only on
+> > the arc architecture.  I suspect it's something to do with the
+> > alignment constraints of shash.  I've also noted it shouldn't actually
+> > warn on arc because the default stack warning size there should be 2048
+> > (like x86_64).
+>
+> Would it such a big deal to allocate shash from heap? That would
+> be IMHO more robust in the end.
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302142135.btT3KXbD-lkp@intel.com/
+Can we avoid shashes and sync skciphers at all? We have sha256 and AES
+library routines these days, and AES in CFB mode seems like a good
+candidate for a library implementation as well - it uses AES
+encryption only, and is quite straight forward to implement. [0]
 
-All warnings (new ones prefixed by >>):
+The crypto API is far too clunky for synchronous operations of
+algorithms that are known at compile time, and the requirement to use
+scatterlists for skciphers is especially horrid.
 
->> mm/shmem.c:2731:9: warning: comparison of distinct pointer types ('typeof (size) *' (aka 'unsigned int *') and 'typeof (((1UL) << (12)) - offset) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-           size = min(size, PAGE_SIZE - offset);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +2731 mm/shmem.c
-
-  2725	
-  2726	static size_t splice_zeropage_into_pipe(struct pipe_inode_info *pipe,
-  2727						loff_t fpos, size_t size)
-  2728	{
-  2729		size_t offset = fpos & ~PAGE_MASK;
-  2730	
-> 2731		size = min(size, PAGE_SIZE - offset);
-  2732	
-  2733		if (!pipe_full(pipe->head, pipe->tail, pipe->max_usage)) {
-  2734			struct pipe_buffer *buf = pipe_head_buf(pipe);
-  2735	
-  2736			*buf = (struct pipe_buffer) {
-  2737				.ops	= &zero_pipe_buf_ops,
-  2738				.page	= ZERO_PAGE(0),
-  2739				.offset	= offset,
-  2740				.len	= size,
-  2741			};
-  2742			get_page(buf->page);
-  2743			pipe->head++;
-  2744		}
-  2745	
-  2746		return size;
-  2747	}
-  2748	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/log/?h=crypto-aes-cfb-library
