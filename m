@@ -1,42 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01B4C5F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 19:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D9FC5F7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 20:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676404162; x=1707940162;
+  t=1676405363; x=1707941363;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RTf4aQSzU+TBu8+dYzCEsHyxvjMa4wlbBjnsQNSWxYY=;
-  b=Cgh2sGiF+LBHNZEi2O/Q9w3YfIuIxdqTNhpHohHpsgQn2jCuRWT/m0kz
-   UVMEJQTyDen2NDBli2rBM1n1WV3bAIvRfVhSXBvDNshHZUamO510c/2bn
-   7H7bHjY/TEpKnn8dWnbPUnmjY7Vm0qwO7e2JVGhuk5NQukHwt7POsKyCg
-   lnqRSO/a5Skm+vXoxyYPkGjf84p0acoKosQCiutSN2dDO358i9PGxHi5B
-   MGjlrlLXOSt2R9Rn6jBLYRg6abR4RZCbF2o/2bFrRB+EsgFWi/GyVXuHX
-   kkdGdYoYQhxoQ9TQ/mYD3vZHlQYjmIUflJmXixOaMoiQu5xcGugp9sL/l
+  bh=wLfNUHX5Ckyad8Etj2qX/K0k4IP5wROcr1fhDR1iFag=;
+  b=WTEtIH9a0Wv4dnFf+n2fRXwnZJ+QoYH98hPsrXC4dA79/S3+MGsZm5Cp
+   0elsF8EFk1KG1AtD8zAvnovDWq2y9WlH4uj9iVeZsG1gfQriW26mItDVZ
+   SCzE45MIA6+9D7YejZDBHK6n+PYHRBslCdgfDYzIJI0GYUdOutX4uOBPK
+   o64igsRT/PewsibYhwiJvOJcURkcV5YL/Sl8vnRvTL/O9/xixFBv6TF7O
+   pXqxUDedcNakX6FLFUO8NGAadMZ2rI2fDM3TzXyoEmWLve+5ZG2+cus9W
+   hn+T8emyejt9yXT/3r/ce/zCEgYsfjkWouIT2MeqQrDhBQ1sdYynpi8Bo
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="311614751"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="333391502"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="311614751"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 11:49:22 -0800
+   d="scan'208";a="333391502"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 12:09:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="778489705"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="758117662"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="778489705"
+   d="scan'208";a="758117662"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Feb 2023 11:49:21 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Feb 2023 12:09:21 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pS1Im-0008kv-1H;
-	Tue, 14 Feb 2023 19:49:20 +0000
-Date: Wed, 15 Feb 2023 03:48:39 +0800
+	id 1pS1c8-0008lZ-2c;
+	Tue, 14 Feb 2023 20:09:20 +0000
+Date: Wed, 15 Feb 2023 04:09:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.1/prjc-test 284/377] kernel/sched/alt_debug.c:23:6: warning:
- no previous prototype for function 'proc_sched_show_task'
-Message-ID: <202302150306.KS5CZW3r-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.2-rc 35/50]
+ include/linux/container_of.h:20:54: error: 'struct mt76_dev' has no member
+ named 'led_cdev'
+Message-ID: <202302150351.OahPBjAz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,79 +47,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alfred,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/zen-kernel/zen-kernel 6.1/prjc-test
-head:   9f1d88c71fdf107b93a41d224d630b4dcd5f54a6
-commit: a9a7c3ea10ad1e83f4f64714235401ac4861dbfd [284/377] sched/alt: Headers cleanup
-config: i386-randconfig-a003-20230213 (https://download.01.org/0day-ci/archive/20230215/202302150306.KS5CZW3r-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.2-rc
+head:   160aa4f55cd79fbd22c1d2ab789b044a2d38ab46
+commit: 9c9893a3a118d09cdb6d27060894676898dba058 [35/50] wifi: mt76: move leds field in leds struct
+config: alpha-randconfig-r036-20230212 (https://download.01.org/0day-ci/archive/20230215/202302150351.OahPBjAz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/a9a7c3ea10ad1e83f4f64714235401ac4861dbfd
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.1/prjc-test
-        git checkout a9a7c3ea10ad1e83f4f64714235401ac4861dbfd
+        # https://github.com/frank-w/BPI-R2-4.14/commit/9c9893a3a118d09cdb6d27060894676898dba058
+        git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
+        git fetch --no-tags frank-w-bpi-r2-4.14 6.2-rc
+        git checkout 9c9893a3a118d09cdb6d27060894676898dba058
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/wireless/mediatek/mt76/mt7996/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302150306.KS5CZW3r-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302150351.OahPBjAz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/alt_debug.c:23:6: warning: no previous prototype for function 'proc_sched_show_task' [-Wmissing-prototypes]
-   void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-        ^
-   kernel/sched/alt_debug.c:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-   ^
-   static 
->> kernel/sched/alt_debug.c:30:6: warning: no previous prototype for function 'proc_sched_set_task' [-Wmissing-prototypes]
-   void proc_sched_set_task(struct task_struct *p)
-        ^
-   kernel/sched/alt_debug.c:30:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void proc_sched_set_task(struct task_struct *p)
-   ^
-   static 
-   2 warnings generated.
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/net/wireless/mediatek/mt76/mt7996/init.c:6:
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_led_set_config':
+>> include/linux/container_of.h:20:54: error: 'struct mt76_dev' has no member named 'led_cdev'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c:52:16: note: in expansion of macro 'container_of'
+      52 |         mt76 = container_of(led_cdev, struct mt76_dev, led_cdev);
+         |                ^~~~~~~~~~~~
+   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
+     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c:52:16: note: in expansion of macro 'container_of'
+      52 |         mt76 = container_of(led_cdev, struct mt76_dev, led_cdev);
+         |                ^~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/limits.h:6,
+                    from include/linux/kernel.h:16:
+>> include/linux/stddef.h:16:33: error: 'struct mt76_dev' has no member named 'led_cdev'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c:52:16: note: in expansion of macro 'container_of'
+      52 |         mt76 = container_of(led_cdev, struct mt76_dev, led_cdev);
+         |                ^~~~~~~~~~~~
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:68:22: error: 'struct mt76_dev' has no member named 'led_al'
+      68 |         if (dev->mt76.led_al)
+         |                      ^
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_mac_init':
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:264:30: error: 'struct mt76_dev' has no member named 'led_pin'
+     264 |                 i = dev->mt76.led_pin ? MT_LED_GPIO_MUX3 : MT_LED_GPIO_MUX2;
+         |                              ^
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_register_device':
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:790:26: error: 'struct mt76_dev' has no member named 'led_cdev'
+     790 |                 dev->mt76.led_cdev.brightness_set = mt7996_led_set_brightness;
+         |                          ^
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c:791:26: error: 'struct mt76_dev' has no member named 'led_cdev'
+     791 |                 dev->mt76.led_cdev.blink_set = mt7996_led_set_blink;
+         |                          ^
 
 
-vim +/proc_sched_show_task +23 kernel/sched/alt_debug.c
+vim +20 include/linux/container_of.h
 
-570d4c77574657 Alfred Chen 2019-08-19  10  
-570d4c77574657 Alfred Chen 2019-08-19  11  /*
-570d4c77574657 Alfred Chen 2019-08-19  12   * This allows printing both to /proc/sched_debug and
-570d4c77574657 Alfred Chen 2019-08-19  13   * to the console
-570d4c77574657 Alfred Chen 2019-08-19  14   */
-570d4c77574657 Alfred Chen 2019-08-19  15  #define SEQ_printf(m, x...)			\
-570d4c77574657 Alfred Chen 2019-08-19  16   do {						\
-570d4c77574657 Alfred Chen 2019-08-19  17  	if (m)					\
-570d4c77574657 Alfred Chen 2019-08-19  18  		seq_printf(m, x);		\
-570d4c77574657 Alfred Chen 2019-08-19  19  	else					\
-570d4c77574657 Alfred Chen 2019-08-19  20  		pr_cont(x);			\
-570d4c77574657 Alfred Chen 2019-08-19  21   } while (0)
-570d4c77574657 Alfred Chen 2019-08-19  22  
-570d4c77574657 Alfred Chen 2019-08-19 @23  void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-570d4c77574657 Alfred Chen 2019-08-19  24  			  struct seq_file *m)
-570d4c77574657 Alfred Chen 2019-08-19  25  {
-570d4c77574657 Alfred Chen 2019-08-19  26  	SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
-570d4c77574657 Alfred Chen 2019-08-19  27  						get_nr_threads(p));
-570d4c77574657 Alfred Chen 2019-08-19  28  }
-570d4c77574657 Alfred Chen 2019-08-19  29  
-570d4c77574657 Alfred Chen 2019-08-19 @30  void proc_sched_set_task(struct task_struct *p)
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
+7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
 
-:::::: The code at line 23 was first introduced by commit
-:::::: 570d4c77574657dc1df2ca8c54e6b4407de76fd5 Project C v5.7.5-r2
+:::::: The code at line 20 was first introduced by commit
+:::::: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: switch to static_assert
 
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
