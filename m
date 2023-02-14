@@ -1,44 +1,43 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E91C5C2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 17:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69BAC5E7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 19:08:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676397440; x=1707933440;
+  t=1676401701; x=1707937701;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AOop0+IJASOAa3ZBsG/C9v/17oJIoGOBH6K5Lj9UH6E=;
-  b=CQSnRomHvllqaq773/OnYwHdEhTKm4w49jDNEwSO2kippvM9vQpp6iq2
-   68NjpjOIO+AQ5CHTjrdlEak27HM2Sa6v1KhOFejVawgKyOZQl5OZBNJlL
-   l6JpLk5UcwNvES7mxl25AErYBU6xy9EPUuXw8EykBgB54rFxuj86bvVRY
-   XEPyMItLUaWSHrPqmheFDWswAL9aSxyc+tya7p56fGtq5zlwv3KOT8H9b
-   Jo6XgWRmDsZOfHaoe8UHilk7NCap5GW/FHIBvHnJHz4olntEj48ws0/Gl
-   Qamgd1BkXsGNfgX7h86ChtQaULal/PH8S71m1F0L4ObTaMFRTeiX034/0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="310855104"
+  bh=/QAIubZIGl79mjrIIlxp4xAo4C1DtkmGdfLjrXly+gs=;
+  b=F2jErtmG1h436T5UJ71dpLW4vIs3yZ268LoqhNviCC2Rk/jNwny1z+ay
+   pfxRop+ApldSPiXwxvOQ2H/QJLLziGEglmdTuKbc1NgoTrpX5eKkXKUD9
+   zCYBLM9JIt0C7KMYeDpYtKUcrJ4Ei9ER6At57yjo5cQzkE//bgYkBog0/
+   /y9lRzXRWPV0VN4ZrY/kIa9z8k+/8osv54IKEyIMG3LQD6jXhsx8pUlOr
+   3DO2Nhorw/R3ca0SpK+HTwTyrFcIJOnV0cFQV1ZR2cmOErBiobBZ73EpB
+   75eXmkYplYkPgoeD9J/r0n34YcEet+JOW3NiNJK1qD9vEa+pqvsJAa64M
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="310875098"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="310855104"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 09:57:19 -0800
+   d="scan'208";a="310875098"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 11:08:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="737953537"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671312342"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="737953537"
+   d="scan'208";a="671312342"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Feb 2023 09:57:18 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Feb 2023 11:08:20 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRzYM-0008h4-02;
-	Tue, 14 Feb 2023 17:57:18 +0000
-Date: Wed, 15 Feb 2023 01:56:21 +0800
+	id 1pS0f5-0008jJ-1b;
+	Tue, 14 Feb 2023 19:08:19 +0000
+Date: Wed, 15 Feb 2023 03:07:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android14-5.15 6/11]
- arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier
- 'STRUCT_HYP_BUFFER_PAGE_SIZE'
-Message-ID: <202302150114.G21uZdzY-lkp@intel.com>
+Subject: [jfern:sched/rt-throttle 9/9]
+ include/asm-generic/bitops/sched.h:35:14: error: assignment of read-only
+ location '*b'
+Message-ID: <202302150300.HNUZj5FO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +47,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android14-5.15
-head:   8705a3d94302a65f17b6b726517336dabfa0e5fc
-commit: 575dd1da644e642dd122a5af1e81c4171af0f842 [6/11] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
-config: arm64-randconfig-r032-20230213 (https://download.01.org/0day-ci/archive/20230215/202302150114.G21uZdzY-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/rt-throttle
+head:   f2f6a265a964d70dd174dfce3f44401bb11a475d
+commit: f2f6a265a964d70dd174dfce3f44401bb11a475d [9/9] Add sched_find_first_bit_except
+config: arc-randconfig-r043-20230213 (https://download.01.org/0day-ci/archive/20230215/202302150300.HNUZj5FO-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/575dd1da644e642dd122a5af1e81c4171af0f842
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android14-5.15
-        git checkout 575dd1da644e642dd122a5af1e81c4171af0f842
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=f2f6a265a964d70dd174dfce3f44401bb11a475d
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern sched/rt-throttle
+        git checkout f2f6a265a964d70dd174dfce3f44401bb11a475d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302150114.G21uZdzY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302150300.HNUZj5FO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier 'STRUCT_HYP_BUFFER_PAGE_SIZE'
-           backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
-                          ^
-   arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
-   int hyp_trace_release(struct inode *inode, struct file *file)
-       ^
-   arch/arm64/kvm/hyp_trace.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int hyp_trace_release(struct inode *inode, struct file *file)
-   ^
-   static 
-   1 warning and 1 error generated.
+   In file included from arch/arc/include/asm/bitops.h:187,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   include/asm-generic/bitops/sched.h: In function 'sched_find_first_bit_except':
+>> include/asm-generic/bitops/sched.h:35:14: error: assignment of read-only location '*b'
+      35 |         b[0] &= ~(s[0]);
+         |              ^~
+>> include/asm-generic/bitops/sched.h:36:14: error: assignment of read-only location '*(b + 4)'
+      36 |         b[1] &= ~(s[1]);
+         |              ^~
+   include/asm-generic/bitops/sched.h:42:14: error: assignment of read-only location '*(b + 8)'
+      42 |         b[2] &= ~(s[2]);
+         |              ^~
+   include/asm-generic/bitops/sched.h:43:14: error: assignment of read-only location '*(b + 12)'
+      43 |         b[3] &= ~(s[3]);
+         |              ^~
+   make[2]: *** [scripts/Makefile.build:118: kernel/bounds.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1270: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:231: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/STRUCT_HYP_BUFFER_PAGE_SIZE +38 arch/arm64/kvm/hyp_trace.c
+vim +35 include/asm-generic/bitops/sched.h
 
-    29	
-    30	static int bpage_backing_setup(struct hyp_trace_pack *pack)
-    31	{
-    32		size_t backing_size;
-    33		void *start;
-    34	
-    35		if (hyp_buffer_pages_backing.start)
-    36			return -EBUSY;
-    37	
-  > 38		backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
-    39			       pack->trace_buffer_pack.total_pages;
-    40		backing_size = PAGE_ALIGN(backing_size);
-    41	
-    42		start = alloc_pages_exact(backing_size, GFP_KERNEL_ACCOUNT);
-    43		if (!start)
-    44			return -ENOMEM;
-    45	
-    46		hyp_buffer_pages_backing.start = (unsigned long)start;
-    47		hyp_buffer_pages_backing.size = backing_size;
-    48		pack->backing.start = (unsigned long)start;
-    49		pack->backing.size = backing_size;
-    50	
-    51		return 0;
-    52	}
-    53	
+    31	
+    32	static inline int sched_find_first_bit_except(const unsigned long *b,
+    33						      const unsigned long *s)
+    34	{
+  > 35		b[0] &= ~(s[0]);
+  > 36		b[1] &= ~(s[1]);
+    37	#if BITS_PER_LONG == 64
+    38		if (b[0])
+    39			return __ffs(b[0]);
+    40		return __ffs(b[1]) + 64;
+    41	#elif BITS_PER_LONG == 32
+    42		b[2] &= ~(s[2]);
+    43		b[3] &= ~(s[3]);
+    44		if (b[0])
+    45			return __ffs(b[0]);
+    46		if (b[1])
+    47			return __ffs(b[1]) + 32;
+    48		if (b[2])
+    49			return __ffs(b[2]) + 64;
+    50		return __ffs(b[3]) + 96;
+    51	#else
+    52	#error BITS_PER_LONG not defined
+    53	#endif
+    54	}
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
