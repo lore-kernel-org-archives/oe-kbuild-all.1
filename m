@@ -1,49 +1,48 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F7915C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 01:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA9B15C4;
+	Tue, 14 Feb 2023 01:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676338853; x=1707874853;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2iIYyQn1bP9yipL0bzeLnfAtzKbwRDbVyU0kZb96soc=;
-  b=h6cXZ1Mmx/cLQJS38w495f5/3a+o31Q6iCBwr9Dl7X6dOHFbl9SH4B7h
-   9wscZzZJb2JMIZBIAAm8f/iSnK4Xhi2iB7W5F1CqoXhZte+WIWZHMYB6Q
-   w8jbxu6K+rO+HMqS7BZy/LGgI3Nc34fNPr3g+jEDYG2jubSo85wjlk+sB
-   0y40HajxFIiU4Bsmi3SuUlW9RrivGKcGyyFYqq9G8PSZfVpfTrU+vOfUY
-   aZnX7A+rmuyE5Q/aUijv2lxgE2PCmGZN04UVl9LCQw2xL3z584h30ty/c
-   JgOda+DiGUIVeDA1cAs7u2wCr5UqLJttXvVufKJiCpsNzWJ7ym3DCafgG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="311410615"
+  t=1676339515; x=1707875515;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uTDhDipQPxyEctilq5zMdiTVvIQPhSXO8WlX9brIpnM=;
+  b=ndTWbecaU+DRzSWvarD2NPYIyDYsIuAqB3y/NokD3iNvaj9IwD/N5eGp
+   5K5eSqNUGpeb214A0Lnu1Ig+pVp7kyz4u34ZM0lTv9buBjIzBGi9Vc400
+   z7qOtMm68KO8zbOCfgXmELOFlZRw0WhPMP4r0Ck8ztx8hplPwvDDRolty
+   3rPPoyimEyX0i+RoiePiH75nDP1aS24p3xDMdJcrBkH+4qcTDK1NPSIWs
+   nnMl2qkK3dk0XaixBltG5qta7d+98oQ4pvU9oy2ZjJnCPyt6TS+h7AAro
+   itq/ZVMblXEDzSL/PXTQxe1p3ZObxgwfCzs73krZHRQFRvaYxaWmNLgCC
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="311412056"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="311410615"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 17:40:51 -0800
+   d="scan'208";a="311412056"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 17:51:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792937781"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="811823507"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="792937781"
+   d="scan'208";a="811823507"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 17:40:48 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 13 Feb 2023 17:51:49 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRkJM-00087G-0x;
-	Tue, 14 Feb 2023 01:40:48 +0000
-Date: Tue, 14 Feb 2023 09:40:30 +0800
+	id 1pRkU0-00087n-2R;
+	Tue, 14 Feb 2023 01:51:48 +0000
+Date: Tue, 14 Feb 2023 09:51:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frieder Schrempf <frieder@fris.de>, Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Marek Vasut <marex@denx.de>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 4/6] regulator: Add operation to let drivers select vsel
- register
-Message-ID: <202302140905.36f6bYXV-lkp@intel.com>
-References: <20230213155833.1644366-5-frieder@fris.de>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Borislav Petkov <bp@suse.de>,
+	Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
+	Ben Hutchings <bwh@kernel.org>
+Subject: [stable:linux-5.4.y 5560/7282] ld.lld: error:
+ arch/x86/kvm/vmx/evmcs.o: contains a compressed section, but zlib is not
+ available
+Message-ID: <202302140915.yElUFeEX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,60 +51,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230213155833.1644366-5-frieder@fris.de>
 
-Hi Frieder,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on shawnguo/for-next arm/for-next arm/fixes arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next xilinx-xlnx/master linus/master v6.2-rc8 next-20230213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frieder-Schrempf/dt-bindings-regulator-pca9450-Document-new-usage-of-sd-vsel-gpios/20230214-013045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20230213155833.1644366-5-frieder%40fris.de
-patch subject: [PATCH 4/6] regulator: Add operation to let drivers select vsel register
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230214/202302140905.36f6bYXV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
+head:   59342376e8f0c704299dc7a2c14fed07ffb962e2
+commit: 5895a9297e609363ba4003c9d5839c967b237389 [5560/7282] KVM: VMX: Flatten __vmx_vcpu_run()
+config: x86_64-randconfig-a004-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140915.yElUFeEX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b76ab45ee4b60334c27d870b6d744a937ff94636
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Frieder-Schrempf/dt-bindings-regulator-pca9450-Document-new-usage-of-sd-vsel-gpios/20230214-013045
-        git checkout b76ab45ee4b60334c27d870b6d744a937ff94636
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=5895a9297e609363ba4003c9d5839c967b237389
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.4.y
+        git checkout 5895a9297e609363ba4003c9d5839c967b237389
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/regulator/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140905.36f6bYXV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140915.yElUFeEX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/regulator/helpers.c:226:14: warning: no previous prototype for 'regulator_get_hwreg_voltage_sel_regmap' [-Wmissing-prototypes]
-     226 | unsigned int regulator_get_hwreg_voltage_sel_regmap(struct regulator_dev *rdev)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/regulator_get_hwreg_voltage_sel_regmap +226 drivers/regulator/helpers.c
-
-   225	
- > 226	unsigned int regulator_get_hwreg_voltage_sel_regmap(struct regulator_dev *rdev)
-   227	{
-   228		const struct regulator_ops *ops = rdev->desc->ops;
-   229	
-   230		if (ops->get_reg_voltage_sel)
-   231			return ops->get_reg_voltage_sel(rdev);
-   232	
-   233		return rdev->desc->vsel_reg;
-   234	}
-   235	
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmx.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmenter.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/pmu_intel.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmcs12.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmcs12.o: contains a compressed section, but zlib is not available
+   ld.lld: error: arch/x86/kvm/vmx/vmcs12.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: arch/x86/kvm/vmx/evmcs.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: arch/x86/kvm/vmx/evmcs.o: contains a compressed section, but zlib is not available
+   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
 
 -- 
 0-DAY CI Kernel Test Service
