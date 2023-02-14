@@ -1,43 +1,53 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7974FC0BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 16:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C8CBA54
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 17:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676392647; x=1707928647;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hltHvg9LKpCfjMIFh3wfWac+r8l8fBCODJhF08GqNBI=;
-  b=kOCPZY18UhlOiVMvZ7ocgr2zoi6Ht6fSEwfQyY9LSl5M2paUUvGeKzer
-   o2jDlPPgOVjph7OqKYkMWzw0xTblMVjyDpAND6Fhgvy+2hOwOSJOVpZSC
-   PJHqlrEtoz6iMwiMUiO22oWXbZaGu/XFgULSwYrFGG5b291cS6C5CGOKG
-   kF6jNn5D5IWOir4V3nrQAs2ijxiAHOQt7JEqf3i7OR542II8Pgl5+uQ55
-   BB2PufShVDNBrREgizOay35jRVl0uhZkF9CpYxb1+vQHbywsJ817vBrmN
-   VDOqRCsLaAbPYNTkJ6GOeAqDmxU2UcR12cn6S5pRJjqbXr4MW9Bsw6eZD
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="310834132"
+  t=1676394381; x=1707930381;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JlJlccPPsCKSMrUu0LtHuZVJfasNtUfNxGXSsBatVqE=;
+  b=nJB4C1y2UO0m9KNtwUoE2xEMUvmZSFyjRhZaj5wCqnvMmAoCvUcIfn5M
+   BanSBubnDyHCvyzH6ICUE+UbBk8X0fObIBK6tM1IkgippWz9npO4ezQJU
+   nTYh4EWYkc1dD9iGAcGYtLv0KYy09hkel8NugXyjVIm3Tz9CpIPoiw8JL
+   XzEciQ+YWo8l5DaFNC60KFd+EvhoWFfkRYVlO/0NRhFDbH4XVZYnmGjZY
+   HUBkOACCm/L/tnHFb5G4PLTmTaGM6vh+jvUOpkwmL9tyDRw9/9xAtX0KO
+   cRFTKG89M5ZL57hwIgiJbbNRHt2zkYsQAIGqFOmNXwpNYPtVymCKVboVw
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393611002"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="310834132"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 08:37:26 -0800
+   d="scan'208";a="393611002"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 09:06:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="669238882"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671276516"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="669238882"
+   d="scan'208";a="671276516"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 14 Feb 2023 08:35:16 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Feb 2023 09:06:17 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRyGx-0008e3-30;
-	Tue, 14 Feb 2023 16:35:15 +0000
-Date: Wed, 15 Feb 2023 00:35:02 +0800
+	id 1pRyky-0008fD-2h;
+	Tue, 14 Feb 2023 17:06:16 +0000
+Date: Wed, 15 Feb 2023 01:05:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>,
-	Kent Overstreet <kmo@daterainc.com>
-Subject: [rppt:kmo_codetags_v1 19/53] mm/util.c:560: warning: expecting
- prototype for kvmalloc_node(). Prototype was for _kvmalloc_node() instead
-Message-ID: <202302150034.7yWbVV7E-lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>, bpf@vger.kernel.org
+Subject: Re: [PATCH net-next v3] xsk: support use vaddr as ring
+Message-ID: <202302150059.M0lYLPTa-lkp@intel.com>
+References: <20230214015112.12094-1-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,113 +56,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230214015112.12094-1-xuanzhuo@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kmo_codetags_v1
-head:   509acf710b1445f183ccb7aabc1ecedce6ca8ddb
-commit: 1abada2611947258f7c52cc8421662ae341d8dce [19/53] mm: enable slab allocation tagging for kmalloc and friends
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230215/202302150034.7yWbVV7E-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Xuan,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230214-095210
+patch link:    https://lore.kernel.org/r/20230214015112.12094-1-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH net-next v3] xsk: support use vaddr as ring
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230215/202302150059.M0lYLPTa-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=1abada2611947258f7c52cc8421662ae341d8dce
-        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
-        git fetch --no-tags rppt kmo_codetags_v1
-        git checkout 1abada2611947258f7c52cc8421662ae341d8dce
+        # https://github.com/intel-lab-lkp/linux/commit/a2f7f17c84b0f4af1d0a8903b2b5e8e558f8359a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xuan-Zhuo/xsk-support-use-vaddr-as-ring/20230214-095210
+        git checkout a2f7f17c84b0f4af1d0a8903b2b5e8e558f8359a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302150034.7yWbVV7E-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302150059.M0lYLPTa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/util.c:560: warning: expecting prototype for kvmalloc_node(). Prototype was for _kvmalloc_node() instead
---
->> mm/slab_common.c:1439: warning: expecting prototype for krealloc(). Prototype was for _krealloc() instead
+   net/xdp/xsk.c: In function 'xsk_mmap':
+>> net/xdp/xsk.c:1323:16: error: implicit declaration of function 'remap_vmalloc_range'; did you mean 'ida_alloc_range'? [-Werror=implicit-function-declaration]
+    1323 |         return remap_vmalloc_range(vma, q->ring, 0);
+         |                ^~~~~~~~~~~~~~~~~~~
+         |                ida_alloc_range
+   cc1: some warnings being treated as errors
 
 
-vim +560 mm/util.c
+vim +1323 net/xdp/xsk.c
 
-eb36c5873b96e8 Al Viro            2012-05-30  542  
-a7c3e901a46ff5 Michal Hocko       2017-05-08  543  /**
-a7c3e901a46ff5 Michal Hocko       2017-05-08  544   * kvmalloc_node - attempt to allocate physically contiguous memory, but upon
-a7c3e901a46ff5 Michal Hocko       2017-05-08  545   * failure, fall back to non-contiguous (vmalloc) allocation.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  546   * @size: size of the request.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  547   * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  548   * @node: numa node to allocate from
-a7c3e901a46ff5 Michal Hocko       2017-05-08  549   *
-a7c3e901a46ff5 Michal Hocko       2017-05-08  550   * Uses kmalloc to get the memory but if the allocation fails then falls back
-a7c3e901a46ff5 Michal Hocko       2017-05-08  551   * to the vmalloc allocator. Use kvfree for freeing the memory.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  552   *
-a421ef303008b0 Michal Hocko       2022-01-14  553   * GFP_NOWAIT and GFP_ATOMIC are not supported, neither is the __GFP_NORETRY modifier.
-cc965a29db172c Michal Hocko       2017-07-12  554   * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-cc965a29db172c Michal Hocko       2017-07-12  555   * preferable to the vmalloc fallback, due to visible performance drawbacks.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  556   *
-a862f68a8b3600 Mike Rapoport      2019-03-05  557   * Return: pointer to the allocated memory of %NULL in case of failure
-a7c3e901a46ff5 Michal Hocko       2017-05-08  558   */
-1abada26119472 Suren Baghdasaryan 2023-02-02  559  void *_kvmalloc_node(size_t size, gfp_t flags, int node)
-a7c3e901a46ff5 Michal Hocko       2017-05-08 @560  {
-a7c3e901a46ff5 Michal Hocko       2017-05-08  561  	gfp_t kmalloc_flags = flags;
-a7c3e901a46ff5 Michal Hocko       2017-05-08  562  	void *ret;
-a7c3e901a46ff5 Michal Hocko       2017-05-08  563  
-a7c3e901a46ff5 Michal Hocko       2017-05-08  564  	/*
-4f4f2ba9c531b3 Michal Hocko       2017-06-02  565  	 * We want to attempt a large physically contiguous block first because
-4f4f2ba9c531b3 Michal Hocko       2017-06-02  566  	 * it is less likely to fragment multiple larger blocks and therefore
-4f4f2ba9c531b3 Michal Hocko       2017-06-02  567  	 * contribute to a long term fragmentation less than vmalloc fallback.
-4f4f2ba9c531b3 Michal Hocko       2017-06-02  568  	 * However make sure that larger requests are not too disruptive - no
-4f4f2ba9c531b3 Michal Hocko       2017-06-02  569  	 * OOM killer and no allocation failure warnings as we have a fallback.
-a7c3e901a46ff5 Michal Hocko       2017-05-08  570  	 */
-6c5ab6511f718c Michal Hocko       2017-05-08  571  	if (size > PAGE_SIZE) {
-6c5ab6511f718c Michal Hocko       2017-05-08  572  		kmalloc_flags |= __GFP_NOWARN;
-6c5ab6511f718c Michal Hocko       2017-05-08  573  
-cc965a29db172c Michal Hocko       2017-07-12  574  		if (!(kmalloc_flags & __GFP_RETRY_MAYFAIL))
-6c5ab6511f718c Michal Hocko       2017-05-08  575  			kmalloc_flags |= __GFP_NORETRY;
-a421ef303008b0 Michal Hocko       2022-01-14  576  
-a421ef303008b0 Michal Hocko       2022-01-14  577  		/* nofail semantic is implemented by the vmalloc fallback */
-a421ef303008b0 Michal Hocko       2022-01-14  578  		kmalloc_flags &= ~__GFP_NOFAIL;
-6c5ab6511f718c Michal Hocko       2017-05-08  579  	}
-a7c3e901a46ff5 Michal Hocko       2017-05-08  580  
-1abada26119472 Suren Baghdasaryan 2023-02-02  581  	ret = _kmalloc_node(size, kmalloc_flags, node);
-a7c3e901a46ff5 Michal Hocko       2017-05-08  582  
-a7c3e901a46ff5 Michal Hocko       2017-05-08  583  	/*
-a7c3e901a46ff5 Michal Hocko       2017-05-08  584  	 * It doesn't really make sense to fallback to vmalloc for sub page
-a7c3e901a46ff5 Michal Hocko       2017-05-08  585  	 * requests
-a7c3e901a46ff5 Michal Hocko       2017-05-08  586  	 */
-a7c3e901a46ff5 Michal Hocko       2017-05-08  587  	if (ret || size <= PAGE_SIZE)
-a7c3e901a46ff5 Michal Hocko       2017-05-08  588  		return ret;
-a7c3e901a46ff5 Michal Hocko       2017-05-08  589  
-30c19366636f72 Florian Westphal   2022-09-26  590  	/* non-sleeping allocations are not supported by vmalloc */
-30c19366636f72 Florian Westphal   2022-09-26  591  	if (!gfpflags_allow_blocking(flags))
-30c19366636f72 Florian Westphal   2022-09-26  592  		return NULL;
-30c19366636f72 Florian Westphal   2022-09-26  593  
-7661809d493b42 Linus Torvalds     2021-07-14  594  	/* Don't even allow crazy sizes */
-0708a0afe291bd Daniel Borkmann    2022-03-04  595  	if (unlikely(size > INT_MAX)) {
-0708a0afe291bd Daniel Borkmann    2022-03-04  596  		WARN_ON_ONCE(!(flags & __GFP_NOWARN));
-7661809d493b42 Linus Torvalds     2021-07-14  597  		return NULL;
-0708a0afe291bd Daniel Borkmann    2022-03-04  598  	}
-7661809d493b42 Linus Torvalds     2021-07-14  599  
-9becb688913023 Linus Torvalds     2022-04-22  600  	/*
-9becb688913023 Linus Torvalds     2022-04-22  601  	 * kvmalloc() can always use VM_ALLOW_HUGE_VMAP,
-9becb688913023 Linus Torvalds     2022-04-22  602  	 * since the callers already cannot assume anything
-9becb688913023 Linus Torvalds     2022-04-22  603  	 * about the resulting pointer, and cannot play
-9becb688913023 Linus Torvalds     2022-04-22  604  	 * protection games.
-9becb688913023 Linus Torvalds     2022-04-22  605  	 */
-9becb688913023 Linus Torvalds     2022-04-22  606  	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
-9becb688913023 Linus Torvalds     2022-04-22  607  			flags, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
-9becb688913023 Linus Torvalds     2022-04-22  608  			node, __builtin_return_address(0));
-a7c3e901a46ff5 Michal Hocko       2017-05-08  609  }
-1abada26119472 Suren Baghdasaryan 2023-02-02  610  EXPORT_SYMBOL(_kvmalloc_node);
-a7c3e901a46ff5 Michal Hocko       2017-05-08  611  
-
-:::::: The code at line 560 was first introduced by commit
-:::::: a7c3e901a46ff54c016d040847eda598a9e3e653 mm: introduce kv[mz]alloc helpers
-
-:::::: TO: Michal Hocko <mhocko@suse.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  1290	
+  1291	static int xsk_mmap(struct file *file, struct socket *sock,
+  1292			    struct vm_area_struct *vma)
+  1293	{
+  1294		loff_t offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
+  1295		unsigned long size = vma->vm_end - vma->vm_start;
+  1296		struct xdp_sock *xs = xdp_sk(sock->sk);
+  1297		struct xsk_queue *q = NULL;
+  1298	
+  1299		if (READ_ONCE(xs->state) != XSK_READY)
+  1300			return -EBUSY;
+  1301	
+  1302		if (offset == XDP_PGOFF_RX_RING) {
+  1303			q = READ_ONCE(xs->rx);
+  1304		} else if (offset == XDP_PGOFF_TX_RING) {
+  1305			q = READ_ONCE(xs->tx);
+  1306		} else {
+  1307			/* Matches the smp_wmb() in XDP_UMEM_REG */
+  1308			smp_rmb();
+  1309			if (offset == XDP_UMEM_PGOFF_FILL_RING)
+  1310				q = READ_ONCE(xs->fq_tmp);
+  1311			else if (offset == XDP_UMEM_PGOFF_COMPLETION_RING)
+  1312				q = READ_ONCE(xs->cq_tmp);
+  1313		}
+  1314	
+  1315		if (!q)
+  1316			return -EINVAL;
+  1317	
+  1318		/* Matches the smp_wmb() in xsk_init_queue */
+  1319		smp_rmb();
+  1320		if (size > PAGE_ALIGN(q->ring_size))
+  1321			return -EINVAL;
+  1322	
+> 1323		return remap_vmalloc_range(vma, q->ring, 0);
+  1324	}
+  1325	
 
 -- 
 0-DAY CI Kernel Test Service
