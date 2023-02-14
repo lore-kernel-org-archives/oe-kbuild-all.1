@@ -1,146 +1,173 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B53C5F7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 20:23:57 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-4a263c4ddbaso223433307b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 12:23:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qMBCkTmHyzPP8QfthAqRoy8K2nugdtc5xV9Vl27MCg=;
-        b=jDBSpT+I/pRdh/uij2oDcq0mk90fpt46h7aZXZhzSuitoitniwXkRPRib8wIZTXXac
-         x4fyoZZYsaqaz/hJJ7+YXdc0uwCsdRFgk7QG5SUKj+8/NXMWQEEIHCAzmgiUTjL6Ih4k
-         oMKngLyRg91Nk7nplDfXnZv97j92guI4LwHfnMi/FBWNpXzw6wQYSCaAmJaKjcGFkUCr
-         9HkxVhIuam2bkjMRe671IVYYSzIwtwpgpJPuQxvg/9Sv+1E48s9QMKQhgx37wj9muWkp
-         vJX0Dy514Bm0i60UiJlWUTbtKGNVuMXDrcnw5dLlc1gpxnm5S1Od+wJiLid9MrLfFSGt
-         jyYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5qMBCkTmHyzPP8QfthAqRoy8K2nugdtc5xV9Vl27MCg=;
-        b=3EJcW52LmmBSrm5fIAI6wWKdSVdJnwhQnFtDCDRgAn4SFJRUs1++KVTrOs9f90o7XC
-         AxRllfvtES1v4fpXW+tU2i5SrBl3cDdSEo30II9b/gYovtlTuR815ny0QDkpTtmwoRSz
-         2kdAXL4z/bsjbKaG8HLUr7Se3I4QAUyaVknSBqyYZK9Y/DVhbjZ3Pic23zgGsT80uFsB
-         AyvXE8IiuYH4mNb7Sb3srW5FeVB56QutBZoVGWibSIEypnk+LriQWGFDO+wSsEMfBfdR
-         w030KydT4SpU4nJ62NJr+Ys6OV6npdG+hejxlb3UGW3jssseot9Y4Z/ez7m1Ie6yc3uv
-         4LHQ==
-X-Gm-Message-State: AO0yUKXZAFJ6EqkMat6aTS3mqkqq6Sv572UJiUP9bC2SJxhuq3HYlsFE
-	QUqdZ6DFbSMVfmB8XREQvQOnVnxgPz2IE/g5FaDod2/w6UON3ti+9gs=
-X-Google-Smtp-Source: AK7set8hNHEzBCo8oqW0cZY7IkCLAepXNrb1MYLaNh7XaHeOw+OsQBkh6BdGIr92da51mtXUIsKUJ5USDoPh3SZov20=
-X-Received: by 2002:a0d:dc82:0:b0:52e:c770:e0fa with SMTP id
- f124-20020a0ddc82000000b0052ec770e0famr389123ywe.6.1676406236292; Tue, 14 Feb
- 2023 12:23:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB072CA5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 21:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676408489; x=1707944489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=81h7N+YfSWkmOIoC3OfRGIVw4wTflKj8IVQrsVSZ1HQ=;
+  b=nLsqsDcll3pdqrEfGIiib/nCyNonFXqzaf/E7UNInFY1jLrocunPHquw
+   10CCeQmBKuVTB72IlQZfe+EnQHnkPqQpDRGD8HnSe4UnKrg7sEhc3YkDo
+   spEt5aITsSIiNrhtuW2tLfEs4LNC+l+gE/kOhDb3DfebLgYMLPw0WgUFR
+   SNcxZi6xiMW936sL+zG0WUKgSGKctHtR03JcNTnT0KHNALGol8rcfXPxi
+   gR322AkeSOLIUATc2LNETIJkC/NKfqAohYMGYbdOBINGK2s+FPYXtYAqa
+   EdoxxD5uZCqinO6JQsBPcW8eA2BD7F1l94wGxnaMJ2vH16NnrCmH/yN0d
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393672887"
+X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
+   d="scan'208";a="393672887"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 13:01:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="662680115"
+X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
+   d="scan'208";a="662680115"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 14 Feb 2023 13:01:27 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pS2QT-0008mp-2g;
+	Tue, 14 Feb 2023 21:01:21 +0000
+Date: Wed, 15 Feb 2023 05:00:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-trusty-5.10 1980/7892]
+ drivers/md/dm-user.c:525:6: warning: no previous prototype for
+ 'message_kill'
+Message-ID: <202302150431.9f6vGiqf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230213142336.192875-1-zenghuchen@google.com> <202302141029.2CS1z9de-lkp@intel.com>
-In-Reply-To: <202302141029.2CS1z9de-lkp@intel.com>
-From: Jack Chen <zenghuchen@google.com>
-Date: Tue, 14 Feb 2023 15:23:45 -0500
-Message-ID: <CALvyBcWVB3XWpiOHKGf5xE+jyqbuMATE8FEX=cpv=bjUOo2cBQ@mail.gmail.com>
-Subject: Re: [PATCH] i3c: update dw-i3c-master i3c_clk_cfg function
-To: kernel test robot <lkp@intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Jesus Sanchez-Palencia <jesussanp@google.com>, Mark Slevinsky <markslevinsky@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks Intel kernel test robot.
-I have submitted the V2 patch, which replaced max with max_t to do a type cast.
+Hi Palmer,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
+head:   e88b0fcae6db893ef5f2a45ad70499e02ee01a4e
+commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [1980/7892] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
+config: arm-randconfig-r046-20230212 (https://download.01.org/0day-ci/archive/20230215/202302150431.9f6vGiqf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-trusty-5.10
+        git checkout 83bf345abc0bc06b98e906bfbb120a52446e1c43
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/md/ drivers/vfio/ kernel/sched/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302150431.9f6vGiqf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/md/dm-user.c:525:6: warning: no previous prototype for 'message_kill' [-Wmissing-prototypes]
+     525 | void message_kill(struct message *m, mempool_t *pool)
+         |      ^~~~~~~~~~~~
+   drivers/md/dm-user.c:539:5: warning: no previous prototype for 'target_poll' [-Wmissing-prototypes]
+     539 | int target_poll(struct target *t)
+         |     ^~~~~~~~~~~
+   drivers/md/dm-user.c:544:6: warning: no previous prototype for 'target_release' [-Wmissing-prototypes]
+     544 | void target_release(struct kref *ref)
+         |      ^~~~~~~~~~~~~~
+   drivers/md/dm-user.c:565:6: warning: no previous prototype for 'target_put' [-Wmissing-prototypes]
+     565 | void target_put(struct target *t)
+         |      ^~~~~~~~~~
+>> drivers/md/dm-user.c:578:17: warning: no previous prototype for 'channel_alloc' [-Wmissing-prototypes]
+     578 | struct channel *channel_alloc(struct target *t)
+         |                 ^~~~~~~~~~~~~
+   drivers/md/dm-user.c:596:6: warning: no previous prototype for 'channel_free' [-Wmissing-prototypes]
+     596 | void channel_free(struct channel *c)
+         |      ^~~~~~~~~~~~
 
 
-On Mon, Feb 13, 2023 at 9:13 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Jack,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.2-rc8 next-20230213]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Chen/i3c-update-dw-i3c-master-i3c_clk_cfg-function/20230213-222533
-> patch link:    https://lore.kernel.org/r/20230213142336.192875-1-zenghuchen%40google.com
-> patch subject: [PATCH] i3c: update dw-i3c-master i3c_clk_cfg function
-> config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230214/202302141029.2CS1z9de-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce:
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://github.com/intel-lab-lkp/linux/commit/e85b41ae5bb17077ac7d01bdd13c48ea1f83ea42
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Jack-Chen/i3c-update-dw-i3c-master-i3c_clk_cfg-function/20230213-222533
->         git checkout e85b41ae5bb17077ac7d01bdd13c48ea1f83ea42
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
->         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/i3c/master/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302141029.2CS1z9de-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/i3c/master/dw-i3c-master.c:544:16: sparse: sparse: incompatible types in comparison expression (different type sizes):
-> >> drivers/i3c/master/dw-i3c-master.c:544:16: sparse:    unsigned long *
-> >> drivers/i3c/master/dw-i3c-master.c:544:16: sparse:    unsigned char *
->
-> vim +544 drivers/i3c/master/dw-i3c-master.c
->
->    517
->    518  static int dw_i3c_clk_cfg(struct dw_i3c_master *master)
->    519  {
->    520          unsigned long core_rate, core_period;
->    521          u32 scl_timing;
->    522          u8 hcnt, lcnt;
->    523
->    524          core_rate = clk_get_rate(master->core_clk);
->    525          if (!core_rate)
->    526                  return -EINVAL;
->    527
->    528          core_period = DIV_ROUND_UP(1000000000, core_rate);
->    529
->    530          hcnt = DIV_ROUND_UP(I3C_BUS_THIGH_MAX_NS, core_period) - 1;
->    531          if (hcnt < SCL_I3C_TIMING_CNT_MIN)
->    532                  hcnt = SCL_I3C_TIMING_CNT_MIN;
->    533
->    534          lcnt = DIV_ROUND_UP(core_rate, master->base.bus.scl_rate.i3c) - hcnt;
->    535          if (lcnt < SCL_I3C_TIMING_CNT_MIN)
->    536                  lcnt = SCL_I3C_TIMING_CNT_MIN;
->    537
->    538          scl_timing = SCL_I3C_TIMING_HCNT(hcnt) | SCL_I3C_TIMING_LCNT(lcnt);
->    539          writel(scl_timing, master->regs + SCL_I3C_PP_TIMING);
->    540
->    541          if (!(readl(master->regs + DEVICE_CTRL) & DEV_CTRL_I2C_SLAVE_PRESENT))
->    542                  writel(BUS_I3C_MST_FREE(lcnt), master->regs + BUS_FREE_TIMING);
->    543
->  > 544          lcnt = max(DIV_ROUND_UP(I3C_BUS_TLOW_OD_MIN_NS, core_period), lcnt);
->    545          scl_timing = SCL_I3C_TIMING_HCNT(hcnt) | SCL_I3C_TIMING_LCNT(lcnt);
->    546          writel(scl_timing, master->regs + SCL_I3C_OD_TIMING);
->    547
->    548          lcnt = DIV_ROUND_UP(core_rate, I3C_BUS_SDR1_SCL_RATE) - hcnt;
->    549          scl_timing = SCL_EXT_LCNT_1(lcnt);
->    550          lcnt = DIV_ROUND_UP(core_rate, I3C_BUS_SDR2_SCL_RATE) - hcnt;
->    551          scl_timing |= SCL_EXT_LCNT_2(lcnt);
->    552          lcnt = DIV_ROUND_UP(core_rate, I3C_BUS_SDR3_SCL_RATE) - hcnt;
->    553          scl_timing |= SCL_EXT_LCNT_3(lcnt);
->    554          lcnt = DIV_ROUND_UP(core_rate, I3C_BUS_SDR4_SCL_RATE) - hcnt;
->    555          scl_timing |= SCL_EXT_LCNT_4(lcnt);
->    556          writel(scl_timing, master->regs + SCL_EXT_LCNT_TIMING);
->    557
->    558          return 0;
->    559  }
->    560
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+vim +/message_kill +525 drivers/md/dm-user.c
+
+   524	
+ > 525	void message_kill(struct message *m, mempool_t *pool)
+   526	{
+   527		m->bio->bi_status = BLK_STS_IOERR;
+   528		bio_endio(m->bio);
+   529		bio_put(m->bio);
+   530		mempool_free(m, pool);
+   531	}
+   532	
+   533	/*
+   534	 * Returns 0 when there is no work left to do.  This must be callable without
+   535	 * holding the target lock, as it is part of the waitqueue's check expression.
+   536	 * When called without the lock it may spuriously indicate there is remaining
+   537	 * work, but when called with the lock it must be accurate.
+   538	 */
+ > 539	int target_poll(struct target *t)
+   540	{
+   541		return !list_empty(&t->to_user) || t->dm_destroyed;
+   542	}
+   543	
+   544	void target_release(struct kref *ref)
+   545	{
+   546		struct target *t = container_of(ref, struct target, references);
+   547		struct list_head *cur;
+   548	
+   549		/*
+   550		 * There may be outstanding BIOs that have not yet been given to
+   551		 * userspace.  At this point there's nothing we can do about them, as
+   552		 * there are and will never be any channels.
+   553		 */
+   554		list_for_each (cur, &t->to_user) {
+   555			message_kill(list_entry(cur, struct message, to_user),
+   556				     &t->message_pool);
+   557		}
+   558	
+   559		mempool_exit(&t->message_pool);
+   560		mutex_unlock(&t->lock);
+   561		mutex_destroy(&t->lock);
+   562		kfree(t);
+   563	}
+   564	
+   565	void target_put(struct target *t)
+   566	{
+   567		/*
+   568		 * This both releases a reference to the target and the lock.  We leave
+   569		 * it up to the caller to hold the lock, as they probably needed it for
+   570		 * something else.
+   571		 */
+   572		lockdep_assert_held(&t->lock);
+   573	
+   574		if (!kref_put(&t->references, target_release))
+   575			mutex_unlock(&t->lock);
+   576	}
+   577	
+ > 578	struct channel *channel_alloc(struct target *t)
+   579	{
+   580		struct channel *c;
+   581	
+   582		lockdep_assert_held(&t->lock);
+   583	
+   584		c = kzalloc(sizeof(*c), GFP_KERNEL);
+   585		if (c == NULL)
+   586			return NULL;
+   587	
+   588		kref_get(&t->references);
+   589		c->target = t;
+   590		c->cur_from_user = &c->scratch_message_from_user;
+   591		mutex_init(&c->lock);
+   592		INIT_LIST_HEAD(&c->from_user);
+   593		return c;
+   594	}
+   595	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
