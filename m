@@ -1,54 +1,43 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454FE2569;
-	Tue, 14 Feb 2023 15:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xDPWxkb1Dpl/Rsp18kmYjvpgSfwJsX8cvah/ksG9Rvk=; b=EWkh9thJQtSTNp2DxQKM6ZPiy+
-	2RpiNP0J7Yi0kuPipB4sWfAWJIYzNUXDfhZWmDlawtC1CbdQBUsVMbTZWbQ833S5jzaCDcNoz0/lF
-	RyM4bn1MTIxVMTSCAeYTkgV8Inw3o/iFXDfyNlcRRnT6+sOEoCJ6yuzgBOEaPvq/ei7glISZrJmX0
-	0i6WOOG/v63zLXFhE9oNYyN4ybnIqWYHdt214bP6RBgQltXFW+S8FachyDT7N/pWmBnazGS+S2Pqm
-	dSvBk5OuYkUFZXIYLBhGPlsV5NDaSC7Rjv2mazP5v7VflxWD3kjh0vazX1G7i08alnhchb2gHbwgA
-	aPjm7wpQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRxMO-006bVL-Py; Tue, 14 Feb 2023 15:36:49 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 18569300244;
-	Tue, 14 Feb 2023 12:21:09 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F3EAC20B4E943; Tue, 14 Feb 2023 12:21:08 +0100 (CET)
-Date: Tue, 14 Feb 2023 12:21:08 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Dave Marchevsky <davemarchevsky@meta.com>,
-	kernel test robot <lkp@intel.com>,
-	Dave Marchevsky <davemarchevsky@fb.com>, bpf <bpf@vger.kernel.org>,
-	clang-built-linux <llvm@lists.linux.dev>,
-	oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Kernel Team <kernel-team@fb.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>,
-	Joao Moreira <joao@overdrivepizza.com>
-Subject: Re: [PATCH v5 bpf-next 3/9] bpf: Add bpf_rbtree_{add,remove,first}
- kfuncs
-Message-ID: <Y+tupCQ/X38AlvY0@hirez.programming.kicks-ass.net>
-References: <20230212092715.1422619-4-davemarchevsky@fb.com>
- <202302121936.t36vlAFG-lkp@intel.com>
- <d04d33ff-0f8f-2bbd-3a67-9b8b813a799b@meta.com>
- <CAKwvOdketskm5z25aPRY7OsBOZe2kzvXV-i9RDTbwcLpZSAT0A@mail.gmail.com>
- <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
- <CABCJKucDXNeGCdD6uT7phYhpm+OgYm19EkfCNMB9AJ66k4NcvQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D7FC0B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 16:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676390897; x=1707926897;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=bZ/pCpjd29pG10Cwv8yNoqOplpvuf4IODWoe56xtXus=;
+  b=FEuaX8O8JLfeGSGxzxCNqn326uaCpspk12HlxKyqE/A/N27mItTcXc05
+   IN6dCeWN03d8e7VIejEB3gInfSY8VUysKUp+oVbgH5BqHhQQxYNtwsEtb
+   SaslzjntAwtgCWGe6QGuhLw0c8tBYGSd0wu5e/tgqEKRf2dvWXnWwk88D
+   sIhy6m9FTIBGDMFH3oXcRQE6jKWaKzsylabkf8WLAAqa3fHIUxV+KmD3+
+   n2lG8T+ywMeC0IvC2y638x4hLaV00H1IWkCNVGjw17oaxsPkNDTwdf7n2
+   2Qd2b8iqdG05cJ9dahqLYFLsQN6TQPAwXPJjZJosMq+Cn4whLb7DYSZ8W
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="358608999"
+X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
+   d="scan'208";a="358608999"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 08:08:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="646802585"
+X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
+   d="scan'208";a="646802585"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 14 Feb 2023 08:08:15 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRxqp-0008cu-0M;
+	Tue, 14 Feb 2023 16:08:15 +0000
+Date: Wed, 15 Feb 2023 00:07:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthieu Baerts <matthieu.baerts@tessares.net>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.1 4/4] selftests: mptcp: userspace: fix v4-v6 test in
+ v6.1
+Message-ID: <Y+uxtnX9ZC7M1cp2@a5b9dd7d9a79>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,86 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABCJKucDXNeGCdD6uT7phYhpm+OgYm19EkfCNMB9AJ66k4NcvQ@mail.gmail.com>
+In-Reply-To: <20230214-upstream-stable-20230214-linux-6-1-12-rc1-mptcp-fixes-v1-4-02f36fa30f8c@tessares.net>
 
-On Mon, Feb 13, 2023 at 03:31:21PM -0800, Sami Tolvanen wrote:
-> On Mon, Feb 13, 2023 at 2:17 PM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Mon, Feb 13, 2023 at 12:49 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > I haven't looked at the series in question, but note that this compile
-> > > time warning is meant to help us catch Control Flow Integrity runtime
-> > > violations, which may result in a panic.
-> 
-> Here's the tracking issue for the other warnings of this type in the
-> kernel, nearly all the warnings are in one driver:
-> 
-> https://github.com/ClangBuiltLinux/linux/issues/1724
-> 
-> > It's a transition from kernel to bpf prog.
-> > If CFI trips on it it will trip on all transitions.
-> > All calls from kernel into bpf are more or less the same.
-> > Not sure what it means for other archs, but on x86 JIT emits 'endbr'
-> > insn to make IBT/CFI happy.
-> 
-> While IBT allows indirect calls to any function that starts with
-> endbr, CFI is more fine-grained and requires the function pointer type
-> to match the function type, which further limits possible call
-> targets. To actually enforce this, the compiler emits a type hash
-> prefix for each function, and a check before each indirect call to
-> ensure the call target has the expected prefix. The commit message
-> here has an example of the code the compiler generates:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3c516f89e17e56b4738f05588e51267e295b5e63
+Hi,
 
-Another good commit to look at is:
+Thanks for your patch.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=931ab63664f02b17d2213ef36b83e1e50190a0aa
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-That includes the FineIBT variant too.
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH 6.1 4/4] selftests: mptcp: userspace: fix v4-v6 test in v6.1
+Link: https://lore.kernel.org/stable/20230214-upstream-stable-20230214-linux-6-1-12-rc1-mptcp-fixes-v1-4-02f36fa30f8c%40tessares.net
 
-> As calling a JIT compiled function would obviously trip CFI, indirect
-> call checking is currently disabled in BPF dispatcher functions (using
-> the __nocfi attribute). However, BPF trampolines still have the same
-> problem, I believe. I wouldn't mind coming up with a solution for
-> CFI+BPF JIT compatibility, but I haven't had much time to look into
-> this. Basically, in places where we currently emit an endbr
-> instruction, we should also emit a type hash prefix.
-> 
-> Generating type prefixes for functions called through a dispatcher
-> shouldn't be that hard because the function type is always the same,
-> but figuring out the correct type for indirect calls that don't go
-> through a dispatcher might not be entirely trivial, although I'm sure
-> the BPF verifier/compiler must have this information. FineIBT also
-> complicates matters a bit here as the actual prefix format differs
-> from the basic KCFI prefix.
-> 
-> I'm not sure if Peter or Joao have had time to look at this, but I
-> would be happy to hear any suggestions you might have.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
-I've not had time to look at this -- but afair BPF will only emit an
-indirect jump (tail-call even, irrc), it doesn't do indirect calls
-otherwise (this is also the only place we have RETPOLINE magic in the
-JIT).
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
-(ooh, also dispatcher thing)
-
-This generates an unadorned indirect jump, that is, it doesn't have any
-kCFI magic included, eg. traditional calling convention.
-
-The other case, which you allude to I think, is control transfer to the
-JIT'ed code which is currently __nocfi annotated. I've only briefly
-thought about how to change this, but basically it would entail the JIT
-emitting the correct prefix bytes and setting the entry point at +16.
-
-Given the JIT will only run after we've selected kCFI/FineIBT it knows
-which form to pick from and can emit the right prefix. Then if we remove
-the __nocfi annotation from the call into JIT'ed code, everything should
-work.
-
-None of this should be exceptionally hard, but I've not had time to
-actually do much about it yet.
 
 
