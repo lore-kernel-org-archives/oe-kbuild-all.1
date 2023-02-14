@@ -1,96 +1,58 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CD32CA5;
-	Tue, 14 Feb 2023 21:11:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676409085; x=1707945085;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=r4AM7ckaP70B8St8WQfZ9U/bBFFDLDkR4pdoP1oUdyE=;
-  b=N6EC3vypNURNqChW+jCNBFB5mjmgHhWbvQhOuMt6ZbYnOqk9KojXk5W3
-   3/icLewYLDgeftDdCV1TruNGgETxfO7YxuVnKXauR8kmw0OOvl5MfWYuv
-   /qXOIsxhb66SRN6IJ/dyogBtkmUoktDIOkC0aPhijEXowJHtfDG1LvYYp
-   wY05IxaQu9pDBpj3Ft4e72XVRRrRXfliWUtOM/t6CjHGYglWqHyb2fPTm
-   WYIzt4Dlt4D8UsCb92lZgu/ZzKW2ZNX4dV21CvGVjlpiPvCPfzApzfUSM
-   ZYhc4j27f1OOacWW3V2rw97eP6btRdCgDCTwCWIjoP6cCRoQEgFhh8+nv
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="331268089"
-X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="331268089"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 13:11:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="701771865"
-X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="701771865"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 14 Feb 2023 13:11:22 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pS2a9-0008n7-2z;
-	Tue, 14 Feb 2023 21:11:21 +0000
-Date: Wed, 15 Feb 2023 05:10:55 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1480/7892] ld.lld: error:
- cannot open
- /opt/cross/clang-f28c006a58/lib/clang/14.0.6/lib/linux/libclang_rt.builtins-x86_64.a:
- No such file or directory
-Message-ID: <202302150556.yaucMdAE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B7F2CA5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 21:24:33 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id a17-20020a256611000000b00889c54916f2so17159947ybc.14
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 13:24:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hEcVIMvG9yiLGQ7yL2dMbIxVRJjfiraajEKz9YRnmwc=;
+        b=stBFlXGMBpLXEMGP+A5HDLlzOo/VqEEpVRD6dPu2S69FUOW1+jatHj+xAlVNyNgRst
+         kZ6S6qtOnvmg9SSeL9feCU/tTFzJienpYNF7eQVZiZzcCIZHtgfv77dEXLWhl9bNi8Ro
+         O8I903X3OAgKsrs/jjszGFWemIIz1AbLw6PwlWtHMVcxle6+GST8TmXUx38oRxPUXr9w
+         lua7lBjPr2ZP8RllYAQG8otCNkUYolCzfH4/A6DqLRNFWR6bzOODH8nWghUnqP37UUAt
+         /bq265eUYxH7yhxqy7qHIraS1jl2UzC4uJWTW3BfAvqsHyCq4y1jgXFbnPZscSAa0hef
+         i9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hEcVIMvG9yiLGQ7yL2dMbIxVRJjfiraajEKz9YRnmwc=;
+        b=Lelc9CJiPVoI29dc/ehKkjWvdQYexC2uJPIFDOVMv5yrsdhwt4Z/RUn7hXbKRGaWIS
+         JRkGKMUFLFQxuTyr/vKU7h8Gb/NhnDTzAEmdeQk66Clr2ViUWOfbK/+H1koGZnL9Xivx
+         wA9Uu/WuwC2G6E3eUDus91Ds1jz3pBLfWsyAhZjQgK4qf1J79hhtNYz3xYaJdk5VkCOv
+         JRAEYGpw/EJ/hO4JRoIxuSmeK38rgFmGbDS2h8tUm7C8NcRYT7MldWT3dACxI7zbPMS6
+         xkn+r+HQ1/15qypTLdXSjiJOvGrhPP9rv62V2OjPY9AAmKGZmKnm4li7ZQCBKrWBaoX5
+         3Wwg==
+X-Gm-Message-State: AO0yUKU5gdl+OopWdagDL4+0Q6Oqn3uA4HfDnXjrN/AAfzhTrWF6qRse
+	yzvb0ePoWlvaF4fezCrFqItsxZFhrvH4ATMw
+X-Google-Smtp-Source: AK7set/S5jWby/Wn6YLGRxTgowQe+yYBkLF/u4giGyVur6aeQCzfkY36ZoyctyfxI8gIR+cqgZccLmAtuzw69fbx
+X-Received: from zenghuchen.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:2448])
+ (user=zenghuchen job=sendgmr) by 2002:a5b:381:0:b0:8f2:bff4:f074 with SMTP id
+ k1-20020a5b0381000000b008f2bff4f074mr9162ybp.190.1676409872359; Tue, 14 Feb
+ 2023 13:24:32 -0800 (PST)
+Date: Tue, 14 Feb 2023 16:24:29 -0500
+In-Reply-To: <202302141029.2CS1z9de-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202302141029.2CS1z9de-lkp@intel.com>
+X-Mailer: git-send-email 2.39.1.581.gbfd45094c4-goog
+Message-ID: <20230214212429.1157315-1-zenghuchen@google.com>
+Subject: Re: Re: [PATCH] i3c: update dw-i3c-master i3c_clk_cfg function
+From: Jack Chen <zenghuchen@google.com>
+To: lkp@intel.com
+Cc: alexandre.belloni@bootlin.com, jesussanp@google.com, 
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	markslevinsky@google.com, oe-kbuild-all@lists.linux.dev, 
+	zenghuchen@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-TO: cros-kernel-buildreports@googlegroups.com
-
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   e88b0fcae6db893ef5f2a45ad70499e02ee01a4e
-commit: f14e5bfb39b776318133e00b8c066ce8a870e9ab [1480/7892] ANDROID: Makefile: add compiler-rt dependency explicitly
-config: x86_64-buildonly-randconfig-r006-20230213 (attached as .config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout f14e5bfb39b776318133e00b8c066ce8a870e9ab
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 distclean
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302150556.yaucMdAE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: cannot open /opt/cross/clang-f28c006a58/lib/clang/14.0.6/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> ld.lld: error: cannot open /opt/cross/clang-f28c006a58/lib/clang/14.0.6/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> clang-14: error: linker command failed with exit code 1 (use -v to see invocation)
-   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:540: scripts_basic] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> ld.lld: error: cannot open /opt/cross/clang-f28c006a58/lib/clang/14.0.6/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> ld.lld: error: cannot open /opt/cross/clang-f28c006a58/lib/clang/14.0.6/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
->> clang-14: error: linker command failed with exit code 1 (use -v to see invocation)
-   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:540: scripts_basic] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks Intel kernel test robot. This patch was meant for i3c tree.
+And I have submitted a new V2 patch which replaced max with max_t to do the type cast.
