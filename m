@@ -1,45 +1,50 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662DD28F0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 06:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FED33F6;
+	Tue, 14 Feb 2023 07:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676356026; x=1707892026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zw1Ty+aOuLLCfBUaRwSeec/Qh0MYjrV8dBKhx8QpaNE=;
-  b=kcUucmPbIniV9c4ShCwv9qjApDludqSqV0fosyDwqpC0XkliKz2kuMVC
-   HTx5uYBv1pWjYhE+0w3so9S+Gz+/ArSDS6lOOiLNqcC74SvGfClhoznRJ
-   BdLMJVAPmuPTe4og4gN3ABuWxpLUAtJc9vwOSCuLyIuqx03QCJNQFD/17
-   idRjqtnbDDEW5c6s+ChKaSGb78miZ7Ik5v/hgJEFOTPi9FW+g1F8xZOVQ
-   zvgWG5qHXLb+Xqh8B9LvOk4B4C04Oe3Cm7OwjU+bEw5JZM0C/pT2f1Au0
-   gjq0UGRz8tOdVQxkRc+/hMo8sO8COyVmPf7VdI9sFac6sUwN71e/slKSI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="310722704"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="310722704"
+  t=1676358500; x=1707894500;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7mxrqjucLiuCXh3jkBMuGLi7BeMczW6z9ZSnKt52TSc=;
+  b=lxOGp5JPZTvL26dUqbZm86vn7aEG6XW1oCyXP/5RE7W81pTcaUFIHXfb
+   OvRM3h4VGlglwhSo6m47ccFSSLjU9IUOoTpAgHlbnb0ocILDiAch/gH4x
+   mtJVEMob+VNaETPp3vF4W3ALSOCtZd+lvTO5P5OdVMGOHJVprEoMPZ9q5
+   OMekt/NgyFgtCtVHvXr4B1CFgXPl/6PEAjUtpSAfpvM0rxv/52Fav1JYZ
+   LmwKsVAKHsB9MD8y0FGabVpgtNAnRG3dTw0kMi91vxoii6KO99OwWHaMr
+   YCnj3mmxUsw+RVOJu/YHuL0BkbT9+zRdaZX9Er7jAxOs0HU9Nnfhq6wma
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393499244"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
+   d="scan'208";a="393499244"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 22:27:05 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 23:08:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="618929059"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="618929059"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="618939126"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
+   d="scan'208";a="618939126"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Feb 2023 22:26:58 -0800
+  by orsmga003.jf.intel.com with ESMTP; 13 Feb 2023 23:07:59 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRomH-0008H3-2J;
-	Tue, 14 Feb 2023 06:26:57 +0000
-Date: Tue, 14 Feb 2023 14:26:49 +0800
+	id 1pRpPy-0008I9-1S;
+	Tue, 14 Feb 2023 07:07:58 +0000
+Date: Tue, 14 Feb 2023 15:07:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/md/dm-verity-avb.c:177:6: warning: no previous prototype for
- 'dm_verity_avb_error_handler'
-Message-ID: <202302141432.asoh9zVE-lkp@intel.com>
+To: Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	Mark Brown <broonie@kernel.org>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [PATCH v1 22/24] LoongArch: KVM: Implement vcpu world switch
+Message-ID: <202302141408.1hBkpMAf-lkp@intel.com>
+References: <20230214025648.1898508-23-zhaotianrui@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,95 +53,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230214025648.1898508-23-zhaotianrui@loongson.cn>
 
-Hi David,
+Hi Tianrui,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: f6219b7d72f896548c596ddb6249ecffdab8b041 ANDROID: AVB error handler to invalidate vbmeta partition.
-date:   2 years, 2 months ago
-config: h8300-allyesconfig (https://download.01.org/0day-ci/archive/20230214/202302141432.asoh9zVE-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.1.0
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on linus/master v6.2-rc8]
+[cannot apply to kvm/linux-next next-20230214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianrui-Zhao/LoongArch-KVM-Implement-kvm-module-related-interface/20230214-110506
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230214025648.1898508-23-zhaotianrui%40loongson.cn
+patch subject: [PATCH v1 22/24] LoongArch: KVM: Implement vcpu world switch
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230214/202302141408.1hBkpMAf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=f6219b7d72f896548c596ddb6249ecffdab8b041
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout f6219b7d72f896548c596ddb6249ecffdab8b041
+        # https://github.com/intel-lab-lkp/linux/commit/1adfa2faabc606d0813446b2d2111e04aa3d2828
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tianrui-Zhao/LoongArch-KVM-Implement-kvm-module-related-interface/20230214-110506
+        git checkout 1adfa2faabc606d0813446b2d2111e04aa3d2828
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/md/ sound/soc/sof/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302141432.asoh9zVE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302141408.1hBkpMAf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/list.h:9,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bio.h:8,
-                    from include/linux/device-mapper.h:11,
-                    from drivers/md/dm-verity-avb.c:9:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/asm-generic/page.h:93:51: warning: ordered comparison of pointer with null pointer [-Wextra]
-      93 | #define virt_addr_valid(kaddr)  (((void *)(kaddr) >= (void *)PAGE_OFFSET) && \
-         |                                                   ^~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |         ^~~~~~
-   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |                 ^~~~~~~~~~~~~~~
-   drivers/md/dm-verity-avb.c: At top level:
->> drivers/md/dm-verity-avb.c:177:6: warning: no previous prototype for 'dm_verity_avb_error_handler' [-Wmissing-prototypes]
-     177 | void dm_verity_avb_error_handler(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     138 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     178 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     210 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     218 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     256 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:266:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     266 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:277:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
+     277 | void output_kvm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+--
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     138 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     178 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     210 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     218 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     256 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:266:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     266 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:277:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
+     277 | void output_kvm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   <stdin>:569:2: warning: #warning syscall fstat not implemented [-Wcpp]
 
 
-vim +/dm_verity_avb_error_handler +177 drivers/md/dm-verity-avb.c
+vim +/output_kvm_defines +277 arch/loongarch/kernel/asm-offsets.c
 
-   176	
- > 177	void dm_verity_avb_error_handler(void)
-   178	{
-   179		dev_t dev;
-   180	
-   181		DMINFO("AVB error handler called for %s", avb_vbmeta_device);
-   182	
-   183		if (strcmp(avb_invalidate_on_error, "yes") != 0) {
-   184			DMINFO("Not configured to invalidate");
-   185			return;
-   186		}
-   187	
-   188		if (avb_vbmeta_device[0] == '\0') {
-   189			DMERR("avb_vbmeta_device parameter not set");
-   190			goto fail_no_dev;
-   191		}
-   192	
-   193		dev = name_to_dev_t(avb_vbmeta_device);
-   194		if (!dev) {
-   195			DMERR("No matching partition for device: %s",
-   196			      avb_vbmeta_device);
-   197			goto fail_no_dev;
-   198		}
-   199	
-   200		invalidate_vbmeta(dev);
-   201	
-   202	fail_no_dev:
-   203		;
-   204	}
-   205	
+   217	
+ > 218	void output_signal_defines(void)
+   219	{
+   220		COMMENT("Linux signal numbers.");
+   221		DEFINE(_SIGHUP, SIGHUP);
+   222		DEFINE(_SIGINT, SIGINT);
+   223		DEFINE(_SIGQUIT, SIGQUIT);
+   224		DEFINE(_SIGILL, SIGILL);
+   225		DEFINE(_SIGTRAP, SIGTRAP);
+   226		DEFINE(_SIGIOT, SIGIOT);
+   227		DEFINE(_SIGABRT, SIGABRT);
+   228		DEFINE(_SIGFPE, SIGFPE);
+   229		DEFINE(_SIGKILL, SIGKILL);
+   230		DEFINE(_SIGBUS, SIGBUS);
+   231		DEFINE(_SIGSEGV, SIGSEGV);
+   232		DEFINE(_SIGSYS, SIGSYS);
+   233		DEFINE(_SIGPIPE, SIGPIPE);
+   234		DEFINE(_SIGALRM, SIGALRM);
+   235		DEFINE(_SIGTERM, SIGTERM);
+   236		DEFINE(_SIGUSR1, SIGUSR1);
+   237		DEFINE(_SIGUSR2, SIGUSR2);
+   238		DEFINE(_SIGCHLD, SIGCHLD);
+   239		DEFINE(_SIGPWR, SIGPWR);
+   240		DEFINE(_SIGWINCH, SIGWINCH);
+   241		DEFINE(_SIGURG, SIGURG);
+   242		DEFINE(_SIGIO, SIGIO);
+   243		DEFINE(_SIGSTOP, SIGSTOP);
+   244		DEFINE(_SIGTSTP, SIGTSTP);
+   245		DEFINE(_SIGCONT, SIGCONT);
+   246		DEFINE(_SIGTTIN, SIGTTIN);
+   247		DEFINE(_SIGTTOU, SIGTTOU);
+   248		DEFINE(_SIGVTALRM, SIGVTALRM);
+   249		DEFINE(_SIGPROF, SIGPROF);
+   250		DEFINE(_SIGXCPU, SIGXCPU);
+   251		DEFINE(_SIGXFSZ, SIGXFSZ);
+   252		BLANK();
+   253	}
+   254	
+   255	#ifdef CONFIG_SMP
+   256	void output_smpboot_defines(void)
+   257	{
+   258		COMMENT("Linux smp cpu boot offsets.");
+   259		OFFSET(CPU_BOOT_STACK, secondary_data, stack);
+   260		OFFSET(CPU_BOOT_TINFO, secondary_data, thread_info);
+   261		BLANK();
+   262	}
+   263	#endif
+   264	
+   265	#ifdef CONFIG_HIBERNATION
+   266	void output_pbe_defines(void)
+   267	{
+   268		COMMENT(" Linux struct pbe offsets. ");
+   269		OFFSET(PBE_ADDRESS, pbe, address);
+   270		OFFSET(PBE_ORIG_ADDRESS, pbe, orig_address);
+   271		OFFSET(PBE_NEXT, pbe, next);
+   272		DEFINE(PBE_SIZE, sizeof(struct pbe));
+   273		BLANK();
+   274	}
+   275	#endif
+   276	
+ > 277	void output_kvm_defines(void)
 
 -- 
 0-DAY CI Kernel Test Service
