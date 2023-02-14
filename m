@@ -1,99 +1,209 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741E97C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 02:16:56 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id b5so15577264plz.5
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Feb 2023 18:16:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rbigrDxGll9VSVfP6VuZv/A2wMng7CjCUezyWsqQ0MY=;
-        b=P7ojf9+jHPMBl8X2GLb+w6RrmrJrO3TCcMwHpeoYA4bGKP4CGM2j/o/Vz01LgLdpM2
-         P+kY8LAWgT9+gu4cNx2JbhDVYPJBCCF5AaS88JXQ0zsQL/ly+HaSXG6X+MLJ72lDYwpy
-         kQNMvrS4/URdeGTCM1reA2BgIDXI8b8q9TzWedweQghB+AONe2z5ebH2edO2+V64VytB
-         VzRcv7t2Em1x1fKIrs7fsdYWeGZmsDdDV1qaqktszRMiEF19+UQZci4dUeyy1z0lWi5F
-         aCDYF9A/Zq1A81h/bEQfERBJTB3u3AyoGCjyl2cCX04QcnI4LuRrQZNg5wAIPvMFK6um
-         ErZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rbigrDxGll9VSVfP6VuZv/A2wMng7CjCUezyWsqQ0MY=;
-        b=EJyUV9n6LbGYHfnFZLM8464J8pjWoNgHqOLX97IfehwAskNSG4Zg7uUFADavqts0YV
-         4kKHtgQUG7/qzAQhJNq0S3X/awANzNSKdgp79+iul83YH61Tty0gEwIQUoZ/oyxNvBQl
-         ym1Gvpcn0W45+aw5ShlNAz1uDX6NmK01N5oIWpuMJdke5qtdl6v8xlUX+Ijr5Hz7SBmW
-         YLyK+z1gUUzB3JQJVyCma3c3A4LsshYa6BliPNTbwnPMLj6z1TyyqcW2Pmrx9P4qcmYv
-         /aQ+XcR2fT327hGZcpzA3EaOyYxBb0/PSh6ZCpWndeHeOqjEwlh7Ea1kZkNSKLywcdhk
-         LrYA==
-X-Gm-Message-State: AO0yUKWyOF3y17OuY86zu4vDkL9124fRTKYc5pHGZ2/vSCxrMBWap5Ub
-	FpNNPQ+x/zClT1vrGDQ4I54=
-X-Google-Smtp-Source: AK7set9Oc+MPdB112yVNp5k5KJwNdP6haZBEVYzKHPhsYHer+brcbAlhIPeodAVrkgboHWjANgBpBw==
-X-Received: by 2002:a17:90b:1b52:b0:230:af67:b847 with SMTP id nv18-20020a17090b1b5200b00230af67b847mr599932pjb.31.1676341015985;
-        Mon, 13 Feb 2023 18:16:55 -0800 (PST)
-Received: from [192.168.43.80] (subs28-116-206-12-37.three.co.id. [116.206.12.37])
-        by smtp.gmail.com with ESMTPSA id f63-20020a17090a704500b00233e8a83853sm3036567pjk.34.2023.02.13.18.16.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 18:16:55 -0800 (PST)
-Message-ID: <7d1774f2-0548-88ef-039e-dc4026299a12@gmail.com>
-Date: Tue, 14 Feb 2023 09:16:49 +0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D49D7E;
+	Tue, 14 Feb 2023 02:52:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676343172; x=1707879172;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IJlA/aUkDfwVflD02OPIMXlPGXO9ryDJZ9OJHFLiBYg=;
+  b=BSDg3VH50mAQvGmVNF/IRKGpW3s4H9eyss3GCLoW02QIw+HSlr4AXTao
+   K8ozS3ILKvGGJFtkrKCi72X4dimexLZEbPRVZC7TZQm3Krlg8GQaF6Lmg
+   UnxH1XGScT1f6OkyjAvquyViq4cFofnt/7DrKdPTmFHwbIQqpQUD2y6kf
+   4IMTl0Ruw+HR+XbCIef8nGgwPOVKWxiz111uuAsobr+9/En2NSQAxz6FA
+   MW5xVU8G7FFxWve6v56vKTSUaj0mupmCCDpkY87/Y01rZzY1QRnvE1jJ4
+   4LisjaTRPlaMrG1dUmtQiG7UQSmQ1WV3HViRCVwSfVLKLnkW04J6lIvkh
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="311422840"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="311422840"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 18:52:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="732720649"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="732720649"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 13 Feb 2023 18:52:50 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRlR3-00089P-2b;
+	Tue, 14 Feb 2023 02:52:49 +0000
+Date: Tue, 14 Feb 2023 10:52:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jfern:sched/rt-throttle.feb13.2023 7/7] kernel/sched/rt.c:1393:9:
+ error: no member named 'rt_nr_cg_throttled' in 'struct rt_rq'; did you mean
+ 'rt_cg_throttled'?
+Message-ID: <202302141059.9YYOTLpf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 2/3] Documentation: powerclamp: Escape wildcard in cpumask
- description
-Content-Language: en-US
-To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Power Management <linux-pm@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Thorsten Leemhuis <linux@leemhuis.info>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Arjan van de Ven <arjan@linux.intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, oe-kbuild-all@lists.linux.dev,
- kernel test robot <lkp@intel.com>
-References: <20230213100800.28333-1-bagasdotme@gmail.com>
- <20230213100800.28333-3-bagasdotme@gmail.com>
- <8367d92de90afaaa7ec5fac1dbcc0337ab641cb6.camel@linux.intel.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <8367d92de90afaaa7ec5fac1dbcc0337ab641cb6.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/13/23 17:17, srinivas pandruvada wrote:
-> Hi Sanjaya,
-> 
-> On Mon, 2023-02-13 at 17:08 +0700, Bagas Sanjaya wrote:
->> kernel test robot reported htmldocs warning:
->>
->> Documentation/admin-guide/thermal/intel_powerclamp.rst:328: WARNING:
->> Inline emphasis start-string without end-string.
->>
->> The mistaken asterisk in /proc/irq/*/smp_affinity is rendered as
->> hyperlink
->> as the result.
->>
-> I submitted a patch 
-> 	[thermal-bleeding-edge][PATCH] thermal: intel: powerclamp: Fix
-> warnings.
-> 
-> Thanks,
-> Srinivas
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/rt-throttle.feb13.2023
+head:   76f3ee9a77cea5d6f5f04f3bbc620b863bb06e1e
+commit: 76f3ee9a77cea5d6f5f04f3bbc620b863bb06e1e [7/7] fixup! fixup! fixup! sched/rt: Keep throttled rt_rqs on the runqueue
+config: hexagon-randconfig-r041-20230212 (https://download.01.org/0day-ci/archive/20230214/202302141059.9YYOTLpf-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=76f3ee9a77cea5d6f5f04f3bbc620b863bb06e1e
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern sched/rt-throttle.feb13.2023
+        git checkout 76f3ee9a77cea5d6f5f04f3bbc620b863bb06e1e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/
 
-OK, thanks for your parallel!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302141059.9YYOTLpf-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c:995:17: error: no member named 'tg' in 'struct rt_rq'
+                                           if (rt_rq->tg && rt_rq->tg->parent)
+                                               ~~~~~  ^
+   kernel/sched/rt.c:995:30: error: no member named 'tg' in 'struct rt_rq'
+                                           if (rt_rq->tg && rt_rq->tg->parent)
+                                                            ~~~~~  ^
+   kernel/sched/rt.c:996:29: error: no member named 'tg' in 'struct rt_rq'
+                                                   parent_rt_se = rt_rq->tg->parent->rt_se[i];
+                                                                  ~~~~~  ^
+   kernel/sched/rt.c:1133:28: error: no member named 'parent' in 'struct sched_rt_entity'
+                                   if (!tbefore && rt_se->parent)
+                                                   ~~~~~  ^
+   kernel/sched/rt.c:1134:36: error: no member named 'parent' in 'struct sched_rt_entity'
+                                           adjust_cg_throt_update(rt_se->parent, true);
+                                                                  ~~~~~  ^
+   kernel/sched/rt.c:1390:22: error: no member named 'parent' in 'struct sched_rt_entity'
+           if (!grq || !rt_se->parent || !rt_rq_throttled(grq))
+                        ~~~~~  ^
+>> kernel/sched/rt.c:1393:9: error: no member named 'rt_nr_cg_throttled' in 'struct rt_rq'; did you mean 'rt_cg_throttled'?
+           rt_rq->rt_nr_cg_throttled += (dec ? -1 : 1);
+                  ^~~~~~~~~~~~~~~~~~
+                  rt_cg_throttled
+   kernel/sched/sched.h:687:8: note: 'rt_cg_throttled' declared here
+           int                     rt_cg_throttled;
+                                   ^
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c:1413:22: error: no member named 'parent' in 'struct sched_rt_entity'
+           WARN_ON_ONCE(rt_se->parent && tbefore && !rt_rq_throttled(rt_rq));
+                        ~~~~~  ^
+   include/asm-generic/bug.h:147:18: note: expanded from macro 'WARN_ON_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+                           ^~~~~~~~~
+   include/linux/once_lite.h:28:27: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   bool __ret_do_once = !!(condition);                     \
+                                           ^~~~~~~~~
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c:1414:51: error: no member named 'parent' in 'struct sched_rt_entity'
+           if (!tbefore && rt_rq_throttled(rt_rq) && rt_se->parent)
+                                                     ~~~~~  ^
+   kernel/sched/rt.c:1415:33: error: no member named 'parent' in 'struct sched_rt_entity'
+                   adjust_cg_throt_update(rt_se->parent, true);
+                                          ~~~~~  ^
+   kernel/sched/rt.c:1560:23: error: no member named 'parent' in 'struct sched_rt_entity'
+                   WARN_ON_ONCE(rt_se->parent && !tbefore && rt_rq_throttled(rt_rq));
+                                ~~~~~  ^
+   include/asm-generic/bug.h:147:18: note: expanded from macro 'WARN_ON_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN_ON, 1)
+                           ^~~~~~~~~
+   include/linux/once_lite.h:28:27: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   bool __ret_do_once = !!(condition);                     \
+                                           ^~~~~~~~~
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c:1561:52: error: no member named 'parent' in 'struct sched_rt_entity'
+                   if (tbefore && !rt_rq_throttled(rt_rq) && rt_se->parent)
+                                                             ~~~~~  ^
+   kernel/sched/rt.c:1562:34: error: no member named 'parent' in 'struct sched_rt_entity'
+                           adjust_cg_throt_update(rt_se->parent, false);
+                                                  ~~~~~  ^
+   6 warnings and 13 errors generated.
+
+
+vim +1393 kernel/sched/rt.c
+
+  1384	
+  1385	static void update_nr_cg_throttled(struct sched_rt_entity *rt_se, bool dec)
+  1386	{
+  1387		struct rt_rq *grq = group_rt_rq(rt_se);
+  1388		struct rt_rq *rt_rq = rt_rq_of_se(rt_se);
+  1389	
+  1390		if (!grq || !rt_se->parent || !rt_rq_throttled(grq))
+  1391			return;
+  1392	
+> 1393		rt_rq->rt_nr_cg_throttled += (dec ? -1 : 1);
+  1394	}
+  1395	
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
