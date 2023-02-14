@@ -1,93 +1,113 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from out-123.mta0.migadu.com (out-123.mta0.migadu.com [91.218.175.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14487C;
-	Tue, 14 Feb 2023 01:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676339515; x=1707875515;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D4G6ZUOtC0vOiuc/Roif69mXLeIIblnhY7y880Wa8vU=;
-  b=iG6iJoXFXehXhTTCVSl7zwN0Jz/gpEXS8b/cqmWKmBRo1g7pcMntf6w9
-   w1Pu/bwu7Er6Ov95EjTp48AjLHdmkjAMvIaOcEonoGrxVFyvFS+hBHvgz
-   xAlw1vLfFVA+Gapif0jhkXcob23V12mspQ6PTxU+OdwIgRITn9xCWnEO9
-   GI5SgaAPya43AqItv7SwLbvPiwdMnUFWp3uP9iWRExugPRMyMwFCx/OaC
-   UqbDacUdaeTdWva9bBN/+I8sYPn1KuzVYSkAUfkdXFEseSUl1Xo2tiHNa
-   7YRvrzMgPkaDMlc55uJ2r+mdZzbtRC+//vDewYqix8Kf6fA2YFK4eSW2J
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314696294"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="314696294"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 17:51:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="997906419"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="997906419"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2023 17:51:49 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRkU0-00087l-2K;
-	Tue, 14 Feb 2023 01:51:48 +0000
-Date: Tue, 14 Feb 2023 09:51:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?L=F6hle?= <CLoehle@hyperstone.com>,
-	"adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-	Avri Altman <Avri.Altman@wdc.com>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-Subject: Re: [PATCH] mmc: block: workaround long ioctl busy timeout
-Message-ID: <202302140909.X9OHVtn2-lkp@intel.com>
-References: <8f4a0fc6f2e64ef091784c5cd704c113@hyperstone.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5DF7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 02:00:18 +0000 (UTC)
+Date: Tue, 14 Feb 2023 10:00:05 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1676340010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9BBRNOThmuII/oJg0K0CReT+0wqbnh62GSU+44RXkto=;
+	b=cy1SXxOwYTU78nyphvzLu6qsQro8J4/28gVLEdfOjyj029FovqDM4ywnTT2S8omUa3uuAL
+	LdkuX1yONb8pgc2DZjlEXcziHwHfgmjGNm1+Yiy3w0uKkgGXiGUEV1EyaBYjPLwkJuV7Me
+	YIQOXO5A0aOv0Zb+M/BLHkfwmA9oSKw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: kernel test robot <lkp@intel.com>
+Cc: Sergey.Semin@baikalelectronics.ru, oe-kbuild-all@lists.linux.dev,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] dmaengine: dw-edma: Add support for native HDMA
+Message-ID: <Y+rrJfzNzDXwFzf/@chq-MS-7D45>
+References: <20230213132411.65524-4-cai.huoqing@linux.dev>
+ <202302132344.oOgPHjYP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8f4a0fc6f2e64ef091784c5cd704c113@hyperstone.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202302132344.oOgPHjYP-lkp@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Christian,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2-rc8 next-20230213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-L-hle/mmc-block-workaround-long-ioctl-busy-timeout/20230213-183603
-patch link:    https://lore.kernel.org/r/8f4a0fc6f2e64ef091784c5cd704c113%40hyperstone.com
-patch subject: [PATCH] mmc: block: workaround long ioctl busy timeout
-config: x86_64-randconfig-a003-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140909.X9OHVtn2-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/94406ad8626aa2d7761fb7eb20a918a4805ea667
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-L-hle/mmc-block-workaround-long-ioctl-busy-timeout/20230213-183603
-        git checkout 94406ad8626aa2d7761fb7eb20a918a4805ea667
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140909.X9OHVtn2-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "mmc_prepare_busy_cmd" [drivers/mmc/core/mmc_block.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On 13 2月 23 23:20:19, kernel test robot wrote:
+> Hi Cai,
+> 
+> Thank you for the patch! Yet something to improve:
+Will include <linux/io-64-nonatomic-lo-hi.h>
+> 
+> [auto build test ERROR on next-20230213]
+> [cannot apply to vkoul-dmaengine/next linus/master v6.2-rc8 v6.2-rc7 v6.2-rc6 v6.2-rc8]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/dmaengine-dw-edma-Rename-dw_edma_core_ops-structure-to-dw_edma_plat_ops/20230213-213412
+> patch link:    https://lore.kernel.org/r/20230213132411.65524-4-cai.huoqing%40linux.dev
+> patch subject: [PATCH v3 3/4] dmaengine: dw-edma: Add support for native HDMA
+> config: i386-randconfig-a016-20230213 (https://download.01.org/0day-ci/archive/20230213/202302132344.oOgPHjYP-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/04d89cfa187deda4fa5a7cc947dbb797ce05e72f
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Cai-Huoqing/dmaengine-dw-edma-Rename-dw_edma_core_ops-structure-to-dw_edma_plat_ops/20230213-213412
+>         git checkout 04d89cfa187deda4fa5a7cc947dbb797ce05e72f
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=i386 olddefconfig
+>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302132344.oOgPHjYP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/dma/dw-edma/dw-hdma-v0-core.c: In function 'dw_hdma_v0_write_ll_data':
+> >> drivers/dma/dw-edma/dw-hdma-v0-core.c:195:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+>      195 |                 writeq(sar, &lli->sar.reg);
+>          |                 ^~~~~~
+>          |                 writel
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +195 drivers/dma/dw-edma/dw-hdma-v0-core.c
+> 
+>    177	
+>    178	static void dw_hdma_v0_write_ll_data(struct dw_edma_chunk *chunk, int i,
+>    179					     u32 control, u32 size, u64 sar, u64 dar)
+>    180	{
+>    181		ptrdiff_t ofs = i * sizeof(struct dw_hdma_v0_lli);
+>    182	
+>    183		if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+>    184			struct dw_hdma_v0_lli *lli = chunk->ll_region.vaddr.mem + ofs;
+>    185	
+>    186			lli->control = control;
+>    187			lli->transfer_size = size;
+>    188			lli->sar.reg = sar;
+>    189			lli->dar.reg = dar;
+>    190		} else {
+>    191			struct dw_hdma_v0_lli __iomem *lli = chunk->ll_region.vaddr.io + ofs;
+>    192	
+>    193			writel(control, &lli->control);
+>    194			writel(size, &lli->transfer_size);
+>  > 195			writeq(sar, &lli->sar.reg);
+>    196			writeq(dar, &lli->dar.reg);
+>    197		}
+>    198	}
+>    199	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
