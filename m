@@ -1,187 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBC6C081
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 13:54:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC43BC433D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 13:54:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676382855;
-	bh=qoULczsZVvR5w2vQsBUhToIAimNxpI6ClMZuCke9diw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=f3DILNWb3pTsxyOZtfvBrQ+C4ix9A+o6s7JpTxtVu2QU96pfhVo6f4ghhN+iBwxrQ
-	 gSZbUV87VXYbVzwK1d0UFGKj0WC8Zt60A2WpGwRgqzCAoyZ+TKzpNEL10T/gpu1L4v
-	 XgpNBidhbjcDAQUW6u5QNrbWfjWQex+VE/vpm7VB9s/N5d3WtDE+Nc+pocQCmHd1VA
-	 Vv5qMZYcVjzWQuWLYppfKHstTiWEeq8z4GA5JFXcnwsPArQcDTTkYLENBkqok1eCvv
-	 R31umtPncwMj1XUjdY8yRoD+V2F+KUR/wm1cc4iL1bXR+0T0TPB/dckXlpGKS0Hphl
-	 JtQHhlbiOktMQ==
-Received: by mail-lj1-f172.google.com with SMTP id u27so18442158ljo.12
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 05:54:15 -0800 (PST)
-X-Gm-Message-State: AO0yUKXzhPQAB0biFdHbwgX3AkYmyMz/ujl5hA1m/wzzwwz/PO55Y2kB
-	uOk/5pdNQuejvJpHYMV+8tJe/k8wpwyqmKSTjlk=
-X-Google-Smtp-Source: AK7set80w1qmX66r7ie/9uXTu63eyR0TSO4NmcKBF9OB6VKHcRlvRTYXBSILu7W+DyQ45/pnO8hb8WnL30RToFNtGFk=
-X-Received: by 2002:a2e:88d6:0:b0:28e:1ca4:b62 with SMTP id
- a22-20020a2e88d6000000b0028e1ca40b62mr222096ljk.97.1676382853760; Tue, 14 Feb
- 2023 05:54:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E6BC088
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Feb 2023 14:12:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676383936; x=1707919936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uLcATDpVNrBAuHLrSS0RSlmnbsbKv1nHfv/BZdwTTJg=;
+  b=ECbOKIfVRt89ncdl2HMls80GbbwLY9MVsYazQwM3ul7POfahnXfxrd/j
+   9unVBG1cPg/pjhIxdCVHiIuqZmySVLho1MQbcQ+P6S+JpB/lU/g0S74g1
+   +p2bm0aqniofKMneOKVhnlGmlQitqc84t+gg4K3sSdlVLZTyqF6CGksHu
+   GD2SXh9uM8/BI9ytTpX174gUHTEXviGwf4c2eiDotm+dKH5KXUdXLQ/i+
+   v+nNp+wGPLRnuFiyN3iUUFvAS1dIthb0/ODgPmYQTeJHhphJovKoF7sc5
+   LqFl9w4k2MAWGe3rBpXNsy74wPwK+dIqiBwr1eZQIeAhAazP5KSXWDLSQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="314811396"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
+   d="scan'208";a="314811396"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 06:12:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="619069812"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
+   d="scan'208";a="619069812"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 14 Feb 2023 06:12:12 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRw2V-0008Yp-2R;
+	Tue, 14 Feb 2023 14:12:11 +0000
+Date: Tue, 14 Feb 2023 22:11:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android14-5.15
+ 11/11] arch/arm64/include/asm/kvm_hypevents.h:32:1: warning: no previous
+ prototype for function 'hyp_event_trace_host_hcall'
+Message-ID: <202302142222.8PzhsqQ3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
- <202301250706.deGvd0yq-lkp@intel.com> <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
- <Y9ykeASyzhSKQCmx@yujie-X299> <Y+MNxmzlILarAlZA@kernel.org>
- <3109ff421139af6b0d9e66a06d8399135e546fa7.camel@HansenPartnership.com> <Y+nqpLm2YyYkcZ+H@kernel.org>
-In-Reply-To: <Y+nqpLm2YyYkcZ+H@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 14 Feb 2023 14:54:02 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXECgmUMjKZk41oeXWWQpX5wB22YtBt2CSAQzEq8SqbY_g@mail.gmail.com>
-Message-ID: <CAMj1kXECgmUMjKZk41oeXWWQpX5wB22YtBt2CSAQzEq8SqbY_g@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, Yujie Liu <yujie.liu@intel.com>, 
-	kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, keyrings@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 13 Feb 2023 at 08:45, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
-> On Fri, Feb 10, 2023 at 09:48:15AM -0500, James Bottomley wrote:
-> > On Wed, 2023-02-08 at 04:49 +0200, Jarkko Sakkinen wrote:
-> > > On Fri, Feb 03, 2023 at 02:06:48PM +0800, Yujie Liu wrote:
-> > > > Hi James,
-> > > >
-> > > > On Wed, Jan 25, 2023 at 07:59:09AM -0500, James Bottomley wrote:
-> > > > > On Wed, 2023-01-25 at 07:11 +0800, kernel test robot wrote:
-> > > > > > Hi James,
-> > > > > >
-> > > > > > I love your patch! Perhaps something to improve:
-> > > > > >
-> > > > > > [auto build test WARNING on char-misc/char-misc-testing]
-> > > > > > [also build test WARNING on char-misc/char-misc-next char-
-> > > > > > misc/char-
-> > > > > > misc-linus zohar-integrity/next-integrity linus/master v6.2-rc5
-> > > > > > next-
-> > > > > > 20230124]
-> > > > > > [If your patch is applied to the wrong git tree, kindly drop us
-> > > > > > a
-> > > > > > note.
-> > > > > > And when submitting patch, we suggest to use '--base' as
-> > > > > > documented
-> > > > > > in
-> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information
-> > > > > > ]
-> > > > > >
-> > > > > > url:
-> > > > > > https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/tpm-move-buffer-handling-from-static-inlines-to-real-functions/20230125-020146
-> > > > > > patch link:
-> > > > > > https://lore.kernel.org/r/20230124175516.5984-7-James.Bottomley%40HansenPartnership.com
-> > > > > > patch subject: [PATCH v2 06/11] tpm: Add full HMAC and
-> > > > > > encrypt/decrypt session handling code
-> > > > > > config: arc-allyesconfig
-> > > > > > (
-> > > > > > https://download.01.org/0day-ci/archive/20230125/202301250706.de
-> > > > > > Gvd0
-> > > > > > yq-lkp@intel.com/config)
-> > > > > > compiler: arceb-elf-gcc (GCC) 12.1.0
-> > > > > > reproduce (this is a W=1 build):
-> > > > > >         wget
-> > > > > > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
-> > > > > >  -O ~/bin/make.cross
-> > > > > >         chmod +x ~/bin/make.cross
-> > > > > >         #
-> > > > > > https://github.com/intel-lab-lkp/linux/commit/dc0fc74718b4a786aba4a954233e8ab3afdcc03c
-> > > > > >         git remote add linux-review
-> > > > > > https://github.com/intel-lab-lkp/linux
-> > > > > >         git fetch --no-tags linux-review James-Bottomley/tpm-
-> > > > > > move-
-> > > > > > buffer-handling-from-static-inlines-to-real-functions/20230125-
-> > > > > > 020146
-> > > > > >         git checkout dc0fc74718b4a786aba4a954233e8ab3afdcc03c
-> > > > > >         # save the config file
-> > > > > >         mkdir build_dir && cp config build_dir/.config
-> > > > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> > > > > > make.cross W=1 O=build_dir ARCH=arc olddefconfig
-> > > > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
-> > > > > > make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
-> > > > > > drivers/char/tpm/
-> > > > > >
-> > > > > > If you fix the issue, kindly add following tag where applicable
-> > > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > >
-> > > > > > All warnings (new ones prefixed by >>):
-> > > > > >
-> > > > > >    drivers/char/tpm/tpm2-sessions.c:1184:5: warning: no
-> > > > > > previous
-> > > > > > prototype for 'tpm2_create_null_primary' [-Wmissing-prototypes]
-> > > > > >     1184 | int tpm2_create_null_primary(struct tpm_chip *chip)
-> > > > > > {
-> > > > > >          |     ^~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
-> > > > > > 'tpm_buf_check_hmac_response':
-> > > > > > > > drivers/char/tpm/tpm2-sessions.c:831:1: warning: the frame
-> > > > > > > > size
-> > > > > > > > of 1132 bytes is larger than 1024 bytes [-Wframe-larger-
-> > > > > > > > than=]
-> > > > > >      831 | }
-> > > > > >          | ^
-> > > > > >    drivers/char/tpm/tpm2-sessions.c: In function
-> > > > > > 'tpm_buf_fill_hmac_session':
-> > > > > >    drivers/char/tpm/tpm2-sessions.c:579:1: warning: the frame
-> > > > > > size of
-> > > > > > 1132 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-> > > > > >      579 | }
-> > > > > >          | ^
-> > > > >
-> > > > > Is this a test problem?  I can't see why the code would only blow
-> > > > > the
-> > > > > stack on the arc architecture and not on any other ... does it
-> > > > > have
-> > > > > something funny with on stack crypto structures?
-> > > >
-> > > > This warning is controlled by the value of CONFIG_FRAME_WARN.
-> > > >
-> > > > For "make ARCH=arc allyesconfig", the default value is 1024, so
-> > > > this frame warning shows up during the build.
-> > > >
-> > > > For other arch such as "make ARCH=x86_64 allyesconfig", the default
-> > > > value would be 2048 and won't have this warning.
-> > > >
-> > > > Not sure if this is a real problem that need to be fixed, here just
-> > > > providing above information for your reference.
-> > > >
-> > > > --
-> > > > Best Regards,
-> > > > Yujie
-> > >
-> > > *Must* be fixed given that it is how the default value is set now.
-> > > This is wrong place to reconsider.
-> > >
-> > >
-> > > And we do not want to add functions that bloat the stack this way.
-> > >
-> > > Shash just needs to be allocated from heap instead of stack.
-> >
-> > On x86_64 the stack usage is measured at 984 bytes, so rather than
-> > jumping to conclusions let's root cause why this is a problem only on
-> > the arc architecture.  I suspect it's something to do with the
-> > alignment constraints of shash.  I've also noted it shouldn't actually
-> > warn on arc because the default stack warning size there should be 2048
-> > (like x86_64).
->
-> Would it such a big deal to allocate shash from heap? That would
-> be IMHO more robust in the end.
->
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android14-5.15
+head:   27e5fbdd8569f72e6fc38ffd7f3b6b4992099026
+commit: 25d0badbe3f4c15b5a29fd6d91b207fc7e5921c1 [11/11] ANDROID: KVM: arm64: Add EL2 wakeup cause hyp events
+config: arm64-randconfig-r032-20230213 (https://download.01.org/0day-ci/archive/20230214/202302142222.8PzhsqQ3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/25d0badbe3f4c15b5a29fd6d91b207fc7e5921c1
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android14-5.15
+        git checkout 25d0badbe3f4c15b5a29fd6d91b207fc7e5921c1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
 
-Can we avoid shashes and sync skciphers at all? We have sha256 and AES
-library routines these days, and AES in CFB mode seems like a good
-candidate for a library implementation as well - it uses AES
-encryption only, and is quite straight forward to implement. [0]
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302142222.8PzhsqQ3-lkp@intel.com/
 
-The crypto API is far too clunky for synchronous operations of
-algorithms that are known at compile time, and the requirement to use
-scatterlists for skciphers is especially horrid.
+All warnings (new ones prefixed by >>):
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/log/?h=crypto-aes-cfb-library
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+   HYP_EVENT(hyp_enter,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:80:1: note: expanded from here
+   hyp_event_trace_hyp_enter
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+   HYP_EVENT(hyp_exit,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:85:1: note: expanded from here
+   hyp_event_trace_hyp_exit
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+>> arch/arm64/include/asm/kvm_hypevents.h:32:1: warning: no previous prototype for function 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+   HYP_EVENT(host_hcall,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:90:1: note: expanded from here
+   hyp_event_trace_host_hcall
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+>> arch/arm64/include/asm/kvm_hypevents.h:46:1: warning: no previous prototype for function 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+   HYP_EVENT(host_smc,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:95:1: note: expanded from here
+   hyp_event_trace_host_smc
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+>> arch/arm64/include/asm/kvm_hypevents.h:61:1: warning: no previous prototype for function 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+   HYP_EVENT(host_mem_abort,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:5:1: note: expanded from here
+   hyp_event_trace_host_mem_abort
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   arch/arm64/kvm/hyp_events.c:249:6: warning: no previous prototype for function 'kvm_hyp_events_enable_early' [-Wmissing-prototypes]
+   bool kvm_hyp_events_enable_early(void)
+        ^
+   arch/arm64/kvm/hyp_events.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool kvm_hyp_events_enable_early(void)
+   ^
+   static 
+   arch/arm64/kvm/hyp_events.c:284:6: warning: no previous prototype for function 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
+   void kvm_hyp_init_events_tracefs(struct dentry *parent)
+        ^
+   arch/arm64/kvm/hyp_events.c:284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void kvm_hyp_init_events_tracefs(struct dentry *parent)
+   ^
+   static 
+   arch/arm64/kvm/hyp_events.c:323:5: warning: no previous prototype for function 'kvm_hyp_init_events' [-Wmissing-prototypes]
+   int kvm_hyp_init_events(void)
+       ^
+   arch/arm64/kvm/hyp_events.c:323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int kvm_hyp_init_events(void)
+   ^
+   static 
+   8 warnings generated.
+
+
+vim +/hyp_event_trace_host_hcall +32 arch/arm64/include/asm/kvm_hypevents.h
+
+    31	
+  > 32	HYP_EVENT(host_hcall,
+    33		HE_PROTO(unsigned int id, u8 invalid),
+    34		HE_STRUCT(
+    35			he_field(unsigned int, id)
+    36			he_field(u8, invalid)
+    37		),
+    38		HE_ASSIGN(
+    39			__entry->id = id;
+    40			__entry->invalid = invalid;
+    41		),
+    42		HE_PRINTK("id=%u invalid=%u",
+    43			  __entry->id, __entry->invalid)
+    44	);
+    45	
+  > 46	HYP_EVENT(host_smc,
+    47		HE_PROTO(u64 id, u8 forwarded),
+    48		HE_STRUCT(
+    49			he_field(u64, id)
+    50			he_field(u8, forwarded)
+    51		),
+    52		HE_ASSIGN(
+    53			__entry->id = id;
+    54			__entry->forwarded = forwarded;
+    55		),
+    56		HE_PRINTK("id=%llu invalid=%u",
+    57			  __entry->id, __entry->forwarded)
+    58	);
+    59	
+    60	
+  > 61	HYP_EVENT(host_mem_abort,
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
