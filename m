@@ -1,76 +1,160 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD18E6109
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 14:59:45 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id fi26so22486957edb.7
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 06:59:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BJEd3xf0w2y1UrC2QqcN8kYtS3GpAcL6pZcspWXDrFE=;
-        b=xK7D2MQP0J8JVaXBf1SZR0vJ02phOG94ObTXezfGCTo2t5OwzfjjeXQmsEcuynmU3v
-         7vMUbGEz2NAc4M3aV3mftVvqC061fVmv+2V4yRyfvlQ8r4+Oh9qUI+F3bXki1tN9ABk1
-         5RRxvlC0RZuPPspTBShH7RoY7pRkT27ewFYXPS6Hf5J30lxersMVrONIeV2UtD0amfVU
-         En0FPn9MG6x8Ud9r9Ygh0qfs87rR6ZyU8/8f3q+sliq5KeMJSr50JXKGMjyMfgbAxmGO
-         t2t95ULeAS7Q30fO5QPPYZ6swvogqgkZcsBtVQwZ2vw+cNezTHkbup1jx065Ti6SglDq
-         ep8g==
-X-Gm-Message-State: AO0yUKXvFSBqF7EFNZ3W4kQWbf4cNC6pRCaoDr5yOp0xCZ1I+q2OxOle
-	RN9ZY4E0oCWZBCQgHaiEmEXYoAuLMj2cH4nGfr4=
-X-Google-Smtp-Source: AK7set/7Sd+0n3IR1XuI2Nft/LvrCloss5wlyYLmGs5b5V96smi/VRFv26exlqom9DfKqZS4gO42m5/LKHmuJeERXRE=
-X-Received: by 2002:a50:ce42:0:b0:4ad:4c0:c4f9 with SMTP id
- k2-20020a50ce42000000b004ad04c0c4f9mr1153565edj.3.1676473183964; Wed, 15 Feb
- 2023 06:59:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAC56109;
+	Wed, 15 Feb 2023 15:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676475713; x=1708011713;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ru+XvIDg3twgcFvIDSQOrc/i1HrC0wtgAsp5VcFWNkE=;
+  b=moilhzek56LTxlE+hRnKwYwFE1fS7+XWgtSlE/h/6IxLeYzRZVZM7gW7
+   CqSW/FMbUXaTDWwI0AYE+hwx45w8Dt6QdwUOvWdMnYoLxjxmMW5t4oTCS
+   bIJ6Pp6hN3AJDY175Vy/R/ZZAxpC3Hu9uyWMd+5gX4DX3JykjQUcTP9+f
+   +QuAyPJi5JcFVmov5lUm0Ha2r29ezWnNXC/ervc+qo5evT3nXJ4fooYeb
+   OPHob+VxVwCXTvioFNQM+e8djEBVe09Vnr/sPUO6ha+bzrQCQfGYRxJeh
+   fndRpVh9xhWMfVHa4vMEQvHbbM1IHIcOj6JCmi/TrbiT+K5DeWbRxBWAg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="332762812"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
+   d="scan'208";a="332762812"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 07:41:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="733323660"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
+   d="scan'208";a="733323660"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Feb 2023 07:41:51 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSJup-0009Vh-0d;
+	Wed, 15 Feb 2023 15:41:51 +0000
+Date: Wed, 15 Feb 2023 23:41:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 2/3] io_uring: enable io_uring to submit sqes located in
+ kernel
+Message-ID: <202302152315.W5hlZK5P-lkp@intel.com>
+References: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230215123253.41552-1-bagasdotme@gmail.com> <20230215123253.41552-4-bagasdotme@gmail.com>
- <Y+zqKk1BTvIe5+5r@amd.com>
-In-Reply-To: <Y+zqKk1BTvIe5+5r@amd.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 15 Feb 2023 15:59:32 +0100
-Message-ID: <CAJZ5v0i_+rutzGF05XdEJ5e6dN6PYegX7+0FuoaGBrvizFFS=w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Documentation: amd-pstate: disambiguate user space sections
-To: Huang Rui <ray.huang@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>, 
-	Linux Power Management <linux-pm@vger.kernel.org>, Linux BPF Development <bpf@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, 
-	Dave Marchevsky <davemarchevsky@fb.com>, "Yuan, Perry" <Perry.Yuan@amd.com>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, "Karny, Wyes" <Wyes.Karny@amd.com>, 
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
 
-On Wed, Feb 15, 2023 at 3:21 PM Huang Rui <ray.huang@amd.com> wrote:
->
-> On Wed, Feb 15, 2023 at 08:32:53PM +0800, Bagas Sanjaya wrote:
-> > kernel test robot reported htmldocs warning:
-> >
-> > Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
-> >
-> > The documentation contains two sections with the same "User Space Interface
-> > in ``sysfs``" title. The first one deals with per-policy sysfs and the
-> > second one is about general attributes (currently only global attributes
-> > are documented).
-> >
-> > Disambiguate title text of both sections to fix the warning.
-> >
-> > Link: https://lore.kernel.org/linux-doc/202302151041.0SWs1RHK-lkp@intel.com/
-> > Fixes: b9e6a2d47b2565 ("Documentation: amd-pstate: introduce new global sysfs attributes")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> Acked-by: Huang Rui <ray.huang@amd.com>
+Hi Xiaoguang,
 
-Applied as 6.3 material, thanks!
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on bpf/master]
+[also build test WARNING on axboe-block/for-next linus/master v6.2-rc8]
+[cannot apply to bpf-next/master next-20230215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20230215004122.28917-3-xiaoguang.wang%40linux.alibaba.com
+patch subject: [RFC 2/3] io_uring: enable io_uring to submit sqes located in kernel
+config: x86_64-randconfig-a002-20230213 (https://download.01.org/0day-ci/archive/20230215/202302152315.W5hlZK5P-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0d433a1cf7f666e5596514da7fab92f2691463ad
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
+        git checkout 0d433a1cf7f666e5596514da7fab92f2691463ad
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/unix/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302152315.W5hlZK5P-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from net/unix/scm.c:11:
+>> include/linux/io_uring.h:107:5: warning: no previous prototype for function 'io_uring_submit_sqe' [-Wmissing-prototypes]
+   int io_uring_submit_sqe(int fd, const struct io_uring_sqe *sqe, u32 sqe_len,
+       ^
+   include/linux/io_uring.h:107:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int io_uring_submit_sqe(int fd, const struct io_uring_sqe *sqe, u32 sqe_len,
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/io_uring_submit_sqe +107 include/linux/io_uring.h
+
+    56	
+    57	static inline void io_uring_files_cancel(void)
+    58	{
+    59		if (current->io_uring) {
+    60			io_uring_unreg_ringfd();
+    61			__io_uring_cancel(false);
+    62		}
+    63	}
+    64	static inline void io_uring_task_cancel(void)
+    65	{
+    66		if (current->io_uring)
+    67			__io_uring_cancel(true);
+    68	}
+    69	static inline void io_uring_free(struct task_struct *tsk)
+    70	{
+    71		if (tsk->io_uring)
+    72			__io_uring_free(tsk);
+    73	}
+    74	int io_uring_submit_sqe(int fd, const struct io_uring_sqe *sqe, u32 sqe_len,
+    75				struct io_mapped_kbuf *kbuf);
+    76	#else
+    77	static inline int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+    78				      struct iov_iter *iter, void *ioucmd)
+    79	{
+    80		return -EOPNOTSUPP;
+    81	}
+    82	static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret,
+    83			ssize_t ret2)
+    84	{
+    85	}
+    86	static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+    87				void (*task_work_cb)(struct io_uring_cmd *))
+    88	{
+    89	}
+    90	static inline struct sock *io_uring_get_socket(struct file *file)
+    91	{
+    92		return NULL;
+    93	}
+    94	static inline void io_uring_task_cancel(void)
+    95	{
+    96	}
+    97	static inline void io_uring_files_cancel(void)
+    98	{
+    99	}
+   100	static inline void io_uring_free(struct task_struct *tsk)
+   101	{
+   102	}
+   103	static inline const char *io_uring_get_opcode(u8 opcode)
+   104	{
+   105		return "";
+   106	}
+ > 107	int io_uring_submit_sqe(int fd, const struct io_uring_sqe *sqe, u32 sqe_len,
+   108				struct io_mapped_kbuf *kbuf)
+   109	{
+   110		return 0;
+   111	}
+   112	#endif
+   113	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
