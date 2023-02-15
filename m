@@ -1,50 +1,42 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765EF53AF;
-	Wed, 15 Feb 2023 13:14:06 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id m14so19086952wrg.13;
-        Wed, 15 Feb 2023 05:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y+bAytYdFSI9WfQJ0CTpzRZJVtTjO2ZYzIoYitpXp6U=;
-        b=TXNkB56Is+fEz10o9e5xuXBCX26VcdruHqQHk1SRImXPTgonAALFwvMBbsmxUBDuRy
-         ho5T3k+P1KLfh/KXqWKzL7ITMcwZaxoqfwj+0IylwejGkiMA/UgWHlecBGUNbrsr/kDn
-         ECC5KcIIZj302wgEE4qIBScgaPoLSgffKpo/63E1s/Rx4OBoUil48Ts7tC+I1yxj2gZn
-         NTN8To3aFlWNo1jIeIbnnZ3r2QO6IP7YDZ4fjHNjJsKHj8Xtw7natNI3l2qvxkbDVBit
-         jyJaN/m8WVajb3X5uQJCsJXvg4YWJqm49JiMuaf8gCKyAXIIL0unIrxhrVrvYke4GMgs
-         TzlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+bAytYdFSI9WfQJ0CTpzRZJVtTjO2ZYzIoYitpXp6U=;
-        b=L8rCpHS5VHgpESZGh9I3jBWoL4vZYysWWRogaC6s77TT9EV1GHrThyyOt31/2NPJqg
-         cXlR4wlAEaOk8xQnK2CbOl+djz3yoigORSj9CEKQLjRZPZS07CLZz1rGidPwMKgwzrXS
-         uZaqz2qpMj/3I7b6ZESm238H5Qe1vBmk8dxF1ofdTX611YJO0uf79apQXrgN3EVaSS6z
-         Sger8m9PAl7TuGayBEWkEoUYAjg7Qa9xvIDbilPapAXWetlHDr0ge03Vr3a4n0BFUSd5
-         Q6hBfKLLh2g8tCIxxXOSZGAfH5y4meuKRwLvGXSADOzOKKaP8Yd2o/67G239KfRUdkCm
-         zi1w==
-X-Gm-Message-State: AO0yUKWSGVknN39R7EXzvwVdTv9EMaQpxHUesXJWqb8utrzqCjlRi8C+
-	6N9ehx0xwnOLxQOHVkI4rf0RWNkBe3I=
-X-Google-Smtp-Source: AK7set9jbwVagVa/T0k48kk22vOJoEyq75pyyXXbJQec7m1khoBZBylAVat40PmpnIlUWKUFvamoZg==
-X-Received: by 2002:a5d:4ac1:0:b0:2c5:56ab:ee5b with SMTP id y1-20020a5d4ac1000000b002c556abee5bmr1502376wrs.48.1676466844326;
-        Wed, 15 Feb 2023 05:14:04 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v14-20020adfe28e000000b0027cb20605e3sm15498899wri.105.2023.02.15.05.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 05:14:03 -0800 (PST)
-Date: Wed, 15 Feb 2023 16:13:59 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 12850/13038] sound/soc/soc-ac97.c:339
- snd_soc_ac97_parse_pinctl() warn: passing zero to 'PTR_ERR'
-Message-ID: <202302152000.9PrlVuV3-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AE053AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 13:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676467010; x=1708003010;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=doni89gbXQ7dvD6hhgJjcmaErhJErskhij1tBregT8E=;
+  b=W+vDw4RSFyFlnplWfwPFFnUD5bf5PAxRmEFZ/QfqgQ2VSueIsqJEyDeu
+   3xZZyuLtQ3giU+WvbH6mufPGt/dGD6XP1WJiU6I7dLnO9ymqjfSLVlGfe
+   JYfwqyCi7TOe8Z9IHiPK6aGN3zdH3g/iJvSdKJNM78NSLBhBB0Y+79laN
+   qCnHddQA8Bz2sJQn2OcYD3iokg0RuRqvQRcKwNLpdhwYhIyCNQKVBKvS8
+   y8o8VPdDoyG2aS3LOGXZSHBXyT25ZgZfVrixa59KorpPE6SxbX018P7lq
+   vFPOHILwnDLGFklS6tmQ5XSTM55Dg+M2HGOlgPdqv+SPUC65HFPqt9Mvj
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="333562523"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="333562523"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 05:16:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="619425774"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="619425774"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 15 Feb 2023 05:16:47 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSHeQ-0009O5-2p;
+	Wed, 15 Feb 2023 13:16:46 +0000
+Date: Wed, 15 Feb 2023 21:16:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:pptrs-online-dir-check 86/86] fs/xfs/scrub/dir.c:1125:
+ undefined reference to `xfblob_create'
+Message-ID: <202302152128.DOXpiDGq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,84 +46,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d9019bcea1aac7eed64a1a4966282b6b7b141c8
-commit: 3ee0d39c50dca18c76941f46a6c57dc9cd2bfb9d [12850/13038] ASoC: soc-ac97: Convert to agnostic GPIO API
-config: ia64-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230215/202302152000.9PrlVuV3-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git pptrs-online-dir-check
+head:   742799e0756242478440147ff6400f90b599b6d4
+commit: 742799e0756242478440147ff6400f90b599b6d4 [86/86] xfs: deferred scrub of dirents
+config: x86_64-randconfig-a016-20230213 (https://download.01.org/0day-ci/archive/20230215/202302152128.DOXpiDGq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=742799e0756242478440147ff6400f90b599b6d4
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs pptrs-online-dir-check
+        git checkout 742799e0756242478440147ff6400f90b599b6d4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302152000.9PrlVuV3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302152128.DOXpiDGq-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/soc-ac97.c:339 snd_soc_ac97_parse_pinctl() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-sound/soc/soc-ac97.c:344 snd_soc_ac97_parse_pinctl() warn: passing zero to 'PTR_ERR'
+   ld: fs/xfs/scrub/dir.o: in function `xchk_dir_check_pptr_fast':
+   fs/xfs/scrub/dir.c:207: undefined reference to `xfblob_store'
+   ld: fs/xfs/scrub/dir.o: in function `xchk_dir_finish_slow_dirents':
+   fs/xfs/scrub/dir.c:1063: undefined reference to `xfblob_load'
+   ld: fs/xfs/scrub/dir.o: in function `xchk_directory':
+>> fs/xfs/scrub/dir.c:1125: undefined reference to `xfblob_create'
+>> ld: fs/xfs/scrub/dir.c:1145: undefined reference to `xfblob_destroy'
+   ld: fs/xfs/scrub/listxattr.o: in function `xchk_xattr_find_leftmost_leaf':
+   fs/xfs/scrub/listxattr.c:184: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.c:195: undefined reference to `xbitmap_test'
+   ld: fs/xfs/scrub/listxattr.c:210: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.o: in function `xchk_xattr_walk_node':
+   fs/xfs/scrub/listxattr.c:237: undefined reference to `xbitmap_init'
+   ld: fs/xfs/scrub/listxattr.c:261: undefined reference to `xbitmap_test'
+   ld: fs/xfs/scrub/listxattr.c:270: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.c:278: undefined reference to `xbitmap_destroy'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_slow_pptr':
+   fs/xfs/scrub/parent.c:654: undefined reference to `xfblob_load'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_finish_slow_pptrs':
+   fs/xfs/scrub/parent.c:759: undefined reference to `xfblob_truncate'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_pptr':
+   fs/xfs/scrub/parent.c:789: undefined reference to `xfblob_create'
+   ld: fs/xfs/scrub/parent.c:806: undefined reference to `xfblob_destroy'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_scan_attr':
+   fs/xfs/scrub/parent.c:578: undefined reference to `xfblob_store'
 
-vim +/PTR_ERR +339 sound/soc/soc-ac97.c
 
-336b8423e28517 Lars-Peter Clausen 2014-11-10  298  static int snd_soc_ac97_parse_pinctl(struct device *dev,
-336b8423e28517 Lars-Peter Clausen 2014-11-10  299  		struct snd_ac97_reset_cfg *cfg)
-336b8423e28517 Lars-Peter Clausen 2014-11-10  300  {
-336b8423e28517 Lars-Peter Clausen 2014-11-10  301  	struct pinctrl *p;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  302  	struct pinctrl_state *state;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  303  
-336b8423e28517 Lars-Peter Clausen 2014-11-10  304  	p = devm_pinctrl_get(dev);
-336b8423e28517 Lars-Peter Clausen 2014-11-10  305  	if (IS_ERR(p)) {
-336b8423e28517 Lars-Peter Clausen 2014-11-10  306  		dev_err(dev, "Failed to get pinctrl\n");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  307  		return PTR_ERR(p);
-336b8423e28517 Lars-Peter Clausen 2014-11-10  308  	}
-336b8423e28517 Lars-Peter Clausen 2014-11-10  309  	cfg->pctl = p;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  310  
-336b8423e28517 Lars-Peter Clausen 2014-11-10  311  	state = pinctrl_lookup_state(p, "ac97-reset");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  312  	if (IS_ERR(state)) {
-336b8423e28517 Lars-Peter Clausen 2014-11-10  313  		dev_err(dev, "Can't find pinctrl state ac97-reset\n");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  314  		return PTR_ERR(state);
-336b8423e28517 Lars-Peter Clausen 2014-11-10  315  	}
-336b8423e28517 Lars-Peter Clausen 2014-11-10  316  	cfg->pstate_reset = state;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  317  
-336b8423e28517 Lars-Peter Clausen 2014-11-10  318  	state = pinctrl_lookup_state(p, "ac97-warm-reset");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  319  	if (IS_ERR(state)) {
-336b8423e28517 Lars-Peter Clausen 2014-11-10  320  		dev_err(dev, "Can't find pinctrl state ac97-warm-reset\n");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  321  		return PTR_ERR(state);
-336b8423e28517 Lars-Peter Clausen 2014-11-10  322  	}
-336b8423e28517 Lars-Peter Clausen 2014-11-10  323  	cfg->pstate_warm_reset = state;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  324  
-336b8423e28517 Lars-Peter Clausen 2014-11-10  325  	state = pinctrl_lookup_state(p, "ac97-running");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  326  	if (IS_ERR(state)) {
-336b8423e28517 Lars-Peter Clausen 2014-11-10  327  		dev_err(dev, "Can't find pinctrl state ac97-running\n");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  328  		return PTR_ERR(state);
-336b8423e28517 Lars-Peter Clausen 2014-11-10  329  	}
-336b8423e28517 Lars-Peter Clausen 2014-11-10  330  	cfg->pstate_run = state;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  331  
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  332  	cfg->sync_gpio = devm_gpiod_get_index(dev, "ac97", 0, GPIOD_ASIS);
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  333  	if (IS_ERR(cfg->sync_gpio))
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  334  		return dev_err_probe(dev, PTR_ERR(cfg->sync_gpio), "Can't find ac97-sync gpio\n");
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  335  	gpiod_set_consumer_name(cfg->sync_gpio, "AC97 link sync");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  336  
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  337  	cfg->sdata_gpio = devm_gpiod_get_index(dev, "ac97", 1, GPIOD_ASIS);
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  338  	if (IS_ERR(cfg->sdata_gpio))
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13 @339  		return dev_err_probe(dev, PTR_ERR(cfg->sync_gpio), "Can't find ac97-sdata gpio\n");
+vim +1125 fs/xfs/scrub/dir.c
 
-Copy and paste bug.  s/sync_gpio/sdata_gpio/
-
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  340  	gpiod_set_consumer_name(cfg->sdata_gpio, "AC97 link sdata");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  341  
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  342  	cfg->reset_gpio = devm_gpiod_get_index(dev, "ac97", 2, GPIOD_ASIS);
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  343  	if (IS_ERR(cfg->reset_gpio))
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  344  		return dev_err_probe(dev, PTR_ERR(cfg->sync_gpio), "Can't find ac97-reset gpio\n");
-
-Here too.
-
-3ee0d39c50dca1 Andy Shevchenko    2023-02-13  345  	gpiod_set_consumer_name(cfg->reset_gpio, "AC97 link reset");
-336b8423e28517 Lars-Peter Clausen 2014-11-10  346  
-336b8423e28517 Lars-Peter Clausen 2014-11-10  347  	return 0;
-336b8423e28517 Lars-Peter Clausen 2014-11-10  348  }
+  1076	
+  1077	/* Scrub a whole directory. */
+  1078	int
+  1079	xchk_directory(
+  1080		struct xfs_scrub	*sc)
+  1081	{
+  1082		struct xchk_dir		*sd;
+  1083		int			error;
+  1084	
+  1085		if (!S_ISDIR(VFS_I(sc->ip)->i_mode))
+  1086			return -ENOENT;
+  1087	
+  1088		/* Plausible size? */
+  1089		if (sc->ip->i_disk_size < xfs_dir2_sf_hdr_size(0)) {
+  1090			xchk_ino_set_corrupt(sc, sc->ip->i_ino);
+  1091			return 0;
+  1092		}
+  1093	
+  1094		/* Check directory tree structure */
+  1095		error = xchk_da_btree(sc, XFS_DATA_FORK, xchk_dir_rec, NULL);
+  1096		if (error)
+  1097			return error;
+  1098	
+  1099		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
+  1100			return 0;
+  1101	
+  1102		/* Check the freespace. */
+  1103		error = xchk_directory_blocks(sc);
+  1104		if (error)
+  1105			return error;
+  1106	
+  1107		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
+  1108			return 0;
+  1109	
+  1110		sd = kvzalloc(sizeof(struct xchk_dir), XCHK_GFP_FLAGS);
+  1111		if (!sd)
+  1112			return -ENOMEM;
+  1113		sd->sc = sc;
+  1114	
+  1115		if (xfs_has_parent(sc->mp)) {
+  1116			/*
+  1117			 * Set up some staging memory for dirents that we can't check
+  1118			 * due to locking contention.
+  1119			 */
+  1120			error = xfarray_create(sc->mp, "directory entries", 0,
+  1121					sizeof(struct xchk_dirent), &sd->dir_entries);
+  1122			if (error)
+  1123				goto out_sd;
+  1124	
+> 1125			error = xfblob_create(sc->mp, "dirent names", &sd->dir_names);
+  1126			if (error)
+  1127				goto out_entries;
+  1128		}
+  1129	
+  1130		/* Look up every name in this directory by hash. */
+  1131		error = xchk_dir_walk(sc, sc->ip, xchk_dir_actor, sd);
+  1132		if (error == -ECANCELED)
+  1133			error = 0;
+  1134		if (error)
+  1135			goto out_names;
+  1136	
+  1137		if (xfs_has_parent(sc->mp)) {
+  1138			error = xchk_dir_finish_slow_dirents(sd);
+  1139			if (error)
+  1140				goto out_names;
+  1141		}
+  1142	
+  1143	out_names:
+  1144		if (sd->dir_names)
+> 1145			xfblob_destroy(sd->dir_names);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
