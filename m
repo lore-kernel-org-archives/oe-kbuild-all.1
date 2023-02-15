@@ -1,232 +1,201 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BB47C;
-	Wed, 15 Feb 2023 11:30:43 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so1288679wmb.5;
-        Wed, 15 Feb 2023 03:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=noXA1ZRKuYwxPkOV4mCPjnivm386CJPKW3QZZbA16U4=;
-        b=MjL/Y7V/3KpE4VFgrlDLaPrk9eDx9djlSyoU5MEP394IBWZi7XNawxPpVadrtAR8Ji
-         BLgUSSJGbv+6png0cxhU/NZH3QEuqqVQZaJbkx1qs5CvFQjqjOj/Y5spRdqcuZoJO7sS
-         t7Td0VjgpQFFWS5d/oSaZNZCKsSTF4wCk1DeeNz3D/vbwoSo+nuAxptlGrskexvVUGTS
-         q2h02giZGnwF/lW+0ontjBUtfWWqKRi6fYzqrOgnNvs9CZSlh2qRIEoUGOK+weyRy5z3
-         XfzKnCyz1SGHYcRcnDnu10kQ8jnhGVtvyZ4IUlp3ZKK2W8fTj/cJAHQkJLGUUYEwOTOH
-         I88w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=noXA1ZRKuYwxPkOV4mCPjnivm386CJPKW3QZZbA16U4=;
-        b=wu1G4At4xGOn0FDoV5UjyhbstyvLkXBfWAQ0ujWQSFKDdT6k0CjgHeHFOqGOrhHQc0
-         TvfHSeBBHCA43bx7HzKZiLoKlJB7ATRy8LCG1ISurx8giQr9ol70MmJsKt4j5wvyUc8b
-         /A/+JKf+qYyitmvoKcTp1rJLTiadSQzlvCGtR3zyjvr0JgA6of8seB9/FhlPq7lbE+EK
-         XUAnywfgau5onKi56r07ZWPaI1WIjmpMYClyvDmlA+wvH28h4R+z1igXmgjz6coP5Lzy
-         Z9iHPb+2z01ndrXh78tkxCrfnf4RAYkQs7x3O4IYO67E3ZZtUzvO+h6oi4gc3WltYtuB
-         znZQ==
-X-Gm-Message-State: AO0yUKXd+WYTYCE+1+LkwaBW0V2rHfJd6OHq5DHMbfb0GLiyOFbLssRK
-	dmxDjNQ70SSckAdPnkaERtI=
-X-Google-Smtp-Source: AK7set9GztXUj10sbjxaTg6na9gEi5sdjKx0P2Fl3WRgIjG0AojKvfyziwG0euPIJQtCcM8gHDnfYg==
-X-Received: by 2002:a05:600c:997:b0:3df:e1cc:94ff with SMTP id w23-20020a05600c099700b003dfe1cc94ffmr1706878wmp.28.1676460641872;
-        Wed, 15 Feb 2023 03:30:41 -0800 (PST)
-Received: from [192.168.1.50] ([79.119.240.25])
-        by smtp.gmail.com with ESMTPSA id c16-20020a05600c0ad000b003e1f9b633fcsm1817632wmr.16.2023.02.15.03.30.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Feb 2023 03:30:40 -0800 (PST)
-Message-ID: <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
-Date: Wed, 15 Feb 2023 13:30:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD766525A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 12:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676463948; x=1707999948;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UGZzn66B181OWa8SAToQXY19M0Y0VzMtn2LcLCnyw58=;
+  b=bbdEtNcB2MvU3WSWW7IZnxrjNirZE02CneGJNEFp9oK7OSI0Sl5QyPl5
+   ro4uzVEV3+01sr+XLnbIv5s/dPACfF4vi54oW37LPqqhi6mUVrBuZH7KX
+   tNIlpGIaiSKfYyXXH9gog1S/512JYmMBMTA604iI3mKRObQ7DtT1DgBck
+   fOuoLgEKSt45bQWKTGMTYG5au/jsLmy1zYT9gjTbWlInL19OzKGnCjMRB
+   j1F9chXRAS/ipdgo8sdx8lf3dhEXhpr3jTaTluWOeljH+V3Cd3wMcoTDb
+   m8WJgy0ugYKNmxik557HYcs7t2Tx2hTFwVOS/lcH9+m5Iqec0TJ3tSS5J
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="311044315"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="311044315"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 04:25:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="619412519"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="619412519"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 15 Feb 2023 04:25:46 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSGr3-0009LZ-0e;
+	Wed, 15 Feb 2023 12:25:45 +0000
+Date: Wed, 15 Feb 2023 20:25:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:pptrs-online-dir-check 86/86] fs/xfs/scrub/dir.c:1063:
+ undefined reference to `xfblob_load'
+Message-ID: <202302152005.h21DIFY2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [linux-next:master 681/12724]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
- rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
-To: Ping-Ke Shih <pkshih@realtek.com>, Dan Carpenter <error27@gmail.com>,
- "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>
-Cc: "lkp@intel.com" <lkp@intel.com>,
- "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- Kalle Valo <kvalo@kernel.org>
-References: <202302142135.LCqUTVGY-lkp@intel.com>
- <89d92b2ebc784c71a26810abb42a2dc7@realtek.com>
-Content-Language: en-US
-From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-In-Reply-To: <89d92b2ebc784c71a26810abb42a2dc7@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15/02/2023 02:51, Ping-Ke Shih wrote:
-> 
-> 
->> -----Original Message-----
->> From: Dan Carpenter <error27@gmail.com>
->> Sent: Tuesday, February 14, 2023 9:25 PM
->> To: oe-kbuild@lists.linux.dev; Bitterblue Smith <rtl8821cerfe2@gmail.com>
->> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; Kalle Valo <kvalo@kernel.org>; Ping-Ke Shih
->> <pkshih@realtek.com>
->> Subject: [linux-next:master 681/12724] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
->> rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
->> commit: 8b9754b28f0f231736667e1751f1fc6f18c80ad4 [681/12724] wifi: rtl8xxxu: Add rate control code for
->> RTL8188EU
->> config: x86_64-randconfig-m001-20230213
->> (https://download.01.org/0day-ci/archive/20230214/202302142135.LCqUTVGY-lkp@intel.com/config)
->> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Reported-by: Dan Carpenter <error27@gmail.com>
->> | Link: https://lore.kernel.org/r/202302142135.LCqUTVGY-lkp@intel.com/
->>
->> smatch warnings:
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn:
->> ignoring unreachable code.
->>
->> vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
->>
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1662  void rtl8188e_handle_ra_tx_report2(struct
->> rtl8xxxu_priv *priv, struct sk_buff *skb)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1663  {
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1664        u32 *_rx_desc = (u32 *)(skb->data - sizeof(struct
->> rtl8xxxu_rxdesc16));
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1665        struct rtl8xxxu_rxdesc16 *rx_desc = (struct
->> rtl8xxxu_rxdesc16 *)_rx_desc;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1666        struct device *dev = &priv->udev->dev;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1667        struct rtl8xxxu_ra_info *ra = &priv->ra_info;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1668        u32 tx_rpt_len = rx_desc->pktlen & 0x3ff;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1669        u32 items = tx_rpt_len / TX_RPT2_ITEM_SIZE;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1670        u64 macid_valid = ((u64)_rx_desc[5] << 32) |
->> _rx_desc[4];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1671        u32 macid;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1672        u8 *rpt = skb->data;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1673        bool valid;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1674        u16 min_rpt_time = 0x927c;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1675
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1676        dev_dbg(dev, "%s: len: %d items: %d\n", __func__,
->> tx_rpt_len, items);
-> 
-> I think an alternative way is to add a statement to replace the comment of
-> the end of loop. Like
-> 
-> if (!priv->vif ||
->     priv->vif->type == NL80211_IFTYPE_STATION)
-> 	items = 1;
-> 
-> or
-> 
-> if (priv->vif &&
->     priv->vif->type == NL80211_IFTYPE_STATION)
-> 	items = 1;
-> 
-> Then, we can remove 'break;' of LN1725.
-> When this driver is going to support AP mode, this logic is still expected.
-> 
-> How about you, Bitterblue?
-> 
-> Ping-Ke
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git pptrs-online-dir-check
+head:   742799e0756242478440147ff6400f90b599b6d4
+commit: 742799e0756242478440147ff6400f90b599b6d4 [86/86] xfs: deferred scrub of dirents
+config: x86_64-randconfig-a014-20230213 (https://download.01.org/0day-ci/archive/20230215/202302152005.h21DIFY2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=742799e0756242478440147ff6400f90b599b6d4
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs pptrs-online-dir-check
+        git checkout 742799e0756242478440147ff6400f90b599b6d4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-That sounds good to me.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302152005.h21DIFY2-lkp@intel.com/
 
-> 
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1677
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17 @1678        for (macid = 0; macid < items; macid++) {
->>                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> This loop doesn't loop.  I see the comment at the end which explains
->> why we have the dead code.  I only review these checker warnings two
->> times and this is my second review so, personally, I don't care if you
->> leave it or not.  But probably other people will review this static
->> checker warning as well so you might want to just delete the loop.
->>
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1679                valid = false;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1680
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1681                if (macid < 64)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1682                        valid = macid_valid & BIT(macid);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1683
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1684                if (valid) {
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1685                        ra->retry[0] =
->> le16_to_cpu(*(__le16 *)rpt);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1686                        ra->retry[1] = rpt[2];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1687                        ra->retry[2] = rpt[3];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1688                        ra->retry[3] = rpt[4];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1689                        ra->retry[4] = rpt[5];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1690                        ra->drop = rpt[6];
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1691                        ra->total = ra->retry[0] +
->> ra->retry[1] + ra->retry[2] +
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1692                                    ra->retry[3] +
->> ra->retry[4] + ra->drop;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1693
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1694                        if (ra->total > 0) {
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1695                                if (ra->ra_stage < 5)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1696
->> rtl8188e_rate_decision(ra);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1697                                else if (ra->ra_stage ==
->> 5)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1698
->> rtl8188e_power_training_try_state(ra);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1699                                else /* ra->ra_stage ==
->> 6 */
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1700
->> rtl8188e_power_training_decision(ra);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1701
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1702                                if (ra->ra_stage <= 5)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1703                                        ra->ra_stage++;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1704                                else
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1705                                        ra->ra_stage =
->> 0;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1706                        }
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1707                } else if (macid == 0) {
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1708                        dev_warn(dev, "%s: TX report item
->> 0 not valid\n", __func__);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1709                }
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1710
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1711                dev_dbg(dev, "%s:  valid: %d retry: %d %d
->> %d %d %d drop: %d\n",
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1712                        __func__, valid,
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1713                        ra->retry[0], ra->retry[1],
->> ra->retry[2],
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1714                        ra->retry[3], ra->retry[4],
->> ra->drop);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1715
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1716                if (min_rpt_time > ra->rpt_time)
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1717                        min_rpt_time = ra->rpt_time;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1718
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1719                rpt += TX_RPT2_ITEM_SIZE;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1720
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1721                /*
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1722                 * We only use macid 0, so only the first
->> item is relevant.
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1723                 * AP mode will use more of them if it's
->> ever implemented.
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1724                 */
->>
->> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1725                break;
->>                                                                 ^^^^^
->>
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1726        }
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1727
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1728        if (min_rpt_time != ra->pre_min_rpt_time) {
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1729                rtl8xxxu_write16(priv,
->> REG_TX_REPORT_TIME, min_rpt_time);
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1730                ra->pre_min_rpt_time = min_rpt_time;
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1731        }
->> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1732  }
->>
->> --
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests
->>
->>
->> ------Please consider the environment before printing this e-mail.
+All errors (new ones prefixed by >>):
 
+   ld: fs/xfs/scrub/dir.o: in function `xchk_dir_finish_slow_dirents':
+>> fs/xfs/scrub/dir.c:1063: undefined reference to `xfblob_load'
+   ld: fs/xfs/scrub/dir.o: in function `xchk_dir_check_pptr_fast':
+>> fs/xfs/scrub/dir.c:207: undefined reference to `xfblob_store'
+   ld: fs/xfs/scrub/dir.o: in function `xchk_directory':
+>> fs/xfs/scrub/dir.c:1145: undefined reference to `xfblob_destroy'
+>> ld: fs/xfs/scrub/dir.c:1125: undefined reference to `xfblob_create'
+   ld: fs/xfs/scrub/listxattr.o: in function `xchk_xattr_find_leftmost_leaf':
+   fs/xfs/scrub/listxattr.c:184: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.c:195: undefined reference to `xbitmap_test'
+   ld: fs/xfs/scrub/listxattr.c:210: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.o: in function `xchk_xattr_walk_node':
+   fs/xfs/scrub/listxattr.c:237: undefined reference to `xbitmap_init'
+   ld: fs/xfs/scrub/listxattr.c:261: undefined reference to `xbitmap_test'
+   ld: fs/xfs/scrub/listxattr.c:270: undefined reference to `xbitmap_set'
+   ld: fs/xfs/scrub/listxattr.c:278: undefined reference to `xbitmap_destroy'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_scan_attr':
+   fs/xfs/scrub/parent.c:578: undefined reference to `xfblob_store'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_slow_pptr':
+   fs/xfs/scrub/parent.c:654: undefined reference to `xfblob_load'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_finish_slow_pptrs':
+   fs/xfs/scrub/parent.c:759: undefined reference to `xfblob_truncate'
+   ld: fs/xfs/scrub/parent.o: in function `xchk_parent_pptr':
+   fs/xfs/scrub/parent.c:789: undefined reference to `xfblob_create'
+   ld: fs/xfs/scrub/parent.c:806: undefined reference to `xfblob_destroy'
+
+
+vim +1063 fs/xfs/scrub/dir.c
+
+  1047	
+  1048	/* Check all the dirents that we deferred the first time around. */
+  1049	STATIC int
+  1050	xchk_dir_finish_slow_dirents(
+  1051		struct xchk_dir		*sd)
+  1052	{
+  1053		xfarray_idx_t		array_cur;
+  1054		int			error;
+  1055	
+  1056		foreach_xfarray_idx(sd->dir_entries, array_cur) {
+  1057			struct xchk_dirent	dirent;
+  1058	
+  1059			error = xfarray_load(sd->dir_entries, array_cur, &dirent);
+  1060			if (error)
+  1061				return error;
+  1062	
+> 1063			error = xfblob_load(sd->dir_names, dirent.name_cookie,
+  1064					sd->namebuf, dirent.namelen);
+  1065			if (error)
+  1066				return error;
+  1067			sd->namebuf[MAXNAMELEN - 1] = 0;
+  1068	
+  1069			error = xchk_dir_slow_dirent(sd, &dirent);
+  1070			if (error)
+  1071				return error;
+  1072		}
+  1073	
+  1074		return 0;
+  1075	}
+  1076	
+  1077	/* Scrub a whole directory. */
+  1078	int
+  1079	xchk_directory(
+  1080		struct xfs_scrub	*sc)
+  1081	{
+  1082		struct xchk_dir		*sd;
+  1083		int			error;
+  1084	
+  1085		if (!S_ISDIR(VFS_I(sc->ip)->i_mode))
+  1086			return -ENOENT;
+  1087	
+  1088		/* Plausible size? */
+  1089		if (sc->ip->i_disk_size < xfs_dir2_sf_hdr_size(0)) {
+  1090			xchk_ino_set_corrupt(sc, sc->ip->i_ino);
+  1091			return 0;
+  1092		}
+  1093	
+  1094		/* Check directory tree structure */
+  1095		error = xchk_da_btree(sc, XFS_DATA_FORK, xchk_dir_rec, NULL);
+  1096		if (error)
+  1097			return error;
+  1098	
+  1099		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
+  1100			return 0;
+  1101	
+  1102		/* Check the freespace. */
+  1103		error = xchk_directory_blocks(sc);
+  1104		if (error)
+  1105			return error;
+  1106	
+  1107		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
+  1108			return 0;
+  1109	
+  1110		sd = kvzalloc(sizeof(struct xchk_dir), XCHK_GFP_FLAGS);
+  1111		if (!sd)
+  1112			return -ENOMEM;
+  1113		sd->sc = sc;
+  1114	
+  1115		if (xfs_has_parent(sc->mp)) {
+  1116			/*
+  1117			 * Set up some staging memory for dirents that we can't check
+  1118			 * due to locking contention.
+  1119			 */
+  1120			error = xfarray_create(sc->mp, "directory entries", 0,
+  1121					sizeof(struct xchk_dirent), &sd->dir_entries);
+  1122			if (error)
+  1123				goto out_sd;
+  1124	
+> 1125			error = xfblob_create(sc->mp, "dirent names", &sd->dir_names);
+  1126			if (error)
+  1127				goto out_entries;
+  1128		}
+  1129	
+  1130		/* Look up every name in this directory by hash. */
+  1131		error = xchk_dir_walk(sc, sc->ip, xchk_dir_actor, sd);
+  1132		if (error == -ECANCELED)
+  1133			error = 0;
+  1134		if (error)
+  1135			goto out_names;
+  1136	
+  1137		if (xfs_has_parent(sc->mp)) {
+  1138			error = xchk_dir_finish_slow_dirents(sd);
+  1139			if (error)
+  1140				goto out_names;
+  1141		}
+  1142	
+  1143	out_names:
+  1144		if (sd->dir_names)
+> 1145			xfblob_destroy(sd->dir_names);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
