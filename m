@@ -1,51 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788782F2F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 21:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E94D2F8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 21:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676496637; x=1708032637;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ruaFmQvw0ZYZOgXQykasAiwomUvuehEVW/GogxRD7bA=;
-  b=EeA0MGNBnVEBvxXN6Y3PCY+XMHhrI/7yWKdImp54Djve0jcPIKMLaEA4
-   V4GFoW9AU9IVTjVym2QzLZb264y0Sgo+yKJn0Or2Qu2+a93eV6+5fAtcV
-   JDPHiHKF4IdTQK7g9+f3GDfd2kZvA+b8iySUfypS+F08MjaJ7ZiLrmF2v
-   xmB+5x6P7M1z2yJDONxQRFlYL7qYulvFQF1BOX49hTGGy9HoZNzh3gqOz
-   6it+uIdkUFH39rewcHQB6y/4QcVDVixbnBqvY/W+jyRFUTsUp2aII0agt
-   hrnCM8VXvGAtooX+jt0xDx4rIKTw8zQdQBIfSBGaW7tmmVpGIr2n9aZ1J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="329270546"
+  t=1676497814; x=1708033814;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IJbxGM1at82ithL2YDgk0zfw5naSstj9UdHguBTKTEA=;
+  b=B+kOfFqYjpdvCwOndafxgz/h7JOOmG9UiJUBCAtSmS4A9mlEayGTOZ2U
+   2XN0bbOvY13wrrkEm8lsI4MukDqdp0KIz0A9jx2N4QXYQNAfLLZW/VfdM
+   EigRKl0ljGgxf2a63UHbi71ZU3a7ShLc1l4BiGuuZPPi1ExJP62I+m94M
+   GXiHAeaVHUEcMuqnTzRQI+z2lmcYYSjp1KEuDs3Vuh4iIKcdk9DiULvKx
+   p/Lhchsmq8S32KbKbi8nh7oA34dESu00dRXPSRIiVXc3Gu6iNhkcBzWoa
+   1/yWQTUTjMgTU1+kN6pDb6yVVSPqW/4WS1FNuQbK0ZuCXtRGdbpu0R9k4
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="315221418"
 X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="329270546"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 13:30:09 -0800
+   d="scan'208";a="315221418"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 13:50:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="915392945"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="812695584"
 X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="915392945"
+   d="scan'208";a="812695584"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 15 Feb 2023 13:30:06 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 13:50:07 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSPLp-0009oF-2t;
-	Wed, 15 Feb 2023 21:30:05 +0000
-Date: Thu, 16 Feb 2023 05:29:14 +0800
+	id 1pSPfC-0009p1-1g;
+	Wed, 15 Feb 2023 21:50:06 +0000
+Date: Thu, 16 Feb 2023 05:49:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, drbd-dev@lists.linbit.com,
-	linux-kernel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-block@vger.kernel.org,
-	Andreas Gruenbacher <agruen@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: Re: [PATCH 3/7] drbd: INFO_bm_xfer_stats(): Pass a peer device
- argument
-Message-ID: <202302160521.CQ9teCgI-lkp@intel.com>
-References: <20230215163204.2856631-4-christoph.boehmwalder@linbit.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-5.10.y 6574/9999] signal.c:undefined reference to
+ `uml_pm_wake'
+Message-ID: <202302160557.XuckggpI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,248 +48,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230215163204.2856631-4-christoph.boehmwalder@linbit.com>
 
-Hi Christoph,
+Hi Johannes,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on a06377c5d01eeeaa52ad979b62c3c72efcc3eff0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-B-hmwalder/drbd-Rip-out-the-ERR_IF_CNT_IS_NEGATIVE-macro/20230216-003454
-base:   a06377c5d01eeeaa52ad979b62c3c72efcc3eff0
-patch link:    https://lore.kernel.org/r/20230215163204.2856631-4-christoph.boehmwalder%40linbit.com
-patch subject: [PATCH 3/7] drbd: INFO_bm_xfer_stats(): Pass a peer device argument
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302160521.CQ9teCgI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
+head:   707c48210a5384a72c82655a37895b7e822755f2
+commit: b58294ce1a8ac8e234abd991255b1d1905520aed [6574/9999] um: Allow PM with suspend-to-idle
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230216/202302160557.XuckggpI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5c0303cbd7f9f393f07ff9b8738a25cb1883e947
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christoph-B-hmwalder/drbd-Rip-out-the-ERR_IF_CNT_IS_NEGATIVE-macro/20230216-003454
-        git checkout 5c0303cbd7f9f393f07ff9b8738a25cb1883e947
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=b58294ce1a8ac8e234abd991255b1d1905520aed
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.10.y
+        git checkout b58294ce1a8ac8e234abd991255b1d1905520aed
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/block/
+        make W=1 O=build_dir ARCH=um olddefconfig
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302160521.CQ9teCgI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302160557.XuckggpI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/block/drbd/drbd_bitmap.c:22:
->> drivers/block/drbd/drbd_int.h:129:39: warning: 'struct drbd_peer_device' declared inside parameter list will not be visible outside of this definition or declaration
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |                                       ^~~~~~~~~~~~~~~~
---
-   In file included from drivers/block/drbd/drbd_receiver.c:37:
->> drivers/block/drbd/drbd_int.h:129:39: warning: 'struct drbd_peer_device' declared inside parameter list will not be visible outside of this definition or declaration
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |                                       ^~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c: In function 'drbd_sync_handshake':
-   drivers/block/drbd/drbd_receiver.c:3593:21: error: too many arguments to function 'drbd_bitmap_io'
-    3593 |                 if (drbd_bitmap_io(device, &drbd_bmio_set_n_write, "set_n_write from sync_handshake",
-         |                     ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c: In function 'receive_uuids':
-   drivers/block/drbd/drbd_receiver.c:4271:25: error: too many arguments to function 'drbd_bitmap_io'
-    4271 |                         drbd_bitmap_io(device, &drbd_bmio_clear_n_write,
-         |                         ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c: At top level:
-   drivers/block/drbd/drbd_receiver.c:4769:6: error: conflicting types for 'INFO_bm_xfer_stats'; have 'void(struct drbd_peer_device *, const char *, struct bm_xfer_ctx *)'
-    4769 | void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:129:13: note: previous declaration of 'INFO_bm_xfer_stats' with type 'void(struct drbd_peer_device *, const char *, struct bm_xfer_ctx *)'
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |             ^~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c: In function 'receive_bitmap':
-   drivers/block/drbd/drbd_receiver.c:4880:23: error: too few arguments to function 'drbd_send_bitmap'
-    4880 |                 err = drbd_send_bitmap(device);
-         |                       ^~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1045:12: note: declared here
-    1045 | extern int drbd_send_bitmap(struct drbd_device *device, struct drbd_peer_device *peer_device);
-         |            ^~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c: In function 'drbd_disconnected':
-   drivers/block/drbd/drbd_receiver.c:5216:40: error: passing argument 2 of 'drbd_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    5216 |                 drbd_bitmap_io(device, &drbd_bm_write_copy_pages,
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int (*)(struct drbd_device *)
-   drivers/block/drbd/drbd_int.h:1073:23: note: expected 'int (*)(struct drbd_device *, struct drbd_peer_device *)' but argument is of type 'int (*)(struct drbd_device *)'
-    1073 |                 int (*io_fn)(struct drbd_device *, struct drbd_peer_device *),
-         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_receiver.c:5216:17: error: too many arguments to function 'drbd_bitmap_io'
-    5216 |                 drbd_bitmap_io(device, &drbd_bm_write_copy_pages,
-         |                 ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/block/drbd/drbd_main.c:46:
->> drivers/block/drbd/drbd_int.h:129:39: warning: 'struct drbd_peer_device' declared inside parameter list will not be visible outside of this definition or declaration
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |                                       ^~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_main.c: In function 'send_bitmap_rle_or_plain':
-   drivers/block/drbd/drbd_main.c:1203:29: error: 'device' redeclared as different kind of symbol
-    1203 |         struct drbd_device *device = peer_device->device;
-         |                             ^~~~~~
-   drivers/block/drbd/drbd_main.c:1201:51: note: previous definition of 'device' with type 'struct drbd_peer_device *'
-    1201 | send_bitmap_rle_or_plain(struct drbd_peer_device *device, struct bm_xfer_ctx *c)
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/block/drbd/drbd_main.c:1203:38: error: 'peer_device' undeclared (first use in this function); did you mean 'phy_device'?
-    1203 |         struct drbd_device *device = peer_device->device;
-         |                                      ^~~~~~~~~~~
-         |                                      phy_device
-   drivers/block/drbd/drbd_main.c:1203:38: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/block/drbd/drbd_main.c: In function '_drbd_send_bitmap':
-   drivers/block/drbd/drbd_main.c:1272:29: error: too few arguments to function 'drbd_bm_write'
-    1272 |                         if (drbd_bm_write(device)) {
-         |                             ^~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1293:13: note: declared here
-    1293 | extern int  drbd_bm_write(struct drbd_device *device,
-         |             ^~~~~~~~~~~~~
-   drivers/block/drbd/drbd_main.c: At top level:
-   drivers/block/drbd/drbd_main.c:3497:6: error: conflicting types for 'drbd_queue_bitmap_io'; have 'void(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), void (*)(struct drbd_device *, int), char *, enum bm_flag,  struct drbd_peer_device *)'
-    3497 | void drbd_queue_bitmap_io(struct drbd_device *device,
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1068:13: note: previous declaration of 'drbd_queue_bitmap_io' with type 'void(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), void (*)(struct drbd_device *, int), char *, enum bm_flag)'
-    1068 | extern void drbd_queue_bitmap_io(struct drbd_device *device,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_main.c:3540:5: error: conflicting types for 'drbd_bitmap_io'; have 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag,  struct drbd_peer_device *)'
-    3540 | int drbd_bitmap_io(struct drbd_device *device,
-         |     ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: previous declaration of 'drbd_bitmap_io' with type 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag)'
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
---
-   In file included from drivers/block/drbd/drbd_nl.c:24:
->> drivers/block/drbd/drbd_int.h:129:39: warning: 'struct drbd_peer_device' declared inside parameter list will not be visible outside of this definition or declaration
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |                                       ^~~~~~~~~~~~~~~~
-   In file included from include/linux/drbd_genl_api.h:54,
-                    from drivers/block/drbd/drbd_int.h:35:
-   include/linux/drbd_genl_api.h:51:33: warning: no previous prototype for 'drbd_genl_cmd_to_str' [-Wmissing-prototypes]
-      51 | #define GENL_MAGIC_FAMILY       drbd
-         |                                 ^~~~
-   include/linux/genl_magic_struct.h:20:25: note: in definition of macro 'CONCAT__'
-      20 | #define CONCAT__(a,b)   a ## b
-         |                         ^
-   include/linux/genl_magic_func.h:212:13: note: in expansion of macro 'CONCAT_'
-     212 | const char *CONCAT_(GENL_MAGIC_FAMILY, _genl_cmd_to_str)(__u8 cmd)
-         |             ^~~~~~~
-   include/linux/genl_magic_func.h:212:21: note: in expansion of macro 'GENL_MAGIC_FAMILY'
-     212 | const char *CONCAT_(GENL_MAGIC_FAMILY, _genl_cmd_to_str)(__u8 cmd)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_determine_dev_size':
-   drivers/block/drbd/drbd_nl.c:1055:70: warning: pointer type mismatch in conditional expression
-    1055 |                 drbd_bitmap_io(device, md_moved ? &drbd_bm_write_all : &drbd_bm_write,
-         |                                                                      ^
-   drivers/block/drbd/drbd_nl.c:1055:17: error: too many arguments to function 'drbd_bitmap_io'
-    1055 |                 drbd_bitmap_io(device, md_moved ? &drbd_bm_write_all : &drbd_bm_write,
-         |                 ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_attach':
-   drivers/block/drbd/drbd_nl.c:2029:21: error: too many arguments to function 'drbd_bitmap_io'
-    2029 |                 if (drbd_bitmap_io(device, &drbd_bmio_set_n_write,
-         |                     ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c:2036:21: error: too many arguments to function 'drbd_bitmap_io'
-    2036 |                 if (drbd_bitmap_io(device, &drbd_bm_read,
-         |                     ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_invalidate':
-   drivers/block/drbd/drbd_nl.c:2976:29: error: too many arguments to function 'drbd_bitmap_io'
-    2976 |                         if (drbd_bitmap_io(device, &drbd_bmio_set_n_write,
-         |                             ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_bmio_set_susp_al':
-   drivers/block/drbd/drbd_nl.c:3014:14: error: too few arguments to function 'drbd_bmio_set_n_write'
-    3014 |         rv = drbd_bmio_set_n_write(device);
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1078:12: note: declared here
-    1078 | extern int drbd_bmio_set_n_write(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_invalidate_peer':
-   drivers/block/drbd/drbd_nl.c:3055:52: error: passing argument 2 of 'drbd_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    3055 |                         if (drbd_bitmap_io(device, &drbd_bmio_set_susp_al,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~
-         |                                                    |
-         |                                                    int (*)(struct drbd_device *)
-   drivers/block/drbd/drbd_int.h:1073:23: note: expected 'int (*)(struct drbd_device *, struct drbd_peer_device *)' but argument is of type 'int (*)(struct drbd_device *)'
-    1073 |                 int (*io_fn)(struct drbd_device *, struct drbd_peer_device *),
-         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c:3055:29: error: too many arguments to function 'drbd_bitmap_io'
-    3055 |                         if (drbd_bitmap_io(device, &drbd_bmio_set_susp_al,
-         |                             ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_new_c_uuid':
-   drivers/block/drbd/drbd_nl.c:4152:23: error: too many arguments to function 'drbd_bitmap_io'
-    4152 |                 err = drbd_bitmap_io(device, &drbd_bmio_clear_n_write,
-         |                       ^~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
-    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/block/drbd/drbd_state.c:17:
->> drivers/block/drbd/drbd_int.h:129:39: warning: 'struct drbd_peer_device' declared inside parameter list will not be visible outside of this definition or declaration
-     129 | extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-         |                                       ^~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c:1520:5: error: conflicting types for 'drbd_bitmap_io_from_worker'; have 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag,  struct drbd_peer_device *)'
-    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_int.h:1075:12: note: previous declaration of 'drbd_bitmap_io_from_worker' with type 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag)'
-    1075 | extern int drbd_bitmap_io_from_worker(struct drbd_device *device,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c: In function 'after_state_ch':
-   drivers/block/drbd/drbd_state.c:1842:25: error: too few arguments to function 'drbd_bitmap_io_from_worker'
-    1842 |                         drbd_bitmap_io_from_worker(device, &drbd_bm_write,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c:1520:5: note: declared here
-    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c:1854:17: error: too few arguments to function 'drbd_bitmap_io_from_worker'
-    1854 |                 drbd_bitmap_io_from_worker(device, &drbd_bm_write,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c:1520:5: note: declared here
-    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/drbd/drbd_state.c:2014:46: error: passing argument 2 of 'drbd_queue_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2014 |                 drbd_queue_bitmap_io(device, &drbd_bm_write_copy_pages, NULL,
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                              |
-         |                                              int (*)(struct drbd_device *)
-   drivers/block/drbd/drbd_int.h:1069:40: note: expected 'int (*)(struct drbd_device *, struct drbd_peer_device *)' but argument is of type 'int (*)(struct drbd_device *)'
-    1069 |                                  int (*io_fn)(struct drbd_device *, struct drbd_peer_device *),
-         |                                  ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +129 drivers/block/drbd/drbd_int.h
-
-   128	
- > 129	extern void INFO_bm_xfer_stats(struct drbd_peer_device *peer_device,
-   130				       const char *direction, struct bm_xfer_ctx *c);
-   131	
+   /usr/bin/ld: warning: arch/x86/um/checksum_32.o: missing .note.GNU-stack section implies executable stack
+   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   /usr/bin/ld: warning: vmlinux has a LOAD segment with RWX permissions
+   /usr/bin/ld: arch/um/os-Linux/signal.o: in function `sigusr1_handler':
+>> signal.c:(.text+0x211): undefined reference to `uml_pm_wake'
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
