@@ -1,251 +1,76 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96986109
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 14:50:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676472659; x=1708008659;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bh9/fOf0V8BY4meyG2dfrHrJuNPOul9MAY6SVDqKPEc=;
-  b=Tys0m5ax39nNFOstixbz9gFAWA5FlnAspPkXuScfEAjnbmiwBS3py5fB
-   7gymddEKIYbU3IbYtiPPxMKZRqJp+h5CStSBRDsQpZU9pKnO8oI4qdUyI
-   mGWIp4Xd/ceFTvvt6erGmjNwuLI7FJjcO9B6j0VZ67l/4I4DNeKjsOYw2
-   t0T6SjEKJdPLjVTDJed79j8ssvKIjQumXykJS00lWrP0qlWua26pm4lAa
-   JU8njayhgaYzYiiInWAwh+Xfhj2NMVzZK+sDi3h7JKou4rPQrGjWdGb3l
-   +9OxDu5QxJbFEYFLmmeHFkShBER7G+EGUvI/BqlfIHGLuCDUS50MMlPxK
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="331442765"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="331442765"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 06:50:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699994161"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="699994161"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 Feb 2023 06:50:55 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSJ7R-0009Sr-2A;
-	Wed, 15 Feb 2023 14:50:49 +0000
-Date: Wed, 15 Feb 2023 22:50:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Oleg Nesterov <oleg@redhat.com>
-Subject: [stable:linux-4.19.y 2646/5220] kernel/ptrace.c:1136: Error:
- unrecognized opcode `csrs sstatus,s7'
-Message-ID: <202302152244.JibZKLpk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD18E6109
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 14:59:45 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id fi26so22486957edb.7
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 06:59:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BJEd3xf0w2y1UrC2QqcN8kYtS3GpAcL6pZcspWXDrFE=;
+        b=xK7D2MQP0J8JVaXBf1SZR0vJ02phOG94ObTXezfGCTo2t5OwzfjjeXQmsEcuynmU3v
+         7vMUbGEz2NAc4M3aV3mftVvqC061fVmv+2V4yRyfvlQ8r4+Oh9qUI+F3bXki1tN9ABk1
+         5RRxvlC0RZuPPspTBShH7RoY7pRkT27ewFYXPS6Hf5J30lxersMVrONIeV2UtD0amfVU
+         En0FPn9MG6x8Ud9r9Ygh0qfs87rR6ZyU8/8f3q+sliq5KeMJSr50JXKGMjyMfgbAxmGO
+         t2t95ULeAS7Q30fO5QPPYZ6swvogqgkZcsBtVQwZ2vw+cNezTHkbup1jx065Ti6SglDq
+         ep8g==
+X-Gm-Message-State: AO0yUKXvFSBqF7EFNZ3W4kQWbf4cNC6pRCaoDr5yOp0xCZ1I+q2OxOle
+	RN9ZY4E0oCWZBCQgHaiEmEXYoAuLMj2cH4nGfr4=
+X-Google-Smtp-Source: AK7set/7Sd+0n3IR1XuI2Nft/LvrCloss5wlyYLmGs5b5V96smi/VRFv26exlqom9DfKqZS4gO42m5/LKHmuJeERXRE=
+X-Received: by 2002:a50:ce42:0:b0:4ad:4c0:c4f9 with SMTP id
+ k2-20020a50ce42000000b004ad04c0c4f9mr1153565edj.3.1676473183964; Wed, 15 Feb
+ 2023 06:59:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230215123253.41552-1-bagasdotme@gmail.com> <20230215123253.41552-4-bagasdotme@gmail.com>
+ <Y+zqKk1BTvIe5+5r@amd.com>
+In-Reply-To: <Y+zqKk1BTvIe5+5r@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 15 Feb 2023 15:59:32 +0100
+Message-ID: <CAJZ5v0i_+rutzGF05XdEJ5e6dN6PYegX7+0FuoaGBrvizFFS=w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Documentation: amd-pstate: disambiguate user space sections
+To: Huang Rui <ray.huang@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Next Mailing List <linux-next@vger.kernel.org>, 
+	Linux Power Management <linux-pm@vger.kernel.org>, Linux BPF Development <bpf@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, 
+	Dave Marchevsky <davemarchevsky@fb.com>, "Yuan, Perry" <Perry.Yuan@amd.com>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, "Karny, Wyes" <Wyes.Karny@amd.com>, 
+	"Limonciello, Mario" <Mario.Limonciello@amd.com>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Eric,
+On Wed, Feb 15, 2023 at 3:21 PM Huang Rui <ray.huang@amd.com> wrote:
+>
+> On Wed, Feb 15, 2023 at 08:32:53PM +0800, Bagas Sanjaya wrote:
+> > kernel test robot reported htmldocs warning:
+> >
+> > Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
+> >
+> > The documentation contains two sections with the same "User Space Interface
+> > in ``sysfs``" title. The first one deals with per-policy sysfs and the
+> > second one is about general attributes (currently only global attributes
+> > are documented).
+> >
+> > Disambiguate title text of both sections to fix the warning.
+> >
+> > Link: https://lore.kernel.org/linux-doc/202302151041.0SWs1RHK-lkp@intel.com/
+> > Fixes: b9e6a2d47b2565 ("Documentation: amd-pstate: introduce new global sysfs attributes")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> Acked-by: Huang Rui <ray.huang@amd.com>
 
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   53b696f0584acce2e90db69272a2a11aab138370
-commit: 77508cd7695d09da1f7281e23907ad0ed70d8465 [2646/5220] ptrace: Reimplement PTRACE_KILL by always sending SIGKILL
-config: riscv-randconfig-r025-20230212 (https://download.01.org/0day-ci/archive/20230215/202302152244.JibZKLpk-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=77508cd7695d09da1f7281e23907ad0ed70d8465
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout 77508cd7695d09da1f7281e23907ad0ed70d8465
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302152244.JibZKLpk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   kernel/ptrace.c:1046:17: note: in expansion of macro 'if'
-    1046 |                 if (likely(task_set_jobctl_pending(child, JOBCTL_TRAP_STOP)))
-         |                 ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   kernel/ptrace.c:1046:21: note: in expansion of macro 'likely'
-    1046 |                 if (likely(task_set_jobctl_pending(child, JOBCTL_TRAP_STOP)))
-         |                     ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   kernel/ptrace.c:1046:17: note: in expansion of macro 'if'
-    1046 |                 if (likely(task_set_jobctl_pending(child, JOBCTL_TRAP_STOP)))
-         |                 ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   kernel/ptrace.c:1062:17: note: in expansion of macro 'if'
-    1062 |                 if (unlikely(!seized || !lock_task_sighand(child, &flags)))
-         |                 ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   kernel/ptrace.c:1062:21: note: in expansion of macro 'unlikely'
-    1062 |                 if (unlikely(!seized || !lock_task_sighand(child, &flags)))
-         |                     ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   kernel/ptrace.c:1062:17: note: in expansion of macro 'if'
-    1062 |                 if (unlikely(!seized || !lock_task_sighand(child, &flags)))
-         |                 ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   kernel/ptrace.c:1066:17: note: in expansion of macro 'if'
-    1066 |                 if (likely(si && (si->si_code >> 8) == PTRACE_EVENT_STOP)) {
-         |                 ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   kernel/ptrace.c:1066:21: note: in expansion of macro 'likely'
-    1066 |                 if (likely(si && (si->si_code >> 8) == PTRACE_EVENT_STOP)) {
-         |                     ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   kernel/ptrace.c:1066:17: note: in expansion of macro 'if'
-    1066 |                 if (likely(si && (si->si_code >> 8) == PTRACE_EVENT_STOP)) {
-         |                 ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   kernel/ptrace.c:1133:17: note: in expansion of macro 'if'
-    1133 |                 if (!access_ok(VERIFY_WRITE, uiov, sizeof(*uiov)))
-         |                 ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:81:9: note: in expansion of macro 'likely'
-      81 |         likely(__access_ok((unsigned long __force)(addr), (size)));     \
-         |         ^~~~~~
-   kernel/ptrace.c:1133:22: note: in expansion of macro 'access_ok'
-    1133 |                 if (!access_ok(VERIFY_WRITE, uiov, sizeof(*uiov)))
-         |                      ^~~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   kernel/ptrace.c:1133:17: note: in expansion of macro 'if'
-    1133 |                 if (!access_ok(VERIFY_WRITE, uiov, sizeof(*uiov)))
-         |                 ^~
-   kernel/ptrace.c: Assembler messages:
-   kernel/ptrace.c:1220: Error: unrecognized opcode `csrs sstatus,a4'
-   kernel/ptrace.c:1220: Error: unrecognized opcode `csrc sstatus,a4'
-   kernel/ptrace.c:955: Error: unrecognized opcode `csrs sstatus,a4'
-   kernel/ptrace.c:955: Error: unrecognized opcode `csrc sstatus,a4'
->> kernel/ptrace.c:1136: Error: unrecognized opcode `csrs sstatus,s7'
->> kernel/ptrace.c:1136: Error: unrecognized opcode `csrc sstatus,s7'
->> kernel/ptrace.c:1136: Error: unrecognized opcode `csrs sstatus,s7'
->> kernel/ptrace.c:1136: Error: unrecognized opcode `csrc sstatus,s7'
-   kernel/ptrace.c:1142: Error: unrecognized opcode `csrs sstatus,s7'
-   kernel/ptrace.c:1142: Error: unrecognized opcode `csrc sstatus,s7'
-
-
-vim +1136 kernel/ptrace.c
-
-9c1a125921d146 Mike Frysinger    2010-05-26  1108  
-36df29d7994180 Roland McGrath    2008-01-30  1109  #ifdef PTRACE_SINGLESTEP
-36df29d7994180 Roland McGrath    2008-01-30  1110  	case PTRACE_SINGLESTEP:
-36df29d7994180 Roland McGrath    2008-01-30  1111  #endif
-5b88abbf770a0e Roland McGrath    2008-01-30  1112  #ifdef PTRACE_SINGLEBLOCK
-5b88abbf770a0e Roland McGrath    2008-01-30  1113  	case PTRACE_SINGLEBLOCK:
-5b88abbf770a0e Roland McGrath    2008-01-30  1114  #endif
-36df29d7994180 Roland McGrath    2008-01-30  1115  #ifdef PTRACE_SYSEMU
-36df29d7994180 Roland McGrath    2008-01-30  1116  	case PTRACE_SYSEMU:
-36df29d7994180 Roland McGrath    2008-01-30  1117  	case PTRACE_SYSEMU_SINGLESTEP:
-36df29d7994180 Roland McGrath    2008-01-30  1118  #endif
-36df29d7994180 Roland McGrath    2008-01-30  1119  	case PTRACE_SYSCALL:
-36df29d7994180 Roland McGrath    2008-01-30  1120  	case PTRACE_CONT:
-36df29d7994180 Roland McGrath    2008-01-30  1121  		return ptrace_resume(child, request, data);
-36df29d7994180 Roland McGrath    2008-01-30  1122  
-36df29d7994180 Roland McGrath    2008-01-30  1123  	case PTRACE_KILL:
-77508cd7695d09 Eric W. Biederman 2022-04-29  1124  		send_sig_info(SIGKILL, SEND_SIG_NOINFO, child);
-36df29d7994180 Roland McGrath    2008-01-30  1125  		return 0;
-36df29d7994180 Roland McGrath    2008-01-30  1126  
-2225a122ae26d5 Suresh Siddha     2010-02-11  1127  #ifdef CONFIG_HAVE_ARCH_TRACEHOOK
-2225a122ae26d5 Suresh Siddha     2010-02-11  1128  	case PTRACE_GETREGSET:
-29000caecbe87b Andrey Vagin      2013-07-03  1129  	case PTRACE_SETREGSET: {
-2225a122ae26d5 Suresh Siddha     2010-02-11  1130  		struct iovec kiov;
-9fed81dc40f5a1 Namhyung Kim      2010-10-27  1131  		struct iovec __user *uiov = datavp;
-2225a122ae26d5 Suresh Siddha     2010-02-11  1132  
-2225a122ae26d5 Suresh Siddha     2010-02-11  1133  		if (!access_ok(VERIFY_WRITE, uiov, sizeof(*uiov)))
-2225a122ae26d5 Suresh Siddha     2010-02-11  1134  			return -EFAULT;
-2225a122ae26d5 Suresh Siddha     2010-02-11  1135  
-2225a122ae26d5 Suresh Siddha     2010-02-11 @1136  		if (__get_user(kiov.iov_base, &uiov->iov_base) ||
-2225a122ae26d5 Suresh Siddha     2010-02-11  1137  		    __get_user(kiov.iov_len, &uiov->iov_len))
-2225a122ae26d5 Suresh Siddha     2010-02-11  1138  			return -EFAULT;
-2225a122ae26d5 Suresh Siddha     2010-02-11  1139  
-2225a122ae26d5 Suresh Siddha     2010-02-11  1140  		ret = ptrace_regset(child, request, addr, &kiov);
-2225a122ae26d5 Suresh Siddha     2010-02-11  1141  		if (!ret)
-2225a122ae26d5 Suresh Siddha     2010-02-11  1142  			ret = __put_user(kiov.iov_len, &uiov->iov_len);
-2225a122ae26d5 Suresh Siddha     2010-02-11  1143  		break;
-2225a122ae26d5 Suresh Siddha     2010-02-11  1144  	}
-2225a122ae26d5 Suresh Siddha     2010-02-11  1145  #endif
-f8e529ed941ba2 Tycho Andersen    2015-10-27  1146  
-f8e529ed941ba2 Tycho Andersen    2015-10-27  1147  	case PTRACE_SECCOMP_GET_FILTER:
-f8e529ed941ba2 Tycho Andersen    2015-10-27  1148  		ret = seccomp_get_filter(child, addr, datavp);
-f8e529ed941ba2 Tycho Andersen    2015-10-27  1149  		break;
-f8e529ed941ba2 Tycho Andersen    2015-10-27  1150  
-26500475ac1b49 Tycho Andersen    2017-10-11  1151  	case PTRACE_SECCOMP_GET_METADATA:
-26500475ac1b49 Tycho Andersen    2017-10-11  1152  		ret = seccomp_get_metadata(child, addr, datavp);
-26500475ac1b49 Tycho Andersen    2017-10-11  1153  		break;
-26500475ac1b49 Tycho Andersen    2017-10-11  1154  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1155  	default:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1156  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1157  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1158  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1159  	return ret;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1160  }
-481bed45424753 Christoph Hellwig 2005-11-07  1161  
-
-:::::: The code at line 1136 was first introduced by commit
-:::::: 2225a122ae26d542bdce523d9d87a4a7ba10e07b ptrace: Add support for generic PTRACE_GETREGSET/PTRACE_SETREGSET
-
-:::::: TO: Suresh Siddha <suresh.b.siddha@intel.com>
-:::::: CC: H. Peter Anvin <hpa@zytor.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Applied as 6.3 material, thanks!
