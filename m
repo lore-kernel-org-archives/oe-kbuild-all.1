@@ -1,80 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC947B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 16:50:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 45701C433EF;
-	Wed, 15 Feb 2023 16:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676479817;
-	bh=QeMABZ30EUa3T2qfy+hxFQFwxIHlCCWIHBouH1cg8o4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Lwba+EvReADHUwOSU6mj2eSlQ23G2H3hGDxuV2c+kPjDIJXo3F+bCF7GAAKRosuFm
-	 Kt0hlSp80LVo/G2PLTSxwrsjjb5Wz/xnA0ImsFJ7nw90zIZ+e+ImHI3PEn5xQLOVQv
-	 Fb8n1HkutjyLatOU3vfIpFsP+qz+gQvhWGgzeGB5jsnZoKFMEduse15+YwbTT9w19w
-	 OBrUwKCZcPY0ascl4CZeHUOTWrhGtudq+SvZJSGxb17tXB0OLiEDgDRHFHRCqk1aMH
-	 aKNnsDhhS0jbSrqoWUl7m9ip3mLbzSQ2haTD114zfAAG3UOl4y2Q4c6OwhJSc3avQg
-	 6um4Esnl6xlYA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 251E0C41677;
-	Wed, 15 Feb 2023 16:50:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB68A7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 16:56:53 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id fj20so23312953edb.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 08:56:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=p1cg1DRRz1JaMZzQz5gjyIGRehXA474aTNt2f/uRSJM=;
+        b=IF764ANRJyJU6rYoxIAVp600GErFsJFtOfOrweZTY0EZxhCMGg8kYMwmPB79DFXQX6
+         9ksZNgzzzHFUpgOhlMX6VtbAf8ro5CIEfRzIfDEzAVWqFAn/SeZm7jGolFrMEKOxLl0t
+         bhEqAp0flrWasbRkAgTP7MO+IBu2OSkWo6rmqVKLcMRz2LXBk8tlOEBtUQPLml9amAZA
+         ISxnQEY+DIzlJL0DWbbCDV0OoEnZ2h6nXcefvREEzUZILgTsTwRqiwM+thBauoc1oAUM
+         dJEhj+DbMefbj/i9Q87hzP6W+Epk31x8vQEenktbihmSrc1bG62OrLCMvC+/vczz2kVT
+         ZI8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p1cg1DRRz1JaMZzQz5gjyIGRehXA474aTNt2f/uRSJM=;
+        b=QV+s1s1NTR2VRjvfj4hb4OMODXkLpwgKO5CXCm3ttpK1Ijh/ZNH6o9seMlM8oHSGh4
+         hoiRQwC8woX02GsJfJimnu4CtmydP2qB1gkFK50P8PIU3PCbzx6OZHxTWwwO8KDRgn8z
+         GQhNXT5TYZwIrR3PZav34DAlA4nA3cGOSdxX/AZq9IqiBMz1w+8SeKodOxmEinTK9Znf
+         pTb2G1LT9zTmvuzdtsIiM5JmTiNujEBIS99mdRF8edVdoHQO2qYZxfXkoF/41Cbv94HC
+         BPHrEsgXKXlh8KxoBEPFTR3PhfsePrh0qvY8o1Li/X7sRjohCbuuobnlk2LVeHpwAuE3
+         QeDQ==
+X-Gm-Message-State: AO0yUKV61g3u4XRSCK2yRkX5/8SlYZ5K/1crjPpojiQA31BflFlwpNor
+	3q2b5kT55BCsuY76YqdW8hrNs9Dp3lv8Xo84US6IyQ==
+X-Google-Smtp-Source: AK7set/orVNgERaoDcGFR7X5BTU7TYwffuscXH0ZtL+qYOwGEL8EdaONdtfrxp4hHOSVReHJAO1mKX38bhTMGemL9+M=
+X-Received: by 2002:a50:d51a:0:b0:4ac:be68:c0f8 with SMTP id
+ u26-20020a50d51a000000b004acbe68c0f8mr1516714edi.5.1676480211799; Wed, 15 Feb
+ 2023 08:56:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/3] Documentation fixes for next-20230215
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <167647981714.6958.9219328838471519095.git-patchwork-notify@kernel.org>
-Date: Wed, 15 Feb 2023 16:50:17 +0000
-References: <20230215123253.41552-1-bagasdotme@gmail.com>
-In-Reply-To: <20230215123253.41552-1-bagasdotme@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, linux-pm@vger.kernel.org, bpf@vger.kernel.org,
- corbet@lwn.net, ray.huang@amd.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
- haoluo@google.com, jolsa@kernel.org, pbonzini@redhat.com,
- thomas.lendacky@amd.com, davemarchevsky@fb.com, perry.yuan@amd.com,
- rafael.j.wysocki@intel.com, wyes.karny@amd.com, mario.limonciello@amd.com,
- oe-kbuild-all@lists.linux.dev
+References: <20230212092715.1422619-4-davemarchevsky@fb.com>
+ <202302121936.t36vlAFG-lkp@intel.com> <d04d33ff-0f8f-2bbd-3a67-9b8b813a799b@meta.com>
+ <CAKwvOdketskm5z25aPRY7OsBOZe2kzvXV-i9RDTbwcLpZSAT0A@mail.gmail.com>
+ <CAADnVQ+qJMAugDDQXaerRbh0g4QdRygMZ_0UVmXViR2aJ4OLDQ@mail.gmail.com>
+ <CABCJKucDXNeGCdD6uT7phYhpm+OgYm19EkfCNMB9AJ66k4NcvQ@mail.gmail.com>
+ <Y+tupCQ/X38AlvY0@hirez.programming.kicks-ass.net> <CABCJKuc1iqHjg9ERVXMHO00rOqaNGM=d7xTvB4f6fTM4J4-nTA@mail.gmail.com>
+ <CAADnVQJz4uCWwLigFUXi-W=fnW-AencgNz52SwKBuDCkzNNMpQ@mail.gmail.com> <Y+ypV+Ninap11QeX@hirez.programming.kicks-ass.net>
+In-Reply-To: <Y+ypV+Ninap11QeX@hirez.programming.kicks-ass.net>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Wed, 15 Feb 2023 08:56:15 -0800
+Message-ID: <CABCJKufd8fnaLYH+Mujq2ijsA40+6+QjDahfFej0=gkEad+ikQ@mail.gmail.com>
+Subject: Re: [PATCH v5 bpf-next 3/9] bpf: Add bpf_rbtree_{add,remove,first} kfuncs
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Dave Marchevsky <davemarchevsky@meta.com>, 
+	kernel test robot <lkp@intel.com>, Dave Marchevsky <davemarchevsky@fb.com>, bpf <bpf@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, oe-kbuild-all@lists.linux.dev, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Kernel Team <kernel-team@fb.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Joao Moreira <joao@overdrivepizza.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+On Wed, Feb 15, 2023 at 1:44 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Tue, Feb 14, 2023 at 03:59:57PM -0800, Alexei Starovoitov wrote:
+> > How is 'kcfi' 32-bit hash computed?
+> > Some kind of hash of type id-s?
+>
+> Yes. Specifically I think a hash of the C++ name mangled function
+> signature. (which is giving pain with eg. Rust because then the C++
+> mangling isn't specific enough or somesuch, I'm sure Sami can easily
+> find it if you want to know more)
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+The Rust pain is mostly about type system differences when it comes to
+integer types, but we're working on fixing that.
 
-On Wed, 15 Feb 2023 19:32:50 +0700 you wrote:
-> Here are fixes for documentation (htmldocs) warnings as reported for
-> next-20230215. The changelog below should be self-explanatory.
-> 
-> Each patch can be applied separately by respective maintainers.
-> 
-> Bagas Sanjaya (3):
->   Documentation: hw-vuln: Wrap mitigate_smt_rsb example in literal code
->     block
->   Documentation: bpf: Add missing line break separator in node_data
->     struct code block
->   Documentation: amd-pstate: disambiguate user space sections
-> 
-> [...]
+> > Also what to do with the situation when kernel is compiled with GCC
+> > while bpf progs are with clang? and the other way around ?
+> > gcc-bpf can compile all of selftests/bpf, but not yet run them.
+>
+> As of yet GCC doesn't support kCFI, so mixing is not possible at
+> present. kCFI fundamentally changes the C ABI in incompatible ways.
 
-Here is the summary with links:
-  - [1/3] Documentation: hw-vuln: Wrap mitigate_smt_rsb example in literal code block
-    (no matching commit)
-  - [2/3] Documentation: bpf: Add missing line break separator in node_data struct code block
-    https://git.kernel.org/bpf/bpf-next/c/e2d323a1f009
-  - [3/3] Documentation: amd-pstate: disambiguate user space sections
-    (no matching commit)
+When it comes to the BPF programs themselves, it shouldn't matter
+which compiler you use to compile them as the BPF back-end doesn't
+emit CFI instrumentation. I'm also fairly sure that the function type
+in the BPF C program doesn't necessarily have to exactly match the
+function pointer type used to call the JIT compiled version of that
+function in the kernel, and the latter one is what actually matters.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Sami
