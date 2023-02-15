@@ -1,125 +1,105 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C573539E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 12:33:05 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id e17so11227741plg.12
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 04:33:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eRYLFMN4nFfXhPgoEELUJ9OsPT49XxcunYWNJLqgHSE=;
-        b=WenDNGndpb/OSq3BzcF6AU3IZXn+RPN86YMLQ1QAjyzlmWKFtjKkKO2TlGZgVAYCpo
-         UAkXUeUz+Idqs0+U8qIe5aPdJLTHoopwAPoUY2CB9/2J7JKNdtZAGmSZ5KgMYG9sd1Ct
-         5YvE92DdHS95Ri6z93aJzRFBtJc/eshbltJ7LjHz5oiPaeMp/GEj/+3lOAQBFumZLU2w
-         T03SoIBlOxlx2tWBZoZYhG/hhVZ0HiiwYUY+jxmRVK7yIALJtxLH3ULmnW8RQNwKlwi2
-         KXE3BijWsSpgsFOEOGJ+xICM8nKaCvs/CHek3MVct7wyJ2fuZeKrsKmTpcTypmnt9M+/
-         E5Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eRYLFMN4nFfXhPgoEELUJ9OsPT49XxcunYWNJLqgHSE=;
-        b=S1S5Z/GoP8nvWa9pTesdak1zGSvmmcJGfe1PB6uUUcmQ811L/o6A77TJ5D3Hij71ul
-         5ngoFnW1DzQMDDUmHU4Dl/knYuCEQKjCjx8hamZP+HFTLI/uDYY/RzNECLeXylHkWd30
-         LaSdhLQpz2mTBGTggxR2UE5DRProkcNKp+E+ROVhJivhNKgmUcN5cMvEiTJuCV0UAsuq
-         0AfCuZLSv493IIB8Rwi93kN+VGTnePWKwVopdqhFRrVT+KO1XYj6V7tkvwICEMXSCHbi
-         69FLBsDbduQ5QsOgU7+uN8PhOK5kKxStYkBJkwU2ExThdWL/YZykkzPQSwv9Cri5r326
-         16rA==
-X-Gm-Message-State: AO0yUKUXpzhRNZE7CB5mGrW/ZNj8hOZRrhyLYhiXW+O96PnAKbseVOoI
-	fH2wb9eQy9FG43koADkC/Hs=
-X-Google-Smtp-Source: AK7set9faJsxJ1uXq3wGy4JnDCcAdhfoq2C2lUxY6bVSO3jdVojAZu8HlLQSLCp/vIoEWCICqX7MgQ==
-X-Received: by 2002:a17:90b:3909:b0:234:13a3:6e67 with SMTP id ob9-20020a17090b390900b0023413a36e67mr2715633pjb.12.1676464384730;
-        Wed, 15 Feb 2023 04:33:04 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
-        by smtp.gmail.com with ESMTPSA id fv21-20020a17090b0e9500b00230b8431323sm1384004pjb.30.2023.02.15.04.33.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 04:33:03 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-	id DAECA105484; Wed, 15 Feb 2023 19:32:59 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Linux Power Management <linux-pm@vger.kernel.org>,
-	Linux BPF Development <bpf@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Huang Rui <ray.huang@amd.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dave Marchevsky <davemarchevsky@fb.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Wyes Karny <wyes.karny@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/3] Documentation: bpf: Add missing line break separator in node_data struct code block
-Date: Wed, 15 Feb 2023 19:32:52 +0700
-Message-Id: <20230215123253.41552-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230215123253.41552-1-bagasdotme@gmail.com>
-References: <20230215123253.41552-1-bagasdotme@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0141429A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 12:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676465152; x=1708001152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ArTeTBl6HoOFZclYi5EBGCWmiDoltI/AT5lZ8Q0N0Tc=;
+  b=LUl8RwjvJvHWsbMm3lYFWgmu6ovPceV9XW2/YVQQd0Pa7TiexFx6GQG5
+   AMcTkq/5R7AfDDahp0nuNsBZSJkaB1iucFxqycaliKmh9wpH3SJ5pCpBs
+   7ZYSkOeyIeeXzvrnb2XOi2j1be13BeHC4jd5NjgHgDFloWdp1zRFYOMBR
+   1gBw0SrfCIbPdm2DIsZXHxBiTE1pDlmQJIy5pYQgpnS7RqohEyRMTluOG
+   KWfC+Nz/a2TWnsof+LjajXdhoCZpjaT7WgB/b+wX0GmKq19XptSKxRW+9
+   Etql2lcZGh0xfkVhw45clO6fxbjDdMRsvpYCp1oz0cAOCmny97ED/4+3q
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="417638104"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="417638104"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 04:45:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="669600690"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="669600690"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 15 Feb 2023 04:45:46 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSHAP-0009MX-35;
+	Wed, 15 Feb 2023 12:45:45 +0000
+Date: Wed, 15 Feb 2023 20:45:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herve Codina <herve.codina@bootlin.com>, Li Yang <leoyang.li@nxp.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Qiang Zhao <qiang.zhao@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 06/10] soc: fsl: cmp1: Add support for QMC
+Message-ID: <202302152037.NXHi2aFY-lkp@intel.com>
+References: <20230126083222.374243-7-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1458; i=bagasdotme@gmail.com; h=from:subject; bh=62NwC64cjyAWhaFrYFce2C+F3brashgF6x6NuyaIXGQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlvLnxJDvu8+uerssOvXIurX3etDJp9S391wButPqOtN0M+ pAiJd5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAivs4M/6vD4+0UbR96/M7N/mkr0l oXynWj6JXZT9Vvqzev/St1xYzhr1jpisvCG8X+nek/Zj3dkLPM62Btja/vu8uT+mN7I46sZQcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126083222.374243-7-herve.codina@bootlin.com>
 
-Stephen Rothwell reported htmldocs warning when merging bpf-next tree,
-which was the same warning as reported by kernel test robot:
+Hi Herve,
 
-Documentation/bpf/graph_ds_impl.rst:62: ERROR: Error in "code-block" directive:
-maximum 1 argument(s) allowed, 12 supplied.
+I love your patch! Yet something to improve:
 
-The error is due to Sphinx confuses node_data struct declaration with
-code-block directive option.
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on robh/for-next powerpc/next powerpc/fixes linus/master v6.2-rc8 next-20230215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fix the warning by separating the code-block marker with node_data struct
-declaration.
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/dt-bindings-soc-fsl-cpm_qe-Add-TSA-controller/20230128-152424
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230126083222.374243-7-herve.codina%40bootlin.com
+patch subject: [PATCH v4 06/10] soc: fsl: cmp1: Add support for QMC
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230215/202302152037.NXHi2aFY-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/20ec2eacb76ca7252aa2934f53357663652edd0f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Herve-Codina/dt-bindings-soc-fsl-cpm_qe-Add-TSA-controller/20230128-152424
+        git checkout 20ec2eacb76ca7252aa2934f53357663652edd0f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
-Link: https://lore.kernel.org/linux-next/20230215144505.4751d823@canb.auug.org.au/
-Link: https://lore.kernel.org/linux-doc/202302151123.wUE5FYFx-lkp@intel.com/
-Fixes: c31315c3aa0929 ("bpf, documentation: Add graph documentation for non-owning refs")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/bpf/graph_ds_impl.rst | 1 +
- 1 file changed, 1 insertion(+)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302152037.NXHi2aFY-lkp@intel.com/
 
-diff --git a/Documentation/bpf/graph_ds_impl.rst b/Documentation/bpf/graph_ds_impl.rst
-index 8bbf1815efe784..61274622b71d85 100644
---- a/Documentation/bpf/graph_ds_impl.rst
-+++ b/Documentation/bpf/graph_ds_impl.rst
-@@ -60,6 +60,7 @@ The new-style data structures are intrusive and are defined similarly to their
- vanilla kernel counterparts:
- 
- .. code-block:: c
-+
-         struct node_data {
-           long key;
-           long data;
+All errors (new ones prefixed by >>):
+
+   powerpc-linux-ld: drivers/soc/fsl/qe/qmc.o: in function `qmc_probe':
+>> qmc.c:(.text.qmc_probe+0xd8): undefined reference to `get_immrbase'
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
