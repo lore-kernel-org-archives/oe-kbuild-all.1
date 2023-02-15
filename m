@@ -1,44 +1,52 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0A6109
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 14:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8293610C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 14:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676472658; x=1708008658;
+  t=1676472659; x=1708008659;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z8QWS9hju6+0HMB8NQL5CsaZNGrHpaJS0+vxpn9v6CY=;
-  b=kOwxINAsYmUL39NBAUt+/z4znP4MbMyGSWsoh36RRShUwm8r+owIfczJ
-   EhyZwbCl6mCZUupWypTf3ylahbAQJxFMNgcN04RU3mvQGm0vReT6blu9c
-   kkuKels935kcYT6K8cQaup5Ija7JyjU2IPkZQmWe1cxr5EnhhgsOwcjzM
-   A3a5TuJ/pgOzktCWDbv7YxCKEEZ/KFx2G0MZmqwywjturLyVzW/GyczDn
-   VGnHgOIEjnb1gK++LZQvIyBRoc21sktW35nPV9nx68ykcFca54Mkp86BJ
-   KI9FyFRdymSdO0qabrAce0z/RbxOS5IlMH+Q87nCMJZtGkGMbP53HTSxP
+  bh=Bwfn9iLSdbAEiFOdAhEpJrxKbpghfRzY7pn4NQ6Y3GY=;
+  b=lhvLG27SfpSkGtns1W42aT2VPZe20YtISkHr7+P+5pdQMHfouTzwZdR4
+   VtxmGNHnbyBkUVsSY7WBXsVpepTa7Zw6ZpX4jfq6u75lo/brTa73fwLSb
+   t6Gbif6LFpahBoceVZsxQ4qPrFcLagBqveImQEhC+TfVyQ5yM1HpRyHYX
+   iRHuXuby1ZOBtggnpXluT5iR/3IoBCKT0x09Oitz/g6H6bducppDMoYlx
+   /UAHHLNEfxNhh8rVP4SWjws8l/qn5k1Jqr14+6Hun5tns6/gkXZPrwmDo
+   DkmiOU/YiKH5VAydxXwxxDlrvMSRZBGENX1XyoNlGckyn+m6D9v500T1m
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="331442760"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="331442772"
 X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="331442760"
+   d="scan'208";a="331442772"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 06:50:57 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 06:50:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699994162"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699994163"
 X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="699994162"
+   d="scan'208";a="699994163"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 15 Feb 2023 06:50:55 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSJ7R-0009Sl-1x;
+	id 1pSJ7R-0009Sn-21;
 	Wed, 15 Feb 2023 14:50:49 +0000
-Date: Wed, 15 Feb 2023 22:50:27 +0800
+Date: Wed, 15 Feb 2023 22:50:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/3] io_uring: enable io_uring to submit sqes located in
- kernel
-Message-ID: <202302152219.3euu62fj-lkp@intel.com>
-References: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
+To: Willem-Jan de Hoog <arinc9.unal@gmail.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Willem-Jan de Hoog <wdehoog@exalondelft.nl>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+	erkin.bozoglu@xeront.com
+Subject: Re: [PATCH 1/2] firmware: bcm47xx_nvram: allow to read from buffered
+ nvram data
+Message-ID: <202302152222.wtVZ1npH-lkp@intel.com>
+References: <20230206100502.20243-2-wdehoog@exalondelft.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,71 +55,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
+In-Reply-To: <20230206100502.20243-2-wdehoog@exalondelft.nl>
 
-Hi Xiaoguang,
+Hi Willem-Jan,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on bpf/master]
-[also build test WARNING on axboe-block/for-next linus/master v6.2-rc8]
-[cannot apply to bpf-next/master next-20230215]
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc8 next-20230215]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20230215004122.28917-3-xiaoguang.wang%40linux.alibaba.com
-patch subject: [RFC 2/3] io_uring: enable io_uring to submit sqes located in kernel
-config: arm-zeus_defconfig (https://download.01.org/0day-ci/archive/20230215/202302152219.3euu62fj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Willem-Jan-de-Hoog/firmware-bcm47xx_nvram-allow-to-read-from-buffered-nvram-data/20230206-180737
+patch link:    https://lore.kernel.org/r/20230206100502.20243-2-wdehoog%40exalondelft.nl
+patch subject: [PATCH 1/2] firmware: bcm47xx_nvram: allow to read from buffered nvram data
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230215/202302152222.wtVZ1npH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0d433a1cf7f666e5596514da7fab92f2691463ad
+        # https://github.com/intel-lab-lkp/linux/commit/763f6661565b50b967e4f22e41cf46d27e14e58f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
-        git checkout 0d433a1cf7f666e5596514da7fab92f2691463ad
+        git fetch --no-tags linux-review Willem-Jan-de-Hoog/firmware-bcm47xx_nvram-allow-to-read-from-buffered-nvram-data/20230206-180737
+        git checkout 763f6661565b50b967e4f22e41cf46d27e14e58f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/net/ethernet/broadcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302152219.3euu62fj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302152222.wtVZ1npH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:9:
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   include/linux/io_uring_types.h:472:35: note: in expansion of macro 'BIT'
-     472 |         REQ_F_KBUF              = BIT(REQ_F_KBUF_BIT),
-         |                                   ^~~
+   In file included from drivers/net/ethernet/broadcom/bgmac.c:15:
+   include/linux/bcm47xx_nvram.h:56:2: error: expected identifier or '(' before ':' token
+      56 | }:
+         |  ^
+   In file included from include/linux/ethtool.h:19,
+                    from include/linux/phy.h:16,
+                    from drivers/net/ethernet/broadcom/bgmac.c:16:
+>> include/uapi/linux/ethtool.h:125:49: warning: 'struct ethtool_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     125 | static inline void ethtool_cmd_speed_set(struct ethtool_cmd *ep,
+         |                                                 ^~~~~~~~~~~
+   include/uapi/linux/ethtool.h: In function 'ethtool_cmd_speed_set':
+   include/uapi/linux/ethtool.h:128:11: error: invalid use of undefined type 'struct ethtool_cmd'
+     128 |         ep->speed = (__u16)(speed & 0xFFFF);
+         |           ^~
+   include/uapi/linux/ethtool.h:129:11: error: invalid use of undefined type 'struct ethtool_cmd'
+     129 |         ep->speed_hi = (__u16)(speed >> 16);
+         |           ^~
+   include/uapi/linux/ethtool.h: At top level:
+   include/uapi/linux/ethtool.h:132:52: warning: 'struct ethtool_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     132 | static inline __u32 ethtool_cmd_speed(const struct ethtool_cmd *ep)
+         |                                                    ^~~~~~~~~~~
+   include/uapi/linux/ethtool.h: In function 'ethtool_cmd_speed':
+   include/uapi/linux/ethtool.h:134:19: error: invalid use of undefined type 'const struct ethtool_cmd'
+     134 |         return (ep->speed_hi << 16) | ep->speed;
+         |                   ^~
+   include/uapi/linux/ethtool.h:134:41: error: invalid use of undefined type 'const struct ethtool_cmd'
+     134 |         return (ep->speed_hi << 16) | ep->speed;
+         |                                         ^~
 
 
-vim +7 include/vdso/bits.h
+vim +125 include/uapi/linux/ethtool.h
 
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  8  
+607ca46e97a1b6 David Howells    2012-10-13  124  
+607ca46e97a1b6 David Howells    2012-10-13 @125  static inline void ethtool_cmd_speed_set(struct ethtool_cmd *ep,
+607ca46e97a1b6 David Howells    2012-10-13  126  					 __u32 speed)
+607ca46e97a1b6 David Howells    2012-10-13  127  {
+85a624403c77c3 Jesse Brandeburg 2016-10-13  128  	ep->speed = (__u16)(speed & 0xFFFF);
+607ca46e97a1b6 David Howells    2012-10-13  129  	ep->speed_hi = (__u16)(speed >> 16);
+607ca46e97a1b6 David Howells    2012-10-13  130  }
+607ca46e97a1b6 David Howells    2012-10-13  131  
 
 -- 
 0-DAY CI Kernel Test Service
