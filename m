@@ -1,44 +1,48 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440EC7C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 04:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676434053; x=1707970053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oZtSMrxIP3FWIsFK4D9ZT4zzn0cvwoRge5dKzvdX7M0=;
-  b=LbGIoI5vE2eiQL8GjsxKiIx/eeoznVnqqb1d85hvhiKQTSUBX1EcoGUl
-   wK4R+un3q6Hwpm+VxpGG49bUiQ8j/j1A9ExvoA7XkBuCmWbzbx3dcK38o
-   fANENSmYu+8DwtKPzpo9sgDo9DUdW4ipqgVmwGJkKfIZUYcFATW04qOqx
-   PL17f1QzJOLiWoCm+4+tqHmGEjgVyXu8Ly/g8UbCarUB0Xk0+n60gwB0N
-   MgwW94fsrAR2Wegv7TKKnUZP+KeBF2JQ8nitcgRoCrVzoFs4tsXHMOu41
-   IeTN2k3bVu0zFxioxlo0EIU228sQiHcbZB8HnVVEjqE28b5Yw2qUkSHqk
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329965680"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
-   d="scan'208";a="329965680"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 20:07:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="998327430"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
-   d="scan'208";a="998327430"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2023 20:07:31 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pS94s-000917-37;
-	Wed, 15 Feb 2023 04:07:30 +0000
-Date: Wed, 15 Feb 2023 12:07:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH bpf-next 22/24] s390/bpf: Implement
- arch_prepare_bpf_trampoline()
-Message-ID: <202302151241.GpoGkTCm-lkp@intel.com>
-References: <20230125213817.1424447-23-iii@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309277C;
+	Wed, 15 Feb 2023 04:08:05 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id l2so1136273wry.0;
+        Tue, 14 Feb 2023 20:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XbYV/tOuB/KDC+EnxXjUY1bm4sPegh904D5b8Vbt4oE=;
+        b=g6LDaiZktRkvO1POArALxpSCljZ7PV6klnz500ptTGG2GPcc7e6PI2Cx83dpxsvq02
+         IYWxN1pvuLgszkjDiFA2yEikPUugdfJwFsucW+gLLeOJuk/mWniBdS00o9D0rg9C0oLM
+         /tjnQ7dy4MCg6rljYQ3JNbOB1zbPElPVcaPZOljfDpH+R54uGUu0e7aUP7mNR/RjSvOQ
+         U7flTALd4oYNPzDEaCBbWceafiHBgK7ZJxo2kl5YE4Is+GpgUb+CTE223t/F6gyK9lUE
+         jfMhLFkQdz85Ih9CvqCN2aTS7B093/I16lBG0ZR7QugDRN5Q18UUx/IB4M4wimWsKPR/
+         meIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XbYV/tOuB/KDC+EnxXjUY1bm4sPegh904D5b8Vbt4oE=;
+        b=d8WXSVXIG/seQHStWIC9JCfkC1BOmwb1pjPkVZutOLbsInjchOHp1Ywdq9olHVZqtC
+         mwLQ8KlnjMhUwqlx78HRPFdwb3xEIyIjzjzey1JuZprzUMAizYe3+YO8dqSinVSUhJys
+         VvcEu9zgGQKlagp7phIi3bppkAVUSAHU31wl7Qw/f70W2BafPkY7JlHJi2YwRKXXNQDW
+         OMDkOxRU5JQZz2ZyagKPBuBzKpvGXMiW4jccAyAIDqltYG4LIYveRqehXWKnVVcIzokQ
+         G9xXLVBI2W3rTm3yVQlkhqQV+Kw0M+x0YX6yJy68GfwgZb9YHCWm/X0d66P9myedbTMy
+         FKSA==
+X-Gm-Message-State: AO0yUKWCUG4vnKJEqtuIWQg+gKL0Sw5/GHE7BquJztEMM7cqvQt2xBpX
+	lnznb54YirultEJtl2p8HazXO3WUMEVmUA==
+X-Google-Smtp-Source: AK7set/AsaJ/TWQSaZrLg0O9h+Ega8ySZdxRxwobeubJKG0BTChVzWUfd3+aUll0Oj+h79i3GsJ44A==
+X-Received: by 2002:a05:6000:11c9:b0:2c4:b152:9ae with SMTP id i9-20020a05600011c900b002c4b15209aemr323989wrx.31.1676434082947;
+        Tue, 14 Feb 2023 20:08:02 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q13-20020adff94d000000b002be099f78c0sm14277486wrr.69.2023.02.14.20.08.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 20:08:02 -0800 (PST)
+Date: Wed, 15 Feb 2023 07:07:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 12087/12724] drivers/net/phy/phy-c45.c:712
+ genphy_c45_write_eee_adv() error: uninitialized symbol 'changed'.
+Message-ID: <202302150232.q6idsV8s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,318 +51,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125213817.1424447-23-iii@linux.ibm.com>
 
-Hi Ilya,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Leoshkevich/selftests-bpf-Fix-liburandom_read-so-linker-error/20230128-150321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230125213817.1424447-23-iii%40linux.ibm.com
-patch subject: [PATCH bpf-next 22/24] s390/bpf: Implement arch_prepare_bpf_trampoline()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230215/202302151241.GpoGkTCm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6257ca590791a94b97f1b4f72851dc110290a52b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ilya-Leoshkevich/selftests-bpf-Fix-liburandom_read-so-linker-error/20230128-150321
-        git checkout 6257ca590791a94b97f1b4f72851dc110290a52b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/net/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+commit: 022c3f87f88e2d68e90be7687d981c9cb893a3b1 [12087/12724] net: phy: add genphy_c45_ethtool_get/set_eee() support
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230215/202302150232.q6idsV8s-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302151241.GpoGkTCm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302150232.q6idsV8s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/phy/phy-c45.c:712 genphy_c45_write_eee_adv() error: uninitialized symbol 'changed'.
 
->> arch/s390/net/bpf_jit_comp.c:2155:5: warning: no previous prototype for '__arch_prepare_bpf_trampoline' [-Wmissing-prototypes]
-    2155 | int __arch_prepare_bpf_trampoline(struct bpf_tramp_image *im,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/changed +712 drivers/net/phy/phy-c45.c
 
+022c3f87f88e2d Oleksij Rempel 2023-02-11  669  int genphy_c45_write_eee_adv(struct phy_device *phydev, unsigned long *adv)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  670  {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  671  	int val, changed;
 
-vim +/__arch_prepare_bpf_trampoline +2155 arch/s390/net/bpf_jit_comp.c
+changed needs to be initialized to false.
 
-  2154	
-> 2155	int __arch_prepare_bpf_trampoline(struct bpf_tramp_image *im,
-  2156					  struct bpf_tramp_jit *tjit,
-  2157					  const struct btf_func_model *m,
-  2158					  u32 flags, struct bpf_tramp_links *tlinks,
-  2159					  void *func_addr)
-  2160	{
-  2161		struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-  2162		struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-  2163		struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-  2164		int nr_bpf_args, nr_reg_args, nr_stack_args;
-  2165		struct bpf_jit *jit = &tjit->common;
-  2166		int arg, bpf_arg_off;
-  2167		int i, j;
-  2168	
-  2169		/* Support as many stack arguments as "mvc" instruction can handle. */
-  2170		nr_reg_args = min_t(int, m->nr_args, MAX_NR_REG_ARGS);
-  2171		nr_stack_args = m->nr_args - nr_reg_args;
-  2172		if (nr_stack_args > MAX_NR_STACK_ARGS)
-  2173			return -ENOTSUPP;
-  2174	
-  2175		/* Return to %r14, since func_addr and %r0 are not available. */
-  2176		if (!func_addr && !(flags & BPF_TRAMP_F_ORIG_STACK))
-  2177			flags |= BPF_TRAMP_F_SKIP_FRAME;
-  2178	
-  2179		/*
-  2180		 * Compute how many arguments we need to pass to BPF programs.
-  2181		 * BPF ABI mirrors that of x86_64: arguments that are 16 bytes or
-  2182		 * smaller are packed into 1 or 2 registers; larger arguments are
-  2183		 * passed via pointers.
-  2184		 * In s390x ABI, arguments that are 8 bytes or smaller are packed into
-  2185		 * a register; larger arguments are passed via pointers.
-  2186		 * We need to deal with this difference.
-  2187		 */
-  2188		nr_bpf_args = 0;
-  2189		for (i = 0; i < m->nr_args; i++) {
-  2190			if (m->arg_size[i] <= 8)
-  2191				nr_bpf_args += 1;
-  2192			else if (m->arg_size[i] <= 16)
-  2193				nr_bpf_args += 2;
-  2194			else
-  2195				return -ENOTSUPP;
-  2196		}
-  2197	
-  2198		/*
-  2199		 * Calculate the stack layout.
-  2200		 */
-  2201	
-  2202		/* Reserve STACK_FRAME_OVERHEAD bytes for the callees. */
-  2203		tjit->stack_size = STACK_FRAME_OVERHEAD;
-  2204		tjit->stack_args_off = alloc_stack(tjit, nr_stack_args * sizeof(u64));
-  2205		tjit->reg_args_off = alloc_stack(tjit, nr_reg_args * sizeof(u64));
-  2206		tjit->ip_off = alloc_stack(tjit, sizeof(u64));
-  2207		tjit->arg_cnt_off = alloc_stack(tjit, sizeof(u64));
-  2208		tjit->bpf_args_off = alloc_stack(tjit, nr_bpf_args * sizeof(u64));
-  2209		tjit->retval_off = alloc_stack(tjit, sizeof(u64));
-  2210		tjit->r7_r8_off = alloc_stack(tjit, 2 * sizeof(u64));
-  2211		tjit->r14_off = alloc_stack(tjit, sizeof(u64));
-  2212		tjit->run_ctx_off = alloc_stack(tjit,
-  2213						sizeof(struct bpf_tramp_run_ctx));
-  2214		/* The caller has already reserved STACK_FRAME_OVERHEAD bytes. */
-  2215		tjit->stack_size -= STACK_FRAME_OVERHEAD;
-  2216		tjit->orig_stack_args_off = tjit->stack_size + STACK_FRAME_OVERHEAD;
-  2217	
-  2218		/* aghi %r15,-stack_size */
-  2219		EMIT4_IMM(0xa70b0000, REG_15, -tjit->stack_size);
-  2220		/* stmg %r2,%rN,fwd_reg_args_off(%r15) */
-  2221		if (nr_reg_args)
-  2222			EMIT6_DISP_LH(0xeb000000, 0x0024, REG_2,
-  2223				      REG_2 + (nr_reg_args - 1), REG_15,
-  2224				      tjit->reg_args_off);
-  2225		for (i = 0, j = 0; i < m->nr_args; i++) {
-  2226			if (i < MAX_NR_REG_ARGS)
-  2227				arg = REG_2 + i;
-  2228			else
-  2229				arg = tjit->orig_stack_args_off +
-  2230				      (i - MAX_NR_REG_ARGS) * sizeof(u64);
-  2231			bpf_arg_off = tjit->bpf_args_off + j * sizeof(u64);
-  2232			if (m->arg_size[i] <= 8) {
-  2233				if (i < MAX_NR_REG_ARGS)
-  2234					/* stg %arg,bpf_arg_off(%r15) */
-  2235					EMIT6_DISP_LH(0xe3000000, 0x0024, arg,
-  2236						      REG_0, REG_15, bpf_arg_off);
-  2237				else
-  2238					/* mvc bpf_arg_off(8,%r15),arg(%r15) */
-  2239					_EMIT6(0xd207f000 | bpf_arg_off,
-  2240					       0xf000 | arg);
-  2241				j += 1;
-  2242			} else {
-  2243				if (i < MAX_NR_REG_ARGS) {
-  2244					/* mvc bpf_arg_off(16,%r15),0(%arg) */
-  2245					_EMIT6(0xd20ff000 | bpf_arg_off,
-  2246					       reg2hex[arg] << 12);
-  2247				} else {
-  2248					/* lg %r1,arg(%r15) */
-  2249					EMIT6_DISP_LH(0xe3000000, 0x0004, REG_1, REG_0,
-  2250						      REG_15, arg);
-  2251					/* mvc bpf_arg_off(16,%r15),0(%r1) */
-  2252					_EMIT6(0xd20ff000 | bpf_arg_off, 0x1000);
-  2253				}
-  2254				j += 2;
-  2255			}
-  2256		}
-  2257		/* stmg %r7,%r8,r7_r8_off(%r15) */
-  2258		EMIT6_DISP_LH(0xeb000000, 0x0024, REG_7, REG_8, REG_15,
-  2259			      tjit->r7_r8_off);
-  2260		/* stg %r14,r14_off(%r15) */
-  2261		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_14, REG_0, REG_15, tjit->r14_off);
-  2262	
-  2263		if (flags & BPF_TRAMP_F_ORIG_STACK) {
-  2264			/*
-  2265			 * The ftrace trampoline puts the return address (which is the
-  2266			 * address of the original function + S390X_PATCH_SIZE) into
-  2267			 * %r0; see ftrace_shared_hotpatch_trampoline_br and
-  2268			 * ftrace_init_nop() for details.
-  2269			 */
-  2270	
-  2271			/* lgr %r8,%r0 */
-  2272			EMIT4(0xb9040000, REG_8, REG_0);
-  2273		} else {
-  2274			/* %r8 = func_addr + S390X_PATCH_SIZE */
-  2275			load_imm64(jit, REG_8, (u64)func_addr + S390X_PATCH_SIZE);
-  2276		}
-  2277	
-  2278		/*
-  2279		 * ip = func_addr;
-  2280		 * arg_cnt = m->nr_args;
-  2281		 */
-  2282	
-  2283		if (flags & BPF_TRAMP_F_IP_ARG) {
-  2284			/* %r0 = func_addr */
-  2285			load_imm64(jit, REG_0, (u64)func_addr);
-  2286			/* stg %r0,ip_off(%r15) */
-  2287			EMIT6_DISP_LH(0xe3000000, 0x0024, REG_0, REG_0, REG_15,
-  2288				      tjit->ip_off);
-  2289		}
-  2290		/* lghi %r0,nr_bpf_args */
-  2291		EMIT4_IMM(0xa7090000, REG_0, nr_bpf_args);
-  2292		/* stg %r0,arg_cnt_off(%r15) */
-  2293		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_0, REG_0, REG_15,
-  2294			      tjit->arg_cnt_off);
-  2295	
-  2296		if (flags & BPF_TRAMP_F_CALL_ORIG) {
-  2297			/*
-  2298			 * __bpf_tramp_enter(im);
-  2299			 */
-  2300	
-  2301			/* %r1 = __bpf_tramp_enter */
-  2302			load_imm64(jit, REG_1, (u64)__bpf_tramp_enter);
-  2303			/* %r2 = im */
-  2304			load_imm64(jit, REG_2, (u64)im);
-  2305			/* %r1() */
-  2306			call_r1(jit);
-  2307		}
-  2308	
-  2309		for (i = 0; i < fentry->nr_links; i++)
-  2310			invoke_bpf_prog(tjit, m, fentry->links[i],
-  2311					flags & BPF_TRAMP_F_RET_FENTRY_RET);
-  2312	
-  2313		if (fmod_ret->nr_links) {
-  2314			/*
-  2315			 * retval = 0;
-  2316			 */
-  2317	
-  2318			/* xc retval_off(8,%r15),retval_off(%r15) */
-  2319			_EMIT6(0xd707f000 | tjit->retval_off,
-  2320			       0xf000 | tjit->retval_off);
-  2321	
-  2322			for (i = 0; i < fmod_ret->nr_links; i++) {
-  2323				invoke_bpf_prog(tjit, m, fmod_ret->links[i], true);
-  2324	
-  2325				/*
-  2326				 * if (retval)
-  2327				 *         goto do_fexit;
-  2328				 */
-  2329	
-  2330				/* ltg %r0,retval_off(%r15) */
-  2331				EMIT6_DISP_LH(0xe3000000, 0x0002, REG_0, REG_0, REG_15,
-  2332					      tjit->retval_off);
-  2333				/* brcl 7,do_fexit */
-  2334				EMIT6_PCREL_RILC(0xc0040000, 7, tjit->do_fexit);
-  2335			}
-  2336		}
-  2337	
-  2338		if (flags & BPF_TRAMP_F_CALL_ORIG) {
-  2339			/*
-  2340			 * retval = func_addr(args);
-  2341			 */
-  2342	
-  2343			/* lmg %r2,%rN,reg_args_off(%r15) */
-  2344			if (nr_reg_args)
-  2345				EMIT6_DISP_LH(0xeb000000, 0x0004, REG_2,
-  2346					      REG_2 + (nr_reg_args - 1), REG_15,
-  2347					      tjit->reg_args_off);
-  2348			/* mvc stack_args_off(N,%r15),orig_stack_args_off(%r15) */
-  2349			if (nr_stack_args)
-  2350				_EMIT6(0xd200f000 |
-  2351					       (nr_stack_args * sizeof(u64) - 1) << 16 |
-  2352					       tjit->stack_args_off,
-  2353				       0xf000 | tjit->orig_stack_args_off);
-  2354			/* lgr %r1,%r8 */
-  2355			EMIT4(0xb9040000, REG_1, REG_8);
-  2356			/* %r1() */
-  2357			call_r1(jit);
-  2358			/* stg %r2,retval_off(%r15) */
-  2359			EMIT6_DISP_LH(0xe3000000, 0x0024, REG_2, REG_0, REG_15,
-  2360				      tjit->retval_off);
-  2361	
-  2362			im->ip_after_call = jit->prg_buf + jit->prg;
-  2363	
-  2364			/*
-  2365			 * The following nop will be patched by bpf_tramp_image_put().
-  2366			 */
-  2367	
-  2368			/* brcl 0,im->ip_epilogue */
-  2369			EMIT6_PCREL_RILC(0xc0040000, 0, (u64)im->ip_epilogue);
-  2370		}
-  2371	
-  2372		/* do_fexit: */
-  2373		tjit->do_fexit = jit->prg;
-  2374		for (i = 0; i < fexit->nr_links; i++)
-  2375			invoke_bpf_prog(tjit, m, fexit->links[i], false);
-  2376	
-  2377		if (flags & BPF_TRAMP_F_CALL_ORIG) {
-  2378			im->ip_epilogue = jit->prg_buf + jit->prg;
-  2379	
-  2380			/*
-  2381			 * __bpf_tramp_exit(im);
-  2382			 */
-  2383	
-  2384			/* %r1 = __bpf_tramp_exit */
-  2385			load_imm64(jit, REG_1, (u64)__bpf_tramp_exit);
-  2386			/* %r2 = im */
-  2387			load_imm64(jit, REG_2, (u64)im);
-  2388			/* %r1() */
-  2389			call_r1(jit);
-  2390		}
-  2391	
-  2392		/* lmg %r2,%rN,reg_args_off(%r15) */
-  2393		if ((flags & BPF_TRAMP_F_RESTORE_REGS) && nr_reg_args)
-  2394			EMIT6_DISP_LH(0xeb000000, 0x0004, REG_2,
-  2395				      REG_2 + (nr_reg_args - 1), REG_15,
-  2396				      tjit->reg_args_off);
-  2397		/* lgr %r1,%r8 */
-  2398		if (!(flags & BPF_TRAMP_F_SKIP_FRAME))
-  2399			EMIT4(0xb9040000, REG_1, REG_8);
-  2400		/* lmg %r7,%r8,r7_r8_off(%r15) */
-  2401		EMIT6_DISP_LH(0xeb000000, 0x0004, REG_7, REG_8, REG_15,
-  2402			      tjit->r7_r8_off);
-  2403		/* lg %r14,r14_off(%r15) */
-  2404		EMIT6_DISP_LH(0xe3000000, 0x0004, REG_14, REG_0, REG_15, tjit->r14_off);
-  2405		/* lg %r2,retval_off(%r15) */
-  2406		if (flags & (BPF_TRAMP_F_CALL_ORIG | BPF_TRAMP_F_RET_FENTRY_RET))
-  2407			EMIT6_DISP_LH(0xe3000000, 0x0004, REG_2, REG_0, REG_15,
-  2408				      tjit->retval_off);
-  2409		/* aghi %r15,stack_size */
-  2410		EMIT4_IMM(0xa70b0000, REG_15, tjit->stack_size);
-  2411		/* Emit an expoline for the following indirect jump. */
-  2412		if (nospec_uses_trampoline())
-  2413			emit_expoline(jit);
-  2414		if (flags & BPF_TRAMP_F_SKIP_FRAME)
-  2415			/* br %r14 */
-  2416			_EMIT2(0x07fe);
-  2417		else
-  2418			/* br %r1 */
-  2419			_EMIT2(0x07f1);
-  2420	
-  2421		emit_r1_thunk(jit);
-  2422	
-  2423		return 0;
-  2424	}
-  2425	
+022c3f87f88e2d Oleksij Rempel 2023-02-11  672  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  673  	if (linkmode_intersects(phydev->supported, PHY_EEE_CAP1_FEATURES)) {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  674  		val = linkmode_to_mii_eee_cap1_t(adv);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  675  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  676  		/* In eee_broken_modes are stored MDIO_AN_EEE_ADV specific raw
+022c3f87f88e2d Oleksij Rempel 2023-02-11  677  		 * register values.
+022c3f87f88e2d Oleksij Rempel 2023-02-11  678  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  679  		val &= ~phydev->eee_broken_modes;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  680  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  681  		/* IEEE 802.3-2018 45.2.7.13 EEE advertisement 1
+022c3f87f88e2d Oleksij Rempel 2023-02-11  682  		 * (Register 7.60)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  683  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  684  		val = phy_modify_mmd_changed(phydev, MDIO_MMD_AN,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  685  					     MDIO_AN_EEE_ADV,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  686  					     MDIO_EEE_100TX | MDIO_EEE_1000T |
+022c3f87f88e2d Oleksij Rempel 2023-02-11  687  					     MDIO_EEE_10GT | MDIO_EEE_1000KX |
+022c3f87f88e2d Oleksij Rempel 2023-02-11  688  					     MDIO_EEE_10GKX4 | MDIO_EEE_10GKR,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  689  					     val);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  690  		if (val < 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  691  			return val;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  692  		if (val > 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  693  			changed = 1;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  694  	}
+022c3f87f88e2d Oleksij Rempel 2023-02-11  695  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  696  	if (linkmode_test_bit(ETHTOOL_LINK_MODE_10baseT1L_Full_BIT,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  697  			      phydev->supported_eee)) {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  698  		val = linkmode_adv_to_mii_10base_t1_t(adv);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  699  		/* IEEE 802.3cg-2019 45.2.7.25 10BASE-T1 AN control register
+022c3f87f88e2d Oleksij Rempel 2023-02-11  700  		 * (Register 7.526)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  701  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  702  		val = phy_modify_mmd_changed(phydev, MDIO_MMD_AN,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  703  					     MDIO_AN_10BT1_AN_CTRL,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  704  					     MDIO_AN_10BT1_AN_CTRL_ADV_EEE_T1L,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  705  					     val);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  706  		if (val < 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  707  			return val;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  708  		if (val > 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  709  			changed = 1;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  710  	}
+022c3f87f88e2d Oleksij Rempel 2023-02-11  711  
+022c3f87f88e2d Oleksij Rempel 2023-02-11 @712  	return changed;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  713  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
