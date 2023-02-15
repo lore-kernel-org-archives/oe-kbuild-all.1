@@ -1,45 +1,45 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890867C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3254117E5
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Feb 2023 03:57:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1676433455; x=1707969455;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UMre833KJsS+eK+HgH5diSLvUqFTBRhsP25iPfawLCo=;
-  b=AfoInBxvZA5PEucrA6aaUAsmqsUCAi3kIBP1xzxtmPmBcV/J+9HCVEtk
-   DJqK9XMKr1h2pGZ8Zj4CzKCWEFkzqsRdLusrZrRe5zrUyFUHmQqxU1Sy6
-   fFIyF1e0/PhfcoVAoLHQH08INekMF5EwQXZc8gCoi6daiy/0DDXQRwMYi
-   Jx5STNENFc9GV09n4DNX635OARvFlsnpmIuoiC1Zzynx+ja8dNgtOqrtX
-   X4HjK01R5IB80jCXH/c+rnXlPU+NoANlMBzp64OmWBAKsgMsicanZKZPd
-   eWWq8ojiTayC4/ofQc2qNtIK8UUKcblboSdfoULCdf8tEeMlq7vEr1yOE
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393740593"
+  bh=QNveVT6QE8c7bIyYVHhtvoUVhyxLxIJocViDSyxsURs=;
+  b=jmcywXG3vhl0ubbzlI6FNnFEQA1dNUYQ0+8kmV0MMb2kMBvwRKlXe67v
+   +16ySsByoSmQqABlVHdYFr+XL/E7pAQf/aZEDpXQnMnMMPyCLcDerImbA
+   lYpieubtXpf1yap2bjlYaDcyR5az3kt9Eygv50IRvluQ08hQUpTGF/tqr
+   p/l4TaAb/V0SqmVo6r4LJ8CYiX6WJTwovYh3VVET0L937d1EhTVbsLpTc
+   L5kszTuzCitviHGq4p97SF5NDVu5qiCFmd74ZU8IWxVpDrLHEpq2r7Q1a
+   JWWDEaCU/W/HwV6wMozOOmW0ZlKBeUq6sTIF8fuJ9orn0ilwevX3ZbcfQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393740589"
 X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
-   d="scan'208";a="393740593"
+   d="scan'208";a="393740589"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 19:57:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="812281075"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="812281078"
 X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
-   d="scan'208";a="812281075"
+   d="scan'208";a="812281078"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2023 19:57:31 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pS8vC-00090V-2G;
+	id 1pS8vC-00090T-2C;
 	Wed, 15 Feb 2023 03:57:30 +0000
-Date: Wed, 15 Feb 2023 11:56:54 +0800
+Date: Wed, 15 Feb 2023 11:56:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Marchevsky <davemarchevsky@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Alexei Starovoitov <ast@kernel.org>, linux-doc@vger.kernel.org
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 9/13] htmldocs:
- Documentation/bpf/graph_ds_impl.rst:62: WARNING: Error in "code-block"
- directive:
-Message-ID: <202302151123.wUE5FYFx-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [linux-next:master 11693/12724] ERROR: modpost:
+ "walk_hmem_resources" [drivers/dax/hmem/dax_hmem.ko] undefined!
+Message-ID: <202302151109.xlBpZKUS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,39 +49,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   1f5dfcc78ab4cc06ce7dac9de6c1ed361fde7119
-commit: c31315c3aa09297d99cb39e837185ef225586d2b [9/13] bpf, documentation: Add graph documentation for non-owning refs
-reproduce:
-        # https://github.com/ammarfaizi2/linux-block/commit/c31315c3aa09297d99cb39e837185ef225586d2b
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
-        git checkout c31315c3aa09297d99cb39e837185ef225586d2b
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+commit: 7dab174e2e27eeaf10273e597ffbef4f8ea032bb [11693/12724] dax/hmem: Move hmem device registration to dax_hmem.ko
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230215/202302151109.xlBpZKUS-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7dab174e2e27eeaf10273e597ffbef4f8ea032bb
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 7dab174e2e27eeaf10273e597ffbef4f8ea032bb
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302151123.wUE5FYFx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302151109.xlBpZKUS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> Documentation/bpf/graph_ds_impl.rst:62: WARNING: Error in "code-block" directive:
-
-vim +62 Documentation/bpf/graph_ds_impl.rst
-
-    61	
-  > 62	.. code-block:: c
-    63	        struct node_data {
-    64	          long key;
-    65	          long data;
-    66	          struct bpf_rb_node node;
-    67	        };
-    68	
-    69	        struct bpf_spin_lock glock;
-    70	        struct bpf_rb_root groot __contains(node_data, node);
-    71	
+>> ERROR: modpost: "walk_hmem_resources" [drivers/dax/hmem/dax_hmem.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
