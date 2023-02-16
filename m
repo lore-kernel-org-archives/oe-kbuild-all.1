@@ -1,43 +1,47 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9771415C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 02:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B6917D7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 02:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676515518; x=1708051518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qp/hNAawmpyY6w1prkcvjaNNGoou5dz75eZMF7FoGoA=;
-  b=RQ3YLuh/LjCR2TP3cmGBO3l6yixUDykx5wbBw13PWUjJWU8UbtvR7B+P
-   RoI5C8WFCdKYhAwZeyTnU2lMCF4U4oSxTXvkZGwDQhA14VNZ2BOeEM3dR
-   LAno484MOMAHHagsF8c34gc5kSkWSLC0/E96zXEaxvTfi63/o2lcH1plg
-   P/RgZVa133cVeB6ZH9sPRZjjsj6a6vXrT5i0BAH974PAd9dsMzqeFCdx6
-   odEyZ2j3iUuIwIZnPkmqnsDFCvCukdjUVi36A66PW+CBH1ttRUL6QQti/
-   y62G/jyV8BVPqM9kkmtQnwU9MypVopirkF/71Mp91CTPZvuZCxp8i+PnM
+  t=1676516117; x=1708052117;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d7opapgYHxV0e1r4lhHkshJnywNZR/QjUzPjOtRV6Tc=;
+  b=GOClUipZcBzeN3jO+UZa9wqcOVb/cgTCIXwwvWSQGItneMtP8I31bBvU
+   LrIAwRNU5DirPPA6pVomNWjUsvsKOHfuN/k7i6MWBxAeBUdS8JmiwFIgi
+   tURIq7lddVqdsdchBsrf37O4xsciMu2A7pAzCwnTufOCQyCGWN5iPoyso
+   os9i1yDUcOGiLl1Mn3iUoMRXlvhEWgyCS4qXoTxyY9Wu3qP0v+NKDhCt7
+   dvWsSytUj7xn4L16LNvuEuvksRB03Y/sg9Yhkh2KvwAQiIl+0sXddftha
+   I4iAFsXkFcIEv/G7w5RCAmn5CGFxFr1GADWUo2/rILbVwtFKw6R1qOqO8
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="319660685"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="315281181"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="319660685"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 18:45:15 -0800
+   d="scan'208";a="315281181"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 18:55:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="812795346"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="663300766"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="812795346"
+   d="scan'208";a="663300766"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 18:45:13 -0800
+  by orsmga007.jf.intel.com with ESMTP; 15 Feb 2023 18:55:14 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSUGn-0009xN-0V;
-	Thu, 16 Feb 2023 02:45:13 +0000
-Date: Thu, 16 Feb 2023 10:44:13 +0800
+	id 1pSUQT-0009xh-15;
+	Thu, 16 Feb 2023 02:55:13 +0000
+Date: Thu, 16 Feb 2023 10:54:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92:
- WARNING: Unexpected indentation.
-Message-ID: <202302161045.T349jkBT-lkp@intel.com>
+To: John.C.Harrison@intel.com, Intel-GFX@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	Chris Wilson <chris@chris-wilson.co.uk>,
+	DRI-Devel@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, stable@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915: Don't use BAR mappings for
+ ring buffers with LLC
+Message-ID: <202302161021.TjavhrpH-lkp@intel.com>
+References: <20230216002248.1851966-3-John.C.Harrison@Intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,34 +50,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230216002248.1851966-3-John.C.Harrison@Intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   033c40a89f55525139fd5b6342281b09b97d05bf
-commit: 493a2c2d23ca91afba96ac32b6cbafb54382c2a3 Documentation/hw-vuln: Add documentation for Cross-Thread Return Predictions
-date:   6 days ago
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=493a2c2d23ca91afba96ac32b6cbafb54382c2a3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 493a2c2d23ca91afba96ac32b6cbafb54382c2a3
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-C-Harrison-Intel-com/drm-i915-Don-t-use-stolen-memory-for-ring-buffers-with-LLC/20230216-082552
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230216002248.1851966-3-John.C.Harrison%40Intel.com
+patch subject: [Intel-gfx] [PATCH v2 2/2] drm/i915: Don't use BAR mappings for ring buffers with LLC
+config: i386-randconfig-a011-20230213 (https://download.01.org/0day-ci/archive/20230216/202302161021.TjavhrpH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/fa748ad303922e4138a246d4db247dfa96e45651
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review John-C-Harrison-Intel-com/drm-i915-Don-t-use-stolen-memory-for-ring-buffers-with-LLC/20230216-082552
+        git checkout fa748ad303922e4138a246d4db247dfa96e45651
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302161045.T349jkBT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302161021.TjavhrpH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92: WARNING: Unexpected indentation.
+   drivers/gpu/drm/i915/gt/intel_ring.c: In function 'intel_ring_unpin':
+>> drivers/gpu/drm/i915/gt/intel_ring.c:103:9: error: expected '}' before 'else'
+     103 |         else
+         |         ^~~~
 
-vim +92 Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
 
-    89	
-    90	The mitigation for the KVM_CAP_X86_DISABLE_EXITS capability can be turned on
-    91	using the boolean module parameter mitigate_smt_rsb, e.g.:
-  > 92	        kvm.mitigate_smt_rsb=1
+vim +103 drivers/gpu/drm/i915/gt/intel_ring.c
+
+2871ea85c119e6f Chris Wilson           2019-10-24   92  
+2871ea85c119e6f Chris Wilson           2019-10-24   93  void intel_ring_unpin(struct intel_ring *ring)
+2871ea85c119e6f Chris Wilson           2019-10-24   94  {
+2871ea85c119e6f Chris Wilson           2019-10-24   95  	struct i915_vma *vma = ring->vma;
+2871ea85c119e6f Chris Wilson           2019-10-24   96  
+2871ea85c119e6f Chris Wilson           2019-10-24   97  	if (!atomic_dec_and_test(&ring->pin_count))
+2871ea85c119e6f Chris Wilson           2019-10-24   98  		return;
+2871ea85c119e6f Chris Wilson           2019-10-24   99  
+2871ea85c119e6f Chris Wilson           2019-10-24  100  	i915_vma_unset_ggtt_write(vma);
+fa748ad303922e4 Daniele Ceraolo Spurio 2023-02-15  101  	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915)) {
+2871ea85c119e6f Chris Wilson           2019-10-24  102  		i915_vma_unpin_iomap(vma);
+2871ea85c119e6f Chris Wilson           2019-10-24 @103  	else
+2871ea85c119e6f Chris Wilson           2019-10-24  104  		i915_gem_object_unpin_map(vma->obj);
+2871ea85c119e6f Chris Wilson           2019-10-24  105  
+2871ea85c119e6f Chris Wilson           2019-10-24  106  	i915_vma_make_purgeable(vma);
+a266bf420060043 Chris Wilson           2019-11-18  107  	i915_vma_unpin(vma);
+2871ea85c119e6f Chris Wilson           2019-10-24  108  }
+2871ea85c119e6f Chris Wilson           2019-10-24  109  
 
 -- 
 0-DAY CI Kernel Test Service
