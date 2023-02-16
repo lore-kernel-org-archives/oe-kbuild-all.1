@@ -1,46 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E6FBD3F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 23:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF6DBD3F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 23:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676590674; x=1708126674;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yfEQqdaB8WA1seANKH8umeZHyRoa3AVBxVgJTkCHKVM=;
-  b=PptQfoLC8RKdkeajdUtlKNYC5FRMTIzSbeRmCEL8qxV5syZ4s7rmcF+X
-   muZ9AQhbMG44m1GeLkzcX34sjf/4Y3GifSUxQxTtD8NzZ3hVYZZwvrmKE
-   0Y4ySyJBBnm+J49/ZQ1yLcrPFa80IVuFEywyN3Eyi4qcDMKfjeL78be0+
-   0k4LazZKn0vfyP/KCKurvM5kgzBhR1MyU10b7VJYm4o+E5vIgI8yqxAv0
-   sBabl6hJv7ZrK9yoNDFXiJxu9b1D4/MfQuoWLXru7aMTCbZEFfWJLiQ98
-   6co7GwfES553cdgAq2na0VOGjJgmKrEnVc9ikbvE6ZJtitfm3Pqd2E6hi
+  t=1676591273; x=1708127273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RhcWtcvuQ6c1ldco2fw8dmiuqzUvkOYSR4WEMaWxR4Y=;
+  b=I4tFyTEeK7WezbXAoB8YMgeVXO4QGKbo+lRHwGox5b5RWvkEXwqeX4j2
+   9HGKtJasj3I0ehTC9o6QzZ0ZSjDNxvfyke6ut81PiWv59rafIgn1gcfa6
+   HjxnSyaDWsoZi/cwF0houW4aHOlBcDTtyJi06UvXI3eHyk0s34Xv36Uqu
+   5y11aevucPVEL0brW+V9HGWMvV8Q+3Qkyh6Oy65P+J8iIwXMNHfIQT+xH
+   epWejvwqpxXkrwPuGYijAzB+e8wYsmrNrzN1+oeSSOA9uJpjT7ilsZEBC
+   veXKDZXAPk/E1+f3GMoXdhXNwPhpTJpPx/2otuEiepCAWsMj6YhpwYsSr
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333224473"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396542519"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="333224473"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 15:37:52 -0800
+   d="scan'208";a="396542519"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 15:47:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="813173910"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="779581223"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="813173910"
+   d="scan'208";a="779581223"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Feb 2023 15:37:50 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 16 Feb 2023 15:47:51 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSnp0-000Ax4-06;
-	Thu, 16 Feb 2023 23:37:50 +0000
-Date: Fri, 17 Feb 2023 07:37:07 +0800
+	id 1pSnyg-000Axl-1I;
+	Thu, 16 Feb 2023 23:47:50 +0000
+Date: Fri, 17 Feb 2023 07:47:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>,
-	linux-integrity@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH 07/12] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-Message-ID: <202302170740.7jtAnH0N-lkp@intel.com>
-References: <20230216201410.15010-8-James.Bottomley@HansenPartnership.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [ammarfaizi2-block:axboe/linux-block/for-6.3/block 148/148]
+ block/blk-merge.c:984:42: sparse: sparse: incorrect type in initializer
+ (different base types)
+Message-ID: <202302170743.GXypM9Rt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,125 +48,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216201410.15010-8-James.Bottomley@HansenPartnership.com>
 
-Hi James,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.2-rc8 next-20230216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230217-044329
-patch link:    https://lore.kernel.org/r/20230216201410.15010-8-James.Bottomley%40HansenPartnership.com
-patch subject: [PATCH 07/12] tpm: Add full HMAC and encrypt/decrypt session handling code
-config: m68k-randconfig-c44-20230212 (https://download.01.org/0day-ci/archive/20230217/202302170740.7jtAnH0N-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://github.com/ammarfaizi2/linux-block axboe/linux-block/for-6.3/block
+head:   67205f80be9910207481406c47f7d85e703fb2e9
+commit: 3481d9424950159b1dbd366a14acab79f1440bbf [148/148] block: sync mixed merged request's failfast with 1st bio's
+config: openrisc-randconfig-s042-20230213 (https://download.01.org/0day-ci/archive/20230217/202302170743.GXypM9Rt-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1d4f519aa756ba5ed684fb2a2f9ad6e1fb91bdb5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230217-044329
-        git checkout 1d4f519aa756ba5ed684fb2a2f9ad6e1fb91bdb5
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/3481d9424950159b1dbd366a14acab79f1440bbf
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block axboe/linux-block/for-6.3/block
+        git checkout 3481d9424950159b1dbd366a14acab79f1440bbf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/char/tpm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302170740.7jtAnH0N-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302170743.GXypM9Rt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-merge.c:984:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted blk_opf_t const [usertype] ff @@     got unsigned int @@
+   block/blk-merge.c:984:42: sparse:     expected restricted blk_opf_t const [usertype] ff
+   block/blk-merge.c:984:42: sparse:     got unsigned int
+   block/blk-merge.c:1010:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted blk_opf_t const [usertype] ff @@     got unsigned int @@
+   block/blk-merge.c:1010:42: sparse:     expected restricted blk_opf_t const [usertype] ff
+   block/blk-merge.c:1010:42: sparse:     got unsigned int
+>> block/blk-merge.c:763:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted blk_opf_t @@
+   block/blk-merge.c:763:24: sparse:     expected unsigned int
+   block/blk-merge.c:763:24: sparse:     got restricted blk_opf_t
+   block/blk-merge.c:765:28: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted blk_opf_t @@
+   block/blk-merge.c:765:28: sparse:     expected unsigned int
+   block/blk-merge.c:765:28: sparse:     got restricted blk_opf_t
+>> block/blk-merge.c:763:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted blk_opf_t @@
+   block/blk-merge.c:763:24: sparse:     expected unsigned int
+   block/blk-merge.c:763:24: sparse:     got restricted blk_opf_t
+   block/blk-merge.c:765:28: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted blk_opf_t @@
+   block/blk-merge.c:765:28: sparse:     expected unsigned int
+   block/blk-merge.c:765:28: sparse:     got restricted blk_opf_t
 
->> drivers/char/tpm/tpm2-sessions.c:337: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * tpm_buf_append_hmac_session() append a TPM session element
-   drivers/char/tpm/tpm2-sessions.c:855: warning: Excess function parameter 'authp' description in 'tpm2_start_auth_session'
+vim +984 block/blk-merge.c
 
-
-vim +337 drivers/char/tpm/tpm2-sessions.c
-
-   335	
-   336	/**
- > 337	 * tpm_buf_append_hmac_session() append a TPM session element
-   338	 * @chip: the TPM chip structure
-   339	 * @buf: The buffer to be appended
-   340	 * @attributes: The session attributes
-   341	 * @passphrase: The session authority (NULL if none)
-   342	 * @passphraselen: The length of the session authority (0 if none)
-   343	 *
-   344	 * This fills in a session structure in the TPM command buffer, except
-   345	 * for the HMAC which cannot be computed until the command buffer is
-   346	 * complete.  The type of session is controlled by the @attributes,
-   347	 * the main ones of which are TPM2_SA_CONTINUE_SESSION which means the
-   348	 * session won't terminate after tpm_buf_check_hmac_response(),
-   349	 * TPM2_SA_DECRYPT which means this buffers first parameter should be
-   350	 * encrypted with a session key and TPM2_SA_ENCRYPT, which means the
-   351	 * response buffer's first parameter needs to be decrypted (confusing,
-   352	 * but the defines are written from the point of view of the TPM).
-   353	 *
-   354	 * Any session appended by this command must be finalized by calling
-   355	 * tpm_buf_fill_hmac_session() otherwise the HMAC will be incorrect
-   356	 * and the TPM will reject the command.
-   357	 *
-   358	 * As with most tpm_buf operations, success is assumed because failure
-   359	 * will be caused by an incorrect programming model and indicated by a
-   360	 * kernel message.
-   361	 */
-   362	void tpm_buf_append_hmac_session(struct tpm_chip *chip, struct tpm_buf *buf,
-   363					 u8 attributes, u8 *passphrase,
-   364					 int passphraselen)
-   365	{
-   366		u8 nonce[SHA256_DIGEST_SIZE];
-   367		u32 len;
-   368		struct tpm2_auth *auth = chip->auth;
-   369	
-   370		/*
-   371		 * The Architecture Guide requires us to strip trailing zeros
-   372		 * before computing the HMAC
-   373		 */
-   374		while (passphrase && passphraselen > 0
-   375		       && passphrase[passphraselen - 1] == '\0')
-   376			passphraselen--;
-   377	
-   378		auth->attrs = attributes;
-   379		auth->passphraselen = passphraselen;
-   380		if (passphraselen)
-   381			memcpy(auth->passphrase, passphrase, passphraselen);
-   382	
-   383		if (auth->session != tpm_buf_length(buf)) {
-   384			/* we're not the first session */
-   385			len = get_unaligned_be32(&buf->data[auth->session]);
-   386			if (4 + len + auth->session != tpm_buf_length(buf)) {
-   387				WARN(1, "session length mismatch, cannot append");
-   388				return;
-   389			}
-   390	
-   391			/* add our new session */
-   392			len += 9 + 2 * SHA256_DIGEST_SIZE;
-   393			put_unaligned_be32(len, &buf->data[auth->session]);
-   394		} else {
-   395			tpm_buf_append_u32(buf, 9 + 2 * SHA256_DIGEST_SIZE);
-   396		}
-   397	
-   398		/* random number for our nonce */
-   399		get_random_bytes(nonce, sizeof(nonce));
-   400		memcpy(auth->our_nonce, nonce, sizeof(nonce));
-   401		tpm_buf_append_u32(buf, auth->handle);
-   402		/* our new nonce */
-   403		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
-   404		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
-   405		tpm_buf_append_u8(buf, auth->attrs);
-   406		/* and put a placeholder for the hmac */
-   407		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
-   408		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
-   409	}
-   410	EXPORT_SYMBOL(tpm_buf_append_hmac_session);
-   411	
+   980	
+   981	static enum bio_merge_status bio_attempt_back_merge(struct request *req,
+   982			struct bio *bio, unsigned int nr_segs)
+   983	{
+ > 984		const blk_opf_t ff = bio_failfast(bio);
+   985	
+   986		if (!ll_back_merge_fn(req, bio, nr_segs))
+   987			return BIO_MERGE_FAILED;
+   988	
+   989		trace_block_bio_backmerge(bio);
+   990		rq_qos_merge(req->q, req, bio);
+   991	
+   992		if ((req->cmd_flags & REQ_FAILFAST_MASK) != ff)
+   993			blk_rq_set_mixed_merge(req);
+   994	
+   995		blk_update_mixed_merge(req, bio, false);
+   996	
+   997		req->biotail->bi_next = bio;
+   998		req->biotail = bio;
+   999		req->__data_len += bio->bi_iter.bi_size;
+  1000	
+  1001		bio_crypt_free_ctx(bio);
+  1002	
+  1003		blk_account_io_merge_bio(req);
+  1004		return BIO_MERGE_OK;
+  1005	}
+  1006	
 
 -- 
 0-DAY CI Kernel Test Service
