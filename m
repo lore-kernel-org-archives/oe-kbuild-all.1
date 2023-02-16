@@ -1,223 +1,140 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C59E18F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 00:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676507006; x=1708043006;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZBoSCAtz6fkkZle3VLj8Y/RmveUth+ypvnNypFuDpJs=;
-  b=cIVCy0MQB7CqTgZnQ8iNJ+eEEX+eNJTMVQH3fJ38bNb1Bc5R/hIpAdlZ
-   t7RVRuMtLl41/6fRIXd7Dn/2KBvaUteNkdHapk/pIR7XgzaKiiVNHP7fr
-   x1r3aWvcYfBe14hsOQNm2TNkZ1gw7hhTEPZdTDaYo4YIqfOkTBa10IQcs
-   nRG7UT2NV/cr97k8ukJAcQ0lOoayhlVCz13PhkdLNJe895CXmGFn03D3X
-   /5I6rhOokzXpu5dK8tOxUrVH+hQ0/Kvb3ZQa0DyN5nSMXu77x5bYVanDU
-   N0CR4LNH10yoMka6U08Txly4dCXxp9h4jBVvjhsitxS5XZ0ERRcNq0Y1y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="332899461"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="332899461"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 16:23:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="779141898"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="779141898"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2023 16:23:11 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSS3K-0009tZ-0n;
-	Thu, 16 Feb 2023 00:23:10 +0000
-Date: Thu, 16 Feb 2023 08:22:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elliot Berman <quic_eberman@quicinc.com>, Alex Elder <elder@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Elliot Berman <quic_eberman@quicinc.com>,
-	Murali Nalajala <quic_mnalajal@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-	Carl van Schaik <quic_cvanscha@quicinc.com>,
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 16/26] firmware: qcom_scm: Register Gunyah platform
- ops
-Message-ID: <202302160838.BTq7ertw-lkp@intel.com>
-References: <20230214212457.3319814-1-quic_eberman@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A9C7B;
+	Thu, 16 Feb 2023 00:53:24 +0000 (UTC)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31G0qrqF7023501, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31G0qrqF7023501
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Thu, 16 Feb 2023 08:52:53 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Thu, 16 Feb 2023 08:52:56 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 16 Feb 2023 08:52:55 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
+ RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
+ 15.01.2375.007; Thu, 16 Feb 2023 08:52:55 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+        Dan Carpenter
+	<error27@gmail.com>,
+        "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        Kalle Valo <kvalo@kernel.org>
+Subject: RE: [linux-next:master 681/12724] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+Thread-Topic: [linux-next:master 681/12724]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
+ rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+Thread-Index: AQHZQHe56iywkgwqnEueEeUQCVOmWa7PK+IwgAAuxYCAAWVt4A==
+Date: Thu, 16 Feb 2023 00:52:55 +0000
+Message-ID: <519695cc0eef4dab97ec409debab7867@realtek.com>
+References: <202302142135.LCqUTVGY-lkp@intel.com>
+ <89d92b2ebc784c71a26810abb42a2dc7@realtek.com>
+ <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
+In-Reply-To: <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzIvMTUg5LiL5Y2IIDA4OjE4OjAw?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230214212457.3319814-1-quic_eberman@quicinc.com>
 
-Hi Elliot,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on 3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
-base:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
-patch link:    https://lore.kernel.org/r/20230214212457.3319814-1-quic_eberman%40quicinc.com
-patch subject: [PATCH v10 16/26] firmware: qcom_scm: Register Gunyah platform ops
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302160838.BTq7ertw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/33f0c4b130c7b249a1524da8076dd12333aa7cde
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
-        git checkout 33f0c4b130c7b249a1524da8076dd12333aa7cde
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302160838.BTq7ertw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_gh_rm_pre_mem_share':
->> drivers/firmware/qcom_scm.c:1335:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1335 |                                                 &src_cpy, new_perms, mem_parcel->n_acl_entries);
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/firmware/qcom_scm.c:5:
-   drivers/firmware/qcom_scm.c:1353:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1353 |                                                 &src_cpy, new_perms, 1));
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   drivers/firmware/qcom_scm.c:1350:33: note: in expansion of macro 'WARN_ON_ONCE'
-    1350 |                                 WARN_ON_ONCE(qcom_scm_assign_mem(
-         |                                 ^~~~~~~~~~~~
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_gh_rm_post_mem_reclaim':
-   drivers/firmware/qcom_scm.c:1385:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1385 |                                                 &src_cpy, &new_perms, 1);
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/qcom_scm_assign_mem +1335 drivers/firmware/qcom_scm.c
-
-  1303	
-  1304	static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
-  1305	{
-  1306		struct qcom_scm_vmperm *new_perms;
-  1307		u64 src, src_cpy;
-  1308		int ret = 0, i, n;
-  1309		u16 vmid;
-  1310	
-  1311		new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
-  1312		if (!new_perms)
-  1313			return -ENOMEM;
-  1314	
-  1315		for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-  1316			vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-  1317			if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-  1318				new_perms[n].vmid = vmid;
-  1319			else
-  1320				new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
-  1321			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
-  1322				new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
-  1323			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
-  1324				new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
-  1325			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
-  1326				new_perms[n].perm |= QCOM_SCM_PERM_READ;
-  1327		}
-  1328	
-  1329		src = (1ull << QCOM_SCM_VMID_HLOS);
-  1330	
-  1331		for (i = 0; i < mem_parcel->n_mem_entries; i++) {
-  1332			src_cpy = src;
-  1333			ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-  1334							le64_to_cpu(mem_parcel->mem_entries[i].size),
-> 1335							&src_cpy, new_perms, mem_parcel->n_acl_entries);
-  1336			if (ret) {
-  1337				src = 0;
-  1338				for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-  1339					vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-  1340					if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-  1341						src |= (1ull << vmid);
-  1342					else
-  1343						src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
-  1344				}
-  1345	
-  1346				new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
-  1347	
-  1348				for (i--; i >= 0; i--) {
-  1349					src_cpy = src;
-  1350					WARN_ON_ONCE(qcom_scm_assign_mem(
-  1351							le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-  1352							le64_to_cpu(mem_parcel->mem_entries[i].size),
-  1353							&src_cpy, new_perms, 1));
-  1354				}
-  1355				break;
-  1356			}
-  1357		}
-  1358	
-  1359		kfree(new_perms);
-  1360		return ret;
-  1361	}
-  1362	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQml0dGVyYmx1ZSBTbWl0
+aCA8cnRsODgyMWNlcmZlMkBnbWFpbC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkg
+MTUsIDIwMjMgNzozMCBQTQ0KPiBUbzogUGluZy1LZSBTaGloIDxwa3NoaWhAcmVhbHRlay5jb20+
+OyBEYW4gQ2FycGVudGVyIDxlcnJvcjI3QGdtYWlsLmNvbT47IG9lLWtidWlsZEBsaXN0cy5saW51
+eC5kZXYNCj4gQ2M6IGxrcEBpbnRlbC5jb207IG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2
+OyBLYWxsZSBWYWxvIDxrdmFsb0BrZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBSZTogW2xpbnV4LW5l
+eHQ6bWFzdGVyIDY4MS8xMjcyNF0gZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGw4eHh4
+dS9ydGw4eHh4dV84MTg4ZS5jOjE2NzgNCj4gcnRsODE4OGVfaGFuZGxlX3JhX3R4X3JlcG9ydDIo
+KSB3YXJuOiBpZ25vcmluZyB1bnJlYWNoYWJsZSBjb2RlLg0KPiANCj4gDQo+IEV4dGVybmFsIG1h
+aWwuDQo+IA0KPiANCj4gDQo+IE9uIDE1LzAyLzIwMjMgMDI6NTEsIFBpbmctS2UgU2hpaCB3cm90
+ZToNCj4gPg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206
+IERhbiBDYXJwZW50ZXIgPGVycm9yMjdAZ21haWwuY29tPg0KPiA+PiBTZW50OiBUdWVzZGF5LCBG
+ZWJydWFyeSAxNCwgMjAyMyA5OjI1IFBNDQo+ID4+IFRvOiBvZS1rYnVpbGRAbGlzdHMubGludXgu
+ZGV2OyBCaXR0ZXJibHVlIFNtaXRoIDxydGw4ODIxY2VyZmUyQGdtYWlsLmNvbT4NCj4gPj4gQ2M6
+IGxrcEBpbnRlbC5jb207IG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2OyBLYWxsZSBWYWxv
+IDxrdmFsb0BrZXJuZWwub3JnPjsgUGluZy1LZSBTaGloDQo+ID4+IDxwa3NoaWhAcmVhbHRlay5j
+b20+DQo+ID4+IFN1YmplY3Q6IFtsaW51eC1uZXh0Om1hc3RlciA2ODEvMTI3MjRdIGRyaXZlcnMv
+bmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnRsOHh4eHUvcnRsOHh4eHVfODE4OGUuYzoxNjc4DQo+ID4+
+IHJ0bDgxODhlX2hhbmRsZV9yYV90eF9yZXBvcnQyKCkgd2FybjogaWdub3JpbmcgdW5yZWFjaGFi
+bGUgY29kZS4NCj4gPj4NCj4gPj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9z
+Y20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0IG1hc3Rlcg0KPiA+PiBoZWFk
+OiAgIDNlYmIwYWM1NWVmYWYxZDBmYjFiMTA2Zjg1MmMxMTRlNTAyMWY3ZWINCj4gPj4gY29tbWl0
+OiA4Yjk3NTRiMjhmMGYyMzE3MzY2NjdlMTc1MWYxZmM2ZjE4YzgwYWQ0IFs2ODEvMTI3MjRdIHdp
+Zmk6IHJ0bDh4eHh1OiBBZGQgcmF0ZSBjb250cm9sIGNvZGUgZm9yDQo+ID4+IFJUTDgxODhFVQ0K
+PiA+PiBjb25maWc6IHg4Nl82NC1yYW5kY29uZmlnLW0wMDEtMjAyMzAyMTMNCj4gPj4gKGh0dHBz
+Oi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDIxNC8yMDIzMDIxNDIxMzUu
+TENxVVRWR1ktbGtwQGludGVsLmNvbS9jb25maWcpDQo+ID4+IGNvbXBpbGVyOiBnY2MtMTEgKERl
+YmlhbiAxMS4zLjAtOCkgMTEuMy4wDQo+ID4+DQo+ID4+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBr
+aW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0KPiA+PiB8IFJlcG9ydGVk
+LWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gPj4gfCBSZXBvcnRlZC1i
+eTogRGFuIENhcnBlbnRlciA8ZXJyb3IyN0BnbWFpbC5jb20+DQo+ID4+IHwgTGluazogaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDIzMDIxNDIxMzUuTENxVVRWR1ktbGtwQGludGVsLmNvbS8N
+Cj4gPj4NCj4gPj4gc21hdGNoIHdhcm5pbmdzOg0KPiA+PiBkcml2ZXJzL25ldC93aXJlbGVzcy9y
+ZWFsdGVrL3J0bDh4eHh1L3J0bDh4eHh1XzgxODhlLmM6MTY3OCBydGw4MTg4ZV9oYW5kbGVfcmFf
+dHhfcmVwb3J0MigpIHdhcm46DQo+ID4+IGlnbm9yaW5nIHVucmVhY2hhYmxlIGNvZGUuDQo+ID4+
+DQo+ID4+IHZpbSArMTY3OCBkcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1L3J0
+bDh4eHh1XzgxODhlLmMNCj4gPj4NCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0
+aCAyMDIyLTEyLTE3ICAxNjYyICB2b2lkIHJ0bDgxODhlX2hhbmRsZV9yYV90eF9yZXBvcnQyKHN0
+cnVjdA0KPiA+PiBydGw4eHh4dV9wcml2ICpwcml2LCBzdHJ1Y3Qgc2tfYnVmZiAqc2tiKQ0KPiA+
+PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NjMgIHsNCj4g
+Pj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjY0ICAgICAg
+ICB1MzIgKl9yeF9kZXNjID0gKHUzMiAqKShza2ItPmRhdGEgLQ0KPiBzaXplb2Yoc3RydWN0DQo+
+ID4+IHJ0bDh4eHh1X3J4ZGVzYzE2KSk7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUg
+U21pdGggMjAyMi0xMi0xNyAgMTY2NSAgICAgICAgc3RydWN0IHJ0bDh4eHh1X3J4ZGVzYzE2ICpy
+eF9kZXNjID0gKHN0cnVjdA0KPiA+PiBydGw4eHh4dV9yeGRlc2MxNiAqKV9yeF9kZXNjOw0KPiA+
+PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NjYgICAgICAg
+IHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwcml2LT51ZGV2LT5kZXY7DQo+ID4+IDhiOTc1NGIyOGYw
+ZjIzIEJpdHRlcmJsdWUgU21pdGggMjAyMi0xMi0xNyAgMTY2NyAgICAgICAgc3RydWN0IHJ0bDh4
+eHh1X3JhX2luZm8gKnJhID0gJnByaXYtPnJhX2luZm87DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJp
+dHRlcmJsdWUgU21pdGggMjAyMi0xMi0xNyAgMTY2OCAgICAgICAgdTMyIHR4X3JwdF9sZW4gPSBy
+eF9kZXNjLT5wa3RsZW4gJiAweDNmZjsNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBT
+bWl0aCAyMDIyLTEyLTE3ICAxNjY5ICAgICAgICB1MzIgaXRlbXMgPSB0eF9ycHRfbGVuIC8gVFhf
+UlBUMl9JVEVNX1NJWkU7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUgU21pdGggMjAy
+Mi0xMi0xNyAgMTY3MCAgICAgICAgdTY0IG1hY2lkX3ZhbGlkID0gKCh1NjQpX3J4X2Rlc2NbNV0g
+PDwgMzIpIHwNCj4gPj4gX3J4X2Rlc2NbNF07DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJs
+dWUgU21pdGggMjAyMi0xMi0xNyAgMTY3MSAgICAgICAgdTMyIG1hY2lkOw0KPiA+PiA4Yjk3NTRi
+MjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NzIgICAgICAgIHU4ICpycHQg
+PSBza2ItPmRhdGE7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUgU21pdGggMjAyMi0x
+Mi0xNyAgMTY3MyAgICAgICAgYm9vbCB2YWxpZDsNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVy
+Ymx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjc0ICAgICAgICB1MTYgbWluX3JwdF90aW1lID0gMHg5
+MjdjOw0KPiA+PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2
+NzUNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjc2
+ICAgICAgICBkZXZfZGJnKGRldiwgIiVzOiBsZW46ICVkIGl0ZW1zOiAlZFxuIiwNCj4gX19mdW5j
+X18sDQo+ID4+IHR4X3JwdF9sZW4sIGl0ZW1zKTsNCj4gPg0KPiA+IEkgdGhpbmsgYW4gYWx0ZXJu
+YXRpdmUgd2F5IGlzIHRvIGFkZCBhIHN0YXRlbWVudCB0byByZXBsYWNlIHRoZSBjb21tZW50IG9m
+DQo+ID4gdGhlIGVuZCBvZiBsb29wLiBMaWtlDQo+ID4NCj4gPiBpZiAoIXByaXYtPnZpZiB8fA0K
+PiA+ICAgICBwcml2LT52aWYtPnR5cGUgPT0gTkw4MDIxMV9JRlRZUEVfU1RBVElPTikNCj4gPiAg
+ICAgICBpdGVtcyA9IDE7DQo+ID4NCj4gPiBvcg0KPiA+DQo+ID4gaWYgKHByaXYtPnZpZiAmJg0K
+PiA+ICAgICBwcml2LT52aWYtPnR5cGUgPT0gTkw4MDIxMV9JRlRZUEVfU1RBVElPTikNCj4gPiAg
+ICAgICBpdGVtcyA9IDE7DQo+ID4NCj4gPiBUaGVuLCB3ZSBjYW4gcmVtb3ZlICdicmVhazsnIG9m
+IExOMTcyNS4NCj4gPiBXaGVuIHRoaXMgZHJpdmVyIGlzIGdvaW5nIHRvIHN1cHBvcnQgQVAgbW9k
+ZSwgdGhpcyBsb2dpYyBpcyBzdGlsbCBleHBlY3RlZC4NCj4gPg0KPiA+IEhvdyBhYm91dCB5b3Us
+IEJpdHRlcmJsdWU/DQo+ID4NCj4gPiBQaW5nLUtlDQo+IA0KPiBUaGF0IHNvdW5kcyBnb29kIHRv
+IG1lLg0KPiANCg0KSSBoYXZlIHNlbnQgYSBwYXRjaCBmb3IgdGhpcyByZXBvcnQ6IA0KaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtd2lyZWxlc3MvMjAyMzAyMTYwMDQ2NTQuNDY0Mi0xLXBr
+c2hpaEByZWFsdGVrLmNvbS9ULyN1DQoNCkNvdWxkIHlvdSBnaXZlIGl0IGEgdHJ5LCBCaXR0ZXJi
+bHVlPyANClRoZW4sIHBvc3QgYSBUZXN0ZWQtYnkgdGFnIHRoZXJlLg0KDQpUaGFuayB5b3UNClBp
+bmctS2UNCg0K
