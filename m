@@ -1,166 +1,172 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8755663;
-	Thu, 16 Feb 2023 13:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676552856; x=1708088856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3npfHYvRpavVZ0jOwSFeUCHxul+3rxwJK6fBemXsx/w=;
-  b=LE97dsTkdUQJiAptU28Tpaoe2iT8QXin7a+2+0NpO0Wh9f23ef44Qpug
-   PgC9kgvIUbZC2H3FtAFyl8Rxvpbpdig5Sqaqm68/dIWEokbVQMGv2ATaU
-   XY5pbBTioPZrqYmdeHe//Zh+vQ50QfXejzeW+kKc39yFwi07QEYy2yPAb
-   baZcuijnr1AELDTf5G2e2mK2u4glqud86k8YTcxu0+eA/odgVZYQYoOfw
-   k6y4SWmO0quY5uln4nHRP/8nCOiQYWNjP46UeiqxEb6Gn4GFNsCnimAEE
-   TvtDvFwn3/rbbBzQyOS/tufnOAcECOp2IopCFPtfTG+s522t+RdvgBa1s
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333881457"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="333881457"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 05:07:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="647672293"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="647672293"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 16 Feb 2023 05:07:32 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSdyw-000AGZ-2R;
-	Thu, 16 Feb 2023 13:07:26 +0000
-Date: Thu, 16 Feb 2023 21:06:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uday Shankar <ushankar@purestorage.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	Uday Shankar <ushankar@purestorage.com>
-Subject: Re: [PATCH] blk-mq: enforce op-specific segment limits in
- blk_insert_cloned_request
-Message-ID: <202302162040.FaI25ul2-lkp@intel.com>
-References: <20230215201507.494152-1-ushankar@purestorage.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA39B5663;
+	Thu, 16 Feb 2023 14:11:56 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id fi26so3268879edb.7;
+        Thu, 16 Feb 2023 06:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Hgez5R9pelPYJ7wOY/sirkIDqnd20XrLMzTEkX0svA=;
+        b=AXdO8D7A7qb1AzkA81ZCHncG8Zoj9wZLf6r/S0HStFI1zeRR6mqQCGKRsMcvJSHB1r
+         t/rfg/3RQ0040XhOq25TBIe1I9P46vNQPI5/Hcz0o2dNVApYHFRKf3/SP47Io+SLYtmr
+         Eo0QZ3Jj4saJvKdUQvjRC+p+oyViw23yWo3nWaSI4+A0i8Wi4GrnnaWjOtjPAI0lUpB5
+         G1BzxjbJNSYxaqYcFKgWabI6Le2QW7NAeJiO32WFBW3n6sPwtKRQqv3m1vcFpM8omYTC
+         2pCjfjpebf+EULUzW/gni1X/dRGLKw2ek0lRZaJSCn3dzuK+NOAW60ujP6f0cDT4raLE
+         uyYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Hgez5R9pelPYJ7wOY/sirkIDqnd20XrLMzTEkX0svA=;
+        b=bFBH4tcNb9Zw/VTwKqSszch1XuUoXTC/ZQsFQCNu2Or3mzOQ2BcRp+ZX9mamYDMb7i
+         8I+DCcOksp0SsjBnXMVVId6nwg3+pRCvE3wrUkqytTqCihFqU05Dlyb+xZ0Kv5ytIlmm
+         ON2TpurvHxFWsno3vcg9ErAWsetxXvYjNJxgKsgLZspYpCw5W7KvykSamFUsF0CcbFT2
+         aR4yKFwwQNuBzTCVTFRhYA53ju5uosQVY/eTRIMZngK7q9HfjSUvQtHPQ+ztr6zk2J0m
+         n2E5GHlrxmeJ1fCd4RjU7Ci5xW4Ye0Vglea+S+mwxBLjeBUS99kqN8pfAufl/P3O7j+g
+         2H1g==
+X-Gm-Message-State: AO0yUKX8D34A+m146EmpaQG80GT3jh43ihrtHIgud2pir1sp0f5T0Vg2
+	wUy+AbFQyygeyGNXv6fGwfU=
+X-Google-Smtp-Source: AK7set+lv6MREH+xhY9F3pPQM1o4AZyWjUb1GmAs5DMF73Tg8FS+X9SZyqtt4uVgLPo4C199/r/QEQ==
+X-Received: by 2002:a05:6402:3451:b0:4aa:c685:2937 with SMTP id l17-20020a056402345100b004aac6852937mr6065850edc.13.1676556715172;
+        Thu, 16 Feb 2023 06:11:55 -0800 (PST)
+Received: from [192.168.1.50] ([79.119.240.25])
+        by smtp.gmail.com with ESMTPSA id s24-20020a508d18000000b004acb2c8aeaesm930120eds.85.2023.02.16.06.11.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Feb 2023 06:11:54 -0800 (PST)
+Message-ID: <946ac25c-f4ad-8161-f814-c41ed4a99705@gmail.com>
+Date: Thu, 16 Feb 2023 16:11:17 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230215201507.494152-1-ushankar@purestorage.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [linux-next:master 681/12724]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
+ rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+To: Ping-Ke Shih <pkshih@realtek.com>, Dan Carpenter <error27@gmail.com>,
+ "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>
+Cc: "lkp@intel.com" <lkp@intel.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ Kalle Valo <kvalo@kernel.org>
+References: <202302142135.LCqUTVGY-lkp@intel.com>
+ <89d92b2ebc784c71a26810abb42a2dc7@realtek.com>
+ <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
+ <519695cc0eef4dab97ec409debab7867@realtek.com>
+Content-Language: en-US
+From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+In-Reply-To: <519695cc0eef4dab97ec409debab7867@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Uday,
+On 16/02/2023 02:52, Ping-Ke Shih wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+>> Sent: Wednesday, February 15, 2023 7:30 PM
+>> To: Ping-Ke Shih <pkshih@realtek.com>; Dan Carpenter <error27@gmail.com>; oe-kbuild@lists.linux.dev
+>> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; Kalle Valo <kvalo@kernel.org>
+>> Subject: Re: [linux-next:master 681/12724] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
+>> rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+>>
+>>
+>> External mail.
+>>
+>>
+>>
+>> On 15/02/2023 02:51, Ping-Ke Shih wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Dan Carpenter <error27@gmail.com>
+>>>> Sent: Tuesday, February 14, 2023 9:25 PM
+>>>> To: oe-kbuild@lists.linux.dev; Bitterblue Smith <rtl8821cerfe2@gmail.com>
+>>>> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; Kalle Valo <kvalo@kernel.org>; Ping-Ke Shih
+>>>> <pkshih@realtek.com>
+>>>> Subject: [linux-next:master 681/12724] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
+>>>> rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+>>>>
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>>> head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+>>>> commit: 8b9754b28f0f231736667e1751f1fc6f18c80ad4 [681/12724] wifi: rtl8xxxu: Add rate control code for
+>>>> RTL8188EU
+>>>> config: x86_64-randconfig-m001-20230213
+>>>> (https://download.01.org/0day-ci/archive/20230214/202302142135.LCqUTVGY-lkp@intel.com/config)
+>>>> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+>>>>
+>>>> If you fix the issue, kindly add following tag where applicable
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Reported-by: Dan Carpenter <error27@gmail.com>
+>>>> | Link: https://lore.kernel.org/r/202302142135.LCqUTVGY-lkp@intel.com/
+>>>>
+>>>> smatch warnings:
+>>>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn:
+>>>> ignoring unreachable code.
+>>>>
+>>>> vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
+>>>>
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1662  void rtl8188e_handle_ra_tx_report2(struct
+>>>> rtl8xxxu_priv *priv, struct sk_buff *skb)
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1663  {
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1664        u32 *_rx_desc = (u32 *)(skb->data -
+>> sizeof(struct
+>>>> rtl8xxxu_rxdesc16));
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1665        struct rtl8xxxu_rxdesc16 *rx_desc = (struct
+>>>> rtl8xxxu_rxdesc16 *)_rx_desc;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1666        struct device *dev = &priv->udev->dev;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1667        struct rtl8xxxu_ra_info *ra = &priv->ra_info;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1668        u32 tx_rpt_len = rx_desc->pktlen & 0x3ff;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1669        u32 items = tx_rpt_len / TX_RPT2_ITEM_SIZE;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1670        u64 macid_valid = ((u64)_rx_desc[5] << 32) |
+>>>> _rx_desc[4];
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1671        u32 macid;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1672        u8 *rpt = skb->data;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1673        bool valid;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1674        u16 min_rpt_time = 0x927c;
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1675
+>>>> 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1676        dev_dbg(dev, "%s: len: %d items: %d\n",
+>> __func__,
+>>>> tx_rpt_len, items);
+>>>
+>>> I think an alternative way is to add a statement to replace the comment of
+>>> the end of loop. Like
+>>>
+>>> if (!priv->vif ||
+>>>     priv->vif->type == NL80211_IFTYPE_STATION)
+>>>       items = 1;
+>>>
+>>> or
+>>>
+>>> if (priv->vif &&
+>>>     priv->vif->type == NL80211_IFTYPE_STATION)
+>>>       items = 1;
+>>>
+>>> Then, we can remove 'break;' of LN1725.
+>>> When this driver is going to support AP mode, this logic is still expected.
+>>>
+>>> How about you, Bitterblue?
+>>>
+>>> Ping-Ke
+>>
+>> That sounds good to me.
+>>
+> 
+> I have sent a patch for this report: 
+> https://lore.kernel.org/linux-wireless/20230216004654.4642-1-pkshih@realtek.com/T/#u
+> 
+> Could you give it a try, Bitterblue? 
+> Then, post a Tested-by tag there.
+> 
+> Thank you
+> Ping-Ke
+> 
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on 6bea9ac7c6481c09eb2b61d7cd844fc64a526e3e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uday-Shankar/blk-mq-enforce-op-specific-segment-limits-in-blk_insert_cloned_request/20230216-041718
-base:   6bea9ac7c6481c09eb2b61d7cd844fc64a526e3e
-patch link:    https://lore.kernel.org/r/20230215201507.494152-1-ushankar%40purestorage.com
-patch subject: [PATCH] blk-mq: enforce op-specific segment limits in blk_insert_cloned_request
-config: i386-randconfig-a004-20230213 (https://download.01.org/0day-ci/archive/20230216/202302162040.FaI25ul2-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2cd958b09698bedea1a5a5f6298f0d25ec522bf9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Uday-Shankar/blk-mq-enforce-op-specific-segment-limits-in-blk_insert_cloned_request/20230216-041718
-        git checkout 2cd958b09698bedea1a5a5f6298f0d25ec522bf9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302162040.FaI25ul2-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> block/blk-mq.c:3032:36: warning: format specifies type 'unsigned short' but the argument has type 'unsigned int' [-Wformat]
-                           __func__, rq->nr_phys_segments, max_segments);
-                                                           ^~~~~~~~~~~~
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +3032 block/blk-mq.c
-
-  2993	
-  2994	#ifdef CONFIG_BLK_MQ_STACKING
-  2995	/**
-  2996	 * blk_insert_cloned_request - Helper for stacking drivers to submit a request
-  2997	 * @rq: the request being queued
-  2998	 */
-  2999	blk_status_t blk_insert_cloned_request(struct request *rq)
-  3000	{
-  3001		struct request_queue *q = rq->q;
-  3002		unsigned int max_sectors = blk_queue_get_max_sectors(q, req_op(rq));
-  3003		unsigned int max_segments = blk_queue_get_max_segments(q, req_op(rq));
-  3004		blk_status_t ret;
-  3005	
-  3006		if (blk_rq_sectors(rq) > max_sectors) {
-  3007			/*
-  3008			 * SCSI device does not have a good way to return if
-  3009			 * Write Same/Zero is actually supported. If a device rejects
-  3010			 * a non-read/write command (discard, write same,etc.) the
-  3011			 * low-level device driver will set the relevant queue limit to
-  3012			 * 0 to prevent blk-lib from issuing more of the offending
-  3013			 * operations. Commands queued prior to the queue limit being
-  3014			 * reset need to be completed with BLK_STS_NOTSUPP to avoid I/O
-  3015			 * errors being propagated to upper layers.
-  3016			 */
-  3017			if (max_sectors == 0)
-  3018				return BLK_STS_NOTSUPP;
-  3019	
-  3020			printk(KERN_ERR "%s: over max size limit. (%u > %u)\n",
-  3021				__func__, blk_rq_sectors(rq), max_sectors);
-  3022			return BLK_STS_IOERR;
-  3023		}
-  3024	
-  3025		/*
-  3026		 * The queue settings related to segment counting may differ from the
-  3027		 * original queue.
-  3028		 */
-  3029		rq->nr_phys_segments = blk_recalc_rq_segments(rq);
-  3030		if (rq->nr_phys_segments > max_segments) {
-  3031			printk(KERN_ERR "%s: over max segments limit. (%hu > %hu)\n",
-> 3032				__func__, rq->nr_phys_segments, max_segments);
-  3033			return BLK_STS_IOERR;
-  3034		}
-  3035	
-  3036		if (q->disk && should_fail_request(q->disk->part0, blk_rq_bytes(rq)))
-  3037			return BLK_STS_IOERR;
-  3038	
-  3039		if (blk_crypto_insert_cloned_request(rq))
-  3040			return BLK_STS_IOERR;
-  3041	
-  3042		blk_account_io_start(rq);
-  3043	
-  3044		/*
-  3045		 * Since we have a scheduler attached on the top device,
-  3046		 * bypass a potential scheduler on the bottom device for
-  3047		 * insert.
-  3048		 */
-  3049		blk_mq_run_dispatch_ops(q,
-  3050				ret = blk_mq_request_issue_directly(rq, true));
-  3051		if (ret)
-  3052			blk_account_io_done(rq, ktime_get_ns());
-  3053		return ret;
-  3054	}
-  3055	EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
-  3056	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thank you for the patch. It works.
