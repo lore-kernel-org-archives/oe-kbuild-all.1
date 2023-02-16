@@ -1,52 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E59117E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 04:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A243D315
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 05:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676523021; x=1708059021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lcszLOk4VDgbu6OWIPG2GRnidptZ6OMvUGF0DcVh9do=;
-  b=goyQFMQ1rFoGt8fJyDGTxQWM7Ah8C2oNwBug88g7u+BhH5Mwdv52UXX/
-   CgxHFocKsJa+qIeZph6FOcbL5beTsr9hS2dXZSCznpahDeZ7rqDPKdoOO
-   3dWpTtPHhxdc8LCozqUpshdCg+EwvvKJglBKbKLra/hdqdsQEX6GALneB
-   JQQi0sL5oIGxBUrDc2p4mR+sWEVZZiGwdH65V+DzAy/n8CZOmU5pbPHCU
-   HJLUYwJpi/52vArwcDhEtkbAvyF623SeJzPVbn25k9MtqK8Hzbpx80npn
-   dJMX5lBDn3F1oUQoT+Ucn+1YNqjV6ht+fhEJdaABSkMbFoGbA1HbGJAX5
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="311992296"
+  t=1676523678; x=1708059678;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pKGElPS7GoHNFoom7sR6hbX9Xw4OHXTh0pZPqleMlXE=;
+  b=jTYzLLMrXMahRblcFV+SX4n0boI0rvzMqgiKa+4tVzo++4B7hkxtSzKq
+   uZ7/A1k9KMRDLDG9XdFkxqNlfqIIGOtcz72H6bsj8HBAHdg8cdy+rS5bx
+   uuQytS/fz2nm/UadH9ZDQA3BaOKAhEGJyheRZPGAMegerVRGxFlFtPAqx
+   /WMvmPqEG4I+yiwGUaOsWvAswJikXAuU09ByiN/jRNMO7/2kuzAVeaHBt
+   sE9s/QXjvTId4+TpwqRcLiihXj87E5rogShfFwpv+Tjfrt0pea1WBoMmL
+   mFQs4Ddp5+DK/3pJTkn8czwqSnA3b1PKz63vh17Zgi/707/XTqR5X148l
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="330266903"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="311992296"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 20:50:20 -0800
+   d="scan'208";a="330266903"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 21:01:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="844005709"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="915537052"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="844005709"
+   d="scan'208";a="915537052"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Feb 2023 20:50:16 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 15 Feb 2023 21:01:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSWDn-000A1H-2C;
-	Thu, 16 Feb 2023 04:50:15 +0000
-Date: Thu, 16 Feb 2023 12:49:57 +0800
+	id 1pSWOR-000A1e-2x;
+	Thu, 16 Feb 2023 05:01:15 +0000
+Date: Thu, 16 Feb 2023 13:00:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viktor Malik <vmalik@redhat.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-	Viktor Malik <vmalik@redhat.com>
-Subject: Re: [PATCH bpf-next v5 1/2] bpf: Fix attaching
- fentry/fexit/fmod_ret/lsm to modules
-Message-ID: <202302161237.VATmhmIP-lkp@intel.com>
-References: <14feaab32b06bd76b1689ade6f4709e246a77bbe.1676302508.git.vmalik@redhat.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:timers/dyn_hrtimer 2/2] kernel/time/hrtimer.c:527: undefined
+ reference to `tick_sched_timer'
+Message-ID: <202302161249.KUlfISdr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,443 +45,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14feaab32b06bd76b1689ade6f4709e246a77bbe.1676302508.git.vmalik@redhat.com>
 
-Hi Viktor,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Viktor-Malik/bpf-Fix-attaching-fentry-fexit-fmod_ret-lsm-to-modules/20230214-012627
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/14feaab32b06bd76b1689ade6f4709e246a77bbe.1676302508.git.vmalik%40redhat.com
-patch subject: [PATCH bpf-next v5 1/2] bpf: Fix attaching fentry/fexit/fmod_ret/lsm to modules
-config: arm-randconfig-r005-20230213 (https://download.01.org/0day-ci/archive/20230216/202302161237.VATmhmIP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git timers/dyn_hrtimer
+head:   6c6c32845db34e033bf1818442388e4287074f1e
+commit: 6c6c32845db34e033bf1818442388e4287074f1e [2/2] HACK: Only expire tick_sched_timer and run hrtimers via wheel
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230216/202302161249.KUlfISdr-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ae726649987118f58eb95cd056acd6a5f0619a0f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Viktor-Malik/bpf-Fix-attaching-fentry-fexit-fmod_ret-lsm-to-modules/20230214-012627
-        git checkout ae726649987118f58eb95cd056acd6a5f0619a0f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=6c6c32845db34e033bf1818442388e4287074f1e
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern timers/dyn_hrtimer
+        git checkout 6c6c32845db34e033bf1818442388e4287074f1e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/bpf/ kernel/module/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302161237.VATmhmIP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302161249.KUlfISdr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/timer.h:5,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:10,
-                    from include/linux/bpf-cgroup.h:5,
-                    from kernel/bpf/verifier.c:7:
-   kernel/bpf/../module/internal.h: In function 'mod_find':
->> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct module'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/rculist.h:391:20: note: in expansion of macro 'list_entry_rcu'
-     391 |              pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
-         |                    ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
-     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/rculist.h:391:20: note: in expansion of macro 'list_entry_rcu'
-     391 |              pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
-         |                    ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/uapi/linux/btf.h:6,
-                    from kernel/bpf/verifier.c:6:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct module'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/rculist.h:391:20: note: in expansion of macro 'list_entry_rcu'
-     391 |              pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
-         |                    ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/module.h:21,
-                    from include/linux/bpf.h:20:
->> include/linux/rculist.h:392:21: error: invalid use of undefined type 'struct module'
-     392 |                 &pos->member != (head);                                 \
-         |                     ^~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
---
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:43: note: in expansion of macro '__unqual_scalar_typeof'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct module'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/rculist.h:307:9: note: in expansion of macro 'container_of'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
-     346 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:307:22: note: in expansion of macro 'READ_ONCE'
-     307 |         container_of(READ_ONCE(ptr), type, member)
-         |                      ^~~~~~~~~
-   include/linux/rculist.h:393:23: note: in expansion of macro 'list_entry_rcu'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-         |                       ^~~~~~~~~~~~~~
-   kernel/bpf/../module/internal.h:212:9: note: in expansion of macro 'list_for_each_entry_rcu'
-     212 |         list_for_each_entry_rcu(mod, &modules, list,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h:393:41: error: invalid use of undefined type 'struct module'
-     393 |                 pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
-..
+   nios2-linux-ld: kernel/time/hrtimer.o: in function `__hrtimer_next_event_base':
+>> kernel/time/hrtimer.c:527: undefined reference to `tick_sched_timer'
+>> nios2-linux-ld: kernel/time/hrtimer.c:527: undefined reference to `tick_sched_timer'
 
 
-vim +20 include/linux/container_of.h
+vim +527 kernel/time/hrtimer.c
 
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
-7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
-e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
-e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
+   503	
+   504	static ktime_t __hrtimer_next_event_base(struct hrtimer_cpu_base *cpu_base,
+   505						 const struct hrtimer *exclude,
+   506						 unsigned int active,
+   507						 ktime_t expires_next)
+   508	{
+   509		struct hrtimer_clock_base *base;
+   510		ktime_t expires;
+   511	
+   512		for_each_active_base(base, cpu_base, active) {
+   513			struct timerqueue_node *next;
+   514			struct hrtimer *timer;
+   515	
+   516			next = timerqueue_getnext(&base->active);
+   517			timer = container_of(next, struct hrtimer, node);
+   518			if (timer == exclude) {
+   519				/* Get to the next timer in the queue. */
+   520				next = timerqueue_iterate_next(next);
+   521				if (!next)
+   522					continue;
+   523	
+   524				timer = container_of(next, struct hrtimer, node);
+   525			}
+   526	
+ > 527			if (timer->function != tick_sched_timer)
+   528				continue;
+   529	
+   530			expires = ktime_sub(hrtimer_get_expires(timer), base->offset);
+   531			trace_printk("Callback: %ps exp: %lld\n", timer->function, expires);
+   532	
+   533			if (expires < expires_next) {
+   534				expires_next = expires;
+   535	
+   536				/* Skip cpu_base update if a timer is being excluded. */
+   537				if (exclude)
+   538					continue;
+   539	
+   540				if (timer->is_soft)
+   541					cpu_base->softirq_next_timer = timer;
+   542				else
+   543					cpu_base->next_timer = timer;
+   544			}
+   545		}
+   546		/*
+   547		 * clock_was_set() might have changed base->offset of any of
+   548		 * the clock bases so the result might be negative. Fix it up
+   549		 * to prevent a false positive in clockevents_program_event().
+   550		 */
+   551		if (expires_next < 0)
+   552			expires_next = 0;
+   553		return expires_next;
+   554	}
+   555	
 
 -- 
 0-DAY CI Kernel Test Service
