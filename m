@@ -1,108 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B108BFC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 17:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676568876;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EgF7DOl7V8ylK16O4PCdIIl9XiM5kM8q4lVhSqxVNYw=;
-	b=QNP1v3xmT/PvPUUudQ9YJr9yX0a1j0sLJ7qsHzZFsTyBcSxQ3GSG9CsGZUjFenkyk9ujTj
-	q2uypdfP4R3ifWjpVgG18ySAiVzi415/yq+qdJamoHn1T98OHHdjYgJVrRDc6ZAMQ6NyNy
-	rGpbaLNJm1dTTTTtVc1E7LX3qDH3W4I=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-rJQYLcQeN8ulbAEiklClQQ-1; Thu, 16 Feb 2023 12:34:35 -0500
-X-MC-Unique: rJQYLcQeN8ulbAEiklClQQ-1
-Received: by mail-qt1-f197.google.com with SMTP id s4-20020ac85284000000b003b849aa2cd6so1592807qtn.15
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 09:34:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EgF7DOl7V8ylK16O4PCdIIl9XiM5kM8q4lVhSqxVNYw=;
-        b=X6SI6ZJzKXoRYUek7imZTcvMQrqzOIsU+gBqP3qerey2dnmEomzIhQWhqy+z9VHCGK
-         qLhEUiOEuAL2+8AhpY++8bglqdwVmCLyfkPZXXAuIdrh3jNCs3QbW9MKPBI/1fle9tCu
-         7Q3SjDiqEJk4Upovkp0sKpFgG+IIBbQk66kQGwRETH84rMguO/k6H75bt7IruDLo+KLX
-         aVbcdeEM1rsC5nIHb1mAhFQbdC9hboEsHnhcKNuMXb+1/NHmShhI7y8hMsmOCNCG1ri4
-         tKiNB/PGhYNTiJkD1AdZs/SiPn1B3k7MsdlYs1BG05/SgXs/S0qpGn39e0hk0dw06JiJ
-         aLrQ==
-X-Gm-Message-State: AO0yUKWBslJy2+xUfFOUT0oWkH4MfjeSbA9c1q8YKPp9SGgERbSP0w6x
-	efrjRXAhd+TFjoT9obiUVPNJ+gtcxj02uxsqZdT9dpMQCSYOBr8ZqmqECSi+cz6p+3XtLz99K+d
-	xO2+Z5/BXEkjGgv0/JoJ6OTtw5w==
-X-Received: by 2002:a05:622a:1897:b0:3b8:6d5a:3457 with SMTP id v23-20020a05622a189700b003b86d5a3457mr12358590qtc.6.1676568874292;
-        Thu, 16 Feb 2023 09:34:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set8hjUW5nlxcsnRidy2m+rttCluDyrsDLMX7f5LMdxWpu+WvYhj9oHGJQ3/UtdXDCFBK+iFwkQ==
-X-Received: by 2002:a05:622a:1897:b0:3b8:6d5a:3457 with SMTP id v23-20020a05622a189700b003b86d5a3457mr12358559qtc.6.1676568874027;
-        Thu, 16 Feb 2023 09:34:34 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-121-8.dyn.eolo.it. [146.241.121.8])
-        by smtp.gmail.com with ESMTPSA id k1-20020ac80201000000b003b0766cd169sm1625330qtg.2.2023.02.16.09.34.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Feb 2023 09:34:33 -0800 (PST)
-Message-ID: <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
-Subject: Re: [ammarfaizi2-block:netdev/net-next/master 27/39]
- drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
- 'build_id'
-From: Paolo Abeni <pabeni@redhat.com>
-To: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>, 
-	GNU/Weeb Mailing List
-	 <gwml@vger.gnuweeb.org>, Jiri Pirko <jiri@nvidia.com>, kernel test robot
-	 <lkp@intel.com>
-Date: Thu, 16 Feb 2023 18:34:30 +0100
-In-Reply-To: <202302170047.EjCPizu3-lkp@intel.com>
-References: <202302170047.EjCPizu3-lkp@intel.com>
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FA87B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 19:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676574637; x=1708110637;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RwY8a02AIkV97Z4qRtDsJTEpocNba67FsnuHfH7AgbQ=;
+  b=hxhpX9O4hQceaqYghsaYBLqJnufsqpkofR4pQbBV3pHWaVenxiYEjuZ8
+   6/1hwiCE9sFmmse9Vd5uFae71guUQNaaU+/zX6RCOuChxrmDBxS41BHUX
+   k05W7oI3K6b1WjXhvM3odupWU9eZIfSR6shsPN2xzcqVlh5y0vqO6uCeQ
+   CmY/YA6t9C5NBNoBTFJN60caauXI7wg6ffCo6Rt8NPKjlyU/5Rp5szo/I
+   ObkpxBKHrotOwlYWs9XH7Xp8P7SXMXFnnA3OwijUMrk/1rypCISACcote
+   P90FyppP4TomAmZazaa+vljMo2QGlHrCO23hDwk+DaykeLg2BKsuRgfmE
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331812012"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
+   d="scan'208";a="331812012"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 11:10:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="734022105"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
+   d="scan'208";a="734022105"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Feb 2023 11:10:35 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSjeM-000ASH-2v;
+	Thu, 16 Feb 2023 19:10:34 +0000
+Date: Fri, 17 Feb 2023 03:09:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yin Fengwei <fengwei.yin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] mm: add zero_user_folio_segments()
+Message-ID: <202302170219.WWlo7XAx-lkp@intel.com>
+References: <20230216160528.2146188-3-fengwei.yin@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216160528.2146188-3-fengwei.yin@intel.com>
 
-On Fri, 2023-02-17 at 00:12 +0800, kernel test robot wrote:
-> If you fix the issue, kindly add following tag where applicable
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@i=
-ntel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    drivers/net/ethernet/sfc/efx_devlink.c: In function 'efx_devlink_info_=
-running_v2':
-> > > drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' be=
-fore 'build_id'
->      185 |                 memset(&build_date, 0, sizeof(build_date)
->          |                       ~                                  ^
->          |                                                          )
->      186 | #endif
->      187 |                 build_id =3D MCDI_DWORD(outbuf, GET_VERSION_V2=
-_OUT_SUCFW_CHIP_ID);
->          |                 ~~~~~~~~                                 =20
-> > > drivers/net/ethernet/sfc/efx_devlink.c:197:55: error: expected ';' be=
-fore '}' token
->      197 |                                                  buf);
->          |                                                       ^
->          |                                                       ;
->      198 |         }
->          |         ~                                             =20
+Hi Yin,
 
-Alejandro, the bottom line is that your series need a follow-up as it
-breaks the build when CONFIG_RTC_LIB is not defined. I missed that at
-code review time.
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc8 next-20230216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Could you please sent a fix (for net-next?)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yin-Fengwei/mm-remove-duplicated-flush_dcache_folio/20230217-004045
+patch link:    https://lore.kernel.org/r/20230216160528.2146188-3-fengwei.yin%40intel.com
+patch subject: [RFC PATCH 2/2] mm: add zero_user_folio_segments()
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230217/202302170219.WWlo7XAx-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/24ce10c4a39cf847063c9d8ea4157882f13d7143
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yin-Fengwei/mm-remove-duplicated-flush_dcache_folio/20230217-004045
+        git checkout 24ce10c4a39cf847063c9d8ea4157882f13d7143
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
-Thanks!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302170219.WWlo7XAx-lkp@intel.com/
 
-Paolo
+All errors (new ones prefixed by >>):
 
+   csky-linux-ld: mm/truncate.o: in function `truncate_inode_partial_folio':
+   truncate.c:(.text+0x754): undefined reference to `zero_user_folio_segments'
+>> csky-linux-ld: truncate.c:(.text+0x7e4): undefined reference to `zero_user_folio_segments'
+   csky-linux-ld: mm/shmem.o: in function `shmem_get_folio_gfp.constprop.0':
+   shmem.c:(.text+0x1cb8): undefined reference to `zero_user_folio_segments'
+>> csky-linux-ld: shmem.c:(.text+0x1d40): undefined reference to `zero_user_folio_segments'
+>> csky-linux-ld: mm/highmem.o:(___ksymtab+zero_user_folio_segments+0x0): undefined reference to `zero_user_folio_segments'
+   csky-linux-ld: fs/libfs.o:libfs.c:(.text+0x614): more undefined references to `zero_user_folio_segments' follow
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
