@@ -1,45 +1,63 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF3AD30E;
-	Thu, 16 Feb 2023 03:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937FDD30F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 04:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676519870; x=1708055870;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jeNn1tbl3USScggvUrSfePciuCeB+sRpk1J7dzezC+0=;
-  b=eO9AjcZd5OHI5Zoh4BxnP15R4dVR4O60MLRtUVEWiuh/fx9basYOEC+z
-   jxS3+m444YEKdgCgaXkls+DmebAhoSif8DS4FErKaLQATCkTU79/adO4z
-   qjGwnM9g15A9c633OljquY2jsuOvCtxsdTVp8H2JSprcuzTklIVbG/6YT
-   jODOxqOK5zQkiTg7y17q+U3u6csgw7BlCuFXG1KBoPPTKMmLiwAxsOV/I
-   FAEptIp53/D73uM4ebOv2UnNRgYCjyhzwwqlqhf5o/Q323anGXYzNDRFO
-   Hn4sb6M8puryA0a244Sj+RtVnnCD5YC63q0hLt0j1EY1/qnkZlqlLlUp1
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="319672890"
+  t=1676520444; x=1708056444;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X0DPAmKW1lXau4Nqj9Zrh051Yjvn+u6y1ltd9lO+L+I=;
+  b=cThcMd1vlHmOv0UauaYL0eVU/e5try+ax/Q6Vy6bRneXuVhgeQNG1hwL
+   nNtJS7ksiHgbOK1d27Z7gV93+d2PDS0BC0fBnv3umO74/RbUKTIs3eTxh
+   jOF+TGu5QNCbB//xygZjxn9BKoVba2+f4rwlOIgHuOjhCfIKDaEsvmLcl
+   Sk6XxrT7qXou/7tjARFP8CAzK5ElmWaGaxC3lM15PjoIDlrvXEtSisLML
+   B+h/8ZNuGKRP6n1GIHRXY7+FXNZiyuTx08QCWgap4ly3TcO0qIHtW97kx
+   bWkHCACUpwds6B1OtbgqHnAejFVlNPtY7WaotT0/RaVtd0xZHRppTp1KX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="315292317"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="319672890"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 19:57:18 -0800
+   d="scan'208";a="315292317"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 20:07:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="779206730"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="793882911"
 X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="779206730"
+   d="scan'208";a="793882911"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2023 19:57:15 -0800
+  by orsmga004.jf.intel.com with ESMTP; 15 Feb 2023 20:07:15 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSVOU-0009zd-1f;
-	Thu, 16 Feb 2023 03:57:14 +0000
-Date: Thu, 16 Feb 2023 11:56:58 +0800
+	id 1pSVYA-0009zt-2D;
+	Thu, 16 Feb 2023 04:07:14 +0000
+Date: Thu, 16 Feb 2023 12:07:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [linux-next:master 10828/13038] arch/mips/kernel/vpe.c:643:35:
- error: no member named 'mod_mem' in 'struct module'
-Message-ID: <202302161117.pNuySGWi-lkp@intel.com>
+To: Elliot Berman <quic_eberman@quicinc.com>, Alex Elder <elder@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jassi Brar <jassisinghbrar@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Murali Nalajala <quic_mnalajal@quicinc.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+	Carl van Schaik <quic_cvanscha@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
+Message-ID: <202302161137.mfophRBY-lkp@intel.com>
+References: <20230214212316.3309053-1-quic_eberman@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,219 +66,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230214212316.3309053-1-quic_eberman@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d9019bcea1aac7eed64a1a4966282b6b7b141c8
-commit: 2ece476a23461f1a50555ad5487640c73f33ced9 [10828/13038] module: replace module_layout with module_memory
-config: mips-maltaaprp_defconfig (https://download.01.org/0day-ci/archive/20230216/202302161117.pNuySGWi-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+Hi Elliot,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on 3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
+base:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+patch link:    https://lore.kernel.org/r/20230214212316.3309053-1-quic_eberman%40quicinc.com
+patch subject: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302161137.mfophRBY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=2ece476a23461f1a50555ad5487640c73f33ced9
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 2ece476a23461f1a50555ad5487640c73f33ced9
+        # https://github.com/intel-lab-lkp/linux/commit/b427188cd418632da7b26f283f5d2c668038186f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
+        git checkout b427188cd418632da7b26f283f5d2c668038186f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302161117.pNuySGWi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302161137.mfophRBY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/mips/kernel/vpe.c:643:35: error: no member named 'mod_mem' in 'struct module'
-           v->load_addr = alloc_progmem(mod.mod_mem[MOD_TEXT].size);
-                                        ~~~ ^
-   1 error generated.
+   drivers/mailbox/gunyah-msgq.c: In function 'gh_msgq_init':
+>> drivers/mailbox/gunyah-msgq.c:180:15: error: implicit declaration of function 'mbox_bind_client' [-Werror=implicit-function-declaration]
+     180 |         ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
+         |               ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +643 arch/mips/kernel/vpe.c
+vim +/mbox_bind_client +180 drivers/mailbox/gunyah-msgq.c
 
-   569	
-   570	/*
-   571	 * Allocates a VPE with some program code space(the load address), copies the
-   572	 * contents of the program (p)buffer performing relocatations/etc, free's it
-   573	 * when finished.
-   574	 */
-   575	static int vpe_elfload(struct vpe *v)
-   576	{
-   577		Elf_Ehdr *hdr;
-   578		Elf_Shdr *sechdrs;
-   579		long err = 0;
-   580		char *secstrings, *strtab = NULL;
-   581		unsigned int len, i, symindex = 0, strindex = 0, relocate = 0;
-   582		struct module mod; /* so we can re-use the relocations code */
-   583	
-   584		memset(&mod, 0, sizeof(struct module));
-   585		strcpy(mod.name, "VPE loader");
-   586	
-   587		hdr = (Elf_Ehdr *) v->pbuffer;
-   588		len = v->plen;
-   589	
-   590		/* Sanity checks against insmoding binaries or wrong arch,
-   591		   weird elf version */
-   592		if (memcmp(hdr->e_ident, ELFMAG, SELFMAG) != 0
-   593		    || (hdr->e_type != ET_REL && hdr->e_type != ET_EXEC)
-   594		    || !elf_check_arch(hdr)
-   595		    || hdr->e_shentsize != sizeof(*sechdrs)) {
-   596			pr_warn("VPE loader: program wrong arch or weird elf version\n");
-   597	
-   598			return -ENOEXEC;
-   599		}
-   600	
-   601		if (hdr->e_type == ET_REL)
-   602			relocate = 1;
-   603	
-   604		if (len < hdr->e_shoff + hdr->e_shnum * sizeof(Elf_Shdr)) {
-   605			pr_err("VPE loader: program length %u truncated\n", len);
-   606	
-   607			return -ENOEXEC;
-   608		}
-   609	
-   610		/* Convenience variables */
-   611		sechdrs = (void *)hdr + hdr->e_shoff;
-   612		secstrings = (void *)hdr + sechdrs[hdr->e_shstrndx].sh_offset;
-   613		sechdrs[0].sh_addr = 0;
-   614	
-   615		/* And these should exist, but gcc whinges if we don't init them */
-   616		symindex = strindex = 0;
-   617	
-   618		if (relocate) {
-   619			for (i = 1; i < hdr->e_shnum; i++) {
-   620				if ((sechdrs[i].sh_type != SHT_NOBITS) &&
-   621				    (len < sechdrs[i].sh_offset + sechdrs[i].sh_size)) {
-   622					pr_err("VPE program length %u truncated\n",
-   623					       len);
-   624					return -ENOEXEC;
-   625				}
-   626	
-   627				/* Mark all sections sh_addr with their address in the
-   628				   temporary image. */
-   629				sechdrs[i].sh_addr = (size_t) hdr +
-   630					sechdrs[i].sh_offset;
-   631	
-   632				/* Internal symbols and strings. */
-   633				if (sechdrs[i].sh_type == SHT_SYMTAB) {
-   634					symindex = i;
-   635					strindex = sechdrs[i].sh_link;
-   636					strtab = (char *)hdr +
-   637						sechdrs[strindex].sh_offset;
-   638				}
-   639			}
-   640			layout_sections(&mod, hdr, sechdrs, secstrings);
-   641		}
-   642	
- > 643		v->load_addr = alloc_progmem(mod.mod_mem[MOD_TEXT].size);
-   644		if (!v->load_addr)
-   645			return -ENOMEM;
-   646	
-   647		pr_info("VPE loader: loading to %p\n", v->load_addr);
-   648	
-   649		if (relocate) {
-   650			for (i = 0; i < hdr->e_shnum; i++) {
-   651				void *dest;
-   652	
-   653				if (!(sechdrs[i].sh_flags & SHF_ALLOC))
-   654					continue;
-   655	
-   656				dest = v->load_addr + sechdrs[i].sh_entsize;
-   657	
-   658				if (sechdrs[i].sh_type != SHT_NOBITS)
-   659					memcpy(dest, (void *)sechdrs[i].sh_addr,
-   660					       sechdrs[i].sh_size);
-   661				/* Update sh_addr to point to copy in image. */
-   662				sechdrs[i].sh_addr = (unsigned long)dest;
-   663	
-   664				pr_debug(" section sh_name %s sh_addr 0x%x\n",
-   665					 secstrings + sechdrs[i].sh_name,
-   666					 sechdrs[i].sh_addr);
-   667			}
-   668	
-   669			/* Fix up syms, so that st_value is a pointer to location. */
-   670			simplify_symbols(sechdrs, symindex, strtab, secstrings,
-   671					 hdr->e_shnum, &mod);
-   672	
-   673			/* Now do relocations. */
-   674			for (i = 1; i < hdr->e_shnum; i++) {
-   675				const char *strtab = (char *)sechdrs[strindex].sh_addr;
-   676				unsigned int info = sechdrs[i].sh_info;
-   677	
-   678				/* Not a valid relocation section? */
-   679				if (info >= hdr->e_shnum)
-   680					continue;
-   681	
-   682				/* Don't bother with non-allocated sections */
-   683				if (!(sechdrs[info].sh_flags & SHF_ALLOC))
-   684					continue;
-   685	
-   686				if (sechdrs[i].sh_type == SHT_REL)
-   687					err = apply_relocations(sechdrs, strtab,
-   688								symindex, i, &mod);
-   689				else if (sechdrs[i].sh_type == SHT_RELA)
-   690					err = apply_relocate_add(sechdrs, strtab,
-   691								 symindex, i, &mod);
-   692				if (err < 0)
-   693					return err;
-   694	
-   695			}
-   696		} else {
-   697			struct elf_phdr *phdr = (struct elf_phdr *)
-   698							((char *)hdr + hdr->e_phoff);
-   699	
-   700			for (i = 0; i < hdr->e_phnum; i++) {
-   701				if (phdr->p_type == PT_LOAD) {
-   702					memcpy((void *)phdr->p_paddr,
-   703					       (char *)hdr + phdr->p_offset,
-   704					       phdr->p_filesz);
-   705					memset((void *)phdr->p_paddr + phdr->p_filesz,
-   706					       0, phdr->p_memsz - phdr->p_filesz);
-   707			    }
-   708			    phdr++;
-   709			}
-   710	
-   711			for (i = 0; i < hdr->e_shnum; i++) {
-   712				/* Internal symbols and strings. */
-   713				if (sechdrs[i].sh_type == SHT_SYMTAB) {
-   714					symindex = i;
-   715					strindex = sechdrs[i].sh_link;
-   716					strtab = (char *)hdr +
-   717						sechdrs[strindex].sh_offset;
-   718	
-   719					/*
-   720					 * mark symtab's address for when we try
-   721					 * to find the magic symbols
-   722					 */
-   723					sechdrs[i].sh_addr = (size_t) hdr +
-   724						sechdrs[i].sh_offset;
-   725				}
-   726			}
-   727		}
-   728	
-   729		/* make sure it's physically written out */
-   730		flush_icache_range((unsigned long)v->load_addr,
-   731				   (unsigned long)v->load_addr + v->len);
-   732	
-   733		if ((find_vpe_symbols(v, sechdrs, symindex, strtab, &mod)) < 0) {
-   734			if (v->__start == 0) {
-   735				pr_warn("VPE loader: program does not contain a __start symbol\n");
-   736				return -ENOEXEC;
-   737			}
-   738	
-   739			if (v->shared_ptr == NULL)
-   740				pr_warn("VPE loader: program does not contain vpe_shared symbol.\n"
-   741					" Unable to use AMVP (AP/SP) facilities.\n");
-   742		}
-   743	
-   744		pr_info(" elf loaded\n");
-   745		return 0;
-   746	}
-   747	
+   110	
+   111	/**
+   112	 * gh_msgq_init() - Initialize a Gunyah message queue with an mbox_client
+   113	 * @parent: optional, device parent used for the mailbox controller
+   114	 * @msgq: Pointer to the gh_msgq to initialize
+   115	 * @cl: A mailbox client to bind to the mailbox channel that the message queue creates
+   116	 * @tx_ghrsc: optional, the transmission side of the message queue
+   117	 * @rx_ghrsc: optional, the receiving side of the message queue
+   118	 *
+   119	 * At least one of tx_ghrsc and rx_ghrsc should be not NULL. Most message queue use cases come with
+   120	 * a pair of message queues to facilitate bidirectional communication. When tx_ghrsc is set,
+   121	 * the client can send messages with mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
+   122	 * is set, the mbox_client should register an .rx_callback() and the message queue driver will
+   123	 * push all available messages upon receiving the RX ready interrupt. The messages should be
+   124	 * consumed or copied by the client right away as the gh_msgq_rx_data will be replaced/destroyed
+   125	 * after the callback.
+   126	 *
+   127	 * Returns - 0 on success, negative otherwise
+   128	 */
+   129	int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
+   130			     struct gunyah_resource *tx_ghrsc, struct gunyah_resource *rx_ghrsc)
+   131	{
+   132		int ret;
+   133	
+   134		/* Must have at least a tx_ghrsc or rx_ghrsc and that they are the right device types */
+   135		if ((!tx_ghrsc && !rx_ghrsc) ||
+   136		    (tx_ghrsc && tx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_TX) ||
+   137		    (rx_ghrsc && rx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_RX))
+   138			return -EINVAL;
+   139	
+   140		if (gh_api_version() != GUNYAH_API_V1) {
+   141			pr_err("Unrecognized gunyah version: %u. Currently supported: %d\n",
+   142				gh_api_version(), GUNYAH_API_V1);
+   143			return -EOPNOTSUPP;
+   144		}
+   145	
+   146		if (!gh_api_has_feature(GH_API_FEATURE_MSGQUEUE))
+   147			return -EOPNOTSUPP;
+   148	
+   149		msgq->tx_ghrsc = tx_ghrsc;
+   150		msgq->rx_ghrsc = rx_ghrsc;
+   151	
+   152		msgq->mbox.dev = parent;
+   153		msgq->mbox.ops = &gh_msgq_ops;
+   154		msgq->mbox.num_chans = 1;
+   155		msgq->mbox.txdone_irq = true;
+   156		msgq->mbox.chans = kcalloc(msgq->mbox.num_chans, sizeof(*msgq->mbox.chans), GFP_KERNEL);
+   157		if (!msgq->mbox.chans)
+   158			return -ENOMEM;
+   159	
+   160		if (msgq->tx_ghrsc) {
+   161			ret = request_irq(msgq->tx_ghrsc->irq, gh_msgq_tx_irq_handler, 0, "gh_msgq_tx",
+   162					msgq);
+   163			if (ret)
+   164				goto err_chans;
+   165		}
+   166	
+   167		if (msgq->rx_ghrsc) {
+   168			ret = request_threaded_irq(msgq->rx_ghrsc->irq, NULL, gh_msgq_rx_irq_handler,
+   169							IRQF_ONESHOT, "gh_msgq_rx", msgq);
+   170			if (ret)
+   171				goto err_tx_irq;
+   172		}
+   173	
+   174		tasklet_setup(&msgq->txdone_tasklet, gh_msgq_txdone_tasklet);
+   175	
+   176		ret = mbox_controller_register(&msgq->mbox);
+   177		if (ret)
+   178			goto err_rx_irq;
+   179	
+ > 180		ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
+   181		if (ret)
+   182			goto err_mbox;
+   183	
+   184		return 0;
+   185	err_mbox:
+   186		mbox_controller_unregister(&msgq->mbox);
+   187	err_rx_irq:
+   188		if (msgq->rx_ghrsc)
+   189			free_irq(msgq->rx_ghrsc->irq, msgq);
+   190	err_tx_irq:
+   191		if (msgq->tx_ghrsc)
+   192			free_irq(msgq->tx_ghrsc->irq, msgq);
+   193	err_chans:
+   194		kfree(msgq->mbox.chans);
+   195		return ret;
+   196	}
+   197	EXPORT_SYMBOL_GPL(gh_msgq_init);
+   198	
 
 -- 
 0-DAY CI Kernel Test Service
