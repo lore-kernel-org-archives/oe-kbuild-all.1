@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F30833E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 21:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D233E6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 21:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676582572; x=1708118572;
+  t=1676584428; x=1708120428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J/nw3uPigcxhLBOyEMnS8WEBM3lYbecYZHAben2gokw=;
-  b=N9QblO/wAhtjGg7zQx3zrLH+/C01fGTY11y+XtoKi45UdHX3e1AbfQfc
-   FTTLpwWre/IdyE/zbSkjviJJC5+QPyFUAT3+ckxKRGH+Rpc+3lXAtNbUG
-   oJbkZL6XbnvUMj4X5RBKfodYbBmVzy6HczBRio16N3VDEk1vb4OvyJHTX
-   gtRNUAGEEe327Ng+h1/jJvJd0OKb512fdNnp+PYTVTOxnJ5HHuv1PjrF6
-   erOkimjQsSgs21GNXB71yMHRusbug7bFIt85F9/J2AqvQS+r6b6jTGKGT
-   PJMz5tM1lVOg02+SOazVNhCvxsMyWfJh1fgni5sXEzqM8tm8mSG2y3JDp
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="312206658"
+  bh=YUbT+xxneuAF02DbZVfC5cH8eobmoQhiBdzjPV4zhis=;
+  b=bA6kqyous340G14EaJGMCc0KESIU3/TJVdTvtjlb38kFcNThosqltxWi
+   GathIDfXyhrczURA5wuW1g057LfIN0YFW6T9Lw7SINX59iiUTsXPunMvB
+   ntu6biLK8SMZGSitI9YPz7SbYNAOyo1hxZMbHKAH/NZ0TaNglm/XYs4mP
+   4ULnReN/Im9u5uW1CWBHtu08ptHq+AhJX2q/s3AmBYSG/6jtP65tngjFW
+   CHwg8iEZuruUQzKAuZKqocOf3u2Iye9fx8Qtjy5VyPlhO2NUZLTJ9rJw1
+   pWLjfqpjbF0L3bEDfHJOgCY/5//lRMNqYsRbP/4dSEHeTcyYBLxIG+RZY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="319946588"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="312206658"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 13:22:47 -0800
+   d="scan'208";a="319946588"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 13:53:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="734063456"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="739010824"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="734063456"
+   d="scan'208";a="739010824"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 16 Feb 2023 13:22:46 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 16 Feb 2023 13:53:47 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSliH-000AqV-2f;
-	Thu, 16 Feb 2023 21:22:45 +0000
-Date: Fri, 17 Feb 2023 05:22:24 +0800
+	id 1pSmCI-000Arl-1n;
+	Thu, 16 Feb 2023 21:53:46 +0000
+Date: Fri, 17 Feb 2023 05:52:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:gpu/explicit-sync 282/568]
- ./usr/include/drm/asahi_drm.h:27:9: error: C++ style comments are not
- allowed in ISO C90
-Message-ID: <202302170538.fVWYOfSw-lkp@intel.com>
+Subject: [lunn:v6.2-rc7-net-next-ethtool-eee-v3 7/21] ERROR: modpost:
+ "phy_eee_clk_stop_enable" [drivers/net/ethernet/stmicro/stmmac/stmmac.ko]
+ undefined!
+Message-ID: <202302170557.oFybDhQd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,32 +47,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux gpu/explicit-sync
-head:   10a3aa7dd553f5978864da29eafeebcfcb165cb5
-commit: be0fb803f5eb559f45b0cfc95f473c7644c99c8c [282/568] drm/asahi: UAPI: Move around ioctls & add parameters
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230217/202302170538.fVWYOfSw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/lunn/linux.git v6.2-rc7-net-next-ethtool-eee-v3
+head:   9c8e8957f38659b7c61168de1a6a742000b75e64
+commit: 9d09b574e5f5842487f05ec340786d631d1aff2f [7/21] net: stmmac: Drop usage of phy_init_eee()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230217/202302170557.oFybDhQd-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/AsahiLinux/linux/commit/be0fb803f5eb559f45b0cfc95f473c7644c99c8c
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux gpu/explicit-sync
-        git checkout be0fb803f5eb559f45b0cfc95f473c7644c99c8c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/lunn/linux/commit/9d09b574e5f5842487f05ec340786d631d1aff2f
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.2-rc7-net-next-ethtool-eee-v3
+        git checkout 9d09b574e5f5842487f05ec340786d631d1aff2f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302170538.fVWYOfSw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302170557.oFybDhQd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
->> ./usr/include/drm/asahi_drm.h:27:9: error: C++ style comments are not allowed in ISO C90
-      27 |         // UAPI related
-         |         ^
-   ./usr/include/drm/asahi_drm.h:27:9: note: (this will be reported only once per input file)
+>> ERROR: modpost: "phy_eee_clk_stop_enable" [drivers/net/ethernet/stmicro/stmmac/stmmac.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
