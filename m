@@ -1,122 +1,108 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5636FD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 17:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676568875; x=1708104875;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=21F6ZeATCCAcYELhYng2IrjTvFvXrXpP7BPL/Zv6wRM=;
-  b=KvRsG1jpNzUPYPH4q+Q1t4AyQIEAoxqci2I1C9KNffrqNyroQOsfQZ8x
-   kL01xQzFyzilvU2Mivp9BFJBkoN3v68gITsA4O3PcfNLUKYaYQ/YmRjzQ
-   UPq/T1L/yA1DfbcwjgVI9rJCvR5NidJq/r2cHQoOlOfQ6c1WrNqZynFI0
-   Zn2lNsYHTBjVHQIwF4zcCfAvLX1RdrD8cdLTb7lgMYRrSWHSbebeVSeZz
-   9kZcL7Qxt9DTZEvYeUmkMAfnESSzjSJDbjpTf69Bxb1gBrSGVqprluRR2
-   XiWjIw0EUcrnpgD+qDJXK72yvvqcGfY+fFuHGi0lwrOdbPEpgM5ouvC1l
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396452382"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="396452382"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 09:34:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759016811"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="759016811"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Feb 2023 09:34:32 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSi9Q-000AO1-0C;
-	Thu, 16 Feb 2023 17:34:32 +0000
-Date: Fri, 17 Feb 2023 01:34:23 +0800
-From: kernel test robot <lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B108BFC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 17:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676568876;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EgF7DOl7V8ylK16O4PCdIIl9XiM5kM8q4lVhSqxVNYw=;
+	b=QNP1v3xmT/PvPUUudQ9YJr9yX0a1j0sLJ7qsHzZFsTyBcSxQ3GSG9CsGZUjFenkyk9ujTj
+	q2uypdfP4R3ifWjpVgG18ySAiVzi415/yq+qdJamoHn1T98OHHdjYgJVrRDc6ZAMQ6NyNy
+	rGpbaLNJm1dTTTTtVc1E7LX3qDH3W4I=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-46-rJQYLcQeN8ulbAEiklClQQ-1; Thu, 16 Feb 2023 12:34:35 -0500
+X-MC-Unique: rJQYLcQeN8ulbAEiklClQQ-1
+Received: by mail-qt1-f197.google.com with SMTP id s4-20020ac85284000000b003b849aa2cd6so1592807qtn.15
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 09:34:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EgF7DOl7V8ylK16O4PCdIIl9XiM5kM8q4lVhSqxVNYw=;
+        b=X6SI6ZJzKXoRYUek7imZTcvMQrqzOIsU+gBqP3qerey2dnmEomzIhQWhqy+z9VHCGK
+         qLhEUiOEuAL2+8AhpY++8bglqdwVmCLyfkPZXXAuIdrh3jNCs3QbW9MKPBI/1fle9tCu
+         7Q3SjDiqEJk4Upovkp0sKpFgG+IIBbQk66kQGwRETH84rMguO/k6H75bt7IruDLo+KLX
+         aVbcdeEM1rsC5nIHb1mAhFQbdC9hboEsHnhcKNuMXb+1/NHmShhI7y8hMsmOCNCG1ri4
+         tKiNB/PGhYNTiJkD1AdZs/SiPn1B3k7MsdlYs1BG05/SgXs/S0qpGn39e0hk0dw06JiJ
+         aLrQ==
+X-Gm-Message-State: AO0yUKWBslJy2+xUfFOUT0oWkH4MfjeSbA9c1q8YKPp9SGgERbSP0w6x
+	efrjRXAhd+TFjoT9obiUVPNJ+gtcxj02uxsqZdT9dpMQCSYOBr8ZqmqECSi+cz6p+3XtLz99K+d
+	xO2+Z5/BXEkjGgv0/JoJ6OTtw5w==
+X-Received: by 2002:a05:622a:1897:b0:3b8:6d5a:3457 with SMTP id v23-20020a05622a189700b003b86d5a3457mr12358590qtc.6.1676568874292;
+        Thu, 16 Feb 2023 09:34:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set8hjUW5nlxcsnRidy2m+rttCluDyrsDLMX7f5LMdxWpu+WvYhj9oHGJQ3/UtdXDCFBK+iFwkQ==
+X-Received: by 2002:a05:622a:1897:b0:3b8:6d5a:3457 with SMTP id v23-20020a05622a189700b003b86d5a3457mr12358559qtc.6.1676568874027;
+        Thu, 16 Feb 2023 09:34:34 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-121-8.dyn.eolo.it. [146.241.121.8])
+        by smtp.gmail.com with ESMTPSA id k1-20020ac80201000000b003b0766cd169sm1625330qtg.2.2023.02.16.09.34.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 09:34:33 -0800 (PST)
+Message-ID: <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
+Subject: Re: [ammarfaizi2-block:netdev/net-next/master 27/39]
+ drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
+ 'build_id'
+From: Paolo Abeni <pabeni@redhat.com>
 To: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@nvidia.com>
-Subject: [tnguy-next-queue:master 27/39]
- drivers/net/ethernet/sfc/efx_devlink.c:522:2: error: unterminated argument
- list invoking macro "memset"
-Message-ID: <202302170135.8MjefLR1-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>, 
+	GNU/Weeb Mailing List
+	 <gwml@vger.gnuweeb.org>, Jiri Pirko <jiri@nvidia.com>, kernel test robot
+	 <lkp@intel.com>
+Date: Thu, 16 Feb 2023 18:34:30 +0100
+In-Reply-To: <202302170047.EjCPizu3-lkp@intel.com>
+References: <202302170047.EjCPizu3-lkp@intel.com>
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git master
-head:   40967f77dfa9fa728b7f36a5d2eb432f39de185c
-commit: 14743ddd2495c96caa18e382625c034e49a812e2 [27/39] sfc: add devlink info support for ef100
-config: s390-randconfig-r035-20230216 (https://download.01.org/0day-ci/archive/20230217/202302170135.8MjefLR1-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git/commit/?id=14743ddd2495c96caa18e382625c034e49a812e2
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch --no-tags tnguy-next-queue master
-        git checkout 14743ddd2495c96caa18e382625c034e49a812e2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/ethernet/sfc/
+On Fri, 2023-02-17 at 00:12 +0800, kernel test robot wrote:
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@i=
+ntel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/net/ethernet/sfc/efx_devlink.c: In function 'efx_devlink_info_=
+running_v2':
+> > > drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' be=
+fore 'build_id'
+>      185 |                 memset(&build_date, 0, sizeof(build_date)
+>          |                       ~                                  ^
+>          |                                                          )
+>      186 | #endif
+>      187 |                 build_id =3D MCDI_DWORD(outbuf, GET_VERSION_V2=
+_OUT_SUCFW_CHIP_ID);
+>          |                 ~~~~~~~~                                 =20
+> > > drivers/net/ethernet/sfc/efx_devlink.c:197:55: error: expected ';' be=
+fore '}' token
+>      197 |                                                  buf);
+>          |                                                       ^
+>          |                                                       ;
+>      198 |         }
+>          |         ~                                             =20
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302170135.8MjefLR1-lkp@intel.com/
+Alejandro, the bottom line is that your series need a follow-up as it
+breaks the build when CONFIG_RTC_LIB is not defined. I missed that at
+code review time.
 
-All errors (new ones prefixed by >>):
+Could you please sent a fix (for net-next?)
 
-   drivers/net/ethernet/sfc/efx_devlink.c: In function 'efx_devlink_info_running_v2':
->> drivers/net/ethernet/sfc/efx_devlink.c:522:2: error: unterminated argument list invoking macro "memset"
-     522 | }
-         |  ^
-   drivers/net/ethernet/sfc/efx_devlink.c:185:17: warning: statement with no effect [-Wunused-value]
-     185 |                 memset(&build_date, 0, sizeof(build_date)
-         |                 ^~~~~~
->> drivers/net/ethernet/sfc/efx_devlink.c:185:23: error: expected ';' at end of input
-     185 |                 memset(&build_date, 0, sizeof(build_date)
-         |                       ^
-         |                       ;
-   ......
->> drivers/net/ethernet/sfc/efx_devlink.c:185:17: error: expected declaration or statement at end of input
-     185 |                 memset(&build_date, 0, sizeof(build_date)
-         |                 ^~~~~~
->> drivers/net/ethernet/sfc/efx_devlink.c:185:17: error: expected declaration or statement at end of input
-   drivers/net/ethernet/sfc/efx_devlink.c:94:25: warning: unused variable 'build_date' [-Wunused-variable]
-      94 |         struct rtc_time build_date;
-         |                         ^~~~~~~~~~
-   drivers/net/ethernet/sfc/efx_devlink.c: At top level:
-   drivers/net/ethernet/sfc/efx_devlink.c:84:13: warning: 'efx_devlink_info_running_v2' defined but not used [-Wunused-function]
-      84 | static void efx_devlink_info_running_v2(struct efx_nic *efx,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/efx_devlink.c:46:12: warning: 'efx_devlink_info_stored_versions' defined but not used [-Wunused-function]
-      46 | static int efx_devlink_info_stored_versions(struct efx_nic *efx,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thanks!
 
+Paolo
 
-vim +/memset +522 drivers/net/ethernet/sfc/efx_devlink.c
-
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  515  
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  516  void efx_probe_devlink_unlock(struct efx_nic *efx)
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  517  {
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  518  	if (!efx->devlink)
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  519  		return;
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  520  
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  521  	devl_unlock(efx->devlink);
-fa34a5140a8e8f Alejandro Lucero 2023-02-15 @522  }
-
-:::::: The code at line 522 was first introduced by commit
-:::::: fa34a5140a8e8f4120e86a1ae622b5df58414c3a sfc: add devlink support for ef100
-
-:::::: TO: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-:::::: CC: Paolo Abeni <pabeni@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
