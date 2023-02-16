@@ -1,43 +1,52 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9862028E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 10:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676544704; x=1708080704;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C1uRYTrLnC8qo9sX65OaGRa5i0d//lvhi2nAXlKQX3o=;
-  b=T8ctMYuuCJijPUbIvxq6Djr17d4POD3K1qtPgVdNk2rOchuTdAvruJHT
-   JTzfn8OY6lS3A48rxr3WE5HlKQHqSxehj27twxwp2ewsciIWCpyGIvcd+
-   EXjnyYZYC9d92nxMJn5z/yXqnPbbjkuD2n4jPhI2weoAmCo1HiQULXbOg
-   XKujwAwNkgn8DFczUSgA0kGfjDH5AD5Ib7HELvpOXA0Zk9SeN2Gxw8ya7
-   Loljmpk+Kbs9jyZm14D1ZFxHYkG2LjzRyBmtKCoI07V27rfYz1swYirVX
-   DU1rKwY03ztYYTBUVjSZ0vXpOCp2wZoKoGRKNesDccgdTVjYEaHot6jIN
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="417910209"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="417910209"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 02:50:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="793985466"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="793985466"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2023 02:50:24 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSbqK-000ACf-0C;
-	Thu, 16 Feb 2023 10:50:24 +0000
-Date: Thu, 16 Feb 2023 18:49:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hari Nagalla <hnagalla@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-linux-5.10.y-cicd 20735/20749]
- drivers/remoteproc/ti_k3_m4_remoteproc.c:379:46: warning: cast to pointer
- from integer of different size
-Message-ID: <202302161848.NvGL2jDs-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33B228E2;
+	Thu, 16 Feb 2023 10:54:51 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id qw12so4218236ejc.2;
+        Thu, 16 Feb 2023 02:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9d0PrkqVR7RWwHDAQb7ACiH4nug2M7E1Iiu+Ew45btw=;
+        b=oOQtFOZ4rMwIG462fFPhvF0fRSWeGqZRzJQqJlJvB6KU/GVRRBfo3KVtwdFRWjwrjn
+         yNkTum0WsAp5TPeimhOLlSkfC5ogTLg4e3p11WMf7oZdEFtC8/h1rszKYNXXtmcWIqu8
+         1vUoXh0mW8iGFC67KqVtCxR81gr/FkHuEJsniUR+0DUvOzmZGC7saQK8Yxls8Yi+6SA4
+         GMNYxwXH9ONtnDNTBw+r1eQ7LXdxY5ptKcfLFhTrvYhguMNCy5w+rN0rqZGJDB1m3HpI
+         J+mpjJiEys+Jek3OdRodV9878Ti6vu07IPBslwqgHArmXZpTnVR1ZLSbzV+gy3YEK7Ol
+         gjiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9d0PrkqVR7RWwHDAQb7ACiH4nug2M7E1Iiu+Ew45btw=;
+        b=M+e8I4u8YoT6GpTDsPobb+5FBqEwUOaDWRvzEHDg8ipVNdk8LRVCdJhR3sqnXCfRTa
+         R+lNT+R7OVaFy3yi0OF1nLhad2iX1ZAx/l6qqgRw0LI1N8Be+4WDh/3SORPAwLq1WD/b
+         Km2A5w5x469NdEQ8KDFaWlsaLOAxEUD3nl26anRLcac3noQ/xA3Tfl65tbMrKHOKXGgm
+         FmUTh5gWuqvWjpZYcuXUIPlMHpGCumPZT647fziTocSuIVgmST3WUbsEGa9KNXRTnURR
+         mWnmA5RFa6lzi4b+5zOZxaru0kENxhp6ib2dcj6WmCftBp2pmjLyIRuJ4dH7h/v1AkI6
+         yaZw==
+X-Gm-Message-State: AO0yUKVfxO+Xg+r+KEQeCksb4SYbDqeJ8le2oUMCVIPqyR6fGDnVV7nG
+	oLblCn2ydofga7imLMZDb7dSB/qBnw0=
+X-Google-Smtp-Source: AK7set9Oy5S9Yr0n0nlHFC1PAlfEeEbH2+wRc0QeKP4E6Cs5jxyLs1qTlkGK9gKllKR2VYjHmZZr0w==
+X-Received: by 2002:a17:907:1303:b0:8b1:2cdb:b8dd with SMTP id vj3-20020a170907130300b008b12cdbb8ddmr4254548ejb.58.1676544889508;
+        Thu, 16 Feb 2023 02:54:49 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k26-20020a50ce5a000000b004a2470f920esm670835edj.25.2023.02.16.02.54.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 02:54:48 -0800 (PST)
+Date: Thu, 16 Feb 2023 13:54:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Riana Tauro <riana.tauro@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Anshuman Gupta <anshuman.gupta@intel.com>,
+	Badal Nilawar <badal.nilawar@intel.com>,
+	Ashutosh Dixit <ashutosh.dixit@intel.com>
+Subject: drivers/gpu/drm/i915/i915_hwmon.c:69 hwm_in_read() error:
+ uninitialized symbol 'reg_value'.
+Message-ID: <202302161256.eeoRFhSo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +56,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y-cicd
-head:   76b3e88d569210a51399e8d8c8babd995af29d11
-commit: 99cff963c4139e4181d5fc32dbad947f6cd4ed1d [20735/20749] remoteproc: k3-m4: extend stop to send shutdown message to m4 core
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302161848.NvGL2jDs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-linux-5.10.y-cicd
-        git checkout 99cff963c4139e4181d5fc32dbad947f6cd4ed1d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   033c40a89f55525139fd5b6342281b09b97d05bf
+commit: f8572bb675250ee527d9ba35fa1ce17480407399 drm/i915/hwmon: Add HWMON current voltage support
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230216/202302161256.eeoRFhSo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302161848.NvGL2jDs-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302161256.eeoRFhSo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/i915/i915_hwmon.c:69 hwm_in_read() error: uninitialized symbol 'reg_value'.
 
-   drivers/remoteproc/ti_k3_m4_remoteproc.c: In function 'k3_m4_rproc_start':
-   drivers/remoteproc/ti_k3_m4_remoteproc.c:333:13: warning: variable 'boot_addr' set but not used [-Wunused-but-set-variable]
-     333 |         u32 boot_addr;
-         |             ^~~~~~~~~
-   drivers/remoteproc/ti_k3_m4_remoteproc.c: In function 'k3_m4_rproc_stop':
->> drivers/remoteproc/ti_k3_m4_remoteproc.c:379:46: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     379 |         ret = mbox_send_message(kproc->mbox, (void *)msg);
-         |                                              ^
+vim +/reg_value +69 drivers/gpu/drm/i915/i915_hwmon.c
 
+f8572bb675250e Riana Tauro 2022-10-13  57  static int
+f8572bb675250e Riana Tauro 2022-10-13  58  hwm_in_read(struct hwm_drvdata *ddat, u32 attr, long *val)
+f8572bb675250e Riana Tauro 2022-10-13  59  {
+f8572bb675250e Riana Tauro 2022-10-13  60  	struct i915_hwmon *hwmon = ddat->hwmon;
+f8572bb675250e Riana Tauro 2022-10-13  61  	intel_wakeref_t wakeref;
+f8572bb675250e Riana Tauro 2022-10-13  62  	u32 reg_value;
+f8572bb675250e Riana Tauro 2022-10-13  63  
+f8572bb675250e Riana Tauro 2022-10-13  64  	switch (attr) {
+f8572bb675250e Riana Tauro 2022-10-13  65  	case hwmon_in_input:
+f8572bb675250e Riana Tauro 2022-10-13  66  		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
+f8572bb675250e Riana Tauro 2022-10-13  67  			reg_value = intel_uncore_read(ddat->uncore, hwmon->rg.gt_perf_status);
 
-vim +379 drivers/remoteproc/ti_k3_m4_remoteproc.c
+The with_intel_runtime_pm() macro is a complicated if statement, but
+written as a for loop so it can do a get() and a put()?  reg_value is
+not initialized in the without pm case.
 
-   357	
-   358	/*
-   359	 * Stop the M4 remote processor.
-   360	 *
-   361	 * This function puts the M4 processor into reset, and finishes processing
-   362	 * of any pending messages.
-   363	 */
-   364	static int k3_m4_rproc_stop(struct rproc *rproc)
-   365	{
-   366		unsigned long to = msecs_to_jiffies(3000);
-   367		struct k3_m4_rproc *kproc = rproc->priv;
-   368		struct device *dev = kproc->dev;
-   369		u32 msg = RP_MBOX_SHUTDOWN;
-   370		int ret;
-   371	
-   372		if (kproc->ipc_only) {
-   373			dev_err(dev, "%s cannot be invoked in IPC-only mode\n",
-   374				__func__);
-   375			return -EINVAL;
-   376		}
-   377	
-   378		reinit_completion(&kproc->shut_comp);
- > 379		ret = mbox_send_message(kproc->mbox, (void *)msg);
-   380		if (ret < 0) {
-   381			dev_err(dev, "PM mbox_send_message failed: %d\n", ret);
-   382			return ret;
-   383		}
-   384	
-   385		ret = wait_for_completion_timeout(&kproc->shut_comp, to);
-   386		if (ret == 0) {
-   387			dev_err(dev, "%s : timed out waiting for rproc completion event \n", __func__);
-   388			return -EBUSY;
-   389		};
-   390	
-   391		mbox_free_channel(kproc->mbox);
-   392	
-   393		/* allow some time for the remote core to enter quiescent state (ex:
-   394		 * wfi) after sending SHUTDOWN ack. Typically, remote core is expected
-   395		 * to enter 'wfi' right after sending the ack.  1ms is more than
-   396		 * sufficient for this purpose
-   397		 */
-   398		msleep(1);
-   399	
-   400		k3_m4_rproc_reset(kproc);
-   401	
-   402		return 0;
-   403	}
-   404	
+f8572bb675250e Riana Tauro 2022-10-13  68  		/* HW register value in units of 2.5 millivolt */
+f8572bb675250e Riana Tauro 2022-10-13 @69  		*val = DIV_ROUND_CLOSEST(REG_FIELD_GET(GEN12_VOLTAGE_MASK, reg_value) * 25, 10);
+f8572bb675250e Riana Tauro 2022-10-13  70  		return 0;
+f8572bb675250e Riana Tauro 2022-10-13  71  	default:
+f8572bb675250e Riana Tauro 2022-10-13  72  		return -EOPNOTSUPP;
+f8572bb675250e Riana Tauro 2022-10-13  73  	}
+f8572bb675250e Riana Tauro 2022-10-13  74  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
