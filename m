@@ -1,44 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953436FD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 16:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB556FD6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Feb 2023 16:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676565518; x=1708101518;
+  t=1676565805; x=1708101805;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dVfjWaI8lTx+2Zgoy9PramJr8fbwccV0IrxaIKtAzJ0=;
-  b=CG/GFWCCM8Y3bsrx0rFQUZ96gAhdv0vu+x+zLuNpXTKAWho/tHqjXOz5
-   F8KBd6e5R/D+ZcXVRWyMKMME2ih22HCdA3RSwTsRkrsyW72OK4WhF5TZ9
-   G7VufO+fC1uJaJ7X852TIuJIB5YOC8ScjkN2d+JXU3neo8Ap4fwhvFXuH
-   U8QdrR2YARnlC102BAvzlqwx9BAvu/128YrBvo8krLAF9TGZMzPFVTjdH
-   4tqmvO6KSSNHYtWLtZGCQIw3zSFWZ6Mq6f1LYOLX4fNm6MtaZJCnRQgWm
-   RSu4GCedwyAkRqFzvmHfXUO/1spuratZgzVql4X3/+IKhEEvFAm/qA/5A
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333952365"
+  bh=g2eIYHh9zGxtdvu7NiOAjrjjkKuyIVvDaoZ19Y4BUC8=;
+  b=EriLHhYH+lAO7wmvuO9u1ZewKhhWo/snxFu2eglO0/urYti5EuFUKUip
+   WpFQ7kPDM/fhyxuDAdp1kRTRTWlvoVEnekkjTbrskM/ecG6JN9UU7vv1W
+   /NtaAcWDMfGqRNjRdRzp2ZXq/6szx3M2E/vAEnajOSyRyqA7GafsxaM5L
+   Su2QFPILfNDLCoR8ndYIHacZ1G1FB48nwbeKUjRtPFF94+UqD/pH5BP4Z
+   70nIWV4CYkD/9xXHSGMAGpHhyXAYJ+YwSgQH4uRXAMzNRc+3IbUF7nbMX
+   cJmoPiWiNWQIOPll/BHorJsXbxD9sqpBCJi8bj4CGZS2dis71VponOhjZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="319852253"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="333952365"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 08:23:32 -0800
+   d="scan'208";a="319852253"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 08:34:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="620041631"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="999104045"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="620041631"
+   d="scan'208";a="999104045"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Feb 2023 08:23:31 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 16 Feb 2023 08:34:31 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSh2g-000ALN-0Z;
-	Thu, 16 Feb 2023 16:23:30 +0000
-Date: Fri, 17 Feb 2023 00:23:07 +0800
+	id 1pShDK-000ALx-20;
+	Thu, 16 Feb 2023 16:34:30 +0000
+Date: Fri, 17 Feb 2023 00:33:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [RFC PATCH 14/16] drm/ttm: Provide helpers for
- shrinking
-Message-ID: <202302170051.Lqleb8u1-lkp@intel.com>
-References: <20230215161405.187368-15-thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH RFC bpf-next 1/1] bpf: Support 64-bit pointers to kfuncs
+Message-ID: <202302170058.5ftAyjXt-lkp@intel.com>
+References: <20230214212809.242632-2-iii@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,127 +46,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230215161405.187368-15-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230214212809.242632-2-iii@linux.ibm.com>
 
-Hi Thomas,
+Hi Ilya,
 
 [FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.2-rc8 next-20230216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230216-001727
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230215161405.187368-15-thomas.hellstrom%40linux.intel.com
-patch subject: [Intel-gfx] [RFC PATCH 14/16] drm/ttm: Provide helpers for shrinking
-config: sparc-randconfig-r011-20230213 (https://download.01.org/0day-ci/archive/20230217/202302170051.Lqleb8u1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230215-054702
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230214212809.242632-2-iii%40linux.ibm.com
+patch subject: [PATCH RFC bpf-next 1/1] bpf: Support 64-bit pointers to kfuncs
+config: loongarch-buildonly-randconfig-r003-20230214 (https://download.01.org/0day-ci/archive/20230217/202302170058.5ftAyjXt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/888719f1ca5b28696b77e89e4d365aba16053df3
+        # https://github.com/intel-lab-lkp/linux/commit/5b93c73d640845b2e5ddd1b4af608f4896379002
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230216-001727
-        git checkout 888719f1ca5b28696b77e89e4d365aba16053df3
+        git fetch --no-tags linux-review Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230215-054702
+        git checkout 5b93c73d640845b2e5ddd1b4af608f4896379002
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302170051.Lqleb8u1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302170058.5ftAyjXt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/percpu_64.h:5,
-                    from arch/sparc/include/asm/percpu.h:5,
-                    from include/linux/irqflags.h:17,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_64.h:111,
-                    from arch/sparc/include/asm/cmpxchg.h:5,
-                    from arch/sparc/include/asm/atomic_64.h:12,
-                    from arch/sparc/include/asm/atomic.h:5,
-                    from include/linux/atomic.h:7,
-                    from include/linux/mm_types_task.h:13,
-                    from include/linux/mm_types.h:5,
-                    from mm/swap_backup_folio.c:3:
-   mm/swap_backup_folio.c: In function 'swap_backup_folio':
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:58:52: note: in definition of macro '__trace_if_var'
-      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   mm/swap_backup_folio.c:36:9: note: in expansion of macro 'if'
-      36 |         if (VM_WARN_ON_ONCE_FOLIO(folio_nr_pages(folio) != 1 &&
-         |         ^~
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:58:61: note: in definition of macro '__trace_if_var'
-      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
-   mm/swap_backup_folio.c:36:9: note: in expansion of macro 'if'
-      36 |         if (VM_WARN_ON_ONCE_FOLIO(folio_nr_pages(folio) != 1 &&
-         |         ^~
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:69:10: note: in definition of macro '__trace_if_value'
-      69 |         (cond) ?                                        \
-         |          ^~~~
-   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_var'
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ^~~~~~~~~~~~~~
-   mm/swap_backup_folio.c:36:9: note: in expansion of macro 'if'
-      36 |         if (VM_WARN_ON_ONCE_FOLIO(folio_nr_pages(folio) != 1 &&
-         |         ^~
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:58:52: note: in definition of macro '__trace_if_var'
-      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   mm/swap_backup_folio.c:42:9: note: in expansion of macro 'if'
-      42 |         if (VM_WARN_ON_ONCE_FOLIO(folio_ref_count(folio) != 1 ||
-         |         ^~
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:58:61: note: in definition of macro '__trace_if_var'
-      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
-   mm/swap_backup_folio.c:42:9: note: in expansion of macro 'if'
-      42 |         if (VM_WARN_ON_ONCE_FOLIO(folio_ref_count(folio) != 1 ||
-         |         ^~
->> include/linux/compiler.h:56:45: error: invalid use of void expression
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                             ^
-   include/linux/compiler.h:69:10: note: in definition of macro '__trace_if_value'
-      69 |         (cond) ?                                        \
-         |          ^~~~
-   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_var'
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ^~~~~~~~~~~~~~
-   mm/swap_backup_folio.c:42:9: note: in expansion of macro 'if'
-      42 |         if (VM_WARN_ON_ONCE_FOLIO(folio_ref_count(folio) != 1 ||
-         |         ^~
+   kernel/bpf/core.c: In function 'bpf_jit_get_func_addr':
+>> kernel/bpf/core.c:1217:23: error: implicit declaration of function 'bpf_get_kfunc_addr'; did you mean 'bpf_jit_get_func_addr'? [-Werror=implicit-function-declaration]
+    1217 |                 err = bpf_get_kfunc_addr(prog, imm, off, &addr);
+         |                       ^~~~~~~~~~~~~~~~~~
+         |                       bpf_jit_get_func_addr
+   kernel/bpf/core.c:1227:20: warning: assignment to 'u64' {aka 'long long unsigned int'} from 'u8 *' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
+    1227 |         *func_addr = addr;
+         |                    ^
+   kernel/bpf/core.c: At top level:
+   kernel/bpf/core.c:1646:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
+    1646 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/core.c:2085:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
+    2085 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
+         |      ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +56 include/linux/compiler.h
+vim +1217 kernel/bpf/core.c
 
-2bcd521a684cc9 Steven Rostedt 2008-11-21  50  
-2bcd521a684cc9 Steven Rostedt 2008-11-21  51  #ifdef CONFIG_PROFILE_ALL_BRANCHES
-2bcd521a684cc9 Steven Rostedt 2008-11-21  52  /*
-2bcd521a684cc9 Steven Rostedt 2008-11-21  53   * "Define 'is'", Bill Clinton
-2bcd521a684cc9 Steven Rostedt 2008-11-21  54   * "Define 'if'", Steven Rostedt
-2bcd521a684cc9 Steven Rostedt 2008-11-21  55   */
-a15fd609ad53a6 Linus Torvalds 2019-03-20 @56  #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-a15fd609ad53a6 Linus Torvalds 2019-03-20  57  
+  1181	
+  1182	int bpf_jit_get_func_addr(const struct bpf_prog *prog,
+  1183				  const struct bpf_insn *insn, bool extra_pass,
+  1184				  u64 *func_addr, bool *func_addr_fixed)
+  1185	{
+  1186		s16 off = insn->off;
+  1187		s32 imm = insn->imm;
+  1188		bool fixed;
+  1189		u8 *addr;
+  1190		int err;
+  1191	
+  1192		switch (insn->src_reg) {
+  1193		case BPF_PSEUDO_CALL:
+  1194			/* Place-holder address till the last pass has collected
+  1195			 * all addresses for JITed subprograms in which case we
+  1196			 * can pick them up from prog->aux.
+  1197			 */
+  1198			if (!extra_pass)
+  1199				addr = NULL;
+  1200			else if (prog->aux->func &&
+  1201				 off >= 0 && off < prog->aux->func_cnt)
+  1202				addr = (u8 *)prog->aux->func[off]->bpf_func;
+  1203			else
+  1204				return -EINVAL;
+  1205			fixed = false;
+  1206			break;
+  1207		case 0:
+  1208			/* Address of a BPF helper call. Since part of the core
+  1209			 * kernel, it's always at a fixed location. __bpf_call_base
+  1210			 * and the helper with imm relative to it are both in core
+  1211			 * kernel.
+  1212			 */
+  1213			addr = (u8 *)__bpf_call_base + imm;
+  1214			fixed = true;
+  1215			break;
+  1216		case BPF_PSEUDO_KFUNC_CALL:
+> 1217			err = bpf_get_kfunc_addr(prog, imm, off, &addr);
+  1218			if (err)
+  1219				return err;
+  1220			fixed = true;
+  1221			break;
+  1222		default:
+  1223			return -EINVAL;
+  1224		}
+  1225	
+  1226		*func_addr_fixed = fixed;
+  1227		*func_addr = addr;
+  1228		return 0;
+  1229	}
+  1230	
 
 -- 
 0-DAY CI Kernel Test Service
