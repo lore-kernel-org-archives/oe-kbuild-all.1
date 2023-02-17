@@ -1,42 +1,52 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E695946A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 21:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667EB946A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 21:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676668356; x=1708204356;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XEZENwyjKKXkABKnyQdmROUA57rikv6qI6msQ/c2sO0=;
-  b=jQtdCTk6nGMjRLDiuo/A40yeN6po+9v7UOY8iMQmDYG2enaEg2g1OgEm
-   UfPM18/pU3GlYs9xlcBR3vhAvI5vIOXeO41UOOLoPaOQQIrOGzll/UYE9
-   S9wphWMx7UJyCycqokNNnEQEKg3OJG/4B1YqD03g85kQuVKSNF8grzeJ+
-   y0BshX6oD+z03pRoG0Lm9l/JuIesc2RHtSVc13heMGln1j0NnCkJXnxov
-   CoV4S+I0u37sy5cIcWF2wKQP0TxyPU2UTfQV0lPj4kJtT8X/EtAeOGNbD
-   VENG3qExOWMU94jeD1mvqBl3f/g5QP6GuR+1FiWM61gXGCSc+zz9rGVeS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311719398"
+  t=1676668358; x=1708204358;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vVOC50k+elFfOk8KDTPGK7o6CIxERD5MbuPu66bNn5A=;
+  b=RkqCGWw5wpW8RlQ48Pvf2qtJkFlq4bBcuPe6Uij9MKlGOdpXIffObcX3
+   Sb0RnFA41kt/TeZmjDaCn5Ad1DAGppNSEELzncNS/rLrrWEvmYijIUalx
+   sG/BuCEjR16PzcKkUQMPgNiwPUYNJxoKbKfTH+juZJC9qW4TvV9ZjZnTk
+   l56swbo7UIXW/NOgAgM8wwjRtu2Ehq+NevqCGsHlXoZgTgaWx6GoRUqGc
+   3UylA+Ilg1mBCfSXUSmoxAnU2SkLEz/ebt/wtQu+0KbRkxn+/1Rud4JYc
+   x9vYCeSCU1jXFSVQmVmAvZEC6CMiSUyhrG4teKi/kGvfnMy8DWRgLZQ9Y
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311719401"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="311719398"
+   d="scan'208";a="311719401"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 13:12:35 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 13:12:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="739382936"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="739382937"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="739382936"
+   d="scan'208";a="739382937"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2023 13:12:35 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pT81y-000BpF-0f;
+	id 1pT81y-000BpH-0j;
 	Fri, 17 Feb 2023 21:12:34 +0000
-Date: Sat, 18 Feb 2023 05:12:21 +0800
+Date: Sat, 18 Feb 2023 05:12:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:timers/dyn_hrtimer 8/8] hrtimer.c:undefined reference to
- `tick_nohz_switch_to_nohz'
-Message-ID: <202302180527.LHDSXjYc-lkp@intel.com>
+To: Angelo Compagnucci <angelo.compagnucci@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Angelo Compagnucci <angelo@amarulasolutions.com>,
+	Derek Kiernan <derek.kiernan@xilinx.com>,
+	Dragan Cvetic <dragan.cvetic@xilinx.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] misc: servo-pwm: driver for controlling servo
+ motors via PWM
+Message-ID: <202302180429.NvI1mwuf-lkp@intel.com>
+References: <20230217161038.3130053-1-angelo@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,34 +55,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230217161038.3130053-1-angelo@amarulasolutions.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git timers/dyn_hrtimer
-head:   621948fff66f3ce64f723a81566228363a29e3b5
-commit: 621948fff66f3ce64f723a81566228363a29e3b5 [8/8] hrtimer: Add a sysctl to lower resolution of timers
-config: arc-randconfig-r034-20230217 (https://download.01.org/0day-ci/archive/20230218/202302180527.LHDSXjYc-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+Hi Angelo,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on char-misc/char-misc-linus]
+[also build test WARNING on linus/master v6.2-rc8]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next next-20230217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Angelo-Compagnucci/misc-servo-pwm-Add-sysfs-entries-to-control-motor-angle/20230218-001254
+patch link:    https://lore.kernel.org/r/20230217161038.3130053-1-angelo%40amarulasolutions.com
+patch subject: [PATCH v3 1/3] misc: servo-pwm: driver for controlling servo motors via PWM
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180429.NvI1mwuf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=621948fff66f3ce64f723a81566228363a29e3b5
-        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
-        git fetch --no-tags jfern timers/dyn_hrtimer
-        git checkout 621948fff66f3ce64f723a81566228363a29e3b5
+        # https://github.com/intel-lab-lkp/linux/commit/0ae16e16da0aa94de0d3ae63166f50a4a6fdef8a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Angelo-Compagnucci/misc-servo-pwm-Add-sysfs-entries-to-control-motor-angle/20230218-001254
+        git checkout 0ae16e16da0aa94de0d3ae63166f50a4a6fdef8a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/misc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302180527.LHDSXjYc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302180429.NvI1mwuf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 88
-   kernel/time/hrtimer.o: in function `hrtimer_smp_call':
->> hrtimer.c:(.text+0x10d4): undefined reference to `tick_nohz_switch_to_nohz'
->> arc-elf-ld: hrtimer.c:(.text+0x10d4): undefined reference to `tick_nohz_switch_to_nohz'
+   In file included from include/linux/mm_types_task.h:16,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/misc/servo-pwm.c:7:
+   drivers/misc/servo-pwm.c: In function 'angle_show':
+>> arch/loongarch/include/asm/page.h:23:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
+      23 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         long unsigned int
+   drivers/misc/servo-pwm.c:54:32: note: in expansion of macro 'PAGE_SIZE'
+      54 |         return sysfs_emit(buf, PAGE_SIZE, "%u\n", data->angle);
+         |                                ^~~~~~~~~
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/module.h:21:
+   include/linux/sysfs.h:357:39: note: expected 'const char *' but argument is of type 'long unsigned int'
+     357 | int sysfs_emit(char *buf, const char *fmt, ...);
+         |                           ~~~~~~~~~~~~^~~
+   drivers/misc/servo-pwm.c: In function 'degrees_show':
+>> arch/loongarch/include/asm/page.h:23:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
+      23 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         long unsigned int
+   drivers/misc/servo-pwm.c:84:32: note: in expansion of macro 'PAGE_SIZE'
+      84 |         return sysfs_emit(buf, PAGE_SIZE, "%u\n", data->degrees);
+         |                                ^~~~~~~~~
+   include/linux/sysfs.h:357:39: note: expected 'const char *' but argument is of type 'long unsigned int'
+     357 | int sysfs_emit(char *buf, const char *fmt, ...);
+         |                           ~~~~~~~~~~~~^~~
+
+
+vim +/sysfs_emit +23 arch/loongarch/include/asm/page.h
+
+09cfefb7fa70c3 Huacai Chen 2022-05-31  10  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  11  /*
+09cfefb7fa70c3 Huacai Chen 2022-05-31  12   * PAGE_SHIFT determines the page size
+09cfefb7fa70c3 Huacai Chen 2022-05-31  13   */
+09cfefb7fa70c3 Huacai Chen 2022-05-31  14  #ifdef CONFIG_PAGE_SIZE_4KB
+09cfefb7fa70c3 Huacai Chen 2022-05-31  15  #define PAGE_SHIFT	12
+09cfefb7fa70c3 Huacai Chen 2022-05-31  16  #endif
+09cfefb7fa70c3 Huacai Chen 2022-05-31  17  #ifdef CONFIG_PAGE_SIZE_16KB
+09cfefb7fa70c3 Huacai Chen 2022-05-31  18  #define PAGE_SHIFT	14
+09cfefb7fa70c3 Huacai Chen 2022-05-31  19  #endif
+09cfefb7fa70c3 Huacai Chen 2022-05-31  20  #ifdef CONFIG_PAGE_SIZE_64KB
+09cfefb7fa70c3 Huacai Chen 2022-05-31  21  #define PAGE_SHIFT	16
+09cfefb7fa70c3 Huacai Chen 2022-05-31  22  #endif
+09cfefb7fa70c3 Huacai Chen 2022-05-31 @23  #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  24  #define PAGE_MASK	(~(PAGE_SIZE - 1))
+09cfefb7fa70c3 Huacai Chen 2022-05-31  25  
 
 -- 
 0-DAY CI Kernel Test Service
