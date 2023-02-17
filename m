@@ -1,164 +1,177 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6D0376
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 03:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352A3376;
+	Fri, 17 Feb 2023 03:50:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676604017; x=1708140017;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=SxUj5+uJdT4B5RoSW5ZxEmJEeQhyGjwOGSz0eUr8xMw=;
-  b=Y0ds8eB2kW66HeyD/yAPqAczBFPwI86KQ7nYlCUdqKXrKrd+dY7ZWtRV
-   TMbQ8hYWSPTe9XgLDS1NgbXTwgdpmrrqfGzT3uqzlHTFDjEwhMGukHXTy
-   DeTVgX9+zp3szsSfYnmPVCOIR8b7nZwAA7SmNxz8MSqieiOi01sQ87FlN
-   J2jgIA0ZaqA8g+RPvIB6DIfd6p3ldKNa0HwsOjN2Q7IiVg/qcToAaAsZ+
-   k2+aMDXmeg7HKLAuWgWPyZMMQdAoq88aOe9Pt8inhBXQkGu/4pOKDUXii
-   I4GJT/q5/ShqWn6Wx+bZUjOkE08iFGB1Sg5jMj0K/cx0wXw10j7CSvc0T
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="311532279"
+  t=1676605802; x=1708141802;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=05O6cSg+JQ9YwG+lChcj9FgnMTs6Ki+tvxmgDv2EFcw=;
+  b=nq5R4R1NMhiDUqobp7ag8DTHxNjUTSPbzjH+b6vz9xGbo6zpbYE3Z0su
+   vy4A0hhdnWkUnlKObNXWfJinT36LwNCI/+JCVzj3CyuQLDCmWcf5vC9cw
+   tuWouGOYAeaIT9b+uSgdEeFcw8Y0niOQSN5PPvTV8Mh/7JFruA+JTW9YH
+   /NuaZEweR1JD79vanMdfZM2NNIFZuxdOTmyMpkTyKzNpGha/EOBFAh1sc
+   yBHEfVkeXv02bxXtVH3bOycv5FAAnnd/kuIFpWtysdXQ0iI0NMZgmXjmq
+   NfTa8jXuv3+NfC68unjnGnpdmMp50HzJkfVj79+vU68UnllzmQD9u1ktN
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331903903"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="311532279"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 19:20:16 -0800
+   d="scan'208";a="331903903"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 19:50:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="620250530"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="915946647"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="620250530"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga003.jf.intel.com with ESMTP; 16 Feb 2023 19:20:04 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 16 Feb 2023 19:20:04 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 16 Feb 2023 19:20:03 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 16 Feb 2023 19:20:03 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.43) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 16 Feb 2023 19:20:03 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bjA/vy8WAU+Lw68p5D+w6wmv1Ul//Nw3IO2yLUuJbSArrbJZ2zTfk8EmmRUoT5dVLb4F3ceQpJ06C0zubVPMiNpX5FuEMSJ3DRLspc5rTYik8vMBc0EYKsXmvJCiYjj8tD9/7jog+zKd3AbKPep3E0YNK7cviCizqYTzP/l17Wh2kkFtzIOnGv2sfdA9ugXuTS9oIPVGQ3ChTnaYlA/Ly+sEa6+yBcXLiLkVqy81TIXCgA+ZT0R6Mh1HCNPmMhSV2nfSjhrBOeCIGdlZFI8m71FE7oS6gxqfZD9dqLy1LsC87S2WbNfwgwB2SvhK9oHsN5wk9T4LHqPcDEK1yF2sRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HJrY3lQGqHIuZApvL01b+URioFpuPaJD6UI8oMkmlog=;
- b=hBY6q5hsbKXFSeAKxedYF1z+5WaSoSmZMQjz5IR9+giAHfADPXG6u+BIO+AhCLcmatNvmY+vqcoGwTSyZkaz6duevcYl7SMMcXG+fj1Qy02V8ad6jbaDP0krLjgTKp4I0Tldojn1ltZzPgxdRh12UF/7qEwNPATx+heMLGVvV85UBXy/US3NItoqn9NFK4G64Db/ElvzrKX7dT882UVcCj7cf5n6KVM31dzNJ1PS1Y2pZpHQuaHDBcsQFsZcB5BeDvj15Q/RjTltRKosRBeP6iPe3Dfq+ZRnHiRY7mZR31Ds3OXNf5JKCkBe+i/bC0fGu+7wFZTc3lcN72cp+vo85w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SA2PR11MB4954.namprd11.prod.outlook.com (2603:10b6:806:11b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.15; Fri, 17 Feb
- 2023 03:20:01 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e%4]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
- 03:20:01 +0000
-Date: Fri, 17 Feb 2023 11:17:18 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Daniel Golle <daniel@makrotopia.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH v5 10/12] net: pcs: add driver for MediaTek SGMII PCS
-Message-ID: <Y+7xvvAmUXTlY9TI@yujie-X299>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ea7658198d2a1480746882a7e31adf0f37793086.1676128247.git.daniel@makrotopia.org>
-X-ClientProxiedBy: SG2PR01CA0144.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::24) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="915946647"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Feb 2023 19:49:59 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSrl0-000B5j-09;
+	Fri, 17 Feb 2023 03:49:58 +0000
+Date: Fri, 17 Feb 2023 11:49:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>
+Subject: drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires
+ the following: RV64I Base Instruction Set
+Message-ID: <202302171144.sffQigLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SA2PR11MB4954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88c9401e-dcff-4a1b-a378-08db1095dab7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AhKljuPTHWmYprIpLvjTOjTP3GyF1MwswslDtCUtAFGed7UFdoTLLzygWbIuTzv4SjpL/mVOUYTKSGNC6VVFh6IbabTwJB4WIBC5NQs2s023NMN4sdy544Vl6W3vTtKDLze2nN31doi6yPgUS5d6QPy1uwyOYOQdDStbr0tZuzBizQZbeh2uplZIbzLMlqGmP3ns3y1mW1lYjEE8rPc+k1djGGb1jSbdtiEd3ONiD+vu8UaaNm0m39ghygvsS5zPBi3L9+nJobbCc9rT7tnYooNZ1MWKcNI7O9VRWoRT5U5Yaiuy57kXtYrD8gLwSIgmW+MLaGLgpQ1lOmOOFTYLoO0MLhIKvP9hQTKl6nBpPPGgJULLW5He3vqhmNiGn/+egNcHtJEith3nbBV7T2Lembq7vS2OwBDvQsC70trkguosKSZ+/hZqynw7Jsha9EoLLqEmPROVIQQPpFfzRPSueDcEk+pRo5TfVygnEAZiG+HaD7SfJud/w3RoH0gR/1jU54qD6bqg9UPQsZ+RPd571gVK488Clp5P1VJKwRUUg+WZPXYjgNW5aUIoy4B1ZEM7Crmstn0zMqt0AaPNoV25wKFzBy8zrkijkI9J6SlIwqdpjkxddhlA/hEK4gktCahSniJrvjGHqa1DRID60fVX2IP3I08tqKDyeYpdCEqvRr2PHmwtey3DoeW9mN+BxNhYQQ04DV89CsCCf98aiYEmwMcmO8FKAEOBitSGbEvw1Z4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(136003)(346002)(396003)(376002)(366004)(39860400002)(451199018)(86362001)(33716001)(82960400001)(2906002)(38100700002)(966005)(6486002)(6506007)(6512007)(26005)(186003)(478600001)(9686003)(83380400001)(6916009)(66476007)(66556008)(66946007)(8676002)(316002)(41300700001)(6666004)(4326008)(8936002)(5660300002)(67856001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NRMFdoF/dr3uIqfDl6sucWylQy6sGXCMxoH5/5eD8jm5teAOLcH9cTYkOSqF?=
- =?us-ascii?Q?kOGVIB8A+ZQwIRNZUsTOj0Ai4tgC0Ea18F7qn98xB7m9xmsH9nJoYe8rVVp0?=
- =?us-ascii?Q?9kvVblrt9Ss01FNYe9oYsY2/c7aqU35kzBoo0NxR/1B8Rz8sKXWCgV9e51rz?=
- =?us-ascii?Q?Kr98nAVM+KtowUuRF/uJ5kFN1eHpnPq2wqEBg8jvBOBnRh/5t2WeVvc0Q+yg?=
- =?us-ascii?Q?qctc9J/fo5pYQfVqXbNLMVYe9rAZVCH6tLcYJ3N5Rd+sR/n8J3jW7ALp33eA?=
- =?us-ascii?Q?FSFFPapid9GBUIP+5FnEHWk7G0zFPBo0sMwP06iGlVfxyR0ri1i+lnL5mIjs?=
- =?us-ascii?Q?+Yo5xXgyRavhGGL8ljGf9KB9apSnuu5uoSgvbL5PX7OcSnRpc23Yk0r/oU57?=
- =?us-ascii?Q?6L35kUv6wC0E8/YerL/6MhGHwmc4InW09nvbhJMcd7EsJhCKBTui4SlQVlil?=
- =?us-ascii?Q?k4FKc5rPyVzVFVmB/JUNbEsZRTSPVzyKur/xXiiueJez3nlbze9XVSmDlPyM?=
- =?us-ascii?Q?7sI77G+bgvshqVXUQQx4PwPeiHQZAxd01mGBYKBDlCr/pxRtmdgSC4VTsctO?=
- =?us-ascii?Q?ISS3hlvck34AM+/7/Ay/4Ilf+06HdbSsNhA3KSRaUvdkbFo5RKI/IRPfu/Cm?=
- =?us-ascii?Q?3KqgNLHCTh5Wuqd6b42JDEA2ho8sngxlIsOgnO60NQ+NAYvXNmD9iKrz3DHS?=
- =?us-ascii?Q?mdWIzIV7LFFuTFdbDXoRgNO6xRqolQMuFo4kiRwqzKgJK/nC9tNSL1e+RJ2S?=
- =?us-ascii?Q?PG5msC9Exl+QxNUNoBMFbYGtcN1yzcUato2TIpjQofb8jkCqT52MhfusA/lS?=
- =?us-ascii?Q?CihVLx4Eb9cYsIWxX9njKaI79WhrSkCxJY1DfU1RJ2esneqHD2fFOTDs/rdR?=
- =?us-ascii?Q?JZKXFZej3cCJ8WJzq3Us0J/65o/KgLDKeoWIeCaGWLlkqcsCzt+I/Xm5GYAZ?=
- =?us-ascii?Q?FekOAP41zDxPgF9ieIAS7omR93c0VzNCILA0WRR56E+A0a4BrMU1j//YzWFI?=
- =?us-ascii?Q?qW276lo5daaompyDgn66BRZ29oJl/5VckDe0xnfuXg6KFE5juC63OFr/tsY7?=
- =?us-ascii?Q?fVONFAFOWERop0KXyGdrSVJCZygfd2yQI3jgRDydpT/IcP3HYxt9s2LIokSK?=
- =?us-ascii?Q?C1lWNnr+yoxuZ6SW25ZPMPsYJ9XH87VFtBDI+JhjCGTXLJru88Fxfi6tZerU?=
- =?us-ascii?Q?QuHFnJFQ59eLLLN7uSCCeL1WFCu4ev7o02w9A0stBOjwVqMUVOF0mtpZ/q6I?=
- =?us-ascii?Q?7ZaSLrIrM7mcrB/bzPx+kwM5U8331Kc4wyTt2c/R2G5AwW/c5oeefQuHUco+?=
- =?us-ascii?Q?fspNOB7wO5fFqK7jwoJHNFKDO9EJ4MudNNJa9u9HKUYLF2DVcX0YiF1dETj9?=
- =?us-ascii?Q?vEihACJEP5oVCrDG5KbZppRsb8+D4VKIsJAj4sG3VmQqjtyH/p/esOP9UHrF?=
- =?us-ascii?Q?eqKpFm7MzIaNyrERKiwCsjCM0MavLOu85zs2vjhV4IkHcZad3ly48uab9ARZ?=
- =?us-ascii?Q?zmQMnBzTbEAT471tJgMzKrkhel1uN2WIA2/Q7d0d/4jgoVlBGKgyILLEBhGA?=
- =?us-ascii?Q?n8PQf9TePZgT8zMdjB3C/Ety+2DTHp6cPIyvXNqn?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88c9401e-dcff-4a1b-a378-08db1095dab7
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 03:20:01.0583
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DnSm2blJcLmPdMLJVLqrjlgLZCL742w04Bt/GmYKipkdMXiPSOepAZAYQbg+PtEDcebtbsrAbDCdMw/qPkLZxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4954
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Daniel,
+Hi Lad,
 
-[auto build test WARNING on 6ba8a227fd19d19779005fb66ad7562608e1df83]
+First bad commit (maybe != root cause):
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-ethernet-mtk_eth_soc-add-support-for-MT7981-SoC/20230212-000942
-base:   6ba8a227fd19d19779005fb66ad7562608e1df83
-patch link:    https://lore.kernel.org/r/ea7658198d2a1480746882a7e31adf0f37793086.1676128247.git.daniel%40makrotopia.org
-patch subject: [PATCH v5 10/12] net: pcs: add driver for MediaTek SGMII PCS
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-
-We noticed this warning also exists in the latest version of this
-patchset:
-https://lore.kernel.org/all/72139f8ec8b917bab9dbd8630a2f63a52887fcb8.1676491901.git.daniel@makrotopia.org/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ac88fa4605ec98e545fb3ad0154f575fda2de5f
+commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+date:   3 months ago
+config: riscv-buildonly-randconfig-r003-20230216 (https://download.01.org/0day-ci/archive/20230217/202302171144.sffQigLX-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171144.sffQigLX-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/net/pcs/pcs-mtk-lynxi.c: linux/phylink.h is included more than once.
+All errors (new ones prefixed by >>):
 
-$ git blame drivers/net/pcs/pcs-mtk-lynxi.c
+>> drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires the following: RV64I Base Instruction Set
+           old = cmpxchg64_relaxed(ptep, curr, new);
+                 ^
+   include/linux/atomic/atomic-instrumented.h:1968:2: note: expanded from macro 'cmpxchg64_relaxed'
+           arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:60:32: note: expanded from macro 'arch_cmpxchg64_relaxed'
+   #define arch_cmpxchg64_relaxed arch_cmpxchg64
+                                  ^
+   arch/riscv/include/asm/cmpxchg.h:354:2: note: expanded from macro 'arch_cmpxchg64'
+           arch_cmpxchg((ptr), (o), (n));                                  \
+           ^
+   arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from macro 'arch_cmpxchg'
+           (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+                                ^
+   arch/riscv/include/asm/cmpxchg.h:324:4: note: expanded from macro '__cmpxchg'
+                           "0:     lr.d %0, %2\n"                          \
+                           ^
+   <inline asm>:1:5: note: instantiated into assembly here
+           0:      lr.d s4, 0(s0)
+                   ^
+>> drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires the following: RV64I Base Instruction Set
+           old = cmpxchg64_relaxed(ptep, curr, new);
+                 ^
+   include/linux/atomic/atomic-instrumented.h:1968:2: note: expanded from macro 'cmpxchg64_relaxed'
+           arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:60:32: note: expanded from macro 'arch_cmpxchg64_relaxed'
+   #define arch_cmpxchg64_relaxed arch_cmpxchg64
+                                  ^
+   arch/riscv/include/asm/cmpxchg.h:354:2: note: expanded from macro 'arch_cmpxchg64'
+           arch_cmpxchg((ptr), (o), (n));                                  \
+           ^
+   arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from macro 'arch_cmpxchg'
+           (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+                                ^
+   arch/riscv/include/asm/cmpxchg.h:326:5: note: expanded from macro '__cmpxchg'
+                           "       sc.d.rl %1, %z4, %2\n"                  \
+                            ^
+   <inline asm>:3:2: note: instantiated into assembly here
+           sc.d.rl a0, s6, 0(s0)
+           ^
+   2 errors generated.
 
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000  10) #include <linux/mdio.h>
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000 @11) #include <linux/phylink.h>
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000  12) #include <linux/pcs/pcs-mtk-lynxi.h>
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000  13) #include <linux/of.h>
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000 @14) #include <linux/phylink.h>
-01e623bc7a2f3 (Daniel Golle 2023-02-11 16:04:51 +0000  15) #include <linux/regmap.h>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
+   Selected by [y]:
+   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
+
+
+vim +330 drivers/iommu/io-pgtable-arm.c
+
+c896c132b01895 Laurent Pinchart   2014-12-14  310  
+fb3a95795da53d Robin Murphy       2017-06-22  311  static arm_lpae_iopte arm_lpae_install_table(arm_lpae_iopte *table,
+fb3a95795da53d Robin Murphy       2017-06-22  312  					     arm_lpae_iopte *ptep,
+2c3d273eabe8b1 Robin Murphy       2017-06-22  313  					     arm_lpae_iopte curr,
+9abe2ac834851a Hector Martin      2021-11-20  314  					     struct arm_lpae_io_pgtable *data)
+fb3a95795da53d Robin Murphy       2017-06-22  315  {
+2c3d273eabe8b1 Robin Murphy       2017-06-22  316  	arm_lpae_iopte old, new;
+9abe2ac834851a Hector Martin      2021-11-20  317  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+e1d3c0fd701df8 Will Deacon        2014-11-14  318  
+9abe2ac834851a Hector Martin      2021-11-20  319  	new = paddr_to_iopte(__pa(table), data) | ARM_LPAE_PTE_TYPE_TABLE;
+fb3a95795da53d Robin Murphy       2017-06-22  320  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
+fb3a95795da53d Robin Murphy       2017-06-22  321  		new |= ARM_LPAE_PTE_NSTABLE;
+e1d3c0fd701df8 Will Deacon        2014-11-14  322  
+77f3445866c39d Will Deacon        2017-06-23  323  	/*
+77f3445866c39d Will Deacon        2017-06-23  324  	 * Ensure the table itself is visible before its PTE can be.
+77f3445866c39d Will Deacon        2017-06-23  325  	 * Whilst we could get away with cmpxchg64_release below, this
+77f3445866c39d Will Deacon        2017-06-23  326  	 * doesn't have any ordering semantics when !CONFIG_SMP.
+77f3445866c39d Will Deacon        2017-06-23  327  	 */
+77f3445866c39d Will Deacon        2017-06-23  328  	dma_wmb();
+2c3d273eabe8b1 Robin Murphy       2017-06-22  329  
+2c3d273eabe8b1 Robin Murphy       2017-06-22 @330  	old = cmpxchg64_relaxed(ptep, curr, new);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  331  
+4f41845b340783 Will Deacon        2019-06-25  332  	if (cfg->coherent_walk || (old & ARM_LPAE_PTE_SW_SYNC))
+2c3d273eabe8b1 Robin Murphy       2017-06-22  333  		return old;
+2c3d273eabe8b1 Robin Murphy       2017-06-22  334  
+2c3d273eabe8b1 Robin Murphy       2017-06-22  335  	/* Even if it's not ours, there's no point waiting; just kick it */
+41e1eb2546e9c8 Isaac J. Manjarres 2021-06-16  336  	__arm_lpae_sync_pte(ptep, 1, cfg);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  337  	if (old == curr)
+2c3d273eabe8b1 Robin Murphy       2017-06-22  338  		WRITE_ONCE(*ptep, new | ARM_LPAE_PTE_SW_SYNC);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  339  
+2c3d273eabe8b1 Robin Murphy       2017-06-22  340  	return old;
+e1d3c0fd701df8 Will Deacon        2014-11-14  341  }
+e1d3c0fd701df8 Will Deacon        2014-11-14  342  
+
+:::::: The code at line 330 was first introduced by commit
+:::::: 2c3d273eabe8b1ed3b3cffe2c79643b1bf7e2d4a iommu/io-pgtable-arm: Support lockless operation
+
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
