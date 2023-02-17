@@ -1,48 +1,45 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE506AA9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 13:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C15F6AA9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 13:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676640977; x=1708176977;
+  t=1676641577; x=1708177577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U3oIm8+EOGmv7SNVkzwn0ZvyAcU9VU2KMvRgrvT5zPI=;
-  b=W8Uxozr/N0/6jusT7EWtekw6luoHFG2E1ynDKhMGeobRLcy2ncp3LR6S
-   BTfy8C1FSAv+7CM3rmJSz2mod3f4PmRvTx1wb/KbKU1GnX2OSktFGsYJ7
-   NlSbW5j1e3gZQ8cuaalv4K03/Wzc2cvepF2vQILR2gT418w11HE2A45sU
-   4wNDspGtifbMt/NiK4IdjT17+cRGRzbrxvOh6CZI1TeUvb+908FXbPRQf
-   /LBU0TbFBR4+5g1wZpTSNeZW3Tbuol4PTzdhHqJT+9HuVE33CIuOhL3ps
-   L4WjtoubXxItgu0L+tYzNmfwGHAmgHCu0EaTKLIUakh45k79+LOyq/BOj
+  bh=oUfZe0ORCuM5CknOTmMVApXRzgKQLK6GUTZz0URBOe8=;
+  b=kAJeMVk+3L7KBOeSX12mmg8DLFCFqJy7c9f07iHqmz5/aiDb9CpXxcRa
+   uiDP8An6b5DZCBJIiINCyIgyqJiQf6z1kgscu9an+YOiuLKrrWSE/3ii0
+   o7qsjZFbIcL6j6A3jTCdzvs3thrMH+d53mzjXL6ro/xHrQ+5HKFaIY/hH
+   CsoWTUX/CtzPDvmQc4r8vI6O17r60nxQqqQg8UT2DcK8P4LnJYLnLB/eI
+   9vQAACIPoolCgL8qfGgF88kBjKrwbVHbdxDIUlTbbZBGjV0uirdpzpFtg
+   qzNYoGjadYl/PK6xdNLZgQS+sEyCf3DfBlhoDQXFzhD8+L1sz0RciY9FS
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396661885"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396663305"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="396661885"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:36:17 -0800
+   d="scan'208";a="396663305"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:46:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="739265158"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="813378492"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="739265158"
+   d="scan'208";a="813378492"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2023 05:36:14 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2023 05:46:15 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pT0uM-000BVF-0Y;
-	Fri, 17 Feb 2023 13:36:14 +0000
-Date: Fri, 17 Feb 2023 21:35:19 +0800
+	id 1pT142-000BVf-1Y;
+	Fri, 17 Feb 2023 13:46:14 +0000
+Date: Fri, 17 Feb 2023 21:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Borislav Petkov <bp@suse.de>,
-	Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
-	Suraj Jitindar Singh <surajjs@amazon.com>,
-	Suleiman Souhlal <suleiman@google.com>
-Subject: [stable:linux-4.19.y 4340/5220] arch/x86/kvm/vmx.c:10763:1: warning:
- 'inline' is not at beginning of declaration
-Message-ID: <202302172129.LCWCNLUT-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Martin KaFai Lau <martin.lau@kernel.org>
+Subject: [linux-next:master 12987/13499] include/linux/build_bug.h:78:41:
+ error: static assertion failed: "SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE -
+ XDP_PACKET_HEADROOM) == TEST_MAX_PKT_SIZE"
+Message-ID: <202302172104.q3ddwzqu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,74 +49,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   53b696f0584acce2e90db69272a2a11aab138370
-commit: e6ac9561776a1fa80e245993f94c8f63fa15632b [4340/5220] KVM: VMX: Prevent guest RSB poisoning attacks with eIBRS
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230217/202302172129.LCWCNLUT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c068f40300a0eaa34f7105d137a5560b86951aa9
+commit: 6c20822fada1b8adb77fa450d03a0d449686a4a9 [12987/13499] bpf, test_run: fix &xdp_frame misplacement for LIVE_FRAMES
+config: ia64-randconfig-r025-20230213 (https://download.01.org/0day-ci/archive/20230217/202302172104.q3ddwzqu-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=e6ac9561776a1fa80e245993f94c8f63fa15632b
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout e6ac9561776a1fa80e245993f94c8f63fa15632b
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6c20822fada1b8adb77fa450d03a0d449686a4a9
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 6c20822fada1b8adb77fa450d03a0d449686a4a9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302172129.LCWCNLUT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302172104.q3ddwzqu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/vmx.c: In function 'allow_1_setting':
-   arch/x86/kvm/vmx.c:4532:13: warning: variable 'vmx_msr_low' set but not used [-Wunused-but-set-variable]
-    4532 |         u32 vmx_msr_low, vmx_msr_high;
-         |             ^~~~~~~~~~~
-   arch/x86/kvm/vmx.c: At top level:
->> arch/x86/kvm/vmx.c:10763:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-   10763 | u64 __always_inline vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx)
-         | ^~~
-   arch/x86/kvm/vmx.c: In function 'vmx_set_msr':
-   arch/x86/kvm/vmx.c:4359:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    4359 |                 if ((data >> 32) != 0)
-         |                    ^
-   arch/x86/kvm/vmx.c:4362:9: note: here
-    4362 |         default:
-         |         ^~~~~~~
-   arch/x86/kvm/vmx.c: In function 'vmx_get_msr':
-   arch/x86/kvm/vmx.c:4174:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    4174 |                 if (!msr_info->host_initiated &&
-         |                    ^
-   arch/x86/kvm/vmx.c:4178:9: note: here
-    4178 |         default:
-         |         ^~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/timer.h:5,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:10,
+                    from net/bpf/test_run.c:4:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE - XDP_PACKET_HEADROOM) == TEST_MAX_PKT_SIZE"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   net/bpf/test_run.c:132:1: note: in expansion of macro 'static_assert'
+     132 | static_assert(SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE - XDP_PACKET_HEADROOM) ==
+         | ^~~~~~~~~~~~~
 
 
-vim +/inline +10763 arch/x86/kvm/vmx.c
+vim +78 include/linux/build_bug.h
 
- 10762	
- 10763	u64 __always_inline vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx)
- 10764	{
- 10765		u64 guestval, hostval = this_cpu_read(x86_spec_ctrl_current);
- 10766	
- 10767		if (!cpu_feature_enabled(X86_FEATURE_MSR_SPEC_CTRL))
- 10768			return 0;
- 10769	
- 10770		guestval = __rdmsr(MSR_IA32_SPEC_CTRL);
- 10771	
- 10772		/*
- 10773		 * If the guest/host SPEC_CTRL values differ, restore the host value.
- 10774		 */
- 10775		if (guestval != hostval)
- 10776			native_wrmsrl(MSR_IA32_SPEC_CTRL, hostval);
- 10777	
- 10778		barrier_nospec();
- 10779	
- 10780		return guestval;
- 10781	}
- 10782	
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
