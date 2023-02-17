@@ -1,42 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733286AA9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 13:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C316AA9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 14:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676642179; x=1708178179;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=kxyTyBwU3T9hnuzsd6xx7kLg5xkDhT2h7HABVF1Uyxw=;
-  b=FTMasZ+a34u2rmfWA7+CntX9eAxetespbkHSb7FRUMNYI0y38fO1nlgu
-   0mXKhCpxpGGEZJladlRKLv8gMZrPdMjyFsmfm5qtmOEQUER4I5hlxPvYU
-   tOr9wAtW+zrnSXHYVyH5ZseshT3prVSIUwgF+GGJnmjMjdOsiP0Orwiab
-   s0XDfDPaBtb8qUDb3RgFKLwemcNUZkCeIuKMe3Yktb2KC8GKI9BBX0Odq
-   R4e82FQpk319OKenZLGgY2Ntrc6NwwguLVPgc4ynArR+7Z8DxO3YDBQYy
-   MnZbqHUMavkO7r79sopOlpfc04nE5VytMDAknA1h/oqJnjTbyCJOuqtHi
+  t=1676643438; x=1708179438;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IfjU6VoglcudU9MVoLBjcE11OltrkjDw/SkPpLTPsjs=;
+  b=d8+DCnYwoo0vPDCkeOK+6+r2M3kr3ooBUyL+P2PCQMh6MzOo549duoXG
+   mGw5m0AWg1bh784qKIXr8536LqXx6ANxSS4baJ+tHFpz4xMQ0e64mzP39
+   X1THup/UptagKp15452Pfxv2PaAQi1AOr5p5ZJMIKhwUx0LrA9WYJf3rL
+   l6a+TknBJHBJ0Zwl9WX+oaPAMAx6GQf0Oe21tvghkBIPyEt1IOtml3YQq
+   oQN5pG1wO7jz73fqOF1Iv2bJ8PXCyPJc9lt598lQiY6nRPSMsAbkxgWN0
+   VxvXiq4RRnVB0Y46X7OdxOrkxZD5ZBcYR4fusLjTS31V8mISW8qJTL84C
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="359439932"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331996560"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="359439932"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:56:16 -0800
+   d="scan'208";a="331996560"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 06:17:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670548469"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759381321"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="670548469"
+   d="scan'208";a="759381321"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 17 Feb 2023 05:56:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2023 06:17:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pT1Di-000BW1-2R;
-	Fri, 17 Feb 2023 13:56:14 +0000
-Date: Fri, 17 Feb 2023 21:56:03 +0800
+	id 1pT1Y3-000BX5-1h;
+	Fri, 17 Feb 2023 14:17:15 +0000
+Date: Fri, 17 Feb 2023 22:16:35 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Hardik Shah <hardik.t.shah@intel.com>
-Subject: [intel-lts:4.19/android_t 5133/30000] versioncheck:
- ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-Message-ID: <202302172125.UnAlHGU3-lkp@intel.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lubaolu-intel-iommu:iommu-sysfs-default-domain-extension-v2 7/15]
+ drivers/iommu/iommufd/selftest.c:276:46: error: 'struct bus_type' has no
+ member named 'iommu_ops'
+Message-ID: <202302172248.wQ4cQtbV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,113 +47,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
-commit: c36af003bab3f4722b78a13d335474c853d12bfd [5133/30000] ASoC: add rt700 codec driver
-reproduce:
-        make versioncheck
+tree:   https://github.com/LuBaolu/intel-iommu.git iommu-sysfs-default-domain-extension-v2
+head:   3e96bb06aac226fad4b65d267b4f491192ee4de8
+commit: 8558d27a0efa753b27fdcfaf69ff348575fd4c98 [7/15] iommu: Retire bus ops
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230217/202302172248.wQ4cQtbV-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/LuBaolu/intel-iommu/commit/8558d27a0efa753b27fdcfaf69ff348575fd4c98
+        git remote add lubaolu-intel-iommu https://github.com/LuBaolu/intel-iommu.git
+        git fetch --no-tags lubaolu-intel-iommu iommu-sysfs-default-domain-extension-v2
+        git checkout 8558d27a0efa753b27fdcfaf69ff348575fd4c98
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/iommu/iommufd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302172125.UnAlHGU3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302172248.wQ4cQtbV-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
->> ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/iommu/iommufd/selftest.c: In function 'iommufd_test_mock_domain':
+>> drivers/iommu/iommufd/selftest.c:276:46: error: 'struct bus_type' has no member named 'iommu_ops'
+     276 |         static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
+         |                                              ^~~~~~~~~
+>> drivers/iommu/iommufd/selftest.c:276:58: error: initialization of 'const char *' from incompatible pointer type 'const struct iommu_ops *' [-Werror=incompatible-pointer-types]
+     276 |         static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
+         |                                                          ^
+   drivers/iommu/iommufd/selftest.c:276:58: note: (near initialization for 'mock_bus.name')
+   cc1: some warnings being treated as errors
+
+
+vim +276 drivers/iommu/iommufd/selftest.c
+
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  271  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  272  /* Create an hw_pagetable with the mock domain so we can test the domain ops */
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  273  static int iommufd_test_mock_domain(struct iommufd_ucmd *ucmd,
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  274  				    struct iommu_test_cmd *cmd)
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  275  {
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29 @276  	static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  277  	struct iommufd_hw_pagetable *hwpt;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  278  	struct selftest_obj *sobj;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  279  	struct iommufd_ioas *ioas;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  280  	int rc;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  281  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  282  	ioas = iommufd_get_ioas(ucmd, cmd->id);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  283  	if (IS_ERR(ioas))
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  284  		return PTR_ERR(ioas);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  285  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  286  	sobj = iommufd_object_alloc(ucmd->ictx, sobj, IOMMUFD_OBJ_SELFTEST);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  287  	if (IS_ERR(sobj)) {
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  288  		rc = PTR_ERR(sobj);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  289  		goto out_ioas;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  290  	}
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  291  	sobj->idev.ictx = ucmd->ictx;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  292  	sobj->type = TYPE_IDEV;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  293  	sobj->idev.mock_dev.bus = &mock_bus;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  294  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  295  	hwpt = iommufd_device_selftest_attach(ucmd->ictx, ioas,
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  296  					      &sobj->idev.mock_dev);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  297  	if (IS_ERR(hwpt)) {
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  298  		rc = PTR_ERR(hwpt);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  299  		goto out_sobj;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  300  	}
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  301  	sobj->idev.hwpt = hwpt;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  302  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  303  	/* Userspace must destroy both of these IDs to destroy the object */
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  304  	cmd->mock_domain.out_hwpt_id = hwpt->obj.id;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  305  	cmd->mock_domain.out_device_id = sobj->obj.id;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  306  	iommufd_object_finalize(ucmd->ictx, &sobj->obj);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  307  	iommufd_put_object(&ioas->obj);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  308  	return iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  309  
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  310  out_sobj:
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  311  	iommufd_object_abort(ucmd->ictx, &sobj->obj);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  312  out_ioas:
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  313  	iommufd_put_object(&ioas->obj);
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  314  	return rc;
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  315  }
+f4b20bb34c83dc Jason Gunthorpe 2022-11-29  316  
+
+:::::: The code at line 276 was first introduced by commit
+:::::: f4b20bb34c83dceade5470288f48f94ce3598ada iommufd: Add kernel support for testing iommufd
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
