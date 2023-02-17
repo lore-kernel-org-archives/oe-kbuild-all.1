@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C1B5692
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 11:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052635692
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 11:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676634073; x=1708170073;
+  t=1676634673; x=1708170673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qzwot0pd48t6j3Ku7mwsZkgTj2W2Hrs+g6WcYFDHtjw=;
-  b=AFqID+ZxtoXX8GYieQkWuyr6niFhi+ZOyEC7xLEP3xrP1NnuLUiHFLyc
-   6Gm+iprUcB1QPHMpC9arVb3D6adjqSUKxN7HppfN7C5dEkS99T5SimowY
-   ELbElCGvzoNbWp8+IYp2q3dqheSWxCFmgieHWg4dhSEmQUAjCz/racqVC
-   2cx0navDyJ1xEYh/WVJh/HqAFuVg0JbpybUEFmrbkgVWKGIFW52j99EP5
-   9YfAA1A3d0aVbXgDMpDJVTDII+xW67ATaniY4F1/EtOYbxKmpnb08Zd5z
-   1OXhNQBkbV8+kNTL9UuqXwQ628/GBFLL+16oXOW797K5fwZs61R7dPsB4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331970888"
+  bh=A81alJJI0PLU9dBLdNYxg9A5OixcuXiu7dPhCOupFeI=;
+  b=Fp6vWE7/qHzEAPh9Ptynhkq8EX0n12zdQXPOcxU8xU/yjMa87DBkzdoa
+   m0/lKtwAtmFSxrBplEVY4n1rO/rs3NK84CaLfH1Te5+83fv/ShGRYvx3B
+   NX338kL4Gd6CqXNalwlMea5LZEiGrJkGyForR6e9Mfv02iSDRAIHaZeGb
+   hZRIcYJYNY4yAquBxrtXWcZUmLQUAhiCGaE8WvJFcVdMQOVEwQqkHQRuH
+   jrafMnYgDl9+8/6gotd8zMV4QtST0giZVqx4svGVS6zN7JwlaiZo5M3r5
+   ILhyxootOzoXvEVL9Rwa5lnu9s1FrWnwwoTMAq4yqr6hHA5102ePUbtg3
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="315684425"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="331970888"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 03:41:12 -0800
+   d="scan'208";a="315684425"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 03:51:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700871201"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="794380928"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="700871201"
+   d="scan'208";a="794380928"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 17 Feb 2023 03:41:10 -0800
+  by orsmga004.jf.intel.com with ESMTP; 17 Feb 2023 03:51:11 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSz70-000BPf-02;
-	Fri, 17 Feb 2023 11:41:10 +0000
-Date: Fri, 17 Feb 2023 19:40:28 +0800
+	id 1pSzGg-000BQ5-0p;
+	Fri, 17 Feb 2023 11:51:10 +0000
+Date: Fri, 17 Feb 2023 19:51:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 4933/30000] versioncheck:
- ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-Message-ID: <202302171909.1Q2z7dn4-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "sizeof(struct gve_tx_context_cmd_dtype) == 2"
+Message-ID: <202302171930.LX5uf1pv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,108 +46,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
-commit: 82243dcb96a6754968425b2a13d390b0c4803dab [4933/30000] media: intel-ipu4: ici driver base code; WW43 firmware f61e455.
-reproduce:
-        make versioncheck
+Hi Arnd,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec35307e18ba8174e2a3f701956059f6a36f22fb
+commit: 5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3 ARM: rework endianess selection
+date:   11 months ago
+config: arm-randconfig-c043-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171930.LX5uf1pv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/net/ethernet/google/gve/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171909.1Q2z7dn4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171930.LX5uf1pv-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
->> ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
->> ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from drivers/net/ethernet/google/gve/gve_main.c:7:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_context_cmd_dtype) == 2"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:68:1: note: in expansion of macro 'static_assert'
+      68 | static_assert(sizeof(struct gve_tx_context_cmd_dtype) == 2);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_tso_context_desc_dqo) == 16"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:93:1: note: in expansion of macro 'static_assert'
+      93 | static_assert(sizeof(struct gve_tx_tso_context_desc_dqo) == 16);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_general_context_desc_dqo) == 16"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:114:1: note: in expansion of macro 'static_assert'
+     114 | static_assert(sizeof(struct gve_tx_general_context_desc_dqo) == 16);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_compl_desc) == 8"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:172:1: note: in expansion of macro 'static_assert'
+     172 | static_assert(sizeof(struct gve_tx_compl_desc) == 8);
+         | ^~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_rx_compl_desc_dqo) == 32"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_desc_dqo.h:248:1: note: in expansion of macro 'static_assert'
+     248 | static_assert(sizeof(struct gve_rx_compl_desc_dqo) == 32);
+         | ^~~~~~~~~~~~~
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
