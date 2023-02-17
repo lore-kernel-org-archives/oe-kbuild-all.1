@@ -1,232 +1,159 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ED26AA9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 13:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733286AA9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 13:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676641971; x=1708177971;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=MPBfK0rU005cQNGGj/21HR9za+uAW/as5T0wQGTlG8c=;
-  b=hN+wGNFsI6BVyD1ngs0spXLPHp/+l4sNnSpTHjd7kY0fnZaEPM4UQEI5
-   K0hpaqOjHZ2QpDrHBqygH4+/3NLHVNzLk6dwUU3Tv+wINjj8BcpMafeLg
-   d0IsTCG8ChqyhU8YxDnFQsZtDGRSsooDevsBex/3v3eh9P/nUO5XVVl+a
-   GAtVvdzK1DVK4+v32dhveT85vbvpxFhm7LUt1Qmej3UakjqhaztnNsmU/
-   7WABRHHgg3pqLwrLPq5bkD/pEX1Yvk6rZHDq0mzqU0qyJlYvGsvUpTyFm
-   K4Nv6QfDl1GkQUej7PcnXcFHMWaep5dyjvcwhLxgK9YCJzC3YfjBRvFg9
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="418210630"
+  t=1676642179; x=1708178179;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=kxyTyBwU3T9hnuzsd6xx7kLg5xkDhT2h7HABVF1Uyxw=;
+  b=FTMasZ+a34u2rmfWA7+CntX9eAxetespbkHSb7FRUMNYI0y38fO1nlgu
+   0mXKhCpxpGGEZJladlRKLv8gMZrPdMjyFsmfm5qtmOEQUER4I5hlxPvYU
+   tOr9wAtW+zrnSXHYVyH5ZseshT3prVSIUwgF+GGJnmjMjdOsiP0Orwiab
+   s0XDfDPaBtb8qUDb3RgFKLwemcNUZkCeIuKMe3Yktb2KC8GKI9BBX0Odq
+   R4e82FQpk319OKenZLGgY2Ntrc6NwwguLVPgc4ynArR+7Z8DxO3YDBQYy
+   MnZbqHUMavkO7r79sopOlpfc04nE5VytMDAknA1h/oqJnjTbyCJOuqtHi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="359439932"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="418210630"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:52:28 -0800
+   d="scan'208";a="359439932"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:56:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="620405083"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670548469"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="620405083"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga003.jf.intel.com with ESMTP; 17 Feb 2023 05:52:27 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 17 Feb 2023 05:52:27 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 17 Feb 2023 05:52:27 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 17 Feb 2023 05:52:27 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 17 Feb 2023 05:52:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tb7vSQ1N0LY6W6lxE09McIH2rBYONVRliPaPAYZQPPLHHZaHnW4YLeLvSeoB1tHY2IyPY4u5TQlh6B4jxWUJRbrqRKrNvw+5CwpbRwASD2V/03e2P+kZOIifPvimFdxgIHyQvZXn6D654l6k59ZFilsWjZpU25SF7U55f6rDrsHI1DmhvxrWyAdh+BN4tQeXlKdJH4hDpZ4KpkJf2MyBmXHMlCf/YucO1fSYxwe+O10NvjCXKQLAR0bC7+Tad4bRDbKuC4y0moSkn4oJZgou4EdqgHgngqmbIB/9+vnne3M+IgLJZwfJRt+D/RZOgn+YSp8Eor12ohvlDpQ5YN62vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dPYGBoEYxJ+GhVwLyk00HyxT27W3EXOHBQdmemsIivk=;
- b=J8M9zgZp2pksWHZ7LpON/59PCs/Rl/+KlLsU6ZZ2M9+K00Xdo8dGCyWJhnzqQDlIHUZAxpZrG7nAqbidQgTsiTa/xZTL72TUgVSW2UxEb/2gwUJAxcddAVhLc5h65MZozBv7MSdMY0k0bhmwT7xZ+AnfAW+1KiynDjKLteUgFwV+WDAZWcwhyWoX4kA8sXxLWQVKqFV1lBYlBu7yoZ7CCejJr2fxVSTccDV3svZxBuIxulZzbmDmK3YExxXX860QJtmdppPaZh6r/ir3ql/eyiR0ck6OTQPOnhXbSyM6SFuIx+JMQqw086QHJvY3YC3JXHOyuE0suKCxVaAICybOzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
- by CO1PR11MB5122.namprd11.prod.outlook.com (2603:10b6:303:95::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17; Fri, 17 Feb
- 2023 13:52:24 +0000
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::3ff6:ca60:f9fe:6934]) by DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::3ff6:ca60:f9fe:6934%4]) with mapi id 15.20.6086.026; Fri, 17 Feb 2023
- 13:52:24 +0000
-Message-ID: <50c35055-afa9-d01e-9a05-ea5351280e4f@intel.com>
-Date: Fri, 17 Feb 2023 14:50:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [linux-next:master 12987/13499] include/linux/build_bug.h:78:41:
- error: static assertion failed: "SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE -
- XDP_PACKET_HEADROOM) == TEST_MAX_PKT_SIZE"
-Content-Language: en-US
-To: =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>, "Martin
- KaFai Lau" <martin.lau@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>, "Linux
- Memory Management List" <linux-mm@kvack.org>, <bpf@vger.kernel.org>
-References: <202302172104.q3ddwzqu-lkp@intel.com>
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-In-Reply-To: <202302172104.q3ddwzqu-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DB6PR0202CA0008.eurprd02.prod.outlook.com
- (2603:10a6:4:29::18) To DM6PR11MB3625.namprd11.prod.outlook.com
- (2603:10b6:5:13a::21)
+   d="scan'208";a="670548469"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 17 Feb 2023 05:56:15 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pT1Di-000BW1-2R;
+	Fri, 17 Feb 2023 13:56:14 +0000
+Date: Fri, 17 Feb 2023 21:56:03 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Hardik Shah <hardik.t.shah@intel.com>
+Subject: [intel-lts:4.19/android_t 5133/30000] versioncheck:
+ ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
+Message-ID: <202302172125.UnAlHGU3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|CO1PR11MB5122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17a41206-f545-4ee1-110c-08db10ee3254
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ys37uyVGj3iAQV6SCUkqMbv3o9ml8AyTTqzWS5v8egIqugiADdf5Oy28xw5TOexrRG08JT5U3o4xnH2TsVip2Szee5a093JdJExw4z2KY18n2k5qDM8xdsTcoLXfnjWd5DCC9lTV14dxN5Kb+qysVIpwOyqFlwdPbsG23DOZTWRjCVbYDQoilFK2Vsxm5Ql0fO5LvGbDhTApIst/FVYxVZGTXD/1rcp8S6p/3ZScxychIL9ErN/as7bSSICjv6O6mWPYzGFZhoctDnIWN9xwwqAUmUvWT+KiizP9z3yqNARjiWByUIUs5A+45ViKQ4SpTaI37GXs3/DkXLsbdLsA7z/tEl65nmZ4XIx9nUAc4GIh4zJvBxg2H749QXY7chNxHVpbB9IDvJ+xPInVwUXKlxxbKaoYD12f5WypyvY3Ky/PssoTYBc5ultQfz/r5P9r2oTz/04+IvCcz+jJOIDzkBlVC4/JIUXtCioLmz0C/JiznnFekai5+eQF7FJxKortB6lG49EXTpPxsAkrP563AGFw9edi58GajhLyNp59y2SedRdwTBQ2duWnulqZIJfaAwgvA209Mxe/kjxezftcEBxB4ORNehaCnO7GRVu6sHvka2QMwyem9QA6k//62YXrOxxVh0vMDy1BkA/kBl9YeR9yI8B9XfvoxSaBHKJkn/s/UXLZesL1nNwmH+tcpxvxG34OInTjPIs153JmAbRmerwdHmjseIYZulPN133VnIoG/EntQmfC4LYMtfYEIQ6R
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(136003)(366004)(376002)(346002)(451199018)(4326008)(66476007)(66556008)(31686004)(83380400001)(8676002)(41300700001)(66946007)(316002)(186003)(26005)(36756003)(6512007)(8936002)(6506007)(82960400001)(54906003)(2616005)(31696002)(478600001)(4001150100001)(86362001)(38100700002)(2906002)(110136005)(6486002)(5660300002)(6666004)(966005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlJraURYSkcvM01HY3dtbk9ERUdPMzBTYzNkanloNFYyUjBVd1FzYzNpeHN4?=
- =?utf-8?B?QnFtSm1mQ1dVQ2x6elFBZHN5eWRyU3hDNjRmcUdabitCekJZOFR0dVFmajBz?=
- =?utf-8?B?UklaclR3cHFnTVk3NGN4N1FRcG8rWVJ5QnVLZjJmbjlVOHVFUEdJRjlrYWVi?=
- =?utf-8?B?cG56Q1lPOUsrY0k2WHBVL0dDOFVoaFRaa240a0RhMjRsV0Erc29sQ2ZOUGh2?=
- =?utf-8?B?NUQ1b2pMa2NCQjBWMTBSc1ZoRFhYQWJrdlE0YTdtajMwOXFNMVdOQjl3Uk1N?=
- =?utf-8?B?MTFpMnI0NGh1Tm9qd24xNjZ3OWprVUt0aStZQWZ0UzVzeXFaR29DcSt3Uk9s?=
- =?utf-8?B?M1hvK3JMdEQ3S3dheEdXMlF2cjlxcDNZM2ovaHk5QiszejNhQU1uSVdvd3Jv?=
- =?utf-8?B?d1dWWjF5eUlkaE00OVVZeURCQStuOCtkYUprYU1zR2FVSU9CMzFKdjF4TTBp?=
- =?utf-8?B?dXlERC9URXBZMUIzaFBnUlltM3UweThpSC9iSlkrNXZIRjdrU3Q4OVAxVzE1?=
- =?utf-8?B?TkNiK2N3UEhEWDRwNVYwSm51dXdRZlk4cldJWlZFbXFQTGhLMUZWejlxQ3NU?=
- =?utf-8?B?dnpzNTc3YStMOW1ROUo1RElnaFEwLzZyb3pBbmtwN0tJc0JsUHVDcTlWRzlX?=
- =?utf-8?B?eURCaFkzcWIvcXlCZisrSG12Mk5CVnZ2Y2sxaUYrT1hBSDQ4ZU5OTUxFMVN6?=
- =?utf-8?B?Sm1WdU9sdmJGWU42eDhoSktXU0kxdWlpQm9YWVFiWVlxRHAydTdoRVF1bVZh?=
- =?utf-8?B?QVJ4WjNPZW9RSFp6UlZoanVrREJQdTBoRHR0UkhVTXhsaXd2WC9xUi8zTnh1?=
- =?utf-8?B?NzZaUkVrY25ucUJtdU1BeXlvKzh3c29sZEw0cEd5TTdUa0I1NExaNUZDRkhz?=
- =?utf-8?B?Q2daOVVWYlJ2YzVldWxTZWVzejdsMEpTKzNJeEVHUUt6RkRzeWFpL3o4MlFm?=
- =?utf-8?B?Y0lMU2Eyb2RTa1h6S053clJ6MG8rTXI3c25FQk9TQjhIMmpWUis0cmliT0tp?=
- =?utf-8?B?akNJNjF4N2c3TTNMcjZXOGdXN2JjOEVHNElFMGI5eW00VGd6S2g5V25pVUJ6?=
- =?utf-8?B?TVNXa0gzWlVkRVk1RlFzSVE4ZHM4MzVLV0NXaUg3Y281WVlmM2VTam44dFJm?=
- =?utf-8?B?QXFWQVkvSytnUnl6aHA3WEgzNi9hc2gyQUpuNlVDNWJFbEZ1YnNNYXJZREpG?=
- =?utf-8?B?MFU4MHgxbXErOWttZHE2WmlQRkFsLzJKQ3Vuc1BxV1lSTE82VWpwenJOYncy?=
- =?utf-8?B?TTEyQ0JXQ1VUVmtSMFFmZW8rZDVxdWtCM2pTY2FwVVdJSzAwUncvbmpUd0RW?=
- =?utf-8?B?MWxBalkrMTViS1phc3JNbldYMmNhbkhjT1pTejZZWmpRcTZxZzdUbGwxVHY0?=
- =?utf-8?B?SnIxZGNXZitLc0pVVkUxbUZtT3ZHdXRWVXFmOE80WVFEQUpuZDltZEphTCth?=
- =?utf-8?B?Q0JjUmRqS1pMZk10L1FRenFHRlZzMUcxU0x2OGpIYU80ZzF3dGt1WEI4bnMr?=
- =?utf-8?B?cGZXTFFLQ0J2MkpzdUw4Slh3bEZxSE85MTN2YlEweTBsNGgzdUJsR2RqdThM?=
- =?utf-8?B?a3NXNmFVUXgrcnZnSmFYQ3BNMEVrc1lVMnBhR0dUdUw4S2p3a0dKeFJLZHdk?=
- =?utf-8?B?ZnkvQlNZS2w0MndqMGsxNVRheWNRQVh4bDRxWWRhd2NvanRNa3dvcE9MSnhu?=
- =?utf-8?B?KytLb091QjR6RmRHOS9kc21VL2lWTkFOV04xbDRWbUVnZE13aG9OR29RUkVr?=
- =?utf-8?B?NDhHMERKTCsya2U3L2tHRGR2dnIvbFJ1TkVueEdGOXFzT0dJRHdKQzlKVDJl?=
- =?utf-8?B?TEgrSzBkRElzOGIzdXE5djJ2WDNUMVdFeWcyUW9NL1pJSVJ6dzY5R3JFaUEr?=
- =?utf-8?B?Wnc0MUkzdTk4RWprM2RrVlBiUi9NamlmYzE3bnYxQ1N0aE55ekU4bkx1alRQ?=
- =?utf-8?B?NjM4djJaRGVqLzhyTWNqL0N6STdES0VhOTlHT3I2blNyTW95NjVDbGNJVVM3?=
- =?utf-8?B?R0hqTGJGQTJTRVhGN1ZEREI5ZlhGMCtUSGtUUkVWeWo0VTF0MERYamZ1Rjdo?=
- =?utf-8?B?UGo3ZkZwekcySU43aDF5bG80M05nMy9ucWhqUWNqVVZoZ24zdWhSREMxMmM5?=
- =?utf-8?B?eTZQL2x3dlRQSy9GNS9Cc1gydEU5NXFMT1hqMXAzVllBZ0l1RTJ1LytONHg1?=
- =?utf-8?Q?H0gRhtvEjAHn6EIpU0ob6aU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17a41206-f545-4ee1-110c-08db10ee3254
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 13:52:23.7719
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yhDTTb1ZGyxK6cYxmamXrT3av8WX0bIo3akDB5XAeDkS252NMdGRQnfJkeGfZNNYAuQTvgTWGM1SdZeSeJCeDxv5X5ToBRM9owy0og9JFTg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5122
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Kernel Test Robot <lkp@intel.com>
-Date: Fri, 17 Feb 2023 21:45:40 +0800
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
+commit: c36af003bab3f4722b78a13d335474c853d12bfd [5133/30000] ASoC: add rt700 codec driver
+reproduce:
+        make versioncheck
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   c068f40300a0eaa34f7105d137a5560b86951aa9
-> commit: 6c20822fada1b8adb77fa450d03a0d449686a4a9 [12987/13499] bpf, test_run: fix &xdp_frame misplacement for LIVE_FRAMES
-> config: ia64-randconfig-r025-20230213 (https://download.01.org/0day-ci/archive/20230217/202302172104.q3ddwzqu-lkp@intel.com/config)
-> compiler: ia64-linux-gcc (GCC) 12.1.0
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302172125.UnAlHGU3-lkp@intel.com/
 
-ia64 has 128-byte cacheline on some configs. While I can easily test it
-in the kernel, what do I do in the userspace test >_<
-Or just exclude non-{64,256} CLs from the assertion?
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+>> ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
+   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6c20822fada1b8adb77fa450d03a0d449686a4a9
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout 6c20822fada1b8adb77fa450d03a0d449686a4a9
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302172104.q3ddwzqu-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/container_of.h:5,
->                     from include/linux/list.h:5,
->                     from include/linux/timer.h:5,
->                     from include/linux/workqueue.h:9,
->                     from include/linux/bpf.h:10,
->                     from net/bpf/test_run.c:4:
->>> include/linux/build_bug.h:78:41: error: static assertion failed: "SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE - XDP_PACKET_HEADROOM) == TEST_MAX_PKT_SIZE"
->       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->          |                                         ^~~~~~~~~~~~~~
->    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
->       77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
->          |                                  ^~~~~~~~~~~~~~~
->    net/bpf/test_run.c:132:1: note: in expansion of macro 'static_assert'
->      132 | static_assert(SKB_WITH_OVERHEAD(TEST_XDP_FRAME_SIZE - XDP_PACKET_HEADROOM) ==
->          | ^~~~~~~~~~~~~
-> 
-> 
-> vim +78 include/linux/build_bug.h
-> 
-> bc6245e5efd70c Ian Abbott       2017-07-10  60  
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-> 6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-> 6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-> 07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-> 
-> :::::: The code at line 78 was first introduced by commit
-> :::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-> 
-> :::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-> 
-
-Thanks,
-Olek
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
