@@ -1,156 +1,281 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D82928EB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 09:43:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/4VZVXQS1shpFMlasza5zaQ8vpCI6jp8hImZe82eI9W8SFnkeNsCVmbBOMsMDXFuLQ1BxmqQQzKBubkFQ13/GAW1vrlNBGyVDJDw1QNf1r4uBb6hcfvnSLNl73DSSBg9LFatJzKIealvh9D3HE0fDzWw3rVmekmf9PWaFPIJiZMtd97tI/B7ZIGluyUSDIKHRwvETcXQnW97kzOtu7Qpzne6FF+bm52g9zyA6TFbjViJs/8byJRzptdzuY+E9hp2odoXToxo/LCWWuvUm6DbxrxXWe/JhNinwboC+kwu694Kd8qsRGKVTL41tFZ7mAAMfGfEF9N7ZtZQ1wNjcHoXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dQwKehqVbjnJZ+3ogCLa9qs/bLDvtpMNGeQ5VSQrv94=;
- b=UPjYB/1fRH79aESrjnYIP9bVmfrjiJWw28O1/Aa+Tf9S6HyaRxiaQmmeTFNW4XxhyqHbzD+hZt48dM5GqDMR4kiz/z7K7VWI3YngkeGrLoy/NBzGXU4MEMhyctMOD0wIdosCQ46zQrcplGdxt87Hovr/dACqPGySbjfe2kHUIu7pcO8PeeUSDO5UWhwfXaAtbu80XwZ73T9ryh3IwRohW3V2AWwPt+om/pob9L+6HU0ekQmEK4+sjrWEeTUOyizKI6ETjKx2n6kbVyJQppXDiwrosex4SlaV/V6Mq56z1dU9UGzbJwYnJtVpms0Hayi9zUEpVic2/dTGF8FJp4d71Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dQwKehqVbjnJZ+3ogCLa9qs/bLDvtpMNGeQ5VSQrv94=;
- b=CX/64TQugEiqdWXXfDxqZK3mEkFZQe7gw1NsT/VPlgQnbXqIk8cAR3yf4vSzDEpPOrDNh/9rpEQ/4CowreBhxvLL1/9O5xEEnfHPBmiEqjB/6YPLiKnHbcewjBIvtkJDX/AwoCaza8ilazpxjOv0XU6eHtOh8eNSI23mgtSmDQw=
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by DM8PR12MB5479.namprd12.prod.outlook.com (2603:10b6:8:38::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 09:43:08 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::33a7:54d4:2de0:3939]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::33a7:54d4:2de0:3939%7]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
- 09:43:08 +0000
-From: "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
-To: Paolo Abeni <pabeni@redhat.com>, "Lucero Palau, Alejandro"
-	<alejandro.lucero-palau@amd.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Ammar
- Faizi <ammarfaizi2@gnuweeb.org>, GNU/Weeb Mailing List
-	<gwml@vger.gnuweeb.org>, Jiri Pirko <jiri@nvidia.com>, kernel test robot
-	<lkp@intel.com>
-Subject: Re: [ammarfaizi2-block:netdev/net-next/master 27/39]
- drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
- 'build_id'
-Thread-Topic: [ammarfaizi2-block:netdev/net-next/master 27/39]
- drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
- 'build_id'
-Thread-Index: AQHZQiP0xHLkxVXOCE+e6FoqAr4h8K7R1ZEAgAEOY4A=
-Date: Fri, 17 Feb 2023 09:43:08 +0000
-Message-ID:
- <DM6PR12MB4202B75672209F40CE72589EC1A19@DM6PR12MB4202.namprd12.prod.outlook.com>
-References: <202302170047.EjCPizu3-lkp@intel.com>
- <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
-In-Reply-To: <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-x-ms-exchange-imapappendstamp: DM6PR12MB4401.namprd12.prod.outlook.com
- (15.20.6086.011)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB4202:EE_|DM8PR12MB5479:EE_
-x-ms-office365-filtering-correlation-id: 1942fa23-a311-4b30-28e8-08db10cb6078
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 5oKw/HtENYbeL5FdIet2vDmfWU0AFPuFiBwPB6/qdhNpyh5DiA9pAEwsJDyuUdFmNDWmfisTiYCy9NId9HmO6ZPCvxUB5HlFYgsHk6aHUFIjPLH8Ly5yOcdWmd8XZebCAgvjFoZecEBUBP/NlinSaQ4zD1SPxqRCtNYly0cYIOVDTetwJA5XpyOW7PIy1uPLAF3O9WudoL9m8JL9XgPfFhu4p0nO5bmsLO8Xesc1fTMX82VBwaif/ncqpIsnSrERLOOnR9ZACeDM9a4qNkeMxIpLmKLWIb2+NiFebpymziUM32z69UopLba/4AVmqRZoabaNakcbxYGbOl/M19hK/Z+OIOlYoMMBLhyvpgzECIAJ5EF2gzGGVzaTONPbYPZX4Y+PI82jsYKp/Xu2ROZdLRMnRFIRpqeNXwhJiw8dCFdFGG0XpIO7mSuuwPhz9KJR8VxdJ2MjRrFoIBWUDc6q925BY+Ak2oP/I/nkO9aP5ytk/rSPpAD6X77zWmpiBt7NEvyVSgzZdJqjxviH5Oj/g6QCQlY9KkXsuPkakK5FkjX7UHo2aJWnat0q7he8bOpWizaWZksM2sJmeMAkrk7TulSZLv+31LKuZlJGFAHjMlOyN30FwTYhp9Sh9p/js31yNquGTaLnDV5NlLmpbiLUW6/XKZ7aGhkabN0Xmc5Klw387rfXH3/63++nIxbacSItksa1f5wsfR+1JauzKF5B47zYw0BfCvrH98TyymSUIlsevRAtLO1TmQp3+OK4hZQo
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(451199018)(2906002)(8936002)(38070700005)(33656002)(52536014)(5660300002)(122000001)(38100700002)(7696005)(110136005)(71200400001)(4326008)(66556008)(64756008)(66946007)(6636002)(66476007)(66446008)(8676002)(966005)(54906003)(41300700001)(9686003)(26005)(186003)(53546011)(6506007)(478600001)(55016003)(76116006)(316002)(65966003)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?UEs3Zy9FbmIzcGYxVis5emVoQktBM0xRUmZiUUp4ZGd2MVRucUVGZVlkQ09N?=
- =?utf-8?B?WnFTN0VVWDNiWjJGSnk4OXdIdUN4eFNxUHJkTXB2MENuTlQ0M0RvVWdUSTFl?=
- =?utf-8?B?V1VmdkdVbG9wZnJ4UVE3NkxhbDhVL3BXUkZldkx6WWhEaEJnZ0RDOEo4em9w?=
- =?utf-8?B?Nnl6QnlMa3lBMlB1MHNLbFI4NG5CR3hjL3U2VVdabzF3dTJKaGZZQ0xxVXZN?=
- =?utf-8?B?dGxCSXRXRWJkalFwVkdGVFNHZWhQRm9DdVhHUFl0bENzUFg3SS9xQ3FsRnpv?=
- =?utf-8?B?RW9WdXdIWmFDN3E5dFNHTFVrN3lwQktYbnJhRUZsQUNjZFFEblBFOEdyLzMx?=
- =?utf-8?B?bnNnNTdvdnlZVXJjU0xUUmEvdHRFbkxSa0phTllsZlZVNWlscFliR3YrQ2VW?=
- =?utf-8?B?SEVQMEVHWFpGUUQrTEVjeU5tcVNVMmwxRElwVXgwRDRva3A0cUhMaDRuR3lM?=
- =?utf-8?B?ZUZuSTRPZjFYL2ZYMVdpa28zQ2k2YlJHK1Q4TlBXM29yUjhucStGNURHVFVL?=
- =?utf-8?B?Ry9tcXFlczRqUGhISTgvTW1xRzhLWEdPMXQxQjhXcXBON2hvK0FpMDJJb00z?=
- =?utf-8?B?TmNIOFpPZDRrQmdiT2VwR0wrTnFCdTQvVzl3TGxvd1VmclhNZFNqdERBWHl0?=
- =?utf-8?B?TVI1bVVZWlBrdTNPbUFRTlZZLzl3UDBENHFkUTZNVFdSVlJwWWxyblJOc216?=
- =?utf-8?B?UlFSZEdFSWVpSGFuM3V4WjQxb0hJYlYyTU5VVWEyZGc1Zjh6WDVPQTZzWEpv?=
- =?utf-8?B?WkhldGNzWFpKRkY5djBlai9KNFQxNnhwWVZoMUFNZ1ErR1FDMDVEU2hsT0VW?=
- =?utf-8?B?cjNIMHkxRm9SK0VTOGh1MTlCQmJMSlgxeERCckpRZTdFMzc1SUlXUTdJUGFl?=
- =?utf-8?B?K0l6RVluaEEzUGM3SkxDSTNKbVA4aEpTZExoTnZjWlZobStuM2t4N3RqdU8z?=
- =?utf-8?B?bWlJczNjNENYMW1rd0pWK0hoZVRIanB1WUJIZzVnaWtYZDh4Wm1Wa1pxU3dB?=
- =?utf-8?B?MVVPT1R1U2oyWUtyT2RQUlFaeTFZMytKL3VOWmI2dGZDL2tTMWxNaERxbnhu?=
- =?utf-8?B?dElFeStDS0F0N1BJRGF2L3R6Z2FVcktPK3RtaS9yUjl0aUJKa1F2d0FkR2Zm?=
- =?utf-8?B?S1A4RHVQMmxTZWgwWFBjdDNRenM1alY1VVRIcEtDREJ3UGN2T0UwZWVkbjd3?=
- =?utf-8?B?NEdTS2NFR2JCUnJMbFR6cjdUR1RYWjA0ZmdOUlNyaGQ4MU9nTDRoMzZCSVg5?=
- =?utf-8?B?TzZVSTZQZWZSQ3lGbktqK2dKczlURXZZTkF2SjI5eldGd2hvVHdqVk5iaVEv?=
- =?utf-8?B?S1RyeTRtcy9QNHZ0UGpXRmZoYjdvSFprQW9xRzc4Y2hwbEhHdjJhcWNoVkpO?=
- =?utf-8?B?NHRTc2tPM2tBdmdFY2VHVUE2UGpHL2dQcDVVSUg3dzl0S0NJcEdSd2xrbG5Y?=
- =?utf-8?B?cStkQ1djekx5V1pqZ01zWUVBd1FxdDkxUFprazdaVVV1ZWwzVTJyYzlXVVAv?=
- =?utf-8?B?UHhHSlhuRDZONEREVS9hS0VPTldjZGgxcWJvZGtaa1JhK1N4TVdzaVdMS3Z4?=
- =?utf-8?B?a2JMR0JUTDcwM1o2YS9VMkU5a3BNbkI5bm9UM0RnK2xzMmQ3aHVLb1AzMjkr?=
- =?utf-8?B?bkJLL2d2VWo3UWtTRCtHMU9pdDRXVkZVcEluZGRJQzVvZWF0OWMrZ2hzUFJk?=
- =?utf-8?B?TXBDWFBkSlpkeDNJdXJvNWhVS1RVMnp1RnI3dU9EU1lxT1UwK1RWM1B6VHYy?=
- =?utf-8?B?Q2dLMXp4RUsya1RmRDUzQWo3aHQ5eTFBK0NMUlREeHprVTNmK0l4VzRHYUlI?=
- =?utf-8?B?QXJnWVQ5WXpxT3l2ZzlCRDB0NHNJMDdlci9YeVd2RStna0g4WFM1UVdhWll0?=
- =?utf-8?B?S1l3eHE5K2p1SDRJRldOKzIrYWd6d0ltM0VCbzI0TzgyT2ttV3dtNm52WjhP?=
- =?utf-8?B?SkVYM2JRcmwwSi82YU5nYkljMzFDVHVvTTIyenFvcHZmYWpqRVM1Y0U1TWZv?=
- =?utf-8?B?U050QnBxMUptWVJJNWN4elNBSkdHdHJzSTQ3UFlSbmtPRW1INXlhZi85dVdo?=
- =?utf-8?B?TzVlNkN4a29EcE4yUjhkdVUyTVJLZWl5K05BZFhrTlQyVFZUTTF0YUVlZ3dT?=
- =?utf-8?Q?0Xts=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4C445F2029CFBB44841E8BD6669DE4C0@amdcloud.onmicrosoft.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CED323E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 10:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676628428; x=1708164428;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bp2ZwgTbVmS8uj/vpGLRzoyOMBO2zLtjxhIe9Y357bo=;
+  b=NfXXHpWOuG5tkMUMLm5d1IKhbutS0iZauAqP1ejh98vGX8aNAQC2lOHR
+   SfgpMW2RdM3Ows1AcBPCbRGy56+rMUIrR3gVoer/ueS42LlcgGbhScsTH
+   SZ71llKGHB1g0DDimUzaoFNiG8y+2G07JeElUjFrEOeoSwafB70ZWzwee
+   zxAu5DHOIa/6y2jRAQZruGmYoxeTqwKlleDw77e6YLIOF6lbDD2ZgMbai
+   XeJG6kxSmLUX2GNDDRUHPBB5/E2dMoc+Za3k2N3AYWVux4Rynk9P+ib1U
+   RnU8+tNqwxqoEizD8EyVS/Qvkan08Z0X7Zg7gGExjt0++/doVsuCgGrN0
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="320060447"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="320060447"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 02:07:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700850578"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="700850578"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 17 Feb 2023 02:07:06 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSxdx-000BJV-39;
+	Fri, 17 Feb 2023 10:07:05 +0000
+Date: Fri, 17 Feb 2023 18:06:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stafford Horne <shorne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/brocade/bna/bnad.c:2918:41: warning: variable
+ 'unmap' set but not used
+Message-ID: <202302171856.VFtt4Vbn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1942fa23-a311-4b30-28e8-08db10cb6078
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2023 09:43:08.5637
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iL6bzKtVGXqc5ZMN4cfjaWHKAaRVoF4c59oZbOg5cK5kdbd/qkswcjmuttuwm/9ob63ZcTdHHQ77WV2QPtRc1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5479
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-DQpPbiAyLzE2LzIzIDE3OjM0LCBQYW9sbyBBYmVuaSB3cm90ZToNCj4gT24gRnJpLCAyMDIzLTAy
-LTE3IGF0IDAwOjEyICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90ZToNCj4+IElmIHlvdSBm
-aXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0K
-Pj4+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+PiBM
-aW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMwMjE3MDA0Ny5F
-akNQaXp1My1sa3BAaW50ZWwuY29tLw0KPj4gQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQg
-YnkgPj4pOg0KPj4NCj4+ICAgICBkcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4X2Rldmxpbmsu
-YzogSW4gZnVuY3Rpb24gJ2VmeF9kZXZsaW5rX2luZm9fcnVubmluZ192Mic6DQo+Pj4+IGRyaXZl
-cnMvbmV0L2V0aGVybmV0L3NmYy9lZnhfZGV2bGluay5jOjE4NTo1ODogZXJyb3I6IGV4cGVjdGVk
-ICcpJyBiZWZvcmUgJ2J1aWxkX2lkJw0KPj4gICAgICAgMTg1IHwgICAgICAgICAgICAgICAgIG1l
-bXNldCgmYnVpbGRfZGF0ZSwgMCwgc2l6ZW9mKGJ1aWxkX2RhdGUpDQo+PiAgICAgICAgICAgfCAg
-ICAgICAgICAgICAgICAgICAgICAgfiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
-DQo+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICApDQo+PiAgICAgICAxODYgfCAjZW5kaWYNCj4+ICAgICAgIDE4NyB8
-ICAgICAgICAgICAgICAgICBidWlsZF9pZCA9IE1DRElfRFdPUkQob3V0YnVmLCBHRVRfVkVSU0lP
-Tl9WMl9PVVRfU1VDRldfQ0hJUF9JRCk7DQo+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAg
-fn5+fn5+fn4NCj4+Pj4gZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmeF9kZXZsaW5rLmM6MTk3
-OjU1OiBlcnJvcjogZXhwZWN0ZWQgJzsnIGJlZm9yZSAnfScgdG9rZW4NCj4+ICAgICAgIDE5NyB8
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWYpOw0K
-Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXg0KPj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgOw0KPj4gICAgICAgMTk4IHwgICAgICAgICB9DQo+
-PiAgICAgICAgICAgfCAgICAgICAgIH4NCj4gQWxlamFuZHJvLCB0aGUgYm90dG9tIGxpbmUgaXMg
-dGhhdCB5b3VyIHNlcmllcyBuZWVkIGEgZm9sbG93LXVwIGFzIGl0DQo+IGJyZWFrcyB0aGUgYnVp
-bGQgd2hlbiBDT05GSUdfUlRDX0xJQiBpcyBub3QgZGVmaW5lZC4gSSBtaXNzZWQgdGhhdCBhdA0K
-PiBjb2RlIHJldmlldyB0aW1lLg0KPg0KPiBDb3VsZCB5b3UgcGxlYXNlIHNlbnQgYSBmaXggKGZv
-ciBuZXQtbmV4dD8pDQoNCg0KT2gsIHdoYXQgYSBzaGFtZSENCg0KSSdsbCBkbyBpdCByaWdodCBu
-b3cuDQoNClRoYW5rcw0KDQo+DQo+IFRoYW5rcyENCj4NCj4gUGFvbG8NCj4NCg==
+Hi Stafford,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec35307e18ba8174e2a3f701956059f6a36f22fb
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
+date:   7 months ago
+config: openrisc-buildonly-randconfig-r002-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171856.VFtt4Vbn-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ded2ee36313c941f1a12b6f85cde295b575264ae
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ded2ee36313c941f1a12b6f85cde295b575264ae
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/ethernet/brocade/bna/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171856.VFtt4Vbn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_start_xmit':
+>> drivers/net/ethernet/brocade/bna/bnad.c:2918:41: warning: variable 'unmap' set but not used [-Wunused-but-set-variable]
+    2918 |         struct bnad_tx_unmap *unmap_q, *unmap, *head_unmap;
+         |                                         ^~~~~
+
+
+vim +/unmap +2918 drivers/net/ethernet/brocade/bna/bnad.c
+
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2907  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2908  /*
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2909   * bnad_start_xmit : Netdev entry point for Transmit
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2910   *		     Called under lock held by net_device
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2911   */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2912  static netdev_tx_t
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2913  bnad_start_xmit(struct sk_buff *skb, struct net_device *netdev)
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2914  {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2915  	struct bnad *bnad = netdev_priv(netdev);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2916  	u32 txq_id = 0;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2917  	struct bna_tcb *tcb = NULL;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11 @2918  	struct bnad_tx_unmap *unmap_q, *unmap, *head_unmap;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2919  	u32		prod, q_depth, vect_id;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2920  	u32		wis, vectors, len;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2921  	int		i;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2922  	dma_addr_t		dma_addr;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2923  	struct bna_txq_entry *txqent;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2924  
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  2925  	len = skb_headlen(skb);
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  2926  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2927  	/* Sanity checks for the skb */
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  2928  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2929  	if (unlikely(skb->len <= ETH_HLEN)) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2930  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2931  		BNAD_UPDATE_CTR(bnad, tx_skb_too_short);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2932  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2933  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2934  	if (unlikely(len > BFI_TX_MAX_DATA_PER_VECTOR)) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2935  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2936  		BNAD_UPDATE_CTR(bnad, tx_skb_headlen_zero);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2937  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2938  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2939  	if (unlikely(len == 0)) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2940  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2941  		BNAD_UPDATE_CTR(bnad, tx_skb_headlen_zero);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2942  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2943  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2944  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2945  	tcb = bnad->tx_info[0].tcb[txq_id];
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2946  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2947  	/*
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2948  	 * Takes care of the Tx that is scheduled between clearing the flag
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2949  	 * and the netif_tx_stop_all_queues() call.
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2950  	 */
+96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2951  	if (unlikely(!tcb || !test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags))) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2952  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2953  		BNAD_UPDATE_CTR(bnad, tx_skb_stopping);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2954  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2955  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2956  
+96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2957  	q_depth = tcb->q_depth;
+96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2958  	prod = tcb->producer_index;
+96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2959  	unmap_q = tcb->unmap_q;
+96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2960  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2961  	vectors = 1 + skb_shinfo(skb)->nr_frags;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2962  	wis = BNA_TXQ_WI_NEEDED(vectors);	/* 4 vectors per work item */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2963  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2964  	if (unlikely(vectors > BFI_TX_MAX_VECTORS_PER_PKT)) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2965  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2966  		BNAD_UPDATE_CTR(bnad, tx_skb_max_vectors);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2967  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2968  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2969  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2970  	/* Check for available TxQ resources */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2971  	if (unlikely(wis > BNA_QE_FREE_CNT(tcb, q_depth))) {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2972  		if ((*tcb->hw_consumer_index != tcb->consumer_index) &&
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2973  		    !test_and_set_bit(BNAD_TXQ_FREE_SENT, &tcb->flags)) {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2974  			u32 sent;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2975  			sent = bnad_txcmpl_process(bnad, tcb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2976  			if (likely(test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags)))
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2977  				bna_ib_ack(tcb->i_dbell, sent);
+4e857c58efeb99 drivers/net/ethernet/brocade/bna/bnad.c Peter Zijlstra          2014-03-17  2978  			smp_mb__before_atomic();
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2979  			clear_bit(BNAD_TXQ_FREE_SENT, &tcb->flags);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2980  		} else {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2981  			netif_stop_queue(netdev);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2982  			BNAD_UPDATE_CTR(bnad, netif_queue_stop);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2983  		}
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  2984  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2985  		smp_mb();
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2986  		/*
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2987  		 * Check again to deal with race condition between
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2988  		 * netif_stop_queue here, and netif_wake_queue in
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2989  		 * interrupt handler which is not inside netif tx lock.
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2990  		 */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2991  		if (likely(wis > BNA_QE_FREE_CNT(tcb, q_depth))) {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2992  			BNAD_UPDATE_CTR(bnad, netif_queue_stop);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2993  			return NETDEV_TX_BUSY;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2994  		} else {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2995  			netif_wake_queue(netdev);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2996  			BNAD_UPDATE_CTR(bnad, netif_queue_wakeup);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2997  		}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2998  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2999  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3000  	txqent = &((struct bna_txq_entry *)tcb->sw_q)[prod];
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3001  	head_unmap = &unmap_q[prod];
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3002  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3003  	/* Program the opcode, flags, frame_len, num_vectors in WI */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3004  	if (bnad_txq_wi_prepare(bnad, tcb, skb, txqent)) {
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3005  		dev_kfree_skb_any(skb);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3006  		return NETDEV_TX_OK;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3007  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3008  	txqent->hdr.wi.reserved = 0;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3009  	txqent->hdr.wi.num_vectors = vectors;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3010  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3011  	head_unmap->skb = skb;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3012  	head_unmap->nvecs = 0;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3013  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3014  	/* Program the vectors */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3015  	unmap = head_unmap;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3016  	dma_addr = dma_map_single(&bnad->pcidev->dev, skb->data,
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3017  				  len, DMA_TO_DEVICE);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3018  	if (dma_mapping_error(&bnad->pcidev->dev, dma_addr)) {
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3019  		dev_kfree_skb_any(skb);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3020  		BNAD_UPDATE_CTR(bnad, tx_skb_map_failed);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3021  		return NETDEV_TX_OK;
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3022  	}
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3023  	BNA_SET_DMA_ADDR(dma_addr, &txqent->vector[0].host_addr);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3024  	txqent->vector[0].length = htons(len);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3025  	dma_unmap_addr_set(&unmap->vectors[0], dma_addr, dma_addr);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3026  	head_unmap->nvecs++;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3027  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3028  	for (i = 0, vect_id = 0; i < vectors - 1; i++) {
+d7840976e39156 drivers/net/ethernet/brocade/bna/bnad.c Matthew Wilcox (Oracle  2019-07-22  3029) 		const skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
+24f5d33d42d648 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3030  		u32		size = skb_frag_size(frag);
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3031  
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3032  		if (unlikely(size == 0)) {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3033  			/* Undo the changes starting at tcb->producer_index */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3034  			bnad_tx_buff_unmap(bnad, unmap_q, q_depth,
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3035  				tcb->producer_index);
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3036  			dev_kfree_skb_any(skb);
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3037  			BNAD_UPDATE_CTR(bnad, tx_skb_frag_zero);
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3038  			return NETDEV_TX_OK;
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3039  		}
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3040  
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3041  		len += size;
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3042  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3043  		vect_id++;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3044  		if (vect_id == BFI_TX_MAX_VECTORS_PER_WI) {
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3045  			vect_id = 0;
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3046  			BNA_QE_INDX_INC(prod, q_depth);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3047  			txqent = &((struct bna_txq_entry *)tcb->sw_q)[prod];
+b779d0afccffac drivers/net/ethernet/brocade/bna/bnad.c Joe Perches             2014-03-12  3048  			txqent->hdr.wi_ext.opcode = htons(BNA_TXQ_WI_EXTENSION);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3049  			unmap = &unmap_q[prod];
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3050  		}
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3051  
+4d5b1a674e3426 drivers/net/ethernet/brocade/bna/bnad.c Ian Campbell            2011-08-29  3052  		dma_addr = skb_frag_dma_map(&bnad->pcidev->dev, frag,
+4d5b1a674e3426 drivers/net/ethernet/brocade/bna/bnad.c Ian Campbell            2011-08-29  3053  					    0, size, DMA_TO_DEVICE);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3054  		if (dma_mapping_error(&bnad->pcidev->dev, dma_addr)) {
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3055  			/* Undo the changes starting at tcb->producer_index */
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3056  			bnad_tx_buff_unmap(bnad, unmap_q, q_depth,
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3057  					   tcb->producer_index);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3058  			dev_kfree_skb_any(skb);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3059  			BNAD_UPDATE_CTR(bnad, tx_skb_map_failed);
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3060  			return NETDEV_TX_OK;
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3061  		}
+ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3062  
+ecca6a968fc454 drivers/net/ethernet/brocade/bna/bnad.c David S. Miller         2014-01-06  3063  		dma_unmap_len_set(&unmap->vectors[vect_id], dma_len, size);
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3064  		BNA_SET_DMA_ADDR(dma_addr, &txqent->vector[vect_id].host_addr);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3065  		txqent->vector[vect_id].length = htons(size);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3066  		dma_unmap_addr_set(&unmap->vectors[vect_id], dma_addr,
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3067  				   dma_addr);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3068  		head_unmap->nvecs++;
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3069  	}
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3070  
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3071  	if (unlikely(len != skb->len)) {
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3072  		/* Undo the changes starting at tcb->producer_index */
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3073  		bnad_tx_buff_unmap(bnad, unmap_q, q_depth, tcb->producer_index);
+27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3074  		dev_kfree_skb_any(skb);
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3075  		BNAD_UPDATE_CTR(bnad, tx_skb_len_mismatch);
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3076  		return NETDEV_TX_OK;
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3077  	}
+271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3078  
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3079  	BNA_QE_INDX_INC(prod, q_depth);
+5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3080  	tcb->producer_index = prod;
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3081  
+d667f78514c656 drivers/net/ethernet/brocade/bna/bnad.c Benjamin Poirier        2016-11-07  3082  	wmb();
+be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3083  
+be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3084  	if (unlikely(!test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags)))
+be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3085  		return NETDEV_TX_OK;
+be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3086  
+fee1253e280a61 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3087  	skb_tx_timestamp(skb);
+fee1253e280a61 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3088  
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3089  	bna_txq_prod_indx_doorbell(tcb);
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3090  
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3091  	return NETDEV_TX_OK;
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3092  }
+8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3093  
+
+:::::: The code at line 2918 was first introduced by commit
+:::::: 5216562a2ccd037d0eb85a2e8bbfd6315e3f1bb5 bna: Tx and Rx Optimizations
+
+:::::: TO: Rasesh Mody <rmody@brocade.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
