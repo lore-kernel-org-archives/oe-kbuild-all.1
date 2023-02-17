@@ -1,44 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA567F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 06:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39CA7F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 07:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676616124; x=1708152124;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=019DszF35ODdkohc4mnxG96450Ty0vdyhNiUxnkxihQ=;
-  b=EdzaboGSQp7uYm9Sq5ZD2H2KQJ32EjVP/4ij5OLQXDOVBpHd3giHcYvE
-   rM4aOe0yd/7cAUnz/1rypkXXD4RIAI9UHEIqqFjxUbxbferiKAxmMmEsS
-   kygEobZU71nL7ttG+OARl77qbLQm4uyygTlnTGHqusbi4q7lfNPinmCLY
-   ART+/3dQ/nlxR4oHia8l30WTT9rsP5DfLxiMWiK5fOYjJ41Ol5Vig27tP
-   Oq87wCQ2Jq4id0spRZZYuMEk3q3cpdHuJ1Xv61tZjGnClG870kshXiiPS
-   tTcm9vPEDKHj0G5JmTNOmhjIHl72k8qVbsTPPhAHMU0tgKK07QVkB/+NJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="311555879"
+  t=1676618147; x=1708154147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yECA7TZIMTQGBBLaxq8M5VMtISSeJ1pEW7liYpiuwhg=;
+  b=j/AWTChP39KpVCIh1uh9DVVWJsTyrrTfjaeOizCfRPveOSB/0WdtkxFU
+   qovkwwFu/QhsQ/qFdMZZeCP7MoJACdQl7TYfNft+ifZd3UCnbqK9AVhGR
+   Y+KFemUSLGH3hv0LWZEJ8wCEkGVWE+ton6gYuCkqwyDHyPwxFMEO+yGiL
+   kxExY6mDwYU/jWDzUV0DQ7u2y9SlEDa1QH4lfbEwiQKKCFc9y2aAS0q0a
+   AS81dAUcWBKpaiRSw0BgO4pc1aL/Pyq5uYfdM7N7hrwuKar9q+YY9HP1E
+   LekGzPaY/UZk1lLLIF1x4kGRUoL7oDbEfvSH7JD6115ukNuK8+Kbd3ZC7
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="320033253"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="311555879"
+   d="scan'208";a="320033253"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 22:42:03 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 23:13:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700809526"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700813047"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="700809526"
+   d="scan'208";a="700813047"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Feb 2023 22:42:02 -0800
+  by orsmga008.jf.intel.com with ESMTP; 16 Feb 2023 23:13:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSuRV-000BBT-1W;
-	Fri, 17 Feb 2023 06:42:01 +0000
-Date: Fri, 17 Feb 2023 14:41:33 +0800
+	id 1pSuvV-000BCF-2r;
+	Fri, 17 Feb 2023 07:13:01 +0000
+Date: Fri, 17 Feb 2023 15:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manu Gautam <mgautam@codeaurora.org>
-Cc: oe-kbuild-all@lists.linux.dev, Douglas Anderson <dianders@chromium.org>,
-	Evan Green <evgreen@chromium.org>
-Subject: [jsarha:topic/cros-sof-v4.14 7561/9354]
- drivers/phy/qualcomm/phy-qcom-qusb2.c:363:30: sparse: sparse: cast truncates
- bits from constant value (3fffffffff becomes ffffffff)
-Message-ID: <202302171411.UAevxKrB-lkp@intel.com>
+To: Pawel Laszczak <pawell@cadence.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, Daisy.Barrera@siriusxm.com,
+	Cliff.Holden@siriusxm.com, arnd@arndb.de, tony@atomide.com,
+	jdelvare@suse.de, neal_liu@aspeedtech.com, linus.walleij@linaro.org,
+	egtvedt@samfundet.no, biju.das.jz@bp.renesas.com,
+	herve.codina@bootlin.com, Pawel Laszczak <pawell@cadence.com>
+Subject: Re: [PATCH 2/4] usb: cdns2: Add main part of Cadence USBHS driver
+Message-ID: <202302171404.Wy9aWegd-lkp@intel.com>
+References: <20230216105411.364157-3-pawell@cadence.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +51,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230216105411.364157-3-pawell@cadence.com>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14
-head:   6f750b16c322c9191168a3a97c427c90581d9144
-commit: 2b4bb749e774cffa7dd5fada6d181932a465b704 [7561/9354] FROMLIST: phy: qcom-qusb2: Add QUSB2 PHYs support for sdm845
-config: sh-randconfig-s033-20230212 (https://download.01.org/0day-ci/archive/20230217/202302171411.UAevxKrB-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 7.5.0
-reproduce:
+Hi Pawel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next soc/for-next linus/master v6.2-rc8 next-20230216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230216105411.364157-3-pawell%40cadence.com
+patch subject: [PATCH 2/4] usb: cdns2: Add main part of Cadence USBHS driver
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230217/202302171404.Wy9aWegd-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/2b4bb749e774cffa7dd5fada6d181932a465b704
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14
-        git checkout 2b4bb749e774cffa7dd5fada6d181932a465b704
+        # https://github.com/intel-lab-lkp/linux/commit/c2450201a6400c7dafcad24e4762506733b6af9b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
+        git checkout c2450201a6400c7dafcad24e4762506733b6af9b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash drivers/gpu/drm/bridge/ drivers/phy/qualcomm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171411.UAevxKrB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171404.Wy9aWegd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/phy/qualcomm/phy-qcom-qusb2.c: note: in included file (through arch/sh/include/uapi/asm/byteorder.h, arch/sh/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/byteorder/little_endian.h:8:2: sparse: sparse: inconsistent configuration, CONFIG_CPU_BIG_ENDIAN is set
->> drivers/phy/qualcomm/phy-qcom-qusb2.c:363:30: sparse: sparse: cast truncates bits from constant value (3fffffffff becomes ffffffff)
->> drivers/phy/qualcomm/phy-qcom-qusb2.c:368:34: sparse: sparse: cast truncates bits from constant value (fffffffff0 becomes fffffff0)
->> drivers/phy/qualcomm/phy-qcom-qusb2.c:373:33: sparse: sparse: cast truncates bits from constant value (3ffffffff becomes ffffffff)
+All warnings (new ones prefixed by >>):
 
-vim +363 drivers/phy/qualcomm/phy-qcom-qusb2.c
+   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c: In function 'cdns2_gadget_ep_enable':
+>> drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:1374:49: warning: variable 'comp_desc' set but not used [-Wunused-but-set-variable]
+    1374 |         const struct usb_ss_ep_comp_descriptor *comp_desc;
+         |                                                 ^~~~~~~~~
+--
+   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c: In function 'cdns2_ep0_stall':
+>> drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:88:12: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
+      88 |         u8 reg;
+         |            ^~~
 
-   351	
-   352	/*
-   353	 * Update board specific PHY tuning override values if specified from
-   354	 * device tree.
-   355	 */
-   356	static void qusb2_phy_override_phy_params(struct qusb2_phy *qphy)
-   357	{
-   358		const struct qusb2_phy_cfg *cfg = qphy->cfg;
-   359	
-   360		if (qphy->override_imp_res_offset)
-   361			qusb2_write_mask(qphy->base, QUSB2PHY_IMP_CTRL1,
-   362				     qphy->imp_res_offset_value << IMP_RES_OFFSET_SHIFT,
- > 363				     IMP_RES_OFFSET_MASK);
-   364	
-   365		if (qphy->override_hstx_trim)
-   366			qusb2_write_mask(qphy->base, cfg->regs[QUSB2PHY_PORT_TUNE1],
-   367					 qphy->hstx_trim_value << HSTX_TRIM_SHIFT,
- > 368					 HSTX_TRIM_MASK);
-   369	
-   370		if (qphy->override_preemphasis)
-   371			qusb2_write_mask(qphy->base, cfg->regs[QUSB2PHY_PORT_TUNE1],
-   372					qphy->preemphasis_level << PREEMPHASIS_EN_SHIFT,
- > 373					PREEMPHASIS_EN_MASK);
-   374	
-   375		if (qphy->override_preemphasis_width) {
-   376			if (qphy->preemphasis_width ==
-   377			    QUSB2_V2_PREEMPHASIS_WIDTH_HALF_BIT)
-   378				qusb2_setbits(qphy->base,
-   379					      cfg->regs[QUSB2PHY_PORT_TUNE1],
-   380					      PREEMPH_WIDTH_HALF_BIT);
-   381			else
-   382				qusb2_clrbits(qphy->base,
-   383					      cfg->regs[QUSB2PHY_PORT_TUNE1],
-   384					      PREEMPH_WIDTH_HALF_BIT);
-   385		}
-   386	}
-   387	
+
+vim +/comp_desc +1374 drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
+
+  1370	
+  1371	static int cdns2_gadget_ep_enable(struct usb_ep *ep,
+  1372					  const struct usb_endpoint_descriptor *desc)
+  1373	{
+> 1374		const struct usb_ss_ep_comp_descriptor *comp_desc;
+  1375		u32 reg = DMA_EP_STS_EN_TRBERREN;
+  1376		struct cdns2_endpoint *pep;
+  1377		struct cdns2_device *pdev;
+  1378		unsigned long flags;
+  1379		int enable = 1;
+  1380		int ret = 0;
+  1381	
+  1382		if (!ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT ||
+  1383		    !desc->wMaxPacketSize) {
+  1384			return -EINVAL;
+  1385		}
+  1386	
+  1387		pep = ep_to_cdns2_ep(ep);
+  1388		pdev = pep->pdev;
+  1389		comp_desc = pep->endpoint.comp_desc;
+  1390	
+  1391		if (dev_WARN_ONCE(pdev->dev, pep->ep_state & EP_ENABLED,
+  1392				  "%s is already enabled\n", pep->name))
+  1393			return 0;
+  1394	
+  1395		spin_lock_irqsave(&pdev->lock, flags);
+  1396	
+  1397		pep->type = usb_endpoint_type(desc);
+  1398		pep->interval = desc->bInterval ? BIT(desc->bInterval - 1) : 0;
+  1399	
+  1400		if (pdev->gadget.speed == USB_SPEED_FULL)
+  1401			if (pep->type == USB_ENDPOINT_XFER_INT)
+  1402				pep->interval = desc->bInterval;
+  1403	
+  1404		if (pep->interval > ISO_MAX_INTERVAL &&
+  1405		    pep->type == USB_ENDPOINT_XFER_ISOC) {
+  1406			dev_err(pdev->dev, "ISO period is limited to %d (current: %d)\n",
+  1407				ISO_MAX_INTERVAL, pep->interval);
+  1408	
+  1409			ret =  -EINVAL;
+  1410			goto exit;
+  1411		}
+  1412	
+  1413		/*
+  1414		 * During ISO OUT traffic DMA reads Transfer Ring for the EP which has
+  1415		 * never got doorbell.
+  1416		 * This issue was detected only on simulation, but to avoid this issue
+  1417		 * driver add protection against it. To fix it driver enable ISO OUT
+  1418		 * endpoint before setting DRBL. This special treatment of ISO OUT
+  1419		 * endpoints are recommended by controller specification.
+  1420		 */
+  1421		if (pep->type == USB_ENDPOINT_XFER_ISOC  && !pep->dir)
+  1422			enable = 0;
+  1423	
+  1424		ret = cdns2_alloc_tr_segment(pep);
+  1425		if (ret)
+  1426			goto exit;
+  1427	
+  1428		ret = cdns2_ep_config(pep, enable);
+  1429		if (ret) {
+  1430			cdns2_free_tr_segment(pep);
+  1431			ret =  -EINVAL;
+  1432			goto exit;
+  1433		}
+  1434	
+  1435		pep->ep_state &= ~(EP_STALLED | EP_STALL_PENDING |
+  1436				   EP_QUIRK_ISO_OUT_EN);
+  1437		pep->ep_state |= EP_ENABLED | EP_UPDATE_EP_TRBADDR;
+  1438		pep->wa1_set = 0;
+  1439		pep->ring.enqueue = 0;
+  1440		pep->ring.dequeue = 0;
+  1441		reg = readl(&pdev->adma_regs->ep_sts);
+  1442		pep->ring.pcs = !!DMA_EP_STS_CCS(reg);
+  1443		pep->ring.ccs = !!DMA_EP_STS_CCS(reg);
+  1444		/* one TRB is reserved for link TRB used in DMULT mode*/
+  1445		pep->ring.free_trbs = TRBS_PER_SEGMENT - 1;
+  1446	
+  1447	exit:
+  1448		spin_unlock_irqrestore(&pdev->lock, flags);
+  1449	
+  1450		return ret;
+  1451	}
+  1452	
 
 -- 
 0-DAY CI Kernel Test Service
