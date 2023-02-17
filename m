@@ -1,46 +1,44 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352A3376;
-	Fri, 17 Feb 2023 03:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666D7376
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 03:50:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676605802; x=1708141802;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=05O6cSg+JQ9YwG+lChcj9FgnMTs6Ki+tvxmgDv2EFcw=;
-  b=nq5R4R1NMhiDUqobp7ag8DTHxNjUTSPbzjH+b6vz9xGbo6zpbYE3Z0su
-   vy4A0hhdnWkUnlKObNXWfJinT36LwNCI/+JCVzj3CyuQLDCmWcf5vC9cw
-   tuWouGOYAeaIT9b+uSgdEeFcw8Y0niOQSN5PPvTV8Mh/7JFruA+JTW9YH
-   /NuaZEweR1JD79vanMdfZM2NNIFZuxdOTmyMpkTyKzNpGha/EOBFAh1sc
-   yBHEfVkeXv02bxXtVH3bOycv5FAAnnd/kuIFpWtysdXQ0iI0NMZgmXjmq
-   NfTa8jXuv3+NfC68unjnGnpdmMp50HzJkfVj79+vU68UnllzmQD9u1ktN
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331903903"
+  t=1676605805; x=1708141805;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O+c6MjNUQXeadDzpM+t8VgVjrw7GBTRFLweCYRCA8HY=;
+  b=QBqfC7MgWV8ROHk/QrGQyw8O+7eZ3EjWi7oOkXl1TvhHcXAscWwpWAZq
+   +iZ+Ib6sbSYYd1UzjQM3gWEoW/7TjfJ+VeaMz6zwnZI9Agm8z0bM21dZs
+   yzj5tYaD9rp5/ywG7V7e7V7zcOwXWrYjPRUEPTO+3otGMh17VTOUvLDng
+   yypGQpPsIxhX//5O9MYV/YzMCJLavPlHYeJqUS0NWpYAfvg2wbZXOChmG
+   kLW3DBXhuioPiSOLdS1vVN4Yp/ba1nFZczdpQxzYZt8bJCKBBvNEUNzrR
+   beXzZ52lfq4rwCw9AC5ubX+p9g5mV+p16lGFUh1pFdrqMT4RGvBG/vUQk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331903910"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="331903903"
+   d="scan'208";a="331903910"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 19:50:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="915946647"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="915946649"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="915946647"
+   d="scan'208";a="915946649"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 16 Feb 2023 19:49:59 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSrl0-000B5j-09;
+	id 1pSrl0-000B5h-01;
 	Fri, 17 Feb 2023 03:49:58 +0000
 Date: Fri, 17 Feb 2023 11:49:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Guo Ren <guoren@kernel.org>
-Subject: drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires
- the following: RV64I Base Instruction Set
-Message-ID: <202302171144.sffQigLX-lkp@intel.com>
+To: Jingbo Xu <jefflexu@linux.alibaba.com>, xiang@kernel.or,
+	chao@kernel.org, huyue2@coolpad.com, linux-erofs@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] erofs: convert hardcoded blocksize to sb->s_blocksize
+Message-ID: <202302171143.RmhVCgqe-lkp@intel.com>
+References: <20230216094745.47868-1-jefflexu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,129 +47,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230216094745.47868-1-jefflexu@linux.alibaba.com>
 
-Hi Lad,
+Hi Jingbo,
 
-First bad commit (maybe != root cause):
+Thank you for the patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3ac88fa4605ec98e545fb3ad0154f575fda2de5f
-commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-date:   3 months ago
-config: riscv-buildonly-randconfig-r003-20230216 (https://download.01.org/0day-ci/archive/20230217/202302171144.sffQigLX-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+[auto build test ERROR on xiang-erofs/dev-test]
+[also build test ERROR on xiang-erofs/dev next-20230216]
+[cannot apply to xiang-erofs/fixes linus/master v6.2-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbo-Xu/erofs-set-block-size-to-the-on-disk-block-size/20230216-175045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20230216094745.47868-1-jefflexu%40linux.alibaba.com
+patch subject: [PATCH 1/2] erofs: convert hardcoded blocksize to sb->s_blocksize
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230217/202302171143.RmhVCgqe-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+        # https://github.com/intel-lab-lkp/linux/commit/30b09ec3be57f3777d22e71d2d4e5ec70d9227f8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jingbo-Xu/erofs-set-block-size-to-the-on-disk-block-size/20230216-175045
+        git checkout 30b09ec3be57f3777d22e71d2d4e5ec70d9227f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171144.sffQigLX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171143.RmhVCgqe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires the following: RV64I Base Instruction Set
-           old = cmpxchg64_relaxed(ptep, curr, new);
-                 ^
-   include/linux/atomic/atomic-instrumented.h:1968:2: note: expanded from macro 'cmpxchg64_relaxed'
-           arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-           ^
-   include/linux/atomic/atomic-arch-fallback.h:60:32: note: expanded from macro 'arch_cmpxchg64_relaxed'
-   #define arch_cmpxchg64_relaxed arch_cmpxchg64
-                                  ^
-   arch/riscv/include/asm/cmpxchg.h:354:2: note: expanded from macro 'arch_cmpxchg64'
-           arch_cmpxchg((ptr), (o), (n));                                  \
-           ^
-   arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from macro 'arch_cmpxchg'
-           (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                                ^
-   arch/riscv/include/asm/cmpxchg.h:324:4: note: expanded from macro '__cmpxchg'
-                           "0:     lr.d %0, %2\n"                          \
-                           ^
-   <inline asm>:1:5: note: instantiated into assembly here
-           0:      lr.d s4, 0(s0)
-                   ^
->> drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires the following: RV64I Base Instruction Set
-           old = cmpxchg64_relaxed(ptep, curr, new);
-                 ^
-   include/linux/atomic/atomic-instrumented.h:1968:2: note: expanded from macro 'cmpxchg64_relaxed'
-           arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-           ^
-   include/linux/atomic/atomic-arch-fallback.h:60:32: note: expanded from macro 'arch_cmpxchg64_relaxed'
-   #define arch_cmpxchg64_relaxed arch_cmpxchg64
-                                  ^
-   arch/riscv/include/asm/cmpxchg.h:354:2: note: expanded from macro 'arch_cmpxchg64'
-           arch_cmpxchg((ptr), (o), (n));                                  \
-           ^
-   arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from macro 'arch_cmpxchg'
-           (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                                ^
-   arch/riscv/include/asm/cmpxchg.h:326:5: note: expanded from macro '__cmpxchg'
-                           "       sc.d.rl %1, %z4, %2\n"                  \
-                            ^
-   <inline asm>:3:2: note: instantiated into assembly here
-           sc.d.rl a0, s6, 0(s0)
-           ^
-   2 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
-   Selected by [y]:
-   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
-
-
-vim +330 drivers/iommu/io-pgtable-arm.c
-
-c896c132b01895 Laurent Pinchart   2014-12-14  310  
-fb3a95795da53d Robin Murphy       2017-06-22  311  static arm_lpae_iopte arm_lpae_install_table(arm_lpae_iopte *table,
-fb3a95795da53d Robin Murphy       2017-06-22  312  					     arm_lpae_iopte *ptep,
-2c3d273eabe8b1 Robin Murphy       2017-06-22  313  					     arm_lpae_iopte curr,
-9abe2ac834851a Hector Martin      2021-11-20  314  					     struct arm_lpae_io_pgtable *data)
-fb3a95795da53d Robin Murphy       2017-06-22  315  {
-2c3d273eabe8b1 Robin Murphy       2017-06-22  316  	arm_lpae_iopte old, new;
-9abe2ac834851a Hector Martin      2021-11-20  317  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
-e1d3c0fd701df8 Will Deacon        2014-11-14  318  
-9abe2ac834851a Hector Martin      2021-11-20  319  	new = paddr_to_iopte(__pa(table), data) | ARM_LPAE_PTE_TYPE_TABLE;
-fb3a95795da53d Robin Murphy       2017-06-22  320  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
-fb3a95795da53d Robin Murphy       2017-06-22  321  		new |= ARM_LPAE_PTE_NSTABLE;
-e1d3c0fd701df8 Will Deacon        2014-11-14  322  
-77f3445866c39d Will Deacon        2017-06-23  323  	/*
-77f3445866c39d Will Deacon        2017-06-23  324  	 * Ensure the table itself is visible before its PTE can be.
-77f3445866c39d Will Deacon        2017-06-23  325  	 * Whilst we could get away with cmpxchg64_release below, this
-77f3445866c39d Will Deacon        2017-06-23  326  	 * doesn't have any ordering semantics when !CONFIG_SMP.
-77f3445866c39d Will Deacon        2017-06-23  327  	 */
-77f3445866c39d Will Deacon        2017-06-23  328  	dma_wmb();
-2c3d273eabe8b1 Robin Murphy       2017-06-22  329  
-2c3d273eabe8b1 Robin Murphy       2017-06-22 @330  	old = cmpxchg64_relaxed(ptep, curr, new);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  331  
-4f41845b340783 Will Deacon        2019-06-25  332  	if (cfg->coherent_walk || (old & ARM_LPAE_PTE_SW_SYNC))
-2c3d273eabe8b1 Robin Murphy       2017-06-22  333  		return old;
-2c3d273eabe8b1 Robin Murphy       2017-06-22  334  
-2c3d273eabe8b1 Robin Murphy       2017-06-22  335  	/* Even if it's not ours, there's no point waiting; just kick it */
-41e1eb2546e9c8 Isaac J. Manjarres 2021-06-16  336  	__arm_lpae_sync_pte(ptep, 1, cfg);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  337  	if (old == curr)
-2c3d273eabe8b1 Robin Murphy       2017-06-22  338  		WRITE_ONCE(*ptep, new | ARM_LPAE_PTE_SW_SYNC);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  339  
-2c3d273eabe8b1 Robin Murphy       2017-06-22  340  	return old;
-e1d3c0fd701df8 Will Deacon        2014-11-14  341  }
-e1d3c0fd701df8 Will Deacon        2014-11-14  342  
-
-:::::: The code at line 330 was first introduced by commit
-:::::: 2c3d273eabe8b1ed3b3cffe2c79643b1bf7e2d4a iommu/io-pgtable-arm: Support lockless operation
-
-:::::: TO: Robin Murphy <robin.murphy@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: fs/erofs/data.o: in function `erofs_map_blocks_flatmode.constprop.0':
+>> data.c:(.text.erofs_map_blocks_flatmode.constprop.0+0x118): undefined reference to `__divdi3'
+   mips-linux-ld: fs/erofs/namei.o: in function `erofs_find_target_block.constprop.0':
+>> namei.c:(.text.erofs_find_target_block.constprop.0+0xf8): undefined reference to `__divdi3'
+   mips-linux-ld: fs/erofs/zmap.o: in function `compacted_load_cluster_from_disk':
+>> zmap.c:(.text.compacted_load_cluster_from_disk+0x224): undefined reference to `__divdi3'
 
 -- 
 0-DAY CI Kernel Test Service
