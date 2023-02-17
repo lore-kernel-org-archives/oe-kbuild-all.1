@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937543C32
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 14:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA222746A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 14:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676644638; x=1708180638;
+  t=1676645899; x=1708181899;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D80WpmtHC3YXBZrDXHwEFpr1yN2DyGpcmra3Q39Q0N4=;
-  b=C1GQ3+PFuNGik0tlAn4oJ9SNoP0NLltCV9VN43Fej99kvkwq2oJ2sUtf
-   H1mfqIk/LLE7YWirNZa92vvgpYfDwI1MmK4FXDn39sMCmQ9ezNTHMZsly
-   NLML8mCk8g/ypsC6VgyfCj+kI3ZRSzHgGcs5XpQ8bw3wHVKKAmzvsV6NX
-   WZ/nJolKeVWC6n+COqgqgN0siCJoxI6Sub8lHieNeKSuyjmY+kpZbgY+H
-   uBTmgMEkCAw5L1pr/heE/0UvMVO7xGIFR7sBGiFTFx3wfJLkIppNoj1GE
-   ow71zwNKKotLcUiFOaYQ9AjWVGaJtVULyVkTkhbcwqu02J3k45N9zuTaQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="315712604"
+  bh=OmsIWfyzxQieebc7wXo2xsKcb8ajES8WQM7C9P2Ha14=;
+  b=hPHDSyJDijqlLfLMgG0xxC2fwjJ2w5a/pJzrSzAqFhr0128OTEycPQqa
+   8dmfIvg/EMcQ9zXnwM/VxWCZrKyaAd8pBThf68Z2ejeOm663wCg+/0QTX
+   2pXG6lyqeebCg4Z2Y96PGwatv4nrHcnDUTAsTO2l+RmEyRb+fs86mTzpd
+   MZn6ED0meASh0wec0g+bX5bRIK5egKEXfUZyarGY39KvmPs2kQc6CpKEN
+   iDHVhKkAV3rblZ1fbrK11M31rnaal4JKYWcsyWAHsGzYH8laXQ57c1tx+
+   tXvMli6IfO04d60GuMPVNvKAd9zLb4nQlzo/pL+yozql71xKLjJXw1b13
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="332003471"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="315712604"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 06:37:18 -0800
+   d="scan'208";a="332003471"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 06:58:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="620415136"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="702990799"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="620415136"
+   d="scan'208";a="702990799"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 17 Feb 2023 06:37:16 -0800
+  by orsmga001.jf.intel.com with ESMTP; 17 Feb 2023 06:58:17 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pT1rQ-000BXl-04;
-	Fri, 17 Feb 2023 14:37:16 +0000
-Date: Fri, 17 Feb 2023 22:37:02 +0800
+	id 1pT2Bk-000BZ3-2r;
+	Fri, 17 Feb 2023 14:58:16 +0000
+Date: Fri, 17 Feb 2023 22:57:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jon Moeller <jon.moeller@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 5718/30000] versioncheck:
- ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-Message-ID: <202302172239.OuTa8UCc-lkp@intel.com>
+Subject: [intel-lts:4.19/android_t 18502/30000] versioncheck:
+ ./drivers/platform/x86/socwatchhv/inc/swhv_acrn.h: 15 linux/version.h not
+ needed.
+Message-ID: <202302172254.hZIw9CY1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,13 +49,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
 head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
-commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [5718/30000] platform/x86: add sep and socwatch drivers without socperf.
+commit: a54bab2d508123c7f6ff3e02c4f6aaada581df10 [18502/30000] platform/x86: sep, socwatchhv driver and code-formatting fixes
 reproduce:
         make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302172239.OuTa8UCc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302172254.hZIw9CY1-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -82,31 +83,30 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
    ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
    ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-dma.c: 463: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 1157: need linux/version.h
    ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
    ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
    ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
    ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 306: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 945: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1534: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1050: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
    ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 178: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 879: need linux/version.h
    ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 552: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 768: need linux/version.h
    ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
    ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1372: need linux/version.h
    ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
    ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
@@ -120,29 +120,30 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
    ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
    ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
->> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
->> ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
->> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
->> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
+   ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
+   ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
+   ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
+   ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
+   ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
+>> ./drivers/platform/x86/socwatchhv/inc/swhv_acrn.h: 15 linux/version.h not needed.
+   ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
+   ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
    ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
    ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
    ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
    ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
    ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/igb_main.c: 10881: need linux/version.h
    ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
    ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
    ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
