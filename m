@@ -1,118 +1,156 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20412560;
-	Fri, 17 Feb 2023 09:07:44 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id cs11so595804qvb.9;
-        Fri, 17 Feb 2023 01:07:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/uETbKlrc042hse1IeL+66tEEBop9Jun/9u11FjpcZk=;
-        b=q4634C6/EA668M1sTY5X/yOxQ7Z7wQdYWSpd32Z9V3ZbFMqMr1Trorqig0dewvfuYx
-         EtgwWf+4HRYNu6M1KvJLNicI3TTgFnvRhjtunqaZWmfhge6FeLFtgqV6ilLSFHaok+TB
-         s3Zifv3Ioxbd9YicOy/eOvP2qVIMU5421DejCeOwnh3OAC7RfQ+9KmoNZXCn0B5msU9v
-         r7QgELdppCMFzlimpLlX4xRRV/IKjH99ue/06yIe0S9RH9y6jwulKEKfUml3vJ9LH9+T
-         nARCtFPfPOc+4gkuAjCmaayChSsAKjb53wGkjF0mBj/GvQkNAKfVgd2D63tx7A1lpGU/
-         wDSg==
-X-Gm-Message-State: AO0yUKWn9U9t+GeOMQ+EfyII6jMIgVebuLZjycZ84S5H5BOFwulRGfrJ
-	cTeK/qIvQXKyoEs5diLE7iJ/7mmNVk8fOVDq
-X-Google-Smtp-Source: AK7set/ciCuHO9DFHCkoW8KiQ+BxZtxXlm19YnkrrB7UauwpgGRSDe2krZhrregOLIM9/RPnDVVnzg==
-X-Received: by 2002:a05:6214:19c9:b0:570:bf43:48c with SMTP id j9-20020a05621419c900b00570bf43048cmr1471051qvc.17.1676624863379;
-        Fri, 17 Feb 2023 01:07:43 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id j68-20020a378747000000b00731fe65bef2sm2935674qkd.66.2023.02.17.01.07.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Feb 2023 01:07:42 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5342c9c53a0so29772607b3.2;
-        Fri, 17 Feb 2023 01:07:42 -0800 (PST)
-X-Received: by 2002:a0d:f347:0:b0:4fc:962d:7dc1 with SMTP id
- c68-20020a0df347000000b004fc962d7dc1mr1001435ywf.301.1676624862400; Fri, 17
- Feb 2023 01:07:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D82928EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 09:43:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c/4VZVXQS1shpFMlasza5zaQ8vpCI6jp8hImZe82eI9W8SFnkeNsCVmbBOMsMDXFuLQ1BxmqQQzKBubkFQ13/GAW1vrlNBGyVDJDw1QNf1r4uBb6hcfvnSLNl73DSSBg9LFatJzKIealvh9D3HE0fDzWw3rVmekmf9PWaFPIJiZMtd97tI/B7ZIGluyUSDIKHRwvETcXQnW97kzOtu7Qpzne6FF+bm52g9zyA6TFbjViJs/8byJRzptdzuY+E9hp2odoXToxo/LCWWuvUm6DbxrxXWe/JhNinwboC+kwu694Kd8qsRGKVTL41tFZ7mAAMfGfEF9N7ZtZQ1wNjcHoXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dQwKehqVbjnJZ+3ogCLa9qs/bLDvtpMNGeQ5VSQrv94=;
+ b=UPjYB/1fRH79aESrjnYIP9bVmfrjiJWw28O1/Aa+Tf9S6HyaRxiaQmmeTFNW4XxhyqHbzD+hZt48dM5GqDMR4kiz/z7K7VWI3YngkeGrLoy/NBzGXU4MEMhyctMOD0wIdosCQ46zQrcplGdxt87Hovr/dACqPGySbjfe2kHUIu7pcO8PeeUSDO5UWhwfXaAtbu80XwZ73T9ryh3IwRohW3V2AWwPt+om/pob9L+6HU0ekQmEK4+sjrWEeTUOyizKI6ETjKx2n6kbVyJQppXDiwrosex4SlaV/V6Mq56z1dU9UGzbJwYnJtVpms0Hayi9zUEpVic2/dTGF8FJp4d71Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dQwKehqVbjnJZ+3ogCLa9qs/bLDvtpMNGeQ5VSQrv94=;
+ b=CX/64TQugEiqdWXXfDxqZK3mEkFZQe7gw1NsT/VPlgQnbXqIk8cAR3yf4vSzDEpPOrDNh/9rpEQ/4CowreBhxvLL1/9O5xEEnfHPBmiEqjB/6YPLiKnHbcewjBIvtkJDX/AwoCaza8ilazpxjOv0XU6eHtOh8eNSI23mgtSmDQw=
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
+ by DM8PR12MB5479.namprd12.prod.outlook.com (2603:10b6:8:38::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
+ 2023 09:43:08 +0000
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939]) by DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939%7]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
+ 09:43:08 +0000
+From: "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+To: Paolo Abeni <pabeni@redhat.com>, "Lucero Palau, Alejandro"
+	<alejandro.lucero-palau@amd.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Ammar
+ Faizi <ammarfaizi2@gnuweeb.org>, GNU/Weeb Mailing List
+	<gwml@vger.gnuweeb.org>, Jiri Pirko <jiri@nvidia.com>, kernel test robot
+	<lkp@intel.com>
+Subject: Re: [ammarfaizi2-block:netdev/net-next/master 27/39]
+ drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
+ 'build_id'
+Thread-Topic: [ammarfaizi2-block:netdev/net-next/master 27/39]
+ drivers/net/ethernet/sfc/efx_devlink.c:185:58: error: expected ')' before
+ 'build_id'
+Thread-Index: AQHZQiP0xHLkxVXOCE+e6FoqAr4h8K7R1ZEAgAEOY4A=
+Date: Fri, 17 Feb 2023 09:43:08 +0000
+Message-ID:
+ <DM6PR12MB4202B75672209F40CE72589EC1A19@DM6PR12MB4202.namprd12.prod.outlook.com>
+References: <202302170047.EjCPizu3-lkp@intel.com>
+ <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
+In-Reply-To: <ea3b86d9f06af4a9261d7c698c7b9a4e1ca35ccd.camel@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+x-ms-exchange-imapappendstamp: DM6PR12MB4401.namprd12.prod.outlook.com
+ (15.20.6086.011)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR12MB4202:EE_|DM8PR12MB5479:EE_
+x-ms-office365-filtering-correlation-id: 1942fa23-a311-4b30-28e8-08db10cb6078
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 5oKw/HtENYbeL5FdIet2vDmfWU0AFPuFiBwPB6/qdhNpyh5DiA9pAEwsJDyuUdFmNDWmfisTiYCy9NId9HmO6ZPCvxUB5HlFYgsHk6aHUFIjPLH8Ly5yOcdWmd8XZebCAgvjFoZecEBUBP/NlinSaQ4zD1SPxqRCtNYly0cYIOVDTetwJA5XpyOW7PIy1uPLAF3O9WudoL9m8JL9XgPfFhu4p0nO5bmsLO8Xesc1fTMX82VBwaif/ncqpIsnSrERLOOnR9ZACeDM9a4qNkeMxIpLmKLWIb2+NiFebpymziUM32z69UopLba/4AVmqRZoabaNakcbxYGbOl/M19hK/Z+OIOlYoMMBLhyvpgzECIAJ5EF2gzGGVzaTONPbYPZX4Y+PI82jsYKp/Xu2ROZdLRMnRFIRpqeNXwhJiw8dCFdFGG0XpIO7mSuuwPhz9KJR8VxdJ2MjRrFoIBWUDc6q925BY+Ak2oP/I/nkO9aP5ytk/rSPpAD6X77zWmpiBt7NEvyVSgzZdJqjxviH5Oj/g6QCQlY9KkXsuPkakK5FkjX7UHo2aJWnat0q7he8bOpWizaWZksM2sJmeMAkrk7TulSZLv+31LKuZlJGFAHjMlOyN30FwTYhp9Sh9p/js31yNquGTaLnDV5NlLmpbiLUW6/XKZ7aGhkabN0Xmc5Klw387rfXH3/63++nIxbacSItksa1f5wsfR+1JauzKF5B47zYw0BfCvrH98TyymSUIlsevRAtLO1TmQp3+OK4hZQo
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(451199018)(2906002)(8936002)(38070700005)(33656002)(52536014)(5660300002)(122000001)(38100700002)(7696005)(110136005)(71200400001)(4326008)(66556008)(64756008)(66946007)(6636002)(66476007)(66446008)(8676002)(966005)(54906003)(41300700001)(9686003)(26005)(186003)(53546011)(6506007)(478600001)(55016003)(76116006)(316002)(65966003)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?UEs3Zy9FbmIzcGYxVis5emVoQktBM0xRUmZiUUp4ZGd2MVRucUVGZVlkQ09N?=
+ =?utf-8?B?WnFTN0VVWDNiWjJGSnk4OXdIdUN4eFNxUHJkTXB2MENuTlQ0M0RvVWdUSTFl?=
+ =?utf-8?B?V1VmdkdVbG9wZnJ4UVE3NkxhbDhVL3BXUkZldkx6WWhEaEJnZ0RDOEo4em9w?=
+ =?utf-8?B?Nnl6QnlMa3lBMlB1MHNLbFI4NG5CR3hjL3U2VVdabzF3dTJKaGZZQ0xxVXZN?=
+ =?utf-8?B?dGxCSXRXRWJkalFwVkdGVFNHZWhQRm9DdVhHUFl0bENzUFg3SS9xQ3FsRnpv?=
+ =?utf-8?B?RW9WdXdIWmFDN3E5dFNHTFVrN3lwQktYbnJhRUZsQUNjZFFEblBFOEdyLzMx?=
+ =?utf-8?B?bnNnNTdvdnlZVXJjU0xUUmEvdHRFbkxSa0phTllsZlZVNWlscFliR3YrQ2VW?=
+ =?utf-8?B?SEVQMEVHWFpGUUQrTEVjeU5tcVNVMmwxRElwVXgwRDRva3A0cUhMaDRuR3lM?=
+ =?utf-8?B?ZUZuSTRPZjFYL2ZYMVdpa28zQ2k2YlJHK1Q4TlBXM29yUjhucStGNURHVFVL?=
+ =?utf-8?B?Ry9tcXFlczRqUGhISTgvTW1xRzhLWEdPMXQxQjhXcXBON2hvK0FpMDJJb00z?=
+ =?utf-8?B?TmNIOFpPZDRrQmdiT2VwR0wrTnFCdTQvVzl3TGxvd1VmclhNZFNqdERBWHl0?=
+ =?utf-8?B?TVI1bVVZWlBrdTNPbUFRTlZZLzl3UDBENHFkUTZNVFdSVlJwWWxyblJOc216?=
+ =?utf-8?B?UlFSZEdFSWVpSGFuM3V4WjQxb0hJYlYyTU5VVWEyZGc1Zjh6WDVPQTZzWEpv?=
+ =?utf-8?B?WkhldGNzWFpKRkY5djBlai9KNFQxNnhwWVZoMUFNZ1ErR1FDMDVEU2hsT0VW?=
+ =?utf-8?B?cjNIMHkxRm9SK0VTOGh1MTlCQmJMSlgxeERCckpRZTdFMzc1SUlXUTdJUGFl?=
+ =?utf-8?B?K0l6RVluaEEzUGM3SkxDSTNKbVA4aEpTZExoTnZjWlZobStuM2t4N3RqdU8z?=
+ =?utf-8?B?bWlJczNjNENYMW1rd0pWK0hoZVRIanB1WUJIZzVnaWtYZDh4Wm1Wa1pxU3dB?=
+ =?utf-8?B?MVVPT1R1U2oyWUtyT2RQUlFaeTFZMytKL3VOWmI2dGZDL2tTMWxNaERxbnhu?=
+ =?utf-8?B?dElFeStDS0F0N1BJRGF2L3R6Z2FVcktPK3RtaS9yUjl0aUJKa1F2d0FkR2Zm?=
+ =?utf-8?B?S1A4RHVQMmxTZWgwWFBjdDNRenM1alY1VVRIcEtDREJ3UGN2T0UwZWVkbjd3?=
+ =?utf-8?B?NEdTS2NFR2JCUnJMbFR6cjdUR1RYWjA0ZmdOUlNyaGQ4MU9nTDRoMzZCSVg5?=
+ =?utf-8?B?TzZVSTZQZWZSQ3lGbktqK2dKczlURXZZTkF2SjI5eldGd2hvVHdqVk5iaVEv?=
+ =?utf-8?B?S1RyeTRtcy9QNHZ0UGpXRmZoYjdvSFprQW9xRzc4Y2hwbEhHdjJhcWNoVkpO?=
+ =?utf-8?B?NHRTc2tPM2tBdmdFY2VHVUE2UGpHL2dQcDVVSUg3dzl0S0NJcEdSd2xrbG5Y?=
+ =?utf-8?B?cStkQ1djekx5V1pqZ01zWUVBd1FxdDkxUFprazdaVVV1ZWwzVTJyYzlXVVAv?=
+ =?utf-8?B?UHhHSlhuRDZONEREVS9hS0VPTldjZGgxcWJvZGtaa1JhK1N4TVdzaVdMS3Z4?=
+ =?utf-8?B?a2JMR0JUTDcwM1o2YS9VMkU5a3BNbkI5bm9UM0RnK2xzMmQ3aHVLb1AzMjkr?=
+ =?utf-8?B?bkJLL2d2VWo3UWtTRCtHMU9pdDRXVkZVcEluZGRJQzVvZWF0OWMrZ2hzUFJk?=
+ =?utf-8?B?TXBDWFBkSlpkeDNJdXJvNWhVS1RVMnp1RnI3dU9EU1lxT1UwK1RWM1B6VHYy?=
+ =?utf-8?B?Q2dLMXp4RUsya1RmRDUzQWo3aHQ5eTFBK0NMUlREeHprVTNmK0l4VzRHYUlI?=
+ =?utf-8?B?QXJnWVQ5WXpxT3l2ZzlCRDB0NHNJMDdlci9YeVd2RStna0g4WFM1UVdhWll0?=
+ =?utf-8?B?S1l3eHE5K2p1SDRJRldOKzIrYWd6d0ltM0VCbzI0TzgyT2ttV3dtNm52WjhP?=
+ =?utf-8?B?SkVYM2JRcmwwSi82YU5nYkljMzFDVHVvTTIyenFvcHZmYWpqRVM1Y0U1TWZv?=
+ =?utf-8?B?U050QnBxMUptWVJJNWN4elNBSkdHdHJzSTQ3UFlSbmtPRW1INXlhZi85dVdo?=
+ =?utf-8?B?TzVlNkN4a29EcE4yUjhkdVUyTVJLZWl5K05BZFhrTlQyVFZUTTF0YUVlZ3dT?=
+ =?utf-8?Q?0Xts=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4C445F2029CFBB44841E8BD6669DE4C0@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302171144.sffQigLX-lkp@intel.com>
-In-Reply-To: <202302171144.sffQigLX-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 17 Feb 2023 10:07:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX3yhaqYo1bqN_AH3QFfiyMPwZ8TpiwzsAZTYML8ReFww@mail.gmail.com>
-Message-ID: <CAMuHMdX3yhaqYo1bqN_AH3QFfiyMPwZ8TpiwzsAZTYML8ReFww@mail.gmail.com>
-Subject: Re: drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires
- the following: RV64I Base Instruction Set
-To: kernel test robot <lkp@intel.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
-	linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1942fa23-a311-4b30-28e8-08db10cb6078
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2023 09:43:08.5637
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iL6bzKtVGXqc5ZMN4cfjaWHKAaRVoF4c59oZbOg5cK5kdbd/qkswcjmuttuwm/9ob63ZcTdHHQ77WV2QPtRc1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5479
 
-CC linux-riscv
-
-On Fri, Feb 17, 2023 at 4:50 AM kernel test robot <lkp@intel.com> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   3ac88fa4605ec98e545fb3ad0154f575fda2de5f
-> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-> date:   3 months ago
-> config: riscv-buildonly-randconfig-r003-20230216 (https://download.01.org/0day-ci/archive/20230217/202302171144.sffQigLX-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install riscv cross compiling tool for clang build
->         # apt-get install binutils-riscv-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/iommu/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302171144.sffQigLX-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/iommu/io-pgtable-arm.c:330:8: error: instruction requires the following: RV64I Base Instruction Set
->            old = cmpxchg64_relaxed(ptep, curr, new);
->                  ^
->    include/linux/atomic/atomic-instrumented.h:1968:2: note: expanded from macro 'cmpxchg64_relaxed'
->            arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:60:32: note: expanded from macro 'arch_cmpxchg64_relaxed'
->    #define arch_cmpxchg64_relaxed arch_cmpxchg64
->                                   ^
->    arch/riscv/include/asm/cmpxchg.h:354:2: note: expanded from macro 'arch_cmpxchg64'
->            arch_cmpxchg((ptr), (o), (n));                                  \
->            ^
->    arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from macro 'arch_cmpxchg'
->            (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
->                                 ^
->    arch/riscv/include/asm/cmpxchg.h:324:4: note: expanded from macro '__cmpxchg'
->                            "0:     lr.d %0, %2\n"                          \
->                            ^
->    <inline asm>:1:5: note: instantiated into assembly here
->            0:      lr.d s4, 0(s0)
->                    ^
-
-This is a bug in arch/riscv/include/asm/cmpxchg.h, which doesn't
-cater for the CONFIG_32BIT=y case.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+DQpPbiAyLzE2LzIzIDE3OjM0LCBQYW9sbyBBYmVuaSB3cm90ZToNCj4gT24gRnJpLCAyMDIzLTAy
+LTE3IGF0IDAwOjEyICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90ZToNCj4+IElmIHlvdSBm
+aXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0K
+Pj4+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+PiBM
+aW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMwMjE3MDA0Ny5F
+akNQaXp1My1sa3BAaW50ZWwuY29tLw0KPj4gQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQg
+YnkgPj4pOg0KPj4NCj4+ICAgICBkcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4X2Rldmxpbmsu
+YzogSW4gZnVuY3Rpb24gJ2VmeF9kZXZsaW5rX2luZm9fcnVubmluZ192Mic6DQo+Pj4+IGRyaXZl
+cnMvbmV0L2V0aGVybmV0L3NmYy9lZnhfZGV2bGluay5jOjE4NTo1ODogZXJyb3I6IGV4cGVjdGVk
+ICcpJyBiZWZvcmUgJ2J1aWxkX2lkJw0KPj4gICAgICAgMTg1IHwgICAgICAgICAgICAgICAgIG1l
+bXNldCgmYnVpbGRfZGF0ZSwgMCwgc2l6ZW9mKGJ1aWxkX2RhdGUpDQo+PiAgICAgICAgICAgfCAg
+ICAgICAgICAgICAgICAgICAgICAgfiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
+DQo+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICApDQo+PiAgICAgICAxODYgfCAjZW5kaWYNCj4+ICAgICAgIDE4NyB8
+ICAgICAgICAgICAgICAgICBidWlsZF9pZCA9IE1DRElfRFdPUkQob3V0YnVmLCBHRVRfVkVSU0lP
+Tl9WMl9PVVRfU1VDRldfQ0hJUF9JRCk7DQo+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAg
+fn5+fn5+fn4NCj4+Pj4gZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmeF9kZXZsaW5rLmM6MTk3
+OjU1OiBlcnJvcjogZXhwZWN0ZWQgJzsnIGJlZm9yZSAnfScgdG9rZW4NCj4+ICAgICAgIDE5NyB8
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWYpOw0K
+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXg0KPj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgOw0KPj4gICAgICAgMTk4IHwgICAgICAgICB9DQo+
+PiAgICAgICAgICAgfCAgICAgICAgIH4NCj4gQWxlamFuZHJvLCB0aGUgYm90dG9tIGxpbmUgaXMg
+dGhhdCB5b3VyIHNlcmllcyBuZWVkIGEgZm9sbG93LXVwIGFzIGl0DQo+IGJyZWFrcyB0aGUgYnVp
+bGQgd2hlbiBDT05GSUdfUlRDX0xJQiBpcyBub3QgZGVmaW5lZC4gSSBtaXNzZWQgdGhhdCBhdA0K
+PiBjb2RlIHJldmlldyB0aW1lLg0KPg0KPiBDb3VsZCB5b3UgcGxlYXNlIHNlbnQgYSBmaXggKGZv
+ciBuZXQtbmV4dD8pDQoNCg0KT2gsIHdoYXQgYSBzaGFtZSENCg0KSSdsbCBkbyBpdCByaWdodCBu
+b3cuDQoNClRoYW5rcw0KDQo+DQo+IFRoYW5rcyENCj4NCj4gUGFvbG8NCj4NCg==
