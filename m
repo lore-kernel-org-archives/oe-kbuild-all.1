@@ -1,153 +1,150 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F281F2560
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 08:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676622985; x=1708158985;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SLMCKELG9RkvJClxSHNRHIytxUhkWgdvmL3FTGEed8A=;
-  b=ajhRhd2rIsIWUUAFLeoNXbUPw8xuw9czNr9H9dbYkLj+aTO+GYAo+qoB
-   dybyN0GtGnXxUf9kSE8LdIHFqlxu8stAZIGqJy01GqmrWbQSRK6jKA+Qq
-   t4rexkN4WoZlf2jI7s8GlYG8CfTgbem7c2QDT1GZU92f1riTFGoAxcThw
-   sTn4xt7C6CkK/G/513mFiZVl54YRfIg1Y6FKZHUjlFW6OExBukpaOvHAh
-   mkD3TqeaCr7yitF6T8MfGkzrXsIDQ2La3l5efCyCJEZeGL7GmEfjL02rw
-   ott9UCl/3XIkKEwQF4ROyTNDqpp/qePwEDAQ+tshEJx1mIyfUskeFHi6B
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333302747"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="333302747"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 00:36:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="794339347"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="794339347"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 17 Feb 2023 00:36:04 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSwDr-000BFB-2C;
-	Fri, 17 Feb 2023 08:36:03 +0000
-Date: Fri, 17 Feb 2023 16:35:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_t 4931/30000] versioncheck:
- ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-Message-ID: <202302171611.NzN9nS66-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55462560
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 08:50:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59030C433A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 08:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676623804;
+	bh=4LLKhoxcJlDltJAv/aUjhTDMAlz2OOxq/4uIFWP6Xkg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=P9YfqazyEcsOafiUzdWmCa3PDtMzykuQC509chiiL0+6t3fyvg/UNF/S8hiFCZMux
+	 VMOQpYV5xui6EFvj6xu2XKfh4TYp59dkQlUmPQ4bR14B03M/WqmKcQHo6sLIGVybRl
+	 djF04zxgzWs9duvIfTpfv38KchIy8epoW7Uun84/WYVKnMMcTzVsLj0bex2OFrF0bm
+	 0c89btN2+WXhA1RwEzJyLNbeL9Kru2DqbNANJi3sUE9rQyNhe6qJ0H+SOsSsRdqbjT
+	 JMEhx5Mqo7l86xT5dS+WHBfeIcxvaa680lq4N2f/TMNHRDXV60gmADTCY537+JbR8A
+	 pHwfQ0BDByqAg==
+Received: by mail-lj1-f179.google.com with SMTP id f3so198792ljn.12
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 00:50:04 -0800 (PST)
+X-Gm-Message-State: AO0yUKVwpQSBHuRXin+xv3XhAHz04JpbHaRevbydmpucC2BuS92+e3lq
+	OuVvaRP4H+d8JUT5QJd1nzgIQx66Yc3pvoSdScs=
+X-Google-Smtp-Source: AK7set/X3/WQ12GzzI0XxhTKEmTgL9IOMfH2HBNlvWYuzyH0v5tdt9exFbLPic3w4g2L/UszRzPgI1s0tbF0vnqAlyE=
+X-Received: by 2002:a2e:b530:0:b0:294:6092:d63c with SMTP id
+ z16-20020a2eb530000000b002946092d63cmr1496319ljm.2.1676623802308; Fri, 17 Feb
+ 2023 00:50:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230124175516.5984-7-James.Bottomley@HansenPartnership.com>
+ <202301250706.deGvd0yq-lkp@intel.com> <a588a74bb930f38c9322dd51d21661398b5e2bb8.camel@HansenPartnership.com>
+ <Y9ykeASyzhSKQCmx@yujie-X299> <Y+MNxmzlILarAlZA@kernel.org>
+ <3109ff421139af6b0d9e66a06d8399135e546fa7.camel@HansenPartnership.com>
+ <Y+nqpLm2YyYkcZ+H@kernel.org> <CAMj1kXECgmUMjKZk41oeXWWQpX5wB22YtBt2CSAQzEq8SqbY_g@mail.gmail.com>
+ <a71b8b39505ce936c8bde0d61943c6cc0a9efb81.camel@HansenPartnership.com>
+ <CAMj1kXHC+9urxeXCmHPj1Ecdb7aF+QDriGE1W4Azuw+_it6u2w@mail.gmail.com> <6caed4e0ae21528d3b6bb5bc5eefecf6df714d72.camel@HansenPartnership.com>
+In-Reply-To: <6caed4e0ae21528d3b6bb5bc5eefecf6df714d72.camel@HansenPartnership.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 17 Feb 2023 09:49:51 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGoUx2Aev7b-tuzJ7cH51bN=5JjiYb3t+y6LFDk4t7yoA@mail.gmail.com>
+Message-ID: <CAMj1kXGoUx2Aev7b-tuzJ7cH51bN=5JjiYb3t+y6LFDk4t7yoA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/11] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, Yujie Liu <yujie.liu@intel.com>, 
+	kernel test robot <lkp@intel.com>, linux-integrity@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, keyrings@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
-commit: 123826108e51794c3922a0f8eba95e0375ffa36b [4931/30000] media: pci: add IPU driver for BXT platform
-reproduce:
-        make versioncheck
+On Thu, 16 Feb 2023 at 15:52, James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> On Tue, 2023-02-14 at 15:36 +0100, Ard Biesheuvel wrote:
+> > On Tue, 14 Feb 2023 at 15:28, James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
+> > > On Tue, 2023-02-14 at 14:54 +0100, Ard Biesheuvel wrote:
+> [...]
+> > > >
+> > > > Can we avoid shashes and sync skciphers at all? We have sha256
+> > > > and AES library routines these days, and AES in CFB mode seems
+> > > > like a good candidate for a library implementation as well - it
+> > > > uses AES encryption only, and is quite straight forward to
+> > > > implement. [0]
+> > >
+> > > Yes, sure.  I originally suggested something like this way back
+> > > four years ago, but it got overruled on the grounds that if I
+> > > didn't use shashes and skciphers some architectures would be unable
+> > > to use crypto acceleration.  If that's no longer a consideration,
+> > > I'm all for simplification of static cipher types.
+> > >
+>
+> I now have this all implemented, and I looked over your code, so you
+> can add my tested/reviewed-by to the aescfb implementation.  On the
+> acceleration issue, I'm happy to ignore external accelerators because
+> they're a huge pain for small fragments of encryption like the TPM, but
+> it would be nice if we could integrate CPU instruction acceleration
+> (like AES-NI on x86) into the library functions.
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171611.NzN9nS66-lkp@intel.com/
+Agreed that async crypto makes no sense here, and it is rather
+unfortunate that even use cases such as this one require the
+scatterlist handling, which requires direct mapped memory etc etc
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
->> ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
->> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
->> ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
->> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
->> ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+As for the accelerated algos: it wouldn't be too complicated to build
+the CFB library interface around the 'AES' crypto cipher, which is
+synchronous and operates on virtual addresses directly. But it should
+only use ones that are constant time (like AES-NI) and not use generic
+AES or the asm accelerated ones, and so this would require an
+additional annotation (or an allowlist) which makes things a bit
+clunky.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+However, doing the math on the back of an envelope: taking arm64 as an
+example, which manages ~1 cycle per byte for AES instructions and 25
+cycles per byte for AES encryption using this library, processing 1k
+of data takes an additional 24k cycles, which comes down to 10
+microseconds on a 2.4 GHz CPU.
+
+Given that this particular use case is about communicating with off
+chip discrete components, I wonder whether spending 10 microseconds
+more is going to have a noticeable impact.
+
+> I also got a test rig to investigate arc.  It seems there is a huge
+> problem with the SKCIPHER stack structure on that platform.  For
+> reasons I still can't fathom, the compiler thinks it needs at least
+> 0.5k of stack for this one structure.  I'm sure its something to do
+> with an incorrect crypto alignment on arc, but I can't yet find the
+> root cause.
+>
+
+Maybe SKCIPHER_ON_STACK() needs the same treatment as
+660d2062190db131d2feaf19914e90f868fe285c?
+
+The catch here is that if we reduce the alignment of the buffer, the
+req pointer will not have the alignment of the typedef, and so we will
+be lying to the compiler.
+
+This is all a result of the way we abuse alignment to pad out data
+fields that may be used for inbound non-coherent DMA, and this is
+something that is being fixed at the moment.
+
+
+> > I don't know if that is a consideration or not. The AES library code
+> > is generic C code that was written to be constant-time, rather than
+> > fast. The fact that CFB only uses the encryption side of it is
+> > fortunate, because decryption is even slower.
+>
+> I think for the TPM, since the encryption isn't exactly bulk (it's
+> really under 1k for command and response encryption) it doesn't matter
+> ... in fact setting up the accelerator is likely a bigger overhead.
+>
+> > So the question is whether this will actually be a bottleneck in this
+> > particular scenario. The synchronous accelerated AES implementations
+> > are all SIMD based, which means there is some overhead, and some
+> > degree of parallelism is also needed to take full advantage, and CFB
+> > only allows this for decryption to begin with, as encryption uses
+> > ciphertext block N-1 as AES input for encrypting block N.
+> >
+> > So maybe this is terrible advice, but the code will look so much
+> > better for it, and we can always add back the performance later if it
+> > is really an impediment.
+>
+> It's definitely smaller and neater, yes.  I'll post a v3 based on this,
+> but when might it go upstream?  In my post I'll put your aescfb as
+> patch 1 so the static checkers don't go haywire about missing function
+> exports, and we can drop that patch when it is upstream.
+>
+
+I'll add some test cases and send it to the list.
