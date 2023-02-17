@@ -1,48 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39CA7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 07:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1759F7F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 07:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676618147; x=1708154147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yECA7TZIMTQGBBLaxq8M5VMtISSeJ1pEW7liYpiuwhg=;
-  b=j/AWTChP39KpVCIh1uh9DVVWJsTyrrTfjaeOizCfRPveOSB/0WdtkxFU
-   qovkwwFu/QhsQ/qFdMZZeCP7MoJACdQl7TYfNft+ifZd3UCnbqK9AVhGR
-   Y+KFemUSLGH3hv0LWZEJ8wCEkGVWE+ton6gYuCkqwyDHyPwxFMEO+yGiL
-   kxExY6mDwYU/jWDzUV0DQ7u2y9SlEDa1QH4lfbEwiQKKCFc9y2aAS0q0a
-   AS81dAUcWBKpaiRSw0BgO4pc1aL/Pyq5uYfdM7N7hrwuKar9q+YY9HP1E
-   LekGzPaY/UZk1lLLIF1x4kGRUoL7oDbEfvSH7JD6115ukNuK8+Kbd3ZC7
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="320033253"
+  t=1676620445; x=1708156445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ViwN9tXB1eie5PNRxnFqzaQ8vDKxuRsB4BKdwu1tLL8=;
+  b=P5On8tkMYGYIvJbTOE7hcyRp7FeIPIGGWKCKUdkysigxpRhHcjm0pUvm
+   lfCHbVlEf8iNGSikc+46zK9bZIh3sSGzoeZckoQx0b5tM5l9gfo2VpfxJ
+   DVyFvqe1hecM1mwztrrWeSrdx4UZooCC5Xia8ty+0L5pXwwrz+++uxf4N
+   WW8AzNr5Xg+hnZjpRywTi5noOqHh6jNx6UBnEW+KqbQJzcHO9kXQLJwNm
+   WpuDAA5LB6Cegmk36Ks9K7T+EdANwi51NEaa4uLRtXByjdMxMuneBH67L
+   lWhRibt62F2rC1kDU8EalqebtT4PpCecG4y4tCXm297FWGGz3nL0xs1fV
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="359382714"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="320033253"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 23:13:06 -0800
+   d="scan'208";a="359382714"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 23:54:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700813047"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="915989885"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="700813047"
+   d="scan'208";a="915989885"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Feb 2023 23:13:02 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 16 Feb 2023 23:54:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSuvV-000BCF-2r;
-	Fri, 17 Feb 2023 07:13:01 +0000
-Date: Fri, 17 Feb 2023 15:12:11 +0800
+	id 1pSvZC-000BD7-10;
+	Fri, 17 Feb 2023 07:54:02 +0000
+Date: Fri, 17 Feb 2023 15:53:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Laszczak <pawell@cadence.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, Daisy.Barrera@siriusxm.com,
-	Cliff.Holden@siriusxm.com, arnd@arndb.de, tony@atomide.com,
-	jdelvare@suse.de, neal_liu@aspeedtech.com, linus.walleij@linaro.org,
-	egtvedt@samfundet.no, biju.das.jz@bp.renesas.com,
-	herve.codina@bootlin.com, Pawel Laszczak <pawell@cadence.com>
-Subject: Re: [PATCH 2/4] usb: cdns2: Add main part of Cadence USBHS driver
-Message-ID: <202302171404.Wy9aWegd-lkp@intel.com>
-References: <20230216105411.364157-3-pawell@cadence.com>
+To: "Vyas, Tarun" <tarun.vyas@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_t 4911/30000] versioncheck:
+ ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+Message-ID: <202302171534.wZNIZo7J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,138 +45,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216105411.364157-3-pawell@cadence.com>
 
-Hi Pawel,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next soc/for-next linus/master v6.2-rc8 next-20230216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230216105411.364157-3-pawell%40cadence.com
-patch subject: [PATCH 2/4] usb: cdns2: Add main part of Cadence USBHS driver
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230217/202302171404.Wy9aWegd-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c2450201a6400c7dafcad24e4762506733b6af9b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
-        git checkout c2450201a6400c7dafcad24e4762506733b6af9b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   c0723df4b24e91377beaa8dd8794843a4c8afa61
+commit: 34ea8dc24190e2a6708fa89231618fe2e92702c5 [4911/30000] staging: Add AVnu based Intel IGB driver
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171404.Wy9aWegd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171534.wZNIZo7J-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c: In function 'cdns2_gadget_ep_enable':
->> drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:1374:49: warning: variable 'comp_desc' set but not used [-Wunused-but-set-variable]
-    1374 |         const struct usb_ss_ep_comp_descriptor *comp_desc;
-         |                                                 ^~~~~~~~~
---
-   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c: In function 'cdns2_ep0_stall':
->> drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:88:12: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
-      88 |         u8 reg;
-         |            ^~~
-
-
-vim +/comp_desc +1374 drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
-
-  1370	
-  1371	static int cdns2_gadget_ep_enable(struct usb_ep *ep,
-  1372					  const struct usb_endpoint_descriptor *desc)
-  1373	{
-> 1374		const struct usb_ss_ep_comp_descriptor *comp_desc;
-  1375		u32 reg = DMA_EP_STS_EN_TRBERREN;
-  1376		struct cdns2_endpoint *pep;
-  1377		struct cdns2_device *pdev;
-  1378		unsigned long flags;
-  1379		int enable = 1;
-  1380		int ret = 0;
-  1381	
-  1382		if (!ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT ||
-  1383		    !desc->wMaxPacketSize) {
-  1384			return -EINVAL;
-  1385		}
-  1386	
-  1387		pep = ep_to_cdns2_ep(ep);
-  1388		pdev = pep->pdev;
-  1389		comp_desc = pep->endpoint.comp_desc;
-  1390	
-  1391		if (dev_WARN_ONCE(pdev->dev, pep->ep_state & EP_ENABLED,
-  1392				  "%s is already enabled\n", pep->name))
-  1393			return 0;
-  1394	
-  1395		spin_lock_irqsave(&pdev->lock, flags);
-  1396	
-  1397		pep->type = usb_endpoint_type(desc);
-  1398		pep->interval = desc->bInterval ? BIT(desc->bInterval - 1) : 0;
-  1399	
-  1400		if (pdev->gadget.speed == USB_SPEED_FULL)
-  1401			if (pep->type == USB_ENDPOINT_XFER_INT)
-  1402				pep->interval = desc->bInterval;
-  1403	
-  1404		if (pep->interval > ISO_MAX_INTERVAL &&
-  1405		    pep->type == USB_ENDPOINT_XFER_ISOC) {
-  1406			dev_err(pdev->dev, "ISO period is limited to %d (current: %d)\n",
-  1407				ISO_MAX_INTERVAL, pep->interval);
-  1408	
-  1409			ret =  -EINVAL;
-  1410			goto exit;
-  1411		}
-  1412	
-  1413		/*
-  1414		 * During ISO OUT traffic DMA reads Transfer Ring for the EP which has
-  1415		 * never got doorbell.
-  1416		 * This issue was detected only on simulation, but to avoid this issue
-  1417		 * driver add protection against it. To fix it driver enable ISO OUT
-  1418		 * endpoint before setting DRBL. This special treatment of ISO OUT
-  1419		 * endpoints are recommended by controller specification.
-  1420		 */
-  1421		if (pep->type == USB_ENDPOINT_XFER_ISOC  && !pep->dir)
-  1422			enable = 0;
-  1423	
-  1424		ret = cdns2_alloc_tr_segment(pep);
-  1425		if (ret)
-  1426			goto exit;
-  1427	
-  1428		ret = cdns2_ep_config(pep, enable);
-  1429		if (ret) {
-  1430			cdns2_free_tr_segment(pep);
-  1431			ret =  -EINVAL;
-  1432			goto exit;
-  1433		}
-  1434	
-  1435		pep->ep_state &= ~(EP_STALLED | EP_STALL_PENDING |
-  1436				   EP_QUIRK_ISO_OUT_EN);
-  1437		pep->ep_state |= EP_ENABLED | EP_UPDATE_EP_TRBADDR;
-  1438		pep->wa1_set = 0;
-  1439		pep->ring.enqueue = 0;
-  1440		pep->ring.dequeue = 0;
-  1441		reg = readl(&pdev->adma_regs->ep_sts);
-  1442		pep->ring.pcs = !!DMA_EP_STS_CCS(reg);
-  1443		pep->ring.ccs = !!DMA_EP_STS_CCS(reg);
-  1444		/* one TRB is reserved for link TRB used in DMULT mode*/
-  1445		pep->ring.free_trbs = TRBS_PER_SEGMENT - 1;
-  1446	
-  1447	exit:
-  1448		spin_unlock_irqrestore(&pdev->lock, flags);
-  1449	
-  1450		return ret;
-  1451	}
-  1452	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+>> ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+>> ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+>> ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
