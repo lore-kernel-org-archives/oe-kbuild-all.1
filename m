@@ -1,42 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052635692
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 11:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F0B5692
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 12:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676634673; x=1708170673;
+  t=1676635333; x=1708171333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A81alJJI0PLU9dBLdNYxg9A5OixcuXiu7dPhCOupFeI=;
-  b=Fp6vWE7/qHzEAPh9Ptynhkq8EX0n12zdQXPOcxU8xU/yjMa87DBkzdoa
-   m0/lKtwAtmFSxrBplEVY4n1rO/rs3NK84CaLfH1Te5+83fv/ShGRYvx3B
-   NX338kL4Gd6CqXNalwlMea5LZEiGrJkGyForR6e9Mfv02iSDRAIHaZeGb
-   hZRIcYJYNY4yAquBxrtXWcZUmLQUAhiCGaE8WvJFcVdMQOVEwQqkHQRuH
-   jrafMnYgDl9+8/6gotd8zMV4QtST0giZVqx4svGVS6zN7JwlaiZo5M3r5
-   ILhyxootOzoXvEVL9Rwa5lnu9s1FrWnwwoTMAq4yqr6hHA5102ePUbtg3
+  bh=S0yxM7bf9cJzdbOvbAH/GUfz3h0ybmzQtUpTFVcp8h0=;
+  b=clzD6vDo3Vk8eSZ4utgbHYsibd5IghM/yaXbCbh9Liy4PNTFJofYey2u
+   eUVdJ9bp+Ao/5sd6IhwYjmIkU5N8mXhXrwhA4TMJJ7mYTgPnEai98O7gt
+   4dkDRZiCHP3A5H/5RL7Vnq6axRz8EeZgzgIrBYb0Bocc+Go9D9qQ2YvQg
+   86uuO1910otRjK7JAXvLVywF2fcsPK6yc9NAKfX4sSCDvEMQpaNHhgI9o
+   7nNjeOh4u3tNkktU6KkGKfAK1OXHCWUB/ZWRrvlTjmyWb8dlJ47KvYmNH
+   56Z2/GH38nC3OtZFQQYLn5X06bY6QLCGxinPxHf5MVND4+yzWJZfPXcod
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="315684425"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396646590"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="315684425"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 03:51:12 -0800
+   d="scan'208";a="396646590"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 04:02:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="794380928"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="739240904"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="794380928"
+   d="scan'208";a="739240904"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 17 Feb 2023 03:51:11 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2023 04:02:11 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSzGg-000BQ5-0p;
-	Fri, 17 Feb 2023 11:51:10 +0000
-Date: Fri, 17 Feb 2023 19:51:02 +0800
+	id 1pSzRK-000BQd-1m;
+	Fri, 17 Feb 2023 12:02:10 +0000
+Date: Fri, 17 Feb 2023 20:02:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct gve_tx_context_cmd_dtype) == 2"
-Message-ID: <202302171930.LX5uf1pv-lkp@intel.com>
+Subject: drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202302171904.ATesGXtj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,113 +46,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ec35307e18ba8174e2a3f701956059f6a36f22fb
-commit: 5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3 ARM: rework endianess selection
-date:   11 months ago
-config: arm-randconfig-c043-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171930.LX5uf1pv-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+commit: f3c0eba287049237b23d1300376768293eb89e69 perf: Add a few assertions
+date:   5 months ago
+config: loongarch-randconfig-s033-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171904.ATesGXtj-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f3c0eba287049237b23d1300376768293eb89e69
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 5d6f52671e76ca2d55d74e676ac4c38ceb14a2d3
+        git checkout f3c0eba287049237b23d1300376768293eb89e69
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/net/ethernet/google/gve/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/perf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171930.LX5uf1pv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171904.ATesGXtj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
+   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:21,
-                    from include/linux/cpumask.h:10,
-                    from drivers/net/ethernet/google/gve/gve_main.c:7:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_context_cmd_dtype) == 2"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_desc_dqo.h:68:1: note: in expansion of macro 'static_assert'
-      68 | static_assert(sizeof(struct gve_tx_context_cmd_dtype) == 2);
-         | ^~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_tso_context_desc_dqo) == 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_desc_dqo.h:93:1: note: in expansion of macro 'static_assert'
-      93 | static_assert(sizeof(struct gve_tx_tso_context_desc_dqo) == 16);
-         | ^~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_general_context_desc_dqo) == 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_desc_dqo.h:114:1: note: in expansion of macro 'static_assert'
-     114 | static_assert(sizeof(struct gve_tx_general_context_desc_dqo) == 16);
-         | ^~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_tx_compl_desc) == 8"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_desc_dqo.h:172:1: note: in expansion of macro 'static_assert'
-     172 | static_assert(sizeof(struct gve_tx_compl_desc) == 8);
-         | ^~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct gve_rx_compl_desc_dqo) == 32"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_desc_dqo.h:248:1: note: in expansion of macro 'static_assert'
-     248 | static_assert(sizeof(struct gve_rx_compl_desc_dqo) == 32);
-         | ^~~~~~~~~~~~~
+vim +556 drivers/perf/thunderx2_pmu.c
 
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  539  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  540  /*
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  541   * Make sure the group of events can be scheduled at once
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  542   * on the PMU.
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  543   */
+5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  544  static bool tx2_uncore_validate_event_group(struct perf_event *event,
+5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  545  		int max_counters)
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  546  {
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  547  	struct perf_event *sibling, *leader = event->group_leader;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  548  	int counters = 0;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  549  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  550  	if (event->group_leader == event)
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  551  		return true;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  552  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  553  	if (!tx2_uncore_validate_event(event->pmu, leader, &counters))
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  554  		return false;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  555  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06 @556  	for_each_sibling_event(sibling, leader) {
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  557  		if (!tx2_uncore_validate_event(event->pmu, sibling, &counters))
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  558  			return false;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  559  	}
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  560  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  561  	if (!tx2_uncore_validate_event(event->pmu, event, &counters))
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  562  		return false;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  563  
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  564  	/*
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  565  	 * If the group requires more counters than the HW has,
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  566  	 * it cannot ever be scheduled.
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  567  	 */
+5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  568  	return counters <= max_counters;
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  569  }
+69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  570  
 
-vim +78 include/linux/build_bug.h
+:::::: The code at line 556 was first introduced by commit
+:::::: 69c32972d59388c041268e8206e8eb1acff29b9a drivers/perf: Add Cavium ThunderX2 SoC UNCORE PMU driver
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Kulkarni, Ganapatrao <Ganapatrao.Kulkarni@cavium.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
