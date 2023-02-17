@@ -1,42 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CED323E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 10:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE9D323E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 10:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676628428; x=1708164428;
+  t=1676628437; x=1708164437;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bp2ZwgTbVmS8uj/vpGLRzoyOMBO2zLtjxhIe9Y357bo=;
-  b=NfXXHpWOuG5tkMUMLm5d1IKhbutS0iZauAqP1ejh98vGX8aNAQC2lOHR
-   SfgpMW2RdM3Ows1AcBPCbRGy56+rMUIrR3gVoer/ueS42LlcgGbhScsTH
-   SZ71llKGHB1g0DDimUzaoFNiG8y+2G07JeElUjFrEOeoSwafB70ZWzwee
-   zxAu5DHOIa/6y2jRAQZruGmYoxeTqwKlleDw77e6YLIOF6lbDD2ZgMbai
-   XeJG6kxSmLUX2GNDDRUHPBB5/E2dMoc+Za3k2N3AYWVux4Rynk9P+ib1U
-   RnU8+tNqwxqoEizD8EyVS/Qvkan08Z0X7Zg7gGExjt0++/doVsuCgGrN0
+  bh=zicqMID5Wx+I/P4pindhQq6H3aoxIpkEIncXQtLma/0=;
+  b=Cn3dINET82dlolYhxtf4vxZdyDCj7w1WHQdtX0L6O3ya5vz+ImpRyX+t
+   aLh/YNSnW1gpL9haz5mrUDSGYMBA2bS1KMjSYcxzjjI07v3dM6CdjZKjX
+   rLpBq/qjbAfA5fsQlYPB0NlW31+bXr4h9VMlo0ipeXPUiuocW+j6WVwl+
+   cfU7bTxMZMujZZLo6v7Ikg1LIhVwbuPn355IKv83rHVskTDqxFXGj/U1Z
+   Urm9XXObX1cpJB7joUcE3lgVrlMa8ACjeZN4/Y+FXH9UmbuByMA/uKw+B
+   kzx7F953xN+wQ+O0T6lqE3kKhxOjhfGiguve+onBFaQcrA16j15ywXmuE
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="320060447"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="418175700"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="320060447"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 02:07:08 -0800
+   d="scan'208";a="418175700"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 02:07:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="700850578"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="702933918"
 X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="700850578"
+   d="scan'208";a="702933918"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 17 Feb 2023 02:07:06 -0800
+  by orsmga001.jf.intel.com with ESMTP; 17 Feb 2023 02:07:07 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSxdx-000BJV-39;
-	Fri, 17 Feb 2023 10:07:05 +0000
-Date: Fri, 17 Feb 2023 18:06:50 +0800
+	id 1pSxdy-000BJX-03;
+	Fri, 17 Feb 2023 10:07:06 +0000
+Date: Fri, 17 Feb 2023 18:06:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/brocade/bna/bnad.c:2918:41: warning: variable
- 'unmap' set but not used
-Message-ID: <202302171856.VFtt4Vbn-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:vfio_device_cdev_v3 20/22]
+ drivers/vfio/container.c:174:23: error: 'struct vfio_device' has no member
+ named 'group'
+Message-ID: <202302171834.gE740NDf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,235 +47,734 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Stafford,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ec35307e18ba8174e2a3f701956059f6a36f22fb
-commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
-date:   7 months ago
-config: openrisc-buildonly-randconfig-r002-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171856.VFtt4Vbn-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/yiliu1765/iommufd.git vfio_device_cdev_v3
+head:   4d22642338c05c17e84e54428cd520fe0ab4dbf3
+commit: 65f96c6e5c31a47e66f216cc6a268929a1a97ab5 [20/22] vfio: Compile group optionally
+config: loongarch-randconfig-r021-20230217 (https://download.01.org/0day-ci/archive/20230217/202302171834.gE740NDf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ded2ee36313c941f1a12b6f85cde295b575264ae
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ded2ee36313c941f1a12b6f85cde295b575264ae
+        # https://github.com/yiliu1765/iommufd/commit/65f96c6e5c31a47e66f216cc6a268929a1a97ab5
+        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
+        git fetch --no-tags yiliu1765-iommufd vfio_device_cdev_v3
+        git checkout 65f96c6e5c31a47e66f216cc6a268929a1a97ab5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/ethernet/brocade/bna/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/vfio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302171856.VFtt4Vbn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302171834.gE740NDf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_start_xmit':
->> drivers/net/ethernet/brocade/bna/bnad.c:2918:41: warning: variable 'unmap' set but not used [-Wunused-but-set-variable]
-    2918 |         struct bnad_tx_unmap *unmap_q, *unmap, *head_unmap;
-         |                                         ^~~~~
+   drivers/vfio/container.c: In function 'vfio_device_container_register':
+>> drivers/vfio/container.c:174:23: error: 'struct vfio_device' has no member named 'group'
+     174 |                 device->group->container->iommu_driver;
+         |                       ^~
+   drivers/vfio/container.c:178:31: error: 'struct vfio_device' has no member named 'group'
+     178 |                         device->group->container->iommu_data, device);
+         |                               ^~
+   drivers/vfio/container.c: In function 'vfio_device_container_unregister':
+   drivers/vfio/container.c:184:23: error: 'struct vfio_device' has no member named 'group'
+     184 |                 device->group->container->iommu_driver;
+         |                       ^~
+   drivers/vfio/container.c:188:31: error: 'struct vfio_device' has no member named 'group'
+     188 |                         device->group->container->iommu_data, device);
+         |                               ^~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from drivers/vfio/container.c:8:
+   drivers/vfio/container.c: In function '__vfio_container_attach_groups':
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct vfio_group'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:674:20: note: in expansion of macro 'list_first_entry'
+     674 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
+     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:674:20: note: in expansion of macro 'list_first_entry'
+     674 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/loongarch/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/file.h:9,
+                    from drivers/vfio/container.c:7:
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct vfio_group'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:674:20: note: in expansion of macro 'list_first_entry'
+     674 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/list.h:665:14: error: invalid use of undefined type 'struct vfio_group'
+     665 |         (&pos->member == (head))
+         |              ^~
+   include/linux/list.h:675:15: note: in expansion of macro 'list_entry_is_head'
+     675 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:564:25: error: invalid use of undefined type 'struct vfio_group'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:564:25: error: invalid use of undefined type 'struct vfio_group'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct vfio_group'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:564:25: error: invalid use of undefined type 'struct vfio_group'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
+     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct vfio_group'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
+     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
+     676 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:249:9: note: in expansion of macro 'list_for_each_entry'
+     249 |         list_for_each_entry(group, &container->group_list, container_next) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> drivers/vfio/container.c:250:60: error: invalid use of undefined type 'struct vfio_group'
+     250 |                 ret = driver->ops->attach_group(data, group->iommu_group,
+         |                                                            ^~
+   drivers/vfio/container.c:251:54: error: invalid use of undefined type 'struct vfio_group'
+     251 |                                                 group->type);
+         |                                                      ^~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct vfio_group'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
+     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct vfio_group'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:724:20: note: in expansion of macro 'list_prev_entry'
+     724 |         for (pos = list_prev_entry(pos, member);                        \
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/list.h:665:14: error: invalid use of undefined type 'struct vfio_group'
+     665 |         (&pos->member == (head))
+         |              ^~
+   include/linux/list.h:725:15: note: in expansion of macro 'list_entry_is_head'
+     725 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct vfio_group'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:585:25: error: invalid use of undefined type 'struct vfio_group'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:299:27: error: expression in static assertion is not an integer
+     299 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct vfio_group'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:585:9: note: in expansion of macro 'list_entry'
+     585 |         list_entry((pos)->member.prev, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:726:20: note: in expansion of macro 'list_prev_entry'
+     726 |              pos = list_prev_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:259:9: note: in expansion of macro 'list_for_each_entry_continue_reverse'
+     259 |         list_for_each_entry_continue_reverse(group, &container->group_list,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:261:54: error: invalid use of undefined type 'struct vfio_group'
+     261 |                 driver->ops->detach_group(data, group->iommu_group);
+         |                                                      ^~
+   In file included from arch/loongarch/include/asm/bug.h:59,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78:
+   drivers/vfio/container.c: In function 'vfio_container_attach_group':
+   drivers/vfio/container.c:429:35: error: invalid use of undefined type 'struct vfio_group'
+     429 |         lockdep_assert_held(&group->group_lock);
+         |                                   ^~
+   include/asm-generic/bug.h:167:32: note: in definition of macro 'WARN_ON'
+     167 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/lockdep.h:319:9: note: in expansion of macro 'lockdep_assert'
+     319 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ^~~~~~~~~~~~~~
+   include/linux/lockdep.h:319:24: note: in expansion of macro 'lockdep_is_held'
+     319 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |                        ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:429:9: note: in expansion of macro 'lockdep_assert_held'
+     429 |         lockdep_assert_held(&group->group_lock);
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:431:18: error: invalid use of undefined type 'struct vfio_group'
+     431 |         if (group->type == VFIO_NO_IOMMU && !capable(CAP_SYS_RAWIO))
+         |                  ^~
+   drivers/vfio/container.c:438:41: error: invalid use of undefined type 'struct vfio_group'
+     438 |             container->noiommu != (group->type == VFIO_NO_IOMMU)) {
+         |                                         ^~
+   drivers/vfio/container.c:443:18: error: invalid use of undefined type 'struct vfio_group'
+     443 |         if (group->type == VFIO_IOMMU) {
+         |                  ^~
+   drivers/vfio/container.c:444:56: error: invalid use of undefined type 'struct vfio_group'
+     444 |                 ret = iommu_group_claim_dma_owner(group->iommu_group, group);
+         |                                                        ^~
+   drivers/vfio/container.c:452:54: error: invalid use of undefined type 'struct vfio_group'
+     452 |                                                 group->iommu_group,
+         |                                                      ^~
+   drivers/vfio/container.c:453:54: error: invalid use of undefined type 'struct vfio_group'
+     453 |                                                 group->type);
+         |                                                      ^~
+   drivers/vfio/container.c:455:34: error: invalid use of undefined type 'struct vfio_group'
+     455 |                         if (group->type == VFIO_IOMMU)
+         |                                  ^~
+   drivers/vfio/container.c:457:46: error: invalid use of undefined type 'struct vfio_group'
+     457 |                                         group->iommu_group);
+         |                                              ^~
+   drivers/vfio/container.c:462:14: error: invalid use of undefined type 'struct vfio_group'
+     462 |         group->container = container;
+         |              ^~
+   drivers/vfio/container.c:463:14: error: invalid use of undefined type 'struct vfio_group'
+     463 |         group->container_users = 1;
+         |              ^~
+   drivers/vfio/container.c:464:36: error: invalid use of undefined type 'struct vfio_group'
+     464 |         container->noiommu = (group->type == VFIO_NO_IOMMU);
+         |                                    ^~
+   drivers/vfio/container.c:465:24: error: invalid use of undefined type 'struct vfio_group'
+     465 |         list_add(&group->container_next, &container->group_list);
+         |                        ^~
+   drivers/vfio/container.c: In function 'vfio_group_detach_container':
+   drivers/vfio/container.c:477:49: error: invalid use of undefined type 'struct vfio_group'
+     477 |         struct vfio_container *container = group->container;
+         |                                                 ^~
+   drivers/vfio/container.c:480:35: error: invalid use of undefined type 'struct vfio_group'
+     480 |         lockdep_assert_held(&group->group_lock);
+         |                                   ^~
+   include/asm-generic/bug.h:167:32: note: in definition of macro 'WARN_ON'
+     167 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/lockdep.h:319:9: note: in expansion of macro 'lockdep_assert'
+     319 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ^~~~~~~~~~~~~~
+   include/linux/lockdep.h:319:24: note: in expansion of macro 'lockdep_is_held'
+     319 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |                        ^~~~~~~~~~~~~~~
+   drivers/vfio/container.c:480:9: note: in expansion of macro 'lockdep_assert_held'
+     480 |         lockdep_assert_held(&group->group_lock);
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/vfio/container.c:481:22: error: invalid use of undefined type 'struct vfio_group'
+     481 |         WARN_ON(group->container_users != 1);
+         |                      ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VFIO_CONTAINER
+   Depends on [n]: VFIO [=y] && VFIO_GROUP [=n]
+   Selected by [y]:
+   - VFIO [=y] && (IOMMUFD [=n] || !IOMMUFD [=n]) && IOMMUFD [=n]=n
 
 
-vim +/unmap +2918 drivers/net/ethernet/brocade/bna/bnad.c
+vim +174 drivers/vfio/container.c
 
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2907  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2908  /*
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2909   * bnad_start_xmit : Netdev entry point for Transmit
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2910   *		     Called under lock held by net_device
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2911   */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2912  static netdev_tx_t
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2913  bnad_start_xmit(struct sk_buff *skb, struct net_device *netdev)
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2914  {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2915  	struct bnad *bnad = netdev_priv(netdev);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2916  	u32 txq_id = 0;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2917  	struct bna_tcb *tcb = NULL;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11 @2918  	struct bnad_tx_unmap *unmap_q, *unmap, *head_unmap;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2919  	u32		prod, q_depth, vect_id;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2920  	u32		wis, vectors, len;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2921  	int		i;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2922  	dma_addr_t		dma_addr;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2923  	struct bna_txq_entry *txqent;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2924  
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  2925  	len = skb_headlen(skb);
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  2926  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2927  	/* Sanity checks for the skb */
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  2928  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2929  	if (unlikely(skb->len <= ETH_HLEN)) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2930  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2931  		BNAD_UPDATE_CTR(bnad, tx_skb_too_short);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2932  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2933  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2934  	if (unlikely(len > BFI_TX_MAX_DATA_PER_VECTOR)) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2935  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2936  		BNAD_UPDATE_CTR(bnad, tx_skb_headlen_zero);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2937  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2938  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2939  	if (unlikely(len == 0)) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2940  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2941  		BNAD_UPDATE_CTR(bnad, tx_skb_headlen_zero);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2942  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2943  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2944  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2945  	tcb = bnad->tx_info[0].tcb[txq_id];
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2946  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2947  	/*
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2948  	 * Takes care of the Tx that is scheduled between clearing the flag
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2949  	 * and the netif_tx_stop_all_queues() call.
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2950  	 */
-96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2951  	if (unlikely(!tcb || !test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags))) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2952  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2953  		BNAD_UPDATE_CTR(bnad, tx_skb_stopping);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2954  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2955  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2956  
-96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2957  	q_depth = tcb->q_depth;
-96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2958  	prod = tcb->producer_index;
-96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2959  	unmap_q = tcb->unmap_q;
-96e31adf8d73f1 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  2960  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2961  	vectors = 1 + skb_shinfo(skb)->nr_frags;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2962  	wis = BNA_TXQ_WI_NEEDED(vectors);	/* 4 vectors per work item */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2963  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2964  	if (unlikely(vectors > BFI_TX_MAX_VECTORS_PER_PKT)) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  2965  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2966  		BNAD_UPDATE_CTR(bnad, tx_skb_max_vectors);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2967  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2968  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2969  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2970  	/* Check for available TxQ resources */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2971  	if (unlikely(wis > BNA_QE_FREE_CNT(tcb, q_depth))) {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2972  		if ((*tcb->hw_consumer_index != tcb->consumer_index) &&
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2973  		    !test_and_set_bit(BNAD_TXQ_FREE_SENT, &tcb->flags)) {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2974  			u32 sent;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2975  			sent = bnad_txcmpl_process(bnad, tcb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2976  			if (likely(test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags)))
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2977  				bna_ib_ack(tcb->i_dbell, sent);
-4e857c58efeb99 drivers/net/ethernet/brocade/bna/bnad.c Peter Zijlstra          2014-03-17  2978  			smp_mb__before_atomic();
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2979  			clear_bit(BNAD_TXQ_FREE_SENT, &tcb->flags);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2980  		} else {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2981  			netif_stop_queue(netdev);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2982  			BNAD_UPDATE_CTR(bnad, netif_queue_stop);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2983  		}
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  2984  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2985  		smp_mb();
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2986  		/*
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2987  		 * Check again to deal with race condition between
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2988  		 * netif_stop_queue here, and netif_wake_queue in
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2989  		 * interrupt handler which is not inside netif tx lock.
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2990  		 */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2991  		if (likely(wis > BNA_QE_FREE_CNT(tcb, q_depth))) {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2992  			BNAD_UPDATE_CTR(bnad, netif_queue_stop);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2993  			return NETDEV_TX_BUSY;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2994  		} else {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2995  			netif_wake_queue(netdev);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2996  			BNAD_UPDATE_CTR(bnad, netif_queue_wakeup);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2997  		}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2998  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  2999  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3000  	txqent = &((struct bna_txq_entry *)tcb->sw_q)[prod];
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3001  	head_unmap = &unmap_q[prod];
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3002  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3003  	/* Program the opcode, flags, frame_len, num_vectors in WI */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3004  	if (bnad_txq_wi_prepare(bnad, tcb, skb, txqent)) {
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3005  		dev_kfree_skb_any(skb);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3006  		return NETDEV_TX_OK;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3007  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3008  	txqent->hdr.wi.reserved = 0;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3009  	txqent->hdr.wi.num_vectors = vectors;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3010  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3011  	head_unmap->skb = skb;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3012  	head_unmap->nvecs = 0;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3013  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3014  	/* Program the vectors */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3015  	unmap = head_unmap;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3016  	dma_addr = dma_map_single(&bnad->pcidev->dev, skb->data,
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3017  				  len, DMA_TO_DEVICE);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3018  	if (dma_mapping_error(&bnad->pcidev->dev, dma_addr)) {
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3019  		dev_kfree_skb_any(skb);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3020  		BNAD_UPDATE_CTR(bnad, tx_skb_map_failed);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3021  		return NETDEV_TX_OK;
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3022  	}
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3023  	BNA_SET_DMA_ADDR(dma_addr, &txqent->vector[0].host_addr);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3024  	txqent->vector[0].length = htons(len);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3025  	dma_unmap_addr_set(&unmap->vectors[0], dma_addr, dma_addr);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3026  	head_unmap->nvecs++;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3027  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3028  	for (i = 0, vect_id = 0; i < vectors - 1; i++) {
-d7840976e39156 drivers/net/ethernet/brocade/bna/bnad.c Matthew Wilcox (Oracle  2019-07-22  3029) 		const skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-24f5d33d42d648 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3030  		u32		size = skb_frag_size(frag);
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3031  
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3032  		if (unlikely(size == 0)) {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3033  			/* Undo the changes starting at tcb->producer_index */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3034  			bnad_tx_buff_unmap(bnad, unmap_q, q_depth,
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3035  				tcb->producer_index);
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3036  			dev_kfree_skb_any(skb);
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3037  			BNAD_UPDATE_CTR(bnad, tx_skb_frag_zero);
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3038  			return NETDEV_TX_OK;
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3039  		}
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3040  
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3041  		len += size;
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3042  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3043  		vect_id++;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3044  		if (vect_id == BFI_TX_MAX_VECTORS_PER_WI) {
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3045  			vect_id = 0;
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3046  			BNA_QE_INDX_INC(prod, q_depth);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3047  			txqent = &((struct bna_txq_entry *)tcb->sw_q)[prod];
-b779d0afccffac drivers/net/ethernet/brocade/bna/bnad.c Joe Perches             2014-03-12  3048  			txqent->hdr.wi_ext.opcode = htons(BNA_TXQ_WI_EXTENSION);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3049  			unmap = &unmap_q[prod];
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3050  		}
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3051  
-4d5b1a674e3426 drivers/net/ethernet/brocade/bna/bnad.c Ian Campbell            2011-08-29  3052  		dma_addr = skb_frag_dma_map(&bnad->pcidev->dev, frag,
-4d5b1a674e3426 drivers/net/ethernet/brocade/bna/bnad.c Ian Campbell            2011-08-29  3053  					    0, size, DMA_TO_DEVICE);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3054  		if (dma_mapping_error(&bnad->pcidev->dev, dma_addr)) {
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3055  			/* Undo the changes starting at tcb->producer_index */
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3056  			bnad_tx_buff_unmap(bnad, unmap_q, q_depth,
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3057  					   tcb->producer_index);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3058  			dev_kfree_skb_any(skb);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3059  			BNAD_UPDATE_CTR(bnad, tx_skb_map_failed);
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3060  			return NETDEV_TX_OK;
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3061  		}
-ba5ca7848be05d drivers/net/ethernet/brocade/bna/bnad.c Ivan Vecera             2015-09-16  3062  
-ecca6a968fc454 drivers/net/ethernet/brocade/bna/bnad.c David S. Miller         2014-01-06  3063  		dma_unmap_len_set(&unmap->vectors[vect_id], dma_len, size);
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3064  		BNA_SET_DMA_ADDR(dma_addr, &txqent->vector[vect_id].host_addr);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3065  		txqent->vector[vect_id].length = htons(size);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3066  		dma_unmap_addr_set(&unmap->vectors[vect_id], dma_addr,
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3067  				   dma_addr);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3068  		head_unmap->nvecs++;
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3069  	}
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3070  
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3071  	if (unlikely(len != skb->len)) {
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3072  		/* Undo the changes starting at tcb->producer_index */
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3073  		bnad_tx_buff_unmap(bnad, unmap_q, q_depth, tcb->producer_index);
-27400df8e92b0e drivers/net/ethernet/brocade/bna/bnad.c Eric W. Biederman       2014-03-15  3074  		dev_kfree_skb_any(skb);
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3075  		BNAD_UPDATE_CTR(bnad, tx_skb_len_mismatch);
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3076  		return NETDEV_TX_OK;
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3077  	}
-271e8b79470002 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2011-08-30  3078  
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3079  	BNA_QE_INDX_INC(prod, q_depth);
-5216562a2ccd03 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2012-12-11  3080  	tcb->producer_index = prod;
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3081  
-d667f78514c656 drivers/net/ethernet/brocade/bna/bnad.c Benjamin Poirier        2016-11-07  3082  	wmb();
-be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3083  
-be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3084  	if (unlikely(!test_bit(BNAD_TXQ_TX_STARTED, &tcb->flags)))
-be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3085  		return NETDEV_TX_OK;
-be7fa3263a15d3 drivers/net/bna/bnad.c                  Rasesh Mody             2010-12-23  3086  
-fee1253e280a61 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3087  	skb_tx_timestamp(skb);
-fee1253e280a61 drivers/net/ethernet/brocade/bna/bnad.c Rasesh Mody             2013-12-17  3088  
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3089  	bna_txq_prod_indx_doorbell(tcb);
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3090  
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3091  	return NETDEV_TX_OK;
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3092  }
-8b230ed8ec96c9 drivers/net/bna/bnad.c                  Rasesh Mody             2010-08-23  3093  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  170  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  171  void vfio_device_container_register(struct vfio_device *device)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  172  {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  173  	struct vfio_iommu_driver *iommu_driver =
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22 @174  		device->group->container->iommu_driver;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  175  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  176  	if (iommu_driver && iommu_driver->ops->register_device)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  177  		iommu_driver->ops->register_device(
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  178  			device->group->container->iommu_data, device);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  179  }
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  180  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  181  void vfio_device_container_unregister(struct vfio_device *device)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  182  {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  183  	struct vfio_iommu_driver *iommu_driver =
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  184  		device->group->container->iommu_driver;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  185  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  186  	if (iommu_driver && iommu_driver->ops->unregister_device)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  187  		iommu_driver->ops->unregister_device(
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  188  			device->group->container->iommu_data, device);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  189  }
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  190  
+0d8227b622f352 Jason Gunthorpe 2022-11-29  191  static long
+0d8227b622f352 Jason Gunthorpe 2022-11-29  192  vfio_container_ioctl_check_extension(struct vfio_container *container,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  193  				     unsigned long arg)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  194  {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  195  	struct vfio_iommu_driver *driver;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  196  	long ret = 0;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  197  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  198  	down_read(&container->group_lock);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  199  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  200  	driver = container->iommu_driver;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  201  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  202  	switch (arg) {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  203  		/* No base extensions yet */
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  204  	default:
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  205  		/*
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  206  		 * If no driver is set, poll all registered drivers for
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  207  		 * extensions and return the first positive result.  If
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  208  		 * a driver is already set, further queries will be passed
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  209  		 * only to that driver.
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  210  		 */
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  211  		if (!driver) {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  212  			mutex_lock(&vfio.iommu_drivers_lock);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  213  			list_for_each_entry(driver, &vfio.iommu_drivers_list,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  214  					    vfio_next) {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  215  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  216  				if (!list_empty(&container->group_list) &&
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  217  				    !vfio_iommu_driver_allowed(container,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  218  							       driver))
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  219  					continue;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  220  				if (!try_module_get(driver->ops->owner))
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  221  					continue;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  222  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  223  				ret = driver->ops->ioctl(NULL,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  224  							 VFIO_CHECK_EXTENSION,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  225  							 arg);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  226  				module_put(driver->ops->owner);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  227  				if (ret > 0)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  228  					break;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  229  			}
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  230  			mutex_unlock(&vfio.iommu_drivers_lock);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  231  		} else
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  232  			ret = driver->ops->ioctl(container->iommu_data,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  233  						 VFIO_CHECK_EXTENSION, arg);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  234  	}
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  235  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  236  	up_read(&container->group_lock);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  237  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  238  	return ret;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  239  }
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  240  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  241  /* hold write lock on container->group_lock */
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  242  static int __vfio_container_attach_groups(struct vfio_container *container,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  243  					  struct vfio_iommu_driver *driver,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  244  					  void *data)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  245  {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  246  	struct vfio_group *group;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  247  	int ret = -ENODEV;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  248  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22 @249  	list_for_each_entry(group, &container->group_list, container_next) {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22 @250  		ret = driver->ops->attach_group(data, group->iommu_group,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  251  						group->type);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  252  		if (ret)
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  253  			goto unwind;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  254  	}
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  255  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  256  	return ret;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  257  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  258  unwind:
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  259  	list_for_each_entry_continue_reverse(group, &container->group_list,
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  260  					     container_next) {
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  261  		driver->ops->detach_group(data, group->iommu_group);
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  262  	}
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  263  
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  264  	return ret;
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  265  }
+cdc71fe4ecbf48 Jason Gunthorpe 2022-09-22  266  
 
-:::::: The code at line 2918 was first introduced by commit
-:::::: 5216562a2ccd037d0eb85a2e8bbfd6315e3f1bb5 bna: Tx and Rx Optimizations
+:::::: The code at line 174 was first introduced by commit
+:::::: cdc71fe4ecbf48f7292ae8b7e4ff4a2a8b5bdbca vfio: Move container code into drivers/vfio/container.c
 
-:::::: TO: Rasesh Mody <rmody@brocade.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
