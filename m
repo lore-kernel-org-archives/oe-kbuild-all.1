@@ -1,42 +1,48 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617C079EE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEFAA4A
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 20:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1676751617; x=1708287617;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8BqyXoY+1c1vVgTvDQ0CqKBqkXRIVHCrDkcso76dw74=;
-  b=DVqe63QROhb+mw/P/hQjj9qKSn6RjVHrOnruuyaLR6oQGxUQ5ANHTlkn
-   8UU2fS8cZh0kIRNN3APy36bKgDV1r89q8sHaLrO8ge3UFCm9tpWY1pRnH
-   JI52y8rTCCeb8Ym1wneFgYgEbJcTFhSKhCoKumYRthBjWc/UXyPYRURya
-   yVmN7NzTbGIjRRPtIIpjoKnmPFmzeEX9TyExny/CJKiO01FO2C590osuv
-   3VCOHhrN+ez2Ue3D4XawEIH3M0RrXgvLjfRIQRz1Z2oPS8eiaxbiZpKe8
-   8uGNAe8UY18/KIrpocbRTot3JXYnjcybJYOrS+n1F86mu5JnfERLhbLHn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311830875"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m3g9HARJDWSQCFbwk3Iio0QGai5OhbW12/y2dD16p5M=;
+  b=TodHsywb29rasWJvcroi7MUA8YKoprunE04r/9KA/Xr2/jDmUOtjl2BJ
+   79RBikw6O8odpcsLu/n5j7OVgoa/xpkYCbtjC3fX3AkYtha/cmLnoouFE
+   mPAP1Fq4U0IG9VM7KANvK9as+Rjs9ug3XH74JRe/PRAsDHdhqguE4lnsO
+   6kxCjUTpfYEOCGNxfPj8XoOdZ7jb3KnXbkS19H1cNPyhRrC/x4A3P/Xtm
+   VHLA9woDzcZVjRx3TNabotlxRgL+sqJUfJM5XFD5FfAjR/3e0s0xP7RgP
+   e57HjAQfZqydkm6mz7ShbyXOKd7dZ/xv5Doamog9ilwQ3BokbZduFqQEe
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311830878"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="311830875"
+   d="scan'208";a="311830878"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 12:20:14 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 12:20:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="794779144"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="794779148"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="794779144"
+   d="scan'208";a="794779148"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Feb 2023 12:20:12 -0800
+  by orsmga004.jf.intel.com with ESMTP; 18 Feb 2023 12:20:13 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTTgq-000Chh-0K;
+	id 1pTTgq-000Chd-02;
 	Sat, 18 Feb 2023 20:20:12 +0000
-Date: Sun, 19 Feb 2023 04:19:41 +0800
+Date: Sun, 19 Feb 2023 04:19:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Rowand <frowand.list@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>
-Subject: [robh:for-next 57/60] drivers/of/unittest.c:3042:41: error: 'struct
- device_node' has no member named 'kobj'
-Message-ID: <202302190406.co0XSfzx-lkp@intel.com>
+To: Pawel Laszczak <pawell@cadence.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, Daisy.Barrera@siriusxm.com,
+	Cliff.Holden@siriusxm.com, arnd@arndb.de, tony@atomide.com,
+	jdelvare@suse.de, neal_liu@aspeedtech.com, linus.walleij@linaro.org,
+	egtvedt@samfundet.no, biju.das.jz@bp.renesas.com,
+	herve.codina@bootlin.com, Pawel Laszczak <pawell@cadence.com>
+Subject: Re: [PATCH 3/4] usb: cdns2: Add tracepoints for CDNS2 driver
+Message-ID: <202302190436.AU6zwie0-lkp@intel.com>
+References: <20230216105411.364157-4-pawell@cadence.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,174 +51,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230216105411.364157-4-pawell@cadence.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   39459ce717b863556d7d75466fcbd904a6fbbbd8
-commit: 65b33f3e44e2aba403d3d5da96aaf42d4b6b5a9d [57/60] of: unittest: add node lifecycle tests
-config: arc-randconfig-r043-20230219 (https://download.01.org/0day-ci/archive/20230219/202302190406.co0XSfzx-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+Hi Pawel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next soc/for-next linus/master v6.2-rc8 next-20230217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230216105411.364157-4-pawell%40cadence.com
+patch subject: [PATCH 3/4] usb: cdns2: Add tracepoints for CDNS2 driver
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230219/202302190436.AU6zwie0-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=65b33f3e44e2aba403d3d5da96aaf42d4b6b5a9d
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh for-next
-        git checkout 65b33f3e44e2aba403d3d5da96aaf42d4b6b5a9d
+        # https://github.com/intel-lab-lkp/linux/commit/edb55f1c0a0ffe341211e08b1ebf162f48dd5b83
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
+        git checkout edb55f1c0a0ffe341211e08b1ebf162f48dd5b83
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/of/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302190406.co0XSfzx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302190436.AU6zwie0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/of/unittest.c: In function 'of_unittest_lifecycle':
->> drivers/of/unittest.c:3042:41: error: 'struct device_node' has no member named 'kobj'
-    3042 |                 refcount = kref_read(&np->kobj.kref);
-         |                                         ^~
+   In file included from drivers/usb/gadget/udc/cdns2/cdns2-trace.h:29,
+                    from drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:36:
+   drivers/usb/gadget/udc/cdns2/cdns2-debug.h: In function 'cdns2_decode_trb':
+>> drivers/usb/gadget/udc/cdns2/cdns2-debug.h:165:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     165 |         int ret;
+         |             ^~~
+   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c: In function 'cdns2_gadget_ep_enable':
+   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:1408:49: warning: variable 'comp_desc' set but not used [-Wunused-but-set-variable]
+    1408 |         const struct usb_ss_ep_comp_descriptor *comp_desc;
+         |                                                 ^~~~~~~~~
+--
+   In file included from drivers/usb/gadget/udc/cdns2/cdns2-trace.h:29,
+                    from drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:13:
+   drivers/usb/gadget/udc/cdns2/cdns2-debug.h: In function 'cdns2_decode_trb':
+>> drivers/usb/gadget/udc/cdns2/cdns2-debug.h:165:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     165 |         int ret;
+         |             ^~~
+   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c: In function 'cdns2_ep0_stall':
+   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:93:12: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
+      93 |         u8 reg;
+         |            ^~~
 
 
-vim +3042 drivers/of/unittest.c
+vim +/ret +165 drivers/usb/gadget/udc/cdns2/cdns2-debug.h
 
-  3008	
-  3009	static void __init of_unittest_lifecycle(void)
-  3010	{
-  3011		unsigned int refcount;
-  3012		int found_refcount_one = 0;
-  3013		int put_count = 0;
-  3014		struct device_node *np;
-  3015		struct device_node *prev_sibling, *next_sibling;
-  3016		const char *refcount_path = "/testcase-data/refcount-node";
-  3017		const char *refcount_parent_path = "/testcase-data";
-  3018	
-  3019		/*
-  3020		 * Node lifecycle tests, non-dynamic node:
-  3021		 *
-  3022		 * - Decrementing refcount to zero via of_node_put() should cause the
-  3023		 *   attempt to free the node memory by of_node_release() to fail
-  3024		 *   because the node is not a dynamic node.
-  3025		 *
-  3026		 * - Decrementing refcount past zero should result in additional
-  3027		 *   errors reported.
-  3028		 */
-  3029	
-  3030		np = of_find_node_by_path(refcount_path);
-  3031		unittest(np, "find refcount_path \"%s\"\n", refcount_path);
-  3032		if (np == NULL)
-  3033			goto out_skip_tests;
-  3034	
-  3035		while (!found_refcount_one) {
-  3036	
-  3037			if (put_count++ > 10) {
-  3038				unittest(0, "guardrail to avoid infinite loop\n");
-  3039				goto out_skip_tests;
-  3040			}
-  3041	
-> 3042			refcount = kref_read(&np->kobj.kref);
-  3043			if (refcount == 1)
-  3044				found_refcount_one = 1;
-  3045			else
-  3046				of_node_put(np);
-  3047		}
-  3048	
-  3049		EXPECT_BEGIN(KERN_INFO, "OF: ERROR: of_node_release() detected bad of_node_put() on /testcase-data/refcount-node");
-  3050	
-  3051		/*
-  3052		 * refcount is now one, decrementing to zero will result in a call to
-  3053		 * of_node_release() to free the node's memory, which should result
-  3054		 * in an error
-  3055		 */
-  3056		unittest(1, "/testcase-data/refcount-node is one");
-  3057		of_node_put(np);
-  3058	
-  3059		EXPECT_END(KERN_INFO, "OF: ERROR: of_node_release() detected bad of_node_put() on /testcase-data/refcount-node");
-  3060	
-  3061	
-  3062		/*
-  3063		 * expect stack trace for subsequent of_node_put():
-  3064		 *   __refcount_sub_and_test() calls:
-  3065		 *   refcount_warn_saturate(r, REFCOUNT_SUB_UAF)
-  3066		 *
-  3067		 * Not capturing entire WARN_ONCE() trace with EXPECT_*(), just
-  3068		 * the first three lines, and the last line.
-  3069		 */
-  3070		EXPECT_BEGIN(KERN_INFO, "------------[ cut here ]------------");
-  3071		EXPECT_BEGIN(KERN_INFO, "WARNING: <<all>>");
-  3072		EXPECT_BEGIN(KERN_INFO, "refcount_t: underflow; use-after-free.");
-  3073		EXPECT_BEGIN(KERN_INFO, "---[ end trace <<int>> ]---");
-  3074	
-  3075		/* refcount is now zero, this should fail */
-  3076		unittest(1, "/testcase-data/refcount-node is zero");
-  3077		of_node_put(np);
-  3078	
-  3079		EXPECT_END(KERN_INFO, "---[ end trace <<int>> ]---");
-  3080		EXPECT_END(KERN_INFO, "refcount_t: underflow; use-after-free.");
-  3081		EXPECT_END(KERN_INFO, "WARNING: <<all>>");
-  3082		EXPECT_END(KERN_INFO, "------------[ cut here ]------------");
-  3083	
-  3084		/*
-  3085		 * Q. do we expect to get yet another warning?
-  3086		 * A. no, the WARNING is from WARN_ONCE()
-  3087		 */
-  3088		EXPECT_NOT_BEGIN(KERN_INFO, "------------[ cut here ]------------");
-  3089		EXPECT_NOT_BEGIN(KERN_INFO, "WARNING: <<all>>");
-  3090		EXPECT_NOT_BEGIN(KERN_INFO, "refcount_t: underflow; use-after-free.");
-  3091		EXPECT_NOT_BEGIN(KERN_INFO, "---[ end trace <<int>> ]---");
-  3092	
-  3093		unittest(1, "/testcase-data/refcount-node is zero, second time");
-  3094		of_node_put(np);
-  3095	
-  3096		EXPECT_NOT_END(KERN_INFO, "---[ end trace <<int>> ]---");
-  3097		EXPECT_NOT_END(KERN_INFO, "refcount_t: underflow; use-after-free.");
-  3098		EXPECT_NOT_END(KERN_INFO, "WARNING: <<all>>");
-  3099		EXPECT_NOT_END(KERN_INFO, "------------[ cut here ]------------");
-  3100	
-  3101		/*
-  3102		 * refcount of zero will trigger stack traces from any further
-  3103		 * attempt to of_node_get() node "refcount-node". One example of
-  3104		 * this is where of_unittest_check_node_linkage() will recursively
-  3105		 * scan the tree, with 'for_each_child_of_node()' doing an
-  3106		 * of_node_get() of the children of a node.
-  3107		 *
-  3108		 * Prevent the stack trace by removing node "refcount-node" from
-  3109		 * its parent's child list.
-  3110		 *
-  3111		 * WARNING:  EVIL, EVIL, EVIL:
-  3112		 *
-  3113		 *   Directly manipulate the child list of node /testcase-data to
-  3114		 *   remove child refcount-node.  This is ignoring all proper methods
-  3115		 *   of removing a child and will leak a small amount of memory.
-  3116		 */
-  3117	
-  3118		np = of_find_node_by_path(refcount_parent_path);
-  3119		unittest(np, "find refcount_parent_path \"%s\"\n", refcount_parent_path);
-  3120		unittest(np, "ERROR: devicetree live tree left in a 'bad state' if test fail\n");
-  3121		if (np == NULL)
-  3122			return;
-  3123	
-  3124		prev_sibling = np->child;
-  3125		next_sibling = prev_sibling->sibling;
-  3126		if (!strcmp(prev_sibling->full_name, "refcount-node")) {
-  3127			np->child = next_sibling;
-  3128			next_sibling = next_sibling->sibling;
-  3129		}
-  3130		while (next_sibling) {
-  3131			if (!strcmp(next_sibling->full_name, "refcount-node"))
-  3132				prev_sibling->sibling = next_sibling->sibling;
-  3133			prev_sibling = next_sibling;
-  3134			next_sibling = next_sibling->sibling;
-  3135		}
-  3136		of_node_put(np);
-  3137	
-  3138		return;
-  3139	
-  3140	out_skip_tests:
-  3141		unittest(0, "One or more lifecycle tests skipped\n");
-  3142	}
-  3143	
+   160	
+   161	static inline const char *cdns2_decode_trb(char *str, size_t size, u32 flags,
+   162						   u32 length, u32 buffer)
+   163	{
+   164		int type = TRB_FIELD_TO_TYPE(flags);
+ > 165		int ret;
+   166	
+   167		switch (type) {
+   168		case TRB_LINK:
+   169			ret = snprintf(str, size,
+   170				       "LINK %08x type '%s' flags %c:%c:%c%c:%c",
+   171				       buffer, cdns2_trb_type_string(type),
+   172				       flags & TRB_CYCLE ? 'C' : 'c',
+   173				       flags & TRB_TOGGLE ? 'T' : 't',
+   174				       flags & TRB_CHAIN ? 'C' : 'c',
+   175				       flags & TRB_CHAIN ? 'H' : 'h',
+   176				       flags & TRB_IOC ? 'I' : 'i');
+   177			break;
+   178		case TRB_NORMAL:
+   179			ret = snprintf(str, size,
+   180				       "type: '%s', Buffer: %08x, length: %ld, burst len: %ld, "
+   181				       "flags %c:%c:%c%c:%c",
+   182				       cdns2_trb_type_string(type),
+   183				       buffer, TRB_LEN(length),
+   184				       TRB_FIELD_TO_BURST(length),
+   185				       flags & TRB_CYCLE ? 'C' : 'c',
+   186				       flags & TRB_ISP ? 'I' : 'i',
+   187				       flags & TRB_CHAIN ? 'C' : 'c',
+   188				       flags & TRB_CHAIN ? 'H' : 'h',
+   189				       flags & TRB_IOC ? 'I' : 'i');
+   190			break;
+   191		default:
+   192			ret = snprintf(str, size, "type '%s' -> raw %08x %08x %08x",
+   193				       cdns2_trb_type_string(type),
+   194				       buffer, length, flags);
+   195		}
+   196	
+   197		return str;
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
