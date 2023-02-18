@@ -1,43 +1,47 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD75E810
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 10:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9D1D31E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 11:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676714757; x=1708250757;
+  t=1676720221; x=1708256221;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wUgR3JqA7sLIM1bixQ4F/t61dk4ShfiYxPflK3JOFzM=;
-  b=IEFdNHfyw+okt3SNdDg8o/kPSWrT3pf0sIBeI05z+RaJGQIbgqs+olrW
-   Ojq4wYu0jta1h1UY3KGQsaXgIH7ISETX9K4+GvfjVjz4uU2obN7JgIlwX
-   kozDDLjtitQcLnxo69JCl8iqn72iaw1qdRMTeMmojxkIx6+px1YbUAgqa
-   AfmHZdJK6yNmjOxyydNZ0KJtlbYoYVzAdEWbwINo8qO7dI4nErx+MKduE
-   6FY5PGR54FRElFZWhLKwyEXH5qa52tJcMj72OoQAE2VLGP+WmhII83YL3
-   NkqwJJ3KzSyiuWCS9pzXPNmKVfRo2CArj4UDeMerIYxzpHxM+eVEGzigi
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="330827937"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="330827937"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 02:05:57 -0800
+  bh=s9ys+mHjlG2o0BLqYBDtPUd1O/GUthQ8mzu3FNKjmA8=;
+  b=HRgLMVV8L54r67Zy0nJbjf1TpPGPm9hdHLey5rV4cwz0kxIemE/ClKhV
+   NXctTWroDOEVc+GelrKsXjjglXHdRKk94yOJTYXaAPgQSpPa1v98sKfCE
+   z4Xxi78t1frhjIw8+dpPObJ0Wh7cnzhJ4Vu6B63lX/H1ADPZJaFN9saQe
+   5NgbCEa0GUUA+sVBymDCgC7CqqYC4M+Dlo+OYk/91030YDc2ojJ3j4eZ2
+   5Cf2pCEAZoUOVJl6G2B9hoiGVjmRLpe7s433jZ2BbalqRxyADrkO4lMNW
+   XRxa6RjVzTpZstZH8LY6TQajJu5C00F9cm6ghyY+XqNT0kGXV0NhGyaA7
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="329880603"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
+   d="scan'208";a="329880603"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 03:37:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="648349421"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="648349421"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="620682101"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
+   d="scan'208";a="620682101"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Feb 2023 02:05:55 -0800
+  by orsmga003.jf.intel.com with ESMTP; 18 Feb 2023 03:36:58 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTK6N-000CHx-13;
-	Sat, 18 Feb 2023 10:05:55 +0000
-Date: Sat, 18 Feb 2023 18:05:34 +0800
+	id 1pTLWT-000CLZ-1h;
+	Sat, 18 Feb 2023 11:36:57 +0000
+Date: Sat, 18 Feb 2023 19:36:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:wip/sm8450-hdmi-audio-on-qcomlt 518/584]
- drivers/pci/endpoint/functions/pci-epf-mhi.c:447:5: warning: no previous
- prototype for 'pci_epf_mhi_core_init'
-Message-ID: <202302181844.DfjKh8Ut-lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [ammarfaizi2-block:stable/linux-stable-rc/queue/5.4 129/135]
+ drivers/mmc/host/jz4740_mmc.c:1016:30: error: 'JZ_MMC_JZ4760' undeclared;
+ did you mean 'JZ_MMC_JZ4780'?
+Message-ID: <202302181926.BhUHRXfY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,181 +51,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux wip/sm8450-hdmi-audio-on-qcomlt
-head:   e1df0b14d2e3085d5ff5a1c7474b47840640da92
-commit: 0840855a12a5683128ad79aa891c6d8d22ee869e [518/584] PCI: endpoint: epf-mhi: Switch to new interface between EPC and EPF
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230218/202302181844.DfjKh8Ut-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://github.com/ammarfaizi2/linux-block stable/linux-stable-rc/queue/5.4
+head:   0109f5323863edf0d51d088bae4f05705ba0a268
+commit: 186bbbee8013e458c0c7261c2a78a1b63e46b29f [129/135] mmc: jz4740: Work around bug on JZ4760(B)
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302181926.BhUHRXfY-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/0840855a12a5683128ad79aa891c6d8d22ee869e
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github wip/sm8450-hdmi-audio-on-qcomlt
-        git checkout 0840855a12a5683128ad79aa891c6d8d22ee869e
+        # https://github.com/ammarfaizi2/linux-block/commit/186bbbee8013e458c0c7261c2a78a1b63e46b29f
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block stable/linux-stable-rc/queue/5.4
+        git checkout 186bbbee8013e458c0c7261c2a78a1b63e46b29f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pci/endpoint/functions/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/mmc/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302181844.DfjKh8Ut-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302181926.BhUHRXfY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:171:6: warning: no previous prototype for 'pci_epf_mhi_raise_irq' [-Wmissing-prototypes]
-     171 | void pci_epf_mhi_raise_irq(struct mhi_ep_cntrl *mhi_cntrl, u32 vector)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:184:5: warning: no previous prototype for 'pci_epf_mhi_iatu_read' [-Wmissing-prototypes]
-     184 | int pci_epf_mhi_iatu_read(struct mhi_ep_cntrl *mhi_cntrl, u64 from, void __iomem *to,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:221:5: warning: no previous prototype for 'pci_epf_mhi_iatu_write' [-Wmissing-prototypes]
-     221 | int pci_epf_mhi_iatu_write(struct mhi_ep_cntrl *mhi_cntrl, void __iomem *from, u64 to,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:447:5: warning: no previous prototype for 'pci_epf_mhi_core_init' [-Wmissing-prototypes]
-     447 | int pci_epf_mhi_core_init(struct pci_epf *epf)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:482:5: warning: no previous prototype for 'pci_epf_mhi_link_up' [-Wmissing-prototypes]
-     482 | int pci_epf_mhi_link_up(struct pci_epf *epf)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:533:5: warning: no previous prototype for 'pci_epf_mhi_link_down' [-Wmissing-prototypes]
-     533 | int pci_epf_mhi_link_down(struct pci_epf *epf)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:550:5: warning: no previous prototype for 'pci_epf_mhi_bme' [-Wmissing-prototypes]
-     550 | int pci_epf_mhi_bme(struct pci_epf *epf)
-         |     ^~~~~~~~~~~~~~~
+   drivers/mmc/host/jz4740_mmc.c: In function 'jz4740_mmc_probe':
+>> drivers/mmc/host/jz4740_mmc.c:1016:30: error: 'JZ_MMC_JZ4760' undeclared (first use in this function); did you mean 'JZ_MMC_JZ4780'?
+    1016 |         if (host->version == JZ_MMC_JZ4760 && mmc->f_max > JZ_MMC_CLK_RATE)
+         |                              ^~~~~~~~~~~~~
+         |                              JZ_MMC_JZ4780
+   drivers/mmc/host/jz4740_mmc.c:1016:30: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/pci_epf_mhi_core_init +447 drivers/pci/endpoint/functions/pci-epf-mhi.c
+vim +1016 drivers/mmc/host/jz4740_mmc.c
 
-   446	
- > 447	int pci_epf_mhi_core_init(struct pci_epf *epf)
-   448	{
-   449		struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-   450		const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
-   451		struct pci_epf_bar *epf_bar = &epf->bar[info->bar_num];
-   452		struct pci_epc *epc = epf->epc;
-   453		struct device *dev = &epf->dev;
-   454		int ret;
-   455	
-   456		epf_bar->phys_addr = epf_mhi->mmio_phys;
-   457		epf_bar->size = epf_mhi->mmio_size;
-   458		epf_bar->barno = info->bar_num;
-   459		epf_bar->flags = info->epf_flags;
-   460		ret = pci_epc_set_bar(epc, epf->func_no, epf->vfunc_no, epf_bar);
-   461		if (ret) {
-   462			dev_err(dev, "Failed to set BAR: %d\n", ret);
-   463			return ret;
-   464		}
-   465	
-   466		ret = pci_epc_set_msi(epc, epf->func_no, epf->vfunc_no,
-   467				      order_base_2(info->msi_count));
-   468		if (ret) {
-   469			dev_err(dev, "Failed to set MSI configuration: %d\n", ret);
-   470			return ret;
-   471		}
-   472	
-   473		ret = pci_epc_write_header(epc, epf->func_no, epf->vfunc_no, epf->header);
-   474		if (ret) {
-   475			dev_err(dev, "Failed to set Configuration header: %d\n", ret);
-   476			return ret;
-   477		}
-   478	
-   479		return 0;
-   480	}
-   481	
- > 482	int pci_epf_mhi_link_up(struct pci_epf *epf)
-   483	{
-   484		struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-   485		const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
-   486		struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-   487		struct pci_epc *epc = epf->epc;
-   488		struct device *dev = &epf->dev;
-   489		int ret;
-   490	
-   491		if (info->flags & MHI_EPF_USE_DMA) {
-   492			ret = pci_epf_mhi_dma_init(epf_mhi);
-   493			if (ret) {
-   494				dev_err(dev, "Failed to initialize DMA: %d\n", ret);
-   495				return ret;
-   496			}
-   497		}
-   498	
-   499		mhi_cntrl->mmio = epf_mhi->mmio;
-   500		mhi_cntrl->irq = epf_mhi->irq;
-   501		mhi_cntrl->mru = info->mru;
-   502	
-   503		/* Assign the struct dev of PCI EP as MHI controller device */
-   504		mhi_cntrl->cntrl_dev = epc->dev.parent;
-   505		mhi_cntrl->raise_irq = pci_epf_mhi_raise_irq;
-   506		mhi_cntrl->alloc_map = pci_epf_mhi_alloc_map;
-   507		mhi_cntrl->unmap_free = pci_epf_mhi_unmap_free;
-   508		mhi_cntrl->read_from_host = pci_epf_mhi_iatu_read;
-   509		mhi_cntrl->write_to_host = pci_epf_mhi_iatu_write;
-   510		if (info->flags & MHI_EPF_USE_DMA) {
-   511			mhi_cntrl->transfer_from_host = pci_epf_mhi_edma_read;
-   512			mhi_cntrl->transfer_to_host = pci_epf_mhi_edma_write;
-   513		} else {
-   514			mhi_cntrl->transfer_from_host = pci_epf_mhi_iatu_read;
-   515			mhi_cntrl->transfer_to_host = pci_epf_mhi_iatu_write;
-   516		}
-   517	
-   518		/* Register the MHI EP controller */
-   519		ret = mhi_ep_register_controller(mhi_cntrl, info->config);
-   520		if (ret) {
-   521			dev_err(dev, "Failed to register MHI EP controller: %d\n", ret);
-   522			if (info->flags & MHI_EPF_USE_DMA)
-   523				pci_epf_mhi_dma_deinit(epf_mhi);
-   524	
-   525			return ret;
-   526		}
-   527	
-   528		epf_mhi->mhi_registered = true;
-   529	
-   530		return 0;
-   531	}
-   532	
- > 533	int pci_epf_mhi_link_down(struct pci_epf *epf)
-   534	{
-   535		struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-   536		const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
-   537		struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-   538	
-   539		if (epf_mhi->mhi_registered) {
-   540			mhi_ep_power_down(mhi_cntrl);
-   541			if (info->flags & MHI_EPF_USE_DMA)
-   542				pci_epf_mhi_dma_deinit(epf_mhi);
-   543			mhi_ep_unregister_controller(mhi_cntrl);
-   544			epf_mhi->mhi_registered = false;
-   545		}
-   546	
-   547		return 0;
-   548	}
-   549	
- > 550	int pci_epf_mhi_bme(struct pci_epf *epf)
-   551	{
-   552		struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-   553		const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
-   554		struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-   555		struct device *dev = &epf->dev;
-   556		int ret;
-   557	
-   558		/* Power up the MHI EP stack if link is up and stack is in power down state */
-   559		if (!mhi_cntrl->enabled && epf_mhi->mhi_registered) {
-   560			ret = mhi_ep_power_up(mhi_cntrl);
-   561			if (ret) {
-   562				dev_err(dev, "Failed to power up MHI EP: %d\n", ret);
-   563				if (info->flags & MHI_EPF_USE_DMA)
-   564					pci_epf_mhi_dma_deinit(epf_mhi);
-   565				mhi_ep_unregister_controller(mhi_cntrl);
-   566				epf_mhi->mhi_registered = false;
-   567			}
-   568		}
-   569	
-   570		return 0;
-   571	}
-   572	
+   951	
+   952	static int jz4740_mmc_probe(struct platform_device* pdev)
+   953	{
+   954		int ret;
+   955		struct mmc_host *mmc;
+   956		struct jz4740_mmc_host *host;
+   957		const struct of_device_id *match;
+   958	
+   959		mmc = mmc_alloc_host(sizeof(struct jz4740_mmc_host), &pdev->dev);
+   960		if (!mmc) {
+   961			dev_err(&pdev->dev, "Failed to alloc mmc host structure\n");
+   962			return -ENOMEM;
+   963		}
+   964	
+   965		host = mmc_priv(mmc);
+   966	
+   967		match = of_match_device(jz4740_mmc_of_match, &pdev->dev);
+   968		if (match) {
+   969			host->version = (enum jz4740_mmc_version)match->data;
+   970		} else {
+   971			/* JZ4740 should be the only one using legacy probe */
+   972			host->version = JZ_MMC_JZ4740;
+   973		}
+   974	
+   975		ret = mmc_of_parse(mmc);
+   976		if (ret) {
+   977			if (ret != -EPROBE_DEFER)
+   978				dev_err(&pdev->dev,
+   979					"could not parse device properties: %d\n", ret);
+   980			goto err_free_host;
+   981		}
+   982	
+   983		mmc_regulator_get_supply(mmc);
+   984	
+   985		host->irq = platform_get_irq(pdev, 0);
+   986		if (host->irq < 0) {
+   987			ret = host->irq;
+   988			goto err_free_host;
+   989		}
+   990	
+   991		host->clk = devm_clk_get(&pdev->dev, "mmc");
+   992		if (IS_ERR(host->clk)) {
+   993			ret = PTR_ERR(host->clk);
+   994			dev_err(&pdev->dev, "Failed to get mmc clock\n");
+   995			goto err_free_host;
+   996		}
+   997	
+   998		host->mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   999		host->base = devm_ioremap_resource(&pdev->dev, host->mem_res);
+  1000		if (IS_ERR(host->base)) {
+  1001			ret = PTR_ERR(host->base);
+  1002			dev_err(&pdev->dev, "Failed to ioremap base memory\n");
+  1003			goto err_free_host;
+  1004		}
+  1005	
+  1006		mmc->ops = &jz4740_mmc_ops;
+  1007		if (!mmc->f_max)
+  1008			mmc->f_max = JZ_MMC_CLK_RATE;
+  1009	
+  1010		/*
+  1011		 * There seems to be a problem with this driver on the JZ4760 and
+  1012		 * JZ4760B SoCs. There, when using the maximum rate supported (50 MHz),
+  1013		 * the communication fails with many SD cards.
+  1014		 * Until this bug is sorted out, limit the maximum rate to 24 MHz.
+  1015		 */
+> 1016		if (host->version == JZ_MMC_JZ4760 && mmc->f_max > JZ_MMC_CLK_RATE)
+  1017			mmc->f_max = JZ_MMC_CLK_RATE;
+  1018	
+  1019		mmc->f_min = mmc->f_max / 128;
+  1020		mmc->ocr_avail = MMC_VDD_32_33 | MMC_VDD_33_34;
+  1021	
+  1022		mmc->max_blk_size = (1 << 10) - 1;
+  1023		mmc->max_blk_count = (1 << 15) - 1;
+  1024		mmc->max_req_size = mmc->max_blk_size * mmc->max_blk_count;
+  1025	
+  1026		mmc->max_segs = 128;
+  1027		mmc->max_seg_size = mmc->max_req_size;
+  1028	
+  1029		host->mmc = mmc;
+  1030		host->pdev = pdev;
+  1031		spin_lock_init(&host->lock);
+  1032		host->irq_mask = ~0;
+  1033	
+  1034		jz4740_mmc_reset(host);
+  1035	
+  1036		ret = request_threaded_irq(host->irq, jz_mmc_irq, jz_mmc_irq_worker, 0,
+  1037				dev_name(&pdev->dev), host);
+  1038		if (ret) {
+  1039			dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+  1040			goto err_free_host;
+  1041		}
+  1042	
+  1043		jz4740_mmc_clock_disable(host);
+  1044		timer_setup(&host->timeout_timer, jz4740_mmc_timeout, 0);
+  1045	
+  1046		ret = jz4740_mmc_acquire_dma_channels(host);
+  1047		if (ret == -EPROBE_DEFER)
+  1048			goto err_free_irq;
+  1049		host->use_dma = !ret;
+  1050	
+  1051		platform_set_drvdata(pdev, host);
+  1052		ret = mmc_add_host(mmc);
+  1053	
+  1054		if (ret) {
+  1055			dev_err(&pdev->dev, "Failed to add mmc host: %d\n", ret);
+  1056			goto err_release_dma;
+  1057		}
+  1058		dev_info(&pdev->dev, "JZ SD/MMC card driver registered\n");
+  1059	
+  1060		dev_info(&pdev->dev, "Using %s, %d-bit mode\n",
+  1061			 host->use_dma ? "DMA" : "PIO",
+  1062			 (mmc->caps & MMC_CAP_4_BIT_DATA) ? 4 : 1);
+  1063	
+  1064		return 0;
+  1065	
+  1066	err_release_dma:
+  1067		if (host->use_dma)
+  1068			jz4740_mmc_release_dma_channels(host);
+  1069	err_free_irq:
+  1070		free_irq(host->irq, host);
+  1071	err_free_host:
+  1072		mmc_free_host(mmc);
+  1073	
+  1074		return ret;
+  1075	}
+  1076	
 
 -- 
 0-DAY CI Kernel Test Service
