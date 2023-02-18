@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8BAA34
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 12:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFDA2117
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 13:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676725142; x=1708261142;
+  t=1676727723; x=1708263723;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X7a5o/qLP/f9tpGYbB2rzIipiWMzcMq5MSXEKA+GRXM=;
-  b=eW3mEd779pZUIrHKHpCfvL3iDA9hcrZv0LFcIlcNsu9QvRmoecHtPcur
-   h5l5DlK3up/E1Qt2eUtyAtrwo0xFAzX3kbDWnRkM9KASBhy8+ZoJhPTSw
-   NM5DC1zZS0e7OLbR8jHZZcOILhCLD53G1CPfKkWNKULSjBinGvAy/eE3J
-   Rvn57SJPP9d6IMI0kVBkmQE404XiuJwdx7o5kA8NkIXj+8XcR23+MDcC0
-   RpRtDZDPF1eJ1RURC2QQcIqEzu4udOwTHQ5MngdyDwKb68SBCnuhntwHv
-   4XIRvNc7GdhkOd7QM1BMaOiYxpMHeqJsVDvwl9IXSVIjyxa0aW2y5uDnL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="418392952"
+  bh=gNIRKDM8dxcRBW+hVY2H2fHMEe2YXUp52cRk2ts7In8=;
+  b=Nb8tTpmodTI6DMe/h44L4J4SCNPhu8N5d+USrrmX+zl+F49ijIigY9B1
+   BrIAPBSEadSqyfIMS0B3T4Qm8ShDT5OW9PULH+GkZ+IaXyUJEkQGLpiqK
+   A/0Q3oUtjNohq9Px4PUI1b2tMJk5Wl6/1qXSot3SUw8wO4GYGlZJtkorx
+   UkdNouQwfvHPhqf/hzE91Go9OFViseRcgJrgVdQomomW6w8mG1QaMpbp/
+   5zrd/rp/xzL20wMOgm0ak55vF0zfWotzPtRMoAoQEhA3rS4CnYuYo1Vou
+   rvuBMc0a9/P2f9Xrqj5XYB9IjfuC8LQZAuYmzCirdAJGFs2j/jLvQsHgi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="332175483"
 X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
-   d="scan'208";a="418392952"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 04:59:01 -0800
+   d="scan'208";a="332175483"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 05:42:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="664177406"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="734643098"
 X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
-   d="scan'208";a="664177406"
+   d="scan'208";a="734643098"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 18 Feb 2023 04:59:00 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 18 Feb 2023 05:42:02 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTMnr-000COL-2E;
-	Sat, 18 Feb 2023 12:58:59 +0000
-Date: Sat, 18 Feb 2023 20:58:28 +0800
+	id 1pTNTV-000CRB-1q;
+	Sat, 18 Feb 2023 13:42:01 +0000
+Date: Sat, 18 Feb 2023 21:41:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bhupesh Sharma <bhupesh.sharma@linaro.org>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-audio-wsa881x-gpio 37/615]
- drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: error: 'dev'
- undeclared; did you mean 'cdev'?
-Message-ID: <202302182042.sfQXHg0P-lkp@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 132/273] ld.lld: error: assignment to
+ symbol __efistub__end does not converge
+Message-ID: <202302182107.Xdk8rdWr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +46,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Bhupesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-audio-wsa881x-gpio
-head:   04e5048badb91c86b22993d0d9fd1bf8b79c0d91
-commit: 08c5e3278b418c5a4f7f98e4357208deff68a8da [37/615] coresight: etm4x: Fix crash observed on Qcom ETM parts with 'Low power override'
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302182042.sfQXHg0P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   118ba6d00ef9ac0b521db376a0c136c51ddbf038
+commit: 6e8abff337b191bcd4e20daee8697f10169be191 [132/273] xfs: rewrite xfs_icache_inode_is_allocated
+config: arm64-buildonly-randconfig-r002-20230217 (https://download.01.org/0day-ci/archive/20230218/202302182107.Xdk8rdWr-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/08c5e3278b418c5a4f7f98e4357208deff68a8da
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-audio-wsa881x-gpio
-        git checkout 08c5e3278b418c5a4f7f98e4357208deff68a8da
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=6e8abff337b191bcd4e20daee8697f10169be191
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs xfile-page-caching
+        git checkout 6e8abff337b191bcd4e20daee8697f10169be191
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302182042.sfQXHg0P-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302182107.Xdk8rdWr-lkp@intel.com/
+
+Note: the djwong-xfs/xfile-page-caching HEAD 118ba6d00ef9ac0b521db376a0c136c51ddbf038 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_init_sysreg_access':
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
-     987 |         if (fwnode_property_present(dev_fwnode(dev), "qcom,skip-power-up"))
-         |                                                ^~~
-         |                                                cdev
-   drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +987 drivers/hwtracing/coresight/coresight-etm4x-core.c
-
-   971	
-   972	static bool etm4_init_sysreg_access(struct etmv4_drvdata *drvdata,
-   973					    struct csdev_access *csa)
-   974	{
-   975		u32 devarch;
-   976	
-   977		if (!cpu_supports_sysreg_trace())
-   978			return false;
-   979	
-   980		/*
-   981		 * Some Qualcomm implementations require skipping powering up the trace unit,
-   982		 * as the ETMs are in the same power domain as their CPU cores.
-   983		 *
-   984		 * Since the 'skip_power_up' flag is used inside 'etm4_init_arch_data' function,
-   985		 * initialize it before the function is called.
-   986		 */
- > 987		if (fwnode_property_present(dev_fwnode(dev), "qcom,skip-power-up"))
-   988			drvdata->skip_power_up = true;
-   989	
-   990		/*
-   991		 * ETMs implementing sysreg access must implement TRCDEVARCH.
-   992		 */
-   993		devarch = read_etm4x_sysreg_const_offset(TRCDEVARCH);
-   994		switch (devarch & ETM_DEVARCH_ID_MASK) {
-   995		case ETM_DEVARCH_ETMv4x_ARCH:
-   996			*csa = (struct csdev_access) {
-   997				.io_mem	= false,
-   998				.read	= etm4x_sysreg_read,
-   999				.write	= etm4x_sysreg_write,
-  1000			};
-  1001			break;
-  1002		case ETM_DEVARCH_ETE_ARCH:
-  1003			*csa = (struct csdev_access) {
-  1004				.io_mem	= false,
-  1005				.read	= ete_sysreg_read,
-  1006				.write	= ete_sysreg_write,
-  1007			};
-  1008			break;
-  1009		default:
-  1010			return false;
-  1011		}
-  1012	
-  1013		drvdata->arch = etm_devarch_to_arch(devarch);
-  1014		return true;
-  1015	}
-  1016	
+>> ld.lld: error: assignment to symbol __efistub__end does not converge
 
 -- 
 0-DAY CI Kernel Test Service
