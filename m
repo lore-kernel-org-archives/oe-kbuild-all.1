@@ -1,48 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEFAA4A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 20:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A47642;
+	Sat, 18 Feb 2023 20:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676751617; x=1708287617;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m3g9HARJDWSQCFbwk3Iio0QGai5OhbW12/y2dD16p5M=;
-  b=TodHsywb29rasWJvcroi7MUA8YKoprunE04r/9KA/Xr2/jDmUOtjl2BJ
-   79RBikw6O8odpcsLu/n5j7OVgoa/xpkYCbtjC3fX3AkYtha/cmLnoouFE
-   mPAP1Fq4U0IG9VM7KANvK9as+Rjs9ug3XH74JRe/PRAsDHdhqguE4lnsO
-   6kxCjUTpfYEOCGNxfPj8XoOdZ7jb3KnXbkS19H1cNPyhRrC/x4A3P/Xtm
-   VHLA9woDzcZVjRx3TNabotlxRgL+sqJUfJM5XFD5FfAjR/3e0s0xP7RgP
-   e57HjAQfZqydkm6mz7ShbyXOKd7dZ/xv5Doamog9ilwQ3BokbZduFqQEe
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311830878"
+  t=1676752817; x=1708288817;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PJzJEhztBMULshWuY8ncdQz+JNOaH90gua4WjRlSQ2Y=;
+  b=ccvbH+Qtbz1/mtTx96qnDSf0+MxC9OKh7jBkn7M1NOAWPZ2zi1BYMgkB
+   GaL5MKKnm0ZIAC/MJMGtmn5XAm+DthE347GwUb8OLFp+jpVssoPL+L+8D
+   5EUf0zLn+bpmkqb+RuCfCHUqPCPhIkqDL9rRXCM3k/4xLjpt9ah/6NLpo
+   GeZmQ2Sgb2mXVY0cL5YUrcImY42wCmqaUDCgEcp9WMZjL3fz126c+3bvr
+   ZNBmJXxJ6lqXarPCVbZkl5ouTXBYhWad2yqLKuoCXh+kMdhjNhI58vTbw
+   ly1kHMF3AyWkei0FNP8x8IEb13IeD1WVaDpE6ewKjImr6PTtNatzq6/Ih
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="332207178"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="311830878"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 12:20:16 -0800
+   d="scan'208";a="332207178"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 12:40:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="794779148"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="701284946"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="794779148"
+   d="scan'208";a="701284946"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Feb 2023 12:20:13 -0800
+  by orsmga008.jf.intel.com with ESMTP; 18 Feb 2023 12:40:13 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTTgq-000Chd-02;
-	Sat, 18 Feb 2023 20:20:12 +0000
-Date: Sun, 19 Feb 2023 04:19:40 +0800
+	id 1pTU0D-000Cjl-0T;
+	Sat, 18 Feb 2023 20:40:13 +0000
+Date: Sun, 19 Feb 2023 04:40:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Laszczak <pawell@cadence.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, Daisy.Barrera@siriusxm.com,
-	Cliff.Holden@siriusxm.com, arnd@arndb.de, tony@atomide.com,
-	jdelvare@suse.de, neal_liu@aspeedtech.com, linus.walleij@linaro.org,
-	egtvedt@samfundet.no, biju.das.jz@bp.renesas.com,
-	herve.codina@bootlin.com, Pawel Laszczak <pawell@cadence.com>
-Subject: Re: [PATCH 3/4] usb: cdns2: Add tracepoints for CDNS2 driver
-Message-ID: <202302190436.AU6zwie0-lkp@intel.com>
-References: <20230216105411.364157-4-pawell@cadence.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Subject: drivers/mux/mmio.c:76:20: error: variable has incomplete type
+ 'struct reg_field'
+Message-ID: <202302190449.Hm6Psb2N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,107 +46,216 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216105411.364157-4-pawell@cadence.com>
 
-Hi Pawel,
+Hi Aswath,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next soc/for-next linus/master v6.2-rc8 next-20230217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230216105411.364157-4-pawell%40cadence.com
-patch subject: [PATCH 3/4] usb: cdns2: Add tracepoints for CDNS2 driver
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230219/202302190436.AU6zwie0-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   38f8ccde04a3fa317b51b05e63c3cb57e1641931
+commit: e4d4371253029528c02bfb43a46c252e1c3d035f phy: phy-can-transceiver: Add support for setting mux
+date:   10 months ago
+config: s390-randconfig-r001-20230219 (https://download.01.org/0day-ci/archive/20230219/202302190449.Hm6Psb2N-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/edb55f1c0a0ffe341211e08b1ebf162f48dd5b83
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pawel-Laszczak/usb-cdns2-Device-side-header-file-for-CDNS2-driver/20230216-195428
-        git checkout edb55f1c0a0ffe341211e08b1ebf162f48dd5b83
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e4d4371253029528c02bfb43a46c252e1c3d035f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e4d4371253029528c02bfb43a46c252e1c3d035f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/mux/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302190436.AU6zwie0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302190449.Hm6Psb2N-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/usb/gadget/udc/cdns2/cdns2-trace.h:29,
-                    from drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:36:
-   drivers/usb/gadget/udc/cdns2/cdns2-debug.h: In function 'cdns2_decode_trb':
->> drivers/usb/gadget/udc/cdns2/cdns2-debug.h:165:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     165 |         int ret;
-         |             ^~~
-   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c: In function 'cdns2_gadget_ep_enable':
-   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c:1408:49: warning: variable 'comp_desc' set but not used [-Wunused-but-set-variable]
-    1408 |         const struct usb_ss_ep_comp_descriptor *comp_desc;
-         |                                                 ^~~~~~~~~
---
-   In file included from drivers/usb/gadget/udc/cdns2/cdns2-trace.h:29,
-                    from drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:13:
-   drivers/usb/gadget/udc/cdns2/cdns2-debug.h: In function 'cdns2_decode_trb':
->> drivers/usb/gadget/udc/cdns2/cdns2-debug.h:165:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     165 |         int ret;
-         |             ^~~
-   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c: In function 'cdns2_ep0_stall':
-   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c:93:12: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
-      93 |         u8 reg;
-         |            ^~~
+   In file included from drivers/mux/mmio.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/mux/mmio.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/mux/mmio.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/mux/mmio.c:76:20: error: variable has incomplete type 'struct reg_field'
+                   struct reg_field field;
+                                    ^
+   drivers/mux/mmio.c:76:10: note: forward declaration of 'struct reg_field'
+                   struct reg_field field;
+                          ^
+>> drivers/mux/mmio.c:102:15: error: call to undeclared function 'devm_regmap_field_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   fields[i] = devm_regmap_field_alloc(dev, regmap, field);
+                               ^
+   12 warnings and 2 errors generated.
 
 
-vim +/ret +165 drivers/usb/gadget/udc/cdns2/cdns2-debug.h
+vim +76 drivers/mux/mmio.c
 
-   160	
-   161	static inline const char *cdns2_decode_trb(char *str, size_t size, u32 flags,
-   162						   u32 length, u32 buffer)
-   163	{
-   164		int type = TRB_FIELD_TO_TYPE(flags);
- > 165		int ret;
-   166	
-   167		switch (type) {
-   168		case TRB_LINK:
-   169			ret = snprintf(str, size,
-   170				       "LINK %08x type '%s' flags %c:%c:%c%c:%c",
-   171				       buffer, cdns2_trb_type_string(type),
-   172				       flags & TRB_CYCLE ? 'C' : 'c',
-   173				       flags & TRB_TOGGLE ? 'T' : 't',
-   174				       flags & TRB_CHAIN ? 'C' : 'c',
-   175				       flags & TRB_CHAIN ? 'H' : 'h',
-   176				       flags & TRB_IOC ? 'I' : 'i');
-   177			break;
-   178		case TRB_NORMAL:
-   179			ret = snprintf(str, size,
-   180				       "type: '%s', Buffer: %08x, length: %ld, burst len: %ld, "
-   181				       "flags %c:%c:%c%c:%c",
-   182				       cdns2_trb_type_string(type),
-   183				       buffer, TRB_LEN(length),
-   184				       TRB_FIELD_TO_BURST(length),
-   185				       flags & TRB_CYCLE ? 'C' : 'c',
-   186				       flags & TRB_ISP ? 'I' : 'i',
-   187				       flags & TRB_CHAIN ? 'C' : 'c',
-   188				       flags & TRB_CHAIN ? 'H' : 'h',
-   189				       flags & TRB_IOC ? 'I' : 'i');
-   190			break;
-   191		default:
-   192			ret = snprintf(str, size, "type '%s' -> raw %08x %08x %08x",
-   193				       cdns2_trb_type_string(type),
-   194				       buffer, length, flags);
-   195		}
-   196	
-   197		return str;
-   198	}
-   199	
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   35  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   36  static int mux_mmio_probe(struct platform_device *pdev)
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   37  {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   38  	struct device *dev = &pdev->dev;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   39  	struct device_node *np = dev->of_node;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   40  	struct regmap_field **fields;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   41  	struct mux_chip *mux_chip;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   42  	struct regmap *regmap;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   43  	int num_fields;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   44  	int ret;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   45  	int i;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   46  
+8ecfaca7926f4b drivers/mux/mmio.c     Pankaj Bansal 2019-06-12   47  	if (of_device_is_compatible(np, "mmio-mux"))
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   48  		regmap = syscon_node_to_regmap(np->parent);
+8ecfaca7926f4b drivers/mux/mmio.c     Pankaj Bansal 2019-06-12   49  	else
+8ecfaca7926f4b drivers/mux/mmio.c     Pankaj Bansal 2019-06-12   50  		regmap = dev_get_regmap(dev->parent, NULL) ?: ERR_PTR(-ENODEV);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   51  	if (IS_ERR(regmap)) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   52  		ret = PTR_ERR(regmap);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   53  		dev_err(dev, "failed to get regmap: %d\n", ret);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   54  		return ret;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   55  	}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   56  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   57  	ret = of_property_count_u32_elems(np, "mux-reg-masks");
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   58  	if (ret == 0 || ret % 2)
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   59  		ret = -EINVAL;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   60  	if (ret < 0) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   61  		dev_err(dev, "mux-reg-masks property missing or invalid: %d\n",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   62  			ret);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   63  		return ret;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   64  	}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   65  	num_fields = ret / 2;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   66  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   67  	mux_chip = devm_mux_chip_alloc(dev, num_fields, num_fields *
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   68  				       sizeof(*fields));
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   69  	if (IS_ERR(mux_chip))
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   70  		return PTR_ERR(mux_chip);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   71  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   72  	fields = mux_chip_priv(mux_chip);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   73  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   74  	for (i = 0; i < num_fields; i++) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   75  		struct mux_control *mux = &mux_chip->mux[i];
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  @76  		struct reg_field field;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   77  		s32 idle_state = MUX_IDLE_AS_IS;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   78  		u32 reg, mask;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   79  		int bits;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   80  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   81  		ret = of_property_read_u32_index(np, "mux-reg-masks",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   82  						 2 * i, &reg);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   83  		if (!ret)
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   84  			ret = of_property_read_u32_index(np, "mux-reg-masks",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   85  							 2 * i + 1, &mask);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   86  		if (ret < 0) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   87  			dev_err(dev, "bitfield %d: failed to read mux-reg-masks property: %d\n",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   88  				i, ret);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   89  			return ret;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   90  		}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   91  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   92  		field.reg = reg;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   93  		field.msb = fls(mask) - 1;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   94  		field.lsb = ffs(mask) - 1;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   95  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   96  		if (mask != GENMASK(field.msb, field.lsb)) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   97  			dev_err(dev, "bitfield %d: invalid mask 0x%x\n",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   98  				i, mask);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14   99  			return -EINVAL;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  100  		}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  101  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14 @102  		fields[i] = devm_regmap_field_alloc(dev, regmap, field);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  103  		if (IS_ERR(fields[i])) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  104  			ret = PTR_ERR(fields[i]);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  105  			dev_err(dev, "bitfield %d: failed allocate: %d\n",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  106  				i, ret);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  107  			return ret;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  108  		}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  109  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  110  		bits = 1 + field.msb - field.lsb;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  111  		mux->states = 1 << bits;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  112  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  113  		of_property_read_u32_index(np, "idle-states", i,
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  114  					   (u32 *)&idle_state);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  115  		if (idle_state != MUX_IDLE_AS_IS) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  116  			if (idle_state < 0 || idle_state >= mux->states) {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  117  				dev_err(dev, "bitfield: %d: out of range idle state %d\n",
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  118  					i, idle_state);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  119  				return -EINVAL;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  120  			}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  121  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  122  			mux->idle_state = idle_state;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  123  		}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  124  	}
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  125  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  126  	mux_chip->ops = &mux_mmio_ops;
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  127  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  128  	return devm_mux_chip_register(dev, mux_chip);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  129  }
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  130  
+
+:::::: The code at line 76 was first introduced by commit
+:::::: 73726380a26fa1ed490f30fccee10ed9da28dc0c mux: mmio-based syscon mux controller
+
+:::::: TO: Philipp Zabel <p.zabel@pengutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
