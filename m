@@ -1,44 +1,46 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2187736F;
-	Sat, 18 Feb 2023 00:36:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46895378
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 01:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676680564; x=1708216564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9fLuJ86ON+BO54+qy6eHlF7FUBiIE7Xz9CNdZfTRk80=;
-  b=GCJo98eAxG3T10Rv+7knBgf3K2sEBfkO+DCAzc8D0igddSDusoNAsIod
-   tXt251LKh5/7Ve3Coyk6wNtSAl8EZvTQTHx0bDT8LYJKNvPjE45XfOHxc
-   j0NMVeYbdUGZHHNSNtKq3DTSPm/B1yxsecsm/YICVosdivxfsg2TCSAZn
-   lr5LwtSkpcxQceQ9wmx6ubJkA5nVfhfa/4Sk5YzRGZyBfTuUVWwOjz0KB
-   IMVf8iti3pdIO91uDC8hk7rnoEh/wwuJAoeT5x8OJpYIb1DqkHwki2WzR
-   V+thqYKMHVMzZERBtTYVhkdMkRpeUdbVh8BQeIPUTh25owR6frFh4lwct
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="332129916"
+  t=1676682403; x=1708218403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r+eTrMw1FB+iDg1fr6ANtkvS4OBgRd5cOlW+TWhGpkc=;
+  b=Zgm/EdLqHV9z3afhAaGWqqLhsj0G1ooVCRt/qWrqqkvvHiabBQ5Aw2op
+   TnBOGw0lME0RZMEhJ/TuU/6i+V9DcJoMDDUBfo7d0fZibAYh9i53SLp3g
+   0V9I6lPGNunZf2aGDoYpyRYB5pO+IeL8hvMD8v2bDjP6LXl5nesWYwt9M
+   q4pFadChFZ8VEvDY19dBOn+UcExAz1az+VrLqimtc6Q+a5fIgGsgb2xDI
+   ZS1ha9j5uZwou5YM7HKm8sDd9m5rTQV5Svb7lEVZJIUjQcT8Sw7GHsOq/
+   ym9YrhZiD8f3GiRC7JzZ3MAIuLPNzE4bcgb3Bf2xGy3IN+Gl13T6bd8Il
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="394611758"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="332129916"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 16:36:00 -0800
+   d="scan'208";a="394611758"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 17:06:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="779954138"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="734496291"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="779954138"
+   d="scan'208";a="734496291"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2023 16:35:39 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 17 Feb 2023 17:06:40 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTBCU-000BwL-2g;
-	Sat, 18 Feb 2023 00:35:38 +0000
-Date: Sat, 18 Feb 2023 08:35:21 +0800
+	id 1pTBgV-000BxP-27;
+	Sat, 18 Feb 2023 01:06:39 +0000
+Date: Sat, 18 Feb 2023 09:05:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Guenter Roeck <groeck@chromium.org>
-Subject: drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack
- frame size (1040) exceeds limit (1024) in
- 'cros_ec_proto_test_get_sensor_count_legacy'
-Message-ID: <202302180845.wuJUgQ2h-lkp@intel.com>
+To: Asmaa Mnebhi <asmaa@nvidia.com>, andy.shevchenko@gmail.com,
+	linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Asmaa Mnebhi <asmaa@nvidia.com>
+Subject: Re: [PATCH v4 1/2] gpio: gpio-mlxbf3: Add gpio driver support
+Message-ID: <202302180821.a8TRkiIS-lkp@intel.com>
+References: <28f0d670407c127614b64d9c382b11c795f5077d.1676668853.git.asmaa@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,112 +49,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <28f0d670407c127614b64d9c382b11c795f5077d.1676668853.git.asmaa@nvidia.com>
 
-Hi Tzung-Bi,
+Hi Asmaa,
 
-FYI, the error/warning still remains.
+I love your patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dbeed98d89ea91ae68ff6dce6060671726292e85
-commit: 33f0fdba6066b504ee0b5f1480b1f93b06050df6 platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
-date:   7 months ago
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180845.wuJUgQ2h-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=33f0fdba6066b504ee0b5f1480b1f93b06050df6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 33f0fdba6066b504ee0b5f1480b1f93b06050df6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/platform/chrome/ drivers/staging/media/
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next brgl/gpio/for-next linus/master v6.2-rc8 next-20230217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Asmaa-Mnebhi/pinctrl-pinctrl-mlxbf-Add-pinctrl-driver-support/20230218-062744
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/28f0d670407c127614b64d9c382b11c795f5077d.1676668853.git.asmaa%40nvidia.com
+patch subject: [PATCH v4 1/2] gpio: gpio-mlxbf3: Add gpio driver support
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302180845.wuJUgQ2h-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302180821.a8TRkiIS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack frame size (1040) exceeds limit (1024) in 'cros_ec_proto_test_get_sensor_count_legacy' [-Wframe-larger-than]
-   static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
-               ^
-   140/1040 (13.46%) spills, 900/1040 (86.54%) variables
-   1 warning generated.
-
-
-vim +/cros_ec_proto_test_get_sensor_count_legacy +2530 drivers/platform/chrome/cros_ec_proto_test.c
-
-  2529	
-> 2530	static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
-  2531	{
-  2532		struct cros_ec_proto_test_priv *priv = test->priv;
-  2533		struct cros_ec_device *ec_dev = &priv->ec_dev;
-  2534		struct ec_xfer_mock *mock;
-  2535		int ret, i;
-  2536		struct cros_ec_dev ec;
-  2537		struct {
-  2538			u8 readmem_data;
-  2539			int expected_result;
-  2540		} test_data[] = {
-  2541			{ 0, 0 },
-  2542			{ EC_MEMMAP_ACC_STATUS_PRESENCE_BIT, 2 },
-  2543		};
-  2544	
-  2545		ec_dev->max_request = 0xff;
-  2546		ec_dev->max_response = 0xee;
-  2547		ec_dev->cmd_readmem = cros_kunit_readmem_mock;
-  2548		ec.ec_dev = ec_dev;
-  2549		ec.dev = ec_dev->dev;
-  2550		ec.cmd_offset = 0;
-  2551	
-  2552		for (i = 0; i < ARRAY_SIZE(test_data); ++i) {
-  2553			/* For EC_CMD_MOTION_SENSE_CMD. */
-  2554			{
-  2555				mock = cros_kunit_ec_xfer_mock_addx(test, -EPROTO, EC_RES_SUCCESS, 0);
-  2556				KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-  2557			}
-  2558	
-  2559			/* For readmem. */
-  2560			{
-  2561				cros_kunit_readmem_mock_data = kunit_kzalloc(test, 1, GFP_KERNEL);
-  2562				KUNIT_ASSERT_PTR_NE(test, cros_kunit_readmem_mock_data, NULL);
-  2563				cros_kunit_readmem_mock_data[0] = test_data[i].readmem_data;
-  2564	
-  2565				cros_kunit_ec_xfer_mock_default_ret = 1;
-  2566			}
-  2567	
-  2568			ret = cros_ec_get_sensor_count(&ec);
-  2569			KUNIT_EXPECT_EQ(test, ret, test_data[i].expected_result);
-  2570	
-  2571			/* For EC_CMD_MOTION_SENSE_CMD. */
-  2572			{
-  2573				struct ec_params_motion_sense *data;
-  2574	
-  2575				mock = cros_kunit_ec_xfer_mock_next();
-  2576				KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-  2577	
-  2578				KUNIT_EXPECT_EQ(test, mock->msg.version, 1);
-  2579				KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_MOTION_SENSE_CMD);
-  2580				KUNIT_EXPECT_EQ(test, mock->msg.insize,
-  2581						sizeof(struct ec_response_motion_sense));
-  2582				KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(*data));
-  2583	
-  2584				data = (struct ec_params_motion_sense *)mock->i_data;
-  2585				KUNIT_EXPECT_EQ(test, data->cmd, MOTIONSENSE_CMD_DUMP);
-  2586			}
-  2587	
-  2588			/* For readmem. */
-  2589			{
-  2590				KUNIT_EXPECT_EQ(test, cros_kunit_readmem_mock_offset, EC_MEMMAP_ACC_STATUS);
-  2591			}
-  2592		}
-  2593	}
-  2594	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/gpio/gpio-mlxbf3.c: 14 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
