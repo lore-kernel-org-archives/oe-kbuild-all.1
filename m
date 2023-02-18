@@ -1,44 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571E0388
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Feb 2023 23:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2187736F;
+	Sat, 18 Feb 2023 00:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676676279; x=1708212279;
+  t=1676680564; x=1708216564;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ZUE9AgFs+DqhpJMiN0CzoVq4O/40fHfTVNsHzu4iig=;
-  b=DIieGUxRpEnte7t1pjyoi1k7cpk5sK0W/dqg5i/+EbfVLFCvRpFUSais
-   Y80y2Er9M7HhbrUivUEsMTjJ76MVDSWuyP1BBvodpKiHTjpwrKabOhu+0
-   Pw9u/2gJPPETpy34XJhTMSZaQWxX1wdeqUqno0224grJl9VMkz5+zm12J
-   7+STS4XVYfk6h37PXTOLQtT7l+x5bgGYa0fAy2Ky9eHNEx4xBcxCdq6ut
-   HoIRKzoRd/IzZvGJx0QfZPVC4In2DIM/F0w8U733rsmxMP4Cs1LmicSnE
-   j+bCAlbinBVroPngupdEYn6R5szMTu+CMtJXwPXapu/wljX25hLBW3qpY
+  bh=9fLuJ86ON+BO54+qy6eHlF7FUBiIE7Xz9CNdZfTRk80=;
+  b=GCJo98eAxG3T10Rv+7knBgf3K2sEBfkO+DCAzc8D0igddSDusoNAsIod
+   tXt251LKh5/7Ve3Coyk6wNtSAl8EZvTQTHx0bDT8LYJKNvPjE45XfOHxc
+   j0NMVeYbdUGZHHNSNtKq3DTSPm/B1yxsecsm/YICVosdivxfsg2TCSAZn
+   lr5LwtSkpcxQceQ9wmx6ubJkA5nVfhfa/4Sk5YzRGZyBfTuUVWwOjz0KB
+   IMVf8iti3pdIO91uDC8hk7rnoEh/wwuJAoeT5x8OJpYIb1DqkHwki2WzR
+   V+thqYKMHVMzZERBtTYVhkdMkRpeUdbVh8BQeIPUTh25owR6frFh4lwct
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="329832587"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="332129916"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="329832587"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 15:24:38 -0800
+   d="scan'208";a="332129916"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 16:36:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="759548074"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="779954138"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="759548074"
+   d="scan'208";a="779954138"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2023 15:24:37 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2023 16:35:39 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTA5l-000Bu1-06;
-	Fri, 17 Feb 2023 23:24:37 +0000
-Date: Sat, 18 Feb 2023 07:24:29 +0800
+	id 1pTBCU-000BwL-2g;
+	Sat, 18 Feb 2023 00:35:38 +0000
+Date: Sat, 18 Feb 2023 08:35:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [krzk-github:wip/sm8450-hdmi-audio-on-qcomlt 505/584]
- drivers/soc/qcom/pmic_glink_altmode.c:223:13: warning: variable 'svid' set
- but not used
-Message-ID: <202302180713.0qDNN7Wj-lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Guenter Roeck <groeck@chromium.org>
+Subject: drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack
+ frame size (1040) exceeds limit (1024) in
+ 'cros_ec_proto_test_get_sensor_count_legacy'
+Message-ID: <202302180845.wuJUgQ2h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,82 +48,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux wip/sm8450-hdmi-audio-on-qcomlt
-head:   e1df0b14d2e3085d5ff5a1c7474b47840640da92
-commit: ea722b86d01bb419209fa6328c43f61d5df52b4a [505/584] soc: qcom: pmic_glink: Introduce altmode support
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230218/202302180713.0qDNN7Wj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Tzung-Bi,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dbeed98d89ea91ae68ff6dce6060671726292e85
+commit: 33f0fdba6066b504ee0b5f1480b1f93b06050df6 platform/chrome: cros_ec_proto: add Kunit tests for get_sensor_count
+date:   7 months ago
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180845.wuJUgQ2h-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/ea722b86d01bb419209fa6328c43f61d5df52b4a
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github wip/sm8450-hdmi-audio-on-qcomlt
-        git checkout ea722b86d01bb419209fa6328c43f61d5df52b4a
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=33f0fdba6066b504ee0b5f1480b1f93b06050df6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 33f0fdba6066b504ee0b5f1480b1f93b06050df6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pci/endpoint/functions/ drivers/phy/qualcomm/ drivers/power/supply/ drivers/soc/qcom/ drivers/usb/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/platform/chrome/ drivers/staging/media/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302180713.0qDNN7Wj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302180845.wuJUgQ2h-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/soc/qcom/pmic_glink_altmode.c: In function 'pmic_glink_altmode_sc8180xp_notify':
->> drivers/soc/qcom/pmic_glink_altmode.c:223:13: warning: variable 'svid' set but not used [-Wunused-but-set-variable]
-     223 |         u16 svid;
-         |             ^~~~
+>> drivers/platform/chrome/cros_ec_proto_test.c:2530:13: warning: stack frame size (1040) exceeds limit (1024) in 'cros_ec_proto_test_get_sensor_count_legacy' [-Wframe-larger-than]
+   static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
+               ^
+   140/1040 (13.46%) spills, 900/1040 (86.54%) variables
+   1 warning generated.
 
 
-vim +/svid +223 drivers/soc/qcom/pmic_glink_altmode.c
+vim +/cros_ec_proto_test_get_sensor_count_legacy +2530 drivers/platform/chrome/cros_ec_proto_test.c
 
-   213	
-   214	static void pmic_glink_altmode_sc8180xp_notify(struct pmic_glink_altmode *altmode,
-   215						       const void *data, size_t len)
-   216	{
-   217		struct pmic_glink_altmode_port *alt_port;
-   218		const struct usbc_sc8180x_notify *msg;
-   219		u32 notification;
-   220		u8 orientation;
-   221		u8 hpd_state;
-   222		u8 hpd_irq;
- > 223		u16 svid;
-   224		u8 port;
-   225		u8 mode;
-   226		u8 mux;
-   227	
-   228		if (len != sizeof(*msg)) {
-   229			dev_warn(altmode->dev, "invalid length of USBC_NOTIFY indication: %zd\n", len);
-   230			return;
-   231		}
-   232	
-   233		msg = data;
-   234		notification = le32_to_cpu(msg->notification);
-   235		port = FIELD_GET(SC8180X_PORT_MASK, notification);
-   236		orientation = FIELD_GET(SC8180X_ORIENTATION_MASK, notification);
-   237		mux = FIELD_GET(SC8180X_MUX_MASK, notification);
-   238		mode = FIELD_GET(SC8180X_MODE_MASK, notification);
-   239		hpd_state = FIELD_GET(SC8180X_HPD_STATE_MASK, notification);
-   240		hpd_irq = FIELD_GET(SC8180X_HPD_IRQ_MASK, notification);
-   241	
-   242		svid = mux == 2 ? USB_TYPEC_DP_SID : 0;
-   243	
-   244		if (!altmode->ports[port].altmode) {
-   245			dev_dbg(altmode->dev, "notification on undefined port %d\n", port);
-   246			return;
-   247		}
-   248	
-   249		alt_port = &altmode->ports[port];
-   250		alt_port->orientation = pmic_glink_altmode_orientation(orientation);
-   251		alt_port->svid = mux == 2 ? USB_TYPEC_DP_SID : 0;
-   252		alt_port->mode = mode;
-   253		alt_port->hpd_state = hpd_state;
-   254		alt_port->hpd_irq = hpd_irq;
-   255		schedule_work(&alt_port->work);
-   256	}
-   257	
+  2529	
+> 2530	static void cros_ec_proto_test_get_sensor_count_legacy(struct kunit *test)
+  2531	{
+  2532		struct cros_ec_proto_test_priv *priv = test->priv;
+  2533		struct cros_ec_device *ec_dev = &priv->ec_dev;
+  2534		struct ec_xfer_mock *mock;
+  2535		int ret, i;
+  2536		struct cros_ec_dev ec;
+  2537		struct {
+  2538			u8 readmem_data;
+  2539			int expected_result;
+  2540		} test_data[] = {
+  2541			{ 0, 0 },
+  2542			{ EC_MEMMAP_ACC_STATUS_PRESENCE_BIT, 2 },
+  2543		};
+  2544	
+  2545		ec_dev->max_request = 0xff;
+  2546		ec_dev->max_response = 0xee;
+  2547		ec_dev->cmd_readmem = cros_kunit_readmem_mock;
+  2548		ec.ec_dev = ec_dev;
+  2549		ec.dev = ec_dev->dev;
+  2550		ec.cmd_offset = 0;
+  2551	
+  2552		for (i = 0; i < ARRAY_SIZE(test_data); ++i) {
+  2553			/* For EC_CMD_MOTION_SENSE_CMD. */
+  2554			{
+  2555				mock = cros_kunit_ec_xfer_mock_addx(test, -EPROTO, EC_RES_SUCCESS, 0);
+  2556				KUNIT_ASSERT_PTR_NE(test, mock, NULL);
+  2557			}
+  2558	
+  2559			/* For readmem. */
+  2560			{
+  2561				cros_kunit_readmem_mock_data = kunit_kzalloc(test, 1, GFP_KERNEL);
+  2562				KUNIT_ASSERT_PTR_NE(test, cros_kunit_readmem_mock_data, NULL);
+  2563				cros_kunit_readmem_mock_data[0] = test_data[i].readmem_data;
+  2564	
+  2565				cros_kunit_ec_xfer_mock_default_ret = 1;
+  2566			}
+  2567	
+  2568			ret = cros_ec_get_sensor_count(&ec);
+  2569			KUNIT_EXPECT_EQ(test, ret, test_data[i].expected_result);
+  2570	
+  2571			/* For EC_CMD_MOTION_SENSE_CMD. */
+  2572			{
+  2573				struct ec_params_motion_sense *data;
+  2574	
+  2575				mock = cros_kunit_ec_xfer_mock_next();
+  2576				KUNIT_EXPECT_PTR_NE(test, mock, NULL);
+  2577	
+  2578				KUNIT_EXPECT_EQ(test, mock->msg.version, 1);
+  2579				KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_MOTION_SENSE_CMD);
+  2580				KUNIT_EXPECT_EQ(test, mock->msg.insize,
+  2581						sizeof(struct ec_response_motion_sense));
+  2582				KUNIT_EXPECT_EQ(test, mock->msg.outsize, sizeof(*data));
+  2583	
+  2584				data = (struct ec_params_motion_sense *)mock->i_data;
+  2585				KUNIT_EXPECT_EQ(test, data->cmd, MOTIONSENSE_CMD_DUMP);
+  2586			}
+  2587	
+  2588			/* For readmem. */
+  2589			{
+  2590				KUNIT_EXPECT_EQ(test, cros_kunit_readmem_mock_offset, EC_MEMMAP_ACC_STATUS);
+  2591			}
+  2592		}
+  2593	}
+  2594	
 
 -- 
 0-DAY CI Kernel Test Service
