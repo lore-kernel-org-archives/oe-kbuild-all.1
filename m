@@ -1,45 +1,53 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EE936D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 02:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9913962D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Feb 2023 02:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676688538; x=1708224538;
+  t=1676688620; x=1708224620;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=p0/1c3WaBnNrs6ZMItZ6J01nHklOnmNFLQx6HCVHSTM=;
-  b=BzbY+/gsxWW1sDdgyFvOrvdeoLBtnDKknROS6XzNYohy6nbrQF9o0Qxn
-   UhwDz+Pmd39QcH0GHHhapePgFmcSXOVe3zh4pVigsfyMMbfl9HyK7f65t
-   A3Q2UX5nv5YNhQq6LKmWzwvVjOiAkb925jD034Qz9K4WuT3Hpb4Fsu1RD
-   DG2Cyar5HC7XjFMdicSmJdN30xKTdFn7GLHfP6buBqkC0/TcxsYV3YmcJ
-   dpbyLw8GwknnV24eg9IAuYp9aqadVQdnSSsLZElX2socQwAGeEB1dwYF5
-   6pV5uG6Ev/YLBQsNzInx+orl6sUP177G4Aul349Ur1nmdqcm3LAnXfzHT
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="329853755"
+  bh=mCwCBFKM5W10vvViKqJohx198JYrfGaLCfjvdwLgaxo=;
+  b=hhAU2dPxf2hFb7Im6PKHb0WdeZhg3Km5fMdEnVayHl4qt4nsPPorE8nK
+   AH6KitJAyei179/D1rygMNnfrBpTxuJYnraBo4TblDkTVK3QW3au9Ii8U
+   UDegcwlgsH8eEtW6IRQMS4ezFwuaNHrICGEo9hCruSOLMmkK6HKWrpAId
+   Pp0uFTeXL+wJzqqBiLSlJB1U1I9WoUnwY2JQh2nvrstlaE+IymEithsmd
+   6EJwD7FrL80Hu1SXXmHPjd++TkABM0cyW/bA+kKcZHA1pcOVoG5yNQA0r
+   Lpcu+FqRcH6ofeHcNG3uxSzRwk4nunxksGsCop7tWlOXfo0hH2bkyRkhM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="329853828"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="329853755"
+   d="scan'208";a="329853828"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 18:48:57 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 18:50:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="759600383"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="759600407"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="759600383"
+   d="scan'208";a="759600407"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2023 18:48:48 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTDHI-000C2j-1l;
+	id 1pTDHI-000C2l-1q;
 	Sat, 18 Feb 2023 02:48:44 +0000
-Date: Sat, 18 Feb 2023 10:48:05 +0800
+Date: Sat, 18 Feb 2023 10:47:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shannon Nelson <shannon.nelson@amd.com>, netdev@vger.kernel.org,
-	davem@davemloft.net, kuba@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, drivers@pensando.io,
-	brett.creeley@amd.com, Shannon Nelson <shannon.nelson@amd.com>
-Subject: Re: [PATCH v3 net-next 14/14] pds_core: Kconfig and pds_core.rst
-Message-ID: <202302181049.yeUQMeWY-lkp@intel.com>
-References: <20230217225558.19837-15-shannon.nelson@amd.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v2 06/16] drm: debugfs: provide infrastructure
+ to dump a DRM GPU VA space
+Message-ID: <202302181014.L0SHo3S1-lkp@intel.com>
+References: <20230217134820.14672-1-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,104 +56,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230217225558.19837-15-shannon.nelson@amd.com>
+In-Reply-To: <20230217134820.14672-1-dakr@redhat.com>
 
-Hi Shannon,
+Hi Danilo,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on net-next/master]
+[auto build test WARNING on 48075a66fca613477ac1969b576a93ef5db0164f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shannon-Nelson/devlink-add-enable_migration-parameter/20230218-065953
-patch link:    https://lore.kernel.org/r/20230217225558.19837-15-shannon.nelson%40amd.com
-patch subject: [PATCH v3 net-next 14/14] pds_core: Kconfig and pds_core.rst
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302181049.yeUQMeWY-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+base:   48075a66fca613477ac1969b576a93ef5db0164f
+patch link:    https://lore.kernel.org/r/20230217134820.14672-1-dakr%40redhat.com
+patch subject: [PATCH drm-next v2 06/16] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302181014.L0SHo3S1-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/18ec7f7bcf0005650ea77647a39a2271f70cf1c2
+        # https://github.com/intel-lab-lkp/linux/commit/e1a1c9659baee305780e1ce50c05e53e1d14b245
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shannon-Nelson/devlink-add-enable_migration-parameter/20230218-065953
-        git checkout 18ec7f7bcf0005650ea77647a39a2271f70cf1c2
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+        git checkout e1a1c9659baee305780e1ce50c05e53e1d14b245
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/net/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302181049.yeUQMeWY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302181014.L0SHo3S1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/amd/pds_core/adminq.c: In function 'pdsc_process_adminq':
->> drivers/net/ethernet/amd/pds_core/adminq.c:97:13: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-      97 |         u32 index;
-         |             ^~~~~
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:228:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     228 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
 
 
-vim +/index +97 drivers/net/ethernet/amd/pds_core/adminq.c
+vim +228 drivers/gpu/drm/drm_debugfs.c
 
-b708113c48cc6f Shannon Nelson 2023-02-17   85  
-b708113c48cc6f Shannon Nelson 2023-02-17   86  void pdsc_process_adminq(struct pdsc_qcq *qcq)
-b708113c48cc6f Shannon Nelson 2023-02-17   87  {
-b708113c48cc6f Shannon Nelson 2023-02-17   88  	union pds_core_adminq_comp *comp;
-b708113c48cc6f Shannon Nelson 2023-02-17   89  	struct pdsc_queue *q = &qcq->q;
-b708113c48cc6f Shannon Nelson 2023-02-17   90  	struct pdsc *pdsc = qcq->pdsc;
-b708113c48cc6f Shannon Nelson 2023-02-17   91  	struct pdsc_cq *cq = &qcq->cq;
-b708113c48cc6f Shannon Nelson 2023-02-17   92  	struct pdsc_q_info *q_info;
-b708113c48cc6f Shannon Nelson 2023-02-17   93  	unsigned long irqflags;
-b708113c48cc6f Shannon Nelson 2023-02-17   94  	int nq_work = 0;
-b708113c48cc6f Shannon Nelson 2023-02-17   95  	int aq_work = 0;
-b708113c48cc6f Shannon Nelson 2023-02-17   96  	int credits;
-b708113c48cc6f Shannon Nelson 2023-02-17  @97  	u32 index;
-b708113c48cc6f Shannon Nelson 2023-02-17   98  
-b708113c48cc6f Shannon Nelson 2023-02-17   99  	/* Check for NotifyQ event */
-b708113c48cc6f Shannon Nelson 2023-02-17  100  	nq_work = pdsc_process_notifyq(&pdsc->notifyqcq);
-b708113c48cc6f Shannon Nelson 2023-02-17  101  
-b708113c48cc6f Shannon Nelson 2023-02-17  102  	/* Check for empty queue, which can happen if the interrupt was
-b708113c48cc6f Shannon Nelson 2023-02-17  103  	 * for a NotifyQ event and there are no new AdminQ completions.
-b708113c48cc6f Shannon Nelson 2023-02-17  104  	 */
-b708113c48cc6f Shannon Nelson 2023-02-17  105  	if (q->tail_idx == q->head_idx)
-b708113c48cc6f Shannon Nelson 2023-02-17  106  		goto credits;
-b708113c48cc6f Shannon Nelson 2023-02-17  107  
-b708113c48cc6f Shannon Nelson 2023-02-17  108  	/* Find the first completion to clean,
-b708113c48cc6f Shannon Nelson 2023-02-17  109  	 * run the callback in the related q_info,
-b708113c48cc6f Shannon Nelson 2023-02-17  110  	 * and continue while we still match done color
-b708113c48cc6f Shannon Nelson 2023-02-17  111  	 */
-b708113c48cc6f Shannon Nelson 2023-02-17  112  	spin_lock_irqsave(&pdsc->adminq_lock, irqflags);
-b708113c48cc6f Shannon Nelson 2023-02-17  113  	comp = cq->info[cq->tail_idx].comp;
-b708113c48cc6f Shannon Nelson 2023-02-17  114  	while (pdsc_color_match(comp->color, cq->done_color)) {
-b708113c48cc6f Shannon Nelson 2023-02-17  115  		q_info = &q->info[q->tail_idx];
-b708113c48cc6f Shannon Nelson 2023-02-17  116  		index = q->tail_idx;
-b708113c48cc6f Shannon Nelson 2023-02-17  117  		q->tail_idx = (q->tail_idx + 1) & (q->num_descs - 1);
-b708113c48cc6f Shannon Nelson 2023-02-17  118  
-b708113c48cc6f Shannon Nelson 2023-02-17  119  		/* Copy out the completion data */
-b708113c48cc6f Shannon Nelson 2023-02-17  120  		memcpy(q_info->dest, comp, sizeof(*comp));
-b708113c48cc6f Shannon Nelson 2023-02-17  121  
-b708113c48cc6f Shannon Nelson 2023-02-17  122  		complete_all(&q_info->wc->wait_completion);
-b708113c48cc6f Shannon Nelson 2023-02-17  123  
-b708113c48cc6f Shannon Nelson 2023-02-17  124  		if (cq->tail_idx == cq->num_descs - 1)
-b708113c48cc6f Shannon Nelson 2023-02-17  125  			cq->done_color = !cq->done_color;
-b708113c48cc6f Shannon Nelson 2023-02-17  126  		cq->tail_idx = (cq->tail_idx + 1) & (cq->num_descs - 1);
-b708113c48cc6f Shannon Nelson 2023-02-17  127  		comp = cq->info[cq->tail_idx].comp;
-b708113c48cc6f Shannon Nelson 2023-02-17  128  
-b708113c48cc6f Shannon Nelson 2023-02-17  129  		aq_work++;
-b708113c48cc6f Shannon Nelson 2023-02-17  130  	}
-b708113c48cc6f Shannon Nelson 2023-02-17  131  	spin_unlock_irqrestore(&pdsc->adminq_lock, irqflags);
-b708113c48cc6f Shannon Nelson 2023-02-17  132  
-b708113c48cc6f Shannon Nelson 2023-02-17  133  	qcq->accum_work += aq_work;
-b708113c48cc6f Shannon Nelson 2023-02-17  134  
-b708113c48cc6f Shannon Nelson 2023-02-17  135  credits:
-b708113c48cc6f Shannon Nelson 2023-02-17  136  	/* Return the interrupt credits, one for each completion */
-b708113c48cc6f Shannon Nelson 2023-02-17  137  	credits = nq_work + aq_work;
-b708113c48cc6f Shannon Nelson 2023-02-17  138  	if (credits)
-b708113c48cc6f Shannon Nelson 2023-02-17  139  		pds_core_intr_credits(&pdsc->intr_ctrl[qcq->intx],
-b708113c48cc6f Shannon Nelson 2023-02-17  140  				      credits,
-b708113c48cc6f Shannon Nelson 2023-02-17  141  				      PDS_CORE_INTR_CRED_REARM);
-b708113c48cc6f Shannon Nelson 2023-02-17  142  }
-b708113c48cc6f Shannon Nelson 2023-02-17  143  
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		DRM_GPUVA_ITER(it, mgr);
+   195		DRM_GPUVA_REGION_ITER(__it, mgr);
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
+   201		seq_puts  (m, "\n");
+   202		seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
+   203		seq_puts  (m, "------------------------------------------------------------------------------------\n");
+   204		seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   205			   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
+   206		seq_puts  (m, "-----------------------------------------------------------------------------------\n");
+   207		drm_gpuva_iter_for_each(__it) {
+   208			struct drm_gpuva_region *reg = __it.reg;
+   209	
+   210			if (reg == &mgr->kernel_alloc_region) {
+   211				seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   212					   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
+   213				continue;
+   214			}
+   215	
+   216			seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
+   217				   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range,
+   218				   reg->sparse ? "true" : "false");
+   219		}
+   220		seq_puts(m, "\n");
+   221		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   222		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   223		drm_gpuva_iter_for_each(it) {
+   224			struct drm_gpuva *va = it.va;
+   225	
+   226			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   227				   va->va.addr, va->va.range, va->va.addr + va->va.range,
+ > 228				   (u64)va->gem.obj, va->gem.offset);
+   229		}
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
