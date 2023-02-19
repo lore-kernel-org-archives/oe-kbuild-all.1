@@ -1,66 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B522223A1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 16:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457D07F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 16:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676823886; x=1708359886;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=feAPOL1N++/UethRnvUXw50DQ6+CpkyqCffcMo7/488=;
-  b=aIVy/HaFOB5ZkBPRVj1zYau8AI5xgd5egsPcxoyoXKTI+dPyzzoB6/yy
-   tpUBvx/aEC+15r/of44AP+fAM4CYfxbVBTEp1ok7RQrfe9GNvJ+upG/qz
-   9xZSAJQ4zAna0qV2tYKqmLy7v+Tkbhe4if27mCzJVQrj1NkdsbAWrzgyl
-   /EUU8trRHPaMwxZZTBMOPtDCd2XYDOi4/8lVkLXMHnIYQyUYuZCIoFFWu
-   JzWB0nFdRWU7iosohf7yNYap6kBW/k2cNL/pHNc+IWSkN11rROn+If6SM
-   hN1hye/qY3fuIdlGqxiSUZYlQ+BIA9aw744UxES6YivzLJ5u1+dM3tiFb
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="332266286"
+  t=1676825082; x=1708361082;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dhHJa72Ku+vpZCuH6EPWmgsx39IFDCV2+zQCGi6X89M=;
+  b=TvR9shJZUxZGM55UfgG4rLGWBq82rU9Leo14pqR9zG1PRN5WVdQhC7Pi
+   JX4bCVFQ8bHiFky1S7vCfQPH/bveSFQ03COpFTbptoXGCQK8s+Io1BusH
+   LCDYDUnS4gMJMdKEzqgdgmfoi1aqQyLm8F3aAZqdtocvzHW/MNb6j0Oj4
+   ZLVUGlMqQTMsbLMwt38T2oy6UReoqkJAxJQ6Jq2KNWM30iQBH946tu9iY
+   6NXbkVvoBmtCfukyV9ic0G+zIs/0hpcOXV/BHBJZNwSEOWU2FYeQclBKh
+   YxTCWIZUUrRdXh4pk/+5Efhee/dSy0fV6bevDrXztFOsk0JGmCWu1gTGg
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="334464336"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="332266286"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 08:24:45 -0800
+   d="scan'208";a="334464336"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 08:44:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="673122428"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="759936102"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="673122428"
+   d="scan'208";a="759936102"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Feb 2023 08:24:39 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 08:44:40 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTmUQ-000DMT-31;
-	Sun, 19 Feb 2023 16:24:38 +0000
-Date: Mon, 20 Feb 2023 00:23:59 +0800
+	id 1pTmnn-000DNN-27;
+	Sun, 19 Feb 2023 16:44:39 +0000
+Date: Mon, 20 Feb 2023 00:44:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Raju Rangoju <rajur@chelsio.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata'
- accessor
-Message-ID: <202302200054.npcAWO2a-lkp@intel.com>
-References: <20230219143657.241542-2-daniel.lezcano@linaro.org>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.2-rc 53/53]
+ drivers/pci/controller/pcie-mediatek-gen3.c:360:22: error: use of undeclared
+ identifier 'port'
+Message-ID: <202302200020.o7XBbT7A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,75 +46,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230219143657.241542-2-daniel.lezcano@linaro.org>
 
-Hi Daniel,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on next-20230217]
-[cannot apply to groeck-staging/hwmon-next tegra/for-next linus/master v6.2-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20230219143657.241542-2-daniel.lezcano%40linaro.org
-patch subject: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata' accessor
-config: sparc64-randconfig-r015-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200054.npcAWO2a-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.2-rc
+head:   08286f12df4d7c9eff138a9a70925115018a02d5
+commit: 08286f12df4d7c9eff138a9a70925115018a02d5 [53/53] PCI: mediatek-gen3: handle PERST after reset
+config: powerpc-randconfig-r006-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200020.o7XBbT7A-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4ae519499a90b8b0388e5e80c5d85c6dbf292242
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
-        git checkout 4ae519499a90b8b0388e5e80c5d85c6dbf292242
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/frank-w/BPI-R2-4.14/commit/08286f12df4d7c9eff138a9a70925115018a02d5
+        git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
+        git fetch --no-tags frank-w-bpi-r2-4.14 6.2-rc
+        git checkout 08286f12df4d7c9eff138a9a70925115018a02d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash drivers/ata/ drivers/hwmon/pmbus/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/pci/controller/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200054.npcAWO2a-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200020.o7XBbT7A-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/ata/ahci_imx.c: In function 'sata_ahci_read_temperature':
->> drivers/ata/ahci_imx.c:421:45: error: implicit declaration of function 'thermal_zone_device_get_data'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
-     421 |         return __sata_ahci_read_temperature(thermal_zone_device_get_data(tz), temp);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             thermal_zone_device_enable
->> drivers/ata/ahci_imx.c:421:45: warning: passing argument 1 of '__sata_ahci_read_temperature' makes pointer from integer without a cast [-Wint-conversion]
-     421 |         return __sata_ahci_read_temperature(thermal_zone_device_get_data(tz), temp);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   drivers/ata/ahci_imx.c:330:47: note: expected 'void *' but argument is of type 'int'
-     330 | static int __sata_ahci_read_temperature(void *dev, int *temp)
-         |                                         ~~~~~~^~~
-   cc1: some warnings being treated as errors
---
-   drivers/hwmon/pmbus/pmbus_core.c: In function 'pmbus_thermal_get_temp':
->> drivers/hwmon/pmbus/pmbus_core.c:1275:44: error: implicit declaration of function 'thermal_zone_device_get_data'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
-    1275 |         struct pmbus_thermal_data *tdata = thermal_zone_device_get_data(tz);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                            thermal_zone_device_enable
->> drivers/hwmon/pmbus/pmbus_core.c:1275:44: warning: initialization of 'struct pmbus_thermal_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   cc1: some warnings being treated as errors
+>> drivers/pci/controller/pcie-mediatek-gen3.c:360:22: error: use of undeclared identifier 'port'
+           writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
+                               ^
+   1 error generated.
 
 
-vim +421 drivers/ata/ahci_imx.c
+vim +/port +360 drivers/pci/controller/pcie-mediatek-gen3.c
 
-   418	
-   419	static int sata_ahci_read_temperature(struct thermal_zone_device *tz, int *temp)
-   420	{
- > 421		return __sata_ahci_read_temperature(thermal_zone_device_get_data(tz), temp);
-   422	}
-   423	
+   309	
+   310	static int mtk_pcie_startup_port(struct mtk_gen3_pcie *pcie)
+   311	{
+   312		struct resource_entry *entry;
+   313		struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
+   314		unsigned int table_index = 0;
+   315		int err;
+   316		u32 val;
+   317	
+   318		/* Set as RC mode */
+   319		val = readl_relaxed(pcie->base + PCIE_SETTING_REG);
+   320		val |= PCIE_RC_MODE;
+   321		writel_relaxed(val, pcie->base + PCIE_SETTING_REG);
+   322	
+   323		/* Set class code */
+   324		val = readl_relaxed(pcie->base + PCIE_PCI_IDS_1);
+   325		val &= ~GENMASK(31, 8);
+   326		val |= PCI_CLASS(PCI_CLASS_BRIDGE_PCI_NORMAL);
+   327		writel_relaxed(val, pcie->base + PCIE_PCI_IDS_1);
+   328	
+   329		/* Mask all INTx interrupts */
+   330		val = readl_relaxed(pcie->base + PCIE_INT_ENABLE_REG);
+   331		val &= ~PCIE_INTX_ENABLE;
+   332		writel_relaxed(val, pcie->base + PCIE_INT_ENABLE_REG);
+   333	
+   334		/* Disable DVFSRC voltage request */
+   335		val = readl_relaxed(pcie->base + PCIE_MISC_CTRL_REG);
+   336		val |= PCIE_DISABLE_DVFSRC_VLT_REQ;
+   337		writel_relaxed(val, pcie->base + PCIE_MISC_CTRL_REG);
+   338	
+   339		/* Assert all reset signals */
+   340		val = readl_relaxed(pcie->base + PCIE_RST_CTRL_REG);
+   341		val |= PCIE_MAC_RSTB | PCIE_PHY_RSTB | PCIE_BRG_RSTB | PCIE_PE_RSTB;
+   342		writel_relaxed(val, pcie->base + PCIE_RST_CTRL_REG);
+   343	
+   344		/*
+   345		 * Described in PCIe CEM specification sections 2.2 (PERST# Signal)
+   346		 * and 2.2.1 (Initial Power-Up (G3 to S0)).
+   347		 * The deassertion of PERST# should be delayed 100ms (TPVPERL)
+   348		 * for the power and clock to become stable.
+   349		 */
+   350		msleep(100);
+   351	
+   352		/* De-assert reset signals */
+   353		val &= ~(PCIE_MAC_RSTB | PCIE_PHY_RSTB | PCIE_BRG_RSTB);
+   354		writel_relaxed(val, pcie->base + PCIE_RST_CTRL_REG);
+   355	
+   356		msleep(100);
+   357	
+   358		/* De-assert PERST# signals */
+   359		val &= ~(PCIE_PE_RSTB);
+ > 360		writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
+   361	
+   362		/* Check if the link is up or not */
+   363		err = readl_poll_timeout(pcie->base + PCIE_LINK_STATUS_REG, val,
+   364					 !!(val & PCIE_PORT_LINKUP), 20,
+   365					 PCI_PM_D3COLD_WAIT * USEC_PER_MSEC);
+   366		if (err) {
+   367			const char *ltssm_state;
+   368			int ltssm_index;
+   369	
+   370			val = readl_relaxed(pcie->base + PCIE_LTSSM_STATUS_REG);
+   371			ltssm_index = PCIE_LTSSM_STATE(val);
+   372			ltssm_state = ltssm_index >= ARRAY_SIZE(ltssm_str) ?
+   373				      "Unknown state" : ltssm_str[ltssm_index];
+   374			dev_err(pcie->dev,
+   375				"PCIe link down, current LTSSM state: %s (%#x)\n",
+   376				ltssm_state, val);
+   377			return err;
+   378		}
+   379	
+   380		mtk_pcie_enable_msi(pcie);
+   381	
+   382		/* Set PCIe translation windows */
+   383		resource_list_for_each_entry(entry, &host->windows) {
+   384			struct resource *res = entry->res;
+   385			unsigned long type = resource_type(res);
+   386			resource_size_t cpu_addr;
+   387			resource_size_t pci_addr;
+   388			resource_size_t size;
+   389			const char *range_type;
+   390	
+   391			if (type == IORESOURCE_IO) {
+   392				cpu_addr = pci_pio_to_address(res->start);
+   393				range_type = "IO";
+   394			} else if (type == IORESOURCE_MEM) {
+   395				cpu_addr = res->start;
+   396				range_type = "MEM";
+   397			} else {
+   398				continue;
+   399			}
+   400	
+   401			pci_addr = res->start - entry->offset;
+   402			size = resource_size(res);
+   403			err = mtk_pcie_set_trans_table(pcie, cpu_addr, pci_addr, size,
+   404						       type, table_index);
+   405			if (err)
+   406				return err;
+   407	
+   408			dev_dbg(pcie->dev, "set %s trans window[%d]: cpu_addr = %#llx, pci_addr = %#llx, size = %#llx\n",
+   409				range_type, table_index, (unsigned long long)cpu_addr,
+   410				(unsigned long long)pci_addr, (unsigned long long)size);
+   411	
+   412			table_index++;
+   413		}
+   414	
+   415		return 0;
+   416	}
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
