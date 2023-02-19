@@ -1,45 +1,45 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DC5A29
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 09:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22379EA3;
+	Sun, 19 Feb 2023 09:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676799939; x=1708335939;
+  t=1676799940; x=1708335940;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q2GpKKG2V+P7JRXP/CGrjbt/Xfz0FyjBehJQcTf15ZY=;
-  b=ecSQD/u5quZ+Gh2MiWJ8M+r1TQo7di2PGi6DJKhyaaFjD2zytNyyHMDu
-   qFefHy9v5cj58DKm+hwtsGJ9rQOW5PQBaTcdyN3SrkdPMMx2ELjAXziOq
-   5RGh8AFYGI22vTyrDkrcCBJsWzNgmnP6U9E+Xo1mhwb9wK80QqE/hPcu8
-   jdaZqeiezZ2qVA3Xt08Y3++WwjBYp0KJTxXd+chkFh3rJcr/1bdhYCWf2
-   32xwpBUWZFdJOtHfUcnkwu2nlao2REo509M2ha01CCr9IuKupb1EeCI7i
-   dRh1gi7XwSPJeFGjnjuQJXtGEeGN0HBVG/dx5slZm2abf8P832lvf4Inp
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311867289"
+  bh=xhcCnf0cNcsotIr4PN51gmS8bzJYzvKjq4kiT2RhNfs=;
+  b=YkHIYbSbDmPzng1n8SxMW4pckKz58YLRO/4uZGXr31j3SEIDz82JPy5x
+   UQ5xx3XxNrayZxd3Yg1io3vCed4MHu4z9OrREyfUnNAvJ4OKXhadMtknB
+   +suZqN08peGy+DTl3erx1+69YzXqzf0L4jZ6XeyEO7x8p+G1Xg142i3Pm
+   kL2x2TkNdEsSduUQp+cIkeSWDVKChZTm+JvmPql9ElMLBbyQeLFPvWRnX
+   fV+xY43MR6JV6it9r6rqQJ0j/8hLIMzzhm75h4TbOFnhSDlCI6VT+LltP
+   LaS/nOBSh12+QWfbIwDDm9RGmt8BGKTCVOrURuKf7BruYOVvwiVwZh2h4
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311867308"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="311867289"
+   d="scan'208";a="311867308"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 01:45:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="759872250"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="759872251"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="759872250"
+   d="scan'208";a="759872251"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 01:45:34 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTgGD-000DEb-0f;
+	id 1pTgGD-000DEd-0n;
 	Sun, 19 Feb 2023 09:45:33 +0000
-Date: Sun, 19 Feb 2023 17:45:00 +0800
+Date: Sun, 19 Feb 2023 17:44:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, bfoster@redhat.com,
-	willy@infradead.org, arnd@arndb.de, linux-api@vger.kernel.org,
-	kernel-team@meta.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	bfoster@redhat.com, willy@infradead.org, arnd@arndb.de,
+	linux-api@vger.kernel.org, kernel-team@meta.com
 Subject: Re: [PATCH v10 2/3] cachestat: implement cachestat syscall
-Message-ID: <202302191708.tLz0L0ZE-lkp@intel.com>
+Message-ID: <202302191728.rXGLcydi-lkp@intel.com>
 References: <20230219073318.366189-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -53,16 +53,16 @@ In-Reply-To: <20230219073318.366189-3-nphamcs@gmail.com>
 
 Hi Nhat,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on 1440f576022887004f719883acb094e7e0dd4944]
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230219-153500
 base:   1440f576022887004f719883acb094e7e0dd4944
 patch link:    https://lore.kernel.org/r/20230219073318.366189-3-nphamcs%40gmail.com
 patch subject: [PATCH v10 2/3] cachestat: implement cachestat syscall
-config: sparc-randconfig-r033-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191708.tLz0L0ZE-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+config: hexagon-randconfig-r014-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191728.rXGLcydi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -72,29 +72,109 @@ reproduce (this is a W=1 build):
         git checkout d691a3b4a696ab20c9c5fe86c624e9e36814523c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302191708.tLz0L0ZE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302191728.rXGLcydi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/filemap.c:4035:6: warning: no previous prototype for 'ksys_cachestat' [-Wmissing-prototypes]
-    4035 | long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
-         |      ^~~~~~~~~~~~~~
->> mm/filemap.c:4102:34: error: expected ')' before 'unsigned'
-    4102 | COMPAT_SYSCALL_DEFINE6(cachestat, unsigned int, fd, size_t, len,
-         |                                  ^~~~~~~~~
-         |                                  )
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> mm/filemap.c:4035:6: warning: no previous prototype for function 'ksys_cachestat' [-Wmissing-prototypes]
+   long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+        ^
+   mm/filemap.c:4035:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+   ^
+   static 
+   7 warnings generated.
 
 
-vim +4102 mm/filemap.c
+vim +/ksys_cachestat +4035 mm/filemap.c
 
-  4100	
-  4101	#ifdef CONFIG_COMPAT
-> 4102	COMPAT_SYSCALL_DEFINE6(cachestat, unsigned int, fd, size_t, len,
+  4033	
+  4034	#ifdef CONFIG_CACHESTAT_SYSCALL
+> 4035	long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+  4036			struct cachestat __user *cstat, unsigned int flags)
+  4037	{
+  4038		struct fd f = fdget(fd);
+  4039		struct address_space *mapping;
+  4040		struct cachestat cs;
+  4041		pgoff_t first_index = off >> PAGE_SHIFT;
+  4042		pgoff_t last_index =
+  4043			len == 0 ? ULONG_MAX : (off + len - 1) >> PAGE_SHIFT;
+  4044	
+  4045		if (!f.file)
+  4046			return -EBADF;
+  4047	
+  4048		if (off < 0 || flags != 0) {
+  4049			fdput(f);
+  4050			return -EINVAL;
+  4051		}
+  4052	
+  4053		memset(&cs, 0, sizeof(struct cachestat));
+  4054		mapping = f.file->f_mapping;
+  4055		filemap_cachestat(mapping, first_index, last_index, &cs);
+  4056		fdput(f);
+  4057	
+  4058		if (copy_to_user(cstat, &cs, sizeof(struct cachestat)))
+  4059			return -EFAULT;
+  4060	
+  4061		return 0;
+  4062	}
+  4063	
 
 -- 
 0-DAY CI Kernel Test Service
