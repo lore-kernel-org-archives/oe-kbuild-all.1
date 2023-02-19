@@ -1,271 +1,113 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543332F4B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 19:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1349229AC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 20:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676835045; x=1708371045;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rCkxaiyBHOgy0BpS5NXIjdI1zZxcgigb76WCfh4KEe4=;
-  b=mt32Z4D9nZs6F4yGLF9bGa4YdAm3tyjmpGKfXgc20cO1mUj4U2/wxttE
-   IxKqjBLEKv7ukKJimkWrtgdnCeu7A6PtixhGzPY9FRhrot2kfeBjzh9gv
-   dYlUGYexu1Uz4H5BjYQ8zCKOeGC8swYEaCvN/veBvgx/M2lxvhW5+9NfW
-   caLJVqTq4F9V0LmrUq05ti2MNNKf3sMvElk/E9HMLJ0nZQKvtIf9gi5Xj
-   CBAIWINsmCkh4YCLUC63drxMWyQHPAsKIRDD9gLUtYJioviESRd6XGWQm
-   52LKjtSwPoZ6v2l2o1Q3vlX5+hiG4926V+QO6RzgGb6m+rP1fv+AXMXRB
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359739479"
-X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="359739479"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 11:30:44 -0800
+  t=1676838707; x=1708374707;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aIFJybv52xkBwJmQNIRRucCZBGlBUSENcYZWyXVL+GU=;
+  b=cmwiwFEFbTdSczXa6us8RwW38YU1D41v8DsbxoUsG1fdDwdYn75QLZ5Y
+   B6Bpy21oaXVj1qvQVOn4ghh0EgU9dqlo6wp43pdQiiXMlk/AIMgJbjs8c
+   GLt14n61KMWAJr638A12V9sy+nC5QWwVHEMwgId76IRwpBUDqQ+iKDAI+
+   HCnfYkbJN6IPWvxO0eHYalAqW8Qj7Al+b2wkVZP00cSIUcrO0ht+sE/Nd
+   SvfZV9vcG23yUqfT6K/W5SZ6Ra6MuKI5rX+x1gCaWlhUIOi1VfDGQCy9r
+   c8wqOWr4iyJON/hcdp67EYjWVhITBJBj3YB1wes2oOEzDtU/ryKJb/LYD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="396966658"
+X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
+   d="scan'208";a="396966658"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 12:31:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="759954882"
-X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="759954882"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="794974398"
+X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
+   d="scan'208";a="794974398"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 11:30:43 -0800
+  by orsmga004.jf.intel.com with ESMTP; 19 Feb 2023 12:31:44 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTpOV-000DQw-0n;
-	Sun, 19 Feb 2023 19:30:43 +0000
-Date: Mon, 20 Feb 2023 03:29:56 +0800
+	id 1pTqLY-000DRp-03;
+	Sun, 19 Feb 2023 20:31:44 +0000
+Date: Mon, 20 Feb 2023 04:31:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:atcphy-20230219 52/54]
- drivers/phy/apple/atc-display-crossbar.c:127:25: error: implicit declaration
- of function 'FIELD_PREP'
-Message-ID: <202302200341.2ozTYUDS-lkp@intel.com>
+Subject: kernel/watchdog.c:244: undefined reference to
+ `watchdog_update_hrtimer_threshold'
+Message-ID: <202302200422.o98fAdIk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux atcphy-20230219
-head:   9928386c36c8def0becc6ce2db8f18f2111f9b3c
-commit: aec02a74177421dde96d55515aef500059d6f8ab [52/54] phy: apple: Add display crossbar
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230220/202302200341.2ozTYUDS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+Hi Colin,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: 215b4b4c085f76d42696c118a4f4fc9a64f17cff CHROMIUM: hardlockup: detect hard lockups without NMIs using secondary cpus
+date:   2 years, 2 months ago
+config: x86_64-randconfig-a004-20230220 (https://download.01.org/0day-ci/archive/20230220/202302200422.o98fAdIk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/aec02a74177421dde96d55515aef500059d6f8ab
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux atcphy-20230219
-        git checkout aec02a74177421dde96d55515aef500059d6f8ab
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=215b4b4c085f76d42696c118a4f4fc9a64f17cff
+        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
+        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
+        git checkout 215b4b4c085f76d42696c118a4f4fc9a64f17cff
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/phy/apple/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200341.2ozTYUDS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200422.o98fAdIk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/phy/apple/atc-display-crossbar.c: In function 'apple_dpxbar_set':
->> drivers/phy/apple/atc-display-crossbar.c:127:25: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     127 |                         FIELD_PREP(CROSSBAR_MUX_CTRL_DPPHY_SELECT0, mux_state) |
-         |                         ^~~~~~~~~~
-   drivers/phy/apple/atc-display-crossbar.c: At top level:
->> drivers/phy/apple/atc-display-crossbar.c:268:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     268 | const static struct apple_dpxbar_hw apple_dpxbar_hw_t8103 = {
-         | ^~~~~
-   drivers/phy/apple/atc-display-crossbar.c:273:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     273 | const static struct apple_dpxbar_hw apple_dpxbar_hw_t6000 = {
-         | ^~~~~
-   cc1: some warnings being treated as errors
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   ld: kernel/watchdog.o: in function `set_sample_period':
+>> kernel/watchdog.c:244: undefined reference to `watchdog_update_hrtimer_threshold'
 
 
-vim +/FIELD_PREP +127 drivers/phy/apple/atc-display-crossbar.c
+vim +244 kernel/watchdog.c
 
-    93	
-    94	static int apple_dpxbar_set(struct mux_control *mux, int state)
-    95	{
-    96		struct apple_dpxbar *dpxbar = mux_chip_priv(mux->chip);
-    97		unsigned int index = mux_control_get_index(mux);
-    98		unsigned long flags;
-    99		unsigned int mux_state;
-   100		unsigned int dispext_bit;
-   101		unsigned int atc_bit;
-   102		bool enable;
-   103		int ret = 0;
-   104		u32 mux_mask, mux_set;
-   105	
-   106		if (state == MUX_IDLE_DISCONNECT) {
-   107			/*
-   108			 * Technically this will select dispext0,0 in the mux control
-   109			 * register. Practically that doesn't matter since everything
-   110			 * else is disabled.
-   111			 */
-   112			mux_state = 0;
-   113			enable = false;
-   114		} else if (state >= 0 && state < 9) {
-   115			dispext_bit = 1 << state;
-   116			mux_state = state;
-   117			enable = true;
-   118		} else {
-   119			return -EINVAL;
-   120		}
-   121	
-   122		switch (index) {
-   123		case MUX_DPPHY:
-   124			mux_mask = CROSSBAR_MUX_CTRL_DPPHY_SELECT0 |
-   125				   CROSSBAR_MUX_CTRL_DPPHY_SELECT1;
-   126			mux_set =
- > 127				FIELD_PREP(CROSSBAR_MUX_CTRL_DPPHY_SELECT0, mux_state) |
-   128				FIELD_PREP(CROSSBAR_MUX_CTRL_DPPHY_SELECT1, mux_state);
-   129			atc_bit = ATC_DPPHY;
-   130			break;
-   131		case MUX_DPIN0:
-   132			mux_mask = CROSSBAR_MUX_CTRL_DPIN0_SELECT0 |
-   133				   CROSSBAR_MUX_CTRL_DPIN0_SELECT1;
-   134			mux_set =
-   135				FIELD_PREP(CROSSBAR_MUX_CTRL_DPIN0_SELECT0, mux_state) |
-   136				FIELD_PREP(CROSSBAR_MUX_CTRL_DPIN0_SELECT1, mux_state);
-   137			atc_bit = ATC_DPIN0;
-   138			break;
-   139		case MUX_DPIN1:
-   140			mux_mask = CROSSBAR_MUX_CTRL_DPIN1_SELECT0 |
-   141				   CROSSBAR_MUX_CTRL_DPIN1_SELECT1;
-   142			mux_set =
-   143				FIELD_PREP(CROSSBAR_MUX_CTRL_DPIN1_SELECT0, mux_state) |
-   144				FIELD_PREP(CROSSBAR_MUX_CTRL_DPIN1_SELECT1, mux_state);
-   145			atc_bit = ATC_DPIN1;
-   146			break;
-   147		default:
-   148			return -EINVAL;
-   149		}
-   150	
-   151		spin_lock_irqsave(&dpxbar->lock, flags);
-   152	
-   153		/* ensure the selected dispext isn't already used in this crossbar */
-   154		if (enable) {
-   155			for (int i = 0; i < MUX_MAX; ++i) {
-   156				if (i == index)
-   157					continue;
-   158				if (dpxbar->selected_dispext[i] == state) {
-   159					spin_unlock_irqrestore(&dpxbar->lock, flags);
-   160					return -EBUSY;
-   161				}
-   162			}
-   163		}
-   164	
-   165		dpxbar_set32(dpxbar, OUT_N_CLK_EN, atc_bit);
-   166		dpxbar_clear32(dpxbar, OUT_UNK_EN, atc_bit);
-   167		dpxbar_clear32(dpxbar, OUT_PCLK1_EN, atc_bit);
-   168		dpxbar_clear32(dpxbar, CROSSBAR_ATC_EN, atc_bit);
-   169	
-   170		if (dpxbar->selected_dispext[index] >= 0) {
-   171			u32 prev_dispext_bit = 1 << dpxbar->selected_dispext[index];
-   172	
-   173			dpxbar_set32(dpxbar, FIFO_WR_N_CLK_EN, prev_dispext_bit);
-   174			dpxbar_set32(dpxbar, FIFO_RD_N_CLK_EN, prev_dispext_bit);
-   175			dpxbar_clear32(dpxbar, FIFO_WR_UNK_EN, prev_dispext_bit);
-   176			dpxbar_clear32(dpxbar, FIFO_RD_UNK_EN, prev_dispext_bit);
-   177			dpxbar_clear32(dpxbar, FIFO_WR_DPTX_CLK_EN, prev_dispext_bit);
-   178			dpxbar_clear32(dpxbar, FIFO_RD_PCLK1_EN, prev_dispext_bit);
-   179			dpxbar_clear32(dpxbar, CROSSBAR_DISPEXT_EN, prev_dispext_bit);
-   180	
-   181			dpxbar->selected_dispext[index] = -1;
-   182		}
-   183	
-   184		dpxbar_mask32(dpxbar, CROSSBAR_MUX_CTRL, mux_mask, mux_set);
-   185	
-   186		if (enable) {
-   187			dpxbar_clear32(dpxbar, FIFO_WR_N_CLK_EN, dispext_bit);
-   188			dpxbar_clear32(dpxbar, FIFO_RD_N_CLK_EN, dispext_bit);
-   189			dpxbar_clear32(dpxbar, OUT_N_CLK_EN, atc_bit);
-   190			dpxbar_set32(dpxbar, FIFO_WR_UNK_EN, dispext_bit);
-   191			dpxbar_set32(dpxbar, FIFO_RD_UNK_EN, dispext_bit);
-   192			dpxbar_set32(dpxbar, OUT_UNK_EN, atc_bit);
-   193			dpxbar_set32(dpxbar, FIFO_WR_DPTX_CLK_EN, dispext_bit);
-   194			dpxbar_set32(dpxbar, FIFO_RD_PCLK1_EN, dispext_bit);
-   195			dpxbar_set32(dpxbar, OUT_PCLK1_EN, atc_bit);
-   196			dpxbar_set32(dpxbar, CROSSBAR_ATC_EN, atc_bit);
-   197			dpxbar_set32(dpxbar, CROSSBAR_DISPEXT_EN, dispext_bit);
-   198	
-   199			/*
-   200			 * This workaround was observed by tracing XNU's memory access
-   201			 * and seems to work around some HW quirk:
-   202			 * Without toggling the RD_PCLK enable here the connection
-   203			 * doesn't come up. Testing has shown that a delay of about
-   204			 * 5 usec is required which is doubled here to be on the
-   205			 * safe side.
-   206			 */
-   207			dpxbar_clear32(dpxbar, FIFO_RD_PCLK1_EN, dispext_bit);
-   208			udelay(10);
-   209			dpxbar_set32(dpxbar, FIFO_RD_PCLK1_EN, dispext_bit);
-   210	
-   211			dpxbar->selected_dispext[index] = state;
-   212		}
-   213	
-   214		spin_unlock_irqrestore(&dpxbar->lock, flags);
-   215	
-   216		if (enable)
-   217			dev_err(dpxbar->dev, "Switched %s to dispext%u,%u\n",
-   218				apple_dpxbar_names[index], mux_state >> 1,
-   219				mux_state & 1);
-   220		else
-   221			dev_err(dpxbar->dev, "Switched %s to disconnected state\n",
-   222				apple_dpxbar_names[index]);
-   223	
-   224		return ret;
-   225	}
-   226	
-   227	static const struct mux_control_ops apple_dpxbar_ops = {
-   228		.set = apple_dpxbar_set,
-   229	};
-   230	
-   231	static int apple_dpxbar_probe(struct platform_device *pdev)
-   232	{
-   233		struct device *dev = &pdev->dev;
-   234		struct mux_chip *mux_chip;
-   235		struct apple_dpxbar *dpxbar;
-   236		const struct apple_dpxbar_hw *hw;
-   237		int ret;
-   238	
-   239		hw = of_device_get_match_data(dev);
-   240		mux_chip = devm_mux_chip_alloc(dev, MUX_MAX, sizeof(*dpxbar));
-   241		if (IS_ERR(mux_chip))
-   242			return PTR_ERR(mux_chip);
-   243	
-   244		dpxbar = mux_chip_priv(mux_chip);
-   245		mux_chip->ops = &apple_dpxbar_ops;
-   246		spin_lock_init(&dpxbar->lock);
-   247	
-   248		dpxbar->dev = dev;
-   249		dpxbar->regs = devm_platform_ioremap_resource(pdev, 0);
-   250		if (IS_ERR(dpxbar->regs))
-   251			return PTR_ERR(dpxbar->regs);
-   252	
-   253		writel(hw->tunable, dpxbar->regs + UNK_TUNABLE);
-   254	
-   255		for (unsigned int i = 0; i < MUX_MAX; ++i) {
-   256			mux_chip->mux[i].states = hw->n_ufp;
-   257			mux_chip->mux[i].idle_state = MUX_IDLE_DISCONNECT;
-   258			dpxbar->selected_dispext[i] = -1;
-   259		}
-   260	
-   261		ret = devm_mux_chip_register(dev, mux_chip);
-   262		if (ret < 0)
-   263			return ret;
-   264	
-   265		return 0;
-   266	}
-   267	
- > 268	const static struct apple_dpxbar_hw apple_dpxbar_hw_t8103 = {
-   269		.n_ufp = 2,
-   270		.tunable = 0,
-   271	};
-   272	
+58687acba59266 Don Zickus                2010-05-07  233  
+0f34c400914f16 Chuansheng Liu            2012-12-17  234  static void set_sample_period(void)
+58687acba59266 Don Zickus                2010-05-07  235  {
+58687acba59266 Don Zickus                2010-05-07  236  	/*
+586692a5a5fc57 Mandeep Singh Baines      2011-05-22  237  	 * convert watchdog_thresh from seconds to ns
+86f5e6a7b19272 Fernando Luis Vázquez Cao 2012-02-09  238  	 * the divide by 5 is to give hrtimer several chances (two
+86f5e6a7b19272 Fernando Luis Vázquez Cao 2012-02-09  239  	 * or three with the current relation between the soft
+86f5e6a7b19272 Fernando Luis Vázquez Cao 2012-02-09  240  	 * and hard thresholds) to increment before the
+86f5e6a7b19272 Fernando Luis Vázquez Cao 2012-02-09  241  	 * hardlockup detector generates a warning
+58687acba59266 Don Zickus                2010-05-07  242  	 */
+0f34c400914f16 Chuansheng Liu            2012-12-17  243  	sample_period = get_softlockup_thresh() * ((u64)NSEC_PER_SEC / 5);
+7edaeb6841dfb2 Thomas Gleixner           2017-08-15 @244  	watchdog_update_hrtimer_threshold(sample_period);
+58687acba59266 Don Zickus                2010-05-07  245  }
+58687acba59266 Don Zickus                2010-05-07  246  
+
+:::::: The code at line 244 was first introduced by commit
+:::::: 7edaeb6841dfb27e362288ab8466ebdc4972e867 kernel/watchdog: Prevent false positives with turbo modes
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
