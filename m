@@ -1,176 +1,155 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C43780F;
-	Sun, 19 Feb 2023 07:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=28+VCGGBjMHKKEsc9LEVcy5JTHEOm7v1qkru7Lvtm/c=; b=ZH4sNElf+vF35B/FrW1SsMocXk
-	MNRmq20Aw9L9yRQlKyQUH9xBy6A/0ka2lPDXlFVTulmV4nQ1F+nhBFVVd4g0MgrqS2a2ezh7haUF8
-	Xz6FQbMEQKMxNTF7KV31HgvUcGdaFpgcNtu5dPTCoB5Z8+J9BWF0fumqjZWhUicPkvJOdZzGMfMVR
-	xpsox/RGeG/ZNcR+VruCQK1u+vK4cmz9wlhc6gC2sua7GBaOs11obFzXm/rhHXQ1Uh36vo50PiznJ
-	fr300LxhWfqOrQ/SSdwXftnWVmd18lJPOgI25tM4Y3WoLZ872lJfMQfkw3RcZ/DQukWROeNxQ29ec
-	07knydkg==;
-Received: from [2601:1c2:980:9ec0::df2f]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pTdsp-000tYG-QJ; Sun, 19 Feb 2023 07:13:15 +0000
-Message-ID: <948cc265-53dd-0a5e-93b6-a0d0fe768198@infradead.org>
-Date: Sat, 18 Feb 2023 23:13:14 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D17A29
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 09:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676799937; x=1708335937;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Po41OJZzQp1hc4fE+blyk6iThi8FGKEllh22Ry2nYos=;
+  b=niwT4gHA5xfsrBYZJXLFsORN2NdBrS3GOpf/Uz64B1w6zE53PLRlt6tT
+   cQPdXI4Rn1zZ8EhTRfpQSShhcA/i8wz9J5e8gZnQmwGIgui8/BcS0fXe2
+   7TNkPwJKaXpYaNyeKMnunhD9lxKa4zZqKdEuyZdontydqHTxmyYMaNjuf
+   s7/Ar8QbxD0TZ/ygakqEEDC7PEwnPGk4+cdrim2RrpHf2YCueeH57Niwi
+   oO8ytzlTUz6hvpWKTtv5ZJJ5PFIB0tRNWN885+I8sBOOI0mosnglG4Fhf
+   /a/D89g9OT5tqYRoWhpI4gCv+QxMZ+8OhvWqrOzMMnwbNBr96AiV7c25X
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311867299"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="311867299"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 01:45:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="759872249"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="759872249"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 01:45:34 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pTgGD-000DEh-14;
+	Sun, 19 Feb 2023 09:45:33 +0000
+Date: Sun, 19 Feb 2023 17:45:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, bfoster@redhat.com,
+	willy@infradead.org, arnd@arndb.de, linux-api@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v10 2/3] cachestat: implement cachestat syscall
+Message-ID: <202302191700.Pg6Yy5Xp-lkp@intel.com>
+References: <20230219073318.366189-3-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: arch/powerpc/platforms/83xx/suspend.c:210:3: error: call to
- undeclared function 'enable_kernel_fp'; ISO C99 and later do not support
- implicit function declarations
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- Alex Shi <alexs@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>
-References: <202302181414.nAdxC08J-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202302181414.nAdxC08J-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230219073318.366189-3-nphamcs@gmail.com>
 
-Hi Christophe,
+Hi Nhat,
 
-On 2/17/23 22:21, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   38f8ccde04a3fa317b51b05e63c3cb57e1641931
-> commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=gnu11
-> date:   11 months ago
-> config: powerpc-randconfig-r013-20230218 (https://download.01.org/0day-ci/archive/20230218/202302181414.nAdxC08J-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install powerpc cross compiling tool for clang build
->         # apt-get install binutils-powerpc-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e8c07082a810fbb9db303a2b66b66b8d7e588b53
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/platforms/83xx/ drivers/android/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302181414.nAdxC08J-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> arch/powerpc/platforms/83xx/suspend.c:210:3: error: call to undeclared function 'enable_kernel_fp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->                    enable_kernel_fp();
->                    ^
->    arch/powerpc/platforms/83xx/suspend.c:210:3: note: did you mean 'enable_kernel_vsx'?
->    arch/powerpc/include/asm/switch_to.h:75:20: note: 'enable_kernel_vsx' declared here
->    static inline void enable_kernel_vsx(void)
->                       ^
->    1 error generated.
-> 
+Thank you for the patch! Yet something to improve:
 
-When # CONFIG_PPC_FPU is not set, enable_kernel_fp() is not defined.
-Looks to me like it is caused by:
+[auto build test ERROR on 1440f576022887004f719883acb094e7e0dd4944]
 
-commit 7d68c8916950
-Author: Christophe Leroy <christophe.leroy@csgroup.eu>
-Date:   Tue Aug 18 17:19:18 2020 +0000
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230219-153500
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230219073318.366189-3-nphamcs%40gmail.com
+patch subject: [PATCH v10 2/3] cachestat: implement cachestat syscall
+config: riscv-buildonly-randconfig-r005-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191700.Pg6Yy5Xp-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d691a3b4a696ab20c9c5fe86c624e9e36814523c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230219-153500
+        git checkout d691a3b4a696ab20c9c5fe86c624e9e36814523c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
-    powerpc/32s: Allow deselecting CONFIG_PPC_FPU on mpc832x
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302191700.Pg6Yy5Xp-lkp@intel.com/
 
-Adding a stub for enable_kernel_fp() in include/asm/switch_to.h
-makes this problem disappear. (There is still a different build error.)
+All errors (new ones prefixed by >>):
 
-Ideas?
-
-Thanks.
+   mm/filemap.c:4035:6: warning: no previous prototype for 'ksys_cachestat' [-Wmissing-prototypes]
+    4035 | long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+         |      ^~~~~~~~~~~~~~
+   In file included from arch/riscv/include/asm/elf.h:12,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/blk_types.h:11,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:22,
+                    from include/linux/swap.h:9,
+                    from mm/filemap.c:23:
+>> include/linux/compat.h:75:25: error: conflicting types for 'compat_sys_cachestat'; have 'long int(unsigned int,  size_t,  u32,  u32,  struct cachestat *, unsigned int)' {aka 'long int(unsigned int,  long unsigned int,  unsigned int,  unsigned int,  struct cachestat *, unsigned int)'}
+      75 |         asmlinkage long compat_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))        \
+         |                         ^~~~~~~~~~
+   include/linux/compat.h:63:9: note: in expansion of macro 'COMPAT_SYSCALL_DEFINEx'
+      63 |         COMPAT_SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:4102:1: note: in expansion of macro 'COMPAT_SYSCALL_DEFINE6'
+    4102 | COMPAT_SYSCALL_DEFINE6(cachestat, unsigned int, fd, size_t, len,
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compat.h:820:17: note: previous declaration of 'compat_sys_cachestat' with type 'long int(int,  size_t,  u32,  u32,  struct cachestat *, unsigned int)' {aka 'long int(int,  long unsigned int,  unsigned int,  unsigned int,  struct cachestat *, unsigned int)'}
+     820 | asmlinkage long compat_sys_cachestat(int fd, size_t len, compat_arg_u64(off),
+         |                 ^~~~~~~~~~~~~~~~~~~~
 
 
-> 
-> vim +/enable_kernel_fp +210 arch/powerpc/platforms/83xx/suspend.c
-> 
-> 87faaabb09d080 Anton Vorontsov 2009-12-10  173  
-> d49747bdfb2dde Scott Wood      2007-10-09  174  static int mpc83xx_suspend_enter(suspend_state_t state)
-> d49747bdfb2dde Scott Wood      2007-10-09  175  {
-> d49747bdfb2dde Scott Wood      2007-10-09  176  	int ret = -EAGAIN;
-> d49747bdfb2dde Scott Wood      2007-10-09  177  
-> d49747bdfb2dde Scott Wood      2007-10-09  178  	/* Don't go to sleep if there's a race where pci_pm_state changes
-> d49747bdfb2dde Scott Wood      2007-10-09  179  	 * between the agent thread checking it and the PM code disabling
-> d49747bdfb2dde Scott Wood      2007-10-09  180  	 * interrupts.
-> d49747bdfb2dde Scott Wood      2007-10-09  181  	 */
-> d49747bdfb2dde Scott Wood      2007-10-09  182  	if (wake_from_pci) {
-> d49747bdfb2dde Scott Wood      2007-10-09  183  		if (pci_pm_state != (deep_sleeping ? 3 : 2))
-> d49747bdfb2dde Scott Wood      2007-10-09  184  			goto out;
-> d49747bdfb2dde Scott Wood      2007-10-09  185  
-> d49747bdfb2dde Scott Wood      2007-10-09  186  		out_be32(&pmc_regs->config1,
-> d49747bdfb2dde Scott Wood      2007-10-09  187  		         in_be32(&pmc_regs->config1) | PMCCR1_PME_EN);
-> d49747bdfb2dde Scott Wood      2007-10-09  188  	}
-> d49747bdfb2dde Scott Wood      2007-10-09  189  
-> d49747bdfb2dde Scott Wood      2007-10-09  190  	/* Put the system into low-power mode and the RAM
-> d49747bdfb2dde Scott Wood      2007-10-09  191  	 * into self-refresh mode once the core goes to
-> d49747bdfb2dde Scott Wood      2007-10-09  192  	 * sleep.
-> d49747bdfb2dde Scott Wood      2007-10-09  193  	 */
-> d49747bdfb2dde Scott Wood      2007-10-09  194  
-> d49747bdfb2dde Scott Wood      2007-10-09  195  	out_be32(&pmc_regs->config, PMCCR_SLPEN | PMCCR_DLPEN);
-> d49747bdfb2dde Scott Wood      2007-10-09  196  
-> d49747bdfb2dde Scott Wood      2007-10-09  197  	/* If it has deep sleep (i.e. it's an 831x or compatible),
-> d49747bdfb2dde Scott Wood      2007-10-09  198  	 * disable power to the core upon entering sleep mode.  This will
-> d49747bdfb2dde Scott Wood      2007-10-09  199  	 * require going through the boot firmware upon a wakeup event.
-> d49747bdfb2dde Scott Wood      2007-10-09  200  	 */
-> d49747bdfb2dde Scott Wood      2007-10-09  201  
-> d49747bdfb2dde Scott Wood      2007-10-09  202  	if (deep_sleeping) {
-> 87faaabb09d080 Anton Vorontsov 2009-12-10  203  		mpc83xx_suspend_save_regs();
-> 87faaabb09d080 Anton Vorontsov 2009-12-10  204  
-> d49747bdfb2dde Scott Wood      2007-10-09  205  		out_be32(&pmc_regs->mask, PMCER_ALL);
-> d49747bdfb2dde Scott Wood      2007-10-09  206  
-> d49747bdfb2dde Scott Wood      2007-10-09  207  		out_be32(&pmc_regs->config1,
-> d49747bdfb2dde Scott Wood      2007-10-09  208  		         in_be32(&pmc_regs->config1) | PMCCR1_POWER_OFF);
-> d49747bdfb2dde Scott Wood      2007-10-09  209  
-> d49747bdfb2dde Scott Wood      2007-10-09 @210  		enable_kernel_fp();
-> d49747bdfb2dde Scott Wood      2007-10-09  211  
-> d49747bdfb2dde Scott Wood      2007-10-09  212  		mpc83xx_enter_deep_sleep(immrbase);
-> d49747bdfb2dde Scott Wood      2007-10-09  213  
-> d49747bdfb2dde Scott Wood      2007-10-09  214  		out_be32(&pmc_regs->config1,
-> d49747bdfb2dde Scott Wood      2007-10-09  215  		         in_be32(&pmc_regs->config1) & ~PMCCR1_POWER_OFF);
-> d49747bdfb2dde Scott Wood      2007-10-09  216  
-> d49747bdfb2dde Scott Wood      2007-10-09  217  		out_be32(&pmc_regs->mask, PMCER_PMCI);
-> 87faaabb09d080 Anton Vorontsov 2009-12-10  218  
-> 87faaabb09d080 Anton Vorontsov 2009-12-10  219  		mpc83xx_suspend_restore_regs();
-> d49747bdfb2dde Scott Wood      2007-10-09  220  	} else {
-> d49747bdfb2dde Scott Wood      2007-10-09  221  		out_be32(&pmc_regs->mask, PMCER_PMCI);
-> d49747bdfb2dde Scott Wood      2007-10-09  222  
-> d49747bdfb2dde Scott Wood      2007-10-09  223  		mpc6xx_enter_standby();
-> d49747bdfb2dde Scott Wood      2007-10-09  224  	}
-> d49747bdfb2dde Scott Wood      2007-10-09  225  
-> d49747bdfb2dde Scott Wood      2007-10-09  226  	ret = 0;
-> d49747bdfb2dde Scott Wood      2007-10-09  227  
-> d49747bdfb2dde Scott Wood      2007-10-09  228  out:
-> d49747bdfb2dde Scott Wood      2007-10-09  229  	out_be32(&pmc_regs->config1,
-> d49747bdfb2dde Scott Wood      2007-10-09  230  	         in_be32(&pmc_regs->config1) & ~PMCCR1_PME_EN);
-> d49747bdfb2dde Scott Wood      2007-10-09  231  
-> d49747bdfb2dde Scott Wood      2007-10-09  232  	return ret;
-> d49747bdfb2dde Scott Wood      2007-10-09  233  }
-> d49747bdfb2dde Scott Wood      2007-10-09  234  
-> 
-> :::::: The code at line 210 was first introduced by commit
-> :::::: d49747bdfb2ddebea24d1580da55b79d093d48a9 powerpc/mpc83xx: Power Management support
-> 
-> :::::: TO: Scott Wood <scottwood@freescale.com>
-> :::::: CC: Kumar Gala <galak@kernel.crashing.org>
-> 
+vim +75 include/linux/compat.h
+
+217f4433fc2fe7 Heiko Carstens    2014-02-26  51  
+468366138850f2 Al Viro           2012-11-23  52  #define COMPAT_SYSCALL_DEFINE1(name, ...) \
+468366138850f2 Al Viro           2012-11-23  53          COMPAT_SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  54  #define COMPAT_SYSCALL_DEFINE2(name, ...) \
+468366138850f2 Al Viro           2012-11-23  55  	COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  56  #define COMPAT_SYSCALL_DEFINE3(name, ...) \
+468366138850f2 Al Viro           2012-11-23  57  	COMPAT_SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  58  #define COMPAT_SYSCALL_DEFINE4(name, ...) \
+468366138850f2 Al Viro           2012-11-23  59  	COMPAT_SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  60  #define COMPAT_SYSCALL_DEFINE5(name, ...) \
+468366138850f2 Al Viro           2012-11-23  61  	COMPAT_SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  62  #define COMPAT_SYSCALL_DEFINE6(name, ...) \
+468366138850f2 Al Viro           2012-11-23  63  	COMPAT_SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+468366138850f2 Al Viro           2012-11-23  64  
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  65  /*
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  66   * The asmlinkage stub is aliased to a function named __se_compat_sys_*() which
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  67   * sign-extends 32-bit ints to longs whenever needed. The actual work is
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  68   * done within __do_compat_sys_*().
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  69   */
+7303e30ec1d8fb Dominik Brodowski 2018-04-05  70  #ifndef COMPAT_SYSCALL_DEFINEx
+468366138850f2 Al Viro           2012-11-23  71  #define COMPAT_SYSCALL_DEFINEx(x, name, ...)					\
+bee20031772af3 Arnd Bergmann     2018-06-19  72  	__diag_push();								\
+bee20031772af3 Arnd Bergmann     2018-06-19  73  	__diag_ignore(GCC, 8, "-Wattribute-alias",				\
+bee20031772af3 Arnd Bergmann     2018-06-19  74  		      "Type aliasing is used to sanitize syscall arguments");\
+83460ec8dcac14 Andi Kleen        2013-11-12 @75  	asmlinkage long compat_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  76  		__attribute__((alias(__stringify(__se_compat_sys##name))));	\
+c9a211951c7c79 Howard McLauchlan 2018-03-21  77  	ALLOW_ERROR_INJECTION(compat_sys##name, ERRNO);				\
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  78  	static inline long __do_compat_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  79  	asmlinkage long __se_compat_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  80  	asmlinkage long __se_compat_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
+468366138850f2 Al Viro           2012-11-23  81  	{									\
+bee20031772af3 Arnd Bergmann     2018-06-19  82  		long ret = __do_compat_sys##name(__MAP(x,__SC_DELOUSE,__VA_ARGS__));\
+bee20031772af3 Arnd Bergmann     2018-06-19  83  		__MAP(x,__SC_TEST,__VA_ARGS__);					\
+bee20031772af3 Arnd Bergmann     2018-06-19  84  		return ret;							\
+468366138850f2 Al Viro           2012-11-23  85  	}									\
+bee20031772af3 Arnd Bergmann     2018-06-19  86  	__diag_pop();								\
+5ac9efa3c50d7c Dominik Brodowski 2018-04-09  87  	static inline long __do_compat_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+7303e30ec1d8fb Dominik Brodowski 2018-04-05  88  #endif /* COMPAT_SYSCALL_DEFINEx */
+468366138850f2 Al Viro           2012-11-23  89  
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
