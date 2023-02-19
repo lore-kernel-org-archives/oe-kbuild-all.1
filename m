@@ -1,47 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F029B0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 17:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55A52918
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 18:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676826945; x=1708362945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mxup+H2pIaZG6RXHGUP7zKupNiYpigp1Qwch7Sph2WE=;
-  b=CWXO7BDTXdjSxHrZ2zwU/wfuhSbFCvWrd02J+e/+tQPq+pedUFpXiCCX
-   Il1RY9TtGAHddmrWBbvs9NXXqkUYyQ/7J5XstjVRrGFQaDJqCylF5SMUm
-   1S+Ke/ioqt1i2EXTmLKpXgOuKl7MMa53gEdc8AmjEyInp34iwUZKuhTJx
-   Sx3MkS24qECj4ZTEqiEzH4Wye/U1F+EKEJQTOBAKAP5aoOTk2lf0s/x+O
-   FfVS6c7o1dzr579QFi+Av0MO1Okk3p8Ga7RvC6r7M4k6WeU+cGZvNcHl9
-   +fd6dR4fmY1ATgSeAWbQjuU+BgiVrUqvVGg/4SiwAueMtrWiPbsH8/l+u
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="315979553"
+  t=1676831863; x=1708367863;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LOmyZuqUshu4FXUyk9wX4CSQVX4UFp6dTepzqq19l7Y=;
+  b=g3ZZaT/KnhWuSTuksTRjZ5SkQDTpSMj674pyU+XNMLhLi6iBhv+FJOVM
+   /1MjHLbSEkXgPp4Y+VvBfUjs/AE1KoiZM3R4GXhRnFhuuWTUN2NUnAe7X
+   ye6Vs6RVLZgaWr0JruGynJueETatEiTdetZNvw519Oim3V1EFoS6vlYds
+   q4WLjykJ37zAIhl0fH+gtm6CGhkmFRE+diNZEq/gsdRgzLIYu4AaVreZy
+   dD1MFddNNg6BeeXA8M+TYIN1YXUHDG9EBK/4mjXlaFTxPjb5htMS777YV
+   PmBIqidr9wFl8Pphj9WAgTiCfdm4b10CkVvSca/J0QZl23o3tD2hwg1yQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="311906651"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="315979553"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 09:15:44 -0800
+   d="scan'208";a="311906651"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 10:37:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="620918327"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="734911729"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="620918327"
+   d="scan'208";a="734911729"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 19 Feb 2023 09:15:41 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 19 Feb 2023 10:37:42 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTnHo-000DO9-0v;
-	Sun, 19 Feb 2023 17:15:40 +0000
-Date: Mon, 20 Feb 2023 01:15:10 +0800
+	id 1pToZB-000DPZ-0x;
+	Sun, 19 Feb 2023 18:37:41 +0000
+Date: Mon, 20 Feb 2023 02:37:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v1 09/17] thermal: Add a thermal zone id accessor
-Message-ID: <202302200137.srsrI6dW-lkp@intel.com>
-References: <20230219143657.241542-10-daniel.lezcano@linaro.org>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:atcphy-20230219 9/54] drivers/phy/apple/atc.c:1586:13:
+ warning: variable 'ret' set but not used
+Message-ID: <202302200224.6BlCXTPA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,158 +45,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230219143657.241542-10-daniel.lezcano@linaro.org>
 
-Hi Daniel,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on next-20230217]
-[cannot apply to groeck-staging/hwmon-next tegra/for-next linus/master v6.2-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20230219143657.241542-10-daniel.lezcano%40linaro.org
-patch subject: [PATCH v1 09/17] thermal: Add a thermal zone id accessor
-config: csky-randconfig-r005-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200137.srsrI6dW-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux atcphy-20230219
+head:   9928386c36c8def0becc6ce2db8f18f2111f9b3c
+commit: 168464bc07a38655ea673ba03febe4aeb6cfa5e2 [9/54] WIP: phy: apple: Add Apple Type-C PHY
+config: loongarch-randconfig-r006-20230220 (https://download.01.org/0day-ci/archive/20230220/202302200224.6BlCXTPA-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/37b2cf4cee949fd910b54e281577cb71b2df8842
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
-        git checkout 37b2cf4cee949fd910b54e281577cb71b2df8842
+        # https://github.com/AsahiLinux/linux/commit/168464bc07a38655ea673ba03febe4aeb6cfa5e2
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux atcphy-20230219
+        git checkout 168464bc07a38655ea673ba03febe4aeb6cfa5e2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/hwmon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/pci/ drivers/phy/apple/ drivers/thunderbolt/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200137.srsrI6dW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200224.6BlCXTPA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/hwmon/scmi-hwmon.c: In function 'scmi_hwmon_thermal_get_temp':
-   drivers/hwmon/scmi-hwmon.c:144:49: error: implicit declaration of function 'thermal_zone_device_get_data'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
-     144 |         struct scmi_thermal_sensor *th_sensor = thermal_zone_device_get_data(tz);
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                 thermal_zone_device_enable
-   drivers/hwmon/scmi-hwmon.c:144:49: warning: initialization of 'struct scmi_thermal_sensor *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   In file included from include/linux/device.h:15,
-                    from include/linux/scmi_protocol.h:12,
-                    from drivers/hwmon/scmi-hwmon.c:11:
-   drivers/hwmon/scmi-hwmon.c: In function 'scmi_thermal_sensor_register':
->> drivers/hwmon/scmi-hwmon.c:223:39: error: implicit declaration of function 'thermal_zone_device_get_id'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
-     223 |                         sensor->name, thermal_zone_device_get_id(tzd));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                                ^~~~~~~~~~~
-   drivers/hwmon/scmi-hwmon.c:222:17: note: in expansion of macro 'dev_dbg'
-     222 |                 dev_dbg(dev, "Sensor '%s' attached to thermal zone ID:%d\n",
-         |                 ^~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/phy/apple/atc.c: In function 'atcphy_usb3_power_on':
+>> drivers/phy/apple/atc.c:1586:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1586 |         int ret = 0;
+         |             ^~~
+   drivers/phy/apple/atc.c: In function 'atcphy_usb4_power_on':
+   drivers/phy/apple/atc.c:1858:13: warning: unused variable 'ret' [-Wunused-variable]
+    1858 |         int ret = 0;
+         |             ^~~
 
 
-vim +223 drivers/hwmon/scmi-hwmon.c
+vim +/ret +1586 drivers/phy/apple/atc.c
 
-   138	
-   139	static int scmi_hwmon_thermal_get_temp(struct thermal_zone_device *tz,
-   140					       int *temp)
-   141	{
-   142		int ret;
-   143		long value;
- > 144		struct scmi_thermal_sensor *th_sensor = thermal_zone_device_get_data(tz);
-   145	
-   146		ret = scmi_hwmon_read_scaled_value(th_sensor->ph, th_sensor->info,
-   147						   &value);
-   148		if (!ret)
-   149			*temp = value;
-   150	
-   151		return ret;
-   152	}
-   153	
-   154	static const struct thermal_zone_device_ops scmi_hwmon_thermal_ops = {
-   155		.get_temp = scmi_hwmon_thermal_get_temp,
-   156	};
-   157	
-   158	static int scmi_hwmon_add_chan_info(struct hwmon_channel_info *scmi_hwmon_chan,
-   159					    struct device *dev, int num,
-   160					    enum hwmon_sensor_types type, u32 config)
-   161	{
-   162		int i;
-   163		u32 *cfg = devm_kcalloc(dev, num + 1, sizeof(*cfg), GFP_KERNEL);
-   164	
-   165		if (!cfg)
-   166			return -ENOMEM;
-   167	
-   168		scmi_hwmon_chan->type = type;
-   169		scmi_hwmon_chan->config = cfg;
-   170		for (i = 0; i < num; i++, cfg++)
-   171			*cfg = config;
-   172	
-   173		return 0;
-   174	}
-   175	
-   176	static enum hwmon_sensor_types scmi_types[] = {
-   177		[TEMPERATURE_C] = hwmon_temp,
-   178		[VOLTAGE] = hwmon_in,
-   179		[CURRENT] = hwmon_curr,
-   180		[POWER] = hwmon_power,
-   181		[ENERGY] = hwmon_energy,
-   182	};
-   183	
-   184	static u32 hwmon_attributes[hwmon_max] = {
-   185		[hwmon_temp] = HWMON_T_INPUT | HWMON_T_LABEL,
-   186		[hwmon_in] = HWMON_I_INPUT | HWMON_I_LABEL,
-   187		[hwmon_curr] = HWMON_C_INPUT | HWMON_C_LABEL,
-   188		[hwmon_power] = HWMON_P_INPUT | HWMON_P_LABEL,
-   189		[hwmon_energy] = HWMON_E_INPUT | HWMON_E_LABEL,
-   190	};
-   191	
-   192	static int scmi_thermal_sensor_register(struct device *dev,
-   193						const struct scmi_protocol_handle *ph,
-   194						const struct scmi_sensor_info *sensor)
-   195	{
-   196		struct scmi_thermal_sensor *th_sensor;
-   197		struct thermal_zone_device *tzd;
-   198	
-   199		th_sensor = devm_kzalloc(dev, sizeof(*th_sensor), GFP_KERNEL);
-   200		if (!th_sensor)
-   201			return -ENOMEM;
-   202	
-   203		th_sensor->ph = ph;
-   204		th_sensor->info = sensor;
-   205	
-   206		/*
-   207		 * Try to register a temperature sensor with the Thermal Framework:
-   208		 * skip sensors not defined as part of any thermal zone (-ENODEV) but
-   209		 * report any other errors related to misconfigured zones/sensors.
-   210		 */
-   211		tzd = devm_thermal_of_zone_register(dev, th_sensor->info->id, th_sensor,
-   212						    &scmi_hwmon_thermal_ops);
-   213		if (IS_ERR(tzd)) {
-   214			devm_kfree(dev, th_sensor);
-   215	
-   216			if (PTR_ERR(tzd) != -ENODEV)
-   217				return PTR_ERR(tzd);
-   218	
-   219			dev_dbg(dev, "Sensor '%s' not attached to any thermal zone.\n",
-   220				sensor->name);
-   221		} else {
-   222			dev_dbg(dev, "Sensor '%s' attached to thermal zone ID:%d\n",
- > 223				sensor->name, thermal_zone_device_get_id(tzd));
-   224		}
-   225	
-   226		return 0;
-   227	}
-   228	
+  1581	
+  1582	static int atcphy_usb3_power_on(struct phy *phy)
+  1583	{
+  1584		struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+  1585		enum atcphy_pipehandler_state state;
+> 1586		int ret = 0;
+  1587	
+  1588		/*
+  1589		 * Both usb role switch and mux set work will be running concurrently.
+  1590		 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+  1591		 * trying to switch dwc3 to the correct PHY.
+  1592		 */
+  1593		mutex_lock(&atcphy->lock);
+  1594		if (atcphy->mode != atcphy->target_mode) {
+  1595			reinit_completion(&atcphy->atcphy_online_event);
+  1596			mutex_unlock(&atcphy->lock);
+  1597			wait_for_completion_timeout(&atcphy->atcphy_online_event,
+  1598						    msecs_to_jiffies(2000));
+  1599			mutex_lock(&atcphy->lock);
+  1600		}
+  1601	
+  1602		if (atcphy->mode != atcphy->target_mode) {
+  1603			dev_err(atcphy->dev,
+  1604				"ATCPHY did not come up; won't allow dwc3 to come up.\n");
+  1605			mutex_unlock(&atcphy->lock);
+  1606			return -EINVAL;
+  1607		}
+  1608	
+  1609		atcphy->dwc3_online = true;
+  1610		state = atcphy_modes[atcphy->mode].pipehandler_state;
+  1611		switch (state) {
+  1612		case ATCPHY_PIPEHANDLER_STATE_USB2:
+  1613		case ATCPHY_PIPEHANDLER_STATE_USB3:
+  1614			ret = atcphy_configure_pipehandler(atcphy, state);
+  1615			break;
+  1616	
+  1617		case ATCPHY_PIPEHANDLER_STATE_INVALID:
+  1618		default:
+  1619			dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+  1620				 state);
+  1621			ret = -EINVAL;
+  1622		}
+  1623	
+  1624		mutex_unlock(&atcphy->lock);
+  1625	
+  1626		return 0;
+  1627	}
+  1628	
 
 -- 
 0-DAY CI Kernel Test Service
