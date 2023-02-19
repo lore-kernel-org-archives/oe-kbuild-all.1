@@ -1,47 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA317622;
-	Sun, 19 Feb 2023 02:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C3C7FA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 06:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676773945; x=1708309945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RHNyUdAa5+H/vLBBw3zjDV1Tzi89Jy4ThXSGc7JElDk=;
-  b=Ik3AnRFd9GHlOqh+K3Hi66j0WELcLrCmrWfA0w1LB/eNUVpXqxxmusp6
-   oJpebHEFknHb0EsjpYJ6lZpyKh4zyKgFgOwspDeosTmCkDJ3el90RvARY
-   AppMBclQ8z97+0amTb8JmG1BxPMuzha19Jr4m6rkm0ZZzsFjk1gz8QQ/Z
-   tU7cFPo8OEPxe1bEbkdThLEW9s6c0op+4fut0Q3oWJ8W0MrUiNbtpitP8
-   4jAV7nqPUPU/FmoEjiA51AFw/f7uKJnGbNP7HIazoEZ3Venmusda5mukO
-   bGIQoqcd5zX4boT9ASI77UeeG50NwpMmJuf1fEFwi82R17sqfwub1AifY
+  t=1676787690; x=1708323690;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aZ0FhrdjsbvgAOrQX6wmraFWuYRjwzgsFC95s7S/ISg=;
+  b=VnxAIrmF+ymOTeNsm3UyK3IMbcI3k9je/AwkIXBsiw9ODf9GV0olXXZk
+   tdHbkG1+VUEQ+fwJ2/04/y/XzUK3NTa3wl4oA4lCfn5KmWWTth1XpeXF5
+   hE4Qrd+HOolc49sgcDB47uG/dS5ZK2JHOnSgJc2DPrBGDMazv3KzJvTeB
+   lApF2BCoSmQa3cK4/LCdx8BaXWohI+3GvVq3C7nz6IihIomvag8DpBdUV
+   xAZSAQex23GSEB/rbLE1vy3tJBPhHQwT5AKFHtAYjvA80Nmo8bLcMGvSU
+   JUZ5uceD/AglIrLEKzPHOgo0rE0R2V8ISudQIjJcb7u43pvEgx/yYdLXS
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="394704461"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="320342603"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="394704461"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 18:32:25 -0800
+   d="scan'208";a="320342603"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 22:21:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="916488102"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="759841119"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="916488102"
+   d="scan'208";a="759841119"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Feb 2023 18:32:22 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Feb 2023 22:21:28 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTZV0-000Cwq-0q;
-	Sun, 19 Feb 2023 02:32:22 +0000
-Date: Sun, 19 Feb 2023 10:31:59 +0800
+	id 1pTd4h-000D6D-1D;
+	Sun, 19 Feb 2023 06:21:27 +0000
+Date: Sun, 19 Feb 2023 14:20:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Russell King <linux@armlinux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH] clk: add devm_add_clk_disable_unprepare
-Message-ID: <202302191007.tgr4xPrA-lkp@intel.com>
-References: <e5d7afd3-2e1a-ad5a-a455-8882fae9cc47@gmail.com>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-audio-wsa881x-gpio 174/614]
+ drivers/pci/controller/dwc/pcie-designware.c:895:27: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202302191453.yfNXsXCd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,56 +48,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e5d7afd3-2e1a-ad5a-a455-8882fae9cc47@gmail.com>
 
-Hi Heiner,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v6.2-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/clk-add-devm_add_clk_disable_unprepare/20230219-070000
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/e5d7afd3-2e1a-ad5a-a455-8882fae9cc47%40gmail.com
-patch subject: [PATCH] clk: add devm_add_clk_disable_unprepare
-config: arm-buildonly-randconfig-r001-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191007.tgr4xPrA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-audio-wsa881x-gpio
+head:   ab3b1a5e70c27be92944b0001d5432866887ccc0
+commit: bd02af3b08bb2461727a50b38ea4fcd0f337a795 [174/614] PCI: dwc: Add DW eDMA engine support
+config: arm64-randconfig-s042-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191453.yfNXsXCd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/c4da42247f42760cecce516094595706f88f4bc9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Heiner-Kallweit/clk-add-devm_add_clk_disable_unprepare/20230219-070000
-        git checkout c4da42247f42760cecce516094595706f88f4bc9
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/krzk/linux/commit/bd02af3b08bb2461727a50b38ea4fcd0f337a795
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-audio-wsa881x-gpio
+        git checkout bd02af3b08bb2461727a50b38ea4fcd0f337a795
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/pci/controller/dwc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302191007.tgr4xPrA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302191453.yfNXsXCd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/dwc/pcie-designware.c:895:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void * @@
+   drivers/pci/controller/dwc/pcie-designware.c:895:27: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/pci/controller/dwc/pcie-designware.c:895:27: sparse:     got void *
+   drivers/pci/controller/dwc/pcie-designware.c:906:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void * @@
+   drivers/pci/controller/dwc/pcie-designware.c:906:27: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/pci/controller/dwc/pcie-designware.c:906:27: sparse:     got void *
 
->> drivers/clk/clk-devres.c:228:39: warning: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
-           return devm_add_action_or_reset(dev, (void (*)(void *))clk_disable_unprepare, clk);
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +895 drivers/pci/controller/dwc/pcie-designware.c
 
-
-vim +228 drivers/clk/clk-devres.c
-
-   225	
-   226	int devm_add_clk_disable_unprepare(struct device *dev, struct clk *clk)
-   227	{
- > 228		return devm_add_action_or_reset(dev, (void (*)(void *))clk_disable_unprepare, clk);
+   885	
+   886	static int dw_pcie_edma_ll_alloc(struct dw_pcie *pci)
+   887	{
+   888		struct dw_edma_region *ll;
+   889		dma_addr_t paddr;
+   890		int i;
+   891	
+   892		for (i = 0; i < pci->edma.ll_wr_cnt; i++) {
+   893			ll = &pci->edma.ll_region_wr[i];
+   894			ll->sz = DMA_LLP_MEM_SIZE;
+ > 895			ll->vaddr = dmam_alloc_coherent(pci->dev, ll->sz,
+   896							&paddr, GFP_KERNEL);
+   897			if (!ll->vaddr)
+   898				return -ENOMEM;
+   899	
+   900			ll->paddr = paddr;
+   901		}
+   902	
+   903		for (i = 0; i < pci->edma.ll_rd_cnt; i++) {
+   904			ll = &pci->edma.ll_region_rd[i];
+   905			ll->sz = DMA_LLP_MEM_SIZE;
+   906			ll->vaddr = dmam_alloc_coherent(pci->dev, ll->sz,
+   907							&paddr, GFP_KERNEL);
+   908			if (!ll->vaddr)
+   909				return -ENOMEM;
+   910	
+   911			ll->paddr = paddr;
+   912		}
+   913	
+   914		return 0;
+   915	}
+   916	
 
 -- 
 0-DAY CI Kernel Test Service
