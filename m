@@ -1,42 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E8729B0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 17:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F029B0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 17:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676826350; x=1708362350;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tv70kHaebwWqUYMjGwORavb2Rn5ayuSSdE/gnaKbPH0=;
-  b=dhEjWxVrm04Pn3rwKZXE5rKeKnbZkRuxgZs92/urj3bTJ7ltYb8Mh7jp
-   oyIOMQE3zwt1yaSa000cgtEgXdPxA63nsTg+oW1GcHCoIVfY1lkKR+iHQ
-   FM3GB2/5FJ5t3vhyUOVXK1PU3YX/OMhaEhTTsMsEwdakaEII+94PCAT8Q
-   RvEMdhQ1TYwqjgP8aJrhDeYnpUk2Ep3gSBclrSQmAH8FULZ3SAY4RkT7h
-   aTK1Pyy5ZoaRqq5Zx7hd9dfm5tYLD03/TgS1vd8tlFKskQaWNDJGEFs+3
-   xF5KYZRzx7ETWDrRV8DB8QRa7w+yC2a9BhU1vgdScwqVilqQzQUmeQws1
+  t=1676826945; x=1708362945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Mxup+H2pIaZG6RXHGUP7zKupNiYpigp1Qwch7Sph2WE=;
+  b=CWXO7BDTXdjSxHrZ2zwU/wfuhSbFCvWrd02J+e/+tQPq+pedUFpXiCCX
+   Il1RY9TtGAHddmrWBbvs9NXXqkUYyQ/7J5XstjVRrGFQaDJqCylF5SMUm
+   1S+Ke/ioqt1i2EXTmLKpXgOuKl7MMa53gEdc8AmjEyInp34iwUZKuhTJx
+   Sx3MkS24qECj4ZTEqiEzH4Wye/U1F+EKEJQTOBAKAP5aoOTk2lf0s/x+O
+   FfVS6c7o1dzr579QFi+Av0MO1Okk3p8Ga7RvC6r7M4k6WeU+cGZvNcHl9
+   +fd6dR4fmY1ATgSeAWbQjuU+BgiVrUqvVGg/4SiwAueMtrWiPbsH8/l+u
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="311895505"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="315979553"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="311895505"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 09:05:49 -0800
+   d="scan'208";a="315979553"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 09:15:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="1000038985"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="620918327"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="1000038985"
+   d="scan'208";a="620918327"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Feb 2023 09:05:41 -0800
+  by orsmga003.jf.intel.com with ESMTP; 19 Feb 2023 09:15:41 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTn88-000DNx-0W;
-	Sun, 19 Feb 2023 17:05:40 +0000
-Date: Mon, 20 Feb 2023 01:04:49 +0800
+	id 1pTnHo-000DO9-0v;
+	Sun, 19 Feb 2023 17:15:40 +0000
+Date: Mon, 20 Feb 2023 01:15:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.2-rc 53/53]
- drivers/pci/controller/pcie-mediatek-gen3.c:360:29: error: 'port' undeclared
-Message-ID: <202302200050.1WZ9Lxlg-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v1 09/17] thermal: Add a thermal zone id accessor
+Message-ID: <202302200137.srsrI6dW-lkp@intel.com>
+References: <20230219143657.241542-10-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,148 +50,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230219143657.241542-10-daniel.lezcano@linaro.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.2-rc
-head:   08286f12df4d7c9eff138a9a70925115018a02d5
-commit: 08286f12df4d7c9eff138a9a70925115018a02d5 [53/53] PCI: mediatek-gen3: handle PERST after reset
-config: ia64-randconfig-r016-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200050.1WZ9Lxlg-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Hi Daniel,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on next-20230217]
+[cannot apply to groeck-staging/hwmon-next tegra/for-next linus/master v6.2-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20230219143657.241542-10-daniel.lezcano%40linaro.org
+patch subject: [PATCH v1 09/17] thermal: Add a thermal zone id accessor
+config: csky-randconfig-r005-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200137.srsrI6dW-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/frank-w/BPI-R2-4.14/commit/08286f12df4d7c9eff138a9a70925115018a02d5
-        git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
-        git fetch --no-tags frank-w-bpi-r2-4.14 6.2-rc
-        git checkout 08286f12df4d7c9eff138a9a70925115018a02d5
+        # https://github.com/intel-lab-lkp/linux/commit/37b2cf4cee949fd910b54e281577cb71b2df8842
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230219-224155
+        git checkout 37b2cf4cee949fd910b54e281577cb71b2df8842
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/hwmon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200050.1WZ9Lxlg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200137.srsrI6dW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-mediatek-gen3.c: In function 'mtk_pcie_startup_port':
->> drivers/pci/controller/pcie-mediatek-gen3.c:360:29: error: 'port' undeclared (first use in this function)
-     360 |         writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
-         |                             ^~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:360:29: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/hwmon/scmi-hwmon.c: In function 'scmi_hwmon_thermal_get_temp':
+   drivers/hwmon/scmi-hwmon.c:144:49: error: implicit declaration of function 'thermal_zone_device_get_data'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
+     144 |         struct scmi_thermal_sensor *th_sensor = thermal_zone_device_get_data(tz);
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                 thermal_zone_device_enable
+   drivers/hwmon/scmi-hwmon.c:144:49: warning: initialization of 'struct scmi_thermal_sensor *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from include/linux/device.h:15,
+                    from include/linux/scmi_protocol.h:12,
+                    from drivers/hwmon/scmi-hwmon.c:11:
+   drivers/hwmon/scmi-hwmon.c: In function 'scmi_thermal_sensor_register':
+>> drivers/hwmon/scmi-hwmon.c:223:39: error: implicit declaration of function 'thermal_zone_device_get_id'; did you mean 'thermal_zone_device_enable'? [-Werror=implicit-function-declaration]
+     223 |                         sensor->name, thermal_zone_device_get_id(tzd));
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                                ^~~~~~~~~~~
+   drivers/hwmon/scmi-hwmon.c:222:17: note: in expansion of macro 'dev_dbg'
+     222 |                 dev_dbg(dev, "Sensor '%s' attached to thermal zone ID:%d\n",
+         |                 ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/port +360 drivers/pci/controller/pcie-mediatek-gen3.c
+vim +223 drivers/hwmon/scmi-hwmon.c
 
-   309	
-   310	static int mtk_pcie_startup_port(struct mtk_gen3_pcie *pcie)
-   311	{
-   312		struct resource_entry *entry;
-   313		struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
-   314		unsigned int table_index = 0;
-   315		int err;
-   316		u32 val;
-   317	
-   318		/* Set as RC mode */
-   319		val = readl_relaxed(pcie->base + PCIE_SETTING_REG);
-   320		val |= PCIE_RC_MODE;
-   321		writel_relaxed(val, pcie->base + PCIE_SETTING_REG);
-   322	
-   323		/* Set class code */
-   324		val = readl_relaxed(pcie->base + PCIE_PCI_IDS_1);
-   325		val &= ~GENMASK(31, 8);
-   326		val |= PCI_CLASS(PCI_CLASS_BRIDGE_PCI_NORMAL);
-   327		writel_relaxed(val, pcie->base + PCIE_PCI_IDS_1);
-   328	
-   329		/* Mask all INTx interrupts */
-   330		val = readl_relaxed(pcie->base + PCIE_INT_ENABLE_REG);
-   331		val &= ~PCIE_INTX_ENABLE;
-   332		writel_relaxed(val, pcie->base + PCIE_INT_ENABLE_REG);
-   333	
-   334		/* Disable DVFSRC voltage request */
-   335		val = readl_relaxed(pcie->base + PCIE_MISC_CTRL_REG);
-   336		val |= PCIE_DISABLE_DVFSRC_VLT_REQ;
-   337		writel_relaxed(val, pcie->base + PCIE_MISC_CTRL_REG);
-   338	
-   339		/* Assert all reset signals */
-   340		val = readl_relaxed(pcie->base + PCIE_RST_CTRL_REG);
-   341		val |= PCIE_MAC_RSTB | PCIE_PHY_RSTB | PCIE_BRG_RSTB | PCIE_PE_RSTB;
-   342		writel_relaxed(val, pcie->base + PCIE_RST_CTRL_REG);
-   343	
-   344		/*
-   345		 * Described in PCIe CEM specification sections 2.2 (PERST# Signal)
-   346		 * and 2.2.1 (Initial Power-Up (G3 to S0)).
-   347		 * The deassertion of PERST# should be delayed 100ms (TPVPERL)
-   348		 * for the power and clock to become stable.
-   349		 */
-   350		msleep(100);
-   351	
-   352		/* De-assert reset signals */
-   353		val &= ~(PCIE_MAC_RSTB | PCIE_PHY_RSTB | PCIE_BRG_RSTB);
-   354		writel_relaxed(val, pcie->base + PCIE_RST_CTRL_REG);
-   355	
-   356		msleep(100);
-   357	
-   358		/* De-assert PERST# signals */
-   359		val &= ~(PCIE_PE_RSTB);
- > 360		writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
-   361	
-   362		/* Check if the link is up or not */
-   363		err = readl_poll_timeout(pcie->base + PCIE_LINK_STATUS_REG, val,
-   364					 !!(val & PCIE_PORT_LINKUP), 20,
-   365					 PCI_PM_D3COLD_WAIT * USEC_PER_MSEC);
-   366		if (err) {
-   367			const char *ltssm_state;
-   368			int ltssm_index;
-   369	
-   370			val = readl_relaxed(pcie->base + PCIE_LTSSM_STATUS_REG);
-   371			ltssm_index = PCIE_LTSSM_STATE(val);
-   372			ltssm_state = ltssm_index >= ARRAY_SIZE(ltssm_str) ?
-   373				      "Unknown state" : ltssm_str[ltssm_index];
-   374			dev_err(pcie->dev,
-   375				"PCIe link down, current LTSSM state: %s (%#x)\n",
-   376				ltssm_state, val);
-   377			return err;
-   378		}
-   379	
-   380		mtk_pcie_enable_msi(pcie);
-   381	
-   382		/* Set PCIe translation windows */
-   383		resource_list_for_each_entry(entry, &host->windows) {
-   384			struct resource *res = entry->res;
-   385			unsigned long type = resource_type(res);
-   386			resource_size_t cpu_addr;
-   387			resource_size_t pci_addr;
-   388			resource_size_t size;
-   389			const char *range_type;
-   390	
-   391			if (type == IORESOURCE_IO) {
-   392				cpu_addr = pci_pio_to_address(res->start);
-   393				range_type = "IO";
-   394			} else if (type == IORESOURCE_MEM) {
-   395				cpu_addr = res->start;
-   396				range_type = "MEM";
-   397			} else {
-   398				continue;
-   399			}
-   400	
-   401			pci_addr = res->start - entry->offset;
-   402			size = resource_size(res);
-   403			err = mtk_pcie_set_trans_table(pcie, cpu_addr, pci_addr, size,
-   404						       type, table_index);
-   405			if (err)
-   406				return err;
-   407	
-   408			dev_dbg(pcie->dev, "set %s trans window[%d]: cpu_addr = %#llx, pci_addr = %#llx, size = %#llx\n",
-   409				range_type, table_index, (unsigned long long)cpu_addr,
-   410				(unsigned long long)pci_addr, (unsigned long long)size);
-   411	
-   412			table_index++;
-   413		}
-   414	
-   415		return 0;
-   416	}
-   417	
+   138	
+   139	static int scmi_hwmon_thermal_get_temp(struct thermal_zone_device *tz,
+   140					       int *temp)
+   141	{
+   142		int ret;
+   143		long value;
+ > 144		struct scmi_thermal_sensor *th_sensor = thermal_zone_device_get_data(tz);
+   145	
+   146		ret = scmi_hwmon_read_scaled_value(th_sensor->ph, th_sensor->info,
+   147						   &value);
+   148		if (!ret)
+   149			*temp = value;
+   150	
+   151		return ret;
+   152	}
+   153	
+   154	static const struct thermal_zone_device_ops scmi_hwmon_thermal_ops = {
+   155		.get_temp = scmi_hwmon_thermal_get_temp,
+   156	};
+   157	
+   158	static int scmi_hwmon_add_chan_info(struct hwmon_channel_info *scmi_hwmon_chan,
+   159					    struct device *dev, int num,
+   160					    enum hwmon_sensor_types type, u32 config)
+   161	{
+   162		int i;
+   163		u32 *cfg = devm_kcalloc(dev, num + 1, sizeof(*cfg), GFP_KERNEL);
+   164	
+   165		if (!cfg)
+   166			return -ENOMEM;
+   167	
+   168		scmi_hwmon_chan->type = type;
+   169		scmi_hwmon_chan->config = cfg;
+   170		for (i = 0; i < num; i++, cfg++)
+   171			*cfg = config;
+   172	
+   173		return 0;
+   174	}
+   175	
+   176	static enum hwmon_sensor_types scmi_types[] = {
+   177		[TEMPERATURE_C] = hwmon_temp,
+   178		[VOLTAGE] = hwmon_in,
+   179		[CURRENT] = hwmon_curr,
+   180		[POWER] = hwmon_power,
+   181		[ENERGY] = hwmon_energy,
+   182	};
+   183	
+   184	static u32 hwmon_attributes[hwmon_max] = {
+   185		[hwmon_temp] = HWMON_T_INPUT | HWMON_T_LABEL,
+   186		[hwmon_in] = HWMON_I_INPUT | HWMON_I_LABEL,
+   187		[hwmon_curr] = HWMON_C_INPUT | HWMON_C_LABEL,
+   188		[hwmon_power] = HWMON_P_INPUT | HWMON_P_LABEL,
+   189		[hwmon_energy] = HWMON_E_INPUT | HWMON_E_LABEL,
+   190	};
+   191	
+   192	static int scmi_thermal_sensor_register(struct device *dev,
+   193						const struct scmi_protocol_handle *ph,
+   194						const struct scmi_sensor_info *sensor)
+   195	{
+   196		struct scmi_thermal_sensor *th_sensor;
+   197		struct thermal_zone_device *tzd;
+   198	
+   199		th_sensor = devm_kzalloc(dev, sizeof(*th_sensor), GFP_KERNEL);
+   200		if (!th_sensor)
+   201			return -ENOMEM;
+   202	
+   203		th_sensor->ph = ph;
+   204		th_sensor->info = sensor;
+   205	
+   206		/*
+   207		 * Try to register a temperature sensor with the Thermal Framework:
+   208		 * skip sensors not defined as part of any thermal zone (-ENODEV) but
+   209		 * report any other errors related to misconfigured zones/sensors.
+   210		 */
+   211		tzd = devm_thermal_of_zone_register(dev, th_sensor->info->id, th_sensor,
+   212						    &scmi_hwmon_thermal_ops);
+   213		if (IS_ERR(tzd)) {
+   214			devm_kfree(dev, th_sensor);
+   215	
+   216			if (PTR_ERR(tzd) != -ENODEV)
+   217				return PTR_ERR(tzd);
+   218	
+   219			dev_dbg(dev, "Sensor '%s' not attached to any thermal zone.\n",
+   220				sensor->name);
+   221		} else {
+   222			dev_dbg(dev, "Sensor '%s' attached to thermal zone ID:%d\n",
+ > 223				sensor->name, thermal_zone_device_get_id(tzd));
+   224		}
+   225	
+   226		return 0;
+   227	}
+   228	
 
 -- 
 0-DAY CI Kernel Test Service
