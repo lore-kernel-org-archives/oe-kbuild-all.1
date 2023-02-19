@@ -1,42 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B3D624
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 01:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA317622;
+	Sun, 19 Feb 2023 02:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676771544; x=1708307544;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uiBQOGmrsOFLzXwFkKwPMxu2RTU+db19+JoPP5swL90=;
-  b=mb22VOdUi3ZL77LdT7pxM7zOqIey2AN1k7+qHN44b+tB8mRLTYpkrDw0
-   KW3G9tyj/1VRSI4uR5mL3aUULk7zarYiZd2PdSdgtzHOdj/A6jOtRxCp8
-   r+Sv9ONB2fXWXwLiQESMsU8tsOmamUKfUdj84fICpyFqaJ/8bQRm4lGIc
-   /UEOG9Z0+pMcUOc9SBiJ/jQPHkZv246szaEyAClEetb8Ta65Z3lveFWfZ
-   Qncjc5n8wUFWQHNi0KD7naZ4szso5es9eCvuMs8Lgju1gjE7GGVIZb9hx
-   lSRcQHLk46eR0dE+IaayRNv656Kd5uO1eNde9u5La9xd28cbQVhwqa2hW
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="334417337"
+  t=1676773945; x=1708309945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RHNyUdAa5+H/vLBBw3zjDV1Tzi89Jy4ThXSGc7JElDk=;
+  b=Ik3AnRFd9GHlOqh+K3Hi66j0WELcLrCmrWfA0w1LB/eNUVpXqxxmusp6
+   oJpebHEFknHb0EsjpYJ6lZpyKh4zyKgFgOwspDeosTmCkDJ3el90RvARY
+   AppMBclQ8z97+0amTb8JmG1BxPMuzha19Jr4m6rkm0ZZzsFjk1gz8QQ/Z
+   tU7cFPo8OEPxe1bEbkdThLEW9s6c0op+4fut0Q3oWJ8W0MrUiNbtpitP8
+   4jAV7nqPUPU/FmoEjiA51AFw/f7uKJnGbNP7HIazoEZ3Venmusda5mukO
+   bGIQoqcd5zX4boT9ASI77UeeG50NwpMmJuf1fEFwi82R17sqfwub1AifY
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="394704461"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="334417337"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 17:52:23 -0800
+   d="scan'208";a="394704461"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 18:32:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="620789514"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="916488102"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="620789514"
+   d="scan'208";a="916488102"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Feb 2023 17:52:22 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 18 Feb 2023 18:32:22 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTYsH-000Cvh-1z;
-	Sun, 19 Feb 2023 01:52:21 +0000
-Date: Sun, 19 Feb 2023 09:51:24 +0800
+	id 1pTZV0-000Cwq-0q;
+	Sun, 19 Feb 2023 02:32:22 +0000
+Date: Sun, 19 Feb 2023 10:31:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atish Patra <atishp@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <Atish.Patra@wdc.com>
-Subject: [atishp04:dev/atishp/kvm_aptee_v2 53/81] arch/riscv/kvm/tee.c:75:5:
- warning: no previous prototype for 'kvm_riscv_tee_hfence'
-Message-ID: <202302190959.nMDqWTq3-lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: add devm_add_clk_disable_unprepare
+Message-ID: <202302191007.tgr4xPrA-lkp@intel.com>
+References: <e5d7afd3-2e1a-ad5a-a455-8882fae9cc47@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,57 +50,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e5d7afd3-2e1a-ad5a-a455-8882fae9cc47@gmail.com>
 
-tree:   https://github.com/atishp04/linux dev/atishp/kvm_aptee_v2
-head:   d197b8d11a62173ef947c17d84ea53f73edf538c
-commit: d6270e4098693cffe639ffa54804f9c568383ab8 [53/81] RISC-V: KVM: Add a skeleton TEE implementation
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230219/202302190959.nMDqWTq3-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Heiner,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.2-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/clk-add-devm_add_clk_disable_unprepare/20230219-070000
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/e5d7afd3-2e1a-ad5a-a455-8882fae9cc47%40gmail.com
+patch subject: [PATCH] clk: add devm_add_clk_disable_unprepare
+config: arm-buildonly-randconfig-r001-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191007.tgr4xPrA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/d6270e4098693cffe639ffa54804f9c568383ab8
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 dev/atishp/kvm_aptee_v2
-        git checkout d6270e4098693cffe639ffa54804f9c568383ab8
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/c4da42247f42760cecce516094595706f88f4bc9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Heiner-Kallweit/clk-add-devm_add_clk_disable_unprepare/20230219-070000
+        git checkout c4da42247f42760cecce516094595706f88f4bc9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302190959.nMDqWTq3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302191007.tgr4xPrA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/riscv/kvm/tee.c:75:5: warning: no previous prototype for 'kvm_riscv_tee_hfence' [-Wmissing-prototypes]
-      75 | int kvm_riscv_tee_hfence(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/kvm/tee.c:17:
-   arch/riscv/include/asm/kvm_mmu.h:19:22: warning: 'gstage_mode' defined but not used [-Wunused-variable]
-      19 | static unsigned long gstage_mode = (HGATP_MODE_SV39X4 << HGATP_MODE_SHIFT);
-         |                      ^~~~~~~~~~~
+>> drivers/clk/clk-devres.c:228:39: warning: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
+           return devm_add_action_or_reset(dev, (void (*)(void *))clk_disable_unprepare, clk);
+                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/kvm_riscv_tee_hfence +75 arch/riscv/kvm/tee.c
+vim +228 drivers/clk/clk-devres.c
 
-    74	
-  > 75	int kvm_riscv_tee_hfence(void)
-    76	{
-    77		int rc = sbi_teeh_tsm_global_fence();
-    78	
-    79		if (rc > 0) {
-    80			kvm_err("global fence for TSM failed %d\n", rc);
-    81			return rc;
-    82		}
-    83	
-    84		/* Initiate local fence on each online hart */
-    85		on_each_cpu(kvm_tee_local_fence, NULL, 1);
-    86	
-    87		return rc;
-    88	}
-    89	
+   225	
+   226	int devm_add_clk_disable_unprepare(struct device *dev, struct clk *clk)
+   227	{
+ > 228		return devm_add_action_or_reset(dev, (void (*)(void *))clk_disable_unprepare, clk);
 
 -- 
 0-DAY CI Kernel Test Service
