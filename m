@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D0C23A1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 15:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC0323A1;
+	Sun, 19 Feb 2023 15:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676818961; x=1708354961;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RpFCyU8I+ZJSmBXeIJ4rdK7Jv/KX3c5a32KwmS0aakk=;
-  b=Eo0nsK4UwNztnTnZOOHVWV++eUrreYDpl1Iea9YqLayfF+0Fr0u2pEYE
-   /sORg5MPyvo3P+Si++O6YshmtR6Aek04bicSPbTi9C0g2U5tl64ttXaEr
-   tDuwYfLLi9hsoK+l8tLMQI8tnsuYFK/+dek04Ha3JO4dnU6dTgzV41LjM
-   J1U9bTztgyNczEqE5wNP+ensophtm10EeaaHwytxXTUnEDd+Lg8lPpCoJ
-   cp4kmZ9pAGtdeOqpfGS8gkA+Yfhoy8TvquSI5zXQ46vUPR1HH+l+KKAFE
-   +NoGI+c+zR7fsGgAzmKjJRBqNqeOBPt4UloWf/px1Bw0OuzbKlupu856V
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="418477788"
+  t=1676818968; x=1708354968;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fjEIPxLTZhw5PoUtO9RHdZE2X1+ToWdET6Sztzd0qng=;
+  b=VraCfKY93zpjxa0KNVmqngiouMvQ9QxDaJTORoUKFH/4fGsJqSha4OJs
+   gYzdGQFhICRL2iPww2zVJ4QhGbnNceFrkv7uAueuMJnk5zGRLJGN6+xdu
+   IARNnCiU5XtENY6woxLtVWH3TOnlT9Fe59NFyoFW9yZqFAerTKEqiq3CJ
+   8EOlysuCPyHLWDjSrWFK8oElXLOgDva/6h4IJWLQd5JpwcIP3fGjVTBHs
+   abtlqf9y5QpnnL9RJUrXVyYz/pvnU/ftoBfkkPpMh3ehvSZpact+PIBOC
+   FPYCglR284JaZGL3gKFXwPrNmZrQShABg07eSdq87g9+T/z6PFBvX45D+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394737509"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="418477788"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 07:02:40 -0800
+   d="scan'208";a="394737509"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 07:02:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="648589798"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="794928802"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="648589798"
+   d="scan'208";a="794928802"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Feb 2023 07:02:38 -0800
+  by orsmga004.jf.intel.com with ESMTP; 19 Feb 2023 07:02:38 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTlD4-000DLO-0Q;
+	id 1pTlD4-000DLJ-05;
 	Sun, 19 Feb 2023 15:02:38 +0000
-Date: Sun, 19 Feb 2023 23:02:03 +0800
+Date: Sun, 19 Feb 2023 23:02:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 4479/13499] fsl-edma.c:undefined reference to
- `devm_platform_ioremap_resource'
-Message-ID: <202302192254.EGOAcwpm-lkp@intel.com>
+To: Felix Fietkau <nbd@nbd.name>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v3] net/core: add optional threading for backlog processing
+Message-ID: <202302192211.Dvru0wO7-lkp@intel.com>
+References: <20230219131006.92681-1-nbd@nbd.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,43 +46,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230219131006.92681-1-nbd@nbd.name>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c068f40300a0eaa34f7105d137a5560b86951aa9
-commit: 4b23603a251d24022f2fa48ee67610eb245a4115 [4479/13499] dmaengine: drivers: Use devm_platform_ioremap_resource()
-config: s390-randconfig-c034-20230219 (https://download.01.org/0day-ci/archive/20230219/202302192254.EGOAcwpm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Felix,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on net-next/master]
+[also build test WARNING on horms-ipvs/master linus/master v6.2-rc8 next-20230217]
+[cannot apply to net/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Fietkau/net-core-add-optional-threading-for-backlog-processing/20230219-211100
+patch link:    https://lore.kernel.org/r/20230219131006.92681-1-nbd%40nbd.name
+patch subject: [RFC v3] net/core: add optional threading for backlog processing
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230219/202302192211.Dvru0wO7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4b23603a251d24022f2fa48ee67610eb245a4115
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4b23603a251d24022f2fa48ee67610eb245a4115
+        # https://github.com/intel-lab-lkp/linux/commit/7912164b6828c63b948d6ff9d21599f6cecbf4fc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Felix-Fietkau/net-core-add-optional-threading-for-backlog-processing/20230219-211100
+        git checkout 7912164b6828c63b948d6ff9d21599f6cecbf4fc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302192254.EGOAcwpm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302192211.Dvru0wO7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/dma/fsl-edma.o: in function `fsl_edma_probe':
->> fsl-edma.c:(.text+0x1066): undefined reference to `devm_platform_ioremap_resource'
->> s390-linux-ld: fsl-edma.c:(.text+0x118c): undefined reference to `devm_platform_ioremap_resource'
-   s390-linux-ld: drivers/dma/idma64.o: in function `idma64_platform_probe':
-   idma64.c:(.text+0x1d1e): undefined reference to `devm_platform_ioremap_resource'
-   s390-linux-ld: drivers/dma/qcom/hidma.o: in function `hidma_probe':
-   hidma.c:(.text+0x530): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: hidma.c:(.text+0x59c): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: drivers/crypto/ccree/cc_driver.o: in function `init_cc_resources':
-   cc_driver.c:(.text+0xd84): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: drivers/crypto/ccree/cc_debugfs.o: in function `cc_debugfs_init':
-   cc_debugfs.c:(.text+0x116): undefined reference to `debugfs_create_regset32'
-   s390-linux-ld: cc_debugfs.c:(.text+0x20c): undefined reference to `debugfs_create_regset32'
+>> net/core/dev.c:5812:20: warning: variable 'process_queue_empty' is uninitialized when used here [-Wuninitialized]
+                   flush_processq = process_queue_empty == sd->process_queue_empty;
+                                    ^~~~~~~~~~~~~~~~~~~
+   net/core/dev.c:5773:34: note: initialize the variable 'process_queue_empty' to silence this warning
+           unsigned int process_queue_empty;
+                                           ^
+                                            = 0
+   net/core/dev.c:5093:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
+   sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
+   ^
+   net/core/dev.c:5246:19: warning: unused function 'nf_ingress' [-Wunused-function]
+   static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
+                     ^
+   3 warnings generated.
+
+
+vim +/process_queue_empty +5812 net/core/dev.c
+
+  5769	
+  5770	/* Network device is going away, flush any packets still pending */
+  5771	static void flush_backlog(struct work_struct *work)
+  5772	{
+  5773		unsigned int process_queue_empty;
+  5774		bool threaded, flush_processq;
+  5775		struct sk_buff *skb, *tmp;
+  5776		struct softnet_data *sd;
+  5777	
+  5778		local_bh_disable();
+  5779		sd = this_cpu_ptr(&softnet_data);
+  5780	
+  5781		rps_lock_irq_disable(sd);
+  5782		skb_queue_walk_safe(&sd->input_pkt_queue, skb, tmp) {
+  5783			if (skb->dev->reg_state == NETREG_UNREGISTERING) {
+  5784				__skb_unlink(skb, &sd->input_pkt_queue);
+  5785				dev_kfree_skb_irq(skb);
+  5786				input_queue_head_incr(sd);
+  5787			}
+  5788		}
+  5789	
+  5790		threaded = test_bit(NAPI_STATE_THREADED, &sd->backlog.state);
+  5791		flush_processq = threaded &&
+  5792				 !skb_queue_empty_lockless(&sd->process_queue);
+  5793		rps_unlock_irq_enable(sd);
+  5794	
+  5795		if (threaded)
+  5796			goto out;
+  5797	
+  5798		skb_queue_walk_safe(&sd->process_queue, skb, tmp) {
+  5799			if (skb->dev->reg_state == NETREG_UNREGISTERING) {
+  5800				__skb_unlink(skb, &sd->process_queue);
+  5801				kfree_skb(skb);
+  5802				input_queue_head_incr(sd);
+  5803			}
+  5804		}
+  5805	
+  5806	out:
+  5807		local_bh_enable();
+  5808	
+  5809		while (flush_processq) {
+  5810			msleep(1);
+  5811			rps_lock_irq_disable(sd);
+> 5812			flush_processq = process_queue_empty == sd->process_queue_empty;
+  5813			rps_unlock_irq_enable(sd);
+  5814		}
+  5815	}
+  5816	
 
 -- 
 0-DAY CI Kernel Test Service
