@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457D07F8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 16:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E8729B0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Feb 2023 17:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676825082; x=1708361082;
+  t=1676826350; x=1708362350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dhHJa72Ku+vpZCuH6EPWmgsx39IFDCV2+zQCGi6X89M=;
-  b=TvR9shJZUxZGM55UfgG4rLGWBq82rU9Leo14pqR9zG1PRN5WVdQhC7Pi
-   JX4bCVFQ8bHiFky1S7vCfQPH/bveSFQ03COpFTbptoXGCQK8s+Io1BusH
-   LCDYDUnS4gMJMdKEzqgdgmfoi1aqQyLm8F3aAZqdtocvzHW/MNb6j0Oj4
-   ZLVUGlMqQTMsbLMwt38T2oy6UReoqkJAxJQ6Jq2KNWM30iQBH946tu9iY
-   6NXbkVvoBmtCfukyV9ic0G+zIs/0hpcOXV/BHBJZNwSEOWU2FYeQclBKh
-   YxTCWIZUUrRdXh4pk/+5Efhee/dSy0fV6bevDrXztFOsk0JGmCWu1gTGg
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="334464336"
+  bh=tv70kHaebwWqUYMjGwORavb2Rn5ayuSSdE/gnaKbPH0=;
+  b=dhEjWxVrm04Pn3rwKZXE5rKeKnbZkRuxgZs92/urj3bTJ7ltYb8Mh7jp
+   oyIOMQE3zwt1yaSa000cgtEgXdPxA63nsTg+oW1GcHCoIVfY1lkKR+iHQ
+   FM3GB2/5FJ5t3vhyUOVXK1PU3YX/OMhaEhTTsMsEwdakaEII+94PCAT8Q
+   RvEMdhQ1TYwqjgP8aJrhDeYnpUk2Ep3gSBclrSQmAH8FULZ3SAY4RkT7h
+   aTK1Pyy5ZoaRqq5Zx7hd9dfm5tYLD03/TgS1vd8tlFKskQaWNDJGEFs+3
+   xF5KYZRzx7ETWDrRV8DB8QRa7w+yC2a9BhU1vgdScwqVilqQzQUmeQws1
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="311895505"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="334464336"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 08:44:41 -0800
+   d="scan'208";a="311895505"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 09:05:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="759936102"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="1000038985"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="759936102"
+   d="scan'208";a="1000038985"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 08:44:40 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 19 Feb 2023 09:05:41 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTmnn-000DNN-27;
-	Sun, 19 Feb 2023 16:44:39 +0000
-Date: Mon, 20 Feb 2023 00:44:22 +0800
+	id 1pTn88-000DNx-0W;
+	Sun, 19 Feb 2023 17:05:40 +0000
+Date: Mon, 20 Feb 2023 01:04:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [frank-w-bpi-r2-4.14:6.2-rc 53/53]
- drivers/pci/controller/pcie-mediatek-gen3.c:360:22: error: use of undeclared
- identifier 'port'
-Message-ID: <202302200020.o7XBbT7A-lkp@intel.com>
+ drivers/pci/controller/pcie-mediatek-gen3.c:360:29: error: 'port' undeclared
+Message-ID: <202302200050.1WZ9Lxlg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,32 +49,31 @@ Content-Disposition: inline
 tree:   https://github.com/frank-w/BPI-R2-4.14 6.2-rc
 head:   08286f12df4d7c9eff138a9a70925115018a02d5
 commit: 08286f12df4d7c9eff138a9a70925115018a02d5 [53/53] PCI: mediatek-gen3: handle PERST after reset
-config: powerpc-randconfig-r006-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200020.o7XBbT7A-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+config: ia64-randconfig-r016-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200050.1WZ9Lxlg-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
         # https://github.com/frank-w/BPI-R2-4.14/commit/08286f12df4d7c9eff138a9a70925115018a02d5
         git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
         git fetch --no-tags frank-w-bpi-r2-4.14 6.2-rc
         git checkout 08286f12df4d7c9eff138a9a70925115018a02d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/pci/controller/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200020.o7XBbT7A-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200050.1WZ9Lxlg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/pcie-mediatek-gen3.c:360:22: error: use of undeclared identifier 'port'
-           writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
-                               ^
-   1 error generated.
+   drivers/pci/controller/pcie-mediatek-gen3.c: In function 'mtk_pcie_startup_port':
+>> drivers/pci/controller/pcie-mediatek-gen3.c:360:29: error: 'port' undeclared (first use in this function)
+     360 |         writel_relaxed(val, port->base + PCIE_RST_CTRL_REG);
+         |                             ^~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:360:29: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/port +360 drivers/pci/controller/pcie-mediatek-gen3.c
