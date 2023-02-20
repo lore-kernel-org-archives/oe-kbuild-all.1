@@ -1,45 +1,53 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDA47E9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 01:01:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8237E9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 01:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676854915; x=1708390915;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Hp/QfsoMajlo8cCMPPXhv21MaOR/wLGzDWQL9U922o=;
-  b=IjGLd27hntlbQQYb10ZSfPfOLP4fIgchPVXT7HWgGJ7W2ym+FvLrhJgJ
-   7R/Co9zLcVDMarh5xRp5DZKUB6QFBoYT2WL1v01lJu6kkSk1d7RpHlXc9
-   dFbNYVHZ/9QAIUmJLZPdKs7etDz4bt/MmTRJiXrK704Mwvn3an3tUlxKG
-   83BOLaw6i/X6ym0fKzgfj8WDf1dLUI8M1UQrLaQV19mPBBt8s16wKGoAT
-   TlwY5NjDd8b67/mNtd0mVs81EEKA2u0jELTOdpyZYH1F6jHGWm9g99V2u
-   G2MUFRkRZuvr049kC2r+k2ZkMGpfQm6MGne+0lXK8sXW39Cg6FLHTU1Af
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359763566"
+  t=1676854917; x=1708390917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZzntQ3V7u7adDDspP52ftt0OsOPYSqFBr5Qb62NUZuE=;
+  b=ExNTsluAk+QWn0XkIbDp4JqGUYLRGbVryu7Zyh148tE66e9xEBBSDef0
+   KYM239QKcQGwVDWjTCyk60Q/N9pOFwQZhUAlucvV4Ylb6wng+hYniMqmx
+   J0UJMraZxqlMNaSMbdXramWuxls1DdOn2TFF+CtB85NXCM7izeFNjYWQI
+   9bux+cJ8a2JNrqXwFk6tdU9F52ORrEDOpPhJ9TlU0iR0aV19oISLIaFXt
+   N1FCDpi7JtK7hfbamBDta6LlHZnaamWY1dhysyUqSy+jQUdulYjGE4OiZ
+   wK2s4nEks1jbOEJbCxve0jqPpMX38L1ov4+qm+M/Nu8uXrwKfvdHeGYh8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359763570"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="359763566"
+   d="scan'208";a="359763570"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 17:01:54 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 17:01:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="795012186"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="795012209"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="795012186"
+   d="scan'208";a="795012209"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 19 Feb 2023 17:01:52 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTuYx-000DWT-1a;
+	id 1pTuYx-000DWR-1Y;
 	Mon, 20 Feb 2023 01:01:51 +0000
-Date: Mon, 20 Feb 2023 09:00:55 +0800
+Date: Mon, 20 Feb 2023 09:00:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: ERROR: modpost: "create_function_device"
- [drivers/usb/gadget/function/usb_f_audio_source.ko] undefined!
-Message-ID: <202302200816.2veXrbKa-lkp@intel.com>
+To: Ye Xiang <xiang.ye@intel.com>, Lee Jones <lee@kernel.org>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Tyrone Ting <kfting@nuvoton.com>, Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@intel.com,
+	heikki.krogerus@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	sakari.ailus@linux.intel.com, zhifeng.wang@intel.com,
+	wentong.wu@intel.com, lixu.zhang@intel.com,
+	Ye Xiang <xiang.ye@intel.com>
+Subject: Re: [PATCH 2/5] gpio: Add support for Intel LJCA USB GPIO driver
+Message-ID: <202302200820.aUaMtEFR-lkp@intel.com>
+References: <20230219183059.1029525-3-xiang.ye@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,34 +56,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230219183059.1029525-3-xiang.ye@intel.com>
 
-Hi Mike,
+Hi Ye,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: 79847ce8aefb51dd32202ad9c186aff0541b14a6 ANDROID: usb: gadget: f_audio_source: New gadget driver for audio output
-date:   2 years, 2 months ago
-config: x86_64-randconfig-r003-20230220 (https://download.01.org/0day-ci/archive/20230220/202302200816.2veXrbKa-lkp@intel.com/config)
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes wsa/i2c/for-next broonie-spi/for-next linus/master v6.2-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20230219183059.1029525-3-xiang.ye%40intel.com
+patch subject: [PATCH 2/5] gpio: Add support for Intel LJCA USB GPIO driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230220/202302200820.aUaMtEFR-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=79847ce8aefb51dd32202ad9c186aff0541b14a6
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout 79847ce8aefb51dd32202ad9c186aff0541b14a6
+        # https://github.com/intel-lab-lkp/linux/commit/ddd4f4ee32eff2fd7cb9933efdc8966d58894160
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
+        git checkout ddd4f4ee32eff2fd7cb9933efdc8966d58894160
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302200816.2veXrbKa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302200820.aUaMtEFR-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "create_function_device" [drivers/usb/gadget/function/usb_f_audio_source.ko] undefined!
+>> drivers/gpio/gpio-ljca.c:436:40: warning: 'ljca_gpio_id' defined but not used [-Wunused-const-variable=]
+     436 | static const struct platform_device_id ljca_gpio_id[] = {
+         |                                        ^~~~~~~~~~~~
+
+
+vim +/ljca_gpio_id +436 drivers/gpio/gpio-ljca.c
+
+   434	
+   435	#define LJCA_GPIO_DRV_NAME "ljca-gpio"
+ > 436	static const struct platform_device_id ljca_gpio_id[] = {
+   437		{ LJCA_GPIO_DRV_NAME, 0 },
+   438		{ /* sentinel */ }
+   439	};
+   440	MODULE_DEVICE_TABLE(platform, ljca_gpio_id);
+   441	
 
 -- 
 0-DAY CI Kernel Test Service
