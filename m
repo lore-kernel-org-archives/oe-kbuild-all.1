@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4C63201
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 11:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781602F4B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 12:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676893816; x=1708429816;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WMNKujlqZjG5Bj9fEjPqI2hmpK/LsbPv2POhzPuXeXU=;
-  b=ELqhLXnNboAtnbNAaTAogY4DyYagrkyHzm5sxrQ6GqDvSTtOLXG+pECW
-   q3vq1doAtNT7yaPxkcez77GrRdffes9YPulUq5pIOSFbU1dappzqFFhhR
-   hfB6NzplkMoXDZYeECj8YWXEIL2R9jvWjdp2IcwCdwi822U9BLMUNA+32
-   SywfdXAo1IhjRk86hkQQReX10vxnLyVbhBbkNlakmAAqGn4NOExhNvtsj
-   fGcQ+/ZxPX9J8UB4aPRR7t6CYVwjK6bYXYfZ+6GUkomdiX+po5+KUROe5
-   eKZNN3Moo1Iify9gy0P+ACtNc7ekQSnYk02iBz0gZhoNFqtjGve3qgIOa
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="331048632"
+  t=1676896278; x=1708432278;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Kn3HV4A9P3dy2rcfVINvO28tAc9045o5Hscr84UwtVY=;
+  b=hJ2j6GY7/QEfrSSNhffWLANYpRJCXNTp4z3r5EL2aIkTck7WbQHAQxrL
+   ekk0kvB/pQ7mya/tcgWKqZaQNzhZuTI+oAOGtq5sNmEbYF2CggnRnnaZu
+   mT9Mc2GoiI3BY4Hy7/pzj4vJ5aXwn+kE8vBH5ps+FTOaXIOlFcDuKqQz3
+   jaQIduw5nzJOZJpPBYKyF7PnNySu7XfDkeMSQKk6amy/mhqOTfxvJziVN
+   t3Ldf8C2aLRevkXMpFAyEgLuAatbpAAZ7bhfSmEfc6PDiq0J5PIS3iuVY
+   OR4JZZ3Pz6Lu8M1rXpRq7h0f7qZ/OvsmvjKcUNBEu002NVL5qRM7Jo76J
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="333751609"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="331048632"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 03:50:16 -0800
+   d="scan'208";a="333751609"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 04:31:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="1000240155"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="760160179"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="1000240155"
+   d="scan'208";a="760160179"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Feb 2023 03:50:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Feb 2023 04:31:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU4gQ-000Dt9-1x;
-	Mon, 20 Feb 2023 11:50:14 +0000
-Date: Mon, 20 Feb 2023 19:49:49 +0800
+	id 1pU5K7-000Du9-0q;
+	Mon, 20 Feb 2023 12:31:15 +0000
+Date: Mon, 20 Feb 2023 20:31:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:lenovo-x13s-v6.2 164/230]
- drivers/bluetooth/hci_qca.c:1890:37: warning: 'qca_soc_data_wcn6855' defined
- but not used
-Message-ID: <202302201908.cwZkVuru-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>
+Subject: [ti:ti-rt-linux-5.10.y-cicd 22509/22695] ERROR: modpost:
+ "phy_mipi_dphy_get_default_config"
+ [drivers/media/platform/cadence/cdns-csi2rx.ko] undefined!
+Message-ID: <202302202041.HFeVcatH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +47,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.2
-head:   452fdd4dbb40b949e73cb3229abd19a8b44b0a33
-commit: 7c16a979bbd68b569a773687dc8e7930d5bbc8d8 [164/230] Bluetooth: hci_qca: Add support for QTI Bluetooth chip wcn6855
-config: i386-buildonly-randconfig-r002-20230220 (https://download.01.org/0day-ci/archive/20230220/202302201908.cwZkVuru-lkp@intel.com/config)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
+head:   6051924999c0571e6f4fe813db135f05d4a8f0f5
+commit: d3ec6a46d66c8008088b8f104430d9c48330b53b [22509/22695] media: cadence: csi2rx: Support runtime PM
+config: x86_64-randconfig-a003-20230220 (https://download.01.org/0day-ci/archive/20230220/202302202041.HFeVcatH-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/steev/linux/commit/7c16a979bbd68b569a773687dc8e7930d5bbc8d8
-        git remote add steev https://github.com/steev/linux
-        git fetch --no-tags steev lenovo-x13s-v6.2
-        git checkout 7c16a979bbd68b569a773687dc8e7930d5bbc8d8
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
+        git checkout d3ec6a46d66c8008088b8f104430d9c48330b53b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/bluetooth/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201908.cwZkVuru-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302202041.HFeVcatH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/bluetooth/hci_qca.c:1890:37: warning: 'qca_soc_data_wcn6855' defined but not used [-Wunused-const-variable=]
-    1890 | static const struct qca_device_data qca_soc_data_wcn6855 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1873:37: warning: 'qca_soc_data_wcn6750' defined but not used [-Wunused-const-variable=]
-    1873 | static const struct qca_device_data qca_soc_data_wcn6750 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1857:37: warning: 'qca_soc_data_wcn3998' defined but not used [-Wunused-const-variable=]
-    1857 | static const struct qca_device_data qca_soc_data_wcn3998 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1845:37: warning: 'qca_soc_data_wcn3991' defined but not used [-Wunused-const-variable=]
-    1845 | static const struct qca_device_data qca_soc_data_wcn3991 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1834:37: warning: 'qca_soc_data_wcn3990' defined but not used [-Wunused-const-variable=]
-    1834 | static const struct qca_device_data qca_soc_data_wcn3990 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/qca_soc_data_wcn6855 +1890 drivers/bluetooth/hci_qca.c
-
-  1889	
-> 1890	static const struct qca_device_data qca_soc_data_wcn6855 = {
-  1891		.soc_type = QCA_WCN6855,
-  1892		.vregs = (struct qca_vreg []) {
-  1893			{ "vddio", 5000 },
-  1894			{ "vddxo", 126000 },
-  1895			{ "vddrf", 12500 },
-  1896			{ "vddch0", 102000 },
-  1897			{ "vddch1", 302000 },
-  1898		},
-  1899		.num_vregs = 5,
-  1900		.capabilities = QCA_CAP_WIDEBAND_SPEECH | QCA_CAP_VALID_LE_STATES,
-  1901	};
-  1902	
+>> ERROR: modpost: "phy_mipi_dphy_get_default_config" [drivers/media/platform/cadence/cdns-csi2rx.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
