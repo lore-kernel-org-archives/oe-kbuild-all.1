@@ -1,44 +1,53 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AF7A3F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 03:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D582EA3F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 03:26:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676862357; x=1708398357;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RM4eXjQHbqlzn7GyqU4NeWYxcc4BEN6iCP/UFyCc9iI=;
-  b=oABIKNxEhkrRewfSscsGQOtxjM/KOHIjW2g243IGM1W4NLEspWb+RJRm
-   /WXmgA3F8i3QkNm4kOQSFeHpOE4Ukq3CRtgP+3EUKPKOl+qu90XPbUizD
-   sXwz3a+3EYz1DSgYI50tv/BEGqYWdeqSUkJcz1svuPwBPGWwYlZNMM2jU
-   KqWP2AEA7WgsYp3zRbzRc1DF7oGB0xL5uAPdCg2SQmWKtT+w+Tl4BL/6+
-   33Jyod7JBhMl6lmy4Dm9R1weluU0ksNsqBBIcRXsShj8tBWm3YakOsVye
-   5704OYfFLTvUiczRVhLv/zkmtZ7TzbYJs4oEuRlcF6P3TDTLIj0ea8UoY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394793922"
+  t=1676863563; x=1708399563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/FKG+kLC7zN9Z05qh2Wi25UR5M4uashZ0aGzWIvhyNY=;
+  b=DpxFErmVZRXzDIzQqAzIjEdwBgSEsiNWrt3HNB/6ZGfj9yO+kp1Z11Qr
+   fNK74xvZLFaFQd1ZL0xUlvYPE6n8QQ+53zbQ1fubIq3UkY+OivrX4pt/m
+   p8CNhEGLGUVPfQmrwujB3jUEdNGFMej7gNaRTSMgZvEzP/p1rHca133vC
+   MpFu+F7IlUonYRb8JsIrbpAjxLlVddFJOHPXqZk2sFzRjoKvMD3S+mh0s
+   bzowvM+5IZ6RvGHX1ITdv0t7+GoZxmob5PPnxWzIQ8aRAMlDJKiw2xJcZ
+   ZcPriKZ/iulytUm3uUiVNQFsdnHtlsOoKnSWzzv6j6bOsBqc22FqsOGB0
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="316028655"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="394793922"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 19:05:57 -0800
+   d="scan'208";a="316028655"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 19:26:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="701529419"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="664489510"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="701529419"
+   d="scan'208";a="664489510"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Feb 2023 19:05:56 -0800
+  by orsmga007.jf.intel.com with ESMTP; 19 Feb 2023 19:25:57 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTwV1-000Dbd-0s;
-	Mon, 20 Feb 2023 03:05:55 +0000
-Date: Mon, 20 Feb 2023 11:05:21 +0800
+	id 1pTwoO-000DdN-2d;
+	Mon, 20 Feb 2023 03:25:56 +0000
+Date: Mon, 20 Feb 2023 11:25:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: vmlinux.o: warning: objtool: ct_idle_enter+0x14: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202302201112.den9cybf-lkp@intel.com>
+To: Ye Xiang <xiang.ye@intel.com>, Lee Jones <lee@kernel.org>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Tyrone Ting <kfting@nuvoton.com>, Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@intel.com,
+	heikki.krogerus@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	sakari.ailus@linux.intel.com, zhifeng.wang@intel.com,
+	wentong.wu@intel.com, lixu.zhang@intel.com,
+	Ye Xiang <xiang.ye@intel.com>
+Subject: Re: [PATCH 4/5] spi: Add support for Intel LJCA USB SPI driver
+Message-ID: <202302201128.XeS2tn5i-lkp@intel.com>
+References: <20230219183059.1029525-5-xiang.ye@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +56,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230219183059.1029525-5-xiang.ye@intel.com>
 
-Hi Frederic,
+Hi Ye,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
-commit: c33ef43a359001415032665dfcd433979c462b71 rcu/context-tracking: Remove unused and/or unecessary middle functions
-date:   8 months ago
-config: x86_64-randconfig-a001-20230220 (https://download.01.org/0day-ci/archive/20230220/202302201112.den9cybf-lkp@intel.com/config)
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes wsa/i2c/for-next broonie-spi/for-next linus/master v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20230219183059.1029525-5-xiang.ye%40intel.com
+patch subject: [PATCH 4/5] spi: Add support for Intel LJCA USB SPI driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230220/202302201128.XeS2tn5i-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c33ef43a359001415032665dfcd433979c462b71
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c33ef43a359001415032665dfcd433979c462b71
+        # https://github.com/intel-lab-lkp/linux/commit/6fbec44daa135bd057079083efafd579c710467e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
+        git checkout 6fbec44daa135bd057079083efafd579c710467e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201112.den9cybf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302201128.XeS2tn5i-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ld: warning: net/bpfilter/bpfilter_umh_blob.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x89: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x4b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x53: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x60: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x40: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_exit.constprop.0+0x26: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_enter.constprop.0+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_idle_enter+0x14: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_nmi_enter+0x36: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_enter+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_exit+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+>> drivers/spi/spi-ljca.c:269:40: warning: 'ljca_spi_id' defined but not used [-Wunused-const-variable=]
+     269 | static const struct platform_device_id ljca_spi_id[] = {
+         |                                        ^~~~~~~~~~~
 
 
-objdump-func vmlinux.o ct_idle_enter:
-0000 000000000000325e <ct_idle_enter>:
-0000     325e:	f3 0f 1e fa          	endbr64
-0004     3262:	31 d2                	xor    %edx,%edx
-0006     3264:	31 f6                	xor    %esi,%esi
-0008     3266:	b9 01 00 00 00       	mov    $0x1,%ecx
-000d     326b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	326e: R_X86_64_32S	_ftrace_annotated_branch+0x54090
-0014     3272:	e8 00 00 00 00       	call   3277 <ct_idle_enter+0x19>	3273: R_X86_64_PLT32	ftrace_likely_update-0x4
-0019     3277:	b9 01 00 00 00       	mov    $0x1,%ecx
-001e     327c:	31 d2                	xor    %edx,%edx
-0020     327e:	31 f6                	xor    %esi,%esi
-0022     3280:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	3283: R_X86_64_32S	_ftrace_annotated_branch+0x54060
-0029     3287:	e8 00 00 00 00       	call   328c <ct_idle_enter+0x2e>	3288: R_X86_64_PLT32	ftrace_likely_update-0x4
-002e     328c:	e9 44 fe ff ff       	jmp    30d5 <rcu_eqs_enter.constprop.0>
+vim +/ljca_spi_id +269 drivers/spi/spi-ljca.c
+
+   267	
+   268	#define LJCA_SPI_DRV_NAME "ljca-spi"
+ > 269	static const struct platform_device_id ljca_spi_id[] = {
+   270		{ LJCA_SPI_DRV_NAME, 0 },
+   271		{ /* sentinel */ }
+   272	};
+   273	MODULE_DEVICE_TABLE(platform, ljca_spi_id);
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
