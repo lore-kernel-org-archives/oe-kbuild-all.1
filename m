@@ -1,50 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC09EA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 05:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B65DEA6;
+	Mon, 20 Feb 2023 06:09:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676870948; x=1708406948;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8bf9iFk5+9dK64rYiv8pcnAkYcrbshioFiVlL55tCIg=;
-  b=hgdNSf4lKCpETq1KcU9r2RCuviqpn6UsH/UCIW0H415W7mkgIsV0YV3v
-   FnE7+HllqMX4fwmac6tQ3ntC2MPo+CAsmejbPjEn6j0OMsxRLVjvHVydQ
-   sfuqmXsAoswwyDORBqBPtZCm72HEKoQOAaiL3Pq3pCBtdxOJ3I12+qYEA
-   g8J3DoF7dO/2N9OESDOMcoUep3pJSxXTM2F8dQANdCxnl2bEuIOKdN+kB
-   GRIMnxg3cnrR5JyDfuM7DemmCh4Zoo8GRwTjLQHWmkTbfSd6/VlVHrxjB
-   1Ftjd+7XaKMHX/7DzOxgLiRNc28aaHVriyuT0ChRMHWcppvlkuE19BwAu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="312691837"
+  t=1676873349; x=1708409349;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/8oRzrPUY1phs7n2X3M9t+1T5jLua6nfgrVqCjcl25Y=;
+  b=N8n0wJG+xqJsIXMBBsxWTA9fOKJL8pdnJ/uVN8Y9Ke7l3uRZvAqgyNfH
+   zu1W6FY/YV9CUfyNfk4ZETfsZqB83YlqObJvSV0SpuDUEFJWOJYFamLSz
+   4k2G5Ka/QzvA5QiAG+JT5CIXimmRwXpZgdQT0BVideGs0lB2Szf5Kr24f
+   JvjEz9i8YTspxfZy2SCY7FVTMQr1N6NTQmEvxGQC+VYsi5dAFE9ONNoeJ
+   q2h7vmKhhUxCMNiBmZV9nKwHYKIdDeiNsLZ5qm2JkdXkM30nYOGUSCf05
+   74uH5PCZh756OsWDEHHTxfyM1QWtGltA/PMDB0+qj3us0kEFCUP4Sxcy1
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359793439"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="312691837"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 21:29:07 -0800
+   d="scan'208";a="359793439"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 22:09:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="648716796"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="916737578"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="648716796"
+   d="scan'208";a="916737578"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Feb 2023 21:29:04 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 19 Feb 2023 22:09:05 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTyjX-000Dhl-1G;
-	Mon, 20 Feb 2023 05:29:03 +0000
-Date: Mon, 20 Feb 2023 13:28:08 +0800
+	id 1pTzMG-000Dj2-2v;
+	Mon, 20 Feb 2023 06:09:04 +0000
+Date: Mon, 20 Feb 2023 14:09:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dave Marchevsky <davemarchevsky@meta.com>,
-	David Vernet <void@manifault.com>
-Subject: Re: [PATCH bpf-next v1 2/7] bpf: Support kptrs in local storage maps
-Message-ID: <202302201347.KsT4rWrN-lkp@intel.com>
-References: <20230219155249.1755998-3-memxor@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.2-rc7-net-next-ethtool-eee-v4 5/21] net/dsa/port.c:1675:17:
+ error: incompatible function pointer types initializing 'void (*)(struct
+ phylink_config *, struct phy_device *, unsigned int, phy_interface_t, int,
+ int, bool, bool, bool)' (aka 'void (*)(struct phylink_config *, struct
+ phy_device *...
+Message-ID: <202302201452.w1LSLsTM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,53 +48,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230219155249.1755998-3-memxor@gmail.com>
 
-Hi Kumar,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on 168de0233586fb06c5c5c56304aa9a928a09b0ba]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Support-kptrs-in-percpu-hashmap-and-percpu-LRU-hashmap/20230219-235406
-base:   168de0233586fb06c5c5c56304aa9a928a09b0ba
-patch link:    https://lore.kernel.org/r/20230219155249.1755998-3-memxor%40gmail.com
-patch subject: [PATCH bpf-next v1 2/7] bpf: Support kptrs in local storage maps
-config: nios2-randconfig-s043-20230219 (https://download.01.org/0day-ci/archive/20230220/202302201347.KsT4rWrN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/lunn/linux.git v6.2-rc7-net-next-ethtool-eee-v4
+head:   77e826a1c4b7decf488d4966ae751195e3043a9d
+commit: a544bb9b4c9c9576416b576a4ac00a9fda773a7d [5/21] net: phylink: Plumb eee_active in mac_link_up call
+config: x86_64-randconfig-r011-20230220 (https://download.01.org/0day-ci/archive/20230220/202302201452.w1LSLsTM-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/01f54156de471b78c6355e9aba9860afaf61cedb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kumar-Kartikeya-Dwivedi/bpf-Support-kptrs-in-percpu-hashmap-and-percpu-LRU-hashmap/20230219-235406
-        git checkout 01f54156de471b78c6355e9aba9860afaf61cedb
+        # https://github.com/lunn/linux/commit/a544bb9b4c9c9576416b576a4ac00a9fda773a7d
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.2-rc7-net-next-ethtool-eee-v4
+        git checkout a544bb9b4c9c9576416b576a4ac00a9fda773a7d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash kernel/bpf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/dsa/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201347.KsT4rWrN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302201452.w1LSLsTM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/bpf_local_storage.c:107:41: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +107 kernel/bpf/bpf_local_storage.c
+>> net/dsa/port.c:1665:43: error: too few arguments to function call, expected 10, have 9
+                                        speed, duplex, tx_pause, rx_pause);
+                                                                         ^
+>> net/dsa/port.c:1675:17: error: incompatible function pointer types initializing 'void (*)(struct phylink_config *, struct phy_device *, unsigned int, phy_interface_t, int, int, bool, bool, bool)' (aka 'void (*)(struct phylink_config *, struct phy_device *, unsigned int, phy_interface_t, int, int, _Bool, _Bool, _Bool)') with an expression of type 'void (struct phylink_config *, struct phy_device *, unsigned int, phy_interface_t, int, int, bool, bool)' (aka 'void (struct phylink_config *, struct phy_device *, unsigned int, phy_interface_t, int, int, _Bool, _Bool)') [-Werror,-Wincompatible-function-pointer-types]
+           .mac_link_up = dsa_port_phylink_mac_link_up,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-   101	
-   102	static void bpf_selem_free_rcu(struct rcu_head *rcu)
-   103	{
-   104		struct bpf_local_storage_elem *selem;
-   105	
-   106		selem = container_of(rcu, struct bpf_local_storage_elem, rcu);
- > 107		bpf_obj_free_fields(SDATA(selem)->smap->map.record, SDATA(selem));
-   108		kfree(selem);
-   109	}
-   110	
+
+vim +1675 net/dsa/port.c
+
+77373d49de22e8 Ioana Ciornei         2019-05-28  1647  
+8ae674964e67eb Florian Fainelli      2019-12-16  1648  static void dsa_port_phylink_mac_link_up(struct phylink_config *config,
+91a208f2185ad4 Russell King          2020-02-26  1649  					 struct phy_device *phydev,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1650  					 unsigned int mode,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1651  					 phy_interface_t interface,
+91a208f2185ad4 Russell King          2020-02-26  1652  					 int speed, int duplex,
+91a208f2185ad4 Russell King          2020-02-26  1653  					 bool tx_pause, bool rx_pause)
+77373d49de22e8 Ioana Ciornei         2019-05-28  1654  {
+77373d49de22e8 Ioana Ciornei         2019-05-28  1655  	struct dsa_port *dp = container_of(config, struct dsa_port, pl_config);
+77373d49de22e8 Ioana Ciornei         2019-05-28  1656  	struct dsa_switch *ds = dp->ds;
+77373d49de22e8 Ioana Ciornei         2019-05-28  1657  
+77373d49de22e8 Ioana Ciornei         2019-05-28  1658  	if (!ds->ops->phylink_mac_link_up) {
+0e27921816ad99 Ioana Ciornei         2019-05-28  1659  		if (ds->ops->adjust_link && phydev)
+0e27921816ad99 Ioana Ciornei         2019-05-28  1660  			ds->ops->adjust_link(ds, dp->index, phydev);
+77373d49de22e8 Ioana Ciornei         2019-05-28  1661  		return;
+77373d49de22e8 Ioana Ciornei         2019-05-28  1662  	}
+77373d49de22e8 Ioana Ciornei         2019-05-28  1663  
+5b502a7b299200 Russell King          2020-02-26  1664  	ds->ops->phylink_mac_link_up(ds, dp->index, mode, interface, phydev,
+5b502a7b299200 Russell King          2020-02-26 @1665  				     speed, duplex, tx_pause, rx_pause);
+77373d49de22e8 Ioana Ciornei         2019-05-28  1666  }
+77373d49de22e8 Ioana Ciornei         2019-05-28  1667  
+21bd64bd717ded Russell King (Oracle  2021-11-30  1668) static const struct phylink_mac_ops dsa_port_phylink_mac_ops = {
+77373d49de22e8 Ioana Ciornei         2019-05-28  1669  	.validate = dsa_port_phylink_validate,
+bde018222c6b08 Russell King (Oracle  2022-02-17  1670) 	.mac_select_pcs = dsa_port_phylink_mac_select_pcs,
+d46b7e4fb06037 Russell King          2019-11-21  1671  	.mac_pcs_get_state = dsa_port_phylink_mac_pcs_get_state,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1672  	.mac_config = dsa_port_phylink_mac_config,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1673  	.mac_an_restart = dsa_port_phylink_mac_an_restart,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1674  	.mac_link_down = dsa_port_phylink_mac_link_down,
+77373d49de22e8 Ioana Ciornei         2019-05-28 @1675  	.mac_link_up = dsa_port_phylink_mac_link_up,
+77373d49de22e8 Ioana Ciornei         2019-05-28  1676  };
+77373d49de22e8 Ioana Ciornei         2019-05-28  1677  
+
+:::::: The code at line 1675 was first introduced by commit
+:::::: 77373d49de22e836cf58ddbe7689d6b4b5046539 net: dsa: Move the phylink driver calls into port.c
+
+:::::: TO: Ioana Ciornei <ioana.ciornei@nxp.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
