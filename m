@@ -1,53 +1,50 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D582EA3F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 03:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC09EA6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 05:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676863563; x=1708399563;
+  t=1676870948; x=1708406948;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/FKG+kLC7zN9Z05qh2Wi25UR5M4uashZ0aGzWIvhyNY=;
-  b=DpxFErmVZRXzDIzQqAzIjEdwBgSEsiNWrt3HNB/6ZGfj9yO+kp1Z11Qr
-   fNK74xvZLFaFQd1ZL0xUlvYPE6n8QQ+53zbQ1fubIq3UkY+OivrX4pt/m
-   p8CNhEGLGUVPfQmrwujB3jUEdNGFMej7gNaRTSMgZvEzP/p1rHca133vC
-   MpFu+F7IlUonYRb8JsIrbpAjxLlVddFJOHPXqZk2sFzRjoKvMD3S+mh0s
-   bzowvM+5IZ6RvGHX1ITdv0t7+GoZxmob5PPnxWzIQ8aRAMlDJKiw2xJcZ
-   ZcPriKZ/iulytUm3uUiVNQFsdnHtlsOoKnSWzzv6j6bOsBqc22FqsOGB0
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="316028655"
+  bh=8bf9iFk5+9dK64rYiv8pcnAkYcrbshioFiVlL55tCIg=;
+  b=hgdNSf4lKCpETq1KcU9r2RCuviqpn6UsH/UCIW0H415W7mkgIsV0YV3v
+   FnE7+HllqMX4fwmac6tQ3ntC2MPo+CAsmejbPjEn6j0OMsxRLVjvHVydQ
+   sfuqmXsAoswwyDORBqBPtZCm72HEKoQOAaiL3Pq3pCBtdxOJ3I12+qYEA
+   g8J3DoF7dO/2N9OESDOMcoUep3pJSxXTM2F8dQANdCxnl2bEuIOKdN+kB
+   GRIMnxg3cnrR5JyDfuM7DemmCh4Zoo8GRwTjLQHWmkTbfSd6/VlVHrxjB
+   1Ftjd+7XaKMHX/7DzOxgLiRNc28aaHVriyuT0ChRMHWcppvlkuE19BwAu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="312691837"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="316028655"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 19:26:02 -0800
+   d="scan'208";a="312691837"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 21:29:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="664489510"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="648716796"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="664489510"
+   d="scan'208";a="648716796"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Feb 2023 19:25:57 -0800
+  by orsmga006.jf.intel.com with ESMTP; 19 Feb 2023 21:29:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTwoO-000DdN-2d;
-	Mon, 20 Feb 2023 03:25:56 +0000
-Date: Mon, 20 Feb 2023 11:25:45 +0800
+	id 1pTyjX-000Dhl-1G;
+	Mon, 20 Feb 2023 05:29:03 +0000
+Date: Mon, 20 Feb 2023 13:28:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Xiang <xiang.ye@intel.com>, Lee Jones <lee@kernel.org>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Tyrone Ting <kfting@nuvoton.com>, Mark Brown <broonie@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@intel.com,
-	heikki.krogerus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	sakari.ailus@linux.intel.com, zhifeng.wang@intel.com,
-	wentong.wu@intel.com, lixu.zhang@intel.com,
-	Ye Xiang <xiang.ye@intel.com>
-Subject: Re: [PATCH 4/5] spi: Add support for Intel LJCA USB SPI driver
-Message-ID: <202302201128.XeS2tn5i-lkp@intel.com>
-References: <20230219183059.1029525-5-xiang.ye@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dave Marchevsky <davemarchevsky@meta.com>,
+	David Vernet <void@manifault.com>
+Subject: Re: [PATCH bpf-next v1 2/7] bpf: Support kptrs in local storage maps
+Message-ID: <202302201347.KsT4rWrN-lkp@intel.com>
+References: <20230219155249.1755998-3-memxor@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,55 +53,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230219183059.1029525-5-xiang.ye@intel.com>
+In-Reply-To: <20230219155249.1755998-3-memxor@gmail.com>
 
-Hi Ye,
+Hi Kumar,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes wsa/i2c/for-next broonie-spi/for-next linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 168de0233586fb06c5c5c56304aa9a928a09b0ba]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20230219183059.1029525-5-xiang.ye%40intel.com
-patch subject: [PATCH 4/5] spi: Add support for Intel LJCA USB SPI driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230220/202302201128.XeS2tn5i-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6fbec44daa135bd057079083efafd579c710467e
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Support-kptrs-in-percpu-hashmap-and-percpu-LRU-hashmap/20230219-235406
+base:   168de0233586fb06c5c5c56304aa9a928a09b0ba
+patch link:    https://lore.kernel.org/r/20230219155249.1755998-3-memxor%40gmail.com
+patch subject: [PATCH bpf-next v1 2/7] bpf: Support kptrs in local storage maps
+config: nios2-randconfig-s043-20230219 (https://download.01.org/0day-ci/archive/20230220/202302201347.KsT4rWrN-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/01f54156de471b78c6355e9aba9860afaf61cedb
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230220-023253
-        git checkout 6fbec44daa135bd057079083efafd579c710467e
+        git fetch --no-tags linux-review Kumar-Kartikeya-Dwivedi/bpf-Support-kptrs-in-percpu-hashmap-and-percpu-LRU-hashmap/20230219-235406
+        git checkout 01f54156de471b78c6355e9aba9860afaf61cedb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/spi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201128.XeS2tn5i-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302201347.KsT4rWrN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/bpf_local_storage.c:107:41: sparse: sparse: dereference of noderef expression
 
->> drivers/spi/spi-ljca.c:269:40: warning: 'ljca_spi_id' defined but not used [-Wunused-const-variable=]
-     269 | static const struct platform_device_id ljca_spi_id[] = {
-         |                                        ^~~~~~~~~~~
+vim +107 kernel/bpf/bpf_local_storage.c
 
-
-vim +/ljca_spi_id +269 drivers/spi/spi-ljca.c
-
-   267	
-   268	#define LJCA_SPI_DRV_NAME "ljca-spi"
- > 269	static const struct platform_device_id ljca_spi_id[] = {
-   270		{ LJCA_SPI_DRV_NAME, 0 },
-   271		{ /* sentinel */ }
-   272	};
-   273	MODULE_DEVICE_TABLE(platform, ljca_spi_id);
-   274	
+   101	
+   102	static void bpf_selem_free_rcu(struct rcu_head *rcu)
+   103	{
+   104		struct bpf_local_storage_elem *selem;
+   105	
+   106		selem = container_of(rcu, struct bpf_local_storage_elem, rcu);
+ > 107		bpf_obj_free_fields(SDATA(selem)->smap->map.record, SDATA(selem));
+   108		kfree(selem);
+   109	}
+   110	
 
 -- 
 0-DAY CI Kernel Test Service
