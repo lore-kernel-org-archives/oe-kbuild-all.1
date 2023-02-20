@@ -1,46 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E617ED;
-	Mon, 20 Feb 2023 16:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103BE7ED
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 17:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676911228; x=1708447228;
+  t=1676913628; x=1708449628;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DVpTGQ8FoPyLDs7k37yMqyyrS872DbF1vhla/C+g+MI=;
-  b=elWqJr8Oti0WtDIOM2BcY9lrKzws3VfSYRhnuYyFUHZOFO1ZU33BValr
-   59AYQMO33grTYV+rYzrUmBXsBnCF/CcTzh1ciLiOx/+X0BCpWq7RLDnCR
-   UWl/Dtv8656yA9ldTjg9XCQgTuiCD1e1jbZylNvcYd6HpLlUVmTHI1IAQ
-   RHeywpuWRXVtskzWWe/fatYzB2iLT/NgEICsQU3qHNavUzBTKktN8S9T2
-   ivVrIbrHtDbGs3CJMKOYZF9EB+ndsuC8T1W8ST5c/I1jUiPI+uL39gGG9
-   nhJFWwb7TmCNIpX7R7XSVWryjNVbGXV8Mhrx/pXlKsXaiJwQANQGFh0yX
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="359909573"
+  bh=2kBjt+T7eti+B/ynOEkcXSF5gBTYYujf1vaoUCLoRbI=;
+  b=I9MQKu2fTjtoljnBokE75//zooJ2KRrLmiyKr6y2kVTDGNNTbNc8NPWd
+   rWfasKMcR/i40LLzRHuqn5tVXFUzBuBCzJ2hXyDYWwuhOP2ZrufRXIETX
+   klwvQY8h3Chb3q1Jo+wxkA9pjVebexqkiLQve9sML3RKffB+Vs1fhHTJL
+   Y4tLpfNQPFi1yv37xFKF5E8lH/owaValgNP9DUTBfDlsjX10nMcysr/+N
+   erVKvYQYFT8iGYCuU8Jg9WdzXPkU7DSvH4eWppG0AItfXEMdEfB14DqmA
+   s6ifZ2ryg5/aSPb/YOXpKfS71/W3kOmCu0TZsv5ghb2V7hEP69gJH108g
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="397133816"
 X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="359909573"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 08:40:26 -0800
+   d="scan'208";a="397133816"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 09:20:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="703749785"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="621219726"
 X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="703749785"
+   d="scan'208";a="621219726"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 20 Feb 2023 08:40:24 -0800
+  by orsmga003.jf.intel.com with ESMTP; 20 Feb 2023 09:20:24 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU9DD-000E3j-1N;
-	Mon, 20 Feb 2023 16:40:23 +0000
-Date: Tue, 21 Feb 2023 00:39:39 +0800
+	id 1pU9pw-000E4n-0H;
+	Mon, 20 Feb 2023 17:20:24 +0000
+Date: Tue, 21 Feb 2023 01:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colin Cross <ccross@android.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: [jsarha:topic/chromeos-4.19-s0ix 6403/9999]
- kernel/watchdog_buddy_cpu.c:89:6: warning: no previous prototype for
- function 'watchdog_check_hardlockup'
-Message-ID: <202302210029.ezzrsZnI-lkp@intel.com>
+To: Benjamin Berg <benjamin.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: [iwlwifi-next:pending 15/21] (.text+0x1df0): multiple definition of
+ `ieee80211_link_debugfs_add'; net/mac80211/driver-ops.o:(.text+0x4a4): first
+ defined here
+Message-ID: <202302210137.oukYfwog-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,43 +48,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: c257fa8632bb98df1fbc4e2ac46c91c938428be2 [6403/9999] CHROMIUM: hardlockup: detect hard lockups without NMIs using secondary cpus
-config: x86_64-randconfig-a013-20230220 (https://download.01.org/0day-ci/archive/20230221/202302210029.ezzrsZnI-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git pending
+head:   b550c611e3d7418f1d2944f4bf0e0597044e377d
+commit: 976fdb8844a790ca65be62f06bdef4d8185004b7 [15/21] wifi: mac80211: add netdev per-link debugfs data and driver hook
+config: csky-randconfig-s042-20230219 (https://download.01.org/0day-ci/archive/20230221/202302210137.oukYfwog-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jsarha/linux/commit/c257fa8632bb98df1fbc4e2ac46c91c938428be2
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/chromeos-4.19-s0ix
-        git checkout c257fa8632bb98df1fbc4e2ac46c91c938428be2
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git/commit/?id=976fdb8844a790ca65be62f06bdef4d8185004b7
+        git remote add iwlwifi-next https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git
+        git fetch --no-tags iwlwifi-next pending
+        git checkout 976fdb8844a790ca65be62f06bdef4d8185004b7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302210029.ezzrsZnI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302210137.oukYfwog-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/watchdog_buddy_cpu.c:89:6: warning: no previous prototype for function 'watchdog_check_hardlockup' [-Wmissing-prototypes]
-   void watchdog_check_hardlockup(void)
-        ^
-   kernel/watchdog_buddy_cpu.c:89:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void watchdog_check_hardlockup(void)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/watchdog_check_hardlockup +89 kernel/watchdog_buddy_cpu.c
-
-    88	
-  > 89	void watchdog_check_hardlockup(void)
+   csky-linux-ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_add':
+>> (.text+0x1df0): multiple definition of `ieee80211_link_debugfs_add'; net/mac80211/driver-ops.o:(.text+0x4a4): first defined here
+   csky-linux-ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_drv_remove':
+>> (.text+0x1e08): multiple definition of `ieee80211_link_debugfs_drv_remove'; net/mac80211/driver-ops.o:(.text+0x4bc): first defined here
+   csky-linux-ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_remove':
+>> (.text+0x1df8): multiple definition of `ieee80211_link_debugfs_remove'; net/mac80211/driver-ops.o:(.text+0x4ac): first defined here
+   csky-linux-ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_drv_add':
+>> (.text+0x1e00): multiple definition of `ieee80211_link_debugfs_drv_add'; net/mac80211/driver-ops.o:(.text+0x4b4): first defined here
+   csky-linux-ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_add':
+   (.text+0x5d4): multiple definition of `ieee80211_link_debugfs_add'; net/mac80211/driver-ops.o:(.text+0x4a4): first defined here
+   csky-linux-ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_drv_remove':
+   (.text+0x670): multiple definition of `ieee80211_link_debugfs_drv_remove'; net/mac80211/driver-ops.o:(.text+0x4bc): first defined here
+   csky-linux-ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_remove':
+   (.text+0x660): multiple definition of `ieee80211_link_debugfs_remove'; net/mac80211/driver-ops.o:(.text+0x4ac): first defined here
+   csky-linux-ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_drv_add':
+   (.text+0x668): multiple definition of `ieee80211_link_debugfs_drv_add'; net/mac80211/driver-ops.o:(.text+0x4b4): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
