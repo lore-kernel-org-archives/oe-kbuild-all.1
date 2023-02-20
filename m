@@ -1,42 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A430FEA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 06:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC945ED0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 07:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676874067; x=1708410067;
+  t=1676879709; x=1708415709;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iAiDAy0nWHDJH5ZYGZLHuqeGlvPl9bftaDtT4ySEQL0=;
-  b=LV8f1NhqcMhz7cs5sjzF7PIF1Use7G1mXgSvLPcffA2YeUB6N0Py30dm
-   oXOA9ROzYUjV7BKfo5XU/FSzSam6PeB9siuO4CRNaCNYYt1P36SEg5M/t
-   82p0VFhvpzT0Z5xAqe5pULutzPCwPKnLhtkGfvNKghcjdorZUQOkCxRsv
-   pdihULNT3yWExfaGBk7+vN9GUm4ESi6bEjJup03lXso23iI4aO4/4upBM
-   1sFRrjh9z/aIBVMPrAAp5EEZatauQJMVXIqaJDE3jgZq3+Y+6eTIzhJuU
-   kp9nbYZlc2eQVAmaJI+GaHfUAYQr9/K/ZNhMG7LQ7aitnGTKxXj2yhbJv
+  bh=eV+W/+KaSjNTqOmgvNHUQddQsAozslkKM9YV9lcsMUM=;
+  b=NQAakJ+iVMgWF+GJ15PL0rDBistjNx9m897VjE7hGZev34rRvXTrtrEQ
+   l18J1e9RTAO6IP0sl6s23efav0ghVK5GTrfnfOo7gQio8wOKo6z43673m
+   8aEg169FAtQVqYW05IqV/rTFRw8uJJwYiKi0SQQDOaefbxPXgZs07RkxQ
+   GW/l3AdFUtexPzrkcK6z8L65d41l/DGkBjen2Q8tUDjtCNwNIrEJlpvXh
+   EfHhp9No3Sy31pwZY2qDLWdbktK4cJV8DoTOYerpfkdMUKG9P5kRMP3jo
+   EumxuJ1F3fuex161ZzWehhnwLKsMXUcTB/nKKWqZ2OWzFOjP3kUT3s3UI
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="312698377"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="330059121"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="312698377"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 22:21:07 -0800
+   d="scan'208";a="330059121"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 23:55:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="760046655"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="814045926"
 X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="760046655"
+   d="scan'208";a="814045926"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 22:21:05 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2023 23:55:07 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTzXt-000DjZ-0n;
-	Mon, 20 Feb 2023 06:21:05 +0000
-Date: Mon, 20 Feb 2023 14:20:27 +0800
+	id 1pU10s-000Dll-2x;
+	Mon, 20 Feb 2023 07:55:06 +0000
+Date: Mon, 20 Feb 2023 15:54:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.2-rc7-net-next-ethtool-eee-v4 5/21] net/dsa/port.c:1664:9:
- error: too few arguments to function 'ds->ops->phylink_mac_link_up'
-Message-ID: <202302201417.2gOq9MVB-lkp@intel.com>
+To: Changbin Du <changbin.du@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: [linux-next:master 1627/13681] FAILED: load BTF from vmlinux: No
+ data available
+Message-ID: <202302201555.OI4N54jb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,80 +48,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lunn/linux.git v6.2-rc7-net-next-ethtool-eee-v4
-head:   77e826a1c4b7decf488d4966ae751195e3043a9d
-commit: a544bb9b4c9c9576416b576a4ac00a9fda773a7d [5/21] net: phylink: Plumb eee_active in mac_link_up call
-config: loongarch-randconfig-r003-20230220 (https://download.01.org/0day-ci/archive/20230220/202302201417.2gOq9MVB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Changbin,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c068f40300a0eaa34f7105d137a5560b86951aa9
+commit: acd3b7768048fe338248cdf43ccfbf8c084a6bc1 [1627/13681] libbpf: Return -ENODATA for missing btf section
+config: parisc-randconfig-r003-20230219 (https://download.01.org/0day-ci/archive/20230220/202302201555.OI4N54jb-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/lunn/linux/commit/a544bb9b4c9c9576416b576a4ac00a9fda773a7d
-        git remote add lunn https://github.com/lunn/linux.git
-        git fetch --no-tags lunn v6.2-rc7-net-next-ethtool-eee-v4
-        git checkout a544bb9b4c9c9576416b576a4ac00a9fda773a7d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=acd3b7768048fe338248cdf43ccfbf8c084a6bc1
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout acd3b7768048fe338248cdf43ccfbf8c084a6bc1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash net/dsa/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201417.2gOq9MVB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302201555.OI4N54jb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/dsa/port.c: In function 'dsa_port_phylink_mac_link_up':
->> net/dsa/port.c:1664:9: error: too few arguments to function 'ds->ops->phylink_mac_link_up'
-    1664 |         ds->ops->phylink_mac_link_up(ds, dp->index, mode, interface, phydev,
-         |         ^~
-   net/dsa/port.c: At top level:
->> net/dsa/port.c:1675:24: error: initialization of 'void (*)(struct phylink_config *, struct phy_device *, unsigned int,  phy_interface_t,  int,  int,  bool,  bool,  bool)' {aka 'void (*)(struct phylink_config *, struct phy_device *, unsigned int,  phy_interface_t,  int,  int,  _Bool,  _Bool,  _Bool)'} from incompatible pointer type 'void (*)(struct phylink_config *, struct phy_device *, unsigned int,  phy_interface_t,  int,  int,  bool,  bool)' {aka 'void (*)(struct phylink_config *, struct phy_device *, unsigned int,  phy_interface_t,  int,  int,  _Bool,  _Bool)'} [-Werror=incompatible-pointer-types]
-    1675 |         .mac_link_up = dsa_port_phylink_mac_link_up,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/dsa/port.c:1675:24: note: (near initialization for 'dsa_port_phylink_mac_ops.mac_link_up')
-   cc1: some warnings being treated as errors
-
-
-vim +1664 net/dsa/port.c
-
-77373d49de22e8 Ioana Ciornei         2019-05-28  1647  
-8ae674964e67eb Florian Fainelli      2019-12-16  1648  static void dsa_port_phylink_mac_link_up(struct phylink_config *config,
-91a208f2185ad4 Russell King          2020-02-26  1649  					 struct phy_device *phydev,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1650  					 unsigned int mode,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1651  					 phy_interface_t interface,
-91a208f2185ad4 Russell King          2020-02-26  1652  					 int speed, int duplex,
-91a208f2185ad4 Russell King          2020-02-26  1653  					 bool tx_pause, bool rx_pause)
-77373d49de22e8 Ioana Ciornei         2019-05-28  1654  {
-77373d49de22e8 Ioana Ciornei         2019-05-28  1655  	struct dsa_port *dp = container_of(config, struct dsa_port, pl_config);
-77373d49de22e8 Ioana Ciornei         2019-05-28  1656  	struct dsa_switch *ds = dp->ds;
-77373d49de22e8 Ioana Ciornei         2019-05-28  1657  
-77373d49de22e8 Ioana Ciornei         2019-05-28  1658  	if (!ds->ops->phylink_mac_link_up) {
-0e27921816ad99 Ioana Ciornei         2019-05-28  1659  		if (ds->ops->adjust_link && phydev)
-0e27921816ad99 Ioana Ciornei         2019-05-28  1660  			ds->ops->adjust_link(ds, dp->index, phydev);
-77373d49de22e8 Ioana Ciornei         2019-05-28  1661  		return;
-77373d49de22e8 Ioana Ciornei         2019-05-28  1662  	}
-77373d49de22e8 Ioana Ciornei         2019-05-28  1663  
-5b502a7b299200 Russell King          2020-02-26 @1664  	ds->ops->phylink_mac_link_up(ds, dp->index, mode, interface, phydev,
-5b502a7b299200 Russell King          2020-02-26  1665  				     speed, duplex, tx_pause, rx_pause);
-77373d49de22e8 Ioana Ciornei         2019-05-28  1666  }
-77373d49de22e8 Ioana Ciornei         2019-05-28  1667  
-21bd64bd717ded Russell King (Oracle  2021-11-30  1668) static const struct phylink_mac_ops dsa_port_phylink_mac_ops = {
-77373d49de22e8 Ioana Ciornei         2019-05-28  1669  	.validate = dsa_port_phylink_validate,
-bde018222c6b08 Russell King (Oracle  2022-02-17  1670) 	.mac_select_pcs = dsa_port_phylink_mac_select_pcs,
-d46b7e4fb06037 Russell King          2019-11-21  1671  	.mac_pcs_get_state = dsa_port_phylink_mac_pcs_get_state,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1672  	.mac_config = dsa_port_phylink_mac_config,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1673  	.mac_an_restart = dsa_port_phylink_mac_an_restart,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1674  	.mac_link_down = dsa_port_phylink_mac_link_down,
-77373d49de22e8 Ioana Ciornei         2019-05-28 @1675  	.mac_link_up = dsa_port_phylink_mac_link_up,
-77373d49de22e8 Ioana Ciornei         2019-05-28  1676  };
-77373d49de22e8 Ioana Ciornei         2019-05-28  1677  
-
-:::::: The code at line 1664 was first introduced by commit
-:::::: 5b502a7b2992008a1fd5962ba032771b03c4e840 net: dsa: propagate resolved link config via mac_link_up()
-
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   Complex, interval and imaginary float types are not supported
+   Encountered error while encoding BTF.
+   libbpf: failed to find '.BTF' ELF section in vmlinux
+>> FAILED: load BTF from vmlinux: No data available
 
 -- 
 0-DAY CI Kernel Test Service
