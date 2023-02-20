@@ -1,108 +1,171 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526112FAF;
-	Mon, 20 Feb 2023 11:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676892016; x=1708428016;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BMeOaeos5L6XiWWz7HSIAXLFkTHkldTIrwXmCya5Dmg=;
-  b=hE0YTNSa5QEJTkq1nHlN2w0sI4edp/mdREcU5Q1CM+M47RoiPoxGHnb7
-   q09csgMiLja/MUoaI8jo0QPhKN0hC+Vwdr9U4NvH7Pn9A9VQoUXFVFsGT
-   /u+kJ43H/4+46r9p26Apju9tmLHInuGljkKVHZ4Lpu31EcOoO8xmNbTqi
-   IVuN1pCAW4/eWOAbAsYGSeKASgo7wWeX2ElAfAV/mjzSs8YBhaCRXxYCs
-   utppOJmeg4+ZbO4D+xnFqz2+GRVHsG/Eiq5Jl7kEb+RQDenWheKAQvsAK
-   hCVrSo872eLIzQrLHgVokM9PMIQ4aBwhWibe4VFkVVLSSE9HXx58SEtfl
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359843388"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="359843388"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 03:20:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="780623919"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="780623919"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2023 03:20:14 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pU4DN-000DsP-30;
-	Mon, 20 Feb 2023 11:20:13 +0000
-Date: Mon, 20 Feb 2023 19:19:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eli Cohen <elic@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: [saeed:dynamic-msix 2/15] lib/cpu_rmap.c:153:12: warning: result of
- comparison of constant -1 with expression of type 'u16' (aka 'unsigned
- short') is always false
-Message-ID: <202302201908.Hmw6vw1t-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28C03201
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 11:29:46 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id o4so800122wrs.4
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 03:29:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7fPmk8jKosx/EXY+lXF0qABpMA9WCxd04+/16E+DiPs=;
+        b=XiXBiWqj7BqDbbSCjrwh0+42FSatfS8aLCHGbzadnzDpCpNQq1XDr65bqWneh22PJV
+         MfiBNgevkrh0FttjyHK3V1xK1yQJBbDJNsqJGXlOXNpcjtX/9ffRZ6Njyzj5JhzkVSnR
+         aagalk6tcXvY/2LUdvCBTb73tImseeselBSJFCPhgnYrwSBtIyJ3/ovvPOXXR4q+xnOw
+         tJN7LN0wCiy2kZTebiv6Gp0Cv1y1pYKsFuC8jWbNpB8PSU7L0Ew2OR6fmtX+urVzN1Ph
+         DR9deGVOlWvW2G1u7MDRXUc44mbiKMjf1/A2dbEU8wQgai7SgKuynvTgaTqMM7aTBErK
+         zuSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7fPmk8jKosx/EXY+lXF0qABpMA9WCxd04+/16E+DiPs=;
+        b=pTrIYFJfC4FbRcmM/OXUobVeRl44ArcMdl7a6PYehW+B9HnKC0rqBe4NEPhWHrkk2/
+         y6eqM8RblnCi2tNql2xwQ0lnmRrhnpn0UpDGLIajkv200HDHmJCvmxCZCaxtp3fUZCQJ
+         LZPkh8D0cLJPDjbWf92Q7NULQ63K0ciLYKlIaMg9JDq3b8/leRoj5qdu3OYZmetkvmBu
+         7vBmPj+rkmmkONr8hL2YlGvCssoDm7BPN7Ng2e3oodWQJtJY0ZpcvV7lpieYqabYVU2i
+         6GO4/gW0Q9yqR559g09vUGvW3HIFWBOHLWIPQ+oPpF7+E51W4ku9evXgyqbBkKxxGN/4
+         tj1Q==
+X-Gm-Message-State: AO0yUKV799IORvr1mDClIbIscrT/Oqr/zstZUyqtpPO+S0ktJvEHO+pf
+	w9Qt0D0nY+sD0khaw+04kBo=
+X-Google-Smtp-Source: AK7set9NxVsjP6X2gmB7B5i/tPhdFMVmaYZzm3l2B6Y0NyObfNRP9Mm62AmVegQcrl9DlSWIakZZ3Q==
+X-Received: by 2002:a5d:560f:0:b0:2c3:ff47:47ff with SMTP id l15-20020a5d560f000000b002c3ff4747ffmr2140709wrv.14.1676892584889;
+        Mon, 20 Feb 2023 03:29:44 -0800 (PST)
+Received: from orome (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id o1-20020a5d58c1000000b002c53f5b13f9sm1954396wrf.0.2023.02.20.03.29.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 03:29:44 -0800 (PST)
+Date: Mon, 20 Feb 2023 12:29:42 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Ben Dooks <ben.dooks@sifive.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-pwm@vger.kernel.org
+Subject: Re: [thierry-reding-pwm:for-next 10/13] drivers/pwm/pwm-dwc.c:314:1:
+ warning: data definition has no type or storage class
+Message-ID: <Y/NZpvu9F+MsefDA@orome>
+References: <202302180504.FZilVS8T-lkp@intel.com>
+ <f40053ad-d7e0-6a3b-878c-f7a13735a34a@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1LpTloZvC8acIbMo"
+Content-Disposition: inline
+In-Reply-To: <f40053ad-d7e0-6a3b-878c-f7a13735a34a@sifive.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+
+
+--1LpTloZvC8acIbMo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git dynamic-msix
-head:   0f2bf1fcae96a83b8c5581854713c9fc3407556e
-commit: 39ab85caf5626a84a138add0d222a7cc5d69f00b [2/15] lib: cpu_rmap: Use allocator for rmap entries
-config: i386-randconfig-a011-20230220 (https://download.01.org/0day-ci/archive/20230220/202302201908.Hmw6vw1t-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git/commit/?id=39ab85caf5626a84a138add0d222a7cc5d69f00b
-        git remote add saeed https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git
-        git fetch --no-tags saeed dynamic-msix
-        git checkout 39ab85caf5626a84a138add0d222a7cc5d69f00b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+On Mon, Feb 20, 2023 at 08:39:43AM +0000, Ben Dooks wrote:
+> On 17/02/2023 21:53, kernel test robot wrote:
+> > Hi Ben,
+> >=20
+> > FYI, the error/warning was bisected to this commit, please ignore it if=
+ it's irrelevant.
+> >=20
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/=
+linux-pwm.git for-next
+> > head:   7a77daf8223e772a225d6aa6202a5b1ae2392caf
+> > commit: c901a57e39db555ad7950fd61e1470cdecc8e654 [10/13] pwm: dwc: allo=
+w driver to be built with COMPILE_TEST
+> > config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/2023=
+0218/202302180504.FZilVS8T-lkp@intel.com/config)
+> > compiler: m68k-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=3D1 build):
+> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/=
+sbin/make.cross -O ~/bin/make.cross
+> >          chmod +x ~/bin/make.cross
+> >          # https://git.kernel.org/pub/scm/linux/kernel/git/thierry.redi=
+ng/linux-pwm.git/commit/?id=3Dc901a57e39db555ad7950fd61e1470cdecc8e654
+> >          git remote add thierry-reding-pwm https://git.kernel.org/pub/s=
+cm/linux/kernel/git/thierry.reding/linux-pwm.git
+> >          git fetch --no-tags thierry-reding-pwm for-next
+> >          git checkout c901a57e39db555ad7950fd61e1470cdecc8e654
+> >          # save the config file
+> >          mkdir build_dir && cp config build_dir/.config
+> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dm68k olddefconfig
+> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash drivers/pwm/
+> >=20
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Link: https://lore.kernel.org/oe-kbuild-all/202302180504.FZilVS8T-lkp=
+@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> > > > drivers/pwm/pwm-dwc.c:314:1: warning: data definition has no type o=
+r storage class
+> >       314 | module_pci_driver(dwc_pwm_driver);
+> >           | ^~~~~~~~~~~~~~~~~
+> >     drivers/pwm/pwm-dwc.c:314:1: error: type defaults to 'int' in decla=
+ration of 'module_pci_driver' [-Werror=3Dimplicit-int]
+> > > > drivers/pwm/pwm-dwc.c:314:1: warning: parameter names (without type=
+s) in function declaration
+> >     drivers/pwm/pwm-dwc.c:304:26: warning: 'dwc_pwm_driver' defined but=
+ not used [-Wunused-variable]
+> >       304 | static struct pci_driver dwc_pwm_driver =3D {
+> >           |                          ^~~~~~~~~~~~~~
+> >     cc1: some warnings being treated as errors
+> >=20
+> >=20
+> > vim +314 drivers/pwm/pwm-dwc.c
+> >=20
+> > 1ed2b3fca64516 Jarkko Nikula 2020-10-02  313
+> > 1ed2b3fca64516 Jarkko Nikula 2020-10-02 @314  module_pci_driver(dwc_pwm=
+_driver);
+> > 1ed2b3fca64516 Jarkko Nikula 2020-10-02  315
+> >=20
+> > :::::: The code at line 314 was first introduced by commit
+> > :::::: 1ed2b3fca64516d1b3503ef21929f3b5f4f41cc6 pwm: Add DesignWare PWM=
+ Controller Driver
+> >=20
+> > :::::: TO: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+> > :::::: CC: Thierry Reding <thierry.reding@gmail.com>
+> >=20
+>=20
+> I'm guessing that there's no PCI support on mk86 and therefore having
+> compile test set with no PCI before we split the PCI and OF bits may
+> have been a mistake.
+>=20
+> Should we fix this by adding a test for PCI here, or move it to be
+> after the driver split so the PCI driver will only get built if the
+> architecture has PCI?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302201908.Hmw6vw1t-lkp@intel.com/
+I've dropped this patch now since it's obviously wrong (at the moment).
+If this can be made to work after the split, let's do it then.
 
-All warnings (new ones prefixed by >>):
+Thierry
 
->> lib/cpu_rmap.c:153:12: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           if (index == -1)
-               ~~~~~ ^  ~~
-   lib/cpu_rmap.c:311:18: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           if (glue->index == -1)
-               ~~~~~~~~~~~ ^  ~~
-   2 warnings generated.
+--1LpTloZvC8acIbMo
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-vim +153 lib/cpu_rmap.c
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPzWaYACgkQ3SOs138+
+s6FdLQ//XWbq7phJgwGKXbP9rCQOA08w3XgKBD7w8cfv4ZgL8HPwVVlZh7PMNkqF
+7Qe8yAzHAA310nKP3DUlY+XYTZwPQK2F9yBYX4CHYR6mxSXdZpVPNgYW++15TDwa
+GqyRVeEAUfjgdDEZ+08qpnTJMI4rPrw4Q6FaTgJziTa9kAgXkh2yNnJeTc6Y5Nmd
+tUckvM++d6KdO2YL8i7BmjKlJd5aPWo6HoHwPl+Avb20wnT3jqXe1DPGEGrY6PfG
+IvGq4Xllm4GW0ejWQxrSIZwFbrR2E02CmU2/db5/6E0jmP7O0PrjrZm5c9erk1dp
+AKim1nNfzuaczcFz2UTRX7IS0zakRmhwbbXCFP7P3AwsMR6u5eYiXouU/Xv2hQKK
+Y/9/G7WiMZ8mMlf36ZkJt4KfGfDo4a7mX09zkiKDaqvk438GRDGt/84Vh/MyYOws
+azJEgQ82/hQ4FdUo/zpmTPrkLk35LlMXiW6BSTFdyFs+c//Viv2qdZHFM0Cv5Gl8
+XuWveUZttJLr2nJPHgH4R7vZtzKM931vvMV1NIP4zux52ANDjLm3oiw352UKkzgK
+NhSkixxsKDzypQqpEit+58vEGrV4yq/4MaTzWVONgXxDUblS9CALsmnhgr36uxU6
+EqMKCYMk8lAs1M3KlU++iR+q3bYbq7AqvRW9gBqhjH8a1T7/vY0=
+=qwdr
+-----END PGP SIGNATURE-----
 
-   141	
-   142	/**
-   143	 * cpu_rmap_add - add object to a rmap
-   144	 * @rmap: CPU rmap allocated with alloc_cpu_rmap()
-   145	 * @obj: Object to add to rmap
-   146	 *
-   147	 * Return index of object.
-   148	 */
-   149	int cpu_rmap_add(struct cpu_rmap *rmap, void *obj)
-   150	{
-   151		u16 index = get_free_index(rmap);
-   152	
- > 153		if (index == -1)
-   154			return index;
-   155	
-   156		rmap->obj[index] = obj;
-   157		return index;
-   158	}
-   159	EXPORT_SYMBOL(cpu_rmap_add);
-   160	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--1LpTloZvC8acIbMo--
