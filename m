@@ -1,43 +1,46 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E649881F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 19:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC9A881E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 20:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676922872; x=1708458872;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8TIrN4UXomXE4uoL54nhVbmn4jpeOsHwBHo0STMsWTQ=;
-  b=nuaAa36OSBqZETI4QPwOSDc8Oe8PeoE3nz37cILZLUrqrjwvvQck9ZU2
-   Nv6uCdDN4M8sVtXpGIEeazLcok/963u3i5CdHtHcGkS5NJM/064DMaU4z
-   s7bRnpiuZnC/s1aUb9ppdnL8GPKEeDkDl8R9FoCUfM9c+APi7UpTP48Fi
-   FHfbYiNH7A/2FtTtCk2Lh/IjobplLda0h/A4I1PXWiieSP1CR9T2qvvoy
-   Iu1Rr41NeJBpfhJ5haXyeJCz8rp2AWSz/0QZquHpayJ4MfmOCLKhMBt0U
-   hv0zSHjSzkztjwrIVoWmLHRmNh9R9hQvMk78/xmBYGUMfsQhejWkD8ami
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="397162348"
+  t=1676923531; x=1708459531;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0JjseAxJv1MQ5aoMkYPcofLggUQw/63rn0ahWH1W61w=;
+  b=BB69Rsf1g0h+6bWorBoCcj/3dTauqDAGVnWFQ3d+SCBTyd79Pk3HxbuA
+   XgidkXCkF7O6IoCEY3rS3I08Qs4IvR/W9LTKfoJfHDa0wOQ8p7px9z7Tx
+   Qi9UV1sS7VqMMq5UTqiyT5GNuZeBY84ooRrQwr1M8knB/2ojGRlIQVl9Y
+   HVSmo5VpFPXWNOk/JY5E0p3vd4k2GoV1PELIuBn1lTUESAEr8cwCXVvjr
+   Jvfj4jDTyaXKJPdnI4LfXzzf9mKXuG6e0CU5FBHG/Jyltxq8zJYtuVQda
+   BIB0M6LJcfGbbeIhxEnxiUp9rLWgq5FgLZ/panATjBX4/uq977gqLFJ4O
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="331145107"
 X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="397162348"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 11:54:29 -0800
+   d="scan'208";a="331145107"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 12:05:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="671400640"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="1000368307"
 X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="671400640"
+   d="scan'208";a="1000368307"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Feb 2023 11:54:28 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 20 Feb 2023 12:05:28 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUCF1-000E8r-1R;
-	Mon, 20 Feb 2023 19:54:27 +0000
-Date: Tue, 21 Feb 2023 03:54:24 +0800
+	id 1pUCPf-000E9J-2I;
+	Mon, 20 Feb 2023 20:05:27 +0000
+Date: Tue, 21 Feb 2023 04:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:nfsd-next 16891/16904] fs/nfsd/nfssvc.c:366:51: warning:
- argument to 'sizeof' in 'memcpy' call is the same expression as the
- destination; did you mean to dereference it?
-Message-ID: <202302210342.w1Y5fxgb-lkp@intel.com>
+To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
+	robh+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	marius.cristea@microchip.com
+Subject: Re: [PATCH v1 2/2] iio: adc: adding support for pac193x
+Message-ID: <202302210331.iKaMm4co-lkp@intel.com>
+References: <20230220123232.413029-3-marius.cristea@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,64 +49,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230220123232.413029-3-marius.cristea@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git nfsd-next
-head:   3661b50f92042146952ed41f8eb6a802ab0f018e
-commit: 70ade8921d66c7126104014517f1b3f7528cb69f [16891/16904] NFSD: copy the whole verifier in nfsd_copy_write_verifier
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230221/202302210342.w1Y5fxgb-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.2 next-20230220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-dt-bindings-for-PAC193X/20230220-203540
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230220123232.413029-3-marius.cristea%40microchip.com
+patch subject: [PATCH v1 2/2] iio: adc: adding support for pac193x
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230221/202302210331.iKaMm4co-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/commit/?id=70ade8921d66c7126104014517f1b3f7528cb69f
-        git remote add jlayton https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git
-        git fetch --no-tags jlayton nfsd-next
-        git checkout 70ade8921d66c7126104014517f1b3f7528cb69f
+        # https://github.com/intel-lab-lkp/linux/commit/fd3be916ffe18735a98bdc55ccc0cb5f3097582c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review marius-cristea-microchip-com/dt-bindings-iio-adc-adding-dt-bindings-for-PAC193X/20230220-203540
+        git checkout fd3be916ffe18735a98bdc55ccc0cb5f3097582c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash fs/nfsd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/iio/adc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302210342.w1Y5fxgb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302210331.iKaMm4co-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/nfsd/nfssvc.c: In function 'nfsd_copy_write_verifier':
-   fs/nfsd/nfssvc.c:366:51: warning: 'sizeof' on array function parameter 'verf' will return size of '__be32 *' {aka 'unsigned int *'} [-Wsizeof-array-argument]
-     366 |                 memcpy(verf, nn->writeverf, sizeof(verf));
-         |                                                   ^
-   fs/nfsd/nfssvc.c:360:38: note: declared here
-     360 | void nfsd_copy_write_verifier(__be32 verf[2], struct nfsd_net *nn)
-         |                               ~~~~~~~^~~~~~~
->> fs/nfsd/nfssvc.c:366:51: warning: argument to 'sizeof' in 'memcpy' call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-     366 |                 memcpy(verf, nn->writeverf, sizeof(verf));
-         |                                                   ^
+   drivers/iio/adc/pac193x.c: In function 'pac193x_acpi_get_acpi_match_entry':
+>> drivers/iio/adc/pac193x.c:1402:21: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+    1402 |         acpi_status status;
+         |                     ^~~~~~
 
 
-vim +366 fs/nfsd/nfssvc.c
+vim +/status +1402 drivers/iio/adc/pac193x.c
 
-   351	
-   352	/**
-   353	 * nfsd_copy_write_verifier - Atomically copy a write verifier
-   354	 * @verf: buffer in which to receive the verifier cookie
-   355	 * @nn: NFS net namespace
-   356	 *
-   357	 * This function provides a wait-free mechanism for copying the
-   358	 * namespace's write verifier without tearing it.
-   359	 */
-   360	void nfsd_copy_write_verifier(__be32 verf[2], struct nfsd_net *nn)
-   361	{
-   362		int seq = 0;
-   363	
-   364		do {
-   365			read_seqbegin_or_lock(&nn->writeverf_lock, &seq);
- > 366			memcpy(verf, nn->writeverf, sizeof(verf));
-   367		} while (need_seqretry(&nn->writeverf_lock, seq));
-   368		done_seqretry(&nn->writeverf_lock, seq);
-   369	}
-   370	
+  1399	
+  1400	static char *pac193x_acpi_get_acpi_match_entry(acpi_handle handle)
+  1401	{
+> 1402		acpi_status status;
+  1403		union acpi_object *name_object;
+  1404		struct acpi_buffer buffer = {ACPI_ALLOCATE_BUFFER, NULL};
+  1405	
+  1406		status = acpi_evaluate_object(handle, "_HID", NULL, &buffer);
+  1407		name_object = buffer.pointer;
+  1408	
+  1409		return name_object->string.pointer;
+  1410	}
+  1411	
 
 -- 
 0-DAY CI Kernel Test Service
