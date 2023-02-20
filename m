@@ -1,51 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197962F4B;
-	Mon, 20 Feb 2023 13:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173B32F4B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Feb 2023 13:33:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676899402; x=1708435402;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A6LhRpr42B3nwFfoj1JoUbQMjjWOTcLN6oT7PjbxPc8=;
-  b=jhwhg88L6s2M1eTCH5PQ5Sz+71CSclb/xyEhx96Q3doaqT4BuTjlIoXi
-   kLIMFmUfvkGm8qkel6qh2NR63dNIaDVW88RJ03rj0pRgY02TOjX/OY5Bf
-   89tQpqqQWhvM/OYsDlpcGU6ddDEpwUXZRxmxBZm8QsCELBrfGANu0ARkW
-   rSFh8M5ZISbQB9cE6VXlKg05BTm17wmy6V0XuR/fR8UxPwxJktHSc+lKJ
-   EcfXyPKQ9JqamJIJJHy4HX8qmVblNu8m2vNOdpaIoAxG47A9r1/F3qwZ1
-   iiaZAbCs/M348vjeZQ6MrZ8QvXU/GS9ITTg+jsLdTJ4k28KaRWFMFQTyO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="330112816"
+  t=1676900000; x=1708436000;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2+T7pHcw5O2uP5IdKcjtz6dZMeq4HG5DepPdXUpeVFU=;
+  b=cFXKNMswjM+tJ5dqNlIfeHZiisix2t9gMl+7/dtVQ0iWqu0GG5TD7erT
+   ryq2i/Lc8K0oyRnwGf9kYOKeaV8lxIw+nSwwclqK9Rer2kvhq1pgmueTW
+   GEVFUjXlGEzGueKazLmBwmqxK4oAA6lBvP6hdlFPsfraiJDP0SFcmcru4
+   2p6+Ly9ULAI2KF5xxvCjnqq3XPYvC1es5vTfbCeLxHNQ/bF/a91wk88SP
+   F5xVjXV1+15kVCGpbL2SIDYOCS5paZKPIljIMJXlA1AkClL2SFmmYJZ1P
+   WCeQn1XzSYv0/6HumFUb2Rw+WqqpFUUZ3gTW6WNAeO4/cCdVsWruBpypM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="331065311"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="330112816"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 05:23:21 -0800
+   d="scan'208";a="331065311"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 05:33:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="673361962"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="795176718"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="673361962"
+   d="scan'208";a="795176718"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Feb 2023 05:23:17 -0800
+  by orsmga004.jf.intel.com with ESMTP; 20 Feb 2023 05:33:18 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU68S-000Dw1-2K;
-	Mon, 20 Feb 2023 13:23:16 +0000
-Date: Mon, 20 Feb 2023 21:22:45 +0800
+	id 1pU6I9-000Dwb-12;
+	Mon, 20 Feb 2023 13:33:17 +0000
+Date: Mon, 20 Feb 2023 21:33:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, shakeelb@google.com, mhocko@kernel.org,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, david@redhat.com,
-	shy828301@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tkhai@ya.ru,
-	sultan@kerneltoast.com, dave@stgolabs.net,
-	penguin-kernel@i-love.sakura.ne.jp, paulmck@kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH 3/5] mm: shrinkers: make count and scan in shrinker
- debugfs lockless
-Message-ID: <202302202134.OFjSh3rl-lkp@intel.com>
-References: <20230220091637.64865-4-zhengqi.arch@bytedance.com>
+To: Benjamin Berg <benjamin.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: [iwlwifi-next:pending 15/21] iface.c:(.text+0x2164): multiple
+ definition of `ieee80211_link_debugfs_add';
+ net/mac80211/driver-ops.o:driver-ops.c:(.text+0x0): first defined here
+Message-ID: <202302202137.l7Ohamcb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,125 +47,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220091637.64865-4-zhengqi.arch@bytedance.com>
 
-Hi Qi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20230220]
-[cannot apply to device-mapper-dm/for-next linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-vmscan-make-global-slab-shrink-lockless/20230220-171954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230220091637.64865-4-zhengqi.arch%40bytedance.com
-patch subject: [PATCH 3/5] mm: shrinkers: make count and scan in shrinker debugfs lockless
-config: riscv-randconfig-r036-20230219 (https://download.01.org/0day-ci/archive/20230220/202302202134.OFjSh3rl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git pending
+head:   b550c611e3d7418f1d2944f4bf0e0597044e377d
+commit: 976fdb8844a790ca65be62f06bdef4d8185004b7 [15/21] wifi: mac80211: add netdev per-link debugfs data and driver hook
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230220/202302202137.l7Ohamcb-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/b5b7259339a7a5cfae5a120356750c5a9e151d12
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Qi-Zheng/mm-vmscan-make-global-slab-shrink-lockless/20230220-171954
-        git checkout b5b7259339a7a5cfae5a120356750c5a9e151d12
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git/commit/?id=976fdb8844a790ca65be62f06bdef4d8185004b7
+        git remote add iwlwifi-next https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git
+        git fetch --no-tags iwlwifi-next pending
+        git checkout 976fdb8844a790ca65be62f06bdef4d8185004b7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302202134.OFjSh3rl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302202137.l7Ohamcb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/shrinker_debug.c:88:11: warning: variable 'ret' is used uninitialized whenever 'do' loop exits because its condition is false [-Wsometimes-uninitialized]
-           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/shrinker_debug.c:93:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   mm/shrinker_debug.c:88:11: note: remove the condition if it is always true
-           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    1
->> mm/shrinker_debug.c:78:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-                   if (!memcg_aware) {
-                       ^~~~~~~~~~~~
-   mm/shrinker_debug.c:93:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   mm/shrinker_debug.c:78:3: note: remove the 'if' if its condition is always false
-                   if (!memcg_aware) {
-                   ^~~~~~~~~~~~~~~~~~~
-   mm/shrinker_debug.c:53:9: note: initialize the variable 'ret' to silence this warning
-           int ret, nid, srcu_idx;
-                  ^
-                   = 0
-   2 warnings generated.
-
-
-vim +88 mm/shrinker_debug.c
-
-5035ebc644aec9 Roman Gushchin 2022-05-31  45  
-5035ebc644aec9 Roman Gushchin 2022-05-31  46  static int shrinker_debugfs_count_show(struct seq_file *m, void *v)
-5035ebc644aec9 Roman Gushchin 2022-05-31  47  {
-5035ebc644aec9 Roman Gushchin 2022-05-31  48  	struct shrinker *shrinker = m->private;
-5035ebc644aec9 Roman Gushchin 2022-05-31  49  	unsigned long *count_per_node;
-5035ebc644aec9 Roman Gushchin 2022-05-31  50  	struct mem_cgroup *memcg;
-5035ebc644aec9 Roman Gushchin 2022-05-31  51  	unsigned long total;
-5035ebc644aec9 Roman Gushchin 2022-05-31  52  	bool memcg_aware;
-b5b7259339a7a5 Qi Zheng       2023-02-20  53  	int ret, nid, srcu_idx;
-5035ebc644aec9 Roman Gushchin 2022-05-31  54  
-5035ebc644aec9 Roman Gushchin 2022-05-31  55  	count_per_node = kcalloc(nr_node_ids, sizeof(unsigned long), GFP_KERNEL);
-5035ebc644aec9 Roman Gushchin 2022-05-31  56  	if (!count_per_node)
-5035ebc644aec9 Roman Gushchin 2022-05-31  57  		return -ENOMEM;
-5035ebc644aec9 Roman Gushchin 2022-05-31  58  
-b5b7259339a7a5 Qi Zheng       2023-02-20  59  	srcu_idx = srcu_read_lock(&shrinker_srcu);
-5035ebc644aec9 Roman Gushchin 2022-05-31  60  
-5035ebc644aec9 Roman Gushchin 2022-05-31  61  	memcg_aware = shrinker->flags & SHRINKER_MEMCG_AWARE;
-5035ebc644aec9 Roman Gushchin 2022-05-31  62  
-5035ebc644aec9 Roman Gushchin 2022-05-31  63  	memcg = mem_cgroup_iter(NULL, NULL, NULL);
-5035ebc644aec9 Roman Gushchin 2022-05-31  64  	do {
-5035ebc644aec9 Roman Gushchin 2022-05-31  65  		if (memcg && !mem_cgroup_online(memcg))
-5035ebc644aec9 Roman Gushchin 2022-05-31  66  			continue;
-5035ebc644aec9 Roman Gushchin 2022-05-31  67  
-5035ebc644aec9 Roman Gushchin 2022-05-31  68  		total = shrinker_count_objects(shrinker,
-5035ebc644aec9 Roman Gushchin 2022-05-31  69  					       memcg_aware ? memcg : NULL,
-5035ebc644aec9 Roman Gushchin 2022-05-31  70  					       count_per_node);
-5035ebc644aec9 Roman Gushchin 2022-05-31  71  		if (total) {
-5035ebc644aec9 Roman Gushchin 2022-05-31  72  			seq_printf(m, "%lu", mem_cgroup_ino(memcg));
-5035ebc644aec9 Roman Gushchin 2022-05-31  73  			for_each_node(nid)
-5035ebc644aec9 Roman Gushchin 2022-05-31  74  				seq_printf(m, " %lu", count_per_node[nid]);
-5035ebc644aec9 Roman Gushchin 2022-05-31  75  			seq_putc(m, '\n');
-5035ebc644aec9 Roman Gushchin 2022-05-31  76  		}
-5035ebc644aec9 Roman Gushchin 2022-05-31  77  
-5035ebc644aec9 Roman Gushchin 2022-05-31 @78  		if (!memcg_aware) {
-5035ebc644aec9 Roman Gushchin 2022-05-31  79  			mem_cgroup_iter_break(NULL, memcg);
-5035ebc644aec9 Roman Gushchin 2022-05-31  80  			break;
-5035ebc644aec9 Roman Gushchin 2022-05-31  81  		}
-5035ebc644aec9 Roman Gushchin 2022-05-31  82  
-5035ebc644aec9 Roman Gushchin 2022-05-31  83  		if (signal_pending(current)) {
-5035ebc644aec9 Roman Gushchin 2022-05-31  84  			mem_cgroup_iter_break(NULL, memcg);
-5035ebc644aec9 Roman Gushchin 2022-05-31  85  			ret = -EINTR;
-5035ebc644aec9 Roman Gushchin 2022-05-31  86  			break;
-5035ebc644aec9 Roman Gushchin 2022-05-31  87  		}
-5035ebc644aec9 Roman Gushchin 2022-05-31 @88  	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
-5035ebc644aec9 Roman Gushchin 2022-05-31  89  
-b5b7259339a7a5 Qi Zheng       2023-02-20  90  	srcu_read_unlock(&shrinker_srcu, srcu_idx);
-5035ebc644aec9 Roman Gushchin 2022-05-31  91  
-5035ebc644aec9 Roman Gushchin 2022-05-31  92  	kfree(count_per_node);
-5035ebc644aec9 Roman Gushchin 2022-05-31 @93  	return ret;
-5035ebc644aec9 Roman Gushchin 2022-05-31  94  }
-5035ebc644aec9 Roman Gushchin 2022-05-31  95  DEFINE_SHOW_ATTRIBUTE(shrinker_debugfs_count);
-5035ebc644aec9 Roman Gushchin 2022-05-31  96  
+   In file included from net/mac80211/driver-ops.c:11:
+>> net/mac80211/debugfs_netdev.h:30:6: warning: no previous prototype for 'ieee80211_link_debugfs_add' [-Wmissing-prototypes]
+      30 | void ieee80211_link_debugfs_add(struct ieee80211_link_data *link) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/debugfs_netdev.h:31:6: warning: no previous prototype for 'ieee80211_link_debugfs_remove' [-Wmissing-prototypes]
+      31 | void ieee80211_link_debugfs_remove(struct ieee80211_link_data *link) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/debugfs_netdev.h:33:6: warning: no previous prototype for 'ieee80211_link_debugfs_drv_add' [-Wmissing-prototypes]
+      33 | void ieee80211_link_debugfs_drv_add(struct ieee80211_link_data *link) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/mac80211/debugfs_netdev.h:34:6: warning: no previous prototype for 'ieee80211_link_debugfs_drv_remove' [-Wmissing-prototypes]
+      34 | void ieee80211_link_debugfs_drv_remove(struct ieee80211_link_data *link) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_add':
+>> iface.c:(.text+0x2164): multiple definition of `ieee80211_link_debugfs_add'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x0): first defined here
+   ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_remove':
+>> iface.c:(.text+0x2168): multiple definition of `ieee80211_link_debugfs_remove'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x4): first defined here
+   ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_drv_add':
+>> iface.c:(.text+0x216c): multiple definition of `ieee80211_link_debugfs_drv_add'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x8): first defined here
+   ld: net/mac80211/iface.o: in function `ieee80211_link_debugfs_drv_remove':
+>> iface.c:(.text+0x2170): multiple definition of `ieee80211_link_debugfs_drv_remove'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0xc): first defined here
+   ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_add':
+   link.c:(.text+0x450): multiple definition of `ieee80211_link_debugfs_add'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x0): first defined here
+   ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_remove':
+   link.c:(.text+0x454): multiple definition of `ieee80211_link_debugfs_remove'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x4): first defined here
+   ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_drv_add':
+   link.c:(.text+0x458): multiple definition of `ieee80211_link_debugfs_drv_add'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0x8): first defined here
+   ld: net/mac80211/link.o: in function `ieee80211_link_debugfs_drv_remove':
+   link.c:(.text+0x45c): multiple definition of `ieee80211_link_debugfs_drv_remove'; net/mac80211/driver-ops.o:driver-ops.c:(.text+0xc): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
