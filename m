@@ -1,42 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8304710F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 06:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772DDA31
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 06:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676959256; x=1708495256;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iBdzoFb6hUIA4NzWT0fEJU6GzL5UGCBzoozQvvx9dnc=;
-  b=Lwtx9VptO4DWiOADEbHW2ys+LfutbFh1Jgp894sHB/futQakto5RE838
-   O1LqEzyqW+mZkPv1E8qLcIkER/wMe6TLkonZ2aqH+HZiyKEnFN/pPpgi8
-   U8sxkMBC3trkFfYq5ZB41JkimA9l8V1Bq/FV5Ha89icoKDGsXlwprS3j3
-   GyWn28/7paRxVLqqW5mg/uN/Djo/b8xScNWfJPGjBsEAWKqGu4vssntW6
-   6gDf1EqPiB4aUqbyd3ysoeDLExkv6Oge631ajkhnEXS4G/yzWg6A31YC7
-   0ssW5dreN2uZ8t+qmxRq+5v84GvrnyJoEma+jKGt7idNpk/SO9+h0bjxq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="316271229"
+  t=1676961111; x=1708497111;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+hYUCXryiM4L3qab7cv2qTNgu2EnjgadpYPHNseM+KU=;
+  b=DcFVUI74kh8W+KUGnRq4L/VPMNayOVHPxTu/ERnQZY8m2wqf/YTFVJEc
+   El+Ce8KxNK4SXal87DIx0bN8YoAIeZqU3Cud51pUhs9NHveRb5rJs4GD9
+   Y98Rki+drQ3twOOI5mqwZowJYHil/RkfDMkZJtqZDXeqphfLcLCj7SnKT
+   pdFsHUqNQICXJ+02Z9DSRO1Q8I//CKOtSwP5XLZeJ53krIbvt5bDRzNyH
+   MD5tdllrymDYl7+a9wxHeIAgW1uRhB/BF4etgOX666Z12xMTlELO8hjlQ
+   MtJ5eUGkm3KgcVQ7lzjWciRNtm5X7HEbsFzJkZxyO8CxfW1GS44BM4Dlz
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="332563875"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="316271229"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 22:00:53 -0800
+   d="scan'208";a="332563875"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 22:31:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="740282227"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="703923205"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="740282227"
+   d="scan'208";a="703923205"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Feb 2023 22:00:47 -0800
+  by orsmga001.jf.intel.com with ESMTP; 20 Feb 2023 22:31:48 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pULhm-000EVJ-2t;
-	Tue, 21 Feb 2023 06:00:46 +0000
-Date: Tue, 21 Feb 2023 14:00:46 +0800
+	id 1pUMBn-000EWM-2Q;
+	Tue, 21 Feb 2023 06:31:47 +0000
+Date: Tue, 21 Feb 2023 14:31:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:sa1100 46/51] drivers/net/ethernet/3com/3c589_cs.c:224:9:
- error: too many arguments to function 'netif_napi_add'
-Message-ID: <202302211344.hlHJKg6l-lkp@intel.com>
+To: Yang Li <yang.lee@linux.alibaba.com>, damien.lemoal@opensource.wdc.com
+Cc: oe-kbuild-all@lists.linux.dev, s.shtylyov@omp.ru,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yang Li <yang.lee@linux.alibaba.com>
+Subject: Re: [PATCH -next] ata: pata_macio: Use of_property_present() helper
+Message-ID: <202302211458.tgO9izcv-lkp@intel.com>
+References: <20230221023634.87925-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,74 +48,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230221023634.87925-1-yang.lee@linux.alibaba.com>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm sa1100
-head:   3b773203fd7374c09a78d11f248e89289a8fb87b
-commit: b292be0bef98aac54dc74812e6e4e79a22b008fe [46/51] net: 3c589_cs: convert to NAPI
-config: alpha-buildonly-randconfig-r001-20230220 (https://download.01.org/0day-ci/archive/20230221/202302211344.hlHJKg6l-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+Hi Yang,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on next-20230220]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/ata-pata_macio-Use-of_property_present-helper/20230221-103834
+patch link:    https://lore.kernel.org/r/20230221023634.87925-1-yang.lee%40linux.alibaba.com
+patch subject: [PATCH -next] ata: pata_macio: Use of_property_present() helper
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302211458.tgO9izcv-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add rmk-arm git://git.armlinux.org.uk/~rmk/linux-arm
-        git fetch --no-tags rmk-arm sa1100
-        git checkout b292be0bef98aac54dc74812e6e4e79a22b008fe
+        # https://github.com/intel-lab-lkp/linux/commit/257ef88e819f378a5925cd9a44857f4591d860e9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yang-Li/ata-pata_macio-Use-of_property_present-helper/20230221-103834
+        git checkout 257ef88e819f378a5925cd9a44857f4591d860e9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/ethernet/3com/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302211344.hlHJKg6l-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302211458.tgO9izcv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/3com/3c589_cs.c: In function 'tc589_probe':
->> drivers/net/ethernet/3com/3c589_cs.c:224:9: error: too many arguments to function 'netif_napi_add'
-     224 |         netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
-         |         ^~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/3com/3c589_cs.c:37:
-   include/linux/netdevice.h:2586:1: note: declared here
-    2586 | netif_napi_add(struct net_device *dev, struct napi_struct *napi,
-         | ^~~~~~~~~~~~~~
+   drivers/ata/pata_macio.c: In function 'pata_macio_cable_detect':
+>> drivers/ata/pata_macio.c:482:37: error: incompatible types when initializing type 'const char *' using type 'bool' {aka '_Bool'}
+     482 |                 const char *cable = of_property_present(priv->node, "cable-type");
+         |                                     ^~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_macio.c:484:37: error: incompatible types when initializing type 'const char *' using type 'bool' {aka '_Bool'}
+     484 |                 const char *model = of_property_present(root, "model");
+         |                                     ^~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_macio.c: In function 'pata_macio_invariants':
+>> drivers/ata/pata_macio.c:975:16: error: incompatible types when assigning to type 'const int *' from type 'bool' {aka '_Bool'}
+     975 |         bidp = of_property_present(priv->node, "AAPL,bus-id");
+         |                ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/netif_napi_add +224 drivers/net/ethernet/3com/3c589_cs.c
+vim +482 drivers/ata/pata_macio.c
 
-   196	
-   197	static int tc589_probe(struct pcmcia_device *link)
-   198	{
-   199		struct el3_private *lp;
-   200		struct net_device *dev;
-   201	
-   202		dev_dbg(&link->dev, "3c589_attach()\n");
-   203	
-   204		/* Create new ethernet device */
-   205		dev = alloc_etherdev(sizeof(struct el3_private));
-   206		if (!dev)
-   207			return -ENOMEM;
-   208		lp = netdev_priv(dev);
-   209		link->priv = dev;
-   210		lp->p_dev = link;
-   211	
-   212		spin_lock_init(&lp->lock);
-   213		link->resource[0]->end = 16;
-   214		link->resource[0]->flags |= IO_DATA_PATH_WIDTH_16;
-   215	
-   216		link->config_flags |= CONF_ENABLE_IRQ;
-   217		link->config_index = 1;
-   218	
-   219		dev->netdev_ops = &el3_netdev_ops;
-   220		dev->watchdog_timeo = TX_TIMEOUT;
-   221	
-   222		dev->ethtool_ops = &netdev_ethtool_ops;
-   223	
- > 224		netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
-   225	
-   226		return tc589_config(link);
-   227	}
-   228	
+   472	
+   473	static int pata_macio_cable_detect(struct ata_port *ap)
+   474	{
+   475		struct pata_macio_priv *priv = ap->private_data;
+   476	
+   477		/* Get cable type from device-tree */
+   478		if (priv->kind == controller_kl_ata4 ||
+   479		    priv->kind == controller_un_ata6 ||
+   480		    priv->kind == controller_k2_ata6 ||
+   481		    priv->kind == controller_sh_ata6) {
+ > 482			const char *cable = of_property_present(priv->node, "cable-type");
+   483			struct device_node *root = of_find_node_by_path("/");
+   484			const char *model = of_property_present(root, "model");
+   485	
+   486			of_node_put(root);
+   487	
+   488			if (cable && !strncmp(cable, "80-", 3)) {
+   489				/* Some drives fail to detect 80c cable in PowerBook
+   490				 * These machine use proprietary short IDE cable
+   491				 * anyway
+   492				 */
+   493				if (!strncmp(model, "PowerBook", 9))
+   494					return ATA_CBL_PATA40_SHORT;
+   495				else
+   496					return ATA_CBL_PATA80;
+   497			}
+   498		}
+   499	
+   500		/* G5's seem to have incorrect cable type in device-tree.
+   501		 * Let's assume they always have a 80 conductor cable, this seem to
+   502		 * be always the case unless the user mucked around
+   503		 */
+   504		if (of_device_is_compatible(priv->node, "K2-UATA") ||
+   505		    of_device_is_compatible(priv->node, "shasta-ata"))
+   506			return ATA_CBL_PATA80;
+   507	
+   508		/* Anything else is 40 connectors */
+   509		return ATA_CBL_PATA40;
+   510	}
+   511	
 
 -- 
 0-DAY CI Kernel Test Service
