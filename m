@@ -1,47 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A8146B7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 14:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAFB4A3B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 14:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676988318; x=1708524318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vOAna0uzbo95jCYytpMidt98s7XCpF33jjRE4hK3OY8=;
-  b=fC8EpGQXNTJQa+jQiaR2HZZ9zZdRcOCrjfB9qWkxMOc90qIeA+7QFHeU
-   DAg3epMGxw/8Dj7kD8CfxPpmGyNRW4NrEDv5jgjn/Orsa2IT1LdZXDuGA
-   WPAxpB6f1v25D+tVWSK21NoV7kc6plY8o9ucaajYBbcpsKe1mOkyy5VjI
-   20vL/DaTwl5sYQwI+S7tCHOA4ECnMvhmytCZ1ByMWkeCHuHJ1/wOrIvxR
-   BskAuKdPL+0tRzb1Mi7YIl6t22ly5YINer3ixmQjkHaoW4X73JETsGbLd
-   2ZDVHYqmkSLZTjAv318dGYWoGzgNBirM7lqN8YLE8jMMWEcqK5zZUO5q7
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="320769168"
+  t=1676989577; x=1708525577;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=8nXXS3PKC8Gqj2UJ+9t/Q3vIBRYFiXOvTK86KkXGNdo=;
+  b=Q6hOIu1D+DfNEmLhbd4dAncxVtMGCZD3uVoh/+NHaLknEcBCy6ZRcnO7
+   A1N25RqFLWgua4qrQdnad1Cad4CvTH8je9p9H83pnlnsDheQw67acSRvo
+   kLmLhTMGsvEJbO0eIdePofePtgmpUfZ2PWobb6CseFO60aVmY37Wpn/T1
+   xBzCjqMRr4JelWuFQ1uMNYlOM0evvvroSCrFHrIdJxNxzhnCwYQ5YVqki
+   j5PhAo7pVcxuxF0w++0mZMh6mkAc+7pmQqfM5r9RbA5mgXz5PB6MMcB1q
+   EOD+axJ08OiDpvRbHEHt3vcUvxS0+UNOWY53jAf3fjYBTKxrb38HDiJHO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="395121362"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="320769168"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 06:05:15 -0800
+   d="scan'208";a="395121362"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 06:26:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="814517515"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="702026176"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="814517515"
+   d="scan'208";a="702026176"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 06:05:12 -0800
+  by orsmga008.jf.intel.com with ESMTP; 21 Feb 2023 06:26:13 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUTGZ-000Epd-35;
-	Tue, 21 Feb 2023 14:05:11 +0000
-Date: Tue, 21 Feb 2023 22:04:52 +0800
+	id 1pUTav-000EqP-0I;
+	Tue, 21 Feb 2023 14:26:13 +0000
+Date: Tue, 21 Feb 2023 22:25:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hangyu Hua <hbh25y@gmail.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, ian.mcdonald@jandi.co.nz
-Cc: oe-kbuild-all@lists.linux.dev, dccp@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hangyu Hua <hbh25y@gmail.com>
-Subject: Re: [PATCH] net: dccp: delete redundant ackvec record in
- dccp_insert_options()
-Message-ID: <202302212123.tdzm6fp4-lkp@intel.com>
-References: <20230221092206.39741-1-hbh25y@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Brandon Brnich <b-brnich@ti.com>,
+	Prasanth Babu Mantena <p-mantena@ti.com>
+Subject: [ti:ti-rt-linux-5.10.y-cicd 21154/22695] htmldocs: Warning:
+ MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/cnm,wave5.yaml
+Message-ID: <202302212247.HNsitoq4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,111 +47,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230221092206.39741-1-hbh25y@gmail.com>
 
-Hi Hangyu,
+Hi Robert,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/master]
-[also build test WARNING on net/master horms-ipvs/master linus/master v6.2 next-20230221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hangyu-Hua/net-dccp-delete-redundant-ackvec-record-in-dccp_insert_options/20230221-172448
-patch link:    https://lore.kernel.org/r/20230221092206.39741-1-hbh25y%40gmail.com
-patch subject: [PATCH] net: dccp: delete redundant ackvec record in dccp_insert_options()
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302212123.tdzm6fp4-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ea44b55ba82bbe3f35b51212bf839f507a30b70b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hangyu-Hua/net-dccp-delete-redundant-ackvec-record-in-dccp_insert_options/20230221-172448
-        git checkout ea44b55ba82bbe3f35b51212bf839f507a30b70b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
+head:   6051924999c0571e6f4fe813db135f05d4a8f0f5
+commit: 5f467c5681a6c862441476473030ab03f6b2c27d [21154/22695] media: chips-media: wave5: Add wave5 driver to maintainers file
+reproduce:
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
+        git checkout 5f467c5681a6c862441476473030ab03f6b2c27d
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302212123.tdzm6fp4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302212247.HNsitoq4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/dccp/options.c: In function 'dccp_insert_options':
-   net/dccp/options.c:594:15: error: implicit declaration of function 'dccp_ackvec_lookup'; did you mean 'dccp_ackvec_input'? [-Werror=implicit-function-declaration]
-     594 |         avr = dccp_ackvec_lookup(&av->av_records, DCCP_SKB_CB(skb)->dccpd_seq);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               dccp_ackvec_input
->> net/dccp/options.c:594:13: warning: assignment to 'struct dccp_ackvec_record *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     594 |         avr = dccp_ackvec_lookup(&av->av_records, DCCP_SKB_CB(skb)->dccpd_seq);
-         |             ^
-   net/dccp/options.c:596:25: error: 'dccp_ackvec_record_slab' undeclared (first use in this function); did you mean 'dccp_ackvec_record'?
-     596 |         kmem_cache_free(dccp_ackvec_record_slab, avr);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                         dccp_ackvec_record
-   net/dccp/options.c:596:25: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
-
-
-vim +594 net/dccp/options.c
-
-   548	
-   549	int dccp_insert_options(struct sock *sk, struct sk_buff *skb)
-   550	{
-   551		struct dccp_sock *dp = dccp_sk(sk);
-   552		struct dccp_ackvec *av = dp->dccps_hc_rx_ackvec;
-   553		struct dccp_ackvec_record *avr;
-   554	
-   555		DCCP_SKB_CB(skb)->dccpd_opt_len = 0;
-   556	
-   557		if (dp->dccps_send_ndp_count && dccp_insert_option_ndp(sk, skb))
-   558			return -1;
-   559	
-   560		if (DCCP_SKB_CB(skb)->dccpd_type != DCCP_PKT_DATA) {
-   561	
-   562			/* Feature Negotiation */
-   563			if (dccp_feat_insert_opts(dp, NULL, skb))
-   564				return -1;
-   565	
-   566			if (DCCP_SKB_CB(skb)->dccpd_type == DCCP_PKT_REQUEST) {
-   567				/*
-   568				 * Obtain RTT sample from Request/Response exchange.
-   569				 * This is currently used for TFRC initialisation.
-   570				 */
-   571				if (dccp_insert_option_timestamp(skb))
-   572					return -1;
-   573	
-   574			} else if (dccp_ackvec_pending(sk) &&
-   575				   dccp_insert_option_ackvec(sk, skb)) {
-   576					return -1;
-   577			}
-   578		}
-   579	
-   580		if (dp->dccps_hc_rx_insert_options) {
-   581			if (ccid_hc_rx_insert_options(dp->dccps_hc_rx_ccid, sk, skb))
-   582				goto delete_ackvec;
-   583			dp->dccps_hc_rx_insert_options = 0;
-   584		}
-   585	
-   586		if (dp->dccps_timestamp_echo != 0 &&
-   587		    dccp_insert_option_timestamp_echo(dp, NULL, skb))
-   588			goto delete_ackvec;
-   589	
-   590		dccp_insert_option_padding(skb);
-   591		return 0;
-   592	
-   593	delete_ackvec:
- > 594		avr = dccp_ackvec_lookup(&av->av_records, DCCP_SKB_CB(skb)->dccpd_seq);
-   595		list_del(&avr->avr_node);
-   596		kmem_cache_free(dccp_ackvec_record_slab, avr);
-   597		return -1;
-   598	}
-   599	
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/cnm,wave5.yaml
 
 -- 
 0-DAY CI Kernel Test Service
