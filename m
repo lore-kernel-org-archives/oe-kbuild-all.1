@@ -1,44 +1,48 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2366FC4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 17:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491036FC4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 17:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677000769; x=1708536769;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2kMmYaoP4NkXRp0O3xoGCHev2sEBbteI8kNhYz3l+DY=;
-  b=HkYNbBo8IdV3sqUGBOvmnsLUf/HQYIK4Cl7jn49C8uK5aPRYQZe0tTRl
-   O1wJcH8o2ynjR85Jld3ocrer5rmcBsGlQef/C4vWbcOi+3vc1YQfrP65l
-   aBnkSglimFyq+TcbunqGzsQaNqW3jg/NtyrAzqE+FZSZLp5bb0nCfAyqS
-   nhLAM/nWUJFVkaEAjySHI34I40WfanF8hd09+vjK877MDMklcBTp42iAR
-   R9DQbqXPbRvTNVNGl7p6zlAYOrZ7hv84IoDKbLaWTkS6XDpX5JWhENYL1
-   c5uRL87r45BYAkQwcJFAzsnJ3N2WhBsnggB6Bb34WQJoHOoQ6+9C3Kk1z
+  t=1677001355; x=1708537355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kBBoBZu1FD2rTBEFA0gVprbFv3kOigQKo3h0nWRaWas=;
+  b=KhIkTaDcYBT9+GpneMVNXU5+ZjF7kVksUuBPAsWJhY9enhTdgzYVzO4V
+   bTNnqSK4mYd0lY5kwRovdAA0jWRNe9xynHg74p2cD7Rox+MWJGMV5dMj8
+   kOdwBULFCS5VkgLDW02AuW4EXDr9Nwx5bDmrzV6jIQ16L8Urzha/i4rbc
+   554o69dkgl4PMFMd9auHzHtt+2pbMSYHNYyiHXD7GsZJgv6d0qcC+HtYH
+   oKiRrrLwtnkxwiqWGnLx/aoyRpwLh+ivyxha6Bj35zdoF2/JJ06u0T83h
+   zurbMlUIsDKQ25A1syMBjaiPO/Ly0qUoA0aADjzzoOPJlu3qbXGvJk5ej
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="360176755"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="320839366"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="360176755"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 09:31:32 -0800
+   d="scan'208";a="320839366"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 09:42:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="814594459"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000689706"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="814594459"
+   d="scan'208";a="1000689706"
 Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 09:31:30 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 09:42:31 -0800
 Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUWUE-00004v-02;
-	Tue, 21 Feb 2023 17:31:30 +0000
-Date: Wed, 22 Feb 2023 01:31:28 +0800
+	id 1pUWes-00005l-2S;
+	Tue, 21 Feb 2023 17:42:30 +0000
+Date: Wed, 22 Feb 2023 01:41:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wanhui Sun <wanhui.sun@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chen Meng J <meng.j.chen@intel.com>, Meng Wei <wei.meng@intel.com>
-Subject: [intel-lts:5.10/preempt-rt 10249/30000]
- drivers/media/v4l2-core/v4l2-subdev.c:1027:1: warning: the frame size of
- 1356 bytes is larger than 1024 bytes
-Message-ID: <202302220117.g3aSxu1C-lkp@intel.com>
+To: Akhil R <akhilrajeev@nvidia.com>, christian.koenig@amd.com,
+	digetx@gmail.com, jonathanh@nvidia.com, ldewangan@nvidia.com,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, sumit.semwal@linaro.org,
+	thierry.reding@gmail.com, wsa@kernel.org, robh+dt@kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, akhilrajeev@nvidia.com
+Subject: Re: [PATCH] i2c: tegra: Share same DMA channel for Rx and Tx
+Message-ID: <202302220130.flKenlan-lkp@intel.com>
+References: <20230221135726.40720-1-akhilrajeev@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,188 +51,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230221135726.40720-1-akhilrajeev@nvidia.com>
 
-Hi Wanhui,
+Hi Akhil,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Yet something to improve:
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
-head:   4278ee2bf6ce967d4eb3ff89f1371d4aa9b86558
-commit: f13978177f8c57c155d53df5f2df60f519e82e4a [10249/30000] v4l: subdev: Add support for sub-streams
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230222/202302220117.g3aSxu1C-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on tegra/for-next]
+[also build test ERROR on linus/master v6.2 next-20230221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/i2c-tegra-Share-same-DMA-channel-for-Rx-and-Tx/20230221-215924
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230221135726.40720-1-akhilrajeev%40nvidia.com
+patch subject: [PATCH] i2c: tegra: Share same DMA channel for Rx and Tx
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230222/202302220130.flKenlan-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/f13978177f8c57c155d53df5f2df60f519e82e4a
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/preempt-rt
-        git checkout f13978177f8c57c155d53df5f2df60f519e82e4a
+        # https://github.com/intel-lab-lkp/linux/commit/643ca30fdac50b54b2ee65f97e6e2eda9974dd3c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Akhil-R/i2c-tegra-Share-same-DMA-channel-for-Rx-and-Tx/20230221-215924
+        git checkout 643ca30fdac50b54b2ee65f97e6e2eda9974dd3c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/v4l2-core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/i2c/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302220117.g3aSxu1C-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302220130.flKenlan-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from drivers/media/v4l2-core/v4l2-subdev.c:12:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1250:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1250 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1236:27: note: 'mem_section' declared here
-    1236 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_link_validate':
->> drivers/media/v4l2-core/v4l2-subdev.c:1027:1: warning: the frame size of 1356 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1027 | }
-         | ^
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/cpumask.h:13,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:36,
+                    from include/linux/acpi.h:13,
+                    from drivers/i2c/busses/i2c-tegra.c:9:
+   drivers/i2c/busses/i2c-tegra.c: In function 'tegra_i2c_init_dma':
+>> drivers/i2c/busses/i2c-tegra.c:465:26: error: 'struct tegra_i2c_dev' has no member named 'tx_dma_chan'; did you mean 'dma_chan'?
+     465 |         WARN_ON(i2c_dev->tx_dma_chan->device != i2c_dev->rx_dma_chan->device);
+         |                          ^~~~~~~~~~~
+   include/asm-generic/bug.h:122:32: note: in definition of macro 'WARN_ON'
+     122 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+>> drivers/i2c/busses/i2c-tegra.c:465:58: error: 'struct tegra_i2c_dev' has no member named 'rx_dma_chan'; did you mean 'dma_chan'?
+     465 |         WARN_ON(i2c_dev->tx_dma_chan->device != i2c_dev->rx_dma_chan->device);
+         |                                                          ^~~~~~~~~~~
+   include/asm-generic/bug.h:122:32: note: in definition of macro 'WARN_ON'
+     122 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_ATMEL_SOC_PDC
-   Depends on [n]: SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m] && HAS_DMA [=n]
-   Selected by [m]:
-   - SND_ATMEL_SOC_SSC [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m]
-   - SND_ATMEL_SOC_SSC_PDC [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && SND_ATMEL_SOC [=m] && ATMEL_SSC [=m]
 
+vim +465 drivers/i2c/busses/i2c-tegra.c
 
-vim +1027 drivers/media/v4l2-core/v4l2-subdev.c
-
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   907  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   908  int v4l2_subdev_link_validate(struct media_link *link)
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   909  {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   910  	struct v4l2_subdev *sink;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   911  	struct v4l2_subdev_route sink_routes[LINK_VALIDATE_ROUTES];
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   912  	struct v4l2_subdev_routing sink_routing = {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   913  		.routes = sink_routes,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   914  		.num_routes = ARRAY_SIZE(sink_routes),
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   915  	};
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   916  	struct v4l2_subdev_route src_routes[LINK_VALIDATE_ROUTES];
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   917  	struct v4l2_subdev_routing src_routing = {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   918  		.routes = src_routes,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   919  		.num_routes = ARRAY_SIZE(src_routes),
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   920  	};
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   921  	unsigned int i, j;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   922  	int rval;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   923  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   924  	sink = media_entity_to_v4l2_subdev(link->sink->entity);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   925  	if (!sink)
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   926  		return -EINVAL;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   927  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   928  	if (!(link->sink->flags & MEDIA_PAD_FL_MULTIPLEX &&
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   929  		link->source->flags & MEDIA_PAD_FL_MULTIPLEX))
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   930  		return v4l2_subdev_link_validate_one(link, link->source, 0,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   931  						     link->sink, 0);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   932  	/*
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   933  	 * multiplex link cannot proceed without route information.
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   934  	 */
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   935  	rval = v4l2_subdev_call(sink, pad, get_routing, &sink_routing);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   936  	if (rval) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   937  		dev_err(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   938  			"error %d in get_routing() on %s, sink pad %u\n", rval,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   939  			sink->entity.name, link->sink->index);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   940  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   941  		return rval;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   942  	}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   943  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   944  	rval = v4l2_subdev_call(media_entity_to_v4l2_subdev(
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   945  					link->source->entity),
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   946  				pad, get_routing, &src_routing);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   947  	if (rval) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   948  		dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   949  			"error %d in get_routing() on %s, source pad %u\n",
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   950  			rval, sink->entity.name, link->source->index);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   951  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   952  		return rval;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   953  	}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   954  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   955  	dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   956  		"validating multiplexed link \"%s\":%u -> \"%s\":%u; %u/%u routes\n",
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   957  		link->source->entity->name, link->source->index,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   958  		sink->entity.name, link->sink->index,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   959  		src_routing.num_routes, sink_routing.num_routes);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   960  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   961  	for (i = 0; i < sink_routing.num_routes; i++) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   962  		/* Get the first active route for the sink pad. */
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   963  		if (sink_routes[i].sink_pad != link->sink->index ||
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   964  		    !(sink_routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   965  			dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   966  				"skipping sink route %u/%u -> %u/%u[%u]\n",
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   967  				sink_routes[i].sink_pad,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   968  				sink_routes[i].sink_stream,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   969  				sink_routes[i].source_pad,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   970  				sink_routes[i].source_stream,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   971  				(bool)(sink_routes[i].flags
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   972  				       & V4L2_SUBDEV_ROUTE_FL_ACTIVE));
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   973  			continue;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   974  		}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   975  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   976  		/*
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   977  		 * Get the corresponding route for the source pad.
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   978  		 * It's ok for the source pad to have routes active
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   979  		 * where the sink pad does not, but the routes that
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   980  		 * are active on the source pad have to be active on
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   981  		 * the sink pad as well.
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   982  		 */
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   983  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   984  		for (j = 0; j < src_routing.num_routes; j++) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   985  			if (src_routes[j].source_pad == link->source->index &&
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   986  			    src_routes[j].source_stream
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   987  			    == sink_routes[i].sink_stream)
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   988  				break;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   989  		}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   990  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   991  		if (j == src_routing.num_routes) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   992  			dev_err(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   993  				"no corresponding source found.\n");
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   994  			return -EINVAL;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   995  		}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   996  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   997  		/* The source route must be active. */
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   998  		if (!(src_routes[j].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13   999  			dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1000  				"source route not active\n");
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1001  			return -EINVAL;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1002  		}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1003  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1004  		dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1005  			"validating link \"%s\": %u/%u => \"%s\" %u/%u\n",
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1006  			link->source->entity->name, src_routes[j].source_pad,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1007  			src_routes[j].source_stream, sink->entity.name,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1008  			sink_routes[i].sink_pad, sink_routes[i].sink_stream);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1009  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1010  		rval = v4l2_subdev_link_validate_one(
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1011  			link, link->source, src_routes[j].source_stream,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1012  			link->sink, sink_routes[i].sink_stream);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1013  		if (rval) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1014  			dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1015  				"error %d in link validation\n", rval);
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1016  			return rval;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1017  		}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1018  	}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1019  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1020  	if (i < sink_routing.num_routes) {
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1021  		dev_dbg(sink->entity.graph_obj.mdev->dev,
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1022  			"not all sink routes verified; out of source routes\n");
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1023  		return -EINVAL;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1024  	}
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1025  
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13  1026  	return 0;
-e822d33e27dd00 drivers/media/v4l2-core/v4l2-subdev.c wu xia           2016-06-13 @1027  }
-8227c92b696884 drivers/media/video/v4l2-subdev.c     Sakari Ailus     2011-10-10  1028  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
-9b02cbb3ede89b drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart 2015-04-24  1029  
-
-:::::: The code at line 1027 was first introduced by commit
-:::::: e822d33e27dd00bb200f0e9db1811231554ce03c v4l: Take routing info into account in link validation
-
-:::::: TO: wu xia <xia.wu@intel.com>
-:::::: CC: Pan, Kris <kris.pan@intel.com>
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  432  
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  433  static int tegra_i2c_init_dma(struct tegra_i2c_dev *i2c_dev)
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  434  {
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  435  	struct dma_chan *chan;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  436  	dma_addr_t dma_phys;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  437  	u32 *dma_buf;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  438  	int err;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  439  
+48cb6356fae125 Akhil R             2022-09-06  440  	if (i2c_dev->is_vi)
+89328b1b81858f Jonathan Hunter     2019-02-21  441  		return 0;
+89328b1b81858f Jonathan Hunter     2019-02-21  442  
+48cb6356fae125 Akhil R             2022-09-06  443  	if (!i2c_dev->hw->has_apb_dma) {
+89328b1b81858f Jonathan Hunter     2019-02-21  444  		if (!IS_ENABLED(CONFIG_TEGRA20_APB_DMA)) {
+48cb6356fae125 Akhil R             2022-09-06  445  			dev_dbg(i2c_dev->dev, "APB DMA support not enabled\n");
+48cb6356fae125 Akhil R             2022-09-06  446  			return 0;
+48cb6356fae125 Akhil R             2022-09-06  447  		}
+48cb6356fae125 Akhil R             2022-09-06  448  	} else if (!IS_ENABLED(CONFIG_TEGRA186_GPC_DMA)) {
+48cb6356fae125 Akhil R             2022-09-06  449  		dev_dbg(i2c_dev->dev, "GPC DMA support not enabled\n");
+89328b1b81858f Jonathan Hunter     2019-02-21  450  		return 0;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  451  	}
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  452  
+643ca30fdac50b Akhil R             2023-02-21  453  	/* The same channel will be used for both Rx and Tx.
+643ca30fdac50b Akhil R             2023-02-21  454  	 * Keeping the name as tx for backward compatibility with
+643ca30fdac50b Akhil R             2023-02-21  455  	 * existing devicetrees.
+643ca30fdac50b Akhil R             2023-02-21  456  	 */
+79e4be2c08bbbf Peter Ujfalusi      2019-11-13  457  	chan = dma_request_chan(i2c_dev->dev, "tx");
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  458  	if (IS_ERR(chan)) {
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  459  		err = PTR_ERR(chan);
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  460  		goto err_out;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  461  	}
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  462  
+643ca30fdac50b Akhil R             2023-02-21  463  	i2c_dev->dma_chan = chan;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  464  
+cdbf26251d3b35 Thierry Reding      2022-10-20 @465  	WARN_ON(i2c_dev->tx_dma_chan->device != i2c_dev->rx_dma_chan->device);
+cdbf26251d3b35 Thierry Reding      2022-10-20  466  	i2c_dev->dma_dev = chan->device->dev;
+cdbf26251d3b35 Thierry Reding      2022-10-20  467  
+55c52f16a017ca Dmitry Osipenko     2020-09-30  468  	i2c_dev->dma_buf_size = i2c_dev->hw->quirks->max_write_len +
+55c52f16a017ca Dmitry Osipenko     2020-09-30  469  				I2C_PACKET_HEADER_SIZE;
+55c52f16a017ca Dmitry Osipenko     2020-09-30  470  
+cdbf26251d3b35 Thierry Reding      2022-10-20  471  	dma_buf = dma_alloc_coherent(i2c_dev->dma_dev, i2c_dev->dma_buf_size,
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  472  				     &dma_phys, GFP_KERNEL | __GFP_NOWARN);
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  473  	if (!dma_buf) {
+76d06443cc5b37 Dmitry Osipenko     2020-09-30  474  		dev_err(i2c_dev->dev, "failed to allocate DMA buffer\n");
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  475  		err = -ENOMEM;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  476  		goto err_out;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  477  	}
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  478  
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  479  	i2c_dev->dma_buf = dma_buf;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  480  	i2c_dev->dma_phys = dma_phys;
+c886a4a03a0155 Dmitry Osipenko     2020-09-30  481  
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  482  	return 0;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  483  
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  484  err_out:
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  485  	tegra_i2c_release_dma(i2c_dev);
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  486  	if (err != -EPROBE_DEFER) {
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  487  		dev_err(i2c_dev->dev, "cannot use DMA: %d\n", err);
+bb0e9b1d2a1f93 Colin Ian King      2019-02-15  488  		dev_err(i2c_dev->dev, "falling back to PIO\n");
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  489  		return 0;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  490  	}
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  491  
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  492  	return err;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  493  }
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  494  
 
 -- 
 0-DAY CI Kernel Test Service
