@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900B10F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 05:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8304710F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 06:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676956848; x=1708492848;
+  t=1676959256; x=1708495256;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XOXGYSCvkVpLIJxgF4zoQnVKPdt/I37BdNbZI1wE1N8=;
-  b=fjgWJ2rhQPZKjIL4y5uTl1Monwloh+3a+fcXvo9oKMy3vy05ky74qQX5
-   6Kbq0K8dZK8Rre7C19+jvDSJdlnSE0UgMw9PffJUi88iPMQZYFwLoOoES
-   l/5NkOmw4GPmm2jsB8i8e1pcwWwRXv3x2Gyi91djE9OfrSJArcneBl8Iy
-   Qq8bibxEd6i9WtZrK5RsGvFfudHN3+FEP/3Co708S+K7YtjIkPdMsXnM8
-   GoWlCkeIx05ocHiy7VWc3IKIsHEM8aRS91CE2Q9c1TsVqvx58d1tzuezi
-   4oUnJSimfj4TfpPPe+/iL9F7ONicvuSK6qdkphrerGojaPbPCJ+feGMDE
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="331212901"
+  bh=iBdzoFb6hUIA4NzWT0fEJU6GzL5UGCBzoozQvvx9dnc=;
+  b=Lwtx9VptO4DWiOADEbHW2ys+LfutbFh1Jgp894sHB/futQakto5RE838
+   O1LqEzyqW+mZkPv1E8qLcIkER/wMe6TLkonZ2aqH+HZiyKEnFN/pPpgi8
+   U8sxkMBC3trkFfYq5ZB41JkimA9l8V1Bq/FV5Ha89icoKDGsXlwprS3j3
+   GyWn28/7paRxVLqqW5mg/uN/Djo/b8xScNWfJPGjBsEAWKqGu4vssntW6
+   6gDf1EqPiB4aUqbyd3ysoeDLExkv6Oge631ajkhnEXS4G/yzWg6A31YC7
+   0ssW5dreN2uZ8t+qmxRq+5v84GvrnyJoEma+jKGt7idNpk/SO9+h0bjxq
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="316271229"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="331212901"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 21:20:47 -0800
+   d="scan'208";a="316271229"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 22:00:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="664844755"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="740282227"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="664844755"
+   d="scan'208";a="740282227"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2023 21:20:46 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 20 Feb 2023 22:00:47 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUL53-000ETY-26;
-	Tue, 21 Feb 2023 05:20:45 +0000
-Date: Tue, 21 Feb 2023 13:19:47 +0800
+	id 1pULhm-000EVJ-2t;
+	Tue, 21 Feb 2023 06:00:46 +0000
+Date: Tue, 21 Feb 2023 14:00:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
-Subject: [driver-core:kobject-const 122/122] drivers/iommu/iommu.c:118:10:
- sparse: sparse: incorrect type in initializer (different modifiers)
-Message-ID: <202302211325.mGuXnfJV-lkp@intel.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rmk-arm:sa1100 46/51] drivers/net/ethernet/3com/3c589_cs.c:224:9:
+ error: too many arguments to function 'netif_napi_add'
+Message-ID: <202302211344.hlHJKg6l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,59 +46,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git kobject-const
-head:   de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
-commit: de9d11ba9a2261b62a065a1b6539eecf8a6d81f5 [122/122] driver core: platform: make platform_bus_type constant
-config: nios2-randconfig-s043-20230219 (https://download.01.org/0day-ci/archive/20230221/202302211325.mGuXnfJV-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm sa1100
+head:   3b773203fd7374c09a78d11f248e89289a8fb87b
+commit: b292be0bef98aac54dc74812e6e4e79a22b008fe [46/51] net: 3c589_cs: convert to NAPI
+config: alpha-buildonly-randconfig-r001-20230220 (https://download.01.org/0day-ci/archive/20230221/202302211344.hlHJKg6l-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
-        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-        git fetch --no-tags driver-core kobject-const
-        git checkout de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
+        git remote add rmk-arm git://git.armlinux.org.uk/~rmk/linux-arm
+        git fetch --no-tags rmk-arm sa1100
+        git checkout b292be0bef98aac54dc74812e6e4e79a22b008fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/ethernet/3com/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302211325.mGuXnfJV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302211344.hlHJKg6l-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/iommu.c:118:10: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct bus_type * @@     got struct bus_type const * @@
-   drivers/iommu/iommu.c:118:10: sparse:     expected struct bus_type *
-   drivers/iommu/iommu.c:118:10: sparse:     got struct bus_type const *
+All errors (new ones prefixed by >>):
 
-vim +118 drivers/iommu/iommu.c
+   drivers/net/ethernet/3com/3c589_cs.c: In function 'tc589_probe':
+>> drivers/net/ethernet/3com/3c589_cs.c:224:9: error: too many arguments to function 'netif_napi_add'
+     224 |         netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
+         |         ^~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:37:
+   include/linux/netdevice.h:2586:1: note: declared here
+    2586 | netif_napi_add(struct net_device *dev, struct napi_struct *napi,
+         | ^~~~~~~~~~~~~~
 
-b0119e870837dc Joerg Roedel 2017-02-01  116  
-c13dbc1e248549 Robin Murphy 2022-08-15  117  static struct bus_type * const iommu_buses[] = {
-c13dbc1e248549 Robin Murphy 2022-08-15 @118  	&platform_bus_type,
-c13dbc1e248549 Robin Murphy 2022-08-15  119  #ifdef CONFIG_PCI
-c13dbc1e248549 Robin Murphy 2022-08-15  120  	&pci_bus_type,
-c13dbc1e248549 Robin Murphy 2022-08-15  121  #endif
-c13dbc1e248549 Robin Murphy 2022-08-15  122  #ifdef CONFIG_ARM_AMBA
-c13dbc1e248549 Robin Murphy 2022-08-15  123  	&amba_bustype,
-c13dbc1e248549 Robin Murphy 2022-08-15  124  #endif
-c13dbc1e248549 Robin Murphy 2022-08-15  125  #ifdef CONFIG_FSL_MC_BUS
-c13dbc1e248549 Robin Murphy 2022-08-15  126  	&fsl_mc_bus_type,
-c13dbc1e248549 Robin Murphy 2022-08-15  127  #endif
-c13dbc1e248549 Robin Murphy 2022-08-15  128  #ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
-c13dbc1e248549 Robin Murphy 2022-08-15  129  	&host1x_context_device_bus_type,
-c13dbc1e248549 Robin Murphy 2022-08-15  130  #endif
-c13dbc1e248549 Robin Murphy 2022-08-15  131  };
-c13dbc1e248549 Robin Murphy 2022-08-15  132  
 
-:::::: The code at line 118 was first introduced by commit
-:::::: c13dbc1e24854908376c40ccaeb7a3a3c111e3af iommu: Always register bus notifiers
+vim +/netif_napi_add +224 drivers/net/ethernet/3com/3c589_cs.c
 
-:::::: TO: Robin Murphy <robin.murphy@arm.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+   196	
+   197	static int tc589_probe(struct pcmcia_device *link)
+   198	{
+   199		struct el3_private *lp;
+   200		struct net_device *dev;
+   201	
+   202		dev_dbg(&link->dev, "3c589_attach()\n");
+   203	
+   204		/* Create new ethernet device */
+   205		dev = alloc_etherdev(sizeof(struct el3_private));
+   206		if (!dev)
+   207			return -ENOMEM;
+   208		lp = netdev_priv(dev);
+   209		link->priv = dev;
+   210		lp->p_dev = link;
+   211	
+   212		spin_lock_init(&lp->lock);
+   213		link->resource[0]->end = 16;
+   214		link->resource[0]->flags |= IO_DATA_PATH_WIDTH_16;
+   215	
+   216		link->config_flags |= CONF_ENABLE_IRQ;
+   217		link->config_index = 1;
+   218	
+   219		dev->netdev_ops = &el3_netdev_ops;
+   220		dev->watchdog_timeo = TX_TIMEOUT;
+   221	
+   222		dev->ethtool_ops = &netdev_ethtool_ops;
+   223	
+ > 224		netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
+   225	
+   226		return tc589_config(link);
+   227	}
+   228	
 
 -- 
 0-DAY CI Kernel Test Service
