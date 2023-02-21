@@ -1,48 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744D4ED3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 03:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900B10F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 05:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676951924; x=1708487924;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FrNLG+QvfuWYkv9Cmz8YtxcFaAnsx1lXVXu7DFcfMr8=;
-  b=D7Gv896PXQ7/1fAxOnTuwt1h8YWgFV7LNV0cvSPuILjXVHYF+f0IZyx3
-   uZ1SK9P50OY5VHrfzmAjOq607YRc1T/jyahrpxmJW8l/+Fw8lxFh5CaZr
-   l4p+J1TQ5wL0H73aOic5lJZDX/BglnBkRALm0qj44/p+FchLnies4oqVm
-   ZiLdcOkfCi0rYplClaVG195yjkZA9Y2lgi8HlaL8/0O5CWUbk9wJXmm3x
-   yRXA1Vf1mNgxhH/mQfB0/EMErFrqBEmrNJ1jBcuqtq2APJyRKddVIiFQc
-   z05FA9SpQXbyZoKuOOyO0EInO0P3cl0kINTJQvuwa4lKFC4jYwIQ70W8a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="334733485"
+  t=1676956848; x=1708492848;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XOXGYSCvkVpLIJxgF4zoQnVKPdt/I37BdNbZI1wE1N8=;
+  b=fjgWJ2rhQPZKjIL4y5uTl1Monwloh+3a+fcXvo9oKMy3vy05ky74qQX5
+   6Kbq0K8dZK8Rre7C19+jvDSJdlnSE0UgMw9PffJUi88iPMQZYFwLoOoES
+   l/5NkOmw4GPmm2jsB8i8e1pcwWwRXv3x2Gyi91djE9OfrSJArcneBl8Iy
+   Qq8bibxEd6i9WtZrK5RsGvFfudHN3+FEP/3Co708S+K7YtjIkPdMsXnM8
+   GoWlCkeIx05ocHiy7VWc3IKIsHEM8aRS91CE2Q9c1TsVqvx58d1tzuezi
+   4oUnJSimfj4TfpPPe+/iL9F7ONicvuSK6qdkphrerGojaPbPCJ+feGMDE
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="331212901"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="334733485"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 19:58:43 -0800
+   d="scan'208";a="331212901"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 21:20:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="740253832"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="664844755"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="740253832"
+   d="scan'208";a="664844755"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Feb 2023 19:58:41 -0800
+  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2023 21:20:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUJnd-000EQ9-14;
-	Tue, 21 Feb 2023 03:58:41 +0000
-Date: Tue, 21 Feb 2023 11:58:07 +0800
+	id 1pUL53-000ETY-26;
+	Tue, 21 Feb 2023 05:20:45 +0000
+Date: Tue, 21 Feb 2023 13:19:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	netdev@vger.kernel.org, Richard Cochran <richardcochran@gmail.com>,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on
- x86
-Message-ID: <202302211153.uvDZ9eZu-lkp@intel.com>
-References: <20230220130235.2603366-1-jpiotrowski@linux.microsoft.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
+Subject: [driver-core:kobject-const 122/122] drivers/iommu/iommu.c:118:10:
+ sparse: sparse: incorrect type in initializer (different modifiers)
+Message-ID: <202302211325.mGuXnfJV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,54 +45,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220130235.2603366-1-jpiotrowski@linux.microsoft.com>
 
-Hi Jeremi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on horms-ipvs/master]
-[also build test WARNING on mst-vhost/linux-next net/master net-next/master linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20230220130235.2603366-1-jpiotrowski%40linux.microsoft.com
-patch subject: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on x86
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302211153.uvDZ9eZu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git kobject-const
+head:   de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
+commit: de9d11ba9a2261b62a065a1b6539eecf8a6d81f5 [122/122] driver core: platform: make platform_bus_type constant
+config: nios2-randconfig-s043-20230219 (https://download.01.org/0day-ci/archive/20230221/202302211325.mGuXnfJV-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0dd1701fd254692af3d0ca051e092e8dcef190c4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
-        git checkout 0dd1701fd254692af3d0ca051e092e8dcef190c4
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
+        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+        git fetch --no-tags driver-core kobject-const
+        git checkout de9d11ba9a2261b62a065a1b6539eecf8a6d81f5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/ptp/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302211153.uvDZ9eZu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302211325.mGuXnfJV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommu.c:118:10: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct bus_type * @@     got struct bus_type const * @@
+   drivers/iommu/iommu.c:118:10: sparse:     expected struct bus_type *
+   drivers/iommu/iommu.c:118:10: sparse:     got struct bus_type const *
 
->> drivers/ptp/ptp_kvm_arm.c:25:6: warning: no previous prototype for 'kvm_arch_ptp_exit' [-Wmissing-prototypes]
-      25 | void kvm_arch_ptp_exit(void)
-         |      ^~~~~~~~~~~~~~~~~
+vim +118 drivers/iommu/iommu.c
 
+b0119e870837dc Joerg Roedel 2017-02-01  116  
+c13dbc1e248549 Robin Murphy 2022-08-15  117  static struct bus_type * const iommu_buses[] = {
+c13dbc1e248549 Robin Murphy 2022-08-15 @118  	&platform_bus_type,
+c13dbc1e248549 Robin Murphy 2022-08-15  119  #ifdef CONFIG_PCI
+c13dbc1e248549 Robin Murphy 2022-08-15  120  	&pci_bus_type,
+c13dbc1e248549 Robin Murphy 2022-08-15  121  #endif
+c13dbc1e248549 Robin Murphy 2022-08-15  122  #ifdef CONFIG_ARM_AMBA
+c13dbc1e248549 Robin Murphy 2022-08-15  123  	&amba_bustype,
+c13dbc1e248549 Robin Murphy 2022-08-15  124  #endif
+c13dbc1e248549 Robin Murphy 2022-08-15  125  #ifdef CONFIG_FSL_MC_BUS
+c13dbc1e248549 Robin Murphy 2022-08-15  126  	&fsl_mc_bus_type,
+c13dbc1e248549 Robin Murphy 2022-08-15  127  #endif
+c13dbc1e248549 Robin Murphy 2022-08-15  128  #ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
+c13dbc1e248549 Robin Murphy 2022-08-15  129  	&host1x_context_device_bus_type,
+c13dbc1e248549 Robin Murphy 2022-08-15  130  #endif
+c13dbc1e248549 Robin Murphy 2022-08-15  131  };
+c13dbc1e248549 Robin Murphy 2022-08-15  132  
 
-vim +/kvm_arch_ptp_exit +25 drivers/ptp/ptp_kvm_arm.c
+:::::: The code at line 118 was first introduced by commit
+:::::: c13dbc1e24854908376c40ccaeb7a3a3c111e3af iommu: Always register bus notifiers
 
-    24	
-  > 25	void kvm_arch_ptp_exit(void)
-    26	{
-    27	}
-    28	
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
