@@ -1,51 +1,43 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2384C64;
-	Tue, 21 Feb 2023 14:54:21 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id p18-20020a05600c359200b003dc57ea0dfeso3787499wmq.0;
-        Tue, 21 Feb 2023 06:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TyFfwBUaMUtFp6HKd07rm6OPEp5MM4Hsnl/slgK1uVw=;
-        b=UNR+Yvgx2zk3p+nJXeUpKX3Z9wPdf9iTdKrtlWiK1VBnn9Z5Ski0M9JfzwUOc4ggKg
-         WjM0P/iRLaSkyp9FnMPZU4WjrA59oCiS9J6TOlxlcF6OHucdgpUUnh39R9MlaDGHT80M
-         igM3hTgbUsS8S6yJzXHqePEVY5det8ngTxaUd348pJ+Vqs+RlZdiqFmU+TIX1JZh9i0T
-         n688GWptgsqVTraO8BSoxNmKWaGgLHnnuVcvyD52Dm8nmFK2I+xwYJmo888UKqXqCTMP
-         Tnmb4U+StT1tVhnvp1Hogbe6MRgT2tYdXHdtXq8i7eIXMqSBRefkLIo0rkaVYYwVscgV
-         oAHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TyFfwBUaMUtFp6HKd07rm6OPEp5MM4Hsnl/slgK1uVw=;
-        b=sdyjmtKaLxY5PSBFPMHCqYIq7aAAsvej0tFWdnXFKNaY9WjyD1V7eb94qIdwpPIvkj
-         VKmkNbDqEL3cFX5ZZ1bKMxD/FZP7PPs2ZvWSYgVI/n3c7raYzrxJ1pNDjqmO4vFXgY+v
-         cVpj92R89on8qnc6U8399YOQ/u7hTBC9aiO/Ln2vNW+Z6lTbcxwMHCALgkfssQh03kJM
-         oQE5ZRMjqAvABq1lKfZR/NYgLo4JR5zngIpb3N31eT+2X83CtWTa0QFI/On1wp+1fAOz
-         Bkg1Yv53BGIb7ZmeETctoYOCUaysZ/P4wspQPTXQyohbn9lProJRluYZNLDhLqJ75g7j
-         Vqjw==
-X-Gm-Message-State: AO0yUKUcECBffpQtqUZsTOPHNG5mtaZHxhdGoLFqi5hWJUvLODbG39n4
-	gX0co2sgwbRkhdJiZWo7NAkpkicaRA4=
-X-Google-Smtp-Source: AK7set9O/+nPLl6Dlf5ZZBJJF6UpWCdnUVsdTLpOB+OYLTsqF2S3JzK+TuhGmfR6/aGWocW/154HjQ==
-X-Received: by 2002:a05:600c:714:b0:3df:eecc:de2b with SMTP id i20-20020a05600c071400b003dfeeccde2bmr11230627wmn.11.1676991259435;
-        Tue, 21 Feb 2023 06:54:19 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u14-20020a5d434e000000b002c5a1bd527dsm4011359wrr.96.2023.02.21.06.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 06:54:19 -0800 (PST)
-From: kernel test robot <error27@gmail.com>
-X-Google-Original-From: kernel test robot <lkp@intel.com>
-Date: Tue, 21 Feb 2023 17:54:15 +0300
-To: oe-kbuild@lists.linux.dev, Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: [linux-next:master 1866/13664] drivers/gpu/drm/i915/i915_hwmon.c:383
- hwm_power_max_read() error: uninitialized symbol 'r'.
-Message-ID: <Y/TbF6xqqoi0xlg6@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245704C64
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 15:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676993238; x=1708529238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nPx/uLGZByyC2kGwi8uUp15WidM7zRNHBuiYMBDShq4=;
+  b=b1Jh1MqM7GI41phqwXkz5PKh6pdJerUbqA++eKPUOAgutzahbZd/j7Ut
+   x4h/dHWJ7PH+meRDmBY99u21kKYxHg8fwVS15jJvfFhccV7ybZYew2LC5
+   ZHlPSLYCdpPLbrnUhPNLUdEDHeYPQwEJLCDg0mIqOzR5lmryUks4ilYe9
+   elIOjAhyC3c3foB7V0NTtOM+yVNXWaS4hUIwSyb3hOtaQ0eQAqyDPlyUU
+   1LW4ZGzkxMII2o1QLb9jRpKasjT+FWeXg4yRyWJmx4+llXUXEFuftnKd1
+   6QXE9DLEMLX0G1Qdzc6QVOM8VypwEhOK6+ZRkuOMh4RIq19PF2Wq7WMd9
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="397347491"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="397347491"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 07:27:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000648793"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="1000648793"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 07:27:16 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUUXz-000EtA-2e;
+	Tue, 21 Feb 2023 15:27:15 +0000
+Date: Tue, 21 Feb 2023 23:27:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2023-01 1/1]
+ drivers/android/binder.c:2497:28: warning: cast to pointer from integer of
+ different size
+Message-ID: <202302212338.Q916cOCq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,60 +47,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   465461cf48465b8a0a54025db5ae2b3df7a04577
-commit: d2c3c8c3d3833c45c09be671da48f9d46b79e347 [1866/13664] drm/i915/hwmon: Display clamped PL1 limit
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230221/202302212146.aYzIN9SV-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2023-01
+head:   89d2b2bbcecc0f45892db1092041dc6124d26229
+commit: 89d2b2bbcecc0f45892db1092041dc6124d26229 [1/1] UPSTREAM: binder: read pre-translated fds from sender buffer
+config: i386-randconfig-a002-20230220 (https://download.01.org/0day-ci/archive/20230221/202302212338.Q916cOCq-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.15-2023-01
+        git checkout 89d2b2bbcecc0f45892db1092041dc6124d26229
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302212146.aYzIN9SV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302212338.Q916cOCq-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_hwmon.c:383 hwm_power_max_read() error: uninitialized symbol 'r'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_hwmon.c:97 hwm_field_read_and_scale() error: uninitialized symbol 'reg_value'.
-drivers/gpu/drm/i915/i915_hwmon.c:156 hwm_energy() error: uninitialized symbol 'reg_val'.
-drivers/gpu/drm/i915/i915_hwmon.c:180 hwm_power1_max_interval_show() error: uninitialized symbol 'r'.
-drivers/gpu/drm/i915/i915_hwmon.c:335 hwm_in_read() error: uninitialized symbol 'reg_value'.
+   drivers/android/binder.c: In function 'binder_translate_fd_array':
+>> drivers/android/binder.c:2497:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2497 |         sender_ufda_base = (void __user *)sender_uparent->buffer + fda->parent_offset;
+         |                            ^
 
-vim +/r +383 drivers/gpu/drm/i915/i915_hwmon.c
 
-99f55efb79114f Dale B Stimson 2022-10-13  368  static int
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  369  hwm_power_max_read(struct hwm_drvdata *ddat, long *val)
-99f55efb79114f Dale B Stimson 2022-10-13  370  {
-99f55efb79114f Dale B Stimson 2022-10-13  371  	struct i915_hwmon *hwmon = ddat->hwmon;
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  372  	intel_wakeref_t wakeref;
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  373  	u64 r, min, max;
-99f55efb79114f Dale B Stimson 2022-10-13  374  
-99f55efb79114f Dale B Stimson 2022-10-13  375  	*val = hwm_field_read_and_scale(ddat,
-99f55efb79114f Dale B Stimson 2022-10-13  376  					hwmon->rg.pkg_rapl_limit,
-99f55efb79114f Dale B Stimson 2022-10-13  377  					PKG_PWR_LIM_1,
-99f55efb79114f Dale B Stimson 2022-10-13  378  					hwmon->scl_shift_power,
-99f55efb79114f Dale B Stimson 2022-10-13  379  					SF_POWER);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  380  
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  381  	with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  382  		r = intel_uncore_read64(ddat->uncore, hwmon->rg.pkg_power_sku);
+vim +2497 drivers/android/binder.c
 
-r not initialized on the without path.  I'm kind of drowning in these
-with_intel_runtime_pm() warnings.  I've emailed about them before but
-never recieved any response so presumably they are false positive.  I
-could probably add a special case to say that the without runtime pm
-situation is impossible but I wanted to hear back for sure first.
-
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15 @383  	min = REG_FIELD_GET(PKG_MIN_PWR, r);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  384  	min = mul_u64_u32_shr(min, SF_POWER, hwmon->scl_shift_power);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  385  	max = REG_FIELD_GET(PKG_MAX_PWR, r);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  386  	max = mul_u64_u32_shr(max, SF_POWER, hwmon->scl_shift_power);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  387  
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  388  	if (min && max)
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  389  		*val = clamp_t(u64, *val, min, max);
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  390  
-99f55efb79114f Dale B Stimson 2022-10-13  391  	return 0;
-d2c3c8c3d3833c Ashutosh Dixit 2022-12-15  392  }
+  2461	
+  2462	static int binder_translate_fd_array(struct binder_fd_array_object *fda,
+  2463					     const void __user *sender_ubuffer,
+  2464					     struct binder_buffer_object *parent,
+  2465					     struct binder_buffer_object *sender_uparent,
+  2466					     struct binder_transaction *t,
+  2467					     struct binder_thread *thread,
+  2468					     struct binder_transaction *in_reply_to)
+  2469	{
+  2470		binder_size_t fdi, fd_buf_size;
+  2471		binder_size_t fda_offset;
+  2472		const void __user *sender_ufda_base;
+  2473		struct binder_proc *proc = thread->proc;
+  2474	
+  2475		fd_buf_size = sizeof(u32) * fda->num_fds;
+  2476		if (fda->num_fds >= SIZE_MAX / sizeof(u32)) {
+  2477			binder_user_error("%d:%d got transaction with invalid number of fds (%lld)\n",
+  2478					  proc->pid, thread->pid, (u64)fda->num_fds);
+  2479			return -EINVAL;
+  2480		}
+  2481		if (fd_buf_size > parent->length ||
+  2482		    fda->parent_offset > parent->length - fd_buf_size) {
+  2483			/* No space for all file descriptors here. */
+  2484			binder_user_error("%d:%d not enough space to store %lld fds in buffer\n",
+  2485					  proc->pid, thread->pid, (u64)fda->num_fds);
+  2486			return -EINVAL;
+  2487		}
+  2488		/*
+  2489		 * the source data for binder_buffer_object is visible
+  2490		 * to user-space and the @buffer element is the user
+  2491		 * pointer to the buffer_object containing the fd_array.
+  2492		 * Convert the address to an offset relative to
+  2493		 * the base of the transaction buffer.
+  2494		 */
+  2495		fda_offset = (parent->buffer - (uintptr_t)t->buffer->user_data) +
+  2496			fda->parent_offset;
+> 2497		sender_ufda_base = (void __user *)sender_uparent->buffer + fda->parent_offset;
+  2498	
+  2499		if (!IS_ALIGNED((unsigned long)fda_offset, sizeof(u32)) ||
+  2500		    !IS_ALIGNED((unsigned long)sender_ufda_base, sizeof(u32))) {
+  2501			binder_user_error("%d:%d parent offset not aligned correctly.\n",
+  2502					  proc->pid, thread->pid);
+  2503			return -EINVAL;
+  2504		}
+  2505		for (fdi = 0; fdi < fda->num_fds; fdi++) {
+  2506			u32 fd;
+  2507			int ret;
+  2508			binder_size_t offset = fda_offset + fdi * sizeof(fd);
+  2509			binder_size_t sender_uoffset = fdi * sizeof(fd);
+  2510	
+  2511			ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
+  2512			if (!ret)
+  2513				ret = binder_translate_fd(fd, offset, t, thread,
+  2514							  in_reply_to);
+  2515			if (ret)
+  2516				return ret > 0 ? -EINVAL : ret;
+  2517		}
+  2518		return 0;
+  2519	}
+  2520	
 
 -- 
 0-DAY CI Kernel Test Service
