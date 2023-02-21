@@ -1,104 +1,96 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C18B1FBF;
-	Tue, 21 Feb 2023 11:34:05 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id bo30so3507403wrb.0;
-        Tue, 21 Feb 2023 03:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6XsM0lGHivc0yEIzrABocCb5n6PCCHzh9jbspZYVW3E=;
-        b=d2V2v1iq2xek5TnH5u2vns+V1eoYobLZ5+KZcnvnrbOQTq0OW+YBk+69EmWB4MNwuT
-         ZEeYQYVkmKqPFKca2diwEWS8ewGbhFsdLierwD7vQUXdi+m5gfIKGfgZYk0RfJQ3UgLG
-         P+8tenUbOcpwX+I/32XYZYoYSt/DPlzjKR9q0+sMxliQaFVWyZexKRhP9xkajvQGbr/T
-         1bKVaVhVSqG0Ap/JCj3xqr4jx9wQiT4ToY78lbRCef2tGILfUavpY4Y4OOG0G7fDqpQ6
-         pEA7zOmxt6jviuXAflWhafPZMUBfFsOEfeqhbKsNUD/8iL8xvlUNd33y+cEVjTEtNfBC
-         yudA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6XsM0lGHivc0yEIzrABocCb5n6PCCHzh9jbspZYVW3E=;
-        b=EaxQqSUGaa43lMW/8+RMGmBhm8tb7bt6NE50MOkWQOsxeivpPOZM2XyFcqCBE1tLvC
-         ekRLOuHuyYAleSekjvgAPbi1gR6L/g2XT/5XqG5+7DnBtr/0ZgJiVtOdnVhhsOtop5pR
-         QjLIhU2s6VMZy+eGv6Ws4TpCAzflUwF7A2H9FjlP7ONV5duZc/uj9KkjZQtcg0/M6KUG
-         e9uFwnp7l+rFzOl3R66RYjNhfPMaulkx+0T99WEBtJwBOrdECocAXdePKIeFBpe7V3kX
-         VgVXC8SO7gGY+a4V3NCLLmkJeyIq3vf9Ju59qz9e/f5EOjbazrcgs5UbOv8UBbptaoh3
-         FgvA==
-X-Gm-Message-State: AO0yUKUW9bgS8TMgmafFoDRJ2AxlS17S+35KbXMlYdRDAVFt9zNP5+HL
-	BFmvPN3VqLcoJuHG3XmUpvOF+S68vzY=
-X-Google-Smtp-Source: AK7set9wM4xZBZZnPY6KhCGayNouoiFTHLpWSJvXIQA40gwOfeS6c9KABP+9hO4fPX2eVchIxlg39g==
-X-Received: by 2002:a5d:58d9:0:b0:2c6:e87f:30cc with SMTP id o25-20020a5d58d9000000b002c6e87f30ccmr2407363wrf.48.1676979243303;
-        Tue, 21 Feb 2023 03:34:03 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m12-20020adff38c000000b002c567881dbcsm1432993wro.48.2023.02.21.03.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 03:34:02 -0800 (PST)
-Date: Tue, 21 Feb 2023 14:33:59 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6539/7267]
- kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
- dereferenced before check 'buffer' (see line 2172)
-Message-ID: <202302181230.X9lCS0f6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC8C23C4;
+	Tue, 21 Feb 2023 11:55:56 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R341e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=alibuda@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0VcCOdes_1676980547;
+Received: from 30.221.149.204(mailfrom:alibuda@linux.alibaba.com fp:SMTPD_---0VcCOdes_1676980547)
+          by smtp.aliyun-inc.com;
+          Tue, 21 Feb 2023 19:55:48 +0800
+Message-ID: <7ff5ad40-7280-2060-4402-d3bada4ce200@linux.alibaba.com>
+Date: Tue, 21 Feb 2023 19:55:46 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH bpf-next 1/2] net/smc: Introduce BPF injection capability
+ for SMC
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, kgraul@linux.ibm.com,
+ wenjia@linux.ibm.com, jaka@linux.ibm.com, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
+ davem@davemloft.net, netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org
+References: <1676966191-47736-2-git-send-email-alibuda@linux.alibaba.com>
+ <202302211908.BgagxpRo-lkp@intel.com>
+From: "D. Wythe" <alibuda@linux.alibaba.com>
+In-Reply-To: <202302211908.BgagxpRo-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   26f2032cc476b6d61f4a694fca4feb8e9e2cb5c7
-commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [6539/7267] ANDROID: ring-buffer: Introducing external writer support
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230218/202302181230.X9lCS0f6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302181230.X9lCS0f6-lkp@intel.com/
+Thanks! I will repost a fixed patch.
 
-smatch warnings:
-kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
 
-vim +/buffer +2177 kernel/trace/ring_buffer.c
-
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
-0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
-                                                                                            ^^^^^^
-Patch adds an dereference
-
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
-ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
-                                                                    ^^^^^^^
-Checked too late.
-
-0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2182  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
-0a1754b2a97efa Qiujun Huang              2020-10-19  2183  		return 0;
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2184  
-59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2185) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2186  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+On 2/21/23 7:30 PM, kernel test robot wrote:
+> Hi Wythe,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on bpf-next/master]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/net-smc-Introduce-BPF-injection-capability-for-SMC/20230221-155712
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/1676966191-47736-2-git-send-email-alibuda%40linux.alibaba.com
+> patch subject: [PATCH bpf-next 1/2] net/smc: Introduce BPF injection capability for SMC
+> config: i386-randconfig-a013-20230220 (https://download.01.org/0day-ci/archive/20230221/202302211908.BgagxpRo-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/e2b31aece49068d7a07ca4bbd5fbdbd92f45a25e
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review D-Wythe/net-smc-Introduce-BPF-injection-capability-for-SMC/20230221-155712
+>          git checkout e2b31aece49068d7a07ca4bbd5fbdbd92f45a25e
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302211908.BgagxpRo-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> net/smc/bpf_smc_struct_ops.c:61:33: error: use of undeclared identifier 'BTF_SMC_TYPE_MAX'; did you mean 'BTF_SMC_TYPE_SOCK'?
+>     BTF_ID_LIST_GLOBAL(btf_smc_ids, BTF_SMC_TYPE_MAX)
+>                                     ^~~~~~~~~~~~~~~~
+>                                     BTF_SMC_TYPE_SOCK
+>     include/linux/btf_ids.h:211:61: note: expanded from macro 'BTF_ID_LIST_GLOBAL'
+>     #define BTF_ID_LIST_GLOBAL(name, n) u32 __maybe_unused name[n];
+>                                                                 ^
+>     include/linux/btf_ids.h:275:1: note: 'BTF_SMC_TYPE_SOCK' declared here
+>     BTF_SMC_TYPE_xxx
+>     ^
+>     include/linux/btf_ids.h:269:15: note: expanded from macro 'BTF_SMC_TYPE_xxx'
+>             BTF_SMC_TYPE(BTF_SMC_TYPE_SOCK, smc_sock)               \
+>                          ^
+>     1 error generated.
+> 
+> 
+> vim +61 net/smc/bpf_smc_struct_ops.c
+> 
+>      59	
+>      60	/* define global smc ID for smc_struct_ops */
+>    > 61	BTF_ID_LIST_GLOBAL(btf_smc_ids, BTF_SMC_TYPE_MAX)
+>      62	#define BTF_SMC_TYPE(name, type) BTF_ID(struct, type)
+>      63	BTF_SMC_TYPE_xxx
+>      64	#undef BTF_SMC_TYPE
+>      65	
+> 
