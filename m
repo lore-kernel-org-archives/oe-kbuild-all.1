@@ -1,86 +1,105 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F78A1383
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 08:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676967414; x=1708503414;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7VCVzcmXWabRsGAQmBprK2dI20+xIuFJ7vscCF4RNI0=;
-  b=fC54kJNsVOG5tq/U5Nxl+bul2zJuwxr2tv0sTa58pQbISj9COlGa0w/5
-   fRJhmo/gNYpIGff838pLDDwB6oArGj4z2i9U6MBjBa8RLeYburnT88+aY
-   fU0D8g6VfG6BOI8aFF/bphkgAggSZj3+OzZnYkkPtKcecj965isR6FSov
-   VHlQJaqmyXI+ew5hrn5VcvCpIhV6RNl1Qc4MZzvrPU6m8SfkErKJDZ8Or
-   htbd0ekIutVpBHIOF0g1IsCVFv+kf7okwRntdplcrQwBgMA6T4fjwtE1p
-   GsoOq51zx/3uA4COKzUPnKJOwpERYk3YRMEaheKvcAxGdZDEgD3ajpJz/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="332580572"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="332580572"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 00:16:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="701921269"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="701921269"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Feb 2023 00:16:52 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUNpT-000EZt-1p;
-	Tue, 21 Feb 2023 08:16:51 +0000
-Date: Tue, 21 Feb 2023 16:15:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Rahul T R <r-ravikumar@ti.com>
-Subject: [ti:ti-rt-linux-5.10.y-cicd 20965/22695] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-srggi10 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202302211605.TPI865tC-lkp@intel.com>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5AFA2D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 08:31:38 +0000 (UTC)
+Received: from [192.168.178.43] (dynamic-adsl-94-34-19-170.clienti.tiscali.it [94.34.19.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A7416209A89A;
+	Tue, 21 Feb 2023 00:22:46 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7416209A89A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1676967768;
+	bh=oB6XZJNuRNsKWddqARPVPvSPJ4dG7fYOorsslLvoIwk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OSpF73HaNhkK604LDLNwPikfdAo38G0qWmAg4MS+6/jkKwJb7ihtGvY4ZmuIyWOuT
+	 /RYnp24ac9YMLE+RH+ls7P5xr/2hkHJAYjF1efRpm2kP9IUaaJDlJJdoeX+QzVoSG3
+	 N5dqVhlvZaot+SywMXJxKLbDJMbBV49+yJhthiyA=
+Message-ID: <1dcc9919-3d92-f9cc-7274-f12e5186a66e@linux.microsoft.com>
+Date: Tue, 21 Feb 2023 09:22:44 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on
+ x86
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ Richard Cochran <richardcochran@gmail.com>, Christoph Hellwig <hch@lst.de>
+References: <20230220130235.2603366-1-jpiotrowski@linux.microsoft.com>
+ <202302210943.Xq84rrhU-lkp@intel.com>
+Content-Language: en-US
+From: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+In-Reply-To: <202302210943.Xq84rrhU-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jai,
+On 21/02/2023 02:08, kernel test robot wrote:
+> Hi Jeremi,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on horms-ipvs/master]
+> [also build test WARNING on mst-vhost/linux-next net/master net-next/master linus/master v6.2]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+> patch link:    https://lore.kernel.org/r/20230220130235.2603366-1-jpiotrowski%40linux.microsoft.com
+> patch subject: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on x86
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302210943.Xq84rrhU-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/0dd1701fd254692af3d0ca051e092e8dcef190c4
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
+>         git checkout 0dd1701fd254692af3d0ca051e092e8dcef190c4
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302210943.Xq84rrhU-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/ptp/ptp_kvm_x86.c: In function 'kvm_arch_ptp_init':
+>    drivers/ptp/ptp_kvm_x86.c:63:9: error: implicit declaration of function 'kvm_arch_ptp_exit'; did you mean 'kvm_arch_ptp_init'? [-Werror=implicit-function-declaration]
+>       63 |         kvm_arch_ptp_exit();
+>          |         ^~~~~~~~~~~~~~~~~
+>          |         kvm_arch_ptp_init
+>    drivers/ptp/ptp_kvm_x86.c: At top level:
+>>> drivers/ptp/ptp_kvm_x86.c:68:6: warning: no previous prototype for 'kvm_arch_ptp_exit' [-Wmissing-prototypes]
+>       68 | void kvm_arch_ptp_exit(void)
+>          |      ^~~~~~~~~~~~~~~~~
+>>> drivers/ptp/ptp_kvm_x86.c:68:6: warning: conflicting types for 'kvm_arch_ptp_exit'; have 'void(void)'
+>    drivers/ptp/ptp_kvm_x86.c:63:9: note: previous implicit declaration of 'kvm_arch_ptp_exit' with type 'void(void)'
+>       63 |         kvm_arch_ptp_exit();
+>          |         ^~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +/kvm_arch_ptp_exit +68 drivers/ptp/ptp_kvm_x86.c
+> 
+>     67	
+>   > 68	void kvm_arch_ptp_exit(void)
+>     69	{
+>     70		if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+>     71			WARN_ON(set_memory_encrypted((unsigned long)clock_pair, 1));
+>     72			free_page((unsigned long)clock_pair);
+>     73			clock_pair = NULL;
+>     74		}
+>     75	}
+>     76	
+> 
 
-FYI, the error/warning still remains.
+My bad - forgot to include changes to include/linux/ptp_kvm.h in the commit.
+Will fix in v2, but will hold off a day or two in case someone has a suggestion
+on how to reduce the allocation.
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
-head:   6051924999c0571e6f4fe813db135f05d4a8f0f5
-commit: fa80761ddb51ee69efb493838865b1afd7b58afa [20965/22695] media: v4l: Add 10-bit RGBIr formats
-reproduce:
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
-        git checkout fa80761ddb51ee69efb493838865b1afd7b58afa
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302211605.TPI865tC-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggi10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrig10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggi10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbig10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgirg10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-siggr10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgibg10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-siggb10 (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Jeremi
