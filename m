@@ -1,48 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1447E2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 01:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67911EA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 01:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676941778; x=1708477778;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A+KGKw+5Btk54DfTXju4UW/yull7lBkhCraeVCjeaOk=;
-  b=esAWOV/HZGFA8osgRZUkJ6U9bdeZ06JH+HDXaogN7VQvGHE3XnesuRZi
-   Pg6BYKL9Cm+XjgRexIvDyJunKZebiiSo/c/8sY+8AcADGV9KGs5LGMoUa
-   6XePTB/kScsc1t7mSP8O58xVvKaeGgcGOQF+lqdz9kPRCKzyrUEmh/OXf
-   b7lSogEnNhnaJ9jUc9sUfmQwvCMsBNAvD59pZNbOOAQmQJglT8RL0WE6E
-   byo8m0GuZw1/f/rcNxYiS5oTCDhiWLwpYG4v9dgvxG1L29KN8Sa/qNDPv
-   T3mL8O4hDTb30Iu52J3YUKb30nkNiye4q0m1jf6FcwLtkoWy5D87rq2cX
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="320644066"
+  t=1676942980; x=1708478980;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Mj2IbBXUW6u/2vUO9Ycv5Cc6xj76xZeG9UoUn802Xc4=;
+  b=jd9y0KzmwOqzhgRToAPjNX6BisfP8nkOWiA/uLDwn6HYfVuMHRpGjaA7
+   xbUaviNKeVcV9PGTStw1Y2Vd3v4X0cocf/z9yMHc3hgtBaZm9uSRSXdRB
+   Nxksx7NFBIwMw9ZrnUrZp43r/xKWFU7cutYrtr9Bq4jt4kOSulMaBchAL
+   MWoHADIljcTF7g7mFWmo3L9ZZmDeRaiBIQJLvYS5ld98OOUffosyB7ZaG
+   G05LFsV3tJJuoKBOWH26gLtBP69m7yRYDw69HUSlO3/W85GlhtnEX8heQ
+   1EUHKVZlpr+eTVWg9Ou61+yy1P7IItxZj3j91XtRXNQkjyeu1WSxLLQPG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="312891119"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="320644066"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 17:09:38 -0800
+   d="scan'208";a="312891119"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 17:29:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="795327514"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="673507831"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="795327514"
+   d="scan'208";a="673507831"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 20 Feb 2023 17:09:36 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 20 Feb 2023 17:29:37 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUH9z-000EIL-2c;
-	Tue, 21 Feb 2023 01:09:35 +0000
-Date: Tue, 21 Feb 2023 09:08:41 +0800
+	id 1pUHTM-000EJl-2d;
+	Tue, 21 Feb 2023 01:29:36 +0000
+Date: Tue, 21 Feb 2023 09:29:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	netdev@vger.kernel.org, Richard Cochran <richardcochran@gmail.com>,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on
- x86
-Message-ID: <202302210943.Xq84rrhU-lkp@intel.com>
-References: <20230220130235.2603366-1-jpiotrowski@linux.microsoft.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-5.10.y-cicd 15342/22695] htmldocs: Warning:
+ Documentation/devicetree/bindings/usb/ti,am62-usb.yaml references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml
+Message-ID: <202302210929.lLf9VbjR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +47,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220130235.2603366-1-jpiotrowski@linux.microsoft.com>
 
-Hi Jeremi,
+Hi Aswath,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on horms-ipvs/master]
-[also build test WARNING on mst-vhost/linux-next net/master net-next/master linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20230220130235.2603366-1-jpiotrowski%40linux.microsoft.com
-patch subject: [PATCH] ptp: kvm: Use decrypted memory in confidential guest on x86
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302210943.Xq84rrhU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/0dd1701fd254692af3d0ca051e092e8dcef190c4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeremi-Piotrowski/ptp-kvm-Use-decrypted-memory-in-confidential-guest-on-x86/20230220-210441
-        git checkout 0dd1701fd254692af3d0ca051e092e8dcef190c4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
+head:   6051924999c0571e6f4fe813db135f05d4a8f0f5
+commit: 1119e586b349eff343a08aa66f6565ea1e310d16 [15342/22695] dt-bindings: usb: Add documentation for AM62 USB Wrapper module
+reproduce:
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
+        git checkout 1119e586b349eff343a08aa66f6565ea1e310d16
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302210943.Xq84rrhU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302210929.lLf9VbjR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/ptp/ptp_kvm_x86.c: In function 'kvm_arch_ptp_init':
-   drivers/ptp/ptp_kvm_x86.c:63:9: error: implicit declaration of function 'kvm_arch_ptp_exit'; did you mean 'kvm_arch_ptp_init'? [-Werror=implicit-function-declaration]
-      63 |         kvm_arch_ptp_exit();
-         |         ^~~~~~~~~~~~~~~~~
-         |         kvm_arch_ptp_init
-   drivers/ptp/ptp_kvm_x86.c: At top level:
->> drivers/ptp/ptp_kvm_x86.c:68:6: warning: no previous prototype for 'kvm_arch_ptp_exit' [-Wmissing-prototypes]
-      68 | void kvm_arch_ptp_exit(void)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/ptp/ptp_kvm_x86.c:68:6: warning: conflicting types for 'kvm_arch_ptp_exit'; have 'void(void)'
-   drivers/ptp/ptp_kvm_x86.c:63:9: note: previous implicit declaration of 'kvm_arch_ptp_exit' with type 'void(void)'
-      63 |         kvm_arch_ptp_exit();
-         |         ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/kvm_arch_ptp_exit +68 drivers/ptp/ptp_kvm_x86.c
-
-    67	
-  > 68	void kvm_arch_ptp_exit(void)
-    69	{
-    70		if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
-    71			WARN_ON(set_memory_encrypted((unsigned long)clock_pair, 1));
-    72			free_page((unsigned long)clock_pair);
-    73			clock_pair = NULL;
-    74		}
-    75	}
-    76	
+>> Warning: Documentation/devicetree/bindings/usb/ti,am62-usb.yaml references a file that doesn't exist: Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml
 
 -- 
 0-DAY CI Kernel Test Service
