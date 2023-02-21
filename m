@@ -1,53 +1,48 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823428F78
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 21:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC478F78;
+	Tue, 21 Feb 2023 21:28:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677014270; x=1708550270;
+  t=1677014925; x=1708550925;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2Z8HpLXCWddG+Jt9ywudS/nE++JVzN3twAynOXAq0E0=;
-  b=l0IMtcOH4jse0jpOUPiOohylRBquJIKQ0bte0r3bE533mA58torPLbjG
-   lmBL+uMP4wqJMFljYJ9eNLjmLgAymYSKWG1mF27mfcCmLRGuxcbRNQUnk
-   c3Gw30JV5xCpVpMLKCA2Mcor4Notd6rbozYceAqr13edVqHAxGeRRh2RJ
-   jMfqWYfIkcqeTCKqnXys3P0CO1K+OQ+u9+1KUb+8Z6tYZTzH7s7S68hx5
-   LDGcs3rlOw0TMUVimHEq+mh7tJ7xernMtMuTzB21c3swBbqP3Es9O528t
-   xpODZBAfPwME9HrrXQqpHoYk3ysSzAJ4HbmdLSbu6tDzIvGX2FDLz3XVl
+  bh=e1AvhqAmH47az8SqU2RGLxJvxgBybQJt540Qgkz6sK0=;
+  b=EV4zoX5Afb4p8EzXEQbPwN9KbY2mLGsaLNdZ6hH4ozi7pEU/TE+eQ4kr
+   NOlk4Et5OPk2CgZp4AMFZpwGcdrfwZj7em70VB1a+4FmVlaMUov0m6q1j
+   89uS6gO+86mmCsrtdB2ffn8jAyThx9zi/f77k6UYkS3FA6TgkccoK/Dzk
+   yEAcSDc68FQCZ6lf45QPcO50yoXb58i1bwp4QRp1f8DI+GEClKy8UnGyF
+   GsPtclxu+eXZqr3quksmgRNkKpO3MVQAFdNtnJLtY9kQ+mvce8OTABN3J
+   kdmwVO3geEoqUohMbEs10rXxtgaA8uqoHwoOu7+jUgN6kkSh6UISBTDC0
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="331423405"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332760688"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="331423405"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 13:17:46 -0800
+   d="scan'208";a="332760688"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 13:28:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000749794"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735627967"
 X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="1000749794"
+   d="scan'208";a="735627967"
 Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 13:17:42 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2023 13:28:42 -0800
 Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUa17-0000FP-1J;
-	Tue, 21 Feb 2023 21:17:41 +0000
-Date: Wed, 22 Feb 2023 05:17:23 +0800
+	id 1pUaBm-0000GH-0D;
+	Tue, 21 Feb 2023 21:28:42 +0000
+Date: Wed, 22 Feb 2023 05:27:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Evan Green <evan@rivosinc.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, heiko@sntech.de,
-	Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
-	vineetg@rivosinc.com, Evan Green <evan@rivosinc.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Bresticker <abrestic@rivosinc.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Celeste Liu <coelacanthus@outlook.com>, Guo Ren <guoren@kernel.org>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 7/7] RISC-V: Add hwprobe vDSO function and data
-Message-ID: <202302220534.zLN2kaHH-lkp@intel.com>
-References: <20230221190858.3159617-8-evan@rivosinc.com>
+To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Shibo Li <zzutcyha@163.com>
+Subject: Re: [PATCH] staging: rtl8712: Fix Sparse warnings in
+ rtl871x_ioctl_linux.c
+Message-ID: <202302220531.dtbdFw8w-lkp@intel.com>
+References: <20230220143758.4396-1-zzutcyha@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,63 +51,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230221190858.3159617-8-evan@rivosinc.com>
+In-Reply-To: <20230220143758.4396-1-zzutcyha@163.com>
 
-Hi Evan,
+Hi Shibo,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes robh/for-next soc/for-next linus/master v6.2]
-[cannot apply to next-20230221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230222-031210
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230221190858.3159617-8-evan%40rivosinc.com
-patch subject: [PATCH v3 7/7] RISC-V: Add hwprobe vDSO function and data
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302220534.zLN2kaHH-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+patch link:    https://lore.kernel.org/r/20230220143758.4396-1-zzutcyha%40163.com
+patch subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302220531.dtbdFw8w-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3f47f3f920ffcb37a461d04a1ee0e245451c869e
+        # https://github.com/intel-lab-lkp/linux/commit/7117082894534ef14c409d6a9070fa051a84f619
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230222-031210
-        git checkout 3f47f3f920ffcb37a461d04a1ee0e245451c869e
+        git fetch --no-tags linux-review Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+        git checkout 7117082894534ef14c409d6a9070fa051a84f619
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302220534.zLN2kaHH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302220531.dtbdFw8w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/vdso/hwprobe.c:14:5: warning: no previous prototype for '__vdso_riscv_hwprobe' [-Wmissing-prototypes]
-      14 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, long pair_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
---
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->> arch/riscv/kernel/vdso/hwprobe.c:14:5: warning: no previous prototype for '__vdso_riscv_hwprobe' [-Wmissing-prototypes]
-      14 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, long pair_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1272:28: error: no member named 'configurationInfrastructureMode' in 'struct wlan_bssid_ex'
+                                           if (pnetwork->network.configurationInfrastructureMode
+                                               ~~~~~~~~~~~~~~~~~ ^
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1274:39: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+                                                   padapter->mlmepriv.assoc_by_rssi.
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+   2 errors generated.
 
 
-vim +/__vdso_riscv_hwprobe +14 arch/riscv/kernel/vdso/hwprobe.c
+vim +1272 drivers/staging/rtl8712/rtl871x_ioctl_linux.c
 
-     9	
-    10	extern int riscv_hwprobe(struct riscv_hwprobe *pairs, long pair_count,
-    11				 long cpu_count, unsigned long *cpus,
-    12				 unsigned long flags);
-    13	
-  > 14	int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, long pair_count,
+  1218	
+  1219	/* set ssid flow
+  1220	 * s1. set_802_11_infrastructure_mode()
+  1221	 * s2. set_802_11_authenticaion_mode()
+  1222	 * s3. set_802_11_encryption_mode()
+  1223	 * s4. set_802_11_ssid()
+  1224	 *
+  1225	 * This function intends to handle the Set ESSID command.
+  1226	 * Currently, the request comes via the Wireless Extensions' SIOCSIWESSID ioctl.
+  1227	 *
+  1228	 * For this operation to succeed, there is no need for the interface to be Up.
+  1229	 *
+  1230	 */
+  1231	static int r8711_wx_set_essid(struct net_device *dev,
+  1232					struct iw_request_info *a,
+  1233					union iwreq_data *wrqu, char *extra)
+  1234	{
+  1235		struct _adapter *padapter = netdev_priv(dev);
+  1236		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+  1237		struct  __queue *queue = &pmlmepriv->scanned_queue;
+  1238		struct wlan_network *pnetwork = NULL;
+  1239		enum NDIS_802_11_AUTHENTICATION_MODE	authmode;
+  1240		struct ndis_802_11_ssid ndis_ssid;
+  1241		u8 *dst_ssid, *src_ssid;
+  1242		struct list_head *phead;
+  1243		u32 len;
+  1244	
+  1245		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+  1246			return -EBUSY;
+  1247		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+  1248			return 0;
+  1249		if (wrqu->essid.length > IW_ESSID_MAX_SIZE)
+  1250			return -E2BIG;
+  1251		authmode = padapter->securitypriv.ndisauthtype;
+  1252		if (wrqu->essid.flags && wrqu->essid.length) {
+  1253			len = (wrqu->essid.length < IW_ESSID_MAX_SIZE) ?
+  1254			       wrqu->essid.length : IW_ESSID_MAX_SIZE;
+  1255			memset(&ndis_ssid, 0, sizeof(struct ndis_802_11_ssid));
+  1256			ndis_ssid.SsidLength = len;
+  1257			memcpy(ndis_ssid.Ssid, extra, len);
+  1258			src_ssid = ndis_ssid.Ssid;
+  1259			phead = &queue->queue;
+  1260			pmlmepriv->pscanned = phead->next;
+  1261			while (1) {
+  1262				if (end_of_queue_search(phead, pmlmepriv->pscanned))
+  1263					break;
+  1264				pnetwork = container_of(pmlmepriv->pscanned,
+  1265							struct wlan_network, list);
+  1266				pmlmepriv->pscanned = pmlmepriv->pscanned->next;
+  1267				dst_ssid = pnetwork->network.Ssid.Ssid;
+  1268				if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
+  1269				    && (pnetwork->network.Ssid.SsidLength ==
+  1270				     ndis_ssid.SsidLength)) {
+  1271					if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+> 1272						if (pnetwork->network.configurationInfrastructureMode
+  1273							!=
+> 1274							padapter->mlmepriv.assoc_by_rssi.
+  1275							cur_network.network.InfrastructureMode)
+  1276							continue;
+  1277					}
+  1278	
+  1279					r8712_set_802_11_infrastructure_mode(
+  1280					     padapter,
+  1281					     pnetwork->network.InfrastructureMode);
+  1282					break;
+  1283				}
+  1284			}
+  1285			r8712_set_802_11_authentication_mode(padapter, authmode);
+  1286			r8712_set_802_11_ssid(padapter, &ndis_ssid);
+  1287		}
+  1288		return -EINPROGRESS;
+  1289	}
+  1290	
 
 -- 
 0-DAY CI Kernel Test Service
