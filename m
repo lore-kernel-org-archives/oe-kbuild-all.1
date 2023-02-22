@@ -1,91 +1,119 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78F029A8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 19:34:02 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-536cd8f6034so106610037b3.10
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 11:34:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1cgvm0KPnTrpOY3Sh3w8GOEuFHx/rfKQKFhylxiwL5k=;
-        b=MeUlhrZ5IR8KKkmFezuMyD39wJxaHdz6MJw5Ws+c97a7CWjbnrAjw5j66iyvZ4oZHu
-         08J/Sv+iUJDF4MUJXFSwXDl800IjXTa4fL8bwvJ2hUAOHurV4xzkzsa53VAPCoWqfObO
-         45RsbUQyJjaUmJdyBHdNUxuxSPOM+SxvC7PHS0iVQtf5ulYxDP9/6jE1eCAghriKEu1o
-         yvmhe8NmcGnS+ZuekWhKadjs3L16UTuZNcgdACo/LavHtwfpE1DBiVpJCmEueXl/BOhs
-         KTYfXjhBaCfLqLjLaRJl0YdvD/ALjbktBDEfy0XF3yITPV/3Y9/hXWfnLMMybbOBu0fn
-         ByIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1cgvm0KPnTrpOY3Sh3w8GOEuFHx/rfKQKFhylxiwL5k=;
-        b=7/pAD0vHw3ujEGoO1SqhhHz1yBd6lSz7f0p45xOj2hvdXRh9ACMoZwuRk/K/u1FAr4
-         QW/xKnac0aFTmjhE8CQONR5MDdSVhI8v+6Z92hsJJ+aWFhi0h2TOfr8oyZ23O3zRbM4g
-         N3AyhSHHREd0N5cFQ3v/kDQPThqtiP9gcvxl3KlFCU/FbWr/Rr559C1L2uP773pDK9xc
-         qSzjU97v7QLtt7z+2AD7aqiiU9GlZ96Rk6VOq0WleCDXYMMEVGDAHMgMykoOimamoACb
-         7vf69wfP8eqU6zugDtgLyEfni1+ng22vuXRpyA8+mTzwNt/BZ3eK7BKn7zE+pJGV6JTG
-         F1HQ==
-X-Gm-Message-State: AO0yUKXMdfDYcEC/AdKk/gIbIiF5UfDN2J5NsJpP2g+zDyKU50exfaID
-	M7cKqv7q8wqM9Qy2Z0wAEjg8R3MwDEn1bgYdVeu7AQ==
-X-Google-Smtp-Source: AK7set+NHLUZn+3XyLVfTp82OkDknHuur+QVE8so/oBYFlW/yggINJifDMh5ZyhvgLG6lS60vSQYtXIwD04n1gB/LNk=
-X-Received: by 2002:a81:ac4e:0:b0:533:9ffb:cb11 with SMTP id
- z14-20020a81ac4e000000b005339ffbcb11mr1159419ywj.7.1677094441741; Wed, 22 Feb
- 2023 11:34:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE383239
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 20:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677098013; x=1708634013;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ag4ZqHO80giNF7SmvbaB75bOhLVmOTB34bIaKAEaUHk=;
+  b=i2pdExROoV5TcTjFl6/BFwl1/oC9k9elbZBqDbKRfq9QlEbKiAnjmpD5
+   Pf/AJvpT+gYuVyDZMQZ+23s1qMzMRaTXY7/mOIz4q2FH70SZJPCaV4YW9
+   uQMGVf8YdwKAjhvo8cWEkB4ZbYKiQsA5geukaqWyRmpiLVCdgjzPro6xj
+   G7+rhhwunqcxAyGcjF37jCb8D20SV0aD1+0hTasIy1kDfvfrs5M9mgzlz
+   KrhHIx90XdEiPq/rKBM0pjPTJj6cGXhZzJqZin16HiyBptNh8XyZOWXVC
+   NIxxbuow5kzhDe2XjzbwgRCUjQ/z0EwOj9E2x759Px3g6zaM6c81lZKwl
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="419261790"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="419261790"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 12:33:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="674238794"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="674238794"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Feb 2023 12:33:31 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUvnu-0000hh-1v;
+	Wed, 22 Feb 2023 20:33:30 +0000
+Date: Thu, 23 Feb 2023 04:32:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: include/acpi/actypes.h:525:42: warning: 'strncpy' specified bound 4
+ equals destination size
+Message-ID: <202302230414.sQbDHtiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302230244.9GrTbcGc-lkp@intel.com> <Y/ZpJfvFo0Y/e8Xj@smile.fi.intel.com>
-In-Reply-To: <Y/ZpJfvFo0Y/e8Xj@smile.fi.intel.com>
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Date: Wed, 22 Feb 2023 20:33:50 +0100
-Message-ID: <CACMJSesgjGjwL_hivYOVVoCG9x--2RJUu8YCJ+DXE=7cg+RTNg@mail.gmail.com>
-Subject: Re: [linux-next:master 7757/13727] arch/arm/mach-davinci/board-da830-evm.c:18:10:
- fatal error: linux/platform_data/pcf857x.h: No such file or directory
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 22 Feb 2023 at 20:12, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Feb 23, 2023 at 02:40:42AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5
-> > commit: 91a0192e90e9df40d4b63c4ce11126114ed5d79d [7757/13727] gpio: pcf857x: Get rid of legacy platform data
-> > config: arm-buildonly-randconfig-r003-20230222 (https://download.01.org/0day-ci/archive/20230223/202302230244.9GrTbcGc-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=91a0192e90e9df40d4b63c4ce11126114ed5d79d
-> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout 91a0192e90e9df40d4b63c4ce11126114ed5d79d
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202302230244.9GrTbcGc-lkp@intel.com/
-> >
-> > Note: the linux-next/master HEAD aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5 builds fine.
-> >       It may have been fixed somewhere.
-> >
-> > All errors (new ones prefixed by >>):
->
-> Not an issue for upstream. The file arch/arm/mach-pxa/balloon3.c is removed in
-> Torvalds' tree before this patch will come there.
->
+Hi Mark,
 
-Thanks, I was having a heart attack knowing I had already sent out the PR. :)
+FYI, the error/warning still remains.
 
-Bart
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   70756b49be4ea8bf36a664322df6e7e89895fa60
+commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
+date:   4 weeks ago
+config: ia64-defconfig (https://download.01.org/0day-ci/archive/20230223/202302230414.sQbDHtiC-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/acpi/acpica/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302230414.sQbDHtiC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/acpi/acpi.h:24,
+                    from drivers/acpi/acpica/tbfind.c:10:
+   drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
+>> include/acpi/actypes.h:525:42: warning: 'strncpy' specified bound 4 equals destination size [-Wstringop-truncation]
+     525 | #define ACPI_COPY_NAMESEG(dest,src)     (strncpy (ACPI_CAST_PTR (char, (dest)), ACPI_CAST_PTR (char, (src)), ACPI_NAMESEG_SIZE))
+         |                                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/tbfind.c:59:9: note: in expansion of macro 'ACPI_COPY_NAMESEG'
+      59 |         ACPI_COPY_NAMESEG(header.signature, signature);
+         |         ^~~~~~~~~~~~~~~~~
+--
+   In file included from include/acpi/acpi.h:24,
+                    from drivers/acpi/acpica/utstring.c:8:
+   drivers/acpi/acpica/utstring.c: In function 'acpi_ut_repair_name':
+>> include/acpi/actypes.h:525:42: warning: 'strncpy' specified bound 4 equals destination size [-Wstringop-truncation]
+     525 | #define ACPI_COPY_NAMESEG(dest,src)     (strncpy (ACPI_CAST_PTR (char, (dest)), ACPI_CAST_PTR (char, (src)), ACPI_NAMESEG_SIZE))
+         |                                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/utstring.c:148:9: note: in expansion of macro 'ACPI_COPY_NAMESEG'
+     148 |         ACPI_COPY_NAMESEG(&original_name, &name[0]);
+         |         ^~~~~~~~~~~~~~~~~
+
+
+vim +/strncpy +525 include/acpi/actypes.h
+
+ff60027174cf94 Bob Moore 2012-10-31  519  
+50df4d8b0f6e19 Bob Moore 2008-12-31  520  #ifndef ACPI_MISALIGNMENT_NOT_SUPPORTED
+5599fb69355d7a Bob Moore 2019-04-08  521  #define ACPI_COMPARE_NAMESEG(a,b)       (*ACPI_CAST_PTR (u32, (a)) == *ACPI_CAST_PTR (u32, (b)))
+a3ce7a8e0dd9ba Bob Moore 2019-04-08  522  #define ACPI_COPY_NAMESEG(dest,src)     (*ACPI_CAST_PTR (u32, (dest)) = *ACPI_CAST_PTR (u32, (src)))
+50df4d8b0f6e19 Bob Moore 2008-12-31  523  #else
+3278675567dfb9 Bob Moore 2019-04-08  524  #define ACPI_COMPARE_NAMESEG(a,b)       (!strncmp (ACPI_CAST_PTR (char, (a)), ACPI_CAST_PTR (char, (b)), ACPI_NAMESEG_SIZE))
+3278675567dfb9 Bob Moore 2019-04-08 @525  #define ACPI_COPY_NAMESEG(dest,src)     (strncpy (ACPI_CAST_PTR (char, (dest)), ACPI_CAST_PTR (char, (src)), ACPI_NAMESEG_SIZE))
+50df4d8b0f6e19 Bob Moore 2008-12-31  526  #endif
+50df4d8b0f6e19 Bob Moore 2008-12-31  527  
+
+:::::: The code at line 525 was first introduced by commit
+:::::: 3278675567dfb901d831d46849c386a4f932905e ACPICA: Rename nameseg length macro/define for clarity
+
+:::::: TO: Bob Moore <robert.moore@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
