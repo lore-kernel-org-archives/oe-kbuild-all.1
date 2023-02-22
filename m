@@ -1,90 +1,116 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF0F1FB5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 07:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677049622; x=1708585622;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gI5J9ZInbuiDXPPnPmqy3+yar/z374migS6SgEqe5pg=;
-  b=C7KrvXVnHKRLX1slpdDjHKeflXhBy6etAeT8ma+O+xxs8H+lMXIsunQ0
-   FsFMqBkLIOrfITFUV9k5a+aS/2YJfwUHTkYtuBgYWTNgfHovg7d2Tf8vD
-   dex9SnZngwguqd+6rQxMrKnflbuLUAmFobwed7e7YsY9FjeaKryAocJWV
-   tD4ZBVzLXaJmruz71E2yL+Cq+GddRGHns0wJOC1J0b2wPLoxu8iuLl2Gt
-   LvifRfJnkKZjN8QM83ogsmh2VnU+IM5+CHiZPGkdmVoinTbZaM/Yz/+Ns
-   BHlNlUR/G4z7XZagePHzQWAkCSo1QrfIqAAejous8xIL+vRxzcPbIbAsH
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395335471"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="395335471"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 23:07:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="814816851"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="814816851"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 23:07:00 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUjDQ-000061-0l;
-	Wed, 22 Feb 2023 07:07:00 +0000
-Date: Wed, 22 Feb 2023 15:06:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, nanli2x <nanx.li@intel.com>
-Subject: [intel-lts:5.10/preempt-rt 19483/30000]
- arch/x86/crypto/aesni-intel_asm.S:177: warning: "GF128MUL_MASK" redefined
-Message-ID: <202302221402.cltn5naY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF561FB5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 07:16:08 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id cq23so26257581edb.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 23:16:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NaeMlSFMix0AWDF/IlR9/1jY7K34ruOaDXpt2ygRF7c=;
+        b=LrtsyKybiYVVZ+Ic7UX+6y4+expLWBMaBQi/A+pSXgo7dB6lD5oArNQFysIH+sQ+16
+         DqjqZHBZ8H/ZPo6tz1JdmNazV2JpgDR6/bguUHRCa1UwK+PrhiFEaLAUiA4oFaKp0YY8
+         dis9eOpepwJys9YwMS24O3BYTsbjg/ZlMiQKuZVSPd8jd4VVaxNnMq1MCgm/AHC5jmm6
+         P06URvgqinLWGwetxXo9Pp1pGZcQ9TETCo+cbyH56tJdEusvCw47Jbf4TZxFzu3q31fz
+         G9cFf/I3TymjO0T/pa3pr6Vhesadw77Bf8eUmYEnFJkrrWyHSaiIrQjofXG8A/n4CHAe
+         cfHA==
+X-Gm-Message-State: AO0yUKXQCGXL5/ncEiKEDMps/9YupBXDM98Vriv285KoD1rms3p+DLJs
+	T4f+NU8U3VJ9fhveBu86js4=
+X-Google-Smtp-Source: AK7set8CCcp8OM6Fa4mVzoPzE0/8ibzcixEaOI1tgCPflIhUXazWIE2qtj7lHQj0Fz54iEBvL7FKKA==
+X-Received: by 2002:a17:907:764c:b0:88e:e498:109b with SMTP id kj12-20020a170907764c00b0088ee498109bmr15831335ejc.5.1677050166492;
+        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
+Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id p20-20020a1709060dd400b008be5b97ca49sm5436500eji.150.2023.02.21.23.16.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
+Message-ID: <4e5aeac3-2a99-8fd5-cf1d-a35870ecd807@kernel.org>
+Date: Wed, 22 Feb 2023 08:16:04 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
+Content-Language: en-US
+To: Florian Eckert <fe@dev.tdt.de>, kernel test robot <lkp@intel.com>
+Cc: u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org, pavel@ucw.cz,
+ lee@kernel.org, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
+References: <20230221081901.15557-3-fe@dev.tdt.de>
+ <202302220740.2RKDHnof-lkp@intel.com>
+ <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
+From: Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Chang,
+On 22. 02. 23, 7:07, Florian Eckert wrote:
+> 
+> 
+> On 2023-02-22 01:02, kernel test robot wrote:
+>> Hi Florian,
+>>
+>> Thank you for the patch! Perhaps something to improve:
+>>
+>> [auto build test WARNING on tty/tty-testing]
+>> [also build test WARNING on tty/tty-next tty/tty-linus
+>> staging/staging-testing staging/staging-next staging/staging-linus
+>> pavel-leds/for-next linus/master v6.2 next-20230221]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:
+>> https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
+>> tty-testing
+>> patch link: 
+>> https://lore.kernel.org/r/20230221081901.15557-3-fe%40dev.tdt.de
+>> patch subject: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
+>> reproduce:
+>>         #
+>> https://github.com/intel-lab-lkp/linux/commit/445b7555bccd279bf106995ee42f5dbef2e97c8b
+>>         git remote add linux-review 
+>> https://github.com/intel-lab-lkp/linux
+>>         git fetch --no-tags linux-review
+>> Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
+>>         git checkout 445b7555bccd279bf106995ee42f5dbef2e97c8b
+>>         make menuconfig
+>>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
+>> CONFIG_WARN_ABI_ERRORS
+>>         make htmldocs
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Link:
+>> https://lore.kernel.org/oe-kbuild-all/202302220740.2RKDHnof-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
+>>>> Unexpected indentation.
+>>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
+>>>> Block quote ends without a blank line; unexpected unindent.
+>>
+>> vim +9 Documentation/ABI/testing/sysfs-class-led-trigger-tty
+>>
+>>    > 9    Date:        January 2023
+> 
+> I apologies for the question! But I don't know what the test buildbot 
+> here wants from me.
+> I've looked at the other files and I can't find anything that stands out.
 
-FYI, the error/warning still remains.
+sphinx is always misleading.
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
-head:   4278ee2bf6ce967d4eb3ff89f1371d4aa9b86558
-commit: f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0 [19483/30000] crypto: x86/aes-kl - Support AES algorithm using Key Locker instructions
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230222/202302221402.cltn5naY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel/linux-intel-lts/commit/f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/preempt-rt
-        git checkout f4b77824c8b73ee61f4cc883fa6ab5e450dd45b0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/crypto/ arch/x86/events/intel/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221402.cltn5naY-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/x86/crypto/aesni-intel_asm.S:177: warning: "GF128MUL_MASK" redefined
-     177 | #define GF128MUL_MASK   %xmm7
-         | 
-   arch/x86/crypto/aesni-intel_asm.S:149: note: this is the location of the previous definition
-     149 | #define GF128MUL_MASK %xmm10
-         | 
-
-
-vim +/GF128MUL_MASK +177 arch/x86/crypto/aesni-intel_asm.S
-
-   176	
- > 177	#define GF128MUL_MASK	%xmm7
-   178	
+It's the indentation of all "LED on if ...".
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+js
+suse labs
+
