@@ -1,48 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9111C2586
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 11:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2FA2586
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 11:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677063675; x=1708599675;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rdcpkSkVjM+SqRRdobfsImTfB/ySxzYGHClmkYUhqsM=;
-  b=eLgb3pBJwxGsuPbjkOrISfhJ12IGuCmOyUVScbY72mLruPlnAo2WOb2c
-   GCnX7IrggqrT997V2OLP57jHfqWlZzRn5Qgf1f3gYEXkv5lhAkMELRFaE
-   v7345WcgL4tvLpr6zX4Q8FluWFShImcuF/F1/8YeDTRljHz+/HugRxr8f
-   Haq5kgWBlme2NzkAYTqgu8ygElxyGk9sFKfbDwoeS5OJZvjsn6ptRvyhX
-   Ijwz6NEQYUr3nOM3oQNNrzPvhYDBn4BPE76C7st0tlH/iCPkhV0tHqBby
-   3hvsxwi6mDbhFuqkn1xHuWAib/jzXfelA0SZ2RfuUO4X8VKXR5q3JutnV
+  t=1677063741; x=1708599741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RrW1Q6oWcVpnMdKJ1V3iFevgdjdLDN/lg9gJTCYPX3s=;
+  b=N6hgPt7iQxk6y9kzFRsCFoNS+N4HutU9cYhwCPE8FAKU3UBLdpS2ttg4
+   BD06ui8/oENC/4S4KWqwOShSyP/Vfmb2Ue71gPWxJ+gJV9d/qo7ICYcy1
+   Ufd17IwxMszuhDNayN9dBiwgJKOutdtZozDLpc36XxTADQ8erjsoAUhae
+   W7Auk5yhcg628oDSMDi6INXOIwgWdHXsJKvOow5cYqnCT5oVSI3VoXCoF
+   pVPrz2jceLuel5l7ssgPcebPqNeffvEa7b1V3x9vVu1Ld384wiHbnKT0T
+   XRUY7OA4vtk8Qhd5ZBCsuXxbqMICiHgYwcqzdD4C+9hqc4pISGThl5DEy
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330620763"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395376915"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="330620763"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 03:01:14 -0800
+   d="scan'208";a="395376915"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 03:02:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="795864675"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735866279"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="795864675"
+   d="scan'208";a="735866279"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Feb 2023 03:01:10 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2023 03:02:10 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUms1-0000HV-2a;
-	Wed, 22 Feb 2023 11:01:09 +0000
-Date: Wed, 22 Feb 2023 19:01:06 +0800
+	id 1pUmsz-0000HZ-2g;
+	Wed, 22 Feb 2023 11:02:09 +0000
+Date: Wed, 22 Feb 2023 19:01:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
-	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, horenc@vt.edu, xiyou.wangcong@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH bpf-next v2 17/18] bpf: offload map memory usage
-Message-ID: <202302221852.mOd5T9T6-lkp@intel.com>
-References: <20230222014553.47744-18-laoar.shao@gmail.com>
+To: Karsten Graul <kgraul@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: net/smc/smc_llc.c:40:1: warning: alignment 1 of 'struct smc_llc_hdr'
+ is less than 4
+Message-ID: <202302221942.MupxsxQU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,141 +45,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222014553.47744-18-laoar.shao@gmail.com>
 
-Hi Yafang,
+Hi Karsten,
 
-Thank you for the patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-add-new-map-ops-map_mem_usage/20230222-094856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230222014553.47744-18-laoar.shao%40gmail.com
-patch subject: [PATCH bpf-next v2 17/18] bpf: offload map memory usage
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230222/202302221852.mOd5T9T6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5b7c4cabbb65f5c469464da6c5f614cbd7f730f2
+commit: b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196 net/smc: extend LLC layer for SMC-Rv2
+date:   1 year, 4 months ago
+config: arm-buildonly-randconfig-r003-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221942.MupxsxQU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e5742e839659b59ea26bc7a5804d04e577604aab
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yafang-Shao/bpf-add-new-map-ops-map_mem_usage/20230222-094856
-        git checkout e5742e839659b59ea26bc7a5804d04e577604aab
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-pxa/ drivers/net/ethernet/google/gve/ drivers/net/ethernet/intel/i40e/ drivers/net/ethernet/intel/iavf/ net/smc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221852.mOd5T9T6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221942.MupxsxQU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:98:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
+>> net/smc/smc_llc.c:40:1: warning: alignment 1 of 'struct smc_llc_hdr' is less than 4 [-Wpacked-not-aligned]
+      40 | } __packed;             /* format defined in
          | ^
-   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
-     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:862:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     862 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:957:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
-     957 | int __weak arch_dup_task_struct(struct task_struct *dst,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/fork.c:98:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/sysctl.c:35:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
-         | ^
-   In file included from include/linux/filter.h:9,
-                    from kernel/sysctl.c:35:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/kallsyms.c:25:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
-         | ^
-   kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
-     663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
-         |            ^~~~~~~~~~~~~~~~
-   In file included from include/linux/filter.h:9,
-                    from kernel/kallsyms.c:25:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/bpf-cgroup.h:5,
-                    from net/socket.c:55:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
-         | ^
-   net/socket.c: In function '__sys_getsockopt':
-   net/socket.c:2300:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
-    2300 |         int max_optlen;
-         |             ^~~~~~~~~~
-   In file included from include/linux/bpf-cgroup.h:5,
-                    from net/socket.c:55:
-   net/socket.c: At top level:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/bpf/core.c:21:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
-         | ^
-   kernel/bpf/core.c:1631:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1631 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2070:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
-    2070 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/filter.h:9,
-                    from kernel/bpf/core.c:21:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from net/ipv4/route.c:95:
->> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
-    2644 | {
-         | ^
-   net/ipv4/route.c: In function 'ip_rt_send_redirect':
-   net/ipv4/route.c:880:13: warning: variable 'log_martians' set but not used [-Wunused-but-set-variable]
-     880 |         int log_martians;
-         |             ^~~~~~~~~~~~
-   In file included from include/linux/filter.h:9,
-                    from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from net/ipv4/route.c:95:
-   net/ipv4/route.c: At top level:
-   include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
-    2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   In function 'smc_llc_add_pending_send',
+       inlined from 'smc_llc_send_message' at net/smc/smc_llc.c:760:7:
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     409 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     412 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   In function 'smc_llc_add_pending_send',
+       inlined from 'smc_llc_send_confirm_rkey' at net/smc/smc_llc.c:492:7:
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     409 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     412 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   In function 'smc_llc_add_pending_send',
+       inlined from 'smc_llc_add_link_cont' at net/smc/smc_llc.c:833:7:
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     409 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
+     303 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
+     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     412 |         BUILD_BUG_ON_MSG(
+         |         ^~~~~~~~~~~~~~~~
+   In function 'smc_llc_add_pending_send',
 
 
-vim +2644 include/linux/bpf.h
+vim +40 net/smc/smc_llc.c
 
-  2642	
-  2643	static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
-> 2644	{
-  2645		return 0;
-  2646	}
-  2647	
+    23	
+    24	struct smc_llc_hdr {
+    25		struct smc_wr_rx_hdr common;
+    26		union {
+    27			struct {
+    28				u8 length;	/* 44 */
+    29		#if defined(__BIG_ENDIAN_BITFIELD)
+    30				u8 reserved:4,
+    31				   add_link_rej_rsn:4;
+    32	#elif defined(__LITTLE_ENDIAN_BITFIELD)
+    33				u8 add_link_rej_rsn:4,
+    34				   reserved:4;
+    35	#endif
+    36			};
+    37			u16 length_v2;	/* 44 - 8192*/
+    38		};
+    39		u8 flags;
+  > 40	} __packed;		/* format defined in
+    41				 * IBM Shared Memory Communications Version 2
+    42				 * (https://www.ibm.com/support/pages/node/6326337)
+    43				 */
+    44	
 
 -- 
 0-DAY CI Kernel Test Service
