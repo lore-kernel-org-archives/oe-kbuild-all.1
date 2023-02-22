@@ -1,52 +1,48 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F32F3F;
-	Wed, 22 Feb 2023 15:14:03 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so771004wms.2;
-        Wed, 22 Feb 2023 07:14:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
-        b=AguK+BWlwz3zrXlQyvM2aiRghQwbl5dyMcNVkMjmecRjnOHdoL/QIXr8OoqFTLfalY
-         1VYfvve8fefZrlGO0rouPRQvXyLe6W/NjA0tw+n4/mzrLrm5lNfBj6x2ar8wQ+A3OMHH
-         XOcSNMryFp336zqTbVWuFoGBX6DzK93mkUmUW37CUiVLbYP7uyAdo+03E/J6bblXQECk
-         oH4E/x7eDThJkimkOtww0d6EpQcxg/MiBxVq2hxMB1/M1hO3pRctDinIuYPlIuskNPTd
-         cNZdX5Y75u+w+UfexlvZv64fxvshX4zwFliJWpxXVmRaqgC0wQD++h7g7TMJvPw8UbUk
-         EPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
-        b=QsV/6BNrRXZP13FadM8mXVSuf4yvBabYXa5393zqteIbsIGTp3+BywZGG7KWumtwin
-         R1xwD4nkTdmPj17l3vX+2hcvg4ewd3jaVXLz8330qau0pELzsZTdjMMNzfoCLb4ag1QH
-         /TQyN2Lzr43iDO66xc5Ejgop639n9JGuE5U0Bnk2Yrc5D7BeYTUDzS/xfVPyUjaGvqVp
-         HimNpzsM5nWuq/NpFKKOL8TRKpOhbBf2eoxdsFVOmp4DvdQlRkgkGNfFUXM8xDxAyxHK
-         w5N+nvyhs1lfpGUkZoa16zUhv3lmyZKQBKex62Qv4hvo8Mf8mfk8fIdNzHhjOp+lYow4
-         iltw==
-X-Gm-Message-State: AO0yUKXkeDRrCnzPhQdQHDj3hhYRjNBg/Anww7KNliGhZGK9D+2qDkFN
-	uIZRDfE8enW1sl7bKwFXkuUOtXL9Q9gO9g==
-X-Google-Smtp-Source: AK7set+ltF+ZntzbSmcyHqL7HMnw2q2Vf54UvAMiQB932c0IKSyLIFdRxk3wK9yrEfB8UMHAmDWDaQ==
-X-Received: by 2002:a05:600c:755:b0:3dc:59ee:7978 with SMTP id j21-20020a05600c075500b003dc59ee7978mr6944055wmn.38.1677078841354;
-        Wed, 22 Feb 2023 07:14:01 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c42c700b003db012d49b7sm2630173wme.2.2023.02.22.07.13.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 07:14:00 -0800 (PST)
-Date: Wed, 22 Feb 2023 18:13:55 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
-	tytso@mit.edu, adilger.kernel@dilger.ca
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shikemeng@huaweicloud.com
-Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
- ext4_num_overhead_clusters
-Message-ID: <202302222219.u328sqfs-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B324C2F3F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 15:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677080246; x=1708616246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GjHMCPdnc/DQBIYCfxd4PyPZOUVK7PxFHa2aAc4wkSI=;
+  b=XDS7a7t3sv3BPTyUBH8xEvh0JYxqJ55Db+ybN21QiYF3cczO1noHL0uT
+   C3/QlfbwZN+MRJgqWiHPPNWsdJgUfjoK8aJlo6oDjO7QyMAuj6DE5MaFg
+   3ZFK4+X0GpAaX8rkCbn2iG0hqbJcyphPSmaPIX/Wxt2N3cVqAUnntC7Ig
+   GPstV9JpflY3SXhIAWswzftvlkF4pP7Uctcmvnh2xiY+0exJxlk/QAQV5
+   atL69pVdZovss5gWpFhJXjkW3SaGn747doxO4w7K8APGaRvNnxONr5o2T
+   lzpMp2f4Io/FOUwjJ8lkyUUo6X8M/e+d0W69LpfEqfKMoO7bXxtKz37Nu
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360438035"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="360438035"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 07:37:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="846182182"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="846182182"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 22 Feb 2023 07:37:21 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUrBI-0000VJ-0y;
+	Wed, 22 Feb 2023 15:37:20 +0000
+Date: Wed, 22 Feb 2023 23:37:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, rostedt@goodmis.org,
+	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhiramat@kernel.org,
+	alistair@popple.id.au, joel@jms.id.au, jk@ozlabs.org,
+	andrew@aj.id.au, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, eajames@linux.ibm.com
+Subject: Re: [PATCH v5 4/6] fsi: Add I2C Responder SCOM driver
+Message-ID: <202302222352.9rPqJxAV-lkp@intel.com>
+References: <20230221212622.3897097-5-eajames@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,115 +51,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
+In-Reply-To: <20230221212622.3897097-5-eajames@linux.ibm.com>
 
-Hi Kemeng,
+Hi Eddie,
 
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.2 next-20230222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
-patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
-config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/fsi-Move-fsi_slave-structure-definition-to-header/20230222-052904
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230221212622.3897097-5-eajames%40linux.ibm.com
+patch subject: [PATCH v5 4/6] fsi: Add I2C Responder SCOM driver
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230222/202302222352.9rPqJxAV-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/210010944ddca8e974ec4f5141a00c38eddf5b8e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Eddie-James/fsi-Move-fsi_slave-structure-definition-to-header/20230222-052904
+        git checkout 210010944ddca8e974ec4f5141a00c38eddf5b8e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302222352.9rPqJxAV-lkp@intel.com/
 
-New smatch warnings:
-fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/block_cluster +153 fs/ext4/balloc.c
-
-c197855ea14175 Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
-e187c6588d6ef3 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
-e187c6588d6ef3 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   90  {
-2b59a2fd93873a Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
-2b59a2fd93873a Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
-2b59a2fd93873a Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
-d5b8f31007a937 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
-2b59a2fd93873a Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   98  
-d5b8f31007a937 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
-d5b8f31007a937 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
-d5b8f31007a937 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
-2b59a2fd93873a Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
-2b59a2fd93873a Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
-2b59a2fd93873a Kemeng Shi        2023-02-21  104  
-2b59a2fd93873a Kemeng Shi        2023-02-21  105  	/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
-2b59a2fd93873a Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  109  	 * accounted below.
-2b59a2fd93873a Kemeng Shi        2023-02-21  110  	 */
-2b59a2fd93873a Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
-2b59a2fd93873a Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
-2b59a2fd93873a Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
-2b59a2fd93873a Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
-2b59a2fd93873a Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
-2b59a2fd93873a Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
-2b59a2fd93873a Kemeng Shi        2023-02-21  118  
-2b59a2fd93873a Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  121  
-2b59a2fd93873a Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
-2b59a2fd93873a Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
-2b59a2fd93873a Kemeng Shi        2023-02-21  125  			num_clusters--;
-2b59a2fd93873a Kemeng Shi        2023-02-21  126  	}
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  127  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
-2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
-2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
-2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
-d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
-d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
-d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
-d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
-d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
-2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
-2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
-d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
-d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
-d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
-
-These two conditions are exactly the same so I don't see why they can't
-be combined into one condition.  I have read the comment, but I guess I
-don't understand ext4 well enough to really understand it.
-
-d5b8f31007a937 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  149  		/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
-2b59a2fd93873a Kemeng Shi        2023-02-21  151  		 * block_cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  152  		 */
-2b59a2fd93873a Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
-
-So this seems like a false positive to me.  But the code is puzzling for
-a human or for a static checker.
-
-2b59a2fd93873a Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
-2b59a2fd93873a Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
-2b59a2fd93873a Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
-d5b8f31007a937 Theodore Ts'o     2011-09-09  157  			num_clusters++;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  158  	}
-d5b8f31007a937 Theodore Ts'o     2011-09-09  159  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  160  	return num_clusters;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  161  }
+>> ERROR: modpost: "fsi_master_i2cr_write" [drivers/fsi/i2cr-scom.ko] undefined!
+>> ERROR: modpost: "fsi_master_i2cr_read" [drivers/fsi/i2cr-scom.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
