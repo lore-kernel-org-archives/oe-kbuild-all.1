@@ -1,43 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B582F3F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 14:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677077121; x=1708613121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GhDylQILz6LEI2dCAs70wjx9Rj6YJKQKds53I9AkC9I=;
-  b=lsKAB7Hmf0hxa2GLIqJWAldK/doZl4+4emRxNV1KpQnnpnsH1s99ZrV7
-   NuBT54g1QcVC6DS4bi7RzdsjXPz3KZ70MAXYd6/l1N4tN+kPgasOnnDxd
-   Lnh2sEN/OB3N34fcQ9NThSaGN9YOPsgW0cCW0VEWrR6IsNaevtylqS4ty
-   cLL6kTtqUxJbQ8kVogxm89mS5yCKFKbrfAaMIdghnKcSHSt7JCasy+wOy
-   qxT1g5uS6he+FHkRwjxMuGMvPuB38TgKY4CSoqfWCdqvtTCINUc7qPD23
-   VZyzA0JqlKcQ/KqBmDujKxMlR+MFrv+ie8fAcJLEpLU7yccLI9PNmufpD
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="397624642"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="397624642"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 06:45:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="1001016928"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="1001016928"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Feb 2023 06:45:19 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUqMw-0000Sn-1S;
-	Wed, 22 Feb 2023 14:45:18 +0000
-Date: Wed, 22 Feb 2023 22:44:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: vmlinux.o: warning: objtool: intel_idle_ibrs+0x169: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202302222203.CR5fNzF4-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F32F3F;
+	Wed, 22 Feb 2023 15:14:03 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so771004wms.2;
+        Wed, 22 Feb 2023 07:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
+        b=AguK+BWlwz3zrXlQyvM2aiRghQwbl5dyMcNVkMjmecRjnOHdoL/QIXr8OoqFTLfalY
+         1VYfvve8fefZrlGO0rouPRQvXyLe6W/NjA0tw+n4/mzrLrm5lNfBj6x2ar8wQ+A3OMHH
+         XOcSNMryFp336zqTbVWuFoGBX6DzK93mkUmUW37CUiVLbYP7uyAdo+03E/J6bblXQECk
+         oH4E/x7eDThJkimkOtww0d6EpQcxg/MiBxVq2hxMB1/M1hO3pRctDinIuYPlIuskNPTd
+         cNZdX5Y75u+w+UfexlvZv64fxvshX4zwFliJWpxXVmRaqgC0wQD++h7g7TMJvPw8UbUk
+         EPfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
+        b=QsV/6BNrRXZP13FadM8mXVSuf4yvBabYXa5393zqteIbsIGTp3+BywZGG7KWumtwin
+         R1xwD4nkTdmPj17l3vX+2hcvg4ewd3jaVXLz8330qau0pELzsZTdjMMNzfoCLb4ag1QH
+         /TQyN2Lzr43iDO66xc5Ejgop639n9JGuE5U0Bnk2Yrc5D7BeYTUDzS/xfVPyUjaGvqVp
+         HimNpzsM5nWuq/NpFKKOL8TRKpOhbBf2eoxdsFVOmp4DvdQlRkgkGNfFUXM8xDxAyxHK
+         w5N+nvyhs1lfpGUkZoa16zUhv3lmyZKQBKex62Qv4hvo8Mf8mfk8fIdNzHhjOp+lYow4
+         iltw==
+X-Gm-Message-State: AO0yUKXkeDRrCnzPhQdQHDj3hhYRjNBg/Anww7KNliGhZGK9D+2qDkFN
+	uIZRDfE8enW1sl7bKwFXkuUOtXL9Q9gO9g==
+X-Google-Smtp-Source: AK7set+ltF+ZntzbSmcyHqL7HMnw2q2Vf54UvAMiQB932c0IKSyLIFdRxk3wK9yrEfB8UMHAmDWDaQ==
+X-Received: by 2002:a05:600c:755:b0:3dc:59ee:7978 with SMTP id j21-20020a05600c075500b003dc59ee7978mr6944055wmn.38.1677078841354;
+        Wed, 22 Feb 2023 07:14:01 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j7-20020a05600c42c700b003db012d49b7sm2630173wme.2.2023.02.22.07.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 07:14:00 -0800 (PST)
+Date: Wed, 22 Feb 2023 18:13:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
+	tytso@mit.edu, adilger.kernel@dilger.ca
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shikemeng@huaweicloud.com
+Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
+ ext4_num_overhead_clusters
+Message-ID: <202302222219.u328sqfs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,174 +55,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5b7c4cabbb65f5c469464da6c5f614cbd7f730f2
-commit: 9b461a6faae7b220c32466261965778b10189e54 cpuidle, intel_idle: Fix CPUIDLE_FLAG_IBRS
-date:   6 weeks ago
-config: x86_64-randconfig-r002-20230220 (https://download.01.org/0day-ci/archive/20230222/202302222203.CR5fNzF4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9b461a6faae7b220c32466261965778b10189e54
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9b461a6faae7b220c32466261965778b10189e54
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Hi Kemeng,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
+patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
+config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302222203.CR5fNzF4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
 
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x22: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x26: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x7f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x3c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x48: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x29: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x46: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter.constprop.0+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit.constprop.0+0x48: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_enter+0x15: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_enter+0x4f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_nmi_enter+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_enter+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_exit+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x120: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: intel_idle_ibrs+0x169: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0x113: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0x118: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0x115: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0x11c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x8b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter+0x6b: call to ftrace_likely_update() leaves .noinstr.text section
+vim +/block_cluster +153 fs/ext4/balloc.c
 
+c197855ea14175 Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
+e187c6588d6ef3 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
+e187c6588d6ef3 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   90  {
+2b59a2fd93873a Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
+2b59a2fd93873a Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
+2b59a2fd93873a Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
+d5b8f31007a937 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
+2b59a2fd93873a Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   98  
+d5b8f31007a937 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
+d5b8f31007a937 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
+d5b8f31007a937 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
+2b59a2fd93873a Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
+2b59a2fd93873a Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
+2b59a2fd93873a Kemeng Shi        2023-02-21  104  
+2b59a2fd93873a Kemeng Shi        2023-02-21  105  	/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
+2b59a2fd93873a Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  109  	 * accounted below.
+2b59a2fd93873a Kemeng Shi        2023-02-21  110  	 */
+2b59a2fd93873a Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
+2b59a2fd93873a Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
+2b59a2fd93873a Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
+2b59a2fd93873a Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
+2b59a2fd93873a Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
+2b59a2fd93873a Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
+2b59a2fd93873a Kemeng Shi        2023-02-21  118  
+2b59a2fd93873a Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  121  
+2b59a2fd93873a Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
+2b59a2fd93873a Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
+2b59a2fd93873a Kemeng Shi        2023-02-21  125  			num_clusters--;
+2b59a2fd93873a Kemeng Shi        2023-02-21  126  	}
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  127  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
+2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
+2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
+2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
+d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
+d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
+d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
+d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
+d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
+2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
+2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
+d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
+d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
+d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
 
-objdump-func vmlinux.o intel_idle_ibrs:
-0000 0000000000000500 <intel_idle_ibrs>:
-0000      500:	41 56                	push   %r14
-0002      502:	49 89 f6             	mov    %rsi,%r14
-0005      505:	41 55                	push   %r13
-0007      507:	41 54                	push   %r12
-0009      509:	41 89 d4             	mov    %edx,%r12d
-000c      50c:	55                   	push   %rbp
-000d      50d:	53                   	push   %rbx
-000e      50e:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	50f: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0013      513:	e9 64 01 00 00       	jmp    67c <intel_idle_ibrs+0x17c>
-0018      518:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	519: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-001d      51d:	e8 00 00 00 00       	call   522 <intel_idle_ibrs+0x22>	51e: R_X86_64_PLT32	spec_ctrl_current-0x4
-0022      522:	b9 48 00 00 00       	mov    $0x48,%ecx
-0027      527:	48 89 c3             	mov    %rax,%rbx
-002a      52a:	31 c0                	xor    %eax,%eax
-002c      52c:	89 c2                	mov    %eax,%edx
-002e      52e:	0f 30                	wrmsr
-0030      530:	41 bd 01 00 00 00    	mov    $0x1,%r13d
-0036      536:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	537: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-003b      53b:	49 63 ec             	movslq %r12d,%rbp
-003e      53e:	48 83 fd 0a          	cmp    $0xa,%rbp
-0042      542:	0f 87 49 01 00 00    	ja     691 <intel_idle_ibrs+0x191>
-0048      548:	48 8d 44 6d 00       	lea    0x0(%rbp,%rbp,2),%rax
-004d      54d:	48 8d 44 85 00       	lea    0x0(%rbp,%rax,4),%rax
-0052      552:	41 8b 6c c6 58       	mov    0x58(%r14,%rax,8),%ebp
-0057      557:	e9 00 00 00 00       	jmp    55c <intel_idle_ibrs+0x5c>	558: R_X86_64_PC32	.altinstr_aux+0x1bc2
-005c      55c:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	55d: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0061      561:	e9 00 00 00 00       	jmp    566 <intel_idle_ibrs+0x66>	562: R_X86_64_PC32	.altinstr_aux+0x1bd4
-0066      566:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	567: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-006b      56b:	0f ae f0             	mfence
-006e      56e:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	573: R_X86_64_32S	pcpu_hot
-0077      577:	0f ae 38             	clflush (%rax)
-007a      57a:	0f ae f0             	mfence
-007d      57d:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	57e: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0082      582:	31 d2                	xor    %edx,%edx
-0084      584:	48 89 d1             	mov    %rdx,%rcx
-0087      587:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	58c: R_X86_64_32S	pcpu_hot
-0090      590:	0f 01 c8             	monitor %rax,%ecx,%edx
-0093      593:	48 8b 30             	mov    (%rax),%rsi
-0096      596:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	599: R_X86_64_32S	_ftrace_annotated_branch+0x1d2d70
-009d      59d:	48 c1 ee 03          	shr    $0x3,%rsi
-00a1      5a1:	41 89 f6             	mov    %esi,%r14d
-00a4      5a4:	83 e6 01             	and    $0x1,%esi
-00a7      5a7:	41 83 e6 01          	and    $0x1,%r14d
-00ab      5ab:	e8 00 00 00 00       	call   5b0 <intel_idle_ibrs+0xb0>	5ac: R_X86_64_PLT32	ftrace_likely_update-0x4
-00b0      5b0:	45 84 f6             	test   %r14b,%r14b
-00b3      5b3:	75 25                	jne    5da <intel_idle_ibrs+0xda>
-00b5      5b5:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5b6: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00ba      5ba:	eb 0c                	jmp    5c8 <intel_idle_ibrs+0xc8>
-00bc      5bc:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5bd: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00c1      5c1:	0f 00 2d 00 00 00 00 	verw   0x0(%rip)        # 5c8 <intel_idle_ibrs+0xc8>	5c4: R_X86_64_PC32	.rodata+0x2ca048
-00c8      5c8:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5c9: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00cd      5cd:	c1 ed 18             	shr    $0x18,%ebp
-00d0      5d0:	b9 01 00 00 00       	mov    $0x1,%ecx
-00d5      5d5:	89 e8                	mov    %ebp,%eax
-00d7      5d7:	0f 01 c9             	mwait  %eax,%ecx
-00da      5da:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5db: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00df      5df:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	5e4: R_X86_64_32S	pcpu_hot
-00e8      5e8:	f0 80 60 02 df       	lock andb $0xdf,0x2(%rax)
-00ed      5ed:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%rsp)
-00f3      5f3:	48 8b 00             	mov    (%rax),%rax
-00f6      5f6:	a8 08                	test   $0x8,%al
-00f8      5f8:	74 10                	je     60a <intel_idle_ibrs+0x10a>
-00fa      5fa:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5fb: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00ff      5ff:	65 81 25 00 00 00 00 ff ff ff 7f 	andl   $0x7fffffff,%gs:0x0(%rip)        # 60a <intel_idle_ibrs+0x10a>	602: R_X86_64_PC32	pcpu_hot
-010a      60a:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	60b: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-010f      60f:	45 84 ed             	test   %r13b,%r13b
-0112      612:	74 15                	je     629 <intel_idle_ibrs+0x129>
-0114      614:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	615: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0119      619:	48 89 da             	mov    %rbx,%rdx
-011c      61c:	b9 48 00 00 00       	mov    $0x48,%ecx
-0121      621:	89 d8                	mov    %ebx,%eax
-0123      623:	48 c1 ea 20          	shr    $0x20,%rdx
-0127      627:	0f 30                	wrmsr
-0129      629:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	62a: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-012e      62e:	44 89 e0             	mov    %r12d,%eax
-0131      631:	5b                   	pop    %rbx
-0132      632:	5d                   	pop    %rbp
-0133      633:	41 5c                	pop    %r12
-0135      635:	41 5d                	pop    %r13
-0137      637:	41 5e                	pop    %r14
-0139      639:	c3                   	ret
-013a      63a:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	63b: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-013f      63f:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	644: R_X86_64_32S	pcpu_hot
-0148      648:	f0 80 48 02 20       	lock orb $0x20,0x2(%rax)
-014d      64d:	48 8b 30             	mov    (%rax),%rsi
-0150      650:	31 c9                	xor    %ecx,%ecx
-0152      652:	31 d2                	xor    %edx,%edx
-0154      654:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	657: R_X86_64_32S	_ftrace_annotated_branch+0x1d2d40
-015b      65b:	48 c1 ee 03          	shr    $0x3,%rsi
-015f      65f:	41 89 f6             	mov    %esi,%r14d
-0162      662:	83 e6 01             	and    $0x1,%esi
-0165      665:	41 83 e6 01          	and    $0x1,%r14d
-0169      669:	e8 00 00 00 00       	call   66e <intel_idle_ibrs+0x16e>	66a: R_X86_64_PLT32	ftrace_likely_update-0x4
-016e      66e:	45 84 f6             	test   %r14b,%r14b
-0171      671:	0f 85 63 ff ff ff    	jne    5da <intel_idle_ibrs+0xda>
-0177      677:	e9 e0 fe ff ff       	jmp    55c <intel_idle_ibrs+0x5c>
-017c      67c:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	67d: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0181      681:	45 31 ed             	xor    %r13d,%r13d
-0184      684:	e8 00 00 00 00       	call   689 <intel_idle_ibrs+0x189>	685: R_X86_64_PLT32	spec_ctrl_current-0x4
-0189      689:	48 89 c3             	mov    %rax,%rbx
-018c      68c:	e9 a5 fe ff ff       	jmp    536 <intel_idle_ibrs+0x36>
-0191      691:	48 89 ee             	mov    %rbp,%rsi
-0194      694:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	697: R_X86_64_32S	.data+0x640b00
-019b      69b:	e8 00 00 00 00       	call   6a0 <intel_idle_ibrs+0x1a0>	69c: R_X86_64_PLT32	__ubsan_handle_out_of_bounds-0x4
-01a0      6a0:	e9 a3 fe ff ff       	jmp    548 <intel_idle_ibrs+0x48>
-01a5      6a5:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-01b0      6b0:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-01bb      6bb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+These two conditions are exactly the same so I don't see why they can't
+be combined into one condition.  I have read the comment, but I guess I
+don't understand ext4 well enough to really understand it.
+
+d5b8f31007a937 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  149  		/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
+2b59a2fd93873a Kemeng Shi        2023-02-21  151  		 * block_cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  152  		 */
+2b59a2fd93873a Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
+
+So this seems like a false positive to me.  But the code is puzzling for
+a human or for a static checker.
+
+2b59a2fd93873a Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
+2b59a2fd93873a Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
+2b59a2fd93873a Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
+d5b8f31007a937 Theodore Ts'o     2011-09-09  157  			num_clusters++;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  158  	}
+d5b8f31007a937 Theodore Ts'o     2011-09-09  159  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  160  	return num_clusters;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  161  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
