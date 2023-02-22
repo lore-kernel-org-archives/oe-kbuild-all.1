@@ -1,44 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A7523A5;
-	Wed, 22 Feb 2023 10:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6470D23A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 10:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677060611; x=1708596611;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fkdU1wNZaZwjF01+ZpEbeWO9rn5EJxpcoNNMlmtMcpA=;
-  b=RB40UAeWJfw5oc3MUMCq2I3RSqBHVuRytE/2IekY4ag71FYy6Yplo/Jl
-   52rjaK2bdLH9zIX6YgPBb0sFYBQQLrTM3soRVxwxLKPY42ZMEJrAdhAZx
-   shwnnTLdMXGUzdUD8cqUxUAnoUnZskXua+j5v2UNcjPl4J4z6cLmlLB22
-   oIAFJUC28zsMScP7wpcktQRIi/0Gjyw8vKUFkK29e3pvlckqQuxlPERg1
-   MFMxw/y9ObrfpYWYd/N5xDlb/9JUyOTNF6y6Nbvus47gWBfHTJp3jif1/
-   n56rQv3zsO6N2pZXhQF+ulBrP6SBJIJI4+NfnRS5KKeyE2j54GlSmuQgg
+  t=1677061270; x=1708597270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=snRzEBL5qHKYkhshn/hGVwo3j7YQDc3J7eql9qrM26M=;
+  b=DUJ7jAwaMLDc/dYbE0DFKy1YPMV9U4gulWYaVuZIjivYsJAvQBzz0+Eb
+   u7pR1p+iimgTX/ADA9/eA/G8GPY+tNp+pDyfV6MaG3+g3WyBEPnuC8kqB
+   Il+gg8BLO/ka+UfgVzsTF/JPnV1mA6Sl1fciJrj8hYccFRQHtMXrV3lsI
+   la9tI7o6N1FqCL1X9LyODeYHLOVltb/KYqBYjphsHUGAfs8h3+n18rjgS
+   Sw1CnCyULukwcpPE3LEjSzHJ6ONa5CHsOeg/h7txE1otXYBCuCHYJiVB+
+   RMOTGSuP0J2qKV9odUs/NGVWltp7LEve/1/2k68XGybLBSDDWtEitxQY1
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330613063"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332892063"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="330613063"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:10:10 -0800
+   d="scan'208";a="332892063"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:21:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="702342722"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="760909917"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="702342722"
+   d="scan'208";a="760909917"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2023 02:10:08 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2023 02:21:09 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUm4e-0000EX-0A;
-	Wed, 22 Feb 2023 10:10:08 +0000
-Date: Wed, 22 Feb 2023 18:09:51 +0800
+	id 1pUmFI-0000El-0Y;
+	Wed, 22 Feb 2023 10:21:08 +0000
+Date: Wed, 22 Feb 2023 18:20:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anand Jain <anand.jain@oracle.com>
-Subject: Re: [PATCH v4] btrfs: make dev-replace properly follow its read mode
-Message-ID: <202302221749.qDyhdaZ9-lkp@intel.com>
-References: <9abbfc83c08b2cea215f870f26c553b58fbabeab.1677048584.git.wqu@suse.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/alternatives/info 1/1]
+ arch/arm64/kernel/alternative.c:147:6: warning: no previous prototype for
+ 'summarize_alternatives'
+Message-ID: <202302221852.fPvgpgS6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,199 +46,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9abbfc83c08b2cea215f870f26c553b58fbabeab.1677048584.git.wqu@suse.com>
 
-Hi Qu,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-make-dev-replace-properly-follow-its-read-mode/20230222-150629
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/9abbfc83c08b2cea215f870f26c553b58fbabeab.1677048584.git.wqu%40suse.com
-patch subject: [PATCH v4] btrfs: make dev-replace properly follow its read mode
-config: hexagon-randconfig-r045-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221749.qDyhdaZ9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/alternatives/info
+head:   840fba2983086adad6957d08ff7c0a36c39560e7
+commit: 840fba2983086adad6957d08ff7c0a36c39560e7 [1/1] HACK: arm64: alternatives: dump summary of alternatives
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230222/202302221852.fPvgpgS6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/07c729ddc3a8f3074e5f61c4def8836bdfc37f73
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Qu-Wenruo/btrfs-make-dev-replace-properly-follow-its-read-mode/20230222-150629
-        git checkout 07c729ddc3a8f3074e5f61c4def8836bdfc37f73
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=840fba2983086adad6957d08ff7c0a36c39560e7
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
+        git fetch --no-tags mark arm64/alternatives/info
+        git checkout 840fba2983086adad6957d08ff7c0a36c39560e7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221749.qDyhdaZ9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221852.fPvgpgS6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/btrfs/scrub.c:6:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/btrfs/scrub.c:6:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/btrfs/scrub.c:6:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/btrfs/scrub.c:2762:44: error: no member named 'replace_nr_stripes' in 'struct btrfs_io_context'
-           for (i = 0; i < bioc->num_stripes - bioc->replace_nr_stripes; i++) {
-                                               ~~~~  ^
-   fs/btrfs/scrub.c:2773:44: error: no member named 'replace_nr_stripes' in 'struct btrfs_io_context'
-           for (i = 0; i < bioc->num_stripes - bioc->replace_nr_stripes; i++) {
-                                               ~~~~  ^
-   6 warnings and 2 errors generated.
+>> arch/arm64/kernel/alternative.c:147:6: warning: no previous prototype for 'summarize_alternatives' [-Wmissing-prototypes]
+     147 | void summarize_alternatives(const struct alt_region *region)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/alternative.c:358:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+     358 | noinstr void alt_cb_patch_nops(struct alt_instr *alt, __le32 *origptr,
+         |              ^~~~~~~~~~~~~~~~~
 
 
-vim +2762 fs/btrfs/scrub.c
+vim +/summarize_alternatives +147 arch/arm64/kernel/alternative.c
 
-  2704	
-  2705	static bool should_use_device(struct btrfs_fs_info *fs_info,
-  2706				      struct btrfs_device *dev,
-  2707				      bool follow_replace_read_mode)
-  2708	{
-  2709		struct btrfs_device *replace_srcdev = fs_info->dev_replace.srcdev;
-  2710		struct btrfs_device *replace_tgtdev = fs_info->dev_replace.tgtdev;
-  2711	
-  2712		if (!dev->bdev)
-  2713			return false;
-  2714	
-  2715		/*
-  2716		 * We're doing scrub/replace, if it's pure scrub, no tgtdev should be
-  2717		 * here.
-  2718		 * If it's replace, we're going to write data to tgtdev, thus the current
-  2719		 * data of the tgtdev is all garbage, thus we can not use it at all.
-  2720		 */
-  2721		if (dev == replace_tgtdev)
-  2722			return false;
-  2723	
-  2724		/* No need to follow replace read policy, any existing device is fine. */
-  2725		if (!follow_replace_read_mode)
-  2726			return true;
-  2727	
-  2728		/* Need to follow the policy. */
-  2729		if (fs_info->dev_replace.cont_reading_from_srcdev_mode ==
-  2730		    BTRFS_DEV_REPLACE_ITEM_CONT_READING_FROM_SRCDEV_MODE_AVOID)
-  2731			return dev != replace_srcdev;
-  2732		return true;
-  2733	}
-  2734	static int scrub_find_good_copy(struct btrfs_fs_info *fs_info,
-  2735					u64 extent_logical, u32 extent_len,
-  2736					u64 *extent_physical,
-  2737					struct btrfs_device **extent_dev,
-  2738					int *extent_mirror_num)
-  2739	{
-  2740		u64 mapped_length;
-  2741		struct btrfs_io_context *bioc = NULL;
-  2742		int ret;
-  2743		int i;
-  2744	
-  2745		mapped_length = extent_len;
-  2746		ret = btrfs_map_block(fs_info, BTRFS_MAP_GET_READ_MIRRORS,
-  2747				      extent_logical, &mapped_length, &bioc, 0);
-  2748		if (ret || !bioc || mapped_length < extent_len) {
-  2749			btrfs_put_bioc(bioc);
-  2750			btrfs_err_rl(fs_info, "btrfs_map_block() failed for logical %llu: %d",
-  2751					extent_logical, ret);
-  2752			return -EIO;
-  2753		}
-  2754	
-  2755		/*
-  2756		 * First loop to exclude all missing devices and the source
-  2757		 * device if needed.
-  2758		 * And we don't want to use target device as mirror either,
-  2759		 * as we're doing the replace, the target device range
-  2760		 * contains nothing.
-  2761		 */
-> 2762		for (i = 0; i < bioc->num_stripes - bioc->replace_nr_stripes; i++) {
-  2763			struct btrfs_io_stripe *stripe = &bioc->stripes[i];
-  2764	
-  2765			if (!should_use_device(fs_info, stripe->dev, true))
-  2766				continue;
-  2767			goto found;
-  2768		}
-  2769		/*
-  2770		 * We didn't find any alternative mirrors, we have to break our
-  2771		 * replace read mode, or we can not read at all.
-  2772		 */
-  2773		for (i = 0; i < bioc->num_stripes - bioc->replace_nr_stripes; i++) {
-  2774			struct btrfs_io_stripe *stripe = &bioc->stripes[i];
-  2775	
-  2776			if (!should_use_device(fs_info, stripe->dev, false))
-  2777				continue;
-  2778			goto found;
-  2779		}
-  2780	
-  2781		btrfs_err_rl(fs_info, "failed to find any live mirror for logical %llu",
-  2782				extent_logical);
-  2783		return -EIO;
-  2784	
-  2785	found:
-  2786		*extent_physical = bioc->stripes[i].physical;
-  2787		*extent_mirror_num = i + 1;
-  2788		*extent_dev = bioc->stripes[i].dev;
-  2789		btrfs_put_bioc(bioc);
-  2790		return 0;
-  2791	}
-  2792	
+   141	
+   142	#define for_each_region_alt(region, alt)		\
+   143		for (struct alt_instr *alt = (region)->begin;	\
+   144		     (alt) < (region)->end;			\
+   145		     (alt)++)
+   146	
+ > 147	void summarize_alternatives(const struct alt_region *region)
+   148	{
+   149		unsigned int entries[ARM64_NCAPS] = { 0 };
+   150		unsigned int orig_len[ARM64_NCAPS] = { 0 };
+   151		unsigned int repl_len[ARM64_NCAPS] = { 0 };
+   152		unsigned int callbacks[ARM64_NCAPS] = { 0 };
+   153	
+   154		unsigned int total_entries = 0;
+   155		unsigned int total_orig = 0;
+   156		unsigned int total_repl = 0;
+   157		unsigned int total_callbacks = 0;
+   158	
+   159		for_each_region_alt(region, alt) {
+   160			int cap = ALT_CAP(alt);
+   161	
+   162			entries[cap]++;
+   163			total_entries++;
+   164	
+   165			orig_len[cap] += alt->orig_len;
+   166			total_orig += alt->orig_len;
+   167	
+   168			repl_len[cap] += alt->alt_len;
+   169			total_repl += alt->alt_len;
+   170	
+   171			if (ALT_HAS_CB(alt)) {
+   172				callbacks[cap]++;
+   173				total_callbacks++;
+   174			}
+   175		}
+   176	
+   177		pr_info("Alternatives summary:\n"
+   178			"    entries:      %6u (%6zu bytes)\n"
+   179			"      standard:   %6d\n"
+   180			"      callback:   %6d\n"
+   181			"    instructions: %6u (%6u bytes)\n"
+   182			"    replacements: %6u (%6u bytes)\n",
+   183			total_entries,	total_entries * sizeof (struct alt_instr),
+   184			total_entries - total_callbacks,
+   185			total_callbacks,
+   186			total_orig / AARCH64_INSN_SIZE, total_orig,
+   187			total_repl / AARCH64_INSN_SIZE, total_repl);
+   188	
+   189		for (int i = 0; i < ARM64_NCAPS; i++) {
+   190			if (!entries[i])
+   191				continue;
+   192	
+   193			pr_info("cpucap %2d => entries: %5d, orig: %5d, repl: %5d, cb: %5d\n",
+   194				i,
+   195				entries[i],
+   196				orig_len[i] / AARCH64_INSN_SIZE,
+   197				repl_len[i] / AARCH64_INSN_SIZE,
+   198				callbacks[i]);
+   199		}
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
