@@ -1,42 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2FA2586
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 11:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BBA2904
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 11:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677063741; x=1708599741;
+  t=1677064332; x=1708600332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RrW1Q6oWcVpnMdKJ1V3iFevgdjdLDN/lg9gJTCYPX3s=;
-  b=N6hgPt7iQxk6y9kzFRsCFoNS+N4HutU9cYhwCPE8FAKU3UBLdpS2ttg4
-   BD06ui8/oENC/4S4KWqwOShSyP/Vfmb2Ue71gPWxJ+gJV9d/qo7ICYcy1
-   Ufd17IwxMszuhDNayN9dBiwgJKOutdtZozDLpc36XxTADQ8erjsoAUhae
-   W7Auk5yhcg628oDSMDi6INXOIwgWdHXsJKvOow5cYqnCT5oVSI3VoXCoF
-   pVPrz2jceLuel5l7ssgPcebPqNeffvEa7b1V3x9vVu1Ld384wiHbnKT0T
-   XRUY7OA4vtk8Qhd5ZBCsuXxbqMICiHgYwcqzdD4C+9hqc4pISGThl5DEy
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395376915"
+  bh=+uBBCEvBWxkjqWlqYV+g3FU1r3OSrWUKYN9K3U8pCPU=;
+  b=lWsVUKX7AS5fNgbkjoIM9tNqZy50wyvRvWAqsUpMZv02shFZlhsIBJ/i
+   lWjRosLTodnvPSgnp+SnqE64yEGHo2cSOUgJZ/C2r8voU277OKNVL06OP
+   BoS9ZV6mvvq4KAncmS7DYg9ecDRvozFGJdYv8uYV8V0NN6853Jbn70mCE
+   S7lXhuk+MZZnRdjD6dKsQ0uzjQ4Y00gosreZVCnWFVN6aA6D0Xq0XHh2b
+   Y1eldJOaXzvsGLcNiLyjewJdRFbgN+Rk+93QwWfSdwMtA7tSLCKpo9EGx
+   SfxE5MkHak07mSTSRUKg+iPH1F5HpjS1BJwBu9ZRqdxn4Xq77dt2wTrdl
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330623505"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="395376915"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 03:02:12 -0800
+   d="scan'208";a="330623505"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 03:12:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735866279"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="760921984"
 X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="735866279"
+   d="scan'208";a="760921984"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2023 03:02:10 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2023 03:12:11 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUmsz-0000HZ-2g;
-	Wed, 22 Feb 2023 11:02:09 +0000
-Date: Wed, 22 Feb 2023 19:01:12 +0800
+	id 1pUn2g-0000I1-0e;
+	Wed, 22 Feb 2023 11:12:10 +0000
+Date: Wed, 22 Feb 2023 19:11:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karsten Graul <kgraul@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: net/smc/smc_llc.c:40:1: warning: alignment 1 of 'struct smc_llc_hdr'
- is less than 4
-Message-ID: <202302221942.MupxsxQU-lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:dev-6.1 65/92] pinctrl-npcm8xx.c:undefined reference to
+ `pinconf_generic_dt_node_to_map'
+Message-ID: <202302221921.Jbhb4JjR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,161 +46,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Karsten,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5b7c4cabbb65f5c469464da6c5f614cbd7f730f2
-commit: b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196 net/smc: extend LLC layer for SMC-Rv2
-date:   1 year, 4 months ago
-config: arm-buildonly-randconfig-r003-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221942.MupxsxQU-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://github.com/shenki/linux dev-6.1
+head:   cac6306557586ba4479dab12c3e5efcb67e63388
+commit: f11b240864d1eb9dfac9cd9bf59389f118d3e406 [65/92] pinctrl: nuvoton: add NPCM8XX pinctrl and GPIO driver
+config: ia64-randconfig-r016-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221921.Jbhb4JjR-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b4ba4652b3f8b7c9bbb5786f8acf4724bdab2196
+        # https://github.com/shenki/linux/commit/f11b240864d1eb9dfac9cd9bf59389f118d3e406
+        git remote add shenki https://github.com/shenki/linux
+        git fetch --no-tags shenki dev-6.1
+        git checkout f11b240864d1eb9dfac9cd9bf59389f118d3e406
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-pxa/ drivers/net/ethernet/google/gve/ drivers/net/ethernet/intel/i40e/ drivers/net/ethernet/intel/iavf/ net/smc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221942.MupxsxQU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221921.Jbhb4JjR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/smc/smc_llc.c:40:1: warning: alignment 1 of 'struct smc_llc_hdr' is less than 4 [-Wpacked-not-aligned]
-      40 | } __packed;             /* format defined in
-         | ^
-   In file included from <command-line>:
-   In function 'smc_llc_add_pending_send',
-       inlined from 'smc_llc_send_message' at net/smc/smc_llc.c:760:7:
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     409 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     412 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   In function 'smc_llc_add_pending_send',
-       inlined from 'smc_llc_send_confirm_rkey' at net/smc/smc_llc.c:492:7:
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     409 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     412 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   In function 'smc_llc_add_pending_send',
-       inlined from 'smc_llc_add_link_cont' at net/smc/smc_llc.c:833:7:
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_550' declared with attribute error: must increase SMC_WR_BUF_SIZE to at least sizeof(struct smc_llc_msg)
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:409:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     409 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:322:45: error: call to '__compiletime_assert_551' declared with attribute error: must adapt SMC_WR_TX_SIZE to sizeof(struct smc_llc_msg); if not all smc_wr upper layer protocols use the same message size any more, must start to set link->wr_tx_sges[i].length on each individual smc_wr_tx_send()
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:303:25: note: in definition of macro '__compiletime_assert'
-     303 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:322:9: note: in expansion of macro '_compiletime_assert'
-     322 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   net/smc/smc_llc.c:412:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     412 |         BUILD_BUG_ON_MSG(
-         |         ^~~~~~~~~~~~~~~~
-   In function 'smc_llc_add_pending_send',
+   ia64-linux-ld: drivers/pinctrl/nuvoton/pinctrl-npcm8xx.o: in function `npcm8xx_dt_node_to_map':
+>> pinctrl-npcm8xx.c:(.text+0xb02): undefined reference to `pinconf_generic_dt_node_to_map'
 
-
-vim +40 net/smc/smc_llc.c
-
-    23	
-    24	struct smc_llc_hdr {
-    25		struct smc_wr_rx_hdr common;
-    26		union {
-    27			struct {
-    28				u8 length;	/* 44 */
-    29		#if defined(__BIG_ENDIAN_BITFIELD)
-    30				u8 reserved:4,
-    31				   add_link_rej_rsn:4;
-    32	#elif defined(__LITTLE_ENDIAN_BITFIELD)
-    33				u8 add_link_rej_rsn:4,
-    34				   reserved:4;
-    35	#endif
-    36			};
-    37			u16 length_v2;	/* 44 - 8192*/
-    38		};
-    39		u8 flags;
-  > 40	} __packed;		/* format defined in
-    41				 * IBM Shared Memory Communications Version 2
-    42				 * (https://www.ibm.com/support/pages/node/6326337)
-    43				 */
-    44	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEBUG_MAPLE_TREE
+   Depends on [n]: DEBUG_KERNEL [=n]
+   Selected by [y]:
+   - TEST_MAPLE_TREE [=y] && RUNTIME_TESTING_MENU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
