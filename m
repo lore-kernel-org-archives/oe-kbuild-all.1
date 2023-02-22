@@ -1,43 +1,47 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506F81C17;
-	Wed, 22 Feb 2023 05:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DFF1C3F;
+	Wed, 22 Feb 2023 05:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677044098; x=1708580098;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ksor3r93xhjwp5/cuOsuLJnI2uNgMuWd5tmL0XoJilc=;
-  b=aoDkMCOuSnFBY1j6jFKYVhgmBvyxi9U1oMerVe+FQcQ4NMjKG5bw1kJA
-   Ern86FYObtpGbVnQPCcYEhoOne1aMobYgAIvNM3pvlKX4YlQTK9qOASYO
-   Y4di6MmgakfVZfsW9vRGsgX9Xk5exWgl/4sHMGNsHYlswlldbLLec2Frm
-   /MkxlPx67JXvqh7BewIwhB7f9Fyx5Jm6ToN1Mov53+RbSWIu88nDnQ5DL
-   plkOjArRs+dhS3V6YejD0yISg+sjzkULQQuxCOagqPwLf8jaWw9cSrGom
-   KnlZX3YOqOv5G00DJq7+8yauaXEjgswwowgTS0VhN4FAaPJXXv+cZvY8c
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330565366"
+  t=1677044100; x=1708580100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c+NPOUZdVR+EOq3CpFB0IxbMJMQPa7X3cq5jJue4q7g=;
+  b=A9uoOM8EYw8Q3SPQy9AOqMYiUJH7nsYRPNeIEzF5tU9kJh+ecpuUP7Gm
+   +8yoIxQFySPy0k+PP1lKnR191FJWNiQDHUfOQ6lp6fbbtAFfI3dGJZ9Wz
+   vpaK8NF3oy7R/oQv9nIBRDc8AE6LeBEyl80uB5Gsa4xfveeO8izhE/coY
+   b/Il8eMft0fWzVx1/qLvoDno6+5I70eN6BE1knr/5nwqeS7NKnqCR+O05
+   O8KEZUYm39J3UdWNpDb2efq5yWFiKOO0zhU8kmbA93skwr2+LF7mQA4mG
+   TwMGJAjL06mbruFIb58TjQYG/XmwG7E3Qp1ckZDrip50vqg3Oi5rXaJki
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330565368"
 X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="330565366"
+   d="scan'208";a="330565368"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 21:34:57 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 21:34:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="814792612"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="814792614"
 X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="814792612"
+   d="scan'208";a="814792614"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 21:34:56 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUhmJ-00001Z-2g;
+	id 1pUhmJ-00001b-2p;
 	Wed, 22 Feb 2023 05:34:55 +0000
-Date: Wed, 22 Feb 2023 13:34:32 +0800
+Date: Wed, 22 Feb 2023 13:34:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org
-Subject: [driver-core:class_cleanup 90/91] fs/ksmbd/server.c:519:3: error:
- field designator 'owner' does not refer to any field in type 'struct class'
-Message-ID: <202302221325.3TxD9pgW-lkp@intel.com>
+To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Shibo Li <zzutcyha@163.com>
+Subject: Re: [PATCH] staging: rtl8712: Fix Sparse warnings in
+ rtl871x_ioctl_linux.c
+Message-ID: <202302221320.dttJ7Puv-lkp@intel.com>
+References: <20230220143758.4396-1-zzutcyha@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,53 +50,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230220143758.4396-1-zzutcyha@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git class_cleanup
-head:   512466823088e17b8bedd9a5edcc8a7a35e7e635
-commit: 7f46532636eefe2f7beb5c52ddb25db664c3fad1 [90/91] driver core: class: remove struct module owner out of struct class
-config: riscv-randconfig-r004-20230221 (https://download.01.org/0day-ci/archive/20230222/202302221325.3TxD9pgW-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+Hi Shibo,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+patch link:    https://lore.kernel.org/r/20230220143758.4396-1-zzutcyha%40163.com
+patch subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230222/202302221320.dttJ7Puv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=7f46532636eefe2f7beb5c52ddb25db664c3fad1
-        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-        git fetch --no-tags driver-core class_cleanup
-        git checkout 7f46532636eefe2f7beb5c52ddb25db664c3fad1
+        # https://github.com/intel-lab-lkp/linux/commit/7117082894534ef14c409d6a9070fa051a84f619
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+        git checkout 7117082894534ef14c409d6a9070fa051a84f619
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/rtl8712/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221325.3TxD9pgW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221320.dttJ7Puv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/ksmbd/server.c:519:3: error: field designator 'owner' does not refer to any field in type 'struct class'
-           .owner          = THIS_MODULE,
-            ^
-   1 error generated.
+   drivers/staging/rtl8712/rtl871x_ioctl_linux.c: In function 'r8711_wx_set_essid':
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1272:62: error: 'struct wlan_bssid_ex' has no member named 'configurationInfrastructureMode'
+    1272 |                                         if (pnetwork->network.configurationInfrastructureMode
+         |                                                              ^
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1274:81: error: request for member 'cur_network' in something not a structure or union
+    1274 |                                                 padapter->mlmepriv.assoc_by_rssi.
+         |                                                                                 ^
 
 
-vim +519 fs/ksmbd/server.c
+vim +1272 drivers/staging/rtl8712/rtl871x_ioctl_linux.c
 
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  516  
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  517  static struct class ksmbd_control_class = {
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  518  	.name		= "ksmbd-control",
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16 @519  	.owner		= THIS_MODULE,
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  520  	.class_groups	= ksmbd_control_class_groups,
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  521  };
-0626e6641f6b46 fs/cifsd/server.c Namjae Jeon 2021-03-16  522  
-
-:::::: The code at line 519 was first introduced by commit
-:::::: 0626e6641f6b467447c81dd7678a69c66f7746cf cifsd: add server handler for central processing and tranport layers
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+  1218	
+  1219	/* set ssid flow
+  1220	 * s1. set_802_11_infrastructure_mode()
+  1221	 * s2. set_802_11_authenticaion_mode()
+  1222	 * s3. set_802_11_encryption_mode()
+  1223	 * s4. set_802_11_ssid()
+  1224	 *
+  1225	 * This function intends to handle the Set ESSID command.
+  1226	 * Currently, the request comes via the Wireless Extensions' SIOCSIWESSID ioctl.
+  1227	 *
+  1228	 * For this operation to succeed, there is no need for the interface to be Up.
+  1229	 *
+  1230	 */
+  1231	static int r8711_wx_set_essid(struct net_device *dev,
+  1232					struct iw_request_info *a,
+  1233					union iwreq_data *wrqu, char *extra)
+  1234	{
+  1235		struct _adapter *padapter = netdev_priv(dev);
+  1236		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+  1237		struct  __queue *queue = &pmlmepriv->scanned_queue;
+  1238		struct wlan_network *pnetwork = NULL;
+  1239		enum NDIS_802_11_AUTHENTICATION_MODE	authmode;
+  1240		struct ndis_802_11_ssid ndis_ssid;
+  1241		u8 *dst_ssid, *src_ssid;
+  1242		struct list_head *phead;
+  1243		u32 len;
+  1244	
+  1245		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+  1246			return -EBUSY;
+  1247		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+  1248			return 0;
+  1249		if (wrqu->essid.length > IW_ESSID_MAX_SIZE)
+  1250			return -E2BIG;
+  1251		authmode = padapter->securitypriv.ndisauthtype;
+  1252		if (wrqu->essid.flags && wrqu->essid.length) {
+  1253			len = (wrqu->essid.length < IW_ESSID_MAX_SIZE) ?
+  1254			       wrqu->essid.length : IW_ESSID_MAX_SIZE;
+  1255			memset(&ndis_ssid, 0, sizeof(struct ndis_802_11_ssid));
+  1256			ndis_ssid.SsidLength = len;
+  1257			memcpy(ndis_ssid.Ssid, extra, len);
+  1258			src_ssid = ndis_ssid.Ssid;
+  1259			phead = &queue->queue;
+  1260			pmlmepriv->pscanned = phead->next;
+  1261			while (1) {
+  1262				if (end_of_queue_search(phead, pmlmepriv->pscanned))
+  1263					break;
+  1264				pnetwork = container_of(pmlmepriv->pscanned,
+  1265							struct wlan_network, list);
+  1266				pmlmepriv->pscanned = pmlmepriv->pscanned->next;
+  1267				dst_ssid = pnetwork->network.Ssid.Ssid;
+  1268				if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
+  1269				    && (pnetwork->network.Ssid.SsidLength ==
+  1270				     ndis_ssid.SsidLength)) {
+  1271					if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+> 1272						if (pnetwork->network.configurationInfrastructureMode
+  1273							!=
+> 1274							padapter->mlmepriv.assoc_by_rssi.
+  1275							cur_network.network.InfrastructureMode)
+  1276							continue;
+  1277					}
+  1278	
+  1279					r8712_set_802_11_infrastructure_mode(
+  1280					     padapter,
+  1281					     pnetwork->network.InfrastructureMode);
+  1282					break;
+  1283				}
+  1284			}
+  1285			r8712_set_802_11_authentication_mode(padapter, authmode);
+  1286			r8712_set_802_11_ssid(padapter, &ndis_ssid);
+  1287		}
+  1288		return -EINPROGRESS;
+  1289	}
+  1290	
 
 -- 
 0-DAY CI Kernel Test Service
