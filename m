@@ -1,116 +1,128 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF561FB5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Feb 2023 07:16:08 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id cq23so26257581edb.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Feb 2023 23:16:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NaeMlSFMix0AWDF/IlR9/1jY7K34ruOaDXpt2ygRF7c=;
-        b=LrtsyKybiYVVZ+Ic7UX+6y4+expLWBMaBQi/A+pSXgo7dB6lD5oArNQFysIH+sQ+16
-         DqjqZHBZ8H/ZPo6tz1JdmNazV2JpgDR6/bguUHRCa1UwK+PrhiFEaLAUiA4oFaKp0YY8
-         dis9eOpepwJys9YwMS24O3BYTsbjg/ZlMiQKuZVSPd8jd4VVaxNnMq1MCgm/AHC5jmm6
-         P06URvgqinLWGwetxXo9Pp1pGZcQ9TETCo+cbyH56tJdEusvCw47Jbf4TZxFzu3q31fz
-         G9cFf/I3TymjO0T/pa3pr6Vhesadw77Bf8eUmYEnFJkrrWyHSaiIrQjofXG8A/n4CHAe
-         cfHA==
-X-Gm-Message-State: AO0yUKXQCGXL5/ncEiKEDMps/9YupBXDM98Vriv285KoD1rms3p+DLJs
-	T4f+NU8U3VJ9fhveBu86js4=
-X-Google-Smtp-Source: AK7set8CCcp8OM6Fa4mVzoPzE0/8ibzcixEaOI1tgCPflIhUXazWIE2qtj7lHQj0Fz54iEBvL7FKKA==
-X-Received: by 2002:a17:907:764c:b0:88e:e498:109b with SMTP id kj12-20020a170907764c00b0088ee498109bmr15831335ejc.5.1677050166492;
-        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
-Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id p20-20020a1709060dd400b008be5b97ca49sm5436500eji.150.2023.02.21.23.16.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
-Message-ID: <4e5aeac3-2a99-8fd5-cf1d-a35870ecd807@kernel.org>
-Date: Wed, 22 Feb 2023 08:16:04 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ADD1FB5;
+	Wed, 22 Feb 2023 07:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677050224; x=1708586224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pVEp1PoQoB73sV3lchurCEEPk/szGoF5+p5XDHU7KYk=;
+  b=ib23W534g3sps6S6G5OAjuXv1oKAHruftLs/+9cZw1T+2Z1UJuAKoikP
+   1e8ZLEb4UmnRYieM2cGmBkfuhcVPIG/wiJe6GTJg3QMvaeTxG5pCXxPB8
+   3DTjFFIKaVWY2mh92+p1Lv9eJoxPQZOie65jH/Wpj6/1zxiHfRcp8znQT
+   vB5MinOKHmfgqFbTpm3VRq+glI5x1IFMNlaYhNLIlblFKoMg7r944aGag
+   pHCjqNXHs+uDulHYE/Zbc+vv3ySuVBzN+KtnGF//l2HHPYm7XYRfqESsJ
+   KGJFfIl7M26RxitlTFiloTBQ35JvmAzZ5hzGgV02doK4gWAqmIRuUJcLX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="335051040"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="335051040"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 23:17:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="665251890"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="665251890"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 21 Feb 2023 23:17:01 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUjN6-00006X-1u;
+	Wed, 22 Feb 2023 07:17:00 +0000
+Date: Wed, 22 Feb 2023 15:16:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] btrfs: scrub: fix an error in stripe offset calculation
+Message-ID: <202302221532.TzU0U9gm-lkp@intel.com>
+References: <c8f91363ab2e7ca24edbddf1feeca6c9fcf34f6e.1677033010.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
-Content-Language: en-US
-To: Florian Eckert <fe@dev.tdt.de>, kernel test robot <lkp@intel.com>
-Cc: u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org, pavel@ucw.cz,
- lee@kernel.org, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
-References: <20230221081901.15557-3-fe@dev.tdt.de>
- <202302220740.2RKDHnof-lkp@intel.com>
- <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
-From: Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8f91363ab2e7ca24edbddf1feeca6c9fcf34f6e.1677033010.git.wqu@suse.com>
 
-On 22. 02. 23, 7:07, Florian Eckert wrote:
-> 
-> 
-> On 2023-02-22 01:02, kernel test robot wrote:
->> Hi Florian,
->>
->> Thank you for the patch! Perhaps something to improve:
->>
->> [auto build test WARNING on tty/tty-testing]
->> [also build test WARNING on tty/tty-next tty/tty-linus
->> staging/staging-testing staging/staging-next staging/staging-linus
->> pavel-leds/for-next linus/master v6.2 next-20230221]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:
->> https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
->> tty-testing
->> patch link: 
->> https://lore.kernel.org/r/20230221081901.15557-3-fe%40dev.tdt.de
->> patch subject: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
->> reproduce:
->>         #
->> https://github.com/intel-lab-lkp/linux/commit/445b7555bccd279bf106995ee42f5dbef2e97c8b
->>         git remote add linux-review 
->> https://github.com/intel-lab-lkp/linux
->>         git fetch --no-tags linux-review
->> Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
->>         git checkout 445b7555bccd279bf106995ee42f5dbef2e97c8b
->>         make menuconfig
->>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
->> CONFIG_WARN_ABI_ERRORS
->>         make htmldocs
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Link:
->> https://lore.kernel.org/oe-kbuild-all/202302220740.2RKDHnof-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
->>>> Unexpected indentation.
->>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
->>>> Block quote ends without a blank line; unexpected unindent.
->>
->> vim +9 Documentation/ABI/testing/sysfs-class-led-trigger-tty
->>
->>    > 9    Date:        January 2023
-> 
-> I apologies for the question! But I don't know what the test buildbot 
-> here wants from me.
-> I've looked at the other files and I can't find anything that stands out.
+Hi Qu,
 
-sphinx is always misleading.
+Thank you for the patch! Yet something to improve:
 
-It's the indentation of all "LED on if ...".
+[auto build test ERROR on next-20230221]
+[cannot apply to kdave/for-next v6.2 v6.2-rc8 v6.2-rc7 linus/master v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-scrub-fix-an-error-in-stripe-offset-calculation/20230222-103158
+patch link:    https://lore.kernel.org/r/c8f91363ab2e7ca24edbddf1feeca6c9fcf34f6e.1677033010.git.wqu%40suse.com
+patch subject: [PATCH] btrfs: scrub: fix an error in stripe offset calculation
+config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20230222/202302221532.TzU0U9gm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ede724f4f7127f86931756949269770a7197339c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Qu-Wenruo/btrfs-scrub-fix-an-error-in-stripe-offset-calculation/20230222-103158
+        git checkout ede724f4f7127f86931756949269770a7197339c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221532.TzU0U9gm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fs/btrfs/scrub.c:1456:6: error: use of undeclared identifier 'BTRFS_STRIPE_LEN_MASK'
+                                    BTRFS_STRIPE_LEN_MASK;
+                                    ^
+   1 error generated.
+
+
+vim +/BTRFS_STRIPE_LEN_MASK +1456 fs/btrfs/scrub.c
+
+  1431	
+  1432	static inline void scrub_stripe_index_and_offset(u64 logical, u64 map_type,
+  1433							 u64 full_stripe_logical,
+  1434							 int nstripes, int mirror,
+  1435							 int *stripe_index,
+  1436							 u64 *stripe_offset)
+  1437	{
+  1438		int i;
+  1439	
+  1440		if (map_type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
+  1441			const int nr_data_stripes = (map_type & BTRFS_BLOCK_GROUP_RAID5) ?
+  1442						    nstripes - 1 : nstripes - 2;
+  1443	
+  1444			/* RAID5/6 */
+  1445			for (i = 0; i < nr_data_stripes; i++) {
+  1446				const u64 data_stripe_start = full_stripe_logical +
+  1447							(i * BTRFS_STRIPE_LEN);
+  1448	
+  1449				if (logical >= data_stripe_start &&
+  1450				    logical < data_stripe_start + BTRFS_STRIPE_LEN)
+  1451					break;
+  1452			}
+  1453	
+  1454			*stripe_index = i;
+  1455			*stripe_offset = (logical - full_stripe_logical) &
+> 1456					 BTRFS_STRIPE_LEN_MASK;
+  1457		} else {
+  1458			/* The other RAID type */
+  1459			*stripe_index = mirror;
+  1460			*stripe_offset = 0;
+  1461		}
+  1462	}
+  1463	
 
 -- 
-js
-suse labs
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
