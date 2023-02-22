@@ -1,53 +1,34 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610962F3F;
-	Wed, 22 Feb 2023 15:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677080276; x=1708616276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lfkLtf5jtkBjJDFFtW5k1yPQC79CTUCrDVb1xySLDeQ=;
-  b=nr9TyN92ruCzw/sEQbk7ofqRI5AP3Ho6n/Y/npDIsI4PY881GaVzB6Kc
-   MD747zDqA5SFpOi9ZtdxoPrJr8jBZWll1/61yzTGuCndKvuujHWG4wo7Q
-   oAq70iubah7mKUAZLG9Ex8klmUpQKU8gM2nc6I7aDMRWioVYdBD+lpWIn
-   9UJslUEAbCRFQCl0rqLH2ok90vlmTtN5DY67iefvdCGTufEZeaxyaVgnF
-   ZRd3YvxB43ZG/TgaTAMsOPmgr8pR1zOfhywacRYqXBXKinWJW8/pD5Q8n
-   MD515u1/DdSrnUkT8tL2tz5PNUYyr2nI9gd2Z/84FedSB2w+28xPL7As4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313328777"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="313328777"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 07:37:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="814976044"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="814976044"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2023 07:37:21 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUrBI-0000VL-16;
-	Wed, 22 Feb 2023 15:37:20 +0000
-Date: Wed, 22 Feb 2023 23:37:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH v5 1/1] riscv: Allow to downgrade paging mode from the
- command line
-Message-ID: <202302222359.LdNxjl1c-lkp@intel.com>
-References: <20230222104322.1197763-2-alexghiti@rivosinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C8B2F3F;
+	Wed, 22 Feb 2023 15:44:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37564C433D2;
+	Wed, 22 Feb 2023 15:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677080694;
+	bh=5KG/bO3FwXE7MwINidb/z6aocMlM+Az6F+yh2Lw8lCg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ISGojwM4hwZnoeRuyx8l09fusSKGCIC2/X9zB3ORXKaoyCP1PIxtfi58rmZCo87FD
+	 zCR4y1zUXMMGAikoTYLVo+2eG85K/GsyjJhNWefHjONeCmeCLwAbM7pZw7YxXyE2Ap
+	 f3zOi/ZLHjAGY3cK2VAr+zfwvBtaFijRwwOX3YryMfEGCA5rH0f34rUrofFCzuwV+S
+	 s8agEtobia0gQdkLCzHx6KTblfFIlZG39YQIr4HhG3iPOaedyPEmmSVkQAg4+BL6iT
+	 ZR6AD14/Q2BL8Q0/R8q25N6HRMOlrsVVoceXXXoI6bQcQEMZi7EKIpQeHZmJaXAnJf
+	 DRcVM86UJ+kgg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1pUrIh-0007ZF-Mn; Wed, 22 Feb 2023 16:45:00 +0100
+Date: Wed, 22 Feb 2023 16:44:59 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Johan Hovold <johan+linaro@kernel.org>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Steev Klimaszewski <steev@kali.org>
+Subject: Re: [steev:lenovo-x13s-v6.2 114/188] drivers/interconnect/core.c:853
+ icc_node_destroy() error: we previously assumed 'node' could be null (see
+ line 846)
+Message-ID: <Y/Y4e0ia3kYU1Hfn@hovoldconsulting.com>
+References: <202302222118.nGz1F0oJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,58 +37,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222104322.1197763-2-alexghiti@rivosinc.com>
+In-Reply-To: <202302222118.nGz1F0oJ-lkp@intel.com>
 
-Hi Alexandre,
+On Wed, Feb 22, 2023 at 05:25:01PM +0300, Dan Carpenter wrote:
+> tree:   https://github.com/steev/linux lenovo-x13s-v6.2
+> head:   b9925baa3e5cf7919e9736257505a214b66dcdd2
+> commit: f89ce4d6ffc2c5e73c476d0d264951feef193f17 [114/188] interconnect: fix mem leak when freeing nodes
+> config: microblaze-randconfig-m031-20230222 (https://download.01.org/0day-ci/archive/20230222/202302222118.nGz1F0oJ-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202302222118.nGz1F0oJ-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/interconnect/core.c:853 icc_node_destroy() error: we previously assumed 'node' could be null (see line 846)
+> 
+> vim +/node +853 drivers/interconnect/core.c
+> 
+> 11f1ceca7031de Georgi Djakov 2019-01-16  839  void icc_node_destroy(int id)
+> 11f1ceca7031de Georgi Djakov 2019-01-16  840  {
+> 11f1ceca7031de Georgi Djakov 2019-01-16  841  	struct icc_node *node;
+> 11f1ceca7031de Georgi Djakov 2019-01-16  842  
+> 11f1ceca7031de Georgi Djakov 2019-01-16  843  	mutex_lock(&icc_lock);
+> 11f1ceca7031de Georgi Djakov 2019-01-16  844  
+> 11f1ceca7031de Georgi Djakov 2019-01-16  845  	node = node_find(id);
+> 11f1ceca7031de Georgi Djakov 2019-01-16 @846  	if (node) {
+> 
+> If node is NULL
+> 
+> 11f1ceca7031de Georgi Djakov 2019-01-16  847  		idr_remove(&icc_idr, node->id);
+> 11f1ceca7031de Georgi Djakov 2019-01-16  848  		WARN_ON(!hlist_empty(&node->req_list));
+> 11f1ceca7031de Georgi Djakov 2019-01-16  849  	}
+> 11f1ceca7031de Georgi Djakov 2019-01-16  850  
+> 11f1ceca7031de Georgi Djakov 2019-01-16  851  	mutex_unlock(&icc_lock);
+> 11f1ceca7031de Georgi Djakov 2019-01-16  852  
+> f89ce4d6ffc2c5 Johan Hovold  2023-01-31 @853  	kfree(node->links);
+> 
+> then this will crash
+> 
+> 11f1ceca7031de Georgi Djakov 2019-01-16  854  	kfree(node);
+> 11f1ceca7031de Georgi Djakov 2019-01-16  855  }
 
-Thank you for the patch! Perhaps something to improve:
+Thanks, Dan. There are no in-tree users that should be affected by this,
+but the patch is definitely missing a NULL check. I'll send a v2.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230222-184549
-patch link:    https://lore.kernel.org/r/20230222104322.1197763-2-alexghiti%40rivosinc.com
-patch subject: [PATCH v5 1/1] riscv: Allow to downgrade paging mode from the command line
-config: riscv-randconfig-r042-20230222 (https://download.01.org/0day-ci/archive/20230222/202302222359.LdNxjl1c-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/f92dd2e351d9f51f678f2d7ac63cc3cf85effddd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230222-184549
-        git checkout f92dd2e351d9f51f678f2d7ac63cc3cf85effddd
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/pi/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302222359.LdNxjl1c-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/riscv/kernel/pi/cmdline_early.c:50:12: warning: no previous prototype for function 'set_satp_mode_from_cmdline' [-Wmissing-prototypes]
-   u64 __init set_satp_mode_from_cmdline(uintptr_t dtb_pa)
-              ^
-   arch/riscv/kernel/pi/cmdline_early.c:50:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   u64 __init set_satp_mode_from_cmdline(uintptr_t dtb_pa)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/set_satp_mode_from_cmdline +50 arch/riscv/kernel/pi/cmdline_early.c
-
-    49	
-  > 50	u64 __init set_satp_mode_from_cmdline(uintptr_t dtb_pa)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Johan
