@@ -1,49 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAAA23A5;
-	Thu, 23 Feb 2023 10:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75A723A5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 10:26:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677146779; x=1708682779;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G1eyd6plZRhl7C9gSgBC4jqgdrPdoVIj9daKdi61y44=;
-  b=K0GzUO/wkta5bZWvQbCnZBnXv55nAfZXWo6o8AWbxtW52d9OtUt0OlqF
-   o2GhnqQ3uKNW6ooANUC/tmgDfx2/O8PN1ZTXQuMKtyFXMjvbVk0Ajob6I
-   h94yYCgObGIUXT8rbZmnTjEJnd52iB3PddaWus3XqVVw1SjUTnrpKfuDt
-   ag5C0R49f4dOHUDBXJsf7gWbIid+OXxBICSKv2sU4NM+nvT51oSv7Czie
-   7kWETxq7ZoaNNew9K9mRWL37q9I5HRFofDpKpsBQcEA7nZ6s+mpn5VeoK
-   ukdbGNafuOoKez6tGpam1roh7hrGpGLRrbi+uKAEPwZ1NoWwqEcUZe7Go
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312797171"
+  t=1677147984; x=1708683984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Yk1mjkoR0tSeW0gPd6MGxEf6ev0w+CVpivJhqFa1wX0=;
+  b=kOg9xhvcL6zSOCRfPdYKXNILIrSpiezeY+KPziyU71Gb9FOXa6rNgYHS
+   Sg4O112DNdfWj+sq51it4ieR4LCCq3jUGpQQnZUmS0oeCCAm49haSGN2l
+   g28cK5EqdLD5odgeAHLawTcYDnrcUKrv31/CKQbusaaqPKd+G5rSjJOyW
+   L5STihkNO/aVpxDmjnagHsHLpPgWFQ2wTF7lDL73e/7H/x0qwfVzUHt5T
+   q5xyfUSZR+VQlh/hXu9dm/vDw6yCn41mcUNPApwyqKSB/VZMoS/4y3w6f
+   /QTVhLeQEmmAm2+/+ZPCMcIIDKopg6D7QSyay1gKinsclO/p/cjk6VYrI
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313545704"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="312797171"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 02:05:58 -0800
+   d="scan'208";a="313545704"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 02:25:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="736302469"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="649912023"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="736302469"
+   d="scan'208";a="649912023"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Feb 2023 02:05:56 -0800
+  by orsmga006.jf.intel.com with ESMTP; 23 Feb 2023 02:25:56 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pV8U7-0001Ev-1P;
-	Thu, 23 Feb 2023 10:05:55 +0000
-Date: Thu, 23 Feb 2023 18:05:12 +0800
+	id 1pV8nU-0001G1-01;
+	Thu, 23 Feb 2023 10:25:56 +0000
+Date: Thu, 23 Feb 2023 18:25:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johan Hovold <johan+linaro@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jeremy Kerr <jk@ozlabs.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>, linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Steev Klimaszewski <steev@kali.org>
-Subject: Re: [PATCH] efivarfs: fix NULL-deref on mount when no efivars
-Message-ID: <202302231733.iymwHTPf-lkp@intel.com>
-References: <20230126112129.4602-1-johan+linaro@kernel.org>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: Documentation/mm/hugetlbfs_reserv.rst references
+ a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+Message-ID: <202302231854.sKlCmx9K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,66 +46,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126112129.4602-1-johan+linaro@kernel.org>
 
-Hi Johan,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on v6.2-rc5]
-[also build test ERROR on linus/master]
-[cannot apply to efi/next next-20230223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/efivarfs-fix-NULL-deref-on-mount-when-no-efivars/20230128-094525
-patch link:    https://lore.kernel.org/r/20230126112129.4602-1-johan%2Blinaro%40kernel.org
-patch subject: [PATCH] efivarfs: fix NULL-deref on mount when no efivars
-config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230223/202302231733.iymwHTPf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/da57163cc9d947884520240ec71c2806f48b8a64
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Johan-Hovold/efivarfs-fix-NULL-deref-on-mount-when-no-efivars/20230128-094525
-        git checkout da57163cc9d947884520240ec71c2806f48b8a64
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
+commit: ee86588960e259760236a537323d5c7d945e378c docs/mm: remove useless markup
+date:   3 weeks ago
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee86588960e259760236a537323d5c7d945e378c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ee86588960e259760236a537323d5c7d945e378c
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231733.iymwHTPf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302231854.sKlCmx9K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/efivarfs/super.c:246:7: error: implicit declaration of function 'efivar_is_available' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (!efivar_is_available())
-                ^
-   fs/efivarfs/super.c:246:7: note: did you mean 'slab_is_available'?
-   include/linux/slab.h:171:6: note: 'slab_is_available' declared here
-   bool slab_is_available(void);
-        ^
-   1 error generated.
-
-
-vim +/efivar_is_available +246 fs/efivarfs/super.c
-
-   241	
-   242	static void efivarfs_kill_sb(struct super_block *sb)
-   243	{
-   244		kill_litter_super(sb);
-   245	
- > 246		if (!efivar_is_available())
-   247			return;
-   248	
-   249		/* Remove all entries and destroy */
-   250		efivar_entry_iter(efivarfs_destroy, &efivarfs_list, NULL);
-   251	}
-   252	
+>> Warning: Documentation/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+>> Warning: Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
 
 -- 
 0-DAY CI Kernel Test Service
