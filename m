@@ -1,44 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064EE28ED
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 15:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F228ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 15:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677164778; x=1708700778;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5Wm9mpnE9UWJcqzGbV9hTEi4VHRkA+qF7g43saRKdIY=;
-  b=CJnEzVOGgSMHN3dJZ95tmgH0W5ZUm6k3yDomg9wbVX8j+0T0HKA5s1H6
-   99ha8i/qChP1yplr9tj9NdkdscUfUs1OpLqhVWQtDUyymx+EauU9S8CyK
-   6NILFcmzf0wH+WWy2Yf7+2mf0RczaWKqWQiCTDqwEZgFb9Rj52TOgigUK
-   LRt9N8JVmc/7PxEeNZdV8kFSfuT+r5c5Jx5JlEmgbFswhRmCuS/G20TtO
-   Z7tMMFOvl+T/MPZo4FyTlIEnnBgWpAcyOiqaPfxkHjCMXGK7qTxKJNlr6
-   2vLHdLm8KoxAiKqlvYp8YQ8zKTKUyxoYC5qwESUGkouFluyhRJw4uL/mm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="321399209"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="321399209"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 06:53:04 -0800
+  t=1677165894; x=1708701894;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hMfv4V9ztO/+VjQJ2rNj88NHT8Gz2Hw5WRO3ksCgPeA=;
+  b=mEIrLrKQLgEx0aSWiTIs59faKISb/ND5CdzoSewKry8lGG5Ku0ioubbc
+   Oieul3cnvJqs7s8D6SODCB2/OgqeVDfMFjU5LihPhu+kl+rDHCm+lE0Pt
+   NB91X/rQ98a1OhGFQEKHttglS6egfWXvaryTM02IQmghmi5QfK5W/3hmq
+   JQ8Rhz9XEikp4aEHRgVHipOVN6jXjgngkWJpVHwGDF0vAuvHvBdbYUF9l
+   Ovo8IqM5aLkiRzAWS8DWi5UM7ZjPE8mh7PR4GhRMiXyJXbuRcFATyn9bo
+   eA9ZkxoD52E/D1JgD0yM9aarFygVSQHGpKE8kFtYqpwzhxXV0kBAKw+tk
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="397954401"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
+   d="scan'208";a="397954401"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 07:13:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="622352888"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="781937272"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="622352888"
+   d="scan'208";a="781937272"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Feb 2023 06:53:02 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 07:13:03 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVCxy-0001OH-0g;
-	Thu, 23 Feb 2023 14:53:02 +0000
-Date: Thu, 23 Feb 2023 22:52:10 +0800
+	id 1pVDHL-0001Pc-0q;
+	Thu, 23 Feb 2023 15:13:03 +0000
+Date: Thu, 23 Feb 2023 23:12:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jerome Neanne <jneanne@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: drivers/regulator/tps65219-regulator.c:310:60: warning: parameter
- 'dev' set but not used
-Message-ID: <202302232247.r8w2oeDy-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] drm/amd: Convert amdgpu to use suballocation helper.
+Message-ID: <202302232320.36yZ22Oa-lkp@intel.com>
+References: <20230223105747.4719-3-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,138 +46,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230223105747.4719-3-thomas.hellstrom@linux.intel.com>
 
-Hi Jerome,
+Hi Thomas,
 
-FYI, the error/warning still remains.
+I love your patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
-commit: 74c17a0a49a6ad3b32cb130f25196d1f8d5d560e mfd: tps65219: Add driver for TI TPS65219 PMIC
-date:   3 months ago
-config: alpha-buildonly-randconfig-r004-20230222 (https://download.01.org/0day-ci/archive/20230223/202302232247.r8w2oeDy-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2 next-20230223]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-suballoc-Extract-amdgpu_sa-c-as-generic-suballocation-helper/20230223-190029
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230223105747.4719-3-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 2/3] drm/amd: Convert amdgpu to use suballocation helper.
+config: xtensa-randconfig-r006-20230222 (https://download.01.org/0day-ci/archive/20230223/202302232320.36yZ22Oa-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=74c17a0a49a6ad3b32cb130f25196d1f8d5d560e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 74c17a0a49a6ad3b32cb130f25196d1f8d5d560e
+        # https://github.com/intel-lab-lkp/linux/commit/8de236cbcd5a2dad890359d364b6cf65e4e8061a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-suballoc-Extract-amdgpu_sa-c-as-generic-suballocation-helper/20230223-190029
+        git checkout 8de236cbcd5a2dad890359d364b6cf65e4e8061a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/regulator/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302232247.r8w2oeDy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302232320.36yZ22Oa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/regulator/tps65219-regulator.c: In function 'tps65219_get_rdev_by_name':
->> drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
-     310 |                                      struct regulator_dev *dev)
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/regulator/tps65219-regulator.c: In function 'tps65219_regulator_probe':
->> drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
-     370 |                 if (rdev < 0) {
-         |                          ^
-
-
-vim +/dev +310 drivers/regulator/tps65219-regulator.c
-
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  307  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  308  static int tps65219_get_rdev_by_name(const char *regulator_name,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  309  				     struct regulator_dev *rdevtbl[7],
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05 @310  				     struct regulator_dev *dev)
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  311  {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  312  	int i;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  313  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  314  	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  315  		if (strcmp(regulator_name, regulators[i].name) == 0) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  316  			dev = rdevtbl[i];
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  317  			return 0;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  318  		}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  319  	}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  320  	return -EINVAL;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  321  }
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  322  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  323  static int tps65219_regulator_probe(struct platform_device *pdev)
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  324  {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  325  	struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  326  	struct regulator_dev *rdev;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  327  	struct regulator_config config = { };
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  328  	int i;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  329  	int error;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  330  	int irq;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  331  	struct tps65219_regulator_irq_data *irq_data;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  332  	struct tps65219_regulator_irq_type *irq_type;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  333  	struct regulator_dev *rdevtbl[7];
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  334  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  335  	config.dev = tps->dev;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  336  	config.driver_data = tps;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  337  	config.regmap = tps->regmap;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  338  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  339  	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  340  		dev_dbg(tps->dev, "%s regul i= %d START", __func__, i);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  341  		rdev = devm_regulator_register(&pdev->dev, &regulators[i],
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  342  					       &config);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  343  		if (IS_ERR(rdev)) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  344  			dev_err(tps->dev, "failed to register %s regulator\n",
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  345  				pdev->name);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  346  			return PTR_ERR(rdev);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  347  		}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  348  		rdevtbl[i] = rdev;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  349  		dev_dbg(tps->dev, "%s regul i= %d COMPLETED", __func__, i);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  350  	}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  351  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  352  	irq_data = devm_kmalloc(tps->dev,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  353  				ARRAY_SIZE(tps65219_regulator_irq_types) *
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  354  				sizeof(struct tps65219_regulator_irq_data),
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  355  				GFP_KERNEL);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  356  	if (!irq_data)
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  357  		return -ENOMEM;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  358  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  359  	for (i = 0; i < ARRAY_SIZE(tps65219_regulator_irq_types); ++i) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  360  		irq_type = &tps65219_regulator_irq_types[i];
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  361  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  362  		irq = platform_get_irq_byname(pdev, irq_type->irq_name);
-d46f737208a45d Yang Li       2022-08-25  363  		if (irq < 0)
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  364  			return -EINVAL;
-d46f737208a45d Yang Li       2022-08-25  365  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  366  		irq_data[i].dev = tps->dev;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  367  		irq_data[i].type = irq_type;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  368  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  369  		tps65219_get_rdev_by_name(irq_type->regulator_name, rdevtbl, rdev);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05 @370  		if (rdev < 0) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  371  			dev_err(tps->dev, "Failed to get rdev for %s\n",
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  372  				irq_type->regulator_name);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  373  			return -EINVAL;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  374  		}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  375  		irq_data[i].rdev = rdev;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  376  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  377  		error = devm_request_threaded_irq(tps->dev, irq, NULL,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  378  						  tps65219_regulator_irq_handler,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  379  						  IRQF_ONESHOT,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  380  						  irq_type->irq_name,
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  381  						  &irq_data[i]);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  382  		if (error) {
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  383  			dev_err(tps->dev, "failed to request %s IRQ %d: %d\n",
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  384  				irq_type->irq_name, irq, error);
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  385  			return error;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  386  		}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  387  	}
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  388  
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  389  	return 0;
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  390  }
-c12ac5fc3e0af2 Jerome Neanne 2022-08-05  391  
-
-:::::: The code at line 310 was first introduced by commit
-:::::: c12ac5fc3e0af29851785e557e243663b4fc7f4b regulator: drivers: Add TI TPS65219 PMIC regulators support
-
-:::::: TO: Jerome Neanne <jneanne@baylibre.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+>> ERROR: modpost: "__umoddi3" [drivers/gpu/drm/drm_suballoc_helper.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
