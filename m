@@ -1,47 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C0C1FB5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 07:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6914A15B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 08:32:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677138725; x=1708674725;
+  t=1677141178; x=1708677178;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VhxGIRqNOmtycFujc2LEJ8M/k4RkVkWvNjtyDLnNXQI=;
-  b=B7R+D8Qs64IlXcbPaUSJ1xQ8LTYA0dqmxddKEemWs9K5ErdiSoBnEekU
-   got7mrL95lzmWUHyO5LtwaSlRXcIy2SBtc2K8T/eG2tWBFE2Ry0IU+tkV
-   20wXBQAWkDUUlAc61m4d81c9N51oV3VW893ebmsVJK0c/MtO23Me5AhXt
-   alzaUxOQlltIOFC3oWfqZOuTfdPIcKkhMmQshLQBZcv1uXSbRqIbCqDmu
-   ZK1+o8GxFzqxtXGZeSWV5uRVmP9MGriDx371/seftvpTSHZ8wdop0NuhY
-   EJ86c1xRtXSEhWmQ+tNoXHVPo5gjs5pmVcLODqqRv85SJc/mLyN3CUuAi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360634855"
+  bh=0TEY6K3RfV2UZzUTFc+AYlryF+jA5jYmqCHAV1IjsI4=;
+  b=BESGvUXpa5MC8yYOoS59Kjxa2xtp5DuyOU6pE/n73YbAu29otRBkUHO9
+   F4q31mfIuM9s7wOjUW70/dyyXEqoBbKehSOM6r5FMOq+K491YYgK6mC+x
+   iOi7K0El2wyEIO1m7efvSnVvaQq19WovEu1kRXqAflzOLXCtiEloET37q
+   5iZmHa05MrARRRCIpxVCswGFyk7PZezooWm7AKzr0YYM61z1Dvq0hdUF8
+   yfb6iXrxp+9OGzxNH7cRAr0aVkRrBbNkKK6yWYG4Qx5+arstjVRIO+fsO
+   llrTlui4V5PhSH+JBVSiGlUJxeqFXo6UlIfhGuB6q+KNq1StExfvWKhlu
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="316880073"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="360634855"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 23:52:03 -0800
+   d="scan'208";a="316880073"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 00:32:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="741171845"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="796221789"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="741171845"
+   d="scan'208";a="796221789"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2023 23:51:52 -0800
+  by orsmga004.jf.intel.com with ESMTP; 23 Feb 2023 00:32:53 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pV6OO-00019f-0T;
-	Thu, 23 Feb 2023 07:51:52 +0000
-Date: Thu, 23 Feb 2023 15:51:36 +0800
+	id 1pV724-0001B3-32;
+	Thu, 23 Feb 2023 08:32:52 +0000
+Date: Thu, 23 Feb 2023 16:32:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Kardatzke <jkardatzke@chromium.org>,
-	op-tee@lists.trustedfirmware.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tee: optee: Add SMC for loading OP-TEE image
-Message-ID: <202302231536.Vn2DNHd4-lkp@intel.com>
-References: <20230222092409.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+	linux-security-module@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org,
+	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, mic@digikod.net
+Subject: Re: [PATCH v6 04/11] LSM: syscalls for current process attributes
+Message-ID: <202302231639.YHlfovm7-lkp@intel.com>
+References: <20230222200838.8149-5-casey@schaufler-ca.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,119 +50,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222092409.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+In-Reply-To: <20230222200838.8149-5-casey@schaufler-ca.com>
 
-Hi Jeffrey,
+Hi Casey,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2 next-20230223]
+[auto build test ERROR on tip/perf/core]
+[also build test ERROR on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes v6.2]
+[cannot apply to linus/master next-20230223]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Kardatzke/tee-optee-Add-SMC-for-loading-OP-TEE-image/20230223-012817
-patch link:    https://lore.kernel.org/r/20230222092409.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb%40changeid
-patch subject: [PATCH] tee: optee: Add SMC for loading OP-TEE image
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230223/202302231536.Vn2DNHd4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
+patch link:    https://lore.kernel.org/r/20230222200838.8149-5-casey%40schaufler-ca.com
+patch subject: [PATCH v6 04/11] LSM: syscalls for current process attributes
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230223/202302231639.YHlfovm7-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c19d72729a3c17aefd43e283bbfe3dd5abd2b26b
+        # https://github.com/intel-lab-lkp/linux/commit/04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeffrey-Kardatzke/tee-optee-Add-SMC-for-loading-OP-TEE-image/20230223-012817
-        git checkout c19d72729a3c17aefd43e283bbfe3dd5abd2b26b
+        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
+        git checkout 04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231536.Vn2DNHd4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302231639.YHlfovm7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tee/optee/smc_abi.c:1425:34: error: conflicting types for '__unused'; have 'void (*)(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  struct arm_smccc_res *)'
-    1425 |                 optee_invoke_fn *__unused) {
-         |                 ~~~~~~~~~~~~~~~~~^~~~~~~~
-   drivers/tee/optee/smc_abi.c:1424:57: note: previous definition of '__unused' with type 'struct platform_device *'
-    1424 | static inline int optee_load_fw(struct platform_device *__unused,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:89,
+                    from arch/powerpc/kernel/syscalls.c:19:
+   include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
+    1356 | {
+         | ^
+   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
+    1363 | {
+         | ^
+>> include/linux/security.h:1353:19: error: 'security_getselfattr' declared 'static' but never defined [-Werror=unused-function]
+    1353 | static inline int security_getselfattr(u64 __user attr,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/security.h:1360:19: error: 'security_setselfattr' declared 'static' but never defined [-Werror=unused-function]
+    1360 | static inline int security_setselfattr(u64 __user attr,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +1425 drivers/tee/optee/smc_abi.c
+vim +1353 include/linux/security.h
 
-  1362	
-  1363	static int optee_load_fw(struct platform_device *pdev,
-  1364				 optee_invoke_fn *invoke_fn)
-  1365	{
-  1366		const struct firmware *fw = NULL;
-  1367		struct arm_smccc_res res;
-  1368		phys_addr_t data_pa;
-  1369		u8 *data_buf = NULL;
-  1370		u64 data_size;
-  1371		u32 data_pa_high, data_pa_low;
-  1372		u32 data_size_high, data_size_low;
-  1373		int rc;
-  1374	
-  1375		rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
-  1376		if (rc) {
-  1377			/*
-  1378			 * The firmware in the rootfs will not be accessible until we
-  1379			 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
-  1380			 * that point.
-  1381			 */
-  1382			if (system_state < SYSTEM_RUNNING)
-  1383				return -EPROBE_DEFER;
-  1384			goto fw_err;
-  1385		}
-  1386	
-  1387		data_size = fw->size;
-  1388		/*
-  1389		 * This uses the GFP_DMA flag to ensure we are allocated memory in the
-  1390		 * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
-  1391		 */
-  1392		data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
-  1393		if (!data_buf) {
-  1394			rc = -ENOMEM;
-  1395			goto fw_err;
-  1396		}
-  1397		memcpy(data_buf, fw->data, fw->size);
-  1398		data_pa = virt_to_phys(data_buf);
-  1399		reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
-  1400		reg_pair_from_64(&data_size_high, &data_size_low, data_size);
-  1401		goto fw_load;
-  1402	
-  1403	fw_err:
-  1404		pr_warn("image loading failed\n");
-  1405		data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
-  1406	
-  1407	fw_load:
-  1408		/*
-  1409		 * Always invoke the SMC, even if loading the image fails, to indicate
-  1410		 * to EL3 that we have passed the point where it should allow invoking
-  1411		 * this SMC.
-  1412		 */
-  1413		invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
-  1414			  data_pa_high, data_pa_low, 0, 0, 0, &res);
-  1415		if (!rc)
-  1416			rc = res.a0;
-  1417		if (fw)
-  1418			release_firmware(fw);
-  1419		kfree(data_buf);
-  1420	
-  1421		return rc;
-  1422	}
-  1423	#else
-  1424	static inline int optee_load_fw(struct platform_device *__unused,
-> 1425			optee_invoke_fn *__unused) {
-  1426		return 0;
-  1427	}
-  1428	#endif
-  1429	
+  1352	
+> 1353	static inline int security_getselfattr(u64 __user attr,
+  1354					       struct lsm_ctx __user *ctx,
+  1355					       size_t __user *size);
+  1356	{
+  1357		return -EINVAL;
+  1358	}
+  1359	
+> 1360	static inline int security_setselfattr(u64 __user attr,
+  1361					       struct lsm_ctx __user *ctx,
+  1362					       size_t __user size);
+  1363	{
+  1364		return -EINVAL;
+  1365	}
+  1366	
 
 -- 
 0-DAY CI Kernel Test Service
