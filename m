@@ -1,44 +1,53 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A123D15B7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 01:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C100A15B7;
+	Thu, 23 Feb 2023 01:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677115964; x=1708651964;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4CvkmocTTuGUh3nirXaM09sxSu6LfENeyR6ivNXLb9U=;
-  b=AR7vgxYwPdah3AAm8kMaRAy2RvdHLjbokZQoZ13rtRVRyOghpr+H+QqI
-   cj3RJZPRdhEggWVjQJL5Ti0ujPCZgDKpRf9pwZ2eC9L7FiAPqHdnGP6Ri
-   Zh7onj8X+WgUrRbf95n4TTrpQ9SLb4F3XA8FsFELaqo+qKtOEmeH6jrtK
-   mN8sa7qAjrx/04XwUSyAMsja51Yjo7VXroxhU7baB7OpVsgatNT1Ig3tA
-   QRJqgmDVE2mRy7xDRVOjwtpILXwnqgKjKU6gzVsfMPS9RNrpwdUO6+VLC
-   PjHVBd4PAxLpBGR0WUb+AElF5tEdSSQ1/KHQy82h+c2uQ0GcgyjhTXw7i
+  t=1677116565; x=1708652565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4j55WDXCuWKUARN8kIWvlDDEKRrIl/pHrzQzHzInfbA=;
+  b=OSssY9OFkCUi9p/rc9OQJi+R4KbvvJhPwLkbYFvQurRzmzkxPwPo71l2
+   EYGVw+XSOUolAhJLUZuSxsXze8TEn2OpFa+QILKWyWRBkehIdXqm0uZ6u
+   wvsejuiqdBvn644egCrHYowsnFEGkRrONg/KAJankvLV2FmQAzkdDKaZ8
+   GRuzKmdXzLa3qItDPPqDaMBkt+hMIHkNivn7IeEqKoi88lEwXguAF/leg
+   aiNqJk8nl72heOKZV9+kRKzUUzJFX140Wsq3oHj5Wdv46gIGsSa9JXw9+
+   nGaZNg8hizxj7wDCX5lUHYBla2dy+Ai/kOSNppSsrjGypaE+Vt+morcl0
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312714399"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="333092589"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="312714399"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 17:32:41 -0800
+   d="scan'208";a="333092589"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 17:42:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="674322431"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="815146627"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="674322431"
+   d="scan'208";a="815146627"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Feb 2023 17:32:40 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2023 17:42:40 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pV0TQ-0000t5-06;
-	Thu, 23 Feb 2023 01:32:40 +0000
-Date: Thu, 23 Feb 2023 09:31:49 +0800
+	id 1pV0d6-0000tN-0y;
+	Thu, 23 Feb 2023 01:42:40 +0000
+Date: Thu, 23 Feb 2023 09:42:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [plbossart-sound:hdaudio/extended-multi-link 32/55]
- sound/soc/sof/ipc4-topology.c:854:3: warning: variable 'ext_size' is
- uninitialized when used here
-Message-ID: <202302230902.sxgFw5lW-lkp@intel.com>
+To: Viktor Malik <vmalik@redhat.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+	Viktor Malik <vmalik@redhat.com>
+Subject: Re: [PATCH bpf-next v8 1/2] bpf: Fix attaching
+ fentry/fexit/fmod_ret/lsm to modules
+Message-ID: <202302230931.vNIpXwzB-lkp@intel.com>
+References: <56870b3b449a20872dcff09541967a5a46284c0e.1677075137.git.vmalik@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,121 +56,571 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <56870b3b449a20872dcff09541967a5a46284c0e.1677075137.git.vmalik@redhat.com>
 
-tree:   https://github.com/plbossart/sound hdaudio/extended-multi-link
-head:   f423930a1ce99bb84fac6fa397fc486113748ab0
-commit: ef1635223211aa75afab254fc4865b1d13471267 [32/55] ASoC: SOF: ipc4-topology: Add support for base config extension
-config: mips-randconfig-r034-20230222 (https://download.01.org/0day-ci/archive/20230223/202302230902.sxgFw5lW-lkp@intel.com/config)
+Hi Viktor,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Viktor-Malik/bpf-Fix-attaching-fentry-fexit-fmod_ret-lsm-to-modules/20230222-234249
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/56870b3b449a20872dcff09541967a5a46284c0e.1677075137.git.vmalik%40redhat.com
+patch subject: [PATCH bpf-next v8 1/2] bpf: Fix attaching fentry/fexit/fmod_ret/lsm to modules
+config: s390-randconfig-r044-20230222 (https://download.01.org/0day-ci/archive/20230223/202302230931.vNIpXwzB-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://github.com/plbossart/sound/commit/ef1635223211aa75afab254fc4865b1d13471267
-        git remote add plbossart-sound https://github.com/plbossart/sound
-        git fetch --no-tags plbossart-sound hdaudio/extended-multi-link
-        git checkout ef1635223211aa75afab254fc4865b1d13471267
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/4c466a8ec9e92ae2a14d722fc6a704a7bec5a1c4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Viktor-Malik/bpf-Fix-attaching-fentry-fexit-fmod_ret-lsm-to-modules/20230222-234249
+        git checkout 4c466a8ec9e92ae2a14d722fc6a704a7bec5a1c4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash sound/soc/sof/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302230902.sxgFw5lW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302230931.vNIpXwzB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/sof/ipc4-topology.c:854:3: warning: variable 'ext_size' is uninitialized when used here [-Wuninitialized]
-                   ext_size += struct_size(base_cfg_ext, pin_formats,
-                   ^~~~~~~~
-   sound/soc/sof/ipc4-topology.c:852:15: note: initialize the variable 'ext_size' to silence this warning
-                   u32 ext_size;
-                               ^
-                                = 0
-   1 warning generated.
+   In file included from kernel/bpf/verifier.c:7:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from kernel/bpf/verifier.c:7:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from kernel/bpf/verifier.c:7:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each_entry_rcu'
+                pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:307:2: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:47: note: expanded from macro 'container_of'
+           static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:340:74: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                            ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: offsetof of incomplete type 'typeof (*mod)' (aka 'struct module')
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each_entry_rcu'
+                pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:307:2: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+           ((type *)(__mptr - offsetof(type, member))); })
+                              ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+   #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+                                   ^                  ~~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: assigning to 'struct module *' from incompatible type 'void'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:391:11: note: expanded from macro 'list_for_each_entry_rcu'
+                pos = list_entry_rcu((head)->next, typeof(*pos), member);  \
+                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:392:7: note: expanded from macro 'list_for_each_entry_rcu'
+                   &pos->member != (head);                                 \
+                    ~~~^
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:387:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:379:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:387:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:379:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:387:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:379:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:387:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:379:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:387:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:379:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:355:13: note: expanded from macro '__unqual_scalar_typeof'
+                   _Generic((x),                                           \
+                             ^
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:362:15: note: expanded from macro '__unqual_scalar_typeof'
+                            default: (x)))
+                                      ^
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                           ^
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                   ^~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: operand of type 'void' where arithmetic or pointer type is required
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h:307:2: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:19:25: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                  ^~~~~
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   In file included from kernel/bpf/verifier.c:27:
+>> kernel/bpf/../module/internal.h:212:2: error: incomplete definition of type 'struct module'
+           list_for_each_entry_rcu(mod, &modules, list,
+           ^                       ~~~
+   include/linux/rculist.h:393:27: note: expanded from macro 'list_for_each_entry_rcu'
+                   pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+                                        ~~~^
+   include/linux/rculist.h:307:25: note: expanded from macro 'list_entry_rcu'
+           container_of(READ_ONCE(ptr), type, member)
+                                  ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:340:63: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   include/linux/jump_label.h:196:8: note: forward declaration of 'struct module'
+   struct module;
+          ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   12 warnings and 20 errors generated.
 
 
-vim +/ext_size +854 sound/soc/sof/ipc4-topology.c
+vim +212 kernel/bpf/../module/internal.h
 
-   815	
-   816	/*
-   817	 * Add the process modules support. The process modules are defined as snd_soc_dapm_effect modules.
-   818	 */
-   819	static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
-   820	{
-   821		struct snd_soc_component *scomp = swidget->scomp;
-   822		struct sof_ipc4_fw_module *fw_module;
-   823		struct sof_ipc4_process *process;
-   824		void *cfg;
-   825		int ret;
-   826	
-   827		process = kzalloc(sizeof(*process), GFP_KERNEL);
-   828		if (!process)
-   829			return -ENOMEM;
-   830	
-   831		swidget->private = process;
-   832	
-   833		ret = sof_ipc4_get_audio_fmt(scomp, swidget, &process->available_fmt,
-   834					     &process->base_config);
-   835		if (ret)
-   836			goto err;
-   837	
-   838		ret = sof_ipc4_widget_setup_msg(swidget, &process->msg);
-   839		if (ret)
-   840			goto err;
-   841	
-   842		/* parse process init module payload config type from module info */
-   843		fw_module = swidget->module_info;
-   844		process->init_config = FIELD_GET(SOF_IPC4_MODULE_INIT_CONFIG_MASK,
-   845						 fw_module->man4_module_entry.type);
-   846	
-   847		process->ipc_config_size = sizeof(struct sof_ipc4_base_module_cfg);
-   848	
-   849		/* allocate memory for base config extension if needed */
-   850		if (process->init_config == SOF_IPC4_MODULE_INIT_CONFIG_TYPE_BASE_CFG_WITH_EXT) {
-   851			struct sof_ipc4_base_module_cfg_ext *base_cfg_ext;
-   852			u32 ext_size;
-   853	
- > 854			ext_size += struct_size(base_cfg_ext, pin_formats,
-   855						swidget->num_input_pins + swidget->num_output_pins);
-   856	
-   857			base_cfg_ext = kzalloc(ext_size, GFP_KERNEL);
-   858			if (!base_cfg_ext) {
-   859				ret = -ENOMEM;
-   860				goto free_available_fmt;
-   861			}
-   862	
-   863			base_cfg_ext->num_input_pin_fmts = swidget->num_input_pins;
-   864			base_cfg_ext->num_output_pin_fmts = swidget->num_output_pins;
-   865			process->base_config_ext = base_cfg_ext;
-   866			process->base_config_ext_size = ext_size;
-   867			process->ipc_config_size += ext_size;
-   868		}
-   869	
-   870		cfg = kzalloc(process->ipc_config_size, GFP_KERNEL);
-   871		if (!cfg) {
-   872			ret = -ENOMEM;
-   873			goto free_base_cfg_ext;
-   874		}
-   875	
-   876		process->ipc_config_data = cfg;
-   877	
-   878		sof_ipc4_widget_update_kcontrol_module_id(swidget);
-   879	
-   880		return 0;
-   881	free_base_cfg_ext:
-   882		kfree(process->base_config_ext);
-   883		process->base_config_ext = NULL;
-   884	free_available_fmt:
-   885		sof_ipc4_free_audio_fmt(&process->available_fmt);
-   886	err:
-   887		kfree(process);
-   888		swidget->private = NULL;
-   889		return ret;
-   890	}
-   891	
+58d208de3e8d87 Aaron Tomlin     2022-03-22  204  
+58d208de3e8d87 Aaron Tomlin     2022-03-22  205  static inline void mod_tree_insert(struct module *mod) { }
+58d208de3e8d87 Aaron Tomlin     2022-03-22  206  static inline void mod_tree_remove_init(struct module *mod) { }
+58d208de3e8d87 Aaron Tomlin     2022-03-22  207  static inline void mod_tree_remove(struct module *mod) { }
+446d55666d5599 Christophe Leroy 2022-02-23  208  static inline struct module *mod_find(unsigned long addr, struct mod_tree_root *tree)
+58d208de3e8d87 Aaron Tomlin     2022-03-22  209  {
+58d208de3e8d87 Aaron Tomlin     2022-03-22  210  	struct module *mod;
+58d208de3e8d87 Aaron Tomlin     2022-03-22  211  
+58d208de3e8d87 Aaron Tomlin     2022-03-22 @212  	list_for_each_entry_rcu(mod, &modules, list,
+58d208de3e8d87 Aaron Tomlin     2022-03-22  213  				lockdep_is_held(&module_mutex)) {
+58d208de3e8d87 Aaron Tomlin     2022-03-22  214  		if (within_module(addr, mod))
+58d208de3e8d87 Aaron Tomlin     2022-03-22  215  			return mod;
+58d208de3e8d87 Aaron Tomlin     2022-03-22  216  	}
+58d208de3e8d87 Aaron Tomlin     2022-03-22  217  
+58d208de3e8d87 Aaron Tomlin     2022-03-22  218  	return NULL;
+58d208de3e8d87 Aaron Tomlin     2022-03-22  219  }
+58d208de3e8d87 Aaron Tomlin     2022-03-22  220  #endif /* CONFIG_MODULES_TREE_LOOKUP */
+b33465fe9c52a3 Aaron Tomlin     2022-03-22  221  
 
 -- 
 0-DAY CI Kernel Test Service
