@@ -1,50 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4E77E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 19:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BA27E;
+	Thu, 23 Feb 2023 19:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677179563; x=1708715563;
+  t=1677180197; x=1708716197;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aiB5KRHpbkzp3tz5LlrbbklWYZfRmlsl6vQuzKhAJTk=;
-  b=hP3UpK96/If/gRLjGplEZxR3p8+5tuVgFzLal4gQAM2KVetMsDKfVVnP
-   bdbrOnSGH15E7sb1BN5CP2fQV2ReAluZarerlEVKfASJ/NOj8LsVB4AU4
-   g9J3YsGw/LWJa82G3rPQ7jxgbIHw+/Kg2HaepY1R/x4q8BO+H+Me5IztD
-   3rfCH77ebqi74XC5NUZKQzRGKMesJ+Y7Gr/rrJqcz+nyhcTL0IvfD0RIo
-   RQvey1F8NIDqWNIIGPE8F6g7jtg14xw5//+2b7CJyR+5qwkimthl19DYg
-   BIFU+oNMK7rFjg5jvhBxUkMXzuhKVuQMb5MRs9cCCxHLufxJuFv3ICNyJ
+  bh=PvhOgv3nkFj/F0NNqzpGnjaFNVGCFlZFsTrRZxjEVpg=;
+  b=JVwAKh/TRasr2i5gipjIUgHctVSejAUOnux3U+yr0MPUdegcIgzSECpj
+   zj0s267KGwdL+/9aSzLOMzQrL4BIY9o8ykr3wIvmps0zZHCZBKTdLqiCP
+   sfKjzJuVL3PQ9KhrOe3wtr9SF8mzZXbq6Ng+rnu9D1ZGpkCBNTlm231uZ
+   16GzPz/Xo7jv1mZgZ+xatUs+DCQ2wFCFB3gTOILxXiLdq4DW8Kb4/qHGf
+   +cHNnTqUei+t9u+V6aO4ZeiY8pCaq37igZpsVGv36Dq9SZNlTpGQmnmPy
+   kH7j5dudG1ravQmVPBeWJOVgzCxAsrMSP0kYzP8XfBZdub3e8iPTa7gOk
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="331980099"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="333310088"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="331980099"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 11:12:19 -0800
+   d="scan'208";a="333310088"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 11:23:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="918136375"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="782027209"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="918136375"
+   d="scan'208";a="782027209"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Feb 2023 11:12:16 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 11:23:16 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVH0p-0001eb-1F;
-	Thu, 23 Feb 2023 19:12:15 +0000
-Date: Fri, 24 Feb 2023 03:11:53 +0800
+	id 1pVHBT-0001fN-2Z;
+	Thu, 23 Feb 2023 19:23:15 +0000
+Date: Fri, 24 Feb 2023 03:22:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Bradford via B4 Relay <devnull+rbradford.rivosinc.com@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-kernel@vger.kernel.org, Rob Bradford <rbradford@rivosinc.com>
-Subject: Re: [PATCH] virtio-net: Fix probe of virtio-net on kvmtool
-Message-ID: <202302240220.zJZ4uyZI-lkp@intel.com>
-References: <20230223-virtio-net-kvmtool-v1-1-fc23d29b9d7a@rivosinc.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/3] drm/amd: Convert amdgpu to use suballocation
+ helper.
+Message-ID: <202302240340.GL1etcaC-lkp@intel.com>
+References: <20230223142531.8446-3-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,228 +47,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230223-virtio-net-kvmtool-v1-1-fc23d29b9d7a@rivosinc.com>
+In-Reply-To: <20230223142531.8446-3-thomas.hellstrom@linux.intel.com>
 
-Hi Rob,
+Hi Thomas,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on c39cea6f38eefe356d64d0bc1e1f2267e282cdd3]
+[auto build test ERROR on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Bradford-via-B4-Relay/virtio-net-Fix-probe-of-virtio-net-on-kvmtool/20230224-011509
-base:   c39cea6f38eefe356d64d0bc1e1f2267e282cdd3
-patch link:    https://lore.kernel.org/r/20230223-virtio-net-kvmtool-v1-1-fc23d29b9d7a%40rivosinc.com
-patch subject: [PATCH] virtio-net: Fix probe of virtio-net on kvmtool
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230224/202302240220.zJZ4uyZI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-suballoc-Extract-amdgpu_sa-c-as-generic-suballocation-helper/20230223-225547
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230223142531.8446-3-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v3 2/3] drm/amd: Convert amdgpu to use suballocation helper.
+config: hexagon-randconfig-r041-20230223 (https://download.01.org/0day-ci/archive/20230224/202302240340.GL1etcaC-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c778354a380764fd994634e06be5c8047591d138
+        # https://github.com/intel-lab-lkp/linux/commit/566352490ef7a031bd23f9d6524057fd7b31330c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Bradford-via-B4-Relay/virtio-net-Fix-probe-of-virtio-net-on-kvmtool/20230224-011509
-        git checkout c778354a380764fd994634e06be5c8047591d138
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-suballoc-Extract-amdgpu_sa-c-as-generic-suballocation-helper/20230223-225547
+        git checkout 566352490ef7a031bd23f9d6524057fd7b31330c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302240220.zJZ4uyZI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302240340.GL1etcaC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/virtio_net.c: In function 'virtnet_probe':
->> drivers/net/virtio_net.c:3784:63: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
-    3784 |             virtio_has_feature(vdev, VIRTIO_NET_F_GUEST_TSO6) &&
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-    3785 |             virtio_has_feature(vdev, VIRTIO_NET_F_CTRL_GUEST_OFFLOADS))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +3784 drivers/net/virtio_net.c
-
-  3719	
-  3720	static int virtnet_probe(struct virtio_device *vdev)
-  3721	{
-  3722		int i, err = -ENOMEM;
-  3723		struct net_device *dev;
-  3724		struct virtnet_info *vi;
-  3725		u16 max_queue_pairs;
-  3726		int mtu = 0;
-  3727	
-  3728		/* Find if host supports multiqueue/rss virtio_net device */
-  3729		max_queue_pairs = 1;
-  3730		if (virtio_has_feature(vdev, VIRTIO_NET_F_MQ) || virtio_has_feature(vdev, VIRTIO_NET_F_RSS))
-  3731			max_queue_pairs =
-  3732			     virtio_cread16(vdev, offsetof(struct virtio_net_config, max_virtqueue_pairs));
-  3733	
-  3734		/* We need at least 2 queue's */
-  3735		if (max_queue_pairs < VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN ||
-  3736		    max_queue_pairs > VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX ||
-  3737		    !virtio_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ))
-  3738			max_queue_pairs = 1;
-  3739	
-  3740		/* Allocate ourselves a network device with room for our info */
-  3741		dev = alloc_etherdev_mq(sizeof(struct virtnet_info), max_queue_pairs);
-  3742		if (!dev)
-  3743			return -ENOMEM;
-  3744	
-  3745		/* Set up network device as normal. */
-  3746		dev->priv_flags |= IFF_UNICAST_FLT | IFF_LIVE_ADDR_CHANGE |
-  3747				   IFF_TX_SKB_NO_LINEAR;
-  3748		dev->netdev_ops = &virtnet_netdev;
-  3749		dev->features = NETIF_F_HIGHDMA;
-  3750	
-  3751		dev->ethtool_ops = &virtnet_ethtool_ops;
-  3752		SET_NETDEV_DEV(dev, &vdev->dev);
-  3753	
-  3754		/* Do we support "hardware" checksums? */
-  3755		if (virtio_has_feature(vdev, VIRTIO_NET_F_CSUM)) {
-  3756			/* This opens up the world of extra features. */
-  3757			dev->hw_features |= NETIF_F_HW_CSUM | NETIF_F_SG;
-  3758			if (csum)
-  3759				dev->features |= NETIF_F_HW_CSUM | NETIF_F_SG;
-  3760	
-  3761			if (virtio_has_feature(vdev, VIRTIO_NET_F_GSO)) {
-  3762				dev->hw_features |= NETIF_F_TSO
-  3763					| NETIF_F_TSO_ECN | NETIF_F_TSO6;
-  3764			}
-  3765			/* Individual feature bits: what can host handle? */
-  3766			if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_TSO4))
-  3767				dev->hw_features |= NETIF_F_TSO;
-  3768			if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_TSO6))
-  3769				dev->hw_features |= NETIF_F_TSO6;
-  3770			if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_ECN))
-  3771				dev->hw_features |= NETIF_F_TSO_ECN;
-  3772			if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_USO))
-  3773				dev->hw_features |= NETIF_F_GSO_UDP_L4;
-  3774	
-  3775			dev->features |= NETIF_F_GSO_ROBUST;
-  3776	
-  3777			if (gso)
-  3778				dev->features |= dev->hw_features & NETIF_F_ALL_TSO;
-  3779			/* (!csum && gso) case will be fixed by register_netdev() */
-  3780		}
-  3781		if (virtio_has_feature(vdev, VIRTIO_NET_F_GUEST_CSUM))
-  3782			dev->features |= NETIF_F_RXCSUM;
-  3783		if (virtio_has_feature(vdev, VIRTIO_NET_F_GUEST_TSO4) ||
-> 3784		    virtio_has_feature(vdev, VIRTIO_NET_F_GUEST_TSO6) &&
-  3785		    virtio_has_feature(vdev, VIRTIO_NET_F_CTRL_GUEST_OFFLOADS))
-  3786			dev->hw_features |= NETIF_F_GRO_HW;
-  3787	
-  3788		dev->vlan_features = dev->features;
-  3789	
-  3790		/* MTU range: 68 - 65535 */
-  3791		dev->min_mtu = MIN_MTU;
-  3792		dev->max_mtu = MAX_MTU;
-  3793	
-  3794		/* Configuration may specify what MAC to use.  Otherwise random. */
-  3795		if (virtio_has_feature(vdev, VIRTIO_NET_F_MAC)) {
-  3796			u8 addr[ETH_ALEN];
-  3797	
-  3798			virtio_cread_bytes(vdev,
-  3799					   offsetof(struct virtio_net_config, mac),
-  3800					   addr, ETH_ALEN);
-  3801			eth_hw_addr_set(dev, addr);
-  3802		} else {
-  3803			eth_hw_addr_random(dev);
-  3804		}
-  3805	
-  3806		/* Set up our device-specific information */
-  3807		vi = netdev_priv(dev);
-  3808		vi->dev = dev;
-  3809		vi->vdev = vdev;
-  3810		vdev->priv = vi;
-  3811	
-  3812		INIT_WORK(&vi->config_work, virtnet_config_changed_work);
-  3813		spin_lock_init(&vi->refill_lock);
-  3814	
-  3815		if (virtio_has_feature(vdev, VIRTIO_NET_F_MRG_RXBUF))
-  3816			vi->mergeable_rx_bufs = true;
-  3817	
-  3818		if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_NOTF_COAL)) {
-  3819			vi->rx_usecs = 0;
-  3820			vi->tx_usecs = 0;
-  3821			vi->tx_max_packets = 0;
-  3822			vi->rx_max_packets = 0;
-  3823		}
-  3824	
-  3825		if (virtio_has_feature(vdev, VIRTIO_NET_F_HASH_REPORT))
-  3826			vi->has_rss_hash_report = true;
-  3827	
-  3828		if (virtio_has_feature(vdev, VIRTIO_NET_F_RSS))
-  3829			vi->has_rss = true;
-  3830	
-  3831		if (vi->has_rss || vi->has_rss_hash_report) {
-  3832			vi->rss_indir_table_size =
-  3833				virtio_cread16(vdev, offsetof(struct virtio_net_config,
-  3834					rss_max_indirection_table_length));
-  3835			vi->rss_key_size =
-  3836				virtio_cread8(vdev, offsetof(struct virtio_net_config, rss_max_key_size));
-  3837	
-  3838			vi->rss_hash_types_supported =
-  3839			    virtio_cread32(vdev, offsetof(struct virtio_net_config, supported_hash_types));
-  3840			vi->rss_hash_types_supported &=
-  3841					~(VIRTIO_NET_RSS_HASH_TYPE_IP_EX |
-  3842					  VIRTIO_NET_RSS_HASH_TYPE_TCP_EX |
-  3843					  VIRTIO_NET_RSS_HASH_TYPE_UDP_EX);
-  3844	
-  3845			dev->hw_features |= NETIF_F_RXHASH;
-  3846		}
-  3847	
-  3848		if (vi->has_rss_hash_report)
-  3849			vi->hdr_len = sizeof(struct virtio_net_hdr_v1_hash);
-  3850		else if (virtio_has_feature(vdev, VIRTIO_NET_F_MRG_RXBUF) ||
-  3851			 virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
-  3852			vi->hdr_len = sizeof(struct virtio_net_hdr_mrg_rxbuf);
-  3853		else
-  3854			vi->hdr_len = sizeof(struct virtio_net_hdr);
-  3855	
-  3856		if (virtio_has_feature(vdev, VIRTIO_F_ANY_LAYOUT) ||
-  3857		    virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
-  3858			vi->any_header_sg = true;
-  3859	
-  3860		if (virtio_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ))
-  3861			vi->has_cvq = true;
-  3862	
-  3863		if (virtio_has_feature(vdev, VIRTIO_NET_F_MTU)) {
-  3864			mtu = virtio_cread16(vdev,
-  3865					     offsetof(struct virtio_net_config,
-  3866						      mtu));
-  3867			if (mtu < dev->min_mtu) {
-  3868				/* Should never trigger: MTU was previously validated
-  3869				 * in virtnet_validate.
-  3870				 */
-  3871				dev_err(&vdev->dev,
-  3872					"device MTU appears to have changed it is now %d < %d",
-  3873					mtu, dev->min_mtu);
-  3874				err = -EINVAL;
-  3875				goto free;
-  3876			}
-  3877	
-  3878			dev->mtu = mtu;
-  3879			dev->max_mtu = mtu;
-  3880		}
-  3881	
-  3882		virtnet_set_big_packets(vi, mtu);
-  3883	
-  3884		if (vi->any_header_sg)
-  3885			dev->needed_headroom = vi->hdr_len;
-  3886	
-  3887		/* Enable multiqueue by default */
-  3888		if (num_online_cpus() >= max_queue_pairs)
-  3889			vi->curr_queue_pairs = max_queue_pairs;
-  3890		else
-  3891			vi->curr_queue_pairs = num_online_cpus();
-  3892		vi->max_queue_pairs = max_queue_pairs;
-  3893	
-  3894		/* Allocate/initialize the rx/tx queues, and invoke find_vqs */
-  3895		err = init_vqs(vi);
-  3896		if (err)
-  3897			goto free;
-  3898	
+>> ld.lld: error: undefined symbol: __hexagon_umoddi3
+   >>> referenced by drm_suballoc.c
+   >>>               drivers/gpu/drm/drm_suballoc.o:(drm_suballoc_new) in archive vmlinux.a
+   >>> referenced by drm_suballoc.c
+   >>>               drivers/gpu/drm/drm_suballoc.o:(drm_suballoc_new) in archive vmlinux.a
+   >>> referenced by drm_suballoc.c
+   >>>               drivers/gpu/drm/drm_suballoc.o:(drm_suballoc_new) in archive vmlinux.a
+   >>> referenced 17 more times
+   >>> did you mean: __hexagon_umodsi3
+   >>> defined in: vmlinux.a(arch/hexagon/lib/umodsi3.o)
 
 -- 
 0-DAY CI Kernel Test Service
