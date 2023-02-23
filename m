@@ -1,111 +1,181 @@
-Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC6115A8;
-	Thu, 23 Feb 2023 06:34:42 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.30.67.153])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4PMjtP0lJqz4f41j1;
-	Thu, 23 Feb 2023 14:34:37 +0800 (CST)
-Received: from [10.174.178.129] (unknown [10.174.178.129])
-	by APP4 (Coremail) with SMTP id gCh0CgBnG6_5CPdjxfOcEA--.14578S2;
-	Thu, 23 Feb 2023 14:34:35 +0800 (CST)
-Subject: Re: [PATCH 17/17] block, bfq: remove unnecessary local variable
- __bfqq in bfq_setup_merge
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- paolo.valente@linaro.org, axboe@kernel.dk, jack@suse.cz
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <202302200841.9zinyY7i-lkp@intel.com>
-From: Kemeng Shi <shikemeng@huaweicloud.com>
-Message-ID: <10be999e-0b35-198b-7e04-83fcdd58c34c@huaweicloud.com>
-Date: Thu, 23 Feb 2023 14:34:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF03A1FB5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 07:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677136254; x=1708672254;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uWFv4XH3rhBJ/f63WlqWAxrxm8amt5ciKkQNpz7xDoA=;
+  b=g0Eoy8XytTcvaxMBZEDKmmfYNG893bWkRJxmV6Vvg4vsBGnQ+8Ben866
+   RodI4YCITjp5ISWexe7D7QrKzJwJt3TkB9GdxOtXqo8l8Pz8v1V+2MCW3
+   oPEDuksXMm2Yp31jI9yfYrpgs4FS7I3FnRXfIpzuElqD0I3AOs/IY+nle
+   7rzrF+W8z8fwtADbL4RTtkn+9TifN4KzZ3vSaqf3A7HIs1Cg8NW53eUV+
+   rEN10LSGzLpUSrJo0oEW2SsmMCkNyhLNQputPuHfDYRHjy7x4BCLvlMoC
+   SVlnuAxJ2xjyeS0fkaNRCwpTjOQ9kXQNVl8sFxiajy37dsTjMUpm/KEw0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="397829153"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="397829153"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 23:10:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="917874807"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="917874807"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 22 Feb 2023 23:10:52 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pV5kh-00018a-1k;
+	Thu, 23 Feb 2023 07:10:51 +0000
+Date: Thu, 23 Feb 2023 15:10:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v10 8/8] media: i2c: add DS90UB953 driver
+Message-ID: <202302231450.jVPzRXbK-lkp@intel.com>
+References: <20230222132907.594690-9-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202302200841.9zinyY7i-lkp@intel.com>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgBnG6_5CPdjxfOcEA--.14578S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGr1ftFW3Kw4DWryDGryxAFb_yoW5tr17pa
-	15JFsI9w48Jr42qFy7KasYvr1vvrn5Jas7X3s0yr47uFs8AF929F1Skry5ZrWxuFWxtrW3
-	Jr4fur1xKr15Aa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222132907.594690-9-tomi.valkeinen@ideasonboard.com>
+
+Hi Tomi,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams next-20230222]
+[cannot apply to wsa/i2c/for-next linus/master v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/i2c-add-I2C-Address-Translator-ATR-support/20230222-234839
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230222132907.594690-9-tomi.valkeinen%40ideasonboard.com
+patch subject: [PATCH v10 8/8] media: i2c: add DS90UB953 driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230223/202302231450.jVPzRXbK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/34b28a8690e0cdd2d859d35261490ee3efc65b24
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tomi-Valkeinen/i2c-add-I2C-Address-Translator-ATR-support/20230222-234839
+        git checkout 34b28a8690e0cdd2d859d35261490ee3efc65b24
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302231450.jVPzRXbK-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/gpio/driver.h:5,
+                    from drivers/media/i2c/ds90ub953.c:15:
+   drivers/media/i2c/ds90ub953.c: In function 'ub953_log_status':
+>> drivers/media/i2c/ds90ub953.c:603:23: warning: field precision specifier '.*' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+     603 |         dev_info(dev, "ID '%.*s'\n", sizeof(id), id);
+         |                       ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/media/i2c/ds90ub953.c:603:9: note: in expansion of macro 'dev_info'
+     603 |         dev_info(dev, "ID '%.*s'\n", sizeof(id), id);
+         |         ^~~~~~~~
+   drivers/media/i2c/ds90ub953.c:603:30: note: format string is defined here
+     603 |         dev_info(dev, "ID '%.*s'\n", sizeof(id), id);
+         |                            ~~^~
+         |                              |
+         |                              int
 
 
+vim +603 drivers/media/i2c/ds90ub953.c
 
-on 2/23/2023 1:48 PM, Dan Carpenter wrote:
-> Hi Kemeng,
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/block-bfq-properly-mark-bfqq-remained-idle/20230219-104312
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-> patch link:    https://lore.kernel.org/r/20230219104309.1511562-18-shikemeng%40huaweicloud.com
-> patch subject: [PATCH 17/17] block, bfq: remove unnecessary local variable __bfqq in bfq_setup_merge
-> config: openrisc-randconfig-m041-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200841.9zinyY7i-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202302200841.9zinyY7i-lkp@intel.com/
-> 
-> New smatch warnings:
-> block/bfq-iosched.c:2785 bfq_setup_merge() error: we previously assumed 'new_bfqq' could be null (see line 2766)
-> 
-> Old smatch warnings:
-> block/bfq-iosched.c:6195 __bfq_insert_request() warn: variable dereferenced before check 'bfqq' (see line 6191)
-> 
-> vim +/new_bfqq +2785 block/bfq-iosched.c
-> 
-> 36eca894832351 Arianna Avanzini 2017-04-12  2751  static struct bfq_queue *
-> 36eca894832351 Arianna Avanzini 2017-04-12  2752  bfq_setup_merge(struct bfq_queue *bfqq, struct bfq_queue *new_bfqq)
-> 36eca894832351 Arianna Avanzini 2017-04-12  2753  {
-> 36eca894832351 Arianna Avanzini 2017-04-12  2754  	int process_refs, new_process_refs;
-> 36eca894832351 Arianna Avanzini 2017-04-12  2755  
-> 36eca894832351 Arianna Avanzini 2017-04-12  2756  	/*
-> 36eca894832351 Arianna Avanzini 2017-04-12  2757  	 * If there are no process references on the new_bfqq, then it is
-> 36eca894832351 Arianna Avanzini 2017-04-12  2758  	 * unsafe to follow the ->new_bfqq chain as other bfqq's in the chain
-> 36eca894832351 Arianna Avanzini 2017-04-12  2759  	 * may have dropped their last reference (not just their last process
-> 36eca894832351 Arianna Avanzini 2017-04-12  2760  	 * reference).
-> 36eca894832351 Arianna Avanzini 2017-04-12  2761  	 */
-> 36eca894832351 Arianna Avanzini 2017-04-12  2762  	if (!bfqq_process_refs(new_bfqq))
-> 36eca894832351 Arianna Avanzini 2017-04-12  2763  		return NULL;
-> 36eca894832351 Arianna Avanzini 2017-04-12  2764  
-> 36eca894832351 Arianna Avanzini 2017-04-12  2765  	/* Avoid a circular list and skip interim queue merges. */
-> 114533e1e26a36 Kemeng Shi       2023-02-19 @2766  	while ((new_bfqq = new_bfqq->new_bfqq)) {
-> 114533e1e26a36 Kemeng Shi       2023-02-19  2767  		if (new_bfqq == bfqq)
-> 36eca894832351 Arianna Avanzini 2017-04-12  2768  			return NULL;
-> 36eca894832351 Arianna Avanzini 2017-04-12  2769  	}
-> 
-> This now loops until new_bfqq is NULL.
-> 
-> 36eca894832351 Arianna Avanzini 2017-04-12  2770  
-> 36eca894832351 Arianna Avanzini 2017-04-12  2771  	process_refs = bfqq_process_refs(bfqq);
-> 36eca894832351 Arianna Avanzini 2017-04-12  2772  	new_process_refs = bfqq_process_refs(new_bfqq);
-> 
-> What?Sorry, I didn't expect that there is a behavior change. I will drop
-this one in next version. Thanks.
+   588	
+   589	static int ub953_log_status(struct v4l2_subdev *sd)
+   590	{
+   591		struct ub953_data *priv = sd_to_ub953(sd);
+   592		struct device *dev = &priv->client->dev;
+   593		u8 v = 0, v1 = 0, v2 = 0;
+   594		unsigned int i;
+   595		char id[UB953_REG_FPD3_RX_ID_LEN];
+   596		u8 gpio_local_data;
+   597		u8 gpio_input_ctrl;
+   598		u8 gpio_pin_sts;
+   599	
+   600		for (i = 0; i < sizeof(id); i++)
+   601			ub953_read(priv, UB953_REG_FPD3_RX_ID(i), &id[i]);
+   602	
+ > 603		dev_info(dev, "ID '%.*s'\n", sizeof(id), id);
+   604	
+   605		ub953_read(priv, UB953_REG_GENERAL_STATUS, &v);
+   606		dev_info(dev, "GENERAL_STATUS %#02x\n", v);
+   607	
+   608		ub953_read(priv, UB953_REG_CRC_ERR_CNT1, &v1);
+   609		ub953_read(priv, UB953_REG_CRC_ERR_CNT2, &v2);
+   610		dev_info(dev, "CRC error count %u\n", v1 | (v2 << 8));
+   611	
+   612		ub953_read(priv, UB953_REG_CSI_ERR_CNT, &v);
+   613		dev_info(dev, "CSI error count %u\n", v);
+   614	
+   615		ub953_read(priv, UB953_REG_CSI_ERR_STATUS, &v);
+   616		dev_info(dev, "CSI_ERR_STATUS %#02x\n", v);
+   617	
+   618		ub953_read(priv, UB953_REG_CSI_ERR_DLANE01, &v);
+   619		dev_info(dev, "CSI_ERR_DLANE01 %#02x\n", v);
+   620	
+   621		ub953_read(priv, UB953_REG_CSI_ERR_DLANE23, &v);
+   622		dev_info(dev, "CSI_ERR_DLANE23 %#02x\n", v);
+   623	
+   624		ub953_read(priv, UB953_REG_CSI_ERR_CLK_LANE, &v);
+   625		dev_info(dev, "CSI_ERR_CLK_LANE %#02x\n", v);
+   626	
+   627		ub953_read(priv, UB953_REG_CSI_PKT_HDR_VC_ID, &v);
+   628		dev_info(dev, "CSI packet header VC %u ID %u\n", v >> 6, v & 0x3f);
+   629	
+   630		ub953_read(priv, UB953_REG_PKT_HDR_WC_LSB, &v1);
+   631		ub953_read(priv, UB953_REG_PKT_HDR_WC_MSB, &v2);
+   632		dev_info(dev, "CSI packet header WC %u\n", (v2 << 8) | v1);
+   633	
+   634		ub953_read(priv, UB953_REG_CSI_ECC, &v);
+   635		dev_info(dev, "CSI ECC %#02x\n", v);
+   636	
+   637		ub953_read(priv, UB953_REG_LOCAL_GPIO_DATA, &gpio_local_data);
+   638		ub953_read(priv, UB953_REG_GPIO_INPUT_CTRL, &gpio_input_ctrl);
+   639		ub953_read(priv, UB953_REG_GPIO_PIN_STS, &gpio_pin_sts);
+   640	
+   641		for (i = 0; i < UB953_NUM_GPIOS; i++) {
+   642			dev_info(dev,
+   643				 "GPIO%u: remote: %u is_input: %u is_output: %u val: %u sts: %u\n",
+   644				 i,
+   645				 !!(gpio_local_data & UB953_REG_LOCAL_GPIO_DATA_GPIO_RMTEN(i)),
+   646				 !!(gpio_input_ctrl & UB953_REG_GPIO_INPUT_CTRL_INPUT_EN(i)),
+   647				 !!(gpio_input_ctrl & UB953_REG_GPIO_INPUT_CTRL_OUT_EN(i)),
+   648				 !!(gpio_local_data & UB953_REG_LOCAL_GPIO_DATA_GPIO_OUT_SRC(i)),
+   649				 !!(gpio_pin_sts & UB953_REG_GPIO_PIN_STS_GPIO_STS(i)));
+   650		}
+   651	
+   652		return 0;
+   653	}
+   654	
 
 -- 
-Best wishes
-Kemeng Shi
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
