@@ -1,47 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086D91C02
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 04:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340F61C26
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 05:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677128272; x=1708664272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=89xzBCBvGlaeg6paYol3WNZXC6riybGdTUnrw7DnLEg=;
-  b=mI6oLixFboWgPb3AfesNk+alCKwhESuCEPKAdLt0meq4Yern16MRH31u
-   EW3US5ZHcIJaC+Hrn/fTv5Szp4Va5pkqYpzD1L+4hte2akQ4DaxUaqAWy
-   0PHMOqXpKzrwHz2INSFs48ERHA5xowEwo7UTtmuOUN4nVJn/cZE/wxSXi
-   qNZOti56Zua0Sl7EsbhaGkFWk0GvnyP7GthuCbl2WlLlxZNWeWoUmShsQ
-   0liR3VTvPT0RUj+z2QzQE9BDrjYdEmIz3TLsj8wQRlSuxHllMonlKLu9E
-   yU96JXjiWXORWcBhuSm16tvL+MYBfszhJDf2vJsxQ9ZrsOPIH5ZC50BoP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="316843218"
+  t=1677130764; x=1708666764;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Pjfs+0tlpuuUNOaNV5+JtbQgu/ORC53msBn8Liullnk=;
+  b=LoCNHRAxSNJyAZEjcE1JAukUcwuzUHihoFoI11APEQ7aMb9IpTadVFLE
+   QNKqCa9XBKAVYF4nXoiChCkoITyaGolHFVGk+uV2+B9+GgW2PCEV7mWLa
+   NoBM1WbK9K3zlc3EWgDM3gOzC/sCqv0XjoDzAF5xAdOI3j9ivYugPJJqh
+   k0Fe3toUULDrDk8p5kbAyaO8llxd4kWkMHyVZm5W8/+5aPenDFd1WhwZ7
+   NCvNSAEv/ODd50SlTk/p7zQZF9LezlcSjW1d23tenDlbDALxpanFcB4E8
+   x7Bzpbx2wHzqOhotWpgOsug3ButzRYUuzw7hIyIFpyjgzdHYpM+a1bPhi
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360609210"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="316843218"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 20:57:51 -0800
+   d="scan'208";a="360609210"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 21:39:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="1001264304"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="917852551"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="1001264304"
+   d="scan'208";a="917852551"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Feb 2023 20:57:47 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 22 Feb 2023 21:38:50 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pV3fv-00012v-0f;
-	Thu, 23 Feb 2023 04:57:47 +0000
-Date: Thu, 23 Feb 2023 12:57:17 +0800
+	id 1pV4Jd-00015g-1S;
+	Thu, 23 Feb 2023 05:38:49 +0000
+Date: Thu, 23 Feb 2023 13:38:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org,
-	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v6 04/11] LSM: syscalls for current process attributes
-Message-ID: <202302231247.4CJvLv71-lkp@intel.com>
-References: <20230222200838.8149-5-casey@schaufler-ca.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-android-linux-5.10.y 15/19] error: option '-mrecord-mcount'
+ cannot be specified without '-mfentry'
+Message-ID: <202302231336.NJzf2ftz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,359 +45,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222200838.8149-5-casey@schaufler-ca.com>
 
-Hi Casey,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on tip/perf/core]
-[also build test ERROR on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes v6.2]
-[cannot apply to linus/master next-20230222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-patch link:    https://lore.kernel.org/r/20230222200838.8149-5-casey%40schaufler-ca.com
-patch subject: [PATCH v6 04/11] LSM: syscalls for current process attributes
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230223/202302231247.4CJvLv71-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-android-linux-5.10.y
+head:   7719cd0b7e86f706a1467a15a115cabb56f78d6e
+commit: a42e14577f5f344ce9615317d27986c46208a058 [15/19] ANDROID: arm64: merge fixes
+config: s390-randconfig-r011-20230222 (https://download.01.org/0day-ci/archive/20230223/202302231336.NJzf2ftz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-        git checkout 04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-android-linux-5.10.y
+        git checkout a42e14577f5f344ce9615317d27986c46208a058
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231247.4CJvLv71-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302231336.NJzf2ftz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from init/main.c:21:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   init/main.c:775:20: warning: no previous prototype for 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
-     775 | void __init __weak arch_post_acpi_subsys_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   init/main.c:787:20: warning: no previous prototype for 'mem_encrypt_init' [-Wmissing-prototypes]
-     787 | void __init __weak mem_encrypt_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~
-   init/main.c:789:20: warning: no previous prototype for 'poking_init' [-Wmissing-prototypes]
-     789 | void __init __weak poking_init(void) { }
-         |                    ^~~~~~~~~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from init/main.c:21:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from init/do_mounts.c:9:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   In file included from init/do_mounts.c:9:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/uapi/linux/if_arp.h:27,
-                    from include/linux/if_arp.h:23,
-                    from arch/um/drivers/slirp_kern.c:6:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   arch/um/drivers/slirp_kern.c:18:6: warning: no previous prototype for 'slirp_init' [-Wmissing-prototypes]
-      18 | void slirp_init(struct net_device *dev, void *data)
-         |      ^~~~~~~~~~
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/uapi/linux/if_arp.h:27,
-                    from include/linux/if_arp.h:23,
-                    from arch/um/drivers/slirp_kern.c:6:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from arch/x86/um/syscalls_64.c:10:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   arch/x86/um/syscalls_64.c:84:6: warning: no previous prototype for 'arch_switch_to' [-Wmissing-prototypes]
-      84 | void arch_switch_to(struct task_struct *to)
-         |      ^~~~~~~~~~~~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from arch/x86/um/syscalls_64.c:10:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from kernel/fork.c:51:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
-     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:862:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     862 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:957:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
-     957 | int __weak arch_dup_task_struct(struct task_struct *dst,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/fork.c:51:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from kernel/exit.c:42:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   kernel/exit.c:1901:13: warning: no previous prototype for 'abort' [-Wmissing-prototypes]
-    1901 | __weak void abort(void)
-         |             ^~~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from kernel/exit.c:42:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/linux/if_vlan.h:10,
-                    from include/linux/filter.h:20,
-                    from kernel/kallsyms.c:25:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
-     663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
-         |            ^~~~~~~~~~~~~~~~
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/linux/if_vlan.h:10,
-                    from include/linux/filter.h:20,
-                    from kernel/kallsyms.c:25:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/fs_context.h:14,
-                    from include/linux/pseudo_fs.h:4,
-                    from fs/pipe.c:17:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   fs/pipe.c:757:15: warning: no previous prototype for 'account_pipe_buffers' [-Wmissing-prototypes]
-     757 | unsigned long account_pipe_buffers(struct user_struct *user,
-         |               ^~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:763:6: warning: no previous prototype for 'too_many_pipe_buffers_soft' [-Wmissing-prototypes]
-     763 | bool too_many_pipe_buffers_soft(unsigned long user_bufs)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:770:6: warning: no previous prototype for 'too_many_pipe_buffers_hard' [-Wmissing-prototypes]
-     770 | bool too_many_pipe_buffers_hard(unsigned long user_bufs)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:777:6: warning: no previous prototype for 'pipe_is_unprivileged_user' [-Wmissing-prototypes]
-     777 | bool pipe_is_unprivileged_user(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:1253:5: warning: no previous prototype for 'pipe_resize_ring' [-Wmissing-prototypes]
-    1253 | int pipe_resize_ring(struct pipe_inode_info *pipe, unsigned int nr_slots)
-         |     ^~~~~~~~~~~~~~~~
-   In file included from include/linux/fs_context.h:14,
-                    from include/linux/pseudo_fs.h:4,
-                    from fs/pipe.c:17:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from fs/d_path.c:2:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   fs/d_path.c:317:7: warning: no previous prototype for 'simple_dname' [-Wmissing-prototypes]
-     317 | char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
-         |       ^~~~~~~~~~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from fs/d_path.c:2:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from io_uring/io_uring.c:45:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   io_uring/io_uring.c: In function '__io_submit_flush_completions':
-   io_uring/io_uring.c:1448:40: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1448 |         struct io_wq_work_node *node, *prev;
-         |                                        ^~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from io_uring/io_uring.c:45:
-   io_uring/io_uring.c: At top level:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/net/sock.h:46,
-                    from include/linux/tcp.h:19,
-                    from include/linux/ipv6.h:93,
-                    from include/net/addrconf.h:52,
-                    from lib/vsprintf.c:40:
->> include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1681:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1681 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
-   In file included from include/net/scm.h:8,
-                    from include/linux/netlink.h:9,
-                    from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:46,
-                    from include/net/sock.h:46,
-                    from include/linux/tcp.h:19,
-                    from include/linux/ipv6.h:93,
-                    from include/net/addrconf.h:52,
-                    from lib/vsprintf.c:40:
-   lib/vsprintf.c: At top level:
-   include/linux/security.h:1353:19: warning: 'security_getselfattr' declared 'static' but never defined [-Wunused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1360:19: warning: 'security_setselfattr' declared 'static' but never defined [-Wunused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-..
-
-
-vim +1356 include/linux/security.h
-
-  1352	
-  1353	static inline int security_getselfattr(u64 __user attr,
-  1354					       struct lsm_ctx __user *ctx,
-  1355					       size_t __user *size);
-> 1356	{
-  1357		return -EINVAL;
-  1358	}
-  1359	
+   clang: warning: the flag '-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang' has been deprecated and will be ignored [-Wunused-command-line-argument]
+   clang: warning: the flag '-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang' has been deprecated and will be ignored [-Wunused-command-line-argument]
+>> error: option '-mrecord-mcount' cannot be specified without '-mfentry'
+   1 error generated.
+   make[2]: *** [scripts/Makefile.build:122: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1317: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
