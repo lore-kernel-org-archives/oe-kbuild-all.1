@@ -1,204 +1,185 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B0328EF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 14:17:48 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id y12so11082581qvt.8
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 06:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v06fpwCrXEyQmnoiTpLcBC2+yezVadTel4oRfYGKyxQ=;
-        b=QHlaYZYbmu1/0IId+KW9vs0WrPiyxjaczZL03mnP97nM/maByIKgciMW+vHsIjQIRz
-         oKCFpqiLW71GrbY9NAaQrBLqPpNPCQD2tKwC8Hxad0e5f1vcGf8T7E6olKa/2nBtt361
-         5e5/CzIRHkRJNbRL90MB2kD59ezpsCv6Gkza8/9aRWBZZpKUdCv5Km5YHONKoy3NJ4s0
-         pPkcQk1QIAUWdPAvNh9oP2pQnSXe2o/u2ZTC9E6rCIbDASJ/lQawVMKoUN8j/CnbDhqu
-         HuNxOoNzs5QSFEOZGa2p84vtPUpA+ZgKB6ta7Gh4LStLprQ1XmJ4xKT1HyzbII227wfw
-         3Ryw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v06fpwCrXEyQmnoiTpLcBC2+yezVadTel4oRfYGKyxQ=;
-        b=g4NdzPGwbR37MFeskD0t35qxKLKKrz/Pjp0UnUk2TbvW4wPRpKtl+AUFn9C28poLcw
-         1Ibyw3wXMDc114kzkN0QG3FO9ERfshvfPb9XjAObP0CJ5Wj31U3JK0wF5o94CJxGrXUB
-         OQPj5mKW9ixKxc6Rs6N42+/UoUQvIGRwqQw1XvmCE249XBtc6/ohWicRV59e4KmliUZe
-         e+UOfqDKihfnAI9LBwcFI7KsfouXQqRNyy7QcQIoHYmDxej5LRR/RgOYeiWHW0V8YXWy
-         /UrLWuyPuK5VXx77Dlayt5R9eB6XSNpcsTy6cL194hjE2v/NRRSC6XW/H2j/y8G+qyyr
-         3zJw==
-X-Gm-Message-State: AO0yUKX4RuoWBGZMnEvmRcsrNqCJV4UKGfFmDrAeL4NVYHBBIDN0ORz0
-	WMtUwCousFUR/mTkgGbxrxX98g6G+eg0NhotOCs=
-X-Google-Smtp-Source: AK7set+BHDVzxE13nEhpE82SbMAWyD1SI+SORikEQB5dZ0YHj4io4EfaQqCNYnaPGV5KyBs0IYygnD4JsuBb1La8VUE=
-X-Received: by 2002:a05:6214:14af:b0:56e:9104:ee7 with SMTP id
- bo15-20020a05621414af00b0056e91040ee7mr1736837qvb.10.1677161867753; Thu, 23
- Feb 2023 06:17:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064EE28ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 15:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677164778; x=1708700778;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Wm9mpnE9UWJcqzGbV9hTEi4VHRkA+qF7g43saRKdIY=;
+  b=CJnEzVOGgSMHN3dJZ95tmgH0W5ZUm6k3yDomg9wbVX8j+0T0HKA5s1H6
+   99ha8i/qChP1yplr9tj9NdkdscUfUs1OpLqhVWQtDUyymx+EauU9S8CyK
+   6NILFcmzf0wH+WWy2Yf7+2mf0RczaWKqWQiCTDqwEZgFb9Rj52TOgigUK
+   LRt9N8JVmc/7PxEeNZdV8kFSfuT+r5c5Jx5JlEmgbFswhRmCuS/G20TtO
+   Z7tMMFOvl+T/MPZo4FyTlIEnnBgWpAcyOiqaPfxkHjCMXGK7qTxKJNlr6
+   2vLHdLm8KoxAiKqlvYp8YQ8zKTKUyxoYC5qwESUGkouFluyhRJw4uL/mm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="321399209"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="321399209"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 06:53:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="622352888"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="622352888"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 23 Feb 2023 06:53:02 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVCxy-0001OH-0g;
+	Thu, 23 Feb 2023 14:53:02 +0000
+Date: Thu, 23 Feb 2023 22:52:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jerome Neanne <jneanne@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: drivers/regulator/tps65219-regulator.c:310:60: warning: parameter
+ 'dev' set but not used
+Message-ID: <202302232247.r8w2oeDy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230222014553.47744-18-laoar.shao@gmail.com> <202302221852.mOd5T9T6-lkp@intel.com>
-In-Reply-To: <202302221852.mOd5T9T6-lkp@intel.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 23 Feb 2023 22:17:11 +0800
-Message-ID: <CALOAHbCuVZxWutUCpOgwG5uq8KsWuMC+uc095DzZUHwmXUne=g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 17/18] bpf: offload map memory usage
-To: kernel test robot <lkp@intel.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com, 
-	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com, jolsa@kernel.org, 
-	horenc@vt.edu, xiyou.wangcong@gmail.com, oe-kbuild-all@lists.linux.dev, 
-	bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Feb 22, 2023 at 7:01 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Yafang,
->
-> Thank you for the patch! Yet something to improve:
->
-> [auto build test ERROR on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-add-new-map-ops-map_mem_usage/20230222-094856
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20230222014553.47744-18-laoar.shao%40gmail.com
-> patch subject: [PATCH bpf-next v2 17/18] bpf: offload map memory usage
-> config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230222/202302221852.mOd5T9T6-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/e5742e839659b59ea26bc7a5804d04e577604aab
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Yafang-Shao/bpf-add-new-map-ops-map_mem_usage/20230222-094856
->         git checkout e5742e839659b59ea26bc7a5804d04e577604aab
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302221852.mOd5T9T6-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from kernel/fork.c:98:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
->      162 | void __weak arch_release_task_struct(struct task_struct *tsk)
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/fork.c:862:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
->      862 | void __init __weak arch_task_cache_init(void) { }
->          |                    ^~~~~~~~~~~~~~~~~~~~
->    kernel/fork.c:957:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
->      957 | int __weak arch_dup_task_struct(struct task_struct *dst,
->          |            ^~~~~~~~~~~~~~~~~~~~
->    In file included from kernel/fork.c:98:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    In file included from include/linux/filter.h:9,
->                     from kernel/sysctl.c:35:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    In file included from include/linux/filter.h:9,
->                     from kernel/sysctl.c:35:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    In file included from include/linux/filter.h:9,
->                     from kernel/kallsyms.c:25:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
->      663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
->          |            ^~~~~~~~~~~~~~~~
->    In file included from include/linux/filter.h:9,
->                     from kernel/kallsyms.c:25:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    In file included from include/linux/bpf-cgroup.h:5,
->                     from net/socket.c:55:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    net/socket.c: In function '__sys_getsockopt':
->    net/socket.c:2300:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
->     2300 |         int max_optlen;
->          |             ^~~~~~~~~~
->    In file included from include/linux/bpf-cgroup.h:5,
->                     from net/socket.c:55:
->    net/socket.c: At top level:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    In file included from include/linux/filter.h:9,
->                     from kernel/bpf/core.c:21:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    kernel/bpf/core.c:1631:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
->     1631 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
->          |            ^~~~~~~~~~~~~~~~~~~~~
->    kernel/bpf/core.c:2070:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
->     2070 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
->          |      ^~~~~~~~~~~~~~~~~~~
->    In file included from include/linux/filter.h:9,
->                     from kernel/bpf/core.c:21:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    In file included from include/linux/filter.h:9,
->                     from include/net/sock_reuseport.h:5,
->                     from include/net/tcp.h:35,
->                     from net/ipv4/route.c:95:
-> >> include/linux/bpf.h:2644:1: error: expected identifier or '(' before '{' token
->     2644 | {
->          | ^
->    net/ipv4/route.c: In function 'ip_rt_send_redirect':
->    net/ipv4/route.c:880:13: warning: variable 'log_martians' set but not used [-Wunused-but-set-variable]
->      880 |         int log_martians;
->          |             ^~~~~~~~~~~~
->    In file included from include/linux/filter.h:9,
->                     from include/net/sock_reuseport.h:5,
->                     from include/net/tcp.h:35,
->                     from net/ipv4/route.c:95:
->    net/ipv4/route.c: At top level:
->    include/linux/bpf.h:2643:19: warning: 'bpf_map_offload_map_mem_usage' declared 'static' but never defined [-Wunused-function]
->     2643 | static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
->          |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +2644 include/linux/bpf.h
->
->   2642
->   2643  static inline u64 bpf_map_offload_map_mem_usage(const struct bpf_map *map);
+Hi Jerome,
 
-Thanks for the report. I forgot to build it with COFNIG_BPF=n.
+FYI, the error/warning still remains.
 
-> > 2644  {
->   2645          return 0;
->   2646  }
->   2647
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
+commit: 74c17a0a49a6ad3b32cb130f25196d1f8d5d560e mfd: tps65219: Add driver for TI TPS65219 PMIC
+date:   3 months ago
+config: alpha-buildonly-randconfig-r004-20230222 (https://download.01.org/0day-ci/archive/20230223/202302232247.r8w2oeDy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=74c17a0a49a6ad3b32cb130f25196d1f8d5d560e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 74c17a0a49a6ad3b32cb130f25196d1f8d5d560e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/regulator/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302232247.r8w2oeDy-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/regulator/tps65219-regulator.c: In function 'tps65219_get_rdev_by_name':
+>> drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+     310 |                                      struct regulator_dev *dev)
+         |                                      ~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/regulator/tps65219-regulator.c: In function 'tps65219_regulator_probe':
+>> drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
+     370 |                 if (rdev < 0) {
+         |                          ^
 
 
+vim +/dev +310 drivers/regulator/tps65219-regulator.c
+
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  307  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  308  static int tps65219_get_rdev_by_name(const char *regulator_name,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  309  				     struct regulator_dev *rdevtbl[7],
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05 @310  				     struct regulator_dev *dev)
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  311  {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  312  	int i;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  313  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  314  	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  315  		if (strcmp(regulator_name, regulators[i].name) == 0) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  316  			dev = rdevtbl[i];
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  317  			return 0;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  318  		}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  319  	}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  320  	return -EINVAL;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  321  }
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  322  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  323  static int tps65219_regulator_probe(struct platform_device *pdev)
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  324  {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  325  	struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  326  	struct regulator_dev *rdev;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  327  	struct regulator_config config = { };
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  328  	int i;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  329  	int error;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  330  	int irq;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  331  	struct tps65219_regulator_irq_data *irq_data;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  332  	struct tps65219_regulator_irq_type *irq_type;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  333  	struct regulator_dev *rdevtbl[7];
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  334  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  335  	config.dev = tps->dev;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  336  	config.driver_data = tps;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  337  	config.regmap = tps->regmap;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  338  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  339  	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  340  		dev_dbg(tps->dev, "%s regul i= %d START", __func__, i);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  341  		rdev = devm_regulator_register(&pdev->dev, &regulators[i],
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  342  					       &config);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  343  		if (IS_ERR(rdev)) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  344  			dev_err(tps->dev, "failed to register %s regulator\n",
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  345  				pdev->name);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  346  			return PTR_ERR(rdev);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  347  		}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  348  		rdevtbl[i] = rdev;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  349  		dev_dbg(tps->dev, "%s regul i= %d COMPLETED", __func__, i);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  350  	}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  351  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  352  	irq_data = devm_kmalloc(tps->dev,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  353  				ARRAY_SIZE(tps65219_regulator_irq_types) *
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  354  				sizeof(struct tps65219_regulator_irq_data),
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  355  				GFP_KERNEL);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  356  	if (!irq_data)
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  357  		return -ENOMEM;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  358  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  359  	for (i = 0; i < ARRAY_SIZE(tps65219_regulator_irq_types); ++i) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  360  		irq_type = &tps65219_regulator_irq_types[i];
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  361  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  362  		irq = platform_get_irq_byname(pdev, irq_type->irq_name);
+d46f737208a45d Yang Li       2022-08-25  363  		if (irq < 0)
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  364  			return -EINVAL;
+d46f737208a45d Yang Li       2022-08-25  365  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  366  		irq_data[i].dev = tps->dev;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  367  		irq_data[i].type = irq_type;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  368  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  369  		tps65219_get_rdev_by_name(irq_type->regulator_name, rdevtbl, rdev);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05 @370  		if (rdev < 0) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  371  			dev_err(tps->dev, "Failed to get rdev for %s\n",
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  372  				irq_type->regulator_name);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  373  			return -EINVAL;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  374  		}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  375  		irq_data[i].rdev = rdev;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  376  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  377  		error = devm_request_threaded_irq(tps->dev, irq, NULL,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  378  						  tps65219_regulator_irq_handler,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  379  						  IRQF_ONESHOT,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  380  						  irq_type->irq_name,
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  381  						  &irq_data[i]);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  382  		if (error) {
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  383  			dev_err(tps->dev, "failed to request %s IRQ %d: %d\n",
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  384  				irq_type->irq_name, irq, error);
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  385  			return error;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  386  		}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  387  	}
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  388  
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  389  	return 0;
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  390  }
+c12ac5fc3e0af2 Jerome Neanne 2022-08-05  391  
+
+:::::: The code at line 310 was first introduced by commit
+:::::: c12ac5fc3e0af29851785e557e243663b4fc7f4b regulator: drivers: Add TI TPS65219 PMIC regulators support
+
+:::::: TO: Jerome Neanne <jneanne@baylibre.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
-Regards
-Yafang
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
