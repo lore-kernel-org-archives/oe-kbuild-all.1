@@ -1,43 +1,21 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75A723A5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 10:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677147984; x=1708683984;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yk1mjkoR0tSeW0gPd6MGxEf6ev0w+CVpivJhqFa1wX0=;
-  b=kOg9xhvcL6zSOCRfPdYKXNILIrSpiezeY+KPziyU71Gb9FOXa6rNgYHS
-   Sg4O112DNdfWj+sq51it4ieR4LCCq3jUGpQQnZUmS0oeCCAm49haSGN2l
-   g28cK5EqdLD5odgeAHLawTcYDnrcUKrv31/CKQbusaaqPKd+G5rSjJOyW
-   L5STihkNO/aVpxDmjnagHsHLpPgWFQ2wTF7lDL73e/7H/x0qwfVzUHt5T
-   q5xyfUSZR+VQlh/hXu9dm/vDw6yCn41mcUNPApwyqKSB/VZMoS/4y3w6f
-   /QTVhLeQEmmAm2+/+ZPCMcIIDKopg6D7QSyay1gKinsclO/p/cjk6VYrI
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313545704"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="313545704"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 02:25:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="649912023"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="649912023"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Feb 2023 02:25:56 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pV8nU-0001G1-01;
-	Thu, 23 Feb 2023 10:25:56 +0000
-Date: Thu, 23 Feb 2023 18:25:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F35D2564
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 11:24:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F64C433EF;
+	Thu, 23 Feb 2023 11:24:34 +0000 (UTC)
+Date: Thu, 23 Feb 2023 11:24:31 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: htmldocs: Warning: Documentation/mm/hugetlbfs_reserv.rst references
- a file that doesn't exist: Documentation/mm/hugetlbpage.rst
-Message-ID: <202302231854.sKlCmx9K-lkp@intel.com>
+	Mark Rutland <mark.rutland@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Moore <robert.moore@intel.com>
+Subject: Re: include/acpi/actypes.h:525:42: warning: 'strncpy' specified
+ bound 4 equals destination size
+Message-ID: <Y/dM77YdzDKRDdj1@arm.com>
+References: <202302230414.sQbDHtiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,29 +24,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202302230414.sQbDHtiC-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
-commit: ee86588960e259760236a537323d5c7d945e378c docs/mm: remove useless markup
-date:   3 weeks ago
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee86588960e259760236a537323d5c7d945e378c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee86588960e259760236a537323d5c7d945e378c
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Thu, Feb 23, 2023 at 04:32:41AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   70756b49be4ea8bf36a664322df6e7e89895fa60
+> commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
+> date:   4 weeks ago
+> config: ia64-defconfig (https://download.01.org/0day-ci/archive/20230223/202302230414.sQbDHtiC-lkp@intel.com/config)
+> compiler: ia64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/acpi/acpica/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302230414.sQbDHtiC-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/acpi/acpi.h:24,
+>                     from drivers/acpi/acpica/tbfind.c:10:
+>    drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
+> >> include/acpi/actypes.h:525:42: warning: 'strncpy' specified bound 4 equals destination size [-Wstringop-truncation]
+>      525 | #define ACPI_COPY_NAMESEG(dest,src)     (strncpy (ACPI_CAST_PTR (char, (dest)), ACPI_CAST_PTR (char, (src)), ACPI_NAMESEG_SIZE))
+>          |                                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231854.sKlCmx9K-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
->> Warning: Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+I don't see how this is related to the reported commit (which only
+removed the -Os option for gcc). I think ACPI_COPY_NAMESEG() should just
+use memcpy() on ia64 but this strncpy() has been around for over 10
+years.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Catalin
