@@ -1,48 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7C215D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 04:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A6417CA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 04:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677125148; x=1708661148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QTb8mNjYLUSum9kgvm7yoHqLsC2Yt+brW4i0D6VXP0g=;
-  b=cv/x1WfKT6CuOaDZgEuPcbxtU7DuZWBB7TReDakHhV+mt3NYMCYZsooE
-   JBF+Sl+f6npH/tYOtOX2sTyaP9Z4493inTvvjNNklgJ73vSSZfseZPeSn
-   gNRFdjZ2OFj00fBb0z5+4PXeU6p6XpbQbh/ovEQIFNVn8RRzxou40uvMO
-   6i1NR0qgh2VsYdPRM+rUn1Lhw9ubK+hUCUtwEwXH0mJhOqOxqyuv58wXu
-   UpVZZcD0jh5ZNhFzD4yqbtRknp5kweu/lg/KP/GixTm1J/C5AMoDksHEy
-   N50vKJW6FYV+FBbSByfp78f+QTaLkGs9kLAhJLLXLokjtpXTUCl7MCpRG
+  t=1677125809; x=1708661809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RBR+nd0FUqrIhyVwnt+F7t4OlFbHhbFAiOVbtLoWDQk=;
+  b=gPIoE/8osAe0ZIACouTVbfORuFagrglXAr/p1et0YNrJtJom5xEr69uw
+   TQcrHs5Jrp9De3TKdRKunNNPG+Wd9kEf/24qoDaPgzWHLBR6wdqCEDMS+
+   xxQX47Khw6r92hpv0Lh9qFDdE9zXLxJ+c1ouBhGl2n34syeqVFsxhqNAM
+   qT8KehkdDaosHYjv5rY9McI/JhtSbSD8jtRxn06/ix2+lZHeNyb6G+egu
+   YnG0rd3+ujVBXdUn0tC0RyFXb56Fn4KOlurbE0ICz3Zv9yXQbdGIGFHmJ
+   DCy5KHAp/seWnvPdv8cj8fieuzXneOKT/11q6L20wvitL7XL9upQJiC+n
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="397803988"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360599513"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="397803988"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 20:05:47 -0800
+   d="scan'208";a="360599513"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 20:16:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="1001256023"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="846409270"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="1001256023"
+   d="scan'208";a="846409270"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Feb 2023 20:05:44 -0800
+  by orsmga005.jf.intel.com with ESMTP; 22 Feb 2023 20:16:46 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pV2rY-0000zE-0f;
-	Thu, 23 Feb 2023 04:05:44 +0000
-Date: Thu, 23 Feb 2023 12:05:41 +0800
+	id 1pV32D-00010v-0Z;
+	Thu, 23 Feb 2023 04:16:45 +0000
+Date: Thu, 23 Feb 2023 12:16:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Derrick <jonathan.derrick@linux.dev>,
-	Song Liu <song@kernel.org>, linux-raid@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Xiao Ni <xni@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Sushma Kalakota <sushma.kalakota@intel.com>,
-	Jon Derrick <jonathan.derrick@linux.dev>
-Subject: Re: [PATCH v3 1/3] md: Move sb writer loop to its own function
-Message-ID: <202302231124.oHGZxi0D-lkp@intel.com>
-References: <20230222215828.225-2-jonathan.derrick@linux.dev>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Filipe Manana <fdmanana@suse.com>, David Sterba <dsterba@suse.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.19.y 3744/9999] include/linux/pagemap.h:576: Error:
+ unrecognized opcode `csrs sstatus,s9'
+Message-ID: <202302231255.L8apuXUi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,167 +48,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222215828.225-2-jonathan.derrick@linux.dev>
 
-Hi Jonathan,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on song-md/md-next]
-[also build test WARNING on linus/master v6.2 next-20230222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Derrick/md-Move-sb-writer-loop-to-its-own-function/20230223-060300
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
-patch link:    https://lore.kernel.org/r/20230222215828.225-2-jonathan.derrick%40linux.dev
-patch subject: [PATCH v3 1/3] md: Move sb writer loop to its own function
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230223/202302231124.oHGZxi0D-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   3eb67e3248e1d96ef4eaa43d9f5dc6ff2ba6db99
+commit: 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c [3744/9999] btrfs: fix potential deadlock in the search ioctl
+config: riscv-randconfig-r016-20230219 (https://download.01.org/0day-ci/archive/20230223/202302231255.L8apuXUi-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/17d8d09a65e91fada0801ca9bf4e3560780bb543
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Derrick/md-Move-sb-writer-loop-to-its-own-function/20230223-060300
-        git checkout 17d8d09a65e91fada0801ca9bf4e3560780bb543
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/btrfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231124.oHGZxi0D-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302231255.L8apuXUi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In function 'next_active_rdev',
-       inlined from 'write_sb_page' at drivers/md/md-bitmap.c:277:18:
->> drivers/md/md-bitmap.c:192:12: warning: 'rdev' is used uninitialized [-Wuninitialized]
-     192 |         if (rdev == NULL)
-         |            ^
-   drivers/md/md-bitmap.c: In function 'write_sb_page':
-   drivers/md/md-bitmap.c:272:25: note: 'rdev' was declared here
-     272 |         struct md_rdev *rdev;
-         |                         ^~~~
+   fs/btrfs/ctree.h:3731:13: note: in expansion of macro 'unlikely'
+    3731 |         if (unlikely(test_bit(BTRFS_FS_STATE_DUMMY_FS_INFO,
+         |             ^~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     \
+         |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   fs/btrfs/ctree.h:3731:9: note: in expansion of macro 'if'
+    3731 |         if (unlikely(test_bit(BTRFS_FS_STATE_DUMMY_FS_INFO,
+         |         ^~
+   fs/btrfs/ioctl.c: In function 'btrfs_extent_same_range':
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                \
+         |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     \
+         |                              ^~~~
+   fs/btrfs/ioctl.c:3561:9: note: in expansion of macro 'if'
+    3561 |         if (WARN_ON(ret)) {
+         |         ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:194:9: note: in expansion of macro 'unlikely'
+     194 |         unlikely(__ret_warn_on);                                        \
+         |         ^~~~~~~~
+   fs/btrfs/ioctl.c:3561:13: note: in expansion of macro 'WARN_ON'
+    3561 |         if (WARN_ON(ret)) {
+         |             ^~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     \
+         |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   fs/btrfs/ioctl.c:3561:9: note: in expansion of macro 'if'
+    3561 |         if (WARN_ON(ret)) {
+         |         ^~
+   fs/btrfs/ioctl.c: In function 'btrfs_dedupe_file_range':
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                \
+         |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     \
+         |                              ^~~~
+   fs/btrfs/ioctl.c:3671:9: note: in expansion of macro 'if'
+    3671 |         if (WARN_ON_ONCE(bs < PAGE_SIZE)) {
+         |         ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:194:9: note: in expansion of macro 'unlikely'
+     194 |         unlikely(__ret_warn_on);                                        \
+         |         ^~~~~~~~
+   include/asm-generic/bug.h:206:33: note: in expansion of macro 'WARN_ON'
+     206 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                 ^~~~~~~
+   fs/btrfs/ioctl.c:3671:13: note: in expansion of macro 'WARN_ON_ONCE'
+    3671 |         if (WARN_ON_ONCE(bs < PAGE_SIZE)) {
+         |             ^~~~~~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     \
+         |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   fs/btrfs/ioctl.c:3671:9: note: in expansion of macro 'if'
+    3671 |         if (WARN_ON_ONCE(bs < PAGE_SIZE)) {
+         |         ^~
+   fs/btrfs/ioctl.c: In function 'btrfs_clone_files':
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                \
+         |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     \
+         |                              ^~~~
+   fs/btrfs/ioctl.c:4362:9: note: in expansion of macro 'if'
+    4362 |         if (WARN_ON(ret)) {
+         |         ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:194:9: note: in expansion of macro 'unlikely'
+     194 |         unlikely(__ret_warn_on);                                        \
+         |         ^~~~~~~~
+   fs/btrfs/ioctl.c:4362:13: note: in expansion of macro 'WARN_ON'
+    4362 |         if (WARN_ON(ret)) {
+         |             ^~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     \
+         |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   fs/btrfs/ioctl.c:4362:9: note: in expansion of macro 'if'
+    4362 |         if (WARN_ON(ret)) {
+         |         ^~
+   include/linux/pagemap.h: Assembler messages:
+>> include/linux/pagemap.h:576: Error: unrecognized opcode `csrs sstatus,s9'
+>> include/linux/pagemap.h:576: Error: unrecognized opcode `csrc sstatus,s9'
+   include/linux/pagemap.h:584: Error: unrecognized opcode `csrs sstatus,s9'
+   include/linux/pagemap.h:584: Error: unrecognized opcode `csrc sstatus,s9'
+   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrs sstatus,a4'
+   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrc sstatus,a4'
 
 
-vim +/rdev +192 drivers/md/md-bitmap.c
+vim +576 include/linux/pagemap.h
 
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  175  
-fd01b88c75a718 drivers/md/bitmap.c    NeilBrown        2011-10-11  176  static struct md_rdev *next_active_rdev(struct md_rdev *rdev, struct mddev *mddev)
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  177  {
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  178  	/* Iterate the disks of an mddev, using rcu to protect access to the
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  179  	 * linked list, and raising the refcount of devices we return to ensure
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  180  	 * they don't disappear while in use.
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  181  	 * As devices are only added or removed when raid_disk is < 0 and
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  182  	 * nr_pending is 0 and In_sync is clear, the entries we return will
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  183  	 * still be in the same position on the list when we re-enter
-fd177481b440c3 drivers/md/bitmap.c    Michael Wang     2012-10-11  184  	 * list_for_each_entry_continue_rcu.
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  185  	 *
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  186  	 * Note that if entered with 'rdev == NULL' to start at the
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  187  	 * beginning, we temporarily assign 'rdev' to an address which
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  188  	 * isn't really an rdev, but which can be used by
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  189  	 * list_for_each_entry_continue_rcu() to find the first entry.
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  190  	 */
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  191  	rcu_read_lock();
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01 @192  	if (rdev == NULL)
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  193  		/* start at the beginning */
-8532e3439087de drivers/md/bitmap.c    NeilBrown        2015-05-20  194  		rdev = list_entry(&mddev->disks, struct md_rdev, same_set);
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  195  	else {
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  196  		/* release the previous rdev and start from there. */
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  197  		rdev_dec_pending(rdev, mddev);
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  198  	}
-fd177481b440c3 drivers/md/bitmap.c    Michael Wang     2012-10-11  199  	list_for_each_entry_continue_rcu(rdev, &mddev->disks, same_set) {
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  200  		if (rdev->raid_disk >= 0 &&
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  201  		    !test_bit(Faulty, &rdev->flags)) {
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  202  			/* this is a usable devices */
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  203  			atomic_inc(&rdev->nr_pending);
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  204  			rcu_read_unlock();
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  205  			return rdev;
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  206  		}
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  207  	}
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  208  	rcu_read_unlock();
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  209  	return NULL;
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  210  }
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  211  
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  212  static int __write_sb_page(struct md_rdev *rdev, struct bitmap *bitmap,
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  213  			   struct page *page)
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  214  {
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  215  	struct block_device *bdev;
-fd01b88c75a718 drivers/md/bitmap.c    NeilBrown        2011-10-11  216  	struct mddev *mddev = bitmap->mddev;
-1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown        2012-05-22  217  	struct bitmap_storage *store = &bitmap->storage;
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  218  	loff_t offset = mddev->bitmap_info.offset;
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  219  	int size = PAGE_SIZE;
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  220  
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  221  	bdev = (rdev->meta_bdev) ? rdev->meta_bdev : rdev->bdev;
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  222  	if (page->index == store->file_pages - 1) {
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  223  		int last_page_size = store->bytes & (PAGE_SIZE - 1);
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  224  		if (last_page_size == 0)
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  225  			last_page_size = PAGE_SIZE;
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  226  		size = roundup(last_page_size,
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  227  			       bdev_logical_block_size(bdev));
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  228  	}
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  229  
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  230  	/* Just make sure we aren't corrupting data or metadata */
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  231  	if (mddev->external) {
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  232  		/* Bitmap could be anywhere. */
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  233  		if (rdev->sb_start + offset
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  234  		    + (page->index * (PAGE_SIZE / SECTOR_SIZE))
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  235  		    > rdev->data_offset &&
-ac2f40be46ce6a drivers/md/bitmap.c    NeilBrown        2010-06-01  236  		    rdev->sb_start + offset
-ac2f40be46ce6a drivers/md/bitmap.c    NeilBrown        2010-06-01  237  		    < (rdev->data_offset + mddev->dev_sectors
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  238  		     + (PAGE_SIZE / SECTOR_SIZE)))
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  239  			return -EINVAL;
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  240  	} else if (offset < 0) {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  241  		/* DATA  BITMAP METADATA  */
-42a04b5078ce73 drivers/md/bitmap.c    NeilBrown        2009-12-14  242  		if (offset
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  243  		    + (long)(page->index * (PAGE_SIZE / SECTOR_SIZE))
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  244  		    + size / SECTOR_SIZE > 0)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  245  			/* bitmap runs in to metadata */
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  246  			return -EINVAL;
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  247  
-58c0fed400603a drivers/md/bitmap.c    Andre Noll       2009-03-31  248  		if (rdev->data_offset + mddev->dev_sectors
-42a04b5078ce73 drivers/md/bitmap.c    NeilBrown        2009-12-14  249  		    > rdev->sb_start + offset)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  250  			/* data runs in to bitmap */
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  251  			return -EINVAL;
-0f420358e3a2ab drivers/md/bitmap.c    Andre Noll       2008-07-11  252  	} else if (rdev->sb_start < rdev->data_offset) {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  253  		/* METADATA BITMAP DATA */
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  254  		if (rdev->sb_start + offset
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  255  		    + page->index * (PAGE_SIZE / SECTOR_SIZE)
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  256  		    + size / SECTOR_SIZE > rdev->data_offset)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  257  			/* bitmap runs in to data */
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  258  			return -EINVAL;
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  259  	} else {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  260  		/* DATA METADATA BITMAP - no problems */
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  261  	}
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  262  
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  263  	md_super_write(mddev, rdev,
-42a04b5078ce73 drivers/md/bitmap.c    NeilBrown        2009-12-14  264  		       rdev->sb_start + offset
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  265  		       + page->index * (PAGE_SIZE / SECTOR_SIZE),
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  266  		       size, page);
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  267  	return 0;
-ab6085c795a71b drivers/md/bitmap.c    NeilBrown        2007-05-23  268  }
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  269  
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  270  static int write_sb_page(struct bitmap *bitmap, struct page *page, int wait)
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  271  {
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  272  	struct md_rdev *rdev;
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  273  	struct mddev *mddev = bitmap->mddev;
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  274  	int ret;
-4b80991c6cb9ef drivers/md/bitmap.c    NeilBrown        2008-07-21  275  
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  276  	do {
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22 @277  		while ((rdev = next_active_rdev(rdev, mddev)) != NULL) {
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  278  			ret = __write_sb_page(rdev, bitmap, page);
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  279  			if (ret)
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  280  				return ret;
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  281  		}
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  282  	} while (wait && md_super_wait(mddev) < 0);
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  283  
-17d8d09a65e91f drivers/md/md-bitmap.c Jon Derrick      2023-02-22  284  	return 0;
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  285  }
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  286  
+385e1ca5f21c46 David Howells  2009-04-03  558  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  559  /*
+4bce9f6ee8f84f Al Viro        2016-09-17  560   * Fault everything in given userspace address range in.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  561   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  562  static inline int fault_in_pages_writeable(char __user *uaddr, int size)
+f56f821feb7b36 Daniel Vetter  2012-03-25  563  {
+9923777dff4543 Daniel Vetter  2012-04-14  564  	char __user *end = uaddr + size - 1;
+f56f821feb7b36 Daniel Vetter  2012-03-25  565  
+f56f821feb7b36 Daniel Vetter  2012-03-25  566  	if (unlikely(size == 0))
+e23d4159b10916 Al Viro        2016-09-20  567  		return 0;
+f56f821feb7b36 Daniel Vetter  2012-03-25  568  
+e23d4159b10916 Al Viro        2016-09-20  569  	if (unlikely(uaddr > end))
+e23d4159b10916 Al Viro        2016-09-20  570  		return -EFAULT;
+f56f821feb7b36 Daniel Vetter  2012-03-25  571  	/*
+f56f821feb7b36 Daniel Vetter  2012-03-25  572  	 * Writing zeroes into userspace here is OK, because we know that if
+f56f821feb7b36 Daniel Vetter  2012-03-25  573  	 * the zero gets there, we'll be overwriting it.
+f56f821feb7b36 Daniel Vetter  2012-03-25  574  	 */
+e23d4159b10916 Al Viro        2016-09-20  575  	do {
+e23d4159b10916 Al Viro        2016-09-20 @576  		if (unlikely(__put_user(0, uaddr) != 0))
+e23d4159b10916 Al Viro        2016-09-20  577  			return -EFAULT;
+f56f821feb7b36 Daniel Vetter  2012-03-25  578  		uaddr += PAGE_SIZE;
+e23d4159b10916 Al Viro        2016-09-20  579  	} while (uaddr <= end);
+f56f821feb7b36 Daniel Vetter  2012-03-25  580  
+f56f821feb7b36 Daniel Vetter  2012-03-25  581  	/* Check whether the range spilled into the next page. */
+f56f821feb7b36 Daniel Vetter  2012-03-25  582  	if (((unsigned long)uaddr & PAGE_MASK) ==
+f56f821feb7b36 Daniel Vetter  2012-03-25  583  			((unsigned long)end & PAGE_MASK))
+e23d4159b10916 Al Viro        2016-09-20  584  		return __put_user(0, end);
+f56f821feb7b36 Daniel Vetter  2012-03-25  585  
+e23d4159b10916 Al Viro        2016-09-20  586  	return 0;
+f56f821feb7b36 Daniel Vetter  2012-03-25  587  }
+f56f821feb7b36 Daniel Vetter  2012-03-25  588  
+
+:::::: The code at line 576 was first introduced by commit
+:::::: e23d4159b109167126e5bcd7f3775c95de7fee47 fix fault_in_multipages_...() on architectures with no-op access_ok()
+
+:::::: TO: Al Viro <viro@ZenIV.linux.org.uk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
