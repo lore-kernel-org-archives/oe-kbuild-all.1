@@ -1,53 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101552564;
-	Thu, 23 Feb 2023 12:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51672564
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Feb 2023 12:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677154205; x=1708690205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c3/6mmV17tShYWq3QB6unXyeKS83+JV/EnZRZDWCD5A=;
-  b=f+2LM4ZgHA9Z0G31ZiO0Y8mKQdrWJWehK1rwin6hiKTqO3LGWkAsDu+E
-   ETYMLhrBBWB4Q0fFFQXs1S0DiMZkn995mVhkHMDYaRc/HB9x6iGGV0VNE
-   m926Jimp/uooj+j6m+muzbVB22Y2c8FSY/Ce/KmVrwmaCFw+EKQ9PSRM1
-   W5aZEvWQrIZJZLzPQc6PClBpuAwRtgtPzc1UN5+Wus9MivtZiOiLz/8bt
-   Ji1PV4piGd0kndgNpdUITg6BEa6C87dOwRL7+liGimZ0Bn+H5hIsOO/ZK
-   sy967ONpTgEPhLVlZrRb2/ipZKk3ntcjlP4KPIYQM4sB188UD5/pfkYr2
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="330921139"
+  t=1677154221; x=1708690221;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B/K2jnS5V8fqfJELepg+zVEw5GZ71uH66btwEMIteTE=;
+  b=gIOfmTFgByzQ7Q+OBlYxiZW/eCtWQFlF5O10vvjNH/Ookjv9re7Rkk3M
+   Jsx81XJVUTZ2/VI0grIr1tMA+Lvq7SBrBFMjDbj27Ud7m7V3Pgp3s7Mph
+   /2qMpxHHJNleDBmJTfl2Kc8DW+gj/CFcgGth/IKnEtE8dM7WQBBtyCHcf
+   z7z2zbCyDzMOosZ5SMu3lywntHIntWf3H9Q4lCNPjBkumwOECtvde12nz
+   h+tD1W4ycDwe/UBwkv4GMQNvarVqOeCks4olzgObf/HlGfLNLcG4koDNO
+   1CTh4pwGCqZoxQ5htQbOtv9cTWQqgAyotMEC6x8KRCdElppgfrW77QpMa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313565449"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="330921139"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 04:10:01 -0800
+   d="scan'208";a="313565449"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 04:10:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="781858049"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="846534783"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="781858049"
+   d="scan'208";a="846534783"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 04:09:59 -0800
+  by orsmga005.jf.intel.com with ESMTP; 23 Feb 2023 04:09:59 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVAQA-0001JW-1a;
+	id 1pVAQA-0001JZ-1e;
 	Thu, 23 Feb 2023 12:09:58 +0000
-Date: Thu, 23 Feb 2023 20:09:07 +0800
+Date: Thu, 23 Feb 2023 20:09:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH v6 1/1] riscv: Allow to downgrade paging mode from the
- command line
-Message-ID: <202302231942.6C2mSFYv-lkp@intel.com>
-References: <20230223082434.1280957-2-alexghiti@rivosinc.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: sh4-linux-gcc: error: unrecognized command-line option
+ '-Wout-of-line-declaration'; did you mean '-Wold-style-declaration'?
+Message-ID: <202302232026.uJMPib2X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,65 +45,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230223082434.1280957-2-alexghiti@rivosinc.com>
 
-Hi Alexandre,
+Hi Konstantin,
 
-Thank you for the patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230223-162702
-patch link:    https://lore.kernel.org/r/20230223082434.1280957-2-alexghiti%40rivosinc.com
-patch subject: [PATCH v6 1/1] riscv: Allow to downgrade paging mode from the command line
-config: riscv-buildonly-randconfig-r002-20230222 (https://download.01.org/0day-ci/archive/20230223/202302231942.6C2mSFYv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
+commit: 6e5be40d32fb1907285277c02e74493ed43d77fe fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
+date:   1 year, 6 months ago
+config: sh-randconfig-r033-20230222 (https://download.01.org/0day-ci/archive/20230223/202302232026.uJMPib2X-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/7e18f795579f897e63812ca9dcb5b48ef2b7b4d2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230223-162702
-        git checkout 7e18f795579f897e63812ca9dcb5b48ef2b7b4d2
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6e5be40d32fb1907285277c02e74493ed43d77fe
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6e5be40d32fb1907285277c02e74493ed43d77fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/pi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231942.6C2mSFYv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302232026.uJMPib2X-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/pi/cmdline_early.c:50:10: error: use of undeclared identifier 'SATP_MODE_48'
-                   return SATP_MODE_48;
-                          ^
->> arch/riscv/kernel/pi/cmdline_early.c:52:10: error: use of undeclared identifier 'SATP_MODE_57'
-                   return SATP_MODE_57;
-                          ^
-   2 errors generated.
-
-
-vim +/SATP_MODE_48 +50 arch/riscv/kernel/pi/cmdline_early.c
-
-    46	
-    47	static u64 __init match_noXlvl(char *cmdline)
-    48	{
-    49		if (strstr(cmdline, "no4lvl"))
-  > 50			return SATP_MODE_48;
-    51		else if (strstr(cmdline, "no5lvl"))
-  > 52			return SATP_MODE_57;
-    53	
-    54		return 0;
-    55	}
-    56	
+>> sh4-linux-gcc: error: unrecognized command-line option '-Wout-of-line-declaration'; did you mean '-Wold-style-declaration'?
 
 -- 
 0-DAY CI Kernel Test Service
