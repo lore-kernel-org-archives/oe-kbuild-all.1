@@ -1,42 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E255B17C7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DDAD2E5
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 03:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1677209377; x=1708745377;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=olcPAXQBLEwaKkkHqBjlCFl7nbpnR7pMJ1auKK6VVig=;
-  b=hD+q/fGEyMfJXdD0NnLUVYGKHYdnpa3ejtGwpvU8uGDOWYGCL3dsWlgm
-   PwEc0DuxSGn8Ff9UtGr9Po7MkPN9NMxAETuoYHc82ZmXYG4YPHrWi6F3J
-   QFAc93Nv/TVTCpQ0+HILHlxox6w9sgE2Ytd5fG8thJKlk29mjLOjkRnvX
-   rF6RTog0XZJxt21kGOnVqjI2josSaJ5LB8wZPBpQlEYJLpaCsHQjmJhzR
-   qWxooByt5wgI4j4hbOfWqU+BxKDhfsqR0TTxp1ThQIehFTcMfXOtXqR4i
-   ZfWZiLGDrqnCefkSKQ+J0tBaLm2HUdRnDyZnKS+5IE4OED0weSxavVLDV
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="395897826"
+  bh=P0suZm1r/ET8nElU8tKsO9hQabKlH2AKY4+th2UQDgg=;
+  b=VsTWtpmtjpD+HBseCAyzuR1iCV2NzgdzWZq/XwxFPHaBykoWUe+/kXFk
+   RyBY7ZkZI5GAgzhwvHD9XP5ap1HBkvfhYCGtHUiEDe4yLMJcg5L96GS42
+   ShxAkaDcmDmP0SrwnjVPDssjQE7amuuzlFDqbRNm61YdQ3I/MSxF/3nE0
+   br+komzXt2wELS0FPVCnTXM1J7IYYxESR8IeKapsg0cj0GmBFZVhbp8hL
+   sPsbo8tpxGEUu358GchrLlBfKUfN1jku8Wv58dWvM3XA9v1b1h7N9q0ol
+   z/3fvxQ5fu6w4fjl26jXjt45ULdt/i6VRjBtJ3jfopAEOJatyaDGHyHCd
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="335622429"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="395897826"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 19:29:37 -0800
+   d="scan'208";a="335622429"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 19:29:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="815593559"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="650216216"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="815593559"
+   d="scan'208";a="650216216"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2023 19:29:35 -0800
+  by orsmga006.jf.intel.com with ESMTP; 23 Feb 2023 19:29:35 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVOm6-00025Z-2f;
+	id 1pVOm6-00025b-2l;
 	Fri, 24 Feb 2023 03:29:34 +0000
-Date: Fri, 24 Feb 2023 11:28:53 +0800
+Date: Fri, 24 Feb 2023 11:28:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Georgi Djakov <djakov@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djakov-icc:iommu-map 1/2] include/linux/iommu.h:1217:6: warning: no
- previous prototype for 'iommu_dma_sync_single_for_cpu'
-Message-ID: <202302241157.5yVmHesa-lkp@intel.com>
+To: Candice Li <candice.li@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Tao Zhou <tao.zhou1@amd.com>, "Stanley.Yang" <Stanley.Yang@amd.com>
+Subject: [agd5f:drm-next 20/28]
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.c:437:37: warning: variable
+ 'channel_index' set but not used
+Message-ID: <202302241112.3r21D5OW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,428 +48,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git iommu-map
-head:   fb4d192f5ce8218ca4172f2b36249ee3cc07ac4d
-commit: 215ecbe64426ac692ffa51205a9cf7ecb207c649 [1/2] iommu/dma: Export the iommu ops to allow them to be called from dma mapping code
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230224/202302241157.5yVmHesa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   4f101d5710a84f334b05a96713000ce8dfd4d598
+commit: b1e9a718af2ec3d21734a8357e8f22aa3bb68bfb [20/28] drm/amdgpu: Add ecc info query interface for umc v8_10
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230224/202302241112.3r21D5OW-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git/commit/?id=215ecbe64426ac692ffa51205a9cf7ecb207c649
-        git remote add djakov-icc https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git
-        git fetch --no-tags djakov-icc iommu-map
-        git checkout 215ecbe64426ac692ffa51205a9cf7ecb207c649
+        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
+        git fetch --no-tags agd5f drm-next
+        git checkout b1e9a718af2ec3d21734a8357e8f22aa3bb68bfb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302241157.5yVmHesa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302241112.3r21D5OW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/vfio/vfio_main.c:18:
->> include/linux/iommu.h:1217:6: warning: no previous prototype for 'iommu_dma_sync_single_for_cpu' [-Wmissing-prototypes]
-    1217 | void iommu_dma_sync_single_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1221:6: warning: no previous prototype for 'iommu_dma_sync_single_for_device' [-Wmissing-prototypes]
-    1221 | void iommu_dma_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1225:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_cpu' [-Wmissing-prototypes]
-    1225 | void iommu_dma_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1230:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_device' [-Wmissing-prototypes]
-    1230 | void iommu_dma_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1235:12: warning: no previous prototype for 'iommu_dma_map_page' [-Wmissing-prototypes]
-    1235 | dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1240:6: warning: no previous prototype for 'iommu_dma_unmap_page' [-Wmissing-prototypes]
-    1240 | void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1244:5: warning: no previous prototype for 'iommu_dma_map_sg' [-Wmissing-prototypes]
-    1244 | int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-         |     ^~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1249:6: warning: no previous prototype for 'iommu_dma_unmap_sg' [-Wmissing-prototypes]
-    1249 | void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-         |      ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1253:12: warning: no previous prototype for 'iommu_dma_map_resource' [-Wmissing-prototypes]
-    1253 | dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1258:6: warning: no previous prototype for 'iommu_dma_unmap_resource' [-Wmissing-prototypes]
-    1258 | void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1262:6: warning: no previous prototype for 'iommu_dma_free' [-Wmissing-prototypes]
-    1262 | void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1266:7: warning: no previous prototype for 'iommu_dma_alloc' [-Wmissing-prototypes]
-    1266 | void *iommu_dma_alloc(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~
->> include/linux/iommu.h:1271:5: warning: no previous prototype for 'iommu_dma_mmap' [-Wmissing-prototypes]
-    1271 | int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1277:5: warning: no previous prototype for 'iommu_dma_get_sgtable' [-Wmissing-prototypes]
-    1277 | int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1283:15: warning: no previous prototype for 'iommu_dma_get_merge_boundary' [-Wmissing-prototypes]
-    1283 | unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1287:8: warning: no previous prototype for 'iommu_dma_opt_mapping_size' [-Wmissing-prototypes]
-    1287 | size_t iommu_dma_opt_mapping_size(void)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h: In function 'iommu_dma_map_page':
-   include/linux/iommu.h:1239:1: error: control reaches end of non-void function [-Werror=return-type]
-    1239 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:30,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/intr.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.h:3,
-                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:22:
->> include/linux/iommu.h:1217:6: warning: no previous prototype for 'iommu_dma_sync_single_for_cpu' [-Wmissing-prototypes]
-    1217 | void iommu_dma_sync_single_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1221:6: warning: no previous prototype for 'iommu_dma_sync_single_for_device' [-Wmissing-prototypes]
-    1221 | void iommu_dma_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1225:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_cpu' [-Wmissing-prototypes]
-    1225 | void iommu_dma_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1230:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_device' [-Wmissing-prototypes]
-    1230 | void iommu_dma_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1235:12: warning: no previous prototype for 'iommu_dma_map_page' [-Wmissing-prototypes]
-    1235 | dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1240:6: warning: no previous prototype for 'iommu_dma_unmap_page' [-Wmissing-prototypes]
-    1240 | void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1244:5: warning: no previous prototype for 'iommu_dma_map_sg' [-Wmissing-prototypes]
-    1244 | int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-         |     ^~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1249:6: warning: no previous prototype for 'iommu_dma_unmap_sg' [-Wmissing-prototypes]
-    1249 | void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-         |      ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1253:12: warning: no previous prototype for 'iommu_dma_map_resource' [-Wmissing-prototypes]
-    1253 | dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1258:6: warning: no previous prototype for 'iommu_dma_unmap_resource' [-Wmissing-prototypes]
-    1258 | void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1262:6: warning: no previous prototype for 'iommu_dma_free' [-Wmissing-prototypes]
-    1262 | void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1266:7: warning: no previous prototype for 'iommu_dma_alloc' [-Wmissing-prototypes]
-    1266 | void *iommu_dma_alloc(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~
->> include/linux/iommu.h:1271:5: warning: no previous prototype for 'iommu_dma_mmap' [-Wmissing-prototypes]
-    1271 | int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1277:5: warning: no previous prototype for 'iommu_dma_get_sgtable' [-Wmissing-prototypes]
-    1277 | int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1283:15: warning: no previous prototype for 'iommu_dma_get_merge_boundary' [-Wmissing-prototypes]
-    1283 | unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1287:8: warning: no previous prototype for 'iommu_dma_opt_mapping_size' [-Wmissing-prototypes]
-    1287 | size_t iommu_dma_opt_mapping_size(void)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-      34 | nvkm_engn_cgrp_get(struct nvkm_engn *engn, unsigned long *pirqflags)
-         | ^~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h: In function 'iommu_dma_map_page':
-   include/linux/iommu.h:1239:1: error: control reaches end of non-void function [-Werror=return-type]
-    1239 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:30,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5,
-                    from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5,
-                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:24:
->> include/linux/iommu.h:1217:6: warning: no previous prototype for 'iommu_dma_sync_single_for_cpu' [-Wmissing-prototypes]
-    1217 | void iommu_dma_sync_single_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1221:6: warning: no previous prototype for 'iommu_dma_sync_single_for_device' [-Wmissing-prototypes]
-    1221 | void iommu_dma_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1225:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_cpu' [-Wmissing-prototypes]
-    1225 | void iommu_dma_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1230:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_device' [-Wmissing-prototypes]
-    1230 | void iommu_dma_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1235:12: warning: no previous prototype for 'iommu_dma_map_page' [-Wmissing-prototypes]
-    1235 | dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1240:6: warning: no previous prototype for 'iommu_dma_unmap_page' [-Wmissing-prototypes]
-    1240 | void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1244:5: warning: no previous prototype for 'iommu_dma_map_sg' [-Wmissing-prototypes]
-    1244 | int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-         |     ^~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1249:6: warning: no previous prototype for 'iommu_dma_unmap_sg' [-Wmissing-prototypes]
-    1249 | void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-         |      ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1253:12: warning: no previous prototype for 'iommu_dma_map_resource' [-Wmissing-prototypes]
-    1253 | dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1258:6: warning: no previous prototype for 'iommu_dma_unmap_resource' [-Wmissing-prototypes]
-    1258 | void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1262:6: warning: no previous prototype for 'iommu_dma_free' [-Wmissing-prototypes]
-    1262 | void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1266:7: warning: no previous prototype for 'iommu_dma_alloc' [-Wmissing-prototypes]
-    1266 | void *iommu_dma_alloc(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~
->> include/linux/iommu.h:1271:5: warning: no previous prototype for 'iommu_dma_mmap' [-Wmissing-prototypes]
-    1271 | int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1277:5: warning: no previous prototype for 'iommu_dma_get_sgtable' [-Wmissing-prototypes]
-    1277 | int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1283:15: warning: no previous prototype for 'iommu_dma_get_merge_boundary' [-Wmissing-prototypes]
-    1283 | unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1287:8: warning: no previous prototype for 'iommu_dma_opt_mapping_size' [-Wmissing-prototypes]
-    1287 | size_t iommu_dma_opt_mapping_size(void)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-     451 | gf100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h: In function 'iommu_dma_map_page':
-   include/linux/iommu.h:1239:1: error: control reaches end of non-void function [-Werror=return-type]
-    1239 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:30,
-                    from drivers/gpu/drm/nouveau/include/nvif/object.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvif/mmu.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvif/mem.h:3,
-                    from drivers/gpu/drm/nouveau/dispnv50/disp.h:4,
-                    from drivers/gpu/drm/nouveau/dispnv50/disp.c:24:
->> include/linux/iommu.h:1217:6: warning: no previous prototype for 'iommu_dma_sync_single_for_cpu' [-Wmissing-prototypes]
-    1217 | void iommu_dma_sync_single_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1221:6: warning: no previous prototype for 'iommu_dma_sync_single_for_device' [-Wmissing-prototypes]
-    1221 | void iommu_dma_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1225:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_cpu' [-Wmissing-prototypes]
-    1225 | void iommu_dma_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1230:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_device' [-Wmissing-prototypes]
-    1230 | void iommu_dma_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1235:12: warning: no previous prototype for 'iommu_dma_map_page' [-Wmissing-prototypes]
-    1235 | dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1240:6: warning: no previous prototype for 'iommu_dma_unmap_page' [-Wmissing-prototypes]
-    1240 | void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1244:5: warning: no previous prototype for 'iommu_dma_map_sg' [-Wmissing-prototypes]
-    1244 | int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-         |     ^~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1249:6: warning: no previous prototype for 'iommu_dma_unmap_sg' [-Wmissing-prototypes]
-    1249 | void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-         |      ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1253:12: warning: no previous prototype for 'iommu_dma_map_resource' [-Wmissing-prototypes]
-    1253 | dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1258:6: warning: no previous prototype for 'iommu_dma_unmap_resource' [-Wmissing-prototypes]
-    1258 | void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1262:6: warning: no previous prototype for 'iommu_dma_free' [-Wmissing-prototypes]
-    1262 | void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1266:7: warning: no previous prototype for 'iommu_dma_alloc' [-Wmissing-prototypes]
-    1266 | void *iommu_dma_alloc(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~
->> include/linux/iommu.h:1271:5: warning: no previous prototype for 'iommu_dma_mmap' [-Wmissing-prototypes]
-    1271 | int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1277:5: warning: no previous prototype for 'iommu_dma_get_sgtable' [-Wmissing-prototypes]
-    1277 | int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1283:15: warning: no previous prototype for 'iommu_dma_get_merge_boundary' [-Wmissing-prototypes]
-    1283 | unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1287:8: warning: no previous prototype for 'iommu_dma_opt_mapping_size' [-Wmissing-prototypes]
-    1287 | size_t iommu_dma_opt_mapping_size(void)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: warning: no previous prototype for 'nv50_display_create' [-Wmissing-prototypes]
-    2517 | nv50_display_create(struct drm_device *dev)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h: In function 'iommu_dma_map_page':
-   include/linux/iommu.h:1239:1: error: control reaches end of non-void function [-Werror=return-type]
-    1239 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:30,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:22:
->> include/linux/iommu.h:1217:6: warning: no previous prototype for 'iommu_dma_sync_single_for_cpu' [-Wmissing-prototypes]
-    1217 | void iommu_dma_sync_single_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1221:6: warning: no previous prototype for 'iommu_dma_sync_single_for_device' [-Wmissing-prototypes]
-    1221 | void iommu_dma_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1225:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_cpu' [-Wmissing-prototypes]
-    1225 | void iommu_dma_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1230:6: warning: no previous prototype for 'iommu_dma_sync_sg_for_device' [-Wmissing-prototypes]
-    1230 | void iommu_dma_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1235:12: warning: no previous prototype for 'iommu_dma_map_page' [-Wmissing-prototypes]
-    1235 | dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1240:6: warning: no previous prototype for 'iommu_dma_unmap_page' [-Wmissing-prototypes]
-    1240 | void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1244:5: warning: no previous prototype for 'iommu_dma_map_sg' [-Wmissing-prototypes]
-    1244 | int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-         |     ^~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1249:6: warning: no previous prototype for 'iommu_dma_unmap_sg' [-Wmissing-prototypes]
-    1249 | void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-         |      ^~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1253:12: warning: no previous prototype for 'iommu_dma_map_resource' [-Wmissing-prototypes]
-    1253 | dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1258:6: warning: no previous prototype for 'iommu_dma_unmap_resource' [-Wmissing-prototypes]
-    1258 | void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1262:6: warning: no previous prototype for 'iommu_dma_free' [-Wmissing-prototypes]
-    1262 | void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1266:7: warning: no previous prototype for 'iommu_dma_alloc' [-Wmissing-prototypes]
-    1266 | void *iommu_dma_alloc(struct device *dev, size_t size,
-         |       ^~~~~~~~~~~~~~~
->> include/linux/iommu.h:1271:5: warning: no previous prototype for 'iommu_dma_mmap' [-Wmissing-prototypes]
-    1271 | int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~~~
->> include/linux/iommu.h:1277:5: warning: no previous prototype for 'iommu_dma_get_sgtable' [-Wmissing-prototypes]
-    1277 | int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1283:15: warning: no previous prototype for 'iommu_dma_get_merge_boundary' [-Wmissing-prototypes]
-    1283 | unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/iommu.h:1287:8: warning: no previous prototype for 'iommu_dma_opt_mapping_size' [-Wmissing-prototypes]
-    1287 | size_t iommu_dma_opt_mapping_size(void)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-      49 | wpr_generic_header_dump(struct nvkm_subdev *subdev, const struct wpr_generic_header *hdr)
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h: In function 'iommu_dma_map_page':
-   include/linux/iommu.h:1239:1: error: control reaches end of non-void function [-Werror=return-type]
-    1239 | }
-         | ^
-   cc1: some warnings being treated as errors
-..
+   drivers/gpu/drm/amd/amdgpu/umc_v8_10.c:212:6: warning: no previous prototype for 'umc_v8_10_convert_error_address' [-Wmissing-prototypes]
+     212 | void umc_v8_10_convert_error_address(struct amdgpu_device *adev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/umc_v8_10.c: In function 'umc_v8_10_ecc_info_query_error_address':
+>> drivers/gpu/drm/amd/amdgpu/umc_v8_10.c:437:37: warning: variable 'channel_index' set but not used [-Wunused-but-set-variable]
+     437 |         uint32_t eccinfo_table_idx, channel_index;
+         |                                     ^~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:64,
+                    from drivers/gpu/drm/amd/amdgpu/umc_v8_10.h:27,
+                    from drivers/gpu/drm/amd/amdgpu/umc_v8_10.c:23:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h: At top level:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/iommu_dma_sync_single_for_cpu +1217 include/linux/iommu.h
+vim +/channel_index +437 drivers/gpu/drm/amd/amdgpu/umc_v8_10.c
 
-  1206	
-  1207	static inline struct sg_table *iommu_dma_alloc_noncontiguous(struct device *dev,
-  1208			size_t size, enum dma_data_direction dir, gfp_t gfp,
-  1209			unsigned long attrs)
-  1210	{
-  1211		return NULL;
-  1212	}
-  1213	static inline void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
-  1214			struct sg_table *sgt, enum dma_data_direction dir)
-  1215	{
-  1216	}
-> 1217	void iommu_dma_sync_single_for_cpu(struct device *dev,
-  1218			dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
-  1219	{
-  1220	}
-> 1221	void iommu_dma_sync_single_for_device(struct device *dev,
-  1222			dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
-  1223	{
-  1224	}
-> 1225	void iommu_dma_sync_sg_for_cpu(struct device *dev,
-  1226			struct scatterlist *sgl, int nelems,
-  1227			enum dma_data_direction dir)
-  1228	{
-  1229	}
-> 1230	void iommu_dma_sync_sg_for_device(struct device *dev,
-  1231			struct scatterlist *sgl, int nelems,
-  1232			enum dma_data_direction dir)
-  1233	{
-  1234	}
-> 1235	dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
-  1236			unsigned long offset, size_t size, enum dma_data_direction dir,
-  1237			unsigned long attrs)
-  1238	{
-  1239	}
-> 1240	void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-  1241			size_t size, enum dma_data_direction dir, unsigned long attrs)
-  1242	{
-  1243	}
-> 1244	int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-  1245			int nents, enum dma_data_direction dir, unsigned long attrs)
-  1246	{
-  1247		return -EOPNOTSUPP;
-  1248	}
-> 1249	void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
-  1250			int nents, enum dma_data_direction dir, unsigned long attrs)
-  1251	{
-  1252	}
-> 1253	dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-  1254			size_t size, enum dma_data_direction dir, unsigned long attrs)
-  1255	{
-  1256		return 0;
-  1257	}
-> 1258	void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-  1259			size_t size, enum dma_data_direction dir, unsigned long attrs)
-  1260	{
-  1261	}
-> 1262	void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
-  1263			dma_addr_t handle, unsigned long attrs)
-  1264	{
-  1265	}
-> 1266	void *iommu_dma_alloc(struct device *dev, size_t size,
-  1267			dma_addr_t *handle, gfp_t gfp, unsigned long attrs)
-  1268	{
-  1269		return NULL;
-  1270	}
-> 1271	int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-  1272			void *cpu_addr, dma_addr_t dma_addr, size_t size,
-  1273			unsigned long attrs)
-  1274	{
-  1275		return -EOPNOTSUPP;
-  1276	}
-> 1277	int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
-  1278			void *cpu_addr, dma_addr_t dma_addr, size_t size,
-  1279			unsigned long attrs)
-  1280	{
-  1281		return -EOPNOTSUPP;
-  1282	}
-> 1283	unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-  1284	{
-  1285		return 0;
-  1286	}
-> 1287	size_t iommu_dma_opt_mapping_size(void)
-  1288	{
-  1289		return 0;
-  1290	}
-  1291	
+   430	
+   431	static void umc_v8_10_ecc_info_query_error_address(struct amdgpu_device *adev,
+   432						struct ras_err_data *err_data,
+   433						uint32_t ch_inst,
+   434						uint32_t umc_inst,
+   435						uint32_t node_inst)
+   436	{
+ > 437		uint32_t eccinfo_table_idx, channel_index;
+   438		uint64_t mc_umc_status, err_addr;
+   439	
+   440		struct amdgpu_ras *ras = amdgpu_ras_get_context(adev);
+   441	
+   442		eccinfo_table_idx = node_inst * adev->umc.umc_inst_num *
+   443					  adev->umc.channel_inst_num +
+   444					  umc_inst * adev->umc.channel_inst_num +
+   445					  ch_inst;
+   446		channel_index =
+   447			adev->umc.channel_idx_tbl[node_inst * adev->umc.umc_inst_num *
+   448							  adev->umc.channel_inst_num +
+   449							  umc_inst * adev->umc.channel_inst_num +
+   450							  ch_inst];
+   451	
+   452		mc_umc_status = ras->umc_ecc.ecc[eccinfo_table_idx].mca_umc_status;
+   453	
+   454		if (mc_umc_status == 0)
+   455			return;
+   456	
+   457		if (!err_data->err_addr)
+   458			return;
+   459	
+   460		/* calculate error address if ue error is detected */
+   461		if (REG_GET_FIELD(mc_umc_status, MCA_UMC_UMC0_MCUMC_STATUST0, Val) == 1 &&
+   462		    REG_GET_FIELD(mc_umc_status, MCA_UMC_UMC0_MCUMC_STATUST0, AddrV) == 1 &&
+   463		    (REG_GET_FIELD(mc_umc_status, MCA_UMC_UMC0_MCUMC_STATUST0, UECC) == 1)) {
+   464	
+   465			err_addr = ras->umc_ecc.ecc[eccinfo_table_idx].mca_umc_addr;
+   466			err_addr = REG_GET_FIELD(err_addr, MCA_UMC_UMC0_MCUMC_ADDRT0, ErrorAddr);
+   467	
+   468			umc_v8_10_convert_error_address(adev, err_data, err_addr,
+   469						ch_inst, umc_inst, node_inst, mc_umc_status);
+   470		}
+   471	}
+   472	
 
 -- 
 0-DAY CI Kernel Test Service
