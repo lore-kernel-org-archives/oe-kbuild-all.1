@@ -1,43 +1,49 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7465DBA32
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 21:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06553BA32;
+	Fri, 24 Feb 2023 21:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677274510; x=1708810510;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MplvQ8SdUTQb9snSd9bFcMFMYayIuHorw0s7PAC1lP0=;
-  b=mripb3bTOt9zQJQ4XAAyS08hGbdiJ5IG3F2morZPuyTRlN2s5rTirxJz
-   4YMdliOAdlynW8ZsSdFGU3mxTNP/zkO50Qm2IzAaHc4QpfO1TPTItzDrK
-   dTEmyu162kFx7nNHoGw0kEU+wgTK/Ei5+dkJBTigOzxuj5+weMEPPuCne
-   ElRTyPP7uIcBvwMubzG4QvSyMNkqrgx/xrbZ+E1KjOS5FxVGxwkXRFU8s
-   1leATgLlItCs2kNqfTg+wysFeQmY5KYH4ZAosuyBaLJeN+ri3cxUu9uHu
-   voqdX8hy5W/kTBz3OKcxMBuQbkwu27wphmY0b0fV3lkosKelp+ywHd+53
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="313221929"
+  t=1677274513; x=1708810513;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ybeakOQi7yUmZ50PjhJ/OYDWkDV3kiv0r3J9mR6X2tU=;
+  b=fcVP5ikfaj3tjwc9RI8MCNy55IqPC21De0bDpg3KVhLH5jfOHqVJJp6v
+   DOuUHjPxLCzm+E6RgUFRL1SyAm74IBB1BlOO92xDF4gl71P4MHnI/k8rj
+   wUW6qEwDTduTBnQ7QKpaEw6FPjuVFoZIco5y6KLYZdmFqiDKyLRZVoJNm
+   pIijweIynJ9oYfovbqjZPx0LrKJ/dFeKATHg9C/thDfrHCua9+NAi6/gf
+   EwG35HpW4lE/XlImzkKV2acGiDbB2IMvqoNnLcUyVJLB+urbXypcE1xGS
+   GTXFBmwzrOy/DW/uvNg5a59XOELLnSB+6Eu+mr9CXgkKvhzCJyQqqdyVH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="313221937"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="313221929"
+   d="scan'208";a="313221937"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 13:35:09 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 13:35:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="650490409"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="650490411"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="650490409"
+   d="scan'208";a="650490411"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga006.jf.intel.com with ESMTP; 24 Feb 2023 13:35:08 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVfie-0002jz-0Y;
+	id 1pVfie-0002k2-0g;
 	Fri, 24 Feb 2023 21:35:08 +0000
-Date: Sat, 25 Feb 2023 05:35:00 +0800
+Date: Sat, 25 Feb 2023 05:35:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:rcu/rcutop 1/1] kernel/rcu/tree.c:2204:15: error: implicit
- declaration of function 'rcu_debug_ptr_unqueue'; did you mean
- 'rcu_debug_ptr_queue'?
-Message-ID: <202302250541.U3UKPJBq-lkp@intel.com>
+To: Andy Chiu <andy.chiu@sifive.com>, linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com, anup@brainfault.org, atishp@atishpatra.org,
+	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	vineetg@rivosinc.com, greentime.hu@sifive.com,
+	guoren@linux.alibaba.com, Andy Chiu <andy.chiu@sifive.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Subject: Re: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
+Message-ID: <202302250511.yaHzCeR1-lkp@intel.com>
+References: <20230224170118.16766-20-andy.chiu@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,125 +52,227 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230224170118.16766-20-andy.chiu@sifive.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/rcutop
-head:   561427c949299c3f6b3a42b5fa4b035aa5bb419a
-commit: 561427c949299c3f6b3a42b5fa4b035aa5bb419a [1/1] debug: dynamic lazy wake debug
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230225/202302250541.U3UKPJBq-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Andy,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on next-20230224]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
+patch link:    https://lore.kernel.org/r/20230224170118.16766-20-andy.chiu%40sifive.com
+patch subject: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
+config: riscv-buildonly-randconfig-r002-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250511.yaHzCeR1-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=561427c949299c3f6b3a42b5fa4b035aa5bb419a
-        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
-        git fetch --no-tags jfern rcu/rcutop
-        git checkout 561427c949299c3f6b3a42b5fa4b035aa5bb419a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
+        git checkout cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302250541.U3UKPJBq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250511.yaHzCeR1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/rcu/tree.c:70:
-   kernel/rcu/debug.h:162:5: warning: no previous prototype for 'rcu_debug_ptr_queue' [-Wmissing-prototypes]
-     162 | int rcu_debug_ptr_queue(struct rcu_data *rdp, void* ip_ptr)
-         |     ^~~~~~~~~~~~~~~~~~~
-   kernel/rcu/debug.h:167:6: warning: no previous prototype for 'rcu_debug_set_context' [-Wmissing-prototypes]
-     167 | void rcu_debug_set_context(struct rcu_data *rdp, void *ip_ptr)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/debug.h:171:6: warning: no previous prototype for 'rcu_debug_reset_context' [-Wmissing-prototypes]
-     171 | void rcu_debug_reset_context(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/debug.h:175:6: warning: no previous prototype for 'rcu_debug_init' [-Wmissing-prototypes]
-     175 | void rcu_debug_init(void)
-         |      ^~~~~~~~~~~~~~
-   kernel/rcu/tree.c:2198:17: warning: no previous prototype for 'rcu_debug_ptr_unqueue_lock' [-Wmissing-prototypes]
-    2198 | rcu_debug_entry rcu_debug_ptr_unqueue_lock(struct rcu_data *rdp, void *ip)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/tree.c: In function 'rcu_debug_ptr_unqueue_lock':
->> kernel/rcu/tree.c:2204:15: error: implicit declaration of function 'rcu_debug_ptr_unqueue'; did you mean 'rcu_debug_ptr_queue'? [-Werror=implicit-function-declaration]
-    2204 |         ret = rcu_debug_ptr_unqueue(rdp, ip);
-         |               ^~~~~~~~~~~~~~~~~~~~~
-         |               rcu_debug_ptr_queue
->> kernel/rcu/tree.c:2204:15: error: incompatible types when assigning to type 'rcu_debug_entry' from type 'int'
-   In file included from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from kernel/rcu/tree.c:23:
-   kernel/rcu/tree.c: In function 'rcu_debug_ptr_queue_lock':
->> kernel/rcu/tree.c:2220:22: error: too many arguments to function 'rcu_debug_ptr_queue'
-    2220 |         WARN_ON_ONCE(rcu_debug_ptr_queue(rdp, ip, lazy));
-         |                      ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON_ONCE'
-     110 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   In file included from kernel/rcu/tree.c:70:
-   kernel/rcu/debug.h:162:5: note: declared here
-     162 | int rcu_debug_ptr_queue(struct rcu_data *rdp, void* ip_ptr)
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from kernel/rcu/tree.c:23:
-   kernel/rcu/tree.c: In function 'rcutree_migrate_callbacks':
->> kernel/rcu/tree.c:4440:61: error: request for member 'valid' in something not a structure or union
-    4440 |                 WARN_ON_ONCE(!rcu_debug_ptr_unqueue(rdp, rh).valid);
-         |                                                             ^
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON_ONCE'
-     110 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   kernel/rcu/tree.c: In function 'rcu_init':
->> kernel/rcu/tree.c:4912:20: error: 'struct rcu_data' has no member named 'rcu_debug_ptrs'
-    4912 |                 rdp->rcu_debug_ptrs[i].valid = false;
-         |                    ^~
-   kernel/rcu/tree.c:4913:20: error: 'struct rcu_data' has no member named 'rcu_debug_ptrs'
-    4913 |                 rdp->rcu_debug_ptrs[i].in_flight = false;
-         |                    ^~
-   cc1: some warnings being treated as errors
+   In file included from arch/riscv/kernel/ptrace.c:10:
+>> arch/riscv/include/asm/vector.h:88:3: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                   ^
+   <inline asm>:1:2: note: instantiated into assembly here
+           vsetvli t4, x0, e8, m8, ta, ma
+           ^
+   In file included from arch/riscv/kernel/ptrace.c:10:
+   arch/riscv/include/asm/vector.h:88:36: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                                                           ^
+   <inline asm>:2:2: note: instantiated into assembly here
+           vse8.v          v0, (a1)
+           ^
+   In file included from arch/riscv/kernel/ptrace.c:10:
+   arch/riscv/include/asm/vector.h:90:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:4:2: note: instantiated into assembly here
+           vse8.v          v8, (a1)
+           ^
+   In file included from arch/riscv/kernel/ptrace.c:10:
+   arch/riscv/include/asm/vector.h:92:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:6:2: note: instantiated into assembly here
+           vse8.v          v16, (a1)
+           ^
+   In file included from arch/riscv/kernel/ptrace.c:10:
+   arch/riscv/include/asm/vector.h:94:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:8:2: note: instantiated into assembly here
+           vse8.v          v24, (a1)
+           ^
+   5 errors generated.
+--
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:105:3: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                   ^
+   <inline asm>:1:2: note: instantiated into assembly here
+           vsetvli t4, x0, e8, m8, ta, ma
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:105:36: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                                                           ^
+   <inline asm>:2:2: note: instantiated into assembly here
+           vle8.v          v0, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:107:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:4:2: note: instantiated into assembly here
+           vle8.v          v8, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:109:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:6:2: note: instantiated into assembly here
+           vle8.v          v16, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:111:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:8:2: note: instantiated into assembly here
+           vle8.v          v24, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:75:3: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvl  x0, %2, %1\n\t"
+                   ^
+   <inline asm>:1:2: note: instantiated into assembly here
+           vsetvl   x0, a3, a2
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+>> arch/riscv/include/asm/vector.h:88:3: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                   ^
+   <inline asm>:1:2: note: instantiated into assembly here
+           vsetvli t4, x0, e8, m8, ta, ma
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:88:36: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "vsetvli        t4, x0, e8, m8, ta, ma\n\t"
+                                                           ^
+   <inline asm>:2:2: note: instantiated into assembly here
+           vse8.v          v0, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:90:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:4:2: note: instantiated into assembly here
+           vse8.v          v8, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:92:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:6:2: note: instantiated into assembly here
+           vse8.v          v16, (a1)
+           ^
+   In file included from arch/riscv/kernel/signal.c:20:
+   In file included from arch/riscv/include/asm/switch_to.h:11:
+   arch/riscv/include/asm/vector.h:94:21: error: instruction requires the following: 'V' (Vector Extension for Application Processors), 'Zve32x' or 'Zve64x' (Vector Extensions for Embedded Processors)
+                   "add            %0, %0, t4\n\t"
+                                               ^
+   <inline asm>:8:2: note: instantiated into assembly here
+           vse8.v          v24, (a1)
+           ^
+   11 errors generated.
+--
+>> arch/riscv/kernel/vector.c:50:3: error: expected expression
+                   u32 width = RVV_EXRACT_VL_VS_WIDTH(insn_buf);
+                   ^
+>> arch/riscv/kernel/vector.c:52:7: error: use of undeclared identifier 'width'
+                   if (width == RVV_VL_VS_WIDTH_8 || width == RVV_VL_VS_WIDTH_16 ||
+                       ^
+   arch/riscv/kernel/vector.c:52:37: error: use of undeclared identifier 'width'
+                   if (width == RVV_VL_VS_WIDTH_8 || width == RVV_VL_VS_WIDTH_16 ||
+                                                     ^
+   arch/riscv/kernel/vector.c:53:7: error: use of undeclared identifier 'width'
+                       width == RVV_VL_VS_WIDTH_32 || width == RVV_VL_VS_WIDTH_64)
+                       ^
+   arch/riscv/kernel/vector.c:53:38: error: use of undeclared identifier 'width'
+                       width == RVV_VL_VS_WIDTH_32 || width == RVV_VL_VS_WIDTH_64)
+                                                      ^
+   arch/riscv/kernel/vector.c:57:3: error: expected expression
+                   u32 csr = RVG_EXTRACT_SYSTEM_CSR(insn_buf);
+                   ^
+>> arch/riscv/kernel/vector.c:59:8: error: use of undeclared identifier 'csr'
+                   if ((csr >= CSR_VSTART && csr <= CSR_VCSR) ||
+                        ^
+   arch/riscv/kernel/vector.c:59:29: error: use of undeclared identifier 'csr'
+                   if ((csr >= CSR_VSTART && csr <= CSR_VCSR) ||
+                                             ^
+   arch/riscv/kernel/vector.c:60:8: error: use of undeclared identifier 'csr'
+                       (csr >= CSR_VL && csr <= CSR_VLENB))
+                        ^
+   arch/riscv/kernel/vector.c:60:25: error: use of undeclared identifier 'csr'
+                       (csr >= CSR_VL && csr <= CSR_VLENB))
+                                         ^
+>> arch/riscv/kernel/vector.c:67:5: warning: no previous prototype for function 'riscv_v_thread_zalloc' [-Wmissing-prototypes]
+   int riscv_v_thread_zalloc(void)
+       ^
+   arch/riscv/kernel/vector.c:67:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int riscv_v_thread_zalloc(void)
+   ^
+   static 
+   1 warning and 10 errors generated.
 
 
-vim +2204 kernel/rcu/tree.c
+vim +88 arch/riscv/include/asm/vector.h
 
-  2193	
-  2194	/*
-  2195	 * Lock wrapper for rcu_debug_ptr_unqueue(). Required as
-  2196	 * rcu_debug_ptr_unqueue() expects the rdp lock to be held.
-  2197	 */
-  2198	rcu_debug_entry rcu_debug_ptr_unqueue_lock(struct rcu_data *rdp, void *ip)
-  2199	{
-  2200		unsigned long flags;
-  2201		rcu_debug_entry ret;
-  2202	
-  2203		rcu_nocb_lock_irqsave(rdp, flags);
-> 2204		ret = rcu_debug_ptr_unqueue(rdp, ip);
-  2205		rcu_nocb_unlock_irqrestore(rdp, flags);
-  2206	
-  2207		return ret;
-  2208	}
-  2209	
-  2210	/*
-  2211	 * Lock wrapper for rcu_debug_ptr_queue(). Required as
-  2212	 * rcu_debug_ptr_queue() expects the rdp lock to be held.
-  2213	 */
-  2214	static void rcu_debug_ptr_queue_lock(struct rcu_data *rdp, void *ip,
-  2215		       			      bool lazy)
-  2216	{
-  2217		unsigned long flags;
-  2218	
-  2219		rcu_nocb_lock_irqsave(rdp, flags);
-> 2220		WARN_ON_ONCE(rcu_debug_ptr_queue(rdp, ip, lazy));
-  2221		rcu_nocb_unlock_irqrestore(rdp, flags);
-  2222	}
-  2223	
+27038c69020be5 Greentime Hu 2023-02-24  81  
+e296a266de6c10 Greentime Hu 2023-02-24  82  static inline void __riscv_v_vstate_save(struct __riscv_v_ext_state *save_to,
+e296a266de6c10 Greentime Hu 2023-02-24  83  					 void *datap)
+27038c69020be5 Greentime Hu 2023-02-24  84  {
+27038c69020be5 Greentime Hu 2023-02-24  85  	riscv_v_enable();
+27038c69020be5 Greentime Hu 2023-02-24  86  	__vstate_csr_save(save_to);
+27038c69020be5 Greentime Hu 2023-02-24  87  	asm volatile (
+27038c69020be5 Greentime Hu 2023-02-24 @88  		"vsetvli	t4, x0, e8, m8, ta, ma\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  89  		"vse8.v		v0, (%0)\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  90  		"add		%0, %0, t4\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  91  		"vse8.v		v8, (%0)\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  92  		"add		%0, %0, t4\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  93  		"vse8.v		v16, (%0)\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  94  		"add		%0, %0, t4\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  95  		"vse8.v		v24, (%0)\n\t"
+27038c69020be5 Greentime Hu 2023-02-24  96  		: : "r" (datap) : "t4", "memory");
+27038c69020be5 Greentime Hu 2023-02-24  97  	riscv_v_disable();
+27038c69020be5 Greentime Hu 2023-02-24  98  }
+27038c69020be5 Greentime Hu 2023-02-24  99  
 
 -- 
 0-DAY CI Kernel Test Service
