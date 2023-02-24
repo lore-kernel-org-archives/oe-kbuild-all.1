@@ -1,49 +1,48 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D2E7C;
-	Fri, 24 Feb 2023 07:11:49 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id bo30so12345841wrb.0;
-        Thu, 23 Feb 2023 23:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
-        b=C8jI72GdyTZ62v5gmRgKDUqc0irV/9Oxs2vXimY4iI6OSenIMYg4k2vch+om9IFSjb
-         nMFX7yT91kn7gV2dyqFAnISPFMPbVX53FyinAAoUKMOnvZFjEdhsmh4NXlEEgqed+zuW
-         dd9ph3/wbpROYsaf9SbP/oQNnJByWoxlN1XmNxax/fAYqshiTsP3qiDSqf9eRKQ/b85P
-         pLhifXd/QoIlQtCD4Z2yWnhd+SGFPimKSgNkH29uLiTWcyvIk+yOLH+eb5aXyVK0UxwQ
-         44o5AUJJHimraW+ZPwmdnqdS4PbJeS44U+RQLS2VFeml73pplPmcvRtDb9xkuXK/gr7W
-         QBcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
-        b=YTetuJsJtVnXOIlRHqlXnyDTaV+zz4nO/s/wKNhVqxcxaP/CXNU3SE7E7bPCXNGGfN
-         AZJLnC0223j/Q/SWJSpzAKYY/GbrSfQ0HON8WuOjE4WU6dK/Gvz449y+QDy5uuG9SCmi
-         HW+2Wv9wDd7RkQRjvLSEkqIwaowblQIPTP9EiUPScpXSMYhdqLN+vx4z5jhNpRTpXgQj
-         mhlDlLMWazUDxS8g8NBC5TsPlDIPFcwSjbLzYxvvfdzh01xrpINY0RD3ahwDsMW8W8AD
-         4UBPkfw5PWShAcIHB+MfA23kwxGLd2B/v1Ma7489WpmmHlHIOK5Ox+IYvVYXFVKSrk5X
-         I3KQ==
-X-Gm-Message-State: AO0yUKUTQ9eg/hQ0MextoMySq0ruuyfZ9g0v3hK77F3hL3IxODjSBaLu
-	Fw1nUNhi6wi8AZ2/r+q1H+1gAnbEdH8=
-X-Google-Smtp-Source: AK7set9n0NDG4ZKwIhYLJ3nQMyGaNk6tcwQ0oORSvb7bKAJUC4Go/ZArnVn9OE7HwhRipK3sXYW8DA==
-X-Received: by 2002:adf:f344:0:b0:2c7:1740:629b with SMTP id e4-20020adff344000000b002c71740629bmr2674969wrp.13.1677222707669;
-        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l7-20020a5d5267000000b002c71a32394dsm1571657wrc.64.2023.02.23.23.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
-Date: Fri, 24 Feb 2023 10:11:43 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [linux-next:master 13574/13939] io_uring/rsrc.c:1262
- io_sqe_buffer_register() error: uninitialized symbol 'folio'.
-Message-ID: <202302241432.YML1CD5C-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4F17C;
+	Fri, 24 Feb 2023 07:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677223425; x=1708759425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K1CBKhcd8tfeUeLujBKbvbHspMx4+B/cfLq/h1fPxg0=;
+  b=EW/Yo0WHUTB9iA+Z7uVTViTH9tIOrSusTzY+vwywklf7KYmadlVBbzPZ
+   ViBZ637gEEG0lBqZBgZK4c+BQQJY2ofATwiBCXXRyJR6/uJLdinMuVuRa
+   do9YC5iIUu/pdIUezL194+Mmrh36miD6k4j7trW0I2CGWspRh6g1ebF77
+   3MabRKfqY06K7RGjXKhaFULJxFLfshIY+omcUB1l83xmqhBDqLRD+q1WG
+   lEKLKEaQ75IJMP0G+dXipLQC+GkRWv94hDo9m+jpleiffYAE7r6hwuX2J
+   C6K5gKnqOo6laKMIoShxnHGyuBYetzk5t/msxe0W3WcdNMEVumsJJgfAM
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="398149793"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
+   d="scan'208";a="398149793"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 23:23:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="782244551"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
+   d="scan'208";a="782244551"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 23:23:42 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVSQf-0002EL-1f;
+	Fri, 24 Feb 2023 07:23:41 +0000
+Date: Fri, 24 Feb 2023 15:23:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Derrick <jonathan.derrick@linux.dev>,
+	Song Liu <song@kernel.org>, linux-raid@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Reindl Harald <h.reindl@thelounge.net>, Xiao Ni <xni@redhat.com>,
+	Christoph Hellwig <hch@lst.de>, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Sushma Kalakota <sushma.kalakota@intel.com>,
+	Jon Derrick <jonathan.derrick@linux.dev>
+Subject: Re: [PATCH v4 1/3] md: Move sb writer loop to its own function
+Message-ID: <202302241507.7JQRJLLW-lkp@intel.com>
+References: <20230223195225.534-2-jonathan.derrick@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,104 +51,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230223195225.534-2-jonathan.derrick@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4d6d7ce9baaf9e67a85a53afc69a36af716f7670
-commit: 57bebf807e2abcf87d96b9de1266104ee2d8fc2f [13574/13939] io_uring/rsrc: optimise registered huge pages
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230224/202302241432.YML1CD5C-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Jonathan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on song-md/md-next]
+[also build test WARNING on linus/master v6.2 next-20230224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Derrick/md-Move-sb-writer-loop-to-its-own-function/20230224-035451
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+patch link:    https://lore.kernel.org/r/20230223195225.534-2-jonathan.derrick%40linux.dev
+patch subject: [PATCH v4 1/3] md: Move sb writer loop to its own function
+config: s390-randconfig-r036-20230223 (https://download.01.org/0day-ci/archive/20230224/202302241507.7JQRJLLW-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/93818e631c76938f9a3ad87d1baf681645d02ba7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jonathan-Derrick/md-Move-sb-writer-loop-to-its-own-function/20230224-035451
+        git checkout 93818e631c76938f9a3ad87d1baf681645d02ba7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302241432.YML1CD5C-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302241507.7JQRJLLW-lkp@intel.com/
 
-smatch warnings:
-io_uring/rsrc.c:1262 io_sqe_buffer_register() error: uninitialized symbol 'folio'.
+All warnings (new ones prefixed by >>):
 
-vim +/folio +1262 io_uring/rsrc.c
+   In file included from drivers/md/md-bitmap.c:31:
+   In file included from include/trace/events/block.h:8:
+   In file included from include/linux/blktrace_api.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/md/md-bitmap.c:31:
+   In file included from include/trace/events/block.h:8:
+   In file included from include/linux/blktrace_api.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/md/md-bitmap.c:31:
+   In file included from include/trace/events/block.h:8:
+   In file included from include/linux/blktrace_api.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/md/md-bitmap.c:273:18: warning: variable 'rdev' is used uninitialized whenever function 'write_sb_page' is called [-Wsometimes-uninitialized]
+           struct md_rdev *rdev;
+           ~~~~~~~~~~~~~~~~^~~~
+   drivers/md/md-bitmap.c:278:35: note: uninitialized use occurs here
+                   while ((rdev = next_active_rdev(rdev, mddev)) != NULL) {
+                                                   ^~~~
+   drivers/md/md-bitmap.c:273:22: note: initialize the variable 'rdev' to silence this warning
+           struct md_rdev *rdev;
+                               ^
+                                = NULL
+   13 warnings generated.
 
-73572984481907 Jens Axboe        2022-06-13  1204  static int io_sqe_buffer_register(struct io_ring_ctx *ctx, struct iovec *iov,
-73572984481907 Jens Axboe        2022-06-13  1205  				  struct io_mapped_ubuf **pimu,
-73572984481907 Jens Axboe        2022-06-13  1206  				  struct page **last_hpage)
-73572984481907 Jens Axboe        2022-06-13  1207  {
-73572984481907 Jens Axboe        2022-06-13  1208  	struct io_mapped_ubuf *imu = NULL;
-73572984481907 Jens Axboe        2022-06-13  1209  	struct page **pages = NULL;
-73572984481907 Jens Axboe        2022-06-13  1210  	unsigned long off;
-73572984481907 Jens Axboe        2022-06-13  1211  	size_t size;
-73572984481907 Jens Axboe        2022-06-13  1212  	int ret, nr_pages, i;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1213  	struct folio *folio;
-73572984481907 Jens Axboe        2022-06-13  1214  
-73572984481907 Jens Axboe        2022-06-13  1215  	*pimu = ctx->dummy_ubuf;
-5ff4fdffad483d Pavel Begunkov    2022-06-15  1216  	if (!iov->iov_base)
-73572984481907 Jens Axboe        2022-06-13  1217  		return 0;
-73572984481907 Jens Axboe        2022-06-13  1218  
-73572984481907 Jens Axboe        2022-06-13  1219  	ret = -ENOMEM;
-73572984481907 Jens Axboe        2022-06-13  1220  	pages = io_pin_pages((unsigned long) iov->iov_base, iov->iov_len,
-73572984481907 Jens Axboe        2022-06-13  1221  				&nr_pages);
-73572984481907 Jens Axboe        2022-06-13  1222  	if (IS_ERR(pages)) {
-73572984481907 Jens Axboe        2022-06-13  1223  		ret = PTR_ERR(pages);
-73572984481907 Jens Axboe        2022-06-13  1224  		pages = NULL;
-73572984481907 Jens Axboe        2022-06-13  1225  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1226  	}
-73572984481907 Jens Axboe        2022-06-13  1227  
-57bebf807e2abc Pavel Begunkov    2023-02-22  1228  	/* If it's a huge page, try to coalesce them into a single bvec entry */
-57bebf807e2abc Pavel Begunkov    2023-02-22  1229  	if (nr_pages > 1) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1230  		folio = page_folio(pages[0]);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1231  		for (i = 1; i < nr_pages; i++) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1232  			if (page_folio(pages[i]) != folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1233  				folio = NULL;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1234  				break;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1235  			}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1236  		}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1237  		if (folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1238  			folio_put_refs(folio, nr_pages - 1);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1239  			nr_pages = 1;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1240  		}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1241  	}
 
-folio not initialized on else path.
+vim +273 drivers/md/md-bitmap.c
 
-57bebf807e2abc Pavel Begunkov    2023-02-22  1242  
-73572984481907 Jens Axboe        2022-06-13  1243  	imu = kvmalloc(struct_size(imu, bvec, nr_pages), GFP_KERNEL);
-73572984481907 Jens Axboe        2022-06-13  1244  	if (!imu)
-73572984481907 Jens Axboe        2022-06-13  1245  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1246  
-73572984481907 Jens Axboe        2022-06-13  1247  	ret = io_buffer_account_pin(ctx, pages, nr_pages, imu, last_hpage);
-73572984481907 Jens Axboe        2022-06-13  1248  	if (ret) {
-73572984481907 Jens Axboe        2022-06-13  1249  		unpin_user_pages(pages, nr_pages);
-73572984481907 Jens Axboe        2022-06-13  1250  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1251  	}
-73572984481907 Jens Axboe        2022-06-13  1252  
-73572984481907 Jens Axboe        2022-06-13  1253  	off = (unsigned long) iov->iov_base & ~PAGE_MASK;
-73572984481907 Jens Axboe        2022-06-13  1254  	size = iov->iov_len;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1255  	/* store original address for later verification */
-57bebf807e2abc Pavel Begunkov    2023-02-22  1256  	imu->ubuf = (unsigned long) iov->iov_base;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1257  	imu->ubuf_end = imu->ubuf + iov->iov_len;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1258  	imu->nr_bvecs = nr_pages;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1259  	*pimu = imu;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1260  	ret = 0;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1261  
-57bebf807e2abc Pavel Begunkov    2023-02-22 @1262  	if (folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1263  		bvec_set_page(&imu->bvec[0], pages[0], size, off);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1264  		goto done;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1265  	}
-73572984481907 Jens Axboe        2022-06-13  1266  	for (i = 0; i < nr_pages; i++) {
-73572984481907 Jens Axboe        2022-06-13  1267  		size_t vec_len;
-73572984481907 Jens Axboe        2022-06-13  1268  
-73572984481907 Jens Axboe        2022-06-13  1269  		vec_len = min_t(size_t, size, PAGE_SIZE - off);
-cc342a21930f0e Christoph Hellwig 2023-02-03  1270  		bvec_set_page(&imu->bvec[i], pages[i], vec_len, off);
-73572984481907 Jens Axboe        2022-06-13  1271  		off = 0;
-73572984481907 Jens Axboe        2022-06-13  1272  		size -= vec_len;
-73572984481907 Jens Axboe        2022-06-13  1273  	}
-73572984481907 Jens Axboe        2022-06-13  1274  done:
-73572984481907 Jens Axboe        2022-06-13  1275  	if (ret)
-73572984481907 Jens Axboe        2022-06-13  1276  		kvfree(imu);
-73572984481907 Jens Axboe        2022-06-13  1277  	kvfree(pages);
-73572984481907 Jens Axboe        2022-06-13  1278  	return ret;
-73572984481907 Jens Axboe        2022-06-13  1279  }
+   270	
+   271	static int write_sb_page(struct bitmap *bitmap, struct page *page, int wait)
+   272	{
+ > 273		struct md_rdev *rdev;
+   274		struct mddev *mddev = bitmap->mddev;
+   275		int ret;
+   276	
+   277		do {
+   278			while ((rdev = next_active_rdev(rdev, mddev)) != NULL) {
+   279				ret = __write_sb_page(rdev, bitmap, page);
+   280				if (ret)
+   281					return ret;
+   282			}
+   283		} while (wait && md_super_wait(mddev) < 0);
+   284	
+   285		return 0;
+   286	}
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
