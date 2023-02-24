@@ -1,195 +1,172 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BC6197
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 17:18:16 +0000 (UTC)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-17213c961dfso273668fac.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 09:18:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=35PGRLtjsjSa+3EItqYEIxiwSUdQKu7BSFkIqr4eHiA=;
-        b=FPbjkoaUUCjZrsp2x8uiFWlSNb1cFDvHsUqO6szAjslr73ID/KwsSnmaqFkrU3uwqI
-         9o6M6/C0VAOEL7T0txK/FHERz3uNBvITiVMIvrLJKe1MMBKscgvBpu2esEIE8ZC1awzO
-         lDUC6huxdiJu9QMflmT1osEqWnZTmzVHPHcw+ku5ZdbiF/cwtotHBHUQHjFeSfdhZ3r6
-         4PnRdhGoQG+LTK3QJHrUQ03Ny1GKNA/bzN8tucpuxnLDotVGT6fAtNi+Tbm+jFwkyzAS
-         fT0Yaazn5alQq9+htwYxI0xN33lYPP21YeVX8ZORmwNAlrLkRE2hIYlBgXq5UodfSBp+
-         /fOw==
-X-Gm-Message-State: AO0yUKWGzdlrO4KIxD5gI1Tva4bTyJC61nxMn0ThrcRiNhIb/opAXfrc
-	yij1KWjTHjIr8u4Klab/vklRBreDglIBhA==
-X-Google-Smtp-Source: AK7set+vaZ0OGDvWmQ2aKGX/HkDSkXJY1LfqMQbb/AFzQZI2t5h/Xq+okf7wtFF5Kx9Ht34NZ5W8Yw==
-X-Received: by 2002:a05:6870:391e:b0:166:d847:3350 with SMTP id b30-20020a056870391e00b00166d8473350mr15806765oap.56.1677259095862;
-        Fri, 24 Feb 2023 09:18:15 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id i64-20020a37b843000000b007417affecdcsm7694249qkf.69.2023.02.24.09.18.14
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Feb 2023 09:18:15 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-53852143afcso154879277b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 09:18:14 -0800 (PST)
-X-Received: by 2002:a81:ad43:0:b0:533:91d2:9d94 with SMTP id
- l3-20020a81ad43000000b0053391d29d94mr5193404ywk.5.1677259094700; Fri, 24 Feb
- 2023 09:18:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938CBAD4C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 18:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677262745; x=1708798745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BNDdmrZdwBU8SRPX2vwNZc9jJnIBU5bmE3T6Ywe/qKQ=;
+  b=MSsp7/UMUpXoWsnYLYhkuH/GW+7p77TADUUoovwovvLxXiDPbeJlWQX/
+   +OVhymq8q2Ci7ocG+BpxtEtOEwbH6rBeZbbA41CfkwgpFfxsJ8CZvPLhA
+   UHE11Ey83UlORSInB2o3milUXhDwiU9ahYEIivNsTbm0YGj7jTBcQNoAF
+   jybAomsMfAD+G+G++vtJCD8nxH69uxnN9UA6wYDNNtdwlZKaNGkvLm3mu
+   AQw2jpVo8F6271LBVhwnBx8rymg5apI+Q1B3E5LMhtZpcYmJN2Z6JiuVz
+   Qm9xhf85DcTpUm4dCSkjM2xNwFraTp/ntI8PICCh0zRN97mOG11HB0dam
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="313935955"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="313935955"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 10:19:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="666240737"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="666240737"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 24 Feb 2023 10:19:02 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVcer-0002bi-0I;
+	Fri, 24 Feb 2023 18:19:01 +0000
+Date: Sat, 25 Feb 2023 02:18:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Hindborg <nmi@metaspace.dk>, linux-block@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andreas Hindborg <nmi@metaspace.dk>,
+	Hans Holmberg <Hans.Holmberg@wdc.com>,
+	Matias Bjorling <Matias.Bjorling@wdc.com>,
+	Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] block: ublk: enable zoned storage support
+Message-ID: <202302250222.XOrw9j6z-lkp@intel.com>
+References: <20230224125950.214779-1-nmi@metaspace.dk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302240951.roaFGUy5-lkp@intel.com> <20230224084559.x2ceoc6r24uh3wms@pengutronix.de>
-In-Reply-To: <20230224084559.x2ceoc6r24uh3wms@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Feb 2023 18:18:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXOr5OFwte3FNVXRUERRwJiqxVXgwCjGC_y6jxmftxrLA@mail.gmail.com>
-Message-ID: <CAMuHMdXOr5OFwte3FNVXRUERRwJiqxVXgwCjGC_y6jxmftxrLA@mail.gmail.com>
-Subject: Re: drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224125950.214779-1-nmi@metaspace.dk>
 
-Hi Marco,
+Hi Andreas,
 
-On Fri, Feb 24, 2023 at 9:58 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> On 23-02-24, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   e4bc15889506723d7b93c053ad4a75cd58248d74
-> > commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-> > date:   4 months ago
-> > config: arc-randconfig-r031-20230223 (https://download.01.org/0day-ci/archive/20230224/202302240951.roaFGUy5-lkp@intel.com/config)
-> > compiler: arceb-elf-gcc (GCC) 12.1.0
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80a21da360516fa602f3a50eb9792f9dfbfb5fdb
-> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >         git fetch --no-tags linus master
-> >         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
->
-> This is still a false positive, should we initialize p_best to make the
-> compiler happy? I think Hans did this once, but he said that this will
-> be gone with gcc-13 if I remember correctly.
+Thank you for the patch! Yet something to improve:
 
-Are you sure this is a false positive?
+[auto build test ERROR on v6.2]
+[cannot apply to axboe-block/for-next linus/master next-20230224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202302240951.roaFGUy5-lkp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
-> > >> drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized [-Wuninitialized]
-> >      817 |         u16 p_best, p;
-> >          |             ^~~~~~
-> > >> drivers/media/i2c/tc358746.c:816:13: warning: 'm_best' is used uninitialized [-Wuninitialized]
-> >      816 |         u16 m_best, mul;
-> >          |             ^~~~~~
-> >
-> >
-> > vim +/p_best +817 drivers/media/i2c/tc358746.c
-> >
-> >    805
-> >    806        static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
-> >    807                                                        unsigned long refclk,
-> >    808                                                        unsigned long fout)
-> >    809
-> >    810        {
-> >    811                struct device *dev = tc358746->sd.dev;
-> >    812                unsigned long best_freq = 0;
-> >    813                u32 min_delta = 0xffffffff;
-> >    814                u16 prediv_max = 17;
-> >    815                u16 prediv_min = 1;
-> >  > 816                u16 m_best, mul;
-> >  > 817                u16 p_best, p;
-> >    818                u8 postdiv;
-> >    819
-> >    820                if (fout > 1000 * HZ_PER_MHZ) {
-> >    821                        dev_err(dev, "HS-Clock above 1 Ghz are not supported\n");
-> >    822                        return 0;
-> >    823                }
-> >    824
-> >    825                if (fout >= 500 * HZ_PER_MHZ)
-> >    826                        postdiv = 1;
-> >    827                else if (fout >= 250 * HZ_PER_MHZ)
-> >    828                        postdiv = 2;
-> >    829                else if (fout >= 125 * HZ_PER_MHZ)
-> >    830                        postdiv = 4;
-> >    831                else
-> >    832                        postdiv = 8;
-> >    833
-> >    834                for (p = prediv_min; p <= prediv_max; p++) {
-> >    835                        unsigned long delta, fin;
-> >    836                        u64 tmp;
-> >    837
-> >    838                        fin = DIV_ROUND_CLOSEST(refclk, p);
-> >    839                        if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
-> >    840                                continue;
-> >    841
-> >    842                        tmp = fout * p * postdiv;
-> >    843                        do_div(tmp, fin);
-> >    844                        mul = tmp;
-> >    845                        if (mul > 511)
-> >    846                                continue;
-> >    847
-> >    848                        tmp = mul * fin;
-> >    849                        do_div(tmp, p * postdiv);
-> >    850
-> >    851                        delta = abs(fout - tmp);
-> >    852                        if (delta < min_delta) {
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/block-ublk-enable-zoned-storage-support/20230224-210205
+patch link:    https://lore.kernel.org/r/20230224125950.214779-1-nmi%40metaspace.dk
+patch subject: [PATCH] block: ublk: enable zoned storage support
+config: ia64-buildonly-randconfig-r006-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250222.XOrw9j6z-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6d088fc1b115a63e8888b12fa47aabd45be97460
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andreas-Hindborg/block-ublk-enable-zoned-storage-support/20230224-210205
+        git checkout 6d088fc1b115a63e8888b12fa47aabd45be97460
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/
 
-So you assume this branch will be taken at least once.
-However, if the smallest delta is 0xffffffff, this is never true.
-Moreover, tmp is u64, while delta is unsigned long, which is
-either 32-bit or 64-bit (it is 32-bit on ARC, I think).
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250222.XOrw9j6z-lkp@intel.com/
 
-So I think the code can definitely be improved by cleaning up
-the types, possibly killing the warning as well...
+All errors (new ones prefixed by >>):
 
-> >    853                                p_best = p;
-> >    854                                m_best = mul;
-> >    855                                min_delta = delta;
-> >    856                                best_freq = tmp;
-> >    857                        };
-> >    858
-> >    859                        if (delta == 0)
-> >    860                                break;
-> >    861                };
-> >    862
-> >    863                if (!best_freq) {
-> >    864                        dev_err(dev, "Failed find PLL frequency\n");
-> >    865                        return 0;
-> >    866                }
-> >    867
-> >    868                tc358746->pll_post_div = postdiv;
-> >    869                tc358746->pll_pre_div = p_best;
-> >    870                tc358746->pll_mul = m_best;
-> >    871
-> >    872                if (best_freq != fout)
-> >    873                        dev_warn(dev, "Request PLL freq:%lu, found PLL freq:%lu\n",
-> >    874                                 fout, best_freq);
-> >    875
-> >    876                dev_dbg(dev, "Found PLL settings: freq:%lu prediv:%u multi:%u postdiv:%u\n",
-> >    877                        best_freq, p_best, m_best, postdiv);
-> >    878
-> >    879                return best_freq;
-> >    880        }
-> >    881
+   drivers/block/ublk_drv.c: In function 'ublk_dev_param_basic_apply':
+>> drivers/block/ublk_drv.c:221:28: error: 'struct gendisk' has no member named 'nr_zones'
+     221 |                 ub->ub_disk->nr_zones = p->dev_sectors / p->chunk_sectors;
+         |                            ^~
+   drivers/block/ublk_drv.c: In function 'ublk_dev_param_zoned_apply':
+>> drivers/block/ublk_drv.c:244:17: error: implicit declaration of function 'disk_set_max_active_zones'; did you mean 'bdev_max_active_zones'? [-Werror=implicit-function-declaration]
+     244 |                 disk_set_max_active_zones(ub->ub_disk, p->max_active_zones);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 bdev_max_active_zones
+>> drivers/block/ublk_drv.c:245:17: error: implicit declaration of function 'disk_set_max_open_zones'; did you mean 'bdev_max_open_zones'? [-Werror=implicit-function-declaration]
+     245 |                 disk_set_max_open_zones(ub->ub_disk, p->max_open_zones);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 bdev_max_open_zones
+   drivers/block/ublk_drv.c: In function 'ublk_ctrl_start_dev':
+>> drivers/block/ublk_drv.c:1663:23: error: implicit declaration of function 'blk_revalidate_disk_zones' [-Werror=implicit-function-declaration]
+    1663 |                 ret = blk_revalidate_disk_zones(disk, NULL);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-Gr{oetje,eeting}s,
 
-                        Geert
+vim +221 drivers/block/ublk_drv.c
+
+   192	
+   193	static void ublk_dev_param_basic_apply(struct ublk_device *ub)
+   194	{
+   195		struct request_queue *q = ub->ub_disk->queue;
+   196		const struct ublk_param_basic *p = &ub->params.basic;
+   197	
+   198		blk_queue_logical_block_size(q, 1 << p->logical_bs_shift);
+   199		blk_queue_physical_block_size(q, 1 << p->physical_bs_shift);
+   200		blk_queue_io_min(q, 1 << p->io_min_shift);
+   201		blk_queue_io_opt(q, 1 << p->io_opt_shift);
+   202	
+   203		blk_queue_write_cache(q, p->attrs & UBLK_ATTR_VOLATILE_CACHE,
+   204				p->attrs & UBLK_ATTR_FUA);
+   205		if (p->attrs & UBLK_ATTR_ROTATIONAL)
+   206			blk_queue_flag_clear(QUEUE_FLAG_NONROT, q);
+   207		else
+   208			blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
+   209	
+   210		blk_queue_max_hw_sectors(q, p->max_sectors);
+   211		blk_queue_chunk_sectors(q, p->chunk_sectors);
+   212		blk_queue_virt_boundary(q, p->virt_boundary_mask);
+   213	
+   214		if (p->attrs & UBLK_ATTR_READ_ONLY)
+   215			set_disk_ro(ub->ub_disk, true);
+   216	
+   217		set_capacity(ub->ub_disk, p->dev_sectors);
+   218	
+   219		if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+   220		    ub->dev_info.flags & UBLK_F_ZONED && p->chunk_sectors) {
+ > 221			ub->ub_disk->nr_zones = p->dev_sectors / p->chunk_sectors;
+   222		}
+   223	}
+   224	
+   225	static void ublk_dev_param_discard_apply(struct ublk_device *ub)
+   226	{
+   227		struct request_queue *q = ub->ub_disk->queue;
+   228		const struct ublk_param_discard *p = &ub->params.discard;
+   229	
+   230		q->limits.discard_alignment = p->discard_alignment;
+   231		q->limits.discard_granularity = p->discard_granularity;
+   232		blk_queue_max_discard_sectors(q, p->max_discard_sectors);
+   233		blk_queue_max_write_zeroes_sectors(q,
+   234				p->max_write_zeroes_sectors);
+   235		blk_queue_max_discard_segments(q, p->max_discard_segments);
+   236	}
+   237	
+   238	static void ublk_dev_param_zoned_apply(struct ublk_device *ub)
+   239	{
+   240		const struct ublk_param_zoned *p = &ub->params.zoned;
+   241	
+   242		if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+   243		    ub->dev_info.flags & UBLK_F_ZONED) {
+ > 244			disk_set_max_active_zones(ub->ub_disk, p->max_active_zones);
+ > 245			disk_set_max_open_zones(ub->ub_disk, p->max_open_zones);
+   246			/* We do not support zone append yet */
+   247			//blk_queue_max_zone_append_sectors(q, zone_size);
+   248		}
+   249	}
+   250	
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
