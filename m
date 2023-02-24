@@ -1,43 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF791AD58;
-	Fri, 24 Feb 2023 19:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5067DAD58
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 20:03:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677268329; x=1708804329;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5wJQQKJXhn0zDFMiXITO9NUG88kZkszeHGbyiK46HK0=;
-  b=Tc51mDyalR3/4RzGZAZfRn811Q6o9Rl+2Q9PfUDfcWs8wCpYFhQOCR5y
-   ir44OKIjBIC/MPJtSTcZwJqW1L6lP1+xX47MIw4lNjHWbnk7YtmhuGZeC
-   uyjDxgAHUhopQPumlzwhF0IkeeAeUXYbCPOloKAMtUqkPTm6Oa4WhwDU2
-   IkwnW3VPK00iHWlOQdPGrgNCjC+I41FHDdBdXKEv4tcTh3uH+JtaDnBb3
-   rcKdfYm6LawgSldaKCVy2AQ5JBLjaVNtk2mPhFdYYKyuQ81YVwnQO6tjS
-   eOS8k4gxnypr0fVmQwRQy2DnMSaKaLiIKziP8Vf6YRef9eI6ckz4Vi0iS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="361074002"
+  t=1677268990; x=1708804990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yK0OLOKHTBjVer7SFMeFOCUouvvyebPi2V/Mk1R/2rk=;
+  b=AfaIQEu7rAIcMsELPpoObpYoqWISyxf/smxF4PYXIErG3dZ89nPMsOYc
+   5jCvYlEry5zChOdIehsn/nUPypi5bG05AnISUEqL+EnEeYSRnfNv74Ebw
+   aDHW6GTN30WNGIZp4SSZu75DgscrcDn93zY13FaeuZvVvYwrOW9euspYX
+   kp7ZjXGelXuC4Ex8jimN0RnvcO+V7lmIdEtJxHANkbCZMNjrRuiekzn+/
+   ZhfYU7pN4qaPFAM6bQfBbcQSjnMMwNN/ZT+EGeWGwU60rvb6YYq1gk5qM
+   YqoX8BhQj8m22GzXoV/jka8GuO+O4TsVLSHUGnyDfwhH23MURScgvwUR7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="321771027"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="361074002"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 11:52:07 -0800
+   d="scan'208";a="321771027"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 12:03:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="847051864"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="741764528"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="847051864"
+   d="scan'208";a="741764528"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Feb 2023 11:52:06 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 24 Feb 2023 12:03:07 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVe6v-0002gx-21;
-	Fri, 24 Feb 2023 19:52:05 +0000
-Date: Sat, 25 Feb 2023 03:51:19 +0800
+	id 1pVeHa-0002hb-0z;
+	Fri, 24 Feb 2023 20:03:06 +0000
+Date: Sat, 25 Feb 2023 04:02:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split 29/30]
- arch/arm/kernel/entry-armv.S:271:23: error: cannot mix positional and
- keyword arguments
-Message-ID: <202302250306.elni46RL-lkp@intel.com>
+To: Andreas Hindborg <nmi@metaspace.dk>, linux-block@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andreas Hindborg <nmi@metaspace.dk>,
+	Hans Holmberg <Hans.Holmberg@wdc.com>,
+	Matias Bjorling <Matias.Bjorling@wdc.com>,
+	Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] block: ublk: enable zoned storage support
+Message-ID: <202302250349.1eKfsTvO-lkp@intel.com>
+References: <20230224125950.214779-1-nmi@metaspace.dk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +50,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230224125950.214779-1-nmi@metaspace.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
-head:   35ac5a9a53d2554bda395cdfa3236d278715caac
-commit: 0bf7902c72bece7c368367ab29582834a7fff130 [29/30] switch PGD/TTBR0 in <asm/uaccess-asm.h>
-config: arm-randconfig-r035-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250306.elni46RL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+Hi Andreas,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on v6.2]
+[cannot apply to axboe-block/for-next linus/master next-20230224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/block-ublk-enable-zoned-storage-support/20230224-210205
+patch link:    https://lore.kernel.org/r/20230224125950.214779-1-nmi%40metaspace.dk
+patch subject: [PATCH] block: ublk: enable zoned storage support
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230225/202302250349.1eKfsTvO-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=0bf7902c72bece7c368367ab29582834a7fff130
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
-        git checkout 0bf7902c72bece7c368367ab29582834a7fff130
+        # https://github.com/intel-lab-lkp/linux/commit/6d088fc1b115a63e8888b12fa47aabd45be97460
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andreas-Hindborg/block-ublk-enable-zoned-storage-support/20230224-210205
+        git checkout 6d088fc1b115a63e8888b12fa47aabd45be97460
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302250306.elni46RL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250349.1eKfsTvO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm/kernel/entry-armv.S:271:23: error: cannot mix positional and keyword arguments
-    svc_entry uaccess=0, 64
-                         ^
-
-
-vim +271 arch/arm/kernel/entry-armv.S
-
-   264	
-   265		.align	5
-   266	__und_svc:
-   267	#ifdef CONFIG_KPROBES
-   268		@ If a kprobe is about to simulate a "stmdb sp..." instruction,
-   269		@ it obviously needs free stack space which then will belong to
-   270		@ the saved context.
- > 271		svc_entry uaccess=0, MAX_STACK_SIZE
-   272	#else
-   273		svc_entry uaccess=0
-   274	#endif
-   275	
-   276		mov	r1, #4				@ PC correction to apply
-   277	 THUMB(	tst	r5, #PSR_T_BIT		)	@ exception taken in Thumb mode?
-   278	 THUMB(	movne	r1, #2			)	@ if so, fix up PC correction
-   279		mov	r0, sp				@ struct pt_regs *regs
-   280		bl	__und_fault
-   281	
-   282	__und_svc_finish:
-   283		get_thread_info tsk
-   284		ldr	r5, [sp, #S_PSR]		@ Get SVC cpsr
-   285		svc_exit rpsr=r5, uaccess=0		@ return from exception
-   286	 UNWIND(.fnend		)
-   287	ENDPROC(__und_svc)
-   288	
-   289		.align	5
-   290	__pabt_svc:
-   291		svc_entry uaccess=0
-   292		mov	r2, sp				@ regs
-   293		pabt_helper
-   294		svc_exit rpsr=r5, uaccess=0		@ return from exception
-   295	 UNWIND(.fnend		)
-   296	ENDPROC(__pabt_svc)
-   297	
-   298		.align	5
-   299	__fiq_svc:
-   300		svc_entry trace=0, uaccess=0
-   301		mov	r0, sp				@ struct pt_regs *regs
-   302		bl	handle_fiq_as_nmi
-   303		svc_exit_via_fiq uaccess=0
-   304	 UNWIND(.fnend		)
-   305	ENDPROC(__fiq_svc)
-   306	
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: drivers/block/ublk_drv.o: in function `ublk_dev_param_basic_apply':
+>> ublk_drv.c:(.text.ublk_dev_param_basic_apply+0x2d8): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
