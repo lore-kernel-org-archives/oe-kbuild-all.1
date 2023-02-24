@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D8D15A5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 02:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39106195
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 02:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677204214; x=1708740214;
+  t=1677206076; x=1708742076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WdJRb8h9N6CKCKQQOA20NMDqrrMdMGmY21/aZp9GrAs=;
-  b=KN7bTK8lrsA93g1Ip34e8wVihEuY8vAqG7Qvwv5I/T0WZGLxeLQoiUr1
-   pLOV98Ziet07ck1M0a4Yu1d02F9eSashmHraUpK84GCo8ppLhsXl9LoSs
-   sRnwrAK80GEq8dhmoXvV9bJE0re85fxXXIuwEdTkuaiVK4vmWpSl+WXr1
-   GJ+5fkb7go1qlFEjM8DiksMAD3Vkp44fg072GldUNZeD53NkNVcsiCdeV
-   cIDb1PwMRmq4FsJt36xRFGXO1w4Q8+gyFMGMoQscZHkApUNslBfCcjwm1
-   CvhgitjUNq0wYDMkl7yVsS9CvQa4lSTn/RzzPyoWm41flalHigDRCdRI3
+  bh=0LLT2tOg7XUME3QHAj4I3PyaFQXl9F6QDWLKiLPyA34=;
+  b=iubz8NGlqHqL0UHmnIsjiXHucw02+kl08w+d6hbCGsi3zmN8IKY9pxkF
+   0AZeQQqxKNh/SwH3N95w7W9pP7mlTPV5KIdEesSeQ/++aaQbb+vtAm5NV
+   0SSPUW8hmtWOkcPhNIAbRODztt+F+SlK6x/h9mkcULGvXSMoQQdp8OY5I
+   p0ImbZbloJ+hxzvHcwn7baEwTX+JBYZW0eGijgYAQn++3uzEJRNM7GqDf
+   gswRiqt19988OJhULhb5GLdBF12JWl2tY+lFEGhgGkeGUzjRGWeIDkaIY
+   /xm29gcTka3aYc1DNGYYS5gE4yl1bKC2CeyylKcrsqB9sgoj08LN6CYJw
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="419609473"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="332068253"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="419609473"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 18:03:33 -0800
+   d="scan'208";a="332068253"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 18:34:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="674757792"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="622568023"
 X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="674757792"
+   d="scan'208";a="622568023"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Feb 2023 18:03:32 -0800
+  by orsmga003.jf.intel.com with ESMTP; 23 Feb 2023 18:34:34 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVNQp-000229-2t;
-	Fri, 24 Feb 2023 02:03:31 +0000
-Date: Fri, 24 Feb 2023 10:03:00 +0800
+	id 1pVNur-00023T-1H;
+	Fri, 24 Feb 2023 02:34:33 +0000
+Date: Fri, 24 Feb 2023 10:34:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.4
- 8222/9999] ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains
- a compressed section, but zlib is not available
-Message-ID: <202302240918.1k897m3o-lkp@intel.com>
+To: Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw@amazon.co.uk>
+Subject: [dwmw2:parallel-6.2-rc8-part1 9/12]
+ arch/x86/include/asm/processor.h:654:53: error: 'PTREGS_SIZE' undeclared
+ here (not in a function); did you mean 'TLS_SIZE'?
+Message-ID: <202302241009.7GXtrZZr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,236 +47,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lecopzer,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android12-5.4
-head:   66c3e3ab77a20a24922b9837c635b1164b95aa0f
-commit: f4cdc4b7fc591e38fc2b602eb74489d032ec21b6 [8222/9999] FROMLIST: media: Kconfig: Fix DVB_CORE can't be selected as module
-config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230224/202302240918.1k897m3o-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-rc8-part1
+head:   e0efec029d0e793ae4cb53cabbe1392869354a0a
+commit: ed1b5345aeb7e1fc3d492521fef15797fe0ae3f7 [9/12] x86/smpboot: Remove initial_stack on 64-bit
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230224/202302241009.7GXtrZZr-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/f4cdc4b7fc591e38fc2b602eb74489d032ec21b6
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android12-5.4
-        git checkout f4cdc4b7fc591e38fc2b602eb74489d032ec21b6
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 parallel-6.2-rc8-part1
+        git checkout ed1b5345aeb7e1fc3d492521fef15797fe0ae3f7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302240918.1k897m3o-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302241009.7GXtrZZr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smscoreapi.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/sms-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsendian.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
---
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/common/siano/smsdvb-main.o: contains a compressed section, but zlib is not available
---
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dvbdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-core/dmxdev.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/media/dvb-core/dvb_demux.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
---
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-i2c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/au0828/au0828-cards.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
---
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_drv.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stb0899_algo.o: contains a compressed section, but zlib is not available
---
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_firm.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxd_hard.o: contains a compressed section, but zlib is not available
---
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_c.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_t.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/cxd2820r_t.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
---
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/stv0900_sw.o: contains a compressed section, but zlib is not available
---
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drxk_hard.o: contains a compressed section, but zlib is not available
---
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-cards.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/usb/tm6000/tm6000-core.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
---
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/media/dvb-frontends/drx39xyj/drxj.o: contains a compressed section, but zlib is not available
-..
+   In file included from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/init_task.h:5,
+                    from init/init_task.c:2:
+>> arch/x86/include/asm/processor.h:654:53: error: 'PTREGS_SIZE' undeclared here (not in a function); did you mean 'TLS_SIZE'?
+     654 |         .sp     = (unsigned long)&__end_init_task - PTREGS_SIZE,        \
+         |                                                     ^~~~~~~~~~~
+   init/init_task.c:115:27: note: in expansion of macro 'INIT_THREAD'
+     115 |         .thread         = INIT_THREAD,
+         |                           ^~~~~~~~~~~
+
+
+vim +654 arch/x86/include/asm/processor.h
+
+   652	
+   653	#define INIT_THREAD {							\
+ > 654		.sp	= (unsigned long)&__end_init_task - PTREGS_SIZE,	\
+   655	}
+   656	
 
 -- 
 0-DAY CI Kernel Test Service
