@@ -1,26 +1,43 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431B32570
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 08:46:09 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pVTiL-00067S-UI; Fri, 24 Feb 2023 09:46:01 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pVTiJ-00072k-1n; Fri, 24 Feb 2023 09:45:59 +0100
-Date: Fri, 24 Feb 2023 09:45:59 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used
- uninitialized
-Message-ID: <20230224084559.x2ceoc6r24uh3wms@pengutronix.de>
-References: <202302240951.roaFGUy5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927592570;
+	Fri, 24 Feb 2023 08:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677228525; x=1708764525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tNJRK8AoPszEMXDKY8PIlHf3hpT4oQnnGeS2n5oDBo0=;
+  b=PgOLINF/QowgjrF8AUeT33wqvkkwCwr97xUHpJLrPx3U39TnEbr1zs9B
+   3A/WOyYpV3VZ5fFHTVHTlb8DxXTEnWznhFYfy76VpFUUk+6Esn1yMLkJ1
+   5qyKg0578DKsj4pFHd3hKQgQKW6udKOMZ2T7AGe55VECZCz1zFozDKBi8
+   QLpFiSVgQzP9ii2Hpg0udkP/UiPvlwiMUAg4+Xx+5QvLBa0TpKQVDj3qX
+   Y7hn/b1tzMb3e4PkHNZAyml5I4WsZiDMzXi6jHRaNlgg7LzS5MLvQGRSD
+   RBl70rNVy7mKg50iLQUNOIF1zEjQItXnfprgC6p4vCh2wZZofqVlRKvHY
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="334849300"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="334849300"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 00:48:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="705198926"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="705198926"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 24 Feb 2023 00:48:43 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVTkx-0002GX-0h;
+	Fri, 24 Feb 2023 08:48:43 +0000
+Date: Fri, 24 Feb 2023 16:48:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:scsi-for-next 5/5] drivers/scsi/scsi_error.c:94:3:
+ error: call to undeclared function 'smb_mb'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202302241606.hSF0dXZd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -29,140 +46,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302240951.roaFGUy5-lkp@intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On 23-02-24, kernel test robot wrote:
-> Hi Marco,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   e4bc15889506723d7b93c053ad4a75cd58248d74
-> commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-> date:   4 months ago
-> config: arc-randconfig-r031-20230223 (https://download.01.org/0day-ci/archive/20230224/202302240951.roaFGUy5-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80a21da360516fa602f3a50eb9792f9dfbfb5fdb
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
+tree:   https://github.com/bvanassche/linux scsi-for-next
+head:   89fc49edc172725e7ba6fa9cde6e7d0c6b6ded7f
+commit: 89fc49edc172725e7ba6fa9cde6e7d0c6b6ded7f [5/5] scsi: core: Simplify the code for waking up the error handler
+config: arm-randconfig-r031-20230222 (https://download.01.org/0day-ci/archive/20230224/202302241606.hSF0dXZd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/bvanassche/linux/commit/89fc49edc172725e7ba6fa9cde6e7d0c6b6ded7f
+        git remote add bvanassche https://github.com/bvanassche/linux
+        git fetch --no-tags bvanassche scsi-for-next
+        git checkout 89fc49edc172725e7ba6fa9cde6e7d0c6b6ded7f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/scsi/
 
-This is still a false positive, should we initialize p_best to make the
-compiler happy? I think Hans did this once, but he said that this will
-be gone with gcc-13 if I remember correctly.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302241606.hSF0dXZd-lkp@intel.com/
 
-Regards,
-  Marco
+All errors (new ones prefixed by >>):
 
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302240951.roaFGUy5-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
-> >> drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized [-Wuninitialized]
->      817 |         u16 p_best, p;
->          |             ^~~~~~
-> >> drivers/media/i2c/tc358746.c:816:13: warning: 'm_best' is used uninitialized [-Wuninitialized]
->      816 |         u16 m_best, mul;
->          |             ^~~~~~
-> 
-> 
-> vim +/p_best +817 drivers/media/i2c/tc358746.c
-> 
->    805	
->    806	static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
->    807							unsigned long refclk,
->    808							unsigned long fout)
->    809	
->    810	{
->    811		struct device *dev = tc358746->sd.dev;
->    812		unsigned long best_freq = 0;
->    813		u32 min_delta = 0xffffffff;
->    814		u16 prediv_max = 17;
->    815		u16 prediv_min = 1;
->  > 816		u16 m_best, mul;
->  > 817		u16 p_best, p;
->    818		u8 postdiv;
->    819	
->    820		if (fout > 1000 * HZ_PER_MHZ) {
->    821			dev_err(dev, "HS-Clock above 1 Ghz are not supported\n");
->    822			return 0;
->    823		}
->    824	
->    825		if (fout >= 500 * HZ_PER_MHZ)
->    826			postdiv = 1;
->    827		else if (fout >= 250 * HZ_PER_MHZ)
->    828			postdiv = 2;
->    829		else if (fout >= 125 * HZ_PER_MHZ)
->    830			postdiv = 4;
->    831		else
->    832			postdiv = 8;
->    833	
->    834		for (p = prediv_min; p <= prediv_max; p++) {
->    835			unsigned long delta, fin;
->    836			u64 tmp;
->    837	
->    838			fin = DIV_ROUND_CLOSEST(refclk, p);
->    839			if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
->    840				continue;
->    841	
->    842			tmp = fout * p * postdiv;
->    843			do_div(tmp, fin);
->    844			mul = tmp;
->    845			if (mul > 511)
->    846				continue;
->    847	
->    848			tmp = mul * fin;
->    849			do_div(tmp, p * postdiv);
->    850	
->    851			delta = abs(fout - tmp);
->    852			if (delta < min_delta) {
->    853				p_best = p;
->    854				m_best = mul;
->    855				min_delta = delta;
->    856				best_freq = tmp;
->    857			};
->    858	
->    859			if (delta == 0)
->    860				break;
->    861		};
->    862	
->    863		if (!best_freq) {
->    864			dev_err(dev, "Failed find PLL frequency\n");
->    865			return 0;
->    866		}
->    867	
->    868		tc358746->pll_post_div = postdiv;
->    869		tc358746->pll_pre_div = p_best;
->    870		tc358746->pll_mul = m_best;
->    871	
->    872		if (best_freq != fout)
->    873			dev_warn(dev, "Request PLL freq:%lu, found PLL freq:%lu\n",
->    874				 fout, best_freq);
->    875	
->    876		dev_dbg(dev, "Found PLL settings: freq:%lu prediv:%u multi:%u postdiv:%u\n",
->    877			best_freq, p_best, m_best, postdiv);
->    878	
->    879		return best_freq;
->    880	}
->    881	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
+>> drivers/scsi/scsi_error.c:94:3: error: call to undeclared function 'smb_mb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   smb_mb();
+                   ^
+   1 error generated.
+
+
+vim +/smb_mb +94 drivers/scsi/scsi_error.c
+
+    75	
+    76	/**
+    77	 * scsi_schedule_eh - schedule EH for SCSI host
+    78	 * @shost:	SCSI host to invoke error handling on.
+    79	 *
+    80	 * Schedule SCSI EH without scmd.
+    81	 */
+    82	void scsi_schedule_eh(struct Scsi_Host *shost)
+    83	{
+    84		unsigned long flags;
+    85	
+    86		spin_lock_irqsave(shost->host_lock, flags);
+    87	
+    88		if (scsi_host_set_state(shost, SHOST_RECOVERY) == 0 ||
+    89		    scsi_host_set_state(shost, SHOST_CANCEL_RECOVERY) == 0) {
+    90			/*
+    91			 * Ensure that all tasks observe the host state change before
+    92			 * the host_failed change.
+    93			 */
+  > 94			smb_mb();
+    95			shost->host_eh_scheduled++;
+    96			scsi_eh_wakeup(shost);
+    97		}
+    98	
+    99		spin_unlock_irqrestore(shost->host_lock, flags);
+   100	}
+   101	EXPORT_SYMBOL_GPL(scsi_schedule_eh);
+   102	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
