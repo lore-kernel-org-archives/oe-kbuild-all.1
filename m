@@ -1,45 +1,49 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE1619E;
-	Fri, 24 Feb 2023 05:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677214840; x=1708750840;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tZQIvNF2fQT5ZTTmF4013c95rvzv4D1YYc0RCv0VrnQ=;
-  b=ZWQeb7IlPhBoQhC7gU4sRSii/TB0sYgz11dxDA5CxveulNxsuKnWdRH1
-   shG6r7tKg89XjYSL1qEr4vtkmaNyUWy+Fk3Ho5SNjnD6hjhKwuQNMAoHJ
-   VwTe313ZXHth7/nyufu+OAePZm5a5zv6Sgd+bBROwEAgIkVnIUcvuWWiV
-   I9c8IypP8+wqp3MnpiOa46egGCbmZuIVcMj7hCQV92pWfiVCd4gAWCt/I
-   03gJPNoyFaCepYC98XG7+fZg8qpSFXb4bE7ysH+PQJYCn0AlvRr+YVpTz
-   3y+yhwgpCMQomPj7FvUO+OSfRZWuH4D2ieLkaNIg0v6shL+IeV2S3O605
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="317156416"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="317156416"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 21:00:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="782206623"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="782206623"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 21:00:37 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pVQCC-000290-36;
-	Fri, 24 Feb 2023 05:00:36 +0000
-Date: Fri, 24 Feb 2023 13:00:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c:38:32:
- warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned
- int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int,
- void *)') converts to incompatible f...
-Message-ID: <202302241258.Q3rgDf4M-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D2E7C;
+	Fri, 24 Feb 2023 07:11:49 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id bo30so12345841wrb.0;
+        Thu, 23 Feb 2023 23:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
+        b=C8jI72GdyTZ62v5gmRgKDUqc0irV/9Oxs2vXimY4iI6OSenIMYg4k2vch+om9IFSjb
+         nMFX7yT91kn7gV2dyqFAnISPFMPbVX53FyinAAoUKMOnvZFjEdhsmh4NXlEEgqed+zuW
+         dd9ph3/wbpROYsaf9SbP/oQNnJByWoxlN1XmNxax/fAYqshiTsP3qiDSqf9eRKQ/b85P
+         pLhifXd/QoIlQtCD4Z2yWnhd+SGFPimKSgNkH29uLiTWcyvIk+yOLH+eb5aXyVK0UxwQ
+         44o5AUJJHimraW+ZPwmdnqdS4PbJeS44U+RQLS2VFeml73pplPmcvRtDb9xkuXK/gr7W
+         QBcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
+        b=YTetuJsJtVnXOIlRHqlXnyDTaV+zz4nO/s/wKNhVqxcxaP/CXNU3SE7E7bPCXNGGfN
+         AZJLnC0223j/Q/SWJSpzAKYY/GbrSfQ0HON8WuOjE4WU6dK/Gvz449y+QDy5uuG9SCmi
+         HW+2Wv9wDd7RkQRjvLSEkqIwaowblQIPTP9EiUPScpXSMYhdqLN+vx4z5jhNpRTpXgQj
+         mhlDlLMWazUDxS8g8NBC5TsPlDIPFcwSjbLzYxvvfdzh01xrpINY0RD3ahwDsMW8W8AD
+         4UBPkfw5PWShAcIHB+MfA23kwxGLd2B/v1Ma7489WpmmHlHIOK5Ox+IYvVYXFVKSrk5X
+         I3KQ==
+X-Gm-Message-State: AO0yUKUTQ9eg/hQ0MextoMySq0ruuyfZ9g0v3hK77F3hL3IxODjSBaLu
+	Fw1nUNhi6wi8AZ2/r+q1H+1gAnbEdH8=
+X-Google-Smtp-Source: AK7set9n0NDG4ZKwIhYLJ3nQMyGaNk6tcwQ0oORSvb7bKAJUC4Go/ZArnVn9OE7HwhRipK3sXYW8DA==
+X-Received: by 2002:adf:f344:0:b0:2c7:1740:629b with SMTP id e4-20020adff344000000b002c71740629bmr2674969wrp.13.1677222707669;
+        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l7-20020a5d5267000000b002c71a32394dsm1571657wrc.64.2023.02.23.23.11.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
+Date: Fri, 24 Feb 2023 10:11:43 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [linux-next:master 13574/13939] io_uring/rsrc.c:1262
+ io_sqe_buffer_register() error: uninitialized symbol 'folio'.
+Message-ID: <202302241432.YML1CD5C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,65 +53,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mauro,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2980d8d826554fa6981d621e569a453787472f8
-commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
-date:   11 months ago
-config: hexagon-randconfig-r041-20230224 (https://download.01.org/0day-ci/archive/20230224/202302241258.Q3rgDf4M-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2023a99811110aebba9eee4aa09ef7bd21a8a249
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/mediatek/vcodec/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4d6d7ce9baaf9e67a85a53afc69a36af716f7670
+commit: 57bebf807e2abcf87d96b9de1266104ee2d8fc2f [13574/13939] io_uring/rsrc: optimise registered huge pages
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230224/202302241432.YML1CD5C-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302241258.Q3rgDf4M-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302241432.YML1CD5C-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+io_uring/rsrc.c:1262 io_sqe_buffer_register() error: uninitialized symbol 'folio'.
 
->> drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
-           ipi_handler_t handler_const = (ipi_handler_t)handler;
-                                         ^~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +/folio +1262 io_uring/rsrc.c
 
+73572984481907 Jens Axboe        2022-06-13  1204  static int io_sqe_buffer_register(struct io_ring_ctx *ctx, struct iovec *iov,
+73572984481907 Jens Axboe        2022-06-13  1205  				  struct io_mapped_ubuf **pimu,
+73572984481907 Jens Axboe        2022-06-13  1206  				  struct page **last_hpage)
+73572984481907 Jens Axboe        2022-06-13  1207  {
+73572984481907 Jens Axboe        2022-06-13  1208  	struct io_mapped_ubuf *imu = NULL;
+73572984481907 Jens Axboe        2022-06-13  1209  	struct page **pages = NULL;
+73572984481907 Jens Axboe        2022-06-13  1210  	unsigned long off;
+73572984481907 Jens Axboe        2022-06-13  1211  	size_t size;
+73572984481907 Jens Axboe        2022-06-13  1212  	int ret, nr_pages, i;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1213  	struct folio *folio;
+73572984481907 Jens Axboe        2022-06-13  1214  
+73572984481907 Jens Axboe        2022-06-13  1215  	*pimu = ctx->dummy_ubuf;
+5ff4fdffad483d Pavel Begunkov    2022-06-15  1216  	if (!iov->iov_base)
+73572984481907 Jens Axboe        2022-06-13  1217  		return 0;
+73572984481907 Jens Axboe        2022-06-13  1218  
+73572984481907 Jens Axboe        2022-06-13  1219  	ret = -ENOMEM;
+73572984481907 Jens Axboe        2022-06-13  1220  	pages = io_pin_pages((unsigned long) iov->iov_base, iov->iov_len,
+73572984481907 Jens Axboe        2022-06-13  1221  				&nr_pages);
+73572984481907 Jens Axboe        2022-06-13  1222  	if (IS_ERR(pages)) {
+73572984481907 Jens Axboe        2022-06-13  1223  		ret = PTR_ERR(pages);
+73572984481907 Jens Axboe        2022-06-13  1224  		pages = NULL;
+73572984481907 Jens Axboe        2022-06-13  1225  		goto done;
+73572984481907 Jens Axboe        2022-06-13  1226  	}
+73572984481907 Jens Axboe        2022-06-13  1227  
+57bebf807e2abc Pavel Begunkov    2023-02-22  1228  	/* If it's a huge page, try to coalesce them into a single bvec entry */
+57bebf807e2abc Pavel Begunkov    2023-02-22  1229  	if (nr_pages > 1) {
+57bebf807e2abc Pavel Begunkov    2023-02-22  1230  		folio = page_folio(pages[0]);
+57bebf807e2abc Pavel Begunkov    2023-02-22  1231  		for (i = 1; i < nr_pages; i++) {
+57bebf807e2abc Pavel Begunkov    2023-02-22  1232  			if (page_folio(pages[i]) != folio) {
+57bebf807e2abc Pavel Begunkov    2023-02-22  1233  				folio = NULL;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1234  				break;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1235  			}
+57bebf807e2abc Pavel Begunkov    2023-02-22  1236  		}
+57bebf807e2abc Pavel Begunkov    2023-02-22  1237  		if (folio) {
+57bebf807e2abc Pavel Begunkov    2023-02-22  1238  			folio_put_refs(folio, nr_pages - 1);
+57bebf807e2abc Pavel Begunkov    2023-02-22  1239  			nr_pages = 1;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1240  		}
+57bebf807e2abc Pavel Begunkov    2023-02-22  1241  	}
 
-vim +38 drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c
+folio not initialized on else path.
 
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  27  
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  28  static int mtk_vcodec_vpu_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  29  					   mtk_vcodec_ipi_handler handler,
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  30  					   const char *name, void *priv)
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  31  {
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  32  	/*
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  33  	 * The handler we receive takes a void * as its first argument. We
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  34  	 * cannot change this because it needs to be passed down to the rproc
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  35  	 * subsystem when SCP is used. VPU takes a const argument, which is
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  36  	 * more constrained, so the conversion below is safe.
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  37  	 */
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13 @38  	ipi_handler_t handler_const = (ipi_handler_t)handler;
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  39  
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  40  	return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  41  }
-46233e91fa24a9 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c Alexandre Courbot 2020-10-13  42  
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 46233e91fa24a91bffca0680b1c55282ba601918 media: mtk-vcodec: move firmware implementations into their own files
-
-:::::: TO: Alexandre Courbot <acourbot@chromium.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+57bebf807e2abc Pavel Begunkov    2023-02-22  1242  
+73572984481907 Jens Axboe        2022-06-13  1243  	imu = kvmalloc(struct_size(imu, bvec, nr_pages), GFP_KERNEL);
+73572984481907 Jens Axboe        2022-06-13  1244  	if (!imu)
+73572984481907 Jens Axboe        2022-06-13  1245  		goto done;
+73572984481907 Jens Axboe        2022-06-13  1246  
+73572984481907 Jens Axboe        2022-06-13  1247  	ret = io_buffer_account_pin(ctx, pages, nr_pages, imu, last_hpage);
+73572984481907 Jens Axboe        2022-06-13  1248  	if (ret) {
+73572984481907 Jens Axboe        2022-06-13  1249  		unpin_user_pages(pages, nr_pages);
+73572984481907 Jens Axboe        2022-06-13  1250  		goto done;
+73572984481907 Jens Axboe        2022-06-13  1251  	}
+73572984481907 Jens Axboe        2022-06-13  1252  
+73572984481907 Jens Axboe        2022-06-13  1253  	off = (unsigned long) iov->iov_base & ~PAGE_MASK;
+73572984481907 Jens Axboe        2022-06-13  1254  	size = iov->iov_len;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1255  	/* store original address for later verification */
+57bebf807e2abc Pavel Begunkov    2023-02-22  1256  	imu->ubuf = (unsigned long) iov->iov_base;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1257  	imu->ubuf_end = imu->ubuf + iov->iov_len;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1258  	imu->nr_bvecs = nr_pages;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1259  	*pimu = imu;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1260  	ret = 0;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1261  
+57bebf807e2abc Pavel Begunkov    2023-02-22 @1262  	if (folio) {
+57bebf807e2abc Pavel Begunkov    2023-02-22  1263  		bvec_set_page(&imu->bvec[0], pages[0], size, off);
+57bebf807e2abc Pavel Begunkov    2023-02-22  1264  		goto done;
+57bebf807e2abc Pavel Begunkov    2023-02-22  1265  	}
+73572984481907 Jens Axboe        2022-06-13  1266  	for (i = 0; i < nr_pages; i++) {
+73572984481907 Jens Axboe        2022-06-13  1267  		size_t vec_len;
+73572984481907 Jens Axboe        2022-06-13  1268  
+73572984481907 Jens Axboe        2022-06-13  1269  		vec_len = min_t(size_t, size, PAGE_SIZE - off);
+cc342a21930f0e Christoph Hellwig 2023-02-03  1270  		bvec_set_page(&imu->bvec[i], pages[i], vec_len, off);
+73572984481907 Jens Axboe        2022-06-13  1271  		off = 0;
+73572984481907 Jens Axboe        2022-06-13  1272  		size -= vec_len;
+73572984481907 Jens Axboe        2022-06-13  1273  	}
+73572984481907 Jens Axboe        2022-06-13  1274  done:
+73572984481907 Jens Axboe        2022-06-13  1275  	if (ret)
+73572984481907 Jens Axboe        2022-06-13  1276  		kvfree(imu);
+73572984481907 Jens Axboe        2022-06-13  1277  	kvfree(pages);
+73572984481907 Jens Axboe        2022-06-13  1278  	return ret;
+73572984481907 Jens Axboe        2022-06-13  1279  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
