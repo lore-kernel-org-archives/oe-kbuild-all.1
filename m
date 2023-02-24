@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B1AAD58
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 19:21:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82065AD58;
+	Fri, 24 Feb 2023 19:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677266472; x=1708802472;
+  t=1677267668; x=1708803668;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7X9O9NBSme/L3e3jH54htVmOapTAkrJyzUeruXaGN8U=;
-  b=UxV+stNig3fYZgnF/4fup0MENVUgq0uC1WUBkVe6xjU3JRbA+SrPBzJv
-   GLuKItQoXtaEt4HSnlPETUNC+xPt3gXv4pivcGH7S+xnSZHIu6xztgrCq
-   6offkfNDB05Sc3BpyopVJSrBIYeTT8Lx0qJaGntMWD3IcRHtCF90iu+/F
-   AV0zx9Ayvgu5pD9SIyKEtI9SfkPoKl63FLXuj7ZjIB/4KaGcPQm7ray7I
-   znPhKcyiucbMsCP5aeWVuvKswaV2cjx+rtUe4aHIBd4HYqbp4WBSOUUDC
-   4CweSN/pliHXcCeNJOTStSOIxKJyuMggBn581gI3UJstn8caTh4wk6hz2
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="398293914"
+  bh=bLzogFJeKhQlTLCntTLLfkPodRGD14Z+6goF0w7kKSw=;
+  b=V+rCway4tvkBFQprd7YmE5xU8jvfnqWAfAkfakZ6LSSb1QMz+goSJMJT
+   cfOTMZM4pdXDwTrpkD4NnCU0wLFbAnBXVYahdUMMrbtAZB4WIdoA2Wuhj
+   ASygXO2aYbz/DQLHUzpeDocUHNQdUjJMIzs1V9QD3ivi6bYfRIiOFRiZy
+   GNVKdIxlGbM8zt6fH/tLzdekyGkNTE/6Tb9TNjpKyx+f88BskfIYU19Vo
+   loF1i+QnTlvroMeT+sIVOKRFYRa/jPaEd8DQeIBVIJwuracxIGEetiwoF
+   FKX2t0NrNSHiMS6x1fIj1ERUVEPZ2IG5pWDiXqneC0G2SY6XAtcBzM+eF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="334993547"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="398293914"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 11:21:05 -0800
+   d="scan'208";a="334993547"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 11:41:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="782473837"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="736918446"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="782473837"
+   d="scan'208";a="736918446"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2023 11:21:04 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 24 Feb 2023 11:41:06 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVdct-0002ft-3A;
-	Fri, 24 Feb 2023 19:21:03 +0000
-Date: Sat, 25 Feb 2023 03:20:23 +0800
+	id 1pVdwH-0002gj-1X;
+	Fri, 24 Feb 2023 19:41:05 +0000
+Date: Sat, 25 Feb 2023 03:40:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split 28/30]
- fs/binfmt_elf.c:1397:52: error: 'struct file' has no member named 'name'
-Message-ID: <202302250327.4nRpPL5q-lkp@intel.com>
+ fs/binfmt_elf.c:1397:47: error: no member named 'name' in 'struct file'
+Message-ID: <202302250325.uibdoPPp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,51 +49,39 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
 head:   35ac5a9a53d2554bda395cdfa3236d278715caac
 commit: 764a42eab1bbf21d84c3a32570df9a390af20d43 [28/30] debug prints
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230225/202302250327.4nRpPL5q-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230225/202302250325.uibdoPPp-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=764a42eab1bbf21d84c3a32570df9a390af20d43
         git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
         git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
         git checkout 764a42eab1bbf21d84c3a32570df9a390af20d43
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302250327.4nRpPL5q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250325.uibdoPPp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:29,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/paravirt_types.h:27,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from fs/binfmt_elf.c:13:
-   fs/binfmt_elf.c: In function 'load_elf_library':
->> fs/binfmt_elf.c:1397:52: error: 'struct file' has no member named 'name'
-    1397 |         pr_info("trying %s on %s\n", __func__, file->name);
-         |                                                    ^~
-   include/linux/printk.h:429:33: note: in definition of macro 'printk_index_wrap'
-     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:530:9: note: in expansion of macro 'printk'
-     530 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   fs/binfmt_elf.c:1397:9: note: in expansion of macro 'pr_info'
-    1397 |         pr_info("trying %s on %s\n", __func__, file->name);
-         |         ^~~~~~~
+>> fs/binfmt_elf.c:1397:47: error: no member named 'name' in 'struct file'
+           pr_info("trying %s on %s\n", __func__, file->name);
+                                                  ~~~~  ^
+   include/linux/printk.h:530:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                           ^~~~~~~~~~~
+   include/linux/printk.h:457:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                              ^~~~~~~~~~~
+   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
+   1 error generated.
 
 
 vim +1397 fs/binfmt_elf.c
