@@ -1,44 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D267A539D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 13:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C748B539D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 13:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677245513; x=1708781513;
+  t=1677246774; x=1708782774;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d+t0WLzI4FdrO/3xgP0uTDd0vkP3eJCbJOgoRXir/Xs=;
-  b=hMSDzzg5z+JnNpcpq8yjj8uJ9LpVM7ZlXnn7/wyojYrDlco4qJW4Lq1b
-   lidtl04590j5+KQyWBFomK6URRzuZuuOpJxq1ccWvlowujTyYrbTjKbdc
-   Av+cM6haKO9aPkYMwE4MdVqn5VmKiFaXJMJQFHyaQH0U6F9tpleTKrVI+
-   jhuqLJBDccPF5cT7+bJrDBPgCQVQgtTtIo2W4gShrDMhUOFqY2HO/z+CH
-   2zdrZ+LUzMKPPMKcO1yqj4lpciPjkYcz6Ref+XRh1hcq+cCycNVFX1XBf
-   M1ywXlviFvUeduPsWhiqIVRgFhjYxJWSYabA6rLcKNxPzBc8aV1siRD4U
+  bh=FV4wJY7P3iREpYwV64F76JRAZJsOuRd/aFmaOzw3t6g=;
+  b=Ran9ISfaUobu28QJA4PL0lhYq2DNHZ5vxxcJCdr2RA6JiddwqbwFMpLe
+   GzyNWfUmbUky1ZLTwFUoos9t55OYb5VQKLNu+vxWbb/zvUg27V4i/WHL4
+   7WRusJbXII9G3rXjxvX5uaku2qXGXKeHen4bIySsHAhpCdezkuTql4Qtz
+   AxTFTThNy1HZ2ON7wGo42Hz82bb6ZPo3QOJ6gd6y4HboO7LzviqVwvfFm
+   3qq1WfG7OnquzYHE6GF/u6oj/GN62NKFJ/kocQam8DrmBn4OZyBM1bEKw
+   Q4dkExpY8TdzgzicJuJZ91hdp/ZsiXT+o60GM7RI8QuiRMLt3WuinvhAN
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="321674339"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="332163017"
 X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="321674339"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 05:31:53 -0800
+   d="scan'208";a="332163017"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 05:52:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="796744073"
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="703190507"
 X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="796744073"
+   d="scan'208";a="703190507"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 24 Feb 2023 05:31:52 -0800
+  by orsmga008.jf.intel.com with ESMTP; 24 Feb 2023 05:52:52 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVYAx-0002Rd-1c;
-	Fri, 24 Feb 2023 13:31:51 +0000
-Date: Fri, 24 Feb 2023 21:31:04 +0800
+	id 1pVYVH-0002Rx-25;
+	Fri, 24 Feb 2023 13:52:51 +0000
+Date: Fri, 24 Feb 2023 21:52:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [povik:dcp-better-timeline 8/29]
- include/linux/compiler_types.h:358:45: error: call to
- '__compiletime_assert_364' declared with attribute error: FIELD_PREP: mask
- is not constant
-Message-ID: <202302242134.lgXzTzhv-lkp@intel.com>
+To: Rahul T R <r-ravikumar@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-linux-5.10.y-cicd 16582/22018] ld.lld: error:
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.o:(.riscv.attributes):
+ rv64i2p0_m2p0_a2p0_zicsr2p0_zifencei2p0: unsupported version number 2.0 for
+ extension 'zicsr'
+Message-ID: <202302242131.bricU5Zi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,222 +48,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/povik/linux dcp-better-timeline
-head:   f56212a7e1a2aad0697c5fcb8a35d259142bdb6a
-commit: 1d3f2c74525fef3167e3db539403b7a58dd3f85d [8/29] WIP: dmaengine: apple-sio: Add Apple SIO driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230224/202302242134.lgXzTzhv-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+Hi Rahul,
+
+First bad commit (maybe != root cause):
+
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y-cicd
+head:   2c23e6c538c879e380401ae4b236f54020618eaa
+commit: de3c3af242ae34519098deef095637cf138eb509 [16582/22018] drm/bridge: cdns-dsi: Add support for J721E wrapper
+config: riscv-randconfig-r015-20230222 (https://download.01.org/0day-ci/archive/20230224/202302242131.bricU5Zi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/povik/linux/commit/1d3f2c74525fef3167e3db539403b7a58dd3f85d
-        git remote add povik https://github.com/povik/linux
-        git fetch --no-tags povik dcp-better-timeline
-        git checkout 1d3f2c74525fef3167e3db539403b7a58dd3f85d
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-linux-5.10.y-cicd
+        git checkout de3c3af242ae34519098deef095637cf138eb509
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302242134.lgXzTzhv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302242131.bricU5Zi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |                                     ^~~~~~~~~~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/dma/apple-sio.c:29:25: note: in expansion of macro 'GENMASK'
-      29 | #define SIOMSG_DATA     GENMASK(63, 32)
-         |                         ^~~~~~~
-   drivers/dma/apple-sio.c:791:48: note: in expansion of macro 'SIOMSG_DATA'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                                ^~~~~~~~~~~
-   include/linux/bits.h:35:29: warning: left shift count >= width of type [-Wshift-count-overflow]
-      35 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
-         |                             ^~
-   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
-      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
-         |                                      ^
-   drivers/dma/apple-sio.c:791:37: note: in expansion of macro 'FIELD_PREP'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                     ^~~~~~~~~~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/dma/apple-sio.c:29:25: note: in expansion of macro 'GENMASK'
-      29 | #define SIOMSG_DATA     GENMASK(63, 32)
-         |                         ^~~~~~~
-   drivers/dma/apple-sio.c:791:48: note: in expansion of macro 'SIOMSG_DATA'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                                ^~~~~~~~~~~
-   include/linux/bits.h:36:18: warning: right shift count is negative [-Wshift-count-negative]
-      36 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                  ^~
-   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
-      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
-         |                                      ^
-   drivers/dma/apple-sio.c:791:37: note: in expansion of macro 'FIELD_PREP'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                     ^~~~~~~~~~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/dma/apple-sio.c:29:25: note: in expansion of macro 'GENMASK'
-      29 | #define SIOMSG_DATA     GENMASK(63, 32)
-         |                         ^~~~~~~
-   drivers/dma/apple-sio.c:791:48: note: in expansion of macro 'SIOMSG_DATA'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                                ^~~~~~~~~~~
-   include/linux/bits.h:35:29: warning: left shift count >= width of type [-Wshift-count-overflow]
-      35 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
-         |                             ^~
-   include/linux/bitfield.h:115:63: note: in definition of macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                                               ^~~~~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/dma/apple-sio.c:29:25: note: in expansion of macro 'GENMASK'
-      29 | #define SIOMSG_DATA     GENMASK(63, 32)
-         |                         ^~~~~~~
-   drivers/dma/apple-sio.c:791:48: note: in expansion of macro 'SIOMSG_DATA'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                                ^~~~~~~~~~~
-   include/linux/bits.h:36:18: warning: right shift count is negative [-Wshift-count-negative]
-      36 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                  ^~
-   include/linux/bitfield.h:115:63: note: in definition of macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                                               ^~~~~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/dma/apple-sio.c:29:25: note: in expansion of macro 'GENMASK'
-      29 | #define SIOMSG_DATA     GENMASK(63, 32)
-         |                         ^~~~~~~
-   drivers/dma/apple-sio.c:791:48: note: in expansion of macro 'SIOMSG_DATA'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                                ^~~~~~~~~~~
-   drivers/dma/apple-sio.c: In function 'sio_recv_msg':
-   include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_383' declared with attribute error: FIELD_GET: mask is not constant
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
-     339 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:128:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     128 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/dma/apple-sio.c:553:17: note: in expansion of macro 'FIELD_GET'
-     553 |         data  = FIELD_GET(SIOMSG_DATA, msg);
-         |                 ^~~~~~~~~
-   In function 'sio_fill_in_locked',
-       inlined from 'sio_issue_pending' at drivers/dma/apple-sio.c:407:3:
->> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_364' declared with attribute error: FIELD_PREP: mask is not constant
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
-     339 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/dma/apple-sio.c:386:38: note: in expansion of macro 'FIELD_PREP'
-     386 |                                      FIELD_PREP(SIOMSG_DATA, sio_desc_slot(sio, d)),
-         |                                      ^~~~~~~~~~
-   In function 'sio_send_dt_params',
-       inlined from 'sio_probe' at drivers/dma/apple-sio.c:892:8:
-   include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_468' declared with attribute error: FIELD_PREP: mask is not constant
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
-     339 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/dma/apple-sio.c:791:37: note: in expansion of macro 'FIELD_PREP'
-     791 |                                     FIELD_PREP(SIOMSG_DATA, val));
-         |                                     ^~~~~~~~~~
-   In function 'sio_alloc_shmem',
-       inlined from 'sio_probe' at drivers/dma/apple-sio.c:896:8:
-   include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_433' declared with attribute error: FIELD_PREP: mask is not constant
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
-     339 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/dma/apple-sio.c:749:29: note: in expansion of macro 'FIELD_PREP'
-     749 |                             FIELD_PREP(SIOMSG_DATA, iova >> 12));
-         |                             ^~~~~~~~~~
-
-
-vim +/__compiletime_assert_364 +358 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
-
-:::::: The code at line 358 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   ld.lld: error: drivers/gpu/drm/bridge/cadence/cdns-dsi-core.o:(.riscv.attributes): rv64i2p0_m2p0_a2p0_zicsr2p0_zifencei2p0: unsupported version number 2.0 for extension 'zicsr'
+>> ld.lld: error: drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.o:(.riscv.attributes): rv64i2p0_m2p0_a2p0_zicsr2p0_zifencei2p0: unsupported version number 2.0 for extension 'zicsr'
 
 -- 
 0-DAY CI Kernel Test Service
