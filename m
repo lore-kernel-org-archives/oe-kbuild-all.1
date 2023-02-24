@@ -1,45 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6087D6FBB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Feb 2023 16:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A347E197;
+	Fri, 24 Feb 2023 17:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677256026; x=1708792026;
+  t=1677258561; x=1708794561;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vtFjZDmPLPxtTSQVYru6QowiAzLoJNAikJQrTApB+Jc=;
-  b=oJDwrLlE3/1hMjJp243sqixbEeP428r0w016Oxh6tTAbopKfZjZg7P79
-   /Ka5OJC6Ia00RJNrZckcKrg9zPcyU0wdH3cPGhJQgJQUcJGw+r3wVSmPE
-   ofzjyeaHwuDfKJdFuDD7rVh1777DzYcAjblbTM/5/abh/Ur6rAnDW1f1l
-   EUzFmryHg3pIONte26y/ewQsR1JcIA71h1qfG69FM+R+Md1FYiBSblXwd
-   wb9VdJ6OI+MFdWb9mujoHcC5NRYTDizt6FYeBOYxHUPvanoluZNfT6p/V
-   PEqc/ePkyskRe8OydF7xjFKgOE4OkFyj9nrsPBVXhKLIV4RTI2VUXXnbc
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="317273631"
+  bh=xeaO1IniKr75/c4+/ZSkpy1ddVFlxyuf+WDd3rAkTAk=;
+  b=WFGJkCIa8Wb4fhnbrUys6oKzMU7vIRTkr8Ud4CZGD3tJvVUJgntYaTVl
+   piIy5AFMhG3KqoOzegUAcAx1VAyS4bFUO3RUi18lva7cnqPwIi+aNz6jp
+   3i6lHQkzKc+LvQYp+nPVjs1xQ1CI7Pg8gqye6xTdZDkD7aFGjXNmeitVi
+   xCviv68Z/YcCxiFZvnmR+FKPsMpVYeuq3oBevFlHVRYZs2+ytNw64Zz7l
+   R9pxbuE8stt6q6Jn6CGtUv5oVPhDJSyNfNqE9tE9BMgMbLCxW+q85MrEG
+   oX0M2XSUFrWUPfXAc7D2gQBDQk2DupF+R85dYmZYOfWUKQsu0FGhihjYR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="419760079"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="317273631"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 08:27:04 -0800
+   d="scan'208";a="419760079"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 09:07:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="705322966"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="796803293"
 X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="705322966"
+   d="scan'208";a="796803293"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Feb 2023 08:26:58 -0800
+  by orsmga004.jf.intel.com with ESMTP; 24 Feb 2023 09:06:59 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVauO-0002Xf-3B;
-	Fri, 24 Feb 2023 16:26:56 +0000
-Date: Sat, 25 Feb 2023 00:26:06 +0800
+	id 1pVbX8-0002Yr-2N;
+	Fri, 24 Feb 2023 17:06:58 +0000
+Date: Sat, 25 Feb 2023 01:06:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Zhongjin <chenzhongjin@huawei.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, chenzhongjin@huawei.com,
-	akpm@linux-foudation.org, wuchi.zero@gmail.com, ben-linux@fluff.org,
-	rusty@rustcorp.com.au
-Subject: Re: [PATCH] x86: profiling: Set prof_cpu_mask to NULL after free
-Message-ID: <202302250053.73MumSNs-lkp@intel.com>
-References: <20230224084945.134038-1-chenzhongjin@huawei.com>
+To: Bob Pearson <rpearsonhpe@gmail.com>, jgg@nvidia.com,
+	zyjzyj2000@gmail.com, linux-rdma@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bob Pearson <rpearsonhpe@gmail.com>
+Subject: Re: [PATCH for-next v2 4/4] RDMA/rxe: Add error messages
+Message-ID: <202302250056.mgmG5a52-lkp@intel.com>
+References: <20230224032916.151490-5-rpearsonhpe@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,91 +48,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230224084945.134038-1-chenzhongjin@huawei.com>
+In-Reply-To: <20230224032916.151490-5-rpearsonhpe@gmail.com>
 
-Hi Chen,
+Hi Bob,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20230224]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 66fb1d5df6ace316a4a6e2c31e13fc123ea2b644]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Zhongjin/x86-profiling-Set-prof_cpu_mask-to-NULL-after-free/20230224-165419
-patch link:    https://lore.kernel.org/r/20230224084945.134038-1-chenzhongjin%40huawei.com
-patch subject: [PATCH] x86: profiling: Set prof_cpu_mask to NULL after free
-config: openrisc-randconfig-r012-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250053.73MumSNs-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bob-Pearson/RDMA-rxe-Replace-exists-by-rxe-in-rxe-c/20230224-113206
+base:   66fb1d5df6ace316a4a6e2c31e13fc123ea2b644
+patch link:    https://lore.kernel.org/r/20230224032916.151490-5-rpearsonhpe%40gmail.com
+patch subject: [PATCH for-next v2 4/4] RDMA/rxe: Add error messages
+config: arm-randconfig-r004-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250056.mgmG5a52-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ed9b4879e816862f4f6210b1c429bcbebac6d317
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/39493983f5f2a6f4c7d19ba3b28e2e0537a42247
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chen-Zhongjin/x86-profiling-Set-prof_cpu_mask-to-NULL-after-free/20230224-165419
-        git checkout ed9b4879e816862f4f6210b1c429bcbebac6d317
+        git fetch --no-tags linux-review Bob-Pearson/RDMA-rxe-Replace-exists-by-rxe-in-rxe-c/20230224-113206
+        git checkout 39493983f5f2a6f4c7d19ba3b28e2e0537a42247
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/infiniband/sw/rxe/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302250053.73MumSNs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250056.mgmG5a52-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/profile.c: In function 'profile_init':
->> kernel/profile.c:136:23: error: assignment to expression with array type
-     136 |         prof_cpu_mask = NULL;
-         |                       ^
+>> drivers/infiniband/sw/rxe/rxe_verbs.c:600:13: warning: variable 'err' is uninitialized when used here [-Wuninitialized]
+                              mask, err);
+                                    ^~~
+   drivers/infiniband/sw/rxe/rxe.h:53:51: note: expanded from macro 'rxe_dbg_qp'
+                   "qp#%d %s: " fmt, (qp)->elem.index, __func__, ##__VA_ARGS__)
+                                                                   ^~~~~~~~~~~
+   drivers/infiniband/sw/rxe/rxe_verbs.c:596:9: note: initialize the variable 'err' to silence this warning
+           int err;
+                  ^
+                   = 0
+   1 warning generated.
 
 
-vim +136 kernel/profile.c
+vim +/err +600 drivers/infiniband/sw/rxe/rxe_verbs.c
 
-    98	
-    99	
-   100	int __ref profile_init(void)
-   101	{
-   102		int buffer_bytes;
-   103		if (!prof_on)
-   104			return 0;
-   105	
-   106		/* only text is profiled */
-   107		prof_len = (_etext - _stext) >> prof_shift;
-   108	
-   109		if (!prof_len) {
-   110			pr_warn("profiling shift: %u too large\n", prof_shift);
-   111			prof_on = 0;
-   112			return -EINVAL;
-   113		}
-   114	
-   115		buffer_bytes = prof_len*sizeof(atomic_t);
-   116	
-   117		if (!alloc_cpumask_var(&prof_cpu_mask, GFP_KERNEL))
-   118			return -ENOMEM;
-   119	
-   120		cpumask_copy(prof_cpu_mask, cpu_possible_mask);
-   121	
-   122		prof_buffer = kzalloc(buffer_bytes, GFP_KERNEL|__GFP_NOWARN);
-   123		if (prof_buffer)
-   124			return 0;
-   125	
-   126		prof_buffer = alloc_pages_exact(buffer_bytes,
-   127						GFP_KERNEL|__GFP_ZERO|__GFP_NOWARN);
-   128		if (prof_buffer)
-   129			return 0;
-   130	
-   131		prof_buffer = vzalloc(buffer_bytes);
-   132		if (prof_buffer)
-   133			return 0;
-   134	
-   135		free_cpumask_var(prof_cpu_mask);
- > 136		prof_cpu_mask = NULL;
-   137		return -ENOMEM;
-   138	}
-   139	
+   590	
+   591	static int rxe_modify_qp(struct ib_qp *ibqp, struct ib_qp_attr *attr,
+   592				 int mask, struct ib_udata *udata)
+   593	{
+   594		struct rxe_dev *rxe = to_rdev(ibqp->device);
+   595		struct rxe_qp *qp = to_rqp(ibqp);
+   596		int err;
+   597	
+   598		if (mask & ~IB_QP_ATTR_STANDARD_BITS) {
+   599			rxe_dbg_qp(qp, "unsupported mask = 0x%x, err = %d",
+ > 600				   mask, err);
+   601			err = -EOPNOTSUPP;
+   602			goto err_out;
+   603		}
+   604	
+   605		err = rxe_qp_chk_attr(rxe, qp, attr, mask);
+   606		if (err) {
+   607			rxe_dbg_qp(qp, "bad mask/attr, err = %d", err);
+   608			goto err_out;
+   609		}
+   610	
+   611		err = rxe_qp_from_attr(qp, attr, mask, udata);
+   612		if (err) {
+   613			rxe_dbg_qp(qp, "modify qp failed, err = %d", err);
+   614			goto err_out;
+   615		}
+   616	
+   617		if ((mask & IB_QP_AV) && (attr->ah_attr.ah_flags & IB_AH_GRH))
+   618			qp->src_port = rdma_get_udp_sport(attr->ah_attr.grh.flow_label,
+   619							  qp->ibqp.qp_num,
+   620							  qp->attr.dest_qp_num);
+   621	
+   622		return 0;
+   623	
+   624	err_out:
+   625		rxe_err_qp(qp, "returned err = %d", err);
+   626		return err;
+   627	}
+   628	
 
 -- 
 0-DAY CI Kernel Test Service
