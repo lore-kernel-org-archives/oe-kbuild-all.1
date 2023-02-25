@@ -1,44 +1,47 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10C53D7B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 19:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01ADA3D7B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 19:16:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677352484; x=1708888484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0KoMKXjQUApcRlDXH4w7hCtoT6tBYjfCi+UzayKz7cM=;
-  b=cGajlCcEtY6SeJIoeVWQr5NqSwTKZmCq5QGknlSomgYjgi4wuSDoQGjJ
-   veKLC7mOjWoWtzdpoqCkATpQSpszpl+mXD50KBgm3fS+Ra2krS2gSW/4O
-   jcy7aABV+I0l650ZNAiT1GoLgm+Nv179p+hwz2w6sKlwAjcKBnx8YP6PR
-   sjwyRWcqO0Bhzj4D39dmfblhTWz775xVUojL+sKPotHbL3uKYjfDBEZab
-   tYh0mdWJIW1NuVhDvm+ozaew/FQdUvtXpugYnwnu1YE46ZGd5Sq7zvOJa
-   P6hGPFdUDNo4gL0ud0UOYgzmwHCre+Py/Fk5kI1yIytPtxZ3cFU2XSAT1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="332380338"
+  t=1677352604; x=1708888604;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=M6Gts3O4ENH8tu3SxSqqinqquLHUAHEDDHfMBOkJvgk=;
+  b=JAeTFjOJOUI/TaHFents0k6stuh/0H+MxBcuZfqIOhiNfL/Nn9P/FOv6
+   bEWLCKIfA6sBRdSjPhlwSnmCkP2n7eP3ALYBsF4Ru7/C3WGt+tHg8hZgZ
+   L0kD1yTZWjUY44zIMnG/cW1XBLm51eEjnJ38uyx/itLBpKHLSoLhweQqJ
+   f9IGM2eodVrp/2Vq51iAchaxAWODCMynx1kxZw1OjkPrF1/u2EvqRNHoE
+   aSHafNmZQZfoWNP28SlG6FtuEmKJ6eSzmn7uSt8Qn2QwI4QJ5FJXn2c86
+   n3Rj2pWpydT3odFCYPJ+GeM+8e64W6aN+z23Lb/Elj/SFOP8JhFXLehLg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="313327064"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="332380338"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 11:14:43 -0800
+   d="scan'208";a="313327064"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 11:16:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="705644472"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="762147107"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="705644472"
+   d="scan'208";a="762147107"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2023 11:14:41 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Feb 2023 11:16:42 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW00H-0003Nn-0U;
-	Sat, 25 Feb 2023 19:14:41 +0000
-Date: Sun, 26 Feb 2023 03:14:32 +0800
+	id 1pW02D-0003Nr-0a;
+	Sat, 25 Feb 2023 19:16:41 +0000
+Date: Sun, 26 Feb 2023 03:16:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raviteja Narayanam <raviteja.narayanam@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-Subject: drivers/i2c/busses/i2c-xiic.c:994:39: warning: 'xiic_2_00' defined
- but not used
-Message-ID: <202302260317.PpagiXGe-lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>
+Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: [lkp] [+288 bytes kernel size regression] [i386-tinyconfig]
+ [cb018fee51] x86/alternatives: Teach text_poke_bp() to patch Jcc.d32
+ instructions
+Message-ID: <63fa5e79.VtBHx/RpKW7eSlfq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,43 +49,31 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7c3dc440b1f5c75f45e24430f913e561dc82a419
-commit: 2fd5cf352efa0c62dd20d1e046bc8767395b1ec0 i2c: xiic: Switch to Xiic standard mode for i2c-read
-date:   3 weeks ago
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230226/202302260317.PpagiXGe-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2fd5cf352efa0c62dd20d1e046bc8767395b1ec0
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2fd5cf352efa0c62dd20d1e046bc8767395b1ec0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/i2c/busses/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302260317.PpagiXGe-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/i2c/busses/i2c-xiic.c:994:39: warning: 'xiic_2_00' defined but not used [-Wunused-const-variable=]
-     994 | static const struct xiic_version_data xiic_2_00 = {
-         |                                       ^~~~~~~~~
+Content-Transfer-Encoding: 7bit
 
 
-vim +/xiic_2_00 +994 drivers/i2c/busses/i2c-xiic.c
+FYI, we noticed a +288 bytes kernel size regression due to commit:
 
-   993	
- > 994	static const struct xiic_version_data xiic_2_00 = {
-   995		.quirks = DYNAMIC_MODE_READ_BROKEN_BIT,
-   996	};
-   997	
+commit: cb018fee513c42d4f449f31c1b6703d9c9386ae9 (x86/alternatives: Teach text_poke_bp() to patch Jcc.d32 instructions)
+https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git linux-6.2.y
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
+
+a3ab0272: x86/alternatives: Introduce int3_emulate_jcc()
+cb018fee: x86/alternatives: Teach text_poke_bp() to patch Jcc.d32 instructions
+
++-------------------------+----------+----------+-------+
+|         symbol          | a3ab0272 | cb018fee | delta |
++-------------------------+----------+----------+-------+
+| nm.T.poke_int3_handler  | 223      | 363      | 140   |
+| bzImage                 | 496032   | 496160   | 128   |
+| nm.t.text_poke_bp_batch | 306      | 382      | 76    |
+| nm.t.text_poke_loc_init | 249      | 297      | 48    |
+| nm.d.jcc_mask           | 0        | 24       | 24    |
++-------------------------+----------+----------+-------+
+
+
+
+Thanks
+
