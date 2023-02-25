@@ -1,161 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1509519B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 13:43:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E795EC433EF;
-	Sat, 25 Feb 2023 13:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677332630;
-	bh=A9z3b64VkaMRkUAV1DYE9aa9lOpeR5FF3NvObDflES0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=iTVYV7ncYTQRDyLSgSNhGrfTl9ww5MbQlU3XA3IC9rHliGKhfjSY8yoFSdoPCYzYL
-	 iXVZaNytRiIDyqftw11H/HgVHnCZxnIYfZII3RrWXH/jVpZOgh0/z+k3E9ls2mI3am
-	 NL/uSwt4KjXokRnEZDBWC0Z5WznQoBWzEnYklMxG0cIrbWnA8K1O41Hcz+xHs2aVZz
-	 Ez8UUAEi4MYPw5m5EMdFzNoupIxs+a6gd4yTNyrqHSqgUgu0Jw4qJROkFabq878UP4
-	 MFcnjhbbuZcVeZVtiCeywenPtk9sMcT+ENFq7Oj16vf5kImMUXvj0gTd77tPLZGIur
-	 rEzwaeyKiYFnQ==
-Date: Sat, 25 Feb 2023 13:43:44 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_kismet=3A_WARNING=3A_unmet_direct_dependencies_detecte?= =?US-ASCII?Q?d_for_IOMMU=5FIO=5FPGTABLE=5FLPAE?= =?US-ASCII?Q?_when_selected_by_IPMMU=5FVMSA?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
-References: <202212221206.Lt61kYrt-lkp@intel.com> <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org> <Y6tAgP7UoP3aYBjq@spud> <d5bd9e86-473e-7577-4472-33eb2acbe8fa@infradead.org> <Y/lUvq3TSXL6tJOk@spud> <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
-Message-ID: <4F5BE5CB-1AB5-4725-860A-1231A72FCE1D@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9740D33C8;
+	Sat, 25 Feb 2023 14:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677335377; x=1708871377;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yEkCgk0qdxam3842EPDUAaAEj9sbPPlM9MJlt5GSFu0=;
+  b=mbWX8+zQzdDOPCHPA7/omxNzHGIIKJvsGgQlxMAqzLHn0xUeWuGCfy1S
+   +ZQliRFcacWNtUTvIZHBrdRVMjVVtkttP1LqZEI+btutNdeAUveMefry3
+   l6QrYVD92ykxA4HNlX1K/Rj75NdoU3KiQPtvum3Jp6wBJ4tjRNPpggc/E
+   HvpCthKN7C50JNYSu7uYYl4VCpd7Q6nTH9SQfBu0KbzkECAFLuJr/Zqms
+   bUVX2nivujJMLdtS1ku5njYwNbvcNxUlvw3xSEbnplejZMcL2O/+GU0X1
+   aIGBDjm9UqVme2orwC4bujEwkexsD75mJSLtBYqb6zQfQCgKB+VYkpyW7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="335100415"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="335100415"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 06:29:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="705602975"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="705602975"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2023 06:29:33 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVvYK-0003FR-0u;
+	Sat, 25 Feb 2023 14:29:32 +0000
+Date: Sat, 25 Feb 2023 22:29:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: arch/arm/mm/copypage-xsc3.c:64:6: warning: no previous prototype for
+ function 'xsc3_mc_copy_user_highpage'
+Message-ID: <202302252213.uGXXs6Lo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Arnd,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   489fa31ea873282b41046d412ec741f93946fc2d
+commit: 250c1a694ff304e5d69e74ab32755eddcc2b8f65 ARM: pxa: convert to multiplatform
+date:   10 months ago
+config: arm-randconfig-r046-20230225 (https://download.01.org/0day-ci/archive/20230225/202302252213.uGXXs6Lo-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=250c1a694ff304e5d69e74ab32755eddcc2b8f65
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 250c1a694ff304e5d69e74ab32755eddcc2b8f65
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302252213.uGXXs6Lo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/arm/mm/copypage-xsc3.c:64:6: warning: no previous prototype for function 'xsc3_mc_copy_user_highpage' [-Wmissing-prototypes]
+   void xsc3_mc_copy_user_highpage(struct page *to, struct page *from,
+        ^
+   arch/arm/mm/copypage-xsc3.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc3_mc_copy_user_highpage(struct page *to, struct page *from,
+   ^
+   static 
+>> arch/arm/mm/copypage-xsc3.c:80:6: warning: no previous prototype for function 'xsc3_mc_clear_user_highpage' [-Wmissing-prototypes]
+   void xsc3_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
+        ^
+   arch/arm/mm/copypage-xsc3.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc3_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
+   ^
+   static 
+   2 warnings generated.
 
 
+vim +/xsc3_mc_copy_user_highpage +64 arch/arm/mm/copypage-xsc3.c
 
-On 25 February 2023 00:28:36 GMT, Randy Dunlap <rdunlap@infradead=2Eorg> w=
-rote:
->
->
->On 2/24/23 16:22, Conor Dooley wrote:
->> On Fri, Feb 24, 2023 at 04:12:49PM -0800, Randy Dunlap wrote:
->>> Hi Conor, Palmer,
->>>
->>> On 12/27/22 10:59, Conor Dooley wrote:
->>>> Hey Randy,
->>>>
->>>> On Thu, Dec 22, 2022 at 05:00:06PM -0800, Randy Dunlap wrote:
->>>>> On 12/21/22 20:49, kernel test robot wrote:
->>>>>> tree:   https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torvald=
-s/linux=2Egit master
->>>>>> head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
->>>>>> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig=2Es=
-ocs: Add ARCH_RENESAS kconfig option
->>>>>> date:   6 weeks ago
->>>>>> config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA=
--0-0
->>>>>> reproduce:
->>>>>>         # https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torva=
-lds/linux=2Egit/commit/?id=3D8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->>>>>>         git remote add linus https://git=2Ekernel=2Eorg/pub/scm/lin=
-ux/kernel/git/torvalds/linux=2Egit
->>>>>>         git fetch --no-tags linus master
->>>>>>         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->>>>>>         # 1=2E reproduce by kismet
->>>>>>            # install kmax per https://github=2Ecom/paulgazz/kmax/bl=
-ob/master/README=2Emd
->>>>>>            kismet --linux-ksrc=3Dlinux --selectees CONFIG_IOMMU_IO_=
-PGTABLE_LPAE --selectors CONFIG_IPMMU_VMSA -a=3Driscv
->>>>>>         # 2=2E reproduce by make
->>>>>>            # save the config file to linux source tree
->>>>>>            cd linux
->>>>>>            make ARCH=3Driscv olddefconfig
->>>>>>
->>>>>> If you fix the issue, kindly add following tag where applicable
->>>>>> | Reported-by: kernel test robot <lkp@intel=2Ecom>
->>>>>>
->>>>>> kismet warnings: (new ones prefixed by >>)
->>>>>>>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_=
-PGTABLE_LPAE when selected by IPMMU_VMSA
->>>>>>    =2Econfig:4814:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_M=
-I' invalid for ARCH_MMAP_RND_BITS
->>>>>>   =20
->>>>>>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE=
-_LPAE
->>>>>>      Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPI=
-LE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
->>>>>>      Selected by [y]:
->>>>>>      - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=
-=3Dy] || COMPILE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
->>>>>>
->>>>>
->>>>> Maybe this:
->>>>>
->>>>> ---
->>>>>  drivers/iommu/Kconfig |    3 ++-
->>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff -- a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
->>>>> --- a/drivers/iommu/Kconfig
->>>>> +++ b/drivers/iommu/Kconfig
->>>>> @@ -32,7 +32,8 @@ config IOMMU_IO_PGTABLE
->>>>>  config IOMMU_IO_PGTABLE_LPAE
->>>>>  	bool "ARMv7/v8 Long Descriptor Format"
->>>>>  	select IOMMU_IO_PGTABLE
->>>>> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
->>>>> +	depends on ARM || ARM64 || ARCH_RENESAS || \
->>>>> +		(COMPILE_TEST && !GENERIC_ATOMIC64)
->>>>>  	help
->>>>>  	  Enable support for the ARM long descriptor pagetable format=2E
->>>>>  	  This allocator supports 4K/2M/1G, 16K/32M and 64K/512M page
->>>>>
->>>>>
->>>>> or is way off?
->>>>
->>>> Apologies for the radio silence here=2E=2E
->>>>
->>>> Palmer initially sent a workaround and there was some discussion ther=
-e:
->>>> https://lore=2Ekernel=2Eorg/all/20221214180409=2E7354-1-palmer@rivosi=
-nc=2Ecom/
->>>> Guo sent a patch too:
->>>> https://lore=2Ekernel=2Eorg/linux-riscv/20221215073212=2E1966823-1-gu=
-oren@kernel=2Eorg/
->>>>
->>>> I suppose Christmas is doing Christmas things :)
->>>
->>> Has this been solved (merged) yet?
->>> I'm still seeing a warning on linux-next-20230224=2E
->>=20
->> I thought it was fixed in the iommu tree with this series:
->> https://lore=2Ekernel=2Eorg/all/7a53ac6f-640b-436d-9bfa-3e49066b2460@ar=
-m=2Ecom/
->>=20
->> If it is not, I'll take a look tomorrow=2E=2E=2E
->
->I see this warning on today's linux-next-20230224:
->
->WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
->  Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST [=
-=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
->  Selected by [y]:
->  - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] || =
-COMPILE_TEST [=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
->
->with the attached config file=2E Please have a look=2E
+d73e60b7144a86 Russell King  2008-10-31   63  
+063b0a4207e43a Russell King  2008-10-31  @64  void xsc3_mc_copy_user_highpage(struct page *to, struct page *from,
+f00a75c094c340 Russell King  2009-10-05   65  	unsigned long vaddr, struct vm_area_struct *vma)
+063b0a4207e43a Russell King  2008-10-31   66  {
+063b0a4207e43a Russell King  2008-10-31   67  	void *kto, *kfrom;
+063b0a4207e43a Russell King  2008-10-31   68  
+5472e862de2bc4 Cong Wang     2011-11-25   69  	kto = kmap_atomic(to);
+5472e862de2bc4 Cong Wang     2011-11-25   70  	kfrom = kmap_atomic(from);
+2725898fc9bb21 Russell King  2009-10-05   71  	flush_cache_page(vma, vaddr, page_to_pfn(from));
+063b0a4207e43a Russell King  2008-10-31   72  	xsc3_mc_copy_user_page(kto, kfrom);
+5472e862de2bc4 Cong Wang     2011-11-25   73  	kunmap_atomic(kfrom);
+5472e862de2bc4 Cong Wang     2011-11-25   74  	kunmap_atomic(kto);
+063b0a4207e43a Russell King  2008-10-31   75  }
+063b0a4207e43a Russell King  2008-10-31   76  
+d73e60b7144a86 Russell King  2008-10-31   77  /*
+d73e60b7144a86 Russell King  2008-10-31   78   * XScale optimised clear_user_page
+d73e60b7144a86 Russell King  2008-10-31   79   */
+303c6443659bc1 Russell King  2008-10-31  @80  void xsc3_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
+d73e60b7144a86 Russell King  2008-10-31   81  {
+5472e862de2bc4 Cong Wang     2011-11-25   82  	void *ptr, *kaddr = kmap_atomic(page);
+43ae286b7d4d8c Nicolas Pitre 2008-11-04   83  	asm volatile ("\
+c8a91428941b91 Arnd Bergmann 2022-04-04   84  .arch xscale					\n\
+43ae286b7d4d8c Nicolas Pitre 2008-11-04   85  	mov	r1, %2				\n\
+d73e60b7144a86 Russell King  2008-10-31   86  	mov	r2, #0				\n\
+d73e60b7144a86 Russell King  2008-10-31   87  	mov	r3, #0				\n\
+303c6443659bc1 Russell King  2008-10-31   88  1:	mcr	p15, 0, %0, c7, c6, 1		@ invalidate line\n\
+bc2eca9a682881 Nicolas Pitre 2018-11-09   89  	strd	r2, r3, [%0], #8		\n\
+bc2eca9a682881 Nicolas Pitre 2018-11-09   90  	strd	r2, r3, [%0], #8		\n\
+bc2eca9a682881 Nicolas Pitre 2018-11-09   91  	strd	r2, r3, [%0], #8		\n\
+bc2eca9a682881 Nicolas Pitre 2018-11-09   92  	strd	r2, r3, [%0], #8		\n\
+d73e60b7144a86 Russell King  2008-10-31   93  	subs	r1, r1, #1			\n\
+303c6443659bc1 Russell King  2008-10-31   94  	bne	1b"
+43ae286b7d4d8c Nicolas Pitre 2008-11-04   95  	: "=r" (ptr)
+43ae286b7d4d8c Nicolas Pitre 2008-11-04   96  	: "0" (kaddr), "I" (PAGE_SIZE / 32)
+303c6443659bc1 Russell King  2008-10-31   97  	: "r1", "r2", "r3");
+5472e862de2bc4 Cong Wang     2011-11-25   98  	kunmap_atomic(kaddr);
+d73e60b7144a86 Russell King  2008-10-31   99  }
+d73e60b7144a86 Russell King  2008-10-31  100  
 
-My main hard drive in my dev machine died overnight, so I'll have to renag=
-e on my tomorrow promise above=2E
+:::::: The code at line 64 was first introduced by commit
+:::::: 063b0a4207e43acbeff3d4b09f43e750e0212b48 [ARM] copypage: provide our own copy_user_highpage()
 
-Apologies,
-Conor=2E
+:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
