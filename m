@@ -1,135 +1,89 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9338D7C;
-	Sat, 25 Feb 2023 09:43:46 +0000 (UTC)
-Received: from dggpemm500013.china.huawei.com (unknown [172.30.72.53])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4PP1sq6lYRzKmMJ;
-	Sat, 25 Feb 2023 17:38:39 +0800 (CST)
-Received: from [10.67.108.67] (10.67.108.67) by dggpemm500013.china.huawei.com
- (7.185.36.172) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Sat, 25 Feb
- 2023 17:43:34 +0800
-Message-ID: <4c7d3a16-eaa9-4277-8d7e-8db944cf2c40@huawei.com>
-Date: Sat, 25 Feb 2023 17:43:34 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F0A7C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 10:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677320547; x=1708856547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0FHtTGdeKVHLY58qqJ5s9mPaKSyDxmOxdSuIOqxCru8=;
+  b=c6JdVcBK0AwruWG9rD2VDogswuiXwv64vpL2npjWLuyWIykHKI8WIWSY
+   M2/UYx6MpKCCu6hmo+ZJ6+O58aa1Rq91B91VngqrrhcXSpa/+2sgXauuo
+   q+ZF3cx6buHiCw4H7yVk2fP79u48sK75hiEv5Gg3mxqK1xcRoq6DkM1Ht
+   SeifKfnINpSHHW8DV8VsbjALYnqE3uRQlWanasiA0bYzAmUugVhscJ9TB
+   6y7oGiGLCk8GyUhD2ei5x3c6nCBuxYikrZtg9HwcgBoinLe7qZVDbell2
+   2FLoz0oPbPxnthCgFYpi3rInpsWGbPjImkKGUtcVI5svQqAq7zn1koULR
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="398384859"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="398384859"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 02:22:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="1002108744"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="1002108744"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 25 Feb 2023 02:22:26 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVrhB-00036t-2Z;
+	Sat, 25 Feb 2023 10:22:25 +0000
+Date: Sat, 25 Feb 2023 18:22:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 02/76] ssdfs: key file system declarations
+Message-ID: <202302251807.f6nqwNhK-lkp@intel.com>
+References: <20230225010927.813929-3-slava@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.0
-Subject: Re: [PATCH] x86: profiling: Set prof_cpu_mask to NULL after free
-To: kernel test robot <lkp@intel.com>, <linux-kernel@vger.kernel.org>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<akpm@linux-foundation.org>, <wuchi.zero@gmail.com>, <ben-linux@fluff.org>,
-	<rusty@rustcorp.com.au>
-References: <20230224084945.134038-1-chenzhongjin@huawei.com>
- <202302250609.vmze90DB-lkp@intel.com>
-Content-Language: en-US
-From: Chen Zhongjin <chenzhongjin@huawei.com>
-In-Reply-To: <202302250609.vmze90DB-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.108.67]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500013.china.huawei.com (7.185.36.172)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230225010927.813929-3-slava@dubeyko.com>
 
-prof_cpu_mask can't be set to NULL when CONFIG_CPUMASK_OFFSTACK=n, 
-because it is an array.
+Hi Viacheslav,
 
-But checking prof_buffer still can prevent prof_cpu_mask be used in 
-profile_tick() and fix this problem.
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2 next-20230225]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Will push another version for this.
+url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Dubeyko/ssdfs-introduce-SSDFS-on-disk-layout/20230225-092342
+patch link:    https://lore.kernel.org/r/20230225010927.813929-3-slava%40dubeyko.com
+patch subject: [RFC PATCH 02/76] ssdfs: key file system declarations
+config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230225/202302251807.f6nqwNhK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/3171e72c56ede87c9c819222e2345dc34e8776ae
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Viacheslav-Dubeyko/ssdfs-introduce-SSDFS-on-disk-layout/20230225-092342
+        git checkout 3171e72c56ede87c9c819222e2345dc34e8776ae
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302251807.f6nqwNhK-lkp@intel.com/
 
-On 2023/2/25 6:16, kernel test robot wrote:
-> Hi Chen,
->
-> Thank you for the patch! Yet something to improve:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.2 next-20230224]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Zhongjin/x86-profiling-Set-prof_cpu_mask-to-NULL-after-free/20230224-165419
-> patch link:    https://lore.kernel.org/r/20230224084945.134038-1-chenzhongjin%40huawei.com
-> patch subject: [PATCH] x86: profiling: Set prof_cpu_mask to NULL after free
-> config: arm-randconfig-r004-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250609.vmze90DB-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # install arm cross compiling tool for clang build
->          # apt-get install binutils-arm-linux-gnueabi
->          # https://github.com/intel-lab-lkp/linux/commit/ed9b4879e816862f4f6210b1c429bcbebac6d317
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Chen-Zhongjin/x86-profiling-Set-prof_cpu_mask-to-NULL-after-free/20230224-165419
->          git checkout ed9b4879e816862f4f6210b1c429bcbebac6d317
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302250609.vmze90DB-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> kernel/profile.c:136:16: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
->             prof_cpu_mask = NULL;
->             ~~~~~~~~~~~~~ ^
->     1 error generated.
->
->
-> vim +136 kernel/profile.c
->
->      98	
->      99	
->     100	int __ref profile_init(void)
->     101	{
->     102		int buffer_bytes;
->     103		if (!prof_on)
->     104			return 0;
->     105	
->     106		/* only text is profiled */
->     107		prof_len = (_etext - _stext) >> prof_shift;
->     108	
->     109		if (!prof_len) {
->     110			pr_warn("profiling shift: %u too large\n", prof_shift);
->     111			prof_on = 0;
->     112			return -EINVAL;
->     113		}
->     114	
->     115		buffer_bytes = prof_len*sizeof(atomic_t);
->     116	
->     117		if (!alloc_cpumask_var(&prof_cpu_mask, GFP_KERNEL))
->     118			return -ENOMEM;
->     119	
->     120		cpumask_copy(prof_cpu_mask, cpu_possible_mask);
->     121	
->     122		prof_buffer = kzalloc(buffer_bytes, GFP_KERNEL|__GFP_NOWARN);
->     123		if (prof_buffer)
->     124			return 0;
->     125	
->     126		prof_buffer = alloc_pages_exact(buffer_bytes,
->     127						GFP_KERNEL|__GFP_ZERO|__GFP_NOWARN);
->     128		if (prof_buffer)
->     129			return 0;
->     130	
->     131		prof_buffer = vzalloc(buffer_bytes);
->     132		if (prof_buffer)
->     133			return 0;
->     134	
->     135		free_cpumask_var(prof_cpu_mask);
->   > 136		prof_cpu_mask = NULL;
->     137		return -ENOMEM;
->     138	}
->     139	
->
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+>> ./usr/include/linux/ssdfs_fs.h:1:1: error: C++ style comments are not allowed in ISO C90
+       1 | // SPDX-License-Identifier: BSD-3-Clause-Clear
+         | ^
+   ./usr/include/linux/ssdfs_fs.h:1:1: note: (this will be reported only once per input file)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
