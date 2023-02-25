@@ -1,97 +1,161 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FCE19B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 13:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677330453; x=1708866453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CGNZQt8Kr49klmQxoFrV8Z//dnuyfXlWU2pzm61Nj3s=;
-  b=Kmc2r9obiidfkumovzxoNFu5RSxkOEXeUieJUjso4qKe+la8+hBjTlz+
-   JzRuWoMIvtRNVD2ODCNuJgqCwNDAC4OU7l3PESZGvgva+fgNYn376C2tg
-   8VyqsYYDjEZPbv00qxKV4H7BZ8gqe5eKNDW7BIqeB8xvoVhXHNJAJ3aGC
-   vsEXY1D+fY1wdnaUiZIeemOSuoF6quxhxPEgMUpduBNBr6BQUCsQGnTY0
-   m0b77GLL3fTIJfQkK8w8bzVHQSPVIOUfCZQPTiXUa8bJmFGY9R49P02sX
-   YfdWgjw08+xcWTl64PF0fnepjkSsFnYadYpsAUv209qdzBB4FQFEPHsFN
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="361175129"
-X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
-   d="scan'208";a="361175129"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 05:07:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="666447465"
-X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
-   d="scan'208";a="666447465"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Feb 2023 05:07:31 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pVuGw-0003CW-1O;
-	Sat, 25 Feb 2023 13:07:30 +0000
-Date: Sat, 25 Feb 2023 21:07:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jose E. Marchesi" <jose.marchesi@oracle.com>,
-	bpf <bpf@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@ietf.org
-Subject: Re: [PATCH] bpf, docs: Document BPF insn encoding in term of stored
- bytes
-Message-ID: <202302252028.csJFgGqg-lkp@intel.com>
-References: <87y1om25l4.fsf@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1509519B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 13:43:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E795EC433EF;
+	Sat, 25 Feb 2023 13:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677332630;
+	bh=A9z3b64VkaMRkUAV1DYE9aa9lOpeR5FF3NvObDflES0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=iTVYV7ncYTQRDyLSgSNhGrfTl9ww5MbQlU3XA3IC9rHliGKhfjSY8yoFSdoPCYzYL
+	 iXVZaNytRiIDyqftw11H/HgVHnCZxnIYfZII3RrWXH/jVpZOgh0/z+k3E9ls2mI3am
+	 NL/uSwt4KjXokRnEZDBWC0Z5WznQoBWzEnYklMxG0cIrbWnA8K1O41Hcz+xHs2aVZz
+	 Ez8UUAEi4MYPw5m5EMdFzNoupIxs+a6gd4yTNyrqHSqgUgu0Jw4qJROkFabq878UP4
+	 MFcnjhbbuZcVeZVtiCeywenPtk9sMcT+ENFq7Oj16vf5kImMUXvj0gTd77tPLZGIur
+	 rEzwaeyKiYFnQ==
+Date: Sat, 25 Feb 2023 13:43:44 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: kernel test robot <lkp@intel.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>
+Subject: =?US-ASCII?Q?Re=3A_kismet=3A_WARNING=3A_unmet_direct_dependencies_detecte?= =?US-ASCII?Q?d_for_IOMMU=5FIO=5FPGTABLE=5FLPAE?= =?US-ASCII?Q?_when_selected_by_IPMMU=5FVMSA?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
+References: <202212221206.Lt61kYrt-lkp@intel.com> <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org> <Y6tAgP7UoP3aYBjq@spud> <d5bd9e86-473e-7577-4472-33eb2acbe8fa@infradead.org> <Y/lUvq3TSXL6tJOk@spud> <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
+Message-ID: <4F5BE5CB-1AB5-4725-860A-1231A72FCE1D@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y1om25l4.fsf@oracle.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jose,
 
-Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
-[cannot apply to bpf/master linus/master v6.2 next-20230225]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 25 February 2023 00:28:36 GMT, Randy Dunlap <rdunlap@infradead=2Eorg> w=
+rote:
+>
+>
+>On 2/24/23 16:22, Conor Dooley wrote:
+>> On Fri, Feb 24, 2023 at 04:12:49PM -0800, Randy Dunlap wrote:
+>>> Hi Conor, Palmer,
+>>>
+>>> On 12/27/22 10:59, Conor Dooley wrote:
+>>>> Hey Randy,
+>>>>
+>>>> On Thu, Dec 22, 2022 at 05:00:06PM -0800, Randy Dunlap wrote:
+>>>>> On 12/21/22 20:49, kernel test robot wrote:
+>>>>>> tree:   https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torvald=
+s/linux=2Egit master
+>>>>>> head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
+>>>>>> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig=2Es=
+ocs: Add ARCH_RENESAS kconfig option
+>>>>>> date:   6 weeks ago
+>>>>>> config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA=
+-0-0
+>>>>>> reproduce:
+>>>>>>         # https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torva=
+lds/linux=2Egit/commit/?id=3D8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+>>>>>>         git remote add linus https://git=2Ekernel=2Eorg/pub/scm/lin=
+ux/kernel/git/torvalds/linux=2Egit
+>>>>>>         git fetch --no-tags linus master
+>>>>>>         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+>>>>>>         # 1=2E reproduce by kismet
+>>>>>>            # install kmax per https://github=2Ecom/paulgazz/kmax/bl=
+ob/master/README=2Emd
+>>>>>>            kismet --linux-ksrc=3Dlinux --selectees CONFIG_IOMMU_IO_=
+PGTABLE_LPAE --selectors CONFIG_IPMMU_VMSA -a=3Driscv
+>>>>>>         # 2=2E reproduce by make
+>>>>>>            # save the config file to linux source tree
+>>>>>>            cd linux
+>>>>>>            make ARCH=3Driscv olddefconfig
+>>>>>>
+>>>>>> If you fix the issue, kindly add following tag where applicable
+>>>>>> | Reported-by: kernel test robot <lkp@intel=2Ecom>
+>>>>>>
+>>>>>> kismet warnings: (new ones prefixed by >>)
+>>>>>>>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_=
+PGTABLE_LPAE when selected by IPMMU_VMSA
+>>>>>>    =2Econfig:4814:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_M=
+I' invalid for ARCH_MMAP_RND_BITS
+>>>>>>   =20
+>>>>>>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE=
+_LPAE
+>>>>>>      Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPI=
+LE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+>>>>>>      Selected by [y]:
+>>>>>>      - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=
+=3Dy] || COMPILE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+>>>>>>
+>>>>>
+>>>>> Maybe this:
+>>>>>
+>>>>> ---
+>>>>>  drivers/iommu/Kconfig |    3 ++-
+>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff -- a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+>>>>> --- a/drivers/iommu/Kconfig
+>>>>> +++ b/drivers/iommu/Kconfig
+>>>>> @@ -32,7 +32,8 @@ config IOMMU_IO_PGTABLE
+>>>>>  config IOMMU_IO_PGTABLE_LPAE
+>>>>>  	bool "ARMv7/v8 Long Descriptor Format"
+>>>>>  	select IOMMU_IO_PGTABLE
+>>>>> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+>>>>> +	depends on ARM || ARM64 || ARCH_RENESAS || \
+>>>>> +		(COMPILE_TEST && !GENERIC_ATOMIC64)
+>>>>>  	help
+>>>>>  	  Enable support for the ARM long descriptor pagetable format=2E
+>>>>>  	  This allocator supports 4K/2M/1G, 16K/32M and 64K/512M page
+>>>>>
+>>>>>
+>>>>> or is way off?
+>>>>
+>>>> Apologies for the radio silence here=2E=2E
+>>>>
+>>>> Palmer initially sent a workaround and there was some discussion ther=
+e:
+>>>> https://lore=2Ekernel=2Eorg/all/20221214180409=2E7354-1-palmer@rivosi=
+nc=2Ecom/
+>>>> Guo sent a patch too:
+>>>> https://lore=2Ekernel=2Eorg/linux-riscv/20221215073212=2E1966823-1-gu=
+oren@kernel=2Eorg/
+>>>>
+>>>> I suppose Christmas is doing Christmas things :)
+>>>
+>>> Has this been solved (merged) yet?
+>>> I'm still seeing a warning on linux-next-20230224=2E
+>>=20
+>> I thought it was fixed in the iommu tree with this series:
+>> https://lore=2Ekernel=2Eorg/all/7a53ac6f-640b-436d-9bfa-3e49066b2460@ar=
+m=2Ecom/
+>>=20
+>> If it is not, I'll take a look tomorrow=2E=2E=2E
+>
+>I see this warning on today's linux-next-20230224:
+>
+>WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+>  Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST [=
+=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
+>  Selected by [y]:
+>  - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] || =
+COMPILE_TEST [=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
+>
+>with the attached config file=2E Please have a look=2E
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jose-E-Marchesi/bpf-docs-Document-BPF-insn-encoding-in-term-of-stored-bytes/20230225-040647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/87y1om25l4.fsf%40oracle.com
-patch subject: [PATCH] bpf, docs: Document BPF insn encoding in term of stored bytes
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/018d3423bad903b4544673361f6df2ea28ce047a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jose-E-Marchesi/bpf-docs-Document-BPF-insn-encoding-in-term-of-stored-bytes/20230225-040647
-        git checkout 018d3423bad903b4544673361f6df2ea28ce047a
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+My main hard drive in my dev machine died overnight, so I'll have to renag=
+e on my tomorrow promise above=2E
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302252028.csJFgGqg-lkp@intel.com/
+Apologies,
+Conor=2E
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/bpf/instruction-set.rst:75: WARNING: Definition list ends without a blank line; unexpected unindent.
-
-vim +75 Documentation/bpf/instruction-set.rst
-
-    70	
-    71	  opcode         offset imm          assembly
-    72	         src dst
-    73	  07     0   1   00 00  44 33 22 11  r1 += 0x11223344 // little
-    74	         dst src
-  > 75	  07     1   0   00 00  11 22 33 44  r1 += 0x11223344 // big
-    76	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
