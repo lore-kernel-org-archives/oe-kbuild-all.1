@@ -1,32 +1,49 @@
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CC1210D;
-	Sat, 25 Feb 2023 08:27:53 +0000 (UTC)
-Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.183.169])
-	by gnuweeb.org (Postfix) with ESMTPSA id DC1958312D;
-	Sat, 25 Feb 2023 08:27:44 +0000 (UTC)
-X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-	s=default; t=1677313666;
-	bh=b3cZpQdUYtD/r0SSm8xEnB9mBj7D0hdUK34PdKAk3YQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ox6G1JiF1O0FP1STDalE4z1JNdKVadOsqhu/GSaMX0LzNXJq0HV9QZF2G8m87P3f7
-	 AWkNPxxIe3wW2cGAetQGOAm/iVlbvAL4f0O9TR87JvQmDfJNikoND8PpIkhr4O3JMI
-	 8gIoyroIPOH6fFuG33RaVg1IjBQWsrx6sdSGQrBEFuxFwVQ3SlqDJUEhXpqKgL74et
-	 MlkeljyolZB40PRGR1OOdTXEQ7MLtEXm0mHg6Pqux/cyMOZRMbD/kmXSs+AO49w5wS
-	 KYaZpJa2j5kErMacGZ+UmqIaE/LTJ8r2Wl6o0V6HerZ4qCQHNEY/9AK50Kx1c5IHy6
-	 n5b1su7wnpEyw==
-Date: Sat, 25 Feb 2023 15:27:40 +0700
-From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:af/dev.btrfs 10/11] fs/btrfs/super.c:352:19:
- error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not
- assignable
-Message-ID: <Y/nGfGZEua3AE6h6@biznet-home.integral.gnuweeb.org>
-References: <202302251526.XdMJnuk0-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BADE210D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 08:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677313707; x=1708849707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FRfHKyxPi8aLPDm+UDHJtowYTxkRIT0GhYIJdi1JAzM=;
+  b=MHXiK3ZVlp1NhFaI3ibDdJpvz0gZePE3hQoZkVELe4uGdfjofOYMU2Vx
+   kmXi9YnJmEGT9/Jo4x0xvY6TGUxeNuYo/sD03Ygll4HZlBTyiq8vVLMPH
+   /OyK47RvoNZunFJCL8KYFu/XrmZi1q1sVhwwMhzPPg9jI6o6iPIkaYIg1
+   4GiFhWbg9MKvJMrXz+ZK/6ZnzlSD1m2LV45+kPC0JUXfVigkEZd2M+qE3
+   0RP014vyLnNXcZUQn4iu4/IOaRAfitDwGsQ480PbdUNvzrw5Tr1HBgdn1
+   3pfB3wnIvspLIFm0cZZ+58SxayIDk5QhLGa/N0yjZg0xKb0nj/lPyAn1m
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="361157071"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="361157071"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 00:28:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="675211348"
+X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
+   d="scan'208";a="675211348"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Feb 2023 00:28:23 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVpuo-00033f-2o;
+	Sat, 25 Feb 2023 08:28:22 +0000
+Date: Sat, 25 Feb 2023 16:28:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Chiu <andy.chiu@sifive.com>, linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com, anup@brainfault.org, atishp@atishpatra.org,
+	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, vineetg@rivosinc.com,
+	greentime.hu@sifive.com, guoren@linux.alibaba.com,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Subject: Re: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
+Message-ID: <202302251633.Tsr3ebfs-lkp@intel.com>
+References: <20230224170118.16766-20-andy.chiu@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,79 +52,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302251526.XdMJnuk0-lkp@intel.com>
-X-Bpl: hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
+In-Reply-To: <20230224170118.16766-20-andy.chiu@sifive.com>
 
-On Sat, Feb 25, 2023 at 03:23:48PM +0800, kernel test robot wrote: 
-> >> fs/btrfs/super.c:352:19: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
->            info->wq_cpu_set = mask;
->            ~~~~~~~~~~~~~~~~ ^
->    1 error generated.
+Hi Andy,
 
-Oh, it is because cpumask_var_t is defined as a different type,
-depending on CONFIG_CPUMASK_OFFSTACK.
+I love your patch! Perhaps something to improve:
 
-When CONFIG_CPUMASK_OFFSTACK=y
+[auto build test WARNING on next-20230224]
 
-   typedef struct cpumask *cpumask_var_t;
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
+patch link:    https://lore.kernel.org/r/20230224170118.16766-20-andy.chiu%40sifive.com
+patch subject: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
+config: riscv-randconfig-r042-20230223 (https://download.01.org/0day-ci/archive/20230225/202302251633.Tsr3ebfs-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
+        git checkout cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
-When CONFIG_CPUMASK_OFFSTACK is not set:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302251633.Tsr3ebfs-lkp@intel.com/
 
-   typedef struct cpumask cpumask_var_t[1];
+All warnings (new ones prefixed by >>):
 
-Let's avoid that temporary variable. The fix below...
+>> arch/riscv/kernel/vector.c:67:5: warning: no previous prototype for 'riscv_v_thread_zalloc' [-Wmissing-prototypes]
+      67 | int riscv_v_thread_zalloc(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
----
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index 47b9e38d6a6313a1..f2e064ba0534a39c 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -323,7 +323,6 @@ static void wq_cpu_set_fix_cpulist(char *set)
- 
- static int parse_wq_cpu_set(struct btrfs_fs_info *info, const char *set)
- {
--	cpumask_var_t mask;
- 	char *set_copy;
- 	int ret;
- 
-@@ -331,31 +330,30 @@ static int parse_wq_cpu_set(struct btrfs_fs_info *info, const char *set)
- 	if (!set_copy)
- 		return -ENOMEM;
- 
--	if (!alloc_cpumask_var(&mask, GFP_KERNEL)) {
-+	if (!alloc_cpumask_var(&info->wq_cpu_set, GFP_KERNEL)) {
- 		ret = -ENOMEM;
- 		goto out_fail;
- 	}
- 
- 	wq_cpu_set_fix_cpulist(set_copy);
--	ret = cpulist_parse(set_copy, mask);
-+	ret = cpulist_parse(set_copy, info->wq_cpu_set);
- 	if (ret) {
- 		btrfs_err(info, "failed to parse wq_cpu_set: %d", ret);
- 		goto out_fail_cpu;
- 	}
- 
--	if (cpumask_empty(mask)) {
-+	if (cpumask_empty(info->wq_cpu_set)) {
- 		ret = -EINVAL;
- 		btrfs_err(info, "wq_cpu_set cannot be empty");
- 		goto out_fail_cpu;
- 	}
- 
--	info->wq_cpu_set = mask;
- 	info->wq_cpu_set_str = set_copy;
- 	btrfs_set_and_info(info, WQ_CPU_SET, "using wq_cpu_set=%s", set_copy);
- 	return 0;
- 
- out_fail_cpu:
--	free_cpumask_var(mask);
-+	free_cpumask_var(info->wq_cpu_set);
- out_fail:
- 	kfree(set_copy);
- 	return ret;
 
+vim +/riscv_v_thread_zalloc +67 arch/riscv/kernel/vector.c
+
+b57b7b7279ef75 Andy Chiu 2023-02-24  66  
+b57b7b7279ef75 Andy Chiu 2023-02-24 @67  int riscv_v_thread_zalloc(void)
+b57b7b7279ef75 Andy Chiu 2023-02-24  68  {
+b57b7b7279ef75 Andy Chiu 2023-02-24  69  	void *datap;
+b57b7b7279ef75 Andy Chiu 2023-02-24  70  
+b57b7b7279ef75 Andy Chiu 2023-02-24  71  	datap = kzalloc(riscv_v_vsize, GFP_KERNEL);
+b57b7b7279ef75 Andy Chiu 2023-02-24  72  	if (!datap)
+b57b7b7279ef75 Andy Chiu 2023-02-24  73  		return -ENOMEM;
+b57b7b7279ef75 Andy Chiu 2023-02-24  74  	current->thread.vstate.datap = datap;
+b57b7b7279ef75 Andy Chiu 2023-02-24  75  	memset(&current->thread.vstate, 0, offsetof(struct __riscv_v_ext_state,
+b57b7b7279ef75 Andy Chiu 2023-02-24  76  						    datap));
+b57b7b7279ef75 Andy Chiu 2023-02-24  77  	return 0;
+b57b7b7279ef75 Andy Chiu 2023-02-24  78  }
+b57b7b7279ef75 Andy Chiu 2023-02-24  79  
 
 -- 
-Ammar Faizi
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
