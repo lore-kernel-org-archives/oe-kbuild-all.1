@@ -1,44 +1,65 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C535628E2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 11:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F107F28E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 12:06:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677326192; x=1708862192;
+  t=1677326796; x=1708862796;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sPZsf/gUZkdRZkjFsv53/tZnPTzbelILYzdMaKNxBF4=;
-  b=clPz1Ca5jyOT01Puj508wsC/lhaH9t2OqVfB9v0nn+zZpYvG981hAKZU
-   HJ3pM60474mqWr1KMB26/sLkGNEnAkLyxhHnYRTrmpiHev82sifeZcJJo
-   S8ytK0rJK0PkRr935beo6IKZoNaoA4EAnaxq/ZSse6AUMBmlUPD/ucvzk
-   Kk68BOA1qEa1jXpApNJ2TNeX2dPVLh2bsuaTB99o4NrW37g5stEhuZ7dJ
-   LgJhATTKwx7ztViA8inVxuEazycVCcaqxaBrT0ZVeLCQRDMYQ0cqRRf+r
-   vYs+mrPTMUNFOMTskhfWgntFjcXZCghDwYR4vkdIAaRCpEzAVnptUbDj+
+  bh=kXlFv0VM1scl/3fVxb7GACNApgIxpmbqk/4Qeq95V9I=;
+  b=f5YePWxETI1XO/A0iMTwpsni1aZauxSrMxYBoGoSllXNIMnGHCdLnusJ
+   KyzhGqKa8g1ad+TS6NCpfR6D9lvii8SYnxLqP/1riCn7lpGxqaHD7QbiE
+   kWDiQAVGs+yG19B0W3FpHpObyWnWwiFa2WnupOJZqEIMFVJx5yhEaAnmd
+   MbIKGtL0FwBghVL9nyrh3ChQKVsVL7WblGTWBTDw0yH5LVhE7Aqe/QKrq
+   ZabC6PcVPXS5RgCVajeyDJADRzHTl9p7SBobN8Djg6QX/evJqPz7Xw7sG
+   f4Ho0y8hrhn875vy2k2W4/1MJwkAk+OjqpfAotZ/0jH/S5XWV+HbrCRBm
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="361169270"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="335090446"
 X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
-   d="scan'208";a="361169270"
+   d="scan'208";a="335090446"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 03:56:31 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 04:06:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="673185459"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="673187249"
 X-IronPort-AV: E=Sophos;i="5.97,327,1669104000"; 
-   d="scan'208";a="673185459"
+   d="scan'208";a="673187249"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 25 Feb 2023 03:56:29 -0800
+  by orsmga002.jf.intel.com with ESMTP; 25 Feb 2023 04:06:30 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVtAD-0003AV-0b;
-	Sat, 25 Feb 2023 11:56:29 +0000
-Date: Sat, 25 Feb 2023 19:55:41 +0800
+	id 1pVtJt-0003Ah-0u;
+	Sat, 25 Feb 2023 12:06:29 +0000
+Date: Sat, 25 Feb 2023 20:05:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
- completed
-Message-ID: <202302251903.JJF7dBwl-lkp@intel.com>
-References: <20230225033421.3323164-1-joel@joelfernandes.org>
+To: Yassine Oudjana <yassine.oudjana@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Edward-JW Yang <edward-jw.yang@mediatek.com>,
+	Johnson Wang <johnson.wang@mediatek.com>,
+	Fabien Parent <fparent@baylibre.com>,
+	Chun-Jie Chen <chun-jie.chen@mediatek.com>,
+	Miles Chen <miles.chen@mediatek.com>,
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Yassine Oudjana <y.oudjana@protonmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 4/4] clk: mediatek: Add drivers for MediaTek MT6735
+ main clock and reset drivers
+Message-ID: <202302251958.hFATZOVS-lkp@intel.com>
+References: <20230225094246.261697-5-y.oudjana@protonmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,66 +68,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230225033421.3323164-1-joel@joelfernandes.org>
+In-Reply-To: <20230225094246.261697-5-y.oudjana@protonmail.com>
 
-Hi Joel,
+Hi Yassine,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on paulmck-rcu/dev]
-[also build test ERROR on linus/master v6.2 next-20230225]
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master pza/reset/next v6.2 next-20230225]
+[cannot apply to pza/imx-drm/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes-Google/rcu-Add-a-minimum-time-for-marking-boot-as-completed/20230225-113519
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-patch link:    https://lore.kernel.org/r/20230225033421.3323164-1-joel%40joelfernandes.org
-patch subject: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230225/202302251903.JJF7dBwl-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Oudjana/dt-bindings-clock-Add-MediaTek-MT6735-clock-bindings/20230225-174603
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230225094246.261697-5-y.oudjana%40protonmail.com
+patch subject: [PATCH v3 4/4] clk: mediatek: Add drivers for MediaTek MT6735 main clock and reset drivers
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230225/202302251958.hFATZOVS-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e42e553f5b94f064331b1cff0af0ea6f55ffe1b4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/de4ed4bf78e894ade5d21d52861ee9e647d645a5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Joel-Fernandes-Google/rcu-Add-a-minimum-time-for-marking-boot-as-completed/20230225-113519
-        git checkout e42e553f5b94f064331b1cff0af0ea6f55ffe1b4
+        git fetch --no-tags linux-review Yassine-Oudjana/dt-bindings-clock-Add-MediaTek-MT6735-clock-bindings/20230225-174603
+        git checkout de4ed4bf78e894ade5d21d52861ee9e647d645a5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/clk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302251903.JJF7dBwl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302251958.hFATZOVS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: kernel/rcu/update.o: in function `rcu_end_inkernel_boot':
->> kernel/rcu/update.c:246: undefined reference to `__udivdi3'
->> ld: kernel/rcu/update.c:246: undefined reference to `__udivdi3'
+>> drivers/clk/mediatek/clk-mt6735-apmixedsys.c:80:5: warning: no previous prototype for 'clk_mt6735_apmixed_probe' [-Wmissing-prototypes]
+      80 | int clk_mt6735_apmixed_probe(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/mediatek/clk-mt6735-apmixedsys.c:112:5: warning: no previous prototype for 'clk_mt6735_apmixed_remove' [-Wmissing-prototypes]
+     112 | int clk_mt6735_apmixed_remove(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/clk/mediatek/clk-mt6735-topckgen.c:366:5: warning: no previous prototype for 'clk_mt6735_topckgen_probe' [-Wmissing-prototypes]
+     366 | int clk_mt6735_topckgen_probe(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt6735-topckgen.c: In function 'clk_mt6735_topckgen_probe':
+   drivers/clk/mediatek/clk-mt6735-topckgen.c:400:38: error: passing argument 1 of 'mtk_clk_register_muxes' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     400 |         ret = mtk_clk_register_muxes(topckgen_muxes, ARRAY_SIZE(topckgen_muxes),
+         |                                      ^~~~~~~~~~~~~~
+         |                                      |
+         |                                      const struct mtk_mux *
+   In file included from drivers/clk/mediatek/clk-mt6735-topckgen.c:10:
+   drivers/clk/mediatek/clk-mux.h:86:43: note: expected 'struct device *' but argument is of type 'const struct mtk_mux *'
+      86 | int mtk_clk_register_muxes(struct device *dev,
+         |                            ~~~~~~~~~~~~~~~^~~
+   In file included from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/clk-provider.h:9,
+                    from drivers/clk/mediatek/clk-mt6735-topckgen.c:6:
+>> include/linux/kernel.h:55:25: warning: passing argument 2 of 'mtk_clk_register_muxes' makes pointer from integer without a cast [-Wint-conversion]
+      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         long unsigned int
+   drivers/clk/mediatek/clk-mt6735-topckgen.c:400:54: note: in expansion of macro 'ARRAY_SIZE'
+     400 |         ret = mtk_clk_register_muxes(topckgen_muxes, ARRAY_SIZE(topckgen_muxes),
+         |                                                      ^~~~~~~~~~
+   drivers/clk/mediatek/clk-mux.h:87:50: note: expected 'const struct mtk_mux *' but argument is of type 'long unsigned int'
+      87 |                            const struct mtk_mux *muxes,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/clk/mediatek/clk-mt6735-topckgen.c:401:47: warning: passing argument 3 of 'mtk_clk_register_muxes' makes integer from pointer without a cast [-Wint-conversion]
+     401 |                                      pdev->dev.of_node, &mt6735_topckgen_lock,
+         |                                      ~~~~~~~~~^~~~~~~~
+         |                                               |
+         |                                               struct device_node *
+   drivers/clk/mediatek/clk-mux.h:88:32: note: expected 'int' but argument is of type 'struct device_node *'
+      88 |                            int num, struct device_node *node,
+         |                            ~~~~^~~
+   drivers/clk/mediatek/clk-mt6735-topckgen.c:401:57: error: passing argument 4 of 'mtk_clk_register_muxes' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     401 |                                      pdev->dev.of_node, &mt6735_topckgen_lock,
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         spinlock_t * {aka struct spinlock *}
+   drivers/clk/mediatek/clk-mux.h:88:57: note: expected 'struct device_node *' but argument is of type 'spinlock_t *' {aka 'struct spinlock *'}
+      88 |                            int num, struct device_node *node,
+         |                                     ~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/clk/mediatek/clk-mt6735-topckgen.c:402:38: error: passing argument 5 of 'mtk_clk_register_muxes' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     402 |                                      clk_data);
+         |                                      ^~~~~~~~
+         |                                      |
+         |                                      struct clk_hw_onecell_data *
+   drivers/clk/mediatek/clk-mux.h:89:40: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'struct clk_hw_onecell_data *'
+      89 |                            spinlock_t *lock,
+         |                            ~~~~~~~~~~~~^~~~
+   drivers/clk/mediatek/clk-mt6735-topckgen.c:400:15: error: too few arguments to function 'mtk_clk_register_muxes'
+     400 |         ret = mtk_clk_register_muxes(topckgen_muxes, ARRAY_SIZE(topckgen_muxes),
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mux.h:86:5: note: declared here
+      86 | int mtk_clk_register_muxes(struct device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt6735-topckgen.c: At top level:
+>> drivers/clk/mediatek/clk-mt6735-topckgen.c:417:5: warning: no previous prototype for 'clk_mt6735_topckgen_remove' [-Wmissing-prototypes]
+     417 | int clk_mt6735_topckgen_remove(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +246 kernel/rcu/update.c
+vim +/clk_mt6735_apmixed_probe +80 drivers/clk/mediatek/clk-mt6735-apmixedsys.c
 
-   242	
-   243	void rcu_end_inkernel_boot(void)
-   244	{
-   245		if (boot_end_delay) {
- > 246			u64 boot_ms = ktime_get_boot_fast_ns() / 1000000UL;
-   247	
-   248			if (boot_ms < boot_end_delay) {
-   249				schedule_delayed_work(&boot_rcu_work,
-   250						boot_end_delay - boot_ms);
-   251				return;
-   252			}
-   253		}
-   254	
-   255		rcu_unexpedite_gp();
-   256		rcu_async_relax();
-   257		if (rcu_normal_after_boot)
-   258			WRITE_ONCE(rcu_normal, 1);
-   259		rcu_boot_ended = true;
-   260	}
-   261	
+    79	
+  > 80	int clk_mt6735_apmixed_probe(struct platform_device *pdev)
+    81	{
+    82		void __iomem *base;
+    83		struct resource *res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+    84		struct clk_hw_onecell_data *clk_data;
+    85		int ret;
+    86	
+    87		base = devm_ioremap_resource(&pdev->dev, res);
+    88		if (IS_ERR(base))
+    89			return PTR_ERR(base);
+    90	
+    91		clk_data = mtk_alloc_clk_data(ARRAY_SIZE(apmixedsys_plls));
+    92		if (!clk_data)
+    93			return -ENOMEM;
+    94		platform_set_drvdata(pdev, clk_data);
+    95	
+    96		ret = mtk_clk_register_plls(pdev->dev.of_node, apmixedsys_plls,
+    97					   ARRAY_SIZE(apmixedsys_plls), clk_data);
+    98		if (ret) {
+    99			dev_err(&pdev->dev, "Failed to register PLLs: %d\n", ret);
+   100			return ret;
+   101		}
+   102	
+   103		ret = devm_of_clk_add_hw_provider(&pdev->dev, of_clk_hw_onecell_get,
+   104						  clk_data);
+   105		if (ret)
+   106			dev_err(&pdev->dev,
+   107				"Failed to register clock provider: %d\n", ret);
+   108	
+   109		return ret;
+   110	}
+   111	
+ > 112	int clk_mt6735_apmixed_remove(struct platform_device *pdev)
+   113	{
+   114		struct clk_hw_onecell_data *clk_data = platform_get_drvdata(pdev);
+   115	
+   116		mtk_clk_unregister_plls(apmixedsys_plls, ARRAY_SIZE(apmixedsys_plls), clk_data);
+   117		mtk_free_clk_data(clk_data);
+   118	
+   119		return 0;
+   120	}
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
