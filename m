@@ -1,45 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E35533CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Feb 2023 22:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D033CF;
+	Sat, 25 Feb 2023 22:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677362929; x=1708898929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qV1skxuPminG3+6XLAOhZB14mFP+wbEBXA1KiXVc01o=;
-  b=BB44wXLZGSW99VUidFBIg4cKt0ByiNidmba3CdLo0crboEU6mlsV4ScE
-   9NFGO1VPFm4RyVnqhn8ZySlMMZ5dJYDA/EyQS08FuRMzAFWk0KFGiWUA8
-   DpMVjpodEo2yTrWbtlFIOJy5FGjPGwVTexKXX52hKLKAe/tyMHrztRkaj
-   4TcZShB7Kc9NLqlUUWC1+hrlw+EcH1+Fh+g5oUuDIEkp9Mueg7BMDoO+K
-   Ek5ByTEAkmQ9cbecSliP4R2Hz4agdQObeo3WHc+ZeYJiRBi8qLH4fieb8
-   nx0j9miiO83aJEfAA6dDcPzWBjZbZt1C+MBh0NSKQyp9F/91Pjrw9d+3f
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="361216281"
+  t=1677364127; x=1708900127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EgXf9i7H+7NNzK9/tYuJeiGQGRs+yqaKc68pYk4JcOM=;
+  b=m7u7YnibKTmDUIBMCO8D6tEH/eVa2XnMimXWxudhW/BWHlyDzzM11ljb
+   qI9qAgdDxQIynP0l7BbiyaXE4UW7662ysSVv1aVtG3SadQhnQJD69uvJS
+   j9oL9Pcm3HXzahNfG1Xl7P3NOvkXuf5HfreOlET/QXjUAGLI+ayHKAEbe
+   OYyiKOTWEWW16CFd0N0G/EoffiXDMju7CEfSJejR9ddc9seVSB4xjLSAo
+   ApyV72YC7BQWmOQvoFmaSa7/A++1zztoMKPHM/7BmqcrKDPVNWPHpnL7H
+   ZJxTOSE0DJU5OhYRj7L8jAmpmw8o4Yh1e+vvHGBuM60n1vzdaZMlZ9ftl
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="314091052"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="361216281"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 14:08:46 -0800
+   d="scan'208";a="314091052"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 14:28:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="703559692"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="847337748"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="703559692"
+   d="scan'208";a="847337748"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Feb 2023 14:08:43 -0800
+  by orsmga005.jf.intel.com with ESMTP; 25 Feb 2023 14:28:44 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW2ih-0003Qk-0R;
-	Sat, 25 Feb 2023 22:08:43 +0000
-Date: Sun, 26 Feb 2023 06:08:16 +0800
+	id 1pW323-0003RH-1K;
+	Sat, 25 Feb 2023 22:28:43 +0000
+Date: Sun, 26 Feb 2023 06:28:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, George Sun <george.sun@mediatek.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size
- of 1420 bytes is larger than 1024 bytes
-Message-ID: <202302260626.Dnuv0krY-lkp@intel.com>
+To: Shivam Kumar <shivam.kumar1@nutanix.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 1/3] KVM: Implement dirty quota-based throttling of
+ vcpus
+Message-ID: <202302260622.E1baxxeM-lkp@intel.com>
+References: <20230225204758.17726-2-shivam.kumar1@nutanix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,129 +47,460 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230225204758.17726-2-shivam.kumar1@nutanix.com>
 
-Hi Yunfei,
+Hi Shivam,
 
-First bad commit (maybe != root cause):
+Thank you for the patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   116b41162f8b267987ea9a73eb7e73eaa7c2cce5
-commit: 5d418351ca8f17defa1170d968df161c35b810e3 media: mediatek: vcodec: support stateless VP9 decoding
-date:   10 months ago
-config: csky-buildonly-randconfig-r004-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260626.Dnuv0krY-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on linus/master next-20230225]
+[cannot apply to kvmarm/next mst-vhost/linux-next kvm/linux-next v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivam-Kumar/KVM-Implement-dirty-quota-based-throttling-of-vcpus/20230226-045019
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230225204758.17726-2-shivam.kumar1%40nutanix.com
+patch subject: [PATCH v8 1/3] KVM: Implement dirty quota-based throttling of vcpus
+config: riscv-randconfig-r025-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260622.E1baxxeM-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5d418351ca8f17defa1170d968df161c35b810e3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 5d418351ca8f17defa1170d968df161c35b810e3
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/bdbf0891df39e87ef29d704ad4b9866ec34ea20c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shivam-Kumar/KVM-Implement-dirty-quota-based-throttling-of-vcpus/20230226-045019
+        git checkout bdbf0891df39e87ef29d704ad4b9866ec34ea20c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/media/v4l2-core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302260626.Dnuv0krY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302260622.E1baxxeM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
->> drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size of 1420 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1834 | }
-         | ^
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:358:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                               ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                               ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                               ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                               ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:358:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                               ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:325:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:326:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:358:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:314:13: note: expanded from macro '__unqual_scalar_typeof'
+                   _Generic((x),                                           \
+                             ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:321:15: note: expanded from macro '__unqual_scalar_typeof'
+                            default: (x)))
+                                      ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:53: error: no member named 'dirty_quota_enabled' in 'struct kvm'
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+                                                         ~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                           ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:37: error: invalid argument type 'void' to unary expression
+           if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
+   Selected by [y]:
+   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
 
 
-vim +1834 drivers/media/v4l2-core/v4l2-vp9.c
+vim +3317 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
 
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1757  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1758  /* 8.4.4 Non coefficient probability adaptation process */
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1759  void v4l2_vp9_adapt_noncoef_probs(struct v4l2_vp9_frame_context *probs,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1760  				  struct v4l2_vp9_frame_symbol_counts *counts,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1761  				  u8 reference_mode, u8 interpolation_filter, u8 tx_mode,
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1762  				  u32 flags)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1763  {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1764  	unsigned int i, j;
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1765  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1766  	for (i = 0; i < ARRAY_SIZE(probs->is_inter); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1767  		probs->is_inter[i] = adapt_prob(probs->is_inter[i], (*counts->intra_inter)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1768  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1769  	for (i = 0; i < ARRAY_SIZE(probs->comp_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1770  		probs->comp_mode[i] = adapt_prob(probs->comp_mode[i], (*counts->comp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1771  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1772  	for (i = 0; i < ARRAY_SIZE(probs->comp_ref); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1773  		probs->comp_ref[i] = adapt_prob(probs->comp_ref[i], (*counts->comp_ref)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1774  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1775  	if (reference_mode != V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1776  		for (i = 0; i < ARRAY_SIZE(probs->single_ref); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1777  			for (j = 0; j < ARRAY_SIZE(probs->single_ref[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1778  				probs->single_ref[i][j] = adapt_prob(probs->single_ref[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1779  								     (*counts->single_ref)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1780  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1781  	for (i = 0; i < ARRAY_SIZE(probs->inter_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1782  		adapt_probs_variant_c(probs->inter_mode[i], (*counts->mv_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1783  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1784  	for (i = 0; i < ARRAY_SIZE(probs->y_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1785  		adapt_probs_variant_d(probs->y_mode[i], (*counts->y_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1786  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1787  	for (i = 0; i < ARRAY_SIZE(probs->uv_mode); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1788  		adapt_probs_variant_d(probs->uv_mode[i], (*counts->uv_mode)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1789  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1790  	for (i = 0; i < ARRAY_SIZE(probs->partition); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1791  		adapt_probs_variant_e(probs->partition[i], (*counts->partition)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1792  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1793  	for (i = 0; i < ARRAY_SIZE(probs->skip); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1794  		probs->skip[i] = adapt_prob(probs->skip[i], (*counts->skip)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1795  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1796  	if (interpolation_filter == V4L2_VP9_INTERP_FILTER_SWITCHABLE)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1797  		for (i = 0; i < ARRAY_SIZE(probs->interp_filter); i++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1798  			adapt_probs_variant_f(probs->interp_filter[i], (*counts->filter)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1799  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1800  	if (tx_mode == V4L2_VP9_TX_MODE_SELECT)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1801  		for (i = 0; i < ARRAY_SIZE(probs->tx8); i++) {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1802  			adapt_probs_variant_b(probs->tx8[i], (*counts->tx8p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1803  			adapt_probs_variant_f(probs->tx16[i], (*counts->tx16p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1804  			adapt_probs_variant_e(probs->tx32[i], (*counts->tx32p)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1805  		}
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1806  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1807  	adapt_probs_variant_e(probs->mv.joint, *counts->mv_joint);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1808  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1809  	for (i = 0; i < ARRAY_SIZE(probs->mv.sign); i++) {
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1810  		probs->mv.sign[i] = adapt_prob(probs->mv.sign[i], (*counts->sign)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1811  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1812  		adapt_probs_variant_g(probs->mv.classes[i], (*counts->classes)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1813  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1814  		probs->mv.class0_bit[i] = adapt_prob(probs->mv.class0_bit[i], (*counts->class0)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1815  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1816  		for (j = 0; j < ARRAY_SIZE(probs->mv.bits[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1817  			probs->mv.bits[i][j] = adapt_prob(probs->mv.bits[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1818  							  (*counts->bits)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1819  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1820  		for (j = 0; j < ARRAY_SIZE(probs->mv.class0_fr[0]); j++)
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1821  			adapt_probs_variant_e(probs->mv.class0_fr[i][j],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1822  					      (*counts->class0_fp)[i][j]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1823  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1824  		adapt_probs_variant_e(probs->mv.fr[i], (*counts->fp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1825  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1826  		if (!(flags & V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV))
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1827  			continue;
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1828  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1829  		probs->mv.class0_hp[i] = adapt_prob(probs->mv.class0_hp[i],
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1830  						    (*counts->class0_hp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1831  
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1832  		probs->mv.hp[i] = adapt_prob(probs->mv.hp[i], (*counts->hp)[i]);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1833  	}
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16 @1834  }
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1835  EXPORT_SYMBOL_GPL(v4l2_vp9_adapt_noncoef_probs);
-3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1836  
-
-:::::: The code at line 1834 was first introduced by commit
-:::::: 3e3b1fb0e5d95c0cd7278717185ca3fb00f5d771 media: Add VP9 v4l2 library
-
-:::::: TO: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  3312	
+  3313	void update_dirty_quota(struct kvm *kvm, unsigned long page_size_bytes)
+  3314	{
+  3315		struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
+  3316	
+> 3317		if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
+  3318			return;
+  3319	
+  3320		vcpu->run->dirty_quota_bytes -= page_size_bytes;
+  3321		if (vcpu->run->dirty_quota_bytes <= 0)
+  3322			kvm_make_request(KVM_REQ_DIRTY_QUOTA_EXIT, vcpu);
+  3323	}
+  3324	
 
 -- 
 0-DAY CI Kernel Test Service
