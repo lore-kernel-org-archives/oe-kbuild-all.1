@@ -1,44 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870987B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 00:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8968C36E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 00:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677370308; x=1708906308;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0pf7h9K/oq95f1Lj9PZYFKkSN+aqKe+HmUVb+wShJnw=;
-  b=AhkA9jgm4Rwjdu5BDwohGcpclKIzK4BmdFj7uMsaGKbOK+oohOv1j0LP
-   Lxdxz8O39BsmwKq8iYbDM6Twx8gCesQ8EooYCuzxP6DRE52L0LY+CkAud
-   ci90AKz9Szl7IG1gZOuzJIJmujWlWnYzYuIRqs7K33cFi4gzEFnsX1Vkj
-   erPRdqXIOyFoDisWgYU7OFcoiOJPeHDrLyuO8Nz7XeU0DcZTPvJijhElL
-   UNWrBqn3CWW96z2AzEmSQ6U3gw+kv1b2tsJt7XVzhKDnpPJWwp215Pxw/
-   w06oX1MjxKXE4dxMZKdTe7sXRclSdEA3Cfn8Y+qB+P902MrPVkyMrbEPe
+  t=1677372168; x=1708908168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rANK/SNxPC9nhu84mwGAzLILj+az2aP73wL8OHsDx/Y=;
+  b=gUlu3FcOUXfZSX4G6Uhv+HjoHy5rRlthyOqqX58Vsk9YinXu1RHjNXGc
+   hWsOa474KvFHj9eCgwUhR6ERLMR1jo1Yaoam5dm2ketrM96DinYgZpEnF
+   afSb062oZwLAUztYxeRhWK9lXkSgzt9dlBl5UbghYQKwefGXoiTG+y5cV
+   aw7PBvM+WpDv8WlaCOL2i+QmMsZNH6ezM4ow94R8BUoxBiIAiYGrydm73
+   AjlMF9wI3uvM+QulGHb01wU/KdziS7WADEvEonepGRdqTqwhgCp1t76yv
+   21Yci/7H6Z2Ij6B9mywcyHBxt1b7LfYHF2QmMmbyrPsXORjjuoeTG9kpi
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="396221263"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="314097257"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="396221263"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 16:11:46 -0800
+   d="scan'208";a="314097257"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 16:42:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="623135996"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="705693539"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="623135996"
+   d="scan'208";a="705693539"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 25 Feb 2023 16:11:45 -0800
+  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2023 16:42:45 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW4dk-0003Sd-1F;
-	Sun, 26 Feb 2023 00:11:44 +0000
-Date: Sun, 26 Feb 2023 08:11:18 +0800
+	id 1pW57k-0003TT-34;
+	Sun, 26 Feb 2023 00:42:44 +0000
+Date: Sun, 26 Feb 2023 08:41:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivam Kumar <shivam.kumar1@nutanix.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 1/3] KVM: Implement dirty quota-based throttling of
- vcpus
-Message-ID: <202302260853.KRSFLysa-lkp@intel.com>
-References: <20230225204758.17726-2-shivam.kumar1@nutanix.com>
+To: Matt Evans <mev@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast
+ truncates bits from constant value (5f0ecafe becomes fe)
+Message-ID: <202302260820.OtjXVnT4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,192 +46,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230225204758.17726-2-shivam.kumar1@nutanix.com>
 
-Hi Shivam,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on linus/master next-20230225]
-[cannot apply to kvmarm/next mst-vhost/linux-next kvm/linux-next v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivam-Kumar/KVM-Implement-dirty-quota-based-throttling-of-vcpus/20230226-045019
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230225204758.17726-2-shivam.kumar1%40nutanix.com
-patch subject: [PATCH v8 1/3] KVM: Implement dirty quota-based throttling of vcpus
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230226/202302260853.KRSFLysa-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
+commit: 6246541522845a443b7ae4a8f0e16facc5a91198 locking/atomic: cmpxchg: Make __generic_cmpxchg_local compare against zero-extended 'old' value
+date:   3 weeks ago
+config: nios2-randconfig-s053-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260820.OtjXVnT4-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bdbf0891df39e87ef29d704ad4b9866ec34ea20c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shivam-Kumar/KVM-Implement-dirty-quota-based-throttling-of-vcpus/20230226-045019
-        git checkout bdbf0891df39e87ef29d704ad4b9866ec34ea20c
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6246541522845a443b7ae4a8f0e16facc5a91198
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6246541522845a443b7ae4a8f0e16facc5a91198
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash fs/erofs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302260853.KRSFLysa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302260820.OtjXVnT4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/erofs/zdata.c: note: in included file (through include/asm-generic/cmpxchg.h, arch/nios2/include/generated/asm/cmpxchg.h, include/asm-generic/atomic.h, ...):
+   include/asm-generic/cmpxchg-local.h:30:42: sparse: sparse: cast truncates bits from constant value (e0f510cc becomes cc)
+   include/asm-generic/cmpxchg-local.h:34:44: sparse: sparse: cast truncates bits from constant value (e0f510cc becomes 10cc)
+>> include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
+>> include/asm-generic/cmpxchg-local.h:33:34: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
+>> include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
+   include/asm-generic/cmpxchg-local.h:30:42: sparse: sparse: cast truncates bits from constant value (5f0edead becomes ad)
+>> include/asm-generic/cmpxchg-local.h:33:34: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
+   include/asm-generic/cmpxchg-local.h:34:44: sparse: sparse: cast truncates bits from constant value (5f0edead becomes dead)
 
-   In file included from <command-line>:
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c: In function 'update_dirty_quota':
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
-     338 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
-     338 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
-     338 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
-     338 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
-     338 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/linux/compiler_types.h:314:27: note: in definition of macro '__unqual_scalar_typeof'
-     314 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
-   In file included from ./arch/riscv/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:247,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:22,
-                    from include/linux/kvm_types.h:21,
-                    from include/kvm/iodev.h:6,
-                    from arch/riscv/kvm/../../../virt/kvm/kvm_main.c:16:
->> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:58: error: 'struct kvm' has no member named 'dirty_quota_enabled'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                                          ^~
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3317:45: note: in expansion of macro 'READ_ONCE'
-    3317 |         if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-         |                                             ^~~~~~~~~
+vim +29 include/asm-generic/cmpxchg-local.h
 
-
-vim +3317 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
-
-  3312	
-  3313	void update_dirty_quota(struct kvm *kvm, unsigned long page_size_bytes)
-  3314	{
-  3315		struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
-  3316	
-> 3317		if (!vcpu || (vcpu->kvm != kvm) || !READ_ONCE(kvm->dirty_quota_enabled))
-  3318			return;
-  3319	
-  3320		vcpu->run->dirty_quota_bytes -= page_size_bytes;
-  3321		if (vcpu->run->dirty_quota_bytes <= 0)
-  3322			kvm_make_request(KVM_REQ_DIRTY_QUOTA_EXIT, vcpu);
-  3323	}
-  3324	
+     7	
+     8	extern unsigned long wrong_size_cmpxchg(volatile void *ptr)
+     9		__noreturn;
+    10	
+    11	/*
+    12	 * Generic version of __cmpxchg_local (disables interrupts). Takes an unsigned
+    13	 * long parameter, supporting various types of architectures.
+    14	 */
+    15	static inline unsigned long __generic_cmpxchg_local(volatile void *ptr,
+    16			unsigned long old, unsigned long new, int size)
+    17	{
+    18		unsigned long flags, prev;
+    19	
+    20		/*
+    21		 * Sanity checking, compile-time.
+    22		 */
+    23		if (size == 8 && sizeof(unsigned long) != 8)
+    24			wrong_size_cmpxchg(ptr);
+    25	
+    26		raw_local_irq_save(flags);
+    27		switch (size) {
+    28		case 1: prev = *(u8 *)ptr;
+  > 29			if (prev == (u8)old)
+    30				*(u8 *)ptr = (u8)new;
+    31			break;
+    32		case 2: prev = *(u16 *)ptr;
+  > 33			if (prev == (u16)old)
+    34				*(u16 *)ptr = (u16)new;
+    35			break;
+    36		case 4: prev = *(u32 *)ptr;
+    37			if (prev == (u32)old)
+    38				*(u32 *)ptr = (u32)new;
+    39			break;
+    40		case 8: prev = *(u64 *)ptr;
+    41			if (prev == old)
+    42				*(u64 *)ptr = (u64)new;
+    43			break;
+    44		default:
+    45			wrong_size_cmpxchg(ptr);
+    46		}
+    47		raw_local_irq_restore(flags);
+    48		return prev;
+    49	}
+    50	
 
 -- 
 0-DAY CI Kernel Test Service
