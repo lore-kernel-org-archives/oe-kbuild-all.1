@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2BF384
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 02:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2C4386
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 03:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677377632; x=1708913632;
+  t=1677381951; x=1708917951;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f3MuFWs9zdVjhaMajVQx5yaJhV2Dr75VvXt4HPCR6Xs=;
-  b=mP0A2z1rb67MH4dsGgxTN19QxdJTQp52hMvFFjcwaDM+49qMR3HpTbp9
-   E4HYaMx8lRu+id0duG3hReiYGIOlMdEriC2f1RA5lFHaqEfB2sERHmrKV
-   ot3tfue8Ewytz6BUW+moXeCPGQz3aN91AkuZBdyKYIF0rGSq1K4e+Xt/f
-   ijZtkiXOe88ZCEb9pqdRxAeCUXQCU+pp/FHV+OBi83LSphdOBCz1ujc4q
-   p9+xch7Z5nvxYhNIrngRtuHFGydLjRP4AL9avBua4EzDduOZYtx/uOU22
-   NB/AHCgbOkLg64l0OQPhtfqyTaAFAIRDpt8mO4iYnrRJW+RucOpkPZdQH
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="332403908"
+  bh=tiUWi8OQSt6X2sj/g0kn2A/Oic6Z8oIetTb6HPn1WRQ=;
+  b=J2Q4/A7BL4GXZz/owJfKFMnW3dvyKOIHYbkbMf62FddUvpoN1pexwtWL
+   rhRWaQz4Z4G0xGWUeL7RLZJSQQnQ1L/y/reYyWBAzrIK1xnj9Rej+ahe0
+   WGz18qIPuHFebjP3otwjIm572LL0LZATGyrUhsi1cdlQo0q6kKRUYfSP8
+   m2vHgvlftr7vq0dWHcEh7BHCgi7YwsO7G77UQBDcglCzrxm4bRPQKFKpe
+   lHoc+l2Pu05CT6ctayxc2tpIbbXcXfEQQSoGLlrr4mYpZ8m0kjTbgvSre
+   x3px1l+blaSVAmhUaSYn9htTAaCpEPePHLtmTSegYLF0yBn1+U+/yS3Rb
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="361231974"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="332403908"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 18:13:47 -0800
+   d="scan'208";a="361231974"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 19:25:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="782849665"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="705717696"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="782849665"
+   d="scan'208";a="705717696"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2023 18:13:46 -0800
+  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2023 19:25:47 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW6Xp-0003Ur-25;
-	Sun, 26 Feb 2023 02:13:45 +0000
-Date: Sun, 26 Feb 2023 10:13:24 +0800
+	id 1pW7fX-0003XH-0w;
+	Sun, 26 Feb 2023 03:25:47 +0000
+Date: Sun, 26 Feb 2023 11:24:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:orc-unwind-hint-refactor-2 2/4]
- arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end'
- does not exist for macro `unwind_hint'
-Message-ID: <202302261000.ndQAA6Cj-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>
+Subject: fs/netfs/iterator.c:139 netfs_extract_user_to_sg() warn: unsigned
+ 'npages' is never less than zero.
+Message-ID: <202302261115.P3TQi1ZO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,432 +47,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git orc-unwind-hint-refactor-2
-head:   e37c67067de5ba94dbd3f42c7174caff1cac6c48
-commit: 1fb3be8fb8c57ad5321008e42f37a2fc7f380984 [2/4] objtool: Use relative pointers for annotations
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230226/202302261000.ndQAA6Cj-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
+commit: 0185846975339a5c348373aa450a977f5242366b netfs: Add a function to extract an iterator into a scatterlist
+date:   5 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230226/202302261115.P3TQi1ZO-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=1fb3be8fb8c57ad5321008e42f37a2fc7f380984
-        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
-        git fetch --no-tags jpoimboe orc-unwind-hint-refactor-2
-        git checkout 1fb3be8fb8c57ad5321008e42f37a2fc7f380984
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302261000.ndQAA6Cj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302261115.P3TQi1ZO-lkp@intel.com/
 
-Note: the jpoimboe/orc-unwind-hint-refactor-2 HEAD e37c67067de5ba94dbd3f42c7174caff1cac6c48 builds fine.
-      It only hurts bisectability.
+smatch warnings:
+fs/netfs/iterator.c:139 netfs_extract_user_to_sg() warn: unsigned 'npages' is never less than zero.
+fs/netfs/iterator.c:139 netfs_extract_user_to_sg() warn: unsigned 'npages' is never less than zero.
 
-All errors (new ones prefixed by >>):
+vim +/npages +139 fs/netfs/iterator.c
 
-   arch/x86/include/asm/GEN-for-each-reg.h: Assembler messages:
->> arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:6:   Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:6:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:6:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:6:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:6:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:7:   Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:7:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:7:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:7:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:7:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:8:   Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:8:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:8:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:8:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:8:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:9:   Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:9:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:9:    Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:9:       Info: macro invoked from here
->> arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:9:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:10:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:10:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:10:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:10:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:10:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:12:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:12:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:12:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:12:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:12:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/include/asm/GEN-for-each-reg.h:36:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:13:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:13:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/GEN-for-each-reg.h:11:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:36:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:13:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: bad expression
-   arch/x86/include/asm/GEN-for-each-reg.h:56:  Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:24:   Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:28:    Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:424:     Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:39:      Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:13:       Info: macro invoked from here
-   arch/x86/include/asm/GEN-for-each-reg.h:144: Error: junk at end of line, first unrecognized character is `e'
---
-   arch/x86/entry/entry_64.S: Assembler messages:
->> arch/x86/entry/entry_64.S:15: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/entry/entry_64.S:88:  Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:15:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:88:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:15:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:88:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:90:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:121:    Info: macro invoked from here
-   arch/x86/entry/entry_64.S:109:     Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:90:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:121:    Info: macro invoked from here
-   arch/x86/entry/entry_64.S:109:     Info: macro invoked from here
-   arch/x86/entry/entry_64.S:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/entry/entry_64.S:208:  Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:208:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:208:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/entry/entry_64.S:289:  Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:289:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:289:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:299:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:299:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:11: Error: Parameter named `end' does not exist for macro `unwind_hint'
-   arch/x86/entry/entry_64.S:306:  Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:306:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:11:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:306:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:56:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:333:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:56:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:333:   Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: bad expression
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:90:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:121:    Info: macro invoked from here
-   arch/x86/entry/entry_64.S:334:     Info: macro invoked from here
->> arch/x86/entry/entry_64.S:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/entry/entry_64.S:48:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:90:   Info: macro invoked from here
-   arch/x86/entry/entry_64.S:121:    Info: macro invoked from here
-   arch/x86/entry/entry_64.S:334:     Info: macro invoked from here
->> arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
->> arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
->> arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: bad expression
-   arch/x86/include/asm/idtentry.h:48:  Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:52:   Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:501:    Info: macro invoked from here
-   arch/x86/include/asm/idtentry.h:144: Error: junk at end of line, first unrecognized character is `e'
-..
-
-
-vim +11 arch/x86/include/asm/GEN-for-each-reg.h
-
-a92ede2d584a2e Peter Zijlstra 2021-10-26 @11  GEN(rbp)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  12  GEN(rsi)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  13  GEN(rdi)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  14  GEN(r8)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  15  GEN(r9)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  16  GEN(r10)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  17  GEN(r11)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  18  GEN(r12)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  19  GEN(r13)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  20  GEN(r14)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  21  GEN(r15)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  22  #else
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  23  GEN(eax)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  24  GEN(ecx)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  25  GEN(edx)
-a92ede2d584a2e Peter Zijlstra 2021-10-26  26  GEN(ebx)
-a92ede2d584a2e Peter Zijlstra 2021-10-26  27  GEN(esp)
-a92ede2d584a2e Peter Zijlstra 2021-10-26  28  GEN(ebp)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  29  GEN(esi)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  30  GEN(edi)
-ca3f0d80dd57c8 Peter Zijlstra 2020-04-22  31  #endif
-
-:::::: The code at line 11 was first introduced by commit
-:::::: a92ede2d584a2e070def59c7e47e6b6f6341c55c x86/asm: Fix register order
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+   106	
+   107	/*
+   108	 * Extract and pin a list of up to sg_max pages from UBUF- or IOVEC-class
+   109	 * iterators, and add them to the scatterlist.
+   110	 */
+   111	static ssize_t netfs_extract_user_to_sg(struct iov_iter *iter,
+   112						ssize_t maxsize,
+   113						struct sg_table *sgtable,
+   114						unsigned int sg_max,
+   115						iov_iter_extraction_t extraction_flags)
+   116	{
+   117		struct scatterlist *sg = sgtable->sgl + sgtable->nents;
+   118		struct page **pages;
+   119		unsigned int npages;
+   120		ssize_t ret = 0, res;
+   121		size_t len, off;
+   122	
+   123		/* We decant the page list into the tail of the scatterlist */
+   124		pages = (void *)sgtable->sgl + array_size(sg_max, sizeof(struct scatterlist));
+   125		pages -= sg_max;
+   126	
+   127		do {
+   128			res = iov_iter_extract_pages(iter, &pages, maxsize, sg_max,
+   129						     extraction_flags, &off);
+   130			if (res < 0)
+   131				goto failed;
+   132	
+   133			len = res;
+   134			maxsize -= len;
+   135			ret += len;
+   136			npages = DIV_ROUND_UP(off + len, PAGE_SIZE);
+   137			sg_max -= npages;
+   138	
+ > 139			for (; npages < 0; npages--) {
+   140				struct page *page = *pages;
+   141				size_t seg = min_t(size_t, PAGE_SIZE - off, len);
+   142	
+   143				*pages++ = NULL;
+   144				sg_set_page(sg, page, len, off);
+   145				sgtable->nents++;
+   146				sg++;
+   147				len -= seg;
+   148				off = 0;
+   149			}
+   150		} while (maxsize > 0 && sg_max > 0);
+   151	
+   152		return ret;
+   153	
+   154	failed:
+   155		while (sgtable->nents > sgtable->orig_nents)
+   156			put_page(sg_page(&sgtable->sgl[--sgtable->nents]));
+   157		return res;
+   158	}
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
