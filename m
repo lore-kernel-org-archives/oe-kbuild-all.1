@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8968C36E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 00:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7D236E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Feb 2023 01:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677372168; x=1708908168;
+  t=1677373970; x=1708909970;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rANK/SNxPC9nhu84mwGAzLILj+az2aP73wL8OHsDx/Y=;
-  b=gUlu3FcOUXfZSX4G6Uhv+HjoHy5rRlthyOqqX58Vsk9YinXu1RHjNXGc
-   hWsOa474KvFHj9eCgwUhR6ERLMR1jo1Yaoam5dm2ketrM96DinYgZpEnF
-   afSb062oZwLAUztYxeRhWK9lXkSgzt9dlBl5UbghYQKwefGXoiTG+y5cV
-   aw7PBvM+WpDv8WlaCOL2i+QmMsZNH6ezM4ow94R8BUoxBiIAiYGrydm73
-   AjlMF9wI3uvM+QulGHb01wU/KdziS7WADEvEonepGRdqTqwhgCp1t76yv
-   21Yci/7H6Z2Ij6B9mywcyHBxt1b7LfYHF2QmMmbyrPsXORjjuoeTG9kpi
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="314097257"
+  bh=FV85YiK1AtCQ/6RiIIY7dv0TrsnxjjA4gwHj+2HXxIA=;
+  b=HMkoOR7rDsvAOChwxpekUpidwJMQsWYXoxO1Tw2sbWtoO8oFvVPVT4K1
+   oFLmsXQ3N/c9jYStfSJ87SIkmdfrjzzs2ehrg8wrFLNWlnGNlwLefkAAp
+   FMPHbuaveHEer4boLgVK4YDMWfVBdLl/9Myk1XbG7+xIhH3K0TxtwfPun
+   MsKHAwMse8PZenGpEyCIGCWMZdtmpsqtvY+57jQXVlcAlaeWupHgSpRhz
+   pN3TJN4VJMtnG2VKUp32slVH0wR36mRkSpoSAHx1p25a6Vgks+kT9gRdl
+   muuqw6w/OfIr/BJOIh6JmF1BVeimOdJXxY6EJc12LFTsggOkA9g/zHY1V
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="361225913"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="314097257"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 16:42:47 -0800
+   d="scan'208";a="361225913"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 17:12:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="705693539"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="673305421"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="705693539"
+   d="scan'208";a="673305421"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2023 16:42:45 -0800
+  by orsmga002.jf.intel.com with ESMTP; 25 Feb 2023 17:12:46 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW57k-0003TT-34;
-	Sun, 26 Feb 2023 00:42:44 +0000
-Date: Sun, 26 Feb 2023 08:41:48 +0800
+	id 1pW5an-0003U7-0r;
+	Sun, 26 Feb 2023 01:12:45 +0000
+Date: Sun, 26 Feb 2023 09:12:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Evans <mev@rivosinc.com>
+To: Suman Anna <s-anna@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast
- truncates bits from constant value (5f0ecafe becomes fe)
-Message-ID: <202302260820.OtjXVnT4-lkp@intel.com>
+	Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: drivers/remoteproc/ti_k3_dsp_remoteproc.c:432:17: sparse: sparse:
+ cast removes address space '__iomem' of expression
+Message-ID: <202302260940.ffLLk40s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,85 +49,66 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
-commit: 6246541522845a443b7ae4a8f0e16facc5a91198 locking/atomic: cmpxchg: Make __generic_cmpxchg_local compare against zero-extended 'old' value
-date:   3 weeks ago
-config: nios2-randconfig-s053-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260820.OtjXVnT4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+commit: b8431920391d36c273f63a29eab0dfc7e884dd17 remoteproc: k3-dsp: Add support for IPC-only mode for all K3 DSPs
+date:   12 months ago
+config: arm64-randconfig-s051-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260940.ffLLk40s-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6246541522845a443b7ae4a8f0e16facc5a91198
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b8431920391d36c273f63a29eab0dfc7e884dd17
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 6246541522845a443b7ae4a8f0e16facc5a91198
+        git checkout b8431920391d36c273f63a29eab0dfc7e884dd17
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash fs/erofs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302260820.OtjXVnT4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302260940.ffLLk40s-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   fs/erofs/zdata.c: note: in included file (through include/asm-generic/cmpxchg.h, arch/nios2/include/generated/asm/cmpxchg.h, include/asm-generic/atomic.h, ...):
-   include/asm-generic/cmpxchg-local.h:30:42: sparse: sparse: cast truncates bits from constant value (e0f510cc becomes cc)
-   include/asm-generic/cmpxchg-local.h:34:44: sparse: sparse: cast truncates bits from constant value (e0f510cc becomes 10cc)
->> include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
->> include/asm-generic/cmpxchg-local.h:33:34: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
->> include/asm-generic/cmpxchg-local.h:29:33: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes fe)
-   include/asm-generic/cmpxchg-local.h:30:42: sparse: sparse: cast truncates bits from constant value (5f0edead becomes ad)
->> include/asm-generic/cmpxchg-local.h:33:34: sparse: sparse: cast truncates bits from constant value (5f0ecafe becomes cafe)
-   include/asm-generic/cmpxchg-local.h:34:44: sparse: sparse: cast truncates bits from constant value (5f0edead becomes dead)
+>> drivers/remoteproc/ti_k3_dsp_remoteproc.c:432:17: sparse: sparse: cast removes address space '__iomem' of expression
 
-vim +29 include/asm-generic/cmpxchg-local.h
+vim +/__iomem +432 drivers/remoteproc/ti_k3_dsp_remoteproc.c
 
-     7	
-     8	extern unsigned long wrong_size_cmpxchg(volatile void *ptr)
-     9		__noreturn;
-    10	
-    11	/*
-    12	 * Generic version of __cmpxchg_local (disables interrupts). Takes an unsigned
-    13	 * long parameter, supporting various types of architectures.
-    14	 */
-    15	static inline unsigned long __generic_cmpxchg_local(volatile void *ptr,
-    16			unsigned long old, unsigned long new, int size)
-    17	{
-    18		unsigned long flags, prev;
-    19	
-    20		/*
-    21		 * Sanity checking, compile-time.
-    22		 */
-    23		if (size == 8 && sizeof(unsigned long) != 8)
-    24			wrong_size_cmpxchg(ptr);
-    25	
-    26		raw_local_irq_save(flags);
-    27		switch (size) {
-    28		case 1: prev = *(u8 *)ptr;
-  > 29			if (prev == (u8)old)
-    30				*(u8 *)ptr = (u8)new;
-    31			break;
-    32		case 2: prev = *(u16 *)ptr;
-  > 33			if (prev == (u16)old)
-    34				*(u16 *)ptr = (u16)new;
-    35			break;
-    36		case 4: prev = *(u32 *)ptr;
-    37			if (prev == (u32)old)
-    38				*(u32 *)ptr = (u32)new;
-    39			break;
-    40		case 8: prev = *(u64 *)ptr;
-    41			if (prev == old)
-    42				*(u64 *)ptr = (u64)new;
-    43			break;
-    44		default:
-    45			wrong_size_cmpxchg(ptr);
-    46		}
-    47		raw_local_irq_restore(flags);
-    48		return prev;
-    49	}
-    50	
+   402	
+   403	/*
+   404	 * This function implements the .get_loaded_rsc_table() callback and is used
+   405	 * to provide the resource table for a booted DSP in IPC-only mode. The K3 DSP
+   406	 * firmwares follow a design-by-contract approach and are expected to have the
+   407	 * resource table at the base of the DDR region reserved for firmware usage.
+   408	 * This provides flexibility for the remote processor to be booted by different
+   409	 * bootloaders that may or may not have the ability to publish the resource table
+   410	 * address and size through a DT property. This callback is invoked only in
+   411	 * IPC-only mode.
+   412	 */
+   413	static struct resource_table *k3_dsp_get_loaded_rsc_table(struct rproc *rproc,
+   414								  size_t *rsc_table_sz)
+   415	{
+   416		struct k3_dsp_rproc *kproc = rproc->priv;
+   417		struct device *dev = kproc->dev;
+   418	
+   419		if (!kproc->rmem[0].cpu_addr) {
+   420			dev_err(dev, "memory-region #1 does not exist, loaded rsc table can't be found");
+   421			return ERR_PTR(-ENOMEM);
+   422		}
+   423	
+   424		/*
+   425		 * NOTE: The resource table size is currently hard-coded to a maximum
+   426		 * of 256 bytes. The most common resource table usage for K3 firmwares
+   427		 * is to only have the vdev resource entry and an optional trace entry.
+   428		 * The exact size could be computed based on resource table address, but
+   429		 * the hard-coded value suffices to support the IPC-only mode.
+   430		 */
+   431		*rsc_table_sz = 256;
+ > 432		return (struct resource_table *)kproc->rmem[0].cpu_addr;
+   433	}
+   434	
 
 -- 
 0-DAY CI Kernel Test Service
