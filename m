@@ -1,52 +1,43 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F83640;
-	Mon, 27 Feb 2023 04:35:56 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id j2so4806116wrh.9;
-        Sun, 26 Feb 2023 20:35:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jPDUgfWIJpqXibCa/CpfzA6vX/+eetr76UO3gYXulag=;
-        b=Y2c2pMHOdmAWtt42WXGHxZoHXdY5+0HknEEl4m1pey2F2mtxesIX9SOYzYDaLOeWhL
-         jb9MSlJ+U9vQRnnInMmuXKIZtanhroJ1RSITM/Txt7mZnPNHynjG528tgmkATXIPYlIt
-         BiPO7RmKAm+DAqsNjcLd52ySPrJVkahzo6PF3pXHJTgpSN/L6aHpAM0FZMwvbZDz/SH9
-         +A1wLlM8TgaJFC71etHyIN8Q/2JvS3g+5+I8SoBzB8tLuWCUgyTkQj7IaPIGl9tNjVSK
-         q60vADlahLPKfbRV4qKSCz+Fnr7zJmIJgx3nDeUkWsguhUHHjS+bZXCb/vduaLtPgss0
-         KVHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jPDUgfWIJpqXibCa/CpfzA6vX/+eetr76UO3gYXulag=;
-        b=AZvrsuJZan2vKztUN7FSP3VnE4bPvSL4puSjUD1DsK/63t47LjfSgqUJGWL+/XeI8K
-         Wej20XNjcSUa9RmnrMd9Y7u4RKe4heD1Q/s3C8jlJtpdyOy75XvUoplivzyWRruBE/Lp
-         m6zORCUsA6sqJD5n+K6ZRjAvvC/h1GAgp4rlqsOxePw72T/THp4qbLcDZwTUaDeFMJY+
-         lxQD+9NRYiTQSffiaDlf7ldyh6nOJEkt3d4D9E2xsVqKUceR8e1+Il/qFCTr14AI+rB3
-         gVY/7g9ugWFuO+K+Oc2VhAk5BbZo7oNQ88TE+YVaLDpqjlGsN0Rw0lBs/0ew3PpAA+YD
-         7/ww==
-X-Gm-Message-State: AO0yUKVtO48JOelgyfBkhPZVYTmM3g/KMDWG/dgDpZBFeUlNr3yAD78v
-	jc+dj3RMDR1SYPBhKE17mkoLXLHLV/A=
-X-Google-Smtp-Source: AK7set8Qbgx8pnWq50BGUT5t8DZU+nfGoMdvWrb1ybtBTDMXnROu0Tshyv2lNkjH3G9h5ryYHM1q3A==
-X-Received: by 2002:a5d:6c66:0:b0:2c7:d7c:7d7 with SMTP id r6-20020a5d6c66000000b002c70d7c07d7mr5308365wrz.22.1677472554501;
-        Sun, 26 Feb 2023 20:35:54 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l3-20020a05600012c300b002c5694aef92sm5863340wrx.21.2023.02.26.20.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 20:35:54 -0800 (PST)
-Date: Mon, 27 Feb 2023 07:35:51 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Wenjing Liu <wenjing.liu@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	George Shen <George.Shen@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:365
- dc_link_construct_phy() warn: variable dereferenced before check
- 'link->link_enc' (see line 362)
-Message-ID: <202302261837.dKavRZA5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC65640
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 05:01:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677474083; x=1709010083;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I9MweRS0RdSIl+GXYceA9uh8+KzrfaUr24cxpGTLpH0=;
+  b=lZliDa4VMS1Kogvln+yVFHswmj8DT3t0JEG9P3TSu1k7mZsf4SPTvv7j
+   30NTajzkm+31I8Wkxox3YcqbnwuD5hT8YSaK4JjJzj3eCXK300waJ+QXf
+   +5Y7F+r+Sp5yyvH00tYDW6SSSkrIFY/qg4yxWBicWaJBtbESpnPOkQL8p
+   okEAoSlv5Zc2jaL1WWyCOU9cxjxkAOdXdICC9Ffr+MpPWCvfDGPVpmM2j
+   9sfDeEp0G669QE/zcrKrjUshaliquPa3xrwuDjaYE+sI6T9DEgGMZWP8g
+   EqxFS81uMYN0gitIcGqkxxRpJ/LS/Tb4bUnTkCwzgCBQmf3hiBU6QGevG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322022579"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="322022579"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 21:01:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="762516267"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="762516267"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2023 21:01:21 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pWVdZ-00046F-0o;
+	Mon, 27 Feb 2023 05:01:21 +0000
+Date: Mon, 27 Feb 2023 13:00:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: KiseokJo <kiseok.jo@irondevice.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/codecs/sma1303.c:1517:28: sparse: sparse: symbol
+ 'sma_i2c_regmap' was not declared. Should it be static?
+Message-ID: <202302271204.H1QKC6Vv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,65 +48,144 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2fcd07b7ccd5fd10b2120d298363e4e6c53ccf9c
-commit: 54618888d1ea7a26f8bccfb89e3c2420350c8047 drm/amd/display: break down dc_link.c
-config: m68k-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302261837.dKavRZA5-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
+commit: 68cd394efd0fdce25d0def8d6cb1b8898b2c13d9 ASoC: The Iron Device SMA1303 is a boosted Class-D audio amplifier.
+date:   4 weeks ago
+config: sparc-randconfig-s032-20230226 (https://download.01.org/0day-ci/archive/20230227/202302271204.H1QKC6Vv-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=68cd394efd0fdce25d0def8d6cb1b8898b2c13d9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 68cd394efd0fdce25d0def8d6cb1b8898b2c13d9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302261837.dKavRZA5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302271204.H1QKC6Vv-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:365 dc_link_construct_phy() warn: variable dereferenced before check 'link->link_enc' (see line 362)
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dpms.c:2307 link_set_dpms_on() warn: if statement not indented
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/codecs/sma1303.c:1517:28: sparse: sparse: symbol 'sma_i2c_regmap' was not declared. Should it be static?
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:145 get_ddc_line() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:201 dc_link_construct_phy() warn: inconsistent indenting
+vim +/sma_i2c_regmap +1517 sound/soc/codecs/sma1303.c
 
-vim +365 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c
-
-54618888d1ea7a Wenjing Liu 2023-01-18  348  	enc_init_data.ctx = dc_ctx;
-54618888d1ea7a Wenjing Liu 2023-01-18  349  	bp_funcs->get_src_obj(dc_ctx->dc_bios, link->link_id, 0,
-54618888d1ea7a Wenjing Liu 2023-01-18  350  			      &enc_init_data.encoder);
-54618888d1ea7a Wenjing Liu 2023-01-18  351  	enc_init_data.connector = link->link_id;
-54618888d1ea7a Wenjing Liu 2023-01-18  352  	enc_init_data.channel = get_ddc_line(link);
-54618888d1ea7a Wenjing Liu 2023-01-18  353  	enc_init_data.hpd_source = get_hpd_line(link);
-54618888d1ea7a Wenjing Liu 2023-01-18  354  
-54618888d1ea7a Wenjing Liu 2023-01-18  355  	link->hpd_src = enc_init_data.hpd_source;
-54618888d1ea7a Wenjing Liu 2023-01-18  356  
-54618888d1ea7a Wenjing Liu 2023-01-18  357  	enc_init_data.transmitter =
-54618888d1ea7a Wenjing Liu 2023-01-18  358  		translate_encoder_to_transmitter(enc_init_data.encoder);
-54618888d1ea7a Wenjing Liu 2023-01-18  359  	link->link_enc =
-54618888d1ea7a Wenjing Liu 2023-01-18  360  		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
-54618888d1ea7a Wenjing Liu 2023-01-18  361  
-54618888d1ea7a Wenjing Liu 2023-01-18 @362  	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
-                                                                                                 ^^^^^^^^^^^^^^^^
-
-54618888d1ea7a Wenjing Liu 2023-01-18  363  	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
-                                                                                                    ^^^^^^^^^^^^^^^^
-
-54618888d1ea7a Wenjing Liu 2023-01-18  364  
-54618888d1ea7a Wenjing Liu 2023-01-18 @365  	if (!link->link_enc) {
-                                                     ^^^^^^^^^^^^^^
-Too late.
-
-54618888d1ea7a Wenjing Liu 2023-01-18  366  		DC_ERROR("Failed to create link encoder!\n");
-54618888d1ea7a Wenjing Liu 2023-01-18  367  		goto link_enc_create_fail;
-54618888d1ea7a Wenjing Liu 2023-01-18  368  	}
-54618888d1ea7a Wenjing Liu 2023-01-18  369  
-54618888d1ea7a Wenjing Liu 2023-01-18  370  	/* Update link encoder tracking variables. These are used for the dynamic
-54618888d1ea7a Wenjing Liu 2023-01-18  371  	 * assignment of link encoders to streams.
-54618888d1ea7a Wenjing Liu 2023-01-18  372  	 */
-54618888d1ea7a Wenjing Liu 2023-01-18  373  	link->eng_id = link->link_enc->preferred_engine;
-54618888d1ea7a Wenjing Liu 2023-01-18  374  	link->dc->res_pool->link_encoders[link->eng_id - ENGINE_ID_DIGA] = link->link_enc;
-54618888d1ea7a Wenjing Liu 2023-01-18  375  	link->dc->res_pool->dig_link_enc_count++;
-54618888d1ea7a Wenjing Liu 2023-01-18  376  
-54618888d1ea7a Wenjing Liu 2023-01-18  377  	link->link_enc_hw_inst = link->link_enc->transmitter;
+  1457	
+  1458	static void sma1303_check_fault_worker(struct work_struct *work)
+  1459	{
+  1460		struct sma1303_priv *sma1303 =
+  1461			container_of(work, struct sma1303_priv, check_fault_work.work);
+  1462		int ret = 0;
+  1463		unsigned int over_temp, ocp_val, uvlo_val;
+  1464	
+  1465		if (sma1303->tsdw_cnt)
+  1466			ret = sma1303_regmap_read(sma1303,
+  1467				SMA1303_0A_SPK_VOL, &sma1303->cur_vol);
+  1468		else
+  1469			ret = sma1303_regmap_read(sma1303,
+  1470				SMA1303_0A_SPK_VOL, &sma1303->init_vol);
+  1471	
+  1472		if (ret != 0) {
+  1473			dev_err(sma1303->dev,
+  1474				"failed to read SMA1303_0A_SPK_VOL : %d\n", ret);
+  1475			return;
+  1476		}
+  1477	
+  1478		ret = sma1303_regmap_read(sma1303, SMA1303_FA_STATUS1, &over_temp);
+  1479		if (ret != 0) {
+  1480			dev_err(sma1303->dev,
+  1481				"failed to read SMA1303_FA_STATUS1 : %d\n", ret);
+  1482			return;
+  1483		}
+  1484	
+  1485		ret = sma1303_regmap_read(sma1303, SMA1303_FB_STATUS2, &ocp_val);
+  1486		if (ret != 0) {
+  1487			dev_err(sma1303->dev,
+  1488				"failed to read SMA1303_FB_STATUS2 : %d\n", ret);
+  1489			return;
+  1490		}
+  1491	
+  1492		ret = sma1303_regmap_read(sma1303, SMA1303_FF_DEVICE_INDEX, &uvlo_val);
+  1493		if (ret != 0) {
+  1494			dev_err(sma1303->dev,
+  1495				"failed to read SMA1303_FF_DEVICE_INDEX : %d\n", ret);
+  1496			return;
+  1497		}
+  1498	
+  1499		if (~over_temp & SMA1303_OT1_OK_STATUS) {
+  1500			dev_crit(sma1303->dev,
+  1501				"%s : OT1(Over Temperature Level 1)\n", __func__);
+  1502	
+  1503			if ((sma1303->cur_vol + 6) <= 0xFF)
+  1504				sma1303_regmap_write(sma1303,
+  1505					SMA1303_0A_SPK_VOL, sma1303->cur_vol + 6);
+  1506	
+  1507			sma1303->tsdw_cnt++;
+  1508		} else if (sma1303->tsdw_cnt) {
+  1509			sma1303_regmap_write(sma1303,
+  1510					SMA1303_0A_SPK_VOL, sma1303->init_vol);
+  1511			sma1303->tsdw_cnt = 0;
+  1512			sma1303->cur_vol = sma1303->init_vol;
+  1513		}
+  1514	
+  1515		if (~over_temp & SMA1303_OT2_OK_STATUS) {
+  1516			dev_crit(sma1303->dev,
+> 1517				"%s : OT2(Over Temperature Level 2)\n", __func__);
+  1518		}
+  1519		if (ocp_val & SMA1303_OCP_SPK_STATUS) {
+  1520			dev_crit(sma1303->dev,
+  1521				"%s : OCP_SPK(Over Current Protect SPK)\n", __func__);
+  1522		}
+  1523		if (ocp_val & SMA1303_OCP_BST_STATUS) {
+  1524			dev_crit(sma1303->dev,
+  1525				"%s : OCP_BST(Over Current Protect Boost)\n", __func__);
+  1526		}
+  1527		if ((ocp_val & SMA1303_CLK_MON_STATUS) && (sma1303->amp_power_status)) {
+  1528			dev_crit(sma1303->dev,
+  1529				"%s : CLK_FAULT(No clock input)\n", __func__);
+  1530		}
+  1531		if (uvlo_val & SMA1303_UVLO_BST_STATUS) {
+  1532			dev_crit(sma1303->dev,
+  1533				"%s : UVLO(Under Voltage Lock Out)\n", __func__);
+  1534		}
+  1535	
+  1536		if ((over_temp != sma1303->last_over_temp) ||
+  1537			(ocp_val != sma1303->last_ocp_val)) {
+  1538	
+  1539			dev_crit(sma1303->dev, "Please check AMP status");
+  1540			dev_dbg(sma1303->dev, "STATUS1=0x%02X : STATUS2=0x%02X\n",
+  1541					over_temp, ocp_val);
+  1542			sma1303->last_over_temp = over_temp;
+  1543			sma1303->last_ocp_val = ocp_val;
+  1544		}
+  1545	
+  1546		if (sma1303->check_fault_status) {
+  1547			if (sma1303->check_fault_period > 0)
+  1548				queue_delayed_work(system_freezable_wq,
+  1549					&sma1303->check_fault_work,
+  1550						sma1303->check_fault_period * HZ);
+  1551			else
+  1552				queue_delayed_work(system_freezable_wq,
+  1553					&sma1303->check_fault_work,
+  1554						CHECK_PERIOD_TIME * HZ);
+  1555		}
+  1556	
+  1557		if (!(~over_temp & SMA1303_OT1_OK_STATUS)
+  1558				&& !(~over_temp & SMA1303_OT2_OK_STATUS)
+  1559				&& !(ocp_val & SMA1303_OCP_SPK_STATUS)
+  1560				&& !(ocp_val & SMA1303_OCP_BST_STATUS)
+  1561				&& !(ocp_val & SMA1303_CLK_MON_STATUS)
+  1562				&& !(uvlo_val & SMA1303_UVLO_BST_STATUS)) {
+  1563		}
+  1564	}
+  1565	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
