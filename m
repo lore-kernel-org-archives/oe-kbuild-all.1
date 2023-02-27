@@ -1,69 +1,60 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01F7659
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 06:44:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D727EF;
+	Mon, 27 Feb 2023 08:26:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677480275; x=1709016275;
+  t=1677486398; x=1709022398;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l7fNlOQJTNMVvMxezJZRa8jk93MTm7z8h1o/L1+XyGw=;
-  b=D6cWj6ahbhDL4C6f6dII5CfR23hqwZqU2W/ejPj09phJZlboMZEYS4j8
-   DPGywoVCQ4727WILjv8rsee6Sp3q1LsCD9xATKSZHFO82mg1Wju+hudZQ
-   SdB0GsUzMsiy2hjb3TjKyKv0Ld241AO3JtTWiBI+ChBmvHz72qIcMl6+S
-   o6CQCQxFJhI9JahuzCmEnl9RTFCPyAm6bKOIVJ7e6wz54AeOnBwaI8nDT
-   FQkRM793RwzolszBM+xeWu1GZS9e7Qn/wgOLPMf1i8GppgVFi8q26bmHw
-   5DrpTd7+AZo5qaUtDbyRP3zfFkhx0zfeyXM08oERnqkajDe6XgM2FpcWw
+  bh=3femBW50VuFuS6ruRz4PZ9bn3eoVxZ9MAUBA8SF1+/0=;
+  b=ii4l6dN/WhmpysEZloyMacJ2W+UdUDVsJDBF/tUdCblrjnVPj+uR3yg1
+   jPraGGAG30lvcoAIWnonBi63p8cOMGRk+3tgxbCwAjrCpzPixFIBzug7H
+   OKSCvgGhkkew9gkrj+0yF11S5PwJv+Dtuc9nuNGDWeB4AzcX5wQHjKKMb
+   HhWXng+hyqmXm/4y8caWX1BKrn7jZ445RP/9OGe+oq2POXF0K7F0w0Fcy
+   2B5qsxvWrFByBlJTCRV9t6uCUfSoRtJ4RFCRiyEhqffayx89JZd+KVnLA
+   PdRa5B7pefbbEArGzKepeO1RZJLUdp96NRjssL/B9kBQsFP/ZYr8IzDyv
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="332514901"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="314233001"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="332514901"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 22:44:34 -0800
+   d="scan'208";a="314233001"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 00:26:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="651085796"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="1002647446"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="651085796"
+   d="scan'208";a="1002647446"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2023 22:44:27 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2023 00:26:32 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWXFK-0004A3-0T;
-	Mon, 27 Feb 2023 06:44:26 +0000
-Date: Mon, 27 Feb 2023 14:43:45 +0800
+	id 1pWYq7-0004Er-1v;
+	Mon, 27 Feb 2023 08:26:31 +0000
+Date: Mon, 27 Feb 2023 16:25:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Balsam CHIHI <bchihi@baylibre.com>,
-	Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Guillaume La Roque <glaroque@baylibre.com>,
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Markus Mayer <mmayer@broadcom.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH v3 02/20] thermal/core: Use the thermal zone 'devdata'
- accessor in thermal located drivers
-Message-ID: <202302271421.ZjVUJ4DB-lkp@intel.com>
-References: <20230226225406.979703-3-daniel.lezcano@linaro.org>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Gustavo Padovan <gustavo.padovan@collabora.com>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel@collabora.com, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v11 05/10] drm/shmem-helper: Add memory shrinker
+Message-ID: <202302271624.aEDOT0UV-lkp@intel.com>
+References: <20230227060219.904986-6-dmitry.osipenko@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,70 +63,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230226225406.979703-3-daniel.lezcano@linaro.org>
+In-Reply-To: <20230227060219.904986-6-dmitry.osipenko@collabora.com>
 
-Hi Daniel,
+Hi Dmitry,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on groeck-staging/hwmon-next]
-[cannot apply to v6.2]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2 next-20230227]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230227-065829
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20230226225406.979703-3-daniel.lezcano%40linaro.org
-patch subject: [PATCH v3 02/20] thermal/core: Use the thermal zone 'devdata' accessor in thermal located drivers
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230227/202302271421.ZjVUJ4DB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/drm-shmem-helper-Factor-out-pages-alloc-release-from-drm_gem_shmem_get-put_pages/20230227-140619
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230227060219.904986-6-dmitry.osipenko%40collabora.com
+patch subject: [PATCH v11 05/10] drm/shmem-helper: Add memory shrinker
+config: riscv-randconfig-r006-20230227 (https://download.01.org/0day-ci/archive/20230227/202302271624.aEDOT0UV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c12531f9e11ce889a1c6adaa17dfbaa04a5d74a5
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/c4d106484ddbebccf4219dacbc2a9975909f4c2a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230227-065829
-        git checkout c12531f9e11ce889a1c6adaa17dfbaa04a5d74a5
+        git fetch --no-tags linux-review Dmitry-Osipenko/drm-shmem-helper-Factor-out-pages-alloc-release-from-drm_gem_shmem_get-put_pages/20230227-140619
+        git checkout c4d106484ddbebccf4219dacbc2a9975909f4c2a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302271421.ZjVUJ4DB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302271624.aEDOT0UV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/thermal/db8500_thermal.c: In function 'db8500_thermal_get_temp':
->> drivers/thermal/db8500_thermal.c:63:42: error: implicit declaration of function 'therma_zone_device_priv'; did you mean 'thermal_zone_device_priv'? [-Werror=implicit-function-declaration]
-      63 |         struct db8500_thermal_zone *th = therma_zone_device_priv(tz);
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                          thermal_zone_device_priv
-   drivers/thermal/db8500_thermal.c:63:42: warning: initialization of 'struct db8500_thermal_zone *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/drm_gem_shmem_helper.c:832:18: warning: no previous prototype for function 'drm_gem_shmem_get_pages_sgt_locked' [-Wmissing-prototypes]
+   struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
+                    ^
+   drivers/gpu/drm/drm_gem_shmem_helper.c:832:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
+   ^
+   static 
+>> drivers/gpu/drm/drm_gem_shmem_helper.c:1016:7: error: too many arguments to function call, expected 3, have 4
+                                     drm_gem_shmem_shrinker_purge);
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_gem.h:489:15: note: 'drm_gem_lru_scan' declared here
+   unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
+                 ^
+   drivers/gpu/drm/drm_gem_shmem_helper.c:1022:8: error: too many arguments to function call, expected 3, have 4
+                                             drm_gem_shmem_shrinker_evict);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_gem.h:489:15: note: 'drm_gem_lru_scan' declared here
+   unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
+                 ^
+   1 warning and 2 errors generated.
 
 
-vim +63 drivers/thermal/db8500_thermal.c
+vim +1016 drivers/gpu/drm/drm_gem_shmem_helper.c
 
-    59	
-    60	/* Callback to get current temperature */
-    61	static int db8500_thermal_get_temp(struct thermal_zone_device *tz, int *temp)
-    62	{
-  > 63		struct db8500_thermal_zone *th = therma_zone_device_priv(tz);
-    64	
-    65		/*
-    66		 * TODO: There is no PRCMU interface to get temperature data currently,
-    67		 * so a pseudo temperature is returned , it works for thermal framework
-    68		 * and this will be fixed when the PRCMU interface is available.
-    69		 */
-    70		*temp = th->interpolated_temp;
-    71	
-    72		return 0;
-    73	}
-    74	
+  1001	
+  1002	static unsigned long
+  1003	drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
+  1004					    struct shrink_control *sc)
+  1005	{
+  1006		struct drm_gem_shmem_shrinker *shmem_shrinker;
+  1007		unsigned long nr_to_scan = sc->nr_to_scan;
+  1008		unsigned long remaining = 0;
+  1009		unsigned long freed = 0;
+  1010	
+  1011		shmem_shrinker = to_drm_gem_shmem_shrinker(shrinker);
+  1012	
+  1013		/* purge as many objects as we can */
+  1014		freed += drm_gem_lru_scan(&shmem_shrinker->lru_evictable,
+  1015					  nr_to_scan, &remaining,
+> 1016					  drm_gem_shmem_shrinker_purge);
+  1017	
+  1018		/* evict as many objects as we can */
+  1019		if (freed < nr_to_scan)
+  1020			freed += drm_gem_lru_scan(&shmem_shrinker->lru_evictable,
+  1021						  nr_to_scan - freed, &remaining,
+  1022						  drm_gem_shmem_shrinker_evict);
+  1023	
+  1024		return (freed > 0 && remaining > 0) ? freed : SHRINK_STOP;
+  1025	}
+  1026	
 
 -- 
 0-DAY CI Kernel Test Service
