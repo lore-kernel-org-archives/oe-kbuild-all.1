@@ -1,75 +1,119 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85532113;
-	Mon, 27 Feb 2023 11:05:45 +0000 (UTC)
-Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru [109.252.117.89])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: dmitry.osipenko)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 17DD6660230B;
-	Mon, 27 Feb 2023 11:05:34 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1677495937;
-	bh=W2ZJSSHCunoA7oJzVM5TiJI76ePuSGXeQu0bCNtxgSc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kFXVnCj0SD3+lW1B9kOOebQFDqp8nZhXli/IxdQHlruzkg0h0zYEHM8H5f+XY4P9w
-	 8h3FUOPgvqjCm7tpoIFjNbfnyAuVftrInDjzbL5HJEZxCW0bsbMzD5EyVxKailTgUA
-	 k/jBHKfnAgGELN36Nh2/m2YJpWheHqXw3zBe1AAo0wZ6Az4S5zmXU7jm8wnj9PWjKg
-	 EBlTqxoqW4dSHqg2f2mzbDDweF3PwQt8Ubb8pt2goTNs/rCwQdTwgg8o/42yox0t9Z
-	 AvGolDi2WngRcnmRzyC1IOjptoZ2GysWxV3BKUHestXlYm3P7eYSHBn+zQLZmnN8cx
-	 CWcUo/d+GP2pQ==
-Message-ID: <5185c15a-9cd4-75e2-e791-847a4e08711c@collabora.com>
-Date: Mon, 27 Feb 2023 14:05:31 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5E72113
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 11:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677495999; x=1709031999;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xnzzSjTFC17KwIEJ7taR34kuFH9yezDxzvUoNiAOfew=;
+  b=Q7PcicRWrbYcpYCwT2EhFRT036oo1dnKUx6NflkJ9vUrGJVTpDTEJc8X
+   SH/AweszBm0oXFdgT/GloB73omFGvbCDN3BdQnq98sYkrltbNjGt8zlt/
+   4f2X60sczTcz13p/LcAzLYJ4yhvWxLWpo4H+Wsp4GOcAFXmEuOtRJV9tv
+   WAmF7vgcf7Hq3WTlu4vhz47D1ZLhSA0eyRvN4urzgkXw4VcuUx0Q/zmK8
+   JRo/sRf3iao4exdPPmJzN6RLzFBfe8V1DvnB/MvZD5jfXsyHVbhl0r4rs
+   WHhjiGeK3R/rZKeXZ+NeOinFhRImAuPOdI+/muMu99H7YDdTsafskaR60
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="396385851"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="396385851"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 03:06:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="737634838"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="737634838"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 27 Feb 2023 03:06:37 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pWbL3-0004Lb-13;
+	Mon, 27 Feb 2023 11:06:37 +0000
+Date: Mon, 27 Feb 2023 19:06:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:kvm-upstream-workaround 435/440]
+ include/linux/kvm_host.h:429:9: error: implicit declaration of function
+ 'perf_event_guest_enter_exit'
+Message-ID: <202302271833.4v9WbSB7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v11 05/10] drm/shmem-helper: Add memory shrinker
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, David Airlie <airlied@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-References: <20230227060219.904986-6-dmitry.osipenko@collabora.com>
- <202302271624.aEDOT0UV-lkp@intel.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <202302271624.aEDOT0UV-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/27/23 11:25, kernel test robot wrote:
-> All errors (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/drm_gem_shmem_helper.c:832:18: warning: no previous prototype for function 'drm_gem_shmem_get_pages_sgt_locked' [-Wmissing-prototypes]
->    struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
->                     ^
->    drivers/gpu/drm/drm_gem_shmem_helper.c:832:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
->    struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
->    ^
->    static 
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   6960696b1b5b8d8074bf2724321ff73782e42e6c
+commit: b7377b41927c4fa035228a4eb3fb6151d64bf749 [435/440] perf, KVM: introduce software event on enter/exit to/from guest
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230227/202302271833.4v9WbSB7-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/tdx/commit/b7377b41927c4fa035228a4eb3fb6151d64bf749
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout b7377b41927c4fa035228a4eb3fb6151d64bf749
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 prepare
 
-This should've been a part of patch 7, will correct in v12.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302271833.4v9WbSB7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   include/linux/kvm_host.h: In function 'guest_context_enter_irqoff':
+>> include/linux/kvm_host.h:429:9: error: implicit declaration of function 'perf_event_guest_enter_exit' [-Werror=implicit-function-declaration]
+     429 |         perf_event_guest_enter_exit(true);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:114: arch/s390/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1298: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/perf_event_guest_enter_exit +429 include/linux/kvm_host.h
+
+   418	
+   419	/*
+   420	 * Enter guest context and enter an RCU extended quiescent state.
+   421	 *
+   422	 * Between guest_context_enter_irqoff() and guest_context_exit_irqoff() it is
+   423	 * unsafe to use any code which may directly or indirectly use RCU, tracing
+   424	 * (including IRQ flag tracing), or lockdep. All code in this period must be
+   425	 * non-instrumentable.
+   426	 */
+   427	static __always_inline void guest_context_enter_irqoff(void)
+   428	{
+ > 429		perf_event_guest_enter_exit(true);
+   430		/*
+   431		 * KVM does not hold any references to rcu protected data when it
+   432		 * switches CPU into a guest mode. In fact switching to a guest mode
+   433		 * is very similar to exiting to userspace from rcu point of view. In
+   434		 * addition CPU may stay in a guest mode for quite a long time (up to
+   435		 * one time slice). Lets treat guest mode as quiescent state, just like
+   436		 * we do with user-mode execution.
+   437		 */
+   438		if (!context_tracking_guest_enter()) {
+   439			instrumentation_begin();
+   440			rcu_virt_note_context_switch();
+   441			instrumentation_end();
+   442		}
+   443	}
+   444	
 
 -- 
-Best regards,
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
