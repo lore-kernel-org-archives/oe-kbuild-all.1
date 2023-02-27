@@ -1,49 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B042FB2;
-	Mon, 27 Feb 2023 12:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CA42FB2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 12:20:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677500326; x=1709036326;
+  t=1677500442; x=1709036442;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KuX2ifj23XIiHvM0u+wPf0HERefBeu0ux+Zf9Ufg1CE=;
-  b=YQ1/jYSxs4q2oD3gRNXVVMBsx+IiI/2BxxyYKiTbp/9nblN41+lufbAo
-   NAGikj9EUGUVlMidQENgLXScPcJpT/dXl0M+FwZRdbT0aKSCyTvNi+61U
-   8EmyR5qrepAvsSXeZCHcX3ABsX0SahIoddC5KiuU1AI1wup2nZQuo87Er
-   ZXC5MS9iqc9AiOINxuZ6I3wv4H+gTPtAxHKqeHheK125iPRZfqttS4jZY
-   Lwmskh+JpwtgiZyt0HupBEQFbErGa4wtBXyOMcqdUwSit0xgHH1cbZwiY
-   zqZ5g4pq6u9ddqKu2jF2M9dsfpmpOm3mbaVCrXBJNTvsS2USc6wnHgG6L
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="331319322"
+  bh=mTLEw56BnzUEFaU8VBf09KRG2vovXSBhs4xU3dPAYos=;
+  b=JbRkzfWSKZhC6KUkFfiCA5+BwvftJskwWE2MHxJR7A5I9STFMGpfhwx4
+   f+UgNxxebqh8Tf4AGn1dOv/vrVeO8JDjW2fBPXmo8xtAzqo1GZSfjUwje
+   FmDiIdsX59PFg1V8L5iqN1HczimJ3K/qAL4Pd2/0cv/eKcBuoAvIGNmW/
+   6JeFYN1hrgd2+pj7aXuCgpyEl5ohoIbetmf91AbgfZUQJK7M4nQI1egrb
+   GD8U8E3JE9WjCm2YbLJSguYEzXOwqM9Ma4tcU7J1okCEzxTLQQ/PprE00
+   IfvmW7ed2hAaU6QRkmv8Kl4DDpRxirVIuGz9gO2iTP6ONTojo+3Hp+utO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="361403185"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="331319322"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:18:45 -0800
+   d="scan'208";a="361403185"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:20:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="623560454"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="623560454"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="737676933"
+X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
+   d="scan'208";a="737676933"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Feb 2023 04:18:41 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 27 Feb 2023 04:20:41 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWcSm-0004OY-1T;
-	Mon, 27 Feb 2023 12:18:40 +0000
-Date: Mon, 27 Feb 2023 20:18:17 +0800
+	id 1pWcUi-0004Of-1i;
+	Mon, 27 Feb 2023 12:20:40 +0000
+Date: Mon, 27 Feb 2023 20:20:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuanzhi Wang <wangyuanzhi@uniontech.com>, alexander.deucher@amd.com,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-	daniel@ffwll.ch, mario.limonciello@amd.com, Bokun.Zhang@amd.com,
-	tzimmermann@suse.de, hdegoede@redhat.com, jingyuwang_vip@163.com,
-	rafael.j.wysocki@intel.com, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Yuanzhi Wang <wangyuanzhi@uniontech.com>
-Subject: Re: [PATCH] amdgpu: add a filter condition when set brightness
-Message-ID: <202302272051.KDJqRyl5-lkp@intel.com>
-References: <20230227073953.326-1-wangyuanzhi@uniontech.com>
+To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, rodrigo.vivi@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power
+ demands to pcode more accurately
+Message-ID: <202302272011.1iLXtakR-lkp@intel.com>
+References: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,178 +48,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227073953.326-1-wangyuanzhi@uniontech.com>
+In-Reply-To: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
 
-Hi Yuanzhi,
+Hi Stanislav,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.2 next-20230227]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230227073953.326-1-wangyuanzhi%40uniontech.com
-patch subject: [PATCH] amdgpu: add a filter condition when set brightness
-config: arm64-randconfig-r012-20230226 (https://download.01.org/0day-ci/archive/20230227/202302272051.KDJqRyl5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230227095253.22415-1-stanislav.lisovskiy%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power demands to pcode more accurately
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230227/202302272011.1iLXtakR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/95d9579e31d0b601aa1422cf767ca5138d3efcee
+        # https://github.com/intel-lab-lkp/linux/commit/bc4de3b25bbf043f68ef862c45f975b79af938be
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
-        git checkout 95d9579e31d0b601aa1422cf767ca5138d3efcee
+        git fetch --no-tags linux-review Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
+        git checkout bc4de3b25bbf043f68ef862c45f975b79af938be
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272051.KDJqRyl5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272011.1iLXtakR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:15: warning: missing terminating '"' character [-Winvalid-pp-token]
-                                           DRM_WARN("old brightness %d is greater than ACPI brightness
-                                                    ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:450:11: warning: missing terminating '"' character [-Winvalid-pp-token]
-                                                   %d\n", old_brightness, req.backlight_level);
-                                                       ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:6: error: unterminated function-like macro invocation
-                                           DRM_WARN("old brightness %d is greater than ACPI brightness
-                                           ^
-   include/drm/drm_print.h:543:9: note: macro 'DRM_WARN' defined here
-   #define DRM_WARN(fmt, ...)                                              \
-           ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected expression
-   #endif /* CONFIG_SUSPEND */
-                              ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:448:5: note: previous statement is here
-                                   if (old_brightness > req.backlight_level)
-                                   ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
-   #endif /* CONFIG_SUSPEND */
-                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:439:18: note: to match this '{'
-                           if (atif->bd) {
-                                         ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
-   #endif /* CONFIG_SUSPEND */
-                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:438:59: note: to match this '{'
-                   if (req.pending & ATIF_PANEL_BRIGHTNESS_CHANGE_REQUEST) {
-                                                                           ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
-   #endif /* CONFIG_SUSPEND */
-                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:427:38: note: to match this '{'
-           if (atif->functions.sbios_requests) {
-                                               ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
-   #endif /* CONFIG_SUSPEND */
-                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:406:1: note: to match this '{'
-   {
-   ^
-   3 warnings and 6 errors generated.
+>> drivers/gpu/drm/i915/display/intel_cdclk.c:3006:6: warning: no previous prototype for 'intel_cdclk_need_serialize' [-Wmissing-prototypes]
+    3006 | bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +449 drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+vim +/intel_cdclk_need_serialize +3006 drivers/gpu/drm/i915/display/intel_cdclk.c
 
-   391	
-   392	/**
-   393	 * amdgpu_atif_handler - handle ATIF notify requests
-   394	 *
-   395	 * @adev: amdgpu_device pointer
-   396	 * @event: atif sbios request struct
-   397	 *
-   398	 * Checks the acpi event and if it matches an atif event,
-   399	 * handles it.
-   400	 *
-   401	 * Returns:
-   402	 * NOTIFY_BAD or NOTIFY_DONE, depending on the event.
-   403	 */
-   404	static int amdgpu_atif_handler(struct amdgpu_device *adev,
-   405				       struct acpi_bus_event *event)
-   406	{
-   407		struct amdgpu_atif *atif = &amdgpu_acpi_priv.atif;
-   408		int count;
-   409		int old_brightness;
-   410	
-   411		DRM_DEBUG_DRIVER("event, device_class = %s, type = %#x\n",
-   412				event->device_class, event->type);
-   413	
-   414		if (strcmp(event->device_class, ACPI_VIDEO_CLASS) != 0)
-   415			return NOTIFY_DONE;
-   416	
-   417		/* Is this actually our event? */
-   418		if (!atif->notification_cfg.enabled ||
-   419		    event->type != atif->notification_cfg.command_code) {
-   420			/* These events will generate keypresses otherwise */
-   421			if (event->type == ACPI_VIDEO_NOTIFY_PROBE)
-   422				return NOTIFY_BAD;
-   423			else
-   424				return NOTIFY_DONE;
-   425		}
-   426	
-   427		if (atif->functions.sbios_requests) {
-   428			struct atif_sbios_requests req;
-   429	
-   430			/* Check pending SBIOS requests */
-   431			count = amdgpu_atif_get_sbios_requests(atif, &req);
-   432	
-   433			if (count <= 0)
-   434				return NOTIFY_BAD;
-   435	
-   436			DRM_DEBUG_DRIVER("ATIF: %d pending SBIOS requests\n", count);
-   437	
-   438			if (req.pending & ATIF_PANEL_BRIGHTNESS_CHANGE_REQUEST) {
-   439				if (atif->bd) {
-   440					DRM_DEBUG_DRIVER("Changing brightness to %d\n",
-   441							 req.backlight_level);
-   442					/*
-   443					 * XXX backlight_device_set_brightness() is
-   444					 * hardwired to post BACKLIGHT_UPDATE_SYSFS.
-   445					 * It probably should accept 'reason' parameter.
-   446					 */
-   447					old_brightness = backlight_get_brightness(atif->bd);
-   448					if (old_brightness > req.backlight_level)
- > 449						DRM_WARN("old brightness %d is greater than ACPI brightness
-   450							%d\n", old_brightness, req.backlight_level);
-   451					else
-   452						backlight_device_set_brightness(atif->bd,
-   453							req.backlight_level);
-   454				}
-   455			}
-   456	
-   457			if (req.pending & ATIF_DGPU_DISPLAY_EVENT) {
-   458				if (adev->flags & AMD_IS_PX) {
-   459					pm_runtime_get_sync(adev_to_drm(adev)->dev);
-   460					/* Just fire off a uevent and let userspace tell us what to do */
-   461					drm_helper_hpd_irq_event(adev_to_drm(adev));
-   462					pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-   463					pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-   464				}
-   465			}
-   466			/* TODO: check other events */
-   467		}
-   468	
-   469		/* We've handled the event, stop the notifier chain. The ACPI interface
-   470		 * overloads ACPI_VIDEO_NOTIFY_PROBE, we don't want to send that to
-   471		 * userspace if the event was generated only to signal a SBIOS
-   472		 * request.
-   473		 */
-   474		return NOTIFY_BAD;
-   475	}
-   476	
+  3005	
+> 3006	bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
+  3007					const struct intel_cdclk_state *old_cdclk_state,
+  3008					const struct intel_cdclk_state *new_cdclk_state)
+  3009	{
+  3010		/*
+  3011		 * We need to poke hw for gen >= 12, because we notify PCode if
+  3012		 * pipe power well count changes.
+  3013		 */
+  3014		return intel_cdclk_changed(&old_cdclk_state->actual,
+  3015					   &new_cdclk_state->actual) ||
+  3016		       ((DISPLAY_VER(i915) >= 12 &&
+  3017			 hweight8(old_cdclk_state->active_pipes) !=
+  3018			 hweight8(new_cdclk_state->active_pipes)));
+  3019	}
+  3020	
 
 -- 
 0-DAY CI Kernel Test Service
