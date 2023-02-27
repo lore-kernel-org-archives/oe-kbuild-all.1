@@ -1,46 +1,24 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E03A33E0;
-	Mon, 27 Feb 2023 12:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677502364; x=1709038364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Iv/bxCByHyLM3mCXzFYfEn60BlnvydEZ5bn3eVyA41Q=;
-  b=h5zc4pSgsDbOoWaKNs/SD7hi1DtBB7OYKZE4Mx7mQM4TLWnwvVPbTsfg
-   GPo3JMcKd1F/YAnXvTQx3iNMGs0yy6PJ+0EJj7IR6e0bDCkgTdHMEkY5j
-   SEH0Lohsnpev5dzSiPH7b4xYa3G1BF8JkhY2OMHKXliFFm3lzlb/LIKBC
-   8GBFkrlxlVhQd2YqKzfmAxizJXEU6KTduqQDwHswh5Jx3JN2lAfHAedsm
-   WnEGfyhCjUtO7pWY3b/pPmKRdqfG8F6mHxNlGqW5ri2TvWtjJ75qZ4kcE
-   bmbkxLt4H8wRBodbczg3m7L+hJtolS2Myptfg5FOcFJ/tcHT3QRSov1eU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322095431"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="322095431"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:52:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="667020416"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="667020416"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Feb 2023 04:52:41 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pWczh-0004Ph-07;
-	Mon, 27 Feb 2023 12:52:41 +0000
-Date: Mon, 27 Feb 2023 20:51:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rodrigo.vivi@intel.com
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power
- demands to pcode more accurately
-Message-ID: <202302272052.ZvLMGyJl-lkp@intel.com>
-References: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39A333E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 12:53:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E48D2C14;
+	Mon, 27 Feb 2023 04:54:24 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.17.201])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE3D53F67D;
+	Mon, 27 Feb 2023 04:53:40 -0800 (PST)
+Date: Mon, 27 Feb 2023 12:53:38 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Moore <robert.moore@intel.com>
+Subject: Re: include/acpi/actypes.h:525:42: warning: 'strncpy' specified
+ bound 4 equals destination size
+Message-ID: <Y/yn0oSpUop8UPon@FVFF77S0Q05N>
+References: <202302230414.sQbDHtiC-lkp@intel.com>
+ <Y/dM77YdzDKRDdj1@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,67 +27,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
+In-Reply-To: <Y/dM77YdzDKRDdj1@arm.com>
 
-Hi Stanislav,
+On Thu, Feb 23, 2023 at 11:24:31AM +0000, Catalin Marinas wrote:
+> On Thu, Feb 23, 2023 at 04:32:41AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   70756b49be4ea8bf36a664322df6e7e89895fa60
+> > commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
+> > date:   4 weeks ago
+> > config: ia64-defconfig (https://download.01.org/0day-ci/archive/20230223/202302230414.sQbDHtiC-lkp@intel.com/config)
+> > compiler: ia64-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/acpi/acpica/
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Link: https://lore.kernel.org/oe-kbuild-all/202302230414.sQbDHtiC-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    In file included from include/acpi/acpi.h:24,
+> >                     from drivers/acpi/acpica/tbfind.c:10:
+> >    drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
+> > >> include/acpi/actypes.h:525:42: warning: 'strncpy' specified bound 4 equals destination size [-Wstringop-truncation]
+> >      525 | #define ACPI_COPY_NAMESEG(dest,src)     (strncpy (ACPI_CAST_PTR (char, (dest)), ACPI_CAST_PTR (char, (src)), ACPI_NAMESEG_SIZE))
+> >          |                                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> I don't see how this is related to the reported commit (which only
+> removed the -Os option for gcc).
 
-Thank you for the patch! Perhaps something to improve:
+I looks like `-Os` disables the warning for some reason. I suspect that's down
+to compiler passes not propagating the constants when using `-Os`.
 
-[auto build test WARNING on drm-tip/drm-tip]
+The actual issue has nothing to do with this patch; this patch just happens to
+have unearthed it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230227095253.22415-1-stanislav.lisovskiy%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power demands to pcode more accurately
-config: i386-randconfig-r033-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272052.ZvLMGyJl-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bc4de3b25bbf043f68ef862c45f975b79af938be
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
-        git checkout bc4de3b25bbf043f68ef862c45f975b79af938be
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+> I think ACPI_COPY_NAMESEG() should just use memcpy() on ia64 but this
+> strncpy() has been around for over 10 years.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272052.ZvLMGyJl-lkp@intel.com/
+Agreed.
 
-All warnings (new ones prefixed by >>):
+IIUC ia64 is likely to disappear soon, so maybe we don't need to touch this...
 
->> drivers/gpu/drm/i915/display/intel_cdclk.c:3006:6: warning: no previous prototype for function 'intel_cdclk_need_serialize' [-Wmissing-prototypes]
-   bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
-        ^
-   drivers/gpu/drm/i915/display/intel_cdclk.c:3006:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/intel_cdclk_need_serialize +3006 drivers/gpu/drm/i915/display/intel_cdclk.c
-
-  3005	
-> 3006	bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
-  3007					const struct intel_cdclk_state *old_cdclk_state,
-  3008					const struct intel_cdclk_state *new_cdclk_state)
-  3009	{
-  3010		/*
-  3011		 * We need to poke hw for gen >= 12, because we notify PCode if
-  3012		 * pipe power well count changes.
-  3013		 */
-  3014		return intel_cdclk_changed(&old_cdclk_state->actual,
-  3015					   &new_cdclk_state->actual) ||
-  3016		       ((DISPLAY_VER(i915) >= 12 &&
-  3017			 hweight8(old_cdclk_state->active_pipes) !=
-  3018			 hweight8(new_cdclk_state->active_pipes)));
-  3019	}
-  3020	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Mark.
