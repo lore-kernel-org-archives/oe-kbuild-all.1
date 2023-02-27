@@ -1,43 +1,47 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC65640
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 05:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC47F640;
+	Mon, 27 Feb 2023 06:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677474083; x=1709010083;
+  t=1677477806; x=1709013806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I9MweRS0RdSIl+GXYceA9uh8+KzrfaUr24cxpGTLpH0=;
-  b=lZliDa4VMS1Kogvln+yVFHswmj8DT3t0JEG9P3TSu1k7mZsf4SPTvv7j
-   30NTajzkm+31I8Wkxox3YcqbnwuD5hT8YSaK4JjJzj3eCXK300waJ+QXf
-   +5Y7F+r+Sp5yyvH00tYDW6SSSkrIFY/qg4yxWBicWaJBtbESpnPOkQL8p
-   okEAoSlv5Zc2jaL1WWyCOU9cxjxkAOdXdICC9Ffr+MpPWCvfDGPVpmM2j
-   9sfDeEp0G669QE/zcrKrjUshaliquPa3xrwuDjaYE+sI6T9DEgGMZWP8g
-   EqxFS81uMYN0gitIcGqkxxRpJ/LS/Tb4bUnTkCwzgCBQmf3hiBU6QGevG
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322022579"
+  bh=kea/ZPh+AsFpCFeWwDwk0tzPQAYnr3QkcltJ7nM+V6s=;
+  b=FBaR3magSQpJ95/riQJGNkgNcTqN42u25iw5q/D/5z8/8w1Twayt+0nU
+   plT+Crb/h1dfCZ7HnuU3qn/8mCrbOgvNiMlyn2a5Eeq4cBAK/SdrsDj+h
+   Vr4e65cxDDZ5Xl2ZShb8iLGmidYpA+aXCPMGYxOFI22unAAP1SQpnpOmM
+   A92xA+k0Xo3tSzYhGFw8ciqY8QiiEPBUCEoX3NPepxLLo/CEWeppGHipn
+   1rWFfAdjvfH+8qF8YfA0q4CFq5EJjG9Ql9mZawleSfJ8++rA18E6+GlwN
+   /mFHOUAS17ieYB4xvQ34o6lvveJUgl/qpOtWQROgA0529SgBs481D5+1k
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322029150"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="322022579"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 21:01:23 -0800
+   d="scan'208";a="322029150"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 22:03:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="762516267"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="847671709"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="762516267"
+   d="scan'208";a="847671709"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2023 21:01:21 -0800
+  by orsmga005.jf.intel.com with ESMTP; 26 Feb 2023 22:03:23 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWVdZ-00046F-0o;
-	Mon, 27 Feb 2023 05:01:21 +0000
-Date: Mon, 27 Feb 2023 13:00:26 +0800
+	id 1pWWba-000483-2m;
+	Mon, 27 Feb 2023 06:03:22 +0000
+Date: Mon, 27 Feb 2023 14:02:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: KiseokJo <kiseok.jo@irondevice.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: sound/soc/codecs/sma1303.c:1517:28: sparse: sparse: symbol
- 'sma_i2c_regmap' was not declared. Should it be static?
-Message-ID: <202302271204.H1QKC6Vv-lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Subject: [ammarfaizi2-block:akpm/mm/mm-unstable 13/64] ld.lld: error:
+ undefined symbol: memcpy
+Message-ID: <202302271348.U5lvmo0S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,144 +51,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-commit: 68cd394efd0fdce25d0def8d6cb1b8898b2c13d9 ASoC: The Iron Device SMA1303 is a boosted Class-D audio amplifier.
-date:   4 weeks ago
-config: sparc-randconfig-s032-20230226 (https://download.01.org/0day-ci/archive/20230227/202302271204.H1QKC6Vv-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
+head:   8ed02c625a2b76ca52e16ca6a4fcf57183ea72ed
+commit: 07e0a7128168f7174b55a50fc154f5a8810dc23c [13/64] kasan: treat meminstrinsic as builtins in uninstrumented files
+config: powerpc-randconfig-r022-20230226 (https://download.01.org/0day-ci/archive/20230227/202302271348.U5lvmo0S-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=68cd394efd0fdce25d0def8d6cb1b8898b2c13d9
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 68cd394efd0fdce25d0def8d6cb1b8898b2c13d9
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/07e0a7128168f7174b55a50fc154f5a8810dc23c
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block akpm/mm/mm-unstable
+        git checkout 07e0a7128168f7174b55a50fc154f5a8810dc23c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash sound/soc/codecs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302271204.H1QKC6Vv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302271348.U5lvmo0S-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/sma1303.c:1517:28: sparse: sparse: symbol 'sma_i2c_regmap' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/sma_i2c_regmap +1517 sound/soc/codecs/sma1303.c
-
-  1457	
-  1458	static void sma1303_check_fault_worker(struct work_struct *work)
-  1459	{
-  1460		struct sma1303_priv *sma1303 =
-  1461			container_of(work, struct sma1303_priv, check_fault_work.work);
-  1462		int ret = 0;
-  1463		unsigned int over_temp, ocp_val, uvlo_val;
-  1464	
-  1465		if (sma1303->tsdw_cnt)
-  1466			ret = sma1303_regmap_read(sma1303,
-  1467				SMA1303_0A_SPK_VOL, &sma1303->cur_vol);
-  1468		else
-  1469			ret = sma1303_regmap_read(sma1303,
-  1470				SMA1303_0A_SPK_VOL, &sma1303->init_vol);
-  1471	
-  1472		if (ret != 0) {
-  1473			dev_err(sma1303->dev,
-  1474				"failed to read SMA1303_0A_SPK_VOL : %d\n", ret);
-  1475			return;
-  1476		}
-  1477	
-  1478		ret = sma1303_regmap_read(sma1303, SMA1303_FA_STATUS1, &over_temp);
-  1479		if (ret != 0) {
-  1480			dev_err(sma1303->dev,
-  1481				"failed to read SMA1303_FA_STATUS1 : %d\n", ret);
-  1482			return;
-  1483		}
-  1484	
-  1485		ret = sma1303_regmap_read(sma1303, SMA1303_FB_STATUS2, &ocp_val);
-  1486		if (ret != 0) {
-  1487			dev_err(sma1303->dev,
-  1488				"failed to read SMA1303_FB_STATUS2 : %d\n", ret);
-  1489			return;
-  1490		}
-  1491	
-  1492		ret = sma1303_regmap_read(sma1303, SMA1303_FF_DEVICE_INDEX, &uvlo_val);
-  1493		if (ret != 0) {
-  1494			dev_err(sma1303->dev,
-  1495				"failed to read SMA1303_FF_DEVICE_INDEX : %d\n", ret);
-  1496			return;
-  1497		}
-  1498	
-  1499		if (~over_temp & SMA1303_OT1_OK_STATUS) {
-  1500			dev_crit(sma1303->dev,
-  1501				"%s : OT1(Over Temperature Level 1)\n", __func__);
-  1502	
-  1503			if ((sma1303->cur_vol + 6) <= 0xFF)
-  1504				sma1303_regmap_write(sma1303,
-  1505					SMA1303_0A_SPK_VOL, sma1303->cur_vol + 6);
-  1506	
-  1507			sma1303->tsdw_cnt++;
-  1508		} else if (sma1303->tsdw_cnt) {
-  1509			sma1303_regmap_write(sma1303,
-  1510					SMA1303_0A_SPK_VOL, sma1303->init_vol);
-  1511			sma1303->tsdw_cnt = 0;
-  1512			sma1303->cur_vol = sma1303->init_vol;
-  1513		}
-  1514	
-  1515		if (~over_temp & SMA1303_OT2_OK_STATUS) {
-  1516			dev_crit(sma1303->dev,
-> 1517				"%s : OT2(Over Temperature Level 2)\n", __func__);
-  1518		}
-  1519		if (ocp_val & SMA1303_OCP_SPK_STATUS) {
-  1520			dev_crit(sma1303->dev,
-  1521				"%s : OCP_SPK(Over Current Protect SPK)\n", __func__);
-  1522		}
-  1523		if (ocp_val & SMA1303_OCP_BST_STATUS) {
-  1524			dev_crit(sma1303->dev,
-  1525				"%s : OCP_BST(Over Current Protect Boost)\n", __func__);
-  1526		}
-  1527		if ((ocp_val & SMA1303_CLK_MON_STATUS) && (sma1303->amp_power_status)) {
-  1528			dev_crit(sma1303->dev,
-  1529				"%s : CLK_FAULT(No clock input)\n", __func__);
-  1530		}
-  1531		if (uvlo_val & SMA1303_UVLO_BST_STATUS) {
-  1532			dev_crit(sma1303->dev,
-  1533				"%s : UVLO(Under Voltage Lock Out)\n", __func__);
-  1534		}
-  1535	
-  1536		if ((over_temp != sma1303->last_over_temp) ||
-  1537			(ocp_val != sma1303->last_ocp_val)) {
-  1538	
-  1539			dev_crit(sma1303->dev, "Please check AMP status");
-  1540			dev_dbg(sma1303->dev, "STATUS1=0x%02X : STATUS2=0x%02X\n",
-  1541					over_temp, ocp_val);
-  1542			sma1303->last_over_temp = over_temp;
-  1543			sma1303->last_ocp_val = ocp_val;
-  1544		}
-  1545	
-  1546		if (sma1303->check_fault_status) {
-  1547			if (sma1303->check_fault_period > 0)
-  1548				queue_delayed_work(system_freezable_wq,
-  1549					&sma1303->check_fault_work,
-  1550						sma1303->check_fault_period * HZ);
-  1551			else
-  1552				queue_delayed_work(system_freezable_wq,
-  1553					&sma1303->check_fault_work,
-  1554						CHECK_PERIOD_TIME * HZ);
-  1555		}
-  1556	
-  1557		if (!(~over_temp & SMA1303_OT1_OK_STATUS)
-  1558				&& !(~over_temp & SMA1303_OT2_OK_STATUS)
-  1559				&& !(ocp_val & SMA1303_OCP_SPK_STATUS)
-  1560				&& !(ocp_val & SMA1303_OCP_BST_STATUS)
-  1561				&& !(ocp_val & SMA1303_CLK_MON_STATUS)
-  1562				&& !(uvlo_val & SMA1303_UVLO_BST_STATUS)) {
-  1563		}
-  1564	}
-  1565	
+>> ld.lld: error: undefined symbol: memcpy
+   >>> referenced by nonstdio.c
+   >>>               arch/powerpc/xmon/nonstdio.o:(xmon_write) in archive vmlinux.a
+   >>> referenced by xmon.c
+   >>>               arch/powerpc/xmon/xmon.o:(prregs) in archive vmlinux.a
+   >>> referenced by alarmtimer.c
+   >>>               kernel/time/alarmtimer.o:(alarmtimer_suspend) in archive vmlinux.a
+   >>> referenced 74 more times
+--
+>> ld.lld: error: undefined symbol: memset
+   >>> referenced by kasan_test.c
+   >>>               mm/kasan/kasan_test.o:(kmalloc_oob_in_memset) in archive vmlinux.a
+   >>> referenced by kasan_test.c
+   >>>               mm/kasan/kasan_test.o:(kmalloc_oob_memset_2) in archive vmlinux.a
+   >>> referenced by kasan_test.c
+   >>>               mm/kasan/kasan_test.o:(kmalloc_oob_memset_4) in archive vmlinux.a
+   >>> referenced 10 more times
 
 -- 
 0-DAY CI Kernel Test Service
