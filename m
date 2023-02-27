@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E674291F;
-	Sun, 26 Feb 2023 22:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DBE367
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 00:22:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677451817; x=1708987817;
+  t=1677457335; x=1708993335;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b7/7ll+6fXDbtYJnvQOzYp9/l9Eir6KTCW7YVnt+DdI=;
-  b=PSYzQUGHJml8ivSjSh3iWPt3+hT4NRNwt6hsmV0Sjua/P7PFeB5f3db2
-   GOIBLAnEQpw12+Ah+OnJH55YnheI+UGTGJUgGVZTyQtcFanaGusLeFzKE
-   vsxjxA2+fdnl75Tn50/1LvvogJMoLyJn0utAO1OY1a7+cVmoRdYKoWhu5
-   xNJLuFjBWuM3d5Ju7BnLqXZ6UD8Gxz6L1QXXO30KDUBugrQ7XNUgV+U5e
-   4Pe3BkhZKWvBNCUZ/xWsoMcO3WfRFrl/eJZcRBVmrmxY55BF/HsvBKCXx
-   2q9+duhFEhlglrymqCp1Xn3kEj2/GP/b5qDiuW9nu2JRhSKq7mMzqOEEh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="335223076"
+  bh=PgIBSCvI8gcAxyRaQadLpOoXkFl662LSLvEEBLf6ZZQ=;
+  b=jOFvh0+jj526h61E8sl5fC69YN95BQbArOzKGwR0mM+o2t1+zBIX5Ico
+   5AJ0I66OX6hLGT6NIQ0Q++PWabnkyu6Br2TlZ+8/6jXTJpkOF20nnOLfH
+   rhTb+QuvbsiduGGOjNINlyd2Zh2Wr6kQFq8YKhFqH9ysrX2rLZTbEAcKV
+   VV8VzlzJejRBKOYMrFKOvvC0bYi2kVtAgbg+lop+Hc3vz3PdeeH7OjqDV
+   REb768cESXaUtYUjxtzUZqUgvllf3cThugUs21gqsWL0SawAHdDLy7FUj
+   3rnF9pnKsbYetPatUHTUYtZX2FYVHVLis0d91Ulbzkz/WEGza6SiL8L0L
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="396301536"
 X-IronPort-AV: E=Sophos;i="5.97,330,1669104000"; 
-   d="scan'208";a="335223076"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 14:50:16 -0800
+   d="scan'208";a="396301536"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 16:22:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="1002495359"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="762459737"
 X-IronPort-AV: E=Sophos;i="5.97,330,1669104000"; 
-   d="scan'208";a="1002495359"
+   d="scan'208";a="762459737"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Feb 2023 14:50:09 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2023 16:22:13 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWPqK-0003wF-2E;
-	Sun, 26 Feb 2023 22:50:08 +0000
-Date: Mon, 27 Feb 2023 06:49:47 +0800
+	id 1pWRHQ-0003xr-1X;
+	Mon, 27 Feb 2023 00:22:12 +0000
+Date: Mon, 27 Feb 2023 08:21:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Marc Zyngier <maz@kernel.org>
-Subject: include/linux/gpio/driver.h:31:19: error: field has incomplete type
- 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-Message-ID: <202302270633.RKhl0Tlx-lkp@intel.com>
+To: Rahul T R <r-ravikumar@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-5.10.y-cicd 17138/22727]
+ drivers/phy/cadence/cdns-dphy.c:148:23: sparse: sparse: symbol 'rx_bands'
+ was not declared. Should it be static?
+Message-ID: <202302270813.qXlQyE9T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,179 +47,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-commit: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-date:   5 months ago
-config: i386-buildonly-randconfig-r006-20230227 (https://download.01.org/0day-ci/archive/20230227/202302270633.RKhl0Tlx-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
+head:   d14fbab5ccb21ffeb010ce57792c56a1308ed314
+commit: 089a2a23c12d8940e8b0459ca473b28877c3f301 [17138/22727] phy: cdns-dphy: Add band config for dphy tx
+config: openrisc-randconfig-s051-20230226 (https://download.01.org/0day-ci/archive/20230227/202302270813.qXlQyE9T-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
+        git checkout 089a2a23c12d8940e8b0459ca473b28877c3f301
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/phy/cadence/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302270633.RKhl0Tlx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302270813.qXlQyE9T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/cadence/cdns-dphy.c:148:23: sparse: sparse: symbol 'rx_bands' was not declared. Should it be static?
+>> drivers/phy/cadence/cdns-dphy.c:156:5: sparse: sparse: symbol 'num_rx_bands' was not declared. Should it be static?
+>> drivers/phy/cadence/cdns-dphy.c:158:23: sparse: sparse: symbol 'tx_bands' was not declared. Should it be static?
+>> drivers/phy/cadence/cdns-dphy.c:166:5: sparse: sparse: symbol 'num_tx_bands' was not declared. Should it be static?
+   drivers/phy/cadence/cdns-dphy.c: note: in included file (through arch/openrisc/include/asm/io.h, include/linux/io.h):
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
+   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
 
-   In file included from drivers/misc/hi6421v600-irq.c:14:
-   In file included from include/linux/of_gpio.h:14:
->> include/linux/gpio/driver.h:31:19: error: field has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t        msiinfo;
-                                   ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   1 error generated.
---
->> arch/x86/kernel/hpet.c:520:39: error: incomplete definition of type 'struct irq_alloc_info'
-           irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
-                                             ~~~^
-   arch/x86/include/asm/io_apic.h:90:8: note: forward declaration of 'struct irq_alloc_info'
-   struct irq_alloc_info;
-          ^
-   arch/x86/kernel/hpet.c:521:28: error: incomplete definition of type 'struct irq_alloc_info'
-                               handle_edge_irq, arg->data, "edge");
-                                                ~~~^
-   arch/x86/include/asm/io_apic.h:90:8: note: forward declaration of 'struct irq_alloc_info'
-   struct irq_alloc_info;
-          ^
->> arch/x86/kernel/hpet.c:550:6: error: use of undeclared identifier 'x86_vector_domain'
-           if (x86_vector_domain == NULL)
-               ^
-   arch/x86/kernel/hpet.c:577:16: error: use of undeclared identifier 'x86_vector_domain'
-           if (parent != x86_vector_domain)
-                         ^
->> arch/x86/kernel/hpet.c:598:24: error: variable has incomplete type 'struct irq_alloc_info'
-           struct irq_alloc_info info;
-                                 ^
-   arch/x86/include/asm/io_apic.h:90:8: note: forward declaration of 'struct irq_alloc_info'
-   struct irq_alloc_info;
-          ^
->> arch/x86/kernel/hpet.c:600:2: error: implicit declaration of function 'init_irq_alloc_info' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           init_irq_alloc_info(&info, NULL);
-           ^
->> arch/x86/kernel/hpet.c:601:14: error: use of undeclared identifier 'X86_IRQ_ALLOC_TYPE_HPET'
-           info.type = X86_IRQ_ALLOC_TYPE_HPET;
-                       ^
-   7 errors generated.
---
->> kernel/irq/msi.c:585:12: error: incomplete definition of type 'struct irq_alloc_info'
-           return arg->hwirq;
-                  ~~~^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
->> kernel/irq/msi.c:591:23: error: invalid application of 'sizeof' to an incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           memset(arg, 0, sizeof(*arg));
-                                ^~~~~~
-   arch/x86/include/asm/string_32.h:195:52: note: expanded from macro 'memset'
-   #define memset(s, c, count) __builtin_memset(s, c, count)
-                                                      ^~~~~
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   kernel/irq/msi.c:598:5: error: incomplete definition of type 'struct irq_alloc_info'
-           arg->desc = desc;
-           ~~~^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
->> kernel/irq/msi.c:858:19: error: variable has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t arg = { };
-                            ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   4 errors generated.
---
->> drivers/base/platform-msi.c:26:20: error: field has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t                arg;
-                                           ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   1 error generated.
---
-   In file included from drivers/mmc/host/dw_mmc.c:38:
-   In file included from include/linux/of_gpio.h:14:
->> include/linux/gpio/driver.h:31:19: error: field has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t        msiinfo;
-                                   ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   drivers/mmc/host/dw_mmc.c:3040:33: warning: shift count >= width of type [-Wshift-count-overflow]
-                           if (!dma_set_mask(host->dev, DMA_BIT_MASK(64)))
-                                                        ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^ ~~~
-   drivers/mmc/host/dw_mmc.c:3042:13: warning: shift count >= width of type [-Wshift-count-overflow]
-                                                         DMA_BIT_MASK(64));
-                                                         ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^ ~~~
-   2 warnings and 1 error generated.
---
-   In file included from drivers/char/tpm/st33zp24/st33zp24.c:15:
-   In file included from include/linux/gpio.h:62:
-   In file included from include/asm-generic/gpio.h:11:
->> include/linux/gpio/driver.h:31:19: error: field has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t        msiinfo;
-                                   ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   In file included from drivers/char/tpm/st33zp24/st33zp24.c:21:
-   In file included from drivers/char/tpm/st33zp24/../tpm.h:28:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-           int mapping_size;
-               ^
-   1 warning and 1 error generated.
---
-   In file included from drivers/gpio/gpio-mxc.c:22:
->> include/linux/gpio/driver.h:31:19: error: field has incomplete type 'msi_alloc_info_t' (aka 'struct irq_alloc_info')
-           msi_alloc_info_t        msiinfo;
-                                   ^
-   arch/x86/include/asm/msi.h:7:16: note: forward declaration of 'struct irq_alloc_info'
-   typedef struct irq_alloc_info msi_alloc_info_t;
-                  ^
-   drivers/gpio/gpio-mxc.c:341:50: warning: shift count >= width of type [-Wshift-count-overflow]
-           rv = devm_irq_setup_generic_chip(port->dev, gc, IRQ_MSK(32),
-                                                           ^~~~~~~~~~~
-   include/linux/irq.h:1193:41: note: expanded from macro 'IRQ_MSK'
-   #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
-                                           ^  ~~~
-   1 warning and 1 error generated.
+vim +/rx_bands +148 drivers/phy/cadence/cdns-dphy.c
 
-
-vim +31 include/linux/gpio/driver.h
-
-fdd61a013a24f2 Linus Walleij 2019-08-08  27  
-91a29af413def6 Marc Zyngier  2022-07-07  28  union gpio_irq_fwspec {
-91a29af413def6 Marc Zyngier  2022-07-07  29  	struct irq_fwspec	fwspec;
-91a29af413def6 Marc Zyngier  2022-07-07  30  #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
-91a29af413def6 Marc Zyngier  2022-07-07 @31  	msi_alloc_info_t	msiinfo;
-91a29af413def6 Marc Zyngier  2022-07-07  32  #endif
-91a29af413def6 Marc Zyngier  2022-07-07  33  };
-91a29af413def6 Marc Zyngier  2022-07-07  34  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: 91a29af413def677495e447fb9a06957ebc8bed5 gpio: Remove dynamic allocation from populate_parent_alloc_arg()
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+   146	
+   147	/* Order of bands is important since the index is the band number. */
+ > 148	struct cdns_dphy_band rx_bands[] = {
+   149		{80, 100}, {100, 120}, {120, 160}, {160, 200}, {200, 240},
+   150		{240, 280}, {280, 320}, {320, 360}, {360, 400}, {400, 480},
+   151		{480, 560}, {560, 640}, {640, 720}, {720, 800}, {800, 880},
+   152		{880, 1040}, {1040, 1200}, {1200, 1350}, {1350, 1500}, {1500, 1750},
+   153		{1750, 2000}, {2000, 2250}, {2250, 2500}
+   154	};
+   155	
+ > 156	int num_rx_bands = ARRAY_SIZE(rx_bands);
+   157	
+ > 158	struct cdns_dphy_band tx_bands[] = {
+   159		{80, 100}, {100, 120}, {120, 160}, {160, 200}, {200, 240},
+   160		{240, 320}, {320, 390}, {390, 450}, {450, 510}, {510, 560},
+   161		{560, 640}, {640, 690}, {690, 770}, {770, 870}, {870, 950},
+   162		{950, 1000}, {1000, 1200}, {1200, 1400}, {1400, 1600}, {1600, 1800},
+   163		{1800, 2000}, {2000, 2200}, {2200, 2500}
+   164	};
+   165	
+ > 166	int num_tx_bands = ARRAY_SIZE(tx_bands);
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
