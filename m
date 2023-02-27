@@ -1,43 +1,69 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1D1659
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 06:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01F7659
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 06:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677480268; x=1709016268;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lA0blEtCpRMX2P0c6WfHOipLg7bVEKm5+EAo/NneQdY=;
-  b=UV2fg5AWSXZ0lIzKQY4Cl8DIeSW36XspzFGrThbzklyBH8hfVlTkSzgA
-   X6HmGNh2hOsiKJY/CBTO0/OrNnryZTNdGU+pnWRswHTXwq2r3B+4InEkl
-   F571fIh4MLwHJfgKgFo6pkZHgq2arNNWaCSDNLpsG2mCGJXGvSc2QKjhv
-   Jy3efWDgTvsTE4t9OgVGmxjbtd34pGURJwPz3TWzkdeCuRqsMnpOmyOzN
-   2hp3W2tWU3vP1Zd291LR5SAE+TsdA/1gCZCkSVADe8LrguMXOTRI5+jQ5
-   iD1tkVo1yLobSLLN8Abq0aXdkp0Q0iYIwqJt3olL2AkNZH4ZpMKRIazey
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="361347249"
+  t=1677480275; x=1709016275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l7fNlOQJTNMVvMxezJZRa8jk93MTm7z8h1o/L1+XyGw=;
+  b=D6cWj6ahbhDL4C6f6dII5CfR23hqwZqU2W/ejPj09phJZlboMZEYS4j8
+   DPGywoVCQ4727WILjv8rsee6Sp3q1LsCD9xATKSZHFO82mg1Wju+hudZQ
+   SdB0GsUzMsiy2hjb3TjKyKv0Ld241AO3JtTWiBI+ChBmvHz72qIcMl6+S
+   o6CQCQxFJhI9JahuzCmEnl9RTFCPyAm6bKOIVJ7e6wz54AeOnBwaI8nDT
+   FQkRM793RwzolszBM+xeWu1GZS9e7Qn/wgOLPMf1i8GppgVFi8q26bmHw
+   5DrpTd7+AZo5qaUtDbyRP3zfFkhx0zfeyXM08oERnqkajDe6XgM2FpcWw
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="332514901"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="361347249"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 22:44:28 -0800
+   d="scan'208";a="332514901"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 22:44:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="675698537"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="651085796"
 X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="675698537"
+   d="scan'208";a="651085796"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Feb 2023 22:44:27 -0800
+  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2023 22:44:27 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWXFK-0004A5-0d;
+	id 1pWXFK-0004A3-0T;
 	Mon, 27 Feb 2023 06:44:26 +0000
-Date: Mon, 27 Feb 2023 14:43:44 +0800
+Date: Mon, 27 Feb 2023 14:43:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Subject: [asahilinux:bits/080-wifi 12/27]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202302271450.OARJpCP7-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Balsam CHIHI <bchihi@baylibre.com>,
+	Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Guillaume La Roque <glaroque@baylibre.com>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Markus Mayer <mmayer@broadcom.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH v3 02/20] thermal/core: Use the thermal zone 'devdata'
+ accessor in thermal located drivers
+Message-ID: <202302271421.ZjVUJ4DB-lkp@intel.com>
+References: <20230226225406.979703-3-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +72,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230226225406.979703-3-daniel.lezcano@linaro.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/080-wifi
-head:   5513aa831fb7960fd6a3f9f360ae6fa7e73bc01d
-commit: f8976c7976e2a1ecd16b0533b4c4387a7f18dbf3 [12/27] brcmfmac: cfg80211: Add support for PMKID_V3 operations
-config: loongarch-randconfig-s031-20230226 (https://download.01.org/0day-ci/archive/20230227/202302271450.OARJpCP7-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Daniel,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on groeck-staging/hwmon-next]
+[cannot apply to v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230227-065829
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20230226225406.979703-3-daniel.lezcano%40linaro.org
+patch subject: [PATCH v3 02/20] thermal/core: Use the thermal zone 'devdata' accessor in thermal located drivers
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230227/202302271421.ZjVUJ4DB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/AsahiLinux/linux/commit/f8976c7976e2a1ecd16b0533b4c4387a7f18dbf3
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/080-wifi
-        git checkout f8976c7976e2a1ecd16b0533b4c4387a7f18dbf3
+        # https://github.com/intel-lab-lkp/linux/commit/c12531f9e11ce889a1c6adaa17dfbaa04a5d74a5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Lezcano/thermal-core-Add-a-thermal-zone-devdata-accessor/20230227-065829
+        git checkout c12531f9e11ce889a1c6adaa17dfbaa04a5d74a5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302271450.OARJpCP7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302271421.ZjVUJ4DB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] time_left @@     got unsigned int @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     expected restricted __le32 [usertype] time_left
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     got unsigned int
+All errors (new ones prefixed by >>):
 
-vim +4334 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+   drivers/thermal/db8500_thermal.c: In function 'db8500_thermal_get_temp':
+>> drivers/thermal/db8500_thermal.c:63:42: error: implicit declaration of function 'therma_zone_device_priv'; did you mean 'thermal_zone_device_priv'? [-Werror=implicit-function-declaration]
+      63 |         struct db8500_thermal_zone *th = therma_zone_device_priv(tz);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                          thermal_zone_device_priv
+   drivers/thermal/db8500_thermal.c:63:42: warning: initialization of 'struct db8500_thermal_zone *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
 
-  4312	
-  4313	static s32
-  4314	brcmf_pmksa_v3_op(struct brcmf_if *ifp, struct cfg80211_pmksa *pmksa,
-  4315			  bool alive)
-  4316	{
-  4317		struct brcmf_pmk_op_v3_le *pmk_op;
-  4318		int length = offsetof(struct brcmf_pmk_op_v3_le, pmk);
-  4319		int ret;
-  4320	
-  4321		pmk_op = kzalloc(sizeof(*pmk_op), GFP_KERNEL);
-  4322		pmk_op->version = cpu_to_le16(BRCMF_PMKSA_VER_3);
-  4323	
-  4324		if (!pmksa) {
-  4325			/* Flush operation, operate on entire list */
-  4326			pmk_op->count = cpu_to_le16(0);
-  4327		} else {
-  4328			/* Single PMK operation */
-  4329			pmk_op->count = cpu_to_le16(1);
-  4330			length += sizeof(struct brcmf_pmksa_v3);
-  4331			memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
-  4332			memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
-  4333			pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
-> 4334			pmk_op->pmk[0].time_left = alive ? BRCMF_PMKSA_NO_EXPIRY : 0;
-  4335		}
-  4336	
-  4337		pmk_op->length = cpu_to_le16(length);
-  4338	
-  4339		ret = brcmf_fil_iovar_data_set(ifp, "pmkid_info", pmk_op, sizeof(*pmk_op));
-  4340		kfree(pmk_op);
-  4341		return ret;
-  4342	}
-  4343	
+
+vim +63 drivers/thermal/db8500_thermal.c
+
+    59	
+    60	/* Callback to get current temperature */
+    61	static int db8500_thermal_get_temp(struct thermal_zone_device *tz, int *temp)
+    62	{
+  > 63		struct db8500_thermal_zone *th = therma_zone_device_priv(tz);
+    64	
+    65		/*
+    66		 * TODO: There is no PRCMU interface to get temperature data currently,
+    67		 * so a pseudo temperature is returned , it works for thermal framework
+    68		 * and this will be fixed when the PRCMU interface is available.
+    69		 */
+    70		*temp = th->interpolated_temp;
+    71	
+    72		return 0;
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
