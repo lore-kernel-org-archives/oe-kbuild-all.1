@@ -1,85 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C71C746B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 15:13:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13797C433EF;
-	Mon, 27 Feb 2023 15:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677510810;
-	bh=u8rAdrW0LjOvoaHiZAoaHp3uIGx2ZxBvoFwtlLDHQfw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j1VsHCci9EqWjg/662qztuJ7DUi0tDZvsdbwLvpqkNq5wHgVqt8Z6qSq+CR9vV43s
-	 WggEk6S7BhKM3cvVmd2FcbESgsKCdTpi101TF+lezcbAtt1UDX/NhI+AOO476z/HHd
-	 t3paOpHZfWW8qCQXDkyrN6S02OM+hTvtYcUfaLYJsXoE5H7FbtvrKCJZrJLpKLBb+W
-	 ihxsU9R900/FeiRkdbDu2S+JiRkRYoMSiPQ7dXr5e7ewRqICeNS+Zy1T+sQXEt34XZ
-	 DUqXQo/jn7cdssmStlWSfC+FIKrVEgBV+6tT44R7bdNuTn8EERyaqVzSwL/CXLdoD6
-	 hrWXdSAy6Ed4g==
-Date: Mon, 27 Feb 2023 07:13:28 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: vmlinux.o: warning: objtool: mptscsih_abort+0x7f4: unreachable
- instruction
-Message-ID: <20230227151328.lyvzzn7kggaa2t5z@treble>
-References: <202302271743.78emit6I-lkp@intel.com>
- <Y/ykNfK+1G8ZNYSU@FVFF77S0Q05N>
- <Y/y5aucdGL7U+W7a@hirez.programming.kicks-ass.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DA0746B;
+	Mon, 27 Feb 2023 15:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677512886; x=1709048886;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4cs4e88M3T6bD2HjjcA0Xw1dtM6aKTcupBirC2netkU=;
+  b=OZKTCTrvl2oJICZ/bRfno4h4iqkBaTPYJJiLV2M457GksIfYTnI7EftP
+   t5xusOfZSYOJQAASkDeN7u/v5/KtK4gpWIqxPE4eOFjtwLXJJrao5XdAg
+   A6kMUfPypjO+Rssmc1JOUYjd8cxf7kpJ3/Is1O9qrc0Xr+FRUbG+tv44Q
+   bjj+SgN7O57YfQqHQVwnj7XaA5VXQXzophNtU3InteY5Kil/+UoGROkTe
+   DR0VzhNO6jtduu1bYyzhlFStcslg+I7HV6QeiSVlk3mPPRep/YyGMhQDn
+   KII3lz1X18qUlx23Wt/tLeN29tuZo+TrJumQTQ2gOnLV6XL91C3ZurGsJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332609575"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
+   d="scan'208";a="332609575"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 07:47:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="623621426"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
+   d="scan'208";a="623621426"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 27 Feb 2023 07:47:47 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pWfj8-0004Xh-2Q;
+	Mon, 27 Feb 2023 15:47:46 +0000
+Date: Mon, 27 Feb 2023 23:47:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, mst@redhat.com,
+	jasowang@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	stefanha@redhat.com, sgarzare@redhat.com, arei.gonglei@huawei.com,
+	yechuan@huawei.com, huangzhichao@huawei.com,
+	virtualization@lists.linux-foundation.org,
+	linux-kernel@vger.kernel.org, eperezma@redhat.com,
+	Longpeng <longpeng2@huawei.com>
+Subject: Re: [PATCH v4 2/2] vdpasim: support doorbell mapping
+Message-ID: <202302272333.Jioo8IEs-lkp@intel.com>
+References: <20230227091857.2406-3-longpeng2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/y5aucdGL7U+W7a@hirez.programming.kicks-ass.net>
+In-Reply-To: <20230227091857.2406-3-longpeng2@huawei.com>
 
-On Mon, Feb 27, 2023 at 03:08:42PM +0100, Peter Zijlstra wrote:
-> On Mon, Feb 27, 2023 at 12:38:13PM +0000, Mark Rutland wrote:
-> > [adding Peter and Josh, given objtool]
-> > 
-> > On Mon, Feb 27, 2023 at 05:28:53PM +0800, kernel test robot wrote:
-> > > Hi Mark,
-> > > 
-> > > FYI, the error/warning still remains.
-> > > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-> > > commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-> > > date:   5 weeks ago
-> > > config: x86_64-randconfig-r026-20230227 (https://download.01.org/0day-ci/archive/20230227/202302271743.78emit6I-lkp@intel.com/config)
-> > > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > > reproduce (this is a W=1 build):
-> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c27cd083cfb9d392f304657ed00fcde1136704e7
-> > >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > >         git fetch --no-tags linus master
-> > >         git checkout c27cd083cfb9d392f304657ed00fcde1136704e7
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-> > >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Link: https://lore.kernel.org/oe-kbuild-all/202302271743.78emit6I-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > > >> vmlinux.o: warning: objtool: mptscsih_abort+0x7f4: unreachable instruction
-> 
-> > > 07ef  2fb7bff:	e8 00 00 00 00       	call   2fb7c04 <mptscsih_abort+0x7f4>	2fb7c00: R_X86_64_PLT32	mpt_halt_firmware-0x4
-> > > 07f4  2fb7c04:	e9 75 fb ff ff       	jmp    2fb777e <mptscsih_abort+0x36e>
-> 
-> this is one of those noreturn things again... objtool was clever enough
-> to figure out that mpt_halt_firmware() does not return (all it's control
-> flow ends in panic()) and hence it 'knows' that +7f4 will not be
-> executed. But GCC didn't figure out the same.
+Hi Longpeng(Mike),
 
-I can take care of this one, to go with my other two piles of noreturn
-fixes for after the merge window.
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on v6.2]
+[also build test ERROR on next-20230227]
+[cannot apply to mst-vhost/linux-next linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Longpeng-Mike/vdpa-support-specify-the-pgprot-of-vq-notification-area/20230227-172516
+patch link:    https://lore.kernel.org/r/20230227091857.2406-3-longpeng2%40huawei.com
+patch subject: [PATCH v4 2/2] vdpasim: support doorbell mapping
+config: arm-randconfig-r046-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272333.Jioo8IEs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/a472c7ad92f68b5b596fd68e1936b2d47fe2ea0b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Longpeng-Mike/vdpa-support-specify-the-pgprot-of-vq-notification-area/20230227-172516
+        git checkout a472c7ad92f68b5b596fd68e1936b2d47fe2ea0b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272333.Jioo8IEs-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: __bad_xchg
+   >>> referenced by cmpxchg.h:110 (arch/arm/include/asm/cmpxchg.h:110)
+   >>>               drivers/vdpa/vdpa_sim/vdpa_sim.o:(vdpasim_notify_work) in archive vmlinux.a
 
 -- 
-Josh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
