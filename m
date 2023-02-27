@@ -1,44 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E816FDC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11E5746B
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 15:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1677510119; x=1709046119;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tvv4DpED1bwiqi1hsB+Ts9MALnVAMmhHDqLUMWYOrIg=;
-  b=gCYIZ4Ihc9vWI0r03JAG/VxZoJcgB+aX7B7e1VMz+CZU56cy4z7L0PKe
-   sR8nDfN94XGLLH14QZrLcXE9C2OynV9+6z63KUmAJuFfLAbnh4DD+7gTn
-   hZGSqg4IZg2CGnbc1/CblHjqpXki3GoFZIQbVUMMQFhY0wcDp4BKH2gd3
-   YKrVvxYaYt7CzICzL1Ioo/qORempr279Yam/lfjTurvn/ujmllH4jzddC
-   kdRaxTlOAIlCaGP1lUZNqVYLioFkV+L6J2/RKPW3k58PE+kVe+4OWs+4j
-   IychXMgA5yXCrhBoWqFdgGM2DuE0+XJ1/JHgl/VIm4obne4i6wQfmSOUS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332597900"
+  bh=JkT+j5SySHh+lrGE+F3B1zdrlWGdMiBhJQHOH7xgvMk=;
+  b=bKSI+Uhd6UjpQtrsx2pVBVAqaqLsj71Xufmguqh8Ij5bc7JulcB5pEuI
+   +KAq8sCN+4UO4H+kG84TPlOyewkrPBS/a/0xcqzlpfYozV7KQ60uSjfcO
+   xQQCS59b/RlUm5uaZ2drc4NhJjZwT7QNsBJF+2b3uLQo14UMC80tO8smL
+   NIoMp0rWY9jlGqPlHR1f+9TIG49PcVHRjS2ou4saXhrvNFq3f4Ly00O5L
+   XcZL0DpP47wZzQ7fwa8Tc66TA0xcWDXowYiRZlzy30zk3RmPZURVt+q9x
+   MIk2dd940eZApq5UWXemt8mWG3uewc3geeipZ+zL0Tdnw3r3nTqrs4qtt
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332597897"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="332597900"
+   d="scan'208";a="332597897"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 07:01:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="847883165"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="847883164"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="847883165"
+   d="scan'208";a="847883164"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 27 Feb 2023 07:01:46 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWf0b-0004W1-2E;
+	id 1pWf0b-0004W5-2U;
 	Mon, 27 Feb 2023 15:01:45 +0000
 Date: Mon, 27 Feb 2023 23:01:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 315/583]
- drivers/char/broadcom/bcm2835-gpiomem.c:2: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202302272234.cVhFh7wE-lkp@intel.com>
+Subject: [l1k:rpi-6.2.y-await-linktraining 13/583]
+ drivers/gpu/drm/vc4/vc4_firmware_kms.c:1486:1: warning: no previous
+ prototype for 'vc4_connector_duplicate_state'
+Message-ID: <202302272231.IBzpe8sz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,79 +49,153 @@ Content-Disposition: inline
 
 tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
 head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: d1d5f68880b390d41b4116a4187a4d52fbb94b0a [315/583] char: Add broadcom char drivers back to build files
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230227/202302272234.cVhFh7wE-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+commit: 2431fe0204171ecc028c8d8c9b220eb868d181d8 [13/583] drm/vc4: Add firmware-kms mode
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230227/202302272231.IBzpe8sz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/l1k/linux/commit/d1d5f68880b390d41b4116a4187a4d52fbb94b0a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/2431fe0204171ecc028c8d8c9b220eb868d181d8
         git remote add l1k https://github.com/l1k/linux
         git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout d1d5f68880b390d41b4116a4187a4d52fbb94b0a
+        git checkout 2431fe0204171ecc028c8d8c9b220eb868d181d8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/broadcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/char/ drivers/gpu/drm/vc4/ drivers/staging/vc04_services/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272234.cVhFh7wE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272231.IBzpe8sz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/broadcom/bcm2835-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * GPIO memory device driver
---
->> drivers/char/broadcom/rpivid-mem.c:52: warning: expecting prototype for rpivid(). Prototype was for DRIVER_NAME() instead
+>> drivers/gpu/drm/vc4/vc4_firmware_kms.c:1486:1: warning: no previous prototype for 'vc4_connector_duplicate_state' [-Wmissing-prototypes]
+    1486 | vc4_connector_duplicate_state(struct drm_connector *connector)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_firmware_kms.c:1507:5: warning: no previous prototype for 'vc4_connector_atomic_get_property' [-Wmissing-prototypes]
+    1507 | int vc4_connector_atomic_get_property(struct drm_connector *connector,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_firmware_kms.c:1537:5: warning: no previous prototype for 'vc4_connector_atomic_set_property' [-Wmissing-prototypes]
+    1537 | int vc4_connector_atomic_set_property(struct drm_connector *connector,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_firmware_kms.c:1557:5: warning: no previous prototype for 'vc4_connector_atomic_check' [-Wmissing-prototypes]
+    1557 | int vc4_connector_atomic_check(struct drm_connector *connector,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2 drivers/char/broadcom/bcm2835-gpiomem.c
+vim +/vc4_connector_duplicate_state +1486 drivers/gpu/drm/vc4/vc4_firmware_kms.c
 
-b571183670210c Luke Wren 2015-08-21  @2   * GPIO memory device driver
-b571183670210c Luke Wren 2015-08-21   3   *
-b571183670210c Luke Wren 2015-08-21   4   * Creates a chardev /dev/gpiomem which will provide user access to
-b571183670210c Luke Wren 2015-08-21   5   * the BCM2835's GPIO registers when it is mmap()'d.
-b571183670210c Luke Wren 2015-08-21   6   * No longer need root for user GPIO access, but without relaxing permissions
-b571183670210c Luke Wren 2015-08-21   7   * on /dev/mem.
-b571183670210c Luke Wren 2015-08-21   8   *
-b571183670210c Luke Wren 2015-08-21   9   * Written by Luke Wren <luke@raspberrypi.org>
-b571183670210c Luke Wren 2015-08-21  10   * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
-b571183670210c Luke Wren 2015-08-21  11   *
-b571183670210c Luke Wren 2015-08-21  12   * Redistribution and use in source and binary forms, with or without
-b571183670210c Luke Wren 2015-08-21  13   * modification, are permitted provided that the following conditions
-b571183670210c Luke Wren 2015-08-21  14   * are met:
-b571183670210c Luke Wren 2015-08-21  15   * 1. Redistributions of source code must retain the above copyright
-b571183670210c Luke Wren 2015-08-21  16   *    notice, this list of conditions, and the following disclaimer,
-b571183670210c Luke Wren 2015-08-21  17   *    without modification.
-b571183670210c Luke Wren 2015-08-21  18   * 2. Redistributions in binary form must reproduce the above copyright
-b571183670210c Luke Wren 2015-08-21  19   *    notice, this list of conditions and the following disclaimer in the
-b571183670210c Luke Wren 2015-08-21  20   *    documentation and/or other materials provided with the distribution.
-b571183670210c Luke Wren 2015-08-21  21   * 3. The names of the above-listed copyright holders may not be used
-b571183670210c Luke Wren 2015-08-21  22   *    to endorse or promote products derived from this software without
-b571183670210c Luke Wren 2015-08-21  23   *    specific prior written permission.
-b571183670210c Luke Wren 2015-08-21  24   *
-b571183670210c Luke Wren 2015-08-21  25   * ALTERNATIVELY, this software may be distributed under the terms of the
-b571183670210c Luke Wren 2015-08-21  26   * GNU General Public License ("GPL") version 2, as published by the Free
-b571183670210c Luke Wren 2015-08-21  27   * Software Foundation.
-b571183670210c Luke Wren 2015-08-21  28   *
-b571183670210c Luke Wren 2015-08-21  29   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-b571183670210c Luke Wren 2015-08-21  30   * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-b571183670210c Luke Wren 2015-08-21  31   * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-b571183670210c Luke Wren 2015-08-21  32   * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-b571183670210c Luke Wren 2015-08-21  33   * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-b571183670210c Luke Wren 2015-08-21  34   * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-b571183670210c Luke Wren 2015-08-21  35   * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-b571183670210c Luke Wren 2015-08-21  36   * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-b571183670210c Luke Wren 2015-08-21  37   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-b571183670210c Luke Wren 2015-08-21  38   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-b571183670210c Luke Wren 2015-08-21  39   * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-b571183670210c Luke Wren 2015-08-21  40   */
-b571183670210c Luke Wren 2015-08-21  41  
-
-:::::: The code at line 2 was first introduced by commit
-:::::: b571183670210c9b2901c27e49855daa267deee7 Add /dev/gpiomem device for rootless user GPIO access
-
-:::::: TO: Luke Wren <luke@raspberrypi.org>
-:::::: CC: Dom Cobley <popcornmix@gmail.com>
+  1475	
+  1476	/**
+  1477	 * vc4_connector_duplicate_state - duplicate connector state
+  1478	 * @connector: digital connector
+  1479	 *
+  1480	 * Allocates and returns a copy of the connector state (both common and
+  1481	 * digital connector specific) for the specified connector.
+  1482	 *
+  1483	 * Returns: The newly allocated connector state, or NULL on failure.
+  1484	 */
+  1485	struct drm_connector_state *
+> 1486	vc4_connector_duplicate_state(struct drm_connector *connector)
+  1487	{
+  1488		struct vc4_fkms_connector_state *state;
+  1489	
+  1490		state = kmemdup(connector->state, sizeof(*state), GFP_KERNEL);
+  1491		if (!state)
+  1492			return NULL;
+  1493	
+  1494		__drm_atomic_helper_connector_duplicate_state(connector, &state->base);
+  1495		return &state->base;
+  1496	}
+  1497	
+  1498	/**
+  1499	 * vc4_connector_atomic_get_property - hook for connector->atomic_get_property.
+  1500	 * @connector: Connector to get the property for.
+  1501	 * @state: Connector state to retrieve the property from.
+  1502	 * @property: Property to retrieve.
+  1503	 * @val: Return value for the property.
+  1504	 *
+  1505	 * Returns the atomic property value for a digital connector.
+  1506	 */
+> 1507	int vc4_connector_atomic_get_property(struct drm_connector *connector,
+  1508					      const struct drm_connector_state *state,
+  1509					      struct drm_property *property,
+  1510					      uint64_t *val)
+  1511	{
+  1512		struct vc4_fkms_connector *fkms_connector =
+  1513						to_vc4_fkms_connector(connector);
+  1514		struct vc4_fkms_connector_state *vc4_conn_state =
+  1515						to_vc4_fkms_connector_state(state);
+  1516	
+  1517		if (property == fkms_connector->broadcast_rgb_property) {
+  1518			*val = vc4_conn_state->broadcast_rgb;
+  1519		} else {
+  1520			DRM_DEBUG_ATOMIC("Unknown property [PROP:%d:%s]\n",
+  1521					 property->base.id, property->name);
+  1522			return -EINVAL;
+  1523		}
+  1524	
+  1525		return 0;
+  1526	}
+  1527	
+  1528	/**
+  1529	 * vc4_connector_atomic_set_property - hook for connector->atomic_set_property.
+  1530	 * @connector: Connector to set the property for.
+  1531	 * @state: Connector state to set the property on.
+  1532	 * @property: Property to set.
+  1533	 * @val: New value for the property.
+  1534	 *
+  1535	 * Sets the atomic property value for a digital connector.
+  1536	 */
+> 1537	int vc4_connector_atomic_set_property(struct drm_connector *connector,
+  1538					      struct drm_connector_state *state,
+  1539					      struct drm_property *property,
+  1540					      uint64_t val)
+  1541	{
+  1542		struct vc4_fkms_connector *fkms_connector =
+  1543						to_vc4_fkms_connector(connector);
+  1544		struct vc4_fkms_connector_state *vc4_conn_state =
+  1545						to_vc4_fkms_connector_state(state);
+  1546	
+  1547		if (property == fkms_connector->broadcast_rgb_property) {
+  1548			vc4_conn_state->broadcast_rgb = val;
+  1549			return 0;
+  1550		}
+  1551	
+  1552		DRM_DEBUG_ATOMIC("Unknown property [PROP:%d:%s]\n",
+  1553				 property->base.id, property->name);
+  1554		return -EINVAL;
+  1555	}
+  1556	
+> 1557	int vc4_connector_atomic_check(struct drm_connector *connector,
+  1558				       struct drm_atomic_state *state)
+  1559	{
+  1560		struct drm_connector_state *old_state =
+  1561			drm_atomic_get_old_connector_state(state, connector);
+  1562		struct vc4_fkms_connector_state *vc4_old_state =
+  1563						to_vc4_fkms_connector_state(old_state);
+  1564		struct drm_connector_state *new_state =
+  1565			drm_atomic_get_new_connector_state(state, connector);
+  1566		struct vc4_fkms_connector_state *vc4_new_state =
+  1567						to_vc4_fkms_connector_state(new_state);
+  1568		struct drm_crtc *crtc = new_state->crtc;
+  1569	
+  1570		if (!crtc)
+  1571			return 0;
+  1572	
+  1573		if (vc4_old_state->broadcast_rgb != vc4_new_state->broadcast_rgb) {
+  1574			struct drm_crtc_state *crtc_state;
+  1575	
+  1576			crtc_state = drm_atomic_get_crtc_state(state, crtc);
+  1577			if (IS_ERR(crtc_state))
+  1578				return PTR_ERR(crtc_state);
+  1579	
+  1580			crtc_state->mode_changed = true;
+  1581		}
+  1582		return 0;
+  1583	}
+  1584	
 
 -- 
 0-DAY CI Kernel Test Service
