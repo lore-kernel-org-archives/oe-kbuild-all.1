@@ -1,43 +1,43 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6300C79EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 20:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B082846F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 20:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677528900; x=1709064900;
+  t=1677528902; x=1709064902;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IffN6d4gT93p52KVt5tqKpFmnyKRXXNZKQ7sEcI8rkM=;
-  b=UBPmU48eMKakc7x6AUfVnF8yjnduR4QnfSIdz8qhXVUgd7bmo6TSQofR
-   fa71Go6YH0pvcbPn8e9Hmb9C5MtyZSF02bvdHWAGNfVW3NkOU5ja/D6Ad
-   7116MU/e1fijjMEl1rTDhR2yU5E8tb4fhouZXcMvvCXgvw95NCLe8o5hh
-   6lnKOvRVLAbVuUIyg8WExN4JdmSWZAimMYcR5nAxh+MnxL420j2hm6xiO
-   ujEYZKDyE01qd/Uve23fDDOdQdvORjmNsysebc+6CyulH/tJtFMjYk8EF
-   EwtE4ARP5vAnGgdsaiO+XUr/wnhr4r4v7kjyLY8SOZ1USPsWvo+D+9y+o
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="335444971"
+  bh=x7lylInmqkZRWUU7uPUdkYFTLTcl5+0ukRJVzQ5L98E=;
+  b=D+WleWCJCpV8ZiP+T5ep728QYGXWh5hRKnCs0Co7WO6ewIowlI9G74JC
+   XjMBGfdpG728zstGFf6xTznL/muAmcTtmdS9CF/er5xDcwt3l6cD8Vr+C
+   fKk6D1l2Pca102WI13wtxgEbmN5Sz4PctoAR6gd4wBRZO1QtLDrwPGWyU
+   Imn7kQGR5ZZRtQnPDuvzjKSKGd51pdS3tpF1ts12byFXrKzqHsM/Z5DAD
+   sNhKWFmZ73r8V7/yJMjQLh91KjCA3ocLUKBpzRTnoBS3Pz66dBrK0U0xc
+   GQsT/dxcmpcTGi7tiAN5Xe+jlwxR4jXAl02c3gGRxsIM7+7cKeOUX9qqG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="335444973"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="335444971"
+   d="scan'208";a="335444973"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 12:14:59 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 12:15:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="704150943"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="704150945"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="704150943"
+   d="scan'208";a="704150945"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 27 Feb 2023 12:14:58 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWjti-0004kR-01;
+	id 1pWjti-0004kV-0H;
 	Mon, 27 Feb 2023 20:14:58 +0000
-Date: Tue, 28 Feb 2023 04:14:21 +0800
+Date: Tue, 28 Feb 2023 04:14:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 150/583]
- drivers/mmc/host/bcm2835-mmc.c:655:6: warning: no previous prototype for
- 'bcm2835_mmc_send_command'
-Message-ID: <202302280433.ONqxq1QK-lkp@intel.com>
+Subject: [l1k:rpi-6.2.y-await-linktraining 24/583]
+ drivers/gpu/drm/vc4/vc4_hdmi.c:562:5: warning: no previous prototype for
+ function 'vc4_hdmi_connector_get_property'
+Message-ID: <202302280418.UTQ02tZO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,120 +49,108 @@ Content-Disposition: inline
 
 tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
 head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: c582cc62f89bd7b27095a0b0f7b83aedb3d4aab5 [150/583] MMC: added alternative MMC driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302280433.ONqxq1QK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+commit: c9f8918a5153ff76ca64371f8117809fbd7e68a6 [24/583] drm/vc4_hdmi: Add Broadcast RGB property to allow override of RGB range
+config: arm-randconfig-r046-20230227 (https://download.01.org/0day-ci/archive/20230228/202302280418.UTQ02tZO-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/c582cc62f89bd7b27095a0b0f7b83aedb3d4aab5
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/l1k/linux/commit/c9f8918a5153ff76ca64371f8117809fbd7e68a6
         git remote add l1k https://github.com/l1k/linux
         git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout c582cc62f89bd7b27095a0b0f7b83aedb3d4aab5
+        git checkout c9f8918a5153ff76ca64371f8117809fbd7e68a6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/char/ drivers/dma/ drivers/gpio/ drivers/irqchip/ drivers/misc/ drivers/mmc/host/ drivers/perf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/vc4/ drivers/media/i2c/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302280433.ONqxq1QK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302280418.UTQ02tZO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mmc/host/bcm2835-mmc.c:655:6: warning: no previous prototype for 'bcm2835_mmc_send_command' [-Wmissing-prototypes]
-     655 | void bcm2835_mmc_send_command(struct bcm2835_host *host, struct mmc_command *cmd)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mmc/host/bcm2835-mmc.c:1063:6: warning: no previous prototype for 'bcm2835_mmc_set_clock' [-Wmissing-prototypes]
-    1063 | void bcm2835_mmc_set_clock(struct bcm2835_host *host, unsigned int clock)
-         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:562:5: warning: no previous prototype for function 'vc4_hdmi_connector_get_property' [-Wmissing-prototypes]
+   int vc4_hdmi_connector_get_property(struct drm_connector *connector,
+       ^
+   drivers/gpu/drm/vc4/vc4_hdmi.c:562:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int vc4_hdmi_connector_get_property(struct drm_connector *connector,
+   ^
+   static 
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:592:5: warning: no previous prototype for function 'vc4_hdmi_connector_set_property' [-Wmissing-prototypes]
+   int vc4_hdmi_connector_set_property(struct drm_connector *connector,
+       ^
+   drivers/gpu/drm/vc4/vc4_hdmi.c:592:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int vc4_hdmi_connector_set_property(struct drm_connector *connector,
+   ^
+   static 
+   2 warnings generated.
 
 
-vim +/bcm2835_mmc_send_command +655 drivers/mmc/host/bcm2835-mmc.c
+vim +/vc4_hdmi_connector_get_property +562 drivers/gpu/drm/vc4/vc4_hdmi.c
 
-   654	
- > 655	void bcm2835_mmc_send_command(struct bcm2835_host *host, struct mmc_command *cmd)
-   656	{
-   657		int flags;
-   658		u32 mask;
-   659		unsigned long timeout;
-   660	
-   661		WARN_ON(host->cmd);
-   662	
-   663		/* Wait max 10 ms */
-   664		timeout = 1000;
-   665	
-   666		mask = SDHCI_CMD_INHIBIT;
-   667		if ((cmd->data != NULL) || (cmd->flags & MMC_RSP_BUSY))
-   668			mask |= SDHCI_DATA_INHIBIT;
-   669	
-   670		/* We shouldn't wait for data inihibit for stop commands, even
-   671		   though they might use busy signaling */
-   672		if (host->mrq->data && (cmd == host->mrq->data->stop))
-   673			mask &= ~SDHCI_DATA_INHIBIT;
-   674	
-   675		while (bcm2835_mmc_readl(host, SDHCI_PRESENT_STATE) & mask) {
-   676			if (timeout == 0) {
-   677				pr_err("%s: Controller never released inhibit bit(s).\n",
-   678					mmc_hostname(host->mmc));
-   679				bcm2835_mmc_dumpregs(host);
-   680				cmd->error = -EIO;
-   681				tasklet_schedule(&host->finish_tasklet);
-   682				return;
-   683			}
-   684			timeout--;
-   685			udelay(10);
-   686		}
-   687	
-   688		if ((1000-timeout)/100 > 1 && (1000-timeout)/100 > host->max_delay) {
-   689			host->max_delay = (1000-timeout)/100;
-   690			pr_warn("Warning: MMC controller hung for %d ms\n", host->max_delay);
-   691		}
-   692	
-   693		timeout = jiffies;
-   694		if (!cmd->data && cmd->busy_timeout > 9000)
-   695			timeout += DIV_ROUND_UP(cmd->busy_timeout, 1000) * HZ + HZ;
-   696		else
-   697			timeout += 10 * HZ;
-   698		mod_timer(&host->timer, timeout);
-   699	
-   700		host->cmd = cmd;
-   701		host->use_dma = false;
-   702	
-   703		bcm2835_mmc_prepare_data(host, cmd);
-   704	
-   705		bcm2835_mmc_writel(host, cmd->arg, SDHCI_ARGUMENT, 6);
-   706	
-   707		bcm2835_mmc_set_transfer_mode(host, cmd);
-   708	
-   709		if ((cmd->flags & MMC_RSP_136) && (cmd->flags & MMC_RSP_BUSY)) {
-   710			pr_err("%s: Unsupported response type!\n",
-   711				mmc_hostname(host->mmc));
-   712			cmd->error = -EINVAL;
-   713			tasklet_schedule(&host->finish_tasklet);
-   714			return;
-   715		}
-   716	
-   717		if (!(cmd->flags & MMC_RSP_PRESENT))
-   718			flags = SDHCI_CMD_RESP_NONE;
-   719		else if (cmd->flags & MMC_RSP_136)
-   720			flags = SDHCI_CMD_RESP_LONG;
-   721		else if (cmd->flags & MMC_RSP_BUSY)
-   722			flags = SDHCI_CMD_RESP_SHORT_BUSY;
-   723		else
-   724			flags = SDHCI_CMD_RESP_SHORT;
-   725	
-   726		if (cmd->flags & MMC_RSP_CRC)
-   727			flags |= SDHCI_CMD_CRC;
-   728		if (cmd->flags & MMC_RSP_OPCODE)
-   729			flags |= SDHCI_CMD_INDEX;
-   730	
-   731		if (cmd->data)
-   732			flags |= SDHCI_CMD_DATA;
-   733	
-   734		bcm2835_mmc_writew(host, SDHCI_MAKE_CMD(cmd->opcode, flags), SDHCI_COMMAND);
-   735	}
-   736	
+   551	
+   552	/**
+   553	 * vc4_hdmi_connector_atomic_get_property - hook for
+   554	 *						connector->atomic_get_property.
+   555	 * @connector: Connector to get the property for.
+   556	 * @state: Connector state to retrieve the property from.
+   557	 * @property: Property to retrieve.
+   558	 * @val: Return value for the property.
+   559	 *
+   560	 * Returns the atomic property value for a digital connector.
+   561	 */
+ > 562	int vc4_hdmi_connector_get_property(struct drm_connector *connector,
+   563					    const struct drm_connector_state *state,
+   564					    struct drm_property *property,
+   565					    uint64_t *val)
+   566	{
+   567		struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+   568		const struct vc4_hdmi_connector_state *vc4_conn_state =
+   569					const_conn_state_to_vc4_hdmi_conn_state(state);
+   570	
+   571		if (property == vc4_hdmi->broadcast_rgb_property) {
+   572			*val = vc4_conn_state->broadcast_rgb;
+   573		} else {
+   574			DRM_DEBUG_ATOMIC("Unknown property [PROP:%d:%s]\n",
+   575					 property->base.id, property->name);
+   576			return -EINVAL;
+   577		}
+   578	
+   579		return 0;
+   580	}
+   581	
+   582	/**
+   583	 * vc4_hdmi_connector_atomic_set_property - hook for
+   584	 *						connector->atomic_set_property.
+   585	 * @connector: Connector to set the property for.
+   586	 * @state: Connector state to set the property on.
+   587	 * @property: Property to set.
+   588	 * @val: New value for the property.
+   589	 *
+   590	 * Sets the atomic property value for a digital connector.
+   591	 */
+ > 592	int vc4_hdmi_connector_set_property(struct drm_connector *connector,
+   593					    struct drm_connector_state *state,
+   594					    struct drm_property *property,
+   595					    uint64_t val)
+   596	{
+   597		struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+   598		struct vc4_hdmi_connector_state *vc4_conn_state =
+   599					conn_state_to_vc4_hdmi_conn_state(state);
+   600	
+   601		if (property == vc4_hdmi->broadcast_rgb_property) {
+   602			vc4_conn_state->broadcast_rgb = val;
+   603			return 0;
+   604		}
+   605	
+   606		DRM_DEBUG_ATOMIC("Unknown property [PROP:%d:%s]\n",
+   607				 property->base.id, property->name);
+   608		return -EINVAL;
+   609	}
+   610	
 
 -- 
 0-DAY CI Kernel Test Service
