@@ -1,42 +1,48 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3BF6D18
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 14:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=YjGPAr6Sp29E62Gk0cXJTGmExlUuZDb0WBWJO8kQCuw=; b=rDzRWuB3K6/CfENKKSefj7FQs7
-	vOMngL626grQnQhzz6v8XOBS/NAX1dowYD4mj51VR1h4D9jV+ghSrzrA3Azz5iU+FWQSLqpC+sW+C
-	3FaMM0OfQ3C76ZVsDoKFdrhmQWcuAtgt/qX08gYGDobT9SRY9SEMRC61echfxQUdSDXALiOLa/5Sy
-	dO/9jHund/hF0TCrtn14uAkws/cYTAXDVcEHlXk7z+XY5tT+biij4E3lH5Bf96W47Ksxhd9/vkY4r
-	QBDyEgWWlzZ6ws5lnwWPt7HxmIRWgrIg90fGQuOvl0WlPuPrtuXVxYfUCD5q1P+iArF8D2+UBhO0y
-	iq6ohQGg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pWeBH-00EF0T-1U;
-	Mon, 27 Feb 2023 14:08:43 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 599EC30030B;
-	Mon, 27 Feb 2023 15:08:42 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1BE41235D5684; Mon, 27 Feb 2023 15:08:42 +0100 (CET)
-Date: Mon, 27 Feb 2023 15:08:42 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: Re: vmlinux.o: warning: objtool: mptscsih_abort+0x7f4: unreachable
- instruction
-Message-ID: <Y/y5aucdGL7U+W7a@hirez.programming.kicks-ass.net>
-References: <202302271743.78emit6I-lkp@intel.com>
- <Y/ykNfK+1G8ZNYSU@FVFF77S0Q05N>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1986D18;
+	Mon, 27 Feb 2023 14:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677507587; x=1709043587;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=snzB4bkoNKqD7Lik1ptpnELkEKhxK5QY0yDRo6Xp0b4=;
+  b=bBCRxruA/KHI/cdRn++nxMg/ypKVNVbx7vu11UToENFC1wTrnZyFtQNC
+   bJjaQ/mmRIngy+muVBn/wxywm8d1RNV7kTPMUEtTR/h2cussi0lKq7t5r
+   7Ls2pEp9E4sYoaDeEZg+qoR2TKVUj4y6khvm9i3BlpRFH+a4fJws3fmQ8
+   fdvNRv5kCLJwqIlweYubKCdqwjXC9M7nUMwvsb8AJGG0zF90MQPgwQIEt
+   ZMnaOhY/vC/uxnXfbLFE2euzxk4j259vPQxYEvowspJjt8EvusAaSCuEN
+   jDBobIXaF1ANN1NT39sXebrnxfFLwIy6iV1lDCA8V2ZxG14wGRwUxf3sw
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="335346858"
+X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
+   d="scan'208";a="335346858"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 06:19:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="919372153"
+X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
+   d="scan'208";a="919372153"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 27 Feb 2023 06:19:44 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pWeLw-0004UJ-0s;
+	Mon, 27 Feb 2023 14:19:44 +0000
+Date: Mon, 27 Feb 2023 22:18:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	dri-devel@lists.sourceforge.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org,
+	Christian Koenig <christian.koenig@amd.com>,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/tests: Suballocator test
+Message-ID: <202302272259.dbMIwSUR-lkp@intel.com>
+References: <20230227103853.12666-1-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,45 +51,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/ykNfK+1G8ZNYSU@FVFF77S0Q05N>
+In-Reply-To: <20230227103853.12666-1-thomas.hellstrom@linux.intel.com>
 
-On Mon, Feb 27, 2023 at 12:38:13PM +0000, Mark Rutland wrote:
-> [adding Peter and Josh, given objtool]
-> 
-> On Mon, Feb 27, 2023 at 05:28:53PM +0800, kernel test robot wrote:
-> > Hi Mark,
-> > 
-> > FYI, the error/warning still remains.
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-> > commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-> > date:   5 weeks ago
-> > config: x86_64-randconfig-r026-20230227 (https://download.01.org/0day-ci/archive/20230227/202302271743.78emit6I-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > reproduce (this is a W=1 build):
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c27cd083cfb9d392f304657ed00fcde1136704e7
-> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >         git fetch --no-tags linus master
-> >         git checkout c27cd083cfb9d392f304657ed00fcde1136704e7
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-> >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202302271743.78emit6I-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> vmlinux.o: warning: objtool: mptscsih_abort+0x7f4: unreachable instruction
+Hi Thomas,
 
-> > 07ef  2fb7bff:	e8 00 00 00 00       	call   2fb7c04 <mptscsih_abort+0x7f4>	2fb7c00: R_X86_64_PLT32	mpt_halt_firmware-0x4
-> > 07f4  2fb7c04:	e9 75 fb ff ff       	jmp    2fb777e <mptscsih_abort+0x36e>
+Thank you for the patch! Yet something to improve:
 
-this is one of those noreturn things again... objtool was clever enough
-to figure out that mpt_halt_firmware() does not return (all it's control
-flow ends in panic()) and hence it 'knows' that +7f4 will not be
-executed. But GCC didn't figure out the same.
+[auto build test ERROR on drm-tip/drm-tip]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-tests-Suballocator-test/20230227-184044
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230227103853.12666-1-thomas.hellstrom%40linux.intel.com
+patch subject: [Intel-gfx] [PATCH] drm/tests: Suballocator test
+config: x86_64-randconfig-a006-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272259.dbMIwSUR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bf605f8a4492ba34499541f58ad29cf56bd9d852
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-tests-Suballocator-test/20230227-184044
+        git checkout bf605f8a4492ba34499541f58ad29cf56bd9d852
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/tests/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272259.dbMIwSUR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tests/drm_suballoc_test.c:16:10: fatal error: 'drm/drm_suballoc.h' file not found
+   #include <drm/drm_suballoc.h>
+            ^~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +16 drivers/gpu/drm/tests/drm_suballoc_test.c
+
+     8	
+     9	#include <linux/dma-fence.h>
+    10	#include <linux/ktime.h>
+    11	#include <linux/hrtimer.h>
+    12	#include <linux/sizes.h>
+    13	#include <linux/slab.h>
+    14	#include <linux/spinlock.h>
+    15	#include <linux/delay.h>
+  > 16	#include <drm/drm_suballoc.h>
+    17	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
