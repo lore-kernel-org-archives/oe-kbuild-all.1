@@ -1,43 +1,46 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A4F33DF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 12:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E03A33E0;
+	Mon, 27 Feb 2023 12:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677502363; x=1709038363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3MZ4s6SJ4HgbuFBZZZm4D6aSCV9d4lekRe/kqHmYtEg=;
-  b=S4TD3L1SHw6pqgNLycb85g2CFqdlUtaiXN145L+Chpq6bN2chO4qLfrH
-   QlGIX8S0JnTGXFLtG+j9hybzGrSC2AgkjXiumjcFauG8TQ9aRfDdklub2
-   sMIfQNBypIjKB5qn1dfrxmgoMWSKQf0FrOj7OsZSG+HZ7hdeMaO1x0qS9
-   Fbh8BZdJlKhPyNnLf3oJqxwF/32GEU5wYWQcjLe9OMJHC9BY4krSgLYJl
-   AWsGrZ7wP/Wmeg40B3T524q46gnNgtM2uDqDLSsDm1EQhGRPJP4NtxkhS
-   7gx7KZwbnhqxjt40wmk+adOFqotX7XTPqBCAM/8zuBKZhcyN1DSgJltzE
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322095425"
+  t=1677502364; x=1709038364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Iv/bxCByHyLM3mCXzFYfEn60BlnvydEZ5bn3eVyA41Q=;
+  b=h5zc4pSgsDbOoWaKNs/SD7hi1DtBB7OYKZE4Mx7mQM4TLWnwvVPbTsfg
+   GPo3JMcKd1F/YAnXvTQx3iNMGs0yy6PJ+0EJj7IR6e0bDCkgTdHMEkY5j
+   SEH0Lohsnpev5dzSiPH7b4xYa3G1BF8JkhY2OMHKXliFFm3lzlb/LIKBC
+   8GBFkrlxlVhQd2YqKzfmAxizJXEU6KTduqQDwHswh5Jx3JN2lAfHAedsm
+   WnEGfyhCjUtO7pWY3b/pPmKRdqfG8F6mHxNlGqW5ri2TvWtjJ75qZ4kcE
+   bmbkxLt4H8wRBodbczg3m7L+hJtolS2Myptfg5FOcFJ/tcHT3QRSov1eU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322095431"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="322095425"
+   d="scan'208";a="322095431"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:52:42 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:52:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="667020407"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="667020416"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="667020407"
+   d="scan'208";a="667020416"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 27 Feb 2023 04:52:41 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWczh-0004Pf-03;
+	id 1pWczh-0004Ph-07;
 	Mon, 27 Feb 2023 12:52:41 +0000
-Date: Mon, 27 Feb 2023 20:51:51 +0800
+Date: Mon, 27 Feb 2023 20:51:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 11/583]
- drivers/gpu/drm/vc4/vc4_vec.c:338:1: warning: no previous prototype for
- 'vc4_vec_get_default_mode'
-Message-ID: <202302272008.BAIidERQ-lkp@intel.com>
+To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rodrigo.vivi@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power
+ demands to pcode more accurately
+Message-ID: <202302272052.ZvLMGyJl-lkp@intel.com>
+References: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +49,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
 
-tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
-head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: d68502e631cb6c914d5620c55c5621f1b54dbe92 [11/583] drm/vc4: Allow setting the TV norm via module parameter
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230227/202302272008.BAIidERQ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+Hi Stanislav,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230227095253.22415-1-stanislav.lisovskiy%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power demands to pcode more accurately
+config: i386-randconfig-r033-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272052.ZvLMGyJl-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/d68502e631cb6c914d5620c55c5621f1b54dbe92
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout d68502e631cb6c914d5620c55c5621f1b54dbe92
+        # https://github.com/intel-lab-lkp/linux/commit/bc4de3b25bbf043f68ef862c45f975b79af938be
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
+        git checkout bc4de3b25bbf043f68ef862c45f975b79af938be
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/char/ drivers/gpu/drm/vc4/ drivers/staging/vc04_services/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272008.BAIidERQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272052.ZvLMGyJl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/vc4/vc4_vec.c:338:1: warning: no previous prototype for 'vc4_vec_get_default_mode' [-Wmissing-prototypes]
-     338 | vc4_vec_get_default_mode(struct drm_connector *connector)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_cdclk.c:3006:6: warning: no previous prototype for function 'intel_cdclk_need_serialize' [-Wmissing-prototypes]
+   bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
+        ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:3006:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/vc4_vec_get_default_mode +338 drivers/gpu/drm/vc4/vc4_vec.c
+vim +/intel_cdclk_need_serialize +3006 drivers/gpu/drm/i915/display/intel_cdclk.c
 
-   336	
-   337	enum vc4_vec_tv_mode_id
- > 338	vc4_vec_get_default_mode(struct drm_connector *connector)
-   339	{
-   340		int i;
-   341	
-   342		if (vc4_vec_tv_norm) {
-   343			for (i = 0; i < ARRAY_SIZE(tv_mode_names); i++)
-   344				if (strcmp(vc4_vec_tv_norm, tv_mode_names[i]) == 0)
-   345					return (enum vc4_vec_tv_mode_id) i;
-   346		} else if (connector->cmdline_mode.specified &&
-   347			   ((connector->cmdline_mode.refresh_specified &&
-   348			     (connector->cmdline_mode.refresh == 25 ||
-   349			      connector->cmdline_mode.refresh == 50)) ||
-   350			    (!connector->cmdline_mode.refresh_specified &&
-   351			     (connector->cmdline_mode.yres == 288 ||
-   352			      connector->cmdline_mode.yres == 576)))) {
-   353			/*
-   354			 * no explicitly specified TV norm; use PAL if a mode that
-   355			 * looks like PAL has been specified on the command line
-   356			 */
-   357			return VC4_VEC_TV_MODE_PAL;
-   358		}
-   359	
-   360		/* in all other cases, default to NTSC */
-   361		return VC4_VEC_TV_MODE_NTSC;
-   362	}
-   363	
+  3005	
+> 3006	bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
+  3007					const struct intel_cdclk_state *old_cdclk_state,
+  3008					const struct intel_cdclk_state *new_cdclk_state)
+  3009	{
+  3010		/*
+  3011		 * We need to poke hw for gen >= 12, because we notify PCode if
+  3012		 * pipe power well count changes.
+  3013		 */
+  3014		return intel_cdclk_changed(&old_cdclk_state->actual,
+  3015					   &new_cdclk_state->actual) ||
+  3016		       ((DISPLAY_VER(i915) >= 12 &&
+  3017			 hweight8(old_cdclk_state->active_pipes) !=
+  3018			 hweight8(new_cdclk_state->active_pipes)));
+  3019	}
+  3020	
 
 -- 
 0-DAY CI Kernel Test Service
