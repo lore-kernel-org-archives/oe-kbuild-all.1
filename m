@@ -1,60 +1,29 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D727EF;
-	Mon, 27 Feb 2023 08:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677486398; x=1709022398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3femBW50VuFuS6ruRz4PZ9bn3eoVxZ9MAUBA8SF1+/0=;
-  b=ii4l6dN/WhmpysEZloyMacJ2W+UdUDVsJDBF/tUdCblrjnVPj+uR3yg1
-   jPraGGAG30lvcoAIWnonBi63p8cOMGRk+3tgxbCwAjrCpzPixFIBzug7H
-   OKSCvgGhkkew9gkrj+0yF11S5PwJv+Dtuc9nuNGDWeB4AzcX5wQHjKKMb
-   HhWXng+hyqmXm/4y8caWX1BKrn7jZ445RP/9OGe+oq2POXF0K7F0w0Fcy
-   2B5qsxvWrFByBlJTCRV9t6uCUfSoRtJ4RFCRiyEhqffayx89JZd+KVnLA
-   PdRa5B7pefbbEArGzKepeO1RZJLUdp96NRjssL/B9kBQsFP/ZYr8IzDyv
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="314233001"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="314233001"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 00:26:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="1002647446"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
-   d="scan'208";a="1002647446"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2023 00:26:32 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pWYq7-0004Er-1v;
-	Mon, 27 Feb 2023 08:26:31 +0000
-Date: Mon, 27 Feb 2023 16:25:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Gustavo Padovan <gustavo.padovan@collabora.com>,
-	Daniel Stone <daniel@fooishbar.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v11 05/10] drm/shmem-helper: Add memory shrinker
-Message-ID: <202302271624.aEDOT0UV-lkp@intel.com>
-References: <20230227060219.904986-6-dmitry.osipenko@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE3C370
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 08:35:12 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1pWYyM-0001rR-Ow; Mon, 27 Feb 2023 09:35:02 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1pWYyL-00049n-Bm; Mon, 27 Feb 2023 09:35:01 +0100
+Date: Mon, 27 Feb 2023 09:35:01 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used
+ uninitialized
+Message-ID: <20230227083501.nlep2r3ng5d4vkot@pengutronix.de>
+References: <202302240951.roaFGUy5-lkp@intel.com>
+ <20230224084559.x2ceoc6r24uh3wms@pengutronix.de>
+ <CAMuHMdXOr5OFwte3FNVXRUERRwJiqxVXgwCjGC_y6jxmftxrLA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,95 +32,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227060219.904986-6-dmitry.osipenko@collabora.com>
+In-Reply-To: <CAMuHMdXOr5OFwte3FNVXRUERRwJiqxVXgwCjGC_y6jxmftxrLA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-Hi Dmitry,
+Hi Geert,
 
-I love your patch! Yet something to improve:
+On 23-02-24, Geert Uytterhoeven wrote:
+> Hi Marco,
+> 
+> On Fri, Feb 24, 2023 at 9:58 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > On 23-02-24, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   e4bc15889506723d7b93c053ad4a75cd58248d74
+> > > commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
+> > > date:   4 months ago
+> > > config: arc-randconfig-r031-20230223 (https://download.01.org/0day-ci/archive/20230224/202302240951.roaFGUy5-lkp@intel.com/config)
+> > > compiler: arceb-elf-gcc (GCC) 12.1.0
+> > > reproduce (this is a W=1 build):
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80a21da360516fa602f3a50eb9792f9dfbfb5fdb
+> > >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> > >         git fetch --no-tags linus master
+> > >         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
+> >
+> > This is still a false positive, should we initialize p_best to make the
+> > compiler happy? I think Hans did this once, but he said that this will
+> > be gone with gcc-13 if I remember correctly.
+> 
+> Are you sure this is a false positive?
+> 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Link: https://lore.kernel.org/oe-kbuild-all/202302240951.roaFGUy5-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > >    drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
+> > > >> drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized [-Wuninitialized]
+> > >      817 |         u16 p_best, p;
+> > >          |             ^~~~~~
+> > > >> drivers/media/i2c/tc358746.c:816:13: warning: 'm_best' is used uninitialized [-Wuninitialized]
+> > >      816 |         u16 m_best, mul;
+> > >          |             ^~~~~~
+> > >
+> > >
+> > > vim +/p_best +817 drivers/media/i2c/tc358746.c
+> > >
+> > >    805
+> > >    806        static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
+> > >    807                                                        unsigned long refclk,
+> > >    808                                                        unsigned long fout)
+> > >    809
+> > >    810        {
+> > >    811                struct device *dev = tc358746->sd.dev;
+> > >    812                unsigned long best_freq = 0;
+> > >    813                u32 min_delta = 0xffffffff;
+> > >    814                u16 prediv_max = 17;
+> > >    815                u16 prediv_min = 1;
+> > >  > 816                u16 m_best, mul;
+> > >  > 817                u16 p_best, p;
+> > >    818                u8 postdiv;
+> > >    819
+> > >    820                if (fout > 1000 * HZ_PER_MHZ) {
+> > >    821                        dev_err(dev, "HS-Clock above 1 Ghz are not supported\n");
+> > >    822                        return 0;
+> > >    823                }
+> > >    824
+> > >    825                if (fout >= 500 * HZ_PER_MHZ)
+> > >    826                        postdiv = 1;
+> > >    827                else if (fout >= 250 * HZ_PER_MHZ)
+> > >    828                        postdiv = 2;
+> > >    829                else if (fout >= 125 * HZ_PER_MHZ)
+> > >    830                        postdiv = 4;
+> > >    831                else
+> > >    832                        postdiv = 8;
+> > >    833
+> > >    834                for (p = prediv_min; p <= prediv_max; p++) {
+> > >    835                        unsigned long delta, fin;
+> > >    836                        u64 tmp;
+> > >    837
+> > >    838                        fin = DIV_ROUND_CLOSEST(refclk, p);
+> > >    839                        if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
+> > >    840                                continue;
+> > >    841
+> > >    842                        tmp = fout * p * postdiv;
+> > >    843                        do_div(tmp, fin);
+> > >    844                        mul = tmp;
+> > >    845                        if (mul > 511)
+> > >    846                                continue;
+> > >    847
+> > >    848                        tmp = mul * fin;
+> > >    849                        do_div(tmp, p * postdiv);
+> > >    850
+> > >    851                        delta = abs(fout - tmp);
+> > >    852                        if (delta < min_delta) {
+> 
+> So you assume this branch will be taken at least once.
+> However, if the smallest delta is 0xffffffff, this is never true.
+> Moreover, tmp is u64, while delta is unsigned long, which is
+> either 32-bit or 64-bit (it is 32-bit on ARC, I think).
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2 next-20230227]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+You're right about the u64/unsigned long problem, I will check this :)
+But for 'p_best' usaage I'm sure, since we initialze best_freq to zero
+and set it only within this if where we set p_best too.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/drm-shmem-helper-Factor-out-pages-alloc-release-from-drm_gem_shmem_get-put_pages/20230227-140619
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230227060219.904986-6-dmitry.osipenko%40collabora.com
-patch subject: [PATCH v11 05/10] drm/shmem-helper: Add memory shrinker
-config: riscv-randconfig-r006-20230227 (https://download.01.org/0day-ci/archive/20230227/202302271624.aEDOT0UV-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c4d106484ddbebccf4219dacbc2a9975909f4c2a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dmitry-Osipenko/drm-shmem-helper-Factor-out-pages-alloc-release-from-drm_gem_shmem_get-put_pages/20230227-140619
-        git checkout c4d106484ddbebccf4219dacbc2a9975909f4c2a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/
+> So I think the code can definitely be improved by cleaning up
+> the types, possibly killing the warning as well...
+> 
+> > >    853                                p_best = p;
+> > >    854                                m_best = mul;
+> > >    855                                min_delta = delta;
+> > >    856                                best_freq = tmp;
+> > >    857                        };
+> > >    858
+> > >    859                        if (delta == 0)
+> > >    860                                break;
+> > >    861                };
+> > >    862
+> > >    863                if (!best_freq) {
+> > >    864                        dev_err(dev, "Failed find PLL frequency\n");
+> > >    865                        return 0;
+> > >    866                }
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302271624.aEDOT0UV-lkp@intel.com/
+If the above if wasn't reached, we will never pass the above if.
 
-All errors (new ones prefixed by >>):
+Regards,
+  Marco
 
-   drivers/gpu/drm/drm_gem_shmem_helper.c:832:18: warning: no previous prototype for function 'drm_gem_shmem_get_pages_sgt_locked' [-Wmissing-prototypes]
-   struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
-                    ^
-   drivers/gpu/drm/drm_gem_shmem_helper.c:832:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
-   ^
-   static 
->> drivers/gpu/drm/drm_gem_shmem_helper.c:1016:7: error: too many arguments to function call, expected 3, have 4
-                                     drm_gem_shmem_shrinker_purge);
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:489:15: note: 'drm_gem_lru_scan' declared here
-   unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
-                 ^
-   drivers/gpu/drm/drm_gem_shmem_helper.c:1022:8: error: too many arguments to function call, expected 3, have 4
-                                             drm_gem_shmem_shrinker_evict);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:489:15: note: 'drm_gem_lru_scan' declared here
-   unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
-                 ^
-   1 warning and 2 errors generated.
-
-
-vim +1016 drivers/gpu/drm/drm_gem_shmem_helper.c
-
-  1001	
-  1002	static unsigned long
-  1003	drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
-  1004					    struct shrink_control *sc)
-  1005	{
-  1006		struct drm_gem_shmem_shrinker *shmem_shrinker;
-  1007		unsigned long nr_to_scan = sc->nr_to_scan;
-  1008		unsigned long remaining = 0;
-  1009		unsigned long freed = 0;
-  1010	
-  1011		shmem_shrinker = to_drm_gem_shmem_shrinker(shrinker);
-  1012	
-  1013		/* purge as many objects as we can */
-  1014		freed += drm_gem_lru_scan(&shmem_shrinker->lru_evictable,
-  1015					  nr_to_scan, &remaining,
-> 1016					  drm_gem_shmem_shrinker_purge);
-  1017	
-  1018		/* evict as many objects as we can */
-  1019		if (freed < nr_to_scan)
-  1020			freed += drm_gem_lru_scan(&shmem_shrinker->lru_evictable,
-  1021						  nr_to_scan - freed, &remaining,
-  1022						  drm_gem_shmem_shrinker_evict);
-  1023	
-  1024		return (freed > 0 && remaining > 0) ? freed : SHRINK_STOP;
-  1025	}
-  1026	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> > >    867
+> > >    868                tc358746->pll_post_div = postdiv;
+> > >    869                tc358746->pll_pre_div = p_best;
+> > >    870                tc358746->pll_mul = m_best;
+> > >    871
+> > >    872                if (best_freq != fout)
+> > >    873                        dev_warn(dev, "Request PLL freq:%lu, found PLL freq:%lu\n",
+> > >    874                                 fout, best_freq);
+> > >    875
+> > >    876                dev_dbg(dev, "Found PLL settings: freq:%lu prediv:%u multi:%u postdiv:%u\n",
+> > >    877                        best_freq, p_best, m_best, postdiv);
+> > >    878
+> > >    879                return best_freq;
+> > >    880        }
+> > >    881
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
