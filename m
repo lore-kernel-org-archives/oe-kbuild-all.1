@@ -1,44 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B3079F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 18:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6141879EF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 18:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677522718; x=1709058718;
+  t=1677523376; x=1709059376;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kpZSX7WkPjEJqi2glUW8/7+AKoqRKziAJ5rqZIaoPCI=;
-  b=Q5CMVsnGG4umZo7p+ZIcZz8DxGWHjuiOKt+iUUxHdAKm7/8qMd+jXBoR
-   zH3Pa3R2lB2zSy0I8ADx/Ftg21jlPUbwYNGCh84XUHO0gsbm8NZftPZiK
-   tI5INPbAuDMrLqg8Cx1E7xf7CVA3Em5Di5WRgT3Qrcr6R+b+OWLlFna3V
-   Gal5dkCYEiRq6S3D/SaeXshNpcZ/N2E34/DVyGj5EquK9uAfbyklN/ULd
-   FFTTArEh03X11dlaelRTv7/KSeCpTvSP8Oy0NXzh9eqy+mbLJUMfRwQvR
-   uAgn8jqLuBvrXUmgZlSS2VeHHNvKxNGyc6/C3C3PWCnRWqc+Gh09s5jyz
+  bh=gFEidDMoHBIm4eVSpcFctpgdHfZZlWuQI9jQ+wI6w+o=;
+  b=D5/FCM8yDDd0rsCK6LO3Ke/QHVFOZ3E4EOUkpIsuiGvd+Regiu5Tukcj
+   CfheFpyZHUqASXHnS2101U6qPO7STRGrb2AWhoCS5ETSz4V5Nzt2irXbD
+   fJck/nYxtImLZXUTzrpUDBGk3oiiE1JYuS3Tv+zpUhzHVgPQaTLzAeZxC
+   ZW4kSM4NNU9hgyQo+L7rTN8vIpWtVx/WtIK1KJBtBhgModvs1Zmije0mJ
+   GCeiV+BychnMwm+Ej99dvnqXTPfRjD+Jn89qgpwlo34aM2qOXepBejMTr
+   gnRxIuFu0oaQqRsyrYMQ4LBDA0+WC5pavUzET8ft11fV7DuWAPYTX6Pl4
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="398710445"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="322184231"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="398710445"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 10:31:55 -0800
+   d="scan'208";a="322184231"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 10:42:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="742673243"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="762833460"
 X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="742673243"
+   d="scan'208";a="762833460"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Feb 2023 10:31:54 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Feb 2023 10:42:54 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWiHx-0004fm-1Y;
-	Mon, 27 Feb 2023 18:31:53 +0000
-Date: Tue, 28 Feb 2023 02:31:37 +0800
+	id 1pWiSb-0004gL-2T;
+	Mon, 27 Feb 2023 18:42:53 +0000
+Date: Tue, 28 Feb 2023 02:42:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yogesh Lal <quic_ylal@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sibi Sankar <quic_sibis@quicinc.com>
-Subject: drivers/remoteproc/qcom_q6v5_pas.c:108:6: warning: no previous
- prototype for 'adsp_segment_dump'
-Message-ID: <202302280207.ZJXOPdxl-lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:saa7146 6/7]
+ drivers/media/common/saa7146/saa7146_video.c:320:22: warning: variable
+ 'resource' set but not used
+Message-ID: <202302280216.uVPrZOta-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,60 +47,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yogesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-commit: a376c10d45a8e6ee5ea55791193f90625b35e156 remoteproc: qcom: pas: Adjust the phys addr wrt the mem region
-date:   13 days ago
-config: arm64-randconfig-r004-20230226 (https://download.01.org/0day-ci/archive/20230228/202302280207.ZJXOPdxl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   git://linuxtv.org/hverkuil/media_tree.git saa7146
+head:   8574988163c112b1ec209581c0bd4a1e9fddde77
+commit: 4a4b186f474b70573008189daf27a0ddb2903a86 [6/7] wip
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302280216.uVPrZOta-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a376c10d45a8e6ee5ea55791193f90625b35e156
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a376c10d45a8e6ee5ea55791193f90625b35e156
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
+        git fetch --no-tags hverkuil-media-tree saa7146
+        git checkout 4a4b186f474b70573008189daf27a0ddb2903a86
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/media/common/saa7146/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302280207.ZJXOPdxl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302280216.uVPrZOta-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/remoteproc/qcom_q6v5_pas.c:108:6: warning: no previous prototype for 'adsp_segment_dump' [-Wmissing-prototypes]
-     108 | void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-         |      ^~~~~~~~~~~~~~~~~
+   drivers/media/common/saa7146/saa7146_video.c: In function 'video_begin':
+>> drivers/media/common/saa7146/saa7146_video.c:320:22: warning: variable 'resource' set but not used [-Wunused-but-set-variable]
+     320 |         unsigned int resource;
+         |                      ^~~~~~~~
+   drivers/media/common/saa7146/saa7146_video.c: In function 'video_end':
+   drivers/media/common/saa7146/saa7146_video.c:386:22: warning: variable 'resource' set but not used [-Wunused-but-set-variable]
+     386 |         unsigned int resource;
+         |                      ^~~~~~~~
 
 
-vim +/adsp_segment_dump +108 drivers/remoteproc/qcom_q6v5_pas.c
+vim +/resource +320 drivers/media/common/saa7146/saa7146_video.c
 
-   107	
- > 108	void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-   109			       void *dest, size_t offset, size_t size)
-   110	{
-   111		struct qcom_adsp *adsp = rproc->priv;
-   112		int total_offset;
-   113	
-   114		total_offset = segment->da + segment->offset + offset - adsp->mem_phys;
-   115		if (total_offset < 0 || total_offset + size > adsp->mem_size) {
-   116			dev_err(adsp->dev,
-   117				"invalid copy request for segment %pad with offset %zu and size %zu)\n",
-   118				&segment->da, offset, size);
-   119			memset(dest, 0xff, size);
-   120			return;
-   121		}
-   122	
-   123		memcpy_fromio(dest, adsp->mem_region + total_offset, size);
-   124	}
-   125	
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  315  
+4a4b186f474b705 drivers/media/common/saa7146/saa7146_video.c Hans Verkuil   2023-02-27  316  static int video_begin(struct saa7146_dev *dev)
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  317  {
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  318  	struct saa7146_vv *vv = dev->vv_data;
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  319  	struct saa7146_format *fmt = NULL;
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16 @320  	unsigned int resource;
+4a4b186f474b705 drivers/media/common/saa7146/saa7146_video.c Hans Verkuil   2023-02-27  321  	int err = 0;
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  322  
+4a4b186f474b705 drivers/media/common/saa7146/saa7146_video.c Hans Verkuil   2023-02-27  323  	DEB_EE("dev:%p\n", dev);
+^1da177e4c3f415 drivers/media/common/saa7146_video.c         Linus Torvalds 2005-04-16  324  
+
+:::::: The code at line 320 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
