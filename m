@@ -1,43 +1,48 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84E86AB3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 13:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AD96AB3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677504887; x=1709040887;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jq89psfBZkhYtZDiUJ2CG3K8wlATYclPkuA5D1vcnpo=;
-  b=C+xJpzgLN8LB87RsQpzaDa+yCXyh5RnRsBPsHuiJN5T/odwSuGC54Soi
-   HbESt8yoUgs2b/c4Bvd5shyUoQtwyCEQtMkTm+iYCK9Jxe1CChTPfPBUG
-   xnMFoPACkn/XHg4mRYLA3ESu1UUylcAL/DpDSkU80tJIkVDpyJ8//9G7S
-   GfQX0XW/Gn7qun/9wfI0kqpzSk2PjFjNwPL6yox3eyD2Ev3arRNWeJ9wD
-   6ggSAl6qLQyIdLphaUhfZqsuQOdtD11mIS1U3zTXpe1FxhSqP9tGLyDFg
-   hyp3Qb5FkjT78hcvaP0pI/V/wShGj2inoln28k7zpUBc4yLwzSOT6GURK
+  t=1677505488; x=1709041488;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7msrzgjWYVf6Tlhokxp8pkIAtikCgkjHo/2h8nTwrmY=;
+  b=ZzsFY5QveeqNSxQ1taqbVD4RYXtA5aXm5jFERLve9AJOSsYc0IlcYfqC
+   DL77IQRjNM+RJiG6SV9vMzbXQg5KpUiTVjU6mtv6eoKa4ayNvIxwAqBXN
+   FzcSonFAEJQaPGGvXDhLoGdcOkAek/xfIXcRMN4J9BxlT+Cd5RE796oiO
+   Sobwp/nDEDUKULLYx/UmF4ZA72Nsie5vfuAM+eWAB9BjN3JrwKyCGGTFE
+   62ept5hkd9hc3LE3y2zP5VjALtO0TQ+GKpTWFcHt0E/FFt1WOVDBq8bzm
+   HmMagDfQWrG92cILSksWEwLjRv5usLm/SFYNU5xW8zxW6cn0ZxWBWLvhk
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="361415727"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="396410921"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="361415727"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 05:34:47 -0800
+   d="scan'208";a="396410921"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 05:44:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="797632022"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="797632022"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="783383473"
+X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
+   d="scan'208";a="783383473"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2023 05:34:43 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2023 05:44:43 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWdeM-0004Rt-0y;
-	Mon, 27 Feb 2023 13:34:42 +0000
-Date: Mon, 27 Feb 2023 21:33:51 +0800
+	id 1pWdo2-0004SM-1t;
+	Mon, 27 Feb 2023 13:44:42 +0000
+Date: Mon, 27 Feb 2023 21:44:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 11/583]
- drivers/gpu/drm/vc4/vc4_vec.c:338:1: warning: no previous prototype for
- function 'vc4_vec_get_default_mode'
-Message-ID: <202302272126.95TrpwQA-lkp@intel.com>
+To: Yuanzhi Wang <wangyuanzhi@uniontech.com>, alexander.deucher@amd.com,
+	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+	daniel@ffwll.ch, mario.limonciello@amd.com, Bokun.Zhang@amd.com,
+	tzimmermann@suse.de, hdegoede@redhat.com, jingyuwang_vip@163.com,
+	rafael.j.wysocki@intel.com, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Yuanzhi Wang <wangyuanzhi@uniontech.com>
+Subject: Re: [PATCH] amdgpu: add a filter condition when set brightness
+Message-ID: <202302272122.p3DfX4S8-lkp@intel.com>
+References: <20230227073953.326-1-wangyuanzhi@uniontech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +51,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230227073953.326-1-wangyuanzhi@uniontech.com>
 
-tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
-head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: d68502e631cb6c914d5620c55c5621f1b54dbe92 [11/583] drm/vc4: Allow setting the TV norm via module parameter
-config: arm-randconfig-r046-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272126.95TrpwQA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+Hi Yuanzhi,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.2 next-20230227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230227073953.326-1-wangyuanzhi%40uniontech.com
+patch subject: [PATCH] amdgpu: add a filter condition when set brightness
+config: loongarch-randconfig-r036-20230226 (https://download.01.org/0day-ci/archive/20230227/202302272122.p3DfX4S8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/l1k/linux/commit/d68502e631cb6c914d5620c55c5621f1b54dbe92
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout d68502e631cb6c914d5620c55c5621f1b54dbe92
+        # https://github.com/intel-lab-lkp/linux/commit/95d9579e31d0b601aa1422cf767ca5138d3efcee
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
+        git checkout 95d9579e31d0b601aa1422cf767ca5138d3efcee
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/vc4/ drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272126.95TrpwQA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272122.p3DfX4S8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/vc4/vc4_vec.c:338:1: warning: no previous prototype for function 'vc4_vec_get_default_mode' [-Wmissing-prototypes]
-   vc4_vec_get_default_mode(struct drm_connector *connector)
-   ^
-   drivers/gpu/drm/vc4/vc4_vec.c:337:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   enum vc4_vec_tv_mode_id
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/vc4_vec_get_default_mode +338 drivers/gpu/drm/vc4/vc4_vec.c
-
-   336	
-   337	enum vc4_vec_tv_mode_id
- > 338	vc4_vec_get_default_mode(struct drm_connector *connector)
-   339	{
-   340		int i;
-   341	
-   342		if (vc4_vec_tv_norm) {
-   343			for (i = 0; i < ARRAY_SIZE(tv_mode_names); i++)
-   344				if (strcmp(vc4_vec_tv_norm, tv_mode_names[i]) == 0)
-   345					return (enum vc4_vec_tv_mode_id) i;
-   346		} else if (connector->cmdline_mode.specified &&
-   347			   ((connector->cmdline_mode.refresh_specified &&
-   348			     (connector->cmdline_mode.refresh == 25 ||
-   349			      connector->cmdline_mode.refresh == 50)) ||
-   350			    (!connector->cmdline_mode.refresh_specified &&
-   351			     (connector->cmdline_mode.yres == 288 ||
-   352			      connector->cmdline_mode.yres == 576)))) {
-   353			/*
-   354			 * no explicitly specified TV norm; use PAL if a mode that
-   355			 * looks like PAL has been specified on the command line
-   356			 */
-   357			return VC4_VEC_TV_MODE_PAL;
-   358		}
-   359	
-   360		/* in all other cases, default to NTSC */
-   361		return VC4_VEC_TV_MODE_NTSC;
-   362	}
-   363	
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c: In function 'amdgpu_atif_handler':
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:50: warning: missing terminating " character
+     449 |                                         DRM_WARN("old brightness %d is greater than ACPI brightness
+         |                                                  ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:450:53: warning: missing terminating " character
+     450 |                                                 %d\n", old_brightness, req.backlight_level);
+         |                                                     ^
+>> cc1: error: unterminated argument list invoking macro "DRM_WARN"
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: error: 'DRM_WARN' undeclared (first use in this function)
+     449 |                                         DRM_WARN("old brightness %d is greater than ACPI brightness
+         |                                         ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:49: error: expected ';' at end of input
+     449 |                                         DRM_WARN("old brightness %d is greater than ACPI brightness
+         |                                                 ^
+         |                                                 ;
+   ......
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:448:33: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
+     448 |                                 if (old_brightness > req.backlight_level)
+         |                                 ^~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:448:33: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: error: expected declaration or statement at end of input
+     449 |                                         DRM_WARN("old brightness %d is greater than ACPI brightness
+         |                                         ^~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: error: expected declaration or statement at end of input
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: error: expected declaration or statement at end of input
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:41: error: expected declaration or statement at end of input
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c: At top level:
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:404:12: warning: 'amdgpu_atif_handler' defined but not used [-Wunused-function]
+     404 | static int amdgpu_atif_handler(struct amdgpu_device *adev,
+         |            ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:308:12: warning: 'amdgpu_atif_query_backlight_caps' defined but not used [-Wunused-function]
+     308 | static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:240:12: warning: 'amdgpu_atif_get_notification_params' defined but not used [-Wunused-function]
+     240 | static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:195:12: warning: 'amdgpu_atif_verify_interface' defined but not used [-Wunused-function]
+     195 | static int amdgpu_atif_verify_interface(struct amdgpu_atif *atif)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:36,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:64,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:35:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
