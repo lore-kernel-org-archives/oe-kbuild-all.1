@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AA833DA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 13:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E426B6AAE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 13:34:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677503624; x=1709039624;
+  t=1677504886; x=1709040886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jPvaZk6JQ5GnQZK/PNgvyhTulUT2+P/nFUgO2abCB5s=;
-  b=HKOIFp3X8elNMLCCvP8SCnJGlqm2NpPHd5+3CZixGX9fHi38Tlz+7+pf
-   lnztg2npx9S2GWmOpx4lSCkIwrGlzb4O/xfs+5Y/buMS+J9Joswy9pHDw
-   /SyCm0WGYHJMUhIoUajzteDaCeodQHsOve2QJd4oxmGi4kKCw0JdHWhTB
-   c10/a7rIFEA7Lfphw2BE62suJigAud9MPeDf64Tat1eNd7N4qJa/8BKah
-   z4BkiB0hyNY6ujLvuhHRECSStUOa+lSIZ4Cw2btlqy0IymntC8Kg0BVia
-   P3eRlzFWWEQJdS+Y5RN/IW8yFegtFnpBo6Gm0JuDWpcct9/rNgX8dOArS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="335334498"
+  bh=/oyfiQXJBsqws/QekMt0OO05MeztRyr8HzVkM1tq8bo=;
+  b=MUlUgtk1WmBTIlLnUOcW81Fxo5k5GgAiEj0Bol4y0xU1YNU58BYfh1+b
+   JjbSZ0bA0Bj9TatYJ7ODaU37UzVna0T/oxHJGLXHPGiVqftfz5XHzc8Kq
+   Xt8s6LW5wu4/4x7WtKco5T/jhvzU4lyGwCxD/zJt6OOzg0Ici8dcH69GG
+   fRCrEVVkmmw8XAn2Te5xvGGqzxtc8SiDZjbBfjVc4YKP4pEHbwZm8Ckk6
+   NC2jB0tUEwapaqHSSJCyG/Gl43pRBadlzJ66ui9wgTD0BK4PwYxsTM9Qv
+   SfoIyaJFJ2UPpnHP3riXkQOZRLNlFovn8Z+qypXRnta8CjsqueA9gcfzw
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="314283255"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="335334498"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 05:13:44 -0800
+   d="scan'208";a="314283255"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 05:34:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="919331424"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="623579878"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="919331424"
+   d="scan'208";a="623579878"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Feb 2023 05:13:42 -0800
+  by orsmga003.jf.intel.com with ESMTP; 27 Feb 2023 05:34:43 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWdK1-0004Qr-25;
-	Mon, 27 Feb 2023 13:13:41 +0000
-Date: Mon, 27 Feb 2023 21:13:04 +0800
+	id 1pWdeM-0004Rr-0t;
+	Mon, 27 Feb 2023 13:34:42 +0000
+Date: Mon, 27 Feb 2023 21:33:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 163/583] versioncheck:
- ./sound/soc/bcm/googlevoicehat-codec.c: 27 linux/version.h not needed.
-Message-ID: <202302272107.TqCxgz0w-lkp@intel.com>
+Subject: [l1k:rpi-6.2.y-await-linktraining 312/583]
+ drivers/staging/fbtft/fb_st7735r.c:189:5: warning: no previous prototype for
+ function 'variant_adafruit18'
+Message-ID: <202302272100.hXFjpMCw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +49,126 @@ Content-Disposition: inline
 
 tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
 head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: c5abbb8f699bfb53c0cba64c782345a48814b1a7 [163/583] Add support for all the downstream rpi sound card drivers
-reproduce:
-        make versioncheck
+commit: 5b4633cd65ca53a07dca6892c593862589b51249 [312/583] staging/fbtft: Add support for display variants
+config: hexagon-randconfig-r045-20230227 (https://download.01.org/0day-ci/archive/20230227/202302272100.hXFjpMCw-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/5b4633cd65ca53a07dca6892c593862589b51249
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
+        git checkout 5b4633cd65ca53a07dca6892c593862589b51249
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/fbtft/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272107.TqCxgz0w-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272100.hXFjpMCw-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j28 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/usb/host/dwc_otg/dwc_otg_driver.c: 1772: need linux/version.h
-   ./drivers/usb/host/dwc_otg/dwc_otg_hcd.c: 4363: need linux/version.h
-   ./drivers/usb/host/dwc_otg/dwc_otg_pcd_linux.c: 1262: need linux/version.h
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
->> ./sound/soc/bcm/googlevoicehat-codec.c: 27 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/staging/fbtft/fb_st7735r.c:13:
+   In file included from drivers/staging/fbtft/fbtft.h:7:
+   In file included from include/linux/fb.h:6:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/staging/fbtft/fb_st7735r.c:13:
+   In file included from drivers/staging/fbtft/fbtft.h:7:
+   In file included from include/linux/fb.h:6:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/staging/fbtft/fb_st7735r.c:13:
+   In file included from drivers/staging/fbtft/fbtft.h:7:
+   In file included from include/linux/fb.h:6:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/staging/fbtft/fb_st7735r.c:189:5: warning: no previous prototype for function 'variant_adafruit18' [-Wmissing-prototypes]
+   int variant_adafruit18(struct fbtft_display *display)
+       ^
+   drivers/staging/fbtft/fb_st7735r.c:189:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int variant_adafruit18(struct fbtft_display *display)
+   ^
+   static 
+>> drivers/staging/fbtft/fb_st7735r.c:195:5: warning: no previous prototype for function 'variant_adafruit18_green' [-Wmissing-prototypes]
+   int variant_adafruit18_green(struct fbtft_display *display)
+       ^
+   drivers/staging/fbtft/fb_st7735r.c:195:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int variant_adafruit18_green(struct fbtft_display *display)
+   ^
+   static 
+   8 warnings generated.
+
+
+vim +/variant_adafruit18 +189 drivers/staging/fbtft/fb_st7735r.c
+
+   188	
+ > 189	int variant_adafruit18(struct fbtft_display *display)
+   190	{
+   191		display->gamma = ADAFRUIT18_GAMMA;
+   192		return 0;
+   193	}
+   194	
+ > 195	int variant_adafruit18_green(struct fbtft_display *display)
+   196	{
+   197		display->gamma = ADAFRUIT18_GAMMA;
+   198		display->fbtftops.set_addr_win = adafruit18_green_tab_set_addr_win;
+   199		return 0;
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
