@@ -1,45 +1,42 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC0236D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 12:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC79529A9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Feb 2023 12:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677501103; x=1709037103;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OzaFYC+oQmseYd+lqZHoNG07c4huQ8EBmei6et9a3EM=;
-  b=Wz4gsipon9VM8wGo8DINfqeKe4HYKWK6fEev4aoHrO5/grh4q3HwZnwv
-   jKKUaao9MsMng679OmjNakal0fWrQ7GGRyorcTtT2WncvuRnW3VquWzaT
-   fYbX6ifPS4vNEa3os60mZz9aAAjE6G7UynXD1MPhmCUVHt6/yONtLfwOw
-   4Q4guHP32tESgimuamGET0ltt1ig1PfiqWlsoJqGMc+sAcAOdbIyZtZI5
-   hoDP0a2UqcGl1RYRqAW5DhRtA9a1X02lFsZHpp9Qjms1V2B25jSxJ/Aab
-   g5FMFqDOkUy9UQ9zlMLqYfNv/TGtgrXQoctyaUlTAezbPBslQfuRxz7nV
+  t=1677501702; x=1709037702;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WNjnYfbwEi+hbYMZUV6BW4F6EyB/4gjplIulza7w9gA=;
+  b=ZbC/jcyCJW39Qol963qUtHZjM30evpv+CMBlSM/MurZ8J2z9LPaJAuoY
+   jzW2RlLFiK2pAn/j1gj+oAW6KrA/yaXUGJCmp7hrTMUszsbUpIqoxAwe3
+   hrnJ9ORBPZDTX3csuRx0jaES2YUs2ITexjbwm+6DxhmnooKniSLf1jdTr
+   s3dkjBKtUn7zuLlptPE+fCx9YySPq8nSc2sXaIzqRCWkKhBbDHbLo3vne
+   6MugkhfXlnWmCHxgl8v71FjHI6HMUgZeVnlFv0Aq1hNneCZumf2tSShrc
+   GASsuBqZO9bDeAyIK9iLu7ujCwFsDWqa0sK8r2pp6F7LPRuJA9kJhGoNZ
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="396399186"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="396400638"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="396399186"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:31:43 -0800
+   d="scan'208";a="396400638"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 04:41:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="847827525"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="675872335"
 X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; 
-   d="scan'208";a="847827525"
+   d="scan'208";a="675872335"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Feb 2023 04:31:41 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2023 04:41:41 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWcfM-0004Ox-24;
-	Mon, 27 Feb 2023 12:31:40 +0000
-Date: Mon, 27 Feb 2023 20:30:43 +0800
+	id 1pWcp2-0004PH-2h;
+	Mon, 27 Feb 2023 12:41:40 +0000
+Date: Mon, 27 Feb 2023 20:40:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, rodrigo.vivi@intel.com
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power
- demands to pcode more accurately
-Message-ID: <202302272028.pPiIBz9V-lkp@intel.com>
-References: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:rpi-6.2.y-await-linktraining 145/583] versioncheck:
+ ./drivers/usb/host/dwc_otg/dwc_otg_driver.c: 1772: need linux/version.h
+Message-ID: <202302272037.jA5jR2aa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,60 +45,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227095253.22415-1-stanislav.lisovskiy@intel.com>
 
-Hi Stanislav,
+Hi popcornmix,
 
-Thank you for the patch! Yet something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230227095253.22415-1-stanislav.lisovskiy%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915/display: Communicate display power demands to pcode more accurately
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230227/202302272028.pPiIBz9V-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/bc4de3b25bbf043f68ef862c45f975b79af938be
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stanislav-Lisovskiy/drm-i915-display-Communicate-display-power-demands-to-pcode-more-accurately/20230227-175404
-        git checkout bc4de3b25bbf043f68ef862c45f975b79af938be
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
+head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
+commit: 6683bf57769cfcf2d9187b56b0e81c4ed93767dc [145/583] Add dwc_otg driver
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302272028.pPiIBz9V-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272037.jA5jR2aa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_cdclk.c:3006:6: error: no previous prototype for 'intel_cdclk_need_serialize' [-Werror=missing-prototypes]
-    3006 | bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/intel_cdclk_need_serialize +3006 drivers/gpu/drm/i915/display/intel_cdclk.c
-
-  3005	
-> 3006	bool intel_cdclk_need_serialize(struct drm_i915_private *i915,
-  3007					const struct intel_cdclk_state *old_cdclk_state,
-  3008					const struct intel_cdclk_state *new_cdclk_state)
-  3009	{
-  3010		/*
-  3011		 * We need to poke hw for gen >= 12, because we notify PCode if
-  3012		 * pipe power well count changes.
-  3013		 */
-  3014		return intel_cdclk_changed(&old_cdclk_state->actual,
-  3015					   &new_cdclk_state->actual) ||
-  3016		       ((DISPLAY_VER(i915) >= 12 &&
-  3017			 hweight8(old_cdclk_state->active_pipes) !=
-  3018			 hweight8(new_cdclk_state->active_pipes)));
-  3019	}
-  3020	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j28 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./drivers/usb/host/dwc_otg/dwc_otg_driver.c: 1772: need linux/version.h
+>> ./drivers/usb/host/dwc_otg/dwc_otg_hcd.c: 4363: need linux/version.h
+>> ./drivers/usb/host/dwc_otg/dwc_otg_pcd_linux.c: 1262: need linux/version.h
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
