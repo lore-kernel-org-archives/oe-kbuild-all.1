@@ -1,43 +1,46 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123242917
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 09:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFFF2917
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 09:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677577049; x=1709113049;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Wi6WSNBGinjNSZvGg8obMTQfAnotm6Br1GzPqtCS9E=;
-  b=U4xmdno3X9UsfIDCB2jz4iVBwom6yQcquc+/xPAUPH7BTXQQcvXtvvHq
-   h934REU2Fgwtfe0P6F9SjCRtIUMoionl5Docv5mD6527ADFoWFZAcEoml
-   SvzLS3XeQie1DQAMxBcopGF6EK5R5/ymIrgWDL18c/B36fHktJK1Q/KKf
-   nwMZfyn7G8DMfH1GDWaPrCyyY+3n5GuuVpnk7pqChEZWMRShFAmkMQ7fw
-   65vuKd5/tR0oDkdfm3B+l/gXd0bqUfdB6wxBIzgY+qT/1vNMG8uBU/oq9
-   0sRWs+7lVvli4kMDA9W4K0jeiVRYvAvJRlkYzPHDatR0zKAxObgGsndMG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="336383333"
+  t=1677577050; x=1709113050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xjjLkwPdC4Qnu2rsgdsvGKcGVndM1jwKd4HVYu7Q/Rg=;
+  b=cJ3UXByVIdtFj/NpyEc3net4ozsT8t7A5S9nICruQGRLlLMvdXFuC+SU
+   atJ2ikurF2f4rhDQLD/X/HsivzhQOVbidrklAFz1esVOLYLhIiKwI2qoe
+   i9e0J9XituqLSH79KlKivL4YE5auvX/g6AtxXKoiK/C0ipWaw6R3qN8Rf
+   TVG53l5bmvncdkd+KrHbKlMRr1eYwczsx7GuH614CjCywiaajLRvHuDAu
+   I9HKczxA8Zpj65Fb+QNBniyUbrtwnAGlV9Xc7p3TxKCHHVWckAzyti7tg
+   YLFgXG3kpL4TjcoavRZ34ICJTh7b05rl6mP4NSPUphyz7CAF8fklJ105E
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="336383335"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="336383333"
+   d="scan'208";a="336383335"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 01:37:28 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 01:37:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667388940"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667388941"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="667388940"
+   d="scan'208";a="667388941"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 28 Feb 2023 01:37:27 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWwQI-0005Hc-2R;
+	id 1pWwQI-0005Ha-2I;
 	Tue, 28 Feb 2023 09:37:26 +0000
-Date: Tue, 28 Feb 2023 17:37:19 +0800
+Date: Tue, 28 Feb 2023 17:37:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 275/583]
- drivers/dma/bcm2835-dma.c:1104:5: warning: no previous prototype for
- 'bcm2711_dma40_memcpy_init'
-Message-ID: <202302281724.cPlvqOyb-lkp@intel.com>
+To: Daniel Xu <dxu@dxuuu.xyz>, kuba@kernel.org, edumazet@google.com,
+	davem@davemloft.net, dsahern@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 5/8] bpf: net: ipv6: Add bpf_ipv6_frag_rcv()
+ kfunc
+Message-ID: <202302281707.5vUL3boJ-lkp@intel.com>
+References: <bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu@dxuuu.xyz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,90 +49,207 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu@dxuuu.xyz>
 
-tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
-head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: 14255c7d4df1ba22073f31a0baa7a74ec67beaa4 [275/583] bcm2835-dma: Add proper 40-bit DMA support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281724.cPlvqOyb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Daniel,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/ip-frags-Return-actual-error-codes-from-ip_check_defrag/20230228-035449
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu%40dxuuu.xyz
+patch subject: [PATCH bpf-next v2 5/8] bpf: net: ipv6: Add bpf_ipv6_frag_rcv() kfunc
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230228/202302281707.5vUL3boJ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/14255c7d4df1ba22073f31a0baa7a74ec67beaa4
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout 14255c7d4df1ba22073f31a0baa7a74ec67beaa4
+        # https://github.com/intel-lab-lkp/linux/commit/be4610312351d4a658435bd4649a3a830322396d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Xu/ip-frags-Return-actual-error-codes-from-ip_check_defrag/20230228-035449
+        git checkout be4610312351d4a658435bd4649a3a830322396d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/char/broadcom/ drivers/dma/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281724.cPlvqOyb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281707.5vUL3boJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/dma/bcm2835-dma.c:1104:5: warning: no previous prototype for 'bcm2711_dma40_memcpy_init' [-Wmissing-prototypes]
-    1104 | int bcm2711_dma40_memcpy_init(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/dma/bcm2835-dma.c:1119:6: warning: no previous prototype for 'bcm2711_dma40_memcpy' [-Wmissing-prototypes]
-    1119 | void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
-         |      ^~~~~~~~~~~~~~~~~~~~
+   ld: net/ipv6/af_inet6.o: in function `inet6_init':
+>> net/ipv6/af_inet6.c:1177: undefined reference to `register_ipv6_reassembly_bpf'
 
 
-vim +/bcm2711_dma40_memcpy_init +1104 drivers/dma/bcm2835-dma.c
+vim +1177 net/ipv6/af_inet6.c
 
-  1103	
-> 1104	int bcm2711_dma40_memcpy_init(void)
-  1105	{
-  1106		if (!memcpy_parent)
-  1107			return -EPROBE_DEFER;
-  1108	
-  1109		if (!memcpy_chan)
-  1110			return -EINVAL;
-  1111	
-  1112		if (!memcpy_scb)
-  1113			return -ENOMEM;
-  1114	
-  1115		return 0;
-  1116	}
-  1117	EXPORT_SYMBOL(bcm2711_dma40_memcpy_init);
-  1118	
-> 1119	void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
-  1120	{
-  1121		struct bcm2711_dma40_scb *scb = memcpy_scb;
-  1122		unsigned long flags;
-  1123	
-  1124		if (!scb) {
-  1125			pr_err("bcm2711_dma40_memcpy not initialised!\n");
-  1126			return;
-  1127		}
-  1128	
-  1129		spin_lock_irqsave(&memcpy_lock, flags);
-  1130	
-  1131		scb->ti = 0;
-  1132		scb->src = lower_32_bits(src);
-  1133		scb->srci = upper_32_bits(src) | BCM2711_DMA40_MEMCPY_XFER_INFO;
-  1134		scb->dst = lower_32_bits(dst);
-  1135		scb->dsti = upper_32_bits(dst) | BCM2711_DMA40_MEMCPY_XFER_INFO;
-  1136		scb->len = size;
-  1137		scb->next_cb = 0;
-  1138	
-  1139		writel((u32)(memcpy_scb_dma >> 5), memcpy_chan + BCM2711_DMA40_CB);
-  1140		writel(BCM2711_DMA40_MEMCPY_FLAGS + BCM2711_DMA40_ACTIVE,
-  1141		       memcpy_chan + BCM2711_DMA40_CS);
-  1142	
-  1143		/* Poll for completion */
-  1144		while (!(readl(memcpy_chan + BCM2711_DMA40_CS) & BCM2711_DMA40_END))
-  1145			cpu_relax();
-  1146	
-  1147		writel(BCM2711_DMA40_END, memcpy_chan + BCM2711_DMA40_CS);
-  1148	
-  1149		spin_unlock_irqrestore(&memcpy_lock, flags);
-  1150	}
-  1151	EXPORT_SYMBOL(bcm2711_dma40_memcpy);
-  1152	
+  1061	
+  1062	static int __init inet6_init(void)
+  1063	{
+  1064		struct list_head *r;
+  1065		int err = 0;
+  1066	
+  1067		sock_skb_cb_check_size(sizeof(struct inet6_skb_parm));
+  1068	
+  1069		/* Register the socket-side information for inet6_create.  */
+  1070		for (r = &inetsw6[0]; r < &inetsw6[SOCK_MAX]; ++r)
+  1071			INIT_LIST_HEAD(r);
+  1072	
+  1073		raw_hashinfo_init(&raw_v6_hashinfo);
+  1074	
+  1075		if (disable_ipv6_mod) {
+  1076			pr_info("Loaded, but administratively disabled, reboot required to enable\n");
+  1077			goto out;
+  1078		}
+  1079	
+  1080		err = proto_register(&tcpv6_prot, 1);
+  1081		if (err)
+  1082			goto out;
+  1083	
+  1084		err = proto_register(&udpv6_prot, 1);
+  1085		if (err)
+  1086			goto out_unregister_tcp_proto;
+  1087	
+  1088		err = proto_register(&udplitev6_prot, 1);
+  1089		if (err)
+  1090			goto out_unregister_udp_proto;
+  1091	
+  1092		err = proto_register(&rawv6_prot, 1);
+  1093		if (err)
+  1094			goto out_unregister_udplite_proto;
+  1095	
+  1096		err = proto_register(&pingv6_prot, 1);
+  1097		if (err)
+  1098			goto out_unregister_raw_proto;
+  1099	
+  1100		/* We MUST register RAW sockets before we create the ICMP6,
+  1101		 * IGMP6, or NDISC control sockets.
+  1102		 */
+  1103		err = rawv6_init();
+  1104		if (err)
+  1105			goto out_unregister_ping_proto;
+  1106	
+  1107		/* Register the family here so that the init calls below will
+  1108		 * be able to create sockets. (?? is this dangerous ??)
+  1109		 */
+  1110		err = sock_register(&inet6_family_ops);
+  1111		if (err)
+  1112			goto out_sock_register_fail;
+  1113	
+  1114		/*
+  1115		 *	ipngwg API draft makes clear that the correct semantics
+  1116		 *	for TCP and UDP is to consider one TCP and UDP instance
+  1117		 *	in a host available by both INET and INET6 APIs and
+  1118		 *	able to communicate via both network protocols.
+  1119		 */
+  1120	
+  1121		err = register_pernet_subsys(&inet6_net_ops);
+  1122		if (err)
+  1123			goto register_pernet_fail;
+  1124		err = ip6_mr_init();
+  1125		if (err)
+  1126			goto ipmr_fail;
+  1127		err = icmpv6_init();
+  1128		if (err)
+  1129			goto icmp_fail;
+  1130		err = ndisc_init();
+  1131		if (err)
+  1132			goto ndisc_fail;
+  1133		err = igmp6_init();
+  1134		if (err)
+  1135			goto igmp_fail;
+  1136	
+  1137		err = ipv6_netfilter_init();
+  1138		if (err)
+  1139			goto netfilter_fail;
+  1140		/* Create /proc/foo6 entries. */
+  1141	#ifdef CONFIG_PROC_FS
+  1142		err = -ENOMEM;
+  1143		if (raw6_proc_init())
+  1144			goto proc_raw6_fail;
+  1145		if (udplite6_proc_init())
+  1146			goto proc_udplite6_fail;
+  1147		if (ipv6_misc_proc_init())
+  1148			goto proc_misc6_fail;
+  1149		if (if6_proc_init())
+  1150			goto proc_if6_fail;
+  1151	#endif
+  1152		err = ip6_route_init();
+  1153		if (err)
+  1154			goto ip6_route_fail;
+  1155		err = ndisc_late_init();
+  1156		if (err)
+  1157			goto ndisc_late_fail;
+  1158		err = ip6_flowlabel_init();
+  1159		if (err)
+  1160			goto ip6_flowlabel_fail;
+  1161		err = ipv6_anycast_init();
+  1162		if (err)
+  1163			goto ipv6_anycast_fail;
+  1164		err = addrconf_init();
+  1165		if (err)
+  1166			goto addrconf_fail;
+  1167	
+  1168		/* Init v6 extension headers. */
+  1169		err = ipv6_exthdrs_init();
+  1170		if (err)
+  1171			goto ipv6_exthdrs_fail;
+  1172	
+  1173		err = ipv6_frag_init();
+  1174		if (err)
+  1175			goto ipv6_frag_fail;
+  1176	
+> 1177		err = register_ipv6_reassembly_bpf();
+  1178		if (err)
+  1179			goto ipv6_frag_fail;
+  1180	
+  1181		/* Init v6 transport protocols. */
+  1182		err = udpv6_init();
+  1183		if (err)
+  1184			goto udpv6_fail;
+  1185	
+  1186		err = udplitev6_init();
+  1187		if (err)
+  1188			goto udplitev6_fail;
+  1189	
+  1190		err = udpv6_offload_init();
+  1191		if (err)
+  1192			goto udpv6_offload_fail;
+  1193	
+  1194		err = tcpv6_init();
+  1195		if (err)
+  1196			goto tcpv6_fail;
+  1197	
+  1198		err = ipv6_packet_init();
+  1199		if (err)
+  1200			goto ipv6_packet_fail;
+  1201	
+  1202		err = pingv6_init();
+  1203		if (err)
+  1204			goto pingv6_fail;
+  1205	
+  1206		err = calipso_init();
+  1207		if (err)
+  1208			goto calipso_fail;
+  1209	
+  1210		err = seg6_init();
+  1211		if (err)
+  1212			goto seg6_fail;
+  1213	
+  1214		err = rpl_init();
+  1215		if (err)
+  1216			goto rpl_fail;
+  1217	
+  1218		err = ioam6_init();
+  1219		if (err)
+  1220			goto ioam6_fail;
+  1221	
+  1222		err = igmp6_late_init();
+  1223		if (err)
+  1224			goto igmp6_late_err;
+  1225	
 
 -- 
 0-DAY CI Kernel Test Service
