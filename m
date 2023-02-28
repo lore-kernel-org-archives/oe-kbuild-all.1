@@ -1,49 +1,43 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B61C623
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 03:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDB9623
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 04:01:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677556279; x=1709092279;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=08veLCnIeVNEA3aProyx9JAotQXJN9lfAnNzhsSQfFs=;
-  b=SX5pwXi+u0cdLVtQGIDwU0X2Q8vrfO7YgoQupIfTKIt7jsapF3sOzX7G
-   53q+AUPYNLHNaeRSdh6iWdReN7udD7zKZgTJp4Kiu0rGD4gYxpOGMYZyl
-   Lhb1+Wf8Lf1Zyy2rGV8AKqpy2rem+XHNibci3gLPbulPdu3Pw5FGybe4B
-   rKDJiNxtL/vF2m9bZfKKD6eTDwnDtK1QO9sdESkqk2BPWz+E/jWhCTvHK
-   87RlQIWfYDIkS1Kl0eTOScWPkbpuN49I3Zgw8UaDcKt39xNw3OhMJICA7
-   3riJ5aJyS9LwzmW98qfvXZJJYg6Q1zWsZLRstpI+m9EbVOr19Uuq4M1hO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="317839830"
+  t=1677556881; x=1709092881;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0oCQ7VKPhaP/c1mMSnOlGzAlpVT2mK0LG4ZzxMvsfVg=;
+  b=Fmej0E4sshKNKuJADwFhlTh8eO+M983mw2lsY/os3h84dgg/qlJFvCRc
+   kKyWkijHoLJKPHj/TXPiTdd08XN8KzP+XRlqmY6rcqvQq3UbRpvgkx0do
+   fEfmxalktbyPcmAQh2Oq2QteNf8+0nJwm8ChSUgDlZIZ5pMIZ7WLsjy/6
+   nA5O0XkaC+dfua3uBFaqvQCs4/jyhrBtqdLClkQgvinehOVsMo02P3Qed
+   F2FkpbjLHEDV+OKnjShewFyAYepcoYtukpqS+wS538WYLMRIsyWgx8Ere
+   6uhAEeRd1wMY/vx/II/fC0Ifd4BY6A5LZJMSxKOx8IrJ9Bx/mLnDJ5qrw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="317841448"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="317839830"
+   d="scan'208";a="317841448"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:51:18 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 20:01:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="673977032"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="673980038"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="673977032"
+   d="scan'208";a="673980038"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Feb 2023 19:51:15 -0800
+  by orsmga002.jf.intel.com with ESMTP; 27 Feb 2023 20:01:17 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWr1H-00053d-09;
-	Tue, 28 Feb 2023 03:51:15 +0000
-Date: Tue, 28 Feb 2023 11:50:19 +0800
+	id 1pWrAz-00054Z-0F;
+	Tue, 28 Feb 2023 04:01:17 +0000
+Date: Tue, 28 Feb 2023 12:00:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, pkshih@realtek.com
-Cc: oe-kbuild-all@lists.linux.dev, kvalo@kernel.org, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH] rtlwifi: rtl8192se: Remove the unused variable
- bcntime_cfg
-Message-ID: <202302281153.D9CuZbhm-lkp@intel.com>
-References: <20230228021132.88910-1-jiapeng.chong@linux.alibaba.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:rpi-6.2.y-await-linktraining 169/583]
+ drivers/irqchip/irq-bcm2836.c:92:6: warning: no previous prototype for
+ 'bcm2836_arm_irqchip_spin_gpu_irq'
+Message-ID: <202302281111.UZtHGbdb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,83 +46,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230228021132.88910-1-jiapeng.chong@linux.alibaba.com>
 
-Hi Jiapeng,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/rtlwifi-rtl8192se-Remove-the-unused-variable-bcntime_cfg/20230228-101333
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230228021132.88910-1-jiapeng.chong%40linux.alibaba.com
-patch subject: [PATCH] rtlwifi: rtl8192se: Remove the unused variable bcntime_cfg
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281153.D9CuZbhm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
+head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
+commit: 2d15bef4254356aa5917aa9103ac2fb3f9c87963 [169/583] ARM64: Round-Robin dispatch IRQs between CPUs.
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281111.UZtHGbdb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/c8de031d7e616764eacd615d106a5484bacc675d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiapeng-Chong/rtlwifi-rtl8192se-Remove-the-unused-variable-bcntime_cfg/20230228-101333
-        git checkout c8de031d7e616764eacd615d106a5484bacc675d
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/2d15bef4254356aa5917aa9103ac2fb3f9c87963
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
+        git checkout 2d15bef4254356aa5917aa9103ac2fb3f9c87963
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/wireless/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/char/broadcom/ drivers/dma/ drivers/irqchip/ drivers/perf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281153.D9CuZbhm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281111.UZtHGbdb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c: In function 'rtl92se_set_beacon_related_registers':
->> drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c:1555:25: warning: unused variable 'bcn_ifs' [-Wunused-variable]
-    1555 |         u16 bcn_cw = 6, bcn_ifs = 0xf;
-         |                         ^~~~~~~
->> drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c:1555:13: warning: unused variable 'bcn_cw' [-Wunused-variable]
-    1555 |         u16 bcn_cw = 6, bcn_ifs = 0xf;
-         |             ^~~~~~
+>> drivers/irqchip/irq-bcm2836.c:92:6: warning: no previous prototype for 'bcm2836_arm_irqchip_spin_gpu_irq' [-Wmissing-prototypes]
+      92 | void bcm2836_arm_irqchip_spin_gpu_irq(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bcn_ifs +1555 drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
+vim +/bcm2836_arm_irqchip_spin_gpu_irq +92 drivers/irqchip/irq-bcm2836.c
 
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1550  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1551  void rtl92se_set_beacon_related_registers(struct ieee80211_hw *hw)
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1552  {
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1553  	struct rtl_priv *rtlpriv = rtl_priv(hw);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1554  	struct rtl_mac *mac = rtl_mac(rtl_priv(hw));
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03 @1555  	u16 bcn_cw = 6, bcn_ifs = 0xf;
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1556  	u16 atim_window = 2;
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1557  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1558  	/* ATIM Window (in unit of TU). */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1559  	rtl_write_word(rtlpriv, ATIMWND, atim_window);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1560  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1561  	/* Beacon interval (in unit of TU). */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1562  	rtl_write_word(rtlpriv, BCN_INTERVAL, mac->beacon_interval);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1563  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1564  	/* DrvErlyInt (in unit of TU). (Time to send
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1565  	 * interrupt to notify driver to change
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1566  	 * beacon content) */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1567  	rtl_write_word(rtlpriv, BCN_DRV_EARLY_INT, 10 << 4);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1568  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1569  	/* BcnDMATIM(in unit of us). Indicates the
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1570  	 * time before TBTT to perform beacon queue DMA  */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1571  	rtl_write_word(rtlpriv, BCN_DMATIME, 256);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1572  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1573  	/* Force beacon frame transmission even
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1574  	 * after receiving beacon frame from
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1575  	 * other ad hoc STA */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1576  	rtl_write_byte(rtlpriv, BCN_ERR_THRESH, 100);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1577  
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1578  	/*for beacon changed */
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1579  	rtl92s_phy_set_beacon_hwreg(hw, mac->beacon_interval);
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1580  }
-24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1581  
+    91	
+  > 92	void bcm2836_arm_irqchip_spin_gpu_irq(void)
+    93	{
+    94		u32 i;
+    95		void __iomem *gpurouting = (intc.base + LOCAL_GPU_ROUTING);
+    96		u32 routing_val = readl(gpurouting);
+    97	
+    98		for (i = 1; i <= 3; i++) {
+    99			u32 new_routing_val = (routing_val + i) & 3;
+   100	
+   101			if (cpu_active(new_routing_val)) {
+   102				writel(new_routing_val, gpurouting);
+   103				return;
+   104			}
+   105		}
+   106	}
+   107	EXPORT_SYMBOL(bcm2836_arm_irqchip_spin_gpu_irq);
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
