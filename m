@@ -1,45 +1,49 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B474623
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 03:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B61C623
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 03:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677556228; x=1709092228;
+  t=1677556279; x=1709092279;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ipBT75Jjea5vt0rmR8K8faxZwFeHocSUgcvMb1mdyBY=;
-  b=XO1ppNBblFSVfq7a7D9JWS/zTYxpmkZVspDA3VeN8vRxrdRcGTOutUcu
-   +u0IzYyQojRZzx8a/rXZN09nR2wExy4agbzjb4MnO4sAdG8CQFS+4O+Nt
-   S6QvVwvatfoSCGGgdy8iE7wYiEToJSRFjLY+jlKcHlhm/a2wsbnM/kFTA
-   w2WF+2ql4UHk4JenO540mDsOsEu+9S+ofuYAe1c+1qYYven4WItSaB0Bw
-   zARMlT0ADijgc5swd20QUcgX3fdiRa/Fq+xTteIjRRvKD6PlEcq6BWshr
-   L+7y4SCRWQVCUQSACZ5cIoTKWFlBWAhjdBbUeCc/wetiBPYdcTVztS1TW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="322288277"
+  bh=08veLCnIeVNEA3aProyx9JAotQXJN9lfAnNzhsSQfFs=;
+  b=SX5pwXi+u0cdLVtQGIDwU0X2Q8vrfO7YgoQupIfTKIt7jsapF3sOzX7G
+   53q+AUPYNLHNaeRSdh6iWdReN7udD7zKZgTJp4Kiu0rGD4gYxpOGMYZyl
+   Lhb1+Wf8Lf1Zyy2rGV8AKqpy2rem+XHNibci3gLPbulPdu3Pw5FGybe4B
+   rKDJiNxtL/vF2m9bZfKKD6eTDwnDtK1QO9sdESkqk2BPWz+E/jWhCTvHK
+   87RlQIWfYDIkS1Kl0eTOScWPkbpuN49I3Zgw8UaDcKt39xNw3OhMJICA7
+   3riJ5aJyS9LwzmW98qfvXZJJYg6Q1zWsZLRstpI+m9EbVOr19Uuq4M1hO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="317839830"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="322288277"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:50:17 -0800
+   d="scan'208";a="317839830"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:51:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="1003079203"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="673977032"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="1003079203"
+   d="scan'208";a="673977032"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2023 19:50:15 -0800
+  by orsmga002.jf.intel.com with ESMTP; 27 Feb 2023 19:51:15 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWr0I-00053X-2x;
-	Tue, 28 Feb 2023 03:50:14 +0000
-Date: Tue, 28 Feb 2023 11:50:13 +0800
+	id 1pWr1H-00053d-09;
+	Tue, 28 Feb 2023 03:51:15 +0000
+Date: Tue, 28 Feb 2023 11:50:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gray <bgray@linux.ibm.com>, linux-i2c@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	Sven Peter <sven@svenpeter.dev>, mpe@ellerman.id.au,
-	Benjamin Gray <bgray@linux.ibm.com>
-Subject: Re: [PATCH v2 2/2] i2c: Build I2C_PASEMI with COMPILE_TEST
-Message-ID: <202302281135.KsarHDzl-lkp@intel.com>
-References: <20230227233318.120415-2-bgray@linux.ibm.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, pkshih@realtek.com
+Cc: oe-kbuild-all@lists.linux.dev, kvalo@kernel.org, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] rtlwifi: rtl8192se: Remove the unused variable
+ bcntime_cfg
+Message-ID: <202302281153.D9CuZbhm-lkp@intel.com>
+References: <20230228021132.88910-1-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +52,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227233318.120415-2-bgray@linux.ibm.com>
+In-Reply-To: <20230228021132.88910-1-jiapeng.chong@linux.alibaba.com>
 
-Hi Benjamin,
+Hi Jiapeng,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on ec0a1b360aec1ba0bdfad3dd69e300b028529c0d]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gray/i2c-Build-I2C_PASEMI-with-COMPILE_TEST/20230228-073442
-base:   ec0a1b360aec1ba0bdfad3dd69e300b028529c0d
-patch link:    https://lore.kernel.org/r/20230227233318.120415-2-bgray%40linux.ibm.com
-patch subject: [PATCH v2 2/2] i2c: Build I2C_PASEMI with COMPILE_TEST
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230228/202302281135.KsarHDzl-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/rtlwifi-rtl8192se-Remove-the-unused-variable-bcntime_cfg/20230228-101333
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230228021132.88910-1-jiapeng.chong%40linux.alibaba.com
+patch subject: [PATCH] rtlwifi: rtl8192se: Remove the unused variable bcntime_cfg
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281153.D9CuZbhm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6f8f477a04ff9dcd1091aed71674b27c513b6b39
+        # https://github.com/intel-lab-lkp/linux/commit/c8de031d7e616764eacd615d106a5484bacc675d
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gray/i2c-Build-I2C_PASEMI-with-COMPILE_TEST/20230228-073442
-        git checkout 6f8f477a04ff9dcd1091aed71674b27c513b6b39
+        git fetch --no-tags linux-review Jiapeng-Chong/rtlwifi-rtl8192se-Remove-the-unused-variable-bcntime_cfg/20230228-101333
+        git checkout c8de031d7e616764eacd615d106a5484bacc675d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/i2c/busses/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/wireless/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281135.KsarHDzl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281153.D9CuZbhm-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: warning: data definition has no type or storage class
-      82 | module_pci_driver(pasemi_smb_pci_driver);
-         | ^~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
->> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: warning: parameter names (without types) in function declaration
-   cc1: some warnings being treated as errors
+   drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c: In function 'rtl92se_set_beacon_related_registers':
+>> drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c:1555:25: warning: unused variable 'bcn_ifs' [-Wunused-variable]
+    1555 |         u16 bcn_cw = 6, bcn_ifs = 0xf;
+         |                         ^~~~~~~
+>> drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c:1555:13: warning: unused variable 'bcn_cw' [-Wunused-variable]
+    1555 |         u16 bcn_cw = 6, bcn_ifs = 0xf;
+         |             ^~~~~~
 
 
-vim +82 drivers/i2c/busses/i2c-pasemi-pci.c
+vim +/bcn_ifs +1555 drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
 
-9bc5f4f660ff3e Sven Peter 2021-10-08  81  
-9bc5f4f660ff3e Sven Peter 2021-10-08 @82  module_pci_driver(pasemi_smb_pci_driver);
-9bc5f4f660ff3e Sven Peter 2021-10-08  83  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1550  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1551  void rtl92se_set_beacon_related_registers(struct ieee80211_hw *hw)
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1552  {
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1553  	struct rtl_priv *rtlpriv = rtl_priv(hw);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1554  	struct rtl_mac *mac = rtl_mac(rtl_priv(hw));
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03 @1555  	u16 bcn_cw = 6, bcn_ifs = 0xf;
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1556  	u16 atim_window = 2;
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1557  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1558  	/* ATIM Window (in unit of TU). */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1559  	rtl_write_word(rtlpriv, ATIMWND, atim_window);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1560  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1561  	/* Beacon interval (in unit of TU). */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1562  	rtl_write_word(rtlpriv, BCN_INTERVAL, mac->beacon_interval);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1563  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1564  	/* DrvErlyInt (in unit of TU). (Time to send
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1565  	 * interrupt to notify driver to change
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1566  	 * beacon content) */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1567  	rtl_write_word(rtlpriv, BCN_DRV_EARLY_INT, 10 << 4);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1568  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1569  	/* BcnDMATIM(in unit of us). Indicates the
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1570  	 * time before TBTT to perform beacon queue DMA  */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1571  	rtl_write_word(rtlpriv, BCN_DMATIME, 256);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1572  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1573  	/* Force beacon frame transmission even
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1574  	 * after receiving beacon frame from
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1575  	 * other ad hoc STA */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1576  	rtl_write_byte(rtlpriv, BCN_ERR_THRESH, 100);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1577  
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1578  	/*for beacon changed */
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1579  	rtl92s_phy_set_beacon_hwreg(hw, mac->beacon_interval);
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1580  }
+24284531497def drivers/net/wireless/rtlwifi/rtl8192se/hw.c Chaoming Li 2011-05-03  1581  
 
 -- 
 0-DAY CI Kernel Test Service
