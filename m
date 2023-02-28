@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87778367
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 00:33:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC037630
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 01:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677544390; x=1709080390;
+  t=1677546192; x=1709082192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N7RlU8th0pn7CQTqJOqofFFbJ2BRxllyRsO+HBq5Y94=;
-  b=n90A1cWpVLrMfICDe7qwelBHP156gJUIfww+QVYOx+fbJSf+GvK2romr
-   cphycMuGo7Bg1ZW1YiOv6jAflEvKlcw9w/lmBx/NGcPdxSXJ2fUhSWSBM
-   skJavdnZKhrcYMlrNvG6SjX+KmHlo/nVPsH5Kvh1k1wF4VTCvIbaYXfmF
-   eDzoQJqsVwOYFouij4HOkog8ZN9fVLdcgeBaMgzpGdEqfWv0F6bAdsHbw
-   v6wyC6bx9ZMdgDusijQifVvgAdwAEsf4yrTmHDoc9ia8bIZt4HHGatisj
-   B8k4Jc/YT09Q8FZ1xMPrsPxlmN1KCRFWiBm6vX+BozW1VaTLPnyVAeUuh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="335498989"
+  bh=GNXATICZrCryCWF3zTKDWa9J1UOucT2otAPdUnYNidc=;
+  b=mN/BJJz7ciV/bfkHr19fTNBsZekCSROQQ/UHmP5+HDPiQLDm1rrfawWL
+   1HwQklsfiDj2uRkyE2YKwbiMv4C76M2SHYjeuo7sKHj6UIyIH7VN5srTl
+   BHxHa/oOhM1I6MMsHCeZulF6yRHJbJnz+0KOXS/6w2WaMb6Lr8Gboojmr
+   dsk5Y5rVtJUT2OMH3yKSlwJoBCXU3+nlFU6SY8LIjUpYL/jo2lbJlHpZG
+   R+vwo1WDE/oEOyVcNdofeI3ExwAs7wkLnjgd0588F5ek53ggOlPDsHQKM
+   +DnxtYARSSI/t+ZUGql2b+86Do2WWzSCvuKc2w0zPFlseyCJw5hO7OJKZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="331489821"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="335498989"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 16:33:10 -0800
+   d="scan'208";a="331489821"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 17:03:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="737956908"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="816891567"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="737956908"
+   d="scan'208";a="816891567"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Feb 2023 16:33:08 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 27 Feb 2023 17:03:11 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWnvY-0004vN-0i;
-	Tue, 28 Feb 2023 00:33:08 +0000
-Date: Tue, 28 Feb 2023 08:32:12 +0800
+	id 1pWoOc-0004x4-1Z;
+	Tue, 28 Feb 2023 01:03:10 +0000
+Date: Tue, 28 Feb 2023 09:02:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:rpi-6.2.y-await-linktraining 154/583]
- drivers/misc/bcm2835_smi.c:2: warning: This comment starts with '/**', but
- isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202302280810.fthQu07N-lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andi Kleen <ak@linux.intel.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: [intel-tdx:guest-filter 6/33] arch/x86/coco/tdx/filter.c:25:22:
+ sparse: sparse: symbol 'pci_allow_ids' was not declared. Should it be
+ static?
+Message-ID: <202302280819.ki4LDd35-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,69 +48,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
-head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
-commit: 5d7ca2279e0ef9d45c34f58ae7870754370cdc5f [154/583] Add SMI driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302280810.fthQu07N-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/5d7ca2279e0ef9d45c34f58ae7870754370cdc5f
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
-        git checkout 5d7ca2279e0ef9d45c34f58ae7870754370cdc5f
+tree:   https://github.com/intel/tdx.git guest-filter
+head:   84e4da295a7c45d801702d377c2fbbff9d2929a2
+commit: 17a15f5b2befecdcf297661a7b9c5537f5834bb8 [6/33] x86/tdx: Add device filter support for x86 TDX guest platform
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230228/202302280819.ki4LDd35-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel/tdx/commit/17a15f5b2befecdcf297661a7b9c5537f5834bb8
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-filter
+        git checkout 17a15f5b2befecdcf297661a7b9c5537f5834bb8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/char/broadcom/ drivers/dma/ drivers/gpio/ drivers/irqchip/ drivers/misc/ drivers/perf/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302280810.fthQu07N-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302280819.ki4LDd35-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/coco/tdx/filter.c:25:22: sparse: sparse: symbol 'pci_allow_ids' was not declared. Should it be static?
 
->> drivers/misc/bcm2835_smi.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Broadcom Secondary Memory Interface driver
+vim +/pci_allow_ids +25 arch/x86/coco/tdx/filter.c
 
-
-vim +2 drivers/misc/bcm2835_smi.c
-
-   > 2	 * Broadcom Secondary Memory Interface driver
-     3	 *
-     4	 * Written by Luke Wren <luke@raspberrypi.org>
-     5	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
-     6	 *
-     7	 * Redistribution and use in source and binary forms, with or without
-     8	 * modification, are permitted provided that the following conditions
-     9	 * are met:
-    10	 * 1. Redistributions of source code must retain the above copyright
-    11	 *    notice, this list of conditions, and the following disclaimer,
-    12	 *    without modification.
-    13	 * 2. Redistributions in binary form must reproduce the above copyright
-    14	 *    notice, this list of conditions and the following disclaimer in the
-    15	 *    documentation and/or other materials provided with the distribution.
-    16	 * 3. The names of the above-listed copyright holders may not be used
-    17	 *    to endorse or promote products derived from this software without
-    18	 *    specific prior written permission.
+    16	
+    17	/*
+    18	 * Allow list for PCI bus
     19	 *
-    20	 * ALTERNATIVELY, this software may be distributed under the terms of the
-    21	 * GNU General Public License ("GPL") version 2, as published by the Free
-    22	 * Software Foundation.
-    23	 *
-    24	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-    25	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-    26	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-    27	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-    28	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-    29	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-    30	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-    31	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-    32	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-    33	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    34	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    35	 */
+    20	 * NOTE: Device ID is duplicated here. But for small list
+    21	 * of devices, it is easier to maintain the duplicated list
+    22	 * here verses exporting the device ID table from the driver
+    23	 * and use it.
+    24	 */
+  > 25	struct pci_device_id pci_allow_ids[] = {
+    26		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO_TRANS_ID_NET) },
+    27		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO_TRANS_ID_BLOCK) },
+    28		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO_TRANS_ID_CONSOLE) },
+    29		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO_TRANS_ID_9P) },
+    30		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO1_ID_NET) },
+    31		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO1_ID_BLOCK) },
+    32		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO1_ID_CONSOLE) },
+    33		{ PCI_DEVICE(PCI_VENDOR_ID_REDHAT_QUMRANET, VIRTIO1_ID_9P) },
+    34		{ 0, },
+    35	};
     36	
 
 -- 
