@@ -1,144 +1,127 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5029443
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 18:05:01 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-536af432ee5so298398067b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 10:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rpV99OKSTpIRzIpX89x9E7KBkQmTINaa7AEfKXJe4DE=;
-        b=EuHDnDxAN39r4+yOuGdRF5UMA037GmTcY1WDH060nxXx4LzWSy+M3htrEsuL5FcfAz
-         Rj6frPsLMdQF2246BJygq37UEUu30Bh6j8KXwoxqTeJkhOkibLzoBVk8hLxSDFroydUV
-         kB061OnkFleByRyVQsg2kT7f6oVYGCMz1z9ePbHTaK7OT3eR/40qdzY9nKUbCtArHKRB
-         gYOboQcc/ha0yIwiaAtYcssiaDzaqUgEVyfSBj15mv0ztWy6iGA/bRtTK0V0Z8v7f/1+
-         vItc3NKAhWbIgRcLaDON1SGxs2vX7qpEAROD8bw4VcjuEpu4Cm2H+ejVd/efGQXNhSUV
-         sgsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rpV99OKSTpIRzIpX89x9E7KBkQmTINaa7AEfKXJe4DE=;
-        b=yXUctQ0fpPq9s7mvXdTKlPUjcBqIKc79VOBM33+ef6HojjwL1+uIO14wAYwFRneOp5
-         zpd+L1iMNwD/Bq/ihes9GdA9tyPr9jv9ACEIbJkQFLzzL4jLIYZqd6eRTjHCfPWig6ET
-         Xq3YUUlTIR1JZyqLfveCVgI9h6azFFMw0n5rSjZkfX/P4gC+XlBkKXdK9e3BXWS93O2d
-         dTkWj9TVL4xskArcDqE3T4pfCSxMJyjwRGfWvDGxPBz3Km492fVybzIpVdCVykJuzyeo
-         KkhNl/7rovRic8mqizfEo/K9HkQ8j+z5ELY7YRUi6fGnGOqOuHwnkKDhKORQIKbq9QNZ
-         7nxA==
-X-Gm-Message-State: AO0yUKW4Pm8Yw2cb/hZ3Xv9CAc7mhVX70BgoInXhayIdEXj5WkntNqGJ
-	cg64ZeLCa5uXq13s2uD9P/7upstWTvdxnsrfkPtV0A==
-X-Google-Smtp-Source: AK7set+9MztI9r7zEzAu1vny2Hg5q1wq3BcKzf3IYbntzcbRXNrbfMh8bwEdnJMVwNIM6qCS4Nmr3QMhP+bkyI9Bdfg=
-X-Received: by 2002:a81:ad03:0:b0:530:bbd3:798b with SMTP id
- l3-20020a81ad03000000b00530bbd3798bmr2233090ywh.0.1677607500530; Tue, 28 Feb
- 2023 10:05:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A0C9471
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 20:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677616798; x=1709152798;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/6ZAfLTx1tPZhDVDXGq8De+9d0VpF/AMNil0X8i8ADA=;
+  b=hYcDyrVro6IIgpR3Z1wM13JBSA65HZeLFRf8y/xpfiyIhx1py0272hmj
+   Oo8DJw76+UI2rJWKLPeqE7FWue4miuDLGjvDPp/kdE+PuW4QAtSeX1jYs
+   hrjCIdcK9chiKbIap53K8W/ZUJ23jpoe3FFEijtTzqcW54PbIacABHecn
+   g/sQDMN7CSIqJ/743brnANhFhgGzGkLVjZ3qCLBKRUpKieREOgpgeh+zU
+   H6OJjzeIz7BNY+vfGNg3zZE193EPyiVboh8tOYMc9W5Ll+kdo0l3YdzeS
+   vndOPrx2TPersW81zOHV+tacdC4sm9OpBuoewaO0O5JKNwdz8xCll6GTE
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396811518"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="396811518"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 12:39:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="743121465"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="743121465"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2023 12:39:56 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pX6lL-0005dV-06;
+	Tue, 28 Feb 2023 20:39:51 +0000
+Date: Wed, 1 Mar 2023 04:39:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
+ restricted pci_channel_state_t
+Message-ID: <202303010454.jI5Jg2sT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302281802.J93Nma7q-lkp@intel.com>
-In-Reply-To: <202302281802.J93Nma7q-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 28 Feb 2023 10:04:49 -0800
-Message-ID: <CAJuCfpHz3uECOuk6rRrV6Vn5r7+vn8HnC5cY7OZVHtGsAeE11A@mail.gmail.com>
-Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 82/99] mm/mmap.c:516
- vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>, "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Feb 28, 2023 at 6:24 AM Dan Carpenter <error27@gmail.com> wrote:
->
-> tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-> head:   61edd3b68c3185673c9b05dfe48038692964c73b
-> commit: f517f7ae341d933856cdf4d9d773027681ed5dff [82/99] mm/mmap: write-lock VMAs in vma_prepare before modifying them
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230228/202302281802.J93Nma7q-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202302281802.J93Nma7q-lkp@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
+commit: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
+date:   13 days ago
+config: loongarch-randconfig-s042-20230226 (https://download.01.org/0day-ci/archive/20230301/202303010454.jI5Jg2sT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=74ff8864cc842be994853095dba6db48e716400a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 74ff8864cc842be994853095dba6db48e716400a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/
 
-Thanks for reporting!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303010454.jI5Jg2sT-lkp@intel.com/
 
->
-> smatch warnings:
-> mm/mmap.c:516 vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
->
-> vim +516 mm/mmap.c
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  503  static inline void vma_prepare(struct vma_prepare *vp)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  504  {
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27 @505       if (vp->vma)
->
-> Check presumes that vp->vma can be NULL.  On my other system (with
-> yesterday's linux-next code) vp->vma can never be NULL.
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/pcie/err.c: note: in included file:
+>> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_channel_state_t
+>> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
+>> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
 
-I think the check here is not needed since vp->vma should always be
-non-NULL. I'll double-check and will remove it if that is confirmed.
-Thanks,
-Suren.
+vim +325 drivers/pci/pcie/../pci.h
 
->
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  506               vma_start_write(vp->vma);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  507       if (vp->adj_next)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  508               vma_start_write(vp->adj_next);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  509       /* vp->insert is always a newly created VMA, no need for locking */
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  510       if (vp->remove)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  511               vma_start_write(vp->remove);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  512       if (vp->remove2)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  513               vma_start_write(vp->remove2);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  514
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  515       if (vp->file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20 @516               uprobe_munmap(vp->vma, vp->vma->vm_start, vp->vma->vm_end);
->                                                                                        ^^^^^^^
-> Uncheck dereference.
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  517
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  518               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  519                       uprobe_munmap(vp->adj_next, vp->adj_next->vm_start,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  520                                     vp->adj_next->vm_end);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  521
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  522               i_mmap_lock_write(vp->mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  523               if (vp->insert && vp->insert->vm_file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  524                       /*
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  525                        * Put into interval tree now, so instantiated pages
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  526                        * are visible to arm/parisc __flush_dcache_page
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  527                        * throughout; but we cannot insert into address
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  528                        * space until vma start or end is updated.
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  529                        */
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  530                       __vma_link_file(vp->insert,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  531                                       vp->insert->vm_file->f_mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  532               }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  533       }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  534
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  535       if (vp->anon_vma) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  536               anon_vma_lock_write(vp->anon_vma);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  537               anon_vma_interval_tree_pre_update_vma(vp->vma);
->
-> More unchecked dereferences.
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  538               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  539                       anon_vma_interval_tree_pre_update_vma(vp->adj_next);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  540       }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  541
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  542       if (vp->file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  543               flush_dcache_mmap_lock(vp->mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  544               vma_interval_tree_remove(vp->vma, &vp->mapping->i_mmap);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  545               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  546                       vma_interval_tree_remove(vp->adj_next,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  547                                                &vp->mapping->i_mmap);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  548       }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
+   306	
+   307	/**
+   308	 * pci_dev_set_io_state - Set the new error state if possible.
+   309	 *
+   310	 * @dev: PCI device to set new error_state
+   311	 * @new: the state we want dev to be in
+   312	 *
+   313	 * If the device is experiencing perm_failure, it has to remain in that state.
+   314	 * Any other transition is allowed.
+   315	 *
+   316	 * Returns true if state has been changed to the requested state.
+   317	 */
+   318	static inline bool pci_dev_set_io_state(struct pci_dev *dev,
+   319						pci_channel_state_t new)
+   320	{
+   321		pci_channel_state_t old;
+   322	
+   323		switch (new) {
+   324		case pci_channel_io_perm_failure:
+ > 325			xchg(&dev->error_state, pci_channel_io_perm_failure);
+   326			return true;
+   327		case pci_channel_io_frozen:
+   328			old = cmpxchg(&dev->error_state, pci_channel_io_normal,
+   329				      pci_channel_io_frozen);
+   330			return old != pci_channel_io_perm_failure;
+   331		case pci_channel_io_normal:
+   332			old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
+   333				      pci_channel_io_normal);
+   334			return old != pci_channel_io_perm_failure;
+   335		default:
+   336			return false;
+   337		}
+   338	}
+   339	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
