@@ -1,44 +1,44 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936CDA38
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 07:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59952A38;
+	Tue, 28 Feb 2023 07:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677569725; x=1709105725;
+  t=1677569727; x=1709105727;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LvRkP9ayx/TcWGomiuPZsgmYwGikBgVCxlEYYklYqpw=;
-  b=DIU0MBQ47rWKQNq6PozeEc8rn/Kuh6SE1Ri856htyaRblfhuW7VYokyL
-   CiN1JdShsQvaJH5+Fw6TR2Ow76wLDDcFvnkAe6gupOMHAstzJLWmh1IgQ
-   itLz3pf4+2LhBWlXJkFbdjsEPj+znVEK6X3UkYDzVIHOLxWl/yRxSQzl9
-   cGOwTnw0hUW87JNyKVqe0KcMfdEKRCb+Pyb9ABsTre4IxEev0S6ikRb7X
-   6OHTjMY+IPlGx//FdvjA2gWUSZV2N7n47JsQEuKQCqqg05JakS7j1G7NC
-   cEzWleEOjyCgQ47/M8sC0VOekDPREVux97Vm98SxFCyzCSSg/qePqbDTC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332796133"
+  bh=5DKTTTfE7aOaO2jXKu3LiEoHHcR0Zhj6K7jhlb2yClQ=;
+  b=MytDCpGfRXewIpU+BoLU8hKQN7adhwqyIP6Z7AQQPpWYs9+nuLVcqaY2
+   pCSUwkE6Zd4l0YcGz1Y5f77a4z6i4FfXkl4wy24URTzmStkkesXinkF1z
+   irXu9GLX4YQCdW5o97ne3g17kL8Zd4cg8N7hz2L+3n5ckJeKKhUGzb6YS
+   ycJU5t83Hw6lA8W9JkUmeQfEHTwD1QS+wYdjCxVAMHNO8yfZxYquxEdfi
+   2I11GUremB9ScKW6hW9BPYYTnd8W3ZDCNPxKEsxURRewsyYEac10gWe7X
+   oIWHEj4CiL15IN5uLQBcpzy7oprm/Yw9x+DaE5pLHLEjmrQpoma0DqaQ/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332796139"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="332796133"
+   d="scan'208";a="332796139"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 23:35:24 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 23:35:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="848155547"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="848155546"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="848155547"
+   d="scan'208";a="848155546"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 27 Feb 2023 23:35:22 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWuW9-0005Bp-2h;
+	id 1pWuW9-0005Bn-2d;
 	Tue, 28 Feb 2023 07:35:21 +0000
-Date: Tue, 28 Feb 2023 15:34:35 +0800
+Date: Tue, 28 Feb 2023 15:34:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: lingfuyi <lingfuyi@126.com>, jhs@mojatatu.com, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lingfuyi <lingfuyi@kylinos.cn>,
-	k2ci <kernel-bot@kylinos.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lingfuyi <lingfuyi@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>
 Subject: Re: [PATCH] sched: delete some api is not used
-Message-ID: <202302281526.331aCypp-lkp@intel.com>
+Message-ID: <202302281531.3gOSrvTO-lkp@intel.com>
 References: <20230228031241.1675263-1-lingfuyi@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,33 +65,37 @@ url:    https://github.com/intel-lab-lkp/linux/commits/lingfuyi/sched-delete-som
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
 patch link:    https://lore.kernel.org/r/20230228031241.1675263-1-lingfuyi%40126.com
 patch subject: [PATCH] sched: delete some api is not used
-config: i386-randconfig-a013-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281526.331aCypp-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a001-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281531.3gOSrvTO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/6d9fd0340845396f9866b8a8c53ad65066de39ac
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review lingfuyi/sched-delete-some-api-is-not-used/20230228-124804
         git checkout 6d9fd0340845396f9866b8a8c53ad65066de39ac
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281526.331aCypp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281531.3gOSrvTO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/sched/cls_api.c: In function 'tcf_exts_destroy':
->> net/sched/cls_api.c:3242:9: error: implicit declaration of function 'tcf_exts_miss_cookie_base_destroy'; did you mean 'tcf_exts_miss_cookie_base_alloc'? [-Werror=implicit-function-declaration]
-    3242 |         tcf_exts_miss_cookie_base_destroy(exts);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         tcf_exts_miss_cookie_base_alloc
-   cc1: some warnings being treated as errors
+>> net/sched/cls_api.c:3242:2: error: implicit declaration of function 'tcf_exts_miss_cookie_base_destroy' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           tcf_exts_miss_cookie_base_destroy(exts);
+           ^
+   net/sched/cls_api.c:3242:2: note: did you mean 'tcf_exts_miss_cookie_base_alloc'?
+   net/sched/cls_api.c:135:1: note: 'tcf_exts_miss_cookie_base_alloc' declared here
+   tcf_exts_miss_cookie_base_alloc(struct tcf_exts *exts, struct tcf_proto *tp,
+   ^
+   1 error generated.
 
 
-vim +3242 net/sched/cls_api.c
+vim +/tcf_exts_miss_cookie_base_destroy +3242 net/sched/cls_api.c
 
 80cd22c35c9001 Paul Blakey       2023-02-18  3238  
 18d0264f630e20 WANG Cong         2014-09-25  3239  void tcf_exts_destroy(struct tcf_exts *exts)
