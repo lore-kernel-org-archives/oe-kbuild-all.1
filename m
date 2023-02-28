@@ -1,43 +1,45 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1495A63C5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 16:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD973D84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 16:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677600882; x=1709136882;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UHh4YmKvXW/Rh1vBHlsq1BZWGAVDCF5s1SUxr6SMyww=;
-  b=e8qaWpVn9LHzbI8tSo2yVc90BofFajs4CXEm+QjdG2JZ3vzdn/a9GQqU
-   7MrPAfR5Yw8sl9KDUwxGoW7/PdAdKo++lZTOGGE2l18i0oMVzGhr2QyrV
-   nMXBw6sQZwmENVfDQcJeKQd3VeHHjhr7Jqq6cgY/CmqlM7DlguD9pnXix
-   6x7IkZNIkGeK3IF4CMd7gZbDwJIYgXgsoDJeBsLWG27dqMManjBqwRegP
-   /loLtnwZ5ccyH/k+DxxuCqct3D3wEGshujYBzapcxkmf89dQ5VxNYQIcT
-   QBMYl78qVs4MODc8fjzJLn2V21EpoKY1KAGTcMRrKEbIKfPgEXiLzuW6V
+  t=1677602144; x=1709138144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T69L2a3vtQLUJ7P/vLCmeuaN1M5lunXQ4CM2qfN9Tdo=;
+  b=EXeq/R1lKcg0x6rHc+gRzrtWdGhsuFpZYFqNpThc8KgwIuJUhAcbU51Q
+   NHfbQ86h+Zan14w4nyHi/SBUEPsBdSLh1Bp/4RraDIL7KRIebH5q8ZmWd
+   kRZoTTotYJrRjAsUZCDgLFN6DTpuGzfEwJwnGTeN2bKg58US6AMBrXbQA
+   Lm4NmEljlGA0EYTjUOuKZkyM56ccQgR8S5KyIT9v91/O/dslsKdb+Hu2+
+   mBYufXH8YMohy3CDCLhU32VaJeg3Er2e9GLjnImnaC154aUlgE7ae/Wh8
+   uGg2eSz1/rPrDyi5M1YuOopQXE5nJlEhBqs/g8vB6giXPtyucy3sTDjvC
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396746955"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396752932"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="396746955"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 08:14:41 -0800
+   d="scan'208";a="396752932"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 08:35:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="783899707"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="798110167"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="783899707"
+   d="scan'208";a="798110167"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 08:14:40 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Feb 2023 08:35:41 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pX2ci-0005Vz-0r;
-	Tue, 28 Feb 2023 16:14:40 +0000
-Date: Wed, 1 Mar 2023 00:14:18 +0800
+	id 1pX2x2-0005WV-2v;
+	Tue, 28 Feb 2023 16:35:40 +0000
+Date: Wed, 1 Mar 2023 00:34:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 3/4] lib/unwind_kunit.c:69:20: error:
- implicit declaration of function 'stack_trace_save'; did you mean
- 'stack_tracer_enable'?
-Message-ID: <202303010010.7xHaDzqH-lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, dakr@redhat.com,
+	arunpravin.paneerselvam@amd.com
+Subject: Re: [PATCH 8/9] drm/qxl: switch to using drm_exec
+Message-ID: <202303010013.SZZNcsCW-lkp@intel.com>
+References: <20230228083406.1720795-9-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +48,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230228083406.1720795-9-christian.koenig@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   99d1827fb123634f39fcce1943ab318fc289ce51
-commit: 4afa4d021e069736095441453ef2126c6fb37888 [3/4] WIP: unwind tests
-config: m68k-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230301/202303010010.7xHaDzqH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Christian,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next linus/master next-20230228]
+[cannot apply to drm-intel/for-linux-next-fixes v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230228083406.1720795-9-christian.koenig%40amd.com
+patch subject: [PATCH 8/9] drm/qxl: switch to using drm_exec
+config: x86_64-randconfig-a016-20230227 (https://download.01.org/0day-ci/archive/20230301/202303010013.SZZNcsCW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=4afa4d021e069736095441453ef2126c6fb37888
-        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
-        git fetch --no-tags mark stacktrace/tests
-        git checkout 4afa4d021e069736095441453ef2126c6fb37888
+        # https://github.com/intel-lab-lkp/linux/commit/435d2421797eb683d27984c9a823b48704069df9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
+        git checkout 435d2421797eb683d27984c9a823b48704069df9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303010010.7xHaDzqH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303010013.SZZNcsCW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/unwind_kunit.c: In function 'uwd_save_stacktrace':
->> lib/unwind_kunit.c:69:20: error: implicit declaration of function 'stack_trace_save'; did you mean 'stack_tracer_enable'? [-Werror=implicit-function-declaration]
-      69 |         uwd->len = stack_trace_save(uwd->stack_trace,
-         |                    ^~~~~~~~~~~~~~~~
-         |                    stack_tracer_enable
-   lib/unwind_kunit.c: In function 'uwd_save_stacktrace_regs':
->> lib/unwind_kunit.c:86:20: error: implicit declaration of function 'stack_trace_save_regs' [-Werror=implicit-function-declaration]
-      86 |         uwd->len = stack_trace_save_regs(regs,
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   lib/unwind_kunit.c: At top level:
-   lib/unwind_kunit.c:83:13: warning: 'uwd_save_stacktrace_regs' defined but not used [-Wunused-function]
-      83 | static void uwd_save_stacktrace_regs(struct unwind_data *uwd,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   ld: vmlinux.o: in function `qxl_release_reserve_list':
+>> drivers/gpu/drm/qxl/qxl_release.c:221: undefined reference to `drm_exec_init'
+>> ld: drivers/gpu/drm/qxl/qxl_release.c:222: undefined reference to `drm_exec_cleanup'
+>> ld: drivers/gpu/drm/qxl/qxl_release.c:224: undefined reference to `drm_exec_prepare_obj'
+>> ld: drivers/gpu/drm/qxl/qxl_release.c:240: undefined reference to `drm_exec_fini'
+   ld: vmlinux.o: in function `qxl_release_backoff_reserve_list':
+>> drivers/gpu/drm/qxl/qxl_release.c:251: undefined reference to `drm_exec_fini'
+   ld: vmlinux.o: in function `qxl_release_fence_buffer_objects':
+   drivers/gpu/drm/qxl/qxl_release.c:439: undefined reference to `drm_exec_fini'
 
 
-vim +69 lib/unwind_kunit.c
+vim +221 drivers/gpu/drm/qxl/qxl_release.c
 
-    66	
-    67	static void uwd_save_stacktrace(struct unwind_data *uwd)
-    68	{
-  > 69		uwd->len = stack_trace_save(uwd->stack_trace,
-    70					    NR_STACKTRACE_ELEMS,
-    71					    0);
-    72		uwd->hit = true;
-    73	}
-    74	
-    75	static void uwd_save_stacktrace_reliable(struct unwind_data *uwd)
-    76	{
-    77		uwd->len = stack_trace_save_tsk_reliable(current,
-    78							 uwd->stack_trace,
-    79							 NR_STACKTRACE_ELEMS);
-    80		uwd->hit = true;
-    81	}
-    82	
-    83	static void uwd_save_stacktrace_regs(struct unwind_data *uwd,
-    84					     struct pt_regs *regs)
-    85	{
-  > 86		uwd->len = stack_trace_save_regs(regs,
-    87						 uwd->stack_trace,
-    88						 NR_STACKTRACE_ELEMS,
-    89						 0);
-    90		uwd->hit = true;
-    91	}
-    92	
+   210	
+   211	int qxl_release_reserve_list(struct qxl_release *release, bool no_intr)
+   212	{
+   213		int ret;
+   214		struct qxl_bo_list *entry;
+   215	
+   216		/* if only one object on the release its the release itself
+   217		   since these objects are pinned no need to reserve */
+   218		if (list_is_singular(&release->bos))
+   219			return 0;
+   220	
+ > 221		drm_exec_init(&release->exec, !no_intr);
+ > 222		drm_exec_while_not_all_locked(&release->exec) {
+   223			list_for_each_entry(entry, &release->bos, list) {
+ > 224				ret = drm_exec_prepare_obj(&release->exec,
+   225							   &entry->bo->tbo.base,
+   226							   1);
+   227				drm_exec_break_on_contention(&release->exec);
+   228				if (ret)
+   229					goto error;
+   230			}
+   231		}
+   232	
+   233		list_for_each_entry(entry, &release->bos, list) {
+   234			ret = qxl_release_validate_bo(entry->bo);
+   235			if (ret)
+   236				goto error;
+   237		}
+   238		return 0;
+   239	error:
+ > 240		drm_exec_fini(&release->exec);
+   241		return ret;
+   242	}
+   243	
+   244	void qxl_release_backoff_reserve_list(struct qxl_release *release)
+   245	{
+   246		/* if only one object on the release its the release itself
+   247		   since these objects are pinned no need to reserve */
+   248		if (list_is_singular(&release->bos))
+   249			return;
+   250	
+ > 251		drm_exec_fini(&release->exec);
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
