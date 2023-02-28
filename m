@@ -1,37 +1,37 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07AE2CA2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 11:45:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964C82CA2;
+	Tue, 28 Feb 2023 11:56:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677584736; x=1709120736;
+  t=1677585397; x=1709121397;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LVg3sGlt00QgG3sEB9rSq0uJyw0mKZJvOIL+heEjZDw=;
-  b=cXi0DUXVNbfMj4l8aLcSYthihv5pxAkm+t9KoJNBUMqsKxIpIatKcxET
-   X53ETFyM5xTAS/8MLPVk3iuHyOAiMnPSDBVCzflLrNgEgJxBn91v79EhF
-   tV5yVOKLGXD/SCBJWFKEnLNaCHDNLqrLqAGcZJo3WjIa2TD1U7Px2BmDs
-   B+hUcU+k44SihdZW1NDIqYZNqlx7tAtbE6nbleHWdAsPeLvUX+PQomc4w
-   kFUCZld4GcR7N82o7pYzBOxb6X6AwH8VUxfDG351UM1Ctrp+k/m6nPuBa
-   6VlKRTt44bUpJtmbQ0xbv50B84Z0rAgeNjNCm7pWSfsViDbT0S1tNrc5B
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332841402"
+  bh=8KXKh05zvvXmBiBlla6UAU9gMBZihB631H77fNyc5ms=;
+  b=alS9UAR+1HvtxV4anJMvNItKuxGuWtrkz2Hwu+6yQXC2FNS8JUHUt1Wp
+   KFHIhjibhUngL9nwlSzIM+K84TrfXS4EjharR4bHYSLz2IMeb0nvZEUyU
+   pq18Ryuesxh50bwQlr2Paw4l+2pFQkEcOr18QjS2lYl01ZRcTlnIWxuNj
+   MkUhQzrDdlJveV7LtnN/EgNflHTBgZWiJOb/ftnuqB4jcWS15kWP7itHc
+   +zYWt8mgyhh+pNZun0DRosgiWja/KWs8SHcp8vTkpDuvy2CGvkYapzz10
+   5+sqfXduO4b3fOMo0cv3+ljCtddcFmMkv8TDQ3qZ8lIztv9ElNEe8dg1q
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="314540207"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="332841402"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 03:45:35 -0800
+   d="scan'208";a="314540207"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 03:56:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="783805950"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="676272332"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="783805950"
+   d="scan'208";a="676272332"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 03:45:31 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 28 Feb 2023 03:56:31 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWyQE-0005Mt-2S;
-	Tue, 28 Feb 2023 11:45:30 +0000
-Date: Tue, 28 Feb 2023 19:45:25 +0800
+	id 1pWyat-0005N9-0F;
+	Tue, 28 Feb 2023 11:56:31 +0000
+Date: Tue, 28 Feb 2023 19:55:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yosry Ahmed <yosryahmed@google.com>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -48,12 +48,13 @@ To: Yosry Ahmed <yosryahmed@google.com>,
 	Johannes Weiner <hannes@cmpxchg.org>, Peter Xu <peterx@redhat.com>,
 	NeilBrown <neilb@suse.de>, Shakeel Butt <shakeelb@google.com>,
 	Michal Hocko <mhocko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-mm@kvack.org, Yosry Ahmed <yosryahmed@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+	Yosry Ahmed <yosryahmed@google.com>
 Subject: Re: [PATCH v1 2/2] mm: vmscan: ignore non-LRU-based reclaim in memcg
  reclaim
-Message-ID: <202302281959.EmOJaeae-lkp@intel.com>
+Message-ID: <202302281933.vU1PHuZr-lkp@intel.com>
 References: <20230228085002.2592473-3-yosryahmed@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -70,6 +71,7 @@ Hi Yosry,
 Thank you for the patch! Yet something to improve:
 
 [auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master next-20230228]
 [cannot apply to vbabka-slab/for-next xfs-linux/for-next v6.2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -79,37 +81,39 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-vmscan-ref
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230228085002.2592473-3-yosryahmed%40google.com
 patch subject: [PATCH v1 2/2] mm: vmscan: ignore non-LRU-based reclaim in memcg reclaim
-config: x86_64-randconfig-a014-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281959.EmOJaeae-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: i386-randconfig-a002-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281933.vU1PHuZr-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/f6d2b849f186a927925a29e289d60895048550f5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Yosry-Ahmed/mm-vmscan-refactor-updating-reclaimed-pages-in-reclaim_state/20230228-165214
         git checkout f6d2b849f186a927925a29e289d60895048550f5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281959.EmOJaeae-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281933.vU1PHuZr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
 >> mm/vmscan.c:549:13: error: redefinition of 'cgroup_reclaim'
-     549 | static bool cgroup_reclaim(struct scan_control *sc)
-         |             ^~~~~~~~~~~~~~
-   mm/vmscan.c:191:13: note: previous definition of 'cgroup_reclaim' with type 'bool(struct scan_control *)' {aka '_Bool(struct scan_control *)'}
-     191 | static bool cgroup_reclaim(struct scan_control *sc)
-         |             ^~~~~~~~~~~~~~
+   static bool cgroup_reclaim(struct scan_control *sc)
+               ^
+   mm/vmscan.c:191:13: note: previous definition is here
+   static bool cgroup_reclaim(struct scan_control *sc)
+               ^
 >> mm/vmscan.c:554:13: error: redefinition of 'global_reclaim'
-     554 | static bool global_reclaim(struct scan_control *sc)
-         |             ^~~~~~~~~~~~~~
-   mm/vmscan.c:196:13: note: previous definition of 'global_reclaim' with type 'bool(struct scan_control *)' {aka '_Bool(struct scan_control *)'}
-     196 | static bool global_reclaim(struct scan_control *sc)
-         |             ^~~~~~~~~~~~~~
-   mm/vmscan.c:196:13: warning: 'global_reclaim' defined but not used [-Wunused-function]
+   static bool global_reclaim(struct scan_control *sc)
+               ^
+   mm/vmscan.c:196:13: note: previous definition is here
+   static bool global_reclaim(struct scan_control *sc)
+               ^
+   2 errors generated.
 
 
 vim +/cgroup_reclaim +549 mm/vmscan.c
