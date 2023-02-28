@@ -1,45 +1,45 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334C1623;
-	Tue, 28 Feb 2023 03:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B474623
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 03:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677555438; x=1709091438;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=al/INyoNJ0XDfdnz7VHXZf5kkuMVxaCGXwtFpDxHwQY=;
-  b=VPnaE/GQ3b0TA9m6iWN0AMCvugISMYOEeTAioLF9C70G7lSgG1ynD2f+
-   uS+kFZzQzi8P6AxL9xdaMEAz4D031V2GdnwwSVBkix300XK/7eELyhN27
-   UOkIdZL/IAxABb/q279kQIRjfKl6Ij+KG6C9DD9FkqBDrZZI5twn99dQs
-   2tQ92x6t9ilDaM/6yLB6u99V2euRzMGUB71YzKN7NimwX5h3evOWhhVoh
-   nKNXsh8aOdv3hIsrwXOdYufVQ/M4PqJk+GWrCg44Kc6soEocvlhY7aA56
-   m3ZPPrSsVQAGR7VcogIZL1OLl+UAtJWL5JC2PmVrKH0gjueY/qSeP7gxR
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420298166"
+  t=1677556228; x=1709092228;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ipBT75Jjea5vt0rmR8K8faxZwFeHocSUgcvMb1mdyBY=;
+  b=XO1ppNBblFSVfq7a7D9JWS/zTYxpmkZVspDA3VeN8vRxrdRcGTOutUcu
+   +u0IzYyQojRZzx8a/rXZN09nR2wExy4agbzjb4MnO4sAdG8CQFS+4O+Nt
+   S6QvVwvatfoSCGGgdy8iE7wYiEToJSRFjLY+jlKcHlhm/a2wsbnM/kFTA
+   w2WF+2ql4UHk4JenO540mDsOsEu+9S+ofuYAe1c+1qYYven4WItSaB0Bw
+   zARMlT0ADijgc5swd20QUcgX3fdiRa/Fq+xTteIjRRvKD6PlEcq6BWshr
+   L+7y4SCRWQVCUQSACZ5cIoTKWFlBWAhjdBbUeCc/wetiBPYdcTVztS1TW
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="322288277"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="420298166"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:37:17 -0800
+   d="scan'208";a="322288277"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:50:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667293697"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="1003079203"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="667293697"
+   d="scan'208";a="1003079203"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Feb 2023 19:37:15 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2023 19:50:15 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWqni-00052r-15;
-	Tue, 28 Feb 2023 03:37:14 +0000
-Date: Tue, 28 Feb 2023 11:36:42 +0800
+	id 1pWr0I-00053X-2x;
+	Tue, 28 Feb 2023 03:50:14 +0000
+Date: Tue, 28 Feb 2023 11:50:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: drivers/iommu/fsl_pamu.c:586: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202302281151.B1WtZvSC-lkp@intel.com>
+To: Benjamin Gray <bgray@linux.ibm.com>, linux-i2c@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	Sven Peter <sven@svenpeter.dev>, mpe@ellerman.id.au,
+	Benjamin Gray <bgray@linux.ibm.com>
+Subject: Re: [PATCH v2 2/2] i2c: Build I2C_PASEMI with COMPILE_TEST
+Message-ID: <202302281135.KsarHDzl-lkp@intel.com>
+References: <20230227233318.120415-2-bgray@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,85 +48,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230227233318.120415-2-bgray@linux.ibm.com>
 
-Hi Aditya,
+Hi Benjamin,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
-commit: 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf scripts: kernel-doc: add warning for comment not following kernel-doc syntax
-date:   1 year, 11 months ago
-config: powerpc-randconfig-r002-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281151.B1WtZvSC-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+[auto build test ERROR on ec0a1b360aec1ba0bdfad3dd69e300b028529c0d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gray/i2c-Build-I2C_PASEMI-with-COMPILE_TEST/20230228-073442
+base:   ec0a1b360aec1ba0bdfad3dd69e300b028529c0d
+patch link:    https://lore.kernel.org/r/20230227233318.120415-2-bgray%40linux.ibm.com
+patch subject: [PATCH v2 2/2] i2c: Build I2C_PASEMI with COMPILE_TEST
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230228/202302281135.KsarHDzl-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
+        # https://github.com/intel-lab-lkp/linux/commit/6f8f477a04ff9dcd1091aed71674b27c513b6b39
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Gray/i2c-Build-I2C_PASEMI-with-COMPILE_TEST/20230228-073442
+        git checkout 6f8f477a04ff9dcd1091aed71674b27c513b6b39
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/i2c/busses/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281151.B1WtZvSC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281135.KsarHDzl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/iommu/fsl_pamu.c:325: warning: Function parameter or member 'win_size' not described in 'pamu_config_ppaace'
-   drivers/iommu/fsl_pamu.c:325: warning: expecting prototype for pamu_config_paace(). Prototype was for pamu_config_ppaace() instead
-   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'omi_index' not described in 'get_ome_index'
-   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'dev' not described in 'get_ome_index'
->> drivers/iommu/fsl_pamu.c:586: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup operation mapping and stash destinations for QMAN and QMAN portal.
-   drivers/iommu/fsl_pamu.c:615: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup the operation mapping table for various devices. This is a static
+>> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: warning: data definition has no type or storage class
+      82 | module_pci_driver(pasemi_smb_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
+>> drivers/i2c/busses/i2c-pasemi-pci.c:82:1: warning: parameter names (without types) in function declaration
+   cc1: some warnings being treated as errors
 
 
-vim +586 drivers/iommu/fsl_pamu.c
+vim +82 drivers/i2c/busses/i2c-pasemi-pci.c
 
-695093e38c3ef6 Varun Sethi 2013-07-15  584  
-695093e38c3ef6 Varun Sethi 2013-07-15  585  /**
-695093e38c3ef6 Varun Sethi 2013-07-15 @586   * Setup operation mapping and stash destinations for QMAN and QMAN portal.
-695093e38c3ef6 Varun Sethi 2013-07-15  587   * Memory accesses to QMAN and BMAN private memory need not be coherent, so
-695093e38c3ef6 Varun Sethi 2013-07-15  588   * clear the PAACE entry coherency attribute for them.
-695093e38c3ef6 Varun Sethi 2013-07-15  589   */
-57fb907da89977 Emil Medve  2015-03-25  590  static void setup_qbman_paace(struct paace *ppaace, int  paace_type)
-695093e38c3ef6 Varun Sethi 2013-07-15  591  {
-695093e38c3ef6 Varun Sethi 2013-07-15  592  	switch (paace_type) {
-695093e38c3ef6 Varun Sethi 2013-07-15  593  	case QMAN_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  594  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
-695093e38c3ef6 Varun Sethi 2013-07-15  595  		ppaace->op_encode.index_ot.omi = OMI_QMAN_PRIV;
-695093e38c3ef6 Varun Sethi 2013-07-15  596  		/* setup QMAN Private data stashing for the L3 cache */
-695093e38c3ef6 Varun Sethi 2013-07-15  597  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
-695093e38c3ef6 Varun Sethi 2013-07-15  598  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
-695093e38c3ef6 Varun Sethi 2013-07-15  599  		       0);
-695093e38c3ef6 Varun Sethi 2013-07-15  600  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  601  	case QMAN_PORTAL_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  602  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
-695093e38c3ef6 Varun Sethi 2013-07-15  603  		ppaace->op_encode.index_ot.omi = OMI_QMAN;
-695093e38c3ef6 Varun Sethi 2013-07-15  604  		/* Set DQRR and Frame stashing for the L3 cache */
-695093e38c3ef6 Varun Sethi 2013-07-15  605  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
-695093e38c3ef6 Varun Sethi 2013-07-15  606  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  607  	case BMAN_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  608  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
-695093e38c3ef6 Varun Sethi 2013-07-15  609  		       0);
-695093e38c3ef6 Varun Sethi 2013-07-15  610  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  611  	}
-695093e38c3ef6 Varun Sethi 2013-07-15  612  }
-695093e38c3ef6 Varun Sethi 2013-07-15  613  
-
-:::::: The code at line 586 was first introduced by commit
-:::::: 695093e38c3ef63fcb43a2840ed865efa20671d5 iommu/fsl: Freescale PAMU driver and iommu implementation.
-
-:::::: TO: Varun Sethi <Varun.Sethi@freescale.com>
-:::::: CC: Joerg Roedel <joro@8bytes.org>
+9bc5f4f660ff3e Sven Peter 2021-10-08  81  
+9bc5f4f660ff3e Sven Peter 2021-10-08 @82  module_pci_driver(pasemi_smb_pci_driver);
+9bc5f4f660ff3e Sven Peter 2021-10-08  83  
 
 -- 
 0-DAY CI Kernel Test Service
