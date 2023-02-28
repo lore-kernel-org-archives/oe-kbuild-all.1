@@ -1,135 +1,567 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964C82CA2;
-	Tue, 28 Feb 2023 11:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677585397; x=1709121397;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8KXKh05zvvXmBiBlla6UAU9gMBZihB631H77fNyc5ms=;
-  b=alS9UAR+1HvtxV4anJMvNItKuxGuWtrkz2Hwu+6yQXC2FNS8JUHUt1Wp
-   KFHIhjibhUngL9nwlSzIM+K84TrfXS4EjharR4bHYSLz2IMeb0nvZEUyU
-   pq18Ryuesxh50bwQlr2Paw4l+2pFQkEcOr18QjS2lYl01ZRcTlnIWxuNj
-   MkUhQzrDdlJveV7LtnN/EgNflHTBgZWiJOb/ftnuqB4jcWS15kWP7itHc
-   +zYWt8mgyhh+pNZun0DRosgiWja/KWs8SHcp8vTkpDuvy2CGvkYapzz10
-   5+sqfXduO4b3fOMo0cv3+ljCtddcFmMkv8TDQ3qZ8lIztv9ElNEe8dg1q
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="314540207"
-X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="314540207"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 03:56:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="676272332"
-X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="676272332"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Feb 2023 03:56:31 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pWyat-0005N9-0F;
-	Tue, 28 Feb 2023 11:56:31 +0000
-Date: Tue, 28 Feb 2023 19:55:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	David Hildenbrand <david@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Peter Xu <peterx@redhat.com>,
-	NeilBrown <neilb@suse.de>, Shakeel Butt <shakeelb@google.com>,
-	Michal Hocko <mhocko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-mm@kvack.org,
-	Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH v1 2/2] mm: vmscan: ignore non-LRU-based reclaim in memcg
- reclaim
-Message-ID: <202302281933.vU1PHuZr-lkp@intel.com>
-References: <20230228085002.2592473-3-yosryahmed@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173AC2CA2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 12:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=sT7gQmNcH/5FLvn5vlbkvEXjIXX9RURw+byKVpjLvTE=; b=NsxaPN0f07ujvam3dbEt7/l5Bp
+	gS6vcRB31E08JKgIYRzpXVagpysHNrSCEILHlfi3hOhcGBeOh0KkjDr3cobozES5vTB3cL89BpzPO
+	pUqwR46cvAUlHrGtM552vMoppVuOBVJFJxm3xPQ7MrwHYeMSzAHqT60nTCZFx9X1A9RsQR7TYfauy
+	urYR6yq8gvbS4WANPHipx+leCIbj2TxFFzFtseviHyPxk0lCztrEbXpB19E8nZDYPU9XbxF5aiz1p
+	lUFGzK7xN6dx6n0mTrQqc6+8ew9RendgA3vUh9peo8P90gIyP94zFrxQuTErEX6mkHgzk1qCVw3JF
+	C9AtWtOg==;
+Received: from 7.33.165.83.dynamic.reverse-mundo-r.com ([83.165.33.7] helo=rivendell.jupiter)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1pWyPn-000AIw-Fk; Tue, 28 Feb 2023 12:45:03 +0100
+From: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+To: lkp@intel.com
+Cc: airlied@gmail.com,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org,
+	emma@anholt.net,
+	jmcasanova@igalia.com,
+	mwen@igalia.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH v2] drm/v3d: New debugfs end-points to query GPU usage stats.
+Date: Tue, 28 Feb 2023 12:44:39 +0100
+Message-Id: <20230228114439.15173-1-jmcasanova@igalia.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <202302110040.uoXcpWUN-lkp@intel.com>
+References: <202302110040.uoXcpWUN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230228085002.2592473-3-yosryahmed@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Yosry,
+Two new debugfs interfaces are implemented to expose
+the usage stats of the GPU scheduling queues.
 
-Thank you for the patch! Yet something to improve:
+- gpu_usage: exposes the total runtime since boot of each
+of the 5 scheduling queues available at V3D (BIN, RENDER,
+CSD, TFU, CACHE_CLEAN). So if the interface is queried at
+two different points of time the usage percentage of each
+of the queues can be calculated.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20230228]
-[cannot apply to vbabka-slab/for-next xfs-linux/for-next v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- gpu_pid_usage: exposes the same information but to the
+level of detail of each process using the V3D driver. The
+runtime for process using the driver is stored. So the
+percentages of usage by PID can be calculated with
+measures at different timestamps.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-vmscan-refactor-updating-reclaimed-pages-in-reclaim_state/20230228-165214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230228085002.2592473-3-yosryahmed%40google.com
-patch subject: [PATCH v1 2/2] mm: vmscan: ignore non-LRU-based reclaim in memcg reclaim
-config: i386-randconfig-a002-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281933.vU1PHuZr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f6d2b849f186a927925a29e289d60895048550f5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yosry-Ahmed/mm-vmscan-refactor-updating-reclaimed-pages-in-reclaim_state/20230228-165214
-        git checkout f6d2b849f186a927925a29e289d60895048550f5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+The storage of gpu_pid_usage stats is only done if
+the debugfs interface is polled during the last 70 seconds.
+If a process does not submit a GPU job during last 70
+seconds its stats will also be purged.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281933.vU1PHuZr-lkp@intel.com/
+v2: Declare function as static (kernel test robot <lkp@intel.com>)
 
-All errors (new ones prefixed by >>):
+Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_debugfs.c |  91 +++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.h     |  60 ++++++++++++
+ drivers/gpu/drm/v3d/v3d_gem.c     |   1 +
+ drivers/gpu/drm/v3d/v3d_irq.c     |   5 +
+ drivers/gpu/drm/v3d/v3d_sched.c   | 146 +++++++++++++++++++++++++++++-
+ 5 files changed, 302 insertions(+), 1 deletion(-)
 
->> mm/vmscan.c:549:13: error: redefinition of 'cgroup_reclaim'
-   static bool cgroup_reclaim(struct scan_control *sc)
-               ^
-   mm/vmscan.c:191:13: note: previous definition is here
-   static bool cgroup_reclaim(struct scan_control *sc)
-               ^
->> mm/vmscan.c:554:13: error: redefinition of 'global_reclaim'
-   static bool global_reclaim(struct scan_control *sc)
-               ^
-   mm/vmscan.c:196:13: note: previous definition is here
-   static bool global_reclaim(struct scan_control *sc)
-               ^
-   2 errors generated.
-
-
-vim +/cgroup_reclaim +549 mm/vmscan.c
-
-86750830468506 Yang Shi        2021-05-04  548  
-b5ead35e7e1d34 Johannes Weiner 2019-11-30 @549  static bool cgroup_reclaim(struct scan_control *sc)
-89b5fae5368f6a Johannes Weiner 2012-01-12  550  {
-b5ead35e7e1d34 Johannes Weiner 2019-11-30  551  	return false;
-89b5fae5368f6a Johannes Weiner 2012-01-12  552  }
-97c9341f727105 Tejun Heo       2015-05-22  553  
-a579086c99ed70 Yu Zhao         2022-12-21 @554  static bool global_reclaim(struct scan_control *sc)
-a579086c99ed70 Yu Zhao         2022-12-21  555  {
-a579086c99ed70 Yu Zhao         2022-12-21  556  	return true;
-a579086c99ed70 Yu Zhao         2022-12-21  557  }
-a579086c99ed70 Yu Zhao         2022-12-21  558  
-
+diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
+index 330669f51fa7..42d36e3f6fa8 100644
+--- a/drivers/gpu/drm/v3d/v3d_debugfs.c
++++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+@@ -5,6 +5,7 @@
+ #include <linux/ctype.h>
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
++#include <linux/sched/clock.h>
+ #include <linux/string_helpers.h>
+ 
+ #include <drm/drm_debugfs.h>
+@@ -202,6 +203,94 @@ static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
+ 	return 0;
+ }
+ 
++static int v3d_debugfs_gpu_usage(struct seq_file *m, void *unused)
++{
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
++	struct v3d_dev *v3d = to_v3d_dev(dev);
++	struct v3d_queue_stats *queue_stats;
++	enum v3d_queue queue;
++	u64 timestamp = local_clock();
++	u64 active_runtime;
++	char active;
++
++	seq_printf(m, "timestamp;%llu;\n", local_clock());
++	seq_puts(m, "\"QUEUE\";\"JOBS\";\"RUNTIME\";\"ACTIVE\";\n");
++	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
++		if (!v3d->queue[queue].sched.ready)
++			continue;
++
++		queue_stats = &v3d->gpu_queue_stats[queue];
++		mutex_lock(&queue_stats->lock);
++		v3d_sched_stats_update(queue_stats);
++		if (queue_stats->last_pid) {
++			active_runtime = timestamp -
++				queue_stats->last_exec_start;
++			active = '1';
++		} else {
++			active_runtime = 0;
++			active = '0';
++		}
++
++		seq_printf(m, "%s;%d;%llu;%c;\n",
++			   v3d_queue_to_string(queue),
++			   queue_stats->jobs_sent,
++			   queue_stats->runtime + active_runtime,
++			   active);
++		mutex_unlock(&queue_stats->lock);
++	}
++
++	return 0;
++}
++
++static int v3d_debugfs_gpu_pid_usage(struct seq_file *m, void *unused)
++{
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
++	struct v3d_dev *v3d = to_v3d_dev(dev);
++	struct v3d_queue_stats *queue_stats;
++	struct v3d_queue_pid_stats *cur;
++	enum v3d_queue queue;
++	u64 active_runtime;
++	u64 timestamp = local_clock();
++	char active;
++
++	seq_printf(m, "timestamp;%llu;\n", timestamp);
++	seq_puts(m, "\"QUEUE\";\"PID\",\"JOBS\";\"RUNTIME\";\"ACTIVE\";\n");
++	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
++
++		if (!v3d->queue[queue].sched.ready)
++			continue;
++
++		queue_stats = &v3d->gpu_queue_stats[queue];
++		mutex_lock(&queue_stats->lock);
++		v3d_sched_stats_update(queue_stats);
++		queue_stats->collect_pid_stats = 1;
++		queue_stats->pid_stats_timeout =
++			jiffies + V3D_QUEUE_STATS_TIMEOUT;
++		list_for_each_entry(cur, &queue_stats->pid_stats_list, list) {
++
++			if (cur->pid == queue_stats->last_pid) {
++				active_runtime = timestamp -
++						 queue_stats->last_exec_start;
++				active = '1';
++			} else {
++				active_runtime = 0;
++				active = '0';
++			}
++
++			seq_printf(m, "%s;%d;%d;%llu;%c;\n",
++				   v3d_queue_to_string(queue),
++				   cur->pid, cur->jobs_sent,
++				   cur->runtime + active_runtime,
++				   active);
++		}
++		mutex_unlock(&queue_stats->lock);
++	}
++
++	return 0;
++}
++
+ static int v3d_measure_clock(struct seq_file *m, void *unused)
+ {
+ 	struct drm_debugfs_entry *entry = m->private;
+@@ -241,6 +330,8 @@ static const struct drm_debugfs_info v3d_debugfs_list[] = {
+ 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
+ 	{"measure_clock", v3d_measure_clock, 0},
+ 	{"bo_stats", v3d_debugfs_bo_stats, 0},
++	{"gpu_usage", v3d_debugfs_gpu_usage, 0},
++	{"gpu_pid_usage", v3d_debugfs_gpu_pid_usage, 0},
+ };
+ 
+ void
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index b74b1351bfc8..5c1f3177fc86 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -21,6 +21,19 @@ struct reset_control;
+ 
+ #define V3D_MAX_QUEUES (V3D_CACHE_CLEAN + 1)
+ 
++static inline char *
++v3d_queue_to_string(enum v3d_queue queue)
++{
++	switch (queue) {
++	case V3D_BIN: return "v3d_bin";
++	case V3D_RENDER: return "v3d_render";
++	case V3D_TFU: return "v3d_tfu";
++	case V3D_CSD: return "v3d_csd";
++	case V3D_CACHE_CLEAN: return "v3d_cache_clean";
++	}
++	return "UNKNOWN";
++}
++
+ struct v3d_queue_state {
+ 	struct drm_gpu_scheduler sched;
+ 
+@@ -28,6 +41,45 @@ struct v3d_queue_state {
+ 	u64 emit_seqno;
+ };
+ 
++struct v3d_queue_pid_stats {
++	struct	list_head list;
++	u64	runtime;
++	/* Time in jiffes.to purge the stats of this process. Every time a
++	 * process sends a new job to the queue, this timeout is delayed by
++	 * V3D_QUEUE_STATS_TIMEOUT while the pid_stats_timeout of the queue
++	 * is not reached.
++	 */
++	unsigned long timeout_purge;
++	u32	jobs_sent;
++	pid_t	pid;
++};
++
++struct v3d_queue_stats {
++	struct mutex	 lock;
++	u64		 last_exec_start;
++	u64		 last_exec_end;
++	u64		 runtime;
++	u32		 jobs_sent;
++	pid_t		 last_pid;
++	bool		 collect_pid_stats;
++	/* Time in jiffes to stop collecting gpu stats by process. This is
++	 * increased by every access to*the debugfs interface gpu_pid_usage.
++	 * If the debugfs is not used stats are not collected.
++	 */
++	unsigned long	 pid_stats_timeout;
++	struct list_head pid_stats_list;
++};
++
++/* pid_stats by process (v3d_queue_pid_stats) are recorded if there is an
++ * access to the gpu_pid_usageare debugfs interface for the last
++ * V3D_QUEUE_STATS_TIMEOUT (70s).
++ *
++ * The same timeout is used to purge the stats by process for those process
++ * that have not sent jobs this period.
++ */
++#define V3D_QUEUE_STATS_TIMEOUT (70 * HZ)
++
++
+ /* Performance monitor object. The perform lifetime is controlled by userspace
+  * using perfmon related ioctls. A perfmon can be attached to a submit_cl
+  * request, and when this is the case, HW perf counters will be activated just
+@@ -141,6 +193,8 @@ struct v3d_dev {
+ 		u32 num_allocated;
+ 		u32 pages_allocated;
+ 	} bo_stats;
++
++	struct v3d_queue_stats gpu_queue_stats[V3D_MAX_QUEUES];
+ };
+ 
+ static inline struct v3d_dev *
+@@ -238,6 +292,11 @@ struct v3d_job {
+ 	 */
+ 	struct v3d_perfmon *perfmon;
+ 
++	/* PID of the process that submitted the job that could be used to
++	 * for collecting stats by process of gpu usage.
++	 */
++	pid_t client_pid;
++
+ 	/* Callback for the freeing of the job on refcount going to 0. */
+ 	void (*free)(struct kref *ref);
+ };
+@@ -402,6 +461,7 @@ void v3d_mmu_remove_ptes(struct v3d_bo *bo);
+ /* v3d_sched.c */
+ int v3d_sched_init(struct v3d_dev *v3d);
+ void v3d_sched_fini(struct v3d_dev *v3d);
++void v3d_sched_stats_update(struct v3d_queue_stats *queue_stats);
+ 
+ /* v3d_perfmon.c */
+ void v3d_perfmon_get(struct v3d_perfmon *perfmon);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 2e94ce788c71..2a4034d6cd41 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -415,6 +415,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	job = *container;
+ 	job->v3d = v3d;
+ 	job->free = free;
++	job->client_pid = current->pid;
+ 
+ 	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
+ 				 v3d_priv);
+diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+index e714d5318f30..9b8e8a3229cb 100644
+--- a/drivers/gpu/drm/v3d/v3d_irq.c
++++ b/drivers/gpu/drm/v3d/v3d_irq.c
+@@ -14,6 +14,7 @@
+  */
+ 
+ #include <linux/platform_device.h>
++#include <linux/sched/clock.h>
+ 
+ #include "v3d_drv.h"
+ #include "v3d_regs.h"
+@@ -100,6 +101,7 @@ v3d_irq(int irq, void *arg)
+ 	if (intsts & V3D_INT_FLDONE) {
+ 		struct v3d_fence *fence =
+ 			to_v3d_fence(v3d->bin_job->base.irq_fence);
++		v3d->gpu_queue_stats[V3D_BIN].last_exec_end = local_clock();
+ 
+ 		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
+@@ -109,6 +111,7 @@ v3d_irq(int irq, void *arg)
+ 	if (intsts & V3D_INT_FRDONE) {
+ 		struct v3d_fence *fence =
+ 			to_v3d_fence(v3d->render_job->base.irq_fence);
++		v3d->gpu_queue_stats[V3D_RENDER].last_exec_end = local_clock();
+ 
+ 		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
+@@ -118,6 +121,7 @@ v3d_irq(int irq, void *arg)
+ 	if (intsts & V3D_INT_CSDDONE) {
+ 		struct v3d_fence *fence =
+ 			to_v3d_fence(v3d->csd_job->base.irq_fence);
++		v3d->gpu_queue_stats[V3D_CSD].last_exec_end = local_clock();
+ 
+ 		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
+@@ -154,6 +158,7 @@ v3d_hub_irq(int irq, void *arg)
+ 	if (intsts & V3D_HUB_INT_TFUC) {
+ 		struct v3d_fence *fence =
+ 			to_v3d_fence(v3d->tfu_job->base.irq_fence);
++		v3d->gpu_queue_stats[V3D_TFU].last_exec_end = local_clock();
+ 
+ 		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 06238e6d7f5c..f6ad63539e69 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -18,6 +18,7 @@
+  * semaphores to interlock between them.
+  */
+ 
++#include <linux/sched/clock.h>
+ #include <linux/kthread.h>
+ 
+ #include "v3d_drv.h"
+@@ -72,6 +73,120 @@ v3d_switch_perfmon(struct v3d_dev *v3d, struct v3d_job *job)
+ 		v3d_perfmon_start(v3d, job->perfmon);
+ }
+ 
++/*
++ * Updates the scheduling stats of the gpu queues runtime for completed jobs.
++ *
++ * It should be called before any new job submission to the queue or before
++ * accessing the stats from the debugfs interface.
++ *
++ * It is expected that calls to this function are done with queue_stats->lock
++ * locked.
++ */
++void
++v3d_sched_stats_update(struct v3d_queue_stats *queue_stats)
++{
++	struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
++	struct v3d_queue_pid_stats *cur, *tmp;
++	u64 runtime = 0;
++	bool purge_all_pid_stats = 0;
++
++	/* If debugfs stats gpu_pid_usage has not been polled for a period,
++	 * the pid stats collection is stopped and we purge any existing
++	 * pid_stats.
++	 *
++	 * pid_stats are also purged for clients that have reached the
++	 * timeout_purge because the process probably does not exist anymore.
++	 */
++	if (queue_stats->collect_pid_stats) {
++		if (time_is_before_jiffies(queue_stats->pid_stats_timeout)) {
++			purge_all_pid_stats = 1;
++			queue_stats->collect_pid_stats = 0;
++		}
++		list_for_each_entry_safe_reverse(cur, tmp, pid_stats_list, list) {
++			if (time_is_before_jiffies(cur->timeout_purge) ||
++			    purge_all_pid_stats) {
++				list_del(&cur->list);
++				kfree(cur);
++			} else {
++				break;
++			}
++		}
++	}
++	/* If a job has finished its stats are updated. */
++	if (queue_stats->last_pid && queue_stats->last_exec_end) {
++		runtime = queue_stats->last_exec_end -
++			  queue_stats->last_exec_start;
++		queue_stats->runtime += runtime;
++
++		if (queue_stats->collect_pid_stats) {
++			struct v3d_queue_pid_stats *pid_stats;
++			/* Last job info is always at the head of the list */
++			pid_stats = list_first_entry_or_null(pid_stats_list,
++				struct v3d_queue_pid_stats, list);
++			if (pid_stats &&
++			    pid_stats->pid == queue_stats->last_pid) {
++				pid_stats->runtime += runtime;
++			}
++		}
++		queue_stats->last_pid = 0;
++	}
++}
++
++/*
++ * Updates the queue usage adding the information of a new job that is
++ * about to be sent to the GPU to be executed.
++ */
++static int
++v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
++			struct drm_sched_job *sched_job)
++{
++
++	struct v3d_queue_pid_stats *pid_stats = NULL;
++	struct v3d_job *job = sched_job?to_v3d_job(sched_job):NULL;
++	struct v3d_queue_pid_stats *cur;
++	struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
++	int ret = 0;
++
++	mutex_lock(&queue_stats->lock);
++
++	/* Completion of previous job requires an update of its runtime */
++	v3d_sched_stats_update(queue_stats);
++
++	queue_stats->last_exec_start = local_clock();
++	queue_stats->last_exec_end = 0;
++	queue_stats->jobs_sent++;
++	queue_stats->last_pid = job->client_pid;
++
++	/* gpu usage stats by process are being collected */
++	if (queue_stats->collect_pid_stats) {
++		list_for_each_entry(cur, pid_stats_list, list) {
++			if (cur->pid == job->client_pid) {
++				pid_stats = cur;
++				break;
++			}
++		}
++		/* client pid_stats is moved to the head of the list. */
++		if (pid_stats) {
++			list_move(&pid_stats->list, pid_stats_list);
++		} else {
++			pid_stats = kzalloc(sizeof(struct v3d_queue_pid_stats),
++					    GFP_KERNEL);
++			if (!pid_stats) {
++				ret = -ENOMEM;
++				goto err_mem;
++			}
++			pid_stats->pid = job->client_pid;
++			list_add(&pid_stats->list, pid_stats_list);
++		}
++		pid_stats->jobs_sent++;
++		pid_stats->timeout_purge = jiffies + V3D_QUEUE_STATS_TIMEOUT;
++	}
++
++err_mem:
++	mutex_unlock(&queue_stats->lock);
++	return ret;
++}
++
+ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
+ {
+ 	struct v3d_bin_job *job = to_bin_job(sched_job);
+@@ -107,6 +222,7 @@ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
+ 	trace_v3d_submit_cl(dev, false, to_v3d_fence(fence)->seqno,
+ 			    job->start, job->end);
+ 
++	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_BIN], sched_job);
+ 	v3d_switch_perfmon(v3d, &job->base);
+ 
+ 	/* Set the current and end address of the control list.
+@@ -158,6 +274,7 @@ static struct dma_fence *v3d_render_job_run(struct drm_sched_job *sched_job)
+ 	trace_v3d_submit_cl(dev, true, to_v3d_fence(fence)->seqno,
+ 			    job->start, job->end);
+ 
++	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_RENDER], sched_job);
+ 	v3d_switch_perfmon(v3d, &job->base);
+ 
+ 	/* XXX: Set the QCFG */
+@@ -190,6 +307,8 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+ 
+ 	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
+ 
++	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_TFU], sched_job);
++
+ 	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
+ 	V3D_WRITE(V3D_TFU_IIS, job->args.iis);
+ 	V3D_WRITE(V3D_TFU_ICA, job->args.ica);
+@@ -231,6 +350,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+ 
+ 	trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
+ 
++	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_CSD], sched_job);
+ 	v3d_switch_perfmon(v3d, &job->base);
+ 
+ 	for (i = 1; i <= 6; i++)
+@@ -247,7 +367,10 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
+ 	struct v3d_job *job = to_v3d_job(sched_job);
+ 	struct v3d_dev *v3d = job->v3d;
+ 
++	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_CACHE_CLEAN],
++				sched_job);
+ 	v3d_clean_caches(v3d);
++	v3d->gpu_queue_stats[V3D_CACHE_CLEAN].last_exec_end = local_clock();
+ 
+ 	return NULL;
+ }
+@@ -385,8 +508,18 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 	int hw_jobs_limit = 1;
+ 	int job_hang_limit = 0;
+ 	int hang_limit_ms = 500;
++	enum v3d_queue q;
+ 	int ret;
+ 
++	for (q = 0; q < V3D_MAX_QUEUES; q++) {
++		INIT_LIST_HEAD(&v3d->gpu_queue_stats[q].pid_stats_list);
++		/* Setting timeout before current jiffies disables collecting
++		 * pid_stats on scheduling init.
++		 */
++		v3d->gpu_queue_stats[q].pid_stats_timeout = jiffies - 1;
++		mutex_init(&v3d->gpu_queue_stats[q].lock);
++	}
++
+ 	ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+ 			     &v3d_bin_sched_ops,
+ 			     hw_jobs_limit, job_hang_limit,
+@@ -440,9 +573,20 @@ void
+ v3d_sched_fini(struct v3d_dev *v3d)
+ {
+ 	enum v3d_queue q;
++	struct v3d_queue_stats *queue_stats;
+ 
+ 	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+-		if (v3d->queue[q].sched.ready)
++		if (v3d->queue[q].sched.ready) {
++			queue_stats = &v3d->gpu_queue_stats[q];
++			mutex_lock(&queue_stats->lock);
++			/* Setting pid_stats_timeout to jiffies-1 will make
++			 * v3d_sched_stats_update to purge all allocated
++			 * pid_stats.
++			 */
++			queue_stats->pid_stats_timeout = jiffies - 1;
++			v3d_sched_stats_update(queue_stats);
++			mutex_unlock(&queue_stats->lock);
+ 			drm_sched_fini(&v3d->queue[q].sched);
++		}
+ 	}
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.30.2
+
