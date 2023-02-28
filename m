@@ -1,46 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFFF2917
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 09:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0305F2CA2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 10:52:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677577050; x=1709113050;
+  t=1677581551; x=1709117551;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xjjLkwPdC4Qnu2rsgdsvGKcGVndM1jwKd4HVYu7Q/Rg=;
-  b=cJ3UXByVIdtFj/NpyEc3net4ozsT8t7A5S9nICruQGRLlLMvdXFuC+SU
-   atJ2ikurF2f4rhDQLD/X/HsivzhQOVbidrklAFz1esVOLYLhIiKwI2qoe
-   i9e0J9XituqLSH79KlKivL4YE5auvX/g6AtxXKoiK/C0ipWaw6R3qN8Rf
-   TVG53l5bmvncdkd+KrHbKlMRr1eYwczsx7GuH614CjCywiaajLRvHuDAu
-   I9HKczxA8Zpj65Fb+QNBniyUbrtwnAGlV9Xc7p3TxKCHHVWckAzyti7tg
-   YLFgXG3kpL4TjcoavRZ34ICJTh7b05rl6mP4NSPUphyz7CAF8fklJ105E
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="336383335"
+  bh=NFwLsfslShX+IFYT0uOjVxXfzC+4HOGVFcLPgpwbkeE=;
+  b=H/lVnAHscnar92ZA1GZl4TtjU5wvYWC8LIHBYjvZJipCu3snSBpD+S4V
+   YcKRVyAfsTYXrey2lLDI+jJuxNpxbC7bXrCQCdusJWfB5lijc+4BOX/Od
+   7+j9oRSmLc7x3mnK5jPV1X/5z9v53Gf/hhpiOfww6C55mSYP1f8yy9RlC
+   KXS/jMV0fgi5gnmHZaZtAmHubeNf9KCGttuxNYaIf6aSuIg85S898s67N
+   OJvUKnaEx+mJfVwIdibZXjjxbbGh0L4lT0On2sOwqsc4tXHXtSz+v0Ok6
+   GW1JImnnLAdL2KACoJ038b679uqgq27ARIzkqJsXMLHVKB8m9GXHX6K04
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="331586095"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="336383335"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 01:37:30 -0800
+   d="scan'208";a="331586095"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 02:52:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667388941"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="919736377"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="667388941"
+   d="scan'208";a="919736377"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Feb 2023 01:37:27 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2023 02:52:29 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWwQI-0005Ha-2I;
-	Tue, 28 Feb 2023 09:37:26 +0000
-Date: Tue, 28 Feb 2023 17:37:18 +0800
+	id 1pWxau-0005KR-1s;
+	Tue, 28 Feb 2023 10:52:28 +0000
+Date: Tue, 28 Feb 2023 18:51:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Xu <dxu@dxuuu.xyz>, kuba@kernel.org, edumazet@google.com,
-	davem@davemloft.net, dsahern@kernel.org, pabeni@redhat.com
+To: "D. Starke" <daniel.starke@siemens.com>, linux-serial@vger.kernel.org,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org,
+	ilpo.jarvinen@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 5/8] bpf: net: ipv6: Add bpf_ipv6_frag_rcv()
- kfunc
-Message-ID: <202302281707.5vUL3boJ-lkp@intel.com>
-References: <bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu@dxuuu.xyz>
+	Daniel Starke <daniel.starke@siemens.com>
+Subject: Re: [PATCH 1/3] tty: n_gsm: add ioctl for DLC specific parameter
+ configuration
+Message-ID: <202302281856.S9Lz4gHB-lkp@intel.com>
+References: <20230228062957.3150-1-daniel.starke@siemens.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,207 +50,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu@dxuuu.xyz>
+In-Reply-To: <20230228062957.3150-1-daniel.starke@siemens.com>
 
-Hi Daniel,
+Hi Starke,
 
-Thank you for the patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus]
+[cannot apply to v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/ip-frags-Return-actual-error-codes-from-ip_check_defrag/20230228-035449
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/bce083a4293eefb048a700b5a6086e8d8c957700.1677526810.git.dxu%40dxuuu.xyz
-patch subject: [PATCH bpf-next v2 5/8] bpf: net: ipv6: Add bpf_ipv6_frag_rcv() kfunc
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230228/202302281707.5vUL3boJ-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Starke/tty-n_gsm-allow-window-size-configuration/20230228-143349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230228062957.3150-1-daniel.starke%40siemens.com
+patch subject: [PATCH 1/3] tty: n_gsm: add ioctl for DLC specific parameter configuration
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281856.S9Lz4gHB-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/be4610312351d4a658435bd4649a3a830322396d
+        # https://github.com/intel-lab-lkp/linux/commit/06d7556b46ca2395b18cb700f19ee5de37d8383b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Xu/ip-frags-Return-actual-error-codes-from-ip_check_defrag/20230228-035449
-        git checkout be4610312351d4a658435bd4649a3a830322396d
+        git fetch --no-tags linux-review D-Starke/tty-n_gsm-allow-window-size-configuration/20230228-143349
+        git checkout 06d7556b46ca2395b18cb700f19ee5de37d8383b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281707.5vUL3boJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281856.S9Lz4gHB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: net/ipv6/af_inet6.o: in function `inet6_init':
->> net/ipv6/af_inet6.c:1177: undefined reference to `register_ipv6_reassembly_bpf'
+   drivers/tty/n_gsm.c: In function 'gsmld_ioctl':
+>> drivers/tty/n_gsm.c:3720:26: warning: unused variable 'dlci' [-Wunused-variable]
+    3720 |         struct gsm_dlci *dlci;
+         |                          ^~~~
 
 
-vim +1177 net/ipv6/af_inet6.c
+vim +/dlci +3720 drivers/tty/n_gsm.c
 
-  1061	
-  1062	static int __init inet6_init(void)
-  1063	{
-  1064		struct list_head *r;
-  1065		int err = 0;
-  1066	
-  1067		sock_skb_cb_check_size(sizeof(struct inet6_skb_parm));
-  1068	
-  1069		/* Register the socket-side information for inet6_create.  */
-  1070		for (r = &inetsw6[0]; r < &inetsw6[SOCK_MAX]; ++r)
-  1071			INIT_LIST_HEAD(r);
-  1072	
-  1073		raw_hashinfo_init(&raw_v6_hashinfo);
-  1074	
-  1075		if (disable_ipv6_mod) {
-  1076			pr_info("Loaded, but administratively disabled, reboot required to enable\n");
-  1077			goto out;
-  1078		}
-  1079	
-  1080		err = proto_register(&tcpv6_prot, 1);
-  1081		if (err)
-  1082			goto out;
-  1083	
-  1084		err = proto_register(&udpv6_prot, 1);
-  1085		if (err)
-  1086			goto out_unregister_tcp_proto;
-  1087	
-  1088		err = proto_register(&udplitev6_prot, 1);
-  1089		if (err)
-  1090			goto out_unregister_udp_proto;
-  1091	
-  1092		err = proto_register(&rawv6_prot, 1);
-  1093		if (err)
-  1094			goto out_unregister_udplite_proto;
-  1095	
-  1096		err = proto_register(&pingv6_prot, 1);
-  1097		if (err)
-  1098			goto out_unregister_raw_proto;
-  1099	
-  1100		/* We MUST register RAW sockets before we create the ICMP6,
-  1101		 * IGMP6, or NDISC control sockets.
-  1102		 */
-  1103		err = rawv6_init();
-  1104		if (err)
-  1105			goto out_unregister_ping_proto;
-  1106	
-  1107		/* Register the family here so that the init calls below will
-  1108		 * be able to create sockets. (?? is this dangerous ??)
-  1109		 */
-  1110		err = sock_register(&inet6_family_ops);
-  1111		if (err)
-  1112			goto out_sock_register_fail;
-  1113	
-  1114		/*
-  1115		 *	ipngwg API draft makes clear that the correct semantics
-  1116		 *	for TCP and UDP is to consider one TCP and UDP instance
-  1117		 *	in a host available by both INET and INET6 APIs and
-  1118		 *	able to communicate via both network protocols.
-  1119		 */
-  1120	
-  1121		err = register_pernet_subsys(&inet6_net_ops);
-  1122		if (err)
-  1123			goto register_pernet_fail;
-  1124		err = ip6_mr_init();
-  1125		if (err)
-  1126			goto ipmr_fail;
-  1127		err = icmpv6_init();
-  1128		if (err)
-  1129			goto icmp_fail;
-  1130		err = ndisc_init();
-  1131		if (err)
-  1132			goto ndisc_fail;
-  1133		err = igmp6_init();
-  1134		if (err)
-  1135			goto igmp_fail;
-  1136	
-  1137		err = ipv6_netfilter_init();
-  1138		if (err)
-  1139			goto netfilter_fail;
-  1140		/* Create /proc/foo6 entries. */
-  1141	#ifdef CONFIG_PROC_FS
-  1142		err = -ENOMEM;
-  1143		if (raw6_proc_init())
-  1144			goto proc_raw6_fail;
-  1145		if (udplite6_proc_init())
-  1146			goto proc_udplite6_fail;
-  1147		if (ipv6_misc_proc_init())
-  1148			goto proc_misc6_fail;
-  1149		if (if6_proc_init())
-  1150			goto proc_if6_fail;
-  1151	#endif
-  1152		err = ip6_route_init();
-  1153		if (err)
-  1154			goto ip6_route_fail;
-  1155		err = ndisc_late_init();
-  1156		if (err)
-  1157			goto ndisc_late_fail;
-  1158		err = ip6_flowlabel_init();
-  1159		if (err)
-  1160			goto ip6_flowlabel_fail;
-  1161		err = ipv6_anycast_init();
-  1162		if (err)
-  1163			goto ipv6_anycast_fail;
-  1164		err = addrconf_init();
-  1165		if (err)
-  1166			goto addrconf_fail;
-  1167	
-  1168		/* Init v6 extension headers. */
-  1169		err = ipv6_exthdrs_init();
-  1170		if (err)
-  1171			goto ipv6_exthdrs_fail;
-  1172	
-  1173		err = ipv6_frag_init();
-  1174		if (err)
-  1175			goto ipv6_frag_fail;
-  1176	
-> 1177		err = register_ipv6_reassembly_bpf();
-  1178		if (err)
-  1179			goto ipv6_frag_fail;
-  1180	
-  1181		/* Init v6 transport protocols. */
-  1182		err = udpv6_init();
-  1183		if (err)
-  1184			goto udpv6_fail;
-  1185	
-  1186		err = udplitev6_init();
-  1187		if (err)
-  1188			goto udplitev6_fail;
-  1189	
-  1190		err = udpv6_offload_init();
-  1191		if (err)
-  1192			goto udpv6_offload_fail;
-  1193	
-  1194		err = tcpv6_init();
-  1195		if (err)
-  1196			goto tcpv6_fail;
-  1197	
-  1198		err = ipv6_packet_init();
-  1199		if (err)
-  1200			goto ipv6_packet_fail;
-  1201	
-  1202		err = pingv6_init();
-  1203		if (err)
-  1204			goto pingv6_fail;
-  1205	
-  1206		err = calipso_init();
-  1207		if (err)
-  1208			goto calipso_fail;
-  1209	
-  1210		err = seg6_init();
-  1211		if (err)
-  1212			goto seg6_fail;
-  1213	
-  1214		err = rpl_init();
-  1215		if (err)
-  1216			goto rpl_fail;
-  1217	
-  1218		err = ioam6_init();
-  1219		if (err)
-  1220			goto ioam6_fail;
-  1221	
-  1222		err = igmp6_late_init();
-  1223		if (err)
-  1224			goto igmp6_late_err;
-  1225	
+  3713	
+  3714	static int gsmld_ioctl(struct tty_struct *tty, unsigned int cmd,
+  3715			       unsigned long arg)
+  3716	{
+  3717		struct gsm_config c;
+  3718		struct gsm_config_ext ce;
+  3719		struct gsm_mux *gsm = tty->disc_data;
+> 3720		struct gsm_dlci *dlci;
+  3721		unsigned int base;
+  3722	
+  3723		switch (cmd) {
+  3724		case GSMIOC_GETCONF:
+  3725			gsm_copy_config_values(gsm, &c);
+  3726			if (copy_to_user((void __user *)arg, &c, sizeof(c)))
+  3727				return -EFAULT;
+  3728			return 0;
+  3729		case GSMIOC_SETCONF:
+  3730			if (copy_from_user(&c, (void __user *)arg, sizeof(c)))
+  3731				return -EFAULT;
+  3732			return gsm_config(gsm, &c);
+  3733		case GSMIOC_GETFIRST:
+  3734			base = mux_num_to_base(gsm);
+  3735			return put_user(base + 1, (__u32 __user *)arg);
+  3736		case GSMIOC_GETCONF_EXT:
+  3737			gsm_copy_config_ext_values(gsm, &ce);
+  3738			if (copy_to_user((void __user *)arg, &ce, sizeof(ce)))
+  3739				return -EFAULT;
+  3740			return 0;
+  3741		case GSMIOC_SETCONF_EXT:
+  3742			if (copy_from_user(&ce, (void __user *)arg, sizeof(ce)))
+  3743				return -EFAULT;
+  3744			return gsm_config_ext(gsm, &ce);
+  3745		default:
+  3746			return n_tty_ioctl_helper(tty, cmd, arg);
+  3747		}
+  3748	}
+  3749	
 
 -- 
 0-DAY CI Kernel Test Service
