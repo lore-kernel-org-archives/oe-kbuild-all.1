@@ -1,45 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD973D84
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 16:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE6D3D84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 16:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677602144; x=1709138144;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T69L2a3vtQLUJ7P/vLCmeuaN1M5lunXQ4CM2qfN9Tdo=;
-  b=EXeq/R1lKcg0x6rHc+gRzrtWdGhsuFpZYFqNpThc8KgwIuJUhAcbU51Q
-   NHfbQ86h+Zan14w4nyHi/SBUEPsBdSLh1Bp/4RraDIL7KRIebH5q8ZmWd
-   kRZoTTotYJrRjAsUZCDgLFN6DTpuGzfEwJwnGTeN2bKg58US6AMBrXbQA
-   Lm4NmEljlGA0EYTjUOuKZkyM56ccQgR8S5KyIT9v91/O/dslsKdb+Hu2+
-   mBYufXH8YMohy3CDCLhU32VaJeg3Er2e9GLjnImnaC154aUlgE7ae/Wh8
-   uGg2eSz1/rPrDyi5M1YuOopQXE5nJlEhBqs/g8vB6giXPtyucy3sTDjvC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396752932"
+  t=1677602744; x=1709138744;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iduEXGZ2o7+EtBwbbNzm9i+5lVrMxR3oCXKBeB73i8k=;
+  b=Z815UpImcznj9vYaZK7blwN0Nn9plKX99Hl7x48HYFO/3HJgi4VeyvHy
+   a6n9YoTuQLn6lohQSut8o/nSz9Ac0dY5mBe8ELIR4ir84PQq4jeNWOm0Q
+   SL36xRrlpG2XViIsnwsxC6B+L69gIJGlow7jLt/sT8jQTNZjqFKDA82/V
+   AVjiUn6M6n/rb5HCUAU0cdPcHtfBKdfMV0FGwvvcy7rkGomF2oVeiSjlX
+   ok5uUKvGzY9YHCeXs90oqNcNxY60hARupEeasOfPaf8DdRJx3LB1m3+U6
+   lRJbUHl7DRfSc9w+C8m9K3nOzmBoP86mJbVvPdSc3552pPlGiM0t17Pdo
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="313857941"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="396752932"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 08:35:43 -0800
+   d="scan'208";a="313857941"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 08:45:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="798110167"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="817138302"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="798110167"
+   d="scan'208";a="817138302"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Feb 2023 08:35:41 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 28 Feb 2023 08:45:42 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pX2x2-0005WV-2v;
-	Tue, 28 Feb 2023 16:35:40 +0000
-Date: Wed, 1 Mar 2023 00:34:47 +0800
+	id 1pX36j-0005X1-0t;
+	Tue, 28 Feb 2023 16:45:41 +0000
+Date: Wed, 1 Mar 2023 00:45:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, dakr@redhat.com,
-	arunpravin.paneerselvam@amd.com
-Subject: Re: [PATCH 8/9] drm/qxl: switch to using drm_exec
-Message-ID: <202303010013.SZZNcsCW-lkp@intel.com>
-References: <20230228083406.1720795-9-christian.koenig@amd.com>
+To: William Zhang <william.zhang@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/spi/spi.c:3078:38-40: WARNING !A || A && B is equivalent to
+ !A || B
+Message-ID: <202303010051.HrHWSr9y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,98 +46,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230228083406.1720795-9-christian.koenig@amd.com>
 
-Hi Christian,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next linus/master next-20230228]
-[cannot apply to drm-intel/for-linux-next-fixes v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230228083406.1720795-9-christian.koenig%40amd.com
-patch subject: [PATCH 8/9] drm/qxl: switch to using drm_exec
-config: x86_64-randconfig-a016-20230227 (https://download.01.org/0day-ci/archive/20230301/202303010013.SZZNcsCW-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/435d2421797eb683d27984c9a823b48704069df9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
-        git checkout 435d2421797eb683d27984c9a823b48704069df9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
+commit: 76a85704cb917e3b25e00f02d5fd46e4e0a9077d spi: spi-mem: Allow controller supporting mem_ops without exec_op
+date:   3 weeks ago
+config: nios2-randconfig-c031-20230226 (https://download.01.org/0day-ci/archive/20230301/202303010051.HrHWSr9y-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303010013.SZZNcsCW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303010051.HrHWSr9y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `qxl_release_reserve_list':
->> drivers/gpu/drm/qxl/qxl_release.c:221: undefined reference to `drm_exec_init'
->> ld: drivers/gpu/drm/qxl/qxl_release.c:222: undefined reference to `drm_exec_cleanup'
->> ld: drivers/gpu/drm/qxl/qxl_release.c:224: undefined reference to `drm_exec_prepare_obj'
->> ld: drivers/gpu/drm/qxl/qxl_release.c:240: undefined reference to `drm_exec_fini'
-   ld: vmlinux.o: in function `qxl_release_backoff_reserve_list':
->> drivers/gpu/drm/qxl/qxl_release.c:251: undefined reference to `drm_exec_fini'
-   ld: vmlinux.o: in function `qxl_release_fence_buffer_objects':
-   drivers/gpu/drm/qxl/qxl_release.c:439: undefined reference to `drm_exec_fini'
-
-
-vim +221 drivers/gpu/drm/qxl/qxl_release.c
-
-   210	
-   211	int qxl_release_reserve_list(struct qxl_release *release, bool no_intr)
-   212	{
-   213		int ret;
-   214		struct qxl_bo_list *entry;
-   215	
-   216		/* if only one object on the release its the release itself
-   217		   since these objects are pinned no need to reserve */
-   218		if (list_is_singular(&release->bos))
-   219			return 0;
-   220	
- > 221		drm_exec_init(&release->exec, !no_intr);
- > 222		drm_exec_while_not_all_locked(&release->exec) {
-   223			list_for_each_entry(entry, &release->bos, list) {
- > 224				ret = drm_exec_prepare_obj(&release->exec,
-   225							   &entry->bo->tbo.base,
-   226							   1);
-   227				drm_exec_break_on_contention(&release->exec);
-   228				if (ret)
-   229					goto error;
-   230			}
-   231		}
-   232	
-   233		list_for_each_entry(entry, &release->bos, list) {
-   234			ret = qxl_release_validate_bo(entry->bo);
-   235			if (ret)
-   236				goto error;
-   237		}
-   238		return 0;
-   239	error:
- > 240		drm_exec_fini(&release->exec);
-   241		return ret;
-   242	}
-   243	
-   244	void qxl_release_backoff_reserve_list(struct qxl_release *release)
-   245	{
-   246		/* if only one object on the release its the release itself
-   247		   since these objects are pinned no need to reserve */
-   248		if (list_is_singular(&release->bos))
-   249			return;
-   250	
- > 251		drm_exec_fini(&release->exec);
-   252	}
-   253	
+cocci warnings: (new ones prefixed by >>)
+>> drivers/spi/spi.c:3078:38-40: WARNING !A || A && B is equivalent to !A || B
 
 -- 
 0-DAY CI Kernel Test Service
