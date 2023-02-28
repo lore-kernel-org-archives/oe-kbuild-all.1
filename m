@@ -1,44 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14B53D79
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 22:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37343D79
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 23:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677623522; x=1709159522;
+  t=1677626579; x=1709162579;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oTkuu9o52eh0ctPcN4fzixGhAd1A3qYzgwdFDiGM8fk=;
-  b=WndXUtAvFft6rzc+cpk9LSkUIT0rHpfkT/Ou1NDlpdi0uxgt0Djg0XMc
-   fJg+qOiLT8A06F58sgi/z5F8SErWE9RlNSK1Tmmd+KgeRkFlBfZuC/vwL
-   3N7NDdY8MHoasTvBma6EF+syjeSO9/In4KvpTGTknP0l18//P43smb0Gz
-   i8hRfpXIE9WW6YVF0kpX02L7cGmHzWp9OUN3xnMk1cR+1tOll9XL3JHtX
-   /IgFsCO6cype8MPPmkaDF9r2ZXvwyTB+p26H7hrxk+k5Q7i8VGZkMC3hn
-   Z2yoELC7b286xyQcLPclFBLln4O305kbEjPVqnrCXsQikMFZs38JgInVG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="314689077"
+  bh=DiVob1n9cj1wgpeNSM39MnXADEqYXcFD42NmUYoOglQ=;
+  b=VgKbWC3Wqy8iwng0MxHrgnUdxlWqjldhKB7iy+KyUQJw65/yyUsOOA9y
+   KKKWZRAGTBrPCkHsuINQmW+uz5m9cDd/Nt+b1TmZCaaS/x+sA88iLD7uO
+   6ennW+nYkZ05oEcoXEFNYD1nWvl/IOwOzElSfizxXEg6kSHHEtNgXMLeC
+   qqfAEJ4Fv4SbTRKJLL4hpriYvQvjVX5EdMjuOqrrc8avNp+b2RDV3ij2T
+   cljiKNIUQ6nthqba1w/S/3ZxzwENSibrGBxoDVKh6F2JcL+NDhZKueTd0
+   yks/rZEDIv58cEmbMriZ37MjIl4J48YQBYVXSLTuf4HgC0pJ51/UQY1lA
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="335763421"
 X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="314689077"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 14:31:55 -0800
+   d="scan'208";a="335763421"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 15:22:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="651770239"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="798216215"
 X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="651770239"
+   d="scan'208";a="798216215"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Feb 2023 14:31:54 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Feb 2023 15:22:55 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pX8Vl-0005gR-0u;
-	Tue, 28 Feb 2023 22:31:53 +0000
-Date: Wed, 1 Mar 2023 06:31:13 +0800
+	id 1pX9J8-0005iF-1I;
+	Tue, 28 Feb 2023 23:22:54 +0000
+Date: Wed, 1 Mar 2023 07:22:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 1/47]
- drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:10395:9: error:
- implicit declaration of function 'mlxsw_sp_mp_hash_parsing_depth_adjust';
- did you mean 'mlxsw_sp_nve_inc_parsing_depth_put'?
-Message-ID: <202303010618.trZ2uPcc-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org
+Subject: [vbabka:slab-remove-slob-v1 6/7] mm/slab.h:769:6: error: field
+ 'dump_unreclaimable_slab' declared as a function
+Message-ID: <202303010735.Tws8Rww1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,48 +46,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   3ca2a4e66b215098468b997c748c1709307cc9df
-commit: 344642a775b90ec422363b3eea863385570cbb6e [1/47] mlxsw: spectrum: Fix incorrect parsing depth after reload
-config: microblaze-randconfig-c043-20230226 (https://download.01.org/0day-ci/archive/20230301/202303010618.trZ2uPcc-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slab-remove-slob-v1
+head:   e612d206dc6302016d027138e6857c4e2849dd27
+commit: 61d6f1c8051ee45121060b42aa414cdee228fadd [6/7] mm/slab: remove CONFIG_SLOB code from slab common code
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230301/202303010735.Tws8Rww1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/jpirko/linux_mlxsw/commit/344642a775b90ec422363b3eea863385570cbb6e
-        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
-        git fetch --no-tags jpirko-mlxsw combined_queue
-        git checkout 344642a775b90ec422363b3eea863385570cbb6e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/commit/?id=61d6f1c8051ee45121060b42aa414cdee228fadd
+        git remote add vbabka https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git
+        git fetch --no-tags vbabka slab-remove-slob-v1
+        git checkout 61d6f1c8051ee45121060b42aa414cdee228fadd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/net/ethernet/mellanox/mlxsw/
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303010618.trZ2uPcc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303010735.Tws8Rww1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c: In function 'mlxsw_sp_mp_hash_fini':
->> drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:10395:9: error: implicit declaration of function 'mlxsw_sp_mp_hash_parsing_depth_adjust'; did you mean 'mlxsw_sp_nve_inc_parsing_depth_put'? [-Werror=implicit-function-declaration]
-   10395 |         mlxsw_sp_mp_hash_parsing_depth_adjust(mlxsw_sp, old_inc_parsing_depth,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         mlxsw_sp_nve_inc_parsing_depth_put
-   cc1: some warnings being treated as errors
+   In file included from mm/mempool.c:21:
+>> mm/slab.h:769:6: error: field 'dump_unreclaimable_slab' declared as a function
+     769 | void dump_unreclaimable_slab(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab.h:776:6: error: field '___cache_free' declared as a function
+     776 | void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr);
+         |      ^~~~~~~~~~~~~
+>> mm/slab.h:783:1: error: expected specifier-qualifier-list before 'static'
+     783 | static inline int cache_random_seq_create(struct kmem_cache *cachep,
+         | ^~~~~~
 
 
-vim +10395 drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
+vim +/dump_unreclaimable_slab +769 mm/slab.h
 
- 10390	
- 10391	static void mlxsw_sp_mp_hash_fini(struct mlxsw_sp *mlxsw_sp)
- 10392	{
- 10393		bool old_inc_parsing_depth = mlxsw_sp->router->inc_parsing_depth;
- 10394	
- 10395		mlxsw_sp_mp_hash_parsing_depth_adjust(mlxsw_sp, old_inc_parsing_depth,
- 10396						      false);
- 10397	}
- 10398	
+44c5356fb46005 Christoph Lameter   2014-08-06  767  
+852d8be0ad8511 Yang Shi            2017-11-15  768  #if defined(CONFIG_SLAB) || defined(CONFIG_SLUB_DEBUG)
+852d8be0ad8511 Yang Shi            2017-11-15 @769  void dump_unreclaimable_slab(void);
+852d8be0ad8511 Yang Shi            2017-11-15  770  #else
+852d8be0ad8511 Yang Shi            2017-11-15  771  static inline void dump_unreclaimable_slab(void)
+852d8be0ad8511 Yang Shi            2017-11-15  772  {
+852d8be0ad8511 Yang Shi            2017-11-15  773  }
+852d8be0ad8511 Yang Shi            2017-11-15  774  #endif
+852d8be0ad8511 Yang Shi            2017-11-15  775  
+55834c59098d0c Alexander Potapenko 2016-05-20 @776  void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr);
+55834c59098d0c Alexander Potapenko 2016-05-20  777  
+7c00fce98c3e15 Thomas Garnier      2016-07-26  778  #ifdef CONFIG_SLAB_FREELIST_RANDOM
+7c00fce98c3e15 Thomas Garnier      2016-07-26  779  int cache_random_seq_create(struct kmem_cache *cachep, unsigned int count,
+7c00fce98c3e15 Thomas Garnier      2016-07-26  780  			gfp_t gfp);
+7c00fce98c3e15 Thomas Garnier      2016-07-26  781  void cache_random_seq_destroy(struct kmem_cache *cachep);
+7c00fce98c3e15 Thomas Garnier      2016-07-26  782  #else
+7c00fce98c3e15 Thomas Garnier      2016-07-26 @783  static inline int cache_random_seq_create(struct kmem_cache *cachep,
+7c00fce98c3e15 Thomas Garnier      2016-07-26  784  					unsigned int count, gfp_t gfp)
+7c00fce98c3e15 Thomas Garnier      2016-07-26  785  {
+7c00fce98c3e15 Thomas Garnier      2016-07-26  786  	return 0;
+7c00fce98c3e15 Thomas Garnier      2016-07-26  787  }
+7c00fce98c3e15 Thomas Garnier      2016-07-26  788  static inline void cache_random_seq_destroy(struct kmem_cache *cachep) { }
+7c00fce98c3e15 Thomas Garnier      2016-07-26  789  #endif /* CONFIG_SLAB_FREELIST_RANDOM */
+7c00fce98c3e15 Thomas Garnier      2016-07-26  790  
+
+:::::: The code at line 769 was first introduced by commit
+:::::: 852d8be0ad8511611eff18f28dce11d25195b654 mm: oom: show unreclaimable slab info when unreclaimable slabs > user memory
+
+:::::: TO: Yang Shi <yang.s@alibaba-inc.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
