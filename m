@@ -1,80 +1,139 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0B39475
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 21:38:21 +0000 (UTC)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31SLBYtg010066;
-	Tue, 28 Feb 2023 21:38:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=vVS00Tiu6FIln2gNm8ULlFBk1C6mTSgIZmUN9e1SqZU=;
- b=rurB6fvXH0TeBLWP/Y/hB+Ltt69xide69MXl3HtxiI9TbtAlJNaVCjW3Z0k3ITR0yRBz
- A8k/e5Pif1I0y9MYpEh073pZ2GtNt9BzKtrwBmVnaS0IZJqYVrpe+tiI3s0StbTIVFpu
- eVkB0zvQO5gCed/0Bil3AH85vKLNsk7jB9tWec+aOyaxwQbpiLnN53AI+Hty4emjQAz4
- gOhMPkue2/NE4kugaIoChZPmwKj/fkDNziY22CVb1XSUY73lokEGmmfChFb6mF2sR28E
- V+k9AepQx4GIKJkPm78OeDWj6NMYotAo8RITTaxlLqtbtjsTEk8h6dZdr0ogBhMskw1l Mg== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p1sad0ndg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Feb 2023 21:38:07 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-	by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31SKaaKw013020;
-	Tue, 28 Feb 2023 21:38:05 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nybcq3m99-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Feb 2023 21:38:05 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 31SLc3rv23855466
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Feb 2023 21:38:03 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1C73320043;
-	Tue, 28 Feb 2023 21:38:03 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 914BC20040;
-	Tue, 28 Feb 2023 21:38:02 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 28 Feb 2023 21:38:02 +0000 (GMT)
-Received: from [10.61.2.107] (haven.au.ibm.com [9.192.254.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 085FE60409;
-	Wed,  1 Mar 2023 08:37:55 +1100 (AEDT)
-Message-ID: <f46474aed9f6e06c444c5c53b7545b9ee7ef9604.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 2/2] i2c: Build I2C_PASEMI with COMPILE_TEST
-From: Benjamin Gray <bgray@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>, linux-i2c@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-        Sven Peter
- <sven@svenpeter.dev>, mpe@ellerman.id.au
-Date: Wed, 01 Mar 2023 08:37:54 +1100
-In-Reply-To: <202302281135.KsarHDzl-lkp@intel.com>
-References: <20230227233318.120415-2-bgray@linux.ibm.com>
-	 <202302281135.KsarHDzl-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCF19475
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 21:39:02 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 9E5113002727B;
+	Tue, 28 Feb 2023 22:33:25 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 94FB03703C; Tue, 28 Feb 2023 22:33:25 +0100 (CET)
+Date: Tue, 28 Feb 2023 22:33:25 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
+ restricted pci_channel_state_t
+Message-ID: <20230228213325.GA21769@wunner.de>
+References: <202303010454.jI5Jg2sT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 0m9uPqAI9YcqbKzvwxoy5dm0YFpk_Jvd
-X-Proofpoint-ORIG-GUID: 0m9uPqAI9YcqbKzvwxoy5dm0YFpk_Jvd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-02-28_17,2023-02-28_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
- adultscore=0 bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=532
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302280176
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202303010454.jI5Jg2sT-lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Heh, that's what I get for only trying the defconfig. This patch was
-just a possible bonus though, only the first one is important.
+Hi Dan,
+
+0-day is reporting sparse warnings introduced by commit 74ff8864cc84
+("PCI: hotplug: Allow marking devices as disconnected during
+bind/unbind"), which landed in Linus' tree this week.
+
+The warnings are caused by invocations of xchg() and cmpxchg()
+on an enum type ("cast from restricted pci_channel_state_t").
+
+It seems they are only reported for architectures whose arch_xchg()
+and arch_cmpxchg() macros cast the argument to an unsigned long.
+Archictures such as x86 don't do that, but a number of others do.
+The 0-day report, reproduced below in full, is for loongarch.
+
+I'm wondering why the cast is necessary at all.  Digging in the
+git history, I noticed that it has existed at least on arm since
+forever.  I suspect that its use on newer arches such as loongarch
+may be due to cargo-culting.
+
+Please advise whether these sparse warnings are false positives which
+can be ignored and if they aren't, how to resolve them.  If you happen
+to know the rationale for the cast, I'd be grateful if you could shed
+some light on it.  Thanks a lot!
+
+
+On Wed, Mar 01, 2023 at 04:39:24AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
+> commit: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
+> date:   13 days ago
+> config: loongarch-randconfig-s042-20230226 (https://download.01.org/0day-ci/archive/20230301/202303010454.jI5Jg2sT-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.1.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=74ff8864cc842be994853095dba6db48e716400a
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 74ff8864cc842be994853095dba6db48e716400a
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303010454.jI5Jg2sT-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    drivers/pci/pcie/err.c: note: in included file:
+> >> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_channel_state_t
+> >> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
+> >> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
+>    drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
+> 
+> vim +325 drivers/pci/pcie/../pci.h
+> 
+>    306	
+>    307	/**
+>    308	 * pci_dev_set_io_state - Set the new error state if possible.
+>    309	 *
+>    310	 * @dev: PCI device to set new error_state
+>    311	 * @new: the state we want dev to be in
+>    312	 *
+>    313	 * If the device is experiencing perm_failure, it has to remain in that state.
+>    314	 * Any other transition is allowed.
+>    315	 *
+>    316	 * Returns true if state has been changed to the requested state.
+>    317	 */
+>    318	static inline bool pci_dev_set_io_state(struct pci_dev *dev,
+>    319						pci_channel_state_t new)
+>    320	{
+>    321		pci_channel_state_t old;
+>    322	
+>    323		switch (new) {
+>    324		case pci_channel_io_perm_failure:
+>  > 325			xchg(&dev->error_state, pci_channel_io_perm_failure);
+>    326			return true;
+>    327		case pci_channel_io_frozen:
+>    328			old = cmpxchg(&dev->error_state, pci_channel_io_normal,
+>    329				      pci_channel_io_frozen);
+>    330			return old != pci_channel_io_perm_failure;
+>    331		case pci_channel_io_normal:
+>    332			old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
+>    333				      pci_channel_io_normal);
+>    334			return old != pci_channel_io_perm_failure;
+>    335		default:
+>    336			return false;
+>    337		}
+>    338	}
+>    339	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
