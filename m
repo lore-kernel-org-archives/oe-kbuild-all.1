@@ -1,27 +1,43 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C9A627
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 09:06:56 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pWvwV-0003ZI-C3; Tue, 28 Feb 2023 10:06:39 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pWvwT-00073Y-Ib; Tue, 28 Feb 2023 10:06:37 +0100
-Date: Tue, 28 Feb 2023 10:06:37 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: puranjay12@gmail.com, jic23@kernel.org, lars@metafoo.de,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v5 4/5] iio: temperature: tmp117: add TI TMP116 support
-Message-ID: <20230228090637.es46f2tjvmikmdlw@pengutronix.de>
-References: <20230227211230.165073-5-m.felsch@pengutronix.de>
- <202302280821.OXqGp2Tq-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123242917
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 09:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677577049; x=1709113049;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Wi6WSNBGinjNSZvGg8obMTQfAnotm6Br1GzPqtCS9E=;
+  b=U4xmdno3X9UsfIDCB2jz4iVBwom6yQcquc+/xPAUPH7BTXQQcvXtvvHq
+   h934REU2Fgwtfe0P6F9SjCRtIUMoionl5Docv5mD6527ADFoWFZAcEoml
+   SvzLS3XeQie1DQAMxBcopGF6EK5R5/ymIrgWDL18c/B36fHktJK1Q/KKf
+   nwMZfyn7G8DMfH1GDWaPrCyyY+3n5GuuVpnk7pqChEZWMRShFAmkMQ7fw
+   65vuKd5/tR0oDkdfm3B+l/gXd0bqUfdB6wxBIzgY+qT/1vNMG8uBU/oq9
+   0sRWs+7lVvli4kMDA9W4K0jeiVRYvAvJRlkYzPHDatR0zKAxObgGsndMG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="336383333"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
+   d="scan'208";a="336383333"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 01:37:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667388940"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
+   d="scan'208";a="667388940"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 28 Feb 2023 01:37:27 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pWwQI-0005Hc-2R;
+	Tue, 28 Feb 2023 09:37:26 +0000
+Date: Tue, 28 Feb 2023 17:37:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:rpi-6.2.y-await-linktraining 275/583]
+ drivers/dma/bcm2835-dma.c:1104:5: warning: no previous prototype for
+ 'bcm2711_dma40_memcpy_init'
+Message-ID: <202302281724.cPlvqOyb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -30,84 +46,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302280821.OXqGp2Tq-lkp@intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On 23-02-28, kernel test robot wrote:
-> Hi Marco,
-> 
-> Thank you for the patch! Yet something to improve:
+tree:   https://github.com/l1k/linux rpi-6.2.y-await-linktraining
+head:   f3a9201f7f484c1295cdec53c1b9bd2a19ffb231
+commit: 14255c7d4df1ba22073f31a0baa7a74ec67beaa4 [275/583] bcm2835-dma: Add proper 40-bit DMA support
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230228/202302281724.cPlvqOyb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/14255c7d4df1ba22073f31a0baa7a74ec67beaa4
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k rpi-6.2.y-await-linktraining
+        git checkout 14255c7d4df1ba22073f31a0baa7a74ec67beaa4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/char/broadcom/ drivers/dma/
 
-Argh.. I didn't noticed that since I repaired it within the last
-commit... I have send a v6 which fixes this.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281724.cPlvqOyb-lkp@intel.com/
 
-Regards,
-  Marco
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma/bcm2835-dma.c:1104:5: warning: no previous prototype for 'bcm2711_dma40_memcpy_init' [-Wmissing-prototypes]
+    1104 | int bcm2711_dma40_memcpy_init(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/dma/bcm2835-dma.c:1119:6: warning: no previous prototype for 'bcm2711_dma40_memcpy' [-Wmissing-prototypes]
+    1119 | void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
 
-> 
-> [auto build test ERROR on v6.2]
-> [cannot apply to jic23-iio/togreg linus/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/dt-bindings-iio-ti-tmp117-fix-documentation-link/20230228-051305
-> patch link:    https://lore.kernel.org/r/20230227211230.165073-5-m.felsch%40pengutronix.de
-> patch subject: [PATCH v5 4/5] iio: temperature: tmp117: add TI TMP116 support
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230228/202302280821.OXqGp2Tq-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/424113d7fdc257200d20da2991242a4050c04cb3
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Marco-Felsch/dt-bindings-iio-ti-tmp117-fix-documentation-link/20230228-051305
->         git checkout 424113d7fdc257200d20da2991242a4050c04cb3
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iio/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302280821.OXqGp2Tq-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/iio/temperature/tmp117.c:111:2: error: expected '}' before ';' token
->      111 | };
->          |  ^
->    drivers/iio/temperature/tmp117.c:106:55: note: to match this '{'
->      106 | static const struct iio_chan_spec tmp117_channels[] = {
->          |                                                       ^
->    drivers/iio/temperature/tmp117.c:106:35: warning: 'tmp117_channels' defined but not used [-Wunused-const-variable=]
->      106 | static const struct iio_chan_spec tmp117_channels[] = {
->          |                                   ^~~~~~~~~~~~~~~
->    drivers/iio/temperature/tmp117.c:85:12: warning: 'tmp117_write_raw' defined but not used [-Wunused-function]
->       85 | static int tmp117_write_raw(struct iio_dev *indio_dev,
->          |            ^~~~~~~~~~~~~~~~
->    drivers/iio/temperature/tmp117.c:45:12: warning: 'tmp117_read_raw' defined but not used [-Wunused-function]
->       45 | static int tmp117_read_raw(struct iio_dev *indio_dev,
->          |            ^~~~~~~~~~~~~~~
-> 
-> 
-> vim +111 drivers/iio/temperature/tmp117.c
-> 
->    105	
->    106	static const struct iio_chan_spec tmp117_channels[] = {
->    107		{
->    108			.type = IIO_TEMP,
->    109			.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
->    110				BIT(IIO_CHAN_INFO_CALIBBIAS) | BIT(IIO_CHAN_INFO_SCALE),
->  > 111	};
->    112	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
+vim +/bcm2711_dma40_memcpy_init +1104 drivers/dma/bcm2835-dma.c
+
+  1103	
+> 1104	int bcm2711_dma40_memcpy_init(void)
+  1105	{
+  1106		if (!memcpy_parent)
+  1107			return -EPROBE_DEFER;
+  1108	
+  1109		if (!memcpy_chan)
+  1110			return -EINVAL;
+  1111	
+  1112		if (!memcpy_scb)
+  1113			return -ENOMEM;
+  1114	
+  1115		return 0;
+  1116	}
+  1117	EXPORT_SYMBOL(bcm2711_dma40_memcpy_init);
+  1118	
+> 1119	void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
+  1120	{
+  1121		struct bcm2711_dma40_scb *scb = memcpy_scb;
+  1122		unsigned long flags;
+  1123	
+  1124		if (!scb) {
+  1125			pr_err("bcm2711_dma40_memcpy not initialised!\n");
+  1126			return;
+  1127		}
+  1128	
+  1129		spin_lock_irqsave(&memcpy_lock, flags);
+  1130	
+  1131		scb->ti = 0;
+  1132		scb->src = lower_32_bits(src);
+  1133		scb->srci = upper_32_bits(src) | BCM2711_DMA40_MEMCPY_XFER_INFO;
+  1134		scb->dst = lower_32_bits(dst);
+  1135		scb->dsti = upper_32_bits(dst) | BCM2711_DMA40_MEMCPY_XFER_INFO;
+  1136		scb->len = size;
+  1137		scb->next_cb = 0;
+  1138	
+  1139		writel((u32)(memcpy_scb_dma >> 5), memcpy_chan + BCM2711_DMA40_CB);
+  1140		writel(BCM2711_DMA40_MEMCPY_FLAGS + BCM2711_DMA40_ACTIVE,
+  1141		       memcpy_chan + BCM2711_DMA40_CS);
+  1142	
+  1143		/* Poll for completion */
+  1144		while (!(readl(memcpy_chan + BCM2711_DMA40_CS) & BCM2711_DMA40_END))
+  1145			cpu_relax();
+  1146	
+  1147		writel(BCM2711_DMA40_END, memcpy_chan + BCM2711_DMA40_CS);
+  1148	
+  1149		spin_unlock_irqrestore(&memcpy_lock, flags);
+  1150	}
+  1151	EXPORT_SYMBOL(bcm2711_dma40_memcpy);
+  1152	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
