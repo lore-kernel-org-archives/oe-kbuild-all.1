@@ -1,567 +1,304 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173AC2CA2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 12:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=sT7gQmNcH/5FLvn5vlbkvEXjIXX9RURw+byKVpjLvTE=; b=NsxaPN0f07ujvam3dbEt7/l5Bp
-	gS6vcRB31E08JKgIYRzpXVagpysHNrSCEILHlfi3hOhcGBeOh0KkjDr3cobozES5vTB3cL89BpzPO
-	pUqwR46cvAUlHrGtM552vMoppVuOBVJFJxm3xPQ7MrwHYeMSzAHqT60nTCZFx9X1A9RsQR7TYfauy
-	urYR6yq8gvbS4WANPHipx+leCIbj2TxFFzFtseviHyPxk0lCztrEbXpB19E8nZDYPU9XbxF5aiz1p
-	lUFGzK7xN6dx6n0mTrQqc6+8ew9RendgA3vUh9peo8P90gIyP94zFrxQuTErEX6mkHgzk1qCVw3JF
-	C9AtWtOg==;
-Received: from 7.33.165.83.dynamic.reverse-mundo-r.com ([83.165.33.7] helo=rivendell.jupiter)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1pWyPn-000AIw-Fk; Tue, 28 Feb 2023 12:45:03 +0100
-From: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-To: lkp@intel.com
-Cc: airlied@gmail.com,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org,
-	emma@anholt.net,
-	jmcasanova@igalia.com,
-	mwen@igalia.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH v2] drm/v3d: New debugfs end-points to query GPU usage stats.
-Date: Tue, 28 Feb 2023 12:44:39 +0100
-Message-Id: <20230228114439.15173-1-jmcasanova@igalia.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <202302110040.uoXcpWUN-lkp@intel.com>
-References: <202302110040.uoXcpWUN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DB633FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 14:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677593320; x=1709129320;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yAwcbAOwAi/KQOX9wO7C7PL0NtrHIuaW6wPZPUh9D+s=;
+  b=apm6g/IqgWPf0Acn3NkQs4qCW44lpY/DZXogoe0YhbAWrAoH4xYWsaTI
+   ES0xlwHovA97Qjf4GUcYM8kczJ9OSuaCZLOxv9ObuCa3eZ9C21P7Zcng7
+   SBU4Ch7uZzYlETIiAqyxH6+yX+t6/l8niON+RlcUEv16gIuOmedzghu4V
+   iyUndf7SRURKSFp/hXH1sOUbu2tVKJxzzWRukAgicmH0MO8em9+nZKurL
+   cfdizpSLRkPQdwMk9kR8IH8INAbqQAZHhd3/FwlxR1J83Xqp+V8ADQ4FV
+   T4AuqGxdmoI1/Op1OBU6aOUEp1K1h0KlHQRcfnstT+PpkQMxFriTWodOf
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="336430120"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="336430120"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 06:08:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="651620316"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="651620316"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 28 Feb 2023 06:08:36 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pX0eh-0005RX-1d;
+	Tue, 28 Feb 2023 14:08:35 +0000
+Date: Tue, 28 Feb 2023 22:08:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>, kgraul@linux.ibm.com,
+	wenjia@linux.ibm.com, jaka@linux.ibm.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
+	netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-rdma@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3 3/4] net/smc: add BPF injection on smc
+ negotiation
+Message-ID: <202302282100.x7qq7PGX-lkp@intel.com>
+References: <1677576294-33411-4-git-send-email-alibuda@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1677576294-33411-4-git-send-email-alibuda@linux.alibaba.com>
 
-Two new debugfs interfaces are implemented to expose
-the usage stats of the GPU scheduling queues.
+Hi Wythe,
 
-- gpu_usage: exposes the total runtime since boot of each
-of the 5 scheduling queues available at V3D (BIN, RENDER,
-CSD, TFU, CACHE_CLEAN). So if the interface is queried at
-two different points of time the usage percentage of each
-of the queues can be calculated.
+Thank you for the patch! Yet something to improve:
 
-- gpu_pid_usage: exposes the same information but to the
-level of detail of each process using the V3D driver. The
-runtime for process using the driver is stored. So the
-percentages of usage by PID can be calculated with
-measures at different timestamps.
+[auto build test ERROR on bpf-next/master]
 
-The storage of gpu_pid_usage stats is only done if
-the debugfs interface is polled during the last 70 seconds.
-If a process does not submit a GPU job during last 70
-seconds its stats will also be purged.
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/net-smc-move-smc_sock-related-structure-definition/20230228-173007
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/1677576294-33411-4-git-send-email-alibuda%40linux.alibaba.com
+patch subject: [PATCH bpf-next v3 3/4] net/smc: add BPF injection on smc negotiation
+config: x86_64-randconfig-a015-20230227 (https://download.01.org/0day-ci/archive/20230228/202302282100.x7qq7PGX-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/aa482ab82f4bf9b99d490f8ba5d88e1491156ccf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review D-Wythe/net-smc-move-smc_sock-related-structure-definition/20230228-173007
+        git checkout aa482ab82f4bf9b99d490f8ba5d88e1491156ccf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-v2: Declare function as static (kernel test robot <lkp@intel.com>)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302282100.x7qq7PGX-lkp@intel.com/
 
-Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_debugfs.c |  91 +++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_drv.h     |  60 ++++++++++++
- drivers/gpu/drm/v3d/v3d_gem.c     |   1 +
- drivers/gpu/drm/v3d/v3d_irq.c     |   5 +
- drivers/gpu/drm/v3d/v3d_sched.c   | 146 +++++++++++++++++++++++++++++-
- 5 files changed, 302 insertions(+), 1 deletion(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index 330669f51fa7..42d36e3f6fa8 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -5,6 +5,7 @@
- #include <linux/ctype.h>
- #include <linux/debugfs.h>
- #include <linux/seq_file.h>
-+#include <linux/sched/clock.h>
- #include <linux/string_helpers.h>
- 
- #include <drm/drm_debugfs.h>
-@@ -202,6 +203,94 @@ static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
- 	return 0;
- }
- 
-+static int v3d_debugfs_gpu_usage(struct seq_file *m, void *unused)
-+{
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
-+	struct v3d_queue_stats *queue_stats;
-+	enum v3d_queue queue;
-+	u64 timestamp = local_clock();
-+	u64 active_runtime;
-+	char active;
-+
-+	seq_printf(m, "timestamp;%llu;\n", local_clock());
-+	seq_puts(m, "\"QUEUE\";\"JOBS\";\"RUNTIME\";\"ACTIVE\";\n");
-+	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
-+		if (!v3d->queue[queue].sched.ready)
-+			continue;
-+
-+		queue_stats = &v3d->gpu_queue_stats[queue];
-+		mutex_lock(&queue_stats->lock);
-+		v3d_sched_stats_update(queue_stats);
-+		if (queue_stats->last_pid) {
-+			active_runtime = timestamp -
-+				queue_stats->last_exec_start;
-+			active = '1';
-+		} else {
-+			active_runtime = 0;
-+			active = '0';
-+		}
-+
-+		seq_printf(m, "%s;%d;%llu;%c;\n",
-+			   v3d_queue_to_string(queue),
-+			   queue_stats->jobs_sent,
-+			   queue_stats->runtime + active_runtime,
-+			   active);
-+		mutex_unlock(&queue_stats->lock);
-+	}
-+
-+	return 0;
-+}
-+
-+static int v3d_debugfs_gpu_pid_usage(struct seq_file *m, void *unused)
-+{
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
-+	struct v3d_queue_stats *queue_stats;
-+	struct v3d_queue_pid_stats *cur;
-+	enum v3d_queue queue;
-+	u64 active_runtime;
-+	u64 timestamp = local_clock();
-+	char active;
-+
-+	seq_printf(m, "timestamp;%llu;\n", timestamp);
-+	seq_puts(m, "\"QUEUE\";\"PID\",\"JOBS\";\"RUNTIME\";\"ACTIVE\";\n");
-+	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
-+
-+		if (!v3d->queue[queue].sched.ready)
-+			continue;
-+
-+		queue_stats = &v3d->gpu_queue_stats[queue];
-+		mutex_lock(&queue_stats->lock);
-+		v3d_sched_stats_update(queue_stats);
-+		queue_stats->collect_pid_stats = 1;
-+		queue_stats->pid_stats_timeout =
-+			jiffies + V3D_QUEUE_STATS_TIMEOUT;
-+		list_for_each_entry(cur, &queue_stats->pid_stats_list, list) {
-+
-+			if (cur->pid == queue_stats->last_pid) {
-+				active_runtime = timestamp -
-+						 queue_stats->last_exec_start;
-+				active = '1';
-+			} else {
-+				active_runtime = 0;
-+				active = '0';
-+			}
-+
-+			seq_printf(m, "%s;%d;%d;%llu;%c;\n",
-+				   v3d_queue_to_string(queue),
-+				   cur->pid, cur->jobs_sent,
-+				   cur->runtime + active_runtime,
-+				   active);
-+		}
-+		mutex_unlock(&queue_stats->lock);
-+	}
-+
-+	return 0;
-+}
-+
- static int v3d_measure_clock(struct seq_file *m, void *unused)
- {
- 	struct drm_debugfs_entry *entry = m->private;
-@@ -241,6 +330,8 @@ static const struct drm_debugfs_info v3d_debugfs_list[] = {
- 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
- 	{"measure_clock", v3d_measure_clock, 0},
- 	{"bo_stats", v3d_debugfs_bo_stats, 0},
-+	{"gpu_usage", v3d_debugfs_gpu_usage, 0},
-+	{"gpu_pid_usage", v3d_debugfs_gpu_pid_usage, 0},
- };
- 
- void
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index b74b1351bfc8..5c1f3177fc86 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -21,6 +21,19 @@ struct reset_control;
- 
- #define V3D_MAX_QUEUES (V3D_CACHE_CLEAN + 1)
- 
-+static inline char *
-+v3d_queue_to_string(enum v3d_queue queue)
-+{
-+	switch (queue) {
-+	case V3D_BIN: return "v3d_bin";
-+	case V3D_RENDER: return "v3d_render";
-+	case V3D_TFU: return "v3d_tfu";
-+	case V3D_CSD: return "v3d_csd";
-+	case V3D_CACHE_CLEAN: return "v3d_cache_clean";
-+	}
-+	return "UNKNOWN";
-+}
-+
- struct v3d_queue_state {
- 	struct drm_gpu_scheduler sched;
- 
-@@ -28,6 +41,45 @@ struct v3d_queue_state {
- 	u64 emit_seqno;
- };
- 
-+struct v3d_queue_pid_stats {
-+	struct	list_head list;
-+	u64	runtime;
-+	/* Time in jiffes.to purge the stats of this process. Every time a
-+	 * process sends a new job to the queue, this timeout is delayed by
-+	 * V3D_QUEUE_STATS_TIMEOUT while the pid_stats_timeout of the queue
-+	 * is not reached.
-+	 */
-+	unsigned long timeout_purge;
-+	u32	jobs_sent;
-+	pid_t	pid;
-+};
-+
-+struct v3d_queue_stats {
-+	struct mutex	 lock;
-+	u64		 last_exec_start;
-+	u64		 last_exec_end;
-+	u64		 runtime;
-+	u32		 jobs_sent;
-+	pid_t		 last_pid;
-+	bool		 collect_pid_stats;
-+	/* Time in jiffes to stop collecting gpu stats by process. This is
-+	 * increased by every access to*the debugfs interface gpu_pid_usage.
-+	 * If the debugfs is not used stats are not collected.
-+	 */
-+	unsigned long	 pid_stats_timeout;
-+	struct list_head pid_stats_list;
-+};
-+
-+/* pid_stats by process (v3d_queue_pid_stats) are recorded if there is an
-+ * access to the gpu_pid_usageare debugfs interface for the last
-+ * V3D_QUEUE_STATS_TIMEOUT (70s).
-+ *
-+ * The same timeout is used to purge the stats by process for those process
-+ * that have not sent jobs this period.
-+ */
-+#define V3D_QUEUE_STATS_TIMEOUT (70 * HZ)
-+
-+
- /* Performance monitor object. The perform lifetime is controlled by userspace
-  * using perfmon related ioctls. A perfmon can be attached to a submit_cl
-  * request, and when this is the case, HW perf counters will be activated just
-@@ -141,6 +193,8 @@ struct v3d_dev {
- 		u32 num_allocated;
- 		u32 pages_allocated;
- 	} bo_stats;
-+
-+	struct v3d_queue_stats gpu_queue_stats[V3D_MAX_QUEUES];
- };
- 
- static inline struct v3d_dev *
-@@ -238,6 +292,11 @@ struct v3d_job {
- 	 */
- 	struct v3d_perfmon *perfmon;
- 
-+	/* PID of the process that submitted the job that could be used to
-+	 * for collecting stats by process of gpu usage.
-+	 */
-+	pid_t client_pid;
-+
- 	/* Callback for the freeing of the job on refcount going to 0. */
- 	void (*free)(struct kref *ref);
- };
-@@ -402,6 +461,7 @@ void v3d_mmu_remove_ptes(struct v3d_bo *bo);
- /* v3d_sched.c */
- int v3d_sched_init(struct v3d_dev *v3d);
- void v3d_sched_fini(struct v3d_dev *v3d);
-+void v3d_sched_stats_update(struct v3d_queue_stats *queue_stats);
- 
- /* v3d_perfmon.c */
- void v3d_perfmon_get(struct v3d_perfmon *perfmon);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 2e94ce788c71..2a4034d6cd41 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -415,6 +415,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	job = *container;
- 	job->v3d = v3d;
- 	job->free = free;
-+	job->client_pid = current->pid;
- 
- 	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
- 				 v3d_priv);
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index e714d5318f30..9b8e8a3229cb 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -14,6 +14,7 @@
-  */
- 
- #include <linux/platform_device.h>
-+#include <linux/sched/clock.h>
- 
- #include "v3d_drv.h"
- #include "v3d_regs.h"
-@@ -100,6 +101,7 @@ v3d_irq(int irq, void *arg)
- 	if (intsts & V3D_INT_FLDONE) {
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->bin_job->base.irq_fence);
-+		v3d->gpu_queue_stats[V3D_BIN].last_exec_end = local_clock();
- 
- 		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -109,6 +111,7 @@ v3d_irq(int irq, void *arg)
- 	if (intsts & V3D_INT_FRDONE) {
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->render_job->base.irq_fence);
-+		v3d->gpu_queue_stats[V3D_RENDER].last_exec_end = local_clock();
- 
- 		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -118,6 +121,7 @@ v3d_irq(int irq, void *arg)
- 	if (intsts & V3D_INT_CSDDONE) {
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->csd_job->base.irq_fence);
-+		v3d->gpu_queue_stats[V3D_CSD].last_exec_end = local_clock();
- 
- 		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -154,6 +158,7 @@ v3d_hub_irq(int irq, void *arg)
- 	if (intsts & V3D_HUB_INT_TFUC) {
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->tfu_job->base.irq_fence);
-+		v3d->gpu_queue_stats[V3D_TFU].last_exec_end = local_clock();
- 
- 		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 06238e6d7f5c..f6ad63539e69 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -18,6 +18,7 @@
-  * semaphores to interlock between them.
-  */
- 
-+#include <linux/sched/clock.h>
- #include <linux/kthread.h>
- 
- #include "v3d_drv.h"
-@@ -72,6 +73,120 @@ v3d_switch_perfmon(struct v3d_dev *v3d, struct v3d_job *job)
- 		v3d_perfmon_start(v3d, job->perfmon);
- }
- 
-+/*
-+ * Updates the scheduling stats of the gpu queues runtime for completed jobs.
-+ *
-+ * It should be called before any new job submission to the queue or before
-+ * accessing the stats from the debugfs interface.
-+ *
-+ * It is expected that calls to this function are done with queue_stats->lock
-+ * locked.
-+ */
-+void
-+v3d_sched_stats_update(struct v3d_queue_stats *queue_stats)
-+{
-+	struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
-+	struct v3d_queue_pid_stats *cur, *tmp;
-+	u64 runtime = 0;
-+	bool purge_all_pid_stats = 0;
-+
-+	/* If debugfs stats gpu_pid_usage has not been polled for a period,
-+	 * the pid stats collection is stopped and we purge any existing
-+	 * pid_stats.
-+	 *
-+	 * pid_stats are also purged for clients that have reached the
-+	 * timeout_purge because the process probably does not exist anymore.
-+	 */
-+	if (queue_stats->collect_pid_stats) {
-+		if (time_is_before_jiffies(queue_stats->pid_stats_timeout)) {
-+			purge_all_pid_stats = 1;
-+			queue_stats->collect_pid_stats = 0;
-+		}
-+		list_for_each_entry_safe_reverse(cur, tmp, pid_stats_list, list) {
-+			if (time_is_before_jiffies(cur->timeout_purge) ||
-+			    purge_all_pid_stats) {
-+				list_del(&cur->list);
-+				kfree(cur);
-+			} else {
-+				break;
-+			}
-+		}
-+	}
-+	/* If a job has finished its stats are updated. */
-+	if (queue_stats->last_pid && queue_stats->last_exec_end) {
-+		runtime = queue_stats->last_exec_end -
-+			  queue_stats->last_exec_start;
-+		queue_stats->runtime += runtime;
-+
-+		if (queue_stats->collect_pid_stats) {
-+			struct v3d_queue_pid_stats *pid_stats;
-+			/* Last job info is always at the head of the list */
-+			pid_stats = list_first_entry_or_null(pid_stats_list,
-+				struct v3d_queue_pid_stats, list);
-+			if (pid_stats &&
-+			    pid_stats->pid == queue_stats->last_pid) {
-+				pid_stats->runtime += runtime;
-+			}
-+		}
-+		queue_stats->last_pid = 0;
-+	}
-+}
-+
-+/*
-+ * Updates the queue usage adding the information of a new job that is
-+ * about to be sent to the GPU to be executed.
-+ */
-+static int
-+v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
-+			struct drm_sched_job *sched_job)
-+{
-+
-+	struct v3d_queue_pid_stats *pid_stats = NULL;
-+	struct v3d_job *job = sched_job?to_v3d_job(sched_job):NULL;
-+	struct v3d_queue_pid_stats *cur;
-+	struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
-+	int ret = 0;
-+
-+	mutex_lock(&queue_stats->lock);
-+
-+	/* Completion of previous job requires an update of its runtime */
-+	v3d_sched_stats_update(queue_stats);
-+
-+	queue_stats->last_exec_start = local_clock();
-+	queue_stats->last_exec_end = 0;
-+	queue_stats->jobs_sent++;
-+	queue_stats->last_pid = job->client_pid;
-+
-+	/* gpu usage stats by process are being collected */
-+	if (queue_stats->collect_pid_stats) {
-+		list_for_each_entry(cur, pid_stats_list, list) {
-+			if (cur->pid == job->client_pid) {
-+				pid_stats = cur;
-+				break;
-+			}
-+		}
-+		/* client pid_stats is moved to the head of the list. */
-+		if (pid_stats) {
-+			list_move(&pid_stats->list, pid_stats_list);
-+		} else {
-+			pid_stats = kzalloc(sizeof(struct v3d_queue_pid_stats),
-+					    GFP_KERNEL);
-+			if (!pid_stats) {
-+				ret = -ENOMEM;
-+				goto err_mem;
-+			}
-+			pid_stats->pid = job->client_pid;
-+			list_add(&pid_stats->list, pid_stats_list);
-+		}
-+		pid_stats->jobs_sent++;
-+		pid_stats->timeout_purge = jiffies + V3D_QUEUE_STATS_TIMEOUT;
-+	}
-+
-+err_mem:
-+	mutex_unlock(&queue_stats->lock);
-+	return ret;
-+}
-+
- static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
- {
- 	struct v3d_bin_job *job = to_bin_job(sched_job);
-@@ -107,6 +222,7 @@ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_cl(dev, false, to_v3d_fence(fence)->seqno,
- 			    job->start, job->end);
- 
-+	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_BIN], sched_job);
- 	v3d_switch_perfmon(v3d, &job->base);
- 
- 	/* Set the current and end address of the control list.
-@@ -158,6 +274,7 @@ static struct dma_fence *v3d_render_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_cl(dev, true, to_v3d_fence(fence)->seqno,
- 			    job->start, job->end);
- 
-+	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_RENDER], sched_job);
- 	v3d_switch_perfmon(v3d, &job->base);
- 
- 	/* XXX: Set the QCFG */
-@@ -190,6 +307,8 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
- 
- 	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
- 
-+	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_TFU], sched_job);
-+
- 	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
- 	V3D_WRITE(V3D_TFU_IIS, job->args.iis);
- 	V3D_WRITE(V3D_TFU_ICA, job->args.ica);
-@@ -231,6 +350,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
- 
- 	trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
- 
-+	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_CSD], sched_job);
- 	v3d_switch_perfmon(v3d, &job->base);
- 
- 	for (i = 1; i <= 6; i++)
-@@ -247,7 +367,10 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
- 	struct v3d_job *job = to_v3d_job(sched_job);
- 	struct v3d_dev *v3d = job->v3d;
- 
-+	v3d_sched_stats_add_job(&v3d->gpu_queue_stats[V3D_CACHE_CLEAN],
-+				sched_job);
- 	v3d_clean_caches(v3d);
-+	v3d->gpu_queue_stats[V3D_CACHE_CLEAN].last_exec_end = local_clock();
- 
- 	return NULL;
- }
-@@ -385,8 +508,18 @@ v3d_sched_init(struct v3d_dev *v3d)
- 	int hw_jobs_limit = 1;
- 	int job_hang_limit = 0;
- 	int hang_limit_ms = 500;
-+	enum v3d_queue q;
- 	int ret;
- 
-+	for (q = 0; q < V3D_MAX_QUEUES; q++) {
-+		INIT_LIST_HEAD(&v3d->gpu_queue_stats[q].pid_stats_list);
-+		/* Setting timeout before current jiffies disables collecting
-+		 * pid_stats on scheduling init.
-+		 */
-+		v3d->gpu_queue_stats[q].pid_stats_timeout = jiffies - 1;
-+		mutex_init(&v3d->gpu_queue_stats[q].lock);
-+	}
-+
- 	ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
- 			     &v3d_bin_sched_ops,
- 			     hw_jobs_limit, job_hang_limit,
-@@ -440,9 +573,20 @@ void
- v3d_sched_fini(struct v3d_dev *v3d)
- {
- 	enum v3d_queue q;
-+	struct v3d_queue_stats *queue_stats;
- 
- 	for (q = 0; q < V3D_MAX_QUEUES; q++) {
--		if (v3d->queue[q].sched.ready)
-+		if (v3d->queue[q].sched.ready) {
-+			queue_stats = &v3d->gpu_queue_stats[q];
-+			mutex_lock(&queue_stats->lock);
-+			/* Setting pid_stats_timeout to jiffies-1 will make
-+			 * v3d_sched_stats_update to purge all allocated
-+			 * pid_stats.
-+			 */
-+			queue_stats->pid_stats_timeout = jiffies - 1;
-+			v3d_sched_stats_update(queue_stats);
-+			mutex_unlock(&queue_stats->lock);
- 			drm_sched_fini(&v3d->queue[q].sched);
-+		}
- 	}
- }
+   ld: net/smc/af_smc.o: in function `smc_hs_congested':
+>> net/smc/af_smc.c:169: undefined reference to `smc_sock_should_select_smc'
+   ld: net/smc/af_smc.o: in function `smc_release':
+>> net/smc/af_smc.c:327: undefined reference to `smc_sock_perform_collecting_info'
+   ld: net/smc/af_smc.o: in function `smc_connect':
+   net/smc/af_smc.c:1637: undefined reference to `smc_sock_should_select_smc'
+
+
+vim +169 net/smc/af_smc.c
+
+   156	
+   157	static bool smc_hs_congested(const struct sock *sk)
+   158	{
+   159		const struct smc_sock *smc;
+   160	
+   161		smc = smc_clcsock_user_data(sk);
+   162	
+   163		if (!smc)
+   164			return true;
+   165	
+   166		if (workqueue_congested(WORK_CPU_UNBOUND, smc_hs_wq))
+   167			return true;
+   168	
+ > 169		if (!smc_sock_should_select_smc(smc))
+   170			return true;
+   171	
+   172		return false;
+   173	}
+   174	
+   175	static struct smc_hashinfo smc_v4_hashinfo = {
+   176		.lock = __RW_LOCK_UNLOCKED(smc_v4_hashinfo.lock),
+   177	};
+   178	
+   179	static struct smc_hashinfo smc_v6_hashinfo = {
+   180		.lock = __RW_LOCK_UNLOCKED(smc_v6_hashinfo.lock),
+   181	};
+   182	
+   183	int smc_hash_sk(struct sock *sk)
+   184	{
+   185		struct smc_hashinfo *h = sk->sk_prot->h.smc_hash;
+   186		struct hlist_head *head;
+   187	
+   188		head = &h->ht;
+   189	
+   190		write_lock_bh(&h->lock);
+   191		sk_add_node(sk, head);
+   192		write_unlock_bh(&h->lock);
+   193		sock_prot_inuse_add(sock_net(sk), sk->sk_prot, 1);
+   194	
+   195		return 0;
+   196	}
+   197	EXPORT_SYMBOL_GPL(smc_hash_sk);
+   198	
+   199	void smc_unhash_sk(struct sock *sk)
+   200	{
+   201		struct smc_hashinfo *h = sk->sk_prot->h.smc_hash;
+   202	
+   203		write_lock_bh(&h->lock);
+   204		if (sk_del_node_init(sk))
+   205			sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
+   206		write_unlock_bh(&h->lock);
+   207	}
+   208	EXPORT_SYMBOL_GPL(smc_unhash_sk);
+   209	
+   210	/* This will be called before user really release sock_lock. So do the
+   211	 * work which we didn't do because of user hold the sock_lock in the
+   212	 * BH context
+   213	 */
+   214	static void smc_release_cb(struct sock *sk)
+   215	{
+   216		struct smc_sock *smc = smc_sk(sk);
+   217	
+   218		if (smc->conn.tx_in_release_sock) {
+   219			smc_tx_pending(&smc->conn);
+   220			smc->conn.tx_in_release_sock = false;
+   221		}
+   222	}
+   223	
+   224	struct proto smc_proto = {
+   225		.name		= "SMC",
+   226		.owner		= THIS_MODULE,
+   227		.keepalive	= smc_set_keepalive,
+   228		.hash		= smc_hash_sk,
+   229		.unhash		= smc_unhash_sk,
+   230		.release_cb	= smc_release_cb,
+   231		.obj_size	= sizeof(struct smc_sock),
+   232		.h.smc_hash	= &smc_v4_hashinfo,
+   233		.slab_flags	= SLAB_TYPESAFE_BY_RCU,
+   234	};
+   235	EXPORT_SYMBOL_GPL(smc_proto);
+   236	
+   237	struct proto smc_proto6 = {
+   238		.name		= "SMC6",
+   239		.owner		= THIS_MODULE,
+   240		.keepalive	= smc_set_keepalive,
+   241		.hash		= smc_hash_sk,
+   242		.unhash		= smc_unhash_sk,
+   243		.release_cb	= smc_release_cb,
+   244		.obj_size	= sizeof(struct smc_sock),
+   245		.h.smc_hash	= &smc_v6_hashinfo,
+   246		.slab_flags	= SLAB_TYPESAFE_BY_RCU,
+   247	};
+   248	EXPORT_SYMBOL_GPL(smc_proto6);
+   249	
+   250	static void smc_fback_restore_callbacks(struct smc_sock *smc)
+   251	{
+   252		struct sock *clcsk = smc->clcsock->sk;
+   253	
+   254		write_lock_bh(&clcsk->sk_callback_lock);
+   255		clcsk->sk_user_data = NULL;
+   256	
+   257		smc_clcsock_restore_cb(&clcsk->sk_state_change, &smc->clcsk_state_change);
+   258		smc_clcsock_restore_cb(&clcsk->sk_data_ready, &smc->clcsk_data_ready);
+   259		smc_clcsock_restore_cb(&clcsk->sk_write_space, &smc->clcsk_write_space);
+   260		smc_clcsock_restore_cb(&clcsk->sk_error_report, &smc->clcsk_error_report);
+   261	
+   262		write_unlock_bh(&clcsk->sk_callback_lock);
+   263	}
+   264	
+   265	static void smc_restore_fallback_changes(struct smc_sock *smc)
+   266	{
+   267		if (smc->clcsock->file) { /* non-accepted sockets have no file yet */
+   268			smc->clcsock->file->private_data = smc->sk.sk_socket;
+   269			smc->clcsock->file = NULL;
+   270			smc_fback_restore_callbacks(smc);
+   271		}
+   272	}
+   273	
+   274	static int __smc_release(struct smc_sock *smc)
+   275	{
+   276		struct sock *sk = &smc->sk;
+   277		int rc = 0;
+   278	
+   279		if (!smc->use_fallback) {
+   280			rc = smc_close_active(smc);
+   281			sock_set_flag(sk, SOCK_DEAD);
+   282			sk->sk_shutdown |= SHUTDOWN_MASK;
+   283		} else {
+   284			if (sk->sk_state != SMC_CLOSED) {
+   285				if (sk->sk_state != SMC_LISTEN &&
+   286				    sk->sk_state != SMC_INIT)
+   287					sock_put(sk); /* passive closing */
+   288				if (sk->sk_state == SMC_LISTEN) {
+   289					/* wake up clcsock accept */
+   290					rc = kernel_sock_shutdown(smc->clcsock,
+   291								  SHUT_RDWR);
+   292				}
+   293				sk->sk_state = SMC_CLOSED;
+   294				sk->sk_state_change(sk);
+   295			}
+   296			smc_restore_fallback_changes(smc);
+   297		}
+   298	
+   299		sk->sk_prot->unhash(sk);
+   300	
+   301		if (sk->sk_state == SMC_CLOSED) {
+   302			if (smc->clcsock) {
+   303				release_sock(sk);
+   304				smc_clcsock_release(smc);
+   305				lock_sock(sk);
+   306			}
+   307			if (!smc->use_fallback)
+   308				smc_conn_free(&smc->conn);
+   309		}
+   310	
+   311		return rc;
+   312	}
+   313	
+   314	static int smc_release(struct socket *sock)
+   315	{
+   316		struct sock *sk = sock->sk;
+   317		struct smc_sock *smc;
+   318		int old_state, rc = 0;
+   319	
+   320		if (!sk)
+   321			goto out;
+   322	
+   323		sock_hold(sk); /* sock_put below */
+   324		smc = smc_sk(sk);
+   325	
+   326		/* trigger info gathering if needed.*/
+ > 327		smc_sock_perform_collecting_info(sk, SMC_SOCK_CLOSED_TIMING);
+   328	
+   329		old_state = sk->sk_state;
+   330	
+   331		/* cleanup for a dangling non-blocking connect */
+   332		if (smc->connect_nonblock && old_state == SMC_INIT)
+   333			tcp_abort(smc->clcsock->sk, ECONNABORTED);
+   334	
+   335		if (cancel_work_sync(&smc->connect_work))
+   336			sock_put(&smc->sk); /* sock_hold in smc_connect for passive closing */
+   337	
+   338		if (sk->sk_state == SMC_LISTEN)
+   339			/* smc_close_non_accepted() is called and acquires
+   340			 * sock lock for child sockets again
+   341			 */
+   342			lock_sock_nested(sk, SINGLE_DEPTH_NESTING);
+   343		else
+   344			lock_sock(sk);
+   345	
+   346		if (old_state == SMC_INIT && sk->sk_state == SMC_ACTIVE &&
+   347		    !smc->use_fallback)
+   348			smc_close_active_abort(smc);
+   349	
+   350		rc = __smc_release(smc);
+   351	
+   352		/* detach socket */
+   353		sock_orphan(sk);
+   354		sock->sk = NULL;
+   355		release_sock(sk);
+   356	
+   357		sock_put(sk); /* sock_hold above */
+   358		sock_put(sk); /* final sock_put */
+   359	out:
+   360		return rc;
+   361	}
+   362	
+
 -- 
-2.30.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
