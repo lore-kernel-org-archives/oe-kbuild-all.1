@@ -1,54 +1,47 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C567E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 03:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB7AA3F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 04:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677640267; x=1709176267;
+  t=1677643927; x=1709179927;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wk3JjSam+vOSq3prirEXuTOTY39Ksl2q9J269nhLmFA=;
-  b=XQgNUQPw6nppia3PeHSLHC3t/i5Y3bbtxmNwVMIldK77lEeVVlsd09Ez
-   +0+xMHJQQ93fVAF5IFLW8/qG61QJTBRag3tNY80EsyD4eM2zNyF9b425x
-   h7esb5sROGFYiM3uBp0IB6aEsqI4m35Tlnih3j+/1f7gViEKK0RDzecml
-   LKHXHw3ye4/Wbb2hgnPzvdN3Ss/btmP6R+j6EYp+3TF/f8l/snVhwmLyQ
-   LhB4MzUiErYFg9qlGr4USAei1oVcU0DEKWaATsMlmSJkAhmTLb5LNM8AN
-   RQ56kHDIY7PhrKdk95TE4YeFZy+iq98uFiZalKkLZl0zyZhkn3qChoPl8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="334344445"
+  bh=U7opX0au99yMs82xz7uZOj3lKz4+yd7MviPX3UKt0UM=;
+  b=mFMMpRjBm8AFF/mWOZKJrY6NIYxRvHHctxhX+Ld2aCuFZBXKDlz8mGzH
+   Esr2Rs0yGTE+Pkd60ASadqhvEou/SGFLcJ/xTIhQ2ZP5OUau8FFVW1tX8
+   w80gzQ3KwV+kSineizwa0+VvVteV1YYK5qsJ9ksQPR+1kXmWp7jWn5ns4
+   tncFTDoCiuiGfpIMrsyXrNeQn4J0rEtMVd8k/mG4O6Y6NXJa7hoe6e8Eh
+   7wYjxbDCyeaHihIVSAXelEhYggrawOD8d76NrpWZpKE3p/n2VeJ4STklJ
+   ZahqmnesL7n5MDuoi7mAVm6fpu/AbWsaRig5OAmo/uIaBkL4E36CV1Evq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="318117414"
 X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="334344445"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 19:11:06 -0800
+   d="scan'208";a="318117414"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 20:12:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="784154555"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="667703659"
 X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="784154555"
+   d="scan'208";a="667703659"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 19:11:02 -0800
+  by orsmga007.jf.intel.com with ESMTP; 28 Feb 2023 20:12:03 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXCrt-0005qV-24;
-	Wed, 01 Mar 2023 03:11:01 +0000
-Date: Wed, 1 Mar 2023 11:10:18 +0800
+	id 1pXDox-0005sR-0f;
+	Wed, 01 Mar 2023 04:12:03 +0000
+Date: Wed, 1 Mar 2023 12:11:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Xiang <xiang.ye@intel.com>, Lee Jones <lee@kernel.org>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Tyrone Ting <kfting@nuvoton.com>, Mark Brown <broonie@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@intel.com,
-	heikki.krogerus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	sakari.ailus@linux.intel.com, zhifeng.wang@intel.com,
-	wentong.wu@intel.com, lixu.zhang@intel.com,
-	Ye Xiang <xiang.ye@intel.com>
-Subject: Re: [PATCH v3 5/5] Documentation: Add ABI doc for attributes of LJCA
- device
-Message-ID: <202303011034.QrSQepq1-lkp@intel.com>
-References: <20230228065618.2686550-6-xiang.ye@intel.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, pbonzini@redhat.com,
+	alex.williamson@redhat.com, mst@redhat.com, jasowang@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, eperezma@redhat.com, arei.gonglei@huawei.com,
+	yechuan@huawei.com, Longpeng <longpeng2@huawei.com>
+Subject: Re: [PATCH] irqbypass: convert producers/consumers single linked
+ list to hlist
+Message-ID: <202303011218.cfYZyYAh-lkp@intel.com>
+References: <20230301021830.880-1-longpeng2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,43 +50,259 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230228065618.2686550-6-xiang.ye@intel.com>
+In-Reply-To: <20230301021830.880-1-longpeng2@huawei.com>
 
-Hi Ye,
+Hi Longpeng(Mike),
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes wsa/i2c/for-next broonie-spi/for-next linus/master v6.2 next-20230228]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2 next-20230301]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230228-150024
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20230228065618.2686550-6-xiang.ye%40intel.com
-patch subject: [PATCH v3 5/5] Documentation: Add ABI doc for attributes of LJCA device
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/4073fac1618098db6eaffaa9b3b8cef9968bfd12
+url:    https://github.com/intel-lab-lkp/linux/commits/Longpeng-Mike/irqbypass-convert-producers-consumers-single-linked-list-to-hlist/20230301-101936
+patch link:    https://lore.kernel.org/r/20230301021830.880-1-longpeng2%40huawei.com
+patch subject: [PATCH] irqbypass: convert producers/consumers single linked list to hlist
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303011218.cfYZyYAh-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4dcec57dc5acaecbf3bb03634ab1ef6a696927be
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ye-Xiang/mfd-Add-support-for-Intel-LJCA-device/20230228-150024
-        git checkout 4073fac1618098db6eaffaa9b3b8cef9968bfd12
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        git fetch --no-tags linux-review Longpeng-Mike/irqbypass-convert-producers-consumers-single-linked-list-to-hlist/20230301-101936
+        git checkout 4dcec57dc5acaecbf3bb03634ab1ef6a696927be
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash virt/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303011034.QrSQepq1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303011218.cfYZyYAh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/ABI/testing/sysfs-bus-usb-devices-ljca:12: WARNING: Unexpected indentation.
->> Documentation/ABI/testing/sysfs-bus-usb-devices-ljca:12: WARNING: Block quote ends without a blank line; unexpected unindent.
+   In file included from include/linux/irqbypass.h:11,
+                    from virt/lib/irqbypass.c:17:
+   virt/lib/irqbypass.c: In function 'find_producer_by_token':
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:32:50: note: in expansion of macro 'hash_long'
+      32 |         (sizeof(val) <= 4 ? hash_32(val, bits) : hash_long(val, bits))
+         |                                                  ^~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> virt/lib/irqbypass.c:42:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:32:50: note: in expansion of macro 'hash_long'
+      32 |         (sizeof(val) <= 4 ? hash_32(val, bits) : hash_long(val, bits))
+         |                                                  ^~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:42:9: note: in expansion of macro 'hash_for_each_possible'
+      42 |         hash_for_each_possible(producers, producer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c: In function 'find_consumer_by_token':
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:54:9: note: in expansion of macro 'hash_for_each_possible'
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:54:9: note: in expansion of macro 'hash_for_each_possible'
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:19: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:32:50: note: in expansion of macro 'hash_long'
+      32 |         (sizeof(val) <= 4 ? hash_32(val, bits) : hash_long(val, bits))
+         |                                                  ^~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:54:9: note: in expansion of macro 'hash_for_each_possible'
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:54:9: note: in expansion of macro 'hash_for_each_possible'
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
+    1043 |         ({ typeof(ptr) ____ptr = (ptr); \
+         |                                   ^~~
+   include/linux/hashtable.h:166:9: note: in expansion of macro 'hlist_for_each_entry'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/hashtable.h:166:41: note: in expansion of macro 'hash_min'
+     166 |         hlist_for_each_entry(obj, &name[hash_min(key, HASH_BITS(name))], member)
+         |                                         ^~~~~~~~
+   virt/lib/irqbypass.c:54:9: note: in expansion of macro 'hash_for_each_possible'
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   virt/lib/irqbypass.c:54:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      54 |         hash_for_each_possible(producers, consumer, node, (uint64_t)token)
+         |                                                           ^
+   include/linux/list.h:1043:35: note: in definition of macro 'hlist_entry_safe'
 
-vim +12 Documentation/ABI/testing/sysfs-bus-usb-devices-ljca
 
-  > 12	Date:		July 2023
+vim +42 virt/lib/irqbypass.c
+
+  > 17	#include <linux/irqbypass.h>
+    18	#include <linux/list.h>
+    19	#include <linux/module.h>
+    20	#include <linux/mutex.h>
+    21	#include <linux/hashtable.h>
+    22	
+    23	MODULE_LICENSE("GPL v2");
+    24	MODULE_DESCRIPTION("IRQ bypass manager utility module");
+    25	
+    26	/*
+    27	 * hash table for produces/consumers. This improve the performace to find
+    28	 * an existing producer/consumer.
+    29	 */
+    30	#define PRODUCERS_HASH_BITS	9
+    31	#define CONSUMERS_HASH_BITS	9
+    32	static DEFINE_HASHTABLE(producers, PRODUCERS_HASH_BITS);
+    33	static DEFINE_HASHTABLE(consumers, CONSUMERS_HASH_BITS);
+    34	static DEFINE_MUTEX(lock);
+    35	
+    36	
+    37	/* @lock must be held */
+    38	static struct irq_bypass_producer *find_producer_by_token(void *token)
+    39	{
+    40		struct irq_bypass_producer *producer;
+    41	
+  > 42		hash_for_each_possible(producers, producer, node, (uint64_t)token)
+    43			if (producer->token == token)
+    44				return producer;
+    45	
+    46		return NULL;
+    47	}
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
