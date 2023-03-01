@@ -1,96 +1,92 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2144EC8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 07:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677654430; x=1709190430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y2Q9cUMCEwLXxObnzt8MLwbTxL68xlJ77sD+t6abUGw=;
-  b=GfG4wa3izC5REQ5SQPTqGJiJUoNO8rmmwkdJuZ4TBRqBga1xxUf849E/
-   Y+R1crYcpygLca8agsann7Wqz73gO+aldKFhXnVF9EI+DFGWkD38HXh6H
-   AM18XBsABpAzAVxaYxhEE2j7yg4clyeg6YOQp5SeKlL5dmwV0ZXq8Hc+8
-   8Hu5prOuDgfF5/NWjyrPM+Eud6h/BCg3WoW5pW6qpmw59ILr9xak+MdcQ
-   DojuMhKqjxLU+N+2JXja7i6NvP20JldPbNy57sVx7lbTOgM9sRjSPK5Us
-   BnWKpefocpKkJhg/e6rFddEK28WrpmLr35JOaHpX271jBs9h9lvXldicO
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="314009006"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="314009006"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 23:07:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="743298361"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="743298361"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2023 23:07:08 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pXGYO-0005yZ-0Q;
-	Wed, 01 Mar 2023 07:07:08 +0000
-Date: Wed, 1 Mar 2023 15:06:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Youling Tang <tangyouling@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>, Xi Ruoyao <xry111@xry111.site>
-Subject: [linux-next:master 13813/14297]
- arch/loongarch/kernel/relocate.c:166:38: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202303011456.WEPeM0ZN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30259EC8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 07:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=hdNTK70vyyBrq0w0S9ZJjHUlMH0IfCFBmg7NwxHPVlU=; b=mCaV+2msOBq5zpAOA+3MMnBsLH
+	BIuwsM1epv8llHmm6mOrnIbHF8/8XtBdtEMXmB1R1GbxGBHJAOsWqK+4DAB1lfUXCC7qcdXz2ZfS2
+	gYrvl++C4D0NKN+vieh2Gw4xIek4cGRS6B7cVj4KdiJPLU+cXXq4LQF9zNlA/61U4o337eMFSOul5
+	CQmhO5uvdPphpTcDx39HSmU/9Rg1KhKxazt8lAo+IWbgWFo0Ltawnnylnykn57fwoZnPNrdct8Ryi
+	IZozjNoWnUpsMaFyNHigQ54I1bZtHOkQD6ukojiBC31NXdZbQLyEXvgTIQCG4C3oA3DZkw+hZL9Ms
+	JKwXKhxQ==;
+Received: from [2601:1c2:980:9ec0::df2f]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pXGd5-00FHtb-IS; Wed, 01 Mar 2023 07:11:59 +0000
+Message-ID: <89ff97ff-310d-579a-63d4-84cf093482d5@infradead.org>
+Date: Tue, 28 Feb 2023 23:11:57 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko]
+ undefined!
+Content-Language: en-US
+To: Yonghong Song <yhs@meta.com>, kernel test robot <lkp@intel.com>,
+ Yonghong Song <yhs@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>
+References: <202303010701.KWYce0Mt-lkp@intel.com>
+ <1f63f410-6bfc-7b59-7a7d-8fca323ada53@meta.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <1f63f410-6bfc-7b59-7a7d-8fca323ada53@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1716a175592aff9549a0c07aac8f9cadd03003f5
-commit: e5f02b51fa0cb785e352e77271a65e96051b789b [13813/14297] LoongArch: Add support for kernel address space layout randomization (KASLR)
-config: loongarch-randconfig-s053-20230226 (https://download.01.org/0day-ci/archive/20230301/202303011456.WEPeM0ZN-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e5f02b51fa0cb785e352e77271a65e96051b789b
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout e5f02b51fa0cb785e352e77271a65e96051b789b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303011456.WEPeM0ZN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/relocate.c:166:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *cmdline @@     got void [noderef] __iomem * @@
-   arch/loongarch/kernel/relocate.c:166:38: sparse:     expected char *cmdline
-   arch/loongarch/kernel/relocate.c:166:38: sparse:     got void [noderef] __iomem *
+On 2/28/23 23:05, Yonghong Song wrote:
+> 
+> 
+> On 2/28/23 3:22 PM, kernel test robot wrote:
+>> Hi Yonghong,
+>>
+>> First bad commit (maybe != root cause):
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
+>> commit: dffbbdc2d9889670c30e07d05fc0dd712e8ad430 libbpf: Add enum64 parsing and new enum64 public API
+>> date:   9 months ago
+>> config: s390-randconfig-r021-20230227 (https://download.01.org/0day-ci/archive/20230301/202303010701.KWYce0Mt-lkp@intel.com/config )
+>> compiler: s390-linux-gcc (GCC) 12.1.0
+>> reproduce (this is a W=1 build):
+>>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross  -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dffbbdc2d9889670c30e07d05fc0dd712e8ad430
+>>          git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>>          git fetch --no-tags linus master
+>>          git checkout dffbbdc2d9889670c30e07d05fc0dd712e8ad430
+>>          # save the config file
+>>          mkdir build_dir && cp config build_dir/.config
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+> 
+> I don't think the commit 'libbpf: Add enum64 parsing and new enum64 public API' is responsible for the test failure. That commit is purely userspace and should not be the reason for kernel module symbol undefined.
+> 
 
-vim +166 arch/loongarch/kernel/relocate.c
+CONFIG_HAS_IOMEM is not set. Happens often on ARCH=s390 when CONFIG_PCI is not set.
 
-   159	
-   160	void * __init relocate_kernel(void)
-   161	{
-   162		unsigned long kernel_length;
-   163		unsigned long random_offset = 0;
-   164		void *location_new = _text; /* Default to original kernel start */
-   165		void *kernel_entry = start_kernel; /* Default to original kernel entry point */
- > 166		char *cmdline = early_ioremap(fw_arg1, COMMAND_LINE_SIZE); /* Boot command line is passed in fw_arg1 */
-   167	
-   168		strscpy(boot_command_line, cmdline, COMMAND_LINE_SIZE);
-   169	
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Link: https://lore.kernel.org/oe-kbuild-all/202303010701.KWYce0Mt-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>>>> ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+>>>> ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+>> ERROR: modpost: "ioremap" [drivers/net/arcnet/com90xx.ko] undefined!
+>> ERROR: modpost: "iounmap" [drivers/net/arcnet/com90xx.ko] undefined!
+>>>> ERROR: modpost: "iounmap" [drivers/pcmcia/pcmcia.ko] undefined!
+>>>> ERROR: modpost: "ioremap" [drivers/pcmcia/pcmcia.ko] undefined!
+>>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+~Randy
