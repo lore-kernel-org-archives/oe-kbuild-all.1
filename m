@@ -1,120 +1,160 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DDDEC8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 08:06:29 +0000 (UTC)
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id DA95ACA23D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 07:56:16 +0000 (UTC)
-Received: (Authenticated sender: alex@ghiti.fr)
-	by mail.gandi.net (Postfix) with ESMTPSA id E71E7240009;
-	Wed,  1 Mar 2023 07:56:04 +0000 (UTC)
-Message-ID: <c0b60456-8731-0999-df3b-f25731209471@ghiti.fr>
-Date: Wed, 1 Mar 2023 08:56:04 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F7910EE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 09:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677661274; x=1709197274;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3llqA4wwEo1OoE+ho+CkB9YZjKNeCHK4NQLw6xlpIEk=;
+  b=gEIEZ+EAjc6lSpCnvycHP0txRB2kwzucEadMpyFoNAZFb/YbPGm7hu2J
+   kFNA4nh+lrPEXN4N3IZUfnbk13hyjAfK6gFKNJGAIHs4idOEBYunpgWEb
+   8QG09fkhkwlosnNHMZ5XKkflAgyThHYmASiL01A8RS3TkQkpNLLW6JfWQ
+   +VQRYbUuSX3un7cJ5fi5bMy1Slh2q+hH5uM368QJlBy5/y8Z6l2nVRZyM
+   Rd/LGIFyNjUnCOx2JgWb/eE6uv/BcJTvUx9GBOv3sF9+iyDM/bMmxWj/f
+   dYsKGAPIatUXMn4bWLaF8T35qaaEqKsLWafRFU/GQ8DecAFT4pvS9Xgn8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396924251"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="396924251"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 01:01:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="763530421"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="763530421"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Mar 2023 01:01:11 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXIKk-00061v-33;
+	Wed, 01 Mar 2023 09:01:10 +0000
+Date: Wed, 1 Mar 2023 17:00:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephan Uphoff <ups@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
+	Kees Cook <keescook@chromium.org>,
+	Mandeep Singh Baines <msb@chromium.org>,
+	Filipe Brandenburger <filbranden@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.19 715/6555]
+ security/chromiumos/inode_mark.c:164:24: warning: assignment to 'struct
+ fsnotify_group *' from 'int' makes pointer from integer without a cast
+Message-ID: <202303011617.CUUyjNLj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v5 1/2] riscv: Get rid of riscv_pfn_base variable
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Conor Dooley <conor@kernel.org>,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20230125081214.1576313-2-alexghiti@rivosinc.com>
- <202301282230.sz4DCUe6-lkp@intel.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <202301282230.sz4DCUe6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 1/28/23 15:58, kernel test robot wrote:
-> Hi Alexandre,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on robh/for-next]
-> [also build test WARNING on linus/master v6.2-rc5 next-20230127]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Get-rid-of-riscv_pfn_base-variable/20230125-161537
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20230125081214.1576313-2-alexghiti%40rivosinc.com
-> patch subject: [PATCH v5 1/2] riscv: Get rid of riscv_pfn_base variable
-> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230128/202301282230.sz4DCUe6-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/90b21402dc8a7e6e36a62ad19c4969ff13fad168
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Get-rid-of-riscv_pfn_base-variable/20230125-161537
->          git checkout 90b21402dc8a7e6e36a62ad19c4969ff13fad168
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->     In file included from include/asm-generic/bug.h:22,
->                      from arch/riscv/include/asm/bug.h:83,
->                      from include/linux/bug.h:5,
->                      from arch/riscv/include/asm/cmpxchg.h:9,
->                      from arch/riscv/include/asm/atomic.h:19,
->                      from include/linux/atomic.h:7,
->                      from include/linux/jump_label.h:255,
->                      from arch/riscv/include/asm/vdso/processor.h:7,
->                      from include/vdso/processor.h:10,
->                      from arch/riscv/include/asm/processor.h:11,
->                      from arch/riscv/include/asm/irqflags.h:10,
->                      from include/linux/irqflags.h:16,
->                      from arch/riscv/include/asm/bitops.h:14,
->                      from include/linux/bitops.h:68,
->                      from include/linux/kernel.h:22,
->                      from mm/debug.c:9:
->     mm/debug.c: In function '__dump_page':
->>> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'long long unsigned int' [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
->       429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:510:9: note: in expansion of macro 'printk'
->       510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
->        12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
->           |                         ^~~~~~~~
->     include/linux/printk.h:510:16: note: in expansion of macro 'KERN_WARNING'
->       510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
->           |                ^~~~~~~~~~~~
->     mm/debug.c:93:9: note: in expansion of macro 'pr_warn'
->        93 |         pr_warn("page:%p refcount:%d mapcount:%d mapping:%p index:%#lx pfn:%#lx\n",
->           |         ^~~~~~~
->
->
-> vim +5 include/linux/kern_levels.h
->
-> 314ba3520e513a Joe Perches 2012-07-30  4
-> 04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-> 04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-> 04d2c8c83d0e3a Joe Perches 2012-07-30  7
->
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: 67af35d773c3a709d88b67cdf5815d275fa3cf60 [715/6555] CHROMIUM: LSM: chromiumos security module
+config: arm64-randconfig-r002-20230227 (https://download.01.org/0day-ci/archive/20230301/202303011617.CUUyjNLj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jsarha/linux/commit/67af35d773c3a709d88b67cdf5815d275fa3cf60
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout 67af35d773c3a709d88b67cdf5815d275fa3cf60
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash M=security/chromiumos
 
-And this one was mine, sorry I i overlooked that!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303011617.CUUyjNLj-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   security/chromiumos/inode_mark.c: In function 'chromiumos_super_block_put':
+   security/chromiumos/inode_mark.c:85:17: error: implicit declaration of function 'fsnotify_destroy_group' [-Werror=implicit-function-declaration]
+      85 |                 fsnotify_destroy_group(sbm->fsn_group);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c: In function 'chromiumos_super_block_create':
+   security/chromiumos/inode_mark.c:164:26: error: implicit declaration of function 'fsnotify_alloc_group' [-Werror=implicit-function-declaration]
+     164 |         sbm->fsn_group = fsnotify_alloc_group(&chromiumos_fsn_ops);
+         |                          ^~~~~~~~~~~~~~~~~~~~
+>> security/chromiumos/inode_mark.c:164:24: warning: assignment to 'struct fsnotify_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     164 |         sbm->fsn_group = fsnotify_alloc_group(&chromiumos_fsn_ops);
+         |                        ^
+   security/chromiumos/inode_mark.c: In function 'chromiumos_inode_mark_create':
+   security/chromiumos/inode_mark.c:212:9: error: implicit declaration of function 'fsnotify_init_mark' [-Werror=implicit-function-declaration]
+     212 |         fsnotify_init_mark(&inode_mark->mark, sbm->fsn_group);
+         |         ^~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c:224:15: error: implicit declaration of function 'fsnotify_add_mark_locked' [-Werror=implicit-function-declaration]
+     224 |         ret = fsnotify_add_mark_locked(&inode_mark->mark, &inode->i_fsnotify_marks,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c:224:65: error: 'struct inode' has no member named 'i_fsnotify_marks'
+     224 |         ret = fsnotify_add_mark_locked(&inode_mark->mark, &inode->i_fsnotify_marks,
+         |                                                                 ^~
+   security/chromiumos/inode_mark.c:233:9: error: implicit declaration of function 'fsnotify_put_mark'; did you mean 'fsnotify_get_cookie'? [-Werror=implicit-function-declaration]
+     233 |         fsnotify_put_mark(&inode_mark->mark);
+         |         ^~~~~~~~~~~~~~~~~
+         |         fsnotify_get_cookie
+   security/chromiumos/inode_mark.c: In function 'chromiumos_update_inode_security_policy':
+   security/chromiumos/inode_mark.c:254:16: error: implicit declaration of function 'fsnotify_find_mark'; did you mean 'fsnotify_iter_inode_mark'? [-Werror=implicit-function-declaration]
+     254 |         mark = fsnotify_find_mark(&inode->i_fsnotify_marks, sbm->fsn_group);
+         |                ^~~~~~~~~~~~~~~~~~
+         |                fsnotify_iter_inode_mark
+   security/chromiumos/inode_mark.c:254:41: error: 'struct inode' has no member named 'i_fsnotify_marks'
+     254 |         mark = fsnotify_find_mark(&inode->i_fsnotify_marks, sbm->fsn_group);
+         |                                         ^~
+   security/chromiumos/inode_mark.c:271:25: error: implicit declaration of function 'fsnotify_detach_mark' [-Werror=implicit-function-declaration]
+     271 |                         fsnotify_detach_mark(mark);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c:282:17: error: implicit declaration of function 'fsnotify_free_mark' [-Werror=implicit-function-declaration]
+     282 |                 fsnotify_free_mark(mark);
+         |                 ^~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c: In function 'chromiumos_flush_inode_security_policies':
+   security/chromiumos/inode_mark.c:296:17: error: implicit declaration of function 'fsnotify_clear_marks_by_group' [-Werror=implicit-function-declaration]
+     296 |                 fsnotify_clear_marks_by_group(sbm->fsn_group,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/chromiumos/inode_mark.c: In function 'chromiumos_get_inode_security_policy':
+   security/chromiumos/inode_mark.c:329:31: error: 'struct inode' has no member named 'i_fsnotify_marks'
+     329 |                         &inode->i_fsnotify_marks, sbm->fsn_group);
+         |                               ^~
+   cc1: some warnings being treated as errors
+
+
+vim +164 security/chromiumos/inode_mark.c
+
+   148	
+   149	static struct chromiumos_super_block_mark *
+   150	chromiumos_super_block_create(struct super_block *sb)
+   151	{
+   152		struct hlist_head *hlist = chromiumos_super_block_hlist(sb);
+   153		struct chromiumos_super_block_mark *sbm = NULL;
+   154	
+   155		WARN_ON(!mutex_is_locked(&chromiumos_super_block_hash_lock));
+   156	
+   157		/* No match found, create a new entry. */
+   158		sbm = kzalloc(sizeof(*sbm), GFP_KERNEL);
+   159		if (!sbm)
+   160			return ERR_PTR(-ENOMEM);
+   161	
+   162		atomic_set(&sbm->refcnt, 1);
+   163		sbm->sb = sb;
+ > 164		sbm->fsn_group = fsnotify_alloc_group(&chromiumos_fsn_ops);
+   165		if (IS_ERR(sbm->fsn_group)) {
+   166			int ret = PTR_ERR(sbm->fsn_group);
+   167	
+   168			kfree(sbm);
+   169			return ERR_PTR(ret);
+   170		}
+   171		sbm->fsn_group->private = sbm;
+   172		hlist_add_head_rcu(&sbm->node, hlist);
+   173	
+   174		return sbm;
+   175	}
+   176	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
